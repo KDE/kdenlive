@@ -101,7 +101,7 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     if (!ok) {
         return;
     }
-    QStringList args = {QStringLiteral("/home/seven/git/sam2/venv/sam-objectmask.py"),
+    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"),
                         QStringLiteral("-I"),
                         maskSrcFolder.absolutePath(),
                         QStringLiteral("-P"),
@@ -113,7 +113,7 @@ void AutomaskHelper::generateImage(const QString &previewFile)
                         QStringLiteral("-O"),
                         previewFile};
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
-    const QString exec("/home/seven/git/sam2/venv/bin/python3");
+    const QString exec("/home/six/git/sam2/venv/bin/python3");
     scriptJob.start(exec, args);
     scriptJob.waitForFinished(-1);
     QUrl url = QUrl::fromLocalFile(previewFile);

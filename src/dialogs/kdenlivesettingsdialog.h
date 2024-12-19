@@ -29,6 +29,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 class ProfileWidget;
 class GuideCategories;
+class SamInterface;
 class KJob;
 
 class SpeechList : public QListWidget
@@ -104,6 +105,7 @@ private Q_SLOTS:
     void doShowSpeechMessage(const QString &message, int messageType);
     /** @brief Check required python dependencies for speech engine */
     void slotCheckSttConfig();
+    void slotCheckSamConfig();
     /** @brief Display the python job output */
     void showSpeechLog(const QString &jobData);
     /** @brief fill list of connected monitors */
@@ -149,6 +151,7 @@ private:
     bool m_voskUpdated;
     SpeechToText *m_stt;
     SpeechToText *m_sttWhisper;
+    SamInterface *m_samInterface;
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
     EncodingTimelinePreviewProfilesChooser *m_tlPreviewProfiles;

@@ -44,7 +44,7 @@ void MaskTask::generateMask()
     }
     const QString outFile = m_properties.value(MaskTask::OUTPUTFILE);
     const QString outFramesFolder = m_properties.value(MaskTask::OUTPUTFOLDER);
-    QStringList args = {QStringLiteral("/home/seven/git/sam2/venv/sam-objectmask.py"), QStringLiteral("-I"), m_properties.value(MaskTask::INPUTFOLDER),
+    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"), QStringLiteral("-I"), m_properties.value(MaskTask::INPUTFOLDER),
                         QStringLiteral("-O"), outFramesFolder};
     if (!m_properties.value(MaskTask::POINTS).isEmpty()) {
         args << QStringLiteral("-P") << m_properties.value(MaskTask::POINTS) << QStringLiteral("-L") << m_properties.value(MaskTask::LABELS);
@@ -53,7 +53,7 @@ void MaskTask::generateMask()
         args << QStringLiteral("-B") << m_properties.value(MaskTask::BOX);
     }
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
-    const QString exec("/home/seven/git/sam2/venv/bin/python3");
+    const QString exec("/home/six/git/sam2/venv/bin/python3");
     qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
     QObject::connect(this, &AbstractTask::jobCanceled, &m_scriptJob, &QProcess::kill, Qt::DirectConnection);
     QObject::connect(&m_scriptJob, &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);

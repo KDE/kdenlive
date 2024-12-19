@@ -1360,6 +1360,12 @@
         <default>0</default>
         </entry>
    </group>
+   <group name="sam">
+     <entry name="sam_folder_path" type="String">
+       <label>Custom path for the folder containins the sam models. Uses default XDG location if empty</label>
+       <default></default>
+     </entry>
+   </group>
    <group name="speech">
        <entry name="vosk_folder_path" type="String">
            <label>Custom path for the folder containins the vosk speech models. Uses default XDG location if empty</label>
@@ -1452,14 +1458,6 @@
        <entry name="usePythonVenv" type="Bool">
            <label>Use a venv python</label>
            <default>false</default>
-       </entry>
-       <entry name="pythonPath" type="String">
-           <label>python binary path</label>
-           <default></default>
-       </entry>
-       <entry name="pipPath" type="String">
-           <label>pip binary path</label>
-           <default></default>
        </entry>
    </group>
     <group name="Media Browser">

@@ -146,15 +146,67 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
 
 AbstractPythonInterface::~AbstractPythonInterface() {}
 
+const QString AbstractPythonInterface::getVenvPath()
+{
+    return QStringLiteral("venv");
+}
+
+const QString AbstractPythonInterface::getPythonPath()
+{
+#ifdef Q_OS_WIN
+    const QString pythonPath = QStringLiteral("venv/Scripts/");
+#else
+    const QString pythonPath = QStringLiteral("venv/bin/");
+#endif
+    return pythonPath;
+}
+
+std::pair<QString, QString> AbstractPythonInterface::pythonExecs(bool checkPip)
+{
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    const QString binaryPath = getPythonPath();
+    if (pluginDir.cd(binaryPath)) {
+#ifdef Q_OS_WIN
+        const QString pythonExe = QStringLiteral("python");
+        const QString pipExe = QStringLiteral("pip");
+#else
+        const QString pythonExe = QStringLiteral("python3");
+        const QString pipExe = QStringLiteral("pip3");
+#endif
+        QString exe1 = pluginDir.absoluteFilePath(pythonExe);
+        if (!QFile::exists(exe1)) {
+            exe1.clear();
+        }
+        QString exe2;
+        if (checkPip) {
+            exe2 = pluginDir.absoluteFilePath(pipExe);
+            if (QFile::exists(exe2)) {
+                exe2.clear();
+            }
+        }
+        return {exe1, exe2};
+    }
+    return {};
+}
+
 bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize, bool forceInstall)
 {
     if (installInProgress) {
         return false;
     }
-    if (!calculateSize && useVenv == KdenliveSettings::usePythonVenv() && !KdenliveSettings::pythonPath().isEmpty() && !KdenliveSettings::pipPath().isEmpty() &&
-        QFile::exists(KdenliveSettings::pythonPath())) {
+#ifdef Q_OS_WIN
+    const QString pythonExe = QStringLiteral("python");
+    const QString pipExe = QStringLiteral("pip");
+#else
+    const QString pythonExe = QStringLiteral("python3");
+    const QString pipExe = QStringLiteral("pip3");
+#endif
+    QString pythonPath = getPythonPath();
+    std::pair<QString, QString> execs = pythonExecs(true);
+    if (!calculateSize && useVenv == KdenliveSettings::usePythonVenv() && !execs.first.isEmpty() && !execs.second.isEmpty() && QFile::exists(execs.first) &&
+        QFile::exists(execs.second)) {
         // Already setup
-        if (KdenliveSettings::pythonPath().contains(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation))) {
+        if (execs.first.contains(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation))) {
             if (useVenv) {
                 // Everything ok, using venv python
                 qDebug() << "::::: CHECKING PYTHON WITH VENV EVEYTHING OK...";
@@ -162,7 +214,7 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize, bool
             }
         } else if (!useVenv) {
             // Everything ok, using system python
-            qDebug() << "::::: CHECKING PYTHON NO VENV EVEYTHING OK...";
+            qDebug() << "::::: CHECKING samPYTHON NO VENV EVEYTHING OK...";
             return true;
         }
     }
@@ -170,42 +222,33 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize, bool
     Q_EMIT setupMessage(i18nc("@label:textbox", "Checking setup…"), int(KMessageWidget::Information));
     QMutexLocker bk(&mutex);
     QStringList pythonPaths;
-    if (useVenv) {
-#ifdef Q_OS_WIN
-        const QString pythonPath = QStringLiteral("venv/Scripts/");
-#else
-        const QString pythonPath = QStringLiteral("venv/bin/");
-#endif
-        QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-        if (!pluginDir.exists(pythonPath)) {
-            // Setup venv
-            if (forceInstall) {
-                if (!setupVenv()) {
-                    return false;
-                }
-            } else {
-                // Venv folder not found, disable
-                useVenv = false;
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    if (!pluginDir.exists(pythonPath)) {
+        // Setup venv
+        if (forceInstall) {
+            if (!setupVenv()) {
+                return false;
             }
-        }
-        if (pluginDir.exists(pythonPath)) {
-            pythonPaths << pluginDir.absoluteFilePath(pythonPath);
+        } else {
+            // Venv folder not found, disable
+            useVenv = false;
         }
     }
+    if (pluginDir.exists(pythonPath)) {
+        pythonPaths << pluginDir.absoluteFilePath(pythonPath);
+    }
 #ifdef Q_OS_WIN
-    KdenliveSettings::setPythonPath(QStandardPaths::findExecutable(QStringLiteral("python"), pythonPaths));
-    KdenliveSettings::setPipPath(QStandardPaths::findExecutable(QStringLiteral("pip"), pythonPaths));
+    execs = {QStandardPaths::findExecutable(QStringLiteral("python"), pythonPaths), QStandardPaths::findExecutable(QStringLiteral("pip"), pythonPaths)};
 #else
-    KdenliveSettings::setPythonPath(QStandardPaths::findExecutable(QStringLiteral("python3"), pythonPaths));
-    KdenliveSettings::setPipPath(QStandardPaths::findExecutable(QStringLiteral("pip3"), pythonPaths));
+    execs = {QStandardPaths::findExecutable(QStringLiteral("python3"), pythonPaths), QStandardPaths::findExecutable(QStringLiteral("pip3"), pythonPaths)};
 #endif
-    if (KdenliveSettings::pythonPath().isEmpty()) {
+    if (execs.first.isEmpty()) {
         Q_EMIT setupError(i18n("Cannot find python3, please install it on your system.\n"
                                "If already installed, check it is installed in a directory "
                                "listed in PATH environment variable"));
         return false;
     }
-    if (KdenliveSettings::pipPath().isEmpty() && !m_disableInstall) {
+    if (execs.second.isEmpty() && !m_disableInstall) {
         Q_EMIT setupError(i18n("Cannot find pip3, please install it on your system.\n"
                                "If already installed, check it is installed in a directory "
                                "listed in PATH environment variable"));
@@ -215,11 +258,11 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize, bool
         KdenliveSettings::setUsePythonVenv(useVenv);
         Q_EMIT venvSetupChanged();
     }
-    Q_EMIT setupMessage(i18n("Using python from %1", QFileInfo(KdenliveSettings::pythonPath()).absolutePath()), int(KMessageWidget::Information));
+    Q_EMIT setupMessage(i18n("Using python from %1", QFileInfo(execs.first).absolutePath()), int(KMessageWidget::Information));
     if (calculateSize) {
         // Calculate venv size
         QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-        if (pluginDir.cd(QStringLiteral("venv"))) {
+        if (pluginDir.cd(getVenvPath())) {
             KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(pluginDir.absolutePath()));
             connect(job, &KIO::DirectorySizeJob::result, this, &AbstractPythonInterface::gotFolderSize);
         } else {
@@ -241,7 +284,8 @@ void AbstractPythonInterface::gotFolderSize(KJob *job)
 
 bool AbstractPythonInterface::checkSetup()
 {
-    if (!(KdenliveSettings::pythonPath().isEmpty() || KdenliveSettings::pipPath().isEmpty() || m_scripts.values().contains(QStringLiteral("")))) {
+    std::pair<QString, QString> exes = pythonExecs(true);
+    if (!exes.first.isEmpty() && !exes.second.isEmpty() && !m_scripts.values().contains(QStringLiteral(""))) {
         return true;
     }
     if (!checkPython(KdenliveSettings::usePythonVenv())) {
@@ -276,31 +320,20 @@ bool AbstractPythonInterface::setupVenv()
     }
     // Use system python to check for venv
     installInProgress = true;
-    KdenliveSettings::setPythonPath(pyExec);
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     pluginDir.mkpath(QStringLiteral("."));
 
     QProcess envProcess;
     // For some reason, this fails in AppImage, but when extracting the Appimage it works...
     // No workaround found yet for AppImage
-    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(QStringLiteral("venv"))};
+    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(getVenvPath())};
     envProcess.start(pyExec, args);
     envProcess.waitForStarted();
     envProcess.waitForFinished(-1);
     QString pythonPath;
     if (envProcess.exitStatus() == QProcess::NormalExit) {
-#ifdef Q_OS_WIN
-        pythonPath = QStringLiteral("venv/Scripts/");
-        QStringList pythonPaths = {pluginDir.absoluteFilePath(pythonPath)};
-        KdenliveSettings::setPythonPath(QStandardPaths::findExecutable(QStringLiteral("python"), pythonPaths));
-        KdenliveSettings::setPipPath(QStandardPaths::findExecutable(QStringLiteral("pip"), pythonPaths));
-#else
-        pythonPath = QStringLiteral("venv/bin/");
-        QStringList pythonPaths = {pluginDir.absoluteFilePath(pythonPath)};
-        KdenliveSettings::setPythonPath(QStandardPaths::findExecutable(QStringLiteral("python3"), pythonPaths));
-        KdenliveSettings::setPipPath(QStandardPaths::findExecutable(QStringLiteral("pip3"), pythonPaths));
-#endif
-        if (!KdenliveSettings::pipPath().isEmpty() && QFile::exists(KdenliveSettings::pipPath())) {
+        std::pair<QString, QString> exes = pythonExecs(true);
+        if (!exes.first.isEmpty() && !exes.second.isEmpty()) {
             installPackage({QStringLiteral("importlib")});
             installInProgress = false;
             return true;
@@ -544,9 +577,12 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode, bool conc
         Q_EMIT setupError(i18n("Internal Error: Cannot find dependency list"));
         return {};
     }
+    qDebug() << "=== CHECKING SETUP...";
     if (!checkSetup()) {
+        qDebug() << "=== CHECKING SETUP...NO!!!";
         return {};
     }
+    qDebug() << "=== CHECKING SETUP...OK";
     QStringList deps = parseDependencies(m_dependencies.keys(), mode != QLatin1String("--install") && mode != QLatin1String("--upgrade"));
 
     if (concurrent) {
@@ -568,12 +604,14 @@ QString AbstractPythonInterface::installPackage(const QStringList packageNames)
 QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg, bool concurrent, bool packageFeedback)
 {
     const QString scriptpath = m_scripts.value(script);
-    if (KdenliveSettings::pythonPath().isEmpty() || scriptpath.isEmpty()) {
-        if (KdenliveSettings::pythonPath().isEmpty()) {
-            Q_EMIT setupError(i18n("Python exec not found"));
-        } else {
-            Q_EMIT setupError(i18n("Failed to find script file %1", script));
-        }
+    qDebug() << "=== CHECKING RUNNING SCTIPR: " << scriptpath;
+    const QString pythonExe = pythonExecs().first;
+    if (pythonExe.isEmpty()) {
+        Q_EMIT setupError(i18n("Python exec not found"));
+        return {};
+    }
+    if (scriptpath.isEmpty()) {
+        Q_EMIT setupError(i18n("Failed to find script file %1", script));
         return {};
     }
 
@@ -600,9 +638,9 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
         });
     }
 
-    scriptJob.start(KdenliveSettings::pythonPath(), args);
+    scriptJob.start(pythonExe, args);
     // Don't timeout
-    qDebug() << "::: RUNNONG SCRIPT: " << KdenliveSettings::pythonPath() << " = " << args;
+    qDebug() << "::: RUNNONG SCRIPT: " << pythonExe << " = " << args;
     scriptJob.waitForFinished(-1);
 
     if (!concurrent && (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0)) {

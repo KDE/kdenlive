@@ -20,6 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/guidecategories.h"
 #include "project/dialogs/profilewidget.h"
 #include "pythoninterfaces/dialogs/modeldownloadwidget.h"
+#include "pythoninterfaces/saminterface.h"
 #include "pythoninterfaces/speechtotextvosk.h"
 #include "pythoninterfaces/speechtotextwhisper.h"
 #include "timeline2/view/timelinecontroller.h"
@@ -128,7 +129,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     QWidget *p12 = new QWidget;
     m_configSpeech.setupUi(p12);
-    m_pageSpeech = addPage(p12, i18n("Speech To Text"), QStringLiteral("text-speak"));
+    m_pageSpeech = addPage(p12, i18n("Plugins"), QStringLiteral("plugins"));
 
     QWidget *p7 = new QWidget;
     m_configSdl.setupUi(p7);
@@ -1783,6 +1784,7 @@ void KdenliveSettingsDialog::initSpeechPage()
 {
     m_stt = new SpeechToTextVosk(this);
     m_sttWhisper = new SpeechToTextWhisper(this);
+    m_samInterface = new SamInterface(this);
     // Contextual help
     m_configSpeech.whisper_device_info->setContextualHelpText(i18n("CPU processing is very slow, GPU is recommended for faster processing"));
     m_configSpeech.seamless_device_info->setContextualHelpText(i18n("Text translation is performed by the SeamlessM4T model. This requires downloading "
@@ -2021,6 +2023,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     l->addWidget(m_speechListWidget);
     m_configSpeech.speech_info->setWordWrap(true);
     connect(m_configSpeech.check_config, &QPushButton::clicked, this, &KdenliveSettingsDialog::slotCheckSttConfig);
+    connect(m_configSpeech.check_config_sam, &QPushButton::clicked, this, &KdenliveSettingsDialog::slotCheckSamConfig);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(m_configSpeech.custom_vosk_folder, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
@@ -2046,6 +2049,14 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
+
+    // Sam
+    PythonDependencyMessage *pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, true);
+    m_configEnv.message_layout_sam->addWidget(pythonSamLabel);
+    // Also show VOSK setup messages in the python env page
+    connect(m_samInterface, &AbstractPythonInterface::setupMessage,
+            [pythonSamLabel](const QString message, int type) { pythonSamLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
+    m_samInterface->checkPython(KdenliveSettings::usePythonVenv(), true);
 }
 
 void KdenliveSettingsDialog::downloadJobDone(bool success)
@@ -2169,6 +2180,15 @@ void KdenliveSettingsDialog::slotCheckSttConfig()
     }
     // Leave button disabled for 3 seconds so that the user doesn't trigger it again while it is processing
     QTimer::singleShot(3000, this, [&]() { m_configSpeech.check_config->setEnabled(true); });
+}
+
+void KdenliveSettingsDialog::slotCheckSamConfig()
+{
+    m_configSpeech.check_config_sam->setEnabled(false);
+    qApp->processEvents();
+    m_samInterface->checkDependencies(true);
+    // Leave button disabled for 3 seconds so that the user doesn't trigger it again while it is processing
+    QTimer::singleShot(3000, this, [&]() { m_configSpeech.check_config_sam->setEnabled(true); });
 }
 
 void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int messageType)

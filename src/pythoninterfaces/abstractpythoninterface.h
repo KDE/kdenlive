@@ -42,7 +42,7 @@ public:
      */
     QStringList missingDependencies(const QStringList &filter = {});
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
-    QString pythonExec() { return KdenliveSettings::pythonPath(); };
+    std::pair<QString, QString> pythonExecs(bool checkPip = false);
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     bool installDisabled() { return m_disableInstall; };
     void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
@@ -54,6 +54,10 @@ public:
     bool optionalDependencyAvailable(const QString &dependency) const;
     /** @brief The text that will appear on the install button when a dependency is missing. */
     virtual const QString installMessage() const;
+    /** @brief The path to the python executable for this environement. */
+    const QString getPythonPath();
+    /** @brief The path to the python virtual environement. */
+    virtual const QString getVenvPath();
     /** @brief Add a special dependency. */
     void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
     /** @brief Ensure all dependenciew are installed. */

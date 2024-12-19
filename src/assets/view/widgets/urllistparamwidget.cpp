@@ -48,9 +48,16 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     } else {
         m_knsbutton->hide();
     }
-    // setup the name
-    if (m_model->getAssetId().startsWith(QLatin1String("avfilter.lut3d"))) {
-        m_listType = LUTLIST;
+
+    QStringList values = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
+    if (!values.isEmpty()) {
+        if (values.first() == QLatin1String("%lumaPaths")) {
+            m_listType = LUMALIST;
+        } else if (values.first() == QLatin1String("%lutPaths")) {
+            m_listType = LUTLIST;
+        } else if (values.first() == QLatin1String("%maskPaths")) {
+            m_listType = MASKLIST;
+        }
     }
     UrlListParamWidget::slotRefresh();
 
