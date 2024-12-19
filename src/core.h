@@ -503,4 +503,5 @@ Q_SIGNALS:
     void enableBuildInTransform();
     /** refresh sam config */
     void samConfigUpdated();
+    void showMaskPanel();
 };

@@ -59,6 +59,13 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
             m_listType = MASKLIST;
         }
     }
+    if (m_listType == MASKLIST) {
+        m_maskButton->setIcon(QIcon::fromTheme(QStringLiteral("path-mask-edit")));
+        m_maskButton->setToolTip(i18n("Create or edit a mask for this clip"));
+        connect(m_maskButton, &QToolButton::clicked, this, [this]() { Q_EMIT pCore->showMaskPanel(); });
+    } else {
+        m_maskButton->hide();
+    }
     UrlListParamWidget::slotRefresh();
 
     // Q_EMIT the signal of the base class when appropriate
