@@ -661,13 +661,13 @@ Rectangle {
                         if (!dragStarted && Math.abs(mapToItem(null, x, y).y - startY) > 2) {
                             dragStarted = true
                         }
-                        var newHeight = originalY + (mapToItem(null, x, y).y - startY)
+                        var newHeight = Math.round(originalY + (mapToItem(null, x, y).y - startY))
                         newHeight =  Math.max(root.collapsedHeight, newHeight)
                         if (newHeight == root.collapsedHeight) {
-                            controller.setTrackProperty(trackId, "kdenlive:collapsed", root.collapsedHeight)
+                            controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", root.collapsedHeight)
                         } else {
-                            controller.setTrackProperty(trackId, "kdenlive:trackheight", newHeight)
-                            controller.setTrackProperty(trackId, "kdenlive:collapsed", "0")
+                            controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:trackheight", newHeight)
+                            controller.setTrackProperty(trackHeadRoot.trackId, "kdenlive:collapsed", "0")
                         }
                     }
                 }
@@ -675,6 +675,7 @@ Rectangle {
         }
     DropArea { //Drop area for tracks
         anchors.fill: trackHeadRoot
+        anchors.bottomMargin: resizer.height
         keys: 'kdenlive/effect'
         property string dropData
         property string dropSource
