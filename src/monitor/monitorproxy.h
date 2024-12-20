@@ -40,6 +40,10 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(int maskOpacity READ maskOpacity WRITE setMaskOpacity NOTIFY maskOpacityChanged)
+    Q_PROPERTY(int maskColor READ maskColor WRITE setMaskColor NOTIFY maskColorChanged)
+    Q_PROPERTY(bool maskInverted READ maskInverted WRITE setMaskInverted)
+    Q_PROPERTY(int maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
     Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
     Q_PROPERTY(bool builtinEffectsEnabled MEMBER m_builtinEffectsEnabled NOTIFY builtinEffectsEnabledChanged)
     Q_PROPERTY(int gridH READ gridH NOTIFY gridChanged)
@@ -75,6 +79,14 @@ public:
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
+    int maskOpacity() const;
+    void setMaskOpacity(int opacity);
+    int maskColor() const;
+    void setMaskColor(int ix);
+    const QColor getMaskColor() const;
+    bool maskInverted() const;
+    void setMaskInverted(bool);
+    void setMaskMode(int ix);
     const QString trimmingTC1() const;
     const QString trimmingTC2() const;
     const QString timecode() const;
@@ -159,6 +171,9 @@ Q_SIGNALS:
     void removeSnap(int);
     void triggerAction(const QString &name);
     void overlayTypeChanged();
+    void maskOpacityChanged();
+    void maskColorChanged();
+    void maskModeChanged();
     void showGridChanged();
     void builtinEffectsEnabledChanged();
     void gridChanged();
@@ -193,6 +208,7 @@ Q_SIGNALS:
     /** @brief Enable build-in transform effect*/
     void enableTransform();
     void previewOverlayChanged();
+    void refreshMask();
 
 private:
     VideoWidget *q;
@@ -227,6 +243,8 @@ private:
 
 protected:
     QUrl m_previewOverlay;
+    /** @brief Mode for mask overlay. 0 = preview keyframe image, 1 = preview video mask*/
+    int m_maskMode{0};
 
 public Q_SLOTS:
     void updateClipBounds(const QVector <QPoint>&bounds);

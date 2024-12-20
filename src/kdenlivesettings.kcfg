@@ -1069,7 +1069,18 @@
       <label>Automatically create a new keyframe on keyframe move.</label>
       <default>true</default>
     </entry>
-
+    <entry name="maskOpacity" type="Int">
+      <label>Opacity of object masks on monitor.</label>
+      <default>100</default>
+    </entry>
+    <entry name="maskColor" type="Int">
+      <label>An index in the 0-4 range indicating an index in a color array.</label>
+      <default>0</default>
+    </entry>
+    <entry name="maskInverted" type="Bool">
+      <label>Invert alpha mask display.</label>
+      <default>false</default>
+    </entry>
     <entry name="clipMonitorOverlayGuides" type="Int">
       <label>index of current guides overlay for clip monitor.</label>
       <default>0</default>

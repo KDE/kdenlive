@@ -170,7 +170,7 @@ public:
     /** @brief Stop displaying a  mask as overlay to the clip */
     void abortPreviewMask();
     /** @brief Update the preview mask properties */
-    void updatePreviewMask(bool invert, int opacity, const QColor &color);
+    void updatePreviewMask();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

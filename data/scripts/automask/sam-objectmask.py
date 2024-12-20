@@ -7,7 +7,6 @@ import os
 # os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 import numpy as np
 import torch
-import matplotlib.pyplot as plt
 import cv2
 import sys
 import argparse
@@ -91,12 +90,8 @@ from sam2.build_sam import build_sam2, build_sam2_video_predictor
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 scriptFolder = os.path.dirname(os.path.abspath(__file__))
-print("RESULTING CURRENT SCRIPT FOLDER: ", scriptFolder)
-#sam2_checkpoint = os.path.join(scriptFolder, "sam2.1_hiera_tiny.pt")
 sam2_checkpoint = modelFile
 model_cfg = configFile
-
-print(os.getcwd())
 
 if preview_frame > -1:
     sam2_model = build_sam2(model_cfg, sam2_checkpoint, device=device)
@@ -105,12 +100,12 @@ else:
     predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device, vos_optimized=True)
 
 def show_mask(mask, ax, obj_id=None, random_color=False):
-    if random_color:
-        color = np.concatenate([np.random.random(3), np.array([0.6])], axis=0)
-    else:
-        cmap = plt.get_cmap("tab10")
-        cmap_idx = 0 if obj_id is None else obj_id
-        color = np.array([*cmap(cmap_idx)[:3], 0.6])
+    #if random_color:
+    color = np.concatenate([np.random.random(3), np.array([0.6])], axis=0)
+    #else:
+    #    cmap = plt.get_cmap("tab10")
+    #    cmap_idx = 0 if obj_id is None else obj_id
+    #    color = np.array([*cmap(cmap_idx)[:3], 0.6])
     h, w = mask.shape[-2:]
     mask = mask.astype(np.uint8)
     mask_image = mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
@@ -128,9 +123,9 @@ def save_mask(mask, filename, obj_id=None):
     color = [255, 255, 255, 255]
     h, w = mask.shape[-2:]
     mask_image = mask.reshape(h, w, 1) * color
-    mask = mask.astype(np.uint8)
     if borders > 0:
         import cv2
+        mask = mask.astype(np.uint8)
         contours, _ = cv2.findContours(mask,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         # Try to smooth contours
         contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
@@ -149,7 +144,7 @@ def show_points(coords, labels, ax, marker_size=200):
 def show_box(box, ax):
     x0, y0 = box[0], box[1]
     w, h = box[2] - box[0], box[3] - box[1]
-    ax.add_patch(plt.Rectangle((x0, y0), w, h, edgecolor='green', facecolor=(0, 0, 0, 0), lw=2))
+    #ax.add_patch(plt.Rectangle((x0, y0), w, h, edgecolor='green', facecolor=(0, 0, 0, 0), lw=2))
 
 # scan all the JPEG frame names in this directory
 frame_names = [
@@ -225,7 +220,7 @@ for out_frame_idx, out_obj_ids, out_mask_logits in predictor.propagate_in_video(
 print(f"Rendering all frames...")
 # render the segmentation results every few frames
 vis_frame_stride = 1
-plt.close("all")
+#plt.close("all")
 for out_frame_idx in range(0, len(frame_names), vis_frame_stride):
     #plt.figure(figsize=(6, 4))
     #plt.title(f"frame {out_frame_idx}")

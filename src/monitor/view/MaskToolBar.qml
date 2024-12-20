@@ -59,16 +59,37 @@ MouseArea {
                 }
             }
             MonitorToolButton {
-                objectName: "switchOverlay"
-                iconName: "view-grid"
-                toolTipText: i18n("Change Overlay")
+                objectName: "switchOpacity"
+                iconName: "edit-opacity"
+                toolTipText: i18n("Change Opacity (0% - 25% - 50% - 100%)")
                 onClicked: {
-                    if (controller.overlayType >= 5) {
-                        controller.overlayType = 0
+                    if (controller.maskOpacity == 0) {
+                        controller.maskOpacity = 25;
+                    } else if (controller.maskOpacity == 100) {
+                        controller.maskOpacity = 0;
                     } else {
-                        controller.overlayType = controller.overlayType + 1;
+                        controller.maskOpacity = controller.maskOpacity * 2;
                     }
-                    root.overlayType = controller.overlayType
+                }
+            }
+            MonitorToolButton {
+                objectName: "switchColor"
+                iconName: "fill-color"
+                toolTipText: i18n("Change Color")
+                onClicked: {
+                    if (controller.maskColor == 4) {
+                        controller.maskColor = 0;
+                    } else {
+                        controller.maskColor++;
+                    }
+                }
+            }
+            MonitorToolButton {
+                objectName: "invertMask"
+                iconName: "edit-select-invert"
+                toolTipText: i18n("Invert Mask")
+                onClicked: {
+                    controller.maskInverted = true
                 }
             }
             MonitorToolButton {
@@ -82,20 +103,6 @@ MouseArea {
                 iconName: "keyframe-previous"
                 toolTipText: i18n("Go to Previous Keyframe")
                 onClicked: controller.seekToKeyframe(-1, -1);
-            }
-            MonitorToolButton {
-                objectName: "addKeyframe"
-                iconName: "keyframe-add"
-                toolTipText: i18n("Add/Remove Keyframe")
-                onClicked: controller.addRemoveKeyframe()
-            }
-            MonitorToolButton {
-                iconName: "keyframe-record"
-                toolTipText: i18n("Automatic Keyframes")
-                onClicked: controller.switchAutoKeyframe()
-                checkable: true
-                checked: controller.autoKeyframe
-                visible: barZone.showAutoKeyframe
             }
             MonitorToolButton {
                 iconName: "zoom-in"

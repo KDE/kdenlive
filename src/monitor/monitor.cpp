@@ -2993,8 +2993,9 @@ void Monitor::previewMask(const QString &maskFile, int in, int out)
     }
     m_maskColor.reset(new Mlt::Filter(pCore->getProjectProfile(), "frei0r.tint0r"));
     if (m_maskColor != nullptr && m_maskColor->is_valid()) {
-        m_maskColor->set("0", "#ff0000");
-        m_maskColor->set("1", "#ff0000");
+        const QColor color = getControllerProxy()->getMaskColor();
+        m_maskColor->set("0", color.name().toUtf8().constData());
+        m_maskColor->set("1", color.name().toUtf8().constData());
         m_maskColor->set("2", 1);
     }
     bg->attach(*m_maskInvert.get());
@@ -3006,12 +3007,18 @@ void Monitor::previewMask(const QString &maskFile, int in, int out)
     m_maskOpacity = TransitionsRepository::get()->getTransition(composite);
     m_maskOpacity->set_in_and_out(in, out);
     m_maskOpacity->set_tracks(0, 1);
+    int opacity = getControllerProxy()->maskOpacity();
+    const QString opacityString = QStringLiteral("0=0 0 100% 100% %1").arg(opacity / 100.);
+    m_maskOpacity->set("rect", opacityString.toUtf8().constData());
     trac.plant_transition(*m_maskOpacity.get(), 0, 1);
     int pos = position();
     if (pos < in || (out > 0 && pos > out)) {
         pos = in;
     }
     m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
+    getControllerProxy()->setMaskMode(1);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
+    loadQmlScene(MonitorSceneAutoMask);
 }
 
 void Monitor::abortPreviewMask()
@@ -3020,13 +3027,17 @@ void Monitor::abortPreviewMask()
     m_maskColor.reset();
     m_maskInvert.reset();
     buildBackgroundedProducer(position());
+    disconnect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
+    getControllerProxy()->setMaskMode(0);
 }
 
-void Monitor::updatePreviewMask(bool invert, int opacity, const QColor &color)
+void Monitor::updatePreviewMask()
 {
-    m_maskInvert->set("disable", invert ? 0 : 1);
+    m_maskInvert->set("disable", !getControllerProxy()->maskInverted());
+    int opacity = getControllerProxy()->maskOpacity();
     const QString opacityString = QStringLiteral("0=0 0 100% 100% %1").arg(opacity / 100.);
     m_maskOpacity->set("rect", opacityString.toUtf8().constData());
+    const QColor color = getControllerProxy()->getMaskColor();
     m_maskColor->set("0", color.name().toUtf8().constData());
     m_maskColor->set("1", color.name().toUtf8().constData());
     refreshMonitor();

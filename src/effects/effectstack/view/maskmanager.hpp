@@ -31,7 +31,6 @@ private Q_SLOTS:
     void initMaskMode();
     void addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
     void previewMask(bool show);
-    void updateMaskProperties();
     void generateMask();
     void loadMasks();
     void checkModelAvailability();

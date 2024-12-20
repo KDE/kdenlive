@@ -27,7 +27,6 @@
 #include <QMimeData>
 #include <QMutexLocker>
 #include <QPainter>
-#include <QPushButton>
 #include <QScrollBar>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -46,11 +45,8 @@ MaskManager::MaskManager(QWidget *parent)
     connect(ac, &QAction::triggered, this, [this]() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech, 1); });
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
     samStatus->addAction(ac);
-    connect(buttonAdd, &QPushButton::clicked, this, &MaskManager::initMaskMode);
-    connect(buttonPreview, &QPushButton::toggled, this, &MaskManager::previewMask);
-    connect(invertPreview, &QCheckBox::toggled, this, &MaskManager::updateMaskProperties);
-    connect(opacity, &QSlider::valueChanged, this, &MaskManager::updateMaskProperties);
-    connect(maskColor, &KColorButton::changed, this, &MaskManager::updateMaskProperties);
+    connect(buttonAdd, &QToolButton::clicked, this, &MaskManager::initMaskMode);
+    connect(buttonPreview, &QToolButton::toggled, this, &MaskManager::previewMask);
     connect(maskTree, &QTreeWidget::itemDoubleClicked, this, [this]() { previewMask(true); });
     connect(maskTree, &QTreeWidget::currentItemChanged, this, [this]() {
         QTreeWidgetItem *item = maskTree->currentItem();
@@ -81,6 +77,7 @@ void MaskManager::initMaskMode()
         connect(clipMon, &Monitor::addMonitorControlPoint, this, &MaskManager::addControlPoint, Qt::UniqueConnection);
         m_connected = true;
     }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     std::shared_ptr<ProjectClip> clip = getOwnerClip();
     if (!clip) {
         return;
@@ -213,21 +210,15 @@ void MaskManager::loadMasks()
 
 void MaskManager::previewMask(bool show)
 {
-    if (show) {
+    if (show && maskTree->currentItem()) {
         buttonPreview->setChecked(true);
         const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
         int in = maskTree->currentItem()->data(0, Qt::UserRole + 1).toInt();
         int out = maskTree->currentItem()->data(0, Qt::UserRole + 2).toInt();
         pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out);
-        updateMaskProperties();
     } else {
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
-}
-
-void MaskManager::updateMaskProperties()
-{
-    pCore->getMonitor(Kdenlive::ClipMonitor)->updatePreviewMask(invertPreview->isChecked(), opacity->value(), maskColor->color());
 }
 
 void MaskManager::checkModelAvailability()

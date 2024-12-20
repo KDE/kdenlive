@@ -6,6 +6,7 @@
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
+import QtQuick.Effects
 import Kdenlive.Controls 1.0
 import QtQuick 2.15
 import com.enums 1.0
@@ -56,6 +57,7 @@ Item {
     property double timeScale: 1
     property var centerPoints: []
     property var centerPointsTypes: []
+    property var maskColors: ["#ffffff", "#ff0000", "#ffff00", "#0000ff", "#000000"]
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
     property color thumbColor2: controller.thumbColor2
@@ -174,11 +176,23 @@ Item {
             Image {
                 id: maskPreview
                 anchors.fill: frame
-                source: controller.previewOverlay
+                source: controller.maskMode == 0 ? controller.previewOverlay : ''
                 asynchronous: true
+                enabled: controller.maskMode == 1
+                opacity: controller.maskOpacity / 100
                 onSourceChanged: {
                     generateLabel.visible = false
                 }
+                MultiEffect {
+                    source: maskPreview
+                    anchors.fill: parent
+                    colorization: 1
+                    enabled: controller.maskColor > 0
+                    colorizationColor: maskColors[controller.maskColor]
+                }
+            }
+            Item {
+                anchors.fill: frame
                 Repeater {
                     model: root.centerPoints.length
                     delegate:
