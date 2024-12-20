@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-16 00:41+0000\n"
-"PO-Revision-Date: 2024-12-14 09:11+0530\n"
+"PO-Revision-Date: 2024-12-19 21:41+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n>2);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -10406,7 +10406,7 @@ msgstr "नामः : "
 #: src/effects/effectlist/view/effectlistwidget.cpp:113
 #, kde-format
 msgid "Comments : "
-msgstr "टिप्पणियाँ : १. "
+msgstr "टिप्पणियाँ : "
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
 #: src/onlineresources/resourcewidget.cpp:595
@@ -17273,14 +17273,14 @@ msgstr "ढाल सन्दर्भ रेखा"
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:177
 #, kde-format
 msgid "min: "
-msgstr "मि: १. "
+msgstr "मि: "
 
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:185
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:191
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:197
 #, kde-format
 msgid "max: "
-msgstr "अधिकतमम् : १. "
+msgstr "अधिकतमम् : "
 
 #: src/scopes/colorscopes/vectorscope.cpp:48
 #, kde-format
@@ -19590,7 +19590,7 @@ msgstr "%प% ९."
 #: src/ui/audiospectrum_ui.ui:56
 #, kde-format
 msgid "True FFT size: "
-msgstr "सच्चा FFT आकारः : १. "
+msgstr "सच्चा FFT आकारः : "
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

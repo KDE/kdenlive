@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-16 00:41+0000\n"
-"PO-Revision-Date: 2024-12-17 22:39+0100\n"
+"PO-Revision-Date: 2024-12-19 22:56+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1013,10 +1013,11 @@ msgctxt "Audio Fade Out Effect Name"
 msgid "Fade out"
 msgstr "Esvaer"
 
+# skip-rule: trasno-remove_reverse
 #: data/effects/fadeout.xml:5
 #, kde-format
 msgid "Fade out audio track"
-msgstr "Retirar a pista de son con fundido"
+msgstr "Silenciar paulatinamente a pista de son"
 
 #: data/effects/freeze.xml:4
 #, kde-format
