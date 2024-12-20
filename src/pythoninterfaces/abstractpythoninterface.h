@@ -64,6 +64,8 @@ public:
     bool installMissingDependencies();
     /** @brief Get a script path ba name. */
     const QString getScript(const QString &scriptName) const;
+    /** @brief Delete the virtual environment. */
+    void deleteVenv();
 
     friend class PythonDependencyMessage;
 
@@ -105,6 +107,7 @@ protected:
 
 Q_SIGNALS:
     void setupError(const QString &message);
+    void setupOk();
     void setupMessage(const QString &message, int messageType);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);

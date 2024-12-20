@@ -37,6 +37,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
         removeAction(m_abortAction);
         doShowMessage(message, KMessageWidget::Warning);
     });
+    connect(m_interface, &AbstractPythonInterface::setupOk, this, [&]() { hide(); });
     connect(m_interface, &AbstractPythonInterface::setupMessage, this,
             [&](const QString &message, int messageType) { doShowMessage(message, KMessageWidget::MessageType(messageType)); });
 
@@ -56,6 +57,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
                     doShowMessage(i18n("%1 is configured:<br>%2", m_interface->featureName(), list.join(QStringLiteral(", "))), KMessageWidget::Positive);
                 }
             }
+            Q_EMIT m_interface->venvSetupChanged();
         });
 
         connect(m_interface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &messages) {
@@ -160,6 +162,18 @@ const QString AbstractPythonInterface::getPythonPath()
     return pythonPath;
 }
 
+void AbstractPythonInterface::deleteVenv()
+{
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    const QString binaryPath = getVenvPath();
+    if (pluginDir.cd(binaryPath)) {
+        if (pluginDir.dirName().contains(QLatin1String("venv"))) {
+            pluginDir.removeRecursively();
+        }
+        Q_EMIT venvSetupChanged();
+    }
+}
+
 std::pair<QString, QString> AbstractPythonInterface::pythonExecs(bool checkPip)
 {
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
@@ -179,7 +193,7 @@ std::pair<QString, QString> AbstractPythonInterface::pythonExecs(bool checkPip)
         QString exe2;
         if (checkPip) {
             exe2 = pluginDir.absoluteFilePath(pipExe);
-            if (QFile::exists(exe2)) {
+            if (!QFile::exists(exe2)) {
                 exe2.clear();
             }
         }
@@ -246,19 +260,25 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize, bool
         Q_EMIT setupError(i18n("Cannot find python3, please install it on your system.\n"
                                "If already installed, check it is installed in a directory "
                                "listed in PATH environment variable"));
+        if (calculateSize) {
+            Q_EMIT gotPythonSize(QString());
+        }
         return false;
     }
     if (execs.second.isEmpty() && !m_disableInstall) {
         Q_EMIT setupError(i18n("Cannot find pip3, please install it on your system.\n"
                                "If already installed, check it is installed in a directory "
                                "listed in PATH environment variable"));
+        if (calculateSize) {
+            Q_EMIT gotPythonSize(QString());
+        }
         return false;
     }
     if (useVenv != KdenliveSettings::usePythonVenv()) {
         KdenliveSettings::setUsePythonVenv(useVenv);
-        Q_EMIT venvSetupChanged();
     }
-    Q_EMIT setupMessage(i18n("Using python from %1", QFileInfo(execs.first).absolutePath()), int(KMessageWidget::Information));
+    Q_EMIT setupOk();
+    // setupMessage(i18n("Using python from %1", QFileInfo(execs.first).absolutePath()), int(KMessageWidget::Information));
     if (calculateSize) {
         // Calculate venv size
         QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
@@ -266,7 +286,7 @@ bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize, bool
             KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(pluginDir.absolutePath()));
             connect(job, &KIO::DirectorySizeJob::result, this, &AbstractPythonInterface::gotFolderSize);
         } else {
-            Q_EMIT gotPythonSize(i18n("No python venv found"));
+            Q_EMIT gotPythonSize(QString());
         }
     }
     return true;
@@ -279,7 +299,7 @@ void AbstractPythonInterface::gotFolderSize(KJob *job)
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
-    Q_EMIT gotPythonSize(i18n("Python venv size: %1", KIO::convertSize(total)));
+    Q_EMIT gotPythonSize(KIO::convertSize(total));
 }
 
 bool AbstractPythonInterface::checkSetup(bool requestInstall)
@@ -352,6 +372,7 @@ bool AbstractPythonInterface::setupVenv()
         }
     }
     installInProgress = false;
+    Q_EMIT venvSetupChanged();
     return false;
 }
 

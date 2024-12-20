@@ -228,8 +228,16 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
         if (!ok) {
             return;
         }
-        const QString outputFile = maskFolder.absoluteFilePath(QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(zone.x()).arg(zone.y()));
+        int ix = 1;
+        QString baseName = QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(zone.x()).arg(zone.y());
+        QString outputFile = maskFolder.absoluteFilePath(baseName);
+        while (QFile::exists(outputFile)) {
+            baseName = QStringLiteral("%1-%2-%3-%4.mkv").arg(clip->getControlUuid()).arg(zone.x()).arg(zone.y()).arg(ix, 10, 4);
+            outputFile = maskFolder.absoluteFilePath(baseName);
+            ix++;
+        }
         maskParams.insert(MaskTask::OUTPUTFILE, outputFile);
+
         MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, m_maskScript, zone.x(), zone.y(), clip.get());
     }
 }

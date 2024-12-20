@@ -118,9 +118,19 @@ private Q_SLOTS:
     /** @brief A download job is finished  */
     void downloadJobDone(bool success);
     /** @brief Start downloading a model */
-    void downloadSamModel();
+    void downloadSamModel(const QString &url);
+    /** @brief Show a model download dialog */
+    void downloadSamModels();
+    /** @brief Install a model if none, and refresh the list of available SAM models in combobox */
+    void installSamModelIfEmpty();
     /** @brief Refresh the list of available SAM models in combobox */
     void reloadSamModels();
+    /** @brief Get ready to delete the venv */
+    void deleteSamVenv();
+    /** @brief Get ready to delete the models */
+    void deleteSamModels();
+    /** @brief Check if SAM is corectly setup */
+    void checkSamEnvironement(bool afterInstall = true);
 
 private:
     KPageWidgetItem *m_pageMisc;
@@ -193,6 +203,8 @@ private:
     void checkWhisperFolderSize();
     /** @brief Refresh the list of available models in combobox */
     void reloadWhisperModels();
+    /** @brief Check folder size */
+    void checkSamFolderSize();
 
 Q_SIGNALS:
     void customChanged();

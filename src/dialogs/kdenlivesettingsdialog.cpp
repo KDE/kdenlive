@@ -1868,6 +1868,8 @@ void KdenliveSettingsDialog::initSpeechPage()
             [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
     connect(m_configSpeech.seamless_folder_label, &QLabel::linkActivated,
             [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
+    connect(m_configSpeech.sam_folder_label, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
+    connect(m_configSpeech.sam_venv_label, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
     QButtonGroup *speechEngineSelection = new QButtonGroup(this);
     speechEngineSelection->addButton(m_configSpeech.engine_vosk);
     speechEngineSelection->addButton(m_configSpeech.engine_whisper);
@@ -2062,18 +2064,71 @@ void KdenliveSettingsDialog::initSpeechPage()
     // Also show VOSK setup messages in the python env page
     connect(m_samInterface, &AbstractPythonInterface::setupMessage,
             [pythonSamLabel](const QString message, int type) { pythonSamLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
+    connect(m_samInterface, &SpeechToText::gotPythonSize, m_configSpeech.sam_venv_size, &QLabel::setText);
     m_samInterface->checkPython(true, true);
     connect(m_samInterface, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSamLog, Qt::QueuedConnection);
     connect(m_samInterface, &SpeechToText::scriptFinished,
             [pythonSamLabel]() { QMetaObject::invokeMethod(pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
     m_configSpeech.combo_sam_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    connect(m_configSpeech.combo_sam_model, &QComboBox::currentIndexChanged, this, [this]() {
-        bool toDownload = m_configSpeech.combo_sam_model->currentData().toString().startsWith(QLatin1String("https"));
-        m_configSpeech.downloadSamButton->setEnabled(toDownload);
-    });
-    connect(m_configSpeech.downloadSamButton, &QPushButton::clicked, this, &KdenliveSettingsDialog::downloadSamModel);
-    // Fill models list
-    reloadSamModels();
+    connect(m_configSpeech.downloadSamButton, &QPushButton::clicked, this, &KdenliveSettingsDialog::downloadSamModels);
+    connect(m_configSpeech.deleteSamVenv, &QPushButton::clicked, this, &KdenliveSettingsDialog::deleteSamVenv);
+    connect(m_configSpeech.deleteSamModels, &QPushButton::clicked, this, &KdenliveSettingsDialog::deleteSamModels);
+    connect(m_samInterface, &AbstractPythonInterface::venvSetupChanged, this,
+            [this]() { QMetaObject::invokeMethod(this, "checkSamEnvironement", Qt::QueuedConnection); });
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    if (pluginDir.cd(m_samInterface->getVenvPath())) {
+        m_configSpeech.sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Virtual environment")));
+    }
+    checkSamEnvironement(false);
+}
+
+void KdenliveSettingsDialog::checkSamEnvironement(bool afterInstall)
+{
+    std::pair<QString, QString> exes = m_samInterface->pythonExecs(true);
+    if (exes.first.isEmpty() || exes.second.isEmpty()) {
+        // Venv not setup
+        m_configSpeech.modelBox->setEnabled(false);
+        m_configSpeech.check_config_sam->setText(i18n("Install"));
+    } else {
+        // Venv ready
+        m_configSpeech.modelBox->setEnabled(true);
+        m_configSpeech.check_config_sam->setText(i18n("Check config"));
+        // Fill models list
+        if (afterInstall) {
+            m_samInterface->checkPython(true, true);
+            installSamModelIfEmpty();
+        } else {
+            reloadSamModels();
+        }
+    }
+}
+
+void KdenliveSettingsDialog::deleteSamModels()
+{
+    const QStringList models = m_samInterface->getInstalledModels();
+    if (!models.isEmpty()) {
+        if (KMessageBox::warningContinueCancel(this, i18n("This will delete the installed models\nYou can reinstall them later.")) != KMessageBox::Continue) {
+            return;
+        }
+        for (auto &m : models) {
+            if (!m.isEmpty() && m.endsWith(QLatin1String(".pt"))) {
+                QFile::remove(m);
+            }
+        }
+        reloadSamModels();
+    }
+}
+
+void KdenliveSettingsDialog::deleteSamVenv()
+{
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    if (pluginDir.cd(m_samInterface->getVenvPath())) {
+        if (KMessageBox::warningContinueCancel(this, i18n("This will delete the virtual environment folder:\n%1\nYou can reinstall it later.",
+                                                          pluginDir.absolutePath())) != KMessageBox::Continue) {
+            return;
+        }
+        m_samInterface->deleteVenv();
+    }
 }
 
 void KdenliveSettingsDialog::downloadJobDone(bool success)
@@ -2117,9 +2172,8 @@ void KdenliveSettingsDialog::reloadWhisperModels()
     Q_EMIT pCore->speechModelUpdate(SpeechToTextEngine::EngineWhisper, models);
 }
 
-void KdenliveSettingsDialog::downloadSamModel()
+void KdenliveSettingsDialog::downloadSamModel(const QString &url)
 {
-    const QString url = m_configSpeech.combo_sam_model->currentData().toString();
     if (!url.startsWith(QLatin1String("https"))) {
         // TODO: error message
         return;
@@ -2127,52 +2181,104 @@ void KdenliveSettingsDialog::downloadSamModel()
     const QUrl srcUrl(url);
     QDir modelFolder(m_samInterface->modelFolder());
     QUrl saveUrl = QUrl::fromLocalFile(modelFolder.absoluteFilePath(srcUrl.fileName()));
-    m_configSpeech.downloadSamButton->setEnabled(false);
     KIO::FileCopyJob *getJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
     connect(getJob, &KJob::result, this, &KdenliveSettingsDialog::reloadSamModels);
     getJob->start();
 }
 
-void KdenliveSettingsDialog::reloadSamModels()
+void KdenliveSettingsDialog::downloadSamModels()
 {
-    m_configSpeech.combo_sam_model->clear();
-    QStringList availableModels;
     KConfig conf(QStringLiteral("sammodelsinfo.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, QStringLiteral("models"));
-    QMap<QString, QString> values = group.entryMap();
-    QMapIterator<QString, QString> i(values);
-    while (i.hasNext()) {
-        i.next();
-        availableModels << i.value();
-    }
-
+    QStringList modelUrls = group.entryMap().values();
     const QStringList models = m_samInterface->getInstalledModels();
-    m_configSpeech.noModelMessage->hide();
-    QIcon okIcon = QIcon::fromTheme(QStringLiteral("dialog-ok-apply"));
-    QIcon downloadIcon = QIcon::fromTheme(QStringLiteral("edit-download"));
+    QStringList installedModels;
+    for (auto &m : models) {
+        installedModels << QFileInfo(m).fileName();
+    }
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    QList<QCheckBox *> buttons;
+    l->addWidget(new QLabel(i18n("Select model to download"), &d));
+    for (auto &u : modelUrls) {
+        QString modelName = QUrl(u).fileName();
+        if (installedModels.contains(modelName)) {
+            // Already installed, drop
+            continue;
+        }
+        modelName[0] = modelName.at(0).toUpper();
+        auto *cb = new QCheckBox(modelName, this);
+        cb->setProperty("url", u);
+        buttons << cb;
+        l->addWidget(cb);
+    }
+    if (buttons.isEmpty()) {
+        auto km = new KMessageWidget(&d);
+        km->setMessageType(KMessageWidget::Information);
+        km->setText(i18n("All models are already installed"));
+        km->setCloseButtonVisible(false);
+        l->addWidget(km);
+    }
+    l->addStretch(10);
+    l->addWidget(buttonBox);
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    if (d.exec() != QDialog::Accepted) {
+        return;
+    }
+    int downloadCount = 0;
+    for (auto &b : buttons) {
+        if (b->isChecked()) {
+            const QString url = b->property("url").toString();
+            downloadSamModel(url);
+            downloadCount++;
+        }
+    }
+    if (downloadCount > 0) {
+        m_configSpeech.downloadSamButton->setText(i18n("Downloading…"));
+        m_configSpeech.downloadSamButton->setEnabled(false);
+    }
+}
+
+void KdenliveSettingsDialog::installSamModelIfEmpty()
+{
+    const QStringList models = m_samInterface->getInstalledModels();
+    if (models.isEmpty()) {
+        // Download tiny model by default if none installed
+        m_configSpeech.combo_sam_model->setPlaceholderText(i18n("Downloading smallest model…"));
+        KConfig conf(QStringLiteral("sammodelsinfo.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+        KConfigGroup group(&conf, QStringLiteral("models"));
+        QMap<QString, QString> values = group.entryMap();
+        QMapIterator<QString, QString> i(values);
+        while (i.hasNext()) {
+            i.next();
+            if (i.value().contains(QLatin1String("tiny"))) {
+                downloadSamModel(i.value());
+            }
+        }
+        return;
+    }
+    reloadSamModels();
+}
+
+void KdenliveSettingsDialog::reloadSamModels()
+{
+    if (!m_configSpeech.downloadSamButton->isEnabled()) {
+        m_configSpeech.downloadSamButton->setText(i18n("Download models"));
+        m_configSpeech.downloadSamButton->setEnabled(true);
+    }
+    m_configSpeech.combo_sam_model->clear();
+    const QStringList models = m_samInterface->getInstalledModels();
     for (auto &m : models) {
         if (m.isEmpty()) {
             continue;
         }
         QString modelName = QFileInfo(m).completeBaseName();
         QString listedModel;
-        for (auto &av : availableModels) {
-            if (QFileInfo(QUrl(av).fileName()).completeBaseName() == modelName) {
-                listedModel = av;
-                break;
-            }
-        }
-        if (!listedModel.isEmpty()) {
-            availableModels.removeAll(listedModel);
-        }
         modelName[0] = modelName.at(0).toUpper();
-        m_configSpeech.combo_sam_model->addItem(listedModel.isEmpty() ? downloadIcon : okIcon, modelName, m);
-        qDebug() << ":::: LOADED MODEL: " << modelName << " = " << m;
-    }
-    for (auto &m : availableModels) {
-        QString modelName = QFileInfo(QUrl(m).fileName()).completeBaseName();
-        modelName[0] = modelName.at(0).toUpper();
-        m_configSpeech.combo_sam_model->addItem(downloadIcon, modelName, m);
+        m_configSpeech.combo_sam_model->addItem(modelName, m);
     }
     int ix = m_configSpeech.combo_sam_model->findData(KdenliveSettings::samModelFile());
     qDebug() << "LOOKING FOR MODEL: " << KdenliveSettings::samModelFile() << " / IX: " << ix;
@@ -2181,8 +2287,35 @@ void KdenliveSettingsDialog::reloadSamModels()
         ix = 0;
     }
     m_configSpeech.combo_sam_model->setCurrentIndex(ix);
-    bool toDownload = m_configSpeech.combo_sam_model->currentData().toString().startsWith(QLatin1String("https"));
-    m_configSpeech.downloadSamButton->setEnabled(toDownload);
+    checkSamFolderSize();
+}
+
+void KdenliveSettingsDialog::checkSamFolderSize()
+{
+    const QString folder = m_samInterface->modelFolder();
+    QDir modelsFolder(folder);
+    if (folder.isEmpty() || !modelsFolder.exists()) {
+        m_configSpeech.sam_folder_label->setVisible(false);
+    } else {
+        const QString path = modelsFolder.absolutePath();
+        m_configSpeech.sam_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(path, QStringLiteral("Models folder")));
+        m_configSpeech.sam_folder_label->setVisible(true);
+#if defined(Q_OS_WIN)
+        // KIO::directorySize doesn't work on Windows
+        KIO::filesize_t totalSize = 0;
+        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
+        for (const auto &dirEntry : QDirListing(path, flags)) {
+            totalSize += dirEntry.size();
+        }
+        m_configSpeech.sam_model_size->setText(KIO::convertSize(totalSize));
+#else
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(path));
+        connect(job, &KJob::result, this, [job, label = m_configSpeech.sam_model_size, button = m_configSpeech.downloadSamButton]() {
+            label->setText(KIO::convertSize(job->totalSize()));
+            job->deleteLater();
+        });
+#endif
+    }
 }
 
 void KdenliveSettingsDialog::checkWhisperFolderSize()

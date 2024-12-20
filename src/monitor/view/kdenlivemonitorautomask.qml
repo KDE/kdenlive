@@ -178,8 +178,8 @@ Item {
                 anchors.fill: frame
                 source: controller.maskMode == 0 ? controller.previewOverlay : ''
                 asynchronous: true
-                enabled: controller.maskMode == 1
                 opacity: controller.maskOpacity / 100
+                visible: controller.maskMode == 0
                 onSourceChanged: {
                     generateLabel.visible = false
                 }

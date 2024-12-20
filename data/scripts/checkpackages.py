@@ -64,9 +64,9 @@ elif '--install' in sys.argv and len(sys.argv) > 1:
     python = sys.executable
     if len(missing) > 0:
         print("Installing missing packages: ", missing)
-        tmpFolder = os.path.join(Path.home(), ".cache/pip-tmp-folder")
+        tmpFolder = os.path.join(Path.home(), ".cache/pip-kdenlive-tmp-folder")
         print("Using tmp folder: ", tmpFolder)
-        os.makedirs(tmpFolder)
+        os.makedirs(tmpFolder, exist_ok=True)
         my_env = os.environ.copy()
         my_env["TMPDIR"] = tmpFolder
         for m in missing:
