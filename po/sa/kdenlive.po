@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-16 00:41+0000\n"
-"PO-Revision-Date: 2024-12-19 21:41+0530\n"
+"PO-Revision-Date: 2024-12-20 22:10+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -483,7 +483,7 @@ msgstr "BoxBlur इति"
 #: data/effects/boxblur.xml:5
 #, kde-format
 msgid "Box blur (separate horizontal and vertical blur)"
-msgstr "Box blur (पृथक् क्षैतिज तथा ऊर्ध्वाधर धूमिलता) २."
+msgstr "Box blur (पृथक् क्षैतिज तथा ऊर्ध्वाधर धूमिलता)"
 
 #: data/effects/box_blur.xml:9 data/effects/box_blur.xml:23
 #: data/effects/boxblur.xml:8
@@ -515,7 +515,7 @@ msgstr "धुंधला कारक"
 #: data/effects/brightness.xml:4
 #, kde-format
 msgid "Brightness (keyframable)"
-msgstr "कान्तिः (कीफ्रेमेबल) २."
+msgstr "कान्तिः (कीफ्रेमेबल)"
 
 #: data/effects/brightness.xml:5
 #, kde-format
@@ -1052,7 +1052,7 @@ msgstr "प्राप्ति"
 #, kde-format
 msgctxt "Gamma Effect Name"
 msgid "Gamma (keyframable)"
-msgstr "गामा (कीफ्रेमेबल) २."
+msgstr "गामा (कीफ्रेमेबल)"
 
 #: data/effects/gamma.xml:5
 #, kde-format
@@ -1887,7 +1887,7 @@ msgstr "द्वितीयः वर्णः"
 #: data/effects/loudness.xml:4
 #, kde-format
 msgid "Normalize (2 pass)"
-msgstr "सामान्यीकरणं (२ पास) २."
+msgstr "सामान्यीकरणं (२ पास)"
 
 #: data/effects/loudness.xml:5
 #, kde-format
@@ -1933,7 +1933,7 @@ msgstr "Mask Start इफेक्ट् इत्यनेन परिभा�
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha shapes (Mask)"
-msgstr "अल्फा आकाराः (मास्क) २."
+msgstr "अल्फा आकाराः (मास्क)"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:5
 #, kde-format
@@ -2015,7 +2015,7 @@ msgstr "संचालन"
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
-msgstr "गौण रङ्ग सुधार क्षेत्र चयन (मास्क) २."
+msgstr "गौण रङ्ग सुधार क्षेत्र चयन (मास्क)"
 
 #: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
@@ -2099,7 +2099,7 @@ msgstr "मृदु करोतु"
 #: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
 msgid "Rotoscoping (Mask)"
-msgstr "रोटोस्कोपिंग (मास्क) ९."
+msgstr "रोटोस्कोपिंग (मास्क)"
 
 #: data/effects/mask_start_rotoscoping.xml:5
 #, kde-format
@@ -2153,7 +2153,7 @@ msgstr "पंखीकरणं गच्छति"
 #: data/effects/mask_start_shape.xml:4
 #, kde-format
 msgid "Shape Alpha (Mask)"
-msgstr "आकार अल्फा (मास्क) ९."
+msgstr "आकार अल्फा (मास्क)"
 
 #: data/effects/mask_start_shape.xml:5
 #, kde-format
@@ -2286,7 +2286,7 @@ msgstr "म्यूट क्लिप"
 #: data/effects/normalise.xml:4
 #, kde-format
 msgid "Normalise (deprecated)"
-msgstr "सामान्यीकरणं (अप्रचलित) २."
+msgstr "सामान्यीकरणं (अप्रचलित)"
 
 #: data/effects/normalise.xml:5
 #, kde-format
@@ -2637,7 +2637,7 @@ msgstr "Pan and Zoom इति"
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
 msgid "Rotate (keyframable)"
-msgstr "घुमाव (कीफ्रेमेबल) २."
+msgstr "घुमाव (कीफ्रेमेबल)"
 
 #: data/effects/rotation_keyframable.xml:17
 #, kde-format
@@ -3811,7 +3811,7 @@ msgstr "प्रति रक्षतु"
 #: plugins/sampleplugin/countdown_ui.ui:33
 #, kde-format
 msgid "Duration (seconds)"
-msgstr "अवधिः (सेकेण्ड्) २."
+msgstr "अवधिः (सेकेण्ड्)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
@@ -4144,7 +4144,7 @@ msgstr "इलास्टिक आउट"
 #: src/assets/keyframes/model/keyframemodel.cpp:60
 #, kde-format
 msgid "Smooth (deprecated)"
-msgstr "स्निग्ध (निराकृत) २."
+msgstr "स्निग्ध (निराकृत)"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:143
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
@@ -4366,12 +4366,12 @@ msgstr "कीफ्रेम चालयन्तु"
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, kde-format
 msgid "Data to import:"
-msgstr "आयातार्थं दत्तांशः : १."
+msgstr "आयातार्थं दत्तांशः :"
 
 #: src/assets/view/widgets/keyframeimport.cpp:177
 #, kde-format
 msgid "Time offset:"
-msgstr "समयस्य विच्छेदः : १."
+msgstr "समयस्य विच्छेदः :"
 
 #: src/assets/view/widgets/keyframeimport.cpp:191
 #: src/assets/view/widgets/keyframeimport.cpp:414
@@ -4452,12 +4452,12 @@ msgstr " इत्यस्मै "
 #: src/assets/view/widgets/keyframeimport.cpp:324
 #, kde-format
 msgid "Horizontal offset:"
-msgstr "क्षैतिज विक्षेपः : १."
+msgstr "क्षैतिज विक्षेपः :"
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
 #, kde-format
 msgid "Vertical offset:"
-msgstr "ऊर्ध्वाधर-अवक्षेपः : १."
+msgstr "ऊर्ध्वाधर-अवक्षेपः :"
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -4476,7 +4476,7 @@ msgstr "स्रोतपरिधिः %1 तः %2 पर्यन्तं"
 #: src/assets/view/widgets/keyframeimport.cpp:337
 #, kde-format
 msgid "Destination range:"
-msgstr "गन्तव्यपरिधिः : १."
+msgstr "गन्तव्यपरिधिः :"
 
 #: src/assets/view/widgets/keyframeimport.cpp:345
 #, kde-format
@@ -4753,7 +4753,7 @@ msgstr "<Select a Keyword>"
 #: src/assets/view/widgets/urllistparamwidget.cpp:137
 #, kde-format
 msgid "None (Dissolve)"
-msgstr "न कश्चित् (विलयनम्) २."
+msgstr "न कश्चित् (विलयनम्)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:236
 #, kde-format
@@ -4769,7 +4769,7 @@ msgstr "अमान्य LUT सञ्चिका %1"
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
-msgstr "ल: १."
+msgstr "ल:"
 
 #: src/audiomixer/audiolevelwidget.cpp:272
 #, kde-format
@@ -4779,7 +4779,7 @@ msgid ""
 "R:"
 msgstr ""
 "\n"
-"र: १."
+"र:"
 
 #: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1008
 #, kde-format
@@ -5285,7 +5285,7 @@ msgstr "द्वितीयकक्रमः असफलः अभवत्"
 #: src/bin/bin.cpp:2230
 #, kde-format
 msgid "%1 (copy)"
-msgstr "%1 (प्रतिलिपि) २."
+msgstr "%1 (प्रतिलिपि)"
 
 #: src/bin/bin.cpp:2235 src/bin/bin.cpp:2256
 #, kde-format
@@ -5296,7 +5296,7 @@ msgstr "डुप्लिकेट क्लिप"
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
-msgstr " (प्रतिलिपि) २."
+msgstr " (प्रतिलिपि)"
 
 #: src/bin/bin.cpp:2373
 #, kde-format
@@ -5679,7 +5679,7 @@ msgstr "%1 सञ्चिकां उद्घाटयितुं न शक
 #: src/bin/bin.cpp:4833 src/dialogs/profilesdialog.cpp:236
 #, kde-format
 msgid "(copy)"
-msgstr "(प्रतिलिपि) २."
+msgstr "(प्रतिलिपि)"
 
 #: src/bin/bin.cpp:4843
 #, kde-format
@@ -6007,7 +6007,7 @@ msgstr "नामः:"
 #: src/bin/mediabrowser.cpp:188
 #, kde-format
 msgid "Filter:"
-msgstr "फ़िल्टर : १."
+msgstr "फ़िल्टर :"
 
 #: src/bin/mediabrowser.cpp:192 src/dialogs/clipcreationdialog.cpp:418
 #, kde-format
@@ -7008,19 +7008,19 @@ msgstr "डेकलिङ्क कैप्चर"
 #: src/dialogs/encodingprofilesdialog.cpp:155
 #, kde-format
 msgid "Profile name:"
-msgstr "प्रोफाइल नाम : १."
+msgstr "प्रोफाइल नाम :"
 
 #: src/dialogs/encodingprofilesdialog.cpp:126
 #: src/dialogs/encodingprofilesdialog.cpp:158
 #, kde-format
 msgid "Parameters:"
-msgstr "मापदण्डः : १."
+msgstr "मापदण्डः :"
 
 #: src/dialogs/encodingprofilesdialog.cpp:129
 #: src/dialogs/encodingprofilesdialog.cpp:161
 #, kde-format
 msgid "File extension:"
-msgstr "सञ्चिकाविस्तारः : १."
+msgstr "सञ्चिकाविस्तारः :"
 
 #: src/dialogs/encodingprofilesdialog.cpp:200
 #, kde-format
@@ -7054,7 +7054,7 @@ msgstr ""
 #: src/project/dialogs/projectsettings.cpp:904
 #, kde-format
 msgid "Automatic (%1)"
-msgstr "स्वचालित (%1) ९."
+msgstr "स्वचालित (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -7327,12 +7327,12 @@ msgstr "Mac OS X इत्यत्र अद्यापि Capture उपल�
 #: src/dialogs/kdenlivesettingsdialog.cpp:438
 #, kde-format
 msgid "Mono (1 channel)"
-msgstr "मोनो (१ चैनल) ९."
+msgstr "मोनो (१ चैनल)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:439
 #, kde-format
 msgid "Stereo (2 channels)"
-msgstr "स्टीरियो (२ चैनल्स्) २."
+msgstr "स्टीरियो (२ चैनल्स्)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:446
 #, kde-format
@@ -7880,7 +7880,7 @@ msgstr "संसाधन %1"
 #: src/dialogs/renderpresetdialog.cpp:88 src/dialogs/renderpresetdialog.cpp:162
 #, kde-format
 msgid "(Not set)"
-msgstr "(न सेट्) २."
+msgstr "(न सेट्)"
 
 #: src/dialogs/renderpresetdialog.cpp:89 src/dialogs/renderpresetdialog.cpp:163
 #, kde-format
@@ -7900,12 +7900,12 @@ msgstr "VBR – चर बिटरेट्"
 #: src/dialogs/renderpresetdialog.cpp:93
 #, kde-format
 msgid "1 (mono)"
-msgstr "१ (एकः) २."
+msgstr "१ (एकः)"
 
 #: src/dialogs/renderpresetdialog.cpp:94
 #, kde-format
 msgid "2 (stereo)"
-msgstr "२ (स्टीरियो) २."
+msgstr "२ (स्टीरियो)"
 
 #: src/dialogs/renderpresetdialog.cpp:95
 #, kde-format
@@ -7978,62 +7978,62 @@ msgstr "प्रतिपादनं निरस्तम्"
 #: src/dialogs/renderwidget.cpp:209
 #, kde-format
 msgid "Nearest (fast)"
-msgstr "समीपस्थः (वेगः) २."
+msgstr "समीपस्थः (वेगः)"
 
 #: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:608
 #, kde-format
 msgid "Bilinear (good)"
-msgstr "द्विरेखीय (उत्तम) २."
+msgstr "द्विरेखीय (उत्तम)"
 
 #: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "Bicubic (better)"
-msgstr "द्विघन (उत्तम) २."
+msgstr "द्विघन (उत्तम)"
 
 #: src/dialogs/renderwidget.cpp:212
 #, kde-format
 msgid "Lanczos (best)"
-msgstr "लान्क्जोस् (सर्वश्रेष्ठ) २."
+msgstr "लान्क्जोस् (सर्वश्रेष्ठ)"
 
 #: src/dialogs/renderwidget.cpp:222
 #, kde-format
 msgid "Horizontal (16:9)"
-msgstr "क्षैतिज (१६:९) २."
+msgstr "क्षैतिज (१६:९)"
 
 #: src/dialogs/renderwidget.cpp:223
 #, kde-format
 msgid "Vertical (9:16)"
-msgstr "ऊर्ध्वाधर (९:१६) २."
+msgstr "ऊर्ध्वाधर (९:१६)"
 
 #: src/dialogs/renderwidget.cpp:224
 #, kde-format
 msgid "Square (1:1)"
-msgstr "वर्ग (१:१) २."
+msgstr "वर्ग (१:१)"
 
 #: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:589
 #, kde-format
 msgid "One Field (fast)"
-msgstr "एकं क्षेत्रम् (वेगम्) २."
+msgstr "एकं क्षेत्रम् (वेगम्)"
 
 #: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:590
 #, kde-format
 msgid "Linear Blend (fast)"
-msgstr "रेखीय मिश्रण (द्रुत) २."
+msgstr "रेखीय मिश्रण (द्रुत)"
 
 #: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:591
 #, kde-format
 msgid "YADIF - temporal only (good)"
-msgstr "यदीफ - लौकिक एव (अच्छा) २."
+msgstr "यदीफ - लौकिक एव (अच्छा)"
 
 #: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "YADIF (better)"
-msgstr "यदीफ (उत्तम) २."
+msgstr "यदीफ (उत्तम)"
 
 #: src/dialogs/renderwidget.cpp:232
 #, kde-format
 msgid "BWDIF (best)"
-msgstr "BWDIF (सर्वश्रेष्ठ) २."
+msgstr "BWDIF (सर्वश्रेष्ठ)"
 
 #: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
@@ -9544,7 +9544,7 @@ msgstr "अस्तु"
 #: src/dialogs/wizard.cpp:92
 #, kde-format
 msgid "Converting old custom effects successful:"
-msgstr "पुरातनं कस्टम् प्रभावं परिवर्तयितुं सफलम् : १."
+msgstr "पुरातनं कस्टम् प्रभावं परिवर्तयितुं सफलम् :"
 
 #: src/dialogs/wizard.cpp:100
 #, kde-format
@@ -9776,7 +9776,7 @@ msgstr "सञ्चिकायाः कृते नूतनं स्था
 #: src/doc/dcresolvedialog.cpp:194
 #, kde-format
 msgid "The project contains:"
-msgstr "परियोजनायां अन्तर्भवन्ति : १."
+msgstr "परियोजनायां अन्तर्भवन्ति :"
 
 #: src/doc/dcresolvedialog.cpp:200
 #, kde-format
@@ -10672,7 +10672,7 @@ msgstr "Save Effect इति"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:581
 #, kde-format
 msgid "Comments:"
-msgstr "टिप्पणियाँ : १."
+msgstr "टिप्पणियाँ :"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:597
 #, kde-format
@@ -10720,7 +10720,7 @@ msgstr "वर्तमान Effect Stack रक्षतु"
 #: src/effects/effectstack/view/effectstackview.cpp:741
 #, kde-format
 msgid "Name for saved stack:"
-msgstr "रक्षितस्य ढेरस्य नाम : १."
+msgstr "रक्षितस्य ढेरस्य नाम :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/effects/effectstack/view/effectstackview.cpp:742
@@ -11293,7 +11293,7 @@ msgstr "लेआउट् रक्षतु"
 #: src/layoutmanagement.cpp:279
 #, kde-format
 msgid "Layout name:"
-msgstr "विन्यासनाम : १."
+msgstr "विन्यासनाम :"
 
 #: src/layoutmanagement.cpp:297
 #, kde-format
@@ -11393,7 +11393,7 @@ msgstr "विलीनाः धाराः"
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%प% ९."
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:195 src/library/librarywidget.cpp:523
 #, kde-format
@@ -12321,7 +12321,7 @@ msgstr "OpenGL"
 #: src/mainwindow.cpp:1395
 #, kde-format
 msgid "DirectX (ANGLE)"
-msgstr "प्रत्यक्षX (ANGLE) ९."
+msgstr "प्रत्यक्षX (ANGLE)"
 
 #: src/mainwindow.cpp:1400
 #, kde-format
@@ -12436,7 +12436,7 @@ msgstr "मॉनिटर ओवरले क्लिप जॉब्स"
 #: src/mainwindow.cpp:1495
 #, kde-format
 msgid "Full Resolution (1:1)"
-msgstr "पूर्ण संकल्प (१:१) २."
+msgstr "पूर्ण संकल्प (१:१)"
 
 #: src/mainwindow.cpp:1499 src/monitor/monitor.cpp:236
 #, kde-format
@@ -12461,7 +12461,7 @@ msgstr "२७०पृष्ठम्"
 #: src/mainwindow.cpp:1542
 #, kde-format
 msgid "Real Time (drop frames)"
-msgstr "वास्तविकसमय (ड्रॉप फ्रेम्स) २."
+msgstr "वास्तविकसमय (ड्रॉप फ्रेम्स)"
 
 #: src/mainwindow.cpp:1548
 #, kde-format
@@ -12471,12 +12471,12 @@ msgstr "गामा निरीक्षक"
 #: src/mainwindow.cpp:1549
 #, kde-format
 msgid "sRGB (computer)"
-msgstr "sRGB (कम्प्यूटर) २."
+msgstr "sRGB (कम्प्यूटर)"
 
 #: src/mainwindow.cpp:1550
 #, kde-format
 msgid "Rec. 709 (TV)"
-msgstr "Rec. ७०९ (टीवी) ९."
+msgstr "Rec. ७०९ (टीवी)"
 
 #: src/mainwindow.cpp:1556
 #, kde-format
@@ -13473,22 +13473,22 @@ msgstr "मूलभूतम्‌"
 #: src/mainwindow.cpp:4321 src/mainwindow.cpp:4349
 #, kde-format
 msgid "Small (%1x%2)"
-msgstr "लघु (%1x%2) २."
+msgstr "लघु (%1x%2)"
 
 #: src/mainwindow.cpp:4323 src/mainwindow.cpp:4351
 #, kde-format
 msgid "Medium (%1x%2)"
-msgstr "मध्यम (%1x%2) २."
+msgstr "मध्यम (%1x%2)"
 
 #: src/mainwindow.cpp:4325 src/mainwindow.cpp:4353
 #, kde-format
 msgid "Large (%1x%2)"
-msgstr "बृहत् (%1x%2) २."
+msgstr "बृहत् (%1x%2)"
 
 #: src/mainwindow.cpp:4327 src/mainwindow.cpp:4355
 #, kde-format
 msgid "Huge (%1x%2)"
-msgstr "विशाल (%1x%2) २."
+msgstr "विशाल (%1x%2)"
 
 #: src/mainwindow.cpp:4411
 #, kde-format
@@ -13614,7 +13614,7 @@ msgstr "आचरतु"
 #: src/mltcontroller/clippropertiescontroller.cpp:374
 #, kde-format
 msgid "Aspect ratio:"
-msgstr "आस्पेक्ट रेश्यो : १."
+msgstr "आस्पेक्ट रेश्यो :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:485
 #, kde-format
@@ -13651,7 +13651,7 @@ msgstr "सञ्चिकास्थानं क्लिप्बोर्�
 #: src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
-msgstr "फ्रेम दरः : १."
+msgstr "फ्रेम दरः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
@@ -13661,7 +13661,7 @@ msgstr "फ्रेम दरः : १."
 #: src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
-msgstr "स्कैनिङ्ग : १."
+msgstr "स्कैनिङ्ग :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
@@ -13679,7 +13679,7 @@ msgstr "अन्तरालम्"
 #: src/ui/profiledialog_ui.ui:217
 #, kde-format
 msgid "Field order:"
-msgstr "क्षेत्रक्रमः : १."
+msgstr "क्षेत्रक्रमः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:587
 #, kde-format
@@ -13741,7 +13741,7 @@ msgstr "सामान्यं कुरुत"
 #: src/mltcontroller/clippropertiescontroller.cpp:900
 #, kde-format
 msgid "Copy channel:"
-msgstr "प्रतिलिपि चैनलः : १."
+msgstr "प्रतिलिपि चैनलः :"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
@@ -13766,7 +13766,7 @@ msgstr "प्राप्ति:"
 #: src/mltcontroller/clippropertiescontroller.cpp:958
 #, kde-format
 msgid "Audio sync:"
-msgstr "श्रव्यसमन्वयः : १."
+msgstr "श्रव्यसमन्वयः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:960
 #, kde-format
@@ -13776,22 +13776,22 @@ msgstr "ms"
 #: src/mltcontroller/clippropertiescontroller.cpp:979
 #, kde-format
 msgid "Color space:"
-msgstr "वर्णस्थानम् : १."
+msgstr "वर्णस्थानम् :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1016
 #, kde-format
 msgid "Color range:"
-msgstr "वर्णपरिधिः : १."
+msgstr "वर्णपरिधिः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1025
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr "प्रसारण सीमित (MPEG) ९."
+msgstr "प्रसारण सीमित (MPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1026
 #, kde-format
 msgid "Full (JPEG)"
-msgstr "पूर्ण (JPEG) ९."
+msgstr "पूर्ण (JPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1043
 #, kde-format
@@ -13856,37 +13856,37 @@ msgstr "विश्लेषणदत्तांशं प्रदर्श�
 #: src/mltcontroller/clippropertiescontroller.cpp:1483
 #, kde-format
 msgid "Tracks:"
-msgstr "पङ्क्तयः : १."
+msgstr "पङ्क्तयः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
 #, kde-format
 msgid "Image size:"
-msgstr "चित्रस्य आकारः : १."
+msgstr "चित्रस्य आकारः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1377
 #, kde-format
 msgid "Image duration:"
-msgstr "चित्रस्य अवधिः : १."
+msgstr "चित्रस्य अवधिः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1384
 #, kde-format
 msgid "Image count:"
-msgstr "चित्रगणना : १."
+msgstr "चित्रगणना :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1411
 #, kde-format
 msgid "Video codec:"
-msgstr "विडियो कोडेक : १."
+msgstr "विडियो कोडेक :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1415
 #, kde-format
 msgid "Frame size:"
-msgstr "फ्रेम आकारः : १."
+msgstr "फ्रेम आकारः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1431
 #, kde-format
 msgid "Video bitrate:"
-msgstr "विडियो बिटरेट् : १."
+msgstr "विडियो बिटरेट् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
@@ -13894,12 +13894,12 @@ msgstr "विडियो बिटरेट् : १."
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
-msgstr "पिक्सेल आस्पेक्ट रेश्यो : १."
+msgstr "पिक्सेल आस्पेक्ट रेश्यो :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1449
 #, kde-format
 msgid "Pixel format:"
-msgstr "पिक्सेल प्रारूपः : १."
+msgstr "पिक्सेल प्रारूपः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
@@ -13907,12 +13907,12 @@ msgstr "पिक्सेल प्रारूपः : १."
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
-msgstr "वर्णस्थानम् : १."
+msgstr "वर्णस्थानम् :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1455
 #, kde-format
 msgid "B frames:"
-msgstr "ख फ्रेम्स : १."
+msgstr "ख फ्रेम्स :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1455
 #, kde-format
@@ -13927,24 +13927,24 @@ msgstr "नहि"
 #: src/mltcontroller/clippropertiescontroller.cpp:1458
 #, kde-format
 msgid "Audio streams:"
-msgstr "श्रव्यप्रवाहाः : १."
+msgstr "श्रव्यप्रवाहाः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1464
 #, kde-format
 msgid "Audio codec:"
-msgstr "श्रव्यकोडेक् : १."
+msgstr "श्रव्यकोडेक् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
 #: src/mltcontroller/clippropertiescontroller.cpp:1468
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
-msgstr "श्रव्यचैनलः : १."
+msgstr "श्रव्यचैनलः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1472
 #, kde-format
 msgid "Audio frequency:"
-msgstr "श्रव्य आवृत्तिः : १."
+msgstr "श्रव्य आवृत्तिः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1472
 #, kde-format
@@ -13955,12 +13955,12 @@ msgstr "हर्ट्ज"
 #: src/mltcontroller/clippropertiescontroller.cpp:1477
 #, kde-format
 msgid "Audio bitrate:"
-msgstr "श्रव्य बिटरेट् : १."
+msgstr "श्रव्य बिटरेट् :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1497
 #, kde-format
 msgid "File size:"
-msgstr "सञ्चिकायाः आकारः : १."
+msgstr "सञ्चिकायाः आकारः :"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1519
 #: src/mltcontroller/clippropertiescontroller.cpp:1551
@@ -13986,7 +13986,7 @@ msgstr "विश्लेषणदत्तांशं रक्षन्त�
 #: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Text File (*.txt)"
-msgstr "पाठसञ्चिका (*.txt) २."
+msgstr "पाठसञ्चिका (*.txt)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1684
 #, kde-format
@@ -14002,7 +14002,7 @@ msgstr "श्रव्य मात्रा"
 #: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
 #, kde-format
 msgid "%1%"
-msgstr "%1% २."
+msgstr "%1%"
 
 #: src/monitor/monitor.cpp:232
 #, kde-format
@@ -14085,12 +14085,12 @@ msgstr "बल निरीक्षक आकार"
 #: src/monitor/monitor.cpp:434
 #, kde-format
 msgid "Force 100%"
-msgstr "बलं १००% २."
+msgstr "बलं १००%"
 
 #: src/monitor/monitor.cpp:436
 #, kde-format
 msgid "Force 50%"
-msgstr "बलम् ५०% ९."
+msgstr "बलम् ५०%"
 
 #: src/monitor/monitor.cpp:438
 #, kde-format
@@ -14327,7 +14327,7 @@ msgstr "Deinterlacer"
 #: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
-msgstr "YADIF - लौकिक + स्थानिक (सर्वश्रेष्ठ) २."
+msgstr "YADIF - लौकिक + स्थानिक (सर्वश्रेष्ठ)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/monitor/monitormanager.cpp:606 src/ui/renderwidget_ui.ui:598
@@ -14338,12 +14338,12 @@ msgstr "प्रक्षेपः"
 #: src/monitor/monitormanager.cpp:607
 #, kde-format
 msgid "Nearest Neighbor (fast)"
-msgstr "समीपस्थः प्रतिवेशी (द्रुत) २."
+msgstr "समीपस्थः प्रतिवेशी (द्रुत)"
 
 #: src/monitor/monitormanager.cpp:610
 #, kde-format
 msgid "Hyper/Lanczos (best)"
-msgstr "हाइपर/लान्क्जोस् (सर्वश्रेष्ठ) २."
+msgstr "हाइपर/लान्क्जोस् (सर्वश्रेष्ठ)"
 
 #: src/monitor/monitormanager.cpp:624
 #, kde-format
@@ -14977,7 +14977,7 @@ msgstr "परियोजनारूपरेखा अमान्यम् (
 #: src/profiles/tree/profiletreemodel.cpp:46
 #, kde-format
 msgid "5K (Wide 2160)"
-msgstr "५ के (विस्तार २१६०) २."
+msgstr "५ के (विस्तार २१६०)"
 
 #: src/profiles/tree/profiletreemodel.cpp:47
 #, kde-format
@@ -15124,8 +15124,8 @@ msgstr[1] "भवतः परियोजनायां %1 अनुपलब�
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
-msgstr[0] "(%1 मद) २."
-msgstr[1] "(%1 द्रव्यम्) २."
+msgstr[0] "(%1 मद)"
+msgstr[1] "(%1 द्रव्यम्)"
 
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/dialogs/archivewidget.cpp:1358
@@ -16434,7 +16434,7 @@ msgstr "कृपया स्वस्य सेटअप अपडेट् �
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "अनुपलब्धः (वैकल्पिकः) २."
+msgstr "अनुपलब्धः (वैकल्पिकः)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:490
 #, kde-format
@@ -17015,7 +17015,7 @@ msgstr "स्वतः ताजगी"
 #: src/scopes/abstractscopewidget.cpp:68
 #, kde-format
 msgid "Realtime (with precision loss)"
-msgstr "वास्तविकसमय (सटीकताहानिसहितम्) २."
+msgstr "वास्तविकसमय (सटीकताहानिसहितम्)"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:54
 #: src/scopes/audioscopes/spectrogram.cpp:45
@@ -19005,7 +19005,7 @@ msgstr "सीमावर्णं चिनोतु"
 #: src/titler/titlewidget.cpp:363
 #, kde-format
 msgid "Original size (1:1)"
-msgstr "मूल आकार (१:१) २."
+msgstr "मूल आकार (१:१)"
 
 #: src/titler/titlewidget.cpp:364
 #, kde-format
@@ -19242,7 +19242,7 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:147
 #, kde-format
 msgid "Line Feed (newline character, \\\\n)"
-msgstr "रेखा फीड (नवीनरेखा वर्ण, \\\\n) २."
+msgstr "रेखा फीड (नवीनरेखा वर्ण, \\\\n)"
 
 #: src/titler/unicodedialog.cpp:149
 #, kde-format
@@ -19280,12 +19280,12 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:159
 #, kde-format
 msgid "En Space (width of an n)"
-msgstr "En Space (एकस्य n इत्यस्य विस्तारः) २."
+msgstr "En Space (एकस्य n इत्यस्य विस्तारः)"
 
 #: src/titler/unicodedialog.cpp:161
 #, kde-format
 msgid "Em Space (width of an m)"
-msgstr "Em Space (एक मी विस्तार) २."
+msgstr "Em Space (एक मी विस्तार)"
 
 #: src/titler/unicodedialog.cpp:163
 #, kde-format
@@ -19485,7 +19485,7 @@ msgstr "पृष्ठभूमि"
 #: src/transitions/view/transitionstackview.cpp:61
 #, kde-format
 msgid "Composition track:"
-msgstr "रचना पटलः : १."
+msgstr "रचना पटलः :"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
 #: src/ui/addtrack_ui.ui:22
@@ -19503,7 +19503,7 @@ msgstr "अधः"
 #: src/ui/addtrack_ui.ui:50
 #, kde-format
 msgid "Track name:"
-msgstr "पटलस्य नाम : १."
+msgstr "पटलस्य नाम :"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
 #: src/ui/addtrack_ui.ui:62
@@ -19545,13 +19545,13 @@ msgstr "ऑडियो&डियो रिकार्ड ट्रैक"
 #: src/ui/archivewidget_ui.ui:33
 #, kde-format
 msgid "Archive folder:"
-msgstr "संग्रहपुटम् : १."
+msgstr "संग्रहपुटम् :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compressed_archive)
 #: src/ui/archivewidget_ui.ui:52
 #, kde-format
 msgid "Compressed archive:"
-msgstr "संपीडित संग्रहः : १."
+msgstr "संपीडित संग्रहः :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:60
@@ -19584,7 +19584,7 @@ msgstr "केवलं समयरेखाक्लिप्स संग्�
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:59
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%प% ९."
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -19813,13 +19813,13 @@ msgstr "सर्वेषु वस्तूनि अवधिं प्रय
 #: src/ui/clipdurationdialog_ui.ui:41
 #, kde-format
 msgid "Crop start:"
-msgstr "सस्यस्य आरम्भः : १."
+msgstr "सस्यस्य आरम्भः :"
 
 #. i18n: ectx: property (text), widget (QLabel, end_label)
 #: src/ui/clipdurationdialog_ui.ui:98
 #, kde-format
 msgid "Crop end:"
-msgstr "सस्यान्तः : १."
+msgstr "सस्यान्तः :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
@@ -20040,7 +20040,7 @@ msgstr "परियोजनायां क्लिप् योजयन्�
 #: src/ui/colorclip_ui.ui:34
 #, kde-format
 msgid "Clip color:"
-msgstr "क्लिप् वर्णः : १."
+msgstr "क्लिप् वर्णः :"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ColorPlaneExport_UI)
 #: src/ui/colorplaneexport_ui.ui:18
@@ -20101,19 +20101,19 @@ msgstr "विडियो कैप्चर (Video4Linux2) ."
 #: src/ui/configcapture_ui.ui:74 src/ui/configcapture_ui.ui:472
 #, kde-format
 msgid "Detected devices:"
-msgstr "ज्ञातानि यन्त्राणि : १."
+msgstr "ज्ञातानि यन्त्राणि :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:84
 #, kde-format
 msgid "Video device:"
-msgstr "विडियो यन्त्रम् : १."
+msgstr "विडियो यन्त्रम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configcapture_ui.ui:98
 #, kde-format
 msgid "Capture format:"
-msgstr "कैप्चर प्रारूपः : १."
+msgstr "कैप्चर प्रारूपः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -20145,7 +20145,7 @@ msgstr "५९/५४ इति"
 #: src/ui/configcapture_ui.ui:150 src/ui/profiledialog_ui.ui:297
 #, kde-format
 msgid "Display aspect ratio:"
-msgstr "आस्पेक्ट रेश्यो प्रदर्शयन्तु : १."
+msgstr "आस्पेक्ट रेश्यो प्रदर्शयन्तु :"
 
 #. i18n: ectx: property (text), widget (QLabel, p_display)
 #: src/ui/configcapture_ui.ui:157
@@ -20173,7 +20173,7 @@ msgstr "श्रव्यं गृहीतुं (ALSA) ."
 #: src/ui/editrenderpreset_ui.ui:840
 #, kde-format
 msgid "Channels:"
-msgstr "चैनल्स् : १."
+msgstr "चैनल्स् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
@@ -20183,13 +20183,13 @@ msgstr "चैनल्स् : १."
 #: src/ui/projectsettings_ui.ui:277
 #, kde-format
 msgid "Encoding profile:"
-msgstr "प्रोफाइल एन्कोडिंग् : १."
+msgstr "प्रोफाइल एन्कोडिंग् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:269
 #, kde-format
 msgid "Region to capture:"
-msgstr "गृहीतुं क्षेत्रम् : १."
+msgstr "गृहीतुं क्षेत्रम् :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:277
@@ -20228,7 +20228,7 @@ msgstr "आकृति"
 #: src/ui/configcapture_ui.ui:412
 #, kde-format
 msgid "Mouse cursor:"
-msgstr "मूषकस्य कर्सरः : १."
+msgstr "मूषकस्य कर्सरः :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:466
@@ -20240,7 +20240,7 @@ msgstr "ब्लैकमैजिक"
 #: src/ui/configcapture_ui.ui:509
 #, kde-format
 msgid "Capture file name:"
-msgstr "सञ्चिकानाम ग्रहणं कुर्वन्तु : १."
+msgstr "सञ्चिकानाम ग्रहणं कुर्वन्तु :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -20255,13 +20255,13 @@ msgstr "उपकरणम्‌:"
 #: src/ui/configcapture_ui.ui:549
 #, kde-format
 msgid "Capture volume:"
-msgstr "कैप्चर आयतन : १."
+msgstr "कैप्चर आयतन :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configcapture_ui.ui:591
 #, kde-format
 msgid "Sample rate:"
-msgstr "नमूना दरः : १."
+msgstr "नमूना दरः :"
 
 #. i18n: ectx: property (text), widget (QLabel, labelNoAudioDevices)
 #: src/ui/configcapture_ui.ui:619
@@ -20279,7 +20279,7 @@ msgstr "रिकार्ड् करणात् पूर्वं उल्
 #: src/ui/configcolors_ui.ui:21
 #, kde-format
 msgid "Audio thumbnail colors:"
-msgstr "श्रव्यलघुचित्रवर्णाः : १."
+msgstr "श्रव्यलघुचित्रवर्णाः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
@@ -20291,7 +20291,7 @@ msgstr "मॉनिटर ओवरले वर्ण: 1।"
 #: src/ui/configcolors_ui.ui:48
 #, kde-format
 msgid "Monitor background color:"
-msgstr "पृष्ठभूमिवर्णः निरीक्षकः : १."
+msgstr "पृष्ठभूमिवर्णः निरीक्षकः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
@@ -20315,7 +20315,7 @@ msgstr "प्रॉक्सी तथा ट्रांसकोड् का
 #: src/ui/configenv_ui.ui:59
 #, kde-format
 msgid "Concurrent threads:"
-msgstr "समवर्ती सूत्राः : १."
+msgstr "समवर्ती सूत्राः :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configenv_ui.ui:69
@@ -20365,31 +20365,31 @@ msgstr "FFmpeg: ."
 #: src/ui/configenv_ui.ui:138
 #, kde-format
 msgid "FFplay:"
-msgstr "एफएफप्ले : १."
+msgstr "एफएफप्ले :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configenv_ui.ui:148
 #, kde-format
 msgid "FFprobe:"
-msgstr "एफएफप्रोबः : १."
+msgstr "एफएफप्रोबः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configenv_ui.ui:158
 #, kde-format
 msgid "MLT profiles folder:"
-msgstr "MLT profiles पुटम् : १."
+msgstr "MLT profiles पुटम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configenv_ui.ui:168
 #, kde-format
 msgid "Melt path:"
-msgstr "द्रवणमार्गः १."
+msgstr "द्रवणमार्गः"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configenv_ui.ui:178
 #, kde-format
 msgid "MediaInfo:"
-msgstr "मीडियाइन्फो : १."
+msgstr "मीडियाइन्फो :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configenv_ui.ui:202
@@ -20401,13 +20401,13 @@ msgstr "पूर्वनिर्धारितपुटम्"
 #: src/ui/configenv_ui.ui:208
 #, kde-format
 msgid "Temporary files:"
-msgstr "अस्थायी सञ्चिकाः : १."
+msgstr "अस्थायी सञ्चिकाः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configenv_ui.ui:218
 #, kde-format
 msgid "Capture folder:"
-msgstr "कैप्चर फोल्डर् : १."
+msgstr "कैप्चर फोल्डर् :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
@@ -20448,7 +20448,7 @@ msgstr "परियोजनापुटस्य उपपुटम्"
 #: src/ui/configenv_ui.ui:263
 #, kde-format
 msgid "Library folder:"
-msgstr "पुस्तकालयस्य पुटम् : १."
+msgstr "पुस्तकालयस्य पुटम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configenv_ui.ui:280
@@ -20484,7 +20484,7 @@ msgstr "पूर्वनिर्धारित एप्स"
 #: src/ui/configenv_ui.ui:406
 #, kde-format
 msgid "Image editing:"
-msgstr "चित्रसम्पादनम् : १."
+msgstr "चित्रसम्पादनम् :"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
 #: src/ui/configenv_ui.ui:415
@@ -20511,7 +20511,7 @@ msgstr "श्रव्यसम्पादन अनुप्रयोगस�
 #: src/ui/configenv_ui.ui:455
 #, kde-format
 msgid "Audio editing:"
-msgstr "श्रव्यसम्पादनम् : १."
+msgstr "श्रव्यसम्पादनम् :"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
 #: src/ui/configenv_ui.ui:464
@@ -20523,7 +20523,7 @@ msgstr "Glaxnimate कार्यान्वयनीयस्य मार्
 #: src/ui/configenv_ui.ui:480
 #, kde-format
 msgid "Animation editing:"
-msgstr "एनिमेशन सम्पादनम् : १."
+msgstr "एनिमेशन सम्पादनम् :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/configenv_ui.ui:501
@@ -20595,7 +20595,7 @@ msgstr "बटनम् ४"
 #: src/ui/configjogshuttle_ui.ui:187
 #, kde-format
 msgid "Device name:"
-msgstr "यन्त्रनाम : १."
+msgstr "यन्त्रनाम :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configjogshuttle_ui.ui:200
@@ -20661,7 +20661,7 @@ msgstr "बटनम् १२"
 #: src/ui/configmisc_ui.ui:21
 #, kde-format
 msgid "Project file:"
-msgstr "परियोजनासञ्चिका : १."
+msgstr "परियोजनासञ्चिका :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:28
@@ -20679,7 +20679,7 @@ msgstr "दुर्घटना पुनर्प्राप्ति सक�
 #: src/ui/configmisc_ui.ui:49
 #, kde-format
 msgid "Clip import:"
-msgstr "क्लिप् आयातः : १."
+msgstr "क्लिप् आयातः :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:56
@@ -20739,13 +20739,13 @@ msgstr "यदा प्रभावः अक्षमः भवति तद�
 #: src/ui/configmisc_ui.ui:130
 #, kde-format
 msgid "Tab position:"
-msgstr "ट्याब् स्थितिः : १."
+msgstr "ट्याब् स्थितिः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configmisc_ui.ui:168
 #, kde-format
 msgid "Preferred track compositing composition:"
-msgstr "पसंदीदा ट्रैक कम्पोजिटिंग रचना : १."
+msgstr "पसंदीदा ट्रैक कम्पोजिटिंग रचना :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configmisc_ui.ui:178
@@ -20757,49 +20757,49 @@ msgstr "पूर्वनिर्धारित अवधिः"
 #: src/ui/configmisc_ui.ui:184
 #, kde-format
 msgid "Color clips:"
-msgstr "रङ्गक्लिप्स् : १."
+msgstr "रङ्गक्लिप्स् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configmisc_ui.ui:191
 #, kde-format
 msgid "Title clips:"
-msgstr "शीर्षक क्लिप्स् : १."
+msgstr "शीर्षक क्लिप्स् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:198
 #, kde-format
 msgid "Transitions:"
-msgstr "संक्रमणानि : १."
+msgstr "संक्रमणानि :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configmisc_ui.ui:208
 #, kde-format
 msgid "Image clips:"
-msgstr "चित्रक्लिप्स् : १."
+msgstr "चित्रक्लिप्स् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configmisc_ui.ui:218
 #, kde-format
 msgid "Fades:"
-msgstr "फीका भवति : १."
+msgstr "फीका भवति :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configmisc_ui.ui:228
 #, kde-format
 msgid "Image sequence:"
-msgstr "चित्रक्रमः : १."
+msgstr "चित्रक्रमः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configmisc_ui.ui:244
 #, kde-format
 msgid "Mixes:"
-msgstr "मिश्रणम् : १."
+msgstr "मिश्रणम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configmisc_ui.ui:257
 #, kde-format
 msgid "Subtitles:"
-msgstr "उपशीर्षकम् : १."
+msgstr "उपशीर्षकम् :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
@@ -20822,7 +20822,7 @@ msgstr ""
 #: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:53
 #, kde-format
 msgid "Project folder:"
-msgstr "परियोजनापुटम् : १."
+msgstr "परियोजनापुटम् :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:58
@@ -20841,20 +20841,20 @@ msgstr "कस्टम् प्रोजेक्ट् फोल्डर्:
 #: src/ui/projectsettings_ui.ui:114
 #, kde-format
 msgid "Video tracks:"
-msgstr "विडियो पङ्क्तयः : १."
+msgstr "विडियो पङ्क्तयः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_tracks)
 #: src/ui/configproject_ui.ui:107 src/ui/newtimeline_ui.ui:60
 #: src/ui/projectsettings_ui.ui:124
 #, kde-format
 msgid "Audio tracks:"
-msgstr "श्रव्यपट्टिकाः : १."
+msgstr "श्रव्यपट्टिकाः :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
 #: src/ui/configproject_ui.ui:125
 #, kde-format
 msgid "2 channels (stereo)"
-msgstr "२ चैनल्स् (स्टीरियो) २."
+msgstr "२ चैनल्स् (स्टीरियो)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
 #: src/ui/configproject_ui.ui:130
@@ -20872,7 +20872,7 @@ msgstr "६ चैनल्स्"
 #: src/ui/configproject_ui.ui:149
 #, kde-format
 msgid "Timeline Preview profile:"
-msgstr "समयरेखा पूर्वावलोकनरूपरेखा : १."
+msgstr "समयरेखा पूर्वावलोकनरूपरेखा :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:41
@@ -20921,7 +20921,7 @@ msgstr "प्रॉक्सी इमेज आकार"
 #: src/ui/configproxy_ui.ui:189 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
-msgstr "बाह्य प्रॉक्सी क्लिप्स् : १."
+msgstr "बाह्य प्रॉक्सी क्लिप्स् :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
@@ -20971,19 +20971,19 @@ msgstr "सक्षमम् - प्रयोक्तुं Kdenlive पु�
 #: src/ui/configsdl_ui.ui:86
 #, kde-format
 msgid "Audio Backend:"
-msgstr "श्रव्यपृष्ठभागः : १."
+msgstr "श्रव्यपृष्ठभागः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
 #: src/ui/configsdl_ui.ui:102
 #, kde-format
 msgid "Audio driver:"
-msgstr "श्रव्यचालकः : १."
+msgstr "श्रव्यचालकः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_device)
 #: src/ui/configsdl_ui.ui:115
 #, kde-format
 msgid "Audio device:"
-msgstr "श्रव्ययन्त्रम् : १."
+msgstr "श्रव्ययन्त्रम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:135
@@ -20995,7 +20995,7 @@ msgstr "बाह्यप्रदर्शनम् (Blackmagic card): ."
 #: src/ui/configsdl_ui.ui:149
 #, kde-format
 msgid "Output device:"
-msgstr "निर्गमयन्त्रम् : १."
+msgstr "निर्गमयन्त्रम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configspeech_ui.ui:45
@@ -21086,7 +21086,7 @@ msgstr "विन्यासं पश्यन्तु"
 #: src/ui/configtimeline_ui.ui:21 src/ui/projectsettings_ui.ui:166
 #, kde-format
 msgid "Thumbnails:"
-msgstr "लघुचित्रम् : १."
+msgstr "लघुचित्रम् :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:28
@@ -21110,7 +21110,7 @@ msgstr "पृथक् श्रव्यचैनल"
 #: src/ui/configtimeline_ui.ui:59
 #, kde-format
 msgid "Playback and Seeking:"
-msgstr "प्लेबैक तथा अन्वेषणम् : १."
+msgstr "प्लेबैक तथा अन्वेषणम् :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:66
@@ -21134,7 +21134,7 @@ msgstr "प्रभावं योजयन्ते सति क्लिप
 #: src/ui/configtimeline_ui.ui:94
 #, kde-format
 msgid "Scrolling:"
-msgstr "स्क्रॉल करणम् : १."
+msgstr "स्क्रॉल करणम् :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:101
@@ -21159,7 +21159,7 @@ msgstr "क्लिप मार्कर टिप्पणी प्रदर
 #: src/ui/configtimeline_ui.ui:129
 #, kde-format
 msgid "Default track height:"
-msgstr "पूर्वनिर्धारितं पटलस्य ऊर्ध्वता : १."
+msgstr "पूर्वनिर्धारितं पटलस्य ऊर्ध्वता :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:149
@@ -21213,7 +21213,7 @@ msgstr "परियोजनायां पर्याप्ताः पट�
 #: src/ui/configtools_ui.ui:27
 #, kde-format
 msgid "When cutting subtitles:"
-msgstr "उपशीर्षकाणां कटने : १."
+msgstr "उपशीर्षकाणां कटने :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:41
@@ -21268,37 +21268,37 @@ msgstr "प्रोफाइल विलोपयन्तु"
 #: src/ui/customcamcorderproxy_ui.ui:34 src/ui/projectsettings_ui.ui:387
 #, kde-format
 msgid "Relative path from clip to proxy:"
-msgstr "क्लिप् तः प्रॉक्सीपर्यन्तं सापेक्षमार्गः : १."
+msgstr "क्लिप् तः प्रॉक्सीपर्यन्तं सापेक्षमार्गः :"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_clip)
 #: src/ui/customcamcorderproxy_ui.ui:44 src/ui/projectsettings_ui.ui:380
 #, kde-format
 msgid "Prefix of clip:"
-msgstr "क्लिप् इत्यस्य उपसर्गः : १."
+msgstr "क्लिप् इत्यस्य उपसर्गः :"
 
 #. i18n: ectx: property (text), widget (QLabel, l_suffix_clip)
 #: src/ui/customcamcorderproxy_ui.ui:54 src/ui/projectsettings_ui.ui:363
 #, kde-format
 msgid "Suffix of clip:"
-msgstr "क्लिप् इत्यस्य प्रत्ययः : १."
+msgstr "क्लिप् इत्यस्य प्रत्ययः :"
 
 #. i18n: ectx: property (text), widget (QLabel, l_relPathProxyToOrig)
 #: src/ui/customcamcorderproxy_ui.ui:64 src/ui/projectsettings_ui.ui:346
 #, kde-format
 msgid "Relative path from proxy to clip:"
-msgstr "प्रॉक्सीतः क्लिप्पर्यन्तं सापेक्षमार्गः : १."
+msgstr "प्रॉक्सीतः क्लिप्पर्यन्तं सापेक्षमार्गः :"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
 #: src/ui/customcamcorderproxy_ui.ui:74 src/ui/projectsettings_ui.ui:329
 #, kde-format
 msgid "Prefix of proxy:"
-msgstr "प्रॉक्सी इत्यस्य उपसर्गः : १."
+msgstr "प्रॉक्सी इत्यस्य उपसर्गः :"
 
 #. i18n: ectx: property (text), widget (QLabel, l_suffix_proxy)
 #: src/ui/customcamcorderproxy_ui.ui:84 src/ui/projectsettings_ui.ui:312
 #, kde-format
 msgid "Suffix of proxy:"
-msgstr "प्रॉक्सी इत्यस्य प्रत्ययः : १."
+msgstr "प्रॉक्सी इत्यस्य प्रत्ययः :"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
@@ -21353,32 +21353,32 @@ msgstr "समूह:"
 #: src/ui/editrenderpreset_ui.ui:52
 #, kde-format
 msgid "Preset name:"
-msgstr "पूर्वनिर्धारित नाम : १."
+msgstr "पूर्वनिर्धारित नाम :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_container)
 #: src/ui/editrenderpreset_ui.ui:72
 #, kde-format
 msgid "Container:"
-msgstr "पात्रम् : १."
+msgstr "पात्रम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/editrenderpreset_ui.ui:188 src/ui/editrenderpreset_ui.ui:860
 #, kde-format
 msgid "Codec:"
-msgstr "कोडेक : १."
+msgstr "कोडेक :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cDar)
 #: src/ui/editrenderpreset_ui.ui:234
 #, kde-format
 msgid "Display Aspect Ratio:"
-msgstr "आस्पेक्ट रेश्यो प्रदर्शयतु : १."
+msgstr "आस्पेक्ट रेश्यो प्रदर्शयतु :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cPar)
 #: src/ui/editrenderpreset_ui.ui:257
 #, kde-format
 msgid "Pixel Aspect Ratio:"
-msgstr "पिक्सेल आस्पेक्ट रेशियो : १."
+msgstr "पिक्सेल आस्पेक्ट रेशियो :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
@@ -21398,7 +21398,7 @@ msgstr "शीर्षक्षेत्रं प्रथमं"
 #: src/ui/editrenderpreset_ui.ui:296
 #, kde-format
 msgid "Field Order:"
-msgstr "क्षेत्रक्रमः : १."
+msgstr "क्षेत्रक्रमः :"
 
 #. i18n: ectx: property (text), widget (QLabel, vquality_label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
@@ -21434,27 +21434,27 @@ msgstr "k"
 #: src/ui/editrenderpreset_ui.ui:592
 #, kde-format
 msgid "Frame Rate:"
-msgstr "फ्रेम दरः : १."
+msgstr "फ्रेम दरः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/editrenderpreset_ui.ui:599
 #, kde-format
 msgid "Fields per Second:"
-msgstr "प्रति सेकण्ड् क्षेत्राणि : १."
+msgstr "प्रति सेकण्ड् क्षेत्राणि :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/editrenderpreset_ui.ui:713 src/ui/editrenderpreset_ui.ui:968
 #, kde-format
 msgid "Bitrate:"
-msgstr "बिट्रेट् : १."
+msgstr "बिट्रेट् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/editrenderpreset_ui.ui:720 src/ui/editrenderpreset_ui.ui:958
 #, kde-format
 msgid "Rate Control:"
-msgstr "दरनियन्त्रणम् : १."
+msgstr "दरनियन्त्रणम् :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
 #: src/ui/editrenderpreset_ui.ui:746
@@ -21472,19 +21472,19 @@ msgstr "GOP = चित्रसमूहः"
 #: src/ui/editrenderpreset_ui.ui:756
 #, kde-format
 msgid "GOP:"
-msgstr "जीओपी : १."
+msgstr "जीओपी :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/editrenderpreset_ui.ui:792
 #, kde-format
 msgid "Buffer Size:"
-msgstr "बफर आकारः : १."
+msgstr "बफर आकारः :"
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
 #: src/ui/editrenderpreset_ui.ui:799
 #, kde-format
 msgid "B Frames:"
-msgstr "ख फ्रेम्स : १."
+msgstr "ख फ्रेम्स :"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, vBuffer)
 #: src/ui/editrenderpreset_ui.ui:815
@@ -21496,7 +21496,7 @@ msgstr " किब"
 #: src/ui/editrenderpreset_ui.ui:870
 #, kde-format
 msgid "Sample Rate:"
-msgstr "नमूना दरः : १."
+msgstr "नमूना दरः :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:902
@@ -21562,7 +21562,7 @@ msgstr "इतर"
 #: src/ui/editrenderpreset_ui.ui:1019
 #, kde-format
 msgid "Speed options:"
-msgstr "गतिविकल्पाः : १."
+msgstr "गतिविकल्पाः :"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, speeds_list)
 #: src/ui/editrenderpreset_ui.ui:1026
@@ -21574,7 +21574,7 @@ msgstr "प्रतिवेगपदे विकल्पानां एक�
 #: src/ui/editrenderpreset_ui.ui:1036
 #, kde-format
 msgid "Additional Parameters:"
-msgstr "अतिरिक्त मापदण्ड : १."
+msgstr "अतिरिक्त मापदण्ड :"
 
 #. i18n: ectx: property (text), widget (QLabel, parametersLabel)
 #: src/ui/editrenderpreset_ui.ui:1056
@@ -21789,13 +21789,13 @@ msgstr "पाठविकल्पाः"
 #: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:919
 #, kde-format
 msgid "Offset:"
-msgstr "ऑफसेट् : १."
+msgstr "ऑफसेट् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/exportguidesdialog_ui.ui:66
 #, kde-format
 msgid "Format:"
-msgstr "प्रारूपः : १."
+msgstr "प्रारूपः :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: src/ui/exportguidesdialog_ui.ui:120
@@ -21819,7 +21819,7 @@ msgstr "घटाये"
 #: src/ui/exportguidesdialog_ui.ui:159
 #, kde-format
 msgid "Marker Type:"
-msgstr "मार्कर प्रकारः : १."
+msgstr "मार्कर प्रकारः :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:189
@@ -21837,7 +21837,7 @@ msgstr "Save As:"
 #: src/ui/exportguidesdialog_ui.ui:216
 #, kde-format
 msgid "Exported:"
-msgstr "निर्यातितम् : १."
+msgstr "निर्यातितम् :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
 #: src/ui/exportguidesdialog_ui.ui:223
@@ -21880,7 +21880,7 @@ msgstr "अन्वेषण"
 #: src/ui/histogram_ui.ui:31
 #, kde-format
 msgid "Components:"
-msgstr "घटकाः : १."
+msgstr "घटकाः :"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cbS)
 #: src/ui/histogram_ui.ui:38
@@ -21935,7 +21935,7 @@ msgstr "लघुगणकीय"
 #: src/ui/import_subtitle_ui.ui:51
 #, kde-format
 msgid "Subtitle file:"
-msgstr "उपशीर्षकसञ्चिका : १."
+msgstr "उपशीर्षकसञ्चिका :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
@@ -22007,19 +22007,19 @@ msgstr "० ख"
 #: src/ui/managecache_ui.ui:55
 #, kde-format
 msgid "Video thumbnails:"
-msgstr "विडियो लघुचित्रम् : १."
+msgstr "विडियो लघुचित्रम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: src/ui/managecache_ui.ui:121
 #, kde-format
 msgid "Timeline preview:"
-msgstr "समयरेखा पूर्वावलोकनम् : १."
+msgstr "समयरेखा पूर्वावलोकनम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, audioLabel)
 #: src/ui/managecache_ui.ui:199
 #, kde-format
 msgid "Audio thumbnails:"
-msgstr "श्रव्यलघुचित्रम् : १."
+msgstr "श्रव्यलघुचित्रम् :"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentPath)
 #: src/ui/managecache_ui.ui:220
@@ -22037,13 +22037,13 @@ msgstr "<a href='#'>/ घर / उपयोगकर्ता /. cache / kdenliv
 #: src/ui/managecache_ui.ui:237
 #, kde-format
 msgid "Proxy clips:"
-msgstr "प्रॉक्सी क्लिप्स् : १."
+msgstr "प्रॉक्सी क्लिप्स् :"
 
 #. i18n: ectx: property (text), widget (QLabel, currentLabel)
 #: src/ui/managecache_ui.ui:244
 #, kde-format
 msgid "Project total cache data:"
-msgstr "परियोजना कुलसञ्चयदत्तांशः : १."
+msgstr "परियोजना कुलसञ्चयदत्तांशः :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, globalPage)
 #: src/ui/managecache_ui.ui:297
@@ -22073,7 +22073,7 @@ msgstr "दत्तांशं संग्रहयन्तु"
 #: src/ui/managecache_ui.ui:381
 #, kde-format
 msgid "Total cached data:"
-msgstr "कुल संग्रहीतदत्तांशः : १."
+msgstr "कुल संग्रहीतदत्तांशः :"
 
 #. i18n: ectx: property (text), widget (QLabel, gTotalSize)
 #. i18n: ectx: property (text), widget (QLabel, gSelectedSize)
@@ -22089,7 +22089,7 @@ msgstr "गणना कर..."
 #: src/ui/managecache_ui.ui:408
 #, kde-format
 msgid "Selected cached data:"
-msgstr "चयनितः संग्रहीतदत्तांशः : १."
+msgstr "चयनितः संग्रहीतदत्तांशः :"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gClean)
 #: src/ui/managecache_ui.ui:428
@@ -22114,7 +22114,7 @@ msgstr "बैकअप डाटा"
 #: src/ui/managecache_ui.ui:505 src/ui/managecache_ui.ui:602
 #, kde-format
 msgid "Total size:"
-msgstr "कुल आकारः : १."
+msgstr "कुल आकारः :"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gBackupPath)
 #: src/ui/managecache_ui.ui:523
@@ -22381,7 +22381,7 @@ msgstr "अनुपलब्धाः प्रॉक्सी पुनः स
 #: src/ui/missingclips_ui.ui:134
 #, kde-format
 msgid "Selected Items:"
-msgstr "चयनितवस्तूनि : १."
+msgstr "चयनितवस्तूनि :"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:141
@@ -22393,7 +22393,7 @@ msgstr "मैन्युअल् रूपेण अन्वेषणं क
 #: src/ui/missingclips_ui.ui:170
 #, kde-format
 msgid "All Missing Items:"
-msgstr "सर्वाणि लुप्तवस्तूनि : १."
+msgstr "सर्वाणि लुप्तवस्तूनि :"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:177
@@ -22468,7 +22468,7 @@ msgstr ""
 #: src/ui/profiledialog_ui.ui:237
 #, kde-format
 msgid "Fields per second:"
-msgstr "प्रति सेकण्ड् क्षेत्राणि : १."
+msgstr "प्रति सेकण्ड् क्षेत्राणि :"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_save)
 #: src/ui/profiledialog_ui.ui:372
@@ -22532,7 +22532,7 @@ msgstr "आचारः:"
 #: src/ui/projectsettings_ui.ui:148
 #, kde-format
 msgid "2 Channels (Stereo)"
-msgstr "२ चैनल्स् (स्टीरियो) २."
+msgstr "२ चैनल्स् (स्टीरियो)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:153
@@ -22550,7 +22550,7 @@ msgstr "६ चैनल्स्"
 #: src/ui/projectsettings_ui.ui:193
 #, kde-format
 msgid "Timeline Preview:"
-msgstr "समयरेखा पूर्वावलोकनम् : १."
+msgstr "समयरेखा पूर्वावलोकनम् :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:204
@@ -22578,7 +22578,7 @@ msgstr "पिक्सेल्"
 #: src/ui/projectsettings_ui.ui:433
 #, kde-format
 msgid "Proxy video resize (width)"
-msgstr "प्रॉक्सी विडियो आकारपरिवर्तनं (विस्तारः) २."
+msgstr "प्रॉक्सी विडियो आकारपरिवर्तनं (विस्तारः)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/projectsettings_ui.ui:619
@@ -22596,7 +22596,7 @@ msgstr "फॉन्ट्"
 #: src/ui/projectsettings_ui.ui:680
 #, kde-format
 msgid "Project files:"
-msgstr "परियोजनासञ्चिकाः : १."
+msgstr "परियोजनासञ्चिकाः :"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
 #: src/ui/projectsettings_ui.ui:687
@@ -22608,7 +22608,7 @@ msgstr "सादा पाठ निर्यात..."
 #: src/ui/projectsettings_ui.ui:708
 #, kde-format
 msgid "Unused clips:"
-msgstr "अप्रयुक्तानि क्लिप्स् : १."
+msgstr "अप्रयुक्तानि क्लिप्स् :"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_unused)
 #: src/ui/projectsettings_ui.ui:715
@@ -22620,7 +22620,7 @@ msgstr "सञ्चिकाः विलोपयन्तु"
 #: src/ui/projectsettings_ui.ui:722
 #, kde-format
 msgid "Clips used in project:"
-msgstr "परियोजनायां प्रयुक्ताः क्लिप्स् : १."
+msgstr "परियोजनायां प्रयुक्ताः क्लिप्स् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_text)
 #: src/ui/qtextclip_ui.ui:39
@@ -22632,7 +22632,7 @@ msgstr "पाठ:"
 #: src/ui/qtextclip_ui.ui:49
 #, kde-format
 msgid "Font:"
-msgstr "फन्ट् : १."
+msgstr "फन्ट् :"
 
 #. i18n: ectx: property (text), widget (QLabel, weightLabel)
 #: src/ui/qtextclip_ui.ui:74
@@ -22657,7 +22657,7 @@ msgstr "पृष्ठभूमि:"
 #: src/ui/qtextclip_ui.ui:184
 #, kde-format
 msgid "Padding:"
-msgstr "गद्दी : गद्दी : १."
+msgstr "गद्दी : गद्दी :"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, RenderWidget_UI)
 #: src/ui/renderwidget_ui.ui:18
@@ -22789,7 +22789,7 @@ msgstr "मार्गदर्शिका बहुनिर्यात"
 #: src/ui/renderwidget_ui.ui:425
 #, kde-format
 msgid "Guides to use as separator:"
-msgstr "विभाजकरूपेण उपयोक्तुं मार्गदर्शिकाः : १."
+msgstr "विभाजकरूपेण उपयोक्तुं मार्गदर्शिकाः :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:496
@@ -22813,7 +22813,7 @@ msgstr "प्रॉक्सी क्लिप्स् इत्यस्य 
 #: src/ui/renderwidget_ui.ui:517
 #, kde-format
 msgid "Rescale:"
-msgstr "पुनः स्केल : १."
+msgstr "पुनः स्केल :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
 #: src/ui/renderwidget_ui.ui:524
@@ -22825,13 +22825,13 @@ msgstr "सक्षमम्"
 #: src/ui/renderwidget_ui.ui:581
 #, kde-format
 msgid "Overlay:"
-msgstr "आच्छादनम् : १."
+msgstr "आच्छादनम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:615
 #, kde-format
 msgid "Aspect Ratio:"
-msgstr "आस्पेक्ट रेशियो : १."
+msgstr "आस्पेक्ट रेशियो :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:637
@@ -22861,7 +22861,7 @@ msgstr "सञ्चिकायाः आकारः गुणवत्ता�
 #: src/ui/renderwidget_ui.ui:693
 #, no-c-format, kde-format
 msgid "75%"
-msgstr "७५% २."
+msgstr "७५%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/renderwidget_ui.ui:700
@@ -22897,7 +22897,7 @@ msgstr "गति:"
 #: src/ui/renderwidget_ui.ui:753 src/ui/renderwidget_ui.ui:788
 #, kde-format
 msgid "Threads:"
-msgstr "सूत्राणि : १."
+msgstr "सूत्राणि :"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
 #: src/ui/renderwidget_ui.ui:766
@@ -23031,7 +23031,7 @@ msgstr "सेवा:"
 #: src/ui/waveform_ui.ui:34
 #, kde-format
 msgid "Paint mode:"
-msgstr "रङ्गविधिः : १."
+msgstr "रङ्गविधिः :"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SceneCutDialog_UI)
 #: src/ui/scenecutdialog_ui.ui:18
@@ -23043,13 +23043,13 @@ msgstr "दृश्य कट"
 #: src/ui/scenecutdialog_ui.ui:24
 #, kde-format
 msgid "Add clip markers:"
-msgstr "क्लिप् मार्करः योजयन्तु : १."
+msgstr "क्लिप् मार्करः योजयन्तु :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/scenecutdialog_ui.ui:37
 #, kde-format
 msgid "Minimum scene length:"
-msgstr "न्यूनतमं दृश्यदीर्घता : १."
+msgstr "न्यूनतमं दृश्यदीर्घता :"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, minDuration)
 #: src/ui/scenecutdialog_ui.ui:67
@@ -23085,7 +23085,7 @@ msgstr "केन्द्र सस्य"
 #: src/ui/slideshowclip_ui.ui:54
 #, kde-format
 msgid "Frame duration:"
-msgstr "फ्रेम अवधिः : १."
+msgstr "फ्रेम अवधिः :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, luma_fade)
 #: src/ui/slideshowclip_ui.ui:126
@@ -23097,13 +23097,13 @@ msgstr "मार्जयति:"
 #: src/ui/slideshowclip_ui.ui:133
 #, kde-format
 msgid "Dissolve:"
-msgstr "विलयनम् : १."
+msgstr "विलयनम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_softness)
 #: src/ui/slideshowclip_ui.ui:150
 #, kde-format
 msgid "Softness:"
-msgstr "मृदुता : १."
+msgstr "मृदुता :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/slideshowclip_ui.ui:157
@@ -23127,13 +23127,13 @@ msgstr "Fi&lename प्रतिरूपम्"
 #: src/ui/slideshowclip_ui.ui:190
 #, kde-format
 msgid "Folder:"
-msgstr "पुटम् : १."
+msgstr "पुटम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/slideshowclip_ui.ui:210
 #, kde-format
 msgid "Image type:"
-msgstr "चित्रप्रकारः : १."
+msgstr "चित्रप्रकारः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
@@ -23157,7 +23157,7 @@ msgstr "लघुचित्रं दर्शयतु"
 #: src/ui/slideshowclip_ui.ui:311
 #, kde-format
 msgid "Animation:"
-msgstr "एनिमेशन : १."
+msgstr "एनिमेशन :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, low_pass)
 #: src/ui/slideshowclip_ui.ui:321
@@ -23181,13 +23181,13 @@ msgstr "सर्वेषु पटलेषु स्थानं निवे
 #: src/ui/spectrogram_ui.ui:56
 #, kde-format
 msgid "True FFT size:"
-msgstr "सच्चा FFT आकारः : १."
+msgstr "सच्चा FFT आकारः :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_zone)
 #: src/ui/speechdialog_ui.ui:24
 #, kde-format
 msgid "Timeline zone (all tracks)"
-msgstr "समयरेखाक्षेत्रं (सर्वं पटलम्) २."
+msgstr "समयरेखाक्षेत्रं (सर्वं पटलम्)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
 #: src/ui/speechdialog_ui.ui:77
@@ -23205,7 +23205,7 @@ msgstr "प्रतिकृति"
 #: src/ui/speechdialog_ui.ui:101
 #, kde-format
 msgid "Timeline zone (selected track)"
-msgstr "समयरेखाक्षेत्रम् (चयनितः पटलः) २."
+msgstr "समयरेखाक्षेत्रम् (चयनितः पटलः)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:108
@@ -23351,13 +23351,13 @@ msgstr "निर्मियताम्"
 #: src/ui/titlewidget_ui.ui:281
 #, kde-format
 msgid "Z-Index:"
-msgstr "जेड-सूचकाङ्कः : १."
+msgstr "जेड-सूचकाङ्कः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_height)
 #: src/ui/titlewidget_ui.ui:311
 #, kde-format
 msgid "H:"
-msgstr "जः : १."
+msgstr "जः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_width)
 #: src/ui/titlewidget_ui.ui:349
@@ -23405,7 +23405,7 @@ msgstr "न॰"
 #: src/ui/titlewidget_ui.ui:478
 #, kde-format
 msgid "Show guides:"
-msgstr "मार्गदर्शकान् दर्शयतु : १."
+msgstr "मार्गदर्शकान् दर्शयतु :"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, buttonSelectAll)
 #: src/ui/titlewidget_ui.ui:485
@@ -23435,7 +23435,7 @@ msgstr "सह:"
 #: src/ui/titlewidget_ui.ui:635
 #, kde-format
 msgid "Zoom:"
-msgstr "जूम : १."
+msgstr "जूम :"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemleft)
 #: src/ui/titlewidget_ui.ui:669
@@ -23483,7 +23483,7 @@ msgstr "छाया"
 #: src/ui/titlewidget_ui.ui:879
 #, kde-format
 msgid "Blur:"
-msgstr "धुन्धला : १."
+msgstr "धुन्धला :"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignCenter)
 #: src/ui/titlewidget_ui.ui:962
@@ -23495,20 +23495,20 @@ msgstr "केन्द्रं संरेखयन्तु।"
 #: src/ui/titlewidget_ui.ui:981
 #, kde-format
 msgid "Line spacing:"
-msgstr "रेखाविस्तारः : १."
+msgstr "रेखाविस्तारः :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_color)
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_rect)
 #: src/ui/titlewidget_ui.ui:1004 src/ui/titlewidget_ui.ui:1401
 #, kde-format
 msgid "&Gradient:"
-msgstr "&ढालः : १."
+msgstr "&ढालः :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #: src/ui/titlewidget_ui.ui:1020
 #, kde-format
 msgid "Sol&id color:"
-msgstr "Sol&id वर्णः : १."
+msgstr "Sol&id वर्णः :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, typewriterBox)
 #: src/ui/titlewidget_ui.ui:1050
@@ -23520,7 +23520,7 @@ msgstr "&टाइपराइटर प्रभाव"
 #: src/ui/titlewidget_ui.ui:1062
 #, kde-format
 msgid "Variation:"
-msgstr "विविधताः १."
+msgstr "विविधताः"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/titlewidget_ui.ui:1069
@@ -23556,7 +23556,7 @@ msgstr "व्यय&म"
 #: src/ui/titlewidget_ui.ui:1115
 #, kde-format
 msgid "Frame step:"
-msgstr "फ्रेम चरणः : १."
+msgstr "फ्रेम चरणः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_seed)
 #: src/ui/titlewidget_ui.ui:1129
@@ -23568,13 +23568,13 @@ msgstr "बीज:"
 #: src/ui/titlewidget_ui.ui:1236
 #, kde-format
 msgid "Letter spacing:"
-msgstr "अक्षरान्तरम् : १."
+msgstr "अक्षरान्तरम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
 #: src/ui/titlewidget_ui.ui:1262
 #, kde-format
 msgid "Align:"
-msgstr "संरेखणं कुर्वन्तु : १."
+msgstr "संरेखणं कुर्वन्तु :"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignRight)
 #: src/ui/titlewidget_ui.ui:1269
@@ -23592,7 +23592,7 @@ msgstr "वामभागे संरेखणं कुर्वन्तु�
 #: src/ui/titlewidget_ui.ui:1367
 #, kde-format
 msgid "So&lid color:"
-msgstr "सो&ढक्कनवर्णः १."
+msgstr "सो&ढक्कनवर्णः"
 
 #. i18n: ectx: property (text), widget (QLabel, label_border)
 #: src/ui/titlewidget_ui.ui:1438
@@ -23640,19 +23640,19 @@ msgstr "आकारं परिवर्तयतु"
 #: src/ui/titlewidget_ui.ui:1663
 #, no-c-format, kde-format
 msgid "50%"
-msgstr "५०% २."
+msgstr "५०%"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize100)
 #: src/ui/titlewidget_ui.ui:1670
 #, no-c-format, kde-format
 msgid "100%"
-msgstr "१००% २."
+msgstr "१००%"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
 #: src/ui/titlewidget_ui.ui:1677
 #, no-c-format, kde-format
 msgid "200%"
-msgstr "२००% २."
+msgstr "२००%"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
 #: src/ui/titlewidget_ui.ui:1703
@@ -23717,7 +23717,7 @@ msgstr "अतिरिक्त सूचना"
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
 #, kde-format
 msgid "Transparency:"
-msgstr "पारदर्शिता : १."
+msgstr "पारदर्शिता :"
 
 #: src/widgets/colorpickerwidget.cpp:106
 #, kde-format
