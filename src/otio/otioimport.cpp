@@ -13,10 +13,12 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
+#include "timeline2/model/clipmodel.hpp"
 
 #include <KLocalizedString>
 
@@ -24,6 +26,8 @@
 
 #include <opentimelineio/clip.h>
 #include <opentimelineio/externalReference.h>
+#include <opentimelineio/generatorReference.h>
+#include <opentimelineio/imageSequenceReference.h>
 
 OtioImport::OtioImport(QObject *parent)
     : QObject(parent)
@@ -140,9 +144,13 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
     const auto otioTrimmedRange = otioClip->trimmed_range_in_parent();
     if (otioTrimmedRange.has_value()) {
         if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
+
+            // Find the bin clip that corresponds to the OTIO media reference.
             const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
             const auto i = data->otioExternalReferencesToBinIds.find(file);
             if (i != data->otioExternalReferencesToBinIds.end()) {
+
+                // Insert the clip into the track.
                 const OTIO_NS::RationalTime otioTimelineDuration = data->otioTimeline->duration();
                 const int position = otioTrimmedRange.value().start_time().rescaled_to(otioTimelineDuration).round().value();
                 int clipId = -1;
@@ -150,13 +158,46 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
                 Fun redo = []() { return true; };
                 data->timeline->requestClipInsertion(i.value(), trackId, position, clipId, false, true, true, undo, redo);
                 if (clipId != -1) {
+
+                    // Find the start timecode of the media.
+                    //
+                    // TODO: Is there a better way to get the start timecode?
+                    // * ProjectClip::getRecordTime() returns a value of 3590003 for the
+                    //   timecode 00:59:50:00 @ 23.97?
+                    // * Unfortunately MLT does not provide the start timecode:
+                    //   https://github.com/mltframework/mlt/pull/1011
+                    // * Could we use the FFmpeg libraries to avoid relying on an external
+                    //   application?
+                    QString timecode;
+                    QProcess mediainfo;
+                    mediainfo.start(KdenliveSettings::mediainfopath(), {QStringLiteral("--Output=XML"), file});
+                    mediainfo.waitForFinished();
+                    if (mediainfo.exitStatus() == QProcess::NormalExit && mediainfo.exitCode() == 0) {
+                        QDomDocument doc;
+                        doc.setContent(mediainfo.readAllStandardOutput());
+                        QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
+                        if (!nodes.isEmpty()) {
+                            timecode = nodes.at(0).toElement().text();
+                        }
+                    }
+
+                    // Resize the clip.
                     const int duration = otioTrimmedRange.value().duration().rescaled_to(otioTimelineDuration).round().value();
                     data->timeline->requestItemResize(clipId, duration, true, false, -1, true);
-                    // TODO: What time rate is the slip?
-                    const int slip = otioClip->trimmed_range().start_time().round().value();
+
+                    // Slip the clip.
+                    int slip = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
+                    if (!timecode.isEmpty()) {
+                        const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(timecode.toStdString(), otioTimelineDuration.rate());
+                        slip -= otioTimecode.value();
+                    }
                     data->timeline->requestClipSlip(clipId, -slip, false, true);
                 }
             }
+        } else if (auto otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
+            // TODO: Image sequence references.
+        } else if (auto otioGeneratorReference = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference())) {
+            // TODO: Generator references.
         }
     }
 }
