@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-16 00:41+0000\n"
-"PO-Revision-Date: 2024-12-02 18:28+0200\n"
+"PO-Revision-Date: 2024-12-16 16:51+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -10326,9 +10326,11 @@ msgstr ""
 #, kde-format
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
+msgstr[0] "Klipam ir alfa kanāls. Nav ieteicams tam veidot starpniekklipu."
 msgstr[1] ""
+"Šiem klipiem ir alfa kanāls. Nav ieteicams tiem veidot starpniekklipus."
 msgstr[2] ""
+"Šiem klipiem ir alfa kanāls. Nav ieteicams tiem veidot starpniekklipus."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
@@ -10336,19 +10338,21 @@ msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
 msgstr[0] ""
+"Jums ir %1 klips ar alfa kanālu. Nav ieteicams tam veidot starpniekklipu."
 msgstr[1] ""
+"Jums ir %1 klipi ar alfa kanālu. Nav ieteicams tiem veidot starpniekklipu."
 msgstr[2] ""
+"Jums ir %1 klipi ar alfa kanālu. Nav ieteicams tiem veidot starpniekklipu."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Starpniekklipi"
+msgstr "Veidot starpniekklipu vidiem klipiem"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Veidot starpniekklipu tikai klipiem bez alfa"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -18325,10 +18329,9 @@ msgstr "Rediģē garumu %1 klipiem."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Rediģē ķēdes režīmā"
+msgstr "Mainīt izmēru ķēdes režīmā"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20058,8 +20061,7 @@ msgstr "Apgriešanas beigas:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
 msgstr "Mainīt klipa izmēru ķēdē"
 
@@ -23750,8 +23752,7 @@ msgstr "&Gradients:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #: src/ui/titlewidget_ui.ui:1020
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Sol&id color:"
 msgstr "&Viena krāsa:"
 
@@ -23775,8 +23776,7 @@ msgstr "Izplatīšanas režīms"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
 #: src/ui/titlewidget_ui.ui:1081
-#, fuzzy, kde-format
-#| msgid "By &char"
+#, kde-format
 msgid "B&y char"
 msgstr "Pēc &rakstzīmes"
 
