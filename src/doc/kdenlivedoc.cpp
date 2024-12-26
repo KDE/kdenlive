@@ -1606,18 +1606,18 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
             }
         }
         if (!clipsWithAlpha.isEmpty() && pCore->window()) {
+            const QString infoMessage = i18n("Proxy clips are not intended for compositing or color grading.");
             if (clipList.size() == clipsWithAlpha.size()) {
-                if (KMessageBox::warningContinueCancel(pCore->window(), i18np("This clip has an alpha channel. Proxying is not recommended.",
-                                                                              "These clips have an alpha channel. Proxying is not recommended.",
-                                                                              clipsWithAlpha.size())) != KMessageBox::Continue) {
+                QString message = i18np("The clip has an alpha channel. ", "The clips have an alpha channel. ", clipsWithAlpha.size());
+                message.append(infoMessage);
+                if (KMessageBox::warningContinueCancel(pCore->window(), message) != KMessageBox::Continue) {
                     return;
                 }
             } else {
-                KMessageBox::ButtonCode answer = KMessageBox::warningTwoActionsCancel(
-                    pCore->window(),
-                    i18np("You have a clip with an alpha channel. Proxying it is not recommended.",
-                          "You have %1 clips with an alpha channel. Proxying these is not recommended.", clipsWithAlpha.size()),
-                    {}, KGuiItem(i18n("Proxy all clips")), KGuiItem(i18n("Proxy clips without alpha only")));
+                QString message = i18np("You have a clip with an alpha channel. ", "You have %1 clips with an alpha channel. ", clipsWithAlpha.size());
+                message.append(infoMessage);
+                KMessageBox::ButtonCode answer = KMessageBox::warningTwoActionsCancel(pCore->window(), message, {}, KGuiItem(i18n("Proxy all clips")),
+                                                                                      KGuiItem(i18n("Proxy clips without alpha only")));
                 if (answer == KMessageBox::Cancel) {
                     return;
                 }
