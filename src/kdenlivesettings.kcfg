@@ -1450,6 +1450,10 @@
            <label>Device for data processing</label>
            <default>cpu</default>
        </entry>
+       <entry name="samDevice" type="String">
+           <label>Device for data processing</label>
+           <default>cpu</default>
+       </entry>
        <entry name="whisperTranslate" type="Bool">
            <label>Translate speech detection to English</label>
            <default>false</default>

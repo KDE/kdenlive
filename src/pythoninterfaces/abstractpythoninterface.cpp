@@ -471,8 +471,9 @@ QStringList AbstractPythonInterface::missingDependencies(const QStringList &filt
 
 bool AbstractPythonInterface::installMissingDependencies()
 {
-    if (KMessageBox::warningContinueCancel(pCore->window(), i18n("This requires an internet connection and will take several minutes to download all necessary "
-                                                                 "dependencies. After that all processing will happen offline.")) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(pCore->window(),
+                                           i18n("This requires an internet connection and will take several minutes\nto download all necessary "
+                                                "dependencies. After that all processing will happen offline.")) != KMessageBox::Continue) {
         return false;
     }
     if (!checkPython(true, true)) {

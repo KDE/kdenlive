@@ -61,6 +61,9 @@ void MaskTask::generateMask()
     if (!m_properties.value(MaskTask::BOX).isEmpty()) {
         args << QStringLiteral("-B") << m_properties.value(MaskTask::BOX);
     }
+    if (!KdenliveSettings::samDevice().isEmpty()) {
+        args << QStringLiteral("-D") << KdenliveSettings::samDevice();
+    }
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
     qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
     m_scriptJob = std::make_unique<QProcess>(new QProcess);

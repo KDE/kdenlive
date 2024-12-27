@@ -42,6 +42,7 @@ if __name__ == "__main__":
     parser.add_argument("-O", "--output", help="path for rendered jpg image for preview of folder for rendering", default="/tmp/preview.png")
     parser.add_argument("-M", "--model", help="path for the model")
     parser.add_argument("-C", "--config", help="config for the model")
+    parser.add_argument("-D", "--device", help="enforce a device: cuda, cpu")
     args = parser.parse_args()
     if (args.point_coordinates == None or args.labels == None) and args.box_coordinates == None:
         config = vars(args)
@@ -61,10 +62,13 @@ if __name__ == "__main__":
     inputFolder = args.inputFolder
     modelFile = args.model
     configFile = args.config
+    requestedDevice = args.device
     borders = 0
 
 # select the device for computation
-if torch.cuda.is_available():
+if requestedDevice != None:
+    device = torch.device(requestedDevice)
+elif torch.cuda.is_available():
     device = torch.device("cuda")
 elif torch.backends.mps.is_available():
     device = torch.device("mps")
