@@ -1069,7 +1069,18 @@
       <label>Automatically create a new keyframe on keyframe move.</label>
       <default>true</default>
     </entry>
-
+    <entry name="maskOpacity" type="Int">
+      <label>Opacity of object masks on monitor.</label>
+      <default>100</default>
+    </entry>
+    <entry name="maskColor" type="Int">
+      <label>An index in the 0-4 range indicating an index in a color array.</label>
+      <default>0</default>
+    </entry>
+    <entry name="maskInverted" type="Bool">
+      <label>Invert alpha mask display.</label>
+      <default>false</default>
+    </entry>
     <entry name="clipMonitorOverlayGuides" type="Int">
       <label>index of current guides overlay for clip monitor.</label>
       <default>0</default>
@@ -1360,6 +1371,12 @@
         <default>0</default>
         </entry>
    </group>
+   <group name="sam">
+     <entry name="samModelFile" type="String">
+       <label>Path for the chosen sam model.</label>
+       <default></default>
+     </entry>
+   </group>
    <group name="speech">
        <entry name="vosk_folder_path" type="String">
            <label>Custom path for the folder containins the vosk speech models. Uses default XDG location if empty</label>
@@ -1448,18 +1465,6 @@
        <entry name="speechEngine" type="String">
            <label>Selected model for speech recognition (whisper or vosk)</label>
            <default>whisper</default>
-       </entry>
-       <entry name="usePythonVenv" type="Bool">
-           <label>Use a venv python</label>
-           <default>false</default>
-       </entry>
-       <entry name="pythonPath" type="String">
-           <label>python binary path</label>
-           <default></default>
-       </entry>
-       <entry name="pipPath" type="String">
-           <label>pip binary path</label>
-           <default></default>
        </entry>
    </group>
     <group name="Media Browser">

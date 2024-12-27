@@ -28,8 +28,8 @@ public:
     */
     ~AbstractPythonInterface() override;
     /** @brief Check if python is found and use venv if requested. */
-    bool checkPython(bool useVenv, bool calculateSize = false, bool forceInstall = false);
-    bool checkSetup();
+    bool checkPython(bool calculateSize = false, bool forceInstall = false);
+    bool checkSetup(bool requestInstall = false, bool *newInstall = nullptr);
     /** @brief Check which versions of the dependencies are installed.
         @param Whether checkVersionsResult() will be emitted once the result is available.
     */
@@ -42,22 +42,26 @@ public:
      */
     QStringList missingDependencies(const QStringList &filter = {});
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
-    QString pythonExec() { return KdenliveSettings::pythonPath(); };
+    std::pair<QString, QString> pythonExecs(bool checkPip = false);
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     bool installDisabled() { return m_disableInstall; };
     void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
-    /** @brief Delete the python venv folder. */
-    bool removePythonVenv();
     /** @brief Python venv setup in progress. */
     bool installInProcess() const;
     /** @brief Returns true if the optional dependency was found. */
     bool optionalDependencyAvailable(const QString &dependency) const;
     /** @brief The text that will appear on the install button when a dependency is missing. */
     virtual const QString installMessage() const;
+    /** @brief The path to the python executable for this environement. */
+    const QString getPythonPath();
+    /** @brief The path to the python virtual environement. */
+    virtual const QString getVenvPath();
     /** @brief Add a special dependency. */
     void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
-    /** @brief Ensure all dependenciew are installed. */
-    bool installMissingDependencies();
+    /** @brief Get a script path ba name. */
+    const QString getScript(const QString &scriptName) const;
+    /** @brief Delete the virtual environment. */
+    void deleteVenv();
 
     friend class PythonDependencyMessage;
 
@@ -72,6 +76,8 @@ public Q_SLOTS:
     void checkDependencies(bool force = false, bool async = true);
     void checkDependenciesConcurrently();
     void checkVersionsConcurrently();
+    /** @brief Ensure all dependenciew are installed. */
+    bool installMissingDependencies();
 
 private:
     QStringList m_missing;
@@ -81,7 +87,7 @@ private:
     bool m_dependenciesChecked;
     QMutex m_versionsMutex;
     const QString locateScript(const QString &script);
-    QString runPackageScript(const QString &mode, bool concurrent = false, bool displayFeedback = true);
+    QString runPackageScript(QString mode, bool concurrent = false, bool displayFeedback = true, bool forceInstall = false);
     int versionToInt(const QString &version);
     /** @brief Create a python virtualenv */
     bool setupVenv();
@@ -99,6 +105,7 @@ protected:
 
 Q_SIGNALS:
     void setupError(const QString &message);
+    void setupOk();
     void setupMessage(const QString &message, int messageType);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);

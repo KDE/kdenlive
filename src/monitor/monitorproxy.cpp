@@ -20,6 +20,8 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
+static QList<QColor> colorIndex = {QColor(Qt::white), QColor(Qt::red), QColor(Qt::yellow), QColor(Qt::green), QColor(Qt::black)};
+
 MonitorProxy::MonitorProxy(VideoWidget *parent)
     : QObject(parent)
     , q(parent)
@@ -107,6 +109,61 @@ void MonitorProxy::setRulerHeight(int addedHeight)
 void MonitorProxy::seek(int delta, uint modifiers)
 {
     Q_EMIT q->mouseSeek(delta, modifiers);
+}
+
+int MonitorProxy::maskOpacity() const
+{
+    return KdenliveSettings::maskOpacity();
+}
+
+void MonitorProxy::setMaskOpacity(int opacity)
+{
+    KdenliveSettings::setMaskOpacity(qBound(0, opacity, 100));
+    qDebug() << " = = = SETTING MASK OPACITY";
+    Q_EMIT maskOpacityChanged();
+    Q_EMIT refreshMask();
+}
+
+int MonitorProxy::maskColor() const
+{
+    return KdenliveSettings::maskColor();
+}
+
+void MonitorProxy::setMaskColor(int index)
+{
+    KdenliveSettings::setMaskColor(qBound(0, index, 4));
+    Q_EMIT maskColorChanged();
+    Q_EMIT refreshMask();
+}
+
+bool MonitorProxy::maskInverted() const
+{
+    return KdenliveSettings::maskInverted();
+}
+
+void MonitorProxy::setMaskInverted(bool)
+{
+    KdenliveSettings::setMaskInverted(!KdenliveSettings::maskInverted());
+    if (m_maskMode == 0) {
+        // We are in preview mode, update url
+        QImage img(m_previewOverlay.toLocalFile());
+        img.invertPixels(QImage::InvertRgba);
+        img.save(m_previewOverlay.toLocalFile());
+        m_previewOverlay.setQuery(QStringLiteral("pos=%1&ctrl=%2").arg(m_position).arg(QDateTime::currentSecsSinceEpoch()));
+        Q_EMIT previewOverlayChanged();
+    }
+    Q_EMIT refreshMask();
+}
+
+const QColor MonitorProxy::getMaskColor() const
+{
+    return colorIndex.at(KdenliveSettings::maskColor());
+}
+
+void MonitorProxy::setMaskMode(int mode)
+{
+    m_maskMode = mode;
+    Q_EMIT maskModeChanged();
 }
 
 int MonitorProxy::overlayType() const

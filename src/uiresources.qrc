@@ -6,6 +6,7 @@
         <file alias="kdenlivemonitor.qml">monitor/view/kdenlivemonitor.qml</file>
         <file alias="Countdown.qml">monitor/view/Countdown.qml</file>
         <file alias="kdenliveclipmonitor.qml">monitor/view/kdenliveclipmonitor.qml</file>
+        <file alias="kdenlivemonitorautomask.qml">monitor/view/kdenlivemonitorautomask.qml</file>
         <file alias="kdenlivemonitoreffectscene.qml">monitor/view/kdenlivemonitoreffectscene.qml</file>
         <file alias="kdenlivemonitorcornerscene.qml">monitor/view/kdenlivemonitorcornerscene.qml</file>
         <file alias="kdenlivemonitorrotoscene.qml">monitor/view/kdenlivemonitorrotoscene.qml</file>
@@ -15,6 +16,7 @@
         <file alias="SceneToolBar.qml">monitor/view/SceneToolBar.qml</file>
         <file alias="MultiScreenToolBar.qml">monitor/view/MultiScreenToolBar.qml</file>
         <file alias="EffectToolBar.qml">monitor/view/EffectToolBar.qml</file>
+        <file alias="MaskToolBar.qml">monitor/view/MaskToolBar.qml</file>
         <file alias="MonitorRuler.qml">monitor/view/MonitorRuler.qml</file>
         <file alias="OverlayStandard.qml">monitor/view/OverlayStandard.qml</file>
         <file alias="OverlayMinimal.qml">monitor/view/OverlayMinimal.qml</file>

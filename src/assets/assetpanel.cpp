@@ -10,6 +10,7 @@
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "effects/effectstack/view/effectstackview.hpp"
+#include "effects/effectstack/view/maskmanager.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "monitor/monitor.h"
@@ -45,6 +46,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     , m_transitionWidget(new TransitionStackView(this))
     , m_mixWidget(new MixStackView(this))
     , m_effectStackWidget(new EffectStackView(this))
+    , m_maskManager(new MaskManager(this))
 {
     auto *buttonToolbar = new QToolBar(this);
     m_titleAction = buttonToolbar->addWidget(m_assetTitle);
@@ -95,6 +97,17 @@ AssetPanel::AssetPanel(QWidget *parent)
         Q_EMIT m_effectStackWidget->updateEffectsGroupesInstances();
     });
     m_applyEffectGroups->menuAction()->setVisible(false);
+
+    m_showMaskPanel = new QAction(QIcon::fromTheme(QStringLiteral("path-mask-edit")), QString(), this);
+    m_showMaskPanel->setToolTip(i18n("Create an object mask"));
+    m_showMaskPanel->setCheckable(true);
+    connect(pCore.get(), &Core::switchMaskPanel, m_showMaskPanel, &QAction::trigger);
+    m_showMaskPanel->setWhatsThis(
+        xi18nc("@info:whatsthis", "This shows the mask creation panel. Masks can be used for example to remove the background in a video."));
+    connect(m_showMaskPanel, &QAction::triggered, this, &AssetPanel::slotShowMaskPanel);
+    buttonToolbar->addAction(m_showMaskPanel);
+    m_showMaskPanel->setVisible(false);
+
     m_saveEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("document-save-all")), QString(), this);
     m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
     m_saveEffectStack->setWhatsThis(xi18nc("@info:whatsthis", "Saves the entire effect stack as an XML file for use in other projects."));
@@ -135,7 +148,6 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_timelineButton->setVisible(false);
     connect(m_timelineButton, &KDualAction::activeChangedByUser, this, &AssetPanel::showKeyframes);
     buttonToolbar->addAction(m_timelineButton);
-
     m_lay->addWidget(buttonToolbar);
     m_lay->setContentsMargins(0, 0, 0, 0);
     m_lay->setSpacing(0);
@@ -144,11 +156,12 @@ AssetPanel::AssetPanel(QWidget *parent)
     lay->addWidget(m_transitionWidget);
     lay->addWidget(m_mixWidget);
     lay->addWidget(m_effectStackWidget);
+    lay->addWidget(m_maskManager);
     m_sc = new QScrollArea;
     m_sc->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     m_sc->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     m_sc->setFrameStyle(QFrame::NoFrame);
-    m_sc->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
+    m_sc->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
     m_container->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     m_sc->setWidgetResizable(true);
 
@@ -270,6 +283,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_applyEffectGroups->menuAction()->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_saveEffectStack->setVisible(true);
+    m_showMaskPanel->setVisible(true);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
@@ -283,8 +297,13 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     }
     m_timelineButton->setVisible(enableKeyframes);
     m_timelineButton->setActive(showKeyframes);
-    m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, frameSize);
+    m_maskManager->setOwner(id);
+    if (m_showMaskPanel->isChecked()) {
+        m_maskManager->setVisible(true);
+    } else {
+        m_effectStackWidget->setVisible(true);
+    }
 }
 
 void AssetPanel::clearAssetPanel(int itemId)
@@ -322,14 +341,17 @@ void AssetPanel::clear()
     m_transitionWidget->unsetModel();
     m_mixWidget->setVisible(false);
     m_mixWidget->unsetModel();
+    m_maskManager->setVisible(false);
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
     m_saveEffectStack->setVisible(false);
+    m_showMaskPanel->setVisible(false);
     m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(false);
     m_enableStackButton->setVisible(false);
     m_applyEffectGroups->menuAction()->setVisible(false);
     m_effectStackWidget->unsetModel();
+    m_maskManager->setOwner(ObjectId(KdenliveObjectType::NoItem, {}));
     m_assetTitle->clear();
 }
 
@@ -590,5 +612,20 @@ void AssetPanel::sendStandardCommand(int command)
         m_effectStackWidget->sendStandardCommand(command);
     } else if (m_transitionWidget->isVisible()) {
         Q_EMIT m_transitionWidget->sendStandardCommand(command);
+    }
+}
+
+void AssetPanel::slotShowMaskPanel()
+{
+    if (m_showMaskPanel->isChecked()) {
+        m_effectStackWidget->setVisible(false);
+        m_mixWidget->setVisible(false);
+        m_transitionWidget->setVisible(false);
+        m_maskManager->setVisible(true);
+    } else {
+        m_effectStackWidget->setVisible(true);
+        m_mixWidget->setVisible(false);
+        m_transitionWidget->setVisible(false);
+        m_maskManager->setVisible(false);
     }
 }

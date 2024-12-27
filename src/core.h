@@ -254,7 +254,7 @@ public:
     /** @brief Returns configured folder for audio capture storage */
     QString getProjectCaptureFolderName();
     /** @brief Returns a timeline clip's bin id */
-    QString getTimelineClipBinId(ObjectId id);
+    const QString getTimelineClipBinId(ObjectId id);
     /** @brief Returns all track ids in timeline */
     std::unordered_set<QString> getAllTimelineTracksId();
     /** @brief Returns a frame duration from a timecode */
@@ -501,4 +501,8 @@ Q_SIGNALS:
     void saveTimelinePreview(const QString &path);
     /** Enable the built in transform effect for current item */
     void enableBuildInTransform();
+    /** refresh sam config */
+    void samConfigUpdated();
+    /** Show / hide the automask panel */
+    void switchMaskPanel();
 };

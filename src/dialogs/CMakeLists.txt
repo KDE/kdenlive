@@ -8,7 +8,6 @@ set(kdenlive_SRCS
   dialogs/customcamcorderdialog.cpp
   dialogs/encodingprofilesdialog.cpp
   dialogs/importsubtitle.cpp
-  dialogs/kdenlivesettingsdialog.cpp
   dialogs/markerdialog.cpp
   dialogs/managesubtitles.cpp
   dialogs/exportguidesdialog.cpp
@@ -24,5 +23,7 @@ set(kdenlive_SRCS
   dialogs/titletemplatedialog.cpp
   dialogs/wizard.cpp
   dialogs/splash.cpp
+  dialogs/settings/kdenlivesettingsdialog.cpp
+  dialogs/settings/pluginssettings.cpp
   PARENT_SCOPE)
 

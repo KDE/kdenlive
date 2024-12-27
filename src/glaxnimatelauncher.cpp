@@ -9,7 +9,7 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "dialogs/kdenlivesettingsdialog.h"
+#include "dialogs/settings/kdenlivesettingsdialog.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"

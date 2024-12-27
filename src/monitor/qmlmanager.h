@@ -10,6 +10,7 @@
 #include "definitions.h"
 
 class QQuickWidget;
+class Monitor;
 
 /** @class QmlManager
     @brief Manages all Qml monitor overlays
@@ -20,7 +21,7 @@ class QmlManager : public QObject
     Q_OBJECT
 
 public:
-    explicit QmlManager(QQuickWidget *view);
+    explicit QmlManager(QQuickWidget *view, Monitor *monitor);
 
     /** @brief return current active scene type */
     MonitorSceneType sceneType() const;
@@ -31,6 +32,7 @@ public:
 
 private:
     QQuickWidget *m_view;
+    Monitor *m_monitor;
     MonitorSceneType m_sceneType;
     bool m_sceneChangeBlocked{false};
 

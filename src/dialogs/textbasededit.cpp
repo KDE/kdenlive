@@ -1117,18 +1117,18 @@ void TextBasedEdit::startRecognition()
                                 return;
                             }
                             m_tmpCutWav.close();
-                            m_speechJob->start(m_stt->pythonExec(),
+                            m_speechJob->start(m_stt->pythonExecs().first,
                                                {m_stt->speechScript(), m_playlistWav.fileName(), modelName, KdenliveSettings::whisperDevice(),
                                                 KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language,
                                                 QString::number(m_clipOffset), QString::number(endPos), m_tmpCutWav.fileName()});
                         } else {
-                            m_speechJob->start(m_stt->pythonExec(),
+                            m_speechJob->start(m_stt->pythonExecs().first,
                                                {m_stt->speechScript(), m_playlistWav.fileName(), modelName, KdenliveSettings::whisperDevice(),
                                                 KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
                         }
                     } else {
-                        m_speechJob->start(m_stt->pythonExec(), {m_stt->speechScript(), modelDirectory, modelName, m_playlistWav.fileName(),
-                                                                 QString::number(m_clipOffset), QString::number(endPos)});
+                        m_speechJob->start(m_stt->pythonExecs().first, {m_stt->speechScript(), modelDirectory, modelName, m_playlistWav.fileName(),
+                                                                        QString::number(m_clipOffset), QString::number(endPos)});
                     }
                     speech_progress->setValue(0);
                     frame_progress->setVisible(true);
@@ -1166,11 +1166,12 @@ void TextBasedEdit::startRecognition()
                     return;
                 }
                 m_tmpCutWav.close();
-                m_speechJob->start(m_stt->pythonExec(), {m_stt->speechScript(), m_sourceUrl, modelName, KdenliveSettings::whisperDevice(),
-                                                         KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"),
-                                                         language, QString::number(m_clipOffset), QString::number(endPos), m_tmpCutWav.fileName()});
+                m_speechJob->start(m_stt->pythonExecs().first,
+                                   {m_stt->speechScript(), m_sourceUrl, modelName, KdenliveSettings::whisperDevice(),
+                                    KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language,
+                                    QString::number(m_clipOffset), QString::number(endPos), m_tmpCutWav.fileName()});
             } else {
-                m_speechJob->start(m_stt->pythonExec(),
+                m_speechJob->start(m_stt->pythonExecs().first,
                                    {m_stt->speechScript(), m_sourceUrl, modelName, KdenliveSettings::whisperDevice(),
                                     KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
             }
@@ -1179,7 +1180,7 @@ void TextBasedEdit::startRecognition()
             qDebug() << "=== STARTING RECO: " << m_stt->speechScript() << " / " << modelDirectory << " / " << modelName << " / " << m_sourceUrl
                      << ", START: " << m_clipOffset << ", DUR: " << endPos;
             connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
-            m_speechJob->start(m_stt->pythonExec(),
+            m_speechJob->start(m_stt->pythonExecs().first,
                                {m_stt->speechScript(), modelDirectory, modelName, m_sourceUrl, QString::number(m_clipOffset), QString::number(endPos)});
         }
         speech_progress->setValue(0);

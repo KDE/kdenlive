@@ -61,10 +61,10 @@ public:
     QString getValue();
 
 private:
+    enum ListType { LUMALIST, LUTLIST, MASKLIST, OTHERLIST };
     QStringList m_fileExt;
     int m_currentIndex;
-    bool m_isLutList;
-    bool m_isLumaList;
+    ListType m_listType;
     QFutureWatcher<void> m_watcher;
     QFuture<void> m_thumbJob;
     bool m_abortJobs{false};
@@ -75,6 +75,9 @@ private:
     /** @brief Build a list of thumbnails for extra lumas
      */
     void buildThumbnails(const QStringList files);
+    /** @brief Add items in the same folder
+     */
+    void addItemsInSameFolder(const QString currentValue, QMap<QString, QString> *listValues);
 
 public Q_SLOTS:
     /** @brief Toggle the comments on or off

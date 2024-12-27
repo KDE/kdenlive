@@ -409,6 +409,8 @@ public Q_SLOTS:
     void slotExportSubtitle();
     /** @brief Display current mouse pos */
     void slotUpdateMousePosition(int pos, int duration = -1);
+    /** @brief Focus current timeline clip in bin and display its range */
+    void slotClipInProjectTree();
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
@@ -521,7 +523,6 @@ private Q_SLOTS:
     void slotGroupClips();
     void slotUnGroupClips();
     void slotEditItemDuration();
-    void slotClipInProjectTree();
     // void slotClipToProjectTree();
     void slotSplitAV();
     void slotSwitchClip();

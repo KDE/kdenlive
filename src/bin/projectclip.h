@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QFuture>
 #include <QMutex>
+#include <QProcess>
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QUuid>
@@ -308,6 +309,12 @@ public:
     virtual size_t sequenceFrameDuration(const QUuid &);
     /** @brief returns true if an avformat producer has an alpha channel */
     bool hasAlpha();
+    /** @brief Export video as jpg frames for analysis */
+    void exportFrames(const QDir folder, int in, int out);
+    /** @brief Get a list of masks */
+    QVector<MaskInfo> masks() const;
+    /** @brief Get a list of masks with only {name, url} */
+    QMap<QString, QString> masksUrls() const;
 
 protected:
     friend class ClipModel;
@@ -383,12 +390,18 @@ public Q_SLOTS:
     void checkClipBounds();
     /** @brief Check if proxy clip should be build for this clip. */
     void checkProxy(bool rebuildProxy = false);
+    /** @brief Add a mask to this clip. */
+    void addMask(MaskInfo mask);
+    /** @brief Remove a mask. */
+    void removeMask(const QString &maskName);
 
 private:
     QMutex m_producerMutex;
     QByteArray m_thumbXml;
     const QString geometryWithOffset(const QString &data, int offset);
     QMap <QString, QByteArray> m_audioLevels;
+    QVector<MaskInfo> m_masks;
+    QProcess m_exportProcess;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
     bool m_resetTimelineOccurences;
 
@@ -399,6 +412,8 @@ private:
     QUuid m_uuid;
     /** @brief Update the clip description from the properties. */
     void updateDescription();
+    /** @brief Load masks data from clip properties. */
+    void loadMasks(const QString &maskData);
 
 Q_SIGNALS:
     void producerChanged(const QString &, Mlt::Producer prod);
@@ -412,4 +427,6 @@ Q_SIGNALS:
     void updateStreamInfo(int ix);
     void boundsChanged(QVector <QPoint>bounds);
     void registeredClipChanged();
+    void firstFrameExported();
+    void masksUpdated();
 };

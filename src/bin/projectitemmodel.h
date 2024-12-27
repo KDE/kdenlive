@@ -62,6 +62,8 @@ public:
 
     /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId) const;
+    /** @brief Returns existing masks for a clip */
+    const QVector<MaskInfo> getClipMasks(const QString &binId) const;
     /** @brief Returns audio levels for a clip from its id */
     const QVector <uint8_t>getAudioLevelsByBinID(const QString &binId, int stream);
     double getAudioMaxLevel(const QString &binId, int stream);

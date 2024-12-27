@@ -8,23 +8,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "dialogs/customcamcorderdialog.h"
 #include "dialogs/profilesdialog.h"
+#include "dialogs/wizard.h"
 #include "doc/kdenlivedoc.h"
 #include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "monitor/monitorproxy.h"
+#include "pluginssettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
-#include "profilesdialog.h"
 #include "project/dialogs/guidecategories.h"
 #include "project/dialogs/profilewidget.h"
-#include "pythoninterfaces/dialogs/modeldownloadwidget.h"
-#include "pythoninterfaces/speechtotextvosk.h"
-#include "pythoninterfaces/speechtotextwhisper.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-#include "wizard.h"
 
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
@@ -32,8 +29,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "KLocalizedString"
 #include "kdenlive_debug.h"
-#include <KArchive>
-#include <KArchiveDirectory>
 #include <KIO/DesktopExecParser>
 #include <KIO/FileCopyJob>
 #include <KIO/JobUiDelegateFactory>
@@ -43,10 +38,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KOpenWithDialog>
 #include <KService>
-#include <KTar>
 #include <KUrlRequesterDialog>
-#include <KZip>
-#include <kio/directorysizejob.h>
 
 #include <QAction>
 #include <QButtonGroup>
@@ -70,31 +62,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <linux/input.h>
 #include <memory>
 #endif
-
-SpeechList::SpeechList(QWidget *parent)
-    : QListWidget(parent)
-{
-    setAlternatingRowColors(true);
-    setAcceptDrops(true);
-    setDropIndicatorShown(true);
-    viewport()->setAcceptDrops(true);
-}
-
-QStringList SpeechList::mimeTypes() const
-{
-    return QStringList() << QStringLiteral("text/uri-list");
-}
-
-void SpeechList::dropEvent(QDropEvent *event)
-{
-    const QMimeData *qMimeData = event->mimeData();
-    if (qMimeData->hasUrls()) {
-        QList<QUrl> urls = qMimeData->urls();
-        if (!urls.isEmpty()) {
-            Q_EMIT getDictionary(urls.takeFirst());
-        }
-    }
-}
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_actions, bool gpuAllowed, QWidget *parent)
     : KConfigDialog(parent, QStringLiteral("settings"), KdenliveSettings::self())
@@ -126,9 +93,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
     guidesLayout->addWidget(m_guidesCategories);
 
-    QWidget *p12 = new QWidget;
-    m_configSpeech.setupUi(p12);
-    m_pageSpeech = addPage(p12, i18n("Speech To Text"), QStringLiteral("text-speak"));
+    m_pluginsPage = new PluginsSettings(this);
+    connect(m_pluginsPage, &PluginsSettings::openBrowserUrl, this, &KdenliveSettingsDialog::openBrowserUrl);
+    m_pageSpeech = addPage(m_pluginsPage, i18n("Plugins"), QStringLiteral("plugins"));
 
     QWidget *p7 = new QWidget;
     m_configSdl.setupUi(p7);
@@ -150,7 +117,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     initTranscodePage();
 
     initSdlPage(gpuAllowed);
-    initSpeechPage();
 
     // Config dialog size
     KSharedConfigPtr config = KSharedConfig::openConfig();
@@ -165,8 +131,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
         optimalSize = settingsGroup.readEntry("dialogSize", QVariant(size())).toSize();
     }
     resize(optimalSize);
-    // Use timers so that the Settings window opens before starting the scripts
-    checkSpeechDependencies();
 }
 
 // static
@@ -904,10 +868,14 @@ void KdenliveSettingsDialog::showPage(Kdenlive::ConfigPage page, int option)
     case Kdenlive::PageColorsGuides:
         setCurrentPage(m_pageColors);
         break;
-    case Kdenlive::PageSpeech:
-        checkSpeechDependencies();
+    case Kdenlive::PageSpeech: {
+        if (option == 0) {
+            m_pluginsPage->checkSpeechDependencies();
+        }
         setCurrentPage(m_pageSpeech);
+        m_pluginsPage->setActiveTab(option);
         break;
+    }
     default:
         setCurrentPage(m_pageMisc);
     }
@@ -1352,31 +1320,7 @@ void KdenliveSettingsDialog::updateSettings()
         Q_EMIT pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
     }
 
-    // Speech
-    switch (m_configSpeech.speech_stack->currentIndex()) {
-    case 1:
-        if (KdenliveSettings::speechEngine() != QLatin1String("whisper")) {
-            KdenliveSettings::setSpeechEngine(QStringLiteral("whisper"));
-            Q_EMIT pCore->speechEngineChanged();
-        }
-        break;
-    default:
-        if (!KdenliveSettings::speechEngine().isEmpty()) {
-            KdenliveSettings::setSpeechEngine(QString());
-            Q_EMIT pCore->speechEngineChanged();
-        }
-        break;
-    }
-
-    if (m_configSpeech.combo_wr_lang->currentData().toString() != KdenliveSettings::whisperLanguage()) {
-        KdenliveSettings::setWhisperLanguage(m_configSpeech.combo_wr_lang->currentData().toString());
-    }
-    if (m_configSpeech.combo_wr_model->currentData().toString() != KdenliveSettings::whisperModel()) {
-        KdenliveSettings::setWhisperModel(m_configSpeech.combo_wr_model->currentData().toString());
-    }
-    if (m_configSpeech.combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
-        KdenliveSettings::setWhisperDevice(m_configSpeech.combo_wr_device->currentData().toString());
-    }
+    m_pluginsPage->applySettings();
 
     // Mimes
     if (m_configEnv.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
@@ -1779,562 +1723,7 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
 #endif // USE_JOGSHUTTLE
 }
 
-void KdenliveSettingsDialog::initSpeechPage()
-{
-    m_stt = new SpeechToTextVosk(this);
-    m_sttWhisper = new SpeechToTextWhisper(this);
-    // Contextual help
-    m_configSpeech.whisper_device_info->setContextualHelpText(i18n("CPU processing is very slow, GPU is recommended for faster processing"));
-    m_configSpeech.seamless_device_info->setContextualHelpText(i18n("Text translation is performed by the SeamlessM4T model. This requires downloading "
-                                                                    "around 10Gb of data. Once installed, all processing will happen offline."));
-
-    // Python env info label
-    PythonDependencyMessage *pythonEnvLabel = new PythonDependencyMessage(this, m_sttWhisper, true);
-    m_configEnv.message_layout_2->addWidget(pythonEnvLabel);
-    // Also show VOSK setup messages in the python env page
-    connect(m_stt, &AbstractPythonInterface::setupMessage,
-            [pythonEnvLabel](const QString message, int type) { pythonEnvLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
-    connect(m_stt, &AbstractPythonInterface::venvSetupChanged, this, [this]() {
-        QSignalBlocker bk(m_configEnv.kcfg_usePythonVenv);
-        m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
-    });
-    connect(m_sttWhisper, &AbstractPythonInterface::venvSetupChanged, this, [this]() {
-        QSignalBlocker bk(m_configEnv.kcfg_usePythonVenv);
-        m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
-    });
-    m_configSpeech.noModelMessage->hide();
-    m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
-    m_downloadModelAction = new QAction(i18n("Download (1.4Gb)"), this);
-    connect(m_downloadModelAction, &QAction::triggered, [this]() {
-        disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog);
-        if (m_sttWhisper->installNewModel(QStringLiteral("turbo"))) {
-            reloadWhisperModels();
-        }
-        connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
-    });
-    // Fill models list
-    reloadWhisperModels();
-    const QString seamlessModelScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/seamlessquery.py"));
-    ModelDownloadWidget *modelDownload = new ModelDownloadWidget(m_sttWhisper, seamlessModelScript, {QStringLiteral("task=download")}, this);
-    connect(modelDownload, &ModelDownloadWidget::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
-    connect(modelDownload, &ModelDownloadWidget::jobDone, this, &KdenliveSettingsDialog::downloadJobDone, Qt::QueuedConnection);
-    m_configSpeech.seamless_layout->addWidget(modelDownload);
-    modelDownload->setVisible(false);
-    connect(m_configSpeech.install_seamless, &QPushButton::clicked, this, [this]() {
-        const QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/requirements-seamless.txt"));
-        if (!scriptPath.isEmpty()) {
-            m_sttWhisper->addDependency(scriptPath, QString());
-        }
-        m_configSpeech.install_seamless->setEnabled(false);
-        m_configSpeech.install_seamless->setText(i18n("Installing multilingual data…"));
-        m_sttWhisper->installMissingDependencies();
-    });
-
-    QString voskModelFolder = KdenliveSettings::vosk_folder_path();
-    if (voskModelFolder.isEmpty()) {
-        voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
-    }
-    if (!voskModelFolder.isEmpty()) {
-        m_configSpeech.modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
-        m_configSpeech.modelV_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(voskModelFolder, flags)) {
-            totalSize += dirEntry.size();
-        }
-        m_configSpeech.modelV_size->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
-        connect(job, &KJob::result, this, [job, label = m_configSpeech.modelV_size]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
-        });
-#endif
-    } else {
-        m_configSpeech.modelV_folder_label->setVisible(false);
-    }
-    connect(m_configSpeech.modelV_folder_label, &QLabel::linkActivated,
-            [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    connect(m_configSpeech.whisper_folder_label, &QLabel::linkActivated,
-            [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    connect(m_configSpeech.seamless_folder_label, &QLabel::linkActivated,
-            [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    QButtonGroup *speechEngineSelection = new QButtonGroup(this);
-    speechEngineSelection->addButton(m_configSpeech.engine_vosk);
-    speechEngineSelection->addButton(m_configSpeech.engine_whisper);
-    connect(speechEngineSelection, &QButtonGroup::buttonClicked, [this](QAbstractButton *button) {
-        if (button == m_configSpeech.engine_vosk) {
-            m_configSpeech.speech_stack->setCurrentIndex(0);
-            m_stt->checkDependencies(false);
-        } else if (button == m_configSpeech.engine_whisper) {
-            m_configSpeech.speech_stack->setCurrentIndex(1);
-            m_sttWhisper->checkDependencies(false);
-        }
-    });
-    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
-        m_configSpeech.engine_whisper->setChecked(true);
-        m_configSpeech.speech_stack->setCurrentIndex(1);
-    } else {
-        m_configSpeech.engine_vosk->setChecked(true);
-        m_configSpeech.speech_stack->setCurrentIndex(0);
-    }
-    // Python setup
-    m_configEnv.pythonSetupMessage->hide();
-    connect(m_sttWhisper, &SpeechToText::gotPythonSize, m_configEnv.label_python_size, &QLabel::setText);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-    connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
-#else
-    connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::stateChanged, this, [this](int state) {
-#endif
-        if (m_sttWhisper->installInProcess()) {
-            return;
-        }
-        m_configEnv.pythonSetupMessage->setMessageType(KMessageWidget::Information);
-        if (state == Qt::Checked) {
-            m_configEnv.pythonSetupMessage->setText(i18n("Setting up virtual environment…"));
-        } else {
-            m_configEnv.pythonSetupMessage->setText(i18n("Disabling virtual environment"));
-        }
-        m_configEnv.pythonSetupMessage->show();
-        qApp->processEvents();
-        bool updatePython = m_sttWhisper->checkPython(state == Qt::Checked, true);
-        if (!updatePython) {
-            // Setting up venv failed
-            m_configEnv.kcfg_usePythonVenv->setChecked(false);
-        } else {
-            // Venv setting changed, refresh all speech interfaces
-            m_stt->checkDependencies(true);
-            m_sttWhisper->checkDependencies(true);
-        }
-        m_configEnv.pythonSetupMessage->hide();
-    });
-    connect(m_configEnv.button_python_delete, &QPushButton::clicked, this, [this]() {
-        m_configEnv.pythonSetupMessage->setMessageType(KMessageWidget::Information);
-        m_configEnv.pythonSetupMessage->setText(i18nc("@label:textbox", "Removing the virtual environment folder."));
-        m_configEnv.pythonSetupMessage->show();
-        if (m_sttWhisper->removePythonVenv()) {
-            m_configEnv.kcfg_usePythonVenv->setChecked(false);
-            m_configEnv.pythonSetupMessage->hide();
-            m_configEnv.label_python_size->setText(i18nc("@label:textbox", "No python venv found"));
-        } else {
-            m_configEnv.pythonSetupMessage->setMessageType(KMessageWidget::Warning);
-            m_configEnv.pythonSetupMessage->setText(i18nc("@label:textbox", "Failed to remove the virtual environment folder."));
-        }
-    });
-
-    // Whisper
-    if (KdenliveSettings::whisperInstalledModels().isEmpty()) {
-        m_configSpeech.combo_wr_model->setPlaceholderText(i18n("Probing..."));
-    }
-
-    m_configSpeech.combo_wr_device->setPlaceholderText(i18n("Probing..."));
-    m_configSpeech.combo_wr_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    m_configSpeech.combo_wr_device->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
-    m_configSpeech.message_layout_wr->addWidget(msgWhisper);
-    QMap<QString, QString> whisperLanguages = m_sttWhisper->speechLanguages();
-    QMapIterator<QString, QString> j(whisperLanguages);
-    while (j.hasNext()) {
-        j.next();
-        m_configSpeech.combo_wr_lang->addItem(j.key(), j.value());
-    }
-    int ix = m_configSpeech.combo_wr_lang->findData(KdenliveSettings::whisperLanguage());
-    if (ix > -1) {
-        m_configSpeech.combo_wr_lang->setCurrentIndex(ix);
-    }
-    m_configSpeech.script_log->hide();
-    m_configSpeech.script_log->setCenterOnScroll(true);
-    connect(m_sttWhisper, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
-    connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
-    connect(m_sttWhisper, &SpeechToText::scriptFinished, [this, modelDownload, msgWhisper](const QStringList &args) {
-        if (args.join(QLatin1Char(' ')).contains("requirements-seamless.txt")) {
-            m_configSpeech.install_seamless->setText(i18n("Downloading multilingual model…"));
-            modelDownload->setVisible(true);
-            modelDownload->startDownload();
-        }
-        QMetaObject::invokeMethod(msgWhisper, "checkAfterInstall", Qt::QueuedConnection);
-    });
-    connect(m_configSpeech.downloadButton, &QPushButton::clicked, [this]() {
-        disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog);
-        if (m_sttWhisper->installNewModel()) {
-            reloadWhisperModels();
-        }
-        connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
-    });
-
-    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
-        Q_UNUSED(args);
-        if (scriptName.contains("checkgpu")) {
-            m_configSpeech.combo_wr_device->clear();
-            for (auto &s : jobData) {
-                if (s.contains(QLatin1Char('#'))) {
-                    m_configSpeech.combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
-                } else {
-                    m_configSpeech.combo_wr_device->addItem(s.simplified(), s.simplified());
-                }
-            }
-        }
-    });
-
-    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, [this](const QString &scriptName, const QStringList &args) {
-        qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
-        if (scriptName.contains("checkgpu")) {
-            if (!KdenliveSettings::whisperDevice().isEmpty()) {
-                int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
-                if (ix > -1) {
-                    m_configSpeech.combo_wr_device->setCurrentIndex(ix);
-                }
-            } else if (m_configSpeech.combo_wr_device->count() > 0) {
-                m_configSpeech.combo_wr_device->setCurrentIndex(0);
-            }
-        }
-    });
-    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
-        // Check if a GPU is available
-        m_configSpeech.whispersettings->setEnabled(true);
-        m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
-    });
-    connect(m_sttWhisper, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { m_configSpeech.whispersettings->setEnabled(false); });
-
-    // VOSK
-    m_configSpeech.vosk_folder->setPlaceholderText(
-        QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory));
-    PythonDependencyMessage *msgVosk = new PythonDependencyMessage(this, m_stt);
-    m_configSpeech.message_layout->addWidget(msgVosk);
-
-    connect(m_stt, &SpeechToText::dependenciesAvailable, this, [&]() {
-        if (m_speechListWidget->count() == 0) {
-            doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
-        }
-    });
-    connect(m_stt, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { m_configSpeech.speech_info->animatedHide(); });
-    connect(m_stt, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
-    connect(m_stt, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
-    connect(m_stt, &SpeechToText::scriptFinished, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
-
-    m_speechListWidget = new SpeechList(this);
-    connect(m_speechListWidget, &SpeechList::getDictionary, this, &KdenliveSettingsDialog::getDictionary);
-    QVBoxLayout *l = new QVBoxLayout(m_configSpeech.list_frame);
-    l->setContentsMargins(0, 0, 0, 0);
-    l->addWidget(m_speechListWidget);
-    m_configSpeech.speech_info->setWordWrap(true);
-    connect(m_configSpeech.check_config, &QPushButton::clicked, this, &KdenliveSettingsDialog::slotCheckSttConfig);
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-    connect(m_configSpeech.custom_vosk_folder, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
-#else
-    connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, this, [this](int state) {
-#endif
-        m_configSpeech.vosk_folder->setEnabled(state != Qt::Unchecked);
-        if (state == Qt::Unchecked) {
-            // Clear custom folder
-            m_configSpeech.vosk_folder->clear();
-            KdenliveSettings::setVosk_folder_path(QString());
-            slotParseVoskDictionaries();
-        }
-    });
-    connect(m_configSpeech.vosk_folder, &KUrlRequester::urlSelected, this, [this](const QUrl &url) {
-        KdenliveSettings::setVosk_folder_path(url.toLocalFile());
-        slotParseVoskDictionaries();
-    });
-    m_configSpeech.models_url->setText(
-        i18n("Download speech models from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-    connect(m_configSpeech.models_url, &QLabel::linkActivated, this, &KdenliveSettingsDialog::openBrowserUrl);
-    connect(m_configSpeech.button_add, &QToolButton::clicked, this, [this]() { this->getDictionary(); });
-    connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
-    connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
-    slotParseVoskDictionaries();
-}
-
-void KdenliveSettingsDialog::downloadJobDone(bool success)
-{
-    KdenliveSettings::setEnableSeamless(success);
-    if (!success) {
-        m_configSpeech.install_seamless->setEnabled(true);
-    }
-    m_configSpeech.install_seamless->setText(i18n("Install multilingual translation"));
-}
-
-void KdenliveSettingsDialog::reloadWhisperModels()
-{
-    m_configSpeech.combo_wr_model->clear();
-    const QStringList models = m_sttWhisper->getInstalledModels();
-    if (models.isEmpty()) {
-        // Show install button
-        m_configSpeech.noModelMessage->setText(i18n("Install a speech model - we recommand <b>turbo</b>"));
-        m_configSpeech.noModelMessage->addAction(m_downloadModelAction);
-        m_configSpeech.noModelMessage->show();
-        return;
-    }
-    m_configSpeech.noModelMessage->hide();
-    for (auto &m : models) {
-        if (m.isEmpty()) {
-            continue;
-        }
-        QString modelName = m;
-        modelName[0] = m.at(0).toUpper();
-        m_configSpeech.combo_wr_model->addItem(modelName, m);
-        qDebug() << ":::: LOADED MODEL: " << modelName << " = " << m;
-    }
-    int ix = m_configSpeech.combo_wr_model->findData(KdenliveSettings::whisperModel());
-    qDebug() << "LOOKING FOR MODEL: " << KdenliveSettings::whisperModel() << " / IX: " << ix;
-
-    if (ix == -1) {
-        ix = 0;
-    }
-    m_configSpeech.combo_wr_model->setCurrentIndex(ix);
-    checkWhisperFolderSize();
-    Q_EMIT pCore->speechModelUpdate(SpeechToTextEngine::EngineWhisper, models);
-}
-
-void KdenliveSettingsDialog::checkWhisperFolderSize()
-{
-    const QString folder = m_sttWhisper->modelFolder();
-    QDir modelsFolder(folder);
-    if (folder.isEmpty() || !modelsFolder.exists()) {
-        m_configSpeech.whisper_folder_label->setVisible(false);
-        m_configSpeech.downloadButton->setText(i18n("Install a model"));
-    } else {
-        const QString path = modelsFolder.absolutePath();
-        m_configSpeech.whisper_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(path, QStringLiteral("Whisper")));
-        m_configSpeech.whisper_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(path, flags)) {
-            totalSize += dirEntry.size();
-        }
-        m_configSpeech.whisper_model_size->setText(KIO::convertSize(totalSize));
-        if (totalSize == 0) {
-            m_configSpeech.downloadButton->setText(i18n("Install a model"));
-        } else {
-            m_configSpeech.downloadButton->setText(i18n("Manage models"));
-        }
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(path));
-        connect(job, &KJob::result, this, [job, label = m_configSpeech.whisper_model_size, button = m_configSpeech.downloadButton]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            if (job->totalSize() == 0) {
-                button->setText(i18n("Install a model"));
-            } else {
-                button->setText(i18n("Manage models"));
-            }
-            job->deleteLater();
-        });
-#endif
-    }
-    const QString folder2 = m_sttWhisper->modelFolder(false);
-    QDir seamlessFolder(folder2);
-    if (folder2.isEmpty() || !seamlessFolder.exists()) {
-        m_configSpeech.seamless_folder_label->setVisible(false);
-    } else {
-        m_configSpeech.seamless_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(seamlessFolder.absolutePath(), QStringLiteral("Seamless")));
-        m_configSpeech.seamless_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(seamlessFolder.absolutePath(), flags)) {
-            totalSize += dirEntry.size();
-        }
-        m_configSpeech.seamless_folder_label->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *jobSeamless = KIO::directorySize(QUrl::fromLocalFile(seamlessFolder.absolutePath()));
-        connect(jobSeamless, &KJob::result, this, [jobSeamless, label = m_configSpeech.seamless_folder_size]() {
-            label->setText(KIO::convertSize(jobSeamless->totalSize()));
-            jobSeamless->deleteLater();
-        });
-#endif
-    }
-}
-
-void KdenliveSettingsDialog::showSpeechLog(const QString &jobData)
-{
-    m_configSpeech.script_log->show();
-    m_configSpeech.script_log->appendPlainText(jobData);
-    m_configSpeech.script_log->ensureCursorVisible();
-}
-
-void KdenliveSettingsDialog::slotCheckSttConfig()
-{
-    m_configSpeech.check_config->setEnabled(false);
-    qApp->processEvents();
-    if (m_configSpeech.engine_vosk->isChecked()) {
-        m_stt->checkDependencies(true);
-    } else {
-        m_sttWhisper->checkDependencies(true);
-    }
-    // Leave button disabled for 3 seconds so that the user doesn't trigger it again while it is processing
-    QTimer::singleShot(3000, this, [&]() { m_configSpeech.check_config->setEnabled(true); });
-}
-
-void KdenliveSettingsDialog::doShowSpeechMessage(const QString &message, int messageType)
-{
-    m_configSpeech.speech_info->setMessageType(static_cast<KMessageWidget::MessageType>(messageType));
-    m_configSpeech.speech_info->setText(message);
-    m_configSpeech.speech_info->animatedShow();
-}
-
-void KdenliveSettingsDialog::getDictionary(const QUrl &sourceUrl)
-{
-    QUrl url = KUrlRequesterDialog::getUrl(sourceUrl, this, i18n("Enter url for the new dictionary"));
-    if (url.isEmpty()) {
-        return;
-    }
-    if (!url.isLocalFile()) {
-        KIO::FileCopyJob *copyjob = KIO::file_copy(url, QUrl::fromLocalFile(QDir::temp().absoluteFilePath(url.fileName())));
-        doShowSpeechMessage(i18n("Downloading model…"), KMessageWidget::Information);
-        connect(copyjob, &KIO::FileCopyJob::result, this, &KdenliveSettingsDialog::downloadModelFinished);
-    } else {
-        processArchive(url.toLocalFile());
-    }
-}
-
-void KdenliveSettingsDialog::removeDictionary()
-{
-    if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
-        doShowSpeechMessage(i18n("We do not allow deleting custom folder models, please do it manually."), KMessageWidget::Warning);
-        return;
-    }
-    QString modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QDir dir(modelDirectory);
-    if (!dir.cd(QStringLiteral("speechmodels"))) {
-        doShowSpeechMessage(i18n("Cannot access dictionary folder."), KMessageWidget::Warning);
-        return;
-    }
-
-    if (!m_speechListWidget->currentItem()) {
-        return;
-    }
-    QString currentModel = m_speechListWidget->currentItem()->text();
-    if (!currentModel.isEmpty() && dir.cd(currentModel)) {
-        if (KMessageBox::questionTwoActions(this, i18n("Delete folder:\n%1", dir.absolutePath()), {}, KStandardGuiItem::del(), KStandardGuiItem::cancel()) ==
-            KMessageBox::PrimaryAction) {
-            // Make sure we don't accidentally delete a folder that is not ours
-            if (dir.absolutePath().contains(QLatin1String("speechmodels"))) {
-                dir.removeRecursively();
-                slotParseVoskDictionaries();
-            }
-        }
-    }
-}
-
-void KdenliveSettingsDialog::downloadModelFinished(KJob *job)
-{
-    qDebug() << "=== DOWNLOAD FINISHED!!";
-    if (job->error() == 0 || job->error() == 112) {
-        qDebug() << "=== NO ERROR ON DWNLD!!";
-        auto *jb = static_cast<KIO::FileCopyJob *>(job);
-        if (jb) {
-            qDebug() << "=== JOB FOUND!!";
-            QString archiveFile = jb->destUrl().toLocalFile();
-            processArchive(archiveFile);
-        } else {
-            qDebug() << "=== JOB NOT FOUND!!";
-            m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-            m_configSpeech.speech_info->setText(i18n("Download error"));
-        }
-    } else {
-        qDebug() << "=== GOT JOB ERROR: " << job->error();
-        m_configSpeech.speech_info->setMessageType(KMessageWidget::Warning);
-        m_configSpeech.speech_info->setText(i18n("Download error %1", job->errorString()));
-    }
-}
-
-void KdenliveSettingsDialog::processArchive(const QString &archiveFile)
-{
-    QMimeDatabase db;
-    QMimeType type = db.mimeTypeForFile(archiveFile);
-    std::unique_ptr<KArchive> archive;
-    if (type.inherits(QStringLiteral("application/zip"))) {
-        archive = std::make_unique<KZip>(archiveFile);
-    } else {
-        archive = std::make_unique<KTar>(archiveFile);
-    }
-    QString modelDirectory = KdenliveSettings::vosk_folder_path();
-    QDir dir;
-    if (modelDirectory.isEmpty()) {
-        modelDirectory = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-        dir = QDir(modelDirectory);
-        dir.mkdir(QStringLiteral("speechmodels"));
-        if (!dir.cd(QStringLiteral("speechmodels"))) {
-            doShowSpeechMessage(i18n("Cannot access dictionary folder."), KMessageWidget::Warning);
-            return;
-        }
-    } else {
-        dir = QDir(modelDirectory);
-    }
-    if (archive->open(QIODevice::ReadOnly)) {
-        doShowSpeechMessage(i18n("Extracting archive…"), KMessageWidget::Information);
-        const KArchiveDirectory *archiveDir = archive->directory();
-        if (!archiveDir->copyTo(dir.absolutePath())) {
-            qDebug() << "=== Error extracting archive!!";
-        } else {
-            QFile::remove(archiveFile);
-            Q_EMIT parseDictionaries();
-            doShowSpeechMessage(i18n("New dictionary installed."), KMessageWidget::Positive);
-        }
-    } else {
-        // Test if it is a folder
-        QDir testDir(archiveFile);
-        if (testDir.exists()) {
-        }
-        qDebug() << "=== CANNOT OPEN ARCHIVE!!";
-    }
-}
-
-void KdenliveSettingsDialog::slotParseVoskDictionaries()
-{
-    m_speechListWidget->clear();
-    QStringList final = m_stt->getInstalledModels();
-    m_speechListWidget->addItems(final);
-    QString voskModelFolder;
-    if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
-        m_configSpeech.custom_vosk_folder->setChecked(true);
-        m_configSpeech.vosk_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::vosk_folder_path()));
-        voskModelFolder = KdenliveSettings::vosk_folder_path();
-    } else {
-        voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
-    }
-    if (!final.isEmpty() && m_stt->missingDependencies().isEmpty()) {
-        m_configSpeech.speech_info->animatedHide();
-    } else if (final.isEmpty()) {
-        doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
-    }
-    if (!voskModelFolder.isEmpty()) {
-        m_configSpeech.modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
-        m_configSpeech.modelV_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(voskModelFolder, flags)) {
-            totalSize += dirEntry.size();
-        }
-        m_configSpeech.modelV_size->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
-        connect(job, &KJob::result, this, [job, label = m_configSpeech.modelV_size]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
-        });
-#endif
-    } else {
-        m_configSpeech.modelV_folder_label->setVisible(false);
-    }
-    Q_EMIT pCore->speechModelUpdate(SpeechToTextEngine::EngineVosk, final);
-}
-
 void KdenliveSettingsDialog::showHelp()
 {
     pCore->window()->appHelpActivated();
-}
-
-void KdenliveSettingsDialog::checkSpeechDependencies()
-{
-    m_sttWhisper->checkDependenciesConcurrently();
-    m_stt->checkDependenciesConcurrently();
 }

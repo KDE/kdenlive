@@ -2246,6 +2246,12 @@ const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) 
     case CacheSequence:
         basePath.append(QStringLiteral("/sequences"));
         break;
+    case CacheMask:
+        basePath.append(QStringLiteral("/masks"));
+        break;
+    case CacheMaskSource:
+        basePath.append(QStringLiteral("/masks/source-frames"));
+        break;
     default:
         break;
     }

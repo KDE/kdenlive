@@ -4,9 +4,11 @@
 # SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 import sys
+import os
 import subprocess
 import importlib.metadata
 import importlib.util
+from pathlib import Path
 
 
 def print_help():
@@ -62,12 +64,17 @@ elif '--install' in sys.argv and len(sys.argv) > 1:
     python = sys.executable
     if len(missing) > 0:
         print("Installing missing packages: ", missing)
+        tmpFolder = os.path.join(Path.home(), ".cache/pip-kdenlive-tmp-folder")
+        print("Using tmp folder: ", tmpFolder)
+        os.makedirs(tmpFolder, exist_ok=True)
+        my_env = os.environ.copy()
+        my_env["TMPDIR"] = tmpFolder
         for m in missing:
             try:
                 if m.endswith(".txt"):
-                    subprocess.check_call([python, '-m', 'pip', 'install', '-r', m, '--no-cache-dir'])
+                    subprocess.check_call([python, '-m', 'pip', 'install', '-r', m, '--no-cache-dir'], env=my_env)
                 else:
-                    subprocess.check_call([python, '-m', 'pip', 'install', m, '--no-cache-dir'])
+                    subprocess.check_call([python, '-m', 'pip', 'install', m, '--no-cache-dir'], env=my_env)
             except:
                 print("failed installing ", m)
 elif '--upgrade' in sys.argv:

@@ -5,11 +5,14 @@
 
 #include "assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "bin/projectitemmodel.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include <QDebug>
 #include <QDir>
 #include <QDirIterator>
@@ -105,7 +108,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         currentRow.type = paramTypeFromStr(type);
         currentRow.xml = currentParameter;
         if (value.isEmpty()) {
-            QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
+            QVariant defaultValue = parseAttribute(QStringLiteral("default"), currentParameter);
             value = defaultValue.toString();
             qDebug() << "QLocale: Default value is" << defaultValue << "parsed:" << value;
         }
@@ -568,29 +571,29 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return comment;
     }
     case MinRole:
-        return parseAttribute(m_ownerId, QStringLiteral("min"), element);
+        return parseAttribute(QStringLiteral("min"), element);
     case MaxRole:
-        return parseAttribute(m_ownerId, QStringLiteral("max"), element);
+        return parseAttribute(QStringLiteral("max"), element);
     case FactorRole:
-        return parseAttribute(m_ownerId, QStringLiteral("factor"), element, 1);
+        return parseAttribute(QStringLiteral("factor"), element, 1);
     case ScaleRole:
-        return parseAttribute(m_ownerId, QStringLiteral("scale"), element, 0);
+        return parseAttribute(QStringLiteral("scale"), element, 0);
     case DecimalsRole:
-        return parseAttribute(m_ownerId, QStringLiteral("decimals"), element);
+        return parseAttribute(QStringLiteral("decimals"), element);
     case OddRole:
         return element.attribute(QStringLiteral("odd")) == QLatin1String("1");
     case VisualMinRole:
-        return parseAttribute(m_ownerId, QStringLiteral("visualmin"), element);
+        return parseAttribute(QStringLiteral("visualmin"), element);
     case VisualMaxRole:
-        return parseAttribute(m_ownerId, QStringLiteral("visualmax"), element);
+        return parseAttribute(QStringLiteral("visualmax"), element);
     case DefaultRole:
-        return parseAttribute(m_ownerId, QStringLiteral("default"), element);
+        return parseAttribute(QStringLiteral("default"), element);
     case FilterRole:
-        return parseAttribute(m_ownerId, QStringLiteral("filter"), element);
+        return parseAttribute(QStringLiteral("filter"), element);
     case FilterParamsRole:
-        return parseAttribute(m_ownerId, QStringLiteral("filterparams"), element);
+        return parseAttribute(QStringLiteral("filterparams"), element);
     case FilterConsumerParamsRole:
-        return parseAttribute(m_ownerId, QStringLiteral("consumerparams"), element);
+        return parseAttribute(QStringLiteral("consumerparams"), element);
     case FilterJobParamsRole:
         return parseSubAttributes(QStringLiteral("jobparam"), element);
     case FilterProgressRole:
@@ -628,7 +631,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
                 values << val;
             }
             if (!valueFound) {
-                return (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element)
+                return (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(QStringLiteral("default"), element)
                                                                             : element.attribute(QStringLiteral("value")));
             }
             return values.join(QLatin1Char('\n'));
@@ -636,7 +639,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         QString value(m_asset->get(paramName.toUtf8().constData()));
         if (value.isEmpty()) {
             if (element.hasAttribute(QStringLiteral("default"))) {
-                value = parseAttribute(m_ownerId, QStringLiteral("default"), element).toString();
+                value = parseAttribute(QStringLiteral("default"), element).toString();
             } else {
                 value = element.attribute(QStringLiteral("value"));
             }
@@ -669,9 +672,9 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case ModeRole:
         return element.attribute(QStringLiteral("mode"));
     case List1Role:
-        return parseAttribute(m_ownerId, QStringLiteral("list1"), element);
+        return parseAttribute(QStringLiteral("list1"), element);
     case List2Role:
-        return parseAttribute(m_ownerId, QStringLiteral("list2"), element);
+        return parseAttribute(QStringLiteral("list2"), element);
     case Enum1Role:
         return m_asset->get_double("1");
     case Enum2Role:
@@ -815,7 +818,7 @@ QString AssetParameterModel::getDefaultKeyframes(int start, const QString &defau
     return keyframes;
 }
 
-QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue) const
+QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDomElement &element, QVariant defaultValue) const
 {
     if (!element.hasAttribute(attribute) && !defaultValue.isNull()) {
         return defaultValue;
@@ -826,7 +829,6 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         QString values = element.attribute(QStringLiteral("paramlist"));
         if (values == QLatin1String("%lutPaths")) {
             QString filter = element.attribute(QStringLiteral("filter"));
-            ;
             filter.remove(0, filter.indexOf(QLatin1String("(")) + 1);
             filter.remove(filter.indexOf(QLatin1String(")")) - 1, -1);
             QStringList fileExt = filter.split(QStringLiteral(" "));
@@ -845,10 +847,29 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                 return results.first();
             }
             return defaultValue;
+        } else if (values == QLatin1String("%maskPaths")) {
+            // check for Kdenlive project masks
+            QString binId;
+            if (m_ownerId.type == KdenliveObjectType::TimelineClip) {
+                auto tl = pCore->currentDoc()->getTimeline(m_ownerId.uuid);
+                if (tl) {
+                    binId = tl->getClipBinId(m_ownerId.itemId);
+                }
+            } else if (m_ownerId.type == KdenliveObjectType::BinClip) {
+                binId = QString::number(m_ownerId.itemId);
+            }
+            if (binId.isEmpty()) {
+                return defaultValue;
+            }
+            /*QMap<QString, QString> masks = pCore->projectItemModel()->getClipMasks(binId);
+            if (!masks.isEmpty()) {
+                return masks.value(masks.firstKey());
+            }*/
+            return defaultValue;
         }
     }
     QSize profileSize = pCore->getCurrentFrameSize();
-    QSize frameSize = pCore->getItemFrameSize(owner);
+    QSize frameSize = pCore->getItemFrameSize(m_ownerId);
     if (frameSize.isEmpty()) {
         frameSize = profileSize;
     }
@@ -872,17 +893,18 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                       .arg(contentWidth)
                       .arg(contentHeight);
     } else if (content.contains(QLatin1Char('%'))) {
-        int in = pCore->getItemIn(owner);
-        int out = in + pCore->getItemDuration(owner) - 1;
+        int itemIn = pCore->getItemIn(m_ownerId);
+        int out = itemIn + pCore->getItemDuration(m_ownerId) - 1;
         if (m_ownerId.type == KdenliveObjectType::TimelineComposition && out == -1) {
             out = m_asset->get_int("out");
         }
         int currentPos = 0;
-        if (content.contains(QLatin1String("%position"))) {
+        if (content.contains(QLatin1String("%in"))) {
+            currentPos = itemIn;
+        } else if (content.contains(QLatin1String("%position"))) {
             // Calculate playhead position relative to clip
             int playhead = pCore->getMonitorPosition(m_ownerId.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
             int itemPosition = pCore->getItemPosition(m_ownerId);
-            int itemIn = pCore->getItemIn(m_ownerId);
             currentPos = playhead - itemPosition + itemIn;
             currentPos = qBound(itemIn, currentPos, itemIn + pCore->getItemDuration(m_ownerId) - 1);
         }
@@ -894,6 +916,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             .replace(QLatin1String("%width"), QString::number(profileSize.width()))
             .replace(QLatin1String("%height"), QString::number(profileSize.height()))
             .replace(QLatin1String("%position"), QString::number(currentPos))
+            .replace(QLatin1String("%in"), QString::number(currentPos))
             .replace(QLatin1String("%contentWidth"), QString::number(frameSize.width()))
             .replace(QLatin1String("%contentHeight"), QString::number(frameSize.height()))
             .replace(QLatin1String("%fittedContentWidth"), QString::number(frameSize.width() * fitScale))
@@ -1525,7 +1548,7 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
 
 void AssetParameterModel::setParametersFromTask(const paramVector &params)
 {
-    if (m_keyframes) {
+    if (m_keyframes && isAnimated(m_params.at(params.first().first).type)) {
         // We have keyframable parameters. Ensure all of these share the same keyframes,
         // required by Kdenlive's current implementation
         m_keyframes->setParametersFromTask(params);
@@ -1645,7 +1668,7 @@ bool AssetParameterModel::isDefault() const
     for (const auto &name : m_rows) {
         ParamRow currentRow = m_params.at(name);
         const QDomElement &element = currentRow.xml;
-        QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), element);
+        QVariant defaultValue = parseAttribute(QStringLiteral("default"), element);
         QString value = defaultValue.toString();
         if (isAnimated(currentRow.type) && currentRow.type != ParamType::Roto_spline) {
             // Roto_spline keyframes are stored as JSON so do not apply this to roto

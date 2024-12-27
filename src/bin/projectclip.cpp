@@ -117,6 +117,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
         QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(QString, markers), Q_ARG(bool, true), Q_ARG(bool, false));
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
+    loadMasks(getProducerProperty(QStringLiteral("kdenlive:masks")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
     if (m_clipType != ClipType::Timeline &&
@@ -3148,4 +3149,113 @@ bool ProjectClip::hasAlpha()
         }
     }
     return false;
+}
+
+void ProjectClip::exportFrames(const QDir folder, int in, int out)
+{
+    // exporting through ffmpeg gives frames mismatch when clip fps != project fps
+    /*GenTime inPos;
+    QStringList args = {QStringLiteral("-y")};
+    if (in > 0) {
+        inPos = GenTime(in, pCore->getCurrentFps());
+        args << QStringLiteral("-ss") << QString::number(inPos.seconds());
+    }
+    args << QStringLiteral("-i") << clipUrl();
+    if (out > 0) {
+        GenTime outPos(out + 1, pCore->getCurrentFps());
+        args << QStringLiteral("-t") << QString::number((outPos - inPos).seconds());
+    }
+    args << QStringLiteral("-start_number") << QStringLiteral("0");
+    args << folder.absoluteFilePath(QStringLiteral("%05d.jpg"));
+    // TODO Inform monitor when all frames are exported
+    // connect(&m_exportProcess, &QProcess::finished, this, [this]() { m_exportFramesTimer.stop(); });
+    m_exportProcess.startDetached(KdenliveSettings::ffmpegpath(), args);*/
+    Mlt::Consumer c(pCore->getProjectProfile(), "avformat", folder.absoluteFilePath(QStringLiteral("%05d.jpg")).toUtf8().constData());
+    c.set("preset", "stills/JPEG");
+    c.set("start_number", 0);
+    std::unique_ptr<Mlt::Producer> p(m_masterProducer->parent().cut(in, out));
+    c.connect(*p.get());
+    c.run();
+    p.reset();
+}
+
+void ProjectClip::addMask(MaskInfo mask)
+{
+    m_masks.append(mask);
+    Q_EMIT masksUpdated();
+    QJsonArray list;
+    for (auto &m : m_masks) {
+        QJsonObject currentMask;
+        currentMask.insert(QLatin1String("name"), QJsonValue(m.maskName));
+        currentMask.insert(QLatin1String("file"), QJsonValue(m.maskFile));
+        currentMask.insert(QLatin1String("in"), QJsonValue(m.in));
+        currentMask.insert(QLatin1String("out"), QJsonValue(m.out));
+        list.push_back(currentMask);
+    }
+    QJsonDocument json(list);
+    setProducerProperty(QStringLiteral("kdenlive:masks"), QString::fromUtf8(json.toJson()));
+    pCore->currentDoc()->setModified(true);
+}
+
+void ProjectClip::removeMask(const QString &maskName)
+{
+    int ix = -1;
+    for (const MaskInfo &m : m_masks) {
+        if (m.maskName == maskName) {
+            ix = m_masks.indexOf(m);
+            break;
+        }
+    }
+    m_masks.remove(ix);
+    pCore->currentDoc()->setModified(true);
+}
+
+QVector<MaskInfo> ProjectClip::masks() const
+{
+    return m_masks;
+}
+
+QMap<QString, QString> ProjectClip::masksUrls() const
+{
+    QMap<QString, QString> urls;
+    for (const auto &mask : m_masks) {
+        urls.insert(mask.maskName, mask.maskFile);
+    }
+    return urls;
+}
+
+void ProjectClip::loadMasks(const QString &maskData)
+{
+    if (maskData.isEmpty()) {
+        return;
+    }
+    auto json = QJsonDocument::fromJson(maskData.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Mask data should be an array";
+        return;
+    }
+    auto list = json.array();
+    int ix = 0;
+    for (const auto &entry : std::as_const(list)) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid mask data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("name"))) {
+            qDebug() << "Warning : Skipping invalid mask data (does not contain name)";
+            continue;
+        }
+        MaskInfo mask;
+        mask.maskName = entryObj[QLatin1String("name")].toString();
+        mask.maskFile = entryObj[QLatin1String("file")].toString();
+        mask.in = entryObj[QLatin1String("in")].toInt();
+        mask.out = entryObj[QLatin1String("out")].toInt();
+        if (!QFile::exists(mask.maskFile)) {
+            mask.isValid = false;
+        }
+        m_masks.append(mask);
+        ix++;
+    }
+    Q_EMIT masksUpdated();
 }

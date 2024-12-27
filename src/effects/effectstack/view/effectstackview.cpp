@@ -17,6 +17,7 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "timeline2/model/timelinemodel.hpp"
+#include "utils/qstringutils.h"
 
 #include <QDir>
 #include <QDrag>
@@ -749,14 +750,13 @@ void EffectStackView::slotSaveStack()
     QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     
     if (dialog.exec() == QDialog::Accepted) {
-        QString name = stackName->text();
-        QString description = stackDescription->toPlainText();
-        if (name.trimmed().isEmpty()) {
+        QString name = stackName->text().simplified();
+        if (name.isEmpty()) {
             KMessageBox::error(this, i18n("No name provided, effect stack not saved."));
             return;
         }
-
-        QString effectfilename = name + QStringLiteral(".xml");
+        QString description = stackDescription->toPlainText();
+        QString effectfilename = QStringUtils::getCleanFileName(name) + QStringLiteral(".xml");
 
         if (description.trimmed().isEmpty()) {
             if (KMessageBox::questionTwoActions(this, i18n("No description provided. \nSave effect with no description?"), {}, KStandardGuiItem::save(),

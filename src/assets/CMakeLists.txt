@@ -9,6 +9,7 @@ set(kdenlive_SRCS
   assets/assetlist/model/assettreemodel.cpp
   assets/assetpanel.cpp
   assets/bpoint.cpp
+  assets/keyframes/model/automask/automaskhelper.cpp
   assets/keyframes/model/keyframemonitorhelper.cpp
   assets/keyframes/model/rotoscoping/rotohelper.cpp
   assets/keyframes/model/corners/cornershelper.cpp

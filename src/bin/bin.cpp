@@ -12,7 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
 #include "dialogs/clipjobmanager.h"
-#include "dialogs/kdenlivesettingsdialog.h"
+#include "dialogs/settings/kdenlivesettingsdialog.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
 #include "doc/documentchecker.h"

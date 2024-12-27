@@ -23,7 +23,7 @@ private Q_SLOTS:
     void processLogInfo();
 
 private:
-    int m_jobDuration;
+    int m_jobDuration{0};
     bool m_isFfmpegJob;
     std::unique_ptr<QProcess> m_jobProcess;
     QString m_errorMessage;

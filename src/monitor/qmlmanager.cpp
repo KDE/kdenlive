@@ -7,15 +7,17 @@
 
 #include "qmlmanager.h"
 #include "kdenlivesettings.h"
+#include "monitor.h"
 
 #include <QFontDatabase>
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQuickWidget>
 
-QmlManager::QmlManager(QQuickWidget *view)
-    : QObject(view)
+QmlManager::QmlManager(QQuickWidget *view, Monitor *monitor)
+    : QObject(monitor)
     , m_view(view)
+    , m_monitor(monitor)
     , m_sceneType(MonitorSceneNone)
 {
 }
@@ -103,9 +105,24 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitortrimming.qml")));
         root = m_view->rootObject();
         break;
+    case MonitorSceneAutoMask:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorautomask.qml")));
+        root = m_view->rootObject();
+        QObject::connect(root, SIGNAL(addControlPoint(double, double, bool, bool)), m_monitor, SLOT(addControlPoint(double, double, bool, bool)),
+                         Qt::UniqueConnection);
+        QObject::connect(root, SIGNAL(generateMask()), m_monitor, SIGNAL(generateMask()), Qt::UniqueConnection);
+        QObject::connect(root, SIGNAL(exitMaskPreview()), m_monitor, SLOT(requestAbortPreviewMask()), Qt::UniqueConnection);
+        root->setProperty("profile", QPoint(profile.width(), profile.height()));
+        root->setProperty("scalex", scalex);
+        root->setProperty("scaley", scaley);
+        root->setProperty("center", displayRect.center());
+        break;
     default:
-        m_view->setSource(
-            QUrl(id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
+        if (id == Kdenlive::ClipMonitor) {
+            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml")));
+        } else {
+            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
+        }
         root = m_view->rootObject();
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("scalex", scalex);

@@ -103,11 +103,8 @@ bool OtioConvertions::configureSetup()
 QString OtioConvertions::getOtioBinary()
 {
     QString otioBinary;
-    if (KdenliveSettings::usePythonVenv()) {
-        QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-        return QStandardPaths::findExecutable(QStringLiteral("otioconvert"), {pluginDir.absoluteFilePath(QStringLiteral("venv/bin"))});
-    }
-    return QStandardPaths::findExecutable(QStringLiteral("otioconvert"));
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    return QStandardPaths::findExecutable(QStringLiteral("otioconvert"), {pluginDir.absoluteFilePath(QStringLiteral("venv/bin"))});
 }
 
 bool OtioConvertions::runOtioconvert(const QString &inputFile, const QString &outputFile)

@@ -239,7 +239,8 @@ enum MonitorSceneType {
     MonitorSceneRoto,
     MonitorSceneSplit,
     MonitorSceneTrimming,
-    MonitorSplitTrack
+    MonitorSplitTrack,
+    MonitorSceneAutoMask
 };
 
 enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, TooltipMessage };
@@ -259,7 +260,9 @@ enum CacheType {
     CacheAudio = 4,
     CacheThumbs = 5,
     CacheSequence = 6,
-    CacheTmpWorkFiles = 7
+    CacheTmpWorkFiles = 7,
+    CacheMask = 8,
+    CacheMaskSource = 9
 };
 
 enum TrimMode { NormalTrim, RippleTrim, RollingTrim, SlipTrim, SlideTrim };
@@ -292,8 +295,20 @@ struct requestClipInfo
     QString clipId;
     int imageHeight;
     bool replaceProducer;
-
     bool operator==(const requestClipInfo &a) const { return clipId == a.clipId; }
+};
+
+struct MaskInfo
+{
+    QString maskName;
+    QString maskFile;
+    int in;
+    int out;
+    bool isValid{true};
+    QMap<int, QString> includePoints;
+    QMap<int, QString> excludePoints;
+    QMap<int, QString> boxes;
+    bool operator==(const MaskInfo a) const { return maskFile == a.maskFile; }
 };
 
 struct SequenceInfo

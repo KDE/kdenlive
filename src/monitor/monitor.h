@@ -61,6 +61,7 @@ class Monitor : public AbstractMonitor
 
 public:
     friend class MonitorManager;
+    friend class MaskManager;
 
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor() override;
@@ -164,6 +165,10 @@ public:
     void markDirty(const QUuid uuid);
     /** @brief If true, the monitor will need a refresh on next activation */
     bool isDirty() const;
+    /** @brief Display a  mask as overlay to the clip */
+    void previewMask(const QString &maskFile, int in, int out);
+    /** @brief Update the preview mask properties */
+    void updatePreviewMask();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -197,6 +202,9 @@ private:
     QUuid m_activeSequence;
 
     std::shared_ptr<Mlt::Filter> m_splitEffect;
+    std::unique_ptr<Mlt::Transition> m_maskOpacity;
+    std::shared_ptr<Mlt::Filter> m_maskColor;
+    std::shared_ptr<Mlt::Filter> m_maskInvert;
     std::shared_ptr<Mlt::Producer> m_splitProducer;
     std::shared_ptr<MarkerListModel> m_markerModel{nullptr};
     int m_length;
@@ -240,7 +248,6 @@ private:
     QMetaObject::Connection m_captureConnection;
 
     void adjustScrollBars(float horizontal, float vertical);
-    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());
     void updateQmlDisplay(int currentOverlay);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
@@ -251,6 +258,9 @@ private:
     QAction *m_markOut;
     QUuid m_displayedUuid;
     bool m_dirty{false};
+
+protected:
+    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());
 
 private Q_SLOTS:
     void slotSetThumbFrame();
@@ -287,6 +297,7 @@ private Q_SLOTS:
     void checkDrops();
     /** @brief En/Disable the show record timecode feature in clip monitor */
     void slotSwitchRecTimecode(bool enable);
+    void addControlPoint(double x, double y, bool extend, bool exclude);
 
 public Q_SLOTS:
     void updateTimelineProducer();
@@ -364,6 +375,10 @@ public Q_SLOTS:
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
+    /** @brief Stop displaying a  mask as overlay to the clip */
+    void requestAbortPreviewMask();
+    /** @brief Stop displaying a  mask as overlay to the clip */
+    void abortPreviewMask();
 
 Q_SIGNALS:
     void screenChanged(int screenIndex);
@@ -399,4 +414,7 @@ Q_SIGNALS:
     void autoKeyframeChanged();
     void zoneDurationChanged();
     void blockSceneChange(bool);
+    void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
+    void generateMask();
+    void disablePreviewMask();
 };

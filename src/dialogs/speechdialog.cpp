@@ -400,12 +400,12 @@ void SpeechDialog::slotProcessSpeech()
         }
         qDebug() << "::: PASSING SPEECH ARGS: " << arguments;
 
-        m_speechJob->start(m_stt->pythonExec(), arguments);
+        m_speechJob->start(m_stt->pythonExecs().first, arguments);
     } else {
         // Vosk
         QString modelName = speech_model->currentText();
         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
-        m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), modelDirectory, modelName, audio, m_tmpSrtPath});
+        m_speechJob->start(m_stt->pythonExecs().first, {m_stt->subtitleScript(), modelDirectory, modelName, audio, m_tmpSrtPath});
     }
 }
 

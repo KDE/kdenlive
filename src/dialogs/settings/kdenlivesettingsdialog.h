@@ -8,8 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KConfigDialog>
 #include <KProcess>
-#include <QMap>
 #include <QListWidget>
+#include <QMap>
 
 #include "ui_configcapture_ui.h"
 #include "ui_configcolors_ui.h"
@@ -19,32 +19,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_configproject_ui.h"
 #include "ui_configproxy_ui.h"
 #include "ui_configsdl_ui.h"
-#include "ui_configspeech_ui.h"
 #include "ui_configtimeline_ui.h"
 #include "ui_configtools_ui.h"
 #include "ui_configtranscode_ui.h"
 
-#include "pythoninterfaces/speechtotext.h"
-#include "encodingprofilesdialog.h"
+#include "dialogs/encodingprofilesdialog.h"
 
 class ProfileWidget;
 class GuideCategories;
+class PluginsSettings;
 class KJob;
-
-class SpeechList : public QListWidget
-{
-    Q_OBJECT
-
-public:
-    SpeechList(QWidget *parent = nullptr);
-
-protected:
-    QStringList mimeTypes() const override;
-    void dropEvent(QDropEvent *event) override;
-
-Q_SIGNALS:
-    void getDictionary(const QUrl url);
-};
 
 class KdenliveSettingsDialog : public KConfigDialog
 {
@@ -95,25 +79,13 @@ private Q_SLOTS:
     void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
-    void loadExternalProxyProfiles();
-    void slotParseVoskDictionaries();
-    void getDictionary(const QUrl &sourceUrl = QUrl());
-    void removeDictionary();
-    void downloadModelFinished(KJob* job);
-    void processArchive(const QString &path);
-    void doShowSpeechMessage(const QString &message, int messageType);
-    /** @brief Check required python dependencies for speech engine */
-    void slotCheckSttConfig();
-    /** @brief Display the python job output */
-    void showSpeechLog(const QString &jobData);
     /** @brief fill list of connected monitors */
     void fillMonitorData();
     /** @brief Open external proxies config dialog */
     void configureExternalProxies();
     /** @brief Open an external browser window */
     void openBrowserUrl(const QString &url);
-    /** @brief A download job is finished  */
-    void downloadJobDone(bool success);
+    void loadExternalProxyProfiles();
 
 private:
     KPageWidgetItem *m_pageMisc;
@@ -127,7 +99,7 @@ private:
     KPageWidgetItem *m_pageProject;
     KPageWidgetItem *m_pageColors;
     KPageWidgetItem *m_pageSpeech;
-    QAction *m_downloadModelAction;
+
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigColors_UI m_configColors;
@@ -139,16 +111,14 @@ private:
     Ui::ConfigTranscode_UI m_configTranscode;
     Ui::ConfigProject_UI m_configProject;
     Ui::ConfigProxy_UI m_configProxy;
-    Ui::ConfigSpeech_UI m_configSpeech;
-    SpeechList *m_speechListWidget;
+    PluginsSettings *m_pluginsPage;
     GuideCategories *m_guidesCategories;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
     bool m_modified;
     bool m_shuttleModified;
     bool m_voskUpdated;
-    SpeechToText *m_stt;
-    SpeechToText *m_sttWhisper;
+
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
     EncodingTimelinePreviewProfilesChooser *m_tlPreviewProfiles;
@@ -179,12 +149,6 @@ private:
     void initJogShuttlePage();
     void initSdlPage(bool gpuAllowed);
     void initTranscodePage();
-    /** @brief Launch pytonh scripts to check speech engine dependencies */
-    void checkSpeechDependencies();
-    /** @brief Check folder size */
-    void checkWhisperFolderSize();
-    /** @brief Refresh the list of available models in combobox */
-    void reloadWhisperModels();
 
 Q_SIGNALS:
     void customChanged();
@@ -204,6 +168,4 @@ Q_SIGNALS:
     void updateMonitorBg();
     /** @brief Monitor grid changed, update monitors */
     void updateMonitorGrid();
-    /** @brief Trigger parsing of the speech models folder */
-    void parseDictionaries();
 };

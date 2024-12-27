@@ -26,4 +26,6 @@ public:
      *  Hence it does not work with extensions like .tar.gz
      */
     static QString appendToFilename(const QString &filename, const QString &appendix);
+    /** Strips non alphanumeric characters from a string to have a usable filename */
+    static QString getCleanFileName(QString filename);
 };
