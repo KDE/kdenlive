@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 03:18+0000\n"
+"POT-Creation-Date: 2024-12-27 02:34+0000\n"
 "PO-Revision-Date: 2024-11-27 04:23+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -5625,7 +5625,7 @@ msgstr ""
 "არედაქტირებთ გარე ტიტრის კლიპს (%1). გნებავთ შეინახოთ ცვლილებები ტიტრის "
 "ფაილში თუ, მხოლოდ, ამ პროექტში?"
 
-#: src/bin/bin.cpp:4846 src/titler/titlewidget.cpp:2263
+#: src/bin/bin.cpp:4846 src/titler/titlewidget.cpp:2251
 #, kde-format
 msgid "Save Title"
 msgstr "სათაურის შენახვა"
@@ -7082,7 +7082,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/renderpresets/renderpresetrepository.cpp:433
 #: src/timeline2/view/timelinecontroller.cpp:5142
 #: src/timeline2/view/timelinecontroller.cpp:5147
-#: src/titler/titlewidget.cpp:2276
+#: src/titler/titlewidget.cpp:2264
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "ფაილში ჩაწერის შეცდომა: %1"
@@ -13124,7 +13124,7 @@ msgstr "თავიდან შექმნა"
 
 #: src/mainwindow.cpp:2141 src/onlineresources/resourcewidget.cpp:609
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2259
+#: src/titler/titlewidget.cpp:2247
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -18834,7 +18834,7 @@ msgid "No available stream"
 msgstr "ხელმისაწვდომი ნაკადის გარეშე"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
 #, kde-format
 msgid "Gradient %1"
 msgstr "გრადიენტი %1"
@@ -19114,39 +19114,39 @@ msgstr "ყველა გამოსახულება"
 msgid "%1 Image"
 msgstr "%1 გამოსახულება"
 
-#: src/titler/titlewidget.cpp:1718
+#: src/titler/titlewidget.cpp:1709
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1720 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1711 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1742
+#: src/titler/titlewidget.cpp:1733
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1744 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1735 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2210
+#: src/titler/titlewidget.cpp:2198
 #, kde-format
 msgid "Load Title"
 msgstr "სათაურის ჩატვირთვა"
 
-#: src/titler/titlewidget.cpp:2211
+#: src/titler/titlewidget.cpp:2199
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive-ის სათაური"
 
-#: src/titler/titlewidget.cpp:2257
+#: src/titler/titlewidget.cpp:2245
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -19155,57 +19155,57 @@ msgstr ""
 "გნებავთ გამოსახულებების ჩაშენება ან ტიტრის კლიპში?\n"
 "ეს უმეტესად ტიტრების გასაზიარებლადაა საჭირო."
 
-#: src/titler/titlewidget.cpp:2258
+#: src/titler/titlewidget.cpp:2246
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "გამოსახულებების ჩაშენება"
 
-#: src/titler/titlewidget.cpp:2313
+#: src/titler/titlewidget.cpp:2301
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "ამ სათაურს 1 ელემენტი აკლია"
 msgstr[1] "ამ სათაურს %1 ელემენტი აკლია"
 
-#: src/titler/titlewidget.cpp:2314 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "დეტალები"
 
-#: src/titler/titlewidget.cpp:2317
+#: src/titler/titlewidget.cpp:2305
 #, kde-format
 msgid "Delete missing elements"
 msgstr "ნაკლული ელემენტების წაშლა"
 
-#: src/titler/titlewidget.cpp:2377
+#: src/titler/titlewidget.cpp:2365
 #, kde-format
 msgid "Update Title"
 msgstr "სათაურის განახლება"
 
-#: src/titler/titlewidget.cpp:2380
+#: src/titler/titlewidget.cpp:2368
 #, kde-format
 msgid "Add as new Title"
 msgstr "ახალი სათაურის დამატება"
 
-#: src/titler/titlewidget.cpp:2434
+#: src/titler/titlewidget.cpp:2422
 #, kde-format
 msgid "The following files are missing:"
 msgstr "აკლია შემდეგი ფაილები:"
 
-#: src/titler/titlewidget.cpp:2628
+#: src/titler/titlewidget.cpp:2616
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "გადახედვის ხედის გაშვება"
 
-#: src/titler/titlewidget.cpp:2629
+#: src/titler/titlewidget.cpp:2617
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "გადახედვის ხედის დასრულება"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3347
 #, kde-format
 msgid "Gradient"
 msgstr "გრადაცია"

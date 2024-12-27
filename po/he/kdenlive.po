@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 03:18+0000\n"
+"POT-Creation-Date: 2024-12-27 02:34+0000\n"
 "PO-Revision-Date: 2024-12-13 11:19+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -5666,7 +5666,7 @@ msgstr ""
 "בחרת לערוך סרטון כותרת חיצוני (%1). לשמור את השינויים שלך לקובץ הכותרת או "
 "לשמור את השינויים רק למיזם הזה?"
 
-#: src/bin/bin.cpp:4846 src/titler/titlewidget.cpp:2263
+#: src/bin/bin.cpp:4846 src/titler/titlewidget.cpp:2251
 #, kde-format
 msgid "Save Title"
 msgstr "שמירת כותר"
@@ -7122,7 +7122,7 @@ msgstr "ייצוא נתוני קווים מנחים"
 #: src/renderpresets/renderpresetrepository.cpp:433
 #: src/timeline2/view/timelinecontroller.cpp:5142
 #: src/timeline2/view/timelinecontroller.cpp:5147
-#: src/titler/titlewidget.cpp:2276
+#: src/titler/titlewidget.cpp:2264
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
@@ -13112,7 +13112,7 @@ msgstr "יצירה מחדש"
 
 #: src/mainwindow.cpp:2141 src/onlineresources/resourcewidget.cpp:609
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2259
+#: src/titler/titlewidget.cpp:2247
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -18776,7 +18776,7 @@ msgid "No available stream"
 msgstr "אין תזרים זמין"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
 #, kde-format
 msgid "Gradient %1"
 msgstr "מדרג %1"
@@ -19052,39 +19052,39 @@ msgstr "כל התמונות"
 msgid "%1 Image"
 msgstr "תמונת %1"
 
-#: src/titler/titlewidget.cpp:1718
+#: src/titler/titlewidget.cpp:1709
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1720 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1711 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1742
+#: src/titler/titlewidget.cpp:1733
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1744 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1735 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2210
+#: src/titler/titlewidget.cpp:2198
 #, kde-format
 msgid "Load Title"
 msgstr "טעינת כותר"
 
-#: src/titler/titlewidget.cpp:2211
+#: src/titler/titlewidget.cpp:2199
 #, kde-format
 msgid "Kdenlive title"
 msgstr "כותרת Kdenlive"
 
-#: src/titler/titlewidget.cpp:2257
+#: src/titler/titlewidget.cpp:2245
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -19093,13 +19093,13 @@ msgstr ""
 "להטמיע תמונות לתוך מסמך כותרת (TitleDocument) זה?\n"
 "זה נחוץ בעיקר לשיתוף כותרות."
 
-#: src/titler/titlewidget.cpp:2258
+#: src/titler/titlewidget.cpp:2246
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "הטמעת תמונות"
 
-#: src/titler/titlewidget.cpp:2313
+#: src/titler/titlewidget.cpp:2301
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -19108,44 +19108,44 @@ msgstr[1] "חסרים שני רכיבים בכותר הזה"
 msgstr[2] "חסרים %1 רכיבים בכותר הזה"
 msgstr[3] "חסרים %1 רכיבים בכותר הזה"
 
-#: src/titler/titlewidget.cpp:2314 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "פרטים"
 
-#: src/titler/titlewidget.cpp:2317
+#: src/titler/titlewidget.cpp:2305
 #, kde-format
 msgid "Delete missing elements"
 msgstr "מחיקת רכיבים חסרים"
 
-#: src/titler/titlewidget.cpp:2377
+#: src/titler/titlewidget.cpp:2365
 #, kde-format
 msgid "Update Title"
 msgstr "עדכון כותרת"
 
-#: src/titler/titlewidget.cpp:2380
+#: src/titler/titlewidget.cpp:2368
 #, kde-format
 msgid "Add as new Title"
 msgstr "הוספת ככותרת חדשה"
 
-#: src/titler/titlewidget.cpp:2434
+#: src/titler/titlewidget.cpp:2422
 #, kde-format
 msgid "The following files are missing:"
 msgstr "הקבצים הבאים חסרים:"
 
-#: src/titler/titlewidget.cpp:2628
+#: src/titler/titlewidget.cpp:2616
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "תחילת אשנב"
 
-#: src/titler/titlewidget.cpp:2629
+#: src/titler/titlewidget.cpp:2617
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "סוף אשנב"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3347
 #, kde-format
 msgid "Gradient"
 msgstr "מדרג"

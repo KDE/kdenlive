@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 03:18+0000\n"
+"POT-Creation-Date: 2024-12-27 02:34+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -5849,7 +5849,7 @@ msgid ""
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4846 src/titler/titlewidget.cpp:2263
+#: src/bin/bin.cpp:4846 src/titler/titlewidget.cpp:2251
 #, kde-format
 msgid "Save Title"
 msgstr ""
@@ -7374,7 +7374,7 @@ msgstr "Luchtaigh marcóirí"
 #: src/renderpresets/renderpresetrepository.cpp:433
 #: src/timeline2/view/timelinecontroller.cpp:5142
 #: src/timeline2/view/timelinecontroller.cpp:5147
-#: src/titler/titlewidget.cpp:2276
+#: src/titler/titlewidget.cpp:2264
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Ní féidir comhad %1 a scríobh"
@@ -13676,7 +13676,7 @@ msgstr "Cruthaigh Grúpa"
 
 #: src/mainwindow.cpp:2141 src/onlineresources/resourcewidget.cpp:609
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2259
+#: src/titler/titlewidget.cpp:2247
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -19523,7 +19523,7 @@ msgid "No available stream"
 msgstr "Frámaí"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -19802,54 +19802,54 @@ msgstr "Cuir Íomhá Leis"
 msgid "%1 Image"
 msgstr "Íomhá"
 
-#: src/titler/titlewidget.cpp:1718
+#: src/titler/titlewidget.cpp:1709
 #, kde-format
 msgid "−X"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1720 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1711 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:1742
+#: src/titler/titlewidget.cpp:1733
 #, kde-format
 msgid "−Y"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1744 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1735 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2210
+#: src/titler/titlewidget.cpp:2198
 #, kde-format
 msgid "Load Title"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2211
+#: src/titler/titlewidget.cpp:2199
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Kdenlive title"
 msgstr "Scrios comhaid"
 
-#: src/titler/titlewidget.cpp:2257
+#: src/titler/titlewidget.cpp:2245
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2258
+#: src/titler/titlewidget.cpp:2246
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Cuir Íomhá Leis"
 
-#: src/titler/titlewidget.cpp:2313
+#: src/titler/titlewidget.cpp:2301
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "This title has 1 missing element"
@@ -19860,48 +19860,48 @@ msgstr[2] "Scrios comhaid"
 msgstr[3] "Scrios comhaid"
 msgstr[4] "Scrios comhaid"
 
-#: src/titler/titlewidget.cpp:2314 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2317
+#: src/titler/titlewidget.cpp:2305
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Delete missing elements"
 msgstr "Scrios comhaid"
 
-#: src/titler/titlewidget.cpp:2377
+#: src/titler/titlewidget.cpp:2365
 #, fuzzy, kde-format
 #| msgid "Update profile"
 msgid "Update Title"
 msgstr "Nuashonraigh próifíl"
 
-#: src/titler/titlewidget.cpp:2380
+#: src/titler/titlewidget.cpp:2368
 #, fuzzy, kde-format
 #| msgid "Update profile"
 msgid "Add as new Title"
 msgstr "Nuashonraigh próifíl"
 
-#: src/titler/titlewidget.cpp:2434
+#: src/titler/titlewidget.cpp:2422
 #, kde-format
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2628
+#: src/titler/titlewidget.cpp:2616
 #, fuzzy, kde-format
 #| msgid "Start at"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Tosaigh ag"
 
-#: src/titler/titlewidget.cpp:2629
+#: src/titler/titlewidget.cpp:2617
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3347
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Gradient"
