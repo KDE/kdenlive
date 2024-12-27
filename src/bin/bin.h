@@ -108,6 +108,7 @@ protected:
     void focusInEvent(QFocusEvent *event) override;
     void enterEvent(QEnterEvent *) override;
     void leaveEvent(QEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 protected Q_SLOTS:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
@@ -260,7 +261,7 @@ public:
         @param ids a map of ids: {item id, {new parent, old parent}}
         @param redo if true, change to new parent, otherwise to old parent
     */
-    void doMoveClips(QMap<QString, std::pair<QString, QString>> ids, bool redo);
+    void doMoveClips(QMap<QString, std::pair<QString, QString>> ids, bool redo, bool dropFromSameSource);
     /** @brief Block/unblock signals from the bin selection model, useful for operations affecting many clips */
     void blockBin(bool block);
     void doMoveFolder(const QString &id, const QString &newParentId);
@@ -461,7 +462,7 @@ public Q_SLOTS:
     /** @brief Start a filter job requested by a filter applied in timeline */
     void slotStartFilterJob(/*const ItemInfo &info,*/ const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                             QMap<QString, QString> &extraParams);
-    void slotItemDropped(const QStringList ids, const QModelIndex parent);
+    void slotItemDropped(const QStringList ids, const QModelIndex parent, bool dropFromSameSource);
     const QString slotUrlsDropped(const QList<QUrl> urls, const QModelIndex parent);
     void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
     void slotTagDropped(const QString &tag, const QModelIndex &parent);

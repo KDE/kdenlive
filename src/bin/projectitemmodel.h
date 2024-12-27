@@ -54,6 +54,8 @@ public:
     friend class ProjectClip;
     friend class ThumbnailCache;
     friend class KdenliveTests;
+    /** @brief The id of the bin where a drop operation happened */
+    QString dropBinSource;
     /** @brief Timer checking if we have missing clips in the project */
     QTimer missingClipTimer;
 
@@ -340,7 +342,7 @@ Q_SIGNALS:
     void requestAudioThumbs(const QString &id, long duration);
     // TODO
     void markersNeedUpdate(const QString &id, const QList<int> &);
-    void itemDropped(const QStringList, const QModelIndex);
+    void itemDropped(const QStringList, const QModelIndex, bool dropFromSameSource);
     void urlsDropped(const QList<QUrl>, const QModelIndex);
     void effectDropped(const QStringList &, const QModelIndex &);
     void addTag(const QString &, const QModelIndex &);

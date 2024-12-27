@@ -282,7 +282,9 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
                 return false;
             }
         } else {
-            Q_EMIT itemDropped(ids, parent);
+            bool dropFromSameSource = data->data(QStringLiteral("text/binId")) == dropBinSource;
+            dropBinSource.clear();
+            Q_EMIT itemDropped(ids, parent, dropFromSameSource);
         }
         return true;
     }

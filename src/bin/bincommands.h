@@ -14,13 +14,14 @@ class Bin;
 class MoveBinClipCommand : public QUndoCommand
 {
 public:
-    explicit MoveBinClipCommand(Bin *bin, QMap<QString, std::pair<QString, QString>> clipIds, QUndoCommand *parent = nullptr);
+    explicit MoveBinClipCommand(Bin *bin, QMap<QString, std::pair<QString, QString>> clipIds, QUndoCommand *parent = nullptr, bool dropFromSameSource = true);
     void undo() override;
     void redo() override;
 
 private:
     Bin *m_bin;
     QMap<QString, std::pair<QString, QString>> m_clipIds;
+    bool m_dropFromSameSource;
 };
 
 class MoveBinFolderCommand : public QUndoCommand

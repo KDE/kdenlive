@@ -677,6 +677,7 @@ void MyListView::focusInEvent(QFocusEvent *event)
 
 void MyListView::dropEvent(QDropEvent *event)
 {
+    pCore->projectItemModel()->dropBinSource.clear();
     if (event->mimeData()->hasFormat(QStringLiteral("text/producerslist"))) {
         // Internal drag/drop, ensure it is not a zone drop
         if (!QString(event->mimeData()->data(QStringLiteral("text/producerslist"))).contains(QLatin1Char('/'))) {
@@ -685,6 +686,8 @@ void MyListView::dropEvent(QDropEvent *event)
             if (rootIndex().data(AbstractProjectItem::DataId).toString() == rootId) {
                 isSameRoot = true;
             }
+            // Check if we are dropping from same bin
+            pCore->projectItemModel()->dropBinSource = parentWidget()->parentWidget()->objectName();
             if (isSameRoot && !indexAt(event->position().toPoint()).isValid()) {
                 event->ignore();
                 return;
@@ -740,7 +743,9 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
                 return;
             }
             auto *drag = new QDrag(this);
-            drag->setMimeData(model()->mimeData(indexes));
+            auto *mData = model()->mimeData(indexes);
+            mData->setData(QStringLiteral("text/binId"), parentWidget()->parentWidget()->objectName().toLatin1());
+            drag->setMimeData(mData);
             QModelIndex ix = indexes.constFirst();
             if (ix.isValid()) {
                 QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
@@ -864,6 +869,19 @@ void MyTreeView::leaveEvent(QEvent *event)
     pCore->setWidgetKeyBinding();
 }
 
+void MyTreeView::dropEvent(QDropEvent *event)
+{
+    pCore->projectItemModel()->dropBinSource.clear();
+    if (event->mimeData()->hasFormat(QStringLiteral("text/producerslist"))) {
+        // Internal drag/drop, ensure it is not a zone drop
+        if (!QString(event->mimeData()->data(QStringLiteral("text/producerslist"))).contains(QLatin1Char('/'))) {
+            // Check if we are dropping from same bin
+            pCore->projectItemModel()->dropBinSource = parentWidget()->parentWidget()->objectName();
+        }
+    }
+    QTreeView::dropEvent(event);
+}
+
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
     if ((event->buttons() & Qt::LeftButton) != 0u) {
@@ -952,7 +970,9 @@ bool MyTreeView::performDrag()
     // Check if we want audio or video only
     Q_EMIT updateDragMode(m_dragType);
     auto *drag = new QDrag(this);
-    drag->setMimeData(model()->mimeData(indexes));
+    auto *mData = model()->mimeData(indexes);
+    mData->setData(QStringLiteral("text/binId"), parentWidget()->parentWidget()->objectName().toLatin1());
+    drag->setMimeData(mData);
     QModelIndex ix = indexes.constFirst();
     if (ix.isValid()) {
         QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
@@ -3899,7 +3919,7 @@ const QString Bin::buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks, 
     return QString();
 }
 
-void Bin::slotItemDropped(const QStringList ids, const QModelIndex parent)
+void Bin::slotItemDropped(const QStringList ids, const QModelIndex parent, bool dropFromSameSource)
 {
     std::shared_ptr<AbstractProjectItem> parentItem;
     if (parent.isValid()) {
@@ -3933,7 +3953,7 @@ void Bin::slotItemDropped(const QStringList ids, const QModelIndex parent)
         }
     }
     if (idsMap.count() > 0) {
-        new MoveBinClipCommand(this, idsMap, moveCommand);
+        new MoveBinClipCommand(this, idsMap, moveCommand, dropFromSameSource);
     }
 
     if (!folderIds.isEmpty()) {
@@ -4311,7 +4331,7 @@ void Bin::blockBin(bool block)
     m_proxyModel->selectionModel()->blockSignals(block);
 }
 
-void Bin::doMoveClips(QMap<QString, std::pair<QString, QString>> ids, bool redo)
+void Bin::doMoveClips(QMap<QString, std::pair<QString, QString>> ids, bool redo, bool dropFromSameSource)
 {
     const QString clipId = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
     // Don't update selection in all bins while moving clips
@@ -4334,7 +4354,7 @@ void Bin::doMoveClips(QMap<QString, std::pair<QString, QString>> ids, bool redo)
     if (pCore->window()) {
         pCore->window()->blockBins(false);
     }
-    if (!clipId.isEmpty()) {
+    if (dropFromSameSource && !clipId.isEmpty()) {
         selectClipById(clipId);
     }
 }
