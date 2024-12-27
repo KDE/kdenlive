@@ -300,7 +300,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
             [this]() { QMetaObject::invokeMethod(this, "checkSamEnvironement", Qt::QueuedConnection); });
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     if (pluginDir.cd(m_samInterface->getVenvPath())) {
-        sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Virtual environment")));
+        sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Plugin size")));
     }
     connect(m_samInterface, &AbstractPythonInterface::dependenciesAvailable, this, &PluginsSettings::samDependenciesChecked);
     connect(m_samInterface, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) {
