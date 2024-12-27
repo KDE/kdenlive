@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -10687,22 +10687,28 @@ msgstr ""
 "Nem hozható létre biztonsági mentés:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
-msgstr[1] ""
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
-msgstr[1] ""
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "Draws simple shapes into the alpha channel"
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
+msgstr[0] "Egyszerű alakzatok rajzolása az alfa-csatornába"
+msgstr[1] "Egyszerű alakzatok rajzolása az alfa-csatornába"
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid "Draws simple shapes into the alpha channel"
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
+msgstr[0] "Egyszerű alakzatok rajzolása az alfa-csatornába"
+msgstr[1] "Egyszerű alakzatok rajzolása az alfa-csatornába"
+
+#: src/doc/kdenlivedoc.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Proxy clips"
 msgid "Proxy all clips"
@@ -26582,11 +26588,6 @@ msgstr "%1 ó"
 #~ msgstr ""
 #~ "A hibákat kérem jelentse a következő weboldalon: http://kdenlive.org/"
 #~ "mantis"
-
-#, fuzzy
-#~| msgid "Draws simple shapes into the alpha channel"
-#~ msgid "copied to the alpha channel."
-#~ msgstr "Egyszerű alakzatok rajzolása az alfa-csatornába"
 
 #, fuzzy
 #~| msgid "Cannot find clip to cut"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -10204,22 +10204,34 @@ msgstr ""
 "बैकअप प्रतिलिपिं निर्मातुं न शक्यते:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "This clip has an alpha channel. Proxying is not recommended."
+#| msgid_plural ""
+#| "These clips have an alpha channel. Proxying is not recommended."
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
 msgstr[0] "अस्मिन् क्लिप् मध्ये अल्फा चैनल् अस्ति । प्रॉक्सीकरणं न अनुशंसितम् ।"
 msgstr[1] "एतेषु क्लिप्स् मध्ये अल्फा चैनल् अस्ति । प्रॉक्सीकरणं न अनुशंसितम् ।"
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have a clip with an alpha channel. Proxying it is not recommended."
+#| msgid_plural ""
+#| "You have %1 clips with an alpha channel. Proxying these is not "
+#| "recommended."
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "भवतः समीपे अल्फा-चैनेल्-सहितं क्लिप् अस्ति । तस्य प्रॉक्सीकरणं न अनुशंसितम् ।"
 msgstr[1] "भवतः %1 क्लिप्स् अल्फा चैनल् इत्यनेन सह सन्ति । एतेषां प्रॉक्सीकरणं न अनुशंसितम् ।"
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
 msgid "Proxy all clips"
 msgstr "सर्वाणि क्लिप्स् प्रॉक्सी कुर्वन्तु"

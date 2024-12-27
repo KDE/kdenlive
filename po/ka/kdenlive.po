@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2024-12-08 06:46+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -10313,22 +10313,34 @@ msgstr ""
 "მარქაფის ასლის შექმნა შეუძლებელია:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "This clip has an alpha channel. Proxying is not recommended."
+#| msgid_plural ""
+#| "These clips have an alpha channel. Proxying is not recommended."
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
 msgstr[0] "ამ კლიპს აქვს ალფა არხი. დაპროქსვა რეკომენდებული არაა."
 msgstr[1] "ამ კლიპს აქვს ალფა არხი. დაპროქსვა რეკომენდებული არაა."
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have a clip with an alpha channel. Proxying it is not recommended."
+#| msgid_plural ""
+#| "You have %1 clips with an alpha channel. Proxying these is not "
+#| "recommended."
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "გაქვთ კლიპი ალფა არხით. დაპროქსვა რეკომენდებული არაა."
 msgstr[1] "გაქვთ %1 კლიპი ალფა არხით. დაპროქსვა რეკომენდებული არაა."
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
 msgid "Proxy all clips"
 msgstr "ყველა კლიპის დაპროქსვა"

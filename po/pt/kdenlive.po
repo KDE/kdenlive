@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -10472,22 +10472,26 @@ msgstr ""
 "Não é possível criar a cópia de segurança:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1611
+#, kde-format
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/kdenlivedoc.cpp:1618
+#: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Proxy clips"
 msgid "Proxy all clips"

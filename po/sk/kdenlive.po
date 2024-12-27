@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -10633,24 +10633,30 @@ msgstr ""
 "Nie je možné vytvoriť záložnú kópiu:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "Draws simple shapes into the alpha channel"
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
+msgstr[0] "Kreslí jednoduché tvary do alfa kanála"
+msgstr[1] "Kreslí jednoduché tvary do alfa kanála"
+msgstr[2] "Kreslí jednoduché tvary do alfa kanála"
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid "Draws simple shapes into the alpha channel"
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
+msgstr[0] "Kreslí jednoduché tvary do alfa kanála"
+msgstr[1] "Kreslí jednoduché tvary do alfa kanála"
+msgstr[2] "Kreslí jednoduché tvary do alfa kanála"
+
+#: src/doc/kdenlivedoc.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Proxy clips"
 msgid "Proxy all clips"
@@ -26356,11 +26362,6 @@ msgstr "%1h"
 #~| msgid "Please report bugs to http://bugs.kde.org"
 #~ msgid "Please report bugs to https://bugs.kde.org"
 #~ msgstr "Prosím zadajte bugy na http://bugs.kde.org"
-
-#, fuzzy
-#~| msgid "Draws simple shapes into the alpha channel"
-#~ msgid "copied to the alpha channel."
-#~ msgstr "Kreslí jednoduché tvary do alfa kanála"
 
 #, fuzzy
 #~| msgid "Cannot find clip"

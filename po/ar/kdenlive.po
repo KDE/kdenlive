@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2024-12-12 10:50+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -10280,10 +10280,18 @@ msgstr ""
 "تعذّر إنشاء نسخة احتياطيّة:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "This clip has an alpha channel. Proxying is not recommended."
+#| msgid_plural ""
+#| "These clips have an alpha channel. Proxying is not recommended."
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
 msgstr[0] "هذا المقطع يحوي قناة ألفا. لا يوصى بإنشاء وسيط له."
 msgstr[1] "هذا المقطع يحوي قناة ألفا. لا يوصى بإنشاء وسيط له."
 msgstr[2] "هذان المقطعان يحويان قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهما."
@@ -10291,11 +10299,15 @@ msgstr[3] "هذه المقاطع تحوي قناة ألفا. لا يوصى بإ�
 msgstr[4] "هذه المقاطع تحوي قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهن."
 msgstr[5] "هذه المقاطع تحوي قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهن."
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have a clip with an alpha channel. Proxying it is not recommended."
+#| msgid_plural ""
+#| "You have %1 clips with an alpha channel. Proxying these is not "
+#| "recommended."
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "عندك مقطع يحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط له."
 msgstr[1] "عندك مقطع يحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط له."
 msgstr[2] "عندك المقطعين يحويان قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهما."
@@ -10303,7 +10315,7 @@ msgstr[3] "عندك %1 مقاطع تحوي قناة ألفا. لا يوصى بإ
 msgstr[4] "عندك %1 مقطعًا تحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط لهن."
 msgstr[5] "عندك %1 مقطع تحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط لهن."
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
 msgid "Proxy all clips"
 msgstr "أنشئ وسيط لكل المقاطع"

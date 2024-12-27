@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2024-12-02 17:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -10009,20 +10009,26 @@ msgstr ""
 "無法建立備份複本：\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "Draws simple shapes into the alpha channel"
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
+msgstr[0] "繪制簡單的形狀到透通色版裡"
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid "Draws simple shapes into the alpha channel"
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
+msgstr[0] "繪制簡單的形狀到透通色版裡"
+
+#: src/doc/kdenlivedoc.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Proxy clips"
 msgid "Proxy all clips"
@@ -24613,11 +24619,6 @@ msgstr "%1 小時"
 #, fuzzy
 #~ msgid "Please report bugs to https://bugs.kde.org"
 #~ msgstr "請將程式的 Bug 回饋到 http://kdenlive.org/mantis"
-
-#, fuzzy
-#~| msgid "Draws simple shapes into the alpha channel"
-#~ msgid "copied to the alpha channel."
-#~ msgstr "繪制簡單的形狀到透通色版裡"
 
 #, fuzzy
 #~ msgid "Cannot align mix"

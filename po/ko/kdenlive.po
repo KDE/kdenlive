@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -10366,20 +10366,26 @@ msgstr ""
 "백업 복사본을 만들 수 없음:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "copied to the alpha channel."
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
+msgstr[0] "알파 채널에 복사되었습니다."
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid "copied to the alpha channel."
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
+msgstr[0] "알파 채널에 복사되었습니다."
+
+#: src/doc/kdenlivedoc.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Proxy clips"
 msgid "Proxy all clips"
@@ -25898,9 +25904,6 @@ msgstr "%1시간"
 
 #~ msgid "Please report bugs to https://bugs.kde.org"
 #~ msgstr "https://bugs.kde.org 사이트로 버그를 보고해 주십시오"
-
-#~ msgid "copied to the alpha channel."
-#~ msgstr "알파 채널에 복사되었습니다."
 
 #, fuzzy
 #~| msgid "Cannot open file"

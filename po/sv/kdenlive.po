@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2024-12-04 18:06+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -10329,22 +10329,28 @@ msgstr ""
 "Kan inte skapa säkerhetskopia:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
-msgstr[1] ""
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
-msgstr[1] ""
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "copied to the alpha channel."
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
+msgstr[0] "kopierad till alfakanalen."
+msgstr[1] "kopierad till alfakanalen."
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid "copied to the alpha channel."
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
+msgstr[0] "kopierad till alfakanalen."
+msgstr[1] "kopierad till alfakanalen."
+
+#: src/doc/kdenlivedoc.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Proxy clips"
 msgid "Proxy all clips"
@@ -25340,9 +25346,6 @@ msgstr "%1 t"
 
 #~ msgid "Please report bugs to https://bugs.kde.org"
 #~ msgstr "Rapportera fel till https://bugs.kde.org"
-
-#~ msgid "copied to the alpha channel."
-#~ msgstr "kopierad till alfakanalen."
 
 #~ msgid "Cannot align mix"
 #~ msgstr "Kan inte justera blandning"

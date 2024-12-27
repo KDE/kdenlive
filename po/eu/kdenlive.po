@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 00:41+0000\n"
+"POT-Creation-Date: 2024-12-27 00:41+0000\n"
 "PO-Revision-Date: 2024-12-07 18:42+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -10382,20 +10382,32 @@ msgstr ""
 "Ezin da babeskopia sortu:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1610
+#: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
-msgid "This clip has an alpha channel. Proxying is not recommended."
-msgid_plural "These clips have an alpha channel. Proxying is not recommended."
+msgid "Proxy clips are not intended for compositing or color grading."
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1611
+#, fuzzy, kde-format
+#| msgid "This clip has an alpha channel. Proxying is not recommended."
+#| msgid_plural ""
+#| "These clips have an alpha channel. Proxying is not recommended."
+msgid "The clip has an alpha channel. "
+msgid_plural "The clips have an alpha channel. "
 msgstr[0] ""
 "Klip honek alfa kanal bat du. Ez da gomendatzen ordezkari gisa erabiltzea."
 msgstr[1] ""
 "Klip hauek alfa kanal bat dute. Ez da gomendatzen ordezkari gisa erabiltzea."
 
-#: src/doc/kdenlivedoc.cpp:1618
-#, kde-format
-msgid "You have a clip with an alpha channel. Proxying it is not recommended."
-msgid_plural ""
-"You have %1 clips with an alpha channel. Proxying these is not recommended."
+#: src/doc/kdenlivedoc.cpp:1617
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have a clip with an alpha channel. Proxying it is not recommended."
+#| msgid_plural ""
+#| "You have %1 clips with an alpha channel. Proxying these is not "
+#| "recommended."
+msgid "You have a clip with an alpha channel. "
+msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] ""
 "Alfa kanal bat duen klip bat duzu. Ez da gomendatzen ordezkari gisa "
 "erabiltzea."
@@ -10403,7 +10415,7 @@ msgstr[1] ""
 "Alfa kanal bat duten %1 klip dituzu. Ez da gomendatzen ordezkari gisa "
 "erabiltzea."
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
 msgid "Proxy all clips"
 msgstr "Klip denak ordezkari egin"
