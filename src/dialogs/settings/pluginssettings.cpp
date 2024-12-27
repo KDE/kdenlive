@@ -390,7 +390,7 @@ void PluginsSettings::reloadWhisperModels()
     const QStringList models = m_sttWhisper->getInstalledModels();
     if (models.isEmpty()) {
         // Show install button
-        noModelMessage->setText(i18n("Install a speech model - we recommand <b>turbo</b>"));
+        noModelMessage->setText(i18n("Install a speech model - we recommend <b>turbo</b>"));
         noModelMessage->addAction(m_downloadModelAction);
         noModelMessage->show();
         return;

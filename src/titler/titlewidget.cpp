@@ -1516,8 +1516,8 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
 void TitleWidget::updateCoordinates(QGraphicsItem *i)
 {
     // Block signals emitted by this method
-    value_x->blockSignals(true);
-    value_y->blockSignals(true);
+    QSignalBlocker bk1(value_x);
+    QSignalBlocker bk2(value_y);
 
     if (i->type() == TEXTITEM) {
 
@@ -1589,18 +1589,14 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
             value_y->setValue(int(i->pos().y()));
         }
     }
-
-    // Stop blocking signals now
-    value_x->blockSignals(false);
-    value_y->blockSignals(false);
 }
 
 void TitleWidget::updateRotZoom(QGraphicsItem *i)
 {
-    itemzoom->blockSignals(true);
-    itemrotatex->blockSignals(true);
-    itemrotatey->blockSignals(true);
-    itemrotatez->blockSignals(true);
+    QSignalBlocker bk1(itemzoom);
+    QSignalBlocker bk2(itemrotatex);
+    QSignalBlocker bk3(itemrotatey);
+    QSignalBlocker bk4(itemrotatez);
 
     Transform t = m_transformations.value(i);
 
@@ -1613,11 +1609,6 @@ void TitleWidget::updateRotZoom(QGraphicsItem *i)
     itemrotatex->setValue(int(t.rotatex));
     itemrotatey->setValue(int(t.rotatey));
     itemrotatez->setValue(int(t.rotatez));
-
-    itemzoom->blockSignals(false);
-    itemrotatex->blockSignals(false);
-    itemrotatey->blockSignals(false);
-    itemrotatez->blockSignals(false);
 }
 
 void TitleWidget::updatePosition(QGraphicsItem *i)
@@ -1763,8 +1754,8 @@ void TitleWidget::updateAxisButtons(QGraphicsItem *i)
 {
     int xAxis = i->data(TitleDocument::OriginXLeft).toInt();
     int yAxis = i->data(TitleDocument::OriginYTop).toInt();
-    origin_x_left->blockSignals(true);
-    origin_y_top->blockSignals(true);
+    QSignalBlocker bk1(origin_x_left);
+    QSignalBlocker bk2(origin_y_top);
 
     if (xAxis == TitleDocument::AxisInverted) {
         origin_x_left->setChecked(true);
@@ -1779,9 +1770,6 @@ void TitleWidget::updateAxisButtons(QGraphicsItem *i)
         origin_y_top->setChecked(false);
     }
     updateTextOriginY();
-
-    origin_x_left->blockSignals(false);
-    origin_y_top->blockSignals(false);
 }
 
 void TitleWidget::slotChangeBackground()
@@ -3086,9 +3074,12 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
                 QStringList sInfo = i->shadowInfo();
                 if (sInfo.count() >= 5) {
-                    QSignalBlocker bk(shadowBox);
+                    QSignalBlocker bk1(shadowBox);
+                    QSignalBlocker bk2(shadowColor);
+                    QSignalBlocker bk3(blur_radius);
+                    QSignalBlocker bk4(shadowX);
+                    QSignalBlocker bk5(shadowY);
                     shadowBox->setChecked(static_cast<bool>(sInfo.at(0).toInt()));
-                    shadowBox->blockSignals(true);
                     shadowColor->setColor(QColor(sInfo.at(1)));
                     blur_radius->setValue(sInfo.at(2).toInt());
                     shadowX->setValue(sInfo.at(3).toInt());
@@ -3098,6 +3089,13 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 sInfo = i->twInfo();
                 if (sInfo.count() >= 5) {
                     QSignalBlocker bk(typewriterBox);
+                    QSignalBlocker bk2(tw_sb_step);
+                    QSignalBlocker bk3(tw_rd_char);
+                    QSignalBlocker bk4(tw_rd_word);
+                    QSignalBlocker bk5(tw_rd_line);
+                    QSignalBlocker bk6(tw_rd_custom);
+                    QSignalBlocker bk7(tw_sb_sigma);
+                    QSignalBlocker bk8(tw_sb_seed);
                     typewriterBox->setChecked(static_cast<bool>(sInfo.at(0).toInt()));
                     tw_sb_step->setValue(sInfo.at(1).toInt());
                     switch (sInfo.at(2).toInt()) {
@@ -3335,8 +3333,8 @@ void TitleWidget::storeGradient(const QString &gradientData)
 
 void TitleWidget::loadGradients()
 {
-    gradients_combo->blockSignals(true);
-    gradients_rect_combo->blockSignals(true);
+    QSignalBlocker bk1(gradients_combo);
+    QSignalBlocker bk2(gradients_rect_combo);
     QString grad_data = gradients_combo->currentData().toString();
     QString rect_data = gradients_rect_combo->currentData().toString();
     gradients_combo->clear();
@@ -3375,8 +3373,6 @@ void TitleWidget::loadGradients()
     if (ix >= 0) {
         gradients_rect_combo->setCurrentIndex(ix);
     }
-    gradients_combo->blockSignals(false);
-    gradients_rect_combo->blockSignals(false);
 }
 
 void TitleWidget::slotUpdateShadow()
