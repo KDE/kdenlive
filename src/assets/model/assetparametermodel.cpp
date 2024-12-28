@@ -1048,7 +1048,7 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
                     continue;
                 }
             }
-            res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
+            res.push_back(QPair<QString, QVariant>(param.first, data(ix, AssetParameterModel::ValueRole)));
         }
     }
     return res;
