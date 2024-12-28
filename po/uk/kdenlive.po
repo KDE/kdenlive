@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-27 02:34+0000\n"
+"POT-Creation-Date: 2024-12-28 02:45+0000\n"
 "PO-Revision-Date: 2024-11-19 18:56+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -7707,8 +7707,9 @@ msgid "Install multilingual translation"
 msgstr "Встановити багатомовний переклад"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, kde-format
-msgid "Install a speech model - we recommand <b>turbo</b>"
+#, fuzzy, kde-format
+#| msgid "Install a speech model - we recommand <b>turbo</b>"
+msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Встановіть модель мовлення — ми рекомендуємо <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097

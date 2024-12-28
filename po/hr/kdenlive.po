@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-27 02:34+0000\n"
+"POT-Creation-Date: 2024-12-28 02:45+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -7682,7 +7682,7 @@ msgstr "Nemoguć prijelaz"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
-msgid "Install a speech model - we recommand <b>turbo</b>"
+msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097

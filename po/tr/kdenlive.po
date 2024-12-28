@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-27 02:34+0000\n"
+"POT-Creation-Date: 2024-12-28 02:45+0000\n"
 "PO-Revision-Date: 2024-12-02 19:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -7516,8 +7516,9 @@ msgid "Install multilingual translation"
 msgstr "Çok Dilli Çeviri Kur"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, kde-format
-msgid "Install a speech model - we recommand <b>turbo</b>"
+#, fuzzy, kde-format
+#| msgid "Install a speech model - we recommand <b>turbo</b>"
+msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Bir konuşma modeli kurun; <b>turbo</b> kullanmanız önerilir."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097

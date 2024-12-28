@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-27 02:34+0000\n"
+"POT-Creation-Date: 2024-12-28 02:45+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -7507,7 +7507,7 @@ msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
-msgid "Install a speech model - we recommand <b>turbo</b>"
+msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097

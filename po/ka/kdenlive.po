@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-27 02:34+0000\n"
+"POT-Creation-Date: 2024-12-28 02:45+0000\n"
 "PO-Revision-Date: 2024-11-27 04:23+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -7513,8 +7513,9 @@ msgid "Install multilingual translation"
 msgstr "მრავალენოვანი თარგმანის დაყენება"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, kde-format
-msgid "Install a speech model - we recommand <b>turbo</b>"
+#, fuzzy, kde-format
+#| msgid "Install a speech model - we recommand <b>turbo</b>"
+msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "დააყენეთ წარმოთქმის მოდელი. ჩვენ გირჩევთ <b>ტურბოს</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097

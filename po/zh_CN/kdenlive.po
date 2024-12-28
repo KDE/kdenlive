@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-27 02:34+0000\n"
+"POT-Creation-Date: 2024-12-28 02:45+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7465,8 +7465,9 @@ msgid "Install multilingual translation"
 msgstr "安装多语言翻译"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, kde-format
-msgid "Install a speech model - we recommand <b>turbo</b>"
+#, fuzzy, kde-format
+#| msgid "Install a speech model - we recommand <b>turbo</b>"
+msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "安装一个语音模型 - 我们推荐使用 <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097
