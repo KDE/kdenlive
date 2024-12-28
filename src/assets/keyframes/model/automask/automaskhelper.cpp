@@ -29,8 +29,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 AutomaskHelper::AutomaskHelper(QObject *parent)
     : QObject(parent)
 {
-    SamInterface sam;
-    m_maskScript = {sam.pythonExecs().first, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
 }
 
 void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
@@ -108,8 +106,9 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     if (!ok) {
         return;
     }
-
-    QStringList args = {m_maskScript.second,
+    SamInterface sam;
+    std::pair<QString, QString> maskScript = {sam.pythonExecs().first, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
+    QStringList args = {maskScript.second,
                         QStringLiteral("-I"),
                         maskSrcFolder.absolutePath(),
                         QStringLiteral("-P"),
@@ -124,9 +123,12 @@ void AutomaskHelper::generateImage(const QString &previewFile)
                         KdenliveSettings::samModelFile(),
                         QStringLiteral("-C"),
                         SamInterface::configForModel()};
-    qDebug() << "---- STARTING IMAGE GENERATION: " << m_maskScript.first << " = " << args;
+    if (!KdenliveSettings::samDevice().isEmpty()) {
+        args << QStringLiteral("-D") << KdenliveSettings::samDevice();
+    }
+    qDebug() << "---- STARTING IMAGE GENERATION: " << maskScript.first << " = " << args;
     scriptJob.setProcessChannelMode(QProcess::MergedChannels);
-    scriptJob.start(m_maskScript.first, args);
+    scriptJob.start(maskScript.first, args);
     scriptJob.waitForFinished(-1);
     if (!QFile::exists(previewFile)) {
         // TODO error handling
@@ -253,8 +255,9 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
             ix++;
         }
         maskParams.insert(MaskTask::OUTPUTFILE, outputFile);
-
-        MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, m_maskScript, zone.x(), zone.y(), clip.get());
+        SamInterface sam;
+        std::pair<QString, QString> maskScript = {sam.pythonExecs().first, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
+        MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, maskScript, zone.x(), zone.y(), clip.get());
     }
 }
 

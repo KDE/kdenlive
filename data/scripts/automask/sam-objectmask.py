@@ -42,6 +42,7 @@ if __name__ == "__main__":
     parser.add_argument("-O", "--output", help="path for rendered jpg image for preview of folder for rendering", default="/tmp/preview.png")
     parser.add_argument("-M", "--model", help="path for the model")
     parser.add_argument("-C", "--config", help="config for the model")
+    parser.add_argument("-D", "--device", help="enforce a device: cuda, cpu")
     args = parser.parse_args()
     if (args.point_coordinates == None or args.labels == None) and args.box_coordinates == None:
         config = vars(args)
@@ -61,11 +62,17 @@ if __name__ == "__main__":
     inputFolder = args.inputFolder
     modelFile = args.model
     configFile = args.config
+    requestedDevice = args.device
     borders = 0
 
 # select the device for computation
-if torch.cuda.is_available():
+if requestedDevice != None:
+    device = torch.device(requestedDevice)
+    #if requestedDevice.startswith("cuda"):
+        #print(f"Using CUDA version: {torch.version.cuda}")
+elif torch.cuda.is_available():
     device = torch.device("cuda")
+    #print(f"Using CUDA version: {torch.version.cuda}")
 elif torch.backends.mps.is_available():
     device = torch.device("mps")
 else:
@@ -97,7 +104,10 @@ if preview_frame > -1:
     sam2_model = build_sam2(model_cfg, sam2_checkpoint, device=device)
     predictor = SAM2ImagePredictor(sam2_model)
 else:
-    predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device, vos_optimized=True)
+    if device.type == "cuda" and torch.cuda.get_device_properties(0).major >= 8:
+        predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device, vos_optimized=True)
+    else:
+        predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device)
 
 def show_mask(mask, ax, obj_id=None, random_color=False):
     #if random_color:

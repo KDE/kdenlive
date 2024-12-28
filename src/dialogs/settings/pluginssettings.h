@@ -84,6 +84,7 @@ private Q_SLOTS:
     void doDeleteSamModels();
     /** @brief Check if SAM is corectly setup */
     void checkSamEnvironement(bool afterInstall = true);
+    void samDependenciesChecked();
 
 Q_SIGNALS:
     void openBrowserUrl(const QString &url);

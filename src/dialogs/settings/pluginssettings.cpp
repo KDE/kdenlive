@@ -158,6 +158,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     combo_wr_device->setPlaceholderText(i18n("Probing..."));
     combo_wr_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     combo_wr_device->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    combo_sam_device->setPlaceholderText(i18n("Probing..."));
+    combo_sam_device->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 
     PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
     message_layout_wr->addWidget(msgWhisper);
@@ -298,14 +300,51 @@ PluginsSettings::PluginsSettings(QWidget *parent)
             [this]() { QMetaObject::invokeMethod(this, "checkSamEnvironement", Qt::QueuedConnection); });
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     if (pluginDir.cd(m_samInterface->getVenvPath())) {
-        sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Virtual environment")));
+        sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Plugin size")));
     }
-    connect(m_samInterface, &AbstractPythonInterface::dependenciesAvailable, this, [&]() {
-        if (combo_sam_model->count() > 0) {
-            Q_EMIT pCore->samConfigUpdated();
+    connect(m_samInterface, &AbstractPythonInterface::dependenciesAvailable, this, &PluginsSettings::samDependenciesChecked);
+    connect(m_samInterface, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) {
+        modelBox->setEnabled(false);
+        check_config_sam->setEnabled(true);
+    });
+    connect(m_samInterface, &SpeechToText::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
+        Q_UNUSED(args);
+        if (scriptName.contains("checkgpu")) {
+            combo_sam_device->clear();
+            for (auto &s : jobData) {
+                if (s.contains(QLatin1Char('#'))) {
+                    combo_sam_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+                } else {
+                    combo_sam_device->addItem(s.simplified(), s.simplified());
+                }
+            }
         }
     });
+    connect(m_samInterface, &SpeechToText::concurrentScriptFinished, [this](const QString &scriptName, const QStringList &args) {
+        qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
+        if (scriptName.contains("checkgpu")) {
+            if (!KdenliveSettings::samDevice().isEmpty()) {
+                int ix = combo_sam_device->findData(KdenliveSettings::samDevice());
+                if (ix > -1) {
+                    combo_sam_device->setCurrentIndex(ix);
+                }
+            } else if (combo_sam_device->count() > 0) {
+                combo_sam_device->setCurrentIndex(0);
+            }
+        }
+    });
+    if (modelBox->isEnabled()) {
+        m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+    }
     checkSamEnvironement(false);
+}
+
+void PluginsSettings::samDependenciesChecked()
+{
+    check_config_sam->setEnabled(true);
+    if (combo_sam_model->count() > 0) {
+        Q_EMIT pCore->samConfigUpdated();
+    }
 }
 
 void PluginsSettings::checkSamEnvironement(bool afterInstall)
@@ -327,6 +366,9 @@ void PluginsSettings::checkSamEnvironement(bool afterInstall)
             installSamModelIfEmpty();
         } else {
             reloadSamModels();
+        }
+        if (combo_sam_device->count() == 0) {
+            m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
         }
     }
 }
@@ -657,8 +699,6 @@ void PluginsSettings::slotCheckSamConfig()
     check_config_sam->setEnabled(false);
     qApp->processEvents();
     m_samInterface->checkDependencies(true);
-    // Leave button disabled for 3 seconds so that the user doesn't trigger it again while it is processing
-    QTimer::singleShot(3000, this, [&]() { check_config_sam->setEnabled(true); });
 }
 
 void PluginsSettings::doShowSpeechMessage(const QString &message, int messageType)
@@ -851,6 +891,9 @@ void PluginsSettings::applySettings()
     if (combo_sam_model->currentData().toString() != KdenliveSettings::samModelFile()) {
         KdenliveSettings::setSamModelFile(combo_sam_model->currentData().toString());
         Q_EMIT pCore->samConfigUpdated();
+    }
+    if (combo_sam_device->currentData().toString() != KdenliveSettings::samDevice()) {
+        KdenliveSettings::setSamDevice(combo_sam_device->currentData().toString());
     }
     if (combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
         KdenliveSettings::setWhisperDevice(combo_wr_device->currentData().toString());

@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>410</width>
-    <height>631</height>
+    <height>637</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -92,7 +92,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="1" column="0" colspan="2">
         <widget class="QStackedWidget" name="speech_stack">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page">
           <layout class="QGridLayout" name="gridLayout">
@@ -517,25 +517,176 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <attribute name="title">
        <string>Object Detection</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="4" column="0">
-        <widget class="QLabel" name="sam_venv_label">
-         <property name="text">
-          <string>Plugin size</string>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0" colspan="7">
+        <widget class="QGroupBox" name="modelBox">
+         <property name="title">
+          <string/>
          </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Model</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="combo_sam_model">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="downloadSamButton">
+            <property name="text">
+             <string>Download models</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="KContextualHelpButton" name="kcontextualhelpbutton">
+            <property name="contextualHelpText">
+             <string>Object Detection relies on SAM2 - &lt;a href=&quot;https://github.com/facebookresearch/sam2&quot;&gt;https://github.com/facebookresearch/sam2&lt;/a&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Device:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="3">
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QComboBox" name="combo_sam_device">
+              <property name="sizeAdjustPolicy">
+               <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KContextualHelpButton" name="sam_device_info"/>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
-       <item row="4" column="2" colspan="3">
-        <widget class="QPushButton" name="deleteSamVenv">
+       <item row="3" column="4" colspan="2">
+        <widget class="QPushButton" name="deleteSamModels">
          <property name="text">
-          <string>Uninstall plugin</string>
+          <string>Delete all models</string>
          </property>
          <property name="icon">
           <iconset theme="edit-delete"/>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="6">
+       <item row="3" column="6">
+        <spacer name="horizontalSpacer_9">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>168</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="6" column="0" colspan="7">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>209</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QLabel" name="sam_folder_label">
+         <property name="text">
+          <string>Models folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="7">
+        <widget class="QPlainTextEdit" name="script_sam_log">
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
+         </property>
+         <property name="undoRedoEnabled">
+          <bool>false</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QLabel" name="sam_model_size">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="6">
+        <spacer name="horizontalSpacer_10">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>168</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0" colspan="7">
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
           <widget class="QPushButton" name="check_config_sam">
@@ -565,46 +716,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </item>
         </layout>
        </item>
-       <item row="6" column="5">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+       <item row="4" column="4" colspan="2">
+        <widget class="QPushButton" name="deleteSamVenv">
+         <property name="text">
+          <string>Uninstall plugin</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>209</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="5" column="0" colspan="6">
-        <widget class="QPlainTextEdit" name="script_sam_log">
-         <property name="frameShape">
-          <enum>QFrame::Shape::NoFrame</enum>
-         </property>
-         <property name="undoRedoEnabled">
-          <bool>false</bool>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
+         <property name="icon">
+          <iconset theme="edit-delete"/>
          </property>
         </widget>
        </item>
-       <item row="3" column="5">
-        <spacer name="horizontalSpacer_9">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>168</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="4" column="1">
+       <item row="4" column="3">
         <widget class="QLabel" name="sam_venv_size">
          <property name="text">
           <string/>
@@ -614,73 +736,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="6">
-        <widget class="QGroupBox" name="modelBox">
-         <property name="title">
-          <string/>
-         </property>
-         <property name="flat">
-          <bool>true</bool>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Model</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="combo_sam_model">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="downloadSamButton">
-            <property name="text">
-             <string>Download models</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="KContextualHelpButton" name="kcontextualhelpbutton">
-            <property name="contextualHelpText">
-             <string>Object Detection relies on SAM2 - &lt;a href=&quot;https://github.com/facebookresearch/sam2&quot;&gt;https://github.com/facebookresearch/sam2&lt;/a&gt;</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="4" column="5">
-        <spacer name="horizontalSpacer_10">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>168</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="sam_model_size">
+       <item row="4" column="0" colspan="3">
+        <widget class="QLabel" name="sam_venv_label">
          <property name="text">
-          <string/>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <string>Plugin size</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="6">
+       <item row="1" column="0" colspan="7">
         <layout class="QVBoxLayout" name="message_layout_sam">
          <property name="spacing">
           <number>0</number>
@@ -689,23 +752,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <number>10</number>
          </property>
         </layout>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="sam_folder_label">
-         <property name="text">
-          <string>Models folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2" colspan="3">
-        <widget class="QPushButton" name="deleteSamModels">
-         <property name="text">
-          <string>Delete all models</string>
-         </property>
-         <property name="icon">
-          <iconset theme="edit-delete"/>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

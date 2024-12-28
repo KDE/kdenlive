@@ -41,7 +41,7 @@ void MaskTask::generateMask()
     // Ensure we have the source frames
     QDir srcFolder(m_properties.value(MaskTask::INPUTFOLDER));
     if (!srcFolder.exists() || srcFolder.isEmpty()) {
-        m_errorMessage = i18n("Nos source frames to process");
+        m_errorMessage = i18n("No source frames to process");
         return;
     }
     const QString outFile = m_properties.value(MaskTask::OUTPUTFILE);
@@ -60,6 +60,9 @@ void MaskTask::generateMask()
     }
     if (!m_properties.value(MaskTask::BOX).isEmpty()) {
         args << QStringLiteral("-B") << m_properties.value(MaskTask::BOX);
+    }
+    if (!KdenliveSettings::samDevice().isEmpty()) {
+        args << QStringLiteral("-D") << KdenliveSettings::samDevice();
     }
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
     qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
