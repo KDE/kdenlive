@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-27 00:41+0000\n"
-"PO-Revision-Date: 2024-12-07 13:46+0300\n"
+"POT-Creation-Date: 2024-12-28 00:41+0000\n"
+"PO-Revision-Date: 2024-12-27 13:03+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -939,7 +939,7 @@ msgstr "Siyahtan videoya geçiş"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:171
-#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:338
+#: src/bin/bin.cpp:1294 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
@@ -971,8 +971,8 @@ msgstr "Solarak çık"
 msgid "Fade video to black"
 msgstr "Videodan siyaha geçiş"
 
-#: data/effects/fade_to_black.xml:11
-#: src/monitor/view/kdenlivemonitortrimming.qml:143
+#: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
+#: data/effects/shape.xml:35 src/monitor/view/kdenlivemonitortrimming.qml:143
 #, kde-format
 msgid "Out"
 msgstr "Çıkış"
@@ -2088,8 +2088,8 @@ msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1371
-#: src/bin/bin.cpp:1376 src/bin/bin.cpp:2321
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1391
+#: src/bin/bin.cpp:1396 src/bin/bin.cpp:2341
 #, kde-format
 msgid "Filter"
 msgstr "Süzgeç"
@@ -2286,6 +2286,23 @@ msgstr ""
 "Parlaklık veya alfa için bir eşik süzgecinin uygulanıp uygulanmayacağı. "
 "Uygulanmazsa özkaynağın (dosyanın) parlaklık veya alfa değeri alfa değerine "
 "kopyalanır."
+
+#. i18n: ectx: property (text), widget (QLabel, label_19)
+#: data/effects/mask_start_shape.xml:34 data/effects/shape.xml:31
+#: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:330
+#, kde-format
+msgid "Offset"
+msgstr "Ofset"
+
+#: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
+#, kde-format
+msgid "Start position for the mask file."
+msgstr ""
+
+#: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
+#, kde-format
+msgid "End position for the mask file."
+msgstr ""
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -2954,12 +2971,6 @@ msgstr ""
 "<![CDATA[Başlangıç zamanı geçtikten sonra sayacın geçen en çok süresi.\n"
 "Metin, süre geçtikten sonra süre süresinde dondurulacaktır.]]>"
 
-#. i18n: ectx: property (text), widget (QLabel, label_19)
-#: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:330
-#, kde-format
-msgid "Offset"
-msgstr "Ofset"
-
 #: data/effects/timer.xml:63
 #, kde-format
 msgid ""
@@ -3522,7 +3533,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "Gürültü Azaltımı ve Ses Restorasyonu"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:118 src/mainwindow.cpp:1366
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1366
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -4013,7 +4024,7 @@ msgstr "Efektlerin açıklamalarını göster/gizle"
 msgid "Show/hide description of the compositions"
 msgstr "Bileşikleştirmelerin açıklamalarını göster/gizle"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:175 src/bin/bin.cpp:1173
+#: src/assets/assetlist/view/assetlistwidget.cpp:175 src/bin/bin.cpp:1193
 #, kde-format
 msgid "Search…"
 msgstr "Ara…"
@@ -4030,22 +4041,22 @@ msgctxt "@info:tooltip"
 msgid "Online documentation"
 msgstr "Çevrimiçi belgelendirme"
 
-#: src/assets/assetpanel.cpp:70
+#: src/assets/assetpanel.cpp:72
 #, kde-format
 msgid "Change composition type"
 msgstr "Bileşikleştirme türünü değiştir"
 
-#: src/assets/assetpanel.cpp:81
+#: src/assets/assetpanel.cpp:83
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "Yalnızca aynı değere sahip efektlere uygula"
 
-#: src/assets/assetpanel.cpp:87
+#: src/assets/assetpanel.cpp:89
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Efekt değişikliğini gruptaki tüm kliplere uygula…"
 
-#: src/assets/assetpanel.cpp:89
+#: src/assets/assetpanel.cpp:91
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4057,12 +4068,25 @@ msgstr ""
 "tüm klipler parametrelerin de ayarlandığını görecektir. Bir efektin "
 "silinmesi, gruptaki tüm klipleri de silecektir."
 
-#: src/assets/assetpanel.cpp:99
+#: src/assets/assetpanel.cpp:102
+#, kde-format
+msgid "Create an object mask"
+msgstr ""
+
+#: src/assets/assetpanel.cpp:106
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This shows the mask creation panel. Masks can be used for example to remove "
+"the background in a video."
+msgstr ""
+
+#: src/assets/assetpanel.cpp:112
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Efekt Yığınını Kaydet…"
 
-#: src/assets/assetpanel.cpp:100
+#: src/assets/assetpanel.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -4070,17 +4094,17 @@ msgstr ""
 "Diğer projelerde kullanılmak üzere tüm efekt yığınını bir XML dosyası olarak "
 "kaydeder."
 
-#: src/assets/assetpanel.cpp:105
+#: src/assets/assetpanel.cpp:118
 #, kde-format
 msgid "Normal view"
 msgstr "Normal görünüm"
 
-#: src/assets/assetpanel.cpp:105 src/assets/assetpanel.cpp:109
+#: src/assets/assetpanel.cpp:118 src/assets/assetpanel.cpp:122
 #, kde-format
 msgid "Compare effect"
 msgstr "Efekti kıyasla"
 
-#: src/assets/assetpanel.cpp:112
+#: src/assets/assetpanel.cpp:125
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4090,17 +4114,17 @@ msgstr ""
 "Projede ve/veya klip monitöründe bölünmüş görünümü açar veya kapatır: Solda "
 "efektli klip, sağda efektsiz klip gösterilir."
 
-#: src/assets/assetpanel.cpp:117
+#: src/assets/assetpanel.cpp:130
 #, kde-format
 msgid "Effects disabled"
 msgstr "Efektler devre dışı"
 
-#: src/assets/assetpanel.cpp:117
+#: src/assets/assetpanel.cpp:130
 #, kde-format
 msgid "Effects enabled"
 msgstr "Efektler etkin"
 
-#: src/assets/assetpanel.cpp:120
+#: src/assets/assetpanel.cpp:133
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4111,47 +4135,53 @@ msgstr ""
 "Özgün ve düzenlenmiş arasındaki ayrımı veya ovalamayı hızlandırmak için "
 "yararlıdır."
 
-#: src/assets/assetpanel.cpp:127
+#: src/assets/assetpanel.cpp:140
 #, kde-format
 msgid "Open composition documentation in browser"
 msgstr "Bileşikleştirme belgelendirmesini tarayıcıda aç"
 
-#: src/assets/assetpanel.cpp:131
+#: src/assets/assetpanel.cpp:144
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Zaman akışında anahtar kareleri görüntüle"
 
-#: src/assets/assetpanel.cpp:131
+#: src/assets/assetpanel.cpp:144
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Zaman akışında anahtar kareleri göster"
 
-#: src/assets/assetpanel.cpp:132
+#: src/assets/assetpanel.cpp:145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 "Zaman akışındaki klipte anahtar karelerin görüntülenmesini açar/kapatır"
 
-#: src/assets/assetpanel.cpp:247
+#: src/assets/assetpanel.cpp:260
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efektleri"
 
-#: src/assets/assetpanel.cpp:252 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:265 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 Parametreleri"
 
-#: src/assets/assetpanel.cpp:256
+#: src/assets/assetpanel.cpp:269
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 efekti izle"
 
-#: src/assets/assetpanel.cpp:261
+#: src/assets/assetpanel.cpp:274
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "%1 efekti kovaya at"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#, kde-format
+msgid ""
+"You must define include points in the first video frame of the sequence."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4295,7 +4325,7 @@ msgid "Delete keyframes"
 msgstr "Anahtar kareleri sil"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:729
-#: src/assets/model/assetparametermodel.cpp:1547
+#: src/assets/model/assetparametermodel.cpp:1570
 #, kde-format
 msgid "Update effect"
 msgstr "Efekti Güncelle"
@@ -4371,20 +4401,20 @@ msgstr "%1 anahtar kareyi düzenle"
 msgid "Update %1"
 msgstr "%1 Güncelle"
 
-#: src/assets/model/assetparametermodel.cpp:1398
-#: src/assets/model/assetparametermodel.cpp:1445
+#: src/assets/model/assetparametermodel.cpp:1421
+#: src/assets/model/assetparametermodel.cpp:1468
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Önayar dosyası %1 açılamıyor"
 
-#: src/assets/model/assetparametermodel.cpp:1521
+#: src/assets/model/assetparametermodel.cpp:1544
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "%1 önayarı yüklenemedi"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:282
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:283
 #, kde-format
 msgid "Reset Effect"
 msgstr "Efekti Sıfırla"
@@ -4418,7 +4448,7 @@ msgstr "Efekti kaydet"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1470
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -4426,7 +4456,7 @@ msgstr "Önayar Adı Gir"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1470
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Bu ön ayarın adını girin:"
@@ -4746,7 +4776,7 @@ msgid "Default Keyframe Type"
 msgstr "Öntanımlı Anahtar Kare Türü"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:215 src/bin/bin.cpp:1323
+#: src/assets/view/widgets/keyframewidget.cpp:215 src/bin/bin.cpp:1343
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -4831,17 +4861,27 @@ msgstr "<Bir Anahtar Sözcük Seç>"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:168
 #: src/assets/view/widgets/listparamwidget.cpp:97
-#: src/assets/view/widgets/urllistparamwidget.cpp:137
+#: src/assets/view/widgets/urllistparamwidget.cpp:195
 #, kde-format
 msgid "None (Dissolve)"
 msgstr "Yok (Çözült)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:236
+#: src/assets/view/widgets/urllistparamwidget.cpp:64
+#, fuzzy, kde-format
+#| msgid ""
+#| "Cannot create a timeline from this clip:\n"
+#| "%1"
+msgid "Create or edit a mask for this clip"
+msgstr ""
+"Bu klipten bir zaman akışı oluşturulamıyor:\n"
+"%1"
+
+#: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
 msgid "Custom…"
 msgstr "Özel…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:324
+#: src/assets/view/widgets/urllistparamwidget.cpp:456
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Geçersiz LUT dosyası %1"
@@ -4975,12 +5015,12 @@ msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr "Ses ana içeriği için efekt yığınını açar."
 
-#: src/bin/bin.cpp:700 src/bin/bin.cpp:858
+#: src/bin/bin.cpp:703 src/bin/bin.cpp:863
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
 msgstr "Projeye dosya eklemek için <b>çift tıklayın</b>"
 
-#: src/bin/bin.cpp:800 src/bin/bin.cpp:897
+#: src/bin/bin.cpp:805 src/bin/bin.cpp:915
 #, kde-format
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
@@ -4989,106 +5029,106 @@ msgstr ""
 "Öntanımlı küçük görseli ayarlamak için <b>Üst Karakter+Arama</b>yapın, "
 "seçili ögeyi yeniden adlandırmak için <b>F2</b>’ye basın"
 
-#: src/bin/bin.cpp:802 src/bin/bin.cpp:899
+#: src/bin/bin.cpp:807 src/bin/bin.cpp:917
 #, kde-format
 msgid "<b>F2</b> to rename selected item"
 msgstr "Seçili ögeyi yeniden adlandırmak için <b>F2</b>’ye basın"
 
-#: src/bin/bin.cpp:1052
+#: src/bin/bin.cpp:1072
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
 msgstr[0] "%1 iş"
 msgstr[1] "%1 iş"
 
-#: src/bin/bin.cpp:1053
+#: src/bin/bin.cpp:1073
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
 msgstr[0] "%1 bekleyen iş"
 msgstr[1] "%1 bekleyen iş"
 
-#: src/bin/bin.cpp:1175
+#: src/bin/bin.cpp:1195
 #, kde-format
 msgid "Bin Search"
 msgstr "Kovada Ara"
 
-#: src/bin/bin.cpp:1217
+#: src/bin/bin.cpp:1237
 #, kde-format
 msgid "View Mode"
 msgstr "Görünüm Kipi"
 
-#: src/bin/bin.cpp:1220
+#: src/bin/bin.cpp:1240
 #, kde-format
 msgid "Tree View"
 msgstr "Ağaç Görünümü"
 
-#: src/bin/bin.cpp:1227
+#: src/bin/bin.cpp:1247
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr "Profili Geçerli Klip için Ayarla"
 
-#: src/bin/bin.cpp:1231
+#: src/bin/bin.cpp:1251
 #, kde-format
 msgid "Icon View"
 msgstr "Simge Görünümü"
 
-#: src/bin/bin.cpp:1239 src/project/dialogs/guideslist.cpp:105
+#: src/bin/bin.cpp:1259 src/project/dialogs/guideslist.cpp:105
 #, kde-format
 msgid "Descending"
 msgstr "Azalan"
 
-#: src/bin/bin.cpp:1255
+#: src/bin/bin.cpp:1275
 #, kde-format
 msgid "Sort By"
 msgstr "Sırala"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:323
+#: src/bin/bin.cpp:1278 src/bin/projectitemmodel.cpp:325
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Ad"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:326
+#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:328
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Tarih"
 
-#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:329
+#: src/bin/bin.cpp:1286 src/bin/projectitemmodel.cpp:331
 #, kde-format
 msgid "Description"
 msgstr "Açıklama"
 
-#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:332
+#: src/bin/bin.cpp:1290 src/bin/projectitemmodel.cpp:334
 #, kde-format
 msgid "Type"
 msgstr "Tür"
 
-#: src/bin/bin.cpp:1278
+#: src/bin/bin.cpp:1298
 #, kde-format
 msgid "Insert Order"
 msgstr "Ekleme Sıralaması"
 
-#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:344
+#: src/bin/bin.cpp:1302 src/bin/projectitemmodel.cpp:346
 #, kde-format
 msgid "Rating"
 msgstr "Derecelendirme"
 
-#: src/bin/bin.cpp:1306
+#: src/bin/bin.cpp:1326
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr "Kova Efektlerini Devre Dışı Bırak"
 
-#: src/bin/bin.cpp:1314
+#: src/bin/bin.cpp:1334
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
 msgstr "Küçük Görsellerde Video Önizlemelerini Göster"
 
-#: src/bin/bin.cpp:1324
+#: src/bin/bin.cpp:1344
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5098,32 +5138,32 @@ msgstr ""
 "Proje kovasını yapılandırmak için bir menü açar (örn. görünüm kipi, sırala, "
 "derecelendirmeyi göster)."
 
-#: src/bin/bin.cpp:1331
+#: src/bin/bin.cpp:1351
 #, kde-format
 msgid "Show Date"
 msgstr "Tarihi Göster"
 
-#: src/bin/bin.cpp:1335
+#: src/bin/bin.cpp:1355
 #, kde-format
 msgid "Show Description"
 msgstr "Açıklamayı Göster"
 
-#: src/bin/bin.cpp:1339
+#: src/bin/bin.cpp:1359
 #, kde-format
 msgid "Show Rating"
 msgstr "Derecelendirmeyi Göster"
 
-#: src/bin/bin.cpp:1350
+#: src/bin/bin.cpp:1370
 #, kde-format
 msgid "Open Current Folder In New Bin"
 msgstr "Geçerli Klasörü Yeni Kovada Aç"
 
-#: src/bin/bin.cpp:1355
+#: src/bin/bin.cpp:1375
 #, kde-format
 msgid "Tags Panel"
 msgstr "Künyeler Paneli"
 
-#: src/bin/bin.cpp:1377
+#: src/bin/bin.cpp:1397
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5135,68 +5175,68 @@ msgstr ""
 "kapatır. Olası süzgeç ayarlarının bir listesini açmak için ok simgesine "
 "tıklayın."
 
-#: src/bin/bin.cpp:1412
+#: src/bin/bin.cpp:1432
 #, kde-format
 msgid "Close Current Bin"
 msgstr "Geçerli Kovayı Kapat"
 
-#: src/bin/bin.cpp:1424
+#: src/bin/bin.cpp:1444
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "Tüm İşleri İptal Et"
 
-#: src/bin/bin.cpp:1426
+#: src/bin/bin.cpp:1446
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "Geçerli Klip İşlerini İptal Et"
 
-#: src/bin/bin.cpp:1428
+#: src/bin/bin.cpp:1448
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr "Bekleyen İşleri İptal Et"
 
-#: src/bin/bin.cpp:1469
+#: src/bin/bin.cpp:1489
 #, kde-format
 msgid "Bin Clip Properties"
 msgstr "Kova Klibi Özellikleri"
 
-#: src/bin/bin.cpp:1769
+#: src/bin/bin.cpp:1789
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr "Bir projenin tüm sekanslarını silemezsiniz"
 
-#: src/bin/bin.cpp:1772
+#: src/bin/bin.cpp:1792
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr "Sekansları silmek geri alınamaz"
 
-#: src/bin/bin.cpp:1779
+#: src/bin/bin.cpp:1799
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr "Bu, tüm seçili klipleri zaman akışından siler"
 
-#: src/bin/bin.cpp:1782
+#: src/bin/bin.cpp:1802
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "Bu, tüm klasör içeriğini siler"
 
-#: src/bin/bin.cpp:1799
+#: src/bin/bin.cpp:1819
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr "Bazı ögeler silinemedi. Kilitli izlerde örnekler olabilir mi?"
 
-#: src/bin/bin.cpp:1801
+#: src/bin/bin.cpp:1821
 #, kde-format
 msgid "Delete bin Clips"
 msgstr "Kova Kliplerini Sil"
 
-#: src/bin/bin.cpp:1826
+#: src/bin/bin.cpp:1846
 #, kde-format
 msgid "Missing source clip"
 msgstr "Eksik kaynak klip"
 
-#: src/bin/bin.cpp:1846 src/bin/bin.cpp:2525
+#: src/bin/bin.cpp:1866 src/bin/bin.cpp:2545
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:427
@@ -5204,7 +5244,7 @@ msgstr "Eksik kaynak klip"
 msgid "Unable to write to file %1"
 msgstr "%1 dosyasına yazılamadı"
 
-#: src/bin/bin.cpp:1853 src/bin/bin.cpp:2531 src/doc/kdenlivedoc.cpp:743
+#: src/bin/bin.cpp:1873 src/bin/bin.cpp:2551 src/doc/kdenlivedoc.cpp:743
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -5213,17 +5253,17 @@ msgstr ""
 "Proje dosyanız Kdenlive tarafından değiştirildi.\n"
 "Veri kaybını tamamen önlemek için, %1 adında bir yedek kopyası oluşturuldu."
 
-#: src/bin/bin.cpp:1859
+#: src/bin/bin.cpp:1879
 #, kde-format
 msgid "Unable to parse file %1"
 msgstr "%1 dosyası ayrıştırılamadı"
 
-#: src/bin/bin.cpp:1870
+#: src/bin/bin.cpp:1890
 #, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr "Klip, geçersiz %1 dosyası ile değiştirilemiyor"
 
-#: src/bin/bin.cpp:1896 src/bin/bin.cpp:2117
+#: src/bin/bin.cpp:1916 src/bin/bin.cpp:2137
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -5234,18 +5274,18 @@ msgstr ""
 "sorunlara neden olabilir.\n"
 "Değiştirme %1 kare daha kısa."
 
-#: src/bin/bin.cpp:1903 src/bin/bin.cpp:2123
+#: src/bin/bin.cpp:1923 src/bin/bin.cpp:2143
 #: src/bin/model/subtitlemodel.cpp:430
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Seçili %1 dosyası geçersiz."
 
-#: src/bin/bin.cpp:1909
+#: src/bin/bin.cpp:1929
 #, kde-format
 msgid "Cannot find original clip to be replaced"
 msgstr "Değiştirilecek özgün klip bulunamadı"
 
-#: src/bin/bin.cpp:1933
+#: src/bin/bin.cpp:1953
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
@@ -5254,24 +5294,24 @@ msgstr ""
 "Zaman akışında değiştirme yapmak için iki adet klip seçmelisiniz (özgün klip "
 "ve yerine konulacak klip)."
 
-#: src/bin/bin.cpp:1939
+#: src/bin/bin.cpp:1959
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr "Geçerli <b>%1</b> klibi etkin zaman akışına eklenmedi."
 
-#: src/bin/bin.cpp:1944
+#: src/bin/bin.cpp:1964
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr "<b>%1</b> sekansını kendisine ekleyemezsiniz."
 
-#: src/bin/bin.cpp:1963
+#: src/bin/bin.cpp:1983
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
 "Seçili klipler %1 ve %2 eşleşmiyor; ne ses ne de video değiştirilebilir"
 
-#: src/bin/bin.cpp:1974
+#: src/bin/bin.cpp:1994
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
@@ -5280,7 +5320,7 @@ msgstr ""
 "Etkin zaman akışındaki <b>%1</b> (%2)<br/>klibinin örnekleri\n"
 "<b>%3</b> (%4) klibiyle değiştiriliyor"
 
-#: src/bin/bin.cpp:1979
+#: src/bin/bin.cpp:1999
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -5289,17 +5329,17 @@ msgstr ""
 "Etkin zaman akışındaki <b>%1</b><br/>klibinin örnekleri\n"
 "<b>%2</b> klibiyle değiştiriliyor"
 
-#: src/bin/bin.cpp:1981 src/timeline2/model/timelineitemmodel.cpp:998
+#: src/bin/bin.cpp:2001 src/timeline2/model/timelineitemmodel.cpp:998
 #, kde-format
 msgid "Replace audio"
 msgstr "Sesi değiştir"
 
-#: src/bin/bin.cpp:1984 src/timeline2/model/timelineitemmodel.cpp:998
+#: src/bin/bin.cpp:2004 src/timeline2/model/timelineitemmodel.cpp:998
 #, kde-format
 msgid "Replace video"
 msgstr "Videoyu değiştir"
 
-#: src/bin/bin.cpp:1994
+#: src/bin/bin.cpp:2014
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
@@ -5308,18 +5348,18 @@ msgstr ""
 "Değiştirme klibi kaynak klipten daha kısa.<br><b>Zaman akışındaki bazı "
 "klipler değiştirilemeyebilir</b>"
 
-#: src/bin/bin.cpp:1997
+#: src/bin/bin.cpp:2017
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr "Değiştirme klibinin süresi, kaynak klipten daha uzun"
 
-#: src/bin/bin.cpp:2033
+#: src/bin/bin.cpp:2053
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "%1 Değişimini Aç"
 
-#: src/bin/bin.cpp:2074
+#: src/bin/bin.cpp:2094
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
@@ -5328,7 +5368,7 @@ msgstr ""
 "Değiştirme klibi bir video akışı içermiyor. Etkin zaman akışındaki klibin "
 "yalnızca ses bileşenini mi değiştirmek istiyorsunuz?"
 
-#: src/bin/bin.cpp:2079
+#: src/bin/bin.cpp:2099
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
@@ -5337,7 +5377,7 @@ msgstr ""
 "Değiştirme klibi bir ses akışı içermiyor. Etkin zaman akışındaki klibin "
 "yalnızca video bileşenini mi değiştirmek istiyorsunuz?"
 
-#: src/bin/bin.cpp:2083 src/bin/bin.cpp:2109
+#: src/bin/bin.cpp:2103 src/bin/bin.cpp:2129
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
@@ -5345,96 +5385,97 @@ msgid ""
 msgstr ""
 "Bir klibi, başka bir tür kliple değiştiremezsiniz (ses/video eşleşmiyor)."
 
-#: src/bin/bin.cpp:2086
+#: src/bin/bin.cpp:2106
 #, kde-format
 msgid "Replace in timeline"
 msgstr "Zaman akışında değiştir"
 
-#: src/bin/bin.cpp:2107 src/bin/bin.cpp:5830 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
+#: src/effects/effectstack/view/maskmanager.cpp:346
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Klip Ekle"
 
-#: src/bin/bin.cpp:2155
+#: src/bin/bin.cpp:2175
 #, kde-format
 msgid "Could not locate %1"
 msgstr "%1 yeri belirlenemedi"
 
-#: src/bin/bin.cpp:2209
+#: src/bin/bin.cpp:2229
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "%1 konumunda geçici dosya oluşturulamadı"
 
-#: src/bin/bin.cpp:2217
+#: src/bin/bin.cpp:2237
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr "Sekansı çoğaltma başarısız"
 
-#: src/bin/bin.cpp:2230
+#: src/bin/bin.cpp:2250
 #, kde-format
 msgid "%1 (copy)"
 msgstr "%1 (kopya)"
 
-#: src/bin/bin.cpp:2235 src/bin/bin.cpp:2256
+#: src/bin/bin.cpp:2255 src/bin/bin.cpp:2276
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Klibi çoğalt"
 
-#: src/bin/bin.cpp:2248
+#: src/bin/bin.cpp:2268
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (kopya)"
 
-#: src/bin/bin.cpp:2373
+#: src/bin/bin.cpp:2393
 #, kde-format
 msgid "Clear Filters"
 msgstr "Süzgeçleri Temizle"
 
-#: src/bin/bin.cpp:2379
+#: src/bin/bin.cpp:2399
 #, kde-format
 msgid "No Tags"
 msgstr "Künye Yok"
 
-#: src/bin/bin.cpp:2398
+#: src/bin/bin.cpp:2418
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "%1 Yıldız"
 msgstr[1] "%1 Yıldız"
 
-#: src/bin/bin.cpp:2405
+#: src/bin/bin.cpp:2425
 #, kde-format
 msgid "Filter by Usage"
 msgstr "Kullanıma Göre Süz"
 
-#: src/bin/bin.cpp:2408
+#: src/bin/bin.cpp:2428
 #, kde-format
 msgid "All Clips"
 msgstr "Tüm Klipler"
 
-#: src/bin/bin.cpp:2413
+#: src/bin/bin.cpp:2433
 #, kde-format
 msgid "Unused Clips"
 msgstr "Kullanılmayan Klipler"
 
-#: src/bin/bin.cpp:2417
+#: src/bin/bin.cpp:2437
 #, kde-format
 msgid "Used Clips"
 msgstr "Kullanılan Klipler"
 
-#: src/bin/bin.cpp:2424
+#: src/bin/bin.cpp:2444
 #, kde-format
 msgid "Filter by Type"
 msgstr "Türe Göre Süz"
 
-#: src/bin/bin.cpp:2427
+#: src/bin/bin.cpp:2447
 #, kde-format
 msgid "AV Clip"
 msgstr "AV Klibi"
 
-#: src/bin/bin.cpp:2431
+#: src/bin/bin.cpp:2451
 #, kde-format
 msgid "Mute Video"
 msgstr "Video Sesini Kapat"
@@ -5444,7 +5485,7 @@ msgstr "Video Sesini Kapat"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2435 src/effects/effectlist/model/effecttreemodel.cpp:65
+#: src/bin/bin.cpp:2455 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layoutmanagement.cpp:34 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:589
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:533
@@ -5454,64 +5495,64 @@ msgstr "Video Sesini Kapat"
 msgid "Audio"
 msgstr "Ses"
 
-#: src/bin/bin.cpp:2439 src/mltcontroller/clippropertiescontroller.cpp:442
+#: src/bin/bin.cpp:2459 src/mltcontroller/clippropertiescontroller.cpp:442
 #, kde-format
 msgid "Image"
 msgstr "Görsel"
 
-#: src/bin/bin.cpp:2443
+#: src/bin/bin.cpp:2463
 #, kde-format
 msgid "Slideshow"
 msgstr "Slayt Gösterisi"
 
-#: src/bin/bin.cpp:2447
+#: src/bin/bin.cpp:2467
 #, kde-format
 msgid "Playlist"
 msgstr "Oynatma Listesi"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2451 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/bin/bin.cpp:2471 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
 #: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1579
 #: src/project/projectmanager.cpp:1581 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekanslar"
 
-#: src/bin/bin.cpp:2455 src/project/dialogs/projectsettings.cpp:216
+#: src/bin/bin.cpp:2475 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
 msgid "Title"
 msgstr "Başlık"
 
-#: src/bin/bin.cpp:2459
+#: src/bin/bin.cpp:2479
 #, kde-format
 msgid "Title Template"
 msgstr "Başlık Şablonu"
 
-#: src/bin/bin.cpp:2463 src/layoutmanagement.cpp:36
+#: src/bin/bin.cpp:2483 src/layoutmanagement.cpp:36
 #: src/mltcontroller/clippropertiescontroller.cpp:352
 #, kde-format
 msgid "Color"
 msgstr "Renk"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2552 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2572 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Klasör"
 
-#: src/bin/bin.cpp:2553
+#: src/bin/bin.cpp:2573
 #, kde-format
 msgid "Create bin folder"
 msgstr "Kova klasörü oluştur"
 
-#: src/bin/bin.cpp:2687 src/bin/bin.cpp:2700 src/bin/bin.cpp:3694
+#: src/bin/bin.cpp:2707 src/bin/bin.cpp:2720 src/bin/bin.cpp:3714
 #: src/timeline2/model/timelinemodel.cpp:2163
 #, kde-format
 msgid "Delete Clip"
 msgstr "Klibi Sil"
 
-#: src/bin/bin.cpp:2689 src/bin/bin.cpp:2702
+#: src/bin/bin.cpp:2709 src/bin/bin.cpp:2722
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5519,37 +5560,37 @@ msgid ""
 "timeline."
 msgstr "Şu anda seçili klipleri proje kovasından ve zaman akışından siler."
 
-#: src/bin/bin.cpp:2690 src/bin/bin.cpp:2703 src/bin/bin.cpp:3670
+#: src/bin/bin.cpp:2710 src/bin/bin.cpp:2723 src/bin/bin.cpp:3690
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Vekil Klip"
 
-#: src/bin/bin.cpp:2694
+#: src/bin/bin.cpp:2714
 #, kde-format
 msgid "Delete Folder"
 msgstr "Klasörü Sil"
 
-#: src/bin/bin.cpp:2695
+#: src/bin/bin.cpp:2715
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Vekil Sunucu Klasörü"
 
-#: src/bin/bin.cpp:2954
+#: src/bin/bin.cpp:2974
 #, kde-format
 msgid "Edit rating"
 msgstr "Derecelendirmeyi düzenle"
 
-#: src/bin/bin.cpp:2956
+#: src/bin/bin.cpp:2976
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Bu öge için derecelendirme ayarlanamıyor"
 
-#: src/bin/bin.cpp:3614
+#: src/bin/bin.cpp:3634
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Klip veya Klasör Ekle…"
 
-#: src/bin/bin.cpp:3615
+#: src/bin/bin.cpp:3635
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5564,97 +5605,97 @@ msgstr ""
 ">Kaynak dosyaları seçmek üzere bir pencere açmak için ortam simgesine "
 "tıklayın."
 
-#: src/bin/bin.cpp:3621
+#: src/bin/bin.cpp:3641
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Renk Klibi Ekle…"
 
-#: src/bin/bin.cpp:3623
+#: src/bin/bin.cpp:3643
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Görsel Sekansı Ekle…"
 
-#: src/bin/bin.cpp:3625
+#: src/bin/bin.cpp:3645
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Başlık Klibi Ekle…"
 
-#: src/bin/bin.cpp:3627
+#: src/bin/bin.cpp:3647
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Şablon Başlığı Ekle…"
 
-#: src/bin/bin.cpp:3629
+#: src/bin/bin.cpp:3649
 #, kde-format
 msgid "Create Animation…"
 msgstr "Canlandırma Oluştur…"
 
-#: src/bin/bin.cpp:3631
+#: src/bin/bin.cpp:3651
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Sekans Ekle…"
 
-#: src/bin/bin.cpp:3634 src/mainwindow.cpp:327
+#: src/bin/bin.cpp:3654 src/mainwindow.cpp:327
 #, kde-format
 msgid "Online Resources"
 msgstr "Çevrimiçi Özkaynaklar"
 
-#: src/bin/bin.cpp:3638
+#: src/bin/bin.cpp:3658
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Klibi Bul…"
 
-#: src/bin/bin.cpp:3643
+#: src/bin/bin.cpp:3663
 #, kde-format
 msgid "Reload Clip"
 msgstr "Klibi Yeniden Yükle"
 
-#: src/bin/bin.cpp:3649
+#: src/bin/bin.cpp:3669
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Düzenleme Dostu Biçime Arakodla…"
 
-#: src/bin/bin.cpp:3654
+#: src/bin/bin.cpp:3674
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Klibi Değiştir…"
 
-#: src/bin/bin.cpp:3660
+#: src/bin/bin.cpp:3680
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Zaman Akışındaki Klibi Değiştir…"
 
-#: src/bin/bin.cpp:3665
+#: src/bin/bin.cpp:3685
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Klibi Çoğalt"
 
-#: src/bin/bin.cpp:3677 src/bin/bin.cpp:3732
+#: src/bin/bin.cpp:3697 src/bin/bin.cpp:3752
 #, kde-format
 msgid "Clip Properties"
 msgstr "Klip Özellikleri"
 
-#: src/bin/bin.cpp:3682 src/mltcontroller/clippropertiescontroller.cpp:281
+#: src/bin/bin.cpp:3702 src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-format
 msgid "Edit Clip"
 msgstr "Klibi Düzenle"
 
-#: src/bin/bin.cpp:3700
+#: src/bin/bin.cpp:3720
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Sekanslar için Öntanımlı Hedef Klasör"
 
-#: src/bin/bin.cpp:3705
+#: src/bin/bin.cpp:3725
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Ses Yakalamaları için Öntanımlı Hedef Klasör"
 
-#: src/bin/bin.cpp:3709
+#: src/bin/bin.cpp:3729
 #, kde-format
 msgid "Create Folder"
 msgstr "Klasör Oluştur"
 
-#: src/bin/bin.cpp:3712
+#: src/bin/bin.cpp:3732
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5665,101 +5706,101 @@ msgstr ""
 "daha düzgün organize edilebilmesine izin verir. Klasörler iç içe "
 "geçirilebilir."
 
-#: src/bin/bin.cpp:3782 src/dialogs/speechdialog.cpp:51
+#: src/bin/bin.cpp:3802 src/dialogs/speechdialog.cpp:51
 #: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Günlüğü göster"
 
-#: src/bin/bin.cpp:3785 src/dialogs/textbasededit.cpp:717
+#: src/bin/bin.cpp:3805 src/dialogs/textbasededit.cpp:717
 #, kde-format
 msgid "Detailed log"
 msgstr "Ayrıntılı günlük"
 
-#: src/bin/bin.cpp:3845 src/bin/bin.cpp:3878
+#: src/bin/bin.cpp:3865 src/bin/bin.cpp:3898
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Yeni Sekans Oluştur"
 
-#: src/bin/bin.cpp:3848 src/bin/bin.cpp:3851 src/bin/bin.cpp:3881
+#: src/bin/bin.cpp:3868 src/bin/bin.cpp:3871 src/bin/bin.cpp:3901
 #, kde-format
 msgid "Sequence %1"
 msgstr "Sekans %1"
 
-#: src/bin/bin.cpp:3912
+#: src/bin/bin.cpp:3932
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Klibi Taşı"
 msgstr[1] "Klipleri Taşı"
 
-#: src/bin/bin.cpp:3954
+#: src/bin/bin.cpp:3974
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Eklenecek geçerli klip yok"
 
-#: src/bin/bin.cpp:3967 src/timeline2/view/timelinecontroller.cpp:1551
+#: src/bin/bin.cpp:3987 src/timeline2/view/timelinecontroller.cpp:1551
 #: src/timeline2/view/timelinecontroller.cpp:3439
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Bir efekt uygulamak için bir klip seçin"
 
-#: src/bin/bin.cpp:3978
+#: src/bin/bin.cpp:3998
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Klasörlere efektler uygulanamaz"
 
-#: src/bin/bin.cpp:4006 src/effects/effectstack/model/effectstackmodel.cpp:692
+#: src/bin/bin.cpp:4026 src/effects/effectstack/model/effectstackmodel.cpp:692
 #: src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Klibe efekt eklenemez"
 
-#: src/bin/bin.cpp:4044 src/effects/effectstack/model/effectstackmodel.cpp:648
+#: src/bin/bin.cpp:4064 src/effects/effectstack/model/effectstackmodel.cpp:648
 #, kde-format
 msgid "Paste effect"
 msgstr "Efekti Yapıştır"
 
-#: src/bin/bin.cpp:4081 src/bin/bin.cpp:4088
+#: src/bin/bin.cpp:4101 src/bin/bin.cpp:4108
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Künye eklemek için bir klip seçin"
 
-#: src/bin/bin.cpp:4227
+#: src/bin/bin.cpp:4247
 #, kde-format
 msgid "Edit Tags"
 msgstr "Künyeleri Düzenle"
 
-#: src/bin/bin.cpp:4550 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:2008 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:187
+#: src/bin/projectclip.cpp:2009 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
 msgid "Unnamed"
 msgstr "Adsız"
 
-#: src/bin/bin.cpp:4614
+#: src/bin/bin.cpp:4634
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Görsel düzenleme uygulaması yolunu girin"
 
-#: src/bin/bin.cpp:4626
+#: src/bin/bin.cpp:4646
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Görsel dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 
-#: src/bin/bin.cpp:4631
+#: src/bin/bin.cpp:4651
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Ses düzenleme uygulaması yolunu girin"
 
-#: src/bin/bin.cpp:4643
+#: src/bin/bin.cpp:4663
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Ses dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 
-#: src/bin/bin.cpp:4653 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4673 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -5768,12 +5809,12 @@ msgstr "Ses dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 msgid "Cannot open file %1"
 msgstr "%1 dosyası açılamıyor"
 
-#: src/bin/bin.cpp:4833 src/dialogs/profilesdialog.cpp:236
+#: src/bin/bin.cpp:4853 src/dialogs/profilesdialog.cpp:236
 #, kde-format
 msgid "(copy)"
 msgstr "(kopya)"
 
-#: src/bin/bin.cpp:4843
+#: src/bin/bin.cpp:4863
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5782,75 +5823,75 @@ msgstr ""
 "Harici başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık "
 "dosyasına mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
 
-#: src/bin/bin.cpp:4846 src/titler/titlewidget.cpp:2263
+#: src/bin/bin.cpp:4866 src/titler/titlewidget.cpp:2251
 #, kde-format
 msgid "Save Title"
 msgstr "Başlığı Kaydet"
 
-#: src/bin/bin.cpp:4846
+#: src/bin/bin.cpp:4866
 #, kde-format
 msgid "Save to title file"
 msgstr "Başlık dosyasına kaydet"
 
-#: src/bin/bin.cpp:4847
+#: src/bin/bin.cpp:4867
 #, kde-format
 msgid "Save in project only"
 msgstr "Yalnızca proje içinde kaydet"
 
-#: src/bin/bin.cpp:4870 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4890 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Başlık klibi"
 
-#: src/bin/bin.cpp:4920
+#: src/bin/bin.cpp:4940
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klip geçersiz, projeden kaldırılacak."
 
-#: src/bin/bin.cpp:4924
+#: src/bin/bin.cpp:4944
 #, kde-format
 msgid "Invalid clip"
 msgstr "Geçersiz klip"
 
-#: src/bin/bin.cpp:5038
+#: src/bin/bin.cpp:5058
 #, kde-format
 msgid "Enable proxies"
 msgstr "Vekilleri etkinleştir"
 
-#: src/bin/bin.cpp:5038
+#: src/bin/bin.cpp:5058
 #, kde-format
 msgid "Disable proxies"
 msgstr "Vekilleri kapat"
 
-#: src/bin/bin.cpp:5212
+#: src/bin/bin.cpp:5232
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Vekilleri yeniden oluştur"
 
-#: src/bin/bin.cpp:5447
+#: src/bin/bin.cpp:5467
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:5463
+#: src/bin/bin.cpp:5483
 #, kde-format
 msgid "Add Tracks"
 msgstr "İzler Ekle"
 
-#: src/bin/bin.cpp:5465
+#: src/bin/bin.cpp:5485
 #, kde-format
 msgid "Edit Streams"
 msgstr "Akışları Düzenle"
 
-#: src/bin/bin.cpp:5480
+#: src/bin/bin.cpp:5500
 #, kde-format
 msgid "Don't ask again"
 msgstr "Bir daha sorma"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5484
+#: src/bin/bin.cpp:5504
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5859,39 +5900,39 @@ msgstr ""
 "Projenizin tüm akışları işlemesi için daha fazla ses izine gereksinimi var. "
 "%1 ses izi eklensin mi?"
 
-#: src/bin/bin.cpp:5496 src/mainwindow.cpp:2707
+#: src/bin/bin.cpp:5516 src/mainwindow.cpp:2707
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "İmleyici eklenecek klip bulunamadı"
 
-#: src/bin/bin.cpp:5590
+#: src/bin/bin.cpp:5610
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Ana klip bulunamadı"
 
-#: src/bin/bin.cpp:5852
+#: src/bin/bin.cpp:5872
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klip | "
 
-#: src/bin/bin.cpp:5854
+#: src/bin/bin.cpp:5874
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klip (%2 seçili) | "
 
-#: src/bin/bin.cpp:5921 src/bin/bin.cpp:5998
+#: src/bin/bin.cpp:5941 src/bin/bin.cpp:6018
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Klip için ek akış ekle"
 msgstr[1] "Klip için ek akışlar ekle"
 
-#: src/bin/bin.cpp:5942
+#: src/bin/bin.cpp:5962
 #, kde-format
 msgid "Import selected clips"
 msgstr "Seçili klipleri içe aktar"
 
-#: src/bin/bin.cpp:5944
+#: src/bin/bin.cpp:5964
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5900,68 +5941,68 @@ msgstr ""
 "Klip için ek akışlar\n"
 "%1"
 
-#: src/bin/bin.cpp:5957 src/mltcontroller/clippropertiescontroller.cpp:669
+#: src/bin/bin.cpp:5977 src/mltcontroller/clippropertiescontroller.cpp:669
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video akışı %1"
 
-#: src/bin/bin.cpp:5972
+#: src/bin/bin.cpp:5992
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Ses akışı %1"
 
-#: src/bin/bin.cpp:6025
+#: src/bin/bin.cpp:6045
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Klip imleyicilerini kaldır"
 
-#: src/bin/bin.cpp:6183
+#: src/bin/bin.cpp:6203
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Arakodlama işlemi öncesi projenizi kaydetmenizi öneririz"
 
-#: src/bin/bin.cpp:6184
+#: src/bin/bin.cpp:6204
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Projeyi Kaydet"
 
-#: src/bin/bin.cpp:6185
+#: src/bin/bin.cpp:6205
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Kaydetmeden Arakodla"
 
-#: src/bin/bin.cpp:6334 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6354 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 Efektini Sil"
 
-#: src/bin/bin.cpp:6399 src/mainwindow.cpp:320
+#: src/bin/bin.cpp:6419 src/mainwindow.cpp:320
 #, kde-format
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:6402 src/bin/bin.cpp:6405 src/mainwindow.cpp:4800
+#: src/bin/bin.cpp:6422 src/bin/bin.cpp:6425 src/mainwindow.cpp:4800
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
 
-#: src/bin/bincommands.cpp:18 src/bin/bincommands.cpp:38
+#: src/bin/bincommands.cpp:19 src/bin/bincommands.cpp:39
 #, kde-format
 msgctxt "@action"
 msgid "Move Clip"
 msgstr "Klibi Taşı"
 
-#: src/bin/bincommands.cpp:62
+#: src/bin/bincommands.cpp:63
 #, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Bölgeyi Yeniden Adlandır"
 
-#: src/bin/bincommands.cpp:86
+#: src/bin/bincommands.cpp:87
 #, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
@@ -6089,7 +6130,7 @@ msgstr "Çift Tıklamada Dosya İçe Aktar"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:580
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:581
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6270,7 +6311,7 @@ msgid "Move subtitle"
 msgstr "Altyazıyı taşı"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:606
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:608
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
 #: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
@@ -6329,18 +6370,18 @@ msgstr "sürüm"
 msgid "Sequence count"
 msgstr "Sekans sayısı"
 
-#: src/bin/projectclip.cpp:244
+#: src/bin/projectclip.cpp:245
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Zaman akışı sekansı"
 
-#: src/bin/projectclip.cpp:543 src/timeline2/view/qml/Clip.qml:1156
+#: src/bin/projectclip.cpp:544 src/timeline2/view/qml/Clip.qml:1156
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "V"
 
-#: src/bin/projectclip.cpp:624
+#: src/bin/projectclip.cpp:625
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -6349,7 +6390,7 @@ msgstr ""
 "Görüntü boyutu 8 pikselden küçük.\n"
 "Bu, video çerçevemiz tarafından doğru şekilde desteklenmiyor."
 
-#: src/bin/projectclip.cpp:918
+#: src/bin/projectclip.cpp:919
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6358,29 +6399,29 @@ msgstr ""
 "%1 dosyasından üst veri ayıklanamıyor\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1159 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1160 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Geçersiz"
 
-#: src/bin/projectclip.cpp:1388 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1389 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "Dosya halihazırda var"
 
-#: src/bin/projectclip.cpp:2600
+#: src/bin/projectclip.cpp:2601
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Zaman akışı kliplerini ayarla"
 
-#: src/bin/projectclip.cpp:2836
+#: src/bin/projectclip.cpp:2837
 #, kde-format
 msgid "Add stream effect"
 msgstr "Akış efekti ekle"
 
-#: src/bin/projectclip.cpp:2861
+#: src/bin/projectclip.cpp:2862
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Akış efektini kaldır"
@@ -6392,22 +6433,22 @@ msgid_plural "%1 clips"
 msgstr[0] "%1 klip"
 msgstr[1] "%1 klip"
 
-#: src/bin/projectitemmodel.cpp:335
+#: src/bin/projectitemmodel.cpp:337
 #, kde-format
 msgid "Tag"
 msgstr "Künye"
 
-#: src/bin/projectitemmodel.cpp:341
+#: src/bin/projectitemmodel.cpp:343
 #, kde-format
 msgid "Id"
 msgstr "Kimlik"
 
-#: src/bin/projectitemmodel.cpp:347
+#: src/bin/projectitemmodel.cpp:349
 #, kde-format
 msgid "Usage"
 msgstr "Kullanım"
 
-#: src/bin/projectitemmodel.cpp:350 src/doc/documentchecker.cpp:1839
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -6415,42 +6456,43 @@ msgstr "Kullanım"
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: src/bin/projectitemmodel.cpp:658
+#: src/bin/projectitemmodel.cpp:669
 #, kde-format
 msgid "Add sub clips"
 msgstr "Alt klipler ekle"
 
-#: src/bin/projectitemmodel.cpp:693
+#. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
+#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:109
 #, kde-format
 msgid "Zone"
 msgstr "Bölge"
 
-#: src/bin/projectitemmodel.cpp:963
+#: src/bin/projectitemmodel.cpp:974
 #, kde-format
 msgid "Add bin clip"
 msgstr "Kova klibi ekle"
 
-#: src/bin/projectitemmodel.cpp:1081
+#: src/bin/projectitemmodel.cpp:1092
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Bir alt klip ekle"
 
-#: src/bin/projectitemmodel.cpp:1122
+#: src/bin/projectitemmodel.cpp:1133
 #, kde-format
 msgid "Rename Folder"
 msgstr "Klasörü Yeniden Adlandır"
 
-#: src/bin/projectitemmodel.cpp:1166 src/mainwindow.cpp:1420
+#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1420
 #, kde-format
 msgid "Clean Project"
 msgstr "Projeyi Temizle"
 
-#: src/bin/projectitemmodel.cpp:1394
+#: src/bin/projectitemmodel.cpp:1405
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Proje klipleri okunuyor…"
 
-#: src/bin/projectitemmodel.cpp:1502
+#: src/bin/projectitemmodel.cpp:1513
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Proje klipleri yükleniyor…"
@@ -6467,6 +6509,7 @@ msgstr "Künye %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
 #: src/dialogs/textbasededit.cpp:635
+#: src/effects/effectstack/view/maskmanager.cpp:49
 #, kde-format
 msgid "Configure"
 msgstr "Yapılandır"
@@ -7069,7 +7112,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Kodlama Profillerini Yönet"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/kdenlivesettingsdialog.cpp:314
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
 #: src/project/dialogs/archivewidget.cpp:98
 #, kde-format
 msgid "Proxy Clips"
@@ -7152,7 +7195,7 @@ msgstr "Kendiliğinden (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:721
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:906
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -7228,7 +7271,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/effects/effectlist/model/effecttreemodel.cpp:298
 #: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:682
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:684
 #: src/effects/effectstack/view/effectstackview.cpp:809
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -7241,7 +7284,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/renderpresets/renderpresetrepository.cpp:433
 #: src/timeline2/view/timelinecontroller.cpp:5139
 #: src/timeline2/view/timelinecontroller.cpp:5144
-#: src/titler/titlewidget.cpp:2276
+#: src/titler/titlewidget.cpp:2264
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Dosyaya yazılamadı: %1"
@@ -7323,424 +7366,6 @@ msgstr "Kodlama, %1 olarak tahmin edildi"
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Altyazı İçe Aktar"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3930
-#, kde-format
-msgid "Timeline"
-msgstr "Zaman Akışı"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:124
-#, kde-format
-msgid "Colors and Guides"
-msgstr "Renkler ve Kılavuzlar"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:131
-#, kde-format
-msgid "Speech To Text"
-msgstr "Konuşmadan Metne"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:135
-#, kde-format
-msgid "Playback"
-msgstr "Kayıttan Çalma"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:145
-#, kde-format
-msgid "Capture"
-msgstr "Yakalama"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:221
-#: src/effects/effectlist/model/effecttreemodel.cpp:64
-#, kde-format
-msgid "Misc"
-msgstr "Çeşitli"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:245
-#: src/dialogs/kdenlivesettingsdialog.cpp:831
-#: src/doc/documentvalidator.cpp:2523
-#: src/transitions/transitionsrepository.cpp:188
-#, kde-format
-msgid "auto"
-msgstr "Kendiliğinden"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:257
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"When enabled, this will add basic effects (Flip, Transform, Volume) to all "
-"clips for convenience. These effects are disabled and will only be applied "
-"if you change a parameter."
-msgstr ""
-"Etkinleştirildiğinde bu, tüm temel efektleri (ters çevir, dönüşüm, hacim) "
-"kolaylık olsun diye ekler. Bu temel efektler devre dışıdır ve yalnızca bir "
-"ayarı değiştirdiğinizde uygulanırlar."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:284
-#, kde-format
-msgid "Select the Default Profile (preset)"
-msgstr "Öntanımlı Profili Seç (Önayar)"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:305
-#, kde-format
-msgid "Project Defaults"
-msgstr "Proje Öntanımlıları"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:349
-#: src/dialogs/kdenlivesettingsdialog.cpp:374
-#, kde-format
-msgid "Use default folder: %1"
-msgstr "Öntanımlı klasörü kullan: %1"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:351
-#: src/dialogs/kdenlivesettingsdialog.cpp:377
-#: src/dialogs/kdenlivesettingsdialog.cpp:1087
-#: src/dialogs/kdenlivesettingsdialog.cpp:1088
-#: src/dialogs/kdenlivesettingsdialog.cpp:1103
-#: src/dialogs/kdenlivesettingsdialog.cpp:1104
-#, kde-format
-msgid "Always use project folder: %1"
-msgstr "Her zaman proje klasörünü kullan: %1"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:353
-#: src/dialogs/kdenlivesettingsdialog.cpp:379
-#: src/dialogs/kdenlivesettingsdialog.cpp:1099
-#: src/dialogs/kdenlivesettingsdialog.cpp:1100
-#, kde-format
-msgid "Always use active project folder"
-msgstr "Her zaman etkin proje klasörünü kullan"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:392
-#, kde-format
-msgid "Environment"
-msgstr "Çevre"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:428
-#, kde-format
-msgid "Capture is not yet available on Mac OS X."
-msgstr "Yakalama, macOS üzerinde henüz kullanılamıyor."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:438
-#, kde-format
-msgid "Mono (1 channel)"
-msgstr "Tek kanallı"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:439
-#, kde-format
-msgid "Stereo (2 channels)"
-msgstr "Çift kanallı"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:446
-#, kde-format
-msgid "44100 Hz"
-msgstr "44100 Hz"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:447
-#, kde-format
-msgid "48000 Hz"
-msgstr "48000 Hz"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:500
-#, kde-format
-msgid "JogShuttle"
-msgstr "Oynatma Tekerleği"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:502
-#, kde-format
-msgid ""
-"For device configuration see <a href=\"https://docs.kdenlive.org/"
-"user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
-"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
-"a>."
-msgstr ""
-"Aygıt yapılandırması için <a href=\"https://docs.kdenlive.org/user_interface/"
-"menu/settings_menu/configure_kdenlive.html#windows?"
-"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">belgelendirmemize</"
-"a> bakın."
-
-#. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:524 src/dialogs/timeremap.cpp:1583
-#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
-#: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
-#, kde-format
-msgid "Transcode"
-msgstr "Arakodlama"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:558
-#, kde-format
-msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
-msgstr ""
-"Movit ve Rtaudio modülleri ile derlenmiş MLT için GPU işlemi gereklidir"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:728
-#, kde-format
-msgid "ALSA"
-msgstr "ALSA"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:729
-#: src/dialogs/kdenlivesettingsdialog.cpp:782
-#, kde-format
-msgid "PulseAudio"
-msgstr "PulseAudio"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:730
-#, kde-format
-msgid "PipeWire"
-msgstr "PipeWire"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:731
-#, kde-format
-msgid "OSS"
-msgstr "OSS"
-
-#. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:733
-#, kde-format
-msgid "Esound Daemon"
-msgstr "Esound Ardalan Süreci"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:734
-#, kde-format
-msgid "ARTS Daemon"
-msgstr "ARTS Ardalan Süreci"
-
-#. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:746
-#: src/dialogs/kdenlivesettingsdialog.cpp:747
-#: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
-#, kde-format
-msgid "Default"
-msgstr "Öntanımlı"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:798
-#, kde-format
-msgid "SDL"
-msgstr "SDL"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:810
-#, kde-format
-msgid "RtAudio"
-msgstr "RtAudio"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:834 src/mainwindow.cpp:275
-#, kde-format
-msgid "Monitor %1"
-msgstr "%1. Monitör"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:918
-#, kde-format
-msgid "Enter path to the audio editing application"
-msgstr "Ses düzenleme uygulaması yolunu girin"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:926
-#, kde-format
-msgid "Enter path to the image editing application"
-msgstr "Görsel düzenleme uygulaması yolunu girin"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:934 src/glaxnimatelauncher.cpp:30
-#, kde-format
-msgid "Enter path to the Glaxnimate application"
-msgstr "Glaxnimate uygulaması yolunu girin"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1017
-#: src/dialogs/kdenlivesettingsdialog.cpp:1035
-#: src/project/dialogs/projectsettings.cpp:538
-#, kde-format
-msgid "Please select a video profile"
-msgstr "Lütfen bir video profili seçin"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1325
-#, kde-format
-msgid "Kdenlive must be restarted to change this setting"
-msgstr "Bu ayarı değiştirmek için Kdenlive yeniden başlatılmalıdır"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1473
-#, kde-format
-msgid "A profile with that name already exists"
-msgstr "Bu profil adı zaten var"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1607
-#, kde-format
-msgid "Current settings"
-msgstr "Geçerli ayarlar"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, scanning)
-#. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1645
-#: src/dialogs/kdenlivesettingsdialog.cpp:1681
-#: src/dialogs/kdenlivesettingsdialog.cpp:1698
-#: src/mltcontroller/clippropertiescontroller.cpp:562
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
-#: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
-#: src/ui/profiledialog_ui.ui:108
-#, kde-format
-msgid "Progressive"
-msgstr "Aşamalı"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1787
-#, kde-format
-msgid "CPU processing is very slow, GPU is recommended for faster processing"
-msgstr ""
-"CPU işlemesi genelde yavaştır; daha hızlı işleme için GPU kullanımı önerilir."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1788
-#, kde-format
-msgid ""
-"Text translation is performed by the SeamlessM4T model. This requires "
-"downloading around 10Gb of data. Once installed, all processing will happen "
-"offline."
-msgstr ""
-"Metin çevirileri SeamlessM4T modeli tarafından gerçekleştirilir. Bu, 10 GB "
-"civarında bir verinin indirilmesini gerektirir. Bir kez kurulduktan sonra "
-"tüm işleme çevrimdışı olarak gerçekleşir."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1807
-#, kde-format
-msgid "Download (1.4Gb)"
-msgstr "İndir (1,4 GB)"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1829
-#, kde-format
-msgid "Installing multilingual data…"
-msgstr "Çok dilli model kuruluyor…"
-
-#. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
-#. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1838
-#: src/dialogs/kdenlivesettingsdialog.cpp:2308 src/ui/configspeech_ui.ui:99
-#: src/ui/configspeech_ui.ui:322
-#, kde-format
-msgid "Models folder"
-msgstr "Modeller klasörü"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1896
-#, kde-format
-msgid "Setting up virtual environment…"
-msgstr "Sanal ortam ayarlanıyor…"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1898
-#, kde-format
-msgid "Disabling virtual environment"
-msgstr "Sanal ortam devre dışı bırakılıyor"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1915
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Removing the virtual environment folder."
-msgstr "Sanal ortam klasörü kaldırılıyor."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1920
-#, kde-format
-msgctxt "@label:textbox"
-msgid "No python venv found"
-msgstr "Hiçbir Python sanal ortamı bulunamadı"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1923
-#, kde-format
-msgctxt "@label:textbox"
-msgid "Failed to remove the virtual environment folder."
-msgstr "Sanal ortam klasörü kaldırılamadı."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1929
-#: src/dialogs/kdenlivesettingsdialog.cpp:1932
-#, kde-format
-msgid "Probing..."
-msgstr "Taranıyor…"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:1953
-#, kde-format
-msgid "Downloading multilingual model…"
-msgstr "Çok dilli model indiriliyor…"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2009
-#: src/dialogs/kdenlivesettingsdialog.cpp:2305
-#, kde-format
-msgid "Please add a speech model."
-msgstr "Lütfen bir konuşma modeli kurun."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2043
-#, kde-format
-msgid ""
-"Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
-"\">https://alphacephei.com/vosk/models</a>"
-msgstr ""
-"Konuşma modellerini <a href=\"https://alphacephei.com/vosk/models\">https://"
-"alphacephei.com/vosk/models</a> adresinden indirin"
-
-#. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2057 src/ui/configspeech_ui.ui:308
-#, kde-format
-msgid "Install multilingual translation"
-msgstr "Çok Dilli Çeviri Kur"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2066
-#, kde-format
-msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr "Bir konuşma modeli kurun; <b>turbo</b> kullanmanız önerilir."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2098
-#: src/dialogs/kdenlivesettingsdialog.cpp:2112
-#: src/dialogs/kdenlivesettingsdialog.cpp:2121
-#, kde-format
-msgid "Install a model"
-msgstr "Bir Model Kur"
-
-#. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2114
-#: src/dialogs/kdenlivesettingsdialog.cpp:2123 src/ui/configspeech_ui.ui:232
-#, kde-format
-msgid "Manage models"
-msgstr "Modelleri Yönet"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2183
-#, kde-format
-msgid "Enter url for the new dictionary"
-msgstr "Yeni sözlük için URL girin"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2189
-#, kde-format
-msgid "Downloading model…"
-msgstr "Model indiriliyor…"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2199
-#, kde-format
-msgid "We do not allow deleting custom folder models, please do it manually."
-msgstr "Özel klasör modellerini silmeye izin vermiyoruz, lütfen elle yapın."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2205
-#: src/dialogs/kdenlivesettingsdialog.cpp:2264
-#, kde-format
-msgid "Cannot access dictionary folder."
-msgstr "Sözlük klasörüne erişilemiyor."
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2214
-#, kde-format
-msgid ""
-"Delete folder:\n"
-"%1"
-msgstr ""
-"Klasörü sil:\n"
-"%1"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2238
-#, kde-format
-msgid "Download error"
-msgstr "İndirme hatası"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2243
-#, kde-format
-msgid "Download error %1"
-msgstr "İndirme hatası %1"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2271
-#, kde-format
-msgid "Extracting archive…"
-msgstr "Arşiv çıkarılıyor…"
-
-#: src/dialogs/kdenlivesettingsdialog.cpp:2278
-#, kde-format
-msgid "New dictionary installed."
-msgstr "Yeni sözlük kuruldu."
 
 #: src/dialogs/managesubtitles.cpp:52
 #, kde-format
@@ -7859,6 +7484,15 @@ msgstr "Sol Üst"
 #, kde-format
 msgid "Top Right"
 msgstr "Sağ Üst"
+
+#. i18n: ectx: property (text), widget (QRadioButton, default_folder)
+#: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
+#: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
+#, kde-format
+msgid "Default"
+msgstr "Öntanımlı"
 
 #: src/dialogs/managesubtitles.cpp:537
 #, kde-format
@@ -8427,6 +8061,469 @@ msgstr "Geçerli Projeye Ekle"
 msgid "Open Containing Folder"
 msgstr "İçeren Klasörü Aç"
 
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3930
+#, kde-format
+msgid "Timeline"
+msgstr "Zaman Akışı"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:91
+#, kde-format
+msgid "Colors and Guides"
+msgstr "Renkler ve Kılavuzlar"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
+#, fuzzy, kde-format
+#| msgid "TAP Plugins"
+msgid "Plugins"
+msgstr "TAP Eklentileri"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
+#, kde-format
+msgid "Playback"
+msgstr "Kayıttan Çalma"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:112
+#, kde-format
+msgid "Capture"
+msgstr "Yakalama"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:185
+#: src/effects/effectlist/model/effecttreemodel.cpp:64
+#, kde-format
+msgid "Misc"
+msgstr "Çeşitli"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:795
+#: src/doc/documentvalidator.cpp:2523
+#: src/transitions/transitionsrepository.cpp:188
+#, kde-format
+msgid "auto"
+msgstr "Kendiliğinden"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:221
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When enabled, this will add basic effects (Flip, Transform, Volume) to all "
+"clips for convenience. These effects are disabled and will only be applied "
+"if you change a parameter."
+msgstr ""
+"Etkinleştirildiğinde bu, tüm temel efektleri (ters çevir, dönüşüm, hacim) "
+"kolaylık olsun diye ekler. Bu temel efektler devre dışıdır ve yalnızca bir "
+"ayarı değiştirdiğinizde uygulanırlar."
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:248
+#, kde-format
+msgid "Select the Default Profile (preset)"
+msgstr "Öntanımlı Profili Seç (Önayar)"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:269
+#, kde-format
+msgid "Project Defaults"
+msgstr "Proje Öntanımlıları"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:313
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
+#, kde-format
+msgid "Use default folder: %1"
+msgstr "Öntanımlı klasörü kullan: %1"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:341
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1055
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1056
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1071
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1072
+#, kde-format
+msgid "Always use project folder: %1"
+msgstr "Her zaman proje klasörünü kullan: %1"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1067
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1068
+#, kde-format
+msgid "Always use active project folder"
+msgstr "Her zaman etkin proje klasörünü kullan"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:356
+#, kde-format
+msgid "Environment"
+msgstr "Çevre"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
+#, kde-format
+msgid "Capture is not yet available on Mac OS X."
+msgstr "Yakalama, macOS üzerinde henüz kullanılamıyor."
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
+#, kde-format
+msgid "Mono (1 channel)"
+msgstr "Tek kanallı"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
+#, kde-format
+msgid "Stereo (2 channels)"
+msgstr "Çift kanallı"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:410
+#, kde-format
+msgid "44100 Hz"
+msgstr "44100 Hz"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
+#, kde-format
+msgid "48000 Hz"
+msgstr "48000 Hz"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:464
+#, kde-format
+msgid "JogShuttle"
+msgstr "Oynatma Tekerleği"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
+#, kde-format
+msgid ""
+"For device configuration see <a href=\"https://docs.kdenlive.org/"
+"user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
+"a>."
+msgstr ""
+"Aygıt yapılandırması için <a href=\"https://docs.kdenlive.org/user_interface/"
+"menu/settings_menu/configure_kdenlive.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">belgelendirmemize</"
+"a> bakın."
+
+#. i18n: ectx: Menu (transcoders)
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
+#: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
+#: src/mltcontroller/clippropertiescontroller.cpp:1044
+#: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
+#, kde-format
+msgid "Transcode"
+msgstr "Arakodlama"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
+#, kde-format
+msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
+msgstr ""
+"Movit ve Rtaudio modülleri ile derlenmiş MLT için GPU işlemi gereklidir"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
+#, kde-format
+msgid "ALSA"
+msgstr "ALSA"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:693
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
+#, kde-format
+msgid "PulseAudio"
+msgstr "PulseAudio"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
+#, kde-format
+msgid "PipeWire"
+msgstr "PipeWire"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
+#, kde-format
+msgid "OSS"
+msgstr "OSS"
+
+#. i18n("OSS with DMA access"), "dma");
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
+#, kde-format
+msgid "Esound Daemon"
+msgstr "Esound Ardalan Süreci"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:698
+#, kde-format
+msgid "ARTS Daemon"
+msgstr "ARTS Ardalan Süreci"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:762
+#, kde-format
+msgid "SDL"
+msgstr "SDL"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:774
+#, kde-format
+msgid "RtAudio"
+msgstr "RtAudio"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:798 src/mainwindow.cpp:275
+#, kde-format
+msgid "Monitor %1"
+msgstr "%1. Monitör"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:886
+#, kde-format
+msgid "Enter path to the audio editing application"
+msgstr "Ses düzenleme uygulaması yolunu girin"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:894
+#, kde-format
+msgid "Enter path to the image editing application"
+msgstr "Görsel düzenleme uygulaması yolunu girin"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:902
+#: src/glaxnimatelauncher.cpp:30
+#, kde-format
+msgid "Enter path to the Glaxnimate application"
+msgstr "Glaxnimate uygulaması yolunu girin"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:985
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1003
+#: src/project/dialogs/projectsettings.cpp:538
+#, kde-format
+msgid "Please select a video profile"
+msgstr "Lütfen bir video profili seçin"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1293
+#, kde-format
+msgid "Kdenlive must be restarted to change this setting"
+msgstr "Bu ayarı değiştirmek için Kdenlive yeniden başlatılmalıdır"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1417
+#, kde-format
+msgid "A profile with that name already exists"
+msgstr "Bu profil adı zaten var"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1551
+#, kde-format
+msgid "Current settings"
+msgstr "Geçerli ayarlar"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, scanning)
+#. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1589
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1625
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1642
+#: src/mltcontroller/clippropertiescontroller.cpp:562
+#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
+#: src/ui/profiledialog_ui.ui:108
+#, kde-format
+msgid "Progressive"
+msgstr "Aşamalı"
+
+#: src/dialogs/settings/pluginssettings.cpp:61
+#, kde-format
+msgid "CPU processing is very slow, GPU is recommended for faster processing"
+msgstr ""
+"CPU işlemesi genelde yavaştır; daha hızlı işleme için GPU kullanımı önerilir."
+
+#: src/dialogs/settings/pluginssettings.cpp:62
+#, kde-format
+msgid ""
+"Text translation is performed by the SeamlessM4T model. This requires "
+"downloading around 10Gb of data. Once installed, all processing will happen "
+"offline."
+msgstr ""
+"Metin çevirileri SeamlessM4T modeli tarafından gerçekleştirilir. Bu, 10 GB "
+"civarında bir verinin indirilmesini gerektirir. Bir kez kurulduktan sonra "
+"tüm işleme çevrimdışı olarak gerçekleşir."
+
+#: src/dialogs/settings/pluginssettings.cpp:72
+#, kde-format
+msgid "Download (1.4Gb)"
+msgstr "İndir (1,4 GB)"
+
+#: src/dialogs/settings/pluginssettings.cpp:94
+#, kde-format
+msgid "Installing multilingual data…"
+msgstr "Çok dilli model kuruluyor…"
+
+#. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
+#. i18n: ectx: property (text), widget (QLabel, model_folder_label)
+#. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
+#: src/dialogs/settings/pluginssettings.cpp:103
+#: src/dialogs/settings/pluginssettings.cpp:833 src/ui/configspeech_ui.ui:116
+#: src/ui/configspeech_ui.ui:395 src/ui/configspeech_ui.ui:649
+#, kde-format
+msgid "Models folder"
+msgstr "Modeller klasörü"
+
+#: src/dialogs/settings/pluginssettings.cpp:155
+#: src/dialogs/settings/pluginssettings.cpp:158
+#: src/dialogs/settings/pluginssettings.cpp:161
+#, kde-format
+msgid "Probing..."
+msgstr "Taranıyor…"
+
+#: src/dialogs/settings/pluginssettings.cpp:182
+#, kde-format
+msgid "Downloading multilingual model…"
+msgstr "Çok dilli model indiriliyor…"
+
+#: src/dialogs/settings/pluginssettings.cpp:239
+#: src/dialogs/settings/pluginssettings.cpp:830
+#, kde-format
+msgid "Please add a speech model."
+msgstr "Lütfen bir konuşma modeli kurun."
+
+#: src/dialogs/settings/pluginssettings.cpp:273
+#, kde-format
+msgid ""
+"Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
+"\">https://alphacephei.com/vosk/models</a>"
+msgstr ""
+"Konuşma modellerini <a href=\"https://alphacephei.com/vosk/models\">https://"
+"alphacephei.com/vosk/models</a> adresinden indirin"
+
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
+#: src/dialogs/settings/pluginssettings.cpp:303 src/ui/configspeech_ui.ui:354
+#: src/ui/configspeech_ui.ui:742
+#, fuzzy, kde-format
+#| msgid "TAP Plugins"
+msgid "Plugin size"
+msgstr "TAP Eklentileri"
+
+#. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
+#: src/dialogs/settings/pluginssettings.cpp:356 src/ui/configspeech_ui.ui:697
+#, fuzzy, kde-format
+#| msgid "Install model"
+msgid "Install"
+msgstr "Modeli Kur"
+
+#: src/dialogs/settings/pluginssettings.cpp:362
+#, fuzzy, kde-format
+#| msgid "Check configuration"
+msgid "Check config"
+msgstr "Yapılandırmayı Denetle"
+
+#: src/dialogs/settings/pluginssettings.cpp:380
+#, fuzzy, kde-format
+#| msgid "This will delete the style <b>%1</b> and all its properties."
+msgid ""
+"This will delete the installed models\n"
+"You can reinstall them later."
+msgstr "Bu, <b>%1</b> biçemini ve onun tüm özelliklerini silecektir."
+
+#: src/dialogs/settings/pluginssettings.cpp:397
+#: src/dialogs/settings/pluginssettings.cpp:411
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
+#| ">The environment will be recreated and modules downloaded whenever you "
+#| "reenable the python virtual environment."
+msgid ""
+"This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
+"environment will be recreated and modules downloaded whenever you reenable "
+"the plugin."
+msgstr ""
+"Bu, şu konumdaki Python sanal ortamını silecektir:<br/><b>%1</b><br/>Python "
+"sanal ortamını ne zaman yeniden etkinleştirirseniz o zaman ortam yeniden "
+"oluşturulur ve modüller yeniden indirilir."
+
+#. i18n: ectx: property (text), widget (QPushButton, install_seamless)
+#: src/dialogs/settings/pluginssettings.cpp:426 src/ui/configspeech_ui.ui:327
+#, kde-format
+msgid "Install multilingual translation"
+msgstr "Çok Dilli Çeviri Kur"
+
+#: src/dialogs/settings/pluginssettings.cpp:435
+#, fuzzy, kde-format
+#| msgid "Install a speech model - we recommand <b>turbo</b>"
+msgid "Install a speech model - we recommend <b>turbo</b>"
+msgstr "Bir konuşma modeli kurun; <b>turbo</b> kullanmanız önerilir."
+
+#: src/dialogs/settings/pluginssettings.cpp:490
+#, fuzzy, kde-format
+#| msgid "Select new models to download"
+msgid "Select model to download"
+msgstr "İndirilecek Modeller Seç"
+
+#: src/dialogs/settings/pluginssettings.cpp:506
+#, kde-format
+msgid "All models are already installed"
+msgstr ""
+
+#: src/dialogs/settings/pluginssettings.cpp:526
+#, fuzzy, kde-format
+#| msgid "Downloading"
+msgid "Downloading…"
+msgstr "İndiriliyor…"
+
+#: src/dialogs/settings/pluginssettings.cpp:536
+#, fuzzy, kde-format
+#| msgid "Downloading model…"
+msgid "Downloading smallest model…"
+msgstr "Model indiriliyor…"
+
+#. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
+#: src/dialogs/settings/pluginssettings.cpp:555 src/ui/configspeech_ui.ui:562
+#, fuzzy, kde-format
+#| msgid "Download Model"
+msgid "Download models"
+msgstr "Modeli İndir"
+
+#: src/dialogs/settings/pluginssettings.cpp:614
+#: src/dialogs/settings/pluginssettings.cpp:628
+#: src/dialogs/settings/pluginssettings.cpp:637
+#, kde-format
+msgid "Install a model"
+msgstr "Bir Model Kur"
+
+#. i18n: ectx: property (text), widget (QPushButton, downloadButton)
+#: src/dialogs/settings/pluginssettings.cpp:630
+#: src/dialogs/settings/pluginssettings.cpp:639 src/ui/configspeech_ui.ui:251
+#, kde-format
+msgid "Manage models"
+msgstr "Modelleri Yönet"
+
+#: src/dialogs/settings/pluginssettings.cpp:713
+#, kde-format
+msgid "Enter url for the new dictionary"
+msgstr "Yeni sözlük için URL girin"
+
+#: src/dialogs/settings/pluginssettings.cpp:719
+#, kde-format
+msgid "Downloading model…"
+msgstr "Model indiriliyor…"
+
+#: src/dialogs/settings/pluginssettings.cpp:729
+#, kde-format
+msgid "We do not allow deleting custom folder models, please do it manually."
+msgstr "Özel klasör modellerini silmeye izin vermiyoruz, lütfen elle yapın."
+
+#: src/dialogs/settings/pluginssettings.cpp:735
+#: src/dialogs/settings/pluginssettings.cpp:789
+#, kde-format
+msgid "Cannot access dictionary folder."
+msgstr "Sözlük klasörüne erişilemiyor."
+
+#: src/dialogs/settings/pluginssettings.cpp:744
+#, kde-format
+msgid ""
+"Delete folder:\n"
+"%1"
+msgstr ""
+"Klasörü sil:\n"
+"%1"
+
+#: src/dialogs/settings/pluginssettings.cpp:764
+#, kde-format
+msgid "Download error"
+msgstr "İndirme hatası"
+
+#: src/dialogs/settings/pluginssettings.cpp:768
+#, kde-format
+msgid "Download error %1"
+msgstr "İndirme hatası %1"
+
+#: src/dialogs/settings/pluginssettings.cpp:796
+#, kde-format
+msgid "Extracting archive…"
+msgstr "Arşiv çıkarılıyor…"
+
+#: src/dialogs/settings/pluginssettings.cpp:803
+#, kde-format
+msgid "New dictionary installed."
+msgstr "Yeni sözlük kuruldu."
+
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
 msgid "Automatic Subtitling"
@@ -8464,7 +8561,7 @@ msgid "Please install speech recognition models"
 msgstr "Lütfen konuşma tanıma modelleri kurun"
 
 #: src/dialogs/speechdialog.cpp:261
-#: src/pythoninterfaces/abstractpythoninterface.cpp:170
+#: src/pythoninterfaces/abstractpythoninterface.cpp:222
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
@@ -8496,7 +8593,7 @@ msgstr "Ses dışa aktarımı başarısız"
 msgid "Starting speech recognition"
 msgstr "Konuşma tanıma başlatılıyor"
 
-#: src/dialogs/speechdialog.cpp:420 src/dialogs/textbasededit.cpp:1194
+#: src/dialogs/speechdialog.cpp:420 src/dialogs/textbasededit.cpp:1195
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Konuşma tanıma iptal edildi."
@@ -9405,8 +9502,8 @@ msgid "Delete selection"
 msgstr "Seçimi Sil"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1214 src/dialogs/textbasededit.cpp:1284
-#: src/dialogs/textbasededit.cpp:1308 src/dialogs/textbasededit.cpp:1365
+#: src/dialogs/textbasededit.cpp:1215 src/dialogs/textbasededit.cpp:1285
+#: src/dialogs/textbasededit.cpp:1309 src/dialogs/textbasededit.cpp:1366
 #, kde-format
 msgid "No speech"
 msgstr "Konuşma yok"
@@ -9528,44 +9625,44 @@ msgstr "Ses çıkarımı başarısız."
 msgid "Starting speech recognition on %1."
 msgstr "%1 üzerinde konuşma tanıma başlatılıyor."
 
-#: src/dialogs/textbasededit.cpp:1198
+#: src/dialogs/textbasededit.cpp:1199
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Hata, lütfen konuşmadan metne yapılandırmasını denetleyin."
 
-#: src/dialogs/textbasededit.cpp:1200
+#: src/dialogs/textbasededit.cpp:1201
 #, kde-format
 msgid "No speech detected."
 msgstr "Konuşma algılanamadı."
 
-#: src/dialogs/textbasededit.cpp:1221
+#: src/dialogs/textbasededit.cpp:1222
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Konuşma tanıma bitti."
 
-#: src/dialogs/textbasededit.cpp:1458
+#: src/dialogs/textbasededit.cpp:1459
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Klip Metnini Düzenle"
 
-#: src/dialogs/textbasededit.cpp:1490 src/dialogs/textbasededit.cpp:1572
+#: src/dialogs/textbasededit.cpp:1491 src/dialogs/textbasededit.cpp:1573
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Sekans Klibi Oluştur"
 
-#: src/dialogs/textbasededit.cpp:1497 src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1498 src/dialogs/textbasededit.cpp:1534
 #, kde-format
 msgid "No text to export"
 msgstr "Dışa aktarılacak metin yok"
 
-#: src/dialogs/textbasededit.cpp:1517
+#: src/dialogs/textbasededit.cpp:1518
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Yeni oynatma listesi yolunu girin"
 
-#: src/dialogs/textbasededit.cpp:1665
+#: src/dialogs/textbasededit.cpp:1666
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Seçimde zaman kodu bulunamadı"
@@ -10290,7 +10387,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Proje klasörü taşınırken hata: %1"
 
-#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2415
+#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2421
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1707
 #, kde-format
@@ -10326,28 +10423,22 @@ msgstr ""
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr ""
+"Vekil klipler, bileşikleştirme veya renk derecelendirmesi için "
+"tasarlanmamıştır."
 
 #: src/doc/kdenlivedoc.cpp:1611
-#, fuzzy, kde-format
-#| msgid "This clip has an alpha channel. Proxying is not recommended."
-#| msgid_plural ""
-#| "These clips have an alpha channel. Proxying is not recommended."
+#, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] "Klibin bir alfa kanalı var. Vekillemek önerilmez."
-msgstr[1] "Bu kliplerin bir alfa kanalı var. Vekillemek önerilmez."
+msgstr[0] "Klibin bir alfa kanalı var. "
+msgstr[1] "Kliplerin bir alfa kanalı var. "
 
 #: src/doc/kdenlivedoc.cpp:1617
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have a clip with an alpha channel. Proxying it is not recommended."
-#| msgid_plural ""
-#| "You have %1 clips with an alpha channel. Proxying these is not "
-#| "recommended."
+#, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] "Alfa kanalı olan bir klibiniz var. Onu vekillemek önerilmez."
-msgstr[1] "Alfa kanalı olan %1 klibiniz var. Onları vekillemek önerilmez."
+msgstr[0] "Alfa kanalı olan bir klibiniz var. "
+msgstr[1] "Alfa kanalı olan %1 klibiniz var. "
 
 #: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
@@ -10456,13 +10547,13 @@ msgstr ""
 "%1 klibiniz için profil bulunamadı.\n"
 "Yeni bir profil oluşturup ona geçin (%2 × %3, %4 fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2454 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2460 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Kırmızı"
 
-#: src/doc/kdenlivedoc.cpp:2455 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2461 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10470,24 +10561,24 @@ msgstr "Kırmızı"
 msgid "Green"
 msgstr "Yeşil"
 
-#: src/doc/kdenlivedoc.cpp:2456 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2462 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Mavi"
 
-#: src/doc/kdenlivedoc.cpp:2457 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2463 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Sarı"
 
-#: src/doc/kdenlivedoc.cpp:2458
+#: src/doc/kdenlivedoc.cpp:2464
 #, kde-format
 msgid "Cyan"
 msgstr "Turkuaz"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2795 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2801 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10591,7 +10682,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "%1 efekti iki kez eklenemez."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:235
+#: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5088
 #, kde-format
 msgid "Add effect %1"
@@ -10607,12 +10698,12 @@ msgstr "%1 efekti yalnızca ana ize eklenebilir."
 msgid "Move effect %1"
 msgstr "%1 Efektini Taşı"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
 #, kde-format
 msgid "Move effect up"
 msgstr "Efekti yukarı taşı"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10622,12 +10713,12 @@ msgstr ""
 "Efekti hemen üstündekinin üzerine taşır. Efektler yukarıdan aşağıya sırayla "
 "işlenir, bu nedenle sıra önemlidir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
 #, kde-format
 msgid "Move effect down"
 msgstr "Efekti aşağı taşı"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10637,53 +10728,53 @@ msgstr ""
 "Efekti hemen altındakinin altına taşır. Efektler yukarıdan aşağıya sırayla "
 "işlenir, bu nedenle sıra önemlidir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Efekti Daralt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Expand Effect"
 msgstr "Efekti Genişlet"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:78
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:79
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Efektler belgelendirmesini tarayıcıda aç"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:105
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:106
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Anahtar Kareleri Etkinleştir"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Anahtar Kareleri Gizle"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Anahtar Kareleri Göster"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Anahtar kare cetvelinin görüntülenmesini açar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:116
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-format
 msgid "Disable Effect"
 msgstr "Efekti devre dışı bırak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:116
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-format
 msgid "Enable Effect"
 msgstr "Efekti etkinleştir"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
@@ -10691,7 +10782,7 @@ msgstr ""
 "Efekti devre dışı bırakır. Öncesi ve sonrası ayarlarını karşılaştırırken "
 "yararlıdır."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
@@ -10699,50 +10790,50 @@ msgstr ""
 "Efekti etkinleştirir. Öncesi ve sonrası ayarlarını karşılaştırırken "
 "yararlıdır."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:147
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:148
 #, kde-format
 msgid "Create Group"
 msgstr "Grup Oluştur"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:154
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:155
 #, kde-format
 msgid "In:"
 msgstr "Şurada:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:160
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:161
 #, kde-format
 msgid "Set zone in"
 msgstr "Bölge girişini ayarla"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:161
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:162
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 "Geçerli kare/oynatma kafası konumunu bölgenin başlangıcı olarak ayarlar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:167
 #, kde-format
 msgid "Out:"
 msgstr "Çıkış:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-format
 msgid "Set zone out"
 msgstr "Bölge çıkışını ayarla"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Geçerli kare/oynatma kafası konumunu bölgenin bitişi olarak ayarlar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:209
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:210
 #, kde-format
 msgid "Use effect zone"
 msgstr "Efekt bölgesini kullan"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:210
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -10750,13 +10841,13 @@ msgstr "Efekt bölgelerinin görüntülenmesini açar/kapatır."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:271
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Önayarlar"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -10764,23 +10855,23 @@ msgstr ""
 "Efekt için olan önayarları yönetmek için bir gelişmiş seçenekler listesi "
 "açar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:301
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
 #, kde-format
 msgid "Delete effect"
 msgstr "Efekti sil"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Efekti, efekt yığınından siler."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:350
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:351
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "Grupta bu efektin %1 örneği var"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10791,23 +10882,23 @@ msgstr ""
 "proje klibine <b>sürükleyin</b>. Onu gruptaki tek bir ögeye kopyalamak için "
 "<b>Seçenek</b> düğmesini basılıp tutup sürükleyin."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:540
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 Devre Dışı Bırak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:540
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 Etkinleştir"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:577
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Efekti Kaydet"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:581
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:582
 #, kde-format
 msgid "Comments:"
 msgstr "Açıklamalar:"
@@ -10817,51 +10908,51 @@ msgstr "Açıklamalar:"
 msgid "No name provided, effect not saved."
 msgstr "Ad verilmediğinden efekt kaydedilmedi."
 
-#: src/effects/effectstack/view/effectstackview.cpp:309
+#: src/effects/effectstack/view/effectstackview.cpp:310
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Yatay Ters Çevir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:314
+#: src/effects/effectstack/view/effectstackview.cpp:315
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Dikey Ters Çevir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:321
+#: src/effects/effectstack/view/effectstackview.cpp:322
 #, kde-format
 msgid "Flip"
 msgstr "Ters Çevir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:691
+#: src/effects/effectstack/view/effectstackview.cpp:692
 #: src/timeline2/view/timelinecontroller.cpp:3293
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Efekt Yığınını Etkinleştir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:691
+#: src/effects/effectstack/view/effectstackview.cpp:692
 #: src/timeline2/view/timelinecontroller.cpp:3293
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Efekt Yığınını Devre Dışı Bırak"
 
-#: src/effects/effectstack/view/effectstackview.cpp:730
+#: src/effects/effectstack/view/effectstackview.cpp:731
 #, kde-format
 msgid "No effect selected."
 msgstr "Bir efekt seçilmedi."
 
-#: src/effects/effectstack/view/effectstackview.cpp:736
+#: src/effects/effectstack/view/effectstackview.cpp:737
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Geçerli Efekt Yığınını Kaydet"
 
-#: src/effects/effectstack/view/effectstackview.cpp:741
+#: src/effects/effectstack/view/effectstackview.cpp:742
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Kaydedilen yığın için ad:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:742
+#: src/effects/effectstack/view/effectstackview.cpp:743
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
@@ -10880,6 +10971,33 @@ msgid ""
 msgstr ""
 "Bir açıklama verilmedi. \n"
 "Efekt, açıklama olmadan kaydedilsin mi?"
+
+#: src/effects/effectstack/view/maskmanager.cpp:47
+#, fuzzy, kde-format
+#| msgid "Please configure speech to text."
+msgid "Please configure the SAM2 plugin"
+msgstr "Lütfen konuşmadan metneyi yapılandırın."
+
+#: src/effects/effectstack/view/maskmanager.cpp:202
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Enter Preset Name"
+msgctxt "@title:window"
+msgid "Enter Mask Name"
+msgstr "Önayar Adı Gir"
+
+#: src/effects/effectstack/view/maskmanager.cpp:202
+#, fuzzy, kde-format
+#| msgid "Enter the name of this preset:"
+msgid "Enter the name of this mask:"
+msgstr "Bu ön ayarın adını girin:"
+
+#: src/effects/effectstack/view/maskmanager.cpp:317
+#, kde-format
+msgid ""
+"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
+"undone."
+msgstr ""
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11075,6 +11193,27 @@ msgstr "%1 süzgeci oluşturulamıyor"
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Kaynak süzülemedi."
+
+#: src/jobs/masktask.cpp:28
+#, fuzzy, kde-format
+#| msgid "Mask clip"
+msgid "Mask creation"
+msgstr "Mask klibi"
+
+#: src/jobs/masktask.cpp:44
+#, kde-format
+msgid "Nos source frames to process"
+msgstr ""
+
+#: src/jobs/masktask.cpp:93
+#, fuzzy, kde-format
+#| msgid ""
+#| "Failed to generate clip:\n"
+#| "%1"
+msgid "Failed to render mask %1"
+msgstr ""
+"Klip oluşturma başarısız:\n"
+"%1"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -13327,7 +13466,7 @@ msgstr "Yeniden Oluştur"
 
 #: src/mainwindow.cpp:2142 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2259
+#: src/titler/titlewidget.cpp:2247
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -14406,7 +14545,7 @@ msgstr ""
 "Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2510
+#: src/monitor/monitor.cpp:2514
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Efekti düzenlemek için monitörde düzenleme modunu etkinleştir"
@@ -14634,7 +14773,7 @@ msgstr ""
 "Kdenlive kurulumunuzla veya sürücü ayarlarınızla ilgili ters bir şeyler var, "
 "lütfen bunları giderin."
 
-#: src/monitor/view/EffectToolBar.qml:58
+#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:49
 #: src/monitor/view/MultiScreenToolBar.qml:56
 #: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
@@ -14651,12 +14790,12 @@ msgstr "Izgarayı Göster"
 msgid "Change Overlay"
 msgstr "Üzerindekini Değiştir"
 
-#: src/monitor/view/EffectToolBar.qml:87
+#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Sonraki Anahtar Kareye Git"
 
-#: src/monitor/view/EffectToolBar.qml:93
+#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Önceki Anahtar Kareye Git"
@@ -14667,7 +14806,7 @@ msgid "Automatic Keyframes"
 msgstr "Kendiliğinden Anahtar Kareler"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:112
+#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:120
 #: src/monitor/view/MultiScreenToolBar.qml:64
 #: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
@@ -14675,20 +14814,21 @@ msgid "Zoom in"
 msgstr "Yakınlaştır"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:117
+#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:125
 #: src/monitor/view/MultiScreenToolBar.qml:72
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
 msgstr "Uzaklaştır"
 
-#: src/monitor/view/EffectToolBar.qml:124
+#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:132
 #: src/monitor/view/MultiScreenToolBar.qml:81
 #: src/monitor/view/SceneToolBar.qml:112
 #, kde-format
 msgid "Move Toolbar"
 msgstr "Araç Çubuğunu Taşı"
 
+#: src/monitor/view/kdenliveclipmonitor-orig.qml:169
 #: src/monitor/view/kdenliveclipmonitor.qml:169
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
@@ -14704,29 +14844,34 @@ msgstr ""
 "<shortcut>ok düğmelerini</shortcut> kullanın, yakınlaştırmak için "
 "<shortcut>Kontrol+fare tekerleği</shortcut> kullanın"
 
+#: src/monitor/view/kdenliveclipmonitor-orig.qml:537
 #: src/monitor/view/kdenliveclipmonitor.qml:537
 #: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr "%1 FPS"
 
+#: src/monitor/view/kdenliveclipmonitor-orig.qml:570
 #: src/monitor/view/kdenliveclipmonitor.qml:570
 #, kde-format
 msgid "In/Out Point"
 msgstr "Giriş/Çıkış Noktası"
 
+#: src/monitor/view/kdenliveclipmonitor-orig.qml:570
 #: src/monitor/view/kdenliveclipmonitor.qml:570
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr "Noktada"
 
+#: src/monitor/view/kdenliveclipmonitor-orig.qml:592
 #: src/monitor/view/kdenliveclipmonitor.qml:592
 #: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr "Çıkış noktası"
 
+#: src/monitor/view/kdenliveclipmonitor-orig.qml:759
 #: src/monitor/view/kdenliveclipmonitor.qml:759
 #, kde-format
 msgid "Terminate Job"
@@ -14747,6 +14892,30 @@ msgstr ""
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Dönüşüm"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#, kde-format
+msgid "Generating image mask"
+msgstr ""
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#, kde-format
+msgid "Generating video mask"
+msgstr ""
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#, kde-format
+msgid ""
+"Click on an object to start a mask.\n"
+"Shift+click to include another zone.\n"
+"Ctrl+click to excude a zone."
+msgstr ""
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#, fuzzy, kde-format
+#| msgid "Preview Using Proxy Clips"
+msgid "Previewing video mask"
+msgstr "Vekil Klipleri Kullanarak Önizle"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -14804,6 +14973,41 @@ msgid ""
 msgstr ""
 "Puanlar eklemek için tıklayın; şekli\n"
 "kapatmak için sağ tıklayın veya Giriş’e basın."
+
+#: src/monitor/view/MaskToolBar.qml:55
+#, fuzzy, kde-format
+#| msgid "Generate"
+msgid "Generate Mask"
+msgstr "Oluştur"
+
+#: src/monitor/view/MaskToolBar.qml:66
+#, kde-format
+msgid "Change Opacity (0% - 25% - 50% - 100%)"
+msgstr ""
+
+#: src/monitor/view/MaskToolBar.qml:80
+#, fuzzy, kde-format
+#| msgid "Padding Color"
+msgid "Change Color"
+msgstr "Doldurma Rengi"
+
+#: src/monitor/view/MaskToolBar.qml:92
+#, fuzzy, kde-format
+#| msgid "Invert"
+msgid "Invert Mask"
+msgstr "Tersine çevir"
+
+#: src/monitor/view/MaskToolBar.qml:100
+#, fuzzy, kde-format
+#| msgid "Edit Duration"
+msgid "Exit Mask Creation"
+msgstr "Süreyi Düzenle"
+
+#: src/monitor/view/MaskToolBar.qml:100
+#, fuzzy, kde-format
+#| msgid "Add Preview Zone"
+msgid "Exit Preview Mode"
+msgstr "Önizleme Bölgesi Ekle"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16479,7 +16683,7 @@ msgid "Video transcode"
 msgstr "Video arakodlaması"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:657
+#: src/pythoninterfaces/abstractpythoninterface.cpp:709
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Eksik Bağımlılıkları Kur"
@@ -16489,49 +16693,49 @@ msgstr "Eksik Bağımlılıkları Kur"
 msgid "Abort installation"
 msgstr "Kurulumu iptal et"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:48
+#: src/pythoninterfaces/abstractpythoninterface.cpp:49
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Her şey düzgünce yapılandırılmış."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:50
+#: src/pythoninterfaces/abstractpythoninterface.cpp:51
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 düzgünce yapılandırılmış."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:55
 #, kde-format
 msgid "Everything is configured:<br>%1"
 msgstr "Her şey yapılandırıldı:<br>%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:56
+#: src/pythoninterfaces/abstractpythoninterface.cpp:57
 #, kde-format
 msgid "%1 is configured:<br>%2"
 msgstr "%1 yapılandırıldı:<br>%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:75
-#: src/pythoninterfaces/abstractpythoninterface.cpp:86
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:87
 #, kde-format
 msgid "Check for update"
 msgstr "Güncelleme denetle"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:100
+#: src/pythoninterfaces/abstractpythoninterface.cpp:101
 #, kde-format
 msgid "Installing modules… this can take a while"
 msgstr "Modüller kuruluyor… Bu biraz vakit alabilir"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:112
+#: src/pythoninterfaces/abstractpythoninterface.cpp:113
 #, kde-format
 msgid "Updating modules…"
 msgstr "Modüller güncelleniyor…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:134
+#: src/pythoninterfaces/abstractpythoninterface.cpp:135
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Yapılandırma denetleniyor…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:203
-#: src/pythoninterfaces/abstractpythoninterface.cpp:272
+#: src/pythoninterfaces/abstractpythoninterface.cpp:244
+#: src/pythoninterfaces/abstractpythoninterface.cpp:322
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -16541,7 +16745,7 @@ msgstr ""
 "python3 bulunamıyor, lütfen sisteminize kurun.\n"
 "Kuruluysa kurulum dizininin PATH çevre değişkeninde olduğundan emin olun"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:209
+#: src/pythoninterfaces/abstractpythoninterface.cpp:253
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -16551,23 +16755,8 @@ msgstr ""
 "pip3 bulunamıyor, lütfen sisteminize kurun.\n"
 "Kuruluysa kurulum dizininin PATH çevre değişkeninde olduğundan emin olun"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:218
-#, kde-format
-msgid "Using python from %1"
-msgstr "Python, %1 konumundan kullanılıyor"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:226
-#, kde-format
-msgid "No python venv found"
-msgstr "Hiçbir Python sanal ortamı bulunamadı"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:239
-#, kde-format
-msgid "Python venv size: %1"
-msgstr "Python sanal ortam boyutu: %1"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:309
-#: src/pythoninterfaces/abstractpythoninterface.cpp:311
+#: src/pythoninterfaces/abstractpythoninterface.cpp:348
+#: src/pythoninterfaces/abstractpythoninterface.cpp:350
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -16576,72 +16765,76 @@ msgstr ""
 "Python sanal ortamı oluşturulamıyor:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:327
+#: src/pythoninterfaces/abstractpythoninterface.cpp:367
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "%1 betiği bulunamadı, kurulumunuzu denetleyin."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:381
+#: src/pythoninterfaces/abstractpythoninterface.cpp:441
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> Python modülü gerekiyor."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:414
-#, kde-format
+#: src/pythoninterfaces/abstractpythoninterface.cpp:475
+#, fuzzy, kde-format
+#| msgid ""
+#| "This requires an internet connection and will take several minutes to "
+#| "download all necessary dependencies. After that all processing will "
+#| "happen offline."
 msgid ""
-"This requires an internet connection and will take several minutes to "
-"download all necessary dependencies. After that all processing will happen "
-"offline."
+"This requires an internet connection and will take several minutes\n"
+"to download all necessary dependencies. After that all processing will "
+"happen offline."
 msgstr ""
 "Bu bir internet bağlantısı gerektirir ve tüm gerekli bağımlılıkları indirmek "
 "birkaç dakika sürecektir. Bundan sonra tüm veri işleme çevrimdışı olarak "
 "gerçekleşir."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:434
-#: src/pythoninterfaces/abstractpythoninterface.cpp:544
+#: src/pythoninterfaces/abstractpythoninterface.cpp:495
+#: src/pythoninterfaces/abstractpythoninterface.cpp:608
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "İç hata: Bağımlılık listesi bulunamıyor"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:449
+#: src/pythoninterfaces/abstractpythoninterface.cpp:510
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "%1 modülünün sürümü denetlenirken hata"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:453
+#: src/pythoninterfaces/abstractpythoninterface.cpp:514
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "%2 modülünün en az %1 sürümü gerekiyor; ancak sizin sürümünüz %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:457
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Kurulumunuzu güncellemeyi düşünün."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:482
+#: src/pythoninterfaces/abstractpythoninterface.cpp:543
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "eksik (isteğe bağlı)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:490
+#: src/pythoninterfaces/abstractpythoninterface.cpp:551
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Kullanılabilir sürüm bilgisi yok."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:573
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python yürütülebiliri bulunamadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:575
+#: src/pythoninterfaces/abstractpythoninterface.cpp:646
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "%1 betik dosyası bulunamadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:610
+#: src/pythoninterfaces/abstractpythoninterface.cpp:680
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -16651,17 +16844,6 @@ msgstr ""
 "python3 betiği çalıştırılırken hata:\n"
 "%1\n"
 "%2"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:637
-#, kde-format
-msgid ""
-"This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
-"environment will be recreated and modules downloaded whenever you reenable "
-"the python virtual environment."
-msgstr ""
-"Bu, şu konumdaki Python sanal ortamını silecektir:<br/><b>%1</b><br/>Python "
-"sanal ortamını ne zaman yeniden etkinleştirirseniz o zaman ortam yeniden "
-"oluşturulur ve modüller yeniden indirilir."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
 #, kde-format
@@ -16771,58 +16953,58 @@ msgstr "OpenTimelineIO kurulumunuzu yapılandırın"
 msgid "Check again"
 msgstr "Yeniden Denetle"
 
-#: src/pythoninterfaces/otioconvertions.cpp:118
+#: src/pythoninterfaces/otioconvertions.cpp:115
 #, kde-format
 msgid "OpenTimelineIO Application otioconvert not found"
 msgstr "OpenTimelineIO otioconvert uygulaması bulunamadı"
 
-#: src/pythoninterfaces/otioconvertions.cpp:124
+#: src/pythoninterfaces/otioconvertions.cpp:121
 #, kde-format
 msgid "OpenTimelineIO Project conversion failed"
 msgstr "OpenTimelineIO Projesi dönüştürmesi başarısız"
 
-#: src/pythoninterfaces/otioconvertions.cpp:127
+#: src/pythoninterfaces/otioconvertions.cpp:124
 #, kde-format
 msgid "Project conversion complete"
 msgstr "Proje dönüştürme tamamlandı"
 
-#: src/pythoninterfaces/otioconvertions.cpp:136
+#: src/pythoninterfaces/otioconvertions.cpp:133
 #, kde-format
 msgid "Export Project"
 msgstr "İhracat Projesi"
 
-#: src/pythoninterfaces/otioconvertions.cpp:137
-#: src/pythoninterfaces/otioconvertions.cpp:165
+#: src/pythoninterfaces/otioconvertions.cpp:134
+#: src/pythoninterfaces/otioconvertions.cpp:162
 #, kde-format
 msgid "OpenTimelineIO adapters (%1)(%1)"
 msgstr "OpenTimelineIO bağdaştırıcıları (%1)(%1)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:143
+#: src/pythoninterfaces/otioconvertions.cpp:140
 #, kde-format
 msgid "Project file could not be saved for export."
 msgstr "Proje dosyası dışa aktarma için kaydedilemedi."
 
-#: src/pythoninterfaces/otioconvertions.cpp:149
+#: src/pythoninterfaces/otioconvertions.cpp:146
 #, kde-format
 msgid "Unable to write to temporary kdenlive file for export: %1"
 msgstr "Dışa aktarma için geçici Kdenlive dosyası yazılamıyor: %1"
 
-#: src/pythoninterfaces/otioconvertions.cpp:164
+#: src/pythoninterfaces/otioconvertions.cpp:161
 #, kde-format
 msgid "Project to import"
 msgstr "İçe aktarılacak proje"
 
-#: src/pythoninterfaces/otioconvertions.cpp:170
+#: src/pythoninterfaces/otioconvertions.cpp:167
 #, kde-format
 msgid "Imported Project"
 msgstr "İçe Aktarılmış Proje"
 
-#: src/pythoninterfaces/otioconvertions.cpp:171
+#: src/pythoninterfaces/otioconvertions.cpp:168
 #, kde-format
 msgid "Kdenlive project (*.kdenlive)"
 msgstr "Kdenlive projesi (*.kdenlive)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:180
+#: src/pythoninterfaces/otioconvertions.cpp:177
 #, kde-format
 msgid ""
 "The current project has not been saved\n"
@@ -16831,6 +17013,11 @@ msgstr ""
 "Geçerli proje kaydedilmedi\n"
 "İçe aktarılan projeyi en son değişikliklerden vazgeçerek yüklemek ister "
 "misiniz?"
+
+#: src/pythoninterfaces/saminterface.cpp:70
+#, kde-format
+msgid "Object Segmentation (SAM2)"
+msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -19048,7 +19235,7 @@ msgid "No available stream"
 msgstr "Kullanılabilir akış yok"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
 #, kde-format
 msgid "Gradient %1"
 msgstr "%1 gradyan"
@@ -19327,39 +19514,39 @@ msgstr "Tüm Görseller"
 msgid "%1 Image"
 msgstr "%1 Görseli"
 
-#: src/titler/titlewidget.cpp:1718
+#: src/titler/titlewidget.cpp:1709
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1720 src/ui/titlewidget_ui.ui:258
+#: src/titler/titlewidget.cpp:1711 src/ui/titlewidget_ui.ui:258
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1742
+#: src/titler/titlewidget.cpp:1733
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1744 src/ui/titlewidget_ui.ui:288
+#: src/titler/titlewidget.cpp:1735 src/ui/titlewidget_ui.ui:288
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2210
+#: src/titler/titlewidget.cpp:2198
 #, kde-format
 msgid "Load Title"
 msgstr "Başlık Yükle"
 
-#: src/titler/titlewidget.cpp:2211
+#: src/titler/titlewidget.cpp:2199
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive başlığı"
 
-#: src/titler/titlewidget.cpp:2257
+#: src/titler/titlewidget.cpp:2245
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -19368,57 +19555,57 @@ msgstr ""
 "Görselleri bu BaşlıkBelgesi’ne gömmek istiyor musunuz?\n"
 "Bu Başlıkları paylaşmak için en çok gerekli şeydir."
 
-#: src/titler/titlewidget.cpp:2258
+#: src/titler/titlewidget.cpp:2246
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Görseller Göm"
 
-#: src/titler/titlewidget.cpp:2313
+#: src/titler/titlewidget.cpp:2301
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Bu başlıkta 1 eksik öge var"
 msgstr[1] "Bu başlıkta %1 eksik öge var"
 
-#: src/titler/titlewidget.cpp:2314 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Ayrıntılar"
 
-#: src/titler/titlewidget.cpp:2317
+#: src/titler/titlewidget.cpp:2305
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Eksik ögeleri sil"
 
-#: src/titler/titlewidget.cpp:2377
+#: src/titler/titlewidget.cpp:2365
 #, kde-format
 msgid "Update Title"
 msgstr "Başlığı Güncelle"
 
-#: src/titler/titlewidget.cpp:2380
+#: src/titler/titlewidget.cpp:2368
 #, kde-format
 msgid "Add as new Title"
 msgstr "Yeni başlık olarak ekle"
 
-#: src/titler/titlewidget.cpp:2434
+#: src/titler/titlewidget.cpp:2422
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Aşağıdaki dosyalar eksik:"
 
-#: src/titler/titlewidget.cpp:2628
+#: src/titler/titlewidget.cpp:2616
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Görüş Alanını Başlat"
 
-#: src/titler/titlewidget.cpp:2629
+#: src/titler/titlewidget.cpp:2617
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Görüş Alanını Sonlandır"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3347
 #, kde-format
 msgid "Gradient"
 msgstr "Gradyan"
@@ -19831,6 +20018,9 @@ msgstr "Gerçek FFT boyutu: "
 msgid "Delete current point."
 msgstr "Geçerli noktayı silin."
 
+#. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
+#. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
+#. i18n: ectx: property (text), widget (QToolButton, buttonImport)
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
 #. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
@@ -19882,6 +20072,7 @@ msgstr "Geçerli noktayı silin."
 #. i18n: ectx: property (text), widget (QToolButton, button_del)
 #. i18n: ectx: property (text), widget (QToolButton, button_remove)
 #. i18n: ectx: property (text), widget (QToolButton, button_reset)
+#. i18n: ectx: property (text), widget (QToolButton, m_maskButton)
 #. i18n: ectx: property (text), widget (QToolButton, collapseButton)
 #. i18n: ectx: property (text), widget (QToolButton, keyframesButton)
 #. i18n: ectx: property (text), widget (QToolButton, inOutButton)
@@ -19934,11 +20125,9 @@ msgstr "Geçerli noktayı silin."
 #. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonPrev)
 #. i18n: ectx: property (text), widget (QToolButton, buttonNext)
-#. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
 #. i18n: ectx: property (text), widget (QToolButton, buttonCut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonApply)
 #. i18n: ectx: property (text), widget (QToolButton, buttonMoreOption)
-#. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
 #: src/ui/bezierspline_ui.ui:121 src/ui/bezierspline_ui.ui:137
@@ -19972,30 +20161,32 @@ msgstr "Geçerli noktayı silin."
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
 #: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
-#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
-#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
-#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
-#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
-#: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
-#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
-#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
-#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
-#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
-#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
-#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
-#: src/ui/titlewidget_ui.ui:672 src/ui/titlewidget_ui.ui:685
-#: src/ui/titlewidget_ui.ui:698 src/ui/titlewidget_ui.ui:711
-#: src/ui/titlewidget_ui.ui:724 src/ui/titlewidget_ui.ui:737
-#: src/ui/titlewidget_ui.ui:955 src/ui/titlewidget_ui.ui:965
-#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1223
-#: src/ui/titlewidget_ui.ui:1272 src/ui/titlewidget_ui.ui:1294
-#: src/ui/titlewidget_ui.ui:1326 src/ui/titlewidget_ui.ui:1415
-#: src/ui/titlewidget_ui.ui:1733 src/ui/titlewidget_ui.ui:1749
-#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
-#: src/ui/unicodewidget_ui.ui:226
+#: src/ui/maskmanage_ui.ui:52 src/ui/maskmanage_ui.ui:65
+#: src/ui/maskmanage_ui.ui:78 src/ui/projectsettings_ui.ui:421
+#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
+#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
+#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
+#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
+#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
+#: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:163
+#: src/ui/textbasededit_ui.ui:179 src/ui/textbasededit_ui.ui:189
+#: src/ui/textbasededit_ui.ui:199 src/ui/textbasededit_ui.ui:216
+#: src/ui/textbasededit_ui.ui:226 src/ui/textbasededit_ui.ui:255
+#: src/ui/textbasededit_ui.ui:276 src/ui/timeremap_ui.ui:84
+#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
+#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
+#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:672
+#: src/ui/titlewidget_ui.ui:685 src/ui/titlewidget_ui.ui:698
+#: src/ui/titlewidget_ui.ui:711 src/ui/titlewidget_ui.ui:724
+#: src/ui/titlewidget_ui.ui:737 src/ui/titlewidget_ui.ui:955
+#: src/ui/titlewidget_ui.ui:965 src/ui/titlewidget_ui.ui:1169
+#: src/ui/titlewidget_ui.ui:1223 src/ui/titlewidget_ui.ui:1272
+#: src/ui/titlewidget_ui.ui:1294 src/ui/titlewidget_ui.ui:1326
+#: src/ui/titlewidget_ui.ui:1415 src/ui/titlewidget_ui.ui:1733
+#: src/ui/titlewidget_ui.ui:1749 src/ui/titlewidget_ui.ui:1762
+#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "…"
@@ -20480,9 +20671,10 @@ msgstr "Yakalama dosyası adı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
+#. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:271
+#: src/ui/configspeech_ui.ui:290 src/ui/configspeech_ui.ui:576
 #, kde-format
 msgid "Device:"
 msgstr "Aygıt:"
@@ -20694,38 +20886,20 @@ msgstr "Kitaplık klasörü:"
 msgid "Folder for rendering, titles, scripts:"
 msgstr "Betikler, başlıklar, sunum klasörü:"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/configenv_ui.ui:336
-#, kde-format
-msgid "Python"
-msgstr "Python"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:363
-#, kde-format
-msgid "Delete "
-msgstr "Sil"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:372
-#, kde-format
-msgid "Use python virtual environment (recommended)"
-msgstr "Python sanal ortamını kullan (önerilir)"
-
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:400
+#: src/ui/configenv_ui.ui:336
 #, kde-format
 msgid "Default Apps"
 msgstr "Öntanımlı Uygulamalar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:406
+#: src/ui/configenv_ui.ui:342
 #, kde-format
 msgid "Image editing:"
 msgstr "Görsel düzenleme:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:415
+#: src/ui/configenv_ui.ui:351
 #, kde-format
 msgid "Path to image editing application"
 msgstr "Görsel düzenleme uygulaması yolu"
@@ -20733,50 +20907,50 @@ msgstr "Görsel düzenleme uygulaması yolu"
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:425 src/ui/configenv_ui.ui:446
-#: src/ui/configenv_ui.ui:471
+#: src/ui/configenv_ui.ui:361 src/ui/configenv_ui.ui:382
+#: src/ui/configenv_ui.ui:407
 #, kde-format
 msgid "Change…"
 msgstr "Değiştir…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:436
+#: src/ui/configenv_ui.ui:372
 #, kde-format
 msgid "Path to audio editing application"
 msgstr "Ses düzenleme uygulaması yolu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:455
+#: src/ui/configenv_ui.ui:391
 #, kde-format
 msgid "Audio editing:"
 msgstr "Ses düzenleme:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:464
+#: src/ui/configenv_ui.ui:400
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr "Glaxnimate yürütülebiliri yolu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:480
+#: src/ui/configenv_ui.ui:416
 #, kde-format
 msgid "Animation editing:"
 msgstr "Canlandırma düzenleme:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:501
+#: src/ui/configenv_ui.ui:437
 #, kde-format
 msgid "Mime types"
 msgstr "MIME Türleri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:507
+#: src/ui/configenv_ui.ui:443
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "İlave klip MIME türleri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:521
+#: src/ui/configenv_ui.ui:457
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "Desteklenen klip MIME türleri"
@@ -21235,89 +21409,133 @@ msgstr "Dış ekran (Blackmagic kartı):"
 msgid "Output device:"
 msgstr "Çıkış aygıtı:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:45
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#: src/ui/configspeech_ui.ui:31
 #, kde-format
-msgid "Speech engine"
-msgstr "Konuşma işletkesi"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:52
-#, kde-format
-msgid "VOS&K"
-msgstr "VOS&K"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:59
-#, kde-format
-msgid "Wh&isper"
-msgstr "Wh&isper"
-
-#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:128
-#, kde-format
-msgid "Custom models folder"
-msgstr "Özel modeller klasörü"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:168
-#, kde-format
-msgid "Add Model"
-msgstr "Model Ekle"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:181
-#, kde-format
-msgid "Remove Model"
-msgstr "Modeli Kaldır"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:220
-#, kde-format
-msgid "Model:"
-msgstr "Model:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:261
-#, kde-format
-msgid "Language:"
-msgstr "Dil:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:292
-#, kde-format
-msgid "Disable half precision (FP16 )"
-msgstr "Yarım kesinliği devre dışı bırak (FP16)"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:299
-#, kde-format
-msgid "Translate text to English"
-msgstr "Metni İngilizceye çevir"
-
-#. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
-#: src/ui/configspeech_ui.ui:342
-#, kde-format
-msgid "Whisper"
-msgstr "Whisper"
-
-#. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
-#: src/ui/configspeech_ui.ui:373
-#, kde-format
-msgid "Seamless"
-msgstr "Seamless"
+msgid "Speech To Text"
+msgstr "Konuşmadan Metne"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:428
+#. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
+#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:694
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "Konuşma İşletkesi Kurulumunu Denetle"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:431
+#: src/ui/configspeech_ui.ui:53
 #, kde-format
 msgid "Check configuration"
 msgstr "Yapılandırmayı Denetle"
+
+#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
+#: src/ui/configspeech_ui.ui:145
+#, kde-format
+msgid "Custom models folder"
+msgstr "Özel modeller klasörü"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_add)
+#: src/ui/configspeech_ui.ui:185
+#, kde-format
+msgid "Add Model"
+msgstr "Model Ekle"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_delete)
+#: src/ui/configspeech_ui.ui:198
+#, kde-format
+msgid "Remove Model"
+msgstr "Modeli Kaldır"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configspeech_ui.ui:239
+#, kde-format
+msgid "Model:"
+msgstr "Model:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/configspeech_ui.ui:280
+#, kde-format
+msgid "Language:"
+msgstr "Dil:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
+#: src/ui/configspeech_ui.ui:311
+#, kde-format
+msgid "Disable half precision (FP16 )"
+msgstr "Yarım kesinliği devre dışı bırak (FP16)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
+#: src/ui/configspeech_ui.ui:318
+#, kde-format
+msgid "Translate text to English"
+msgstr "Metni İngilizceye çevir"
+
+#. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
+#. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
+#: src/ui/configspeech_ui.ui:368 src/ui/configspeech_ui.ui:722
+#, fuzzy, kde-format
+#| msgid "Uninstall model"
+msgid "Uninstall plugin"
+msgstr "Modeli Kaldır"
+
+#. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
+#: src/ui/configspeech_ui.ui:415
+#, kde-format
+msgid "Whisper"
+msgstr "Whisper"
+
+#. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
+#: src/ui/configspeech_ui.ui:446
+#, kde-format
+msgid "Seamless"
+msgstr "Seamless"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configspeech_ui.ui:481
+#, kde-format
+msgid "Speech engine"
+msgstr "Konuşma işletkesi"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
+#: src/ui/configspeech_ui.ui:488
+#, kde-format
+msgid "VOS&K"
+msgstr "VOS&K"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:495
+#, kde-format
+msgid "Wh&isper"
+msgstr "Wh&isper"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: src/ui/configspeech_ui.ui:518
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Scene Detection"
+msgid "Object Detection"
+msgstr "Sahne Algılama"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/configspeech_ui.ui:545 src/ui/speechdialog_ui.ui:94
+#, kde-format
+msgid "Model"
+msgstr "Model"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/configspeech_ui.ui:569
+#, kde-format
+msgid ""
+"Object Detection relies on SAM2 - <a href=\"https://github.com/"
+"facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
+#: src/ui/configspeech_ui.ui:613
+#, fuzzy, kde-format
+#| msgid "Delete all markers"
+msgid "Delete all models"
+msgstr "Tüm imleyicileri sil"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22605,6 +22823,55 @@ msgstr "Sayım"
 msgid "Image preview"
 msgstr "Görsel önizlemesi"
 
+#. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
+#: src/ui/maskmanage_ui.ui:18
+#, fuzzy, kde-format
+#| msgid "Format"
+msgid "Form"
+msgstr "Biçim"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
+#: src/ui/maskmanage_ui.ui:49
+#, fuzzy, kde-format
+#| msgid "Create new preset"
+msgid "Create New Mask"
+msgstr "Yeni önayar oluştur"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
+#: src/ui/maskmanage_ui.ui:62
+#, fuzzy, kde-format
+#| msgid "Delete Marker"
+msgid "Delete Mask"
+msgstr "İmleyici Sil"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
+#: src/ui/maskmanage_ui.ui:75
+#, fuzzy, kde-format
+#| msgid "Imported Project"
+msgid "Import Mask in Project"
+msgstr "İçe Aktarılmış Proje"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
+#: src/ui/maskmanage_ui.ui:104
+#, fuzzy, kde-format
+#| msgid "Mask clip"
+msgid "Mask"
+msgstr "Mask klibi"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
+#: src/ui/maskmanage_ui.ui:120
+#, fuzzy, kde-format
+#| msgid "Preview"
+msgid "Preview Mask"
+msgstr "Önizleme"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonApply)
+#: src/ui/maskmanage_ui.ui:146
+#, fuzzy, kde-format
+#| msgid "Apply"
+msgid "Apply Mask"
+msgstr "Uygula"
+
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
 #, kde-format
@@ -23443,12 +23710,6 @@ msgstr "Zaman akışı bölgesi (tüm izler)"
 msgid "Selected clip"
 msgstr "Seçili klip"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/speechdialog_ui.ui:94
-#, kde-format
-msgid "Model"
-msgstr "Model"
-
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
 #: src/ui/speechdialog_ui.ui:101
 #, kde-format
@@ -24124,3 +24385,39 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid "Setting up virtual environment…"
+#~ msgstr "Sanal ortam ayarlanıyor…"
+
+#~ msgid "Disabling virtual environment"
+#~ msgstr "Sanal ortam devre dışı bırakılıyor"
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Removing the virtual environment folder."
+#~ msgstr "Sanal ortam klasörü kaldırılıyor."
+
+#~ msgctxt "@label:textbox"
+#~ msgid "No python venv found"
+#~ msgstr "Hiçbir Python sanal ortamı bulunamadı"
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Failed to remove the virtual environment folder."
+#~ msgstr "Sanal ortam klasörü kaldırılamadı."
+
+#~ msgid "Using python from %1"
+#~ msgstr "Python, %1 konumundan kullanılıyor"
+
+#~ msgid "No python venv found"
+#~ msgstr "Hiçbir Python sanal ortamı bulunamadı"
+
+#~ msgid "Python venv size: %1"
+#~ msgstr "Python sanal ortam boyutu: %1"
+
+#~ msgid "Python"
+#~ msgstr "Python"
+
+#~ msgid "Delete "
+#~ msgstr "Sil"
+
+#~ msgid "Use python virtual environment (recommended)"
+#~ msgstr "Python sanal ortamını kullan (önerilir)"
