@@ -103,7 +103,7 @@ MouseArea {
                     root.exitMaskPreview()
                 }
             }
-            MonitorToolButton {
+            /*MonitorToolButton {
                 objectName: "nextKeyframe"
                 iconName: "keyframe-next"
                 toolTipText: i18n("Go to Next Keyframe")
@@ -114,7 +114,7 @@ MouseArea {
                 iconName: "keyframe-previous"
                 toolTipText: i18n("Go to Previous Keyframe")
                 onClicked: controller.seekToKeyframe(-1, -1);
-            }
+            }*/
             MonitorToolButton {
                 iconName: "zoom-in"
                 toolTipText: i18n("Zoom in")

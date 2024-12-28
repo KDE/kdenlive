@@ -207,6 +207,11 @@ void MaskManager::generateMask()
         return;
     }
     m_maskHelper->generateMask(clip->clipId(), maskName, m_zone);
+    samStatus->setText(i18n("Generating mask %1", maskName));
+    samStatus->clearActions();
+    samStatus->setCloseButtonVisible(true);
+    samStatus->setMessageType(KMessageWidget::Information);
+    samStatus->animatedShow();
     // Exit mask creation mode
     pCore->getMonitor(Kdenlive::ClipMonitor)->requestAbortPreviewMask();
 }
@@ -214,6 +219,9 @@ void MaskManager::generateMask()
 void MaskManager::loadMasks()
 {
     maskTree->clear();
+    if (samStatus->messageType() == KMessageWidget::Information) {
+        samStatus->hide();
+    }
     std::shared_ptr<ProjectClip> clip = getOwnerClip();
     if (!clip) {
         return;
@@ -239,6 +247,8 @@ void MaskManager::loadMasks()
             KIconEffect::overlay(img, overlay);
             icon = QIcon(QPixmap::fromImage(overlay));
             item->setData(0, Qt::UserRole + 3, 1);
+        } else if (masks.size() == 1) {
+            maskTree->setCurrentItem(item);
         }
         item->setIcon(0, icon);
     }
