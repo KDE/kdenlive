@@ -41,7 +41,7 @@ void MaskTask::generateMask()
     // Ensure we have the source frames
     QDir srcFolder(m_properties.value(MaskTask::INPUTFOLDER));
     if (!srcFolder.exists() || srcFolder.isEmpty()) {
-        m_errorMessage = i18n("Nos source frames to process");
+        m_errorMessage = i18n("No source frames to process");
         return;
     }
     const QString outFile = m_properties.value(MaskTask::OUTPUTFILE);

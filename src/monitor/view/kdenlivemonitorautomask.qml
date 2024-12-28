@@ -260,7 +260,7 @@ Item {
                 id: infoLabel
                 anchors.centerIn: frame
                 padding: 5
-                text: maskMode == 0 ? i18n("Click on an object to start a mask.\nShift+click to include another zone.\nCtrl+click to excude a zone.") : i18n("Previewing video mask")
+                text: maskMode == 0 ? i18n("Click on an object to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
                 visible: root.centerPoints.length == 0 && !frameArea.containsMouse && !generateLabel.visible
                 background: Rectangle {
                     color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
