@@ -62,11 +62,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     seamless_device_info->setContextualHelpText(i18n("Text translation is performed by the SeamlessM4T model. This requires downloading "
                                                      "around 10Gb of data. Once installed, all processing will happen offline."));
 
-    // Python env info label
-    PythonDependencyMessage *pythonEnvLabel = new PythonDependencyMessage(this, m_sttWhisper, true);
-    // Also show VOSK setup messages in the python env page
-    connect(m_stt, &AbstractPythonInterface::setupMessage,
-            [pythonEnvLabel](const QString message, int type) { pythonEnvLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
     noModelMessage->hide();
     m_sttWhisper->checkPython(true);
     m_downloadModelAction = new QAction(i18n("Download (1.4Gb)"), this);
@@ -163,6 +158,9 @@ PluginsSettings::PluginsSettings(QWidget *parent)
 
     PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
     message_layout_wr->addWidget(msgWhisper);
+    // Also show VOSK setup messages in the python env page
+    connect(m_sttWhisper, &AbstractPythonInterface::setupMessage,
+            [msgWhisper](const QString message, int type) { msgWhisper->doShowMessage(message, KMessageWidget::MessageType(type)); });
     QMap<QString, QString> whisperLanguages = m_sttWhisper->speechLanguages();
     QMapIterator<QString, QString> j(whisperLanguages);
     while (j.hasNext()) {

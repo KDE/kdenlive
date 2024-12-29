@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
+    <width>650</width>
     <height>637</height>
    </rect>
   </property>
@@ -92,7 +92,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="1" column="0" colspan="2">
         <widget class="QStackedWidget" name="speech_stack">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page">
           <layout class="QGridLayout" name="gridLayout">
@@ -106,7 +106,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <number>0</number>
            </property>
            <item row="7" column="0" colspan="3">
-            <layout class="QVBoxLayout" name="message_layout"/>
+            <layout class="QVBoxLayout" name="message_layout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+            </layout>
            </item>
            <item row="6" column="0" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -749,7 +753,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <number>0</number>
          </property>
          <property name="topMargin">
-          <number>10</number>
+          <number>0</number>
          </property>
         </layout>
        </item>
