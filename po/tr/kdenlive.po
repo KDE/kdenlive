@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-28 02:45+0000\n"
-"PO-Revision-Date: 2024-12-02 19:49+0300\n"
+"PO-Revision-Date: 2024-12-28 14:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3186,7 +3186,7 @@ msgid ""
 "Generate frames with a counter and synchronized tone. The counter can go up "
 "or down."
 msgstr ""
-"Sayaç ve eşzamanlı tonla çerçeveler oluşturun. Sayaç yukarı çıkabilir veya "
+"Sayaç ve eşzamanlı tonlu çerçeveler üretin. Sayaç yukarı çıkabilir veya "
 "aşağı inebilir."
 
 #: data/generators/count.xml:7
@@ -3287,7 +3287,7 @@ msgstr "Program"
 #: data/kdenliveeffectscategory.rc:26
 #, kde-format
 msgid "Generate"
-msgstr "Oluştur"
+msgstr "Üret"
 
 #: data/kdenliveeffectscategory.rc:30
 #, kde-format
@@ -3615,7 +3615,7 @@ msgstr "Bir geçiş oluşturmak için diğer klibin alfa kanalını kullanın."
 #: data/transitions/region.xml:8
 #, kde-format
 msgid "Mask clip"
-msgstr "Mask klibi"
+msgstr "Maske klibi"
 
 #: data/transitions/region.xml:14
 #, kde-format
@@ -3762,7 +3762,7 @@ msgid ""
 "Failed to generate clip:\n"
 "%1"
 msgstr ""
-"Klip oluşturma başarısız:\n"
+"Klip üretilemedi:\n"
 "%1"
 
 #: plugins/sampleplugin/sampleplugin.cpp:88
@@ -4273,7 +4273,7 @@ msgstr "Önayar Adı Gir"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1469
 #, kde-format
 msgid "Enter the name of this preset:"
-msgstr "Bu ön ayarın adını girin:"
+msgstr "Bu önayarın adını girin:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:194
 #: src/project/dialogs/archivewidget.cpp:402
@@ -7516,8 +7516,7 @@ msgid "Install multilingual translation"
 msgstr "Çok Dilli Çeviri Kur"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Bir konuşma modeli kurun; <b>turbo</b> kullanmanız önerilir."
 
@@ -20909,7 +20908,7 @@ msgstr "Vekil klipleri etkinleştir"
 #: src/ui/configproxy_ui.ui:63 src/ui/projectsettings_ui.ui:222
 #, kde-format
 msgid "Generate for videos larger than"
-msgstr "Şundan büyük videolar için oluştur"
+msgstr "Şundan büyük videolar için üret"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -20932,7 +20931,7 @@ msgstr "Vekil video boyutlandırması (genişlik):"
 #: src/ui/configproxy_ui.ui:130 src/ui/projectsettings_ui.ui:248
 #, kde-format
 msgid "Generate for images larger than"
-msgstr "Şundan büyük görseller için oluştur"
+msgstr "Şundan büyük görseller için üret"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:156 src/ui/projectsettings_ui.ui:479
@@ -21808,7 +21807,7 @@ msgstr "Y ölçeği"
 #: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "Biçimlendirilmiş fasıl imleyicisi metin burada oluşturulacak."
+msgstr "Biçimlendirilmiş fasıl imleyicisi metni burada üretilecektir."
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:44
