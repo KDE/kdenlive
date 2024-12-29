@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Antoni Bella Pérez <antonibella5@yahoo.com>
-# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
+# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 00:41+0000\n"
-"PO-Revision-Date: 2024-12-19 19:35+0100\n"
+"POT-Creation-Date: 2024-12-29 00:41+0000\n"
+"PO-Revision-Date: 2024-12-28 14:08+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2325,12 +2325,12 @@ msgstr "Desplaçament"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "Posició d'inici del fitxer de màscara."
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "Posició final del fitxer de màscara."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -4114,7 +4114,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Create an object mask"
-msgstr ""
+msgstr "Crea un objecte de màscara"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -4123,6 +4123,8 @@ msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
 msgstr ""
+"Mostra el quadro de creació de màscares. Les màscares es poden utilitzar, "
+"per exemple, per a eliminar el fons d'un vídeo."
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4224,6 +4226,8 @@ msgstr "Safata d'efectes de %1"
 msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
+"Heu de definir els punts d'inclusió en el primer fotograma de vídeo de la "
+"seqüència."
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4911,14 +4915,9 @@ msgid "None (Dissolve)"
 msgstr "Cap (Dissoldre)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"No s'ha pogut crear una línia de temps a partir d'este clip:\n"
-"%1"
+msgstr "Crea o edita una màscara per a este clip"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -5443,7 +5442,7 @@ msgid "Replace in timeline"
 msgstr "Substituïx en la línia de temps"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:346
+#: src/effects/effectstack/view/maskmanager.cpp:356
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8145,10 +8144,9 @@ msgid "Colors and Guides"
 msgstr "Colors i guies"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "Connectors TAP"
+msgstr "Connectors"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8451,47 +8449,41 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:303 src/ui/configspeech_ui.ui:354
 #: src/ui/configspeech_ui.ui:742
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugin size"
-msgstr "Connectors TAP"
+msgstr "Mida del connector"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:356 src/ui/configspeech_ui.ui:697
-#, fuzzy, kde-format
-#| msgid "Install model"
+#, kde-format
 msgid "Install"
-msgstr "Instal·la el model"
+msgstr "Instal·la"
 
 #: src/dialogs/settings/pluginssettings.cpp:362
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#, kde-format
 msgid "Check config"
 msgstr "Comprova la configuració"
 
 #: src/dialogs/settings/pluginssettings.cpp:380
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "Suprimirà l'estil <b>%1</b> i totes les seues propietats."
+msgstr ""
+"Suprimirà els models instal·lats\n"
+"Els podreu reinstal·lar més tard."
 
 #: src/dialogs/settings/pluginssettings.cpp:397
 #: src/dialogs/settings/pluginssettings.cpp:411
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"Suprimirà l'entorn virtual de Python de:<br/><b>%1</b><br/>L'entorn es "
+"Suprimirà l'entorn de connectors de Python de:<br/><b>%1</b><br/>L'entorn es "
 "tornarà a crear i es descarregaran els mòduls cada vegada que torneu a "
-"activar l'entorn virtual de Python."
+"activar el connector."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:426 src/ui/configspeech_ui.ui:327
@@ -8500,40 +8492,35 @@ msgid "Install multilingual translation"
 msgstr "Instal·la la traducció multilingüe"
 
 #: src/dialogs/settings/pluginssettings.cpp:435
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Instal·leu un model de veu; recomanem <b>turbo</b>"
 
 #: src/dialogs/settings/pluginssettings.cpp:490
-#, fuzzy, kde-format
-#| msgid "Select new models to download"
+#, kde-format
 msgid "Select model to download"
-msgstr "Seleccioneu models nous a baixar"
+msgstr "Seleccioneu el model a baixar"
 
 #: src/dialogs/settings/pluginssettings.cpp:506
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "Ja estan instal·lats tots els models"
 
 #: src/dialogs/settings/pluginssettings.cpp:526
-#, fuzzy, kde-format
-#| msgid "Downloading"
+#, kde-format
 msgid "Downloading…"
-msgstr "Baixada"
+msgstr "S'està baixant…"
 
 #: src/dialogs/settings/pluginssettings.cpp:536
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "S'està baixant el model…"
+msgstr "S'està baixant el model més xicotet…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:555 src/ui/configspeech_ui.ui:562
-#, fuzzy, kde-format
-#| msgid "Download Model"
+#, kde-format
 msgid "Download models"
-msgstr "Baixada del model"
+msgstr "Baixa els models"
 
 #: src/dialogs/settings/pluginssettings.cpp:614
 #: src/dialogs/settings/pluginssettings.cpp:628
@@ -10525,31 +10512,21 @@ msgstr ""
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr ""
+"Els clips intermediaris no estan destinats a la composició o l'etalonatge."
 
 #: src/doc/kdenlivedoc.cpp:1611
-#, fuzzy, kde-format
-#| msgid "This clip has an alpha channel. Proxying is not recommended."
-#| msgid_plural ""
-#| "These clips have an alpha channel. Proxying is not recommended."
+#, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] "Este clip té un canal alfa. No es recomana fer-lo intermediari."
-msgstr[1] ""
-"Estos clips tenen un canal alfa. No es recomana fer-los intermediaris."
+msgstr[0] "El clip té un canal alfa. "
+msgstr[1] "Els clips tenen un canal alfa. "
 
 #: src/doc/kdenlivedoc.cpp:1617
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have a clip with an alpha channel. Proxying it is not recommended."
-#| msgid_plural ""
-#| "You have %1 clips with an alpha channel. Proxying these is not "
-#| "recommended."
+#, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] ""
-"Teniu un clip amb un canal alfa. No es recomana fer-lo intermediari."
-msgstr[1] ""
-"Teniu %1 clips amb un canal alfa. No es recomana fer-los intermediaris."
+msgstr[0] "Teniu un clip amb un canal alfa. "
+msgstr[1] "Teniu %1 clips amb un canal alfa. "
 
 #: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
@@ -11090,31 +11067,37 @@ msgstr ""
 "Voleu guardar l'efecte sense cap descripció?"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "Configureu la veu a text."
+msgstr "Configureu el connector SAM2"
 
 #: src/effects/effectstack/view/maskmanager.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "Introduïu el nom dels valors predefinits"
+msgstr "Introducció del nom de màscara"
 
 #: src/effects/effectstack/view/maskmanager.cpp:202
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
-msgid "Enter the name of this mask:"
-msgstr "Introduïu el nom d'estos valors predefinits:"
-
-#: src/effects/effectstack/view/maskmanager.cpp:317
 #, kde-format
+msgid "Enter the name of this mask:"
+msgstr "Introduïu el nom d'esta màscara:"
+
+#: src/effects/effectstack/view/maskmanager.cpp:210
+#, fuzzy, kde-format
+#| msgid "Generating image mask"
+msgid "Generating mask %1"
+msgstr "S'està generant la màscara d'imatge"
+
+#: src/effects/effectstack/view/maskmanager.cpp:327
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
+#| "undone."
 msgid ""
-"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-"undone."
+"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
+"Açò emmascararà el fitxer <b>%1</b>:<br/>%2<br/>Esta operació no es podrà "
+"desfer."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11312,25 +11295,20 @@ msgid "Failed to filter source."
 msgstr "No s'ha pogut filtrar l'origen."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask creation"
-msgstr "Clip de màscara"
+msgstr "Creació de màscara"
 
 #: src/jobs/masktask.cpp:44
-#, kde-format
-msgid "Nos source frames to process"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Nos source frames to process"
+msgid "No source frames to process"
+msgstr "No hi ha cap fotograma d'origen a processar"
 
 #: src/jobs/masktask.cpp:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
-"No s'ha pogut generar el clip:\n"
-"%1"
+msgstr "No s'ha pogut renderitzar la màscara %1"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14933,12 +14911,12 @@ msgstr "Mostra la quadrícula"
 msgid "Change Overlay"
 msgstr "Canvia la superposició"
 
-#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
+#: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Ves fins al fotograma clau següent"
 
-#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Ves fins al fotograma clau anterior"
@@ -15040,26 +15018,32 @@ msgstr "Transforma"
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
 #, kde-format
 msgid "Generating image mask"
-msgstr ""
+msgstr "S'està generant la màscara d'imatge"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
-
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
-#, kde-format
-msgid ""
-"Click on an object to start a mask.\n"
-"Shift+click to include another zone.\n"
-"Ctrl+click to excude a zone."
-msgstr ""
+msgstr "S'està generant la màscara de vídeo"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
 #, fuzzy, kde-format
-#| msgid "Preview Using Proxy Clips"
+#| msgid ""
+#| "Click on an object to start a mask.\n"
+#| "Shift+click to include another zone.\n"
+#| "Ctrl+click to excude a zone."
+msgid ""
+"Click on an object to start a mask.\n"
+"Shift+click to include another zone.\n"
+"Ctrl+click to exclude a zone."
+msgstr ""
+"Feu clic en un objecte per a iniciar una màscara.\n"
+"«Maj+clic» per a incloure una altra zona.\n"
+"«Ctrl+fer clic» per a excloure una zona."
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#, kde-format
 msgid "Previewing video mask"
-msgstr "Vista prèvia utilitzant clips intermediaris"
+msgstr "S'està previsualitzant la màscara de vídeo"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -15122,39 +15106,34 @@ msgstr ""
 "clic dret o premeu retorn per a tancar la forma."
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "Genera"
+msgstr "Genera la màscara"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "Canvia l'opacitat (0% - 25% - 50% - 100%)"
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Padding Color"
+#, kde-format
 msgid "Change Color"
-msgstr "Color de farciment"
+msgstr "Canvia el color"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "Invertix"
+msgstr "Invertix la màscara"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "Edita la duració"
+msgstr "Ix de la creació de la màscara"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "Afig la zona a la vista prèvia"
+msgstr "Eixida del mode de vista prèvia"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16950,19 +16929,16 @@ msgid "The <application>%1</application> python module is required."
 msgstr "Es requerix el mòdul de Python <application>%1</application>."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:475
-#, fuzzy, kde-format
-#| msgid ""
-#| "This requires an internet connection and will take several minutes to "
-#| "download all necessary dependencies. After that all processing will "
-#| "happen offline."
+#, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
 "Açò requerix una connexió amb Internet i tardarà diversos minuts a "
-"descarregar totes les dependències necessàries. Després d'açò, tot el "
-"processament es farà fora de línia."
+"descarregar\n"
+"totes les dependències necessàries. Després d'açò, tot el processament es "
+"farà fora de línia."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:495
 #: src/pythoninterfaces/abstractpythoninterface.cpp:608
@@ -17196,7 +17172,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "Segmentació d'objectes (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -21683,10 +21659,9 @@ msgstr "Traduïx el text a l'anglés"
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:368 src/ui/configspeech_ui.ui:722
-#, fuzzy, kde-format
-#| msgid "Uninstall model"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Desinstal·la el model"
+msgstr "Desinstal·la el connector"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:415
@@ -21720,11 +21695,9 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:518
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Object Detection"
-msgstr "Detecció d'escenes"
+msgstr "Detecció d'objectes"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:545 src/ui/speechdialog_ui.ui:94
@@ -21739,13 +21712,14 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"La detecció d'objectes depén de SAM2 - <a href=\"https://github.com/"
+"facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:613
-#, fuzzy, kde-format
-#| msgid "Delete all markers"
+#, kde-format
 msgid "Delete all models"
-msgstr "Suprimix tots els marcadors"
+msgstr "Suprimix tots els models"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -23036,52 +23010,45 @@ msgstr "Vista prèvia de la imatge"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
 #: src/ui/maskmanage_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Format"
+#, kde-format
 msgid "Form"
-msgstr "Format"
+msgstr "Formulari"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create new preset"
+#, kde-format
 msgid "Create New Mask"
-msgstr "Crea un valor predefinit nou"
+msgstr "Crea una màscara nova"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "Suprimix el marcador"
+msgstr "Suprimix la màscara"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "Projecte importat"
+msgstr "Importa una màscara en el projecte"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "Clip de màscara"
+msgstr "Màscara"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "Vista prèvia"
+msgstr "Vista prèvia de la màscara"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "Aplica"
+msgstr "Aplica una màscara"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24598,39 +24565,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Setting up virtual environment…"
-#~ msgstr "Establix un entorn virtual…"
-
-#~ msgid "Disabling virtual environment"
-#~ msgstr "Deshabilita l'entorn virtual"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Removing the virtual environment folder."
-#~ msgstr "S'elimina la carpeta de l'entorn virtual."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "No python venv found"
-#~ msgstr "No s'ha trobat «venv» de Python"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Failed to remove the virtual environment folder."
-#~ msgstr "No s'ha pogut eliminar la carpeta de l'entorn virtual."
-
-#~ msgid "Using python from %1"
-#~ msgstr "S'utilitza Python de %1"
-
-#~ msgid "No python venv found"
-#~ msgstr "No s'ha trobat «venv» de Python"
-
-#~ msgid "Python venv size: %1"
-#~ msgstr "Mida de «venv» de Python: %1"
-
-#~ msgid "Python"
-#~ msgstr "Python"
-
-#~ msgid "Delete "
-#~ msgstr "Suprimix "
-
-#~ msgid "Use python virtual environment (recommended)"
-#~ msgstr "Utilitza l'entorn virtual de Python (recomanat)"

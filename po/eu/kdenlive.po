@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 00:41+0000\n"
-"PO-Revision-Date: 2024-12-07 18:42+0100\n"
+"POT-Creation-Date: 2024-12-29 00:41+0000\n"
+"PO-Revision-Date: 2024-12-28 09:52+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2314,12 +2314,12 @@ msgstr "Desplazamendua"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "Maskara-fitxategia hasteko posizioa."
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "Maskara-fitxategia bukatzeko posizioa."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -4090,10 +4090,9 @@ msgstr ""
 "taldeko klip guztietatik ezabatuko da."
 
 #: src/assets/assetpanel.cpp:102
-#, fuzzy, kde-format
-#| msgid "create new points"
+#, kde-format
 msgid "Create an object mask"
-msgstr "sortu puntu berriak"
+msgstr "Sortu objektu-maskara"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -4102,6 +4101,8 @@ msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
 msgstr ""
+"Honek maskara sortzeko panela erakusten du. Maskarak, adibidez, bideo baten "
+"atzeko planoa kentzeko erabil daitezke."
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4202,6 +4203,8 @@ msgstr "Ontziko %1 efektuak"
 msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
+"Sekuentziaren lehenengo bideo-fotograman barneratutako puntua definitu behar "
+"dituzu."
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4886,14 +4889,9 @@ msgid "None (Dissolve)"
 msgstr "Bat ere ez (disolbatu)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"Klip honetatik ezin da denbora-lerro bat sortu:\n"
-"%1"
+msgstr "Klip honetarako maskara bat sortu edo editatu"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -5415,7 +5413,7 @@ msgid "Replace in timeline"
 msgstr "Ordeztu denbora-lerroan"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:346
+#: src/effects/effectstack/view/maskmanager.cpp:356
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8110,10 +8108,9 @@ msgid "Colors and Guides"
 msgstr "Koloreak eta gidalerroak"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "TAP pluginak"
+msgstr "Pluginak"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8415,47 +8412,41 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:303 src/ui/configspeech_ui.ui:354
 #: src/ui/configspeech_ui.ui:742
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugin size"
-msgstr "TAP pluginak"
+msgstr "Pluginaren tamaina"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:356 src/ui/configspeech_ui.ui:697
-#, fuzzy, kde-format
-#| msgid "Install model"
+#, kde-format
 msgid "Install"
-msgstr "Instalatu eredua"
+msgstr "Instalatu"
 
 #: src/dialogs/settings/pluginssettings.cpp:362
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#, kde-format
 msgid "Check config"
 msgstr "Egiaztatu konfigurazioa"
 
 #: src/dialogs/settings/pluginssettings.cpp:380
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "Honek <b>%1</b> estiloa eta bere propietate denak ezabatuko ditu."
+msgstr ""
+"Honek instalatutako ereduak ezabatuko ditu\n"
+"Beranduago berrinstalatu ditzakezu."
 
 #: src/dialogs/settings/pluginssettings.cpp:397
 #: src/dialogs/settings/pluginssettings.cpp:411
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"Horrek python ingurune birtuala ezabatuko du, hemendik:<br/><b>%1</b><br/"
-">Ingurunea berriz sortuko da eta moduluak berriz deskargatuko dira, python "
-"ingurune birtuala birgaitzen duzunean."
+"Horrek python ingurunea plugina hemendik ezabatuko du:<br/><b>%1</b><br/"
+">Ingurunea berriz sortu eta moduluak zama-jaitsiko dira, plugina birgaitzen "
+"duzunean."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:426 src/ui/configspeech_ui.ui:327
@@ -8464,40 +8455,35 @@ msgid "Install multilingual translation"
 msgstr "Instalatu itzulpen eleaniztuna"
 
 #: src/dialogs/settings/pluginssettings.cpp:435
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Instalatu hizketa eredu bat - <b>turbo</b> gomendatzen dugu"
 
 #: src/dialogs/settings/pluginssettings.cpp:490
-#, fuzzy, kde-format
-#| msgid "Select new models to download"
+#, kde-format
 msgid "Select model to download"
-msgstr "Hautatu zama-jaitsi beharreko eredu berriak"
+msgstr "Hautatu zama-jaitsi beharreko eredua"
 
 #: src/dialogs/settings/pluginssettings.cpp:506
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "Eredu denak jada instalatuta daude"
 
 #: src/dialogs/settings/pluginssettings.cpp:526
-#, fuzzy, kde-format
-#| msgid "Downloading"
+#, kde-format
 msgid "Downloading…"
-msgstr "Zama-jaistea"
+msgstr "Zama-jaisten..."
 
 #: src/dialogs/settings/pluginssettings.cpp:536
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "Eredua jaisten…"
+msgstr "Eredua txikiena zama-jaisten…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:555 src/ui/configspeech_ui.ui:562
-#, fuzzy, kde-format
-#| msgid "Download Model"
+#, kde-format
 msgid "Download models"
-msgstr "Eredua zama-jaistea"
+msgstr "Ereduak zama-jaitsi"
 
 #: src/dialogs/settings/pluginssettings.cpp:614
 #: src/dialogs/settings/pluginssettings.cpp:628
@@ -10484,34 +10470,21 @@ msgstr ""
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr ""
+"Klip-ordezkariak ez daude konposatzeko edo kolorea mailakatzeko pentsatuta."
 
 #: src/doc/kdenlivedoc.cpp:1611
-#, fuzzy, kde-format
-#| msgid "This clip has an alpha channel. Proxying is not recommended."
-#| msgid_plural ""
-#| "These clips have an alpha channel. Proxying is not recommended."
+#, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] ""
-"Klip honek alfa kanal bat du. Ez da gomendatzen ordezkari gisa erabiltzea."
-msgstr[1] ""
-"Klip hauek alfa kanal bat dute. Ez da gomendatzen ordezkari gisa erabiltzea."
+msgstr[0] "Klipak alfa kanal bat du. "
+msgstr[1] "Klipek alfa kanal bat dute. "
 
 #: src/doc/kdenlivedoc.cpp:1617
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have a clip with an alpha channel. Proxying it is not recommended."
-#| msgid_plural ""
-#| "You have %1 clips with an alpha channel. Proxying these is not "
-#| "recommended."
+#, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] ""
-"Alfa kanal bat duen klip bat duzu. Ez da gomendatzen ordezkari gisa "
-"erabiltzea."
-msgstr[1] ""
-"Alfa kanal bat duten %1 klip dituzu. Ez da gomendatzen ordezkari gisa "
-"erabiltzea."
+msgstr[0] "Alfa kanal bat duen klip bat duzu. "
+msgstr[1] "Alfa kanal bat duten %1 klip dituzu. "
 
 #: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
@@ -10521,7 +10494,7 @@ msgstr "Klip denak ordezkari egin"
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr "Alfarik ez duten klipak bakarrik ordezkari egin"
+msgstr "Alfarik ez duten klip-ordezkariak bakarrik"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -11047,31 +11020,37 @@ msgid ""
 msgstr "Ez da deskribapenik eman. Gorde efektua deskribapenik gabe?"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "Konfiguratu mesedez hizketa testura."
+msgstr "Mesedez, konfiguratu SAM2 plugina."
 
 #: src/effects/effectstack/view/maskmanager.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "Sartu Aurrezarpen Izena"
+msgstr "Sartu maskara-izena"
 
 #: src/effects/effectstack/view/maskmanager.cpp:202
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
-msgid "Enter the name of this mask:"
-msgstr "Sartu aurrezarpen honen izena:"
-
-#: src/effects/effectstack/view/maskmanager.cpp:317
 #, kde-format
+msgid "Enter the name of this mask:"
+msgstr "Sartu makara honen izena:"
+
+#: src/effects/effectstack/view/maskmanager.cpp:210
+#, fuzzy, kde-format
+#| msgid "Generating image mask"
+msgid "Generating mask %1"
+msgstr "Irudi-maskara sortzen"
+
+#: src/effects/effectstack/view/maskmanager.cpp:327
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
+#| "undone."
 msgid ""
-"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-"undone."
+"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
+"Hau <b>%1</b> maskara izango da, fitxategia:<br/>%2<br/>Eragiketa hau ezin "
+"da desegin."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11269,25 +11248,20 @@ msgid "Failed to filter source."
 msgstr "Sorburua iragaztea huts egin du."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "X axis rotation"
+#, kde-format
 msgid "Mask creation"
-msgstr "Errotazioa x ardatzean"
+msgstr "Maskarak sortzea"
 
 #: src/jobs/masktask.cpp:44
-#, kde-format
-msgid "Nos source frames to process"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Nos source frames to process"
+msgid "No source frames to process"
+msgstr "Prozesatu beharreko iturburu-fotograma kopurua"
 
 #: src/jobs/masktask.cpp:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
-"Errorea klipa sortzean:\n"
-"%1"
+msgstr "%1 maskara errendatzea huts egin du"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -12362,7 +12336,7 @@ msgstr "Ez erakutsi koadro txikiak"
 #: src/mainwindow.cpp:690
 #, kde-format
 msgid "Preview Using Proxy Clips"
-msgstr "Aurreikusi ordezkari-klipak erabiliz"
+msgstr "Aurreikusi klip-ordezkariak erabiliz"
 
 #: src/mainwindow.cpp:697
 #, kde-format
@@ -14864,12 +14838,12 @@ msgstr "Erakutsi sareta"
 msgid "Change Overlay"
 msgstr "Aldatu gainjartzea"
 
-#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
+#: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Joan hurrengo gako-fotogramara"
 
-#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Joan aurreko gako-fotogramara"
@@ -14968,29 +14942,34 @@ msgid "Transform"
 msgstr "Eraldatu"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating image mask"
-msgstr "Menuko irudiak sortzea"
+msgstr "Irudi-maskara sortzen"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
-
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
-#, kde-format
-msgid ""
-"Click on an object to start a mask.\n"
-"Shift+click to include another zone.\n"
-"Ctrl+click to excude a zone."
-msgstr ""
+msgstr "Bideo-maskara sortzen"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
 #, fuzzy, kde-format
-#| msgid "Preview volume:"
+#| msgid ""
+#| "Click on an object to start a mask.\n"
+#| "Shift+click to include another zone.\n"
+#| "Ctrl+click to excude a zone."
+msgid ""
+"Click on an object to start a mask.\n"
+"Shift+click to include another zone.\n"
+"Ctrl+click to exclude a zone."
+msgstr ""
+"Egin klik objektu batean maskara bat hasteko.\n"
+"Maius+klik beste eskualde bat barneratzeko.\n"
+"Ktrl+klik eskualde bat kanporatzeko."
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#, kde-format
 msgid "Previewing video mask"
-msgstr "Aurreikuspegiaren bolumena:"
+msgstr "Bideo-maskara aurreikusten"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -15050,39 +15029,34 @@ msgstr ""
 "eskuineko klik edo «sartu» sakatu forma ixteko."
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "Sortu"
+msgstr "Sortu maskara"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "Aldatu opakutasuna (% 0 - % 25 - % 50 - % 100)"
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Padding Color"
+#, kde-format
 msgid "Change Color"
-msgstr "Betegarriaren kolorea"
+msgstr "Aldatu kolorea"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "Alderantzikatu"
+msgstr "Alderantzikatu maskara"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "Aldatu iraupena"
+msgstr "Irten maskara sorreratik"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "Gehitu aurrebista eskualdea"
+msgstr "Irten aurreikuspegi modutik"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16384,9 +16358,9 @@ msgid ""
 "Proxy folder contains the proxy clips for all your projects. This proxies "
 "can be recreated from the source clips."
 msgstr ""
-"Ezabatu ordezkarien karpetako proiektu guztien datuak:\n"
+"Ezabatu karpeta-ordezkariko proiektuaren datu guztiak:\n"
 "%1\n"
-"Ordezkarien karpetak zure proiektu guztietako klip-ordezkariak ditu. "
+"Karpeta-ordezkariak zure proiektu guztietako klip-ordezkariak ditu. "
 "Ordezkari horiek sorburu klipetatik birsor daitezke."
 
 #: src/project/dialogs/temporarydata.cpp:489
@@ -16455,7 +16429,7 @@ msgid ""
 "%1\n"
 "Contains proxy clips for all your projects."
 msgstr ""
-"Ezabatu ordezkarien karpeta\n"
+"Ezabatu karpeta-ordezkaria\n"
 "%1\n"
 "Zure proiektu guztietako klip-ordezkariak ditu."
 
@@ -16866,18 +16840,14 @@ msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python modulua beharrezkoa da."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:475
-#, fuzzy, kde-format
-#| msgid ""
-#| "This requires an internet connection and will take several minutes to "
-#| "download all necessary dependencies. After that all processing will "
-#| "happen offline."
+#, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
-"Horretarako Interneterako konexio bat behar da, eta beharrezko mendekotasun "
-"guztiak zama-jaisteko minutu batzuk beharko dituzu. Horren ondoren "
+"Horretarako Interneterako konexio bat behar da, eta minutu batzuk\n"
+"beharko ditu beharrezko mendekotasun guztiak zama-jaisteko. Horren ondoren "
 "prozesamendu osoa lerroz kanpo gertatuko da."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:495
@@ -17110,7 +17080,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "Objektu-segmentazioa (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -21575,10 +21545,9 @@ msgstr "Itzuli testua ingelesera"
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:368 src/ui/configspeech_ui.ui:722
-#, fuzzy, kde-format
-#| msgid "Uninstall model"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Desinstalatu eredua"
+msgstr "Desinstalatu plugina"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:415
@@ -21612,11 +21581,9 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:518
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Object Detection"
-msgstr "Esznenen Antzematea"
+msgstr "Objektua antzematea"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:545 src/ui/speechdialog_ui.ui:94
@@ -21631,13 +21598,14 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"Objektu-antzematea «SAM2»an oinarritzen da - <a href=\"https://github.com/"
+"facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:613
-#, fuzzy, kde-format
-#| msgid "Delete all guides"
+#, kde-format
 msgid "Delete all models"
-msgstr "Ezabatu gidalerro guztiak"
+msgstr "Ezabatu eredu guztiak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22934,45 +22902,39 @@ msgstr "Inprimakia"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create New"
+#, kde-format
 msgid "Create New Mask"
-msgstr "Sortu berria"
+msgstr "Sortu maskara berria"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "Ezabatu markatzailea"
+msgstr "Ezabatu maskara"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "Inportatutako proiektua"
+msgstr "Inportatu maskara proiektuan"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "Kliparen maskara"
+msgstr "Maskara"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "Aurrebista"
+msgstr "Aurreikusi maskara"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "Ezarri"
+msgstr "Aplikatu maskara"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18

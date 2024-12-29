@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 00:41+0000\n"
+"POT-Creation-Date: 2024-12-29 00:41+0000\n"
 "PO-Revision-Date: 2024-12-07 12:28+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -5400,7 +5400,7 @@ msgid "Replace in timeline"
 msgstr "Zastąp na osi czasu"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:346
+#: src/effects/effectstack/view/maskmanager.cpp:356
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -11045,11 +11045,16 @@ msgstr "Wpisz nazwę nastawy"
 msgid "Enter the name of this mask:"
 msgstr "Wpisz nazwę dla tej nastawy:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:317
+#: src/effects/effectstack/view/maskmanager.cpp:210
+#, fuzzy, kde-format
+#| msgid "Creating menu images"
+msgid "Generating mask %1"
+msgstr "Tworzenie obrazów menu"
+
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
-"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-"undone."
+"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
 
 #: src/filefilter.cpp:122
@@ -11255,7 +11260,7 @@ msgstr "Obrót wokół osi X"
 #: src/jobs/masktask.cpp:44
 #, fuzzy, kde-format
 #| msgid "No keyframes to import"
-msgid "Nos source frames to process"
+msgid "No source frames to process"
 msgstr "Brak klatek kluczowych do zaimportowania"
 
 #: src/jobs/masktask.cpp:93
@@ -14846,12 +14851,12 @@ msgstr "Pokaż siatkę"
 msgid "Change Overlay"
 msgstr "Zmień nakładkę"
 
-#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
+#: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Przejdź do następnej klatki kluczowej"
 
-#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Przejdź do poprzedniej klatki kluczowej"
@@ -14966,7 +14971,7 @@ msgstr ""
 msgid ""
 "Click on an object to start a mask.\n"
 "Shift+click to include another zone.\n"
-"Ctrl+click to excude a zone."
+"Ctrl+click to exclude a zone."
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263

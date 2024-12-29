@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 00:41+0000\n"
+"POT-Creation-Date: 2024-12-29 00:41+0000\n"
 "PO-Revision-Date: 2024-09-18 09:45+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -5113,7 +5113,7 @@ msgid "Replace in timeline"
 msgstr ""
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:346
+#: src/effects/effectstack/view/maskmanager.cpp:356
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -10581,11 +10581,16 @@ msgstr "Zadejte název šablony"
 msgid "Enter the name of this mask:"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:317
+#: src/effects/effectstack/view/maskmanager.cpp:210
+#, fuzzy, kde-format
+#| msgid "Generate"
+msgid "Generating mask %1"
+msgstr "Vygenerovat"
+
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
-"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-"undone."
+"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
 
 #: src/filefilter.cpp:122
@@ -10790,7 +10795,7 @@ msgstr "Změna:"
 
 #: src/jobs/masktask.cpp:44
 #, kde-format
-msgid "Nos source frames to process"
+msgid "No source frames to process"
 msgstr ""
 
 #: src/jobs/masktask.cpp:93
@@ -14278,12 +14283,12 @@ msgstr "Zobrazit mřížku"
 msgid "Change Overlay"
 msgstr "Změnit překrytí"
 
-#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
+#: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Jít na následující klíčový snímek"
 
-#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Jít na předchozí klíčový snímek"
@@ -14389,7 +14394,7 @@ msgstr ""
 msgid ""
 "Click on an object to start a mask.\n"
 "Shift+click to include another zone.\n"
-"Ctrl+click to excude a zone."
+"Ctrl+click to exclude a zone."
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263

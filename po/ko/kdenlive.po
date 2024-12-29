@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 00:41+0000\n"
+"POT-Creation-Date: 2024-12-29 00:41+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5259,7 +5259,7 @@ msgid "Replace in timeline"
 msgstr "기본 타임라인"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:346
+#: src/effects/effectstack/view/maskmanager.cpp:356
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -11024,11 +11024,16 @@ msgstr "사전 설정 이름 입력"
 msgid "Enter the name of this mask:"
 msgstr "이 사전 설정의 이름을 입력하십시오"
 
-#: src/effects/effectstack/view/maskmanager.cpp:317
+#: src/effects/effectstack/view/maskmanager.cpp:210
+#, fuzzy, kde-format
+#| msgid "Creating menu images"
+msgid "Generating mask %1"
+msgstr "메뉴 이미지 만드는 중"
+
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
-"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-"undone."
+"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
 
 #: src/filefilter.cpp:122
@@ -11246,9 +11251,10 @@ msgid "Mask creation"
 msgstr "X축 회전"
 
 #: src/jobs/masktask.cpp:44
-#, kde-format
-msgid "Nos source frames to process"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Force frame rate"
+msgid "No source frames to process"
+msgstr "프레임 레이트 강제"
 
 #: src/jobs/masktask.cpp:93
 #, fuzzy, kde-format
@@ -14922,12 +14928,12 @@ msgstr "필드 표시"
 msgid "Change Overlay"
 msgstr "오버레이 변경"
 
-#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
+#: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "다음 키프레임으로 이동"
 
-#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "이전 키프레임으로 이동"
@@ -15043,7 +15049,7 @@ msgstr ""
 msgid ""
 "Click on an object to start a mask.\n"
 "Shift+click to include another zone.\n"
-"Ctrl+click to excude a zone."
+"Ctrl+click to exclude a zone."
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
@@ -25713,9 +25719,6 @@ msgstr "%1시간"
 
 #~ msgid "Audio index"
 #~ msgstr "오디오 인덱스"
-
-#~ msgid "Force frame rate"
-#~ msgstr "프레임 레이트 강제"
 
 #~ msgid "Force duration"
 #~ msgstr "지속 시간 강제"

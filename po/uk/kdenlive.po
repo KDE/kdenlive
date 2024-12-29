@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 00:41+0000\n"
-"PO-Revision-Date: 2024-12-27 21:45+0200\n"
+"POT-Creation-Date: 2024-12-29 00:41+0000\n"
+"PO-Revision-Date: 2024-12-28 09:01+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2317,12 +2317,12 @@ msgstr "Зміщення"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "Початкова позиція файла маски."
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "Кінцева позиція файла маски."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -4097,10 +4097,9 @@ msgstr ""
 "ефекту призведе до вилучення його з усіх кліпів у групі."
 
 #: src/assets/assetpanel.cpp:102
-#, fuzzy, kde-format
-#| msgid "Create new points."
+#, kde-format
 msgid "Create an object mask"
-msgstr "Створити нові точки."
+msgstr "Створити маску об'єкта"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -4109,6 +4108,8 @@ msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
 msgstr ""
+"Буде показано панель створення маски. Масками можна скористатися, наприклад, "
+"для вилучення тла відео."
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4207,7 +4208,7 @@ msgstr "Ефекти контейнера %1"
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
-msgstr ""
+msgstr "Вам слід визначити точки включення у першому відеокадрі послідовності."
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4897,14 +4898,9 @@ msgid "None (Dissolve)"
 msgstr "Немає (розчиняти)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"Не вдалося створити вміст монтажного стола з цього кліпу:\n"
-"%1"
+msgstr "Створення або редагування маски для цього кліпу"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -5431,7 +5427,7 @@ msgid "Replace in timeline"
 msgstr "Замінити на монтажному столі"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:346
+#: src/effects/effectstack/view/maskmanager.cpp:356
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8150,10 +8146,9 @@ msgid "Colors and Guides"
 msgstr "Кольори і напрямні"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "Додатки TAP"
+msgstr "Додатки"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8456,47 +8451,41 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:303 src/ui/configspeech_ui.ui:354
 #: src/ui/configspeech_ui.ui:742
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugin size"
-msgstr "Додатки TAP"
+msgstr "Розмір додатка"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:356 src/ui/configspeech_ui.ui:697
-#, fuzzy, kde-format
-#| msgid "Install model"
+#, kde-format
 msgid "Install"
-msgstr "Встановити модель"
+msgstr "Встановити"
 
 #: src/dialogs/settings/pluginssettings.cpp:362
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#, kde-format
 msgid "Check config"
 msgstr "Перевірити налаштування"
 
 #: src/dialogs/settings/pluginssettings.cpp:380
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "У результаті буде вилучено стиль <b>%1</b> і усі його властивості."
+msgstr ""
+"У результаті буде вилучено встановлені моделі.\n"
+"Ви зможете знову встановити їх пізніше."
 
 #: src/dialogs/settings/pluginssettings.cpp:397
 #: src/dialogs/settings/pluginssettings.cpp:411
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"У результаті буде вилучено віртуальне середовище python звідси:<br/><b>%1</"
+"У результаті буде вилучено середовище python додатка звідси:<br/><b>%1</"
 "b><br/>Середовище буде повторно створено, а модулі повторно отримано кожного "
-"разу, коли ви повторно вмикатимете віртуальне середовище python."
+"разу, коли ви повторно вмикатимете додаток."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:426 src/ui/configspeech_ui.ui:327
@@ -8505,40 +8494,35 @@ msgid "Install multilingual translation"
 msgstr "Встановити багатомовний переклад"
 
 #: src/dialogs/settings/pluginssettings.cpp:435
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Встановіть модель мовлення — ми рекомендуємо <b>turbo</b>"
 
 #: src/dialogs/settings/pluginssettings.cpp:490
-#, fuzzy, kde-format
-#| msgid "Select new models to download"
+#, kde-format
 msgid "Select model to download"
-msgstr "Виберіть нові моделі для отримання"
+msgstr "Виберіть модель для отримання"
 
 #: src/dialogs/settings/pluginssettings.cpp:506
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "Усі моделі вже встановлено"
 
 #: src/dialogs/settings/pluginssettings.cpp:526
-#, fuzzy, kde-format
-#| msgid "Downloading"
+#, kde-format
 msgid "Downloading…"
-msgstr "Отримання"
+msgstr "Отримання…"
 
 #: src/dialogs/settings/pluginssettings.cpp:536
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "Отримуємо модель…"
+msgstr "Отримуємо найменшу модель…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:555 src/ui/configspeech_ui.ui:562
-#, fuzzy, kde-format
-#| msgid "Download Model"
+#, kde-format
 msgid "Download models"
-msgstr "Отримати модель"
+msgstr "Отримати моделі"
 
 #: src/dialogs/settings/pluginssettings.cpp:614
 #: src/dialogs/settings/pluginssettings.cpp:628
@@ -11098,31 +11082,37 @@ msgstr ""
 "Зберегти ефект без опису?"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "Будь ласка, налаштуйте озвучення тексту."
+msgstr "Будь ласка, налаштуйте додаток SAM2"
 
 #: src/effects/effectstack/view/maskmanager.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "Введіть назву шаблона"
+msgstr "Введіть назву маски"
 
 #: src/effects/effectstack/view/maskmanager.cpp:202
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
-msgid "Enter the name of this mask:"
-msgstr "Введіть назву нового шаблона:"
-
-#: src/effects/effectstack/view/maskmanager.cpp:317
 #, kde-format
+msgid "Enter the name of this mask:"
+msgstr "Введіть назву цієї маски:"
+
+#: src/effects/effectstack/view/maskmanager.cpp:210
+#, fuzzy, kde-format
+#| msgid "Generating image mask"
+msgid "Generating mask %1"
+msgstr "Створюємо маску зображення"
+
+#: src/effects/effectstack/view/maskmanager.cpp:327
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
+#| "undone."
 msgid ""
-"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-"undone."
+"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
+"У результаті буде замасковано файл <b>%1</b>:<br/>%2<br/>Цю дію неможливо "
+"скасувати."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11322,25 +11312,20 @@ msgid "Failed to filter source."
 msgstr "Не вдалося виконати фільтрування джерела."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "X axis rotation"
+#, kde-format
 msgid "Mask creation"
-msgstr "Обертання навколо вісі X"
+msgstr "Створення маски"
 
 #: src/jobs/masktask.cpp:44
-#, kde-format
-msgid "Nos source frames to process"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Nos source frames to process"
+msgid "No source frames to process"
+msgstr "Немає початкових кадрів для обробки"
 
 #: src/jobs/masktask.cpp:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
-"Не вдалося створити кліп:\n"
-"%1"
+msgstr "Не вдалося обробити маску %1"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14949,12 +14934,12 @@ msgstr "Показати ґратку"
 msgid "Change Overlay"
 msgstr "Змінити накладання"
 
-#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
+#: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "Перейти до наступного ключового кадру"
 
-#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "Перейти до попереднього ключового кадру"
@@ -15053,29 +15038,34 @@ msgid "Transform"
 msgstr "Перетворити"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating image mask"
-msgstr "Створення зображень меню"
+msgstr "Створюємо маску зображення"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
-
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
-#, kde-format
-msgid ""
-"Click on an object to start a mask.\n"
-"Shift+click to include another zone.\n"
-"Ctrl+click to excude a zone."
-msgstr ""
+msgstr "Створення відеомаски"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
 #, fuzzy, kde-format
-#| msgid "Preview volume:"
+#| msgid ""
+#| "Click on an object to start a mask.\n"
+#| "Shift+click to include another zone.\n"
+#| "Ctrl+click to excude a zone."
+msgid ""
+"Click on an object to start a mask.\n"
+"Shift+click to include another zone.\n"
+"Ctrl+click to exclude a zone."
+msgstr ""
+"Клацніть на об'єкті, щоб започаткувати маску.\n"
+"Shift+клацніть, щоб включити іншу ділянку.\n"
+"Ctrl+клацніть, щоб виключити ділянку."
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#, kde-format
 msgid "Previewing video mask"
-msgstr "Об’єм перегляду:"
+msgstr "Попередній перегляд відеомаски"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -15135,39 +15125,34 @@ msgstr ""
 "клацніть правою або натисніть Enter, щоб замкнути форму."
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "Створити"
+msgstr "Створити маску"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "Змінити непрозорість (0% - 25% - 50% - 100%)"
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Padding Color"
+#, kde-format
 msgid "Change Color"
-msgstr "Колір фаски"
+msgstr "Змінити колір"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "Інвертувати"
+msgstr "Інвертувати маску"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "Змінити тривалість"
+msgstr "Вийти зі створення маски"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "Додати зону перегляду"
+msgstr "Вийти з режиму перегляду"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16980,11 +16965,7 @@ msgid "The <application>%1</application> python module is required."
 msgstr "Потрібен модуль Python <application>%1</application>."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:475
-#, fuzzy, kde-format
-#| msgid ""
-#| "This requires an internet connection and will take several minutes to "
-#| "download all necessary dependencies. After that all processing will "
-#| "happen offline."
+#, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
@@ -17223,7 +17204,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "Сегментація об'єктів (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -21717,10 +21698,9 @@ msgstr "Перекласти текст англійською"
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:368 src/ui/configspeech_ui.ui:722
-#, fuzzy, kde-format
-#| msgid "Uninstall model"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Вилучити модель"
+msgstr "Вилучити додаток"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:415
@@ -21754,11 +21734,9 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:518
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Object Detection"
-msgstr "Виявлення сцен"
+msgstr "Виявлення об'єктів"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:545 src/ui/speechdialog_ui.ui:94
@@ -21773,13 +21751,14 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"Виявлення об'єктів засновано на SAM2 – <a href=\"https://github.com/"
+"facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:613
-#, fuzzy, kde-format
-#| msgid "Delete all guides"
+#, kde-format
 msgid "Delete all models"
-msgstr "Вилучити всі напрямні"
+msgstr "Вилучити всі моделі"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -23076,45 +23055,39 @@ msgstr "Форма"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create New"
+#, kde-format
 msgid "Create New Mask"
-msgstr "Створити"
+msgstr "Створити маску"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "Вилучити позначку"
+msgstr "Вилучити маску"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "Імпортований проєкт"
+msgstr "Імпортувати маску до проєкту"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "Маскування кліпу"
+msgstr "Маска"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "Перегляд"
+msgstr "Перегляд маски"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "Застосувати"
+msgstr "Застосувати маску"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18

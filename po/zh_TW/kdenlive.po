@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 00:41+0000\n"
-"PO-Revision-Date: 2024-12-02 17:18+0900\n"
+"POT-Creation-Date: 2024-12-29 00:41+0000\n"
+"PO-Revision-Date: 2024-12-29 01:13+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /usr/share/locale/zh_TW/LC_MESSAGES\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1057,16 +1057,14 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: data/effects/gpsgraphic.xml:4
-#, fuzzy, kde-format
-#| msgid "GraphView"
+#, kde-format
 msgid "GPS Graphic"
-msgstr "圖形預覽"
+msgstr "GPS 圖形"
 
 #: data/effects/gpsgraphic.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr "將 GPS 相關文字覆蓋在影片上。"
+msgstr "將 GPS 相關圖形覆蓋在影片上。"
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1078,7 +1076,7 @@ msgstr "GPS 檔案"
 msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
-msgstr ""
+msgstr "包含位置 (GPS) 資料的檔案的完整路徑。支援的副檔名：.gpx、.tcx。"
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1112,10 +1110,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:22
-#, fuzzy, kde-format
-#| msgid "Add multiple markers"
+#, kde-format
 msgid "Speed multiplier"
-msgstr "新增多個標記"
+msgstr "速度倍數"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1129,17 +1126,17 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "GPS 位置/軌跡,高度,心率,速度"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "圖表資料來源"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "要用 GPS 檔案中的什麼資料來進行繪製"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1170,7 +1167,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "裁剪開始 (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1185,7 +1182,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "裁剪結束 (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1203,10 +1200,9 @@ msgid "Percentage from min..max,Absolute value"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:55
-#, fuzzy, kde-format
-#| msgid "Center horizontally"
+#, kde-format
 msgid "Crop mode horizontal"
-msgstr "水平置中"
+msgstr "裁剪模式水平"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1252,10 +1248,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:71
-#, fuzzy, kde-format
-#| msgid "Center vertically"
+#, kde-format
 msgid "Crop mode vertical"
-msgstr "垂直置中"
+msgstr "裁剪模式垂直"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1275,10 +1270,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:81
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Crop bottom"
-msgstr "上到下"
+msgstr "裁剪下"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1295,10 +1289,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:86
-#, fuzzy, kde-format
-#| msgid "Crop left"
+#, kde-format
 msgid "Crop top"
-msgstr "裁剪左"
+msgstr "裁剪上"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1512,9 +1505,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
+#, kde-format
 msgid "Background image"
-msgstr "背景不透通度"
+msgstr "背景影像"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1526,10 +1519,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "背景"
+msgstr "背景縮放"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1551,32 +1543,29 @@ msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:173
-#, fuzzy, kde-format
-#| msgid "GPS processing start time"
+#, kde-format
 msgid "GPS start time"
-msgstr "GPS 處理起始時間"
+msgstr "GPS 起始時間"
 
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "第一個有效的 GPS 點的日期與時間。"
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "視訊串流"
+msgstr "影片開始時間"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "附加一個計時器在影片上方"
+msgstr "影片檔案的日期與時間。"
 
 #: data/effects/gpsgraphic.xml:181
 #, kde-format
 msgid "Auto offset start"
-msgstr ""
+msgstr "自動偏移開頭"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1585,11 +1574,13 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"提供偏移讓影片開頭與 GPS 檔案開頭能夠同步。在影片檔案與 GPS 錄製同時開始的情"
+"況下能正確設定偏移。"
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "自動偏移現在"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1598,17 +1589,18 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if your video record "
 "the moment GPS starts."
 msgstr ""
+"提供偏移讓第一個 GPS 紀錄點與目前的影片時間同步（每秒更新）。在影片有記錄到 "
+"GPS 開始瞬間的情況下能正確設定偏移。"
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map white to"
+#, kde-format
 msgid "Map hint"
-msgstr "對應白色的色彩"
+msgstr "地圖提示"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
-msgstr ""
+msgstr "回傳 GPS 檔案的中間經緯度座標。"
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -2678,7 +2670,7 @@ msgstr ""
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
-msgstr ""
+msgstr "是否要反轉開啟和關閉的影格"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
@@ -5161,7 +5153,7 @@ msgid "Replace in timeline"
 msgstr "在時間軸中取代"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:346
+#: src/effects/effectstack/view/maskmanager.cpp:356
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -6119,16 +6111,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "將新風格指派給字幕。"
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "波斯語"
+msgstr "版本"
 
 #: src/bin/playlistclip.cpp:169
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "序列 1"
+msgstr "序列數量"
 
 #: src/bin/projectclip.cpp:245
 #, kde-format
@@ -7918,11 +7908,7 @@ msgid "JogShuttle"
 msgstr "滑鼠控制"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
@@ -7930,7 +7916,8 @@ msgid ""
 "a>."
 msgstr ""
 "關於裝置設定請見<a href=\"https://docs.kdenlive.org/user_interface/menu/"
-"settings_menu/configure_kdenlive.html#windows\">說明文件</a>。"
+"settings_menu/configure_kdenlive.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">說明文件</a>。"
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
@@ -8047,7 +8034,7 @@ msgstr "漸進式"
 #: src/dialogs/settings/pluginssettings.cpp:61
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
-msgstr ""
+msgstr "CPU 處理會非常慢，建議使用 GPU 讓處理加速"
 
 #: src/dialogs/settings/pluginssettings.cpp:62
 #, kde-format
@@ -8056,17 +8043,18 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"文字翻譯使用 SeamlessM4T 模型。這需要下載大約 10Gb 的資料。安裝後所有處理都會"
+"在線下進行。"
 
 #: src/dialogs/settings/pluginssettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "下載錯誤 %1"
+msgstr "下載 (1.4Gb)"
 
 #: src/dialogs/settings/pluginssettings.cpp:94
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "正在安裝多語言資料…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -8086,10 +8074,9 @@ msgid "Probing..."
 msgstr "探測中…"
 
 #: src/dialogs/settings/pluginssettings.cpp:182
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "模型下載中…"
+msgstr "正在下載多語言模型…"
 
 #: src/dialogs/settings/pluginssettings.cpp:239
 #: src/dialogs/settings/pluginssettings.cpp:830
@@ -8118,9 +8105,9 @@ msgstr "TAP 插件"
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:356 src/ui/configspeech_ui.ui:697
 #, fuzzy, kde-format
-#| msgid "Installed modules"
+#| msgid "Install model"
 msgid "Install"
-msgstr "已裝載的模組"
+msgstr "安裝模型"
 
 #: src/dialogs/settings/pluginssettings.cpp:362
 #, fuzzy, kde-format
@@ -8153,21 +8140,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:426 src/ui/configspeech_ui.ui:327
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "翻譯模型初始化中"
+msgstr "安裝多語言翻譯"
 
 #: src/dialogs/settings/pluginssettings.cpp:435
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Install a speech model - we recommand <b>turbo</b>"
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr ""
+msgstr "安裝一個語音模型 —— 我們建議使用 <b>turbo</b>"
 
 #: src/dialogs/settings/pluginssettings.cpp:490
 #, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#| msgid "Select new models to download"
 msgid "Select model to download"
-msgstr "選取要播放的區段"
+msgstr "選取要下載的新模型"
 
 #: src/dialogs/settings/pluginssettings.cpp:506
 #, kde-format
@@ -8176,9 +8163,9 @@ msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:526
 #, fuzzy, kde-format
-#| msgid "Downloading model…"
+#| msgid "Downloading"
 msgid "Downloading…"
-msgstr "模型下載中…"
+msgstr "下載中"
 
 #: src/dialogs/settings/pluginssettings.cpp:536
 #, fuzzy, kde-format
@@ -8189,25 +8176,23 @@ msgstr "模型下載中…"
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:555 src/ui/configspeech_ui.ui:562
 #, fuzzy, kde-format
-#| msgid "Downloading model…"
+#| msgid "Download Model"
 msgid "Download models"
-msgstr "模型下載中…"
+msgstr "下載模型"
 
 #: src/dialogs/settings/pluginssettings.cpp:614
 #: src/dialogs/settings/pluginssettings.cpp:628
 #: src/dialogs/settings/pluginssettings.cpp:637
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install a model"
-msgstr "已裝載的模組"
+msgstr "安裝模型"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/settings/pluginssettings.cpp:630
 #: src/dialogs/settings/pluginssettings.cpp:639 src/ui/configspeech_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "邊緣型態"
+msgstr "管理模型"
 
 #: src/dialogs/settings/pluginssettings.cpp:713
 #, kde-format
@@ -8334,10 +8319,9 @@ msgid "Speech recognition aborted."
 msgstr "語音辨識已中止。"
 
 #: src/dialogs/speechdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "語音辨識失敗"
+msgstr "語音辨識失敗。"
 
 #: src/dialogs/speechdialog.cpp:433
 #, kde-format
@@ -9646,7 +9630,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
-msgstr "找不到您的 MLT。請裝載 MLT 並重新啟動 Kdenlive。\n"
+msgstr "找不到您的 MLT。請安裝 MLT 並重新啟動 Kdenlive。\n"
 
 #: src/dialogs/wizard.cpp:656
 #, kde-format
@@ -9809,11 +9793,9 @@ msgid "Transition"
 msgstr "轉場特效"
 
 #: src/doc/documentchecker.cpp:1865
-#, fuzzy, kde-format
-#| msgid "One removed clip"
-#| msgid_plural "%1 removed clips"
+#, kde-format
 msgid "Unreferenced clip"
-msgstr "%1 個已移除的素材"
+msgstr "未參照的素材"
 
 #: src/doc/documentchecker.cpp:1867
 #, kde-format
@@ -10112,28 +10094,33 @@ msgstr ""
 
 #: src/doc/kdenlivedoc.cpp:1611
 #, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#| msgid "This clip has an alpha channel. Proxying is not recommended."
+#| msgid_plural ""
+#| "These clips have an alpha channel. Proxying is not recommended."
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] "繪制簡單的形狀到透通色版裡"
+msgstr[0] "這些素材有透明度頻道。不建議建立代理素材。"
 
 #: src/doc/kdenlivedoc.cpp:1617
 #, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#| msgid ""
+#| "You have a clip with an alpha channel. Proxying it is not recommended."
+#| msgid_plural ""
+#| "You have %1 clips with an alpha channel. Proxying these is not "
+#| "recommended."
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] "繪制簡單的形狀到透通色版裡"
+msgstr[0] "您有 %1 個有透明度頻道的素材。不建議為這些素材建立代理素材。"
 
 #: src/doc/kdenlivedoc.cpp:1619
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "代理素材"
+msgstr "為所有素材建立代理素材"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "為沒有透明度的素材建立代理素材"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -10371,10 +10358,9 @@ msgid "Add effect %1"
 msgstr "添加效果 %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:674
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "效果 %1 無法加入兩次。"
+msgstr "效果 %1 只能加入 master 軌道"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1229
 #, kde-format
@@ -10663,11 +10649,15 @@ msgstr "輸入預設檔名稱"
 msgid "Enter the name of this mask:"
 msgstr "輸入此預設檔的名稱："
 
-#: src/effects/effectstack/view/maskmanager.cpp:317
+#: src/effects/effectstack/view/maskmanager.cpp:210
+#, kde-format
+msgid "Generating mask %1"
+msgstr ""
+
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
-"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-"undone."
+"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
 
 #: src/filefilter.cpp:122
@@ -10871,9 +10861,10 @@ msgid "Mask creation"
 msgstr "沿 X 軸旋轉"
 
 #: src/jobs/masktask.cpp:44
-#, kde-format
-msgid "Nos source frames to process"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Force frame rate"
+msgid "No source frames to process"
+msgstr "強制幀率"
 
 #: src/jobs/masktask.cpp:93
 #, fuzzy, kde-format
@@ -14378,12 +14369,12 @@ msgstr "顯示格線"
 msgid "Change Overlay"
 msgstr "變更覆蓋顯示"
 
-#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
+#: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
 msgstr "跳到下一個關鍵幀"
 
-#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
 msgstr "跳到上一個關鍵幀"
@@ -14496,7 +14487,7 @@ msgstr ""
 msgid ""
 "Click on an object to start a mask.\n"
 "Shift+click to include another zone.\n"
-"Ctrl+click to excude a zone."
+"Ctrl+click to exclude a zone."
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
@@ -15166,7 +15157,7 @@ msgstr "已就緒"
 #: src/project/dialogs/archivewidget.cpp:397
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
-msgstr "封存進行中。您要中止它嗎？"
+msgstr "封存進行中，您要中止它嗎？"
 
 #: src/project/dialogs/archivewidget.cpp:397
 #: src/project/dialogs/archivewidget.cpp:398
@@ -16325,12 +16316,18 @@ msgid "The <application>%1</application> python module is required."
 msgstr "需要有 <application>%1</application> Python 模組。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:475
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "This requires an internet connection and will take several minutes to "
+#| "download all necessary dependencies. After that all processing will "
+#| "happen offline."
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
+"這需要網際網路連線，並且需要花費幾分鐘來下載所有必要的依賴關係。下載完成後，"
+"所有處理都會在線下進行。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:495
 #: src/pythoninterfaces/abstractpythoninterface.cpp:608
@@ -16388,83 +16385,75 @@ msgstr ""
 "%2"
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "項目檔案夾"
+msgstr ""
+"下載模型時發生錯誤：\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "選取要播放的區段"
+msgstr "選取要下載的新模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "已裝載的模組"
+msgstr "正在安裝模型 %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "正在檢查可用模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "模型下載中…"
+msgstr "下載中"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "模型下載中…"
+msgstr "下載模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "造訪下載頁面"
+msgstr "中止下載"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "已裝載的模組"
+msgstr "解除安裝模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "已裝載的模組"
+msgstr "安裝模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "總計大小："
+msgstr "總計下載大小：%1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Device configuration"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "裝置配置"
+msgstr "正在檢查模型完整性…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "封存進行中。您要中止它嗎？"
+msgstr "下載進行中，您要中止它嗎？"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "造訪下載頁面"
+msgstr "中止下載"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16801,10 +16790,9 @@ msgid "Yiddish"
 msgstr "意第緒語"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:246
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "安裝 Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -18034,20 +18022,18 @@ msgid "Error initializing timeline preview"
 msgstr "初始化時間軸預覽時發生錯誤"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "正在為 %1 提取音訊。"
+msgstr "正在編輯 %1 個素材的音訊。"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "波紋模式編輯"
+msgstr "正在以波紋模式進行調整大小。"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -19719,7 +19705,7 @@ msgstr "為所有點顯示曲線把手，還是只為目前所選的顯示。"
 #: src/ui/clipdurationdialog_ui.ui:34
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "將時長套用到所有項目"
 
 #. i18n: ectx: property (text), widget (QLabel, crop_label)
 #: src/ui/clipdurationdialog_ui.ui:41
@@ -19735,10 +19721,9 @@ msgstr "裁剪終點："
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "波紋調整素材大小"
+msgstr "波紋調整大小"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20613,19 +20598,15 @@ msgstr "取得由魔術燈所建立的素材描述資料"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "忽略子資料夾結構"
+msgstr "匯入時忽略子資料夾結構"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr "匯入時忽略子資料夾結構（將所有檔案匯入至最上層資料夾中）"
+msgstr "這會將所有檔案匯入至一個最上層的資料夾當中"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -20958,14 +20939,13 @@ msgstr "將文本翻譯成英文"
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:368 src/ui/configspeech_ui.ui:722
 #, fuzzy, kde-format
-#| msgid "Installed modules"
+#| msgid "Uninstall model"
 msgid "Uninstall plugin"
-msgstr "已裝載的模組"
+msgstr "解除安裝模型"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:415
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Whisper"
 msgstr "Whisper"
 
@@ -20973,7 +20953,7 @@ msgstr "Whisper"
 #: src/ui/configspeech_ui.ui:446
 #, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Seamless"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configspeech_ui.ui:481
@@ -20985,14 +20965,13 @@ msgstr "語音引擎"
 #: src/ui/configspeech_ui.ui:488
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:495
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:518
@@ -21566,13 +21545,13 @@ msgstr "S"
 #: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
-msgstr ""
+msgstr "左側邊界"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
-msgstr ""
+msgstr "右側邊界"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:487
@@ -21582,10 +21561,9 @@ msgstr "上限"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
-#, fuzzy, kde-format
-#| msgid "Vertical center"
+#, kde-format
 msgid "Vertical margin"
-msgstr "垂直中心"
+msgstr "垂直邊界"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
@@ -21638,28 +21616,25 @@ msgstr "次要"
 msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
-msgstr ""
+msgstr "次要色可能會在字幕有衝突的時候使用，來幫助分辨兩個字幕"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
+#, kde-format
 msgid "Character spacing"
-msgstr "文字間距："
+msgstr "字元間距"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "ScaleX"
+#, kde-format
 msgid "Scale X"
 msgstr "縮放 X"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Target color"
+#, kde-format
 msgid "Text color"
-msgstr "目標色彩"
+msgstr "文字色彩"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -21712,8 +21687,7 @@ msgstr "對齊"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "ScaleY"
+#, kde-format
 msgid "Scale Y"
 msgstr "縮放 Y"
 
@@ -23488,10 +23462,9 @@ msgstr "漸變(&G)："
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #: src/ui/titlewidget_ui.ui:1020
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Sol&id color:"
-msgstr "純色(&L)："
+msgstr "純色(&I)："
 
 #. i18n: ectx: property (title), widget (QGroupBox, typewriterBox)
 #: src/ui/titlewidget_ui.ui:1050
@@ -23513,10 +23486,9 @@ msgstr "擴展模式"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
 #: src/ui/titlewidget_ui.ui:1081
-#, fuzzy, kde-format
-#| msgid "By &char"
+#, kde-format
 msgid "B&y char"
-msgstr "依字元(&C)"
+msgstr "依字元(&Y)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_word)
 #: src/ui/titlewidget_ui.ui:1091
@@ -24556,9 +24528,6 @@ msgstr "%1 小時"
 #~ msgid "Audio index"
 #~ msgstr "音訊索引"
 
-#~ msgid "Force frame rate"
-#~ msgstr "強制幀率"
-
 #~ msgid "Force duration"
 #~ msgstr "強制持續時間"
 
@@ -24900,6 +24869,11 @@ msgstr "%1 小時"
 #, fuzzy
 #~ msgid "Please report bugs to https://bugs.kde.org"
 #~ msgstr "請將程式的 Bug 回饋到 http://kdenlive.org/mantis"
+
+#, fuzzy
+#~| msgid "Draws simple shapes into the alpha channel"
+#~ msgid "copied to the alpha channel."
+#~ msgstr "繪制簡單的形狀到透通色版裡"
 
 #, fuzzy
 #~ msgid "Cannot align mix"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 00:41+0000\n"
+"POT-Creation-Date: 2024-12-29 00:41+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -5331,7 +5331,7 @@ msgid "Replace in timeline"
 msgstr "Učitaj projektne isječke"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:346
+#: src/effects/effectstack/view/maskmanager.cpp:356
 #, fuzzy, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -11055,11 +11055,16 @@ msgstr "Centriraj frekvenciju"
 msgid "Enter the name of this mask:"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:317
+#: src/effects/effectstack/view/maskmanager.cpp:210
+#, fuzzy, kde-format
+#| msgid "Creating menu images"
+msgid "Generating mask %1"
+msgstr "Kreiraj slike izbornika"
+
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
-"This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-"undone."
+"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
 
 #: src/filefilter.cpp:122
@@ -11282,9 +11287,9 @@ msgid "Mask creation"
 msgstr "Playlista isječak"
 
 #: src/jobs/masktask.cpp:44
-#, kde-format
-msgid "Nos source frames to process"
-msgstr ""
+#, fuzzy, kde-format
+msgid "No source frames to process"
+msgstr "Frame rate"
 
 #: src/jobs/masktask.cpp:93
 #, fuzzy, kde-format
@@ -15006,13 +15011,13 @@ msgstr "Prikaži sve"
 msgid "Change Overlay"
 msgstr "Promijeni tip trake"
 
-#: src/monitor/view/EffectToolBar.qml:87 src/monitor/view/MaskToolBar.qml:109
+#: src/monitor/view/EffectToolBar.qml:87
 #, fuzzy, kde-format
 #| msgid "Go to next keyframe"
 msgid "Go to Next Keyframe"
 msgstr "Idi na slijedeći ključni okvir (keyframe)"
 
-#: src/monitor/view/EffectToolBar.qml:93 src/monitor/view/MaskToolBar.qml:115
+#: src/monitor/view/EffectToolBar.qml:93
 #, fuzzy, kde-format
 #| msgid "Go to previous keyframe"
 msgid "Go to Previous Keyframe"
@@ -15124,7 +15129,7 @@ msgstr ""
 msgid ""
 "Click on an object to start a mask.\n"
 "Shift+click to include another zone.\n"
-"Ctrl+click to excude a zone."
+"Ctrl+click to exclude a zone."
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
@@ -25461,10 +25466,6 @@ msgstr ""
 
 #~ msgid "Audio index"
 #~ msgstr "Audio indeks"
-
-#, fuzzy
-#~ msgid "Force frame rate"
-#~ msgstr "Frame rate"
 
 #, fuzzy
 #~ msgid "Force duration"
