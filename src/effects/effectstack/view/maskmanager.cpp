@@ -138,7 +138,8 @@ void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int y
     position -= m_zone.x();
     if (!QFile::exists(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/%1.jpg").arg(position, 5, 10, QLatin1Char('0'))))) {
         // Frame has not been extracted
-        qDebug() << "/// FILE FOR FRAME: " << position << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%05d.jpg").arg(position));
+        qDebug() << "/// FILE FOR FRAME: " << position
+                 << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
         return;
     }
     m_maskHelper->addMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, xPos, yPos, extend,
