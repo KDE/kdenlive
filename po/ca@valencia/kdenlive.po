@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-29 00:41+0000\n"
+"POT-Creation-Date: 2024-12-30 00:41+0000\n"
 "PO-Revision-Date: 2024-12-28 14:08+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -5442,7 +5442,7 @@ msgid "Replace in timeline"
 msgstr "Substituïx en la línia de temps"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:356
+#: src/effects/effectstack/view/maskmanager.cpp:357
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8398,12 +8398,12 @@ msgstr ""
 "requerix baixar al voltant de 10 Gb de dades. Una vegada instal·lat, tot el "
 "processament es farà fora de línia."
 
-#: src/dialogs/settings/pluginssettings.cpp:72
+#: src/dialogs/settings/pluginssettings.cpp:67
 #, kde-format
 msgid "Download (1.4Gb)"
 msgstr "Baixa (1,4GB)"
 
-#: src/dialogs/settings/pluginssettings.cpp:94
+#: src/dialogs/settings/pluginssettings.cpp:89
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr "S'estan instal·lant les dades multilingües…"
@@ -8411,32 +8411,32 @@ msgstr "S'estan instal·lant les dades multilingües…"
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
-#: src/dialogs/settings/pluginssettings.cpp:103
-#: src/dialogs/settings/pluginssettings.cpp:833 src/ui/configspeech_ui.ui:116
-#: src/ui/configspeech_ui.ui:395 src/ui/configspeech_ui.ui:649
+#: src/dialogs/settings/pluginssettings.cpp:98
+#: src/dialogs/settings/pluginssettings.cpp:831 src/ui/configspeech_ui.ui:120
+#: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:653
 #, kde-format
 msgid "Models folder"
 msgstr "Carpeta de models"
 
-#: src/dialogs/settings/pluginssettings.cpp:155
-#: src/dialogs/settings/pluginssettings.cpp:158
-#: src/dialogs/settings/pluginssettings.cpp:161
+#: src/dialogs/settings/pluginssettings.cpp:150
+#: src/dialogs/settings/pluginssettings.cpp:153
+#: src/dialogs/settings/pluginssettings.cpp:156
 #, kde-format
 msgid "Probing..."
 msgstr "S'està explorant…"
 
-#: src/dialogs/settings/pluginssettings.cpp:182
+#: src/dialogs/settings/pluginssettings.cpp:180
 #, kde-format
 msgid "Downloading multilingual model…"
 msgstr "S'està baixant el model multilingüe…"
 
-#: src/dialogs/settings/pluginssettings.cpp:239
-#: src/dialogs/settings/pluginssettings.cpp:830
+#: src/dialogs/settings/pluginssettings.cpp:237
+#: src/dialogs/settings/pluginssettings.cpp:828
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Per favor, afegiu un model de veu."
 
-#: src/dialogs/settings/pluginssettings.cpp:273
+#: src/dialogs/settings/pluginssettings.cpp:271
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -8447,24 +8447,24 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:303 src/ui/configspeech_ui.ui:354
-#: src/ui/configspeech_ui.ui:742
+#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
 #, kde-format
 msgid "Plugin size"
 msgstr "Mida del connector"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:356 src/ui/configspeech_ui.ui:697
+#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
 #, kde-format
 msgid "Install"
 msgstr "Instal·la"
 
-#: src/dialogs/settings/pluginssettings.cpp:362
+#: src/dialogs/settings/pluginssettings.cpp:360
 #, kde-format
 msgid "Check config"
 msgstr "Comprova la configuració"
 
-#: src/dialogs/settings/pluginssettings.cpp:380
+#: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
@@ -8473,8 +8473,8 @@ msgstr ""
 "Suprimirà els models instal·lats\n"
 "Els podreu reinstal·lar més tard."
 
-#: src/dialogs/settings/pluginssettings.cpp:397
-#: src/dialogs/settings/pluginssettings.cpp:411
+#: src/dialogs/settings/pluginssettings.cpp:395
+#: src/dialogs/settings/pluginssettings.cpp:409
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -8486,80 +8486,80 @@ msgstr ""
 "activar el connector."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:426 src/ui/configspeech_ui.ui:327
+#: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Instal·la la traducció multilingüe"
 
-#: src/dialogs/settings/pluginssettings.cpp:435
+#: src/dialogs/settings/pluginssettings.cpp:433
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Instal·leu un model de veu; recomanem <b>turbo</b>"
 
-#: src/dialogs/settings/pluginssettings.cpp:490
+#: src/dialogs/settings/pluginssettings.cpp:488
 #, kde-format
 msgid "Select model to download"
 msgstr "Seleccioneu el model a baixar"
 
-#: src/dialogs/settings/pluginssettings.cpp:506
+#: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
 msgid "All models are already installed"
 msgstr "Ja estan instal·lats tots els models"
 
-#: src/dialogs/settings/pluginssettings.cpp:526
+#: src/dialogs/settings/pluginssettings.cpp:524
 #, kde-format
 msgid "Downloading…"
 msgstr "S'està baixant…"
 
-#: src/dialogs/settings/pluginssettings.cpp:536
+#: src/dialogs/settings/pluginssettings.cpp:534
 #, kde-format
 msgid "Downloading smallest model…"
 msgstr "S'està baixant el model més xicotet…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:555 src/ui/configspeech_ui.ui:562
+#: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
 #, kde-format
 msgid "Download models"
 msgstr "Baixa els models"
 
-#: src/dialogs/settings/pluginssettings.cpp:614
-#: src/dialogs/settings/pluginssettings.cpp:628
-#: src/dialogs/settings/pluginssettings.cpp:637
+#: src/dialogs/settings/pluginssettings.cpp:612
+#: src/dialogs/settings/pluginssettings.cpp:626
+#: src/dialogs/settings/pluginssettings.cpp:635
 #, kde-format
 msgid "Install a model"
 msgstr "Instal·la un model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:630
-#: src/dialogs/settings/pluginssettings.cpp:639 src/ui/configspeech_ui.ui:251
+#: src/dialogs/settings/pluginssettings.cpp:628
+#: src/dialogs/settings/pluginssettings.cpp:637 src/ui/configspeech_ui.ui:255
 #, kde-format
 msgid "Manage models"
 msgstr "Gestiona els models"
 
-#: src/dialogs/settings/pluginssettings.cpp:713
+#: src/dialogs/settings/pluginssettings.cpp:711
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Introduïu un URL cap al diccionari nou"
 
-#: src/dialogs/settings/pluginssettings.cpp:719
+#: src/dialogs/settings/pluginssettings.cpp:717
 #, kde-format
 msgid "Downloading model…"
 msgstr "S'està baixant el model…"
 
-#: src/dialogs/settings/pluginssettings.cpp:729
+#: src/dialogs/settings/pluginssettings.cpp:727
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "No permetem eliminar els models de carpetes personalitzades, feu-ho "
 "manualment."
 
-#: src/dialogs/settings/pluginssettings.cpp:735
-#: src/dialogs/settings/pluginssettings.cpp:789
+#: src/dialogs/settings/pluginssettings.cpp:733
+#: src/dialogs/settings/pluginssettings.cpp:787
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "No s'ha pogut accedir a la carpeta del diccionari."
 
-#: src/dialogs/settings/pluginssettings.cpp:744
+#: src/dialogs/settings/pluginssettings.cpp:742
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8568,22 +8568,22 @@ msgstr ""
 "Suprimix la carpeta:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:764
+#: src/dialogs/settings/pluginssettings.cpp:762
 #, kde-format
 msgid "Download error"
 msgstr "S'ha produït un error de baixada"
 
-#: src/dialogs/settings/pluginssettings.cpp:768
+#: src/dialogs/settings/pluginssettings.cpp:766
 #, kde-format
 msgid "Download error %1"
 msgstr "S'ha produït un error de baixada %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:796
+#: src/dialogs/settings/pluginssettings.cpp:794
 #, kde-format
 msgid "Extracting archive…"
 msgstr "S'està extraent l'arxiu…"
 
-#: src/dialogs/settings/pluginssettings.cpp:803
+#: src/dialogs/settings/pluginssettings.cpp:801
 #, kde-format
 msgid "New dictionary installed."
 msgstr "S'ha instal·lat un diccionari nou."
@@ -11071,24 +11071,24 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "Configureu el connector SAM2"
 
-#: src/effects/effectstack/view/maskmanager.cpp:202
+#: src/effects/effectstack/view/maskmanager.cpp:203
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "Introducció del nom de màscara"
 
-#: src/effects/effectstack/view/maskmanager.cpp:202
+#: src/effects/effectstack/view/maskmanager.cpp:203
 #, kde-format
 msgid "Enter the name of this mask:"
 msgstr "Introduïu el nom d'esta màscara:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:210
+#: src/effects/effectstack/view/maskmanager.cpp:211
 #, fuzzy, kde-format
 #| msgid "Generating image mask"
 msgid "Generating mask %1"
 msgstr "S'està generant la màscara d'imatge"
 
-#: src/effects/effectstack/view/maskmanager.cpp:327
+#: src/effects/effectstack/view/maskmanager.cpp:328
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11305,7 +11305,7 @@ msgstr "Creació de màscara"
 msgid "No source frames to process"
 msgstr "No hi ha cap fotograma d'origen a processar"
 
-#: src/jobs/masktask.cpp:93
+#: src/jobs/masktask.cpp:91
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "No s'ha pogut renderitzar la màscara %1"
@@ -20855,7 +20855,7 @@ msgstr "Nom del fitxer de captura:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:290 src/ui/configspeech_ui.ui:576
+#: src/ui/configspeech_ui.ui:294 src/ui/configspeech_ui.ui:580
 #, kde-format
 msgid "Device:"
 msgstr "Dispositiu:"
@@ -21603,7 +21603,7 @@ msgstr "Veu a text"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
-#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:694
+#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:698
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "Comprova la instal·lació del motor de veu"
@@ -21615,98 +21615,98 @@ msgid "Check configuration"
 msgstr "Comprova la configuració"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:145
+#: src/ui/configspeech_ui.ui:149
 #, kde-format
 msgid "Custom models folder"
 msgstr "Carpeta de models personalitzats"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:185
+#: src/ui/configspeech_ui.ui:189
 #, kde-format
 msgid "Add Model"
 msgstr "Afig un model"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:198
+#: src/ui/configspeech_ui.ui:202
 #, kde-format
 msgid "Remove Model"
 msgstr "Elimina el model"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:239
+#: src/ui/configspeech_ui.ui:243
 #, kde-format
 msgid "Model:"
 msgstr "Model:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:280
+#: src/ui/configspeech_ui.ui:284
 #, kde-format
 msgid "Language:"
 msgstr "Idioma:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:311
+#: src/ui/configspeech_ui.ui:315
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr "Desactiva la precisió mitjana (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:318
+#: src/ui/configspeech_ui.ui:322
 #, kde-format
 msgid "Translate text to English"
 msgstr "Traduïx el text a l'anglés"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:368 src/ui/configspeech_ui.ui:722
+#: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
 #, kde-format
 msgid "Uninstall plugin"
 msgstr "Desinstal·la el connector"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
-#: src/ui/configspeech_ui.ui:415
+#: src/ui/configspeech_ui.ui:419
 #, kde-format
 msgid "Whisper"
 msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
-#: src/ui/configspeech_ui.ui:446
+#: src/ui/configspeech_ui.ui:450
 #, kde-format
 msgid "Seamless"
 msgstr "Seamless"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:481
+#: src/ui/configspeech_ui.ui:485
 #, kde-format
 msgid "Speech engine"
 msgstr "Motor de veu"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:488
+#: src/ui/configspeech_ui.ui:492
 #, kde-format
 msgid "VOS&K"
 msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:495
+#: src/ui/configspeech_ui.ui:499
 #, kde-format
 msgid "Wh&isper"
 msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configspeech_ui.ui:518
+#: src/ui/configspeech_ui.ui:522
 #, kde-format
 msgid "Object Detection"
 msgstr "Detecció d'objectes"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:545 src/ui/speechdialog_ui.ui:94
+#: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
 #, kde-format
 msgid "Model"
 msgstr "Model"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:569
+#: src/ui/configspeech_ui.ui:573
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -21716,7 +21716,7 @@ msgstr ""
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:613
+#: src/ui/configspeech_ui.ui:617
 #, kde-format
 msgid "Delete all models"
 msgstr "Suprimix tots els models"

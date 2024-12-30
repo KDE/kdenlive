@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-29 00:41+0000\n"
+"POT-Creation-Date: 2024-12-30 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2213,12 +2213,12 @@ msgstr "偏移"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "蒙版文件的开始位置。"
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "蒙版文件的结束位置。"
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -3957,7 +3957,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Create an object mask"
-msgstr ""
+msgstr "创建对象蒙版"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -3965,7 +3965,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
-msgstr ""
+msgstr "此处显示的是蒙版创建面板。蒙版可用于移除视频中的背景等用途。"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4063,7 +4063,7 @@ msgstr "项目素材箱 %1 效果"
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
-msgstr ""
+msgstr "您必须在序列中的第一个视频帧中定义包含点。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4742,7 +4742,7 @@ msgstr "无 (溶解)"
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
 #, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
+msgstr "创建或编辑此剪辑的蒙版"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -5238,7 +5238,7 @@ msgid "Replace in timeline"
 msgstr "替换时间轴中的剪辑"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:356
+#: src/effects/effectstack/view/maskmanager.cpp:357
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -7889,7 +7889,7 @@ msgstr "颜色和辅助线"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
 #, kde-format
 msgid "Plugins"
-msgstr ""
+msgstr "插件"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8134,12 +8134,12 @@ msgstr ""
 "文本翻译由 SeamlessM4T 模型执行。此功能需要下载大约 10Gb 数据。完成安装后，所"
 "有处理都将离线进行。"
 
-#: src/dialogs/settings/pluginssettings.cpp:72
+#: src/dialogs/settings/pluginssettings.cpp:67
 #, kde-format
 msgid "Download (1.4Gb)"
 msgstr "下载 (1.4Gb)"
 
-#: src/dialogs/settings/pluginssettings.cpp:94
+#: src/dialogs/settings/pluginssettings.cpp:89
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr "正在安装多语言数据…"
@@ -8147,32 +8147,32 @@ msgstr "正在安装多语言数据…"
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
-#: src/dialogs/settings/pluginssettings.cpp:103
-#: src/dialogs/settings/pluginssettings.cpp:833 src/ui/configspeech_ui.ui:116
-#: src/ui/configspeech_ui.ui:395 src/ui/configspeech_ui.ui:649
+#: src/dialogs/settings/pluginssettings.cpp:98
+#: src/dialogs/settings/pluginssettings.cpp:831 src/ui/configspeech_ui.ui:120
+#: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:653
 #, kde-format
 msgid "Models folder"
 msgstr "模型文件夹"
 
-#: src/dialogs/settings/pluginssettings.cpp:155
-#: src/dialogs/settings/pluginssettings.cpp:158
-#: src/dialogs/settings/pluginssettings.cpp:161
+#: src/dialogs/settings/pluginssettings.cpp:150
+#: src/dialogs/settings/pluginssettings.cpp:153
+#: src/dialogs/settings/pluginssettings.cpp:156
 #, kde-format
 msgid "Probing..."
 msgstr "正在探测..."
 
-#: src/dialogs/settings/pluginssettings.cpp:182
+#: src/dialogs/settings/pluginssettings.cpp:180
 #, kde-format
 msgid "Downloading multilingual model…"
 msgstr "正在下载多语言模型…"
 
-#: src/dialogs/settings/pluginssettings.cpp:239
-#: src/dialogs/settings/pluginssettings.cpp:830
+#: src/dialogs/settings/pluginssettings.cpp:237
+#: src/dialogs/settings/pluginssettings.cpp:828
 #, kde-format
 msgid "Please add a speech model."
 msgstr "请添加语音模型。"
 
-#: src/dialogs/settings/pluginssettings.cpp:273
+#: src/dialogs/settings/pluginssettings.cpp:271
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -8183,112 +8183,116 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:303 src/ui/configspeech_ui.ui:354
-#: src/ui/configspeech_ui.ui:742
+#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
 #, kde-format
 msgid "Plugin size"
-msgstr ""
+msgstr "插件大小"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:356 src/ui/configspeech_ui.ui:697
+#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
 #, kde-format
 msgid "Install"
-msgstr ""
+msgstr "安装"
 
-#: src/dialogs/settings/pluginssettings.cpp:362
+#: src/dialogs/settings/pluginssettings.cpp:360
 #, kde-format
 msgid "Check config"
-msgstr ""
+msgstr "检查配置"
 
-#: src/dialogs/settings/pluginssettings.cpp:380
+#: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
 msgstr ""
+"这将删除已安装的模型\n"
+"您可以稍后重新安装它们。"
 
-#: src/dialogs/settings/pluginssettings.cpp:397
-#: src/dialogs/settings/pluginssettings.cpp:411
+#: src/dialogs/settings/pluginssettings.cpp:395
+#: src/dialogs/settings/pluginssettings.cpp:409
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
+"这将从以下位置删除插件的 Python 虚拟环境：<br/><b>%1</b><br/>该虚拟环境将在您"
+"再次启用插件时重新创建，并下载所需的模块。"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:426 src/ui/configspeech_ui.ui:327
+#: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "安装多语言翻译"
 
-#: src/dialogs/settings/pluginssettings.cpp:435
+#: src/dialogs/settings/pluginssettings.cpp:433
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr ""
+msgstr "安装一个语音模型 - 我们推荐使用 <b>turbo</b>"
 
-#: src/dialogs/settings/pluginssettings.cpp:490
+#: src/dialogs/settings/pluginssettings.cpp:488
 #, kde-format
 msgid "Select model to download"
-msgstr ""
+msgstr "选择要下载的模型"
 
-#: src/dialogs/settings/pluginssettings.cpp:506
+#: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "所有模型已经安装"
 
-#: src/dialogs/settings/pluginssettings.cpp:526
+#: src/dialogs/settings/pluginssettings.cpp:524
 #, kde-format
 msgid "Downloading…"
-msgstr ""
+msgstr "正在下载…"
 
-#: src/dialogs/settings/pluginssettings.cpp:536
+#: src/dialogs/settings/pluginssettings.cpp:534
 #, kde-format
 msgid "Downloading smallest model…"
-msgstr ""
+msgstr "正在下载最小模型…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:555 src/ui/configspeech_ui.ui:562
+#: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
 #, kde-format
 msgid "Download models"
-msgstr ""
+msgstr "下载模型"
 
-#: src/dialogs/settings/pluginssettings.cpp:614
-#: src/dialogs/settings/pluginssettings.cpp:628
-#: src/dialogs/settings/pluginssettings.cpp:637
+#: src/dialogs/settings/pluginssettings.cpp:612
+#: src/dialogs/settings/pluginssettings.cpp:626
+#: src/dialogs/settings/pluginssettings.cpp:635
 #, kde-format
 msgid "Install a model"
 msgstr "安装语音模型"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:630
-#: src/dialogs/settings/pluginssettings.cpp:639 src/ui/configspeech_ui.ui:251
+#: src/dialogs/settings/pluginssettings.cpp:628
+#: src/dialogs/settings/pluginssettings.cpp:637 src/ui/configspeech_ui.ui:255
 #, kde-format
 msgid "Manage models"
 msgstr "管理语音模型"
 
-#: src/dialogs/settings/pluginssettings.cpp:713
+#: src/dialogs/settings/pluginssettings.cpp:711
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "输入新词典的 URL"
 
-#: src/dialogs/settings/pluginssettings.cpp:719
+#: src/dialogs/settings/pluginssettings.cpp:717
 #, kde-format
 msgid "Downloading model…"
 msgstr "正在下载模型…"
 
-#: src/dialogs/settings/pluginssettings.cpp:729
+#: src/dialogs/settings/pluginssettings.cpp:727
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Kdenlive 不能删除自定义文件夹模型，请手动删除它们。"
 
-#: src/dialogs/settings/pluginssettings.cpp:735
-#: src/dialogs/settings/pluginssettings.cpp:789
+#: src/dialogs/settings/pluginssettings.cpp:733
+#: src/dialogs/settings/pluginssettings.cpp:787
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "无法访问词典文件夹。"
 
-#: src/dialogs/settings/pluginssettings.cpp:744
+#: src/dialogs/settings/pluginssettings.cpp:742
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8297,22 +8301,22 @@ msgstr ""
 "删除文件夹：\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:764
+#: src/dialogs/settings/pluginssettings.cpp:762
 #, kde-format
 msgid "Download error"
 msgstr "下载错误"
 
-#: src/dialogs/settings/pluginssettings.cpp:768
+#: src/dialogs/settings/pluginssettings.cpp:766
 #, kde-format
 msgid "Download error %1"
 msgstr "下载错误 %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:796
+#: src/dialogs/settings/pluginssettings.cpp:794
 #, kde-format
 msgid "Extracting archive…"
 msgstr "正在解压…"
 
-#: src/dialogs/settings/pluginssettings.cpp:803
+#: src/dialogs/settings/pluginssettings.cpp:801
 #, kde-format
 msgid "New dictionary installed."
 msgstr "新词典已安装。"
@@ -10169,19 +10173,19 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
-msgstr ""
+msgstr "代理剪辑不应被用于进行合成或调色。"
 
 #: src/doc/kdenlivedoc.cpp:1611
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] ""
+msgstr[0] "剪辑包含一条透明度通道。 "
 
 #: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] ""
+msgstr[0] "您有 %1 条带有透明度通道的剪辑。 "
 
 #: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
@@ -10706,25 +10710,25 @@ msgstr ""
 #: src/effects/effectstack/view/maskmanager.cpp:47
 #, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr ""
+msgstr "请配置 SAM2 插件"
 
-#: src/effects/effectstack/view/maskmanager.cpp:202
+#: src/effects/effectstack/view/maskmanager.cpp:203
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr ""
+msgstr "输入蒙版名称"
 
-#: src/effects/effectstack/view/maskmanager.cpp:202
+#: src/effects/effectstack/view/maskmanager.cpp:203
 #, kde-format
 msgid "Enter the name of this mask:"
-msgstr ""
+msgstr "输入此蒙版的名称："
 
-#: src/effects/effectstack/view/maskmanager.cpp:210
+#: src/effects/effectstack/view/maskmanager.cpp:211
 #, kde-format
 msgid "Generating mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:327
+#: src/effects/effectstack/view/maskmanager.cpp:328
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -10927,17 +10931,17 @@ msgstr "过滤来源失败。"
 #: src/jobs/masktask.cpp:28
 #, kde-format
 msgid "Mask creation"
-msgstr ""
+msgstr "蒙版创建"
 
 #: src/jobs/masktask.cpp:44
 #, kde-format
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:93
+#: src/jobs/masktask.cpp:91
 #, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
+msgstr "渲染蒙版 %1 失败"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14547,12 +14551,12 @@ msgstr "Transform - 变形"
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
 #, kde-format
 msgid "Generating image mask"
-msgstr ""
+msgstr "正在生成图像蒙版"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
+msgstr "正在生成视频蒙版"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
 #, kde-format
@@ -14565,7 +14569,7 @@ msgstr ""
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
 #, kde-format
 msgid "Previewing video mask"
-msgstr ""
+msgstr "正在预览视频蒙版"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -14620,32 +14624,32 @@ msgstr ""
 #: src/monitor/view/MaskToolBar.qml:55
 #, kde-format
 msgid "Generate Mask"
-msgstr ""
+msgstr "生成蒙版"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "更改不透明度 (0% - 25% - 50% - 100%)"
 
 #: src/monitor/view/MaskToolBar.qml:80
 #, kde-format
 msgid "Change Color"
-msgstr ""
+msgstr "更改颜色"
 
 #: src/monitor/view/MaskToolBar.qml:92
 #, kde-format
 msgid "Invert Mask"
-msgstr ""
+msgstr "反相蒙版"
 
 #: src/monitor/view/MaskToolBar.qml:100
 #, kde-format
 msgid "Exit Mask Creation"
-msgstr ""
+msgstr "退出蒙板创建"
 
 #: src/monitor/view/MaskToolBar.qml:100
 #, kde-format
 msgid "Exit Preview Mode"
-msgstr ""
+msgstr "退出预览模式"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16389,6 +16393,8 @@ msgid ""
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
+"此操作需要连接到互联网，下载必要的依赖程序包将需要几分钟。\n"
+"下载完成后的剩余操作将离线进行。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:495
 #: src/pythoninterfaces/abstractpythoninterface.cpp:608
@@ -16615,7 +16621,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "对象分段 (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -20200,7 +20206,7 @@ msgstr "捕获文件名称："
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:290 src/ui/configspeech_ui.ui:576
+#: src/ui/configspeech_ui.ui:294 src/ui/configspeech_ui.ui:580
 #, kde-format
 msgid "Device:"
 msgstr "设备："
@@ -20939,7 +20945,7 @@ msgstr "语音转文字"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
-#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:694
+#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:698
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "检查语音引擎安装状态"
@@ -20951,109 +20957,111 @@ msgid "Check configuration"
 msgstr "检查配置"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:145
+#: src/ui/configspeech_ui.ui:149
 #, kde-format
 msgid "Custom models folder"
 msgstr "自定义模型文件夹"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:185
+#: src/ui/configspeech_ui.ui:189
 #, kde-format
 msgid "Add Model"
 msgstr "添加模型"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:198
+#: src/ui/configspeech_ui.ui:202
 #, kde-format
 msgid "Remove Model"
 msgstr "移除模型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:239
+#: src/ui/configspeech_ui.ui:243
 #, kde-format
 msgid "Model:"
 msgstr "模型："
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:280
+#: src/ui/configspeech_ui.ui:284
 #, kde-format
 msgid "Language:"
 msgstr "语言："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:311
+#: src/ui/configspeech_ui.ui:315
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr "禁用半精度 (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:318
+#: src/ui/configspeech_ui.ui:322
 #, kde-format
 msgid "Translate text to English"
 msgstr "翻译文本为英语"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:368 src/ui/configspeech_ui.ui:722
+#: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
 #, kde-format
 msgid "Uninstall plugin"
-msgstr ""
+msgstr "卸载插件"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
-#: src/ui/configspeech_ui.ui:415
+#: src/ui/configspeech_ui.ui:419
 #, kde-format
 msgid "Whisper"
 msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
-#: src/ui/configspeech_ui.ui:446
+#: src/ui/configspeech_ui.ui:450
 #, kde-format
 msgid "Seamless"
 msgstr "无缝"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:481
+#: src/ui/configspeech_ui.ui:485
 #, kde-format
 msgid "Speech engine"
 msgstr "语音引擎"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:488
+#: src/ui/configspeech_ui.ui:492
 #, kde-format
 msgid "VOS&K"
 msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:495
+#: src/ui/configspeech_ui.ui:499
 #, kde-format
 msgid "Wh&isper"
 msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configspeech_ui.ui:518
+#: src/ui/configspeech_ui.ui:522
 #, kde-format
 msgid "Object Detection"
-msgstr ""
+msgstr "对象检测"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:545 src/ui/speechdialog_ui.ui:94
+#: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
 #, kde-format
 msgid "Model"
 msgstr "模型"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:569
+#: src/ui/configspeech_ui.ui:573
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"对象检测功能依赖 SAM2 - <a href=\"https://github.com/facebookresearch/"
+"sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:613
+#: src/ui/configspeech_ui.ui:617
 #, kde-format
 msgid "Delete all models"
-msgstr ""
+msgstr "删除所有模型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22333,43 +22341,43 @@ msgstr "图像预览"
 #: src/ui/maskmanage_ui.ui:18
 #, kde-format
 msgid "Form"
-msgstr ""
+msgstr "窗体"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
 #, kde-format
 msgid "Create New Mask"
-msgstr ""
+msgstr "创建新蒙版"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
 #, kde-format
 msgid "Delete Mask"
-msgstr ""
+msgstr "删除蒙版"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
 #, kde-format
 msgid "Import Mask in Project"
-msgstr ""
+msgstr "导入蒙版到项目中"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
 #, kde-format
 msgid "Mask"
-msgstr ""
+msgstr "蒙版"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
 #, kde-format
 msgid "Preview Mask"
-msgstr ""
+msgstr "预览蒙版"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
 #, kde-format
 msgid "Apply Mask"
-msgstr ""
+msgstr "应用蒙版"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18

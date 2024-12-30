@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-29 00:41+0000\n"
-"PO-Revision-Date: 2024-09-14 17:12+0200\n"
+"POT-Creation-Date: 2024-12-30 00:41+0000\n"
+"PO-Revision-Date: 2024-12-29 19:42+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1079,10 +1079,9 @@ msgid "GPS Graphic"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr "Supermeti GPS-rilatan tekston sur la videon."
+msgstr "Supermeti GPS-rilatajn grafikojn sur la videon."
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1128,10 +1127,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:22
-#, fuzzy, kde-format
-#| msgid "Add multiple markers"
+#, kde-format
 msgid "Speed multiplier"
-msgstr "Aldoni plurajn markilojn"
+msgstr "Rapideca multiplikilo"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1219,10 +1217,9 @@ msgid "Percentage from min..max,Absolute value"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:55
-#, fuzzy, kde-format
-#| msgid "Center horizontally"
+#, kde-format
 msgid "Crop mode horizontal"
-msgstr "Centra horizontale"
+msgstr "Tonda reĝimo horizontala"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1236,10 +1233,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:61
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Crop left"
-msgstr "Supre maldekstre"
+msgstr "Tondi maldekstre"
 
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
@@ -1256,10 +1252,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:66
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Crop right"
-msgstr "Supre dekstre"
+msgstr "Tondi dekstre"
 
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
@@ -1270,10 +1265,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:71
-#, fuzzy, kde-format
-#| msgid "Center vertically"
+#, kde-format
 msgid "Crop mode vertical"
-msgstr "Centrigi vertikale"
+msgstr "Tonda reĝimo vertikala"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1293,10 +1287,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:81
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Crop bottom"
-msgstr "Supre al Malsupre"
+msgstr "Tondi fundon"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1313,10 +1306,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:86
-#, fuzzy, kde-format
-#| msgid "Crop to fill"
+#, kde-format
 msgid "Crop top"
-msgstr "Tondi por plenigi"
+msgstr "Tonda supro"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1337,10 +1329,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:92
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Graph color style"
-msgstr "Tipo de grafikaĵo"
+msgstr "Grafika kolora stilo"
 
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
@@ -1370,10 +1361,9 @@ msgid "Sets the color #2 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:104
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 3"
-msgstr "Koloro 2"
+msgstr "Koloro 3"
 
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
@@ -1381,10 +1371,9 @@ msgid "Sets the color #3 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:108
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 4"
-msgstr "Koloro 2"
+msgstr "Koloro 4"
 
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
@@ -1392,10 +1381,9 @@ msgid "Sets the color #4 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:112
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 5"
-msgstr "Koloro 2"
+msgstr "Koloro 5"
 
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
@@ -1403,10 +1391,9 @@ msgid "Sets the color #5 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show more options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "Montri pliajn elekteblojn"
+msgstr "Montri Nun-punkton"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1417,22 +1404,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Now dot color"
-msgstr "So&lida koloro:"
+msgstr "Nun-punkta koloro"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "La koloro de la ondoformo."
+msgstr "Agordas la koloron por la Nun-punkto"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "Parolado al teksto"
+msgstr "Montri Nun-tekston"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1460,22 +1444,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Linio dikeco"
+msgstr "Linia Dikeco (px)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "La dikeco de la stango aŭ segmentoj."
+msgstr "Fiksas la dikecon de la linia grafiko en rastrumeroj."
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "Desegni kradon"
+msgstr "Desegni klarigeton"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1512,10 +1493,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "Montri nur transirojn"
+msgstr "Montri nur punktojn"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1529,10 +1509,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "Rektangulo"
+msgstr "Grafea rektangulo"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1543,10 +1522,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background image"
-msgstr "Fono"
+msgstr "Fona bildo"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1558,10 +1536,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "Fono"
+msgstr "Fona skalo"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1583,10 +1560,9 @@ msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:173
-#, fuzzy, kde-format
-#| msgid "GPS processing start time"
+#, kde-format
 msgid "GPS start time"
-msgstr "Komenctempo de la GPS-pretigo"
+msgstr "GPS-komenctempo"
 
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
@@ -1594,22 +1570,19 @@ msgid "Date and time of the first valid GPS point."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "Videofluo"
+msgstr "Komenca tempo de video"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "Supermeti tempigilon sur la videon"
+msgstr "Dato kaj horo de la videodosiero."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Iri al komenco de projekto"
+msgstr "Komenco de aŭtomata deŝovo"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1633,10 +1606,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map "
+#, kde-format
 msgid "Map hint"
-msgstr "Mapo"
+msgstr "Map-sugesto"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
@@ -2721,10 +2693,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "Difinas la rektangulon de la areo kiu estos forigita."
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "Alfa Operacio"
+msgstr "Alfa strobo"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2746,10 +2717,9 @@ msgid "Interval"
 msgstr "Intervalo"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "Daŭro: %1 sek"
+msgstr "Daŭro de strobo"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -4741,14 +4711,9 @@ msgid "None (Dissolve)"
 msgstr "Neniu (Dissolvi)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"Ne povas krei templinion el ĉi tiu tondaĵo:\n"
-"%1"
+msgstr "Krei aŭ redakti maskon por ĉi tiu aŭdvidaĵo"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -5265,7 +5230,7 @@ msgid "Replace in timeline"
 msgstr "Anstataŭigi en templinio"
 
 #: src/bin/bin.cpp:2127 src/bin/bin.cpp:5850 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:356
+#: src/effects/effectstack/view/maskmanager.cpp:357
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -6236,16 +6201,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "Atribui novan stilon al subteksto."
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "la persa"
+msgstr "versio"
 
 #: src/bin/playlistclip.cpp:169
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Sekvenco 1"
+msgstr "Sekvenckalkulo"
 
 #: src/bin/projectclip.cpp:245
 #, kde-format
@@ -7566,10 +7529,9 @@ msgid "Waiting…"
 msgstr "Atendante…"
 
 #: src/dialogs/renderwidget.cpp:109
-#, fuzzy, kde-format
-#| msgid "Waiting…"
+#, kde-format
 msgid "Starting…"
-msgstr "Atendante…"
+msgstr "Komencante…"
 
 #: src/dialogs/renderwidget.cpp:112
 #, kde-format
@@ -7951,10 +7913,9 @@ msgid "Colors and Guides"
 msgstr "Koloroj kaj Gvidiloj"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "TAP Kromaĵoj"
+msgstr "Kromaĵoj"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8061,19 +8022,17 @@ msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
 "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
 "a>."
 msgstr ""
-"Pri aparata agordo vidu <a href=\"https://docs.kdenlive.org/user_interface/"
-"menu/settings_menu/configure_kdenlive.html#windows\">nian dokumentaron</a>."
+"Por aparata agordo vidu <a href=\"https://docs.kdenlive.org/user_interface/"
+"menu/settings_menu/configure_kdenlive.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">nian dokumentaron</"
+"a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
@@ -8200,13 +8159,12 @@ msgid ""
 "offline."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#: src/dialogs/settings/pluginssettings.cpp:67
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Elŝuta eraro %1"
+msgstr "Elŝuti (1.4Gb)"
 
-#: src/dialogs/settings/pluginssettings.cpp:94
+#: src/dialogs/settings/pluginssettings.cpp:89
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr ""
@@ -8214,33 +8172,32 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
-#: src/dialogs/settings/pluginssettings.cpp:103
-#: src/dialogs/settings/pluginssettings.cpp:833 src/ui/configspeech_ui.ui:116
-#: src/ui/configspeech_ui.ui:395 src/ui/configspeech_ui.ui:649
+#: src/dialogs/settings/pluginssettings.cpp:98
+#: src/dialogs/settings/pluginssettings.cpp:831 src/ui/configspeech_ui.ui:120
+#: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:653
 #, kde-format
 msgid "Models folder"
 msgstr "Dosierujo de modeloj"
 
-#: src/dialogs/settings/pluginssettings.cpp:155
-#: src/dialogs/settings/pluginssettings.cpp:158
-#: src/dialogs/settings/pluginssettings.cpp:161
+#: src/dialogs/settings/pluginssettings.cpp:150
+#: src/dialogs/settings/pluginssettings.cpp:153
+#: src/dialogs/settings/pluginssettings.cpp:156
 #, kde-format
 msgid "Probing..."
 msgstr "Sondante..."
 
-#: src/dialogs/settings/pluginssettings.cpp:182
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#: src/dialogs/settings/pluginssettings.cpp:180
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝutante plurlingvan modelon…"
 
-#: src/dialogs/settings/pluginssettings.cpp:239
-#: src/dialogs/settings/pluginssettings.cpp:830
+#: src/dialogs/settings/pluginssettings.cpp:237
+#: src/dialogs/settings/pluginssettings.cpp:828
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Bonvolu aldoni parolmodelon."
 
-#: src/dialogs/settings/pluginssettings.cpp:273
+#: src/dialogs/settings/pluginssettings.cpp:271
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -8251,129 +8208,116 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:303 src/ui/configspeech_ui.ui:354
-#: src/ui/configspeech_ui.ui:742
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
+#, kde-format
 msgid "Plugin size"
-msgstr "TAP Kromaĵoj"
+msgstr "Kromgrando"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:356 src/ui/configspeech_ui.ui:697
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
+#, kde-format
 msgid "Install"
-msgstr "flustro"
+msgstr "Instali"
 
-#: src/dialogs/settings/pluginssettings.cpp:362
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#: src/dialogs/settings/pluginssettings.cpp:360
+#, kde-format
 msgid "Check config"
-msgstr "Kontroli agordon"
+msgstr "Kontrolu agordon"
 
-#: src/dialogs/settings/pluginssettings.cpp:380
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#: src/dialogs/settings/pluginssettings.cpp:378
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "Ĉi tio forigos la stilon <b>%1</b> kaj ĉiujn siajn proprecojn."
+msgstr ""
+"Ĉi tio forigos la instalitajn modelojn\n"
+"Vi povas instali ilin poste."
 
-#: src/dialogs/settings/pluginssettings.cpp:397
-#: src/dialogs/settings/pluginssettings.cpp:411
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#: src/dialogs/settings/pluginssettings.cpp:395
+#: src/dialogs/settings/pluginssettings.cpp:409
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"Ĉi tio forigos la Python-virtualmedion de:<br/><b>%1</b><br/>La medio estos "
-"rekreata kaj moduloj elŝutataj kiam ajn vi reaktivigos la python-"
-"virtualmedion."
+"Ĉi tio forigos la kromprograman python-medion de:<br/><b>%1</b><br/>La medio "
+"estos rekreita kaj moduloj elŝutos kiam ajn vi reŝaltos la kromprogramon."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:426 src/ui/configspeech_ui.ui:327
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Pravalorizante tradukmodelon"
+msgstr "Instali plurlingvan tradukon"
 
-#: src/dialogs/settings/pluginssettings.cpp:435
+#: src/dialogs/settings/pluginssettings.cpp:433
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:490
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#: src/dialogs/settings/pluginssettings.cpp:488
+#, kde-format
 msgid "Select model to download"
-msgstr "Elekti zonon por ludi"
+msgstr "Elekti modelon elŝutendan"
 
-#: src/dialogs/settings/pluginssettings.cpp:506
+#: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
 msgid "All models are already installed"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:526
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#: src/dialogs/settings/pluginssettings.cpp:524
+#, kde-format
 msgid "Downloading…"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝutante…"
 
-#: src/dialogs/settings/pluginssettings.cpp:536
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#: src/dialogs/settings/pluginssettings.cpp:534
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝutante plej malgrandan modelon…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:555 src/ui/configspeech_ui.ui:562
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
+#, kde-format
 msgid "Download models"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝuti modelojn"
 
-#: src/dialogs/settings/pluginssettings.cpp:614
-#: src/dialogs/settings/pluginssettings.cpp:628
-#: src/dialogs/settings/pluginssettings.cpp:637
+#: src/dialogs/settings/pluginssettings.cpp:612
+#: src/dialogs/settings/pluginssettings.cpp:626
+#: src/dialogs/settings/pluginssettings.cpp:635
 #, kde-format
 msgid "Install a model"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:630
-#: src/dialogs/settings/pluginssettings.cpp:639 src/ui/configspeech_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#: src/dialogs/settings/pluginssettings.cpp:628
+#: src/dialogs/settings/pluginssettings.cpp:637 src/ui/configspeech_ui.ui:255
+#, kde-format
 msgid "Manage models"
-msgstr "Randa reĝimo"
+msgstr "Administri modelojn"
 
-#: src/dialogs/settings/pluginssettings.cpp:713
+#: src/dialogs/settings/pluginssettings.cpp:711
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Enigu URL por la nova vortaro"
 
-#: src/dialogs/settings/pluginssettings.cpp:719
+#: src/dialogs/settings/pluginssettings.cpp:717
 #, kde-format
 msgid "Downloading model…"
 msgstr "Elŝutante modelon…"
 
-#: src/dialogs/settings/pluginssettings.cpp:729
+#: src/dialogs/settings/pluginssettings.cpp:727
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Ni ne permesas forigi proprajn dosierujojn, bonvolu fari ĝin permane."
 
-#: src/dialogs/settings/pluginssettings.cpp:735
-#: src/dialogs/settings/pluginssettings.cpp:789
+#: src/dialogs/settings/pluginssettings.cpp:733
+#: src/dialogs/settings/pluginssettings.cpp:787
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ne povas aliri vortaran dosierujon."
 
-#: src/dialogs/settings/pluginssettings.cpp:744
+#: src/dialogs/settings/pluginssettings.cpp:742
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8382,22 +8326,22 @@ msgstr ""
 "Forigi dosierujon:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:764
+#: src/dialogs/settings/pluginssettings.cpp:762
 #, kde-format
 msgid "Download error"
 msgstr "Elŝuta eraro"
 
-#: src/dialogs/settings/pluginssettings.cpp:768
+#: src/dialogs/settings/pluginssettings.cpp:766
 #, kde-format
 msgid "Download error %1"
 msgstr "Elŝuta eraro %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:796
+#: src/dialogs/settings/pluginssettings.cpp:794
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Ekstraktante arkivon…"
 
-#: src/dialogs/settings/pluginssettings.cpp:803
+#: src/dialogs/settings/pluginssettings.cpp:801
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nova vortaro instalita."
@@ -8477,10 +8421,9 @@ msgid "Speech recognition aborted."
 msgstr "Parolrekono ĉesigita."
 
 #: src/dialogs/speechdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Parola rekono malsukcesis"
+msgstr "Parola rekono malsukcesis."
 
 #: src/dialogs/speechdialog.cpp:433
 #, kde-format
@@ -9260,16 +9203,14 @@ msgid "Bottom To Top"
 msgstr "Malsupre al Supre"
 
 #: src/dialogs/subtitleedit.cpp:396
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Pliigi Tiparan Grandecon"
+msgstr "Pliigi la Tipargrandon de Redaktilo"
 
 #: src/dialogs/subtitleedit.cpp:398
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Malpliigi Tiparan Grandecon"
+msgstr "Malpliigi la Tipargrandon de Redaktilo"
 
 #: src/dialogs/subtitleedit.cpp:400
 #, kde-format
@@ -9288,10 +9229,9 @@ msgstr "Mastrumi Stilojn…"
 
 #: src/dialogs/subtitleedit.cpp:761 src/dialogs/subtitleedit.cpp:784
 #: src/dialogs/subtitleedit.cpp:786
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "Signo: %1, totalo: <b>%2</b>"
+msgstr "Kursoro: %1, totalo: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1681 src/dialogs/subtitleedit.cpp:1695
 #, kde-format
@@ -9988,11 +9928,9 @@ msgid "Transition"
 msgstr "Transiro"
 
 #: src/doc/documentchecker.cpp:1865
-#, fuzzy, kde-format
-#| msgid "One removed clip"
-#| msgid_plural "%1 removed clips"
+#, kde-format
 msgid "Unreferenced clip"
-msgstr "Unu forigitan tondaĵon"
+msgstr "Nereferencita aŭdvidaĵo"
 
 #: src/doc/documentchecker.cpp:1867
 #, kde-format
@@ -10315,10 +10253,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/doc/kdenlivedoc.cpp:1619
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Prokurilaj aŭdvidaĵoj"
+msgstr "Prokura ĉiuj aŭdvidaĵoj"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
@@ -10566,10 +10503,9 @@ msgid "Add effect %1"
 msgstr "Aldoni efekton %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:674
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "Efiko %1 ne povas esti aldonita dufoje."
+msgstr "Efekto %1 nur povas esti aldonita al majstro"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1229
 #, kde-format
@@ -10845,32 +10781,27 @@ msgstr ""
 "Konservi efekton sen priskribo?"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "Bonvolu agordi paroladon al teksto."
+msgstr "Bonvolu agordi la kromprogramon SAM2"
 
-#: src/effects/effectstack/view/maskmanager.cpp:202
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#: src/effects/effectstack/view/maskmanager.cpp:203
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "Enigi Antaŭdifinitan Nomon"
+msgstr "Enigi Maskan Nomon"
 
-#: src/effects/effectstack/view/maskmanager.cpp:202
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
+#: src/effects/effectstack/view/maskmanager.cpp:203
+#, kde-format
 msgid "Enter the name of this mask:"
-msgstr "Enigu la nomon de ĉi tiu antaŭmeto:"
+msgstr "Enigu la nomon de ĉi tiu masko:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:210
-#, fuzzy, kde-format
-#| msgid "Generate"
+#: src/effects/effectstack/view/maskmanager.cpp:211
+#, kde-format
 msgid "Generating mask %1"
-msgstr "Generi"
+msgstr "Generante maskon %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:327
+#: src/effects/effectstack/view/maskmanager.cpp:328
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11071,25 +11002,19 @@ msgid "Failed to filter source."
 msgstr "Malsukcesis filtri fonton."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask creation"
-msgstr "Maski aŭdvidaĵon"
+msgstr "Kreado de masko"
 
 #: src/jobs/masktask.cpp:44
 #, kde-format
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:93
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#: src/jobs/masktask.cpp:91
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
-"Malsukcesis generi aŭdvidaĵon:\n"
-"%1"
+msgstr "Malsukcesis bildigi maskon %1"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14758,8 +14683,7 @@ msgstr ""
 "rado</b> por zomi"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformi"
@@ -14783,10 +14707,9 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
-#, fuzzy, kde-format
-#| msgid "Preview Using Proxy Clips"
+#, kde-format
 msgid "Previewing video mask"
-msgstr "Antaŭrigardo Uzante Prokurilajn tondaĵojn"
+msgstr "Antaŭrigardo de videomasko"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -14843,10 +14766,9 @@ msgstr ""
 "dekstre alklaku aŭ premu enter por fermi formon."
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "Generi"
+msgstr "Generi Maskon"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
@@ -14854,28 +14776,24 @@ msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Padding Color"
+#, kde-format
 msgid "Change Color"
-msgstr "Remburaĵo Koloro"
+msgstr "Ŝanĝi Koloron"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "Inverti"
+msgstr "Inverti Maskon"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "Redakti Daŭron"
+msgstr "Eliri Masko-Kreadon"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "Aldoni Antaŭrigardan Zonon"
+msgstr "Eliri Antaŭrigardan Reĝimon"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16637,13 +16555,13 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:348
 #: src/pythoninterfaces/abstractpythoninterface.cpp:350
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Failed to remove the virtual environment folder."
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Malsukcesis forigi la virtualmedian dosierujon."
+msgstr ""
+"Ne eblas krei la virtualan medion Python:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:367
 #, kde-format
@@ -16721,19 +16639,20 @@ msgstr ""
 "%2"
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Elŝutante modelon…"
+msgstr ""
+"Eraro dum elŝuto de modelo:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Elekti zonon por ludi"
+msgstr "Elektu novajn modelojn por elŝuti"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
@@ -16746,28 +16665,24 @@ msgid "Checking available models"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝutante"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝuti Modelon"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Iri al elŝuta paĝo"
+msgstr "Ĉesi elŝutojn"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Pentra reĝimo:"
+msgstr "Malinstali modelon"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -16775,28 +16690,24 @@ msgid "Install model"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Tuta grandeco:"
+msgstr "Suma elŝuta grandeco: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking for missing items…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Kontrolante pri mankantaj eroj…"
+msgstr "Kontrolante integrecon de modeloj…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Arkivado en progreso, ĉu vi volas ĉesigi ĝin?"
+msgstr "Elŝuto estas progresanta, ĉu vi volas ĉesigi ĝin ?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Iri al elŝuta paĝo"
+msgstr "Ĉesi elŝuton"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -17132,10 +17043,9 @@ msgid "Yiddish"
 msgstr "jida"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:246
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "flustro"
+msgstr "Instali Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -18383,20 +18293,18 @@ msgid "Error initializing timeline preview"
 msgstr "Eraro pravalorizante templinian antaŭrigardon"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "Eltiro de audio por %1."
+msgstr "Daŭro de redaktado por %1 aŭdvidaĵoj."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Redaktado en Ondeta reĝimo"
+msgstr "Regrandigo en Ripple-reĝimo."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20112,10 +20020,9 @@ msgstr "Tonda fino:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Ripple regrandigi tondaĵon"
+msgstr "Ripple regrandigi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20537,7 +20444,7 @@ msgstr "Kapti dosiernomon:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:290 src/ui/configspeech_ui.ui:576
+#: src/ui/configspeech_ui.ui:294 src/ui/configspeech_ui.ui:580
 #, kde-format
 msgid "Device:"
 msgstr "Aparato:"
@@ -20995,21 +20902,15 @@ msgstr "Akiri metadatumojn kreitajn de Magic Lantern"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ignori subdosierujon"
+msgstr "Ignori subdosierujan strukturon je enporto"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Ignori strukturon de subdosierujo ĉe importo (importu ĉiujn dosierojn en "
-"plian dosierujon)"
+msgstr "Ĉi tio importos ĉiujn dosierojn en altnivelan dosierujon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -21287,7 +21188,7 @@ msgstr "Parolado Al Teksto"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
-#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:694
+#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:698
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "Kontroli la parolmotoran instaladon"
@@ -21299,103 +21200,98 @@ msgid "Check configuration"
 msgstr "Kontroli agordon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:145
+#: src/ui/configspeech_ui.ui:149
 #, kde-format
 msgid "Custom models folder"
 msgstr "Propra modeloj dosierujo"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:185
+#: src/ui/configspeech_ui.ui:189
 #, kde-format
 msgid "Add Model"
 msgstr "Aldoni Modelon"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:198
+#: src/ui/configspeech_ui.ui:202
 #, kde-format
 msgid "Remove Model"
 msgstr "Forigi Modelon"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:239
+#: src/ui/configspeech_ui.ui:243
 #, kde-format
 msgid "Model:"
 msgstr "Modelo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:280
+#: src/ui/configspeech_ui.ui:284
 #, kde-format
 msgid "Language:"
 msgstr "Lingvo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:311
+#: src/ui/configspeech_ui.ui:315
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr "Malŝalti duonprecizecon (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:318
+#: src/ui/configspeech_ui.ui:322
 #, kde-format
 msgid "Translate text to English"
 msgstr "Traduki tekston al la angla"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:368 src/ui/configspeech_ui.ui:722
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Pentra reĝimo:"
+msgstr "Malinstali kromaĵon"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
-#: src/ui/configspeech_ui.ui:415
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#: src/ui/configspeech_ui.ui:419
+#, kde-format
 msgid "Whisper"
-msgstr "flustro"
+msgstr "Flustri"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
-#: src/ui/configspeech_ui.ui:446
+#: src/ui/configspeech_ui.ui:450
 #, kde-format
 msgid "Seamless"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:481
+#: src/ui/configspeech_ui.ui:485
 #, kde-format
 msgid "Speech engine"
 msgstr "Parolmotoro"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:488
+#: src/ui/configspeech_ui.ui:492
 #, kde-format
 msgid "VOS&K"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:495
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#: src/ui/configspeech_ui.ui:499
+#, kde-format
 msgid "Wh&isper"
-msgstr "flustro"
+msgstr "Flustr&i"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configspeech_ui.ui:518
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#: src/ui/configspeech_ui.ui:522
+#, kde-format
 msgid "Object Detection"
-msgstr "Scena Detekto"
+msgstr "Objekta Detekto"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:545 src/ui/speechdialog_ui.ui:94
+#: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
 #, kde-format
 msgid "Model"
 msgstr "Modelo"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:569
+#: src/ui/configspeech_ui.ui:573
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -21403,11 +21299,10 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:613
-#, fuzzy, kde-format
-#| msgid "Delete all markers"
+#: src/ui/configspeech_ui.ui:617
+#, kde-format
 msgid "Delete all models"
-msgstr "Forigi ĉiujn markilojn"
+msgstr "Forigu ĉiujn modelojn"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -21976,10 +21871,9 @@ msgstr "Supra Limo"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
-#, fuzzy, kde-format
-#| msgid "Vertical Flip"
+#, kde-format
 msgid "Vertical margin"
-msgstr "Vertikala Inversigo"
+msgstr "Vertikala marĝeno"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
@@ -22015,10 +21909,9 @@ msgstr "Subtektstostila Redaktilo"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "Folder name"
+#, kde-format
 msgid "Style name"
-msgstr "Nomo de dosierujo"
+msgstr "Stilonomo"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -22036,24 +21929,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
+#, kde-format
 msgid "Character spacing"
-msgstr "Literinterspaco:"
+msgstr "Signa interspaco"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "ScaleX"
+#, kde-format
 msgid "Scale X"
-msgstr "SkaloX"
+msgstr "Skalo X"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Text clips"
+#, kde-format
 msgid "Text color"
-msgstr "Tekstaj tondaĵoj"
+msgstr "Teksta koloro"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -22106,10 +21996,9 @@ msgstr "Ĝisrandigo"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "ScaleY"
+#, kde-format
 msgid "Scale Y"
-msgstr "SkaloY"
+msgstr "Skalo Y"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -22700,52 +22589,45 @@ msgstr "Antaŭrigardo de bildo"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
 #: src/ui/maskmanage_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Format"
+#, kde-format
 msgid "Form"
-msgstr "Formato"
+msgstr "Formo"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create new preset"
+#, kde-format
 msgid "Create New Mask"
-msgstr "Krei novan antaŭmeton"
+msgstr "Krei Novan Maskon"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "Forigi Markilon"
+msgstr "Forigi Maskon"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "Importita Projekto"
+msgstr "Enporti Maskon en Projekto"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "Maski aŭdvidaĵon"
+msgstr "Masko"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "Antaŭrigardo"
+msgstr "Antaŭrigardo Masko"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "Apliki"
+msgstr "Apliki Maskon"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -23888,10 +23770,9 @@ msgstr "&Gradiento:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #: src/ui/titlewidget_ui.ui:1020
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Sol&id color:"
-msgstr "So&lida koloro:"
+msgstr "Sol&ida koloro:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, typewriterBox)
 #: src/ui/titlewidget_ui.ui:1050
@@ -23913,10 +23794,9 @@ msgstr "Ekspansia Reĝimo"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
 #: src/ui/titlewidget_ui.ui:1081
-#, fuzzy, kde-format
-#| msgid "By &char"
+#, kde-format
 msgid "B&y char"
-msgstr "Laŭ &char"
+msgstr "La&ŭ char"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_word)
 #: src/ui/titlewidget_ui.ui:1091
@@ -24257,157 +24137,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Setting up virtual environment…"
-#~ msgstr "Agordante virtualan medion…"
-
-#~ msgid "Disabling virtual environment"
-#~ msgstr "Malebligante virtualan medion"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Removing the virtual environment folder."
-#~ msgstr "Forigante la virtualmedian dosierujon."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "No python venv found"
-#~ msgstr "Ne trovis python-venv"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Failed to remove the virtual environment folder."
-#~ msgstr "Malsukcesis forigi la virtualmedian dosierujon."
-
-#~ msgid "Using python from %1"
-#~ msgstr "Uzante python de %1"
-
-#~ msgid "No python venv found"
-#~ msgstr "Ne trovis iun python-venv"
-
-#~ msgid "Python venv size: %1"
-#~ msgstr "Python-venv grandeco: %1"
-
-#~ msgid "Python"
-#~ msgstr "Python"
-
-#~ msgid "Delete "
-#~ msgstr "Forigi"
-
-#~ msgid "Use python virtual environment (recommended)"
-#~ msgstr "Uzi python-virtualmedion (rekomendita)"
-
-#~ msgid "<html><head/><body><p>Margin</p></body></html>"
-#~ msgstr "<html><head/><body><p>Marĝeno</p></body></html>"
-
-#~ msgid "Margin"
-#~ msgstr "Marĝeno"
-
-#~ msgid "BorderStyle"
-#~ msgstr "BorderStilo"
-
-#~ msgid "R: "
-#~ msgstr "R:"
-
-#~ msgid "G: "
-#~ msgstr "G:"
-
-#~ msgid "B: "
-#~ msgstr "B:"
-
-#~ msgid "Force Breeze Icon Theme"
-#~ msgstr "Devigi Breeze piktogram-etoson"
-
-#~ msgid ""
-#~ "Kdenlive needs to be restarted to apply the icon theme change. Restart "
-#~ "now?"
-#~ msgstr ""
-#~ "Kdenlive devas esti rekomencita por apliki la piktograman etosoŝanĝon. Ĉu "
-#~ "rekomenci nun?"
-
-#~ msgid ""
-#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
-#~ "processing will happen offline. Cpu processing is very slow."
-#~ msgstr ""
-#~ "Ĉe la unua funkciado, Whisper <b>elŝutos la elektitan modelon</b>. Post "
-#~ "tio, pretigo okazos eksterrete. CPU-pretigo estas tre malrapida."
-
-#~ msgid ""
-#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
-#~ "that, translations will happen offline."
-#~ msgstr ""
-#~ "Je unua rulo, SeamlessM4T <b>elŝutos 9Gb de modeldatenoj</b>. Post tio, "
-#~ "tradukoj okazos eksterrete."
-
-#~ msgid ""
-#~ "Kdenlive can install the missing python modules in a virtual environment "
-#~ "under %1.\n"
-#~ "This way, it won't touch your system libraries."
-#~ msgstr ""
-#~ "Kdenlive povas instali la mankantajn python-modulojn en virtuala medio "
-#~ "sub %1.\n"
-#~ "Tiel ĝi ne tuŝos viajn sistembibliotekojn."
-
-#~ msgid "Python environment"
-#~ msgstr "Python-medio"
-
-#~ msgid "Use virtual environment (recommended)"
-#~ msgstr "Uzi virtualan medion (rekomendita)"
-
-#~ msgid "Use system install"
-#~ msgstr "Uzi sisteminstalon"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny (72MB)"
-#~ msgstr "Eta (72MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base (140MB)"
-#~ msgstr "Baza (140MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small (460MB)"
-#~ msgstr "Malgranda (460MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium (1.4GB)"
-#~ msgstr "Meza (1.4GB)"
-
-#~ msgctxt "Model file to download, large one"
-#~ msgid "Large (2.9GB)"
-#~ msgstr "Granda (2.9GB)"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny - English only (39MB)"
-#~ msgstr "Eta - nur la angla (39MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base - English only (74MB)"
-#~ msgstr "Baza - nur la angla (74MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small - English only (244MB)"
-#~ msgstr "Malgranda - nur la angla (244MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium - English only (1.5GB)"
-#~ msgstr "Meznivela - nur la angla (1.5GB)"
-
-#~ msgid "VOSK"
-#~ msgstr "VOSK"
-
-#~ msgid "VOSK Speech Models"
-#~ msgstr "VOSK Parolado-Modeloj"
-
-#~ msgid "Whisper processing on cpu is very slow"
-#~ msgstr "Flustro-pretigo sur CPU estas tre malrapida"
-
-#~ msgid "Enable translation through SeamlessM4T"
-#~ msgstr "Ebligi tradukon per SeamlessM4T"
-
-#~ msgid "Clear All Tags"
-#~ msgstr "Viŝi Ĉiujn Etikedojn"
-
-#~ msgid ""
-#~ "Cannot find python virtualenv, please install it on your system. "
-#~ "Defaulting to system python."
-#~ msgstr ""
-#~ "Ne eblas trovi python-virtualenv, bonvolu instali ĝin en via sistemo. "
-#~ "Retropaŝante al sistema python."
