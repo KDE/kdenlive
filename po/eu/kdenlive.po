@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-28 02:45+0000\n"
-"PO-Revision-Date: 2024-12-28 09:21+0100\n"
+"PO-Revision-Date: 2024-12-29 15:52+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -916,7 +916,7 @@ msgid ""
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
 "denbora-kodea,fotograma,sorrera-data,fitxategiaren data (GMT),fitxategiaren "
-"data (lokala),iturburuaren bit-emaria,iturburu-kodeka,iturburuaren bit-"
+"data (lokala),iturburuaren fotograma-emaria,iturburu-kodeka,iturburuaren bit-"
 "emaria,iturburuaren zabalera,iturburuaren altuera,iturburuaren iruzkina"
 
 #: data/effects/dynamictext.xml:45
@@ -2362,7 +2362,7 @@ msgstr "Isilarazi klipa"
 #: data/effects/normalise.xml:4
 #, kde-format
 msgid "Normalise (deprecated)"
-msgstr "Normalizatu (zaharkitua)"
+msgstr "Normalizatu (baztertua)"
 
 #: data/effects/normalise.xml:5
 #, kde-format
@@ -3578,7 +3578,7 @@ msgstr "Calf pluginak"
 #: src/effects/effectlist/model/effecttreemodel.cpp:97
 #, kde-format
 msgid "Deprecated"
-msgstr "Zaharkituak"
+msgstr "Baztertua"
 
 #: data/kdenliveeffectscategory.rc:142
 #, kde-format
@@ -4209,7 +4209,7 @@ msgstr "Elastikoa kanpora"
 #: src/assets/keyframes/model/keyframemodel.cpp:60
 #, kde-format
 msgid "Smooth (deprecated)"
-msgstr "Leuna (zaharkitua)"
+msgstr "Leuna (baztertua)"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:143
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
@@ -10507,7 +10507,7 @@ msgstr "Txantiloiak"
 #: src/effects/effectlist/model/effecttreemodel.cpp:98
 #, kde-format
 msgid " - deprecated"
-msgstr " - zaharkitua"
+msgstr " - baztertua"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
@@ -12301,7 +12301,7 @@ msgstr ""
 #: src/mainwindow.cpp:1207
 #, kde-format
 msgid "Ripple Tool"
-msgstr "Izurdura Tresna"
+msgstr "Izurdura tresna"
 
 #: src/mainwindow.cpp:1210
 #, kde-kuit-format
@@ -15126,7 +15126,7 @@ msgstr "%1etik Tokenera Sarrera Lortzean Errorea."
 #, kde-format
 msgctxt "frames per second"
 msgid "fps"
-msgstr "f/s"
+msgstr "fps"
 
 #: src/profiles/profileinfo.cpp:105
 #, kde-format

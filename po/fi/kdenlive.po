@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-28 02:45+0000\n"
-"PO-Revision-Date: 2024-10-28 21:08+0200\n"
+"PO-Revision-Date: 2024-12-17 16:27+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -1086,10 +1086,9 @@ msgid "GPS Graphic"
 msgstr "Kaavionäkymä"
 
 #: data/effects/gpsgraphic.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr "Peitä GPS-aiheinen teksti videon päälle."
+msgstr "Piirrä videon päälle kuva GPS-tiedoista."
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1226,10 +1225,9 @@ msgid "Percentage from min..max,Absolute value"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:55
-#, fuzzy, kde-format
-#| msgid "Center horizontally"
+#, kde-format
 msgid "Crop mode horizontal"
-msgstr "Keskitä vaakasuunnassa"
+msgstr "Rajaus vaakasuunnassa"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1243,10 +1241,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:61
-#, fuzzy, kde-format
-#| msgid "Crop left"
+#, kde-format
 msgid "Crop left"
-msgstr "Leikkaa vasemmalta"
+msgstr "Rajaa vasemmalta"
 
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
@@ -1263,10 +1260,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:66
-#, fuzzy, kde-format
-#| msgid "Crop right"
+#, kde-format
 msgid "Crop right"
-msgstr "Leikkaa oikealta"
+msgstr "Rajaa oikealta"
 
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
@@ -1277,10 +1273,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:71
-#, fuzzy, kde-format
-#| msgid "Center vertically"
+#, kde-format
 msgid "Crop mode vertical"
-msgstr "Keskitä pystysuunnassa"
+msgstr "Rajaus pystysuunnassa"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1300,10 +1295,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:81
-#, fuzzy, kde-format
-#| msgid "Crop bottom"
+#, kde-format
 msgid "Crop bottom"
-msgstr "Leikkaa alhaalta"
+msgstr "Rajaa alhaalta"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1320,10 +1314,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:86
-#, fuzzy, kde-format
-#| msgid "Crop left"
+#, kde-format
 msgid "Crop top"
-msgstr "Leikkaa vasemmalta"
+msgstr "Rajaa ylhäältä"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1344,10 +1337,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:92
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Graph color style"
-msgstr "Kaavion tyyppi"
+msgstr "Kaaviovärin tyyli"
 
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
@@ -1377,8 +1369,7 @@ msgid "Sets the color #2 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:104
-#, fuzzy, kde-format
-#| msgid "Color 3"
+#, kde-format
 msgid "Color 3"
 msgstr "Väri 3"
 
@@ -1388,8 +1379,7 @@ msgid "Sets the color #3 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:108
-#, fuzzy, kde-format
-#| msgid "Color 4"
+#, kde-format
 msgid "Color 4"
 msgstr "Väri 4"
 
@@ -1399,8 +1389,7 @@ msgid "Sets the color #4 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:112
-#, fuzzy, kde-format
-#| msgid "Color 5"
+#, kde-format
 msgid "Color 5"
 msgstr "Väri 5"
 
@@ -1410,10 +1399,9 @@ msgid "Sets the color #5 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show style options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "Näytä tyylivalinnat"
+msgstr "Näytä Nyt-piste"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1424,22 +1412,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "Border color"
+#, kde-format
 msgid "Now dot color"
-msgstr "Reunuksen väri"
+msgstr "Nyt-pisteen väri"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
-#| msgid "Set the shape color of the second detected face."
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "Asettaa toisten tunnistettujen kasvojen kuviovärin."
+msgstr "Asettaa Nyt-pisteen värin"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "Puhe tekstiksi"
+msgstr "Näytä Nyt-teksti"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1467,22 +1452,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Viivan paksuus"
+msgstr "Viivan paksuus (px)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "Palkin tai pilarin paksuus."
+msgstr "Asettaa viivakaavion paksuuden kuvapisteinä."
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "Piirrä ruudukko"
+msgstr "Piirrä selite"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1519,10 +1501,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "Näytä vain siirtymät"
+msgstr "Näytä vain pisteet"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1550,10 +1531,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
-#| msgid "Background Weight"
+#, kde-format
 msgid "Background image"
-msgstr "Taustan painotus"
+msgstr "Taustakuva"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1565,10 +1545,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "Tausta"
+msgstr "Taustan mittakaava"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1590,10 +1569,9 @@ msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:173
-#, fuzzy, kde-format
-#| msgid "GPS processing start time"
+#, kde-format
 msgid "GPS start time"
-msgstr "GPS-laskemisen alkamisaika"
+msgstr "GPS-alkamisaika"
 
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
@@ -1601,16 +1579,14 @@ msgid "Date and time of the first valid GPS point."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "Videon suoratoisto"
+msgstr "Videon alkamisaika"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "Aseta ajastin videolle"
+msgstr "Videotiedoston päiväys ja aika."
 
 #: data/effects/gpsgraphic.xml:181
 #, fuzzy, kde-format
@@ -1640,10 +1616,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map "
+#, kde-format
 msgid "Map hint"
-msgstr "Kartta "
+msgstr "Karttavihje"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
@@ -4781,10 +4756,9 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Jos valittu, kaikki muut ääniraidat vaimennetaan."
 
 #: src/audiomixer/mixerwidget.cpp:277
-#, fuzzy, kde-format
-#| msgid "Monitor Config"
+#, kde-format
 msgid "Monitor audio"
-msgstr "Valvonta-asetukset"
+msgstr "Tarkkaile ääntä"
 
 #: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
@@ -6168,10 +6142,9 @@ msgid "Assign a new style to a subtitle."
 msgstr ""
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "farsi"
+msgstr "versio"
 
 #: src/bin/playlistclip.cpp:169
 #, fuzzy, kde-format
@@ -6908,10 +6881,9 @@ msgid "You can input several profiles in a preset, separated by a semicolon"
 msgstr ""
 
 #: src/dialogs/customcamcorderdialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "Preset already exists"
+#, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "Esiasetus on jo olemassa"
+msgstr "Esiasetus on jo olemassa, anna uusi nimi:"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -7447,15 +7419,14 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1806
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Latausvirhe %1"
+msgstr "Lataa (1,4 Gt)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1828
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Asennetaan monikielistä dataa…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7501,10 +7472,9 @@ msgid "Probing..."
 msgstr "Tutkitaan..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1952
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Ladataan mallia..."
+msgstr "Ladataan monikielistä mallia…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2008
 #: src/dialogs/kdenlivesettingsdialog.cpp:2304
@@ -7523,10 +7493,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2056 src/ui/configspeech_ui.ui:308
-#, fuzzy, kde-format
-#| msgid "Invalid transition"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Virheellinen siirtymätehoste"
+msgstr "Asenna monikielinen käännös"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
@@ -7536,18 +7505,16 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097
 #: src/dialogs/kdenlivesettingsdialog.cpp:2111
 #: src/dialogs/kdenlivesettingsdialog.cpp:2120
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install a model"
-msgstr "Asennetut moduulit"
+msgstr "Asenna malli"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2113
 #: src/dialogs/kdenlivesettingsdialog.cpp:2122 src/ui/configspeech_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Reunustila"
+msgstr "Hallinnoi malleja"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2182
 #, kde-format
@@ -7609,7 +7576,7 @@ msgstr "Hallitse tekstityksiä"
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "Taso"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -7619,7 +7586,7 @@ msgstr "Siirrä tasoa"
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "Valitse tekstitystiedosto, johon taso siirretään:"
 
 #: src/dialogs/managesubtitles.cpp:102
 #, kde-format
@@ -7629,7 +7596,7 @@ msgstr "Kopioi taso"
 #: src/dialogs/managesubtitles.cpp:102
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "Valitse tekstitystiedosto, johon taso kopioidaan:"
 
 #: src/dialogs/managesubtitles.cpp:132 src/dialogs/managesubtitles.cpp:213
 #, kde-format
@@ -7639,7 +7606,7 @@ msgstr "Siirrä…"
 #: src/dialogs/managesubtitles.cpp:135 src/dialogs/managesubtitles.cpp:216
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "Kopioi kohteeseen…"
 
 #: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:590
 #, kde-format
@@ -7654,7 +7621,7 @@ msgstr "Siirrä tyyliä"
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "Valitse tekstitystiedosto, johon tyyli siirretään:"
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
@@ -7664,7 +7631,7 @@ msgstr "Kopioi tyyli"
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "Valitse tekstitystiedosto, johon tyyli kopioidaan:"
 
 #: src/dialogs/managesubtitles.cpp:385
 #, kde-format
@@ -7681,22 +7648,23 @@ msgstr "Vie tekstitys"
 #: src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "Taso "
 
+# Tarkoituksellisesti tyhjä (oletuksella, että Layer+with+event(s) kuuluvat yhteen)
 #: src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr " "
 
 #: src/dialogs/managesubtitles.cpp:445 src/dialogs/managesubtitles.cpp:451
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr "tapahtumalla"
 
 #: src/dialogs/managesubtitles.cpp:451
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr "tapahtumalla"
 
 #: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
@@ -7719,16 +7687,14 @@ msgid "Top Right"
 msgstr "Yläoikealla"
 
 #: src/dialogs/managesubtitles.cpp:537
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Box as Border"
-msgstr "Reunus "
+msgstr "Laatikko reunana"
 
 #: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:102
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Box as Shadow"
-msgstr "Varjo"
+msgstr "Laatikko varjostuksena"
 
 #: src/dialogs/managesubtitles.cpp:690
 #, kde-format
@@ -7751,7 +7717,7 @@ msgstr "Oletustyyliä ei voi poistaa."
 #: src/dialogs/managesubtitles.cpp:734
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr ""
+msgstr "Tämä poistaa tyylin <b>%1</b> kaikkine ominaisuuksineen."
 
 #: src/dialogs/managesubtitles.cpp:739
 #, kde-format
@@ -7759,6 +7725,8 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
+"Tämä poistaa tyylin <b>%1</b> kaikkine ominaisuuksineen.\n"
+"Tätä käyttävien tekstitysten tyyliksi palautuu <b>Oletus</b>."
 
 #: src/dialogs/profilesdialog.cpp:124
 #, kde-format
@@ -8360,10 +8328,9 @@ msgid "Speech recognition aborted."
 msgstr "Puheentunnistus keskeytetty."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Puheentunnistus epäonnistui"
+msgstr "Puheentunnistus epäonnistui."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -8454,12 +8421,12 @@ msgstr "katalaani"
 #: src/dialogs/speechdialog.cpp:489
 #, kde-format
 msgid "Cebuano"
-msgstr ""
+msgstr "cebuano"
 
 #: src/dialogs/speechdialog.cpp:490
 #, kde-format
 msgid "Central Kurdish"
-msgstr ""
+msgstr "keskikurdi"
 
 #: src/dialogs/speechdialog.cpp:491
 #: src/pythoninterfaces/speechtotextwhisper.cpp:81
@@ -8488,7 +8455,7 @@ msgstr "hollanti"
 #: src/dialogs/speechdialog.cpp:495
 #, kde-format
 msgid "Egyptian Arabic"
-msgstr ""
+msgstr "egyptinarabia"
 
 #: src/dialogs/speechdialog.cpp:496
 #: src/pythoninterfaces/speechtotextwhisper.cpp:85
@@ -8523,7 +8490,7 @@ msgstr "galicia"
 #: src/dialogs/speechdialog.cpp:501
 #, kde-format
 msgid "Ganda"
-msgstr ""
+msgstr "ganda"
 
 #: src/dialogs/speechdialog.cpp:502
 #: src/pythoninterfaces/speechtotextwhisper.cpp:92
@@ -8581,7 +8548,7 @@ msgstr "islanti"
 #: src/dialogs/speechdialog.cpp:511
 #, kde-format
 msgid "Igbo"
-msgstr ""
+msgstr "igbo"
 
 #: src/dialogs/speechdialog.cpp:512
 #: src/pythoninterfaces/speechtotextwhisper.cpp:104
@@ -8639,7 +8606,7 @@ msgstr "korea"
 #: src/dialogs/speechdialog.cpp:521
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "kirgiisi"
 
 #: src/dialogs/speechdialog.cpp:522
 #: src/pythoninterfaces/speechtotextwhisper.cpp:112
@@ -8695,7 +8662,7 @@ msgstr "marathi"
 #: src/dialogs/speechdialog.cpp:532
 #, kde-format
 msgid "Meitei"
-msgstr ""
+msgstr "meitei"
 
 #: src/dialogs/speechdialog.cpp:533
 #, kde-format
@@ -8705,7 +8672,7 @@ msgstr "nykyaikainen yleisarabia"
 #: src/dialogs/speechdialog.cpp:534
 #, kde-format
 msgid "Moroccan Arabic"
-msgstr ""
+msgstr "marokonarabia"
 
 #: src/dialogs/speechdialog.cpp:535
 #: src/pythoninterfaces/speechtotextwhisper.cpp:130
@@ -8716,7 +8683,7 @@ msgstr "nepali"
 #: src/dialogs/speechdialog.cpp:536
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr ""
+msgstr "nigerianfulfulde"
 
 #: src/dialogs/speechdialog.cpp:537
 #, kde-format
@@ -8726,7 +8693,7 @@ msgstr "pohjoisazeri"
 #: src/dialogs/speechdialog.cpp:538
 #, kde-format
 msgid "Northern Uzbek"
-msgstr ""
+msgstr "pohjoisuzbekki"
 
 #: src/dialogs/speechdialog.cpp:539
 #, kde-format
@@ -8746,7 +8713,7 @@ msgstr "nyanja"
 #: src/dialogs/speechdialog.cpp:542
 #, kde-format
 msgid "Odia"
-msgstr ""
+msgstr "odia"
 
 #: src/dialogs/speechdialog.cpp:543
 #: src/pythoninterfaces/speechtotextwhisper.cpp:137
@@ -8817,7 +8784,7 @@ msgstr "somali"
 #: src/dialogs/speechdialog.cpp:554
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "eteläpaštu"
 
 #: src/dialogs/speechdialog.cpp:555
 #: src/pythoninterfaces/speechtotextwhisper.cpp:152
@@ -8833,7 +8800,7 @@ msgstr "yleislatvia"
 #: src/dialogs/speechdialog.cpp:557
 #, kde-format
 msgid "Standard Malay"
-msgstr ""
+msgstr "standardimalaiji"
 
 #: src/dialogs/speechdialog.cpp:558
 #: src/pythoninterfaces/speechtotextwhisper.cpp:154
@@ -8910,7 +8877,7 @@ msgstr "kymri"
 #: src/dialogs/speechdialog.cpp:570
 #, kde-format
 msgid "West Central Oromo"
-msgstr ""
+msgstr "läntinen keskioromo"
 
 #: src/dialogs/speechdialog.cpp:571
 #, kde-format
@@ -8926,7 +8893,7 @@ msgstr "joruba"
 #: src/dialogs/speechdialog.cpp:573
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "zulu"
 
 #: src/dialogs/splash.cpp:40
 #, kde-format
@@ -8942,7 +8909,7 @@ msgstr "Muokkaa tekstitystyyliä"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "Avaa ikkunan nykyisen tekstityksen muokkaamiseksi."
 
 #: src/dialogs/subtitleedit.cpp:279
 #, kde-format
@@ -9206,10 +9173,9 @@ msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
 
 #: src/dialogs/subtitlestyleedit.cpp:101
-#, fuzzy, kde-format
-#| msgid "Outline"
+#, kde-format
 msgid "Box as Outline"
-msgstr "Ääriviiva"
+msgstr "Laatikko ääriviivana"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:133 src/ui/editsubstyle_ui.ui:316
@@ -9867,11 +9833,9 @@ msgid "Transition"
 msgstr "Siirtymä"
 
 #: src/doc/documentchecker.cpp:1865
-#, fuzzy, kde-format
-#| msgid "One removed clip"
-#| msgid_plural "%1 removed clips"
+#, kde-format
 msgid "Unreferenced clip"
-msgstr "Yksi poistettu leike"
+msgstr "Viitteetön leike"
 
 #: src/doc/documentchecker.cpp:1867
 #, kde-format
@@ -14592,10 +14556,7 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift - vedä ja pudota</shortcut> keskikoon muutosta varten"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:431
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click to add points,\n"
-#| "right click to close shape."
+#, kde-format
 msgid ""
 "Click to add points,\n"
 "right click or press enter to close shape."
@@ -16094,11 +16055,9 @@ msgid "Save Copy"
 msgstr "Tallenna kopio"
 
 #: src/project/projectmanager.cpp:750
-#, fuzzy, kde-format
-#| msgid "Auto-saved file exist. Do you want to recover now?"
+#, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
-msgstr ""
-"Automaattisesti tallennettu tiedosto on olemassa. Haluatko palauttaa nyt?"
+msgstr "Automaattitallennettu tiedosto on olemassa. Haluatko palauttaa sen?"
 
 #: src/project/projectmanager.cpp:750
 #, kde-format
@@ -16304,16 +16263,14 @@ msgid "%1 is properly configured."
 msgstr "%1 on asetettu oikein."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:54
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Kaikki on määritetty: %1"
+msgstr "Kaikki on määritetty:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:56
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 on määritetty: %2"
+msgstr "%1 on määritetty:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:75
 #: src/pythoninterfaces/abstractpythoninterface.cpp:86
@@ -16376,12 +16333,13 @@ msgstr "Python venv koko: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:309
 #: src/pythoninterfaces/abstractpythoninterface.cpp:311
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary directory %1"
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Ei voida luoda väliaikaiskansiota %1"
+msgstr ""
+"Ei voida luoda Python-virtuaaliympäristöä:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:327
 #, kde-format
@@ -16425,11 +16383,10 @@ msgid "Please consider to update your setup."
 msgstr "Harkitse asennuksen päivittämistä."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:482
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Piirtoasetukset"
+msgstr "puuttuu (valinnainen)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:490
 #, kde-format
@@ -16470,19 +16427,20 @@ msgstr ""
 "virtuaaliympäristön uudelleen käyttöön."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Error Downloading File. Error code: %1"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Virhe ladattaessa tiedostoa. Virhekoodi: %1"
+msgstr ""
+"Virhe ladattaessa mallia:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Valitse toistettava vyöhyke"
+msgstr "Valitse ladattavat uudet mallit"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, fuzzy, kde-format
@@ -16496,28 +16454,24 @@ msgid "Checking available models"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Ladataan mallia..."
+msgstr "Ladataan"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Ladataan mallia..."
+msgstr "Lataa malli"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Siirry lataussivulle"
+msgstr "Keskeytä lataukset"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Asennetut moduulit"
+msgstr "Poista mallin asennus"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, fuzzy, kde-format
@@ -16526,40 +16480,34 @@ msgid "Install model"
 msgstr "Asennetut moduulit"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Koko kaikkiaan:"
+msgstr "Latauskoko kaikkiaan: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Tarkistetaan asetuksia…"
+msgstr "Tarkistetaan mallien eheyttä…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Arkistointi on käynnissä: haluatko keskeyttää sen?"
+msgstr "Meneillään on lataus: haluatko keskeyttää sen?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Siirry lataussivulle"
+msgstr "Keskeytä lataus"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "OpenTimelineIO-muunnos"
+msgstr "OpenTimelineIO-ydintoiminnallisuus"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "OpenTimelineIO-muunnos"
+msgstr "OpenTimelineIO:n Kdenlinve-tuki"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -16878,10 +16826,9 @@ msgid "Yiddish"
 msgstr "jiddiš"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:246
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Asenna Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -18136,10 +18083,9 @@ msgid "Error initializing timeline preview"
 msgstr "Virhe alustettaessa aikajanan esikatselua"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "Puretaan ääntä kohteeseen %1."
+msgstr "Muokataan %1 leikkeen kestoa."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
 #, fuzzy, kde-format
@@ -20480,17 +20426,15 @@ msgstr "Käytä aina mukautettua kansiota"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #: src/ui/configenv_ui.ui:241
-#, fuzzy, kde-format
-#| msgid "Always use active project folder"
+#, kde-format
 msgid "Always use a custom subfolder of project folder"
-msgstr "Käytä aina aktiivista projektikansiota"
+msgstr "Käytä aina omaa alikansiota projektikansiossa"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
 #: src/ui/configenv_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Parent folder of project file"
+#, kde-format
 msgid "Subfolder of project folder"
-msgstr "Projektitiedoston yläkansio"
+msgstr "Projektikansion alikansio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:263
@@ -20767,20 +20711,15 @@ msgstr "Nouda Magic Lanternin luomat leikkeen metatiedot"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ohita alikansiot"
+msgstr "Sivuuta tuotaessa alikansiorakenne"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Ohita tuonnissa alikansiorakenne (tuo kaikki tiedostot samaan kansioon)"
+msgstr "Tämä tuo kaikki tiedostot ylimmän tason kansioon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -21066,10 +21005,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "&Whisper"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:128
@@ -21702,10 +21640,9 @@ msgstr "Yläraja"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
-#, fuzzy, kde-format
-#| msgid "Vertical center"
+#, kde-format
 msgid "Vertical margin"
-msgstr "Pystykeskikohta"
+msgstr "Pystyreunus"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
@@ -21741,10 +21678,9 @@ msgstr "Tekstitystyylimuokkain"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Style name"
-msgstr "Tiedostonimi"
+msgstr "Tyylin nimi"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -21762,24 +21698,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
+#, kde-format
 msgid "Character spacing"
-msgstr "Kirjainväli:"
+msgstr "Kirjainväli"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "Scale X"
+#, kde-format
 msgid "Scale X"
-msgstr "Skaalaa (X)"
+msgstr "X-mittakaava"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Target color"
+#, kde-format
 msgid "Text color"
-msgstr "Kohdeväri"
+msgstr "Tekstiväri"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -21832,10 +21765,9 @@ msgstr "Tasaus"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Scale Y"
+#, kde-format
 msgid "Scale Y"
-msgstr "Skaalaa (Y)"
+msgstr "Y-mittakaava"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27

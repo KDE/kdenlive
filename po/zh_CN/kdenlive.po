@@ -7467,7 +7467,7 @@ msgstr "安装多语言翻译"
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr ""
+msgstr "安装一个语音模型 - 我们推荐使用 <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097
 #: src/dialogs/kdenlivesettingsdialog.cpp:2111

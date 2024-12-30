@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-28 02:45+0000\n"
-"PO-Revision-Date: 2024-12-28 14:57+0300\n"
+"PO-Revision-Date: 2024-12-29 13:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7810,7 +7810,7 @@ msgstr "Geçici dosyalar oluşturulamıyor"
 #: src/dialogs/proxytest.cpp:120
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
-msgstr "60 saniyelik bir sınama videosu oluşturuluyor %1"
+msgstr "60 saniyelik bir %1 sınama videosu üretiliyor"
 
 #: src/dialogs/proxytest.cpp:144
 #, kde-format
