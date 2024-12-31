@@ -10726,13 +10726,13 @@ msgstr "输入此蒙版的名称："
 #: src/effects/effectstack/view/maskmanager.cpp:211
 #, kde-format
 msgid "Generating mask %1"
-msgstr ""
+msgstr "正在生成蒙版 %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:328
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
-msgstr ""
+msgstr "这将对 <b>%1</b> 文件应用蒙版：<br/>%2<br/>此操作无法撤销。"
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -10936,7 +10936,7 @@ msgstr "蒙版创建"
 #: src/jobs/masktask.cpp:44
 #, kde-format
 msgid "No source frames to process"
-msgstr ""
+msgstr "没有要处理的来源帧"
 
 #: src/jobs/masktask.cpp:91
 #, kde-format
@@ -14565,6 +14565,9 @@ msgid ""
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
+"点击对象以开始蒙版。\n"
+"Shift + 点击以包含另一个区域。\n"
+"Ctrl + 点击以排除某个区域。"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
 #, kde-format
