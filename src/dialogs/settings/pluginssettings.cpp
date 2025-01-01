@@ -282,13 +282,13 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     // Also show VOSK setup messages in the python env page
     connect(m_samInterface, &AbstractPythonInterface::setupMessage,
             [pythonSamLabel](const QString message, int type) { pythonSamLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
-    connect(m_samInterface, &SpeechToText::gotPythonSize, this, [this](const QString &label) {
+    connect(m_samInterface, &AbstractPythonInterface::gotPythonSize, this, [this](const QString &label) {
         sam_venv_size->setText(label);
         deleteSamVenv->setEnabled(!label.isEmpty());
     });
     m_samInterface->checkPython(true);
-    connect(m_samInterface, &SpeechToText::installFeedback, this, &PluginsSettings::showSamLog, Qt::QueuedConnection);
-    connect(m_samInterface, &SpeechToText::scriptFinished,
+    connect(m_samInterface, &AbstractPythonInterface::installFeedback, this, &PluginsSettings::showSamLog, Qt::QueuedConnection);
+    connect(m_samInterface, &AbstractPythonInterface::scriptFinished,
             [pythonSamLabel]() { QMetaObject::invokeMethod(pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
     combo_sam_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     connect(downloadSamButton, &QPushButton::clicked, this, &PluginsSettings::downloadSamModels);
@@ -296,16 +296,12 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(deleteSamModels, &QPushButton::clicked, this, &PluginsSettings::doDeleteSamModels);
     connect(m_samInterface, &AbstractPythonInterface::venvSetupChanged, this,
             [this]() { QMetaObject::invokeMethod(this, "checkSamEnvironement", Qt::QueuedConnection); });
-    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-    if (pluginDir.cd(m_samInterface->getVenvPath())) {
-        sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Plugin size")));
-    }
     connect(m_samInterface, &AbstractPythonInterface::dependenciesAvailable, this, &PluginsSettings::samDependenciesChecked);
-    connect(m_samInterface, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) {
+    connect(m_samInterface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &) {
         modelBox->setEnabled(false);
         check_config_sam->setEnabled(true);
     });
-    connect(m_samInterface, &SpeechToText::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
+    connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
         Q_UNUSED(args);
         if (scriptName.contains("checkgpu")) {
             combo_sam_device->clear();
@@ -318,7 +314,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
             }
         }
     });
-    connect(m_samInterface, &SpeechToText::concurrentScriptFinished, [this](const QString &scriptName, const QStringList &args) {
+    connect(m_samInterface, &AbstractPythonInterface::concurrentScriptFinished, [this](const QString &scriptName, const QStringList &args) {
         qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
         if (scriptName.contains("checkgpu")) {
             if (!KdenliveSettings::samDevice().isEmpty()) {
@@ -364,6 +360,10 @@ void PluginsSettings::checkSamEnvironement(bool afterInstall)
             installSamModelIfEmpty();
         } else {
             reloadSamModels();
+        }
+        QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+        if (pluginDir.cd(m_samInterface->getVenvPath())) {
+            sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Plugin size")));
         }
         if (combo_sam_device->count() == 0) {
             m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});

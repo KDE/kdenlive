@@ -92,7 +92,7 @@ void MaskTask::generateMask()
     m_scriptJob->start(KdenliveSettings::ffmpegpath(), args);
     m_scriptJob->waitForFinished(-1);
     if (!QFile::exists(outFile)) {
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+        QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Failed to render mask %1", outFile) : m_errorMessage),
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         return;

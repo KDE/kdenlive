@@ -130,9 +130,11 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     scriptJob.setProcessChannelMode(QProcess::MergedChannels);
     scriptJob.start(maskScript.first, args);
     scriptJob.waitForFinished(-1);
-    if (!QFile::exists(previewFile)) {
+    if (!QFile::exists(previewFile) || scriptJob.exitStatus() != 0) {
         // TODO error handling
-        qDebug() << ":::: FAILED TO GENERATE PREVIEW IMAGE: " << scriptJob.readAllStandardOutput();
+        const QString logDetails = scriptJob.readAllStandardOutput();
+        QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to render mask %1", previewFile)),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, logDetails));
     } else {
         QUrl url = QUrl::fromLocalFile(previewFile);
         url.setQuery(QStringLiteral("pos=%1&ctrl=%2").arg(m_lastPos).arg(QDateTime::currentSecsSinceEpoch()));

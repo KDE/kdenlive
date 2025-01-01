@@ -162,6 +162,7 @@ Item {
                 anchors.fill: frame
                 property bool shiftClick: false
                 property bool ctrlClick: false
+                property bool isDragEvent: false
                 property real xPos: 0
                 property real yPos: 0
                 onPressed: mouse => {
@@ -169,8 +170,14 @@ Item {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
                         root.captureRightClick
+                        isDragEvent = false
                     } else {
                         mouse.accepted = false;
+                    }
+                }
+                onPositionChanged: {
+                    if (maskMode == 0 && ctrlClick) {
+                        isDragEvent = true
                     }
                 }
                 onReleased: {
@@ -183,7 +190,7 @@ Item {
                         mouse.accepted = false;
                         return;
                     }
-                    if (mouse.button == Qt.LeftButton) {
+                    if (mouse.button == Qt.LeftButton && !isDragEvent) {
                         xPos = mouse.x / frame.width
                         yPos = mouse.y / frame.height
                         addControlPoint(xPos, yPos, shiftClick, ctrlClick)

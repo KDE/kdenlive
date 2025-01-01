@@ -109,25 +109,6 @@ else:
     else:
         predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device)
 
-def show_mask(mask, ax, obj_id=None, random_color=False):
-    #if random_color:
-    color = np.concatenate([np.random.random(3), np.array([0.6])], axis=0)
-    #else:
-    #    cmap = plt.get_cmap("tab10")
-    #    cmap_idx = 0 if obj_id is None else obj_id
-    #    color = np.array([*cmap(cmap_idx)[:3], 0.6])
-    h, w = mask.shape[-2:]
-    mask = mask.astype(np.uint8)
-    mask_image = mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
-    if borders:
-        import cv2
-        contours, _ = cv2.findContours(mask,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        # Try to smooth contours
-        contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
-        mask_image = cv2.drawContours(mask_image, contours, -1, (1, 1, 1, 0.5), thickness=2)
-    ax.imshow(mask_image)
-
-
 def save_mask(mask, filename, obj_id=None):
 
     color = [255, 255, 255, 255]
@@ -139,7 +120,9 @@ def save_mask(mask, filename, obj_id=None):
         contours, _ = cv2.findContours(mask,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         # Try to smooth contours
         contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
-        mask_image = cv2.drawContours(mask_image, contours, -1, (200, 0, 0, 100), thickness=borders)
+        color2 = color
+        color2[3] = 100
+        mask_image = cv2.drawContours(mask_image, contours, -1, color2, borders)
 
     pil_img = Image.fromarray(np.uint8(mask_image))
     pil_img.save(filename)
@@ -236,7 +219,6 @@ for out_frame_idx in range(0, len(frame_names), vis_frame_stride):
     #plt.title(f"frame {out_frame_idx}")
     #plt.imshow(Image.open(os.path.join(inputFolder, frame_names[out_frame_idx])))
     for out_obj_id, out_mask in video_segments[out_frame_idx].items():
-        #show_mask(out_mask, plt.gca(), obj_id=out_obj_id)
         filename = output_frame + '/{:05d}'.format(out_frame_idx) + '.png'
         save_mask(out_mask, filename, obj_id=out_obj_id)
     #plt.show()
