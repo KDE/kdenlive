@@ -71,6 +71,11 @@ void MaskTask::generateMask()
     QObject::connect(m_scriptJob.get(), &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);
     m_scriptJob->start(m_scriptPath.first, args);
     m_scriptJob->waitForFinished(-1);
+    if (m_scriptJob->exitCode() != 0) {
+        QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to analyse video.")),
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+        return;
+    }
     m_isFfmpegJob = true;
     // Now convert frames to video
     // ffmpeg -framerate 25 -pattern_type glob -i '*.png' -c:v ffv1 -pix_fmt yuva420p output.mkv
@@ -89,7 +94,7 @@ void MaskTask::generateMask()
     if (!QFile::exists(outFile)) {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Failed to render mask %1", outFile) : m_errorMessage),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         return;
     }
     // Save thumbnail
