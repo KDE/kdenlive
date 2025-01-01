@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:41+0000\n"
-"PO-Revision-Date: 2024-12-28 13:24+0100\n"
+"PO-Revision-Date: 2024-12-31 09:36+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -11052,21 +11052,17 @@ msgid "Enter the name of this mask:"
 msgstr "Escriba o nome desta máscara:"
 
 #: src/effects/effectstack/view/maskmanager.cpp:211
-#, fuzzy, kde-format
-#| msgid "Generating image mask"
+#, kde-format
 msgid "Generating mask %1"
-msgstr "Xerando a máscara de imaxe"
+msgstr "Xerando a máscara %1"
 
 # skip-rule: trasno-delete_reverse
 #: src/effects/effectstack/view/maskmanager.cpp:328
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will the mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
-#| "undone."
+#, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
-"Isto eliminará o ficheiro de máscara <b>%1</b>:<br/>%2<br/>Esta operación "
+"Isto eliminará o ficheiro da máscara <b>%1</b>:<br/>%2<br/>Esta operación "
 "non pode desfacerse."
 
 #: src/filefilter.cpp:122
@@ -11271,8 +11267,7 @@ msgid "Mask creation"
 msgstr "Creación de máscara"
 
 #: src/jobs/masktask.cpp:44
-#, fuzzy, kde-format
-#| msgid "Nos source frames to process"
+#, kde-format
 msgid "No source frames to process"
 msgstr "Non hai fotogramas de orixe para procesar"
 
@@ -14983,11 +14978,7 @@ msgid "Generating video mask"
 msgstr "Xerando a máscara de vídeo"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click on an object to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to excude a zone."
+#, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
 "Shift+click to include another zone.\n"

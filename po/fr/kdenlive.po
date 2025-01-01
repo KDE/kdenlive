@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 00:41+0000\n"
-"PO-Revision-Date: 2024-12-28 09:27+0100\n"
+"PO-Revision-Date: 2024-12-30 10:36+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -2345,12 +2345,12 @@ msgstr "Écart"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "Position de départ pour le fichier de masque."
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "Position finale pour le fichier de masque."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -4132,10 +4132,9 @@ msgstr ""
 "les séquence du groupe."
 
 #: src/assets/assetpanel.cpp:102
-#, fuzzy, kde-format
-#| msgid "Create new points."
+#, kde-format
 msgid "Create an object mask"
-msgstr "Créer de nouveaux points."
+msgstr "Créer un masque d'objets"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -4144,6 +4143,8 @@ msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
 msgstr ""
+"Cela affiche le panneau de création de masques. Les masques peuvent être "
+"utilisés, par exemple, pour supprimer l'arrière-plan d'une vidéo."
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4246,6 +4247,8 @@ msgstr "Effets pour la source %1"
 msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
+"Vous devez définir des points d'inclusion dans la première trame vidéo de la "
+"séquence."
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4932,14 +4935,9 @@ msgid "None (Dissolve)"
 msgstr "Aucune (Dissoudre)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"Impossible de créer une frise chronologique à partir de cette vidéo :\n"
-"%1"
+msgstr "Créer ou modifier un masque pour cette séquence"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -8192,10 +8190,9 @@ msgid "Colors and Guides"
 msgstr "Couleurs et guides"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "Modules externes « TAP »"
+msgstr "Modules externes"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8502,47 +8499,41 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "Original size"
+#, kde-format
 msgid "Plugin size"
-msgstr "Taille d'origine"
+msgstr "Taille du module externe"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
-#, fuzzy, kde-format
-#| msgid "Install model"
+#, kde-format
 msgid "Install"
-msgstr "Installer un modèle"
+msgstr "Installer"
 
 #: src/dialogs/settings/pluginssettings.cpp:360
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#, kde-format
 msgid "Check config"
 msgstr "Vérifier la configuration"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "Cela supprimera le style <b>%1</b> et toutes ses propriétés."
+msgstr ""
+"Cela supprimera les modèles installés.\n"
+"Vous pourrez les installer à nouveau plus tard."
 
 #: src/dialogs/settings/pluginssettings.cpp:395
 #: src/dialogs/settings/pluginssettings.cpp:409
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"Ceci supprimera l'environnement virtuel de Python de :<br/><b>%1</b><br/"
-">L'environnement sera recréé et les modules téléchargés à chaque fois que "
-"vous réactiverez l'environnement virtuel de Python."
+"Ceci supprimera l'environnement du module externe sous Python de :<br/><b>"
+"%1</b><br/>L'environnement sera recréé et les modules téléchargés à chaque "
+"fois que vous réactiverez le module externe."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
@@ -8551,41 +8542,37 @@ msgid "Install multilingual translation"
 msgstr "Installer une traduction multilingue"
 
 #: src/dialogs/settings/pluginssettings.cpp:433
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr "Installez un modèle vocal - nous recommandons <b>turbo</b>"
+msgstr ""
+"Installez un modèle de synthèse vocale - nous vous recommandons <b>turbo</b>."
 
 # unreviewed-context
 #: src/dialogs/settings/pluginssettings.cpp:488
-#, fuzzy, kde-format
-#| msgid "Select new models to download"
+#, kde-format
 msgid "Select model to download"
-msgstr "Sélectionnez de nouveaux modèles à télécharger"
+msgstr "Sélectionner le modèle à télécharger"
 
 #: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "Tous les modèles sont déjà installés."
 
 #: src/dialogs/settings/pluginssettings.cpp:524
-#, fuzzy, kde-format
-#| msgid "Downloading"
+#, kde-format
 msgid "Downloading…"
-msgstr "Téléchargement en cours"
+msgstr "Téléchargement en cours..."
 
 #: src/dialogs/settings/pluginssettings.cpp:534
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "Téléchargement du modèle…"
+msgstr "Téléchargement en cours des plus petits modèles…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
-#, fuzzy, kde-format
-#| msgid "Download Model"
+#, kde-format
 msgid "Download models"
-msgstr "Télécharger un modèle"
+msgstr "Télécharger des modèles"
 
 #: src/dialogs/settings/pluginssettings.cpp:612
 #: src/dialogs/settings/pluginssettings.cpp:626
@@ -11154,24 +11141,20 @@ msgstr ""
 "Voulez-vous vraiment enregistrer un effet sans description ?"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "Veuillez configurer la reconnaissance vocale."
+msgstr "Veuillez configurer le module externe « SAM2 »."
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "Saisir un nom de préréglage"
+msgstr "Saisir un nom de masque"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
+#, kde-format
 msgid "Enter the name of this mask:"
-msgstr "Saisissez le nom de ce préréglage :"
+msgstr "Saisissez le nom de ce masque :"
 
 #: src/effects/effectstack/view/maskmanager.cpp:211
 #, fuzzy, kde-format
@@ -11384,10 +11367,9 @@ msgid "Failed to filter source."
 msgstr "Impossible de filtrer la source."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "X axis rotation"
+#, kde-format
 msgid "Mask creation"
-msgstr "Axe de rotation X"
+msgstr "Création de masque"
 
 #: src/jobs/masktask.cpp:44
 #, fuzzy, kde-format
@@ -11396,12 +11378,9 @@ msgid "No source frames to process"
 msgstr "Aucune image clé à importer"
 
 #: src/jobs/masktask.cpp:91
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr "Échec à la génération du clip : %1"
+msgstr "Impossible de faire un rendu du masque %1"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -15126,15 +15105,14 @@ msgid "Transform"
 msgstr "Transformer"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating image mask"
-msgstr "Création des images du menu"
+msgstr "Génération en cours d'un masque d'image"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:252
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
+msgstr "Génération en cours d'un masque de vidéo"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
 #, kde-format
@@ -15145,10 +15123,9 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:263
-#, fuzzy, kde-format
-#| msgid "Preview volume:"
+#, kde-format
 msgid "Previewing video mask"
-msgstr "Aperçu du volume :"
+msgstr "Génération d'un aperçu d'un masque de vidéo"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -15210,39 +15187,34 @@ msgstr ""
 "forme."
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "Générer"
+msgstr "Générer un masque"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "Changer l'opacité (0 % - 25 % - 50 % - 100 %)"
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Padding Color"
+#, kde-format
 msgid "Change Color"
-msgstr "Couleur de remplissage"
+msgstr "Modifier une couleur"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "Inverser"
+msgstr "Inverser un masque"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "Modifier la durée"
+msgstr "Sortie de la création de masques"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "Ajouter une zone d'aperçu"
+msgstr "Sortir du mode d'aperçu"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -17051,17 +17023,13 @@ msgid "The <application>%1</application> python module is required."
 msgstr "Le module python <application>%1</application> est nécessaire."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:475
-#, fuzzy, kde-format
-#| msgid ""
-#| "This requires an internet connection and will take several minutes to "
-#| "download all necessary dependencies. After that all processing will "
-#| "happen offline."
+#, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
-"Cela nécessite une connexion Internet et prendra plusieurs minutes pour "
+"Cela nécessite une connexion Internet et prendra plusieurs minutes pour \n"
 "télécharger toutes les dépendances nécessaires. Après cela, tout le "
 "traitement se fera hors ligne."
 
@@ -17298,7 +17266,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "Segmentation d'objets (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -21815,10 +21783,9 @@ msgstr "Traduire le texte vers l'Anglais"
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
-#, fuzzy, kde-format
-#| msgid "Uninstall model"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Désinstaller un modèle"
+msgstr "Désinstaller un module externe"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:419
@@ -21852,11 +21819,9 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:522
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Object Detection"
-msgstr "Détection de scène"
+msgstr "Détection d'objets"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
@@ -21871,13 +21836,15 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"La détection d'objets repose sur le module « SAM2 » - <a href=\"https://"
+"github.com/facebookresearch/sam2\">https://github.com/facebookresearch/sam2</"
+"a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:617
-#, fuzzy, kde-format
-#| msgid "Delete all guides"
+#, kde-format
 msgid "Delete all models"
-msgstr "Supprimer tous les guides"
+msgstr "Supprimer tous les modèles"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -23176,45 +23143,39 @@ msgstr "Formulaire"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create New"
+#, kde-format
 msgid "Create New Mask"
-msgstr "Créer un nouveau"
+msgstr "Créer un nouveau masque"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "Supprimer le repère"
+msgstr "Supprimer un masque"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "Projet importé"
+msgstr "Importer un masque dans le projet"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "Clip masque"
+msgstr "Masque"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "Aperçu"
+msgstr "Afficher un aperçu de masque"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "Appliquer"
+msgstr "Appliquer un masque"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
