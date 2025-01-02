@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:41+0000\n"
+"POT-Creation-Date: 2025-01-02 00:40+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -4101,7 +4101,13 @@ msgstr "%1 प्रभावान् पृष्ठतः कुर्वन�
 msgid "Bin %1 effects"
 msgstr "बिन %1 प्रभावः"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
+#: src/jobs/masktask.cpp:96
+#, kde-format
+msgid "Failed to render mask %1"
+msgstr "मास्क %1 रेण्डर् कर्तुं असफलम्"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -8270,24 +8276,24 @@ msgstr ""
 "भाषणप्रतिमानं अत्रतः डाउनलोड् कुर्वन्तु: <a href=\"https://alphacephei.com/vosk/"
 "models\">https://alphacephei.com/vosk/models</a>"
 
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
-#: src/ui/configspeech_ui.ui:746
-#, kde-format
-msgid "Plugin size"
-msgstr "प्लगिन् आकारः"
-
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
+#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
 #, kde-format
 msgid "Install"
 msgstr "संस्थापनं कुर्वन्तु"
 
-#: src/dialogs/settings/pluginssettings.cpp:360
+#: src/dialogs/settings/pluginssettings.cpp:356
 #, kde-format
 msgid "Check config"
 msgstr "विन्यासं पश्यन्तु"
+
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
+#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
+#, kde-format
+msgid "Plugin size"
+msgstr "प्लगिन् आकारः"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
@@ -11060,10 +11066,11 @@ msgstr "मास्क निर्माण"
 msgid "No source frames to process"
 msgstr "संसाधितुं स्रोतचतुष्कोणाः नास्ति"
 
-#: src/jobs/masktask.cpp:91
-#, kde-format
-msgid "Failed to render mask %1"
-msgstr "मास्क %1 रेण्डर् कर्तुं असफलम्"
+#: src/jobs/masktask.cpp:75
+#, fuzzy, kde-format
+#| msgid "Failed to analyse clip."
+msgid "Failed to analyse video."
+msgstr "क्लिप् विश्लेषणं कर्तुं असफलम्।"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14703,17 +14710,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "परिवर्तनं कुरुत"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating image mask"
 msgstr "इमेज मास्क जननम्"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
 msgstr "विडियो मास्क जननम्"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
@@ -14724,7 +14731,7 @@ msgstr ""
 "अन्यं क्षेत्रं समावेशयितुं Shift+क्लिक् कुर्वन्तु।\n"
 "क्षेत्रं बहिष्कृत्य Ctrl+क्लिक् कुर्वन्तु ।"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid "Previewing video mask"
 msgstr "विडियो मास्क पूर्वावलोकनम्v"

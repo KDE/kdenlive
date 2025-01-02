@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:41+0000\n"
+"POT-Creation-Date: 2025-01-02 00:40+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -4119,7 +4119,18 @@ msgstr "Takaró effekt"
 msgid "Bin %1 effects"
 msgstr "%1 effektusai"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
+#: src/jobs/masktask.cpp:96
+#, fuzzy, kde-format
+#| msgid ""
+#| "Failed to generate clip:\n"
+#| "%1"
+msgid "Failed to render mask %1"
+msgstr ""
+"Nem sikerült a klip előállítása:\n"
+"%1"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -8634,27 +8645,27 @@ msgid ""
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
-#: src/ui/configspeech_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "Original size"
-msgid "Plugin size"
-msgstr "Eredeti méret"
-
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
+#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install"
 msgstr "Telepített modulok"
 
-#: src/dialogs/settings/pluginssettings.cpp:360
+#: src/dialogs/settings/pluginssettings.cpp:356
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Check config"
 msgstr "Eszközbeállítás"
+
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
+#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
+#, fuzzy, kde-format
+#| msgid "Original size"
+msgid "Plugin size"
+msgstr "Eredeti méret"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
@@ -11610,15 +11621,11 @@ msgstr "X tengelyű forgatás"
 msgid "No source frames to process"
 msgstr "Kulcsképkockák importálása a klipből"
 
-#: src/jobs/masktask.cpp:91
+#: src/jobs/masktask.cpp:75
 #, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
-msgid "Failed to render mask %1"
-msgstr ""
-"Nem sikerült a klip előállítása:\n"
-"%1"
+#| msgid "Failed to create proxy clip."
+msgid "Failed to analyse video."
+msgstr "A proxyklip létrehozása nem sikerült."
 
 #: src/jobs/proxytask.cpp:30
 #, fuzzy, kde-format
@@ -15550,19 +15557,19 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Átkódolás"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, fuzzy, kde-format
 #| msgid "Generating audio thumb"
 msgid "Generating image mask"
 msgstr "Hang-minta előállítása"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, fuzzy, kde-format
 #| msgid "Generating audio thumb"
 msgid "Generating video mask"
 msgstr "Hang-minta előállítása"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
@@ -15570,7 +15577,7 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Previewing video mask"

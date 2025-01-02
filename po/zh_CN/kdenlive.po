@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:41+0000\n"
+"POT-Creation-Date: 2025-01-02 00:40+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4059,7 +4059,13 @@ msgstr "轨道 %1 效果"
 msgid "Bin %1 effects"
 msgstr "项目素材箱 %1 效果"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
+#: src/jobs/masktask.cpp:96
+#, kde-format
+msgid "Failed to render mask %1"
+msgstr "渲染蒙版 %1 失败"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -8181,24 +8187,24 @@ msgstr ""
 "从 <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/"
 "vosk/models</a> 下载语音模型"
 
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
-#: src/ui/configspeech_ui.ui:746
-#, kde-format
-msgid "Plugin size"
-msgstr "插件大小"
-
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
+#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
 #, kde-format
 msgid "Install"
 msgstr "安装"
 
-#: src/dialogs/settings/pluginssettings.cpp:360
+#: src/dialogs/settings/pluginssettings.cpp:356
 #, kde-format
 msgid "Check config"
 msgstr "检查配置"
+
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
+#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
+#, kde-format
+msgid "Plugin size"
+msgstr "插件大小"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
@@ -10938,10 +10944,11 @@ msgstr "蒙版创建"
 msgid "No source frames to process"
 msgstr "没有要处理的来源帧"
 
-#: src/jobs/masktask.cpp:91
-#, kde-format
-msgid "Failed to render mask %1"
-msgstr "渲染蒙版 %1 失败"
+#: src/jobs/masktask.cpp:75
+#, fuzzy, kde-format
+#| msgid "Failed to analyse clip."
+msgid "Failed to analyse video."
+msgstr "分析剪辑失败。"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14548,17 +14555,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transform - 变形"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating image mask"
 msgstr "正在生成图像蒙版"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
 msgstr "正在生成视频蒙版"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
@@ -14569,7 +14576,7 @@ msgstr ""
 "Shift + 点击以包含另一个区域。\n"
 "Ctrl + 点击以排除某个区域。"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid "Previewing video mask"
 msgstr "正在预览视频蒙版"

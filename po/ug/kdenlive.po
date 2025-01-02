@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:41+0000\n"
+"POT-Creation-Date: 2025-01-02 00:40+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -4127,7 +4127,14 @@ msgstr ""
 msgid "Bin %1 effects"
 msgstr "ئۈنۈم يوق"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
+#: src/jobs/masktask.cpp:96
+#, fuzzy, kde-format
+#| msgid "Cannot open file"
+msgid "Failed to render mask %1"
+msgstr "ھۆججەت ئاچالمىدى"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -8471,26 +8478,26 @@ msgid ""
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
+#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
+#, kde-format
+msgid "Install"
+msgstr ""
+
+#: src/dialogs/settings/pluginssettings.cpp:356
+#, fuzzy, kde-format
+#| msgid "Configure"
+msgid "Check config"
+msgstr "سەپلە"
+
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
+#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:746
 #, fuzzy, kde-format
 #| msgid "Original size"
 msgid "Plugin size"
 msgstr "ئەسلى چوڭلۇقى"
-
-#. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
-#, kde-format
-msgid "Install"
-msgstr ""
-
-#: src/dialogs/settings/pluginssettings.cpp:360
-#, fuzzy, kde-format
-#| msgid "Configure"
-msgid "Check config"
-msgstr "سەپلە"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
@@ -11343,11 +11350,11 @@ msgstr "ئۈنسىز"
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:91
+#: src/jobs/masktask.cpp:75
 #, fuzzy, kde-format
-#| msgid "Cannot open file"
-msgid "Failed to render mask %1"
-msgstr "ھۆججەت ئاچالمىدى"
+#| msgid "Transitions"
+msgid "Failed to analyse video."
+msgstr "ئالماشتۇر"
 
 #: src/jobs/proxytask.cpp:30
 #, fuzzy, kde-format
@@ -15168,17 +15175,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "ئالماشتۇر"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
@@ -15186,7 +15193,7 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, fuzzy, kde-format
 #| msgid "Folder"
 msgid "Previewing video mask"

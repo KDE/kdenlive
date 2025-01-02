@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:41+0000\n"
+"POT-Creation-Date: 2025-01-02 00:40+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4031,7 +4031,18 @@ msgstr "트랙 %1 효과"
 msgid "Bin %1 effects"
 msgstr "보관함 %1 효과"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
+#: src/jobs/masktask.cpp:96
+#, fuzzy, kde-format
+#| msgid ""
+#| "Failed to generate clip:\n"
+#| "%1"
+msgid "Failed to render mask %1"
+msgstr ""
+"클립을 생성하지 못했습니다:\n"
+"%1"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -8336,27 +8347,27 @@ msgstr ""
 "음성 모델 다운로드 위치: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
-#: src/ui/configspeech_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
-msgid "Plugin size"
-msgstr "TAP 플러그인"
-
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
+#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install"
 msgstr "설치된 모듈"
 
-#: src/dialogs/settings/pluginssettings.cpp:360
+#: src/dialogs/settings/pluginssettings.cpp:356
 #, fuzzy, kde-format
 #| msgid "Check configuration"
 msgid "Check config"
 msgstr "설정 확인"
+
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
+#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
+#, fuzzy, kde-format
+#| msgid "TAP Plugins"
+msgid "Plugin size"
+msgstr "TAP 플러그인"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
@@ -11256,15 +11267,11 @@ msgstr "X축 회전"
 msgid "No source frames to process"
 msgstr "프레임 레이트 강제"
 
-#: src/jobs/masktask.cpp:91
+#: src/jobs/masktask.cpp:75
 #, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
-msgid "Failed to render mask %1"
-msgstr ""
-"클립을 생성하지 못했습니다:\n"
-"%1"
+#| msgid "Failed to analyse clip."
+msgid "Failed to analyse video."
+msgstr "클립을 분석할 수 없습니다."
 
 #: src/jobs/proxytask.cpp:30
 #, fuzzy, kde-format
@@ -15033,18 +15040,18 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "변환"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, fuzzy, kde-format
 #| msgid "Creating menu images"
 msgid "Generating image mask"
 msgstr "메뉴 이미지 만드는 중"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
@@ -15052,7 +15059,7 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Previewing video mask"
