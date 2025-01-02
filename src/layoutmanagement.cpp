@@ -36,34 +36,34 @@ LayoutManagement::LayoutManagement(QObject *parent)
                          {QStringLiteral("kdenlive_color"), i18n("Color")}};
 
     // Prepare layout actions
-    KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
+    m_layoutCategory = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
     m_loadLayout = new KSelectAction(i18n("Load Layout"), pCore->window()->actionCollection());
     pCore->window()->actionCollection()->setShortcutsConfigurable(m_loadLayout, false);
 
     // Required to enable user to add the load layout action to toolbar
-    layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);
+    m_layoutCategory->addAction(QStringLiteral("load_layouts"), m_loadLayout);
     connect(m_loadLayout, &KSelectAction::actionTriggered, this, &LayoutManagement::slotLoadLayout);
 
     QAction *saveLayout = new QAction(i18n("Save Layout…"), pCore->window()->actionCollection());
-    layoutActions->addAction(QStringLiteral("save_layout"), saveLayout);
+    m_layoutCategory->addAction(QStringLiteral("save_layout"), saveLayout);
     connect(saveLayout, &QAction::triggered, this, &LayoutManagement::slotSaveLayout);
 
     QAction *manageLayout = new QAction(i18n("Manage Layouts…"), pCore->window()->actionCollection());
-    layoutActions->addAction(QStringLiteral("manage_layout"), manageLayout);
+    m_layoutCategory->addAction(QStringLiteral("manage_layout"), manageLayout);
     connect(manageLayout, &QAction::triggered, this, &LayoutManagement::slotManageLayouts);
     // Create 9 layout actions
     for (int i = 1; i < 10; i++) {
         QAction *load = new QAction(QIcon(), QString(), this);
-        m_layoutActions << layoutActions->addAction("load_layout" + QString::number(i), load);
+        m_layoutActions << m_layoutCategory->addAction("load_layout" + QString::number(i), load);
     }
 
     // Dock Area Orientation
     QAction *rowDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-rows")), i18n("Arrange Dock Areas In Rows"), this);
-    layoutActions->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
+    m_layoutCategory->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
     connect(rowDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaRows);
 
     QAction *colDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-columns")), i18n("Arrange Dock Areas In Columns"), this);
-    layoutActions->addAction(QStringLiteral("vertical_dockareaorientation"), colDockAreaAction);
+    m_layoutCategory->addAction(QStringLiteral("vertical_dockareaorientation"), colDockAreaAction);
     connect(colDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaColumns);
 
     // Create layout switcher for the menu bar
@@ -155,14 +155,15 @@ void LayoutManagement::initializeLayouts()
         }
         config->reparseConfiguration();
     }
-    for (int i = 1; i < 10; i++) {
-        QString layoutName;
-        if (i <= entries.count()) {
-            layoutName = entries.at(i - 1);
+    for (int i = 1; i <= entries.count(); i++) {
+        const QString layoutName = entries.at(i - 1);
+        QAction *load = nullptr;
+        if (i > m_layoutActions.count()) {
+            load = new QAction(QIcon(), QString(), this);
+            m_layoutActions << m_layoutCategory->addAction("load_layout" + QString::number(i), load);
         } else {
-            break;
+            load = m_layoutActions.at(i - 1);
         }
-        QAction *load = m_layoutActions.at(i - 1);
         if (layoutName.isEmpty()) {
             load->setText(QString());
             load->setIcon(QIcon());
@@ -330,6 +331,7 @@ void LayoutManagement::slotSaveLayout()
                 button->setChecked(true);
             }
         }
+        initializeLayouts();
     }
 }
 

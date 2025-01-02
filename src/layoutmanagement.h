@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMap>
 
 class KSelectAction;
+class KActionCategory;
 class QAction;
 class QButtonGroup;
 class QAbstractButton;
@@ -55,6 +56,7 @@ private:
     KSelectAction *m_loadLayout;
     QList <QAction *> m_layoutActions;
     QMap <QString, QString> m_translatedNames;
+    KActionCategory *m_layoutCategory;
 
 Q_SIGNALS:
     /** @brief Layout changed, ensure title bars are correctly displayed. */
