@@ -366,10 +366,13 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image) {
         // Aspect ratio
-        int force_ar_num = m_properties->get_int("force_aspect_num");
-        int force_ar_den = m_properties->get_int("force_aspect_den");
-        m_originalProperties.insert(QStringLiteral("force_aspect_den"), (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
-        m_originalProperties.insert(QStringLiteral("force_aspect_num"), (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
+        double ratio = 0.;
+        if (m_properties->property_exists("force_aspect_ratio")) {
+            ratio = m_properties->get_double("force_aspect_ratio");
+            m_originalProperties.insert(QStringLiteral("force_aspect_den"), QString::number(ratio));
+        } else {
+            m_originalProperties.insert(QStringLiteral("force_aspect_den"), QString());
+        }
         auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Aspect ratio:"), this);
         box->setObjectName(QStringLiteral("force_ar"));
@@ -390,7 +393,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         spin2->setMaximum(8000);
         spin2->setObjectName(QStringLiteral("force_aspect_den_value"));
         hlay->addWidget(spin2);
-        if (force_ar_num == 0) {
+        if (ratio == 0.) {
             // use current ratio
             int num = m_properties->get_int("meta.media.sample_aspect_num");
             int den = m_properties->get_int("meta.media.sample_aspect_den");
@@ -406,8 +409,16 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             box->setChecked(true);
             spin1->setEnabled(true);
             spin2->setEnabled(true);
-            spin1->setValue(force_ar_num);
-            spin2->setValue(force_ar_den);
+
+            int ratio_num = qRound(ratio * 1000);
+            int ratio_den = 1000;
+            int num = ProfilesDialog::gcd(ratio_num, ratio_den);
+            if (num > 0) {
+                ratio_num /= num;
+                ratio_den /= num;
+            }
+            spin1->setValue(ratio_num);
+            spin2->setValue(ratio_den);
         }
         connect(spin2, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
         connect(spin1, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
@@ -1228,8 +1239,6 @@ void ClipPropertiesController::slotEnableForce(int state)
         if (param == QLatin1String("kdenlive:transparency")) {
             properties.insert(param, QString());
         } else if (param == QLatin1String("force_ar")) {
-            properties.insert(QStringLiteral("force_aspect_den"), QString());
-            properties.insert(QStringLiteral("force_aspect_num"), QString());
             properties.insert(QStringLiteral("force_aspect_ratio"), QString());
         } else if (param == QLatin1String("autorotate")) {
             properties.insert(QStringLiteral("autorotate"), QString());
@@ -1278,8 +1287,6 @@ void ClipPropertiesController::slotEnableForce(int state)
             if ((spin == nullptr) || (spin2 == nullptr)) {
                 return;
             }
-            properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
-            properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
             properties.insert(QStringLiteral("force_aspect_ratio"), QString::number(double(spin->value()) / spin2->value(), 'f'));
         } else if (param == QLatin1String("disable_exif")) {
             properties.insert(QStringLiteral("disable_exif"), QString::number(1));
@@ -1326,8 +1333,6 @@ void ClipPropertiesController::slotAspectValueChanged(int)
         return;
     }
     QMap<QString, QString> properties;
-    properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
-    properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
     properties.insert(QStringLiteral("force_aspect_ratio"), QString::number(double(spin->value()) / spin2->value(), 'f'));
     Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
