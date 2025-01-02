@@ -416,16 +416,16 @@ bool ClipController::isValid()
 // static
 const char *ClipController::getPassPropertiesList(bool passLength)
 {
-    QString props = QStringLiteral("kdenlive:control_uuid,kdenlive:proxy,kdenlive:originalurl,kdenlive:multistreams,rotate,force_aspect_ratio,"
-                                   "force_fps,force_"
-                                   "progressive,force_tff,threads,"
-                                   "force_"
-                                   "colorspace,set.force_full_luma,templatetext,file_hash,autorotate,disable_exif,xmldata,vstream,astream,set.test_image,set."
-                                   "test_audio,ttl,kdenlive:tags,kdenlive:markers,kdenlive:masks,kdenlive:rating");
+    std::string props = "kdenlive:control_uuid,kdenlive:proxy,kdenlive:originalurl,kdenlive:multistreams,rotate,force_aspect_ratio,"
+                        "force_fps,force_"
+                        "progressive,force_tff,threads,"
+                        "force_"
+                        "colorspace,set.force_full_luma,templatetext,file_hash,autorotate,disable_exif,xmldata,vstream,astream,set.test_image,set."
+                        "test_audio,ttl,kdenlive:tags,kdenlive:markers,kdenlive:masks,kdenlive:rating";
     if (passLength) {
-        props.append(QStringLiteral(",length"));
+        props.append(",length");
     }
-    return props.toLatin1().constData();
+    return strdup(props.c_str());
 }
 
 QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &prefix, bool withPrefix)
