@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:41+0000\n"
-"PO-Revision-Date: 2024-12-04 23:19+0100\n"
+"POT-Creation-Date: 2025-01-02 00:40+0000\n"
+"PO-Revision-Date: 2025-01-01 17:35+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2298,12 +2298,12 @@ msgstr "Zamik"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "Začetni položaj za datoteko maske."
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "Končni položaj za datoteko maske."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -4074,7 +4074,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Create an object mask"
-msgstr ""
+msgstr "Ustvarite masko predmeta"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -4083,6 +4083,8 @@ msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
 msgstr ""
+"Na tem mestu je prikazana plošča za ustvarjanje maske. Maske se lahko "
+"uporabijo npr, za odstranitev ozadja iz videoposnetka."
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4178,11 +4180,17 @@ msgstr "Učinki steze %1"
 msgid "Bin %1 effects"
 msgstr "Učinki posode %1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
+#: src/jobs/masktask.cpp:96
+#, kde-format
+msgid "Failed to render mask %1"
+msgstr "Izris maske %1 ni uspel"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
-msgstr ""
+msgstr "V prvi video sličici zaporedja morate določiti točke vključenega."
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4871,14 +4879,9 @@ msgid "None (Dissolve)"
 msgstr "Brez (preliv)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"Ni možno ustvariti časovnice iz tega posnetka:\n"
-"%1"
+msgstr "Ustvarite ali uredite masko za ta posnetek"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -8099,10 +8102,9 @@ msgid "Colors and Guides"
 msgstr "Barve in vodila"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "Vtičniki TAP"
+msgstr "Vstavki"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8399,51 +8401,45 @@ msgstr ""
 "Prenos modelov govora iz: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
-#: src/ui/configspeech_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
-msgid "Plugin size"
-msgstr "Vtičniki TAP"
-
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
-#, fuzzy, kde-format
-#| msgid "Install model"
+#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
+#, kde-format
 msgid "Install"
-msgstr "Namesti model"
+msgstr "Namesti"
 
-#: src/dialogs/settings/pluginssettings.cpp:360
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#: src/dialogs/settings/pluginssettings.cpp:356
+#, kde-format
 msgid "Check config"
 msgstr "Preveri nastavitev"
 
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
+#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
+#, kde-format
+msgid "Plugin size"
+msgstr "Velikost vstavka"
+
 #: src/dialogs/settings/pluginssettings.cpp:378
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "S tem boste izbrisali slog <b>%1</b> in vse njegove lastnosti."
+msgstr ""
+"S tem boste izbrisali nameščene modele\n"
+"Pozneje jih lahko znova namestite."
 
 #: src/dialogs/settings/pluginssettings.cpp:395
 #: src/dialogs/settings/pluginssettings.cpp:409
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"To bo izbrisalo virtualno okolje python iz:<br/> %1<br/>Okolje se bo ponovno "
-"ustvarilo in moduli bodo preneseni, kadar koli boste ponovno omogočili "
-"virtualno okolje python."
+"To bo izbrisalo okolje python vstavka iz:<br/> <b>%1</b><br/>Okolje se bo "
+"ponovno ustvarilo in moduli bodo preneseni, kadar koli boste ponovno "
+"omogočili vstavek."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
@@ -8452,40 +8448,35 @@ msgid "Install multilingual translation"
 msgstr "Namesti večjezično prevajanje"
 
 #: src/dialogs/settings/pluginssettings.cpp:433
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Namestite govorni model - priporočamo <b>turbo</b>"
 
 #: src/dialogs/settings/pluginssettings.cpp:488
-#, fuzzy, kde-format
-#| msgid "Select new models to download"
+#, kde-format
 msgid "Select model to download"
-msgstr "Izberite nove modele za prenos"
+msgstr "Izberite model za prejem"
 
 #: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "Vsi modeli so že nameščeni"
 
 #: src/dialogs/settings/pluginssettings.cpp:524
-#, fuzzy, kde-format
-#| msgid "Downloading"
+#, kde-format
 msgid "Downloading…"
-msgstr "Prejemanje"
+msgstr "Prejemanje …"
 
 #: src/dialogs/settings/pluginssettings.cpp:534
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "Prenašanje modela …"
+msgstr "Prejemanje najmanjšega modela …"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
-#, fuzzy, kde-format
-#| msgid "Download Model"
+#, kde-format
 msgid "Download models"
-msgstr "Prenesi model"
+msgstr "Prenesi modele"
 
 #: src/dialogs/settings/pluginssettings.cpp:612
 #: src/dialogs/settings/pluginssettings.cpp:626
@@ -10468,36 +10459,35 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
-msgstr ""
+msgstr "Posredni posnetki niso namenjeni sestavljanju ali barvni korekciji."
 
 #: src/doc/kdenlivedoc.cpp:1611
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Posnetki imajo kanal alfa. "
+msgstr[1] "Posnetek ima kanal alfa. "
+msgstr[2] "Posnetka imata kanal alfa. "
+msgstr[3] "Posnetki imajo kanal alfa. "
 
 #: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Imate %1 posnetkov s kanalom alfa. "
+msgstr[1] "Imate %1 posnetek s kanalom alfa. "
+msgstr[2] "Imate %1 posnetka s kanalom alfa. "
+msgstr[3] "Imate %1 posnetke s kanalom alfa. "
 
 #: src/doc/kdenlivedoc.cpp:1619
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Posredni posnetki"
+msgstr "Posredni posnetki za vse posnetke"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Samo posredni posnetki brez alfe"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -11023,36 +11013,33 @@ msgstr ""
 "Ali želite shraniti učinek brez opisa?"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "Nastavite razpoznavanje govora v besedilo."
+msgstr "Nastavite vstavek SAM2"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "Vnesite ime prednastavitve"
+msgstr "Vnesi ime maske"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
+#, kde-format
 msgid "Enter the name of this mask:"
-msgstr "Vnesite ime te prednastavitve:"
+msgstr "Vnesite ime te maske:"
 
 #: src/effects/effectstack/view/maskmanager.cpp:211
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generating mask %1"
-msgstr "Generiraj"
+msgstr "Tvorjenje maske %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:328
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
+"S tem boste prikrili datoteko <b>%1</b> :<br/>%2<br/>Te operacije ni mogoče "
+"razveljaviti."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11249,25 +11236,20 @@ msgid "Failed to filter source."
 msgstr "Vira ni bilo možno filtrirati."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask creation"
-msgstr "Posnetek za masko"
+msgstr "Ustvarjanje maske"
 
 #: src/jobs/masktask.cpp:44
 #, kde-format
 msgid "No source frames to process"
-msgstr ""
+msgstr "Ni izvornih sličic za obdelavo"
 
-#: src/jobs/masktask.cpp:91
+#: src/jobs/masktask.cpp:75
 #, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
-msgid "Failed to render mask %1"
-msgstr ""
-"Posnetka ni možno ustvariti:\n"
-"%1"
+#| msgid "Failed to analyse clip."
+msgid "Failed to analyse video."
+msgstr "Posnetka ni bilo možno analizirati."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14941,29 +14923,31 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Preoblikuj"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating image mask"
-msgstr ""
+msgstr "Tvojenje slikovne maske"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
+msgstr "Tvorjenje video maske"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
+"Kliknite predmet, da začnete masko.\n"
+"Dvigalka+klik: vključite drugo območje.\n"
+"Krmilka+klik: izključite območje."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
-#, fuzzy, kde-format
-#| msgid "Preview Using Proxy Clips"
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
+#, kde-format
 msgid "Previewing video mask"
-msgstr "Preglej z uporabo posrednih posnetkov"
+msgstr "Predogled video maske"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -15023,39 +15007,34 @@ msgstr ""
 "desni klik ali pritisk vnašalke za zapiranje lika."
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "Generiraj"
+msgstr "Tvori masko"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "Spremeni prosojnost (0 % - 25 % - 50 % - 100 %)"
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Padding Color"
+#, kde-format
 msgid "Change Color"
-msgstr "Barva blazinjenja"
+msgstr "Spremeni barvo"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "Obrni"
+msgstr "Preobrni masko"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "Uredi trajanje"
+msgstr "Izhod iz ustvarjanja maske"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "Dodaj območje predogleda"
+msgstr "Izhod iz načina predogleda"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16859,19 +16838,15 @@ msgid "The <application>%1</application> python module is required."
 msgstr "Potreben je modul python <application>%1</application>."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:475
-#, fuzzy, kde-format
-#| msgid ""
-#| "This requires an internet connection and will take several minutes to "
-#| "download all necessary dependencies. After that all processing will "
-#| "happen offline."
+#, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
 "To zahteva internetno povezavo in traja nekaj minut, da prenesete vse "
-"potrebne pakete, od katerih je paket odvisen. Po tem bo vsa obdelava "
-"potekala brez povezave."
+"potrebne pakete,\n"
+"od katerih je paket odvisen. Po tem bo vsa obdelava potekala brez povezave."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:495
 #: src/pythoninterfaces/abstractpythoninterface.cpp:608
@@ -17100,7 +17075,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "Segmentacija predmetov (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -18601,10 +18576,9 @@ msgstr "Trajanje montaže za %1 posnetkov."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Montaža v načinu izrivanja."
+msgstr "Spreminjanje velikosti v načinu izrivanja."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20337,10 +20311,9 @@ msgstr "Konec obreza:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Spremeni velikost posnetka z izrivanjem"
+msgstr "Spremeni velikost z izrivanjem"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -21562,10 +21535,9 @@ msgstr "Prevedi besedilo v angleški jezik"
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
-#, fuzzy, kde-format
-#| msgid "Uninstall model"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Odstrani model"
+msgstr "Odstrani vstavek"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:419
@@ -21599,11 +21571,9 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:522
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Object Detection"
-msgstr "Zaznavanje prizorov"
+msgstr "Zaznavanje predmetov"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
@@ -21618,13 +21588,14 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"Zaznavanje se opira na SAM2 - <a href=\"https://github.com/facebookresearch/"
+"sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:617
-#, fuzzy, kde-format
-#| msgid "Delete all markers"
+#, kde-format
 msgid "Delete all models"
-msgstr "Izbriši vse označevalnike"
+msgstr "Izbriši vse modele"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22912,52 +22883,45 @@ msgstr "Predogled slike"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
 #: src/ui/maskmanage_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Format"
+#, kde-format
 msgid "Form"
 msgstr "Oblika"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create new preset"
+#, kde-format
 msgid "Create New Mask"
-msgstr "Ustvari novo prednastavitev"
+msgstr "Ustvari novo masko"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "Izbriši označevalnik"
+msgstr "Izbriši masko"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "Uvoženi projekt"
+msgstr "Uvozi masko v projekt"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "Posnetek za masko"
+msgstr "Maska"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "Predogled"
+msgstr "Predogled maske"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "Uveljavi"
+msgstr "Uveljavi masko"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24467,39 +24431,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Setting up virtual environment…"
-#~ msgstr "Nastavitev virtualnega okolja …"
-
-#~ msgid "Disabling virtual environment"
-#~ msgstr "Onemogočanje virtualnega okolja"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Removing the virtual environment folder."
-#~ msgstr "Odstranjevanje mape virtualnega okolja."
-
-#~ msgctxt "@label:textbox"
-#~ msgid "No python venv found"
-#~ msgstr "Venv python ni mogoče najti"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Failed to remove the virtual environment folder."
-#~ msgstr "Odstranitev mape virtualnega okolja je spodletela."
-
-#~ msgid "Using python from %1"
-#~ msgstr "Uporablja se python iz %1"
-
-#~ msgid "No python venv found"
-#~ msgstr "Venv python ni mogoče najti"
-
-#~ msgid "Python venv size: %1"
-#~ msgstr "Velikost venv python: %1"
-
-#~ msgid "Python"
-#~ msgstr "Python"
-
-#~ msgid "Delete "
-#~ msgstr "Izbriši"
-
-#~ msgid "Use python virtual environment (recommended)"
-#~ msgstr "Uporabi virtualno okolje python (priporočljivo)"

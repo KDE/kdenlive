@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:41+0000\n"
+"POT-Creation-Date: 2025-01-02 00:40+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -4070,7 +4070,18 @@ msgstr "%1 effekti izləmək"
 msgid "Bin %1 effects"
 msgstr "%1 səbət effekti"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
+#: src/jobs/masktask.cpp:96
+#, fuzzy, kde-format
+#| msgid ""
+#| "Failed to generate clip:\n"
+#| "%1"
+msgid "Failed to render mask %1"
+msgstr ""
+"Klipı yaradıla bilmədi:\n"
+"%1"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -8342,27 +8353,27 @@ msgstr ""
 "Nitq modullarını endirin: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
-#: src/ui/configspeech_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
-msgid "Plugin size"
-msgstr "TAP əlavəsi"
-
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
+#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install"
 msgstr "Quraşdırılmış modullar"
 
-#: src/dialogs/settings/pluginssettings.cpp:360
+#: src/dialogs/settings/pluginssettings.cpp:356
 #, fuzzy, kde-format
 #| msgid "Check configuration"
 msgid "Check config"
 msgstr "Tənzimləməni dəyişin"
+
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
+#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
+#, fuzzy, kde-format
+#| msgid "TAP Plugins"
+msgid "Plugin size"
+msgstr "TAP əlavəsi"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
@@ -11238,15 +11249,11 @@ msgstr "X oxu üzrə fırlanma"
 msgid "No source frames to process"
 msgstr "Məcburi kadr tezliyi"
 
-#: src/jobs/masktask.cpp:91
+#: src/jobs/masktask.cpp:75
 #, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
-msgid "Failed to render mask %1"
-msgstr ""
-"Klipı yaradıla bilmədi:\n"
-"%1"
+#| msgid "Failed to analyse clip."
+msgid "Failed to analyse video."
+msgstr "Klipi təhlil etmək mümkün olmadı."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14954,18 +14961,18 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Dönüşüm"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, fuzzy, kde-format
 #| msgid "Creating menu images"
 msgid "Generating image mask"
 msgstr "Menyu üçün şəkillər yaradın"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
@@ -14973,7 +14980,7 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Previewing video mask"

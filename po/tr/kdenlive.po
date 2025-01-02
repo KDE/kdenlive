@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-30 00:41+0000\n"
+"POT-Creation-Date: 2025-01-02 00:40+0000\n"
 "PO-Revision-Date: 2024-12-29 13:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4179,7 +4179,13 @@ msgstr "%1 efekti izle"
 msgid "Bin %1 effects"
 msgstr "%1 efekti kovaya at"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:155
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
+#: src/jobs/masktask.cpp:96
+#, kde-format
+msgid "Failed to render mask %1"
+msgstr "%1 maskesi sunulamadı"
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -8368,24 +8374,24 @@ msgstr ""
 "Konuşma modellerini <a href=\"https://alphacephei.com/vosk/models\">https://"
 "alphacephei.com/vosk/models</a> adresinden indirin"
 
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:301 src/ui/configspeech_ui.ui:358
-#: src/ui/configspeech_ui.ui:746
-#, kde-format
-msgid "Plugin size"
-msgstr "Eklenti boyutu"
-
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:354 src/ui/configspeech_ui.ui:701
+#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
 #, kde-format
 msgid "Install"
 msgstr "Kur"
 
-#: src/dialogs/settings/pluginssettings.cpp:360
+#: src/dialogs/settings/pluginssettings.cpp:356
 #, kde-format
 msgid "Check config"
 msgstr "Yapılandırmayı Denetle"
+
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
+#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:746
+#, kde-format
+msgid "Plugin size"
+msgstr "Eklenti boyutu"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
@@ -11190,10 +11196,11 @@ msgstr "Maske oluşturma"
 msgid "No source frames to process"
 msgstr "İşlenecek kaynak kare yok"
 
-#: src/jobs/masktask.cpp:91
-#, kde-format
-msgid "Failed to render mask %1"
-msgstr "%1 maskesi sunulamadı"
+#: src/jobs/masktask.cpp:75
+#, fuzzy, kde-format
+#| msgid "Failed to analyse clip."
+msgid "Failed to analyse video."
+msgstr "Klip çözümlenemedi."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14873,17 +14880,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Dönüşüm"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating image mask"
 msgstr "Görsel maskesi üretiliyor"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:252
+#: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
 msgstr "Video maskesi üretiliyor"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid ""
 "Click on an object to start a mask.\n"
@@ -14894,7 +14901,7 @@ msgstr ""
 "Başka bir bölge içermek için Üst Karakter düğmesi ile tıklayın.\n"
 "Bir bölgeyi dışlamak için Kontrol düğmesi ile tıklayın."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:263
+#: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Video maskesi önizleniyor"
