@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 02:45+0000\n"
-"PO-Revision-Date: 2024-09-14 17:12+0200\n"
+"POT-Creation-Date: 2025-01-02 02:31+0000\n"
+"PO-Revision-Date: 2024-12-29 19:42+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -558,7 +558,7 @@ msgstr "Al"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:878
+#: src/mltcontroller/clippropertiescontroller.cpp:889
 #, kde-format
 msgid "Swap channels"
 msgstr "Interŝanĝi kanalojn"
@@ -1079,10 +1079,9 @@ msgid "GPS Graphic"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr "Supermeti GPS-rilatan tekston sur la videon."
+msgstr "Supermeti GPS-rilatajn grafikojn sur la videon."
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1128,10 +1127,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:22
-#, fuzzy, kde-format
-#| msgid "Add multiple markers"
+#, kde-format
 msgid "Speed multiplier"
-msgstr "Aldoni plurajn markilojn"
+msgstr "Rapideca multiplikilo"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1219,10 +1217,9 @@ msgid "Percentage from min..max,Absolute value"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:55
-#, fuzzy, kde-format
-#| msgid "Center horizontally"
+#, kde-format
 msgid "Crop mode horizontal"
-msgstr "Centra horizontale"
+msgstr "Tonda reĝimo horizontala"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1236,10 +1233,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:61
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Crop left"
-msgstr "Supre maldekstre"
+msgstr "Tondi maldekstre"
 
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
@@ -1256,10 +1252,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:66
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Crop right"
-msgstr "Supre dekstre"
+msgstr "Tondi dekstre"
 
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
@@ -1270,10 +1265,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:71
-#, fuzzy, kde-format
-#| msgid "Center vertically"
+#, kde-format
 msgid "Crop mode vertical"
-msgstr "Centrigi vertikale"
+msgstr "Tonda reĝimo vertikala"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1293,10 +1287,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:81
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Crop bottom"
-msgstr "Supre al Malsupre"
+msgstr "Tondi fundon"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1313,10 +1306,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:86
-#, fuzzy, kde-format
-#| msgid "Crop to fill"
+#, kde-format
 msgid "Crop top"
-msgstr "Tondi por plenigi"
+msgstr "Tonda supro"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1337,10 +1329,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:92
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Graph color style"
-msgstr "Tipo de grafikaĵo"
+msgstr "Grafika kolora stilo"
 
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
@@ -1370,10 +1361,9 @@ msgid "Sets the color #2 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:104
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 3"
-msgstr "Koloro 2"
+msgstr "Koloro 3"
 
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
@@ -1381,10 +1371,9 @@ msgid "Sets the color #3 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:108
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 4"
-msgstr "Koloro 2"
+msgstr "Koloro 4"
 
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
@@ -1392,10 +1381,9 @@ msgid "Sets the color #4 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:112
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 5"
-msgstr "Koloro 2"
+msgstr "Koloro 5"
 
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
@@ -1403,10 +1391,9 @@ msgid "Sets the color #5 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show more options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "Montri pliajn elekteblojn"
+msgstr "Montri Nun-punkton"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1417,22 +1404,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Now dot color"
-msgstr "So&lida koloro:"
+msgstr "Nun-punkta koloro"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "La koloro de la ondoformo."
+msgstr "Agordas la koloron por la Nun-punkto"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "Parolado al teksto"
+msgstr "Montri Nun-tekston"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1460,22 +1444,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Linio dikeco"
+msgstr "Linia Dikeco (px)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "La dikeco de la stango aŭ segmentoj."
+msgstr "Fiksas la dikecon de la linia grafiko en rastrumeroj."
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "Desegni kradon"
+msgstr "Desegni klarigeton"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1512,10 +1493,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "Montri nur transirojn"
+msgstr "Montri nur punktojn"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1529,10 +1509,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "Rektangulo"
+msgstr "Grafea rektangulo"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1543,10 +1522,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background image"
-msgstr "Fono"
+msgstr "Fona bildo"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1558,10 +1536,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "Fono"
+msgstr "Fona skalo"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1583,10 +1560,9 @@ msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:173
-#, fuzzy, kde-format
-#| msgid "GPS processing start time"
+#, kde-format
 msgid "GPS start time"
-msgstr "Komenctempo de la GPS-pretigo"
+msgstr "GPS-komenctempo"
 
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
@@ -1594,22 +1570,19 @@ msgid "Date and time of the first valid GPS point."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "Videofluo"
+msgstr "Komenca tempo de video"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "Supermeti tempigilon sur la videon"
+msgstr "Dato kaj horo de la videodosiero."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Iri al komenco de projekto"
+msgstr "Komenco de aŭtomata deŝovo"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1633,10 +1606,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map "
+#, kde-format
 msgid "Map hint"
-msgstr "Mapo"
+msgstr "Map-sugesto"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
@@ -2217,7 +2189,7 @@ msgstr "nombro da eligkanaloj"
 #, kde-format
 msgctxt "Mute Effect Name"
 msgid "Mute"
-msgstr "Silentigo"
+msgstr "Silentigi"
 
 #: data/effects/mute.xml:5
 #, kde-format
@@ -4720,7 +4692,7 @@ msgstr ""
 "Alĝustigas la eligan laŭtecon de la sontrako (tuŝas ĉiujn aŭdaĵojn egale)."
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:934
+#: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -5297,7 +5269,7 @@ msgstr "Mute Video"
 msgid "Audio"
 msgstr "Aŭdio"
 
-#: src/bin/bin.cpp:2439 src/mltcontroller/clippropertiescontroller.cpp:442
+#: src/bin/bin.cpp:2439 src/mltcontroller/clippropertiescontroller.cpp:453
 #, kde-format
 msgid "Image"
 msgstr "Bildo"
@@ -5481,7 +5453,7 @@ msgstr "Proprecoj de Aŭdvidaĵo"
 #: src/bin/bin.cpp:3682 src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-format
 msgid "Edit Clip"
-msgstr "Redakti aŭdvidaĵon"
+msgstr "Redakti Aŭdvidaĵon"
 
 #: src/bin/bin.cpp:3700
 #, kde-format
@@ -5611,7 +5583,7 @@ msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi sondosierojn"
 msgid "Cannot open file %1"
 msgstr "Ne povas malfermi dosieron %1"
 
-#: src/bin/bin.cpp:4833 src/dialogs/profilesdialog.cpp:236
+#: src/bin/bin.cpp:4833 src/dialogs/profilesdialog.cpp:235
 #, kde-format
 msgid "(copy)"
 msgstr "(kopio)"
@@ -5743,7 +5715,7 @@ msgstr ""
 "Pliaj fluoj por aŭdvidaĵo\n"
 " %1"
 
-#: src/bin/bin.cpp:5957 src/mltcontroller/clippropertiescontroller.cpp:669
+#: src/bin/bin.cpp:5957 src/mltcontroller/clippropertiescontroller.cpp:680
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videofluo %1"
@@ -6164,16 +6136,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "Atribui novan stilon al subteksto."
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "la persa"
+msgstr "versio"
 
 #: src/bin/playlistclip.cpp:169
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Sekvenco 1"
+msgstr "Sekvenckalkulo"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -6255,7 +6225,7 @@ msgstr "Uzado"
 
 #: src/bin/projectitemmodel.cpp:350 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
-#: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:513 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -7302,7 +7272,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:523 src/dialogs/timeremap.cpp:1583
-#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
+#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1055
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -7411,8 +7381,8 @@ msgstr "Nunaj agordoj"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1644
 #: src/dialogs/kdenlivesettingsdialog.cpp:1680
 #: src/dialogs/kdenlivesettingsdialog.cpp:1697
-#: src/mltcontroller/clippropertiescontroller.cpp:562
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:573
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -7433,10 +7403,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1806
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Elŝuta eraro %1"
+msgstr "Elŝuti (1.4Gb)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1828
 #, kde-format
@@ -7487,10 +7456,9 @@ msgid "Probing..."
 msgstr "Sondante..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1952
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝutante plurlingvan modelon…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2008
 #: src/dialogs/kdenlivesettingsdialog.cpp:2304
@@ -7509,10 +7477,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2056 src/ui/configspeech_ui.ui:308
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Pravalorizante tradukmodelon"
+msgstr "Instali plurlingvan tradukon"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
@@ -7529,10 +7496,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2113
 #: src/dialogs/kdenlivesettingsdialog.cpp:2122 src/ui/configspeech_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Randa reĝimo"
+msgstr "Administri modelojn"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2182
 #, kde-format
@@ -7743,27 +7709,27 @@ msgid ""
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:124
+#: src/dialogs/profilesdialog.cpp:123
 #, kde-format
 msgid "Profile width must be a multiple of 2. It was adjusted to %1"
 msgstr "Profillarĝo devas esti oblo de 2. Ĝi estis alĝustigita al %1"
 
-#: src/dialogs/profilesdialog.cpp:139
+#: src/dialogs/profilesdialog.cpp:138
 #, kde-format
 msgid "Profile height must be a multiple of 2. It was adjusted to %1"
 msgstr "Profilalteco devas esti oblo de 2. Ĝi estis alĝustigita al %1"
 
-#: src/dialogs/profilesdialog.cpp:222
+#: src/dialogs/profilesdialog.cpp:221
 #, kde-format
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "La propra profilo estis modifita, ĉu vi volas konservi ĝin?"
 
-#: src/dialogs/profilesdialog.cpp:243
+#: src/dialogs/profilesdialog.cpp:242
 #, kde-format
 msgid "Save your profile before setting it to default"
 msgstr "Konservi vian profilon antaŭ ol agordi ĝin defaŭlta"
 
-#: src/dialogs/profilesdialog.cpp:268
+#: src/dialogs/profilesdialog.cpp:267
 #, kde-format
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
@@ -7772,7 +7738,7 @@ msgstr ""
 "Profilo kun sama nomo jam ekzistas en la defaŭltaj profiloj de MLT, bonvolu "
 "elekti alian priskribon por via propra profilo."
 
-#: src/dialogs/profilesdialog.cpp:339
+#: src/dialogs/profilesdialog.cpp:338
 #, kde-format
 msgid ""
 "The profile of the current project cannot be edited while the project is "
@@ -7896,10 +7862,9 @@ msgid "Waiting…"
 msgstr "Atendante…"
 
 #: src/dialogs/renderwidget.cpp:109
-#, fuzzy, kde-format
-#| msgid "Waiting…"
+#, kde-format
 msgid "Starting…"
-msgstr "Atendante…"
+msgstr "Komencante…"
 
 #: src/dialogs/renderwidget.cpp:112
 #, kde-format
@@ -8095,7 +8060,7 @@ msgstr "Bildigi Ĉiukaze"
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
-msgstr "Transkodi"
+msgstr "Transkodigo"
 
 #: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
 #: src/project/dialogs/archivewidget.cpp:893
@@ -8345,10 +8310,9 @@ msgid "Speech recognition aborted."
 msgstr "Parolrekono ĉesigita."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Parola rekono malsukcesis"
+msgstr "Parola rekono malsukcesis."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -9128,16 +9092,14 @@ msgid "Bottom To Top"
 msgstr "Malsupre al Supre"
 
 #: src/dialogs/subtitleedit.cpp:396
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Pliigi Tiparan Grandecon"
+msgstr "Pliigi la Tipargrandon de Redaktilo"
 
 #: src/dialogs/subtitleedit.cpp:398
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Malpliigi Tiparan Grandecon"
+msgstr "Malpliigi la Tipargrandon de Redaktilo"
 
 #: src/dialogs/subtitleedit.cpp:400
 #, kde-format
@@ -9156,10 +9118,9 @@ msgstr "Mastrumi Stilojn…"
 
 #: src/dialogs/subtitleedit.cpp:761 src/dialogs/subtitleedit.cpp:784
 #: src/dialogs/subtitleedit.cpp:786
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "Signo: %1, totalo: <b>%2</b>"
+msgstr "Kursoro: %1, totalo: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1681 src/dialogs/subtitleedit.cpp:1695
 #, kde-format
@@ -9839,7 +9800,7 @@ msgid "Asset file"
 msgstr "Valoraĵa dosiero"
 
 #: src/doc/documentchecker.cpp:1859
-#: src/mltcontroller/clippropertiescontroller.cpp:429
+#: src/mltcontroller/clippropertiescontroller.cpp:440
 #, kde-format
 msgid "Proxy clip"
 msgstr "Prokurila aŭdvidaĵo"
@@ -9856,11 +9817,9 @@ msgid "Transition"
 msgstr "Transiro"
 
 #: src/doc/documentchecker.cpp:1865
-#, fuzzy, kde-format
-#| msgid "One removed clip"
-#| msgid_plural "%1 removed clips"
+#, kde-format
 msgid "Unreferenced clip"
-msgstr "Unu forigitan tondaĵon"
+msgstr "Nereferencita aŭdvidaĵo"
 
 #: src/doc/documentchecker.cpp:1867
 #, kde-format
@@ -12989,7 +12948,7 @@ msgstr "Ŝlosi Subtitolon"
 #: src/mainwindow.cpp:1904
 #, kde-format
 msgid "Manage Subtitles"
-msgstr "Mastrumi Subtitolojn"
+msgstr "Mastrumi Subtekstojn"
 
 #: src/mainwindow.cpp:1906
 #, kde-format
@@ -13509,8 +13468,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Ne povas trovi viajn MLT-profilojn, bonvolu doni la vojon"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:173
-#: src/mltcontroller/clippropertiescontroller.cpp:1431
-#: src/mltcontroller/clippropertiescontroller.cpp:1477
+#: src/mltcontroller/clippropertiescontroller.cpp:1436
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -13558,7 +13517,7 @@ msgstr ""
 "Malfermas dosieran dialogfenestron por importi/ŝargi analizajn datumojn."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:322
-#: src/mltcontroller/clippropertiescontroller.cpp:605
+#: src/mltcontroller/clippropertiescontroller.cpp:616
 #, kde-format
 msgid "Disable autorotate"
 msgstr "Malebligi aŭtorotacion"
@@ -13573,32 +13532,32 @@ msgstr "Enigi ŝablonan tekston ĉi tie"
 msgid "Apply"
 msgstr "Apliki"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:374
+#: src/mltcontroller/clippropertiescontroller.cpp:377
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "Bildformato:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:485
+#: src/mltcontroller/clippropertiescontroller.cpp:496
 #, kde-format
 msgid "Delete proxy file"
 msgstr "Forigi prokurilan dosieron"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:491
+#: src/mltcontroller/clippropertiescontroller.cpp:502
 #, kde-format
 msgid "Proxy options"
 msgstr "Prokurilaj elektebloj"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:496
+#: src/mltcontroller/clippropertiescontroller.cpp:507
 #, kde-format
 msgid "Open folder…"
 msgstr "Malfermi dosierujon…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:502
+#: src/mltcontroller/clippropertiescontroller.cpp:513
 #, kde-format
 msgid "Play proxy clip"
 msgstr "Ludi prokurilan tondaĵon"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:508
+#: src/mltcontroller/clippropertiescontroller.cpp:519
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "Kopii dosierlokon al tondujo"
@@ -13606,9 +13565,9 @@ msgstr "Kopii dosierlokon al tondujo"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:525
-#: src/mltcontroller/clippropertiescontroller.cpp:1420
+#: src/mltcontroller/clippropertiescontroller.cpp:536
 #: src/mltcontroller/clippropertiescontroller.cpp:1425
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:287
 #, kde-format
@@ -13617,8 +13576,8 @@ msgstr "Framfrekvenco:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:553
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:564
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:197
 #, kde-format
@@ -13628,8 +13587,8 @@ msgstr "Skanado:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:561
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:572
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -13637,135 +13596,135 @@ msgid "Interlaced"
 msgstr "Interplektita"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:579
+#: src/mltcontroller/clippropertiescontroller.cpp:590
 #: src/ui/profiledialog_ui.ui:217
 #, kde-format
 msgid "Field order:"
 msgstr "Kampa ordo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:587
+#: src/mltcontroller/clippropertiescontroller.cpp:598
 #, kde-format
 msgid "Bottom First"
 msgstr "Fundo Unue"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:588
+#: src/mltcontroller/clippropertiescontroller.cpp:599
 #, kde-format
 msgid "Top First"
 msgstr "Top Unue"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:631
+#: src/mltcontroller/clippropertiescontroller.cpp:642
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1 (defaŭlte)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:657
+#: src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Disable video"
 msgstr "Malebligi videon"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:657
+#: src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Enable video"
 msgstr "Ebligi videon"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:665
+#: src/mltcontroller/clippropertiescontroller.cpp:676
 #, kde-format
 msgid "Video stream"
 msgstr "Videofluo"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:715
+#: src/mltcontroller/clippropertiescontroller.cpp:726
 #, kde-format
 msgid "Disable audio"
 msgstr "Malebligi audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:715
+#: src/mltcontroller/clippropertiescontroller.cpp:726
 #, kde-format
 msgid "Enable audio"
 msgstr "Ebligi audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:723
+#: src/mltcontroller/clippropertiescontroller.cpp:734
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "Audiofluoj"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:745
+#: src/mltcontroller/clippropertiescontroller.cpp:756
 #: src/monitor/monitor.cpp:1942
 #, kde-format
 msgid "Merge all streams"
 msgstr "Kunfandi ĉiujn fluojn"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:856
+#: src/mltcontroller/clippropertiescontroller.cpp:867
 #, kde-format
 msgid "Normalize"
 msgstr "Normaligi"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:900
+#: src/mltcontroller/clippropertiescontroller.cpp:911
 #, kde-format
 msgid "Copy channel:"
 msgstr "Kopii kanalon:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:901
+#: src/mltcontroller/clippropertiescontroller.cpp:912
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:902
+#: src/mltcontroller/clippropertiescontroller.cpp:913
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:931
+#: src/mltcontroller/clippropertiescontroller.cpp:942
 #, kde-format
 msgid "Gain:"
 msgstr "Gajno:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:958
+#: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Audio sync:"
 msgstr "Sonsinkronigo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:960
+#: src/mltcontroller/clippropertiescontroller.cpp:971
 #, kde-format
 msgid "ms"
 msgstr "ms"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:979
+#: src/mltcontroller/clippropertiescontroller.cpp:990
 #, kde-format
 msgid "Color space:"
 msgstr "Kolora spaco:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1016
+#: src/mltcontroller/clippropertiescontroller.cpp:1027
 #, kde-format
 msgid "Color range:"
 msgstr "Kolora gamo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1025
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Elsendo limigita (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1026
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Plena (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1043
+#: src/mltcontroller/clippropertiescontroller.cpp:1054
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "Dosiero uzas varian framfrekvencon, ne rekomenditan"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1075
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
 #, kde-format
 msgid "File info"
 msgstr "Dosiera informo"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1076
+#: src/mltcontroller/clippropertiescontroller.cpp:1087
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -13773,184 +13732,184 @@ msgstr "Montras detalajn informojn pri la dosiero."
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1078
+#: src/mltcontroller/clippropertiescontroller.cpp:1089
 #: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:660
 #, kde-format
 msgid "Properties"
 msgstr "Propraĵoj"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1079
+#: src/mltcontroller/clippropertiescontroller.cpp:1090
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "Montras detalajn informojn pri la video-datumoj/kodeko."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1081
+#: src/mltcontroller/clippropertiescontroller.cpp:1092
 #, kde-format
 msgid "Audio Properties"
 msgstr "Aŭdio Propraĵoj"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1082
+#: src/mltcontroller/clippropertiescontroller.cpp:1093
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
 msgstr "Montras detalajn informojn pri la sonfluoj/datenoj/kodeko."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1095
 #: src/project/dialogs/projectsettings.cpp:870 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Metadatenoj"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1086
+#: src/mltcontroller/clippropertiescontroller.cpp:1097
 #, kde-format
 msgid "Analysis"
 msgstr "Analizo"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1087
+#: src/mltcontroller/clippropertiescontroller.cpp:1098
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "Montras analizajn datumojn."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1170
-#: src/mltcontroller/clippropertiescontroller.cpp:1483
+#: src/mltcontroller/clippropertiescontroller.cpp:1181
+#: src/mltcontroller/clippropertiescontroller.cpp:1488
 #, kde-format
 msgid "Tracks:"
 msgstr "Trakoj:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1374
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
 #, kde-format
 msgid "Image size:"
 msgstr "Grando de bildo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1377
+#: src/mltcontroller/clippropertiescontroller.cpp:1382
 #, kde-format
 msgid "Image duration:"
 msgstr "Bilda daŭro:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1384
+#: src/mltcontroller/clippropertiescontroller.cpp:1389
 #, kde-format
 msgid "Image count:"
 msgstr "Bildkalkulo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#: src/mltcontroller/clippropertiescontroller.cpp:1416
 #, kde-format
 msgid "Video codec:"
 msgstr "Videokodeko:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1415
+#: src/mltcontroller/clippropertiescontroller.cpp:1420
 #, kde-format
 msgid "Frame size:"
 msgstr "Kadra grandeco:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1431
+#: src/mltcontroller/clippropertiescontroller.cpp:1436
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Videobitrapideco:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1452
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "Rastrumera bildformato:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1449
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "Pixel format:"
 msgstr "Pixel-formato:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1452
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Kolorspaco:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgid "B frames:"
 msgstr "B-kadroj:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgid "Yes"
 msgstr "Jes"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgid "No"
 msgstr "Ne"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1458
+#: src/mltcontroller/clippropertiescontroller.cpp:1463
 #, kde-format
 msgid "Audio streams:"
 msgstr "Aŭdfluoj:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:1469
 #, kde-format
 msgid "Audio codec:"
 msgstr "Sonkodeko:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1468
+#: src/mltcontroller/clippropertiescontroller.cpp:1473
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Audiokanaloj:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1477
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Sonfrekvenco:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1477
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1477
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Audiobitrapideco:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1497
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "File size:"
 msgstr "Dosiera grandeco:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1519
-#: src/mltcontroller/clippropertiescontroller.cpp:1551
-#: src/mltcontroller/clippropertiescontroller.cpp:1583
+#: src/mltcontroller/clippropertiescontroller.cpp:1524
+#: src/mltcontroller/clippropertiescontroller.cpp:1556
+#: src/mltcontroller/clippropertiescontroller.cpp:1588
 #, kde-format
 msgid "Exif"
 msgstr "Eksif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1604
-#: src/mltcontroller/clippropertiescontroller.cpp:1630
+#: src/mltcontroller/clippropertiescontroller.cpp:1609
+#: src/mltcontroller/clippropertiescontroller.cpp:1635
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magia Lanterno"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1671
+#: src/mltcontroller/clippropertiescontroller.cpp:1676
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Konservi Analizajn Datumojn"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1672
-#: src/mltcontroller/clippropertiescontroller.cpp:1685
+#: src/mltcontroller/clippropertiescontroller.cpp:1677
+#: src/mltcontroller/clippropertiescontroller.cpp:1690
 #: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Tekstodosiero (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1684
+#: src/mltcontroller/clippropertiescontroller.cpp:1689
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -16359,13 +16318,13 @@ msgstr "Python-venv grandeco: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:309
 #: src/pythoninterfaces/abstractpythoninterface.cpp:311
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Failed to remove the virtual environment folder."
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Malsukcesis forigi la virtualmedian dosierujon."
+msgstr ""
+"Ne eblas krei la virtualan medion Python:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:327
 #, kde-format
@@ -16454,19 +16413,20 @@ msgstr ""
 "virtualmedion."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Elŝutante modelon…"
+msgstr ""
+"Eraro dum elŝuto de modelo:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Elekti zonon por ludi"
+msgstr "Elektu novajn modelojn por elŝuti"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
@@ -16479,28 +16439,24 @@ msgid "Checking available models"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝutante"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Elŝutante modelon…"
+msgstr "Elŝuti Modelon"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Iri al elŝuta paĝo"
+msgstr "Ĉesi elŝutojn"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Pentra reĝimo:"
+msgstr "Malinstali modelon"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -16508,28 +16464,24 @@ msgid "Install model"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Tuta grandeco:"
+msgstr "Suma elŝuta grandeco: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking for missing items…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Kontrolante pri mankantaj eroj…"
+msgstr "Kontrolante integrecon de modeloj…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Arkivado en progreso, ĉu vi volas ĉesigi ĝin?"
+msgstr "Elŝuto estas progresanta, ĉu vi volas ĉesigi ĝin ?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Iri al elŝuta paĝo"
+msgstr "Ĉesi elŝuton"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16860,10 +16812,9 @@ msgid "Yiddish"
 msgstr "jida"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:246
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "flustro"
+msgstr "Instali Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -18112,16 +18063,14 @@ msgid "Error initializing timeline preview"
 msgstr "Eraro pravalorizante templinian antaŭrigardon"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "Eltiro de audio por %1."
+msgstr "Daŭro de redaktado por %1 aŭdvidaĵoj."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Redaktado en Ondeta reĝimo"
+msgstr ""
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -20726,21 +20675,15 @@ msgstr "Akiri metadatumojn kreitajn de Magic Lantern"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ignori subdosierujon"
+msgstr "Ignori subdosierujan strukturon je enporto"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Ignori strukturon de subdosierujo ĉe importo (importu ĉiujn dosierojn en "
-"plian dosierujon)"
+msgstr "Ĉi tio importos ĉiujn dosierojn en altnivelan dosierujon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -21024,10 +20967,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "flustro"
+msgstr "Flustr&i"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:128
@@ -21073,10 +21015,9 @@ msgstr "Traduki tekston al la angla"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:342
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Whisper"
-msgstr "flustro"
+msgstr "Flustri"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
 #: src/ui/configspeech_ui.ui:373
@@ -21663,10 +21604,9 @@ msgstr "Supra Limo"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
-#, fuzzy, kde-format
-#| msgid "Vertical Flip"
+#, kde-format
 msgid "Vertical margin"
-msgstr "Vertikala Inversigo"
+msgstr "Vertikala marĝeno"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
@@ -21702,10 +21642,9 @@ msgstr "Subtektstostila Redaktilo"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "Folder name"
+#, kde-format
 msgid "Style name"
-msgstr "Nomo de dosierujo"
+msgstr "Stilonomo"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -21723,24 +21662,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
+#, kde-format
 msgid "Character spacing"
-msgstr "Literinterspaco:"
+msgstr "Signa interspaco"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "ScaleX"
+#, kde-format
 msgid "Scale X"
-msgstr "SkaloX"
+msgstr "Skalo X"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Text clips"
+#, kde-format
 msgid "Text color"
-msgstr "Tekstaj tondaĵoj"
+msgstr "Teksta koloro"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -21793,10 +21729,9 @@ msgstr "Ĝisrandigo"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "ScaleY"
+#, kde-format
 msgid "Scale Y"
-msgstr "SkaloY"
+msgstr "Skalo Y"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -23900,121 +23835,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "<html><head/><body><p>Margin</p></body></html>"
-#~ msgstr "<html><head/><body><p>Marĝeno</p></body></html>"
-
-#~ msgid "Margin"
-#~ msgstr "Marĝeno"
-
-#~ msgid "BorderStyle"
-#~ msgstr "BorderStilo"
-
-#~ msgid "R: "
-#~ msgstr "R:"
-
-#~ msgid "G: "
-#~ msgstr "G:"
-
-#~ msgid "B: "
-#~ msgstr "B:"
-
-#~ msgid "Force Breeze Icon Theme"
-#~ msgstr "Devigi Breeze piktogram-etoson"
-
-#~ msgid ""
-#~ "Kdenlive needs to be restarted to apply the icon theme change. Restart "
-#~ "now?"
-#~ msgstr ""
-#~ "Kdenlive devas esti rekomencita por apliki la piktograman etosoŝanĝon. Ĉu "
-#~ "rekomenci nun?"
-
-#~ msgid ""
-#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
-#~ "processing will happen offline. Cpu processing is very slow."
-#~ msgstr ""
-#~ "Ĉe la unua funkciado, Whisper <b>elŝutos la elektitan modelon</b>. Post "
-#~ "tio, pretigo okazos eksterrete. CPU-pretigo estas tre malrapida."
-
-#~ msgid ""
-#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
-#~ "that, translations will happen offline."
-#~ msgstr ""
-#~ "Je unua rulo, SeamlessM4T <b>elŝutos 9Gb de modeldatenoj</b>. Post tio, "
-#~ "tradukoj okazos eksterrete."
-
-#~ msgid ""
-#~ "Kdenlive can install the missing python modules in a virtual environment "
-#~ "under %1.\n"
-#~ "This way, it won't touch your system libraries."
-#~ msgstr ""
-#~ "Kdenlive povas instali la mankantajn python-modulojn en virtuala medio "
-#~ "sub %1.\n"
-#~ "Tiel ĝi ne tuŝos viajn sistembibliotekojn."
-
-#~ msgid "Python environment"
-#~ msgstr "Python-medio"
-
-#~ msgid "Use virtual environment (recommended)"
-#~ msgstr "Uzi virtualan medion (rekomendita)"
-
-#~ msgid "Use system install"
-#~ msgstr "Uzi sisteminstalon"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny (72MB)"
-#~ msgstr "Eta (72MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base (140MB)"
-#~ msgstr "Baza (140MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small (460MB)"
-#~ msgstr "Malgranda (460MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium (1.4GB)"
-#~ msgstr "Meza (1.4GB)"
-
-#~ msgctxt "Model file to download, large one"
-#~ msgid "Large (2.9GB)"
-#~ msgstr "Granda (2.9GB)"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny - English only (39MB)"
-#~ msgstr "Eta - nur la angla (39MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base - English only (74MB)"
-#~ msgstr "Baza - nur la angla (74MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small - English only (244MB)"
-#~ msgstr "Malgranda - nur la angla (244MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium - English only (1.5GB)"
-#~ msgstr "Meznivela - nur la angla (1.5GB)"
-
-#~ msgid "VOSK"
-#~ msgstr "VOSK"
-
-#~ msgid "VOSK Speech Models"
-#~ msgstr "VOSK Parolado-Modeloj"
-
-#~ msgid "Whisper processing on cpu is very slow"
-#~ msgstr "Flustro-pretigo sur CPU estas tre malrapida"
-
-#~ msgid "Enable translation through SeamlessM4T"
-#~ msgstr "Ebligi tradukon per SeamlessM4T"
-
-#~ msgid "Clear All Tags"
-#~ msgstr "Viŝi Ĉiujn Etikedojn"
-
-#~ msgid ""
-#~ "Cannot find python virtualenv, please install it on your system. "
-#~ "Defaulting to system python."
-#~ msgstr ""
-#~ "Ne eblas trovi python-virtualenv, bonvolu instali ĝin en via sistemo. "
-#~ "Retropaŝante al sistema python."
