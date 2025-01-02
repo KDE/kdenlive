@@ -150,7 +150,7 @@ void LayoutManagement::initializeLayouts()
         layoutOrder.deleteGroup();
         int j = 1;
         for (const QString &entry : std::as_const(entries)) {
-            layoutOrder.writeEntry(QString::number(j), entry);
+            layoutOrder.writeEntry(QStringLiteral("%1").arg(j, 2, 10, QLatin1Char('0')), entry);
             j++;
         }
         config->reparseConfiguration();
@@ -273,9 +273,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
 
 std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, const QString &suggestedName)
 {
-
     QString visibleName = translatedName(suggestedName);
-
     QString layoutName = QInputDialog::getText(pCore->window(), i18nc("@title:window", "Save Layout"), i18n("Layout name:"), QLineEdit::Normal, visibleName);
     if (layoutName.isEmpty()) {
         return {nullptr, nullptr};
@@ -304,7 +302,7 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
     layouts.writeEntry(saveName, layout);
     if (!order.entryMap().values().contains(saveName)) {
         int pos = order.keyList().constLast().toInt() + 1;
-        order.writeEntry(QString::number(pos), saveName);
+        order.writeEntry(QStringLiteral("%1").arg(pos, 2, 10, QLatin1Char('0')), saveName);
     }
     return {layoutName, saveName};
 }
@@ -568,15 +566,15 @@ void LayoutManagement::slotManageLayouts()
             // This is a default layout, no rename
             if (item->text() != translatedName(layoutId)) {
                 // A default layout was renamed
-                order.writeEntry(QString::number(i + 1), item->text());
+                order.writeEntry(QStringLiteral("%1").arg(i + 1, 2, 10, QLatin1Char('0')), item->text());
                 layouts.writeEntry(item->text(), layouts.readEntry(layoutId));
                 layouts.deleteEntry(layoutId);
             } else {
-                order.writeEntry(QString::number(i + 1), layoutId);
+                order.writeEntry(QStringLiteral("%1").arg(i + 1, 2, 10, QLatin1Char('0')), layoutId);
             }
             continue;
         }
-        order.writeEntry(QString::number(i + 1), layoutId);
+        order.writeEntry(QStringLiteral("%1").arg(i + 1, 2, 10, QLatin1Char('0')), layoutId);
         if (item->text() != layoutId && !item->text().isEmpty()) {
             layouts.writeEntry(item->text(), layouts.readEntry(layoutId));
             layouts.deleteEntry(layoutId);
