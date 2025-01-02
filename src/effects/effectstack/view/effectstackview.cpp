@@ -795,10 +795,13 @@ void EffectStackView::slotSaveStack()
         }
         effect.setAttribute(QStringLiteral("parentIn"), pCore->getItemIn(m_model->getOwnerId()));
         doc.appendChild(effect);
-        for (int i = 0; i <= m_model->rowCount(); ++i) {
-            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, 0, QModelIndex())));
+        for (int i = 0; i < m_model->rowCount(); ++i) {
+            QModelIndex ix = m_filter->mapFromSource(m_model->index(i, 0, QModelIndex()));
+            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
             if (w) {
                 effect.appendChild(doc.importNode(w->toXml().documentElement(), true));
+            } else {
+                qDebug() << " / / / EFFECT ROW: " << i << " NOT FOUND!!";
             }
         }
         QFile file(dir.absoluteFilePath(effectfilename));
