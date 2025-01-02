@@ -112,7 +112,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     }
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, this,
             [&]() { setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson()); });
-    QString markers = getProducerProperty(QStringLiteral("kdenlive:markers"));
+    const QString markers = getProducerProperty(QStringLiteral("kdenlive:markers"));
     if (!markers.isEmpty()) {
         QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(QString, markers), Q_ARG(bool, true), Q_ARG(bool, false));
     }

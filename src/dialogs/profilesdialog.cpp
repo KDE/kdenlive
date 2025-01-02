@@ -45,7 +45,6 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
 
 int ProfilesDialog::gcd(int a, int b)
 {
-
     // Everything divides 0
     if (a == 0) return b;
     if (b == 0) return a;
