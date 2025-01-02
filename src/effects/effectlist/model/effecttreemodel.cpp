@@ -122,6 +122,10 @@ void EffectTreeModel::reloadEffectFromIndex(const QModelIndex &index)
 void EffectTreeModel::reloadEffect(const QString &path)
 {
     QPair<QString, QString> asset = EffectsRepository::get()->reloadCustom(path);
+    if (asset.first.isEmpty()) {
+        // Broken effect
+        return;
+    }
     AssetListType::AssetType type = EffectsRepository::get()->getType(asset.first);
     std::shared_ptr<TreeItem> targetCategory = nullptr;
     if (type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::CustomAudio) {
@@ -130,7 +134,7 @@ void EffectTreeModel::reloadEffect(const QString &path)
                type == AssetListType::AssetType::TemplateCustom || type == AssetListType::AssetType::TemplateCustomAudio) {
         targetCategory = m_templateCategory;
     }
-    if (asset.first.isEmpty() || targetCategory == nullptr) {
+    if (targetCategory == nullptr) {
         return;
     }
     // Check if item already existed, and remove
