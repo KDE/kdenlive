@@ -1,11 +1,11 @@
 # pan93412 <pan93412@gmail.com>, 2018, 2019, 2020.
-# SPDX-FileCopyrightText: 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 00:40+0000\n"
-"PO-Revision-Date: 2024-12-29 01:13+0900\n"
+"POT-Creation-Date: 2025-01-03 00:41+0000\n"
+"PO-Revision-Date: 2025-01-02 19:26+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -544,7 +544,7 @@ msgstr "到"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:878
+#: src/mltcontroller/clippropertiescontroller.cpp:889
 #, kde-format
 msgid "Swap channels"
 msgstr "交換聲道"
@@ -1197,7 +1197,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "最低到最高的百分比,絕對數值"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1310,6 +1310,9 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"單色,雙色,過去實線、未來細線,未來實線、過去細線,垂直漸層,水平漸層,依時長上色,"
+"依高度上色,依心率上色,依速度上色,依速度上色（最高 100km/h）,依斜率上色（最高 "
+"90 度）,依斜率上色（最高 20 度）"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -1424,7 +1427,7 @@ msgstr "旋轉"
 msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
-msgstr ""
+msgstr "旋轉整個圖表矩形。速度儀的文字會保持水平。"
 
 #: data/effects/gpsgraphic.xml:134
 #, kde-format
@@ -1465,6 +1468,8 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,公尺,km,公里,mi,英里,ft,英尺,nm,海里,ms,m/s,公尺每秒,km,km/h,公里每小時,mi,"
+"mi/h,英里每小時,ft,ft/s,英尺每秒,kn,nm/h,節,mmin,公尺每分,ftmin,英尺每分"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -2125,12 +2130,12 @@ msgstr "偏移"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "遮罩檔的開始位置。"
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "遮罩檔的結束位置。"
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -3865,10 +3870,9 @@ msgstr ""
 "刪除效果時會從群組內每個素材刪除它。"
 
 #: src/assets/assetpanel.cpp:102
-#, fuzzy, kde-format
-#| msgid "create new points"
+#, kde-format
 msgid "Create an object mask"
-msgstr "建立新定點"
+msgstr "建立物件遮罩"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -3876,7 +3880,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
-msgstr ""
+msgstr "這會顯示遮罩建立面板。遮罩有用來移除影片背景等等功能。"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -3972,20 +3976,15 @@ msgstr "素材庫 %1 的效果"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:136
 #: src/jobs/masktask.cpp:96
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
-"產生素材失敗：\n"
-"%1"
+msgstr "無法繪製遮罩 %1"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
-msgstr ""
+msgstr "您必須在序列的第一個影片影格定義包含點。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4660,14 +4659,9 @@ msgid "None (Dissolve)"
 msgstr "無（溶解）"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"無法從這個素材建立時間軸：\n"
-"%1"
+msgstr "為這個素材建立或編輯遮罩"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -4709,7 +4703,7 @@ msgid ""
 msgstr "調整音訊軌道的輸出音量（會同等影響所有音訊素材）。"
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:934
+#: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -5267,7 +5261,7 @@ msgstr "將影片靜音"
 msgid "Audio"
 msgstr "音訊"
 
-#: src/bin/bin.cpp:2459 src/mltcontroller/clippropertiescontroller.cpp:442
+#: src/bin/bin.cpp:2459 src/mltcontroller/clippropertiescontroller.cpp:453
 #, kde-format
 msgid "Image"
 msgstr "圖片"
@@ -5577,7 +5571,7 @@ msgstr "請設定用於開啟音訊檔案的應用程式"
 msgid "Cannot open file %1"
 msgstr "無法開啟檔案 %1"
 
-#: src/bin/bin.cpp:4853 src/dialogs/profilesdialog.cpp:236
+#: src/bin/bin.cpp:4853 src/dialogs/profilesdialog.cpp:235
 #, kde-format
 msgid "(copy)"
 msgstr "（複本）"
@@ -5706,7 +5700,7 @@ msgstr ""
 "以下素材的額外串流\n"
 " %1"
 
-#: src/bin/bin.cpp:5977 src/mltcontroller/clippropertiescontroller.cpp:669
+#: src/bin/bin.cpp:5977 src/mltcontroller/clippropertiescontroller.cpp:680
 #, kde-format
 msgid "Video stream %1"
 msgstr "視訊串流 %1"
@@ -6042,7 +6036,7 @@ msgstr "字幕"
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
 msgid "Edit global subtitle style"
-msgstr "編輯全域字幕風格"
+msgstr "編輯全域字幕樣式"
 
 #: src/bin/model/subtitlemodel.cpp:440 src/bin/model/subtitlemodel.cpp:655
 #: src/bin/model/subtitlemodel.cpp:1606 src/bin/model/subtitlemodel.cpp:2182
@@ -6119,7 +6113,7 @@ msgstr "字幕 %1"
 #: src/bin/model/subtitlemodel.cpp:2218
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr "將新風格指派給字幕。"
+msgstr "將新樣式指派給字幕。"
 
 #: src/bin/playlistclip.cpp:140
 #, kde-format
@@ -6210,7 +6204,7 @@ msgstr "用量"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
-#: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:513 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -7015,11 +7009,11 @@ msgstr "匯出參照線資料"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
-#: src/effects/effectlist/model/effecttreemodel.cpp:298
-#: src/effects/effectlist/model/effecttreemodel.cpp:311
+#: src/effects/effectlist/model/effecttreemodel.cpp:302
+#: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:684
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -7163,22 +7157,22 @@ msgstr "全域"
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Move Style"
-msgstr "移動風格"
+msgstr "移動樣式"
 
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr "選擇風格要移動到的字幕檔："
+msgstr "選擇樣式要移動到的字幕檔："
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Copy Style"
-msgstr "複製風格"
+msgstr "複製樣式"
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr "選擇風格要複製到的字幕檔："
+msgstr "選擇樣式要複製到的字幕檔："
 
 #: src/dialogs/managesubtitles.cpp:385
 #, kde-format
@@ -7266,12 +7260,12 @@ msgstr "這會刪除圖層 <b>%1</b> 中的所有事件。"
 #: src/dialogs/managesubtitles.cpp:730
 #, kde-format
 msgid "Cannot delete default style."
-msgstr "無法刪除預設風格。"
+msgstr "無法刪除預設樣式。"
 
 #: src/dialogs/managesubtitles.cpp:734
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr "這會刪除風格 <b>%1</b> 以及它的所有屬性。"
+msgstr "這會刪除樣式 <b>%1</b> 以及它的所有屬性。"
 
 #: src/dialogs/managesubtitles.cpp:739
 #, kde-format
@@ -7279,30 +7273,30 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
-"這會刪除風格 <b>%1</b> 以及它的所有屬性。\n"
-"使用此風格的字幕會重設為 <b>預設</b> 風格。"
+"這會刪除樣式 <b>%1</b> 以及它的所有屬性。\n"
+"使用此樣式的字幕會重設為 <b>預設</b> 樣式。"
 
-#: src/dialogs/profilesdialog.cpp:124
+#: src/dialogs/profilesdialog.cpp:123
 #, kde-format
 msgid "Profile width must be a multiple of 2. It was adjusted to %1"
 msgstr "編碼方案寬度必須是 2 的倍數。已將它調整為 %1"
 
-#: src/dialogs/profilesdialog.cpp:139
+#: src/dialogs/profilesdialog.cpp:138
 #, kde-format
 msgid "Profile height must be a multiple of 2. It was adjusted to %1"
 msgstr "編碼方案高度必須是 2 的倍數。已將它調整為 %1"
 
-#: src/dialogs/profilesdialog.cpp:222
+#: src/dialogs/profilesdialog.cpp:221
 #, kde-format
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "此自訂編碼方案已被修改，您是否要儲存?"
 
-#: src/dialogs/profilesdialog.cpp:243
+#: src/dialogs/profilesdialog.cpp:242
 #, kde-format
 msgid "Save your profile before setting it to default"
 msgstr "在將編碼方案設為預設前請先儲存它"
 
-#: src/dialogs/profilesdialog.cpp:268
+#: src/dialogs/profilesdialog.cpp:267
 #, kde-format
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
@@ -7311,7 +7305,7 @@ msgstr ""
 "相同名稱的編碼方案已在 MLT 的預設編碼方案裡，請為您的自訂編碼方案選取其他名"
 "稱。"
 
-#: src/dialogs/profilesdialog.cpp:339
+#: src/dialogs/profilesdialog.cpp:338
 #, kde-format
 msgid ""
 "The profile of the current project cannot be edited while the project is "
@@ -7809,10 +7803,9 @@ msgid "Colors and Guides"
 msgstr "色彩與參考線"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "TAP 插件"
+msgstr "外掛程式"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -7933,7 +7926,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
-#: src/mltcontroller/clippropertiescontroller.cpp:1044
+#: src/mltcontroller/clippropertiescontroller.cpp:1055
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -8034,8 +8027,8 @@ msgstr "目前設定"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1589
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1625
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1642
-#: src/mltcontroller/clippropertiescontroller.cpp:562
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:573
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -8106,14 +8099,12 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
-#, fuzzy, kde-format
-#| msgid "Install model"
+#, kde-format
 msgid "Install"
-msgstr "安裝模型"
+msgstr "安裝"
 
 #: src/dialogs/settings/pluginssettings.cpp:356
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#, kde-format
 msgid "Check config"
 msgstr "檢查設定"
 
@@ -8121,33 +8112,29 @@ msgstr "檢查設定"
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugin size"
-msgstr "TAP 插件"
+msgstr "外掛程式大小"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "這會刪除風格 <b>%1</b> 以及它的所有屬性。"
+msgstr ""
+"這會刪除已安裝的模型\n"
+"您之後還是可以重新安裝它們。"
 
 #: src/dialogs/settings/pluginssettings.cpp:395
 #: src/dialogs/settings/pluginssettings.cpp:409
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"這會刪除此處的 Python virtualenv：<br/><b>%1</b><br/>您重新啟用該 virtualenv "
-"時環境會被重新建立並重新下載模組。"
+"這會從這個地方刪除外掛程式的 Python virtualenv：<br/><b>%1</b><br/>您重新啟用"
+"該外掛程式時會重新下載模組並重新建立 virtualenv 虛擬環境。"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
@@ -8156,38 +8143,33 @@ msgid "Install multilingual translation"
 msgstr "安裝多語言翻譯"
 
 #: src/dialogs/settings/pluginssettings.cpp:433
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "安裝一個語音模型 —— 我們建議使用 <b>turbo</b>"
 
 #: src/dialogs/settings/pluginssettings.cpp:488
-#, fuzzy, kde-format
-#| msgid "Select new models to download"
+#, kde-format
 msgid "Select model to download"
-msgstr "選取要下載的新模型"
+msgstr "選取要下載的模型"
 
 #: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "所有模型皆已安裝"
 
 #: src/dialogs/settings/pluginssettings.cpp:524
-#, fuzzy, kde-format
-#| msgid "Downloading"
+#, kde-format
 msgid "Downloading…"
-msgstr "下載中"
+msgstr "下載中…"
 
 #: src/dialogs/settings/pluginssettings.cpp:534
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "模型下載中…"
+msgstr "正在下載最小的模型…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
-#, fuzzy, kde-format
-#| msgid "Download Model"
+#, kde-format
 msgid "Download models"
 msgstr "下載模型"
 
@@ -8908,7 +8890,7 @@ msgstr "由 KDE 製作"
 #: src/dialogs/subtitleedit.cpp:251
 #, kde-format
 msgid "Edit subtitle style"
-msgstr "編輯字幕風格"
+msgstr "編輯字幕樣式"
 
 #: src/dialogs/subtitleedit.cpp:252
 #, kde-kuit-format
@@ -9006,7 +8988,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
-msgstr "切換所選文字或游標位置後文字是否為粗體風格。"
+msgstr "切換所選文字或游標位置後文字是否為粗體樣式。"
 
 #: src/dialogs/subtitleedit.cpp:301
 #, kde-format
@@ -9019,7 +9001,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
-msgstr "切換所選文字或游標位置後文字是否為斜體風格。"
+msgstr "切換所選文字或游標位置後文字是否為斜體樣式。"
 
 #: src/dialogs/subtitleedit.cpp:306
 #, kde-format
@@ -9032,7 +9014,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
-msgstr "切換所選文字或游標位置後文字風格是否加上底線。"
+msgstr "切換所選文字或游標位置後文字樣式是否加上底線。"
 
 #: src/dialogs/subtitleedit.cpp:311
 #, kde-format
@@ -9045,7 +9027,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
-msgstr "切換所選文字或游標位置後文字風格是否加上刪除線。"
+msgstr "切換所選文字或游標位置後文字樣式是否加上刪除線。"
 
 #: src/dialogs/subtitleedit.cpp:318
 #, kde-format
@@ -9063,7 +9045,7 @@ msgstr "開啟字型對話框來為所選文字或游標位置後的文字選擇
 #: src/dialogs/subtitleedit.cpp:324
 #, kde-format
 msgid "Reset style"
-msgstr "重設風格"
+msgstr "重設樣式"
 
 #: src/dialogs/subtitleedit.cpp:325
 #, kde-kuit-format
@@ -9071,7 +9053,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
-msgstr "重設所選文字或游標位置後的文字的風格。"
+msgstr "重設所選文字或游標位置後的文字的樣式。"
 
 #: src/dialogs/subtitleedit.cpp:327
 #, kde-format
@@ -9132,7 +9114,7 @@ msgstr "簡易編輯器"
 #: src/dialogs/subtitleedit.cpp:609
 #, kde-format
 msgid "Manage Styles…"
-msgstr "管理風格…"
+msgstr "管理樣式…"
 
 #: src/dialogs/subtitleedit.cpp:761 src/dialogs/subtitleedit.cpp:784
 #: src/dialogs/subtitleedit.cpp:786
@@ -9193,7 +9175,7 @@ msgstr "<<< 隱藏預覽"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:278
+#: src/effects/effectlist/model/effecttreemodel.cpp:282
 #, kde-format
 msgid "Error"
 msgstr "錯誤"
@@ -9201,17 +9183,17 @@ msgstr "錯誤"
 #: src/dialogs/subtitlestyleedit.cpp:170
 #, kde-format
 msgid "Style name already exists."
-msgstr "風格名稱已經存在。"
+msgstr "樣式名稱已經存在。"
 
 #: src/dialogs/subtitlestyleedit.cpp:175
 #, kde-format
 msgid "Style name cannot be empty."
-msgstr "風格名稱不能是空的。"
+msgstr "樣式名稱不能是空的。"
 
 #: src/dialogs/subtitlestyleedit.cpp:180
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr "風格名稱不能包含「/」。"
+msgstr "樣式名稱不能包含「/」。"
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9787,7 +9769,7 @@ msgid "Asset file"
 msgstr "資源檔案"
 
 #: src/doc/documentchecker.cpp:1859
-#: src/mltcontroller/clippropertiescontroller.cpp:429
+#: src/mltcontroller/clippropertiescontroller.cpp:440
 #, kde-format
 msgid "Proxy clip"
 msgstr "代理素材"
@@ -10101,27 +10083,19 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
-msgstr ""
+msgstr "代理素材不適合用作合成或調色。"
 
 #: src/doc/kdenlivedoc.cpp:1611
-#, fuzzy, kde-format
-#| msgid "This clip has an alpha channel. Proxying is not recommended."
-#| msgid_plural ""
-#| "These clips have an alpha channel. Proxying is not recommended."
+#, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] "這些素材有透明度頻道。不建議建立代理素材。"
+msgstr[0] "這些素材有透明度頻道。"
 
 #: src/doc/kdenlivedoc.cpp:1617
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have a clip with an alpha channel. Proxying it is not recommended."
-#| msgid_plural ""
-#| "You have %1 clips with an alpha channel. Proxying these is not "
-#| "recommended."
+#, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] "您有 %1 個有透明度頻道的素材。不建議為這些素材建立代理素材。"
+msgstr[0] "您有 %1 個有透明度頻道的素材。"
 
 #: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
@@ -10290,7 +10264,7 @@ msgstr "樣本"
 msgid " - deprecated"
 msgstr " - 已棄用"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:278
+#: src/effects/effectlist/model/effecttreemodel.cpp:282
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -10641,35 +10615,31 @@ msgstr ""
 "要儲存沒有描述的效果嗎？"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "請先設定語音轉文字。"
+msgstr "請先設定 SAM2 外掛程式"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "輸入預設檔名稱"
+msgstr "輸入遮罩名稱"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
+#, kde-format
 msgid "Enter the name of this mask:"
-msgstr "輸入此預設檔的名稱："
+msgstr "輸入此遮罩的名稱："
 
 #: src/effects/effectstack/view/maskmanager.cpp:211
 #, kde-format
 msgid "Generating mask %1"
-msgstr ""
+msgstr "正在產生遮罩 %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:328
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
-msgstr ""
+msgstr "這會遮罩住 <b>%1</b> 檔案：<br/>%2<br/>這個操作無法復原。"
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -10866,22 +10836,19 @@ msgid "Failed to filter source."
 msgstr "過濾來源失敗。"
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "X axis rotation"
+#, kde-format
 msgid "Mask creation"
-msgstr "沿 X 軸旋轉"
+msgstr "遮罩建立"
 
 #: src/jobs/masktask.cpp:44
-#, fuzzy, kde-format
-#| msgid "Force frame rate"
+#, kde-format
 msgid "No source frames to process"
-msgstr "強制幀率"
+msgstr "沒有要處理的來源影格"
 
 #: src/jobs/masktask.cpp:75
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
-msgstr "分析素材失敗。"
+msgstr "分析影片失敗。"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -11223,23 +11190,23 @@ msgstr "縱向排列工具面板"
 msgid "Arrange Dock Areas In Columns"
 msgstr "橫向排列工具面板"
 
-#: src/layoutmanagement.cpp:170
+#: src/layoutmanagement.cpp:171
 #, kde-format
 msgid "Layout %1: %2"
 msgstr "版面配置 %1：%2"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:278
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "儲存版面配置"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:278
 #, kde-format
 msgid "Layout name:"
 msgstr "版面配置名稱："
 
-#: src/layoutmanagement.cpp:297
+#: src/layoutmanagement.cpp:296
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "版面配置 %1 已存在。您要覆寫它嗎？"
@@ -13464,8 +13431,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "無法找到您的 MLT 編碼方案，請指定路徑"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:173
-#: src/mltcontroller/clippropertiescontroller.cpp:1431
-#: src/mltcontroller/clippropertiescontroller.cpp:1477
+#: src/mltcontroller/clippropertiescontroller.cpp:1436
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -13510,7 +13477,7 @@ msgid "Opens a file dialog window to import/load analysis data."
 msgstr "開啟檔案對話框視窗來匯入/載入分析資料。"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:322
-#: src/mltcontroller/clippropertiescontroller.cpp:605
+#: src/mltcontroller/clippropertiescontroller.cpp:616
 #, kde-format
 msgid "Disable autorotate"
 msgstr "關閉自動旋轉"
@@ -13525,32 +13492,32 @@ msgstr "在此輸入樣板文字"
 msgid "Apply"
 msgstr "套用"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:374
+#: src/mltcontroller/clippropertiescontroller.cpp:377
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "寬高比："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:485
+#: src/mltcontroller/clippropertiescontroller.cpp:496
 #, kde-format
 msgid "Delete proxy file"
 msgstr "刪除代理檔"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:491
+#: src/mltcontroller/clippropertiescontroller.cpp:502
 #, kde-format
 msgid "Proxy options"
 msgstr "代理選項"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:496
+#: src/mltcontroller/clippropertiescontroller.cpp:507
 #, kde-format
 msgid "Open folder…"
 msgstr "開啟資料夾…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:502
+#: src/mltcontroller/clippropertiescontroller.cpp:513
 #, kde-format
 msgid "Play proxy clip"
 msgstr "播放代理素材"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:508
+#: src/mltcontroller/clippropertiescontroller.cpp:519
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "複製檔案路徑到剪貼簿"
@@ -13558,9 +13525,9 @@ msgstr "複製檔案路徑到剪貼簿"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:525
-#: src/mltcontroller/clippropertiescontroller.cpp:1420
+#: src/mltcontroller/clippropertiescontroller.cpp:536
 #: src/mltcontroller/clippropertiescontroller.cpp:1425
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:287
 #, kde-format
@@ -13569,8 +13536,8 @@ msgstr "幀率："
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:553
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:564
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:197
 #, kde-format
@@ -13580,8 +13547,8 @@ msgstr "掃描："
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:561
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:572
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -13589,135 +13556,135 @@ msgid "Interlaced"
 msgstr "交錯式"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:579
+#: src/mltcontroller/clippropertiescontroller.cpp:590
 #: src/ui/profiledialog_ui.ui:217
 #, kde-format
 msgid "Field order:"
 msgstr "場序："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:587
+#: src/mltcontroller/clippropertiescontroller.cpp:598
 #, kde-format
 msgid "Bottom First"
 msgstr "底部先"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:588
+#: src/mltcontroller/clippropertiescontroller.cpp:599
 #, kde-format
 msgid "Top First"
 msgstr "頂端先"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:631
+#: src/mltcontroller/clippropertiescontroller.cpp:642
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1（預設）"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:657
+#: src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Disable video"
 msgstr "關閉視訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:657
+#: src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Enable video"
 msgstr "啟用視訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:665
+#: src/mltcontroller/clippropertiescontroller.cpp:676
 #, kde-format
 msgid "Video stream"
 msgstr "視訊串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:715
+#: src/mltcontroller/clippropertiescontroller.cpp:726
 #, kde-format
 msgid "Disable audio"
 msgstr "關閉音效"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:715
+#: src/mltcontroller/clippropertiescontroller.cpp:726
 #, kde-format
 msgid "Enable audio"
 msgstr "啟用音訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:723
+#: src/mltcontroller/clippropertiescontroller.cpp:734
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "音訊串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:745
+#: src/mltcontroller/clippropertiescontroller.cpp:756
 #: src/monitor/monitor.cpp:1947
 #, kde-format
 msgid "Merge all streams"
 msgstr "合併所有串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:856
+#: src/mltcontroller/clippropertiescontroller.cpp:867
 #, kde-format
 msgid "Normalize"
 msgstr "正規化"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:900
+#: src/mltcontroller/clippropertiescontroller.cpp:911
 #, kde-format
 msgid "Copy channel:"
 msgstr "複製頻道："
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:901
+#: src/mltcontroller/clippropertiescontroller.cpp:912
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:902
+#: src/mltcontroller/clippropertiescontroller.cpp:913
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:931
+#: src/mltcontroller/clippropertiescontroller.cpp:942
 #, kde-format
 msgid "Gain:"
 msgstr "增益："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:958
+#: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Audio sync:"
 msgstr "音訊同步："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:960
+#: src/mltcontroller/clippropertiescontroller.cpp:971
 #, kde-format
 msgid "ms"
 msgstr "毫秒"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:979
+#: src/mltcontroller/clippropertiescontroller.cpp:990
 #, kde-format
 msgid "Color space:"
 msgstr "色彩空間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1016
+#: src/mltcontroller/clippropertiescontroller.cpp:1027
 #, kde-format
 msgid "Color range:"
 msgstr "色彩範圍："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1025
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "有限 (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1026
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "完整 (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1043
+#: src/mltcontroller/clippropertiescontroller.cpp:1054
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "檔案使用可變幀率，不建議"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1075
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
 #, kde-format
 msgid "File info"
 msgstr "檔案資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1076
+#: src/mltcontroller/clippropertiescontroller.cpp:1087
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -13725,184 +13692,184 @@ msgstr "顯示關於檔案的詳細資訊。"
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1078
+#: src/mltcontroller/clippropertiescontroller.cpp:1089
 #: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:785
 #, kde-format
 msgid "Properties"
 msgstr "屬性"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1079
+#: src/mltcontroller/clippropertiescontroller.cpp:1090
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "顯示關於視訊資料/編碼器的詳細資訊。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1081
+#: src/mltcontroller/clippropertiescontroller.cpp:1092
 #, kde-format
 msgid "Audio Properties"
 msgstr "音訊屬性"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1082
+#: src/mltcontroller/clippropertiescontroller.cpp:1093
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
 msgstr "顯示關於音訊串流/資料/編碼器的詳細資訊。"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1095
 #: src/project/dialogs/projectsettings.cpp:870 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "描述資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1086
+#: src/mltcontroller/clippropertiescontroller.cpp:1097
 #, kde-format
 msgid "Analysis"
 msgstr "分析"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1087
+#: src/mltcontroller/clippropertiescontroller.cpp:1098
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "顯示分析數據。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1170
-#: src/mltcontroller/clippropertiescontroller.cpp:1483
+#: src/mltcontroller/clippropertiescontroller.cpp:1181
+#: src/mltcontroller/clippropertiescontroller.cpp:1488
 #, kde-format
 msgid "Tracks:"
 msgstr "軌道："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1374
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
 #, kde-format
 msgid "Image size:"
 msgstr "圖片大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1377
+#: src/mltcontroller/clippropertiescontroller.cpp:1382
 #, kde-format
 msgid "Image duration:"
 msgstr "圖片持續時間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1384
+#: src/mltcontroller/clippropertiescontroller.cpp:1389
 #, kde-format
 msgid "Image count:"
 msgstr "圖片數量："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#: src/mltcontroller/clippropertiescontroller.cpp:1416
 #, kde-format
 msgid "Video codec:"
 msgstr "視訊編碼："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1415
+#: src/mltcontroller/clippropertiescontroller.cpp:1420
 #, kde-format
 msgid "Frame size:"
 msgstr "畫面大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1431
+#: src/mltcontroller/clippropertiescontroller.cpp:1436
 #, kde-format
 msgid "Video bitrate:"
 msgstr "視訊位元率："
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1452
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "像素寬高比："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1449
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "Pixel format:"
 msgstr "像素格式："
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1452
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "色彩空間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgid "B frames:"
 msgstr "B-Frame："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgid "Yes"
 msgstr "是"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgid "No"
 msgstr "否"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1458
+#: src/mltcontroller/clippropertiescontroller.cpp:1463
 #, kde-format
 msgid "Audio streams:"
 msgstr "音訊串流："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:1469
 #, kde-format
 msgid "Audio codec:"
 msgstr "音訊編碼："
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1468
+#: src/mltcontroller/clippropertiescontroller.cpp:1473
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "聲道："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1477
 #, kde-format
 msgid "Audio frequency:"
 msgstr "音訊頻率："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1477
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1477
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "音訊位元率："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1497
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "File size:"
 msgstr "檔案大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1519
-#: src/mltcontroller/clippropertiescontroller.cpp:1551
-#: src/mltcontroller/clippropertiescontroller.cpp:1583
+#: src/mltcontroller/clippropertiescontroller.cpp:1524
+#: src/mltcontroller/clippropertiescontroller.cpp:1556
+#: src/mltcontroller/clippropertiescontroller.cpp:1588
 #, kde-format
 msgid "Exif"
 msgstr "Exif 資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1604
-#: src/mltcontroller/clippropertiescontroller.cpp:1630
+#: src/mltcontroller/clippropertiescontroller.cpp:1609
+#: src/mltcontroller/clippropertiescontroller.cpp:1635
 #, kde-format
 msgid "Magic Lantern"
 msgstr "魔術燈"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1671
+#: src/mltcontroller/clippropertiescontroller.cpp:1676
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "儲存分析數據"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1672
-#: src/mltcontroller/clippropertiescontroller.cpp:1685
+#: src/mltcontroller/clippropertiescontroller.cpp:1677
+#: src/mltcontroller/clippropertiescontroller.cpp:1690
 #: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "文字檔案 (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1684
+#: src/mltcontroller/clippropertiescontroller.cpp:1689
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -14472,22 +14439,20 @@ msgstr ""
 "使用<b>滾輪</b>或<b>方向鍵</b>來前後移動，<b>Ctrl+滾輪</b>來縮放"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "簡易變形"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:259
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating image mask"
-msgstr "正在建立功能表鏡像檔案"
+msgstr "正在建立影像遮罩"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
+msgstr "正在建立影片遮罩"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
@@ -14496,12 +14461,14 @@ msgid ""
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
+"點擊物件來開始建立遮罩。\n"
+"Shift+點擊來包含另一個區域。\n"
+"Ctrl+點擊來排除一個區域。"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:270
-#, fuzzy, kde-format
-#| msgid "Preview volume:"
+#, kde-format
 msgid "Previewing video mask"
-msgstr "預覽音量："
+msgstr "正在預覽影片遮罩"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -14555,41 +14522,36 @@ msgstr ""
 "右鍵點擊或按 Enter 來將形狀封起來。"
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "產生"
+msgstr "產生遮罩"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "變更不透明度 (0% - 25% - 50% - 100%)"
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Padding Color"
+#, kde-format
 msgid "Change Color"
-msgstr "填補範圍色彩"
+msgstr "變更色彩"
 
 # 這不是效果名稱，這是左邊改成右邊的意思，像是鏡像效果：預設會鏡像右邊，但勾選反轉之後會鏡像左邊。
 # --Kisaragi
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "反轉"
+msgstr "反轉遮罩"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "編輯持續時間"
+msgstr "離開遮罩建立"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "新增預覽區段"
+msgstr "離開預覽模式"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16323,18 +16285,14 @@ msgid "The <application>%1</application> python module is required."
 msgstr "需要有 <application>%1</application> Python 模組。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:475
-#, fuzzy, kde-format
-#| msgid ""
-#| "This requires an internet connection and will take several minutes to "
-#| "download all necessary dependencies. After that all processing will "
-#| "happen offline."
+#, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
-"這需要網際網路連線，並且需要花費幾分鐘來下載所有必要的依賴關係。下載完成後，"
-"所有處理都會在線下進行。"
+"這需要網際網路連線，並且需要花費幾分鐘來下載所有必要的依賴關係。\n"
+"下載完成後，所有處理都會在線下進行。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:495
 #: src/pythoninterfaces/abstractpythoninterface.cpp:608
@@ -16561,7 +16519,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "物件偵測 (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -20945,10 +20903,9 @@ msgstr "將文本翻譯成英文"
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
-#, fuzzy, kde-format
-#| msgid "Uninstall model"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "解除安裝模型"
+msgstr "解除安裝外掛程式"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:419
@@ -20982,11 +20939,9 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:522
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Object Detection"
-msgstr "場景偵測"
+msgstr "物件偵測"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
@@ -21001,13 +20956,14 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"物件偵測仰賴 SAM2 - <a href=\"https://github.com/facebookresearch/"
+"sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:617
-#, fuzzy, kde-format
-#| msgid "Delete All Guides"
+#, kde-format
 msgid "Delete all models"
-msgstr "移除所有參照線"
+msgstr "刪除所有模型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -21539,7 +21495,7 @@ msgstr "結束："
 #: src/ui/editsub_ui.ui:152
 #, kde-format
 msgid "Style:"
-msgstr "風格："
+msgstr "樣式："
 
 #. i18n: ectx: property (text), widget (QToolButton, button_save)
 #. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
@@ -21602,14 +21558,13 @@ msgstr "<html><head/><body><p>名稱</p></body></html>"
 #: src/ui/editsubstyle_ui.ui:18
 #, kde-format
 msgid "Subtitle Style Editor"
-msgstr "字幕風格編輯器"
+msgstr "字幕樣式編輯器"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Style name"
-msgstr "檔名"
+msgstr "樣式名稱"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -22150,7 +22105,7 @@ msgstr "圖層和內容"
 #: src/ui/managesubtitles_ui.ui:211
 #, kde-format
 msgid "Style"
-msgstr "風格"
+msgstr "樣式"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
@@ -22162,7 +22117,7 @@ msgstr "建立圖層"
 #: src/ui/managesubtitles_ui.ui:286
 #, kde-format
 msgid "Styles"
-msgstr "風格"
+msgstr "樣式"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
@@ -22246,7 +22201,7 @@ msgstr "邊界上下"
 #: src/ui/managesubtitles_ui.ui:473
 #, kde-format
 msgid "New Style"
-msgstr "新增風格"
+msgstr "新增樣式"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
@@ -22286,52 +22241,45 @@ msgstr "圖片預覽"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
 #: src/ui/maskmanage_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Format"
+#, kde-format
 msgid "Form"
-msgstr "格式"
+msgstr "形式"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create New"
+#, kde-format
 msgid "Create New Mask"
-msgstr "建立新的"
+msgstr "建立新遮罩"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "刪除標記"
+msgstr "刪除遮罩"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "匯入的設定"
+msgstr "匯入遮罩到專案"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "遮罩素材"
+msgstr "遮罩"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "預覽"
+msgstr "預覽遮罩"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "套用"
+msgstr "套用遮罩"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
