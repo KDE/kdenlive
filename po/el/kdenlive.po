@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 02:45+0000\n"
+"POT-Creation-Date: 2025-01-03 02:31+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -563,7 +563,7 @@ msgstr "Σε"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:878
+#: src/mltcontroller/clippropertiescontroller.cpp:889
 #, kde-format
 msgid "Swap channels"
 msgstr "Εναλλαγή καναλιών"
@@ -4796,7 +4796,7 @@ msgid ""
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:934
+#: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -5401,7 +5401,7 @@ msgstr "Σίγαση βιντεοκλίπ"
 msgid "Audio"
 msgstr "Ήχος"
 
-#: src/bin/bin.cpp:2439 src/mltcontroller/clippropertiescontroller.cpp:442
+#: src/bin/bin.cpp:2439 src/mltcontroller/clippropertiescontroller.cpp:453
 #, kde-format
 msgid "Image"
 msgstr "Εικόνα"
@@ -5732,14 +5732,14 @@ msgstr ""
 
 #: src/bin/bin.cpp:4653 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
-#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
-#: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
+#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:463
+#: src/layoutmanagement.cpp:524 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
 #, fuzzy, kde-format
 msgid "Cannot open file %1"
 msgstr "Αδυναμία ανοίγματος αρχείου"
 
-#: src/bin/bin.cpp:4833 src/dialogs/profilesdialog.cpp:236
+#: src/bin/bin.cpp:4833 src/dialogs/profilesdialog.cpp:235
 #, kde-format
 msgid "(copy)"
 msgstr ""
@@ -5873,7 +5873,7 @@ msgid ""
 " %1"
 msgstr "Προσθήκη μετάβασης στο κλιπ"
 
-#: src/bin/bin.cpp:5957 src/mltcontroller/clippropertiescontroller.cpp:669
+#: src/bin/bin.cpp:5957 src/mltcontroller/clippropertiescontroller.cpp:680
 #, fuzzy, kde-format
 msgid "Video stream %1"
 msgstr "Κομμάτι βίντεο"
@@ -6419,7 +6419,7 @@ msgstr ""
 
 #: src/bin/projectitemmodel.cpp:350 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
-#: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:513 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -7246,11 +7246,11 @@ msgstr "Προσθήκη δείκτη"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
-#: src/effects/effectlist/model/effecttreemodel.cpp:290
-#: src/effects/effectlist/model/effecttreemodel.cpp:303
+#: src/effects/effectlist/model/effecttreemodel.cpp:294
+#: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:679
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -7486,7 +7486,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:523 src/dialogs/timeremap.cpp:1583
-#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
+#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1055
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -7597,8 +7597,8 @@ msgstr "Τρέχουσες ρυθμίσεις"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1644
 #: src/dialogs/kdenlivesettingsdialog.cpp:1680
 #: src/dialogs/kdenlivesettingsdialog.cpp:1697
-#: src/mltcontroller/clippropertiescontroller.cpp:562
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:573
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -7950,27 +7950,27 @@ msgid ""
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:124
+#: src/dialogs/profilesdialog.cpp:123
 #, kde-format
 msgid "Profile width must be a multiple of 2. It was adjusted to %1"
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:139
+#: src/dialogs/profilesdialog.cpp:138
 #, kde-format
 msgid "Profile height must be a multiple of 2. It was adjusted to %1"
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:222
+#: src/dialogs/profilesdialog.cpp:221
 #, kde-format
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "Το προσαρμοσμένο προφίλ τροποποιήθηκε, επιθυμείτε να το αποθηκεύσετε;"
 
-#: src/dialogs/profilesdialog.cpp:243
+#: src/dialogs/profilesdialog.cpp:242
 #, kde-format
 msgid "Save your profile before setting it to default"
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:268
+#: src/dialogs/profilesdialog.cpp:267
 #, kde-format
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
@@ -7980,7 +7980,7 @@ msgstr ""
 "MLT, παρακαλώ επιλέξτε μια διαφορετική περιγραφή για το προσαρμοσμένο προφίλ "
 "σας."
 
-#: src/dialogs/profilesdialog.cpp:339
+#: src/dialogs/profilesdialog.cpp:338
 #, kde-format
 msgid ""
 "The profile of the current project cannot be edited while the project is "
@@ -9486,7 +9486,7 @@ msgstr "Χωρίς τίτλο"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, kde-format
 msgid "Error"
 msgstr "Σφάλμα"
@@ -10122,7 +10122,7 @@ msgid "Asset file"
 msgstr "Διαγραφή αρχείων"
 
 #: src/doc/documentchecker.cpp:1859
-#: src/mltcontroller/clippropertiescontroller.cpp:429
+#: src/mltcontroller/clippropertiescontroller.cpp:440
 #, kde-format
 msgid "Proxy clip"
 msgstr "Κλιπ διαμεσολάβησης"
@@ -10619,7 +10619,7 @@ msgstr "Πρότυπο"
 msgid " - deprecated"
 msgstr ""
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -11590,18 +11590,18 @@ msgstr ""
 msgid "Layout %1: %2"
 msgstr "Διάταξη %1"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Αποθήκευση διάταξης"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgid "Layout name:"
 msgstr "Όνομα διάταξης:"
 
-#: src/layoutmanagement.cpp:297
+#: src/layoutmanagement.cpp:295
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -11611,54 +11611,54 @@ msgstr ""
 "Το αρχείο %1 υπάρχει ήδη.\n"
 "Επιθυμείτε να το αντικαταστήσετε;"
 
-#: src/layoutmanagement.cpp:352
+#: src/layoutmanagement.cpp:350
 #, fuzzy, kde-format
 #| msgid "Clean Project"
 msgid "Current Layouts"
 msgstr "Καθαρισμός έργου"
 
-#: src/layoutmanagement.cpp:366
+#: src/layoutmanagement.cpp:364
 #, fuzzy, kde-format
 #| msgid "Delete data"
 msgid "Delete the layout."
 msgstr "Διαγραφή δεδομένων"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:402 src/ui/exportguidesdialog_ui.ui:95
+#: src/layoutmanagement.cpp:400 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "Επαναφορά"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/layoutmanagement.cpp:447 src/ui/resourcewidget_ui.ui:234
+#: src/layoutmanagement.cpp:445 src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
 msgstr "Εισαγωγή"
 
-#: src/layoutmanagement.cpp:449
+#: src/layoutmanagement.cpp:447
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Layout"
 msgstr "Φόρτωση διάταξης"
 
-#: src/layoutmanagement.cpp:488
+#: src/layoutmanagement.cpp:486
 #, fuzzy, kde-format
 msgid "Export selected"
 msgstr "Διαγραφή του επιλεγμένου κλιπ"
 
-#: src/layoutmanagement.cpp:492
+#: src/layoutmanagement.cpp:490
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No layout selected"
 msgstr "Καμία αντιγραφή κλιπ"
 
-#: src/layoutmanagement.cpp:503
+#: src/layoutmanagement.cpp:501
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to cut"
 msgid "Cannot find layout %1"
 msgstr "Αδυναμία εύρεσης κλιπ προς διαίρεση"
 
-#: src/layoutmanagement.cpp:507
+#: src/layoutmanagement.cpp:505
 #, fuzzy, kde-format
 #| msgid "Export audio"
 msgctxt "@title:window"
@@ -13986,8 +13986,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Αδύνατη η εύρεση των προφίλ MLT, παρακαλώ προσδιορίστε την διαδρομή"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:173
-#: src/mltcontroller/clippropertiescontroller.cpp:1431
-#: src/mltcontroller/clippropertiescontroller.cpp:1477
+#: src/mltcontroller/clippropertiescontroller.cpp:1436
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -14037,7 +14037,7 @@ msgid "Opens a file dialog window to import/load analysis data."
 msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:322
-#: src/mltcontroller/clippropertiescontroller.cpp:605
+#: src/mltcontroller/clippropertiescontroller.cpp:616
 #, kde-format
 msgid "Disable autorotate"
 msgstr ""
@@ -14053,36 +14053,36 @@ msgstr "Εισάγετε τη διαδρομή του προτύπου"
 msgid "Apply"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:374
+#: src/mltcontroller/clippropertiescontroller.cpp:377
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "Αναλογία πλευρών:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:485
+#: src/mltcontroller/clippropertiescontroller.cpp:496
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Delete proxy file"
 msgstr "Διαγραφή προφίλ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:491
+#: src/mltcontroller/clippropertiescontroller.cpp:502
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Proxy options"
 msgstr "Εμφάνιση/απόκρυψη επιλογών"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:496
+#: src/mltcontroller/clippropertiescontroller.cpp:507
 #, fuzzy, kde-format
 #| msgid "Rename folder"
 msgid "Open folder…"
 msgstr "Μετονομασία φακέλου"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:502
+#: src/mltcontroller/clippropertiescontroller.cpp:513
 #, fuzzy, kde-format
 #| msgid "Proxy clip"
 msgid "Play proxy clip"
 msgstr "Κλιπ διαμεσολάβησης"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:508
+#: src/mltcontroller/clippropertiescontroller.cpp:519
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "Copy file location to clipboard"
@@ -14091,9 +14091,9 @@ msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:525
-#: src/mltcontroller/clippropertiescontroller.cpp:1420
+#: src/mltcontroller/clippropertiescontroller.cpp:536
 #: src/mltcontroller/clippropertiescontroller.cpp:1425
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:287
 #, kde-format
@@ -14102,8 +14102,8 @@ msgstr "Συχνότητα καρέ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:553
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:564
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:197
 #, kde-format
@@ -14113,8 +14113,8 @@ msgstr "Σάρωση:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:561
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:572
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -14122,76 +14122,76 @@ msgid "Interlaced"
 msgstr "Πεπλεγμένo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:579
+#: src/mltcontroller/clippropertiescontroller.cpp:590
 #: src/ui/profiledialog_ui.ui:217
 #, fuzzy, kde-format
 msgid "Field order:"
 msgstr "Επιβολή συχνότητας καρέ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:587
+#: src/mltcontroller/clippropertiescontroller.cpp:598
 #, kde-format
 msgid "Bottom First"
 msgstr "Η βάση πρώτα"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:588
+#: src/mltcontroller/clippropertiescontroller.cpp:599
 #, kde-format
 msgid "Top First"
 msgstr "Η κορυφή πρώτα"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:631
+#: src/mltcontroller/clippropertiescontroller.cpp:642
 #, fuzzy, kde-format
 #| msgid "Default"
 msgid "%1 (default)"
 msgstr "Προεπιλεγμένο"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:657
+#: src/mltcontroller/clippropertiescontroller.cpp:668
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable video"
 msgstr "Απενεργοποίηση εφέ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:657
+#: src/mltcontroller/clippropertiescontroller.cpp:668
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable video"
 msgstr "Ενεργοποίηση εφέ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:665
+#: src/mltcontroller/clippropertiescontroller.cpp:676
 #, fuzzy, kde-format
 msgid "Video stream"
 msgstr "Κομμάτι βίντεο"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:715
+#: src/mltcontroller/clippropertiescontroller.cpp:726
 #, kde-format
 msgid "Disable audio"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:715
+#: src/mltcontroller/clippropertiescontroller.cpp:726
 #, fuzzy, kde-format
 #| msgid "Split audio"
 msgid "Enable audio"
 msgstr "Διαχωρισμός κομματιού ήχου"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:723
+#: src/mltcontroller/clippropertiescontroller.cpp:734
 #: src/monitor/monitor.cpp:304
 #, fuzzy, kde-format
 msgid "Audio streams"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:745
+#: src/mltcontroller/clippropertiescontroller.cpp:756
 #: src/monitor/monitor.cpp:1942
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:856
+#: src/mltcontroller/clippropertiescontroller.cpp:867
 #, fuzzy, kde-format
 msgid "Normalize"
 msgstr "Κανονικό"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:900
+#: src/mltcontroller/clippropertiescontroller.cpp:911
 #, fuzzy, kde-format
 #| msgid "Channel"
 msgid "Copy channel:"
@@ -14199,70 +14199,70 @@ msgstr "Κανάλι"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:901
+#: src/mltcontroller/clippropertiescontroller.cpp:912
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:902
+#: src/mltcontroller/clippropertiescontroller.cpp:913
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:931
+#: src/mltcontroller/clippropertiescontroller.cpp:942
 #, kde-format
 msgid "Gain:"
 msgstr "Κέρδος:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:958
+#: src/mltcontroller/clippropertiescontroller.cpp:969
 #, fuzzy, kde-format
 #| msgid "Audio only"
 msgid "Audio sync:"
 msgstr "Ήχος μόνο"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:960
+#: src/mltcontroller/clippropertiescontroller.cpp:971
 #, fuzzy, kde-format
 #| msgctxt "Selection tool shortcut"
 #| msgid "s"
 msgid "ms"
 msgstr "δευτ."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:979
+#: src/mltcontroller/clippropertiescontroller.cpp:990
 #, kde-format
 msgid "Color space:"
 msgstr "Χρωματικός χώρος:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1016
+#: src/mltcontroller/clippropertiescontroller.cpp:1027
 #, fuzzy, kde-format
 #| msgid "Color Space"
 msgid "Color range:"
 msgstr "Χρωματικός χώρος"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1025
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1026
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #, kde-format
 msgid "Full (JPEG)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1043
+#: src/mltcontroller/clippropertiescontroller.cpp:1054
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1075
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgid "File info"
 msgstr "Η ακολουθία δε βρέθηκε"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1076
+#: src/mltcontroller/clippropertiescontroller.cpp:1087
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -14270,195 +14270,195 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1078
+#: src/mltcontroller/clippropertiescontroller.cpp:1089
 #: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:660
 #, kde-format
 msgid "Properties"
 msgstr "Ιδιότητες"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1079
+#: src/mltcontroller/clippropertiescontroller.cpp:1090
 #, fuzzy, kde-kuit-format
 #| msgid "Display a vectorscope of the video data"
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "Διανυσματοσκοπική προβολή των δεδομένων του βίντεο"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1081
+#: src/mltcontroller/clippropertiescontroller.cpp:1092
 #, fuzzy, kde-format
 #| msgid "Clip Properties"
 msgid "Audio Properties"
 msgstr "Ιδιότητες κλιπ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1082
+#: src/mltcontroller/clippropertiescontroller.cpp:1093
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1095
 #: src/project/dialogs/projectsettings.cpp:870 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Μετα-δεδομένα"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1086
+#: src/mltcontroller/clippropertiescontroller.cpp:1097
 #, fuzzy, kde-format
 #| msgid "Analyse"
 msgid "Analysis"
 msgstr "Ανάλυση"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1087
+#: src/mltcontroller/clippropertiescontroller.cpp:1098
 #, fuzzy, kde-kuit-format
 #| msgid "Analyse"
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "Ανάλυση"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1170
-#: src/mltcontroller/clippropertiescontroller.cpp:1483
+#: src/mltcontroller/clippropertiescontroller.cpp:1181
+#: src/mltcontroller/clippropertiescontroller.cpp:1488
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Tracks:"
 msgstr "Κομμάτι"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1374
+#: src/mltcontroller/clippropertiescontroller.cpp:1379
 #, kde-format
 msgid "Image size:"
 msgstr "Μέγεθος εικόνας:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1377
+#: src/mltcontroller/clippropertiescontroller.cpp:1382
 #, fuzzy, kde-format
 #| msgid "Frame duration"
 msgid "Image duration:"
 msgstr "Διάρκεια καρέ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1384
+#: src/mltcontroller/clippropertiescontroller.cpp:1389
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Image count:"
 msgstr "Φόντο εικόνας"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#: src/mltcontroller/clippropertiescontroller.cpp:1416
 #, kde-format
 msgid "Video codec:"
 msgstr "Kωδικοποιητής βίντεο:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1415
+#: src/mltcontroller/clippropertiescontroller.cpp:1420
 #, kde-format
 msgid "Frame size:"
 msgstr "Μέγεθος καρέ:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1431
+#: src/mltcontroller/clippropertiescontroller.cpp:1436
 #, fuzzy, kde-format
 msgid "Video bitrate:"
 msgstr "Κομμάτι βίντεο"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1452
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "Αναλογία διαστάσεων εικονοστοιχείων:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1449
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "Pixel format:"
 msgstr "Τύπος εικονοστοιχείου:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1452
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Χρωματικός χώρος:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "B frames:"
 msgstr " καρέ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1460
 #, fuzzy, kde-format
 #| msgid "N"
 msgid "No"
 msgstr "N"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1458
+#: src/mltcontroller/clippropertiescontroller.cpp:1463
 #, fuzzy, kde-format
 msgid "Audio streams:"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:1469
 #, kde-format
 msgid "Audio codec:"
 msgstr "Kωδικοποιητής ήχου:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1468
+#: src/mltcontroller/clippropertiescontroller.cpp:1473
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Κανάλια ήχου:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1477
 #, fuzzy, kde-format
 #| msgid "Frequency"
 msgid "Audio frequency:"
 msgstr "Συχνότητα"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1477
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1477
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, fuzzy, kde-format
 msgid "Audio bitrate:"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1497
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "File size:"
 msgstr "Μέγεθος αρχείου:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1519
-#: src/mltcontroller/clippropertiescontroller.cpp:1551
-#: src/mltcontroller/clippropertiescontroller.cpp:1583
+#: src/mltcontroller/clippropertiescontroller.cpp:1524
+#: src/mltcontroller/clippropertiescontroller.cpp:1556
+#: src/mltcontroller/clippropertiescontroller.cpp:1588
 #, kde-format
 msgid "Exif"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1604
-#: src/mltcontroller/clippropertiescontroller.cpp:1630
+#: src/mltcontroller/clippropertiescontroller.cpp:1609
+#: src/mltcontroller/clippropertiescontroller.cpp:1635
 #, kde-format
 msgid "Magic Lantern"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1671
+#: src/mltcontroller/clippropertiescontroller.cpp:1676
 #, fuzzy, kde-format
 #| msgid "Analyse"
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Ανάλυση"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1672
-#: src/mltcontroller/clippropertiescontroller.cpp:1685
+#: src/mltcontroller/clippropertiescontroller.cpp:1677
+#: src/mltcontroller/clippropertiescontroller.cpp:1690
 #: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1684
+#: src/mltcontroller/clippropertiescontroller.cpp:1689
 #, fuzzy, kde-format
 #| msgid "Analyse"
 msgctxt "@title:window"
