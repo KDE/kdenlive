@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 02:31+0000\n"
+"POT-Creation-Date: 2025-01-03 02:31+0000\n"
 "PO-Revision-Date: 2024-11-07 12:33+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -5634,8 +5634,8 @@ msgstr "Stel een standaard toepassing in om audiobestanden te openen"
 
 #: src/bin/bin.cpp:4653 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
-#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
-#: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
+#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:463
+#: src/layoutmanagement.cpp:524 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
 #, kde-format
 msgid "Cannot open file %1"
@@ -7112,11 +7112,11 @@ msgstr "Hulplijngegevens exporteren"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
-#: src/effects/effectlist/model/effecttreemodel.cpp:290
-#: src/effects/effectlist/model/effecttreemodel.cpp:303
+#: src/effects/effectlist/model/effecttreemodel.cpp:294
+#: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:679
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9281,7 +9281,7 @@ msgstr "<<< Voorbeel verbergen"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, kde-format
 msgid "Error"
 msgstr "Fout"
@@ -10398,7 +10398,7 @@ msgstr "Sjablonen"
 msgid " - deprecated"
 msgstr "- verouderd"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -11294,66 +11294,66 @@ msgstr "Vastzetgebieden in kolommen plaatsen"
 msgid "Layout %1: %2"
 msgstr "Indeling %1: %2"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Indeling opslaan"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgid "Layout name:"
 msgstr "Naam indeling:"
 
-#: src/layoutmanagement.cpp:297
+#: src/layoutmanagement.cpp:295
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "De indeling %1 bestaat al. Wilt u het vervangen?"
 
-#: src/layoutmanagement.cpp:352
+#: src/layoutmanagement.cpp:350
 #, kde-format
 msgid "Current Layouts"
 msgstr "Huidige indelingen"
 
-#: src/layoutmanagement.cpp:366
+#: src/layoutmanagement.cpp:364
 #, kde-format
 msgid "Delete the layout."
 msgstr "Indeling verwijderen."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:402 src/ui/exportguidesdialog_ui.ui:95
+#: src/layoutmanagement.cpp:400 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "Terugzetten"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/layoutmanagement.cpp:447 src/ui/resourcewidget_ui.ui:234
+#: src/layoutmanagement.cpp:445 src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
 msgstr "Importeren"
 
-#: src/layoutmanagement.cpp:449
+#: src/layoutmanagement.cpp:447
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Layout"
 msgstr "Laad indeling"
 
-#: src/layoutmanagement.cpp:488
+#: src/layoutmanagement.cpp:486
 #, kde-format
 msgid "Export selected"
 msgstr "Geselecteerde exporteren"
 
-#: src/layoutmanagement.cpp:492
+#: src/layoutmanagement.cpp:490
 #, kde-format
 msgid "No layout selected"
 msgstr "Geen indeling geselecteerd"
 
-#: src/layoutmanagement.cpp:503
+#: src/layoutmanagement.cpp:501
 #, kde-format
 msgid "Cannot find layout %1"
 msgstr "Kan indeling %1 niet vinden"
 
-#: src/layoutmanagement.cpp:507
+#: src/layoutmanagement.cpp:505
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Layout"

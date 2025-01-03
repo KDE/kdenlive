@@ -1,11 +1,11 @@
 # pan93412 <pan93412@gmail.com>, 2018, 2019, 2020.
-# SPDX-FileCopyrightText: 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 02:31+0000\n"
-"PO-Revision-Date: 2024-12-29 01:12+0900\n"
+"POT-Creation-Date: 2025-01-03 02:31+0000\n"
+"PO-Revision-Date: 2025-01-02 19:25+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -1197,7 +1197,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "最低到最高的百分比,絕對數值"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1310,6 +1310,9 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"單色,雙色,過去實線、未來細線,未來實線、過去細線,垂直漸層,水平漸層,依時長上色,"
+"依高度上色,依心率上色,依速度上色,依速度上色（最高 100km/h）,依斜率上色（最高 "
+"90 度）,依斜率上色（最高 20 度）"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -1424,7 +1427,7 @@ msgstr "旋轉"
 msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
-msgstr ""
+msgstr "旋轉整個圖表矩形。速度儀的文字會保持水平。"
 
 #: data/effects/gpsgraphic.xml:134
 #, kde-format
@@ -1465,6 +1468,8 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,公尺,km,公里,mi,英里,ft,英尺,nm,海里,ms,m/s,公尺每秒,km,km/h,公里每小時,mi,"
+"mi/h,英里每小時,ft,ft/s,英尺每秒,kn,nm/h,節,mmin,公尺每分,ftmin,英尺每分"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -5484,8 +5489,8 @@ msgstr "請設定用於開啟音訊檔案的應用程式"
 
 #: src/bin/bin.cpp:4653 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
-#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
-#: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
+#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:463
+#: src/layoutmanagement.cpp:524 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
 #, kde-format
 msgid "Cannot open file %1"
@@ -5956,7 +5961,7 @@ msgstr "字幕"
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
 msgid "Edit global subtitle style"
-msgstr "編輯全域字幕風格"
+msgstr "編輯全域字幕樣式"
 
 #: src/bin/model/subtitlemodel.cpp:440 src/bin/model/subtitlemodel.cpp:655
 #: src/bin/model/subtitlemodel.cpp:1606 src/bin/model/subtitlemodel.cpp:2182
@@ -6033,7 +6038,7 @@ msgstr "字幕 %1"
 #: src/bin/model/subtitlemodel.cpp:2218
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr "將新風格指派給字幕。"
+msgstr "將新樣式指派給字幕。"
 
 #: src/bin/playlistclip.cpp:140
 #, kde-format
@@ -6927,11 +6932,11 @@ msgstr "匯出參照線資料"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
-#: src/effects/effectlist/model/effecttreemodel.cpp:290
-#: src/effects/effectlist/model/effecttreemodel.cpp:303
+#: src/effects/effectlist/model/effecttreemodel.cpp:294
+#: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:679
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -7369,8 +7374,7 @@ msgid "Install multilingual translation"
 msgstr "安裝多語言翻譯"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "安裝一個語音模型 —— 我們建議使用 <b>turbo</b>"
 
@@ -7487,22 +7491,22 @@ msgstr "全域"
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Move Style"
-msgstr "移動風格"
+msgstr "移動樣式"
 
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr "選擇風格要移動到的字幕檔："
+msgstr "選擇樣式要移動到的字幕檔："
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Copy Style"
-msgstr "複製風格"
+msgstr "複製樣式"
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr "選擇風格要複製到的字幕檔："
+msgstr "選擇樣式要複製到的字幕檔："
 
 #: src/dialogs/managesubtitles.cpp:385
 #, kde-format
@@ -7581,12 +7585,12 @@ msgstr "這會刪除圖層 <b>%1</b> 中的所有事件。"
 #: src/dialogs/managesubtitles.cpp:730
 #, kde-format
 msgid "Cannot delete default style."
-msgstr "無法刪除預設風格。"
+msgstr "無法刪除預設樣式。"
 
 #: src/dialogs/managesubtitles.cpp:734
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr "這會刪除風格 <b>%1</b> 以及它的所有屬性。"
+msgstr "這會刪除樣式 <b>%1</b> 以及它的所有屬性。"
 
 #: src/dialogs/managesubtitles.cpp:739
 #, kde-format
@@ -7594,8 +7598,8 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
-"這會刪除風格 <b>%1</b> 以及它的所有屬性。\n"
-"使用此風格的字幕會重設為 <b>預設</b> 風格。"
+"這會刪除樣式 <b>%1</b> 以及它的所有屬性。\n"
+"使用此樣式的字幕會重設為 <b>預設</b> 樣式。"
 
 #: src/dialogs/profilesdialog.cpp:123
 #, kde-format
@@ -8766,7 +8770,7 @@ msgstr "由 KDE 製作"
 #: src/dialogs/subtitleedit.cpp:251
 #, kde-format
 msgid "Edit subtitle style"
-msgstr "編輯字幕風格"
+msgstr "編輯字幕樣式"
 
 #: src/dialogs/subtitleedit.cpp:252
 #, kde-kuit-format
@@ -8864,7 +8868,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
-msgstr "切換所選文字或游標位置後文字是否為粗體風格。"
+msgstr "切換所選文字或游標位置後文字是否為粗體樣式。"
 
 #: src/dialogs/subtitleedit.cpp:301
 #, kde-format
@@ -8877,7 +8881,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
-msgstr "切換所選文字或游標位置後文字是否為斜體風格。"
+msgstr "切換所選文字或游標位置後文字是否為斜體樣式。"
 
 #: src/dialogs/subtitleedit.cpp:306
 #, kde-format
@@ -8890,7 +8894,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
-msgstr "切換所選文字或游標位置後文字風格是否加上底線。"
+msgstr "切換所選文字或游標位置後文字樣式是否加上底線。"
 
 #: src/dialogs/subtitleedit.cpp:311
 #, kde-format
@@ -8903,7 +8907,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
-msgstr "切換所選文字或游標位置後文字風格是否加上刪除線。"
+msgstr "切換所選文字或游標位置後文字樣式是否加上刪除線。"
 
 #: src/dialogs/subtitleedit.cpp:318
 #, kde-format
@@ -8921,7 +8925,7 @@ msgstr "開啟字型對話框來為所選文字或游標位置後的文字選擇
 #: src/dialogs/subtitleedit.cpp:324
 #, kde-format
 msgid "Reset style"
-msgstr "重設風格"
+msgstr "重設樣式"
 
 #: src/dialogs/subtitleedit.cpp:325
 #, kde-kuit-format
@@ -8929,7 +8933,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
-msgstr "重設所選文字或游標位置後的文字的風格。"
+msgstr "重設所選文字或游標位置後的文字的樣式。"
 
 #: src/dialogs/subtitleedit.cpp:327
 #, kde-format
@@ -8990,7 +8994,7 @@ msgstr "簡易編輯器"
 #: src/dialogs/subtitleedit.cpp:609
 #, kde-format
 msgid "Manage Styles…"
-msgstr "管理風格…"
+msgstr "管理樣式…"
 
 #: src/dialogs/subtitleedit.cpp:761 src/dialogs/subtitleedit.cpp:784
 #: src/dialogs/subtitleedit.cpp:786
@@ -9051,7 +9055,7 @@ msgstr "<<< 隱藏預覽"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, kde-format
 msgid "Error"
 msgstr "錯誤"
@@ -9059,17 +9063,17 @@ msgstr "錯誤"
 #: src/dialogs/subtitlestyleedit.cpp:170
 #, kde-format
 msgid "Style name already exists."
-msgstr "風格名稱已經存在。"
+msgstr "樣式名稱已經存在。"
 
 #: src/dialogs/subtitlestyleedit.cpp:175
 #, kde-format
 msgid "Style name cannot be empty."
-msgstr "風格名稱不能是空的。"
+msgstr "樣式名稱不能是空的。"
 
 #: src/dialogs/subtitlestyleedit.cpp:180
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr "風格名稱不能包含「/」。"
+msgstr "樣式名稱不能包含「/」。"
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -10113,7 +10117,7 @@ msgstr "樣本"
 msgid " - deprecated"
 msgstr " - 已棄用"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -10997,66 +11001,66 @@ msgstr "橫向排列工具面板"
 msgid "Layout %1: %2"
 msgstr "版面配置 %1：%2"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "儲存版面配置"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgid "Layout name:"
 msgstr "版面配置名稱："
 
-#: src/layoutmanagement.cpp:297
+#: src/layoutmanagement.cpp:295
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "版面配置 %1 已存在。您要覆寫它嗎？"
 
-#: src/layoutmanagement.cpp:352
+#: src/layoutmanagement.cpp:350
 #, kde-format
 msgid "Current Layouts"
 msgstr "目前的版面配置"
 
-#: src/layoutmanagement.cpp:366
+#: src/layoutmanagement.cpp:364
 #, kde-format
 msgid "Delete the layout."
 msgstr "刪除版面配置。"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:402 src/ui/exportguidesdialog_ui.ui:95
+#: src/layoutmanagement.cpp:400 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "重設"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/layoutmanagement.cpp:447 src/ui/resourcewidget_ui.ui:234
+#: src/layoutmanagement.cpp:445 src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
 msgstr "匯入"
 
-#: src/layoutmanagement.cpp:449
+#: src/layoutmanagement.cpp:447
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Layout"
 msgstr "載入版面配置"
 
-#: src/layoutmanagement.cpp:488
+#: src/layoutmanagement.cpp:486
 #, kde-format
 msgid "Export selected"
 msgstr "匯出所選"
 
-#: src/layoutmanagement.cpp:492
+#: src/layoutmanagement.cpp:490
 #, kde-format
 msgid "No layout selected"
 msgstr "未選取版面配置"
 
-#: src/layoutmanagement.cpp:503
+#: src/layoutmanagement.cpp:501
 #, kde-format
 msgid "Cannot find layout %1"
 msgstr "找不到版面配置 %1"
 
-#: src/layoutmanagement.cpp:507
+#: src/layoutmanagement.cpp:505
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Layout"
@@ -21210,7 +21214,7 @@ msgstr "結束："
 #: src/ui/editsub_ui.ui:152
 #, kde-format
 msgid "Style:"
-msgstr "風格："
+msgstr "樣式："
 
 #. i18n: ectx: property (text), widget (QToolButton, button_save)
 #. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
@@ -21273,14 +21277,13 @@ msgstr "<html><head/><body><p>名稱</p></body></html>"
 #: src/ui/editsubstyle_ui.ui:18
 #, kde-format
 msgid "Subtitle Style Editor"
-msgstr "字幕風格編輯器"
+msgstr "字幕樣式編輯器"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Style name"
-msgstr "檔名"
+msgstr "樣式名稱"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -21821,7 +21824,7 @@ msgstr "圖層和內容"
 #: src/ui/managesubtitles_ui.ui:211
 #, kde-format
 msgid "Style"
-msgstr "風格"
+msgstr "樣式"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
@@ -21833,7 +21836,7 @@ msgstr "建立圖層"
 #: src/ui/managesubtitles_ui.ui:286
 #, kde-format
 msgid "Styles"
-msgstr "風格"
+msgstr "樣式"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
@@ -21917,7 +21920,7 @@ msgstr "邊界上下"
 #: src/ui/managesubtitles_ui.ui:473
 #, kde-format
 msgid "New Style"
-msgstr "新增風格"
+msgstr "新增樣式"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 02:31+0000\n"
+"POT-Creation-Date: 2025-01-03 02:31+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -5830,8 +5830,8 @@ msgstr ""
 
 #: src/bin/bin.cpp:4653 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
-#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
-#: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
+#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:463
+#: src/layoutmanagement.cpp:524 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
 #, kde-format
 msgid "Cannot open file %1"
@@ -7358,11 +7358,11 @@ msgstr "Luchtaigh marcóirí"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
-#: src/effects/effectlist/model/effecttreemodel.cpp:290
-#: src/effects/effectlist/model/effecttreemodel.cpp:303
+#: src/effects/effectlist/model/effecttreemodel.cpp:294
+#: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:679
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9587,7 +9587,7 @@ msgstr "gan teideal"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, fuzzy, kde-format
 #| msgid "error"
 msgid "Error"
@@ -10705,7 +10705,7 @@ msgstr "Teimpléad"
 msgid " - deprecated"
 msgstr ""
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -11677,73 +11677,73 @@ msgstr ""
 msgid "Layout %1: %2"
 msgstr "Ainm an leagain amach:"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, fuzzy, kde-format
 #| msgid "Layouts"
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Leaganacha Amach"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgid "Layout name:"
 msgstr "Ainm an leagain amach:"
 
-#: src/layoutmanagement.cpp:297
+#: src/layoutmanagement.cpp:295
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr ""
 
-#: src/layoutmanagement.cpp:352
+#: src/layoutmanagement.cpp:350
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Current Layouts"
 msgstr "Tionscadal"
 
-#: src/layoutmanagement.cpp:366
+#: src/layoutmanagement.cpp:364
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete the layout."
 msgstr "Scrios %1"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:402 src/ui/exportguidesdialog_ui.ui:95
+#: src/layoutmanagement.cpp:400 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "Athshocraigh"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/layoutmanagement.cpp:447 src/ui/resourcewidget_ui.ui:234
+#: src/layoutmanagement.cpp:445 src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
 msgstr "Iompórtáil"
 
-#: src/layoutmanagement.cpp:449
+#: src/layoutmanagement.cpp:447
 #, fuzzy, kde-format
 #| msgid "Project"
 msgctxt "@title:window"
 msgid "Load Layout"
 msgstr "Tionscadal"
 
-#: src/layoutmanagement.cpp:488
+#: src/layoutmanagement.cpp:486
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Export selected"
 msgstr "Tionscadal"
 
-#: src/layoutmanagement.cpp:492
+#: src/layoutmanagement.cpp:490
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No layout selected"
 msgstr "Amlíne"
 
-#: src/layoutmanagement.cpp:503
+#: src/layoutmanagement.cpp:501
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot find layout %1"
 msgstr "Ní féidir comhad %1 a oscailt"
 
-#: src/layoutmanagement.cpp:507
+#: src/layoutmanagement.cpp:505
 #, fuzzy, kde-format
 #| msgid "Project"
 msgctxt "@title:window"

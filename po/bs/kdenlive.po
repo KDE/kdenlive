@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 02:31+0000\n"
+"POT-Creation-Date: 2025-01-03 02:31+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -5730,8 +5730,8 @@ msgstr ""
 
 #: src/bin/bin.cpp:4653 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
-#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
-#: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
+#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:463
+#: src/layoutmanagement.cpp:524 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
 #, kde-format
 msgid "Cannot open file %1"
@@ -7266,11 +7266,11 @@ msgstr "Učitaj markere"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
-#: src/effects/effectlist/model/effecttreemodel.cpp:290
-#: src/effects/effectlist/model/effecttreemodel.cpp:303
+#: src/effects/effectlist/model/effecttreemodel.cpp:294
+#: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:679
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9509,7 +9509,7 @@ msgstr "bez naslova"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, fuzzy, kde-format
 #| msgid "error"
 msgid "Error"
@@ -10663,7 +10663,7 @@ msgstr "Šablon"
 msgid " - deprecated"
 msgstr ""
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -11648,19 +11648,19 @@ msgstr ""
 msgid "Layout %1: %2"
 msgstr "Okruženje %1"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, fuzzy, kde-format
 #| msgid "Save Layout"
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Spremi raspored"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgid "Layout name:"
 msgstr "Ime rasporeda:"
 
-#: src/layoutmanagement.cpp:297
+#: src/layoutmanagement.cpp:295
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -11670,56 +11670,56 @@ msgstr ""
 "Fajl %1 već postoji.\n"
 "Da li želite pisati preko njega?"
 
-#: src/layoutmanagement.cpp:352
+#: src/layoutmanagement.cpp:350
 #, fuzzy, kde-format
 #| msgid "Clean Project"
 msgid "Current Layouts"
 msgstr "Očisti projekat"
 
-#: src/layoutmanagement.cpp:366
+#: src/layoutmanagement.cpp:364
 #, fuzzy, kde-format
 #| msgid "Delete data"
 msgid "Delete the layout."
 msgstr "Obriši podatke"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:402 src/ui/exportguidesdialog_ui.ui:95
+#: src/layoutmanagement.cpp:400 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "Resetuj"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/layoutmanagement.cpp:447 src/ui/resourcewidget_ui.ui:234
+#: src/layoutmanagement.cpp:445 src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
 msgstr "Unesi"
 
-#: src/layoutmanagement.cpp:449
+#: src/layoutmanagement.cpp:447
 #, fuzzy, kde-format
 #| msgid "Load Layout"
 msgctxt "@title:window"
 msgid "Load Layout"
 msgstr "Učitaj Okruženje"
 
-#: src/layoutmanagement.cpp:488
+#: src/layoutmanagement.cpp:486
 #, fuzzy, kde-format
 #| msgid "Import selected clips"
 msgid "Export selected"
 msgstr "Uvezi odabrane snimke"
 
-#: src/layoutmanagement.cpp:492
+#: src/layoutmanagement.cpp:490
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No layout selected"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/layoutmanagement.cpp:503
+#: src/layoutmanagement.cpp:501
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to cut"
 msgid "Cannot find layout %1"
 msgstr "Nije moguć pronalazak snimka za rezanje"
 
-#: src/layoutmanagement.cpp:507
+#: src/layoutmanagement.cpp:505
 #, fuzzy, kde-format
 #| msgid "Export audio"
 msgctxt "@title:window"

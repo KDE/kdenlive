@@ -1,16 +1,16 @@
 # Translation of kdenlive.po to Catalan
-# Copyright (C) 2009-2024 This_file_is_part_of_KDE
+# Copyright (C) 2009-2025 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
-# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 02:31+0000\n"
-"PO-Revision-Date: 2024-12-28 12:48+0100\n"
+"POT-Creation-Date: 2025-01-03 02:31+0000\n"
+"PO-Revision-Date: 2025-01-02 20:08+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4011,7 +4011,7 @@ msgstr "Baixa cortinetes noves..."
 #: src/assets/assetlist/view/assetlistwidget.cpp:162
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr "Mostra només els recursos revisats"
+msgstr "Mostra només els actius revisats"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:167
 #, kde-format
@@ -5782,8 +5782,8 @@ msgstr "Establiu l'aplicació predeterminada per a obrir fitxers d'àudio"
 
 #: src/bin/bin.cpp:4653 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
-#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
-#: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
+#: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:463
+#: src/layoutmanagement.cpp:524 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
 #, kde-format
 msgid "Cannot open file %1"
@@ -7258,11 +7258,11 @@ msgstr "Exportació de les dades de guies"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
-#: src/effects/effectlist/model/effecttreemodel.cpp:290
-#: src/effects/effectlist/model/effecttreemodel.cpp:303
+#: src/effects/effectlist/model/effecttreemodel.cpp:294
+#: src/effects/effectlist/model/effecttreemodel.cpp:307
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:679
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9428,7 +9428,7 @@ msgstr "<<< Oculta la vista prèvia"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, kde-format
 msgid "Error"
 msgstr "Error"
@@ -10064,7 +10064,7 @@ msgstr "Fitxer de luma"
 #: src/doc/documentchecker.cpp:1857
 #, kde-format
 msgid "Asset file"
-msgstr "Fitxer de recursos"
+msgstr "Fitxer d'actius"
 
 #: src/doc/documentchecker.cpp:1859
 #: src/mltcontroller/clippropertiescontroller.cpp:440
@@ -10552,7 +10552,7 @@ msgstr "Plantilles"
 msgid " - deprecated"
 msgstr " - obsolet"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:274
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -11457,66 +11457,66 @@ msgstr "Organitza les àrees d'acoblament en columnes"
 msgid "Layout %1: %2"
 msgstr "Disposició %1: %2"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "Desa la disposició"
 
-#: src/layoutmanagement.cpp:279
+#: src/layoutmanagement.cpp:277
 #, kde-format
 msgid "Layout name:"
 msgstr "Nom de la disposició:"
 
-#: src/layoutmanagement.cpp:297
+#: src/layoutmanagement.cpp:295
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "La disposició %1 ja existeix. Voleu sobreescriure-la?"
 
-#: src/layoutmanagement.cpp:352
+#: src/layoutmanagement.cpp:350
 #, kde-format
 msgid "Current Layouts"
 msgstr "Disposicions actuals"
 
-#: src/layoutmanagement.cpp:366
+#: src/layoutmanagement.cpp:364
 #, kde-format
 msgid "Delete the layout."
 msgstr "Suprimeix la disposició."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:402 src/ui/exportguidesdialog_ui.ui:95
+#: src/layoutmanagement.cpp:400 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "Reinicialitza"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/layoutmanagement.cpp:447 src/ui/resourcewidget_ui.ui:234
+#: src/layoutmanagement.cpp:445 src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
 msgstr "Importa"
 
-#: src/layoutmanagement.cpp:449
+#: src/layoutmanagement.cpp:447
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Layout"
 msgstr "Càrrega de disposició"
 
-#: src/layoutmanagement.cpp:488
+#: src/layoutmanagement.cpp:486
 #, kde-format
 msgid "Export selected"
 msgstr "Exporta la seleccionada"
 
-#: src/layoutmanagement.cpp:492
+#: src/layoutmanagement.cpp:490
 #, kde-format
 msgid "No layout selected"
 msgstr "No s'ha seleccionat cap disposició"
 
-#: src/layoutmanagement.cpp:503
+#: src/layoutmanagement.cpp:501
 #, kde-format
 msgid "Cannot find layout %1"
 msgstr "No s'ha pogut trobar la disposició %1"
 
-#: src/layoutmanagement.cpp:507
+#: src/layoutmanagement.cpp:505
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Layout"
@@ -17159,7 +17159,7 @@ msgid ""
 "Could not create assets folder:\n"
 " %1"
 msgstr ""
-"No s'ha pogut crear la carpeta de recursos:\n"
+"No s'ha pogut crear la carpeta d'actius:\n"
 " %1"
 
 #: src/render/renderrequest.cpp:237
@@ -19383,8 +19383,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
-"Quan està seleccionat, un clic en un recurs de la línia de temps selecciona "
-"el recurs (p. ex. clip, composició)."
+"Quan està seleccionat, un clic en un actiu de la línia de temps selecciona "
+"l'actiu (p. ex. clip, composició)."
 
 #: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
 #, kde-format
@@ -22871,8 +22871,8 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-" La carpeta del projecte és el lloc a on s'emmagatzemen els recursos com "
-"clips intermediaris, miniatures o vistes prèvies."
+" La carpeta del projecte és el lloc a on s'emmagatzemen els actius com clips "
+"intermediaris, miniatures o vistes prèvies."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60
@@ -24236,6 +24236,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "<html><head/><body><p>Margin</p></body></html>"
-#~ msgstr "<html><head/><body><p>Marge</p></body></html>"
