@@ -1192,7 +1192,8 @@ void EffectStackModel::moveEffectByRow(int destRow, int srcRow)
 void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item)
 {
     QWriteLocker locker(&m_lock);
-    if (KdenliveSettings::enableBuiltInEffects()) {
+    int oldRow = item->row();
+    if (KdenliveSettings::enableBuiltInEffects() && destRow < oldRow) {
         auto item = getEffectStackRow(destRow);
         if (std::static_pointer_cast<EffectItemModel>(item)->isBuiltIn()) {
             // Don't allow moving before a builtin effect
@@ -1202,7 +1203,6 @@ void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEff
 
     int itemId = item->getId();
     Q_ASSERT(m_allItems.count(itemId) > 0);
-    int oldRow = item->row();
     Fun redo = moveItem_lambda(itemId, destRow);
     bool res = redo();
     if (res) {
@@ -1287,7 +1287,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                 }
             }
             int target = -1;
-            if (effectItem->isBuiltIn()) {
+            if (effectItem->isBuiltIn() && KdenliveSettings::enableBuiltInEffects()) {
                 // Ensure builtin effects are always applied before the user effects
                 int max = rootItem->childCount();
                 auto ms = m_masterService.lock();
