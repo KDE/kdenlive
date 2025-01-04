@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Antoni Bella Pérez <antonibella5@yahoo.com>
-# Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
 # SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
+# Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-03 00:41+0000\n"
-"PO-Revision-Date: 2025-01-02 08:35+0100\n"
+"PO-Revision-Date: 2025-01-02 20:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -4055,7 +4055,7 @@ msgstr "Baixa cortinetes noves…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:162
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr "Mostra només els recursos revisats"
+msgstr "Mostra només els actius revisats"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:167
 #, kde-format
@@ -10189,7 +10189,7 @@ msgstr "Fitxer de luma"
 #: src/doc/documentchecker.cpp:1857
 #, kde-format
 msgid "Asset file"
-msgstr "Fitxer de recursos"
+msgstr "Fitxer d'actius"
 
 #: src/doc/documentchecker.cpp:1859
 #: src/mltcontroller/clippropertiescontroller.cpp:440
@@ -17412,7 +17412,7 @@ msgid ""
 "Could not create assets folder:\n"
 " %1"
 msgstr ""
-"No s'ha pogut crear la carpeta de recursos:\n"
+"No s'ha pogut crear la carpeta d'actius:\n"
 " %1"
 
 #: src/render/renderrequest.cpp:237
@@ -19640,8 +19640,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
-"Quan es marca, un clic en un recurs de la línia de temps selecciona el "
-"recurs (p. ex., clip, composició)."
+"Quan es marca, un clic en un actiu de la línia de temps selecciona l'actiu "
+"(p. ex., clip, composició)."
 
 #: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
 #, kde-format
@@ -23197,8 +23197,8 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-" La carpeta del projecte és el lloc a on s'emmagatzemen els recursos com "
-"clips intermediaris, miniatures o vistes prèvies."
+" La carpeta del projecte és el lloc a on s'emmagatzemen els actius com clips "
+"intermediaris, miniatures o vistes prèvies."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60

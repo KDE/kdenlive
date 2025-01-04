@@ -10947,7 +10947,7 @@ msgstr "没有要处理的来源帧"
 #: src/jobs/masktask.cpp:75
 #, kde-format
 msgid "Failed to analyse video."
-msgstr ""
+msgstr "分析视频失败。"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format

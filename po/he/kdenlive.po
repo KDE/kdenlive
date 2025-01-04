@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-03 00:41+0000\n"
-"PO-Revision-Date: 2024-12-29 17:58+0200\n"
+"PO-Revision-Date: 2025-01-02 22:39+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -11073,8 +11073,7 @@ msgid "No source frames to process"
 msgstr "אין תמוניות מקור לעיבוד"
 
 #: src/jobs/masktask.cpp:75
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
 msgstr "אבחון הסרטון נכשל."
 
