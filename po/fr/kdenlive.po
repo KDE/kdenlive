@@ -1,6 +1,6 @@
 # translation of kdenlive.po to français
 # translation of fr.po to
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025 Xavier Besnard <xavier.besnard@kde.org>
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006.
 # Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006.

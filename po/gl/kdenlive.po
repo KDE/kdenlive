@@ -4,7 +4,7 @@
 # Xosé <xosecalvo@gmail.com>, 2012.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2012, 2015, 2016, 2017.
-# SPDX-FileCopyrightText: 2023, 2024 Adrián Chaves (Gallaecio)
+# SPDX-FileCopyrightText: 2023, 2024, 2025 Adrián Chaves (Gallaecio)
 #
 msgid ""
 msgstr ""
