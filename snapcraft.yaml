@@ -1,1 +1,158 @@
-packaging/snap/snapcraft.yaml
+# SPDX-FileCopyrightText: 2024,2025 Scarlett Moore <sgmoore@kde.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+---
+name: kdenlive
+confinement: strict
+grade: stable
+base: core24
+adopt-info: kdenlive
+apps:
+  kdenlive:
+    extensions:
+      - kde-neon-6
+    common-id: org.kde.kdenlive.desktop
+    desktop: usr/share/applications/org.kde.kdenlive.desktop
+    command: usr/bin/kdenlive
+    plugs:
+      - audio-record
+      - removable-media
+      - system-observe
+      - home
+environment:
+    PYTHONPYCACHEPREFIX: "$SNAP_USER_COMMON/.pycache"
+    PYTHONUSERBASE: $SNAP_USER_COMMON/.local
+    PIP_USER: 1
+    PYTHONPATH: "$PYTHONUSERBASE/lib/python3.10/site-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages"
+    MLT_REPOSITORY: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/mlt-7/"
+    MLT_DATA: "$SNAP/usr/share/mlt-7/"
+    MLT_ROOT_DIR: "$SNAP/usr/"
+    LADSPA_PATH: "$SNAP/usr/lib/ladspa"
+    FREI0R_PATH: "$SNAP/usr/lib/frei0r-1"
+    MLT_PROFILES_PATH: "$SNAP/usr/share/mlt-7/profiles/"
+    MLT_PRESETS_PATH: "$SNAP/usr/share/mlt-7/presets/"
+    ALSA_CONFIG_PATH: "$SNAP/kf6/etc/asound.conf"
+    LD_LIBRARY_PATH: "$SNAP/kf6/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/ffmpeg-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib:$SNAP/lib/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:${LD_LIBRARY_PATH}"
+    PATH: $SNAP/ffmpeg-platform/usr/bin:${PATH}
+plugs:
+  ffmpeg-2404:
+    interface: content
+    target: ffmpeg-platform # the folder where this content snap will be mounted
+    default-provider: ffmpeg-2404
+slots:
+  session-dbus-interface:
+    interface: dbus
+    name: org.kde.kdenlive
+    bus: session
+package-repositories:
+  - type: apt
+    components:
+      - main
+    suites:
+      - noble
+    key-id: 444DABCF3667D0283F894EDDE6D4736255751E5D
+    url: http://origin.archive.neon.kde.org/user
+    key-server: keyserver.ubuntu.com
+parts:
+  python-deps:
+    plugin: python
+    source: .
+    build-packages:
+      - python3-dev
+    python-packages:
+      - vosk
+      - srt
+      - pip
+    stage:
+      - "-pyvenv.cfg"
+  kdenlive:
+    after:
+      - python-deps
+    parse-info:
+      - usr/share/metainfo/org.kde.kdenlive.appdata.xml
+    plugin: cmake
+    source: .
+    source-type: local
+    build-snaps:
+      - ffmpeg-2404
+    build-packages:
+      - librttr-dev
+      - libv4l-dev
+      - libmlt++-dev
+      - libmlt-dev
+    stage-packages:
+      - on amd64:
+        - libpsm-infinipath1
+      - frei0r-plugins
+      - librttr-core0.9.6
+      - dvgrab
+      - recordmydesktop
+      - swh-plugins
+      - libslang2
+      - libmagic1
+      - libgpm2
+      - mediainfo
+      - melt
+      - libcudart12
+      - libmlt7
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DQT_MAJOR_VERSION=6
+      - -DBUILD_WITH_QT6=ON
+      - -DBUILD_TESTING=OFF
+      - -DCMAKE_INSTALL_SYSCONFDIR=/etc
+      - -DCMAKE_INSTALL_LOCALSTATEDIR=/var
+      - -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON
+      - -DCMAKE_FIND_USE_PACKAGE_REGISTRY=OFF
+      - -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY=ON
+      - -DCMAKE_INSTALL_RUNSTATEDIR=/run
+      - -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=ON
+      - -DCMAKE_VERBOSE_MAKEFILE=ON
+      - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+      - --log-level=STATUS
+      - -DCMAKE_LIBRARY_PATH=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+    build-environment:
+      - CMAKE_FIND_ROOT_PATH: "${CMAKE_FIND_ROOT_PATH}:/snap/ffmpeg-2404-sdk/current"
+      - PKG_CONFIG_PATH: "/snap/ffmpeg-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig"
+      - LD_LIBRARY_PATH: "${LD_LIBRARY_PATH}:/snap/ffmpeg-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+    override-build: |
+      craftctl default
+      sed -i "${CRAFT_PART_INSTALL}/usr/share/applications/org.kde.kdenlive.desktop" -e 's|Icon=kdenlive$|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/kdenlive.svg|'
+      cd "${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/scalable/apps"
+      gzip -d -c kdenlive.svgz > kdenlive.svg
+      if [ "$CRAFT_TARGET_ARCH" = amd64 ]; then
+        ln -sf ../libpsm1/libpsm_infinipath.so.1.16  $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET/libpsm_infinipath.so.1
+      fi
+    prime:
+      - -usr/lib/*/cmake/*
+      - -usr/include/*
+      - -usr/share/ECM/*
+      - -usr/share/man/*
+      - -usr/bin/X11
+      - -usr/lib/gcc/$CRAFT_ARCH_TRIPLET_BUILD_FOR/6.0.0
+      - -usr/lib/aspell/*
+      - -usr/share/lintian
+  gpu-2404:
+    after: [kdenlive]
+    source: https://github.com/canonical/gpu-snap.git
+    plugin: dump
+    override-prime: |
+      craftctl default
+      ${CRAFT_PART_SRC}/bin/gpu-2404-cleanup mesa-2404
+    prime:
+      - bin/gpu-2404-wrapper
+  cleanup:
+    after:
+      - kdenlive
+    plugin: nil
+    build-snaps:
+      - core24
+      - kf6-core24
+      - ffmpeg-2404
+    override-prime: |
+      set -eux
+      for snap in "core24" "kf6-core24" "ffmpeg-2404"; do
+          cd "/snap/$snap/current" && find . -type f,l -exec rm -rf "${CRAFT_PRIME}/{}" \;
+      done
+
