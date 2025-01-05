@@ -152,6 +152,10 @@ public:
      */
     virtual int getThumbFrame() const;
 
+    /** @brief Return the last frame used for this clip in other sequences of the project
+     */
+    virtual int lastBound();
+
     /** @brief Returns the original clip's fps. */
     double getOriginalFps() const;
     /** @brief Returns the original clip's fps as {frame_rate_num, frame_rate_den}. */
@@ -316,6 +320,7 @@ protected:
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
+    QMap<QUuid, QList<int>> m_registeredClipsByUuid;
 
     /** @brief This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled */
     virtual void createDisabledMasterProducer();
@@ -389,8 +394,6 @@ private:
     QMap <QString, QByteArray> m_audioLevels;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
     bool m_resetTimelineOccurences;
-
-    QMap<QUuid, QList<int>> m_registeredClipsByUuid;
     QTimer m_boundaryTimer;
 
     // A temporary uuid used to reset thumbnails on producer change
