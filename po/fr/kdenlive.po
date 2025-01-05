@@ -1,6 +1,6 @@
 # translation of kdenlive.po to français
 # translation of fr.po to
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025 Xavier Besnard <xavier.besnard@kde.org>
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006.
 # Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006.
@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-03 00:41+0000\n"
-"PO-Revision-Date: 2024-12-31 10:06+0100\n"
+"PO-Revision-Date: 2025-01-03 09:02+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -11384,8 +11384,7 @@ msgid "No source frames to process"
 msgstr "Aucune trame source à traiter"
 
 #: src/jobs/masktask.cpp:75
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
 msgstr "Impossible d'analyser la vidéo."
 

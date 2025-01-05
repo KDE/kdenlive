@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 #
-# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-03 00:41+0000\n"
-"PO-Revision-Date: 2024-12-29 08:31+0100\n"
+"PO-Revision-Date: 2025-01-04 07:46+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -11024,16 +11024,17 @@ msgid "Enter the name of this mask:"
 msgstr "Wpisz nazwę dla tej maski:"
 
 #: src/effects/effectstack/view/maskmanager.cpp:211
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating mask %1"
-msgstr "Tworzenie obrazów menu"
+msgstr "Tworzenie maski %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:328
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
+"Zamaskuje to plik <b>%1</b>:<br/>%2<br/>Nie będzie można wycofać tego "
+"działania."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11235,14 +11236,12 @@ msgid "Mask creation"
 msgstr "Tworzenie maski"
 
 #: src/jobs/masktask.cpp:44
-#, fuzzy, kde-format
-#| msgid "No keyframes to import"
+#, kde-format
 msgid "No source frames to process"
-msgstr "Brak klatek kluczowych do zaimportowania"
+msgstr "Nie ma klatek źródłowych do przetworzenia"
 
 #: src/jobs/masktask.cpp:75
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
 msgstr "Nie udało się zanalizować wycinka."
 
@@ -14945,6 +14944,9 @@ msgid ""
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
+"Naciśnij na obiekcie, aby rozpocząć maskę.\n"
+"Shift+klik, aby dodać nowy obszar.\n"
+"Ctrl+klik, aby wykluczyć dany obszar."
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
