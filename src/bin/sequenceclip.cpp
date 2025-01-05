@@ -284,3 +284,28 @@ void SequenceClip::setThumbFrame(int frame)
     pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame"), frame);
     ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
 }
+
+int SequenceClip::lastBound()
+{
+    if (m_registeredClipsByUuid.isEmpty()) {
+        return pCore->currentDoc()->getSequenceProperty(m_sequenceUuid, QStringLiteral("lastUsedFrame")).toInt();
+    }
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    int lastUsedFrame = 0;
+    while (i.hasNext()) {
+        i.next();
+        QList<int> instances = i.value();
+        if (!instances.isEmpty()) {
+            auto timeline = pCore->currentDoc()->getTimeline(i.key());
+            if (!timeline) {
+                qDebug() << "Error while reloading clip: timeline unavailable";
+                Q_ASSERT(false);
+            }
+            for (auto &cid : instances) {
+                QPoint p = timeline->getClipInDuration(cid);
+                lastUsedFrame = qMax(lastUsedFrame, p.x() + p.y());
+            }
+        }
+    }
+    return lastUsedFrame;
+}

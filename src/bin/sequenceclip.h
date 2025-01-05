@@ -72,6 +72,9 @@ public:
     ~SequenceClip() override;
     const QString hashForThumbs() override;
     int getThumbFrame() const override;
+    /** @brief Return the last frame used for this clip in other sequences of the project
+     */
+    int lastBound() override;
     void setThumbFrame(int frame) override;
     int getThumbFromPercent(int percent, bool storeFrame = false) override;
     /** @brief Returns false if the clip is or embeds a timeline with uuid. */

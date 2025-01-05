@@ -2286,6 +2286,8 @@ void ProjectClip::refreshBounds()
 {
     QVector<QPoint> boundaries;
     uint currentCount = 0;
+    int lastUsedPos = 0;
+    int previousUsedPos = pCore->currentDoc()->getSequenceProperty(getSequenceUuid(), QStringLiteral("lastUsedFrame")).toInt();
     const QUuid uuid = pCore->currentTimelineId();
     if (m_registeredClipsByUuid.contains(uuid)) {
         const QList<int> clips = m_registeredClipsByUuid.value(uuid);
@@ -2295,8 +2297,13 @@ void ProjectClip::refreshBounds()
             QPoint point = timeline->getClipInDuration(c);
             if (!boundaries.contains(point)) {
                 boundaries << point;
+                lastUsedPos = qMax(lastUsedPos, point.x() + point.y());
             }
         }
+    }
+    if (m_clipType == ClipType::Timeline) {
+        const QUuid uuid = getSequenceUuid();
+        pCore->currentDoc()->setSequenceProperty(uuid, QStringLiteral("lastUsedFrame"), QString::number(lastUsedPos));
     }
     uint totalCount = 0;
     QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
@@ -2607,6 +2614,10 @@ void ProjectClip::replaceInTimeline()
     }
 }
 
+int ProjectClip::lastBound()
+{
+    return 0;
+}
 void ProjectClip::updateTimelineClips(const QVector<int> &roles)
 {
     QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
@@ -3176,6 +3187,7 @@ void ProjectClip::exportFrames(const QDir folder, int in, int out)
     std::unique_ptr<Mlt::Producer> p(m_masterProducer->parent().cut(in, out));
     c.connect(*p.get());
     c.run();
+    c.disconnect_all_producers();
     p.reset();
 }
 

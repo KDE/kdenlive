@@ -5198,6 +5198,10 @@ void TimelineModel::updateDuration()
     if (m_subtitleModel) {
         duration = qMax(duration, m_subtitleModel->trackDuration());
     }
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getSequenceClip(m_uuid);
+    if (binClip) {
+        duration = qMax(duration, binClip->lastBound());
+    }
     if (duration != current) {
         // update black track length
         m_blackClip->lock();
@@ -5232,6 +5236,10 @@ int TimelineModel::duration() const
     }
     if (m_subtitleModel && !m_subtitleModel->isDisabled()) {
         duration = qMax(duration, m_subtitleModel->trackDuration());
+    }
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getSequenceClip(m_uuid);
+    if (binClip) {
+        duration = qMax(duration, binClip->lastBound());
     }
     return duration;
 }
