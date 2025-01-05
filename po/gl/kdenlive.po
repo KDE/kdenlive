@@ -4,14 +4,14 @@
 # Xosé <xosecalvo@gmail.com>, 2012.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2012, 2015, 2016, 2017.
-# SPDX-FileCopyrightText: 2023, 2024 Adrián Chaves (Gallaecio)
+# SPDX-FileCopyrightText: 2023, 2024, 2025 Adrián Chaves (Gallaecio)
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-03 00:41+0000\n"
-"PO-Revision-Date: 2024-12-31 09:36+0100\n"
+"PO-Revision-Date: 2025-01-04 15:03+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -11278,10 +11278,9 @@ msgid "No source frames to process"
 msgstr "Non hai fotogramas de orixe para procesar"
 
 #: src/jobs/masktask.cpp:75
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
-msgstr "Non foi posíbel analizar o fragmento."
+msgstr "Non foi posíbel analizar o vídeo."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
