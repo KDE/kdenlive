@@ -981,14 +981,29 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         if (trackId == -1 && (state != PlaylistState::AudioOnly || audioStream == m_masterProducer->get_int("audio_index"))) {
             byPassTrackProducer = true;
         }
+        int maxDuration = 0;
+        if (m_clipType == ClipType::Timeline && m_masterProducer->parent().property_exists("kdenlive:maxduration")) {
+            int duration = m_masterProducer->parent().get_int("kdenlive:maxduration");
+            if (duration > 0) {
+                maxDuration = duration;
+            } else {
+                maxDuration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+            }
+        }
+
         if (byPassTrackProducer ||
             (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text ||
                                                    m_clipType == ClipType::TextTemplate || m_clipType == ClipType::Qml))) {
             // Temporary copy, return clone of master
-            int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+            int duration = 0;
+            if (m_clipType == ClipType::Timeline) {
+                duration = maxDuration;
+            } else {
+                duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+            }
             std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(-1, duration > 0 ? duration - 1 : -1));
-            if (m_clipType == ClipType::Timeline && m_masterProducer->property_exists("kdenlive:maxduration")) {
-                prod->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
+            if (m_clipType == ClipType::Timeline && m_masterProducer->parent().property_exists("kdenlive:maxduration")) {
+                prod->set("kdenlive:maxduration", m_masterProducer->parent().get_int("kdenlive:maxduration"));
             }
             return prod;
         }
@@ -1011,7 +1026,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
             if (m_audioProducers.count(trackId) == 0) {
                 if (m_clipType == ClipType::Timeline) {
-                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
+                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, maxDuration));
                     m_audioProducers[trackId] = prod;
                 } else {
                     m_audioProducers[trackId] = cloneProducer(true, true);
@@ -1066,7 +1081,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
             if (m_videoProducers.count(trackId) == 0) {
                 if (m_clipType == ClipType::Timeline) {
-                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
+                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, maxDuration));
                     m_videoProducers[trackId] = prod;
                 } else {
                     m_videoProducers[trackId] = cloneProducer(true, true);
@@ -2287,7 +2302,6 @@ void ProjectClip::refreshBounds()
     QVector<QPoint> boundaries;
     uint currentCount = 0;
     int lastUsedPos = 0;
-    int previousUsedPos = pCore->currentDoc()->getSequenceProperty(getSequenceUuid(), QStringLiteral("lastUsedFrame")).toInt();
     const QUuid uuid = pCore->currentTimelineId();
     if (m_registeredClipsByUuid.contains(uuid)) {
         const QList<int> clips = m_registeredClipsByUuid.value(uuid);
@@ -2300,10 +2314,6 @@ void ProjectClip::refreshBounds()
                 lastUsedPos = qMax(lastUsedPos, point.x() + point.y());
             }
         }
-    }
-    if (m_clipType == ClipType::Timeline) {
-        const QUuid uuid = getSequenceUuid();
-        pCore->currentDoc()->setSequenceProperty(uuid, QStringLiteral("lastUsedFrame"), QString::number(lastUsedPos));
     }
     uint totalCount = 0;
     QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
@@ -2577,7 +2587,7 @@ void ProjectClip::replaceInTimeline()
     Fun redo = []() { return true; };
     bool pushUndo = false;
     QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
-    QMap<QUuid, int> sequencesToUpdate;
+    QMap<QUuid, std::pair<int, int>> sequencesToUpdate;
     while (i.hasNext()) {
         i.next();
         QList<int> instances = i.value();
@@ -2599,7 +2609,7 @@ void ProjectClip::replaceInTimeline()
             if (auto ptr = m_model.lock()) {
                 std::shared_ptr<ProjectClip> sClip = std::static_pointer_cast<ProjectItemModel>(ptr)->getSequenceClip(i.key());
                 if (sClip && sClip->refCount() > 0) {
-                    sequencesToUpdate.insert(i.key(), timeline->duration());
+                    sequencesToUpdate.insert(i.key(), timeline->durations());
                 }
             }
         }

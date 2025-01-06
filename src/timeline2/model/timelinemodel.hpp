@@ -687,6 +687,11 @@ public:
        Returns the duration in frames
     */
     int duration() const;
+    /** @brief Get project duration with 2 values
+       First is the real sequence duration
+       Second is the last used frame in timeline instances, or 0 if that value is smaller than first value.
+    */
+    std::pair<int, int> durations() const;
     static int seekDuration; /// Duration after project end where seeking is allowed
     /** @brief True until the timeline has all tracks and clips loaded
      */

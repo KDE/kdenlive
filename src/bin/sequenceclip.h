@@ -79,6 +79,7 @@ public:
     int getThumbFromPercent(int percent, bool storeFrame = false) override;
     /** @brief Returns false if the clip is or embeds a timeline with uuid. */
     bool canBeDropped(const QUuid &uuid) const override;
+    std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &) override;
     /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
     const QUuid getSequenceUuid() const override;
     void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false) override;

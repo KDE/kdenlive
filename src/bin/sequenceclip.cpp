@@ -309,3 +309,13 @@ int SequenceClip::lastBound()
     }
     return lastUsedFrame;
 }
+
+std::shared_ptr<Mlt::Producer> SequenceClip::sequenceProducer(const QUuid &)
+{
+    QReadLocker lock(&m_producerLock);
+    int maxDuration = m_masterProducer->parent().get_int("kdenlive:maxduration");
+    if (maxDuration > 0) {
+        return std::make_shared<Mlt::Producer>(m_masterProducer->cut(0, maxDuration - 1));
+    }
+    return m_masterProducer;
+}

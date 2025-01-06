@@ -157,7 +157,8 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     QWriteLocker locker(&m_lock);
     // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
     // m_producer->get_length()<<" > "<<m_producer->get("kdenlive:duration")<<" = "<<m_producer->get("kdenlive:maxduration");
-    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length()) && !hasTimeRemap()) {
+    int maxDuration = m_producer->get_length();
+    if (!m_endlessResize && (size <= 0 || size > maxDuration) && !hasTimeRemap()) {
         return false;
     }
     int delta = getPlaytime() - size;
@@ -174,7 +175,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         if (!right && in + delta < 0) {
             return false;
         }
-        if (right && (out - delta >= m_producer->get_length()) && !hasTimeRemap()) {
+        if (right && (out - delta >= maxDuration) && !hasTimeRemap()) {
             return false;
         }
     }
@@ -197,7 +198,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     }
     bool closing = false;
     // Ensure producer is long enough
-    if (m_endlessResize && outPoint > m_producer->parent().get_length()) {
+    if (m_endlessResize && outPoint > maxDuration) {
         m_producer->parent().set("length", outPoint + 1);
         m_producer->parent().set("out", outPoint);
         m_producer->set("length", outPoint + 1);
@@ -1491,6 +1492,13 @@ int ClipModel::getMaxDuration() const
     READ_LOCK();
     if (m_endlessResize) {
         return -1;
+    }
+    if (m_clipType == ClipType::Timeline) {
+        // Special case, timeline clips can in some cases be longer than max duration
+        int maxDuration = m_producer->parent().get_int("kdenlive:maxduration");
+        if (maxDuration > 0) {
+            return maxDuration;
+        }
     }
     return m_producer->get_length();
 }
