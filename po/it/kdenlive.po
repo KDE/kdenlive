@@ -4,14 +4,14 @@
 # Alberto Villa <villa.alberto@gmail.com>, 2009.
 # Salvatore Brigaglia <tore@studiobrigaglia.com>, 2010, 2012, 2013, 2015, 2016.
 # SPDX-FileCopyrightText: 2015, 2020, 2022, 2024 Vincenzo Reale <smart2128vr@gmail.com>
-# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Paolo Zamponi <feus73@gmail.com>
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Paolo Zamponi <feus73@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-03 02:31+0000\n"
-"PO-Revision-Date: 2024-12-29 10:23+0100\n"
+"POT-Creation-Date: 2025-01-06 02:37+0000\n"
+"PO-Revision-Date: 2025-01-04 23:38+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -6368,17 +6368,17 @@ msgstr "Non valido"
 msgid "File already exists"
 msgstr "Il file esiste già"
 
-#: src/bin/projectclip.cpp:2598
+#: src/bin/projectclip.cpp:2605
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Regola le clip nella linea temporale"
 
-#: src/bin/projectclip.cpp:2834
+#: src/bin/projectclip.cpp:2845
 #, kde-format
 msgid "Add stream effect"
 msgstr "Aggiungi effetto del flusso"
 
-#: src/bin/projectclip.cpp:2859
+#: src/bin/projectclip.cpp:2870
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Rimuovi effetto del flusso"
@@ -16673,7 +16673,7 @@ msgstr "Lo script %1 non è stato trovato, controlla l'installazione."
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
-"Il modulo python dell'applicazione <application>%1</application> è richiesto."
+"È richiesto il modulo python dell'applicazione <application>%1</application>."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
@@ -18358,80 +18358,80 @@ msgstr "Impossibile aggiungere l'effetto %1 alla clip selezionata"
 msgid "Adjust Fade"
 msgstr "Regola dissolvenza"
 
-#: src/timeline2/model/timelinemodel.cpp:5436
+#: src/timeline2/model/timelinemodel.cpp:5444
 #, kde-format
 msgid "Insert Composition"
 msgstr "Inserisci composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:5657
+#: src/timeline2/model/timelinemodel.cpp:5665
 #, kde-format
 msgid "Move composition"
 msgstr "Sposta composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:6325
+#: src/timeline2/model/timelinemodel.cpp:6333
 #, kde-format
 msgid "Enable time remap"
 msgstr "Abilita modifica tempo"
 
-#: src/timeline2/model/timelinemodel.cpp:6399
+#: src/timeline2/model/timelinemodel.cpp:6407
 #, kde-format
 msgid "Change speed failed"
 msgstr "Modifica della velocità non riuscita"
 
-#: src/timeline2/model/timelinemodel.cpp:6409
+#: src/timeline2/model/timelinemodel.cpp:6417
 #, kde-format
 msgid "Change clip speed"
 msgstr "Cambia la velocità della clip"
 
-#: src/timeline2/model/timelinemodel.cpp:6858
+#: src/timeline2/model/timelinemodel.cpp:6866
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Blocca traccia"
 
-#: src/timeline2/model/timelinemodel.cpp:6863
+#: src/timeline2/model/timelinemodel.cpp:6871
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Sblocca traccia"
 
-#: src/timeline2/model/timelinemodel.cpp:6897
-#: src/timeline2/model/timelinemodel.cpp:6959
+#: src/timeline2/model/timelinemodel.cpp:6905
+#: src/timeline2/model/timelinemodel.cpp:6967
 #, kde-format
 msgid "Change composition"
 msgstr "Modifica composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:6911
+#: src/timeline2/model/timelinemodel.cpp:6919
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Impossibile operare sulle composizioni raggruppate, annulla il raggruppamento"
 
 # , kde-format
-#: src/timeline2/model/timelinemodel.cpp:7106
-#: src/timeline2/model/timelinemodel.cpp:7143
-#: src/timeline2/model/timelinemodel.cpp:7176
-#: src/timeline2/model/timelinemodel.cpp:7255
+#: src/timeline2/model/timelinemodel.cpp:7114
+#: src/timeline2/model/timelinemodel.cpp:7151
+#: src/timeline2/model/timelinemodel.cpp:7184
+#: src/timeline2/model/timelinemodel.cpp:7263
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Impossibile ridimensionare il mescolamento a meno di un fotogramma"
 
-#: src/timeline2/model/timelinemodel.cpp:7117
-#: src/timeline2/model/timelinemodel.cpp:7151
-#: src/timeline2/model/timelinemodel.cpp:7193
-#: src/timeline2/model/timelinemodel.cpp:7279
+#: src/timeline2/model/timelinemodel.cpp:7125
+#: src/timeline2/model/timelinemodel.cpp:7159
+#: src/timeline2/model/timelinemodel.cpp:7201
+#: src/timeline2/model/timelinemodel.cpp:7287
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Impossibile ridimensionare il mescolamento"
 
-#: src/timeline2/model/timelinemodel.cpp:7293
+#: src/timeline2/model/timelinemodel.cpp:7301
 #, kde-format
 msgid "Resize mix"
 msgstr "Ridimensiona mescolamento"
 
-#: src/timeline2/model/timelinemodel.cpp:7413
+#: src/timeline2/model/timelinemodel.cpp:7421
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Errore nell'inizializzazione dell'anteprima nella linea temporale"
@@ -19099,7 +19099,7 @@ msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
-"Il filtro avfilter.subtitles è richiesto, ma non è stato trovato. La "
+"È richiesto il filtro avfilter.subtitles, ma non è stato trovato. La "
 "funzionalità dei sottotitoli probabilmente non funzionerà come previsto."
 
 #: src/timeline2/view/timelinecontroller.cpp:5182

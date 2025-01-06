@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-03 02:31+0000\n"
+"POT-Creation-Date: 2025-01-06 02:37+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -6418,19 +6418,19 @@ msgstr "Neplatné"
 msgid "File already exists"
 msgstr "Súbor už existuje"
 
-#: src/bin/projectclip.cpp:2598
+#: src/bin/projectclip.cpp:2605
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 msgid "Adjust timeline clips"
 msgstr "Vymazať klip časovej osi"
 
-#: src/bin/projectclip.cpp:2834
+#: src/bin/projectclip.cpp:2845
 #, fuzzy, kde-format
 #| msgid "Add effect %1"
 msgid "Add stream effect"
 msgstr "Pridať efekt %1"
 
-#: src/bin/projectclip.cpp:2859
+#: src/bin/projectclip.cpp:2870
 #, fuzzy, kde-format
 #| msgid "Remove Bin Effect"
 msgid "Remove stream effect"
@@ -18736,82 +18736,82 @@ msgstr "Nie je možné pridať video efekt do tohto klipu"
 msgid "Adjust Fade"
 msgstr "Nastaviť úrovne"
 
-#: src/timeline2/model/timelinemodel.cpp:5436
+#: src/timeline2/model/timelinemodel.cpp:5444
 #, kde-format
 msgid "Insert Composition"
 msgstr "Vložiť kompozíciu"
 
-#: src/timeline2/model/timelinemodel.cpp:5657
+#: src/timeline2/model/timelinemodel.cpp:5665
 #, kde-format
 msgid "Move composition"
 msgstr "Presunúť kompozíciu"
 
-#: src/timeline2/model/timelinemodel.cpp:6325
+#: src/timeline2/model/timelinemodel.cpp:6333
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable time remap"
 msgstr "Povoliť roztiahnutie"
 
-#: src/timeline2/model/timelinemodel.cpp:6399
+#: src/timeline2/model/timelinemodel.cpp:6407
 #, kde-format
 msgid "Change speed failed"
 msgstr "Zmena rýchlosti zlyhala"
 
-#: src/timeline2/model/timelinemodel.cpp:6409
+#: src/timeline2/model/timelinemodel.cpp:6417
 #, kde-format
 msgid "Change clip speed"
 msgstr "Zmeniť rýchlosť klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:6858
+#: src/timeline2/model/timelinemodel.cpp:6866
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Zamknúť stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:6863
+#: src/timeline2/model/timelinemodel.cpp:6871
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Odomknúť stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:6897
-#: src/timeline2/model/timelinemodel.cpp:6959
+#: src/timeline2/model/timelinemodel.cpp:6905
+#: src/timeline2/model/timelinemodel.cpp:6967
 #, kde-format
 msgid "Change composition"
 msgstr "Zmeniť kompozíciu"
 
-#: src/timeline2/model/timelinemodel.cpp:6911
+#: src/timeline2/model/timelinemodel.cpp:6919
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7106
-#: src/timeline2/model/timelinemodel.cpp:7143
-#: src/timeline2/model/timelinemodel.cpp:7176
-#: src/timeline2/model/timelinemodel.cpp:7255
+#: src/timeline2/model/timelinemodel.cpp:7114
+#: src/timeline2/model/timelinemodel.cpp:7151
+#: src/timeline2/model/timelinemodel.cpp:7184
+#: src/timeline2/model/timelinemodel.cpp:7263
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to frame %1."
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Nie je možné presunúť klip do snímku %1."
 
-#: src/timeline2/model/timelinemodel.cpp:7117
-#: src/timeline2/model/timelinemodel.cpp:7151
-#: src/timeline2/model/timelinemodel.cpp:7193
-#: src/timeline2/model/timelinemodel.cpp:7279
+#: src/timeline2/model/timelinemodel.cpp:7125
+#: src/timeline2/model/timelinemodel.cpp:7159
+#: src/timeline2/model/timelinemodel.cpp:7201
+#: src/timeline2/model/timelinemodel.cpp:7287
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Nie je možné zmeniť veľkosť prechodu"
 
-#: src/timeline2/model/timelinemodel.cpp:7293
+#: src/timeline2/model/timelinemodel.cpp:7301
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "Zmeniť veľkosť klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:7413
+#: src/timeline2/model/timelinemodel.cpp:7421
 #, fuzzy, kde-format
 #| msgid "Disable Timeline Preview"
 msgid "Error initializing timeline preview"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-03 02:31+0000\n"
+"POT-Creation-Date: 2025-01-06 02:37+0000\n"
 "PO-Revision-Date: 2012-01-01 20:29+0100\n"
 "Last-Translator: Kjetil Kilhavn <kjetil@kilhavn.no>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -1366,7 +1366,6 @@ msgstr ""
 
 #: data/effects/gpsgraphic.xml:116
 #, fuzzy, kde-format
-#| msgid "More options"
 msgid "Show Now dot"
 msgstr "Flere valg"
 
@@ -5986,17 +5985,17 @@ msgstr ""
 msgid "File already exists"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2598
+#: src/bin/projectclip.cpp:2605
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2834
+#: src/bin/projectclip.cpp:2845
 #, kde-format
 msgid "Add stream effect"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2859
+#: src/bin/projectclip.cpp:2870
 #, kde-format
 msgid "Remove stream effect"
 msgstr ""
@@ -7248,7 +7247,6 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:2113
 #: src/dialogs/kdenlivesettingsdialog.cpp:2122 src/ui/configspeech_ui.ui:232
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "Manage models"
 msgstr "Stil"
 
@@ -7348,7 +7346,6 @@ msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:180
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "Move Style"
 msgstr "Stil"
 
@@ -7359,7 +7356,6 @@ msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:182
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "Copy Style"
 msgstr "Stil"
 
@@ -8686,7 +8682,6 @@ msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:291
 #, fuzzy, kde-format
-#| msgid "More options"
 msgid "Show more options"
 msgstr "Flere valg"
 
@@ -8788,7 +8783,6 @@ msgstr "Bevegelse"
 
 #: src/dialogs/subtitleedit.cpp:331
 #, fuzzy, kde-format
-#| msgid "More options"
 msgid "More tags"
 msgstr "Flere valg"
 
@@ -8805,7 +8799,6 @@ msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:392
 #, fuzzy, kde-format
-#| msgid "Left,Right"
 msgid "Left To Right"
 msgstr "Venstre,Høyre"
 
@@ -8841,7 +8834,6 @@ msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:609
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "Manage Styles…"
 msgstr "Stil"
 
@@ -17305,78 +17297,78 @@ msgstr ""
 msgid "Adjust Fade"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5436
+#: src/timeline2/model/timelinemodel.cpp:5444
 #, kde-format
 msgid "Insert Composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5657
+#: src/timeline2/model/timelinemodel.cpp:5665
 #, kde-format
 msgid "Move composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6325
+#: src/timeline2/model/timelinemodel.cpp:6333
 #, kde-format
 msgid "Enable time remap"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6399
+#: src/timeline2/model/timelinemodel.cpp:6407
 #, kde-format
 msgid "Change speed failed"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6409
+#: src/timeline2/model/timelinemodel.cpp:6417
 #, kde-format
 msgid "Change clip speed"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6858
+#: src/timeline2/model/timelinemodel.cpp:6866
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6863
+#: src/timeline2/model/timelinemodel.cpp:6871
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6897
-#: src/timeline2/model/timelinemodel.cpp:6959
+#: src/timeline2/model/timelinemodel.cpp:6905
+#: src/timeline2/model/timelinemodel.cpp:6967
 #, kde-format
 msgid "Change composition"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6911
+#: src/timeline2/model/timelinemodel.cpp:6919
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7106
-#: src/timeline2/model/timelinemodel.cpp:7143
-#: src/timeline2/model/timelinemodel.cpp:7176
-#: src/timeline2/model/timelinemodel.cpp:7255
+#: src/timeline2/model/timelinemodel.cpp:7114
+#: src/timeline2/model/timelinemodel.cpp:7151
+#: src/timeline2/model/timelinemodel.cpp:7184
+#: src/timeline2/model/timelinemodel.cpp:7263
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7117
-#: src/timeline2/model/timelinemodel.cpp:7151
-#: src/timeline2/model/timelinemodel.cpp:7193
-#: src/timeline2/model/timelinemodel.cpp:7279
+#: src/timeline2/model/timelinemodel.cpp:7125
+#: src/timeline2/model/timelinemodel.cpp:7159
+#: src/timeline2/model/timelinemodel.cpp:7201
+#: src/timeline2/model/timelinemodel.cpp:7287
 #, kde-format
 msgid "Cannot resize mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7293
+#: src/timeline2/model/timelinemodel.cpp:7301
 #, kde-format
 msgid "Resize mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7413
+#: src/timeline2/model/timelinemodel.cpp:7421
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr ""
@@ -20784,7 +20776,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:152
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "Style:"
 msgstr "Stil"
 
@@ -20854,7 +20845,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "Style name"
 msgstr "Stil"
 
@@ -21406,7 +21396,6 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "Styles"
 msgstr "Stil"
 
@@ -21419,7 +21408,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
 #, fuzzy, kde-format
-#| msgid "Icon Size"
 msgid "FontSize"
 msgstr "Ikonstørrelse"
 
@@ -21468,7 +21456,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "BoardStyle"
 msgstr "Stil"
 
@@ -21493,7 +21480,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
 #, fuzzy, kde-format
-#| msgid "Style"
 msgid "New Style"
 msgstr "Stil"
 

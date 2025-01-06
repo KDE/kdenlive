@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-03 02:31+0000\n"
+"POT-Creation-Date: 2025-01-06 02:37+0000\n"
 "PO-Revision-Date: 2024-12-29 17:58+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -6255,17 +6255,17 @@ msgstr "שגוי"
 msgid "File already exists"
 msgstr "הקובץ כבר קיים"
 
-#: src/bin/projectclip.cpp:2598
+#: src/bin/projectclip.cpp:2605
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "כיוון סרטונים בציר הזמן"
 
-#: src/bin/projectclip.cpp:2834
+#: src/bin/projectclip.cpp:2845
 #, kde-format
 msgid "Add stream effect"
 msgstr "הוספת אפקט תזרים"
 
-#: src/bin/projectclip.cpp:2859
+#: src/bin/projectclip.cpp:2870
 #, kde-format
 msgid "Remove stream effect"
 msgstr "הסרת אפקט תזרים"
@@ -17984,78 +17984,78 @@ msgstr "לא ניתן להוסיף את האפקט %1 לסרטון הנבחר"
 msgid "Adjust Fade"
 msgstr "כיוון עמעום"
 
-#: src/timeline2/model/timelinemodel.cpp:5436
+#: src/timeline2/model/timelinemodel.cpp:5444
 #, kde-format
 msgid "Insert Composition"
 msgstr "הוספת תרכובת"
 
-#: src/timeline2/model/timelinemodel.cpp:5657
+#: src/timeline2/model/timelinemodel.cpp:5665
 #, kde-format
 msgid "Move composition"
 msgstr "העברת תרכובת"
 
-#: src/timeline2/model/timelinemodel.cpp:6325
+#: src/timeline2/model/timelinemodel.cpp:6333
 #, kde-format
 msgid "Enable time remap"
 msgstr "הפעלת מיפוי זמן מחדש"
 
-#: src/timeline2/model/timelinemodel.cpp:6399
+#: src/timeline2/model/timelinemodel.cpp:6407
 #, kde-format
 msgid "Change speed failed"
 msgstr "שינוי המהירות נכשלה"
 
-#: src/timeline2/model/timelinemodel.cpp:6409
+#: src/timeline2/model/timelinemodel.cpp:6417
 #, kde-format
 msgid "Change clip speed"
 msgstr "שינוי מהירות הסרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:6858
+#: src/timeline2/model/timelinemodel.cpp:6866
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "נעילת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:6863
+#: src/timeline2/model/timelinemodel.cpp:6871
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "ביטול נעילת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:6897
-#: src/timeline2/model/timelinemodel.cpp:6959
+#: src/timeline2/model/timelinemodel.cpp:6905
+#: src/timeline2/model/timelinemodel.cpp:6967
 #, kde-format
 msgid "Change composition"
 msgstr "שינוי תרכובת"
 
-#: src/timeline2/model/timelinemodel.cpp:6911
+#: src/timeline2/model/timelinemodel.cpp:6919
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "לא ניתן לתפעל תרכובת מקובצת, נא לפרק"
 
-#: src/timeline2/model/timelinemodel.cpp:7106
-#: src/timeline2/model/timelinemodel.cpp:7143
-#: src/timeline2/model/timelinemodel.cpp:7176
-#: src/timeline2/model/timelinemodel.cpp:7255
+#: src/timeline2/model/timelinemodel.cpp:7114
+#: src/timeline2/model/timelinemodel.cpp:7151
+#: src/timeline2/model/timelinemodel.cpp:7184
+#: src/timeline2/model/timelinemodel.cpp:7263
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "לא ניתן לשנות ערבוב לפחות מתמונית אחת"
 
-#: src/timeline2/model/timelinemodel.cpp:7117
-#: src/timeline2/model/timelinemodel.cpp:7151
-#: src/timeline2/model/timelinemodel.cpp:7193
-#: src/timeline2/model/timelinemodel.cpp:7279
+#: src/timeline2/model/timelinemodel.cpp:7125
+#: src/timeline2/model/timelinemodel.cpp:7159
+#: src/timeline2/model/timelinemodel.cpp:7201
+#: src/timeline2/model/timelinemodel.cpp:7287
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "לא ניתן לשנות גודל ערבוב"
 
-#: src/timeline2/model/timelinemodel.cpp:7293
+#: src/timeline2/model/timelinemodel.cpp:7301
 #, kde-format
 msgid "Resize mix"
 msgstr "שינוי גודל ערבוב"
 
-#: src/timeline2/model/timelinemodel.cpp:7413
+#: src/timeline2/model/timelinemodel.cpp:7421
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "שגיאה בהתחלת תצוגה מקדימה לציר הזמן"
