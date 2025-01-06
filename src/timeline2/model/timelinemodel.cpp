@@ -5225,8 +5225,8 @@ void TimelineModel::updateDuration()
 
 int TimelineModel::duration() const
 {
-    std::pair<int, int> durations;
-    return qMax(durations.first, durations.second);
+    std::pair<int, int> d = durations();
+    return qMax(d.first, d.second);
 }
 
 std::pair<int, int> TimelineModel::durations() const
