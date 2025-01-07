@@ -50,7 +50,6 @@ public:
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
     PythonExec venvPythonExecs(bool checkPip = false);
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
-    bool installDisabled() { return m_disableInstall; };
     void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
     /** @brief Python venv setup in progress. */
     bool installInProcess() const;
@@ -89,7 +88,6 @@ private:
     QStringList m_missing;
     QStringList m_optionalMissing;
     QMap<QString, QString> m_versions;
-    bool m_disableInstall{false};
     bool m_dependenciesChecked;
     QMutex m_versionsMutex;
     const QString locateScript(const QString &script);

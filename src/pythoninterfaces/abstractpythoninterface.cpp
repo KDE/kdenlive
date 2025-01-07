@@ -61,28 +61,24 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
         });
 
         connect(m_interface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &messages) {
-            if (!m_interface->installDisabled()) {
-                m_installAction->setEnabled(true);
-                removeAction(m_abortAction);
-                m_installAction->setText(m_interface->installMessage());
-                addAction(m_installAction);
-            }
+            m_installAction->setEnabled(true);
+            removeAction(m_abortAction);
+            m_installAction->setText(m_interface->installMessage());
+            addAction(m_installAction);
             doShowMessage(messages.join(QStringLiteral("\n")), KMessageWidget::Warning);
         });
 
-        if (!m_interface->installDisabled()) {
-            connect(m_interface, &AbstractPythonInterface::proposeUpdate, this, [&](const QString &message) {
-                // only allow upgrading python modules once
-                m_installAction->setText(i18n("Check for update"));
-                m_installAction->setEnabled(true);
-                removeAction(m_abortAction);
-                addAction(m_installAction);
-                doShowMessage(message, KMessageWidget::Warning);
-            });
-        }
+        connect(m_interface, &AbstractPythonInterface::proposeUpdate, this, [&](const QString &message) {
+            // only allow upgrading python modules once
+            m_installAction->setText(i18n("Check for update"));
+            m_installAction->setEnabled(true);
+            removeAction(m_abortAction);
+            addAction(m_installAction);
+            doShowMessage(message, KMessageWidget::Warning);
+        });
 
         connect(m_interface, &AbstractPythonInterface::dependenciesAvailable, this, [&]() {
-            if (!m_updated && !m_interface->installDisabled()) {
+            if (!m_updated) {
                 // only allow upgrading python modules once
                 m_installAction->setText(i18n("Check for update"));
                 m_installAction->setEnabled(true);
@@ -137,7 +133,7 @@ void PythonDependencyMessage::checkAfterInstall()
 }
 
 AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
-    : QObject{parent} //, m_disableInstall(pCore->packageType() == LinuxPackageType::Flatpak)
+    : QObject{parent}
     , m_dependenciesChecked(false)
     , m_dependencies()
 {
@@ -252,7 +248,7 @@ bool AbstractPythonInterface::checkPython(bool calculateSize, bool forceInstall)
         }
         return false;
     }
-    if (execs.pip.isEmpty() && !m_disableInstall) {
+    if (execs.pip.isEmpty()) {
         Q_EMIT setupError(i18n("Cannot find pip3, please install it on your system.\n"
                                "If already installed, check it is installed in a directory "
                                "listed in PATH environment variable"));
@@ -530,9 +526,6 @@ int AbstractPythonInterface::versionToInt(const QString &version)
 
 void AbstractPythonInterface::checkVersions(bool signalOnResult)
 {
-    if (installDisabled()) {
-        return;
-    }
     QStringList deps = parseDependencies(m_dependencies.keys(), true);
     const QStringList output = runPackageScript(QStringLiteral("--details"), false, false).split(QLatin1Char('\n'));
     QMutexLocker locker(&m_versionsMutex);
