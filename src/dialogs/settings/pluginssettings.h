@@ -41,7 +41,7 @@ public:
     void setActiveTab(int index);
 
 private:
-    SpeechToText *m_stt;
+    SpeechToText *m_sttVosk;
     SpeechToText *m_sttWhisper;
     SamInterface *m_samInterface;
     SpeechList *m_speechListWidget;
