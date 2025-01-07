@@ -741,25 +741,11 @@
             ]
         },
         {
-            "name": "movit",
-            "make-args": [
-                "libmovit.la"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://git.sesse.net/movit",
-                    "commit": "0b1705581552217b0e387bd687d65e4e3410ab91"
-                }
-            ]
-        },
-        {
             "name": "mlt",
             "buildsystem": "cmake-ninja",
             "builddir": true,
             "config-opts": [
                 "-DMOD_OPENCV=ON",
-                "-DMOD_MOVIT=ON",
                 "-DMOD_GLAXNIMATE=OFF",
                 "-DMOD_QT=OFF",
                 "-DMOD_QT6=ON",
