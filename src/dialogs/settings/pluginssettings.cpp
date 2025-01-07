@@ -343,8 +343,8 @@ void PluginsSettings::samDependenciesChecked()
 
 void PluginsSettings::checkSamEnvironement(bool afterInstall)
 {
-    std::pair<QString, QString> exes = m_samInterface->pythonExecs(true);
-    if (exes.first.isEmpty() || exes.second.isEmpty()) {
+    AbstractPythonInterface::PythonExec exes = m_samInterface->venvPythonExecs(true);
+    if (exes.python.isEmpty() || exes.pip.isEmpty()) {
         // Venv not setup
         modelBox->setEnabled(false);
         check_config_sam->setText(i18n("Install"));

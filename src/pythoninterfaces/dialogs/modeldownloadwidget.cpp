@@ -71,7 +71,7 @@ void ModelDownloadWidget::processDownload()
             }
         }
     });
-    scriptJob.start(m_engine->pythonExecs().first, m_args);
+    scriptJob.start(m_engine->venvPythonExecs().python, m_args);
     // Don't timeout
     scriptJob.waitForFinished(-1);
     QMetaObject::invokeMethod(m_pb, "setVisible", Q_ARG(bool, false));

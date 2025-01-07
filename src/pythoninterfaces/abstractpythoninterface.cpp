@@ -174,30 +174,33 @@ void AbstractPythonInterface::deleteVenv()
     }
 }
 
-std::pair<QString, QString> AbstractPythonInterface::pythonExecs(bool checkPip)
+AbstractPythonInterface::PythonExec AbstractPythonInterface::venvPythonExecs(bool checkPip)
 {
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     const QString binaryPath = getPythonPath();
-    if (pluginDir.cd(binaryPath)) {
-        QString exe1;
-        QString exe2;
-        const QStringList pythonPaths = {pluginDir.absolutePath()};
-#ifdef Q_OS_WIN
-        exe1 = QStandardPaths::findExecutable(QStringLiteral("python"), pythonPaths);
-        if (checkPip) {
-            exe2 = QStandardPaths::findExecutable(QStringLiteral("pip"), pythonPaths);
-        }
-#else
-        exe1 = QStandardPaths::findExecutable(QStringLiteral("python3"), pythonPaths);
-        if (checkPip) {
-            exe2 = QStandardPaths::findExecutable(QStringLiteral("pip3"), pythonPaths);
-        }
-#endif
-        return {exe1, exe2};
-    } else {
-        qDebug() << "Python venv binary folder " << binaryPath << " does not exist in " << pluginDir.absolutePath();
+
+    if (!pluginDir.cd(binaryPath)) {
+        qDebug() << "Python venv binary folder" << binaryPath << "does not exist in" << pluginDir.absolutePath();
+        return {};
     }
-    return {};
+
+#ifdef Q_OS_WIN
+    const QString pythonName = QStringLiteral("python");
+    const QString pipName = QStringLiteral("pip");
+#else
+    const QString pythonName = QStringLiteral("python3");
+    const QString pipName = QStringLiteral("pip3");
+#endif
+
+    const QStringList pythonPaths = {pluginDir.absolutePath()};
+
+    QString pythonExe = QStandardPaths::findExecutable(pythonName, pythonPaths);
+    QString pipExe;
+    if (checkPip) {
+        pipExe = QStandardPaths::findExecutable(pipName, pythonPaths);
+    }
+
+    return {pythonExe, pipExe};
 }
 
 bool AbstractPythonInterface::checkPython(bool calculateSize, bool forceInstall)
@@ -214,8 +217,8 @@ bool AbstractPythonInterface::checkPython(bool calculateSize, bool forceInstall)
     const QString pipExe = QStringLiteral("pip3");
 #endif
     QString pythonPath = getPythonPath();
-    std::pair<QString, QString> execs = pythonExecs(true);
-    if (!calculateSize && !execs.first.isEmpty() && !execs.second.isEmpty() && QFile::exists(execs.first) && QFile::exists(execs.second)) {
+    PythonExec execs = venvPythonExecs(true);
+    if (!calculateSize && !execs.python.isEmpty() && !execs.pip.isEmpty() && QFile::exists(execs.python) && QFile::exists(execs.pip)) {
         // Everything ok, using venv python
         return true;
     }
@@ -240,7 +243,7 @@ bool AbstractPythonInterface::checkPython(bool calculateSize, bool forceInstall)
 #else
     execs = {QStandardPaths::findExecutable(QStringLiteral("python3"), pythonPaths), QStandardPaths::findExecutable(QStringLiteral("pip3"), pythonPaths)};
 #endif
-    if (execs.first.isEmpty()) {
+    if (execs.python.isEmpty()) {
         Q_EMIT setupError(i18n("Cannot find python3, please install it on your system.\n"
                                "If already installed, check it is installed in a directory "
                                "listed in PATH environment variable"));
@@ -249,7 +252,7 @@ bool AbstractPythonInterface::checkPython(bool calculateSize, bool forceInstall)
         }
         return false;
     }
-    if (execs.second.isEmpty() && !m_disableInstall) {
+    if (execs.pip.isEmpty() && !m_disableInstall) {
         Q_EMIT setupError(i18n("Cannot find pip3, please install it on your system.\n"
                                "If already installed, check it is installed in a directory "
                                "listed in PATH environment variable"));
@@ -285,9 +288,9 @@ void AbstractPythonInterface::gotFolderSize(KJob *job)
 
 bool AbstractPythonInterface::checkSetup(bool requestInstall, bool *newInstall)
 {
-    std::pair<QString, QString> exes = pythonExecs(true);
-    qDebug() << "::::: FOUND PYTHON EXECS: " << exes;
-    if (!exes.first.isEmpty() && !exes.second.isEmpty() && !m_scripts.values().contains(QStringLiteral(""))) {
+    PythonExec exes = venvPythonExecs(true);
+    qDebug() << "::::: FOUND PYTHON EXECS: " << exes.python << exes.pip;
+    if (!exes.python.isEmpty() && !exes.pip.isEmpty() && !m_scripts.values().contains(QStringLiteral(""))) {
         qDebug() << "//// SCRIP VALUES: " << m_scripts.values();
         return true;
     }
@@ -338,8 +341,8 @@ bool AbstractPythonInterface::setupVenv()
     envProcess.waitForFinished(-1);
     QString pythonPath;
     if (envProcess.exitStatus() == QProcess::NormalExit) {
-        std::pair<QString, QString> exes = pythonExecs(true);
-        if (!exes.first.isEmpty() && !exes.second.isEmpty()) {
+        PythonExec exes = venvPythonExecs(true);
+        if (!exes.python.isEmpty() && !exes.pip.isEmpty()) {
             installPackage({QStringLiteral("importlib")});
             installInProgress = false;
             return true;
@@ -410,8 +413,8 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
     m_missing.clear();
     m_optionalMissing.clear();
     // Check if venv is correctly installed
-    std::pair<QString, QString> exes = pythonExecs(true);
-    if (exes.first.isEmpty() || exes.second.isEmpty()) {
+    PythonExec exes = venvPythonExecs(true);
+    if (exes.python.isEmpty() || exes.pip.isEmpty()) {
         bool newInstall = false;
         if (checkSetup(true, &newInstall) && newInstall) {
             // Venv was just built, install requirements
@@ -637,7 +640,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
 {
     const QString scriptpath = m_scripts.value(script);
     qDebug() << "=== CHECKING RUNNING SCTIPR: " << scriptpath;
-    const QString pythonExe = pythonExecs().first;
+    const QString pythonExe = venvPythonExecs().python;
     if (pythonExe.isEmpty()) {
         Q_EMIT setupError(i18n("Python exec not found"));
         return {};

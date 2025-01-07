@@ -20,6 +20,12 @@ class AbstractPythonInterface : public QObject
 {
     Q_OBJECT
 public:
+    struct PythonExec
+    {
+        QString python;
+        QString pip;
+    };
+
     explicit AbstractPythonInterface(QObject *parent = nullptr);
     /** @brief Check if python and pip are installed, as well as all required scripts.
         If a check failed setupError() will be emitted with an error message that can be
@@ -42,7 +48,7 @@ public:
      */
     QStringList missingDependencies(const QStringList &filter = {});
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
-    std::pair<QString, QString> pythonExecs(bool checkPip = false);
+    PythonExec venvPythonExecs(bool checkPip = false);
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     bool installDisabled() { return m_disableInstall; };
     void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
