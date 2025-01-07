@@ -58,7 +58,7 @@ public:
     /** @brief The text that will appear on the install button when a dependency is missing. */
     virtual const QString installMessage() const;
     /** @brief The path to the python executable for this environement. */
-    const QString getPythonPath();
+    const QString getVenvBinPath();
     /** @brief The path to the python virtual environement. */
     virtual const QString getVenvPath();
     /** @brief Add a special dependency. */

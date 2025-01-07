@@ -148,7 +148,7 @@ const QString AbstractPythonInterface::getVenvPath()
     return QStringLiteral("venv");
 }
 
-const QString AbstractPythonInterface::getPythonPath()
+const QString AbstractPythonInterface::getVenvBinPath()
 {
 #ifdef Q_OS_WIN
     const QString pythonPath = QStringLiteral("%1/Scripts/").arg(getVenvPath());
@@ -173,7 +173,7 @@ void AbstractPythonInterface::deleteVenv()
 AbstractPythonInterface::PythonExec AbstractPythonInterface::venvPythonExecs(bool checkPip)
 {
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-    const QString binaryPath = getPythonPath();
+    const QString binaryPath = getVenvBinPath();
 
     if (!pluginDir.cd(binaryPath)) {
         qDebug() << "Python venv binary folder" << binaryPath << "does not exist in" << pluginDir.absolutePath();
@@ -212,7 +212,7 @@ bool AbstractPythonInterface::checkPython(bool calculateSize, bool forceInstall)
     const QString pythonExe = QStringLiteral("python3");
     const QString pipExe = QStringLiteral("pip3");
 #endif
-    QString pythonPath = getPythonPath();
+    QString pythonPath = getVenvBinPath();
     PythonExec execs = venvPythonExecs(true);
     if (!calculateSize && !execs.python.isEmpty() && !execs.pip.isEmpty() && QFile::exists(execs.python) && QFile::exists(execs.pip)) {
         // Everything ok, using venv python
