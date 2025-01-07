@@ -63,7 +63,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
                                                      "around 10Gb of data. Once installed, all processing will happen offline."));
 
     noModelMessage->hide();
-    m_sttWhisper->checkPython(true);
+    m_sttWhisper->checkVenv(true);
     m_downloadModelAction = new QAction(i18n("Download (1.4Gb)"), this);
     connect(m_downloadModelAction, &QAction::triggered, [this]() {
         disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog);
@@ -286,7 +286,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         sam_venv_size->setText(label);
         deleteSamVenv->setEnabled(!label.isEmpty());
     });
-    m_samInterface->checkPython(true);
+    m_samInterface->checkVenv(true);
     connect(m_samInterface, &AbstractPythonInterface::installFeedback, this, &PluginsSettings::showSamLog, Qt::QueuedConnection);
     connect(m_samInterface, &AbstractPythonInterface::scriptFinished,
             [pythonSamLabel]() { QMetaObject::invokeMethod(pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
@@ -349,14 +349,14 @@ void PluginsSettings::checkSamEnvironement(bool afterInstall)
         modelBox->setEnabled(false);
         check_config_sam->setText(i18n("Install"));
         // Update env folder size
-        m_samInterface->checkPython(true);
+        m_samInterface->checkVenv(true);
     } else {
         // Venv ready
         modelBox->setEnabled(true);
         check_config_sam->setText(i18n("Check config"));
         // Fill models list
         if (afterInstall) {
-            m_samInterface->checkPython(true);
+            m_samInterface->checkVenv(true);
             installSamModelIfEmpty();
         } else {
             reloadSamModels();
