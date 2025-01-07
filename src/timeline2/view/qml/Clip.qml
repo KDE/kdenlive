@@ -427,6 +427,7 @@ Rectangle {
             // Border rectangle
             color: 'transparent'
             id: itemBorder
+            property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 3))
             anchors.fill: parent
             border.color: {
                 let placeholder = (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting)
@@ -680,8 +681,9 @@ Rectangle {
                 // Left resize handle
                 id: trimInMouseArea
                 x: -itemBorder.border.width
-                height: parent.height
-                width: root.baseUnit / 2
+                anchors.top: container.top
+                height: container.height
+                width: root.baseUnit
                 visible: {
                     if (!enabled) {
                         return false
@@ -805,7 +807,7 @@ Rectangle {
                 Rectangle {
                     id: trimIn
                     anchors.left: parent.left
-                    width: itemBorder.border.width
+                    width: itemBorder.handleWidth
                     height: parent.height
                     color: 'lawngreen'
                     opacity: 0
@@ -836,11 +838,11 @@ Rectangle {
             MouseArea {
                 // Right resize handle
                 id: trimOutMouseArea
-                anchors.right: parent.right
+                anchors.right: container.right
                 anchors.rightMargin: -itemBorder.border.width
-                anchors.top: parent.top
-                height: parent.height
-                width: root.baseUnit / 2
+                anchors.top: container.top
+                height: container.height
+                width: root.baseUnit
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === ProjectTool.SelectTool
                                      || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0))
@@ -950,7 +952,7 @@ Rectangle {
                 Rectangle {
                     id: trimOut
                     anchors.right: parent.right
-                    width: itemBorder.border.width
+                    width: itemBorder.handleWidth
                     height: parent.height
                     color: 'red'
                     opacity: 0
