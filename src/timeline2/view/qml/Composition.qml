@@ -181,6 +181,7 @@ Item {
         anchors.left: compositionRoot.left
         anchors.topMargin: displayHeight - compositionRoot.trackOffset
         height: parentTrack.height - displayHeight
+        property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
         color: Qt.darker('mediumpurple')
         border.color: grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : borderColor
         border.width: isGrabbed ? 8 : 2
@@ -293,8 +294,8 @@ Item {
             MouseArea {
                 id: trimInMouseArea
                 x: enabled ? -displayRect.border.width : 0
-                height: parent.height
-                width: root.baseUnit / 2
+                height: mouseArea.height
+                width: root.baseUnit
                 visible: enabled && root.activeTool === ProjectTool.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
                 hoverEnabled: true
@@ -308,7 +309,6 @@ Item {
                     compositionRoot.originalX = compositionRoot.x
                     compositionRoot.originalDuration = clipDuration
                     anchors.left = undefined
-                    trimIn.opacity = 0
                 }
                 onReleased: {
                     root.autoScrolling = timeline.autoScroll
@@ -337,7 +337,9 @@ Item {
                     }
                 }
                 onExited: {
-                    trimIn.opacity = 0
+                    if (!pressed) {
+                        trimIn.opacity = 0
+                    }
                     if (!mouseArea.containsMouse) {
                         timeline.showToolTip()
                     }
@@ -347,23 +349,23 @@ Item {
                 }
                 Rectangle {
                     id: trimIn
-                    anchors.left: parent.left
-                    width: displayRect.border.width
-                    height: parent.height
+                    anchors.left: trimInMouseArea.left
+                    width: displayRect.handleWidth
+                    height: mouseArea.height
                     color: 'lawngreen'
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
+                    visible: trimInMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && trimInMouseArea.enabled)
                 }
             }
 
             MouseArea {
                 id: trimOutMouseArea
-                anchors.right: parent.right
+                anchors.right: mouseArea.right
                 anchors.rightMargin: enabled ? -displayRect.border.width : 0
                 height: displayRect.height
-                width: root.baseUnit / 2
+                width: root.baseUnit
                 hoverEnabled: true
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 drag.target: trimOutMouseArea
@@ -377,9 +379,9 @@ Item {
                     root.trimInProgress = true;
                     compositionRoot.originalDuration = clipDuration
                     anchors.right = undefined
-                    trimOut.opacity = 0
                 }
                 onReleased: {
+                    trimOut.opacity = 0
                     root.autoScrolling = timeline.autoScroll
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
@@ -399,7 +401,9 @@ Item {
                     }
                 }
                 onExited: {
-                    trimOut.opacity = 0
+                    if (!pressed) {
+                        trimOut.opacity = 0
+                    }
                     if (!mouseArea.containsMouse) {
                         timeline.showToolTip()
                     }
@@ -409,14 +413,14 @@ Item {
                 }
                 Rectangle {
                     id: trimOut
-                    anchors.right: parent.right
-                    width: displayRect.border.width
+                    anchors.right: trimOutMouseArea.right
+                    width: displayRect.handleWidth
                     height: parent.height
                     color: 'red'
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
+                    visible: trimOutMouseArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && trimOutMouseArea.enabled)
                 }
             }
             Item {
