@@ -1464,8 +1464,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             // TODO: implement pending only deletion
             pCore->taskManager.slotCancelJobs();
         });
-        connect(this, &Bin::requestUpdateSequences, [this](QMap<QUuid, int> sequences) {
-            QMapIterator<QUuid, int> s(sequences);
+        connect(this, &Bin::requestUpdateSequences, [this](QMap<QUuid, std::pair<int, int>> sequences) {
+            QMapIterator<QUuid, std::pair<int, int>> s(sequences);
             while (s.hasNext()) {
                 s.next();
                 updateSequenceClip(s.key(), s.value(), -1, true);
@@ -6061,7 +6061,7 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
     return results;
 }
 
-void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, bool forceUpdate)
+void Bin::updateSequenceClip(const QUuid &uuid, std::pair<int, int> durations, int pos, bool forceUpdate)
 {
     if (pos > -1) {
         m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
@@ -6070,13 +6070,15 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, bool forc
     if (!binId.isEmpty() && m_doc->isModified()) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
+        clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
+        qDebug() << "::::::::::::ENFORCING MAX DURATION: " << durations.first << "\n\n_________________________________\n\n";
         if (m_doc->sequenceThumbRequiresRefresh(uuid) || forceUpdate) {
             // Store general sequence properties
             QMap<QString, QString> properties;
+            int duration = durations.second > 0 ? durations.second : durations.first;
             properties.insert(QStringLiteral("length"), QString::number(duration));
             properties.insert(QStringLiteral("out"), QString::number(duration - 1));
             properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
-            properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
             clip->setProperties(properties);
             // Reset thumbs producer
             m_doc->sequenceThumbUpdated(uuid);

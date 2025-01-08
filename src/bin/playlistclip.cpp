@@ -295,6 +295,10 @@ std::shared_ptr<Mlt::Producer> PlaylistClip::sequenceProducer(const QUuid &seque
             }
         }
     }
+    int maxDuration = m_masterProducer->parent().get_int("kdenlive:maxDuration");
+    if (maxDuration > 0) {
+        return std::make_shared<Mlt::Producer>(m_masterProducer->cut(0, maxDuration));
+    }
     return m_masterProducer;
 }
 

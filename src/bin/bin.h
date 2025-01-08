@@ -325,7 +325,7 @@ public:
      * @param id the updated duration of the timeline clip
      * * @param current the uuid of the currently active timeline
      */
-    void updateSequenceClip(const QUuid &uuid, int duration, int pos, bool forceUpdate = false);
+    void updateSequenceClip(const QUuid &uuid, std::pair<int, int> durations, int pos, bool forceUpdate = false);
     /** @brief Update a sequence AV info (has audio/video) */
     void updateSequenceAVType(const QUuid &uuid, int tracksCount);
 
@@ -649,5 +649,5 @@ Q_SIGNALS:
     /** @brief Update a timeline tab name on clip rename. */
     void updateTabName(const QUuid &, const QString &);
     /** @brief Some timeline sequence producers have been updated, refresh their occurrences. */
-    void requestUpdateSequences(QMap<QUuid, int> seqs);
+    void requestUpdateSequences(QMap<QUuid, std::pair<int, int>> seqs);
 };

@@ -54,7 +54,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     : QWidget(parent)
 {
     setupUi(this);
-    m_stt = new SpeechToTextVosk(this);
+    m_sttVosk = new SpeechToTextVosk(this);
     m_sttWhisper = new SpeechToTextWhisper(this);
     m_samInterface = new SamInterface(this);
     // Contextual help
@@ -63,7 +63,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
                                                      "around 10Gb of data. Once installed, all processing will happen offline."));
 
     noModelMessage->hide();
-    m_sttWhisper->checkPython(true);
+    m_sttWhisper->checkVenv(true);
     m_downloadModelAction = new QAction(i18n("Download (1.4Gb)"), this);
     connect(m_downloadModelAction, &QAction::triggered, [this]() {
         disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog);
@@ -126,7 +126,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(speechEngineSelection, &QButtonGroup::buttonClicked, [this](QAbstractButton *button) {
         if (button == engine_vosk) {
             speech_stack->setCurrentIndex(0);
-            m_stt->checkDependencies(false);
+            m_sttVosk->checkDependencies(false);
         } else if (button == engine_whisper) {
             speech_stack->setCurrentIndex(1);
             m_sttWhisper->checkDependencies(false);
@@ -229,18 +229,18 @@ PluginsSettings::PluginsSettings(QWidget *parent)
 
     // VOSK
     vosk_folder->setPlaceholderText(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory));
-    PythonDependencyMessage *msgVosk = new PythonDependencyMessage(this, m_stt);
+    PythonDependencyMessage *msgVosk = new PythonDependencyMessage(this, m_sttVosk);
     message_layout->addWidget(msgVosk);
 
-    connect(m_stt, &SpeechToText::dependenciesAvailable, this, [&]() {
+    connect(m_sttVosk, &SpeechToText::dependenciesAvailable, this, [&]() {
         if (m_speechListWidget->count() == 0) {
             doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
         }
     });
-    connect(m_stt, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { speech_info->animatedHide(); });
-    connect(m_stt, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
-    connect(m_stt, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
-    connect(m_stt, &SpeechToText::scriptFinished, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_sttVosk, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { speech_info->animatedHide(); });
+    connect(m_sttVosk, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
+    connect(m_sttVosk, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
+    connect(m_sttVosk, &SpeechToText::scriptFinished, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
 
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &PluginsSettings::getDictionary);
@@ -286,7 +286,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         sam_venv_size->setText(label);
         deleteSamVenv->setEnabled(!label.isEmpty());
     });
-    m_samInterface->checkPython(true);
+    m_samInterface->checkVenv(true);
     connect(m_samInterface, &AbstractPythonInterface::installFeedback, this, &PluginsSettings::showSamLog, Qt::QueuedConnection);
     connect(m_samInterface, &AbstractPythonInterface::scriptFinished,
             [pythonSamLabel]() { QMetaObject::invokeMethod(pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
@@ -343,20 +343,20 @@ void PluginsSettings::samDependenciesChecked()
 
 void PluginsSettings::checkSamEnvironement(bool afterInstall)
 {
-    std::pair<QString, QString> exes = m_samInterface->pythonExecs(true);
-    if (exes.first.isEmpty() || exes.second.isEmpty()) {
+    AbstractPythonInterface::PythonExec exes = m_samInterface->venvPythonExecs(true);
+    if (exes.python.isEmpty() || exes.pip.isEmpty()) {
         // Venv not setup
         modelBox->setEnabled(false);
         check_config_sam->setText(i18n("Install"));
         // Update env folder size
-        m_samInterface->checkPython(true);
+        m_samInterface->checkVenv(true);
     } else {
         // Venv ready
         modelBox->setEnabled(true);
         check_config_sam->setText(i18n("Check config"));
         // Fill models list
         if (afterInstall) {
-            m_samInterface->checkPython(true);
+            m_samInterface->checkVenv(true);
             installSamModelIfEmpty();
         } else {
             reloadSamModels();
@@ -684,7 +684,7 @@ void PluginsSettings::slotCheckSttConfig()
     check_config->setEnabled(false);
     qApp->processEvents();
     if (engine_vosk->isChecked()) {
-        m_stt->checkDependencies(true);
+        m_sttVosk->checkDependencies(true);
     } else {
         m_sttWhisper->checkDependencies(true);
     }
@@ -812,7 +812,7 @@ void PluginsSettings::processArchive(const QString &archiveFile)
 void PluginsSettings::slotParseVoskDictionaries()
 {
     m_speechListWidget->clear();
-    QStringList final = m_stt->getInstalledModels();
+    QStringList final = m_sttVosk->getInstalledModels();
     m_speechListWidget->addItems(final);
     QString voskModelFolder;
     if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
@@ -822,7 +822,7 @@ void PluginsSettings::slotParseVoskDictionaries()
     } else {
         voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
     }
-    if (!final.isEmpty() && m_stt->missingDependencies().isEmpty()) {
+    if (!final.isEmpty() && m_sttVosk->missingDependencies().isEmpty()) {
         speech_info->animatedHide();
     } else if (final.isEmpty()) {
         doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
@@ -854,7 +854,7 @@ void PluginsSettings::slotParseVoskDictionaries()
 void PluginsSettings::checkSpeechDependencies()
 {
     m_sttWhisper->checkDependenciesConcurrently();
-    m_stt->checkDependenciesConcurrently();
+    m_sttVosk->checkDependenciesConcurrently();
 }
 
 void PluginsSettings::setActiveTab(int index)

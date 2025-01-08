@@ -24,6 +24,7 @@ Item {
     property bool isGrabbed: false
     property int subLayer
     height: subtitleTrack.height / (root.maxSubLayer + 1)
+    property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
     y: height * subLayer
 
     function editText()
@@ -271,7 +272,7 @@ Item {
     Item {
         // start position resize handle
         id: leftstart
-        width: root.baseUnit / 2
+        width: root.baseUnit
         height: subtitleBase.height
         anchors.top: subtitleBase.top
         anchors.left: subtitleBase.left
@@ -301,7 +302,6 @@ Item {
                 oldStartFrame = subtitleRoot.startFrame // the original start frame of subtitle
                 originalDuration = subtitleRoot.duration
                 newDuration = subtitleRoot.duration
-                trimIn.opacity = 0
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
                 if (!shiftTrim && (controller.isInGroup(subtitleRoot.subId) || controller.hasMultipleSelection())) {
                     root.groupTrimData = controller.getGroupData(subtitleRoot.subId)
@@ -320,6 +320,7 @@ Item {
             }
             onReleased: {
                 //console.log('its RELEASED')
+                trimIn.opacity = 0
                 root.autoScrolling = timeline.autoScroll
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
@@ -340,7 +341,9 @@ Item {
                 }
             }
             onExited: {
-                trimIn.opacity = 0
+                if (!pressed) {
+                    trimIn.opacity = 0
+                }
                 if (!subtitleClipArea.containsMouse) {
                     timeline.showKeyBinding()
                 }
@@ -349,7 +352,7 @@ Item {
             Rectangle {
                 id: trimIn
                 anchors.left: parent.left
-                width: 2
+                width: subtitleRoot.handleWidth
                 height: parent.height
                 color: 'lawngreen'
                 opacity: 0
@@ -363,7 +366,7 @@ Item {
     Item {
         // end position resize handle
         id: rightend
-        width: root.baseUnit / 2
+        width: root.baseUnit
         height: subtitleBase.height
         //x: subtitleRoot.endFrame * timeScale
         anchors.right: subtitleBase.right
@@ -395,7 +398,6 @@ Item {
                 originalDuration = subtitleRoot.duration
                 //rightend.anchors.right = undefined
                 oldMouseX = mouseX
-                trimOut.opacity = 0
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
                 if (!shiftTrim && (controller.isInGroup(subtitleRoot.subId) || controller.hasMultipleSelection())) {
                     root.groupTrimData = controller.getGroupData(subtitleRoot.subId)
@@ -416,6 +418,7 @@ Item {
                 }
             }
             onReleased: {
+                trimOut.opacity = 0
                 root.autoScrolling = timeline.autoScroll
                 rightend.anchors.right = subtitleBase.right
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
@@ -441,7 +444,9 @@ Item {
                 }
             }
             onExited: {
-                trimOut.opacity = 0
+                if (!pressed) {
+                    trimOut.opacity = 0
+                }
                 if (!subtitleClipArea.containsMouse) {
                     timeline.showKeyBinding()
                 }
@@ -450,7 +455,7 @@ Item {
             Rectangle {
                 id: trimOut
                 anchors.right: parent.right
-                width: 2
+                width: subtitleRoot.handleWidth
                 height: parent.height
                 color: 'red'
                 opacity: 0

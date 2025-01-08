@@ -538,7 +538,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     // If current sequence was modified and is used in another sequence, ensure to sync it
     const QUuid activeUuid = m_activeTimelineModel->uuid();
     if (m_project->sequenceThumbRequiresRefresh(activeUuid)) {
-        pCore->bin()->updateSequenceClip(activeUuid, m_activeTimelineModel->duration(), -1);
+        pCore->bin()->updateSequenceClip(activeUuid, m_activeTimelineModel->durations(), -1);
     }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
@@ -1631,12 +1631,13 @@ void ProjectManager::passSequenceProperties(const QUuid &uuid, std::shared_ptr<M
         prod->parent().set("kdenlive:maxduration", maxduration.toLatin1().constData());
     } else {
         // Fetch duration from actual tractor
-        int projectDuration = timelineModel->duration();
+        std::pair<int, int> durations = timelineModel->durations();
+        int projectDuration = durations.second > 0 ? durations.second : durations.first;
         if (timelineWidget) {
             timelineWidget->controller()->checkDuration();
         }
         prod->parent().set("kdenlive:duration", timelineModel->tractor()->frames_to_time(projectDuration + 1));
-        prod->parent().set("kdenlive:maxduration", projectDuration + 1);
+        prod->parent().set("kdenlive:maxduration", durations.first + 1);
         prod->parent().set("length", projectDuration + 1);
         prod->parent().set("out", projectDuration);
     }
@@ -1653,9 +1654,10 @@ void ProjectManager::updateSequenceDuration(const QUuid &uuid)
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
     if (mainClip && model) {
         QMap<QString, QString> properties;
-        int newDuration = model->duration();
+        std::pair<int, int> durations = model->durations();
+        int newDuration = durations.second > 0 ? durations.second : durations.first;
         properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(newDuration)));
-        properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(newDuration));
+        properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
         properties.insert(QStringLiteral("length"), QString::number(newDuration));
         properties.insert(QStringLiteral("out"), QString::number(newDuration - 1));
         mainClip->setProperties(properties, true);
@@ -1980,9 +1982,10 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         for (int i = 0; i < sequenceProperties.count(); i++) {
             m_project->setSequenceProperty(uuid, qstrdup(sequenceProperties.get_name(i)), qstrdup(sequenceProperties.get(i)));
         }
-        int duration = timelineModel->duration();
+        std::pair<int, int> durations = timelineModel->durations();
+        int duration = durations.second > 0 ? durations.second : durations.first;
         prod->set("kdenlive:duration", prod->frames_to_time(duration));
-        prod->set("kdenlive:maxduration", duration);
+        prod->set("kdenlive:maxduration", durations.first);
         prod->set("length", duration);
         prod->set("out", duration - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
@@ -1991,7 +1994,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         prod->set("kdenlive:producer_type", ClipType::Timeline);
 
         prod->parent().set("kdenlive:duration", prod->frames_to_time(duration));
-        prod->parent().set("kdenlive:maxduration", duration);
+        prod->parent().set("kdenlive:maxduration", durations.first);
         prod->parent().set("length", duration);
         prod->parent().set("out", duration - 1);
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
@@ -2044,10 +2047,11 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
             return false;
         }
         qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timelineModel->tractor()->count() << "\nZZZZZZZZZZZZ";
-        int duration = timelineModel->duration();
+        std::pair<int, int> durations = timelineModel->durations();
+        int duration = durations.second > 0 ? durations.second : durations.first;
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
         prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
-        prod->set("kdenlive:maxduration", duration);
+        prod->set("kdenlive:maxduration", durations.first);
         prod->set("length", duration);
         prod->set("kdenlive:producer_type", ClipType::Timeline);
         prod->set("out", duration - 1);
@@ -2056,7 +2060,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
 
         prod->parent().set("kdenlive:duration", prod->frames_to_time(duration));
-        prod->parent().set("kdenlive:maxduration", duration);
+        prod->parent().set("kdenlive:maxduration", durations.first);
         prod->parent().set("length", duration);
         prod->parent().set("out", duration - 1);
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
@@ -2065,7 +2069,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
         timelineModel->setMarkerModel(clip->markerModel());
         if (pCore->bin()) {
-            pCore->bin()->updateSequenceClip(uuid, duration, -1);
+            pCore->bin()->updateSequenceClip(uuid, durations, -1);
         }
         updateSequenceProducer(uuid, prod);
         clip->setProducer(prod, false, false);
@@ -2147,7 +2151,7 @@ void ProjectManager::doSyncTimeline(std::shared_ptr<TimelineItemModel> model, bo
         }
         updateSequenceProducer(uuid, prod);
         if (pCore->bin()) {
-            pCore->bin()->updateSequenceClip(uuid, model->duration(), position);
+            pCore->bin()->updateSequenceClip(uuid, model->durations(), position);
         }
     }
 }

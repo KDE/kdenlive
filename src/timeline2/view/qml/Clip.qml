@@ -427,6 +427,7 @@ Rectangle {
             // Border rectangle
             color: 'transparent'
             id: itemBorder
+            property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
             anchors.fill: parent
             border.color: {
                 let placeholder = (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting)
@@ -445,6 +446,34 @@ Rectangle {
                 return borderColor
             }
             border.width: isGrabbed ? 8 : 2
+            Rectangle {
+                id: trimOut
+                anchors.right: itemBorder.right
+                width: itemBorder.handleWidth
+                height: itemBorder.height
+                color: 'red'
+                opacity: 0
+                Drag.active: trimOutMouseArea.drag.active
+                Drag.proposedAction: Qt.MoveAction
+                visible: trimOutMouseArea.pressed || (
+                    (root.activeTool === ProjectTool.SelectTool
+                    || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                    ) && !mouseArea.drag.active && parent.enabled)
+            }
+            Rectangle {
+                id: trimIn
+                anchors.left: itemBorder.left
+                width: itemBorder.handleWidth
+                height: parent.height
+                color: 'lawngreen'
+                opacity: 0
+                Drag.active: trimInMouseArea.drag.active
+                Drag.proposedAction: Qt.MoveAction
+                visible: trimInMouseArea.pressed || (
+                    (root.activeTool === ProjectTool.SelectTool
+                    || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                    ) && !mouseArea.drag.active && parent.enabled)
+            }
         }
 
         Item {
@@ -680,8 +709,9 @@ Rectangle {
                 // Left resize handle
                 id: trimInMouseArea
                 x: -itemBorder.border.width
-                height: parent.height
-                width: root.baseUnit / 2
+                anchors.top: container.top
+                height: container.height
+                width: root.baseUnit
                 visible: {
                     if (!enabled) {
                         return false
@@ -720,9 +750,9 @@ Rectangle {
                     if (root.activeTool === ProjectTool.RippleTool) { //TODO
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
                     }
-                    trimIn.opacity = 0
                 }
                 onReleased: {
+                    trimIn.opacity = 0
                     root.autoScrolling = timeline.autoScroll
                     x = -itemBorder.border.width
                     if (sizeChanged) {
@@ -790,8 +820,8 @@ Rectangle {
                     }
                 }
                 onExited: {
-                    trimIn.opacity = 0
                     if (!pressed) {
+                        trimIn.opacity = 0
                         if (!mouseArea.containsMouse) {
                             timeline.showToolTip()
                         } else {
@@ -802,45 +832,16 @@ Rectangle {
                         }
                     }
                 }
-                Rectangle {
-                    id: trimIn
-                    anchors.left: parent.left
-                    width: itemBorder.border.width
-                    height: parent.height
-                    color: 'lawngreen'
-                    opacity: 0
-                    Drag.active: trimInMouseArea.drag.active
-                    Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (
-                                 (root.activeTool === ProjectTool.SelectTool
-                                  || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
-                                  ) && !mouseArea.drag.active && parent.enabled)
-
-                    /*ToolTip {
-                        visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
-                        delay: 1000
-                        timeout: 5000
-                        background: Rectangle {
-                            color: activePalette.alternateBase
-                            border.color: activePalette.light
-                        }
-                        contentItem: Label {
-                            color: activePalette.text
-                            font: miniFont
-                            text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
-                        }
-                    }*/
-                }
             }
 
             MouseArea {
                 // Right resize handle
                 id: trimOutMouseArea
-                anchors.right: parent.right
+                anchors.right: container.right
                 anchors.rightMargin: -itemBorder.border.width
-                anchors.top: parent.top
-                height: parent.height
-                width: root.baseUnit / 2
+                anchors.top: container.top
+                height: container.height
+                width: root.baseUnit
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === ProjectTool.SelectTool
                                      || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0))
@@ -866,10 +867,9 @@ Rectangle {
                     if (root.activeTool === ProjectTool.RippleTool) {
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);
                     }
-
-                    trimOut.opacity = 0
                 }
                 onReleased: {
+                    trimOut.opacity = 0
                     root.autoScrolling = timeline.autoScroll
                     anchors.right = parent.right
                     if (sizeChanged) {
@@ -916,8 +916,8 @@ Rectangle {
                     }
                 }
                 onExited: {
-                    trimOut.opacity = 0
                     if (!pressed) {
+                        trimOut.opacity = 0
                          if (!mouseArea.containsMouse) {
                             timeline.showToolTip()
                          } else {
@@ -932,34 +932,6 @@ Rectangle {
                              timeline.showKeyBinding()
                          }
                     }
-                }
-                /*ToolTip {
-                    visible: trimOutMouseArea.containsMouse && !trimOutMouseArea.pressed
-                    delay: 1000
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        font: miniFont
-                        text: i18n("Out: ") + timeline.simplifiedTC(clipRoot.outPoint)
-                    }
-                }*/
-                Rectangle {
-                    id: trimOut
-                    anchors.right: parent.right
-                    width: itemBorder.border.width
-                    height: parent.height
-                    color: 'red'
-                    opacity: 0
-                    Drag.active: trimOutMouseArea.drag.active
-                    Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (
-                                 (root.activeTool === ProjectTool.SelectTool
-                                  || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
-                                 ) && !mouseArea.drag.active && parent.enabled)
                 }
             }
 

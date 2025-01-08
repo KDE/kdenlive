@@ -1102,7 +1102,7 @@ Rectangle {
                         }
                         anchors.right: parent.right
                         anchors.top: expandSubButton.bottom
-                        anchors.left: subButtonsRow.left
+                        anchors.left: subtitleLayerIndicator.right
                         visible: (subtitleTrack.visible && subtitleTrack.height != root.collapsedHeight)
                         flat: true
                         onActivated: index => {
@@ -1228,8 +1228,10 @@ Rectangle {
                         width: root.trackTagWidth
                         height: parent.height
                         anchors.left: expandSubButton.right
-                        anchors.top: warningButton.bottom
+                        anchors.top: parent.top
                         anchors.bottom: parent.bottom
+                        property color bgColor: Qt.darker(getTrackColor(false, true), 0.55)
+                        visible: maxSubLayer > 0
 
                         Repeater {
                             model: maxSubLayer + 1
@@ -1237,7 +1239,7 @@ Rectangle {
                             delegate: Rectangle {
                                 height: parent.height / subLayerRepeater.count
                                 width: parent.width
-                                color: activePalette.base
+                                color: subtitleLayerIndicator.bgColor
                                 visible: (subtitleTrack.visible && subtitleTrack.height != root.collapsedHeight)
                                 border.color: root.frameColor
                                 Text {

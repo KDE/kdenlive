@@ -154,8 +154,7 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
             }
             int pos = pCore->getMonitorPosition();
             m_activeTimeline->model()->updateDuration();
-            int duration = m_activeTimeline->model()->duration();
-            pCore->bin()->updateSequenceClip(previousTab, duration, pos);
+            pCore->bin()->updateSequenceClip(previousTab, m_activeTimeline->model()->durations(), pos);
         }
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);

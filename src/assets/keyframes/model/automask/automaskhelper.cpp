@@ -107,7 +107,7 @@ void AutomaskHelper::generateImage(const QString &previewFile)
         return;
     }
     SamInterface sam;
-    std::pair<QString, QString> maskScript = {sam.pythonExecs().first, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
+    std::pair<QString, QString> maskScript = {sam.venvPythonExecs().python, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
     QStringList args = {maskScript.second,
                         QStringLiteral("-I"),
                         maskSrcFolder.absolutePath(),
@@ -258,7 +258,7 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
         }
         maskParams.insert(MaskTask::OUTPUTFILE, outputFile);
         SamInterface sam;
-        std::pair<QString, QString> maskScript = {sam.pythonExecs().first, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
+        std::pair<QString, QString> maskScript = {sam.venvPythonExecs().python, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
         MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, maskScript, zone.x(), zone.y(), clip.get());
     }
 }

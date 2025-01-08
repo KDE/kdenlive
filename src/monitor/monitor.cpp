@@ -791,16 +791,29 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (m_controller == nullptr) {
         return;
     }
+    auto producer = m_controller->sequenceProducer(m_activeSequence);
+    int maxDuration = 0;
+    if (m_controller->clipType() == ClipType::Timeline) {
+        maxDuration = producer->get_playtime() - 2;
+    } else {
+        maxDuration = int(m_controller->sequenceFrameDuration(m_activeSequence) - 1);
+    }
+    m_timePos->setRange(0, maxDuration);
+    m_glMonitor->setRulerInfo(maxDuration, m_controller->getFilteredMarkerModel());
+    QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
+    if (oldZone.y() > maxDuration) {
+        m_glMonitor->getControllerProxy()->setZone(oldZone.x(), maxDuration, true);
+        Q_EMIT zoneDurationChanged();
+    }
     if (KdenliveSettings::monitor_background() != "black") {
         Mlt::Tractor trac(pCore->getProjectProfile());
         QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), color.toUtf8().constData()));
-        int maxLength = m_controller->sequenceFrameDuration(m_activeSequence);
-        bg->set("length", maxLength);
-        bg->set("out", maxLength - 1);
+        bg->set("length", maxDuration + 1);
+        bg->set("out", maxDuration);
         bg->set("mlt_image_format", "rgba");
         trac.set_track(*bg.get(), 0);
-        trac.set_track(*m_controller->sequenceProducer(m_activeSequence).get(), 1);
+        trac.set_track(*producer.get(), 1);
         QString composite = TransitionsRepository::get()->getCompositingTransition();
         std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
         transition->set("always_active", 1);
@@ -808,7 +821,7 @@ void Monitor::buildBackgroundedProducer(int pos)
         trac.plant_transition(*transition.get(), 0, 1);
         m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
     } else {
-        m_glMonitor->setProducer(m_controller->sequenceProducer(m_activeSequence), isActive(), pos);
+        m_glMonitor->setProducer(producer, isActive(), pos);
     }
 }
 
@@ -1975,9 +1988,6 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_timePos->setOffset(m_controller->getRecordTime());
         }
         if (m_controller->statusReady()) {
-            int maxDuration = int(m_controller->sequenceFrameDuration(m_activeSequence) - 1);
-            m_timePos->setRange(0, maxDuration);
-            m_glMonitor->setRulerInfo(maxDuration, controller->getFilteredMarkerModel());
             double audioScale = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
             if (in == out && in == -1) {
                 // Only apply on bin clip, not sub clips

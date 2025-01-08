@@ -1,2 +1,4 @@
-git+https://github.com/facebookresearch/sam2.git # SAM-2
+# Pull SAM-2 as archive, it is not officaly available on PyPi
+# Don't use git because most users don't have it installed
+https://github.com/facebookresearch/sam2/archive/refs/heads/main.zip # SAM-2
 opencv-python

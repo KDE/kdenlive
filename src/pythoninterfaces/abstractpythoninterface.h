@@ -20,6 +20,12 @@ class AbstractPythonInterface : public QObject
 {
     Q_OBJECT
 public:
+    struct PythonExec
+    {
+        QString python;
+        QString pip;
+    };
+
     explicit AbstractPythonInterface(QObject *parent = nullptr);
     /** @brief Check if python and pip are installed, as well as all required scripts.
         If a check failed setupError() will be emitted with an error message that can be
@@ -27,13 +33,16 @@ public:
         @returns wether all checks succeeded.
     */
     ~AbstractPythonInterface() override;
-    /** @brief Check if python is found and use venv if requested. */
-    bool checkPython(bool calculateSize = false, bool forceInstall = false);
     bool checkSetup(bool requestInstall = false, bool *newInstall = nullptr);
+    /** @brief Check if the Python venv is setup correctly, if not create it if requested.
+     *  @returns true if the venv is setup properly or was created sucessfully, otherwiese false
+      */
+    bool checkVenv(bool calculateSize = false, bool forceInstall = false);
     /** @brief Check which versions of the dependencies are installed.
         @param Whether checkVersionsResult() will be emitted once the result is available.
     */
     void checkVersions(bool signalOnResult = true);
+    void calculateVenvSize();
     void updateDependencies();
     /** @brief Returns a cached list of all missing dependencies
      *  To update the cache run checkDependencies().
@@ -42,9 +51,9 @@ public:
      */
     QStringList missingDependencies(const QStringList &filter = {});
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
-    std::pair<QString, QString> pythonExecs(bool checkPip = false);
+    PythonExec venvPythonExecs(bool checkPip = false);
+    QString systemPythonExec();
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
-    bool installDisabled() { return m_disableInstall; };
     void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
     /** @brief Python venv setup in progress. */
     bool installInProcess() const;
@@ -52,9 +61,9 @@ public:
     bool optionalDependencyAvailable(const QString &dependency) const;
     /** @brief The text that will appear on the install button when a dependency is missing. */
     virtual const QString installMessage() const;
-    /** @brief The path to the python executable for this environement. */
-    const QString getPythonPath();
-    /** @brief The path to the python virtual environement. */
+    /** @brief The path to the binary location for this virtual environement. */
+    const QString getVenvBinPath();
+    /** @brief The virtual enviroments dir name. */
     virtual const QString getVenvPath();
     /** @brief Add a special dependency. */
     void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
@@ -83,7 +92,6 @@ private:
     QStringList m_missing;
     QStringList m_optionalMissing;
     QMap<QString, QString> m_versions;
-    bool m_disableInstall{false};
     bool m_dependenciesChecked;
     QMutex m_versionsMutex;
     const QString locateScript(const QString &script);

@@ -5198,6 +5198,19 @@ void TimelineModel::updateDuration()
     if (m_subtitleModel) {
         duration = qMax(duration, m_subtitleModel->trackDuration());
     }
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getSequenceClip(m_uuid);
+    if (binClip) {
+        int lastBound = binClip->lastBound();
+        if (lastBound > duration) {
+            duration = lastBound;
+            if (duration == current) {
+                Q_EMIT durationUpdated(m_uuid);
+                if (m_masterStack) {
+                    Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
+                }
+            }
+        }
+    }
     if (duration != current) {
         // update black track length
         m_blackClip->lock();
@@ -5212,7 +5225,14 @@ void TimelineModel::updateDuration()
 
 int TimelineModel::duration() const
 {
+    std::pair<int, int> d = durations();
+    return qMax(d.first, d.second);
+}
+
+std::pair<int, int> TimelineModel::durations() const
+{
     int duration = 0;
+    int boundsDuration = 0;
     auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
         if ((*it)->isAudioTrack()) {
@@ -5233,7 +5253,14 @@ int TimelineModel::duration() const
     if (m_subtitleModel && !m_subtitleModel->isDisabled()) {
         duration = qMax(duration, m_subtitleModel->trackDuration());
     }
-    return duration;
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getSequenceClip(m_uuid);
+    if (binClip) {
+        boundsDuration = binClip->lastBound();
+        if (boundsDuration < duration) {
+            boundsDuration = 0;
+        }
+    }
+    return {duration, boundsDuration};
 }
 
 std::unordered_set<int> TimelineModel::getGroupElements(int clipId)
