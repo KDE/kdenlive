@@ -1,11 +1,11 @@
-# SPDX-FileCopyrightText: 2024 Scarlett Moore <sgmoore@kde.org>
+# SPDX-FileCopyrightText: 2024,2025 Scarlett Moore <sgmoore@kde.org>
 #
 # SPDX-License-Identifier: CC0-1.0
 ---
 name: kdenlive
 confinement: strict
 grade: stable
-base: core22
+base: core24
 adopt-info: kdenlive
 apps:
   kdenlive:
@@ -31,7 +31,14 @@ environment:
     FREI0R_PATH: "$SNAP/usr/lib/frei0r-1"
     MLT_PROFILES_PATH: "$SNAP/usr/share/mlt-7/profiles/"
     MLT_PRESETS_PATH: "$SNAP/usr/share/mlt-7/presets/"
-    ALSA_CONFIG_PATH: "/snap/kf6-core22/current/etc/asound.conf"
+    ALSA_CONFIG_PATH: "$SNAP/kf6/etc/asound.conf"
+    LD_LIBRARY_PATH: "$SNAP/kf6/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/ffmpeg-platform/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib:$SNAP/lib/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:${LD_LIBRARY_PATH}"
+    PATH: $SNAP/ffmpeg-platform/usr/bin:${PATH}
+plugs:
+  ffmpeg-2404:
+    interface: content
+    target: ffmpeg-platform # the folder where this content snap will be mounted
+    default-provider: ffmpeg-2404
 slots:
   session-dbus-interface:
     interface: dbus
@@ -42,7 +49,7 @@ package-repositories:
     components:
       - main
     suites:
-      - jammy
+      - noble
     key-id: 444DABCF3667D0283F894EDDE6D4736255751E5D
     url: http://origin.archive.neon.kde.org/user
     key-server: keyserver.ubuntu.com
@@ -66,6 +73,8 @@ parts:
     plugin: cmake
     source: .
     source-type: local
+    build-snaps:
+      - ffmpeg-2404
     build-packages:
       - librttr-dev
       - libv4l-dev
@@ -84,14 +93,14 @@ parts:
       - libgpm2
       - mediainfo
       - melt
-      - libcudart11.0
+      - libcudart12
+      - libmlt7
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
       - -DQT_MAJOR_VERSION=6
       - -DBUILD_WITH_QT6=ON
       - -DBUILD_TESTING=OFF
-      - -DMOD_GLAXNIMATE=ON
       - -DCMAKE_INSTALL_SYSCONFDIR=/etc
       - -DCMAKE_INSTALL_LOCALSTATEDIR=/var
       - -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON
@@ -103,6 +112,18 @@ parts:
       - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
       - --log-level=STATUS
       - -DCMAKE_LIBRARY_PATH=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+    build-environment:
+      - CMAKE_FIND_ROOT_PATH: "${CMAKE_FIND_ROOT_PATH}:/snap/ffmpeg-2404-sdk/current"
+      - PKG_CONFIG_PATH: "/snap/ffmpeg-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pkgconfig"
+      - LD_LIBRARY_PATH: "${LD_LIBRARY_PATH}:/snap/ffmpeg-2404-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR"
+    override-build: |
+      craftctl default
+      sed -i "${CRAFT_PART_INSTALL}/usr/share/applications/org.kde.kdenlive.desktop" -e 's|Icon=kdenlive$|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/kdenlive.svg|'
+      cd "${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/scalable/apps"
+      gzip -d -c kdenlive.svgz > kdenlive.svg
+      if [ "$CRAFT_TARGET_ARCH" = amd64 ]; then
+        ln -sf ../libpsm1/libpsm_infinipath.so.1.16  $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET/libpsm_infinipath.so.1
+      fi
     prime:
       - -usr/lib/*/cmake/*
       - -usr/include/*
@@ -112,17 +133,26 @@ parts:
       - -usr/lib/gcc/$CRAFT_ARCH_TRIPLET_BUILD_FOR/6.0.0
       - -usr/lib/aspell/*
       - -usr/share/lintian
+  gpu-2404:
+    after: [kdenlive]
+    source: https://github.com/canonical/gpu-snap.git
+    plugin: dump
+    override-prime: |
+      craftctl default
+      ${CRAFT_PART_SRC}/bin/gpu-2404-cleanup mesa-2404
+    prime:
+      - bin/gpu-2404-wrapper
   cleanup:
     after:
       - kdenlive
     plugin: nil
     build-snaps:
-      - core22
-      - kf6-core22
-      - qt-common-themes
+      - core24
+      - kf6-core24
+      - ffmpeg-2404
     override-prime: |
       set -eux
-      for snap in "core22" "kf6-core22" "qt-common-themes"; do
+      for snap in "core24" "kf6-core24" "ffmpeg-2404"; do
           cd "/snap/$snap/current" && find . -type f,l -exec rm -rf "${CRAFT_PRIME}/{}" \;
       done
 
