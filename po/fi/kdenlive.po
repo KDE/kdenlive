@@ -3,7 +3,7 @@
 # Antti Sokero <tohtoris@gmail.com>, 2009, 2010.
 # SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2024 Lasse Liehu <lasse.liehu@gmail.com>
 # SPDX-FileCopyrightText: 2014, 2015, 2016, 2017, 2018, 2019, 2022, 2023, 2024 Tommi Nieminen <translator@legisign.org>
-# SPDX-FileCopyrightText: 2021, 2022, 2024 Kimmo Kujansuu <mrkujansuu@gmail.com>
+# SPDX-FileCopyrightText: 2021, 2022, 2024, 2025 Kimmo Kujansuu <mrkujansuu@gmail.com>
 #
 #
 # KDE Finnish translation sprint participants:
@@ -14,15 +14,15 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-06 02:37+0000\n"
-"PO-Revision-Date: 2024-12-17 16:27+0200\n"
-"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
+"PO-Revision-Date: 2025-01-06 13:33+0200\n"
+"Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -379,7 +379,7 @@ msgid ""
 "Values < 0 and > 100 will cause loops in the lines. Only applies to line "
 "graph type."
 msgstr ""
-"Vaikuttaa käyrän määrään pisteiden välillä laskettavalla viivalla. 0,0 = "
+"Vaikuttaa muodon määrään pisteiden välillä laskettavalla viivalla. 0,0 = "
 "pisteiden välinen suora viiva. 100 = hyvin kaarevat viivat pisteiden "
 "välillä. Arvot < 0 ja > 100 aiheuttavat silmukoita riveihin. Koskee vain "
 "viivakaaviota."
@@ -756,13 +756,12 @@ msgstr "Lähennys"
 #: data/effects/dance.xml:32
 #, kde-format
 msgid "Up"
-msgstr "Ylemmäs"
+msgstr "Ylös"
 
 #: data/effects/dance.xml:35
-#, fuzzy, kde-format
-#| msgid "&Download"
+#, kde-format
 msgid "Down"
-msgstr "&Lataa"
+msgstr "Alas"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -908,16 +907,13 @@ msgid "Text"
 msgstr "Teksti"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"aikakoodi,ruutu,päivämäärä,tiedoston päivämäärä,kuvataajuus,koodekki,nopeus,"
-"leveys,korkeus,kommentti"
+"aikakoodi,ruutu,luontipäivä,päivämäärä (GMT),tiedoston päivämäärä,"
+"kuvataajuus,koodekki,nopeus,leveys,korkeus,kommentti"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -925,6 +921,8 @@ msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
+"Voit myös antaa strftime-parametreja ja mukauttaa ulostuloa, kuten: "
+"#luotuate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -1080,10 +1078,9 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: data/effects/gpsgraphic.xml:4
-#, fuzzy, kde-format
-#| msgid "GraphView"
+#, kde-format
 msgid "GPS Graphic"
-msgstr "Kaavionäkymä"
+msgstr "GPS-grafiikka"
 
 #: data/effects/gpsgraphic.xml:5
 #, kde-format
@@ -1101,6 +1098,8 @@ msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
 msgstr ""
+"Sijaintitietoa (GPS) sisältävä tiedoston koko polku. Tuetut laajennukset: ."
+"gpx, .tcx."
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1117,6 +1116,12 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[Siirtymä (sekunteina), joka lisätään videotiedostoon, jotta se "
+"vastaa GPS-reittiä.<br>\n"
+"    \tUseinmiten tämä on asetettava ainakin kahden tiedoston aikavyöhykkeen "
+"eroon, lisäksi muutama sekunti, jos videon tallennuslaitetta ei ole asetettu "
+"tarkasti oikeaan aikaan. GPS-aika on aina tarkka ja UTC. Käytä positiivisia "
+"arvoja, jos GPS on videon edellä ja negatiivisia muussa tapauksessa.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1132,12 +1137,15 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[Kuinka monta GPS-pistettä tasataan GPS-virheiden poistamiseksi?"
+"<br>\n"
+"    \tArvo 1 ei tasaa sijainteja. Se vain laskee ylimääräiset kentät "
+"(nopeus, etäisyys jne.). Se myös lisää puuttuvat sykearvot ja korkeuden.]]>"
 
 #: data/effects/gpsgraphic.xml:22
-#, fuzzy, kde-format
-#| msgid "Add multiple markers"
+#, kde-format
 msgid "Speed multiplier"
-msgstr "Lisää useita merkkejä"
+msgstr "Nopeuskerroin"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1151,17 +1159,17 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "GPS-sijainti raidalla, korkeus, syke, nopeus"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "Kaavion tietolähde"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "Mitä tietoja GPS-tiedostosta käytetään piirtämiseen?"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1169,6 +1177,8 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"2D-karttaviiva (sijaintia varten) tai 1D-kaavio per aika (muut), lähennä "
+"karttaa/kuvaajaa nykyisen sijainnin keskellä, piirrä matkanopeutta"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1192,7 +1202,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "Rajaa alku (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1207,7 +1217,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "Rajaa loppu (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1222,7 +1232,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Prosenttiosuus minimi..maksimi arvosta"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1450,6 +1460,8 @@ msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Pyöritä koko kaavion suorakulmiota. Mittarin kirjoittaessa teksti pysyy "
+"vaakasuorassa."
 
 #: data/effects/gpsgraphic.xml:134
 #, kde-format
@@ -1481,7 +1493,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Perusyksiköt"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1490,6 +1502,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m, metri, km, kilometri, mi, mailia, ft, jalkaa, nm, meriliikenne, ms, m/s, "
+"metriä sekunnissa, km, km/h, kilometriä tunnissa, mi, mi/h, mailia tunnissa, "
+"ft,ft/s,jalkaa sekunnissa,kn,nm/h,solmua tunnissa,mmin,m/min,ftmin,ft/min"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1517,8 +1532,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
 msgstr "Suorakulmio"
 
@@ -1576,7 +1590,7 @@ msgstr "GPS-alkamisaika"
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "Ensimmäisen GPS-pisteen päivämäärä ja aika."
 
 #: data/effects/gpsgraphic.xml:177
 #, kde-format
@@ -1589,10 +1603,9 @@ msgid "Date and time of the video file."
 msgstr "Videotiedoston päiväys ja aika."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Siirry projektin alkuun"
+msgstr "Autom. siirtymän aloitus"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1601,11 +1614,14 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Tarjoaa avustavan siirtymän, joka takaa videotiedoston synkronoinnin "
+"alkamisen GPS-tiedoston alun kanssa. Asettaa siirtymän oikein, jos video- ja "
+"GPS-tallennus aloitettiin samanaikaisesti."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Autom. siirtymä nyt"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1614,6 +1630,9 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if you video record "
 "the moment GPS starts."
 msgstr ""
+"Tarjoaa avustavan siirtymän ensimmäisen GPS-pisteen synkronoimiseksi "
+"nykyiseen videoaikaan (päivitetään sekunnin välein). Asettaa poikkeaman "
+"oikein, jos kuvaat videota GPS:n käynnistymisen hetkellä."
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
@@ -3865,12 +3884,12 @@ msgstr "Muuta koostamisen tyyppiä"
 #: src/assets/assetpanel.cpp:80
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr ""
+msgstr "Käytä vain tehosteita, joilla on sama arvo"
 
 #: src/assets/assetpanel.cpp:86
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr ""
+msgstr "Käytä tehosteen muutosta kaikkiin ryhmän leikkeisiin…"
 
 #: src/assets/assetpanel.cpp:88
 #, kde-kuit-format
@@ -3880,6 +3899,9 @@ msgid ""
 "the same effect will see the parameters adjusted as well. Deleting an effect "
 "will delete it in all clips in the group."
 msgstr ""
+"Kun käytössä ja leike on samassa ryhmässä, kaikki tämän ryhmän leikkeet, "
+"joilla on sama tehoste, myös parametrit ovat säädettävissä. Tehosteen "
+"poistaminen poistaa sen kaikista ryhmän leikkeistä."
 
 #: src/assets/assetpanel.cpp:98
 #, kde-format
@@ -3934,11 +3956,9 @@ msgstr ""
 "haluat nähdä eron alkuperäisen ja muokatun välillä tai nopeuttaa työtä."
 
 #: src/assets/assetpanel.cpp:126
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Ohjeet verkossa"
+msgstr "Avaa koostamisen ohjeet selaimessa"
 
 #: src/assets/assetpanel.cpp:130
 #, kde-format
@@ -4466,7 +4486,7 @@ msgstr "Vaihda aikajananäkymään"
 #: src/assets/view/widgets/keyframewidget.cpp:75
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "Vaihda muodon muokkausnäkymään"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96 src/dialogs/timeremap.cpp:1621
 #: src/mainwindow.cpp:1814
@@ -4937,7 +4957,7 @@ msgstr "Näytä arvostelu"
 #: src/bin/bin.cpp:1350
 #, kde-format
 msgid "Open Current Folder In New Bin"
-msgstr ""
+msgstr "Avaa nykyinen kansio uuteen kansioon"
 
 #: src/bin/bin.cpp:1355
 #, kde-format
@@ -4957,10 +4977,9 @@ msgstr ""
 "napsauttamalla nuolikuvaketta."
 
 #: src/bin/bin.cpp:1412
-#, fuzzy, kde-format
-#| msgid "Delete current point."
+#, kde-format
 msgid "Close Current Bin"
-msgstr "Poista nykyinen piste."
+msgstr "Sulje nykyinen kansio"
 
 #: src/bin/bin.cpp:1424
 #, kde-format
@@ -6139,7 +6158,7 @@ msgstr "Tekstitys %1"
 #: src/bin/model/subtitlemodel.cpp:2218
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr ""
+msgstr "Määritä tekstitykseen uusi tyyli."
 
 #: src/bin/playlistclip.cpp:140
 #, kde-format
@@ -6147,10 +6166,9 @@ msgid "version"
 msgstr "versio"
 
 #: src/bin/playlistclip.cpp:169
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Kuvasarja 1"
+msgstr "Jaksojen määrä"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -6158,8 +6176,7 @@ msgid "Timeline sequence"
 msgstr "Aikajanan kuvasarja"
 
 #: src/bin/projectclip.cpp:543 src/timeline2/view/qml/Clip.qml:1156
-#, fuzzy, kde-format
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
@@ -6644,6 +6661,8 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"Tämä avaa selaimen ja näyttää Kdenliven online-ohjeet osoitteessa:\n"
+" %1"
 
 #: src/core.cpp:1783
 #, kde-format
@@ -6728,13 +6747,7 @@ msgid "Arguments for the command line script"
 msgstr "Argumentit komentorivin komentosarjalle"
 
 #: src/dialogs/clipjobmanager.cpp:46
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{source}</b> will be replaced by the Bin Clip source file path, "
@@ -6742,11 +6755,10 @@ msgid ""
 "b> will be replaced by the second parameter value, <b>{output}</b> will be "
 "replaced by the output file name."
 msgstr ""
-"Argumenteissa ovat käytettävissä seuraavat vaihtoehdot: <ul><li><b>{source}</"
-"b> korvataan leikkeen kansiolähdetiedostopolulla</li><li><b>{output}</"
-"b>korvataan tallennustiedoston nimellä</li><li><b>{param1}</b>korvataan "
-"ensimmäisellä parametrin arvolla</li><li><b>{param2}</b>korvataan toisella "
-"parametrin arvolla</li></ul>"
+"<b>{source}</b> korvataan leikkeen kansiolähteen tiedostopolulla,<b>{param1}"
+"</b> korvataan ensimmäisellä parametrin arvolla,<b>{param2}</b> korvataan "
+"toisella parametrin arvolla,<b>{output}</b> korvataan kirjoitettavan "
+"tiedoston nimellä."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6754,13 +6766,7 @@ msgid "File extension for the output file"
 msgstr "Kirjoitettavan tiedoston tiedostopääte"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "The output file name will be the same as the source bin clip filename, "
-#| "with the modified extension. It will be appended at the end of the "
-#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
-#| "filename already exists, a -0001 pattern will be appended."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
@@ -6770,8 +6776,8 @@ msgid ""
 msgstr ""
 "Kirjoitettavan tiedoston nimi on sama kuin lähdekansion leikkeen "
 "tiedostonimi muutetulla tunnisteella. Se lisätään argumenttien loppuun tai "
-"lisätään  <b>{&#x25;3}</b> löydettäessä. Jos kirjoitettava tiedosto on jo "
-"olemassa, -0001 lisätään nimen perään."
+"lisätään <b>{output}</b>tilalle löydettäessä. Jos kirjoitettava tiedosto on "
+"jo olemassa, -0001 lisätään nimen perään."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
@@ -6825,7 +6831,7 @@ msgstr "Monista leike nopeuden muutoksin…"
 #: src/dialogs/clipjobmanager.cpp:247
 #, kde-format
 msgid "Check your parameters syntax (incorrect number of quotes)"
-msgstr ""
+msgstr "Tarkista parametrien syntaksi (virheellinen määrä lainausmerkkejä)"
 
 #: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
@@ -6868,17 +6874,15 @@ msgstr ""
 "%1 ?"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Compare Proxy Profile"
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "Vertaa välityspalvelimen profiilia"
+msgstr "Muokkaa videokameran puskuroinnin profiileja"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
-msgstr ""
+msgstr "Voit antaa esiasetukseen useita profiileja puolipisteellä erotettuna"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
 #, kde-format
@@ -6891,6 +6895,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
+"Tämä poistaa kaikki mukautetut videokameran profiilit ja palauttaa "
+"oletusarvot"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6898,6 +6904,8 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"Käytät useita esiasetuksia yhdessä profiilissa, varmista, että kussakin "
+"parametrissa on sama määrä puolipisteitä. Tätä profiilia ei tallenneta."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -7207,6 +7215,9 @@ msgid ""
 "clips for convenience. These effects are disabled and will only be applied "
 "if you change a parameter."
 msgstr ""
+"Kun käytössä, tämä lisää perustehosteita (kääntö, muunto, äänenvoimakkuus) "
+"kaikkiin leikkeisiin käytettävyyden vuoksi. Nämä tehosteet ovat pois "
+"käytöstä ja niitä käytetään vain, jos muutat parametria."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:284
 #, kde-format
@@ -7284,6 +7295,9 @@ msgid ""
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
 "documentation</a>."
 msgstr ""
+"Katso laitteen määritykset <a href=\"https://docs.kdenlive.org/"
+"user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
+"documentation</a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:523 src/dialogs/timeremap.cpp:1583
@@ -7409,6 +7423,7 @@ msgstr "Jatkuva"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"Käsittely prosessorilla on hidasta, suosittelemme näytönohjaimen käyttöä"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1787
 #, kde-format
@@ -7417,6 +7432,8 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"Tekstin kääntäminen tapahtuu SeamlessM4T-mallilla. Vaatii lataamisennoin 10 "
+"Gt dataa. Asennuksen jälkeen kaikki käsittely tapahtuu tietokoneella."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1806
 #, kde-format
@@ -7500,7 +7517,7 @@ msgstr "Asenna monikielinen käännös"
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr ""
+msgstr "Asenna puhemalli – <b>turboa</b> suositellaan"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097
 #: src/dialogs/kdenlivesettingsdialog.cpp:2111
@@ -7611,7 +7628,7 @@ msgstr "Kopioi kohteeseen…"
 #: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:590
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "Kaikkiin"
 
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
@@ -8983,7 +9000,7 @@ msgstr "Näytä lisää valintoja"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
-msgstr ""
+msgstr "Vaihtaa luettelon ja säätää lisää tekstityksen asetuksia."
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -9004,6 +9021,8 @@ msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Vaihtaa lihavoidun tekstin tyylin joko valitulle tekstille tai kohdistimen "
+"paikkaa seuraavalle tekstille."
 
 #: src/dialogs/subtitleedit.cpp:301
 #, kde-format
@@ -9017,6 +9036,8 @@ msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Vaihtaa kursiivisen tekstin tyylin joko valitulle tekstille tai kohdistimen "
+"paikkaa seuraavalle tekstille."
 
 #: src/dialogs/subtitleedit.cpp:306
 #, kde-format
@@ -9030,6 +9051,8 @@ msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Vaihtaa joko valitun tekstin tai kohdistimen paikkaa seuraavan tekstin "
+"alleviivauksen tekstityyliin."
 
 #: src/dialogs/subtitleedit.cpp:311
 #, kde-format
@@ -9043,6 +9066,8 @@ msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Vaihtaa joko valitun tekstin tai kohdistimen paikkaa seuraavan tekstin "
+"yliviivatun tekstityylin."
 
 #: src/dialogs/subtitleedit.cpp:318
 #, kde-format
@@ -9056,6 +9081,8 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
+"Avaa fontin valintaikkuna valitaksesi ja määrittääksesi sen ominaisuudet "
+"joko valitulle tekstille tai kohdistimen paikkaa seuraavalle tekstille."
 
 #: src/dialogs/subtitleedit.cpp:324
 #, kde-format
@@ -9069,6 +9096,7 @@ msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
 msgstr ""
+"Nollaa joko valitun tekstin tai kohdistimen paikkaa seuraavan tekstityylin."
 
 #: src/dialogs/subtitleedit.cpp:327
 #, kde-format
@@ -9084,7 +9112,7 @@ msgstr "Lisää luokituksia"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
-msgstr ""
+msgstr "Avaa valikon ja näyttää lisää tunnisteita"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
@@ -9119,7 +9147,7 @@ msgstr "Pienennä muokkaimen fonttikokoa"
 #: src/dialogs/subtitleedit.cpp:400
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Poista kaikki mukautetut muotoilut"
 
 #: src/dialogs/subtitleedit.cpp:412
 #, kde-format
@@ -9170,7 +9198,7 @@ msgstr "Valitse fontti"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
-msgstr ""
+msgstr "Avaa fontin valintaikkunan ja sen ominaisuudet."
 
 #: src/dialogs/subtitlestyleedit.cpp:101
 #, kde-format
@@ -9208,7 +9236,7 @@ msgstr "Tyylin nimi ei voi olla tyhjä."
 #: src/dialogs/subtitlestyleedit.cpp:180
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "Tyylin nimi ei voi sisältää pilkkua \",\"."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9254,10 +9282,9 @@ msgid "Save edited text in a playlist file"
 msgstr "Tallenna muokattu teksti soittolistaan"
 
 #: src/dialogs/textbasededit.cpp:667
-#, fuzzy, kde-format
-#| msgid "Create new sequence with text edit "
+#, kde-format
 msgid "Create new sequence with text edit"
-msgstr "Luo uusi sarja tekstinmuokkauksella "
+msgstr "Luo uusi sarja tekstinmuokkauksella"
 
 #: src/dialogs/textbasededit.cpp:668
 #, kde-format
@@ -10160,6 +10187,8 @@ msgid ""
 "The project uses a non standard framerate (%1), this will result in "
 "misplaced clips and frame offset."
 msgstr ""
+"Projekti käyttää poikkeavaa kehysnopeutta (%1), mikä johtaa väärin "
+"sijoittuviin leikkeisiin ja kehyksen siirtymiin."
 
 #: src/doc/kdenlivedoc.cpp:1943
 #, kde-format
@@ -10542,7 +10571,7 @@ msgstr "Poistaa tehosteen tehostepinosta."
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:347
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "%1 esiintymää tästä tehosteesta ryhmässä"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:513
 #, kde-format
@@ -10551,6 +10580,8 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"Kopioi se <b>vetämällä</b> tehoste toiseen aikajanan leikkeeseen, raitaan "
+"tai projektin leikeeseen. Kopioi se ryhmään <b>Alt vedä</b>."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:537
 #, kde-format
@@ -10986,10 +11017,9 @@ msgstr "Merkit"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Merkit luokka"
+msgstr "Lisää merkit luokan mukaan"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3824
@@ -11696,10 +11726,9 @@ msgid "Add Clip"
 msgstr "Lisää leike"
 
 #: src/mainwindow.cpp:138
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste luokkanumeron mukaan"
 
 #: src/mainwindow.cpp:140
 #, kde-format
@@ -11746,10 +11775,9 @@ msgid "Record"
 msgstr "Nauhoita"
 
 #: src/mainwindow.cpp:288
-#, fuzzy, kde-format
-#| msgid "Enable edit mode in monitor to edit effect"
+#, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
-msgstr "Ota käyttöön muokkaustila näytöllä tehosteen muokkaamiseksi"
+msgstr "Ota käyttöön mikseristä äänen valvonta tallentaaksesi"
 
 #: src/mainwindow.cpp:296 src/monitor/recmanager.cpp:103
 #, kde-format
@@ -11793,7 +11821,7 @@ msgstr "Tehostepino"
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
 #, kde-format
 msgid "Compositions"
-msgstr "Jälkituotanto"
+msgstr "Koostaminen"
 
 #: src/mainwindow.cpp:417
 #, kde-format
@@ -12624,70 +12652,59 @@ msgid "Delete All Markers"
 msgstr "Poista kaikki merkit"
 
 #: src/mainwindow.cpp:1636
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste nopeasti"
 
 #: src/mainwindow.cpp:1640
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 1"
 
 #: src/mainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 2"
 
 #: src/mainwindow.cpp:1648
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 3"
 
 #: src/mainwindow.cpp:1652
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 4"
 
 #: src/mainwindow.cpp:1656
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 5"
 
 #: src/mainwindow.cpp:1660
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 6"
 
 #: src/mainwindow.cpp:1664
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 7"
 
 #: src/mainwindow.cpp:1668
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 8"
 
 #: src/mainwindow.cpp:1672
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 9"
 
 #: src/mainwindow.cpp:1676
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Lisää nopeasti merkki/opaste"
+msgstr "Lisää merkki/opaste 10"
 
 #: src/mainwindow.cpp:1681
 #, kde-format
@@ -13197,10 +13214,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Ei löydy leikettä muokattavaa merkkiä varten"
 
 #: src/mainwindow.cpp:2824
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Merkit luokka"
+msgstr "Merkit luokkaa ei ole"
 
 #: src/mainwindow.cpp:3009 src/timeline2/model/timelinefunctions.cpp:787
 #: src/timeline2/view/timelinecontroller.cpp:3156
@@ -13348,13 +13364,12 @@ msgstr "Lisää"
 #: src/mainwindow.cpp:3714 src/mainwindow.cpp:3716
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "Laajuus"
 
 #: src/mainwindow.cpp:3721
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Project Bins"
-msgstr "Projektikansio"
+msgstr "Projektikansiot"
 
 #: src/mainwindow.cpp:3817
 #, kde-format
@@ -15432,10 +15447,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Määritä aikaleimat nykyiselle leikkeelle"
 
 #: src/project/dialogs/noteswidget.cpp:137
-#, fuzzy, kde-format
-#| msgid "Cannot insert clip..."
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Leikettä ei voi lisätä…"
+msgstr "Projektileikettä ei löydy"
 
 #: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
@@ -16358,6 +16372,8 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"Tämä vaatii yhteyden internettiin ja riippuvuuksien lataaminen kestää useita "
+"minuutteja.Tämän jälkeen käsittely tapahtuu tietokoneella."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #: src/pythoninterfaces/abstractpythoninterface.cpp:544
@@ -16443,15 +16459,14 @@ msgid "Select new models to download"
 msgstr "Valitse ladattavat uudet mallit"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "Asennetut moduulit"
+msgstr "Asennetaan mallia %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Tarkistetaan saatavilla olevia malleja"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
 #, kde-format
@@ -16474,10 +16489,9 @@ msgid "Uninstall model"
 msgstr "Poista mallin asennus"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "Asennetut moduulit"
+msgstr "Asenna malli"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
 #, kde-format
@@ -16523,7 +16537,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "OpenTimelineIO ei löytänyt Kdenlive-sovitinta."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
@@ -17671,7 +17685,7 @@ msgstr "Ei tarpeeksi raitoja leikepöydän liittämiseen"
 #: src/timeline2/model/timelinefunctions.cpp:1958
 #, kde-format
 msgid "Another paste operation is in progress"
-msgstr ""
+msgstr "Toinen liittäminen on meneillään"
 
 #: src/timeline2/model/timelinefunctions.cpp:1970
 #, kde-format
@@ -17765,16 +17779,14 @@ msgid "Rename Track"
 msgstr "Nimeä raita uudelleen"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Ota tehoste käyttöön"
+msgstr "Ota tehostepino käyttöön"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Poista tehoste käytöstä"
+msgstr "Poista tehostepino käytöstä"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -18088,10 +18100,9 @@ msgid "Editing duration for %1 clips."
 msgstr "Muokataan %1 leikkeen kestoa."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "View Mode"
+#, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Näkymätila"
+msgstr "Muokataan venytystilassa"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -18264,10 +18275,9 @@ msgid "Offset: %1"
 msgstr "Siirtymä: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1063
-#, fuzzy, kde-format
-#| msgid "<b>Click</b> to add composition"
+#, kde-format
 msgid " <b>Click</b> to align clips"
-msgstr "Lisää koostaminen <b>napsauttamalla</b>"
+msgstr "Tasaa leikkeet <b>painamalla</b>"
 
 #: src/timeline2/view/qml/Clip.qml:1308 src/timeline2/view/qml/Clip.qml:1345
 #, kde-format
@@ -18540,7 +18550,7 @@ msgstr "Sisään:%1, Ulos:%2 (%3%4)"
 #: src/timeline2/view/timelinecontroller.cpp:2338
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
-msgstr ""
+msgstr "Liuku voidaan tehdä vain video-, ääni- tai animaatioleikkeille"
 
 #: src/timeline2/view/timelinecontroller.cpp:2739
 #, kde-format
@@ -18704,6 +18714,7 @@ msgstr "Vie tekstitys"
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
+"Sub Station Alpha v4.00+ tiedosto (*.ass);;SubRip tekstitystiedosto (*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5122
 #, kde-format
@@ -18713,6 +18724,10 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
+"Nykyinen tekstitys sisältää useita kerroksia. Tarkoittaa, että jos "
+"tekstityksiä on eri tasoilla ja jakavat saman aloituskohdan, vain "
+"tekstityksen alin kerros säilyy. Tämä voi johtaa joidenkin tekstitysten "
+"katoamiseenviedyssä tiedostossa. Haluatko jatkaa?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5127
 #, kde-format
@@ -18923,12 +18938,12 @@ msgstr "Laske objektia alemmas"
 #: src/titler/titlewidget.cpp:313
 #, kde-format
 msgid "Raise object to top"
-msgstr "Nosta objekti ylimmäksi"
+msgstr "Nosta kohde ylimmäksi"
 
 #: src/titler/titlewidget.cpp:320
 #, kde-format
 msgid "Lower object to bottom"
-msgstr "Laske objekti alimmaksi"
+msgstr "Laske kohde alimmaksi"
 
 #: src/titler/titlewidget.cpp:326
 #, kde-format
@@ -19806,7 +19821,7 @@ msgstr "Rajauksen loppu:"
 #: src/ui/clipdurationdialog_ui.ui:101
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Käytä kestoa kaikissa kohteissa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -19828,13 +19843,7 @@ msgstr "Parametrit"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
 "b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
@@ -19843,10 +19852,10 @@ msgid ""
 "replaced by the output file name</li></ul>"
 msgstr ""
 "Argumenteissa ovat käytettävissä seuraavat vaihtoehdot: <ul><li><b>{source}</"
-"b> korvataan leikkeen kansiolähdetiedostopolulla</li><li><b>{output}</"
-"b>korvataan tallennustiedoston nimellä</li><li><b>{param1}</b>korvataan "
-"ensimmäisellä parametrin arvolla</li><li><b>{param2}</b>korvataan toisella "
-"parametrin arvolla</li></ul>"
+"b> korvataan leikkeen kansiolähteen tiedostopolulla</li><li><b>{param1}</b> "
+"korvataan ensimmäisellä parametrin arvolla</li><li><b>{param2}</b> korvataan "
+"toisella parametrin arvolla</li> <li><b>{output}</b> korvataan "
+"tallennustiedoston nimellä</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
@@ -20283,8 +20292,7 @@ msgstr "Valvonnan taustaväri:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
 msgstr "Monitori"
 
@@ -20930,7 +20938,7 @@ msgstr "Käytä"
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
-msgstr ""
+msgstr "Toista/keskeytä näyttö hiiren painalluksella"
 
 # skip-rule: kde-term-full-screen
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -21061,7 +21069,7 @@ msgstr "Whisper"
 #: src/ui/configspeech_ui.ui:373
 #, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Saumaton"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428
@@ -21624,13 +21632,13 @@ msgstr "S"
 #: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
-msgstr ""
+msgstr "Vasen marginaali"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
-msgstr ""
+msgstr "Oikea marginaali"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:487
@@ -21668,7 +21676,7 @@ msgstr "Vieritys"
 #: src/ui/editsub_ui.ui:581
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Nimi</p></body></html>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:18
@@ -21695,6 +21703,8 @@ msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
+"Toissijaista väriä voidaan käyttää tekstityksen törmätessä auttamaan "
+"molempien tekstityksien erottamisessa"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
@@ -21754,7 +21764,7 @@ msgstr "Alleviivaus"
 #: src/ui/editsubstyle_ui.ui:423 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "Yliviivaus"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
@@ -22218,7 +22228,7 @@ msgstr "Poista"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "Tasot ja sisältö"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: src/ui/managesubtitles_ui.ui:211
@@ -22294,8 +22304,7 @@ msgstr "Välistys"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "BoardStyle"
 msgstr "Tyyli"
 
@@ -22327,13 +22336,13 @@ msgstr "Uusi tyyli"
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "Tiedot"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539
 #, kde-format
 msgid "Key"
-msgstr ""
+msgstr "Avain"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
