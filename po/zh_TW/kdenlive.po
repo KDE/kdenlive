@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:41+0000\n"
-"PO-Revision-Date: 2025-01-04 23:56+0800\n"
-"Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
+"PO-Revision-Date: 2025-01-08 17:53+0900\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /usr/share/locale/zh_TW/LC_MESSAGES\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1093,6 +1093,10 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[要加到影片檔的時間偏移，來讓它與 GPS 軌跡符合。<br>\n"
+"    \t通常這至少需要設成兩個檔案之間的時區差異，加上幾秒鐘來校正錄影裝置稍微"
+"偏移的時間。GPS 時間一定是準確的，並且會是 UTC。GPS 比影片早的時候使用正數，"
+"否則負數。]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -16249,6 +16253,8 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"在 kdenlive 的 venv 虛擬環境中找不到 python3。\n"
+"請嘗試將外掛程式解除安裝後重新安裝。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
@@ -16256,6 +16262,8 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"在 kdenlive 的 venv 虛擬環境中找不到 pip3。\n"
+"請嘗試將外掛程式解除安裝後重新安裝。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:324
 #, kde-format
