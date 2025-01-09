@@ -27,7 +27,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_logfile(m_dest + QStringLiteral(".log"))
     , m_erase(debugMode == false && (scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QStringLiteral("xml:%1").arg(QDir::tempPath()))))
     , m_seconds(0)
-    , m_frame(in)
+    , m_frame(0)
     , m_framein(in)
     , m_frameout(out)
     , m_pid(pid)
