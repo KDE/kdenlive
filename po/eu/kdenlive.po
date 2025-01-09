@@ -1,18 +1,18 @@
 # Translation for kdenlive.po to Euskara/Basque (eu).
-# Copyright (C) 2017-2024 This file is copyright:
+# Copyright (C) 2017-2025 This file is copyright:
 # This file is distributed under the same license as the kdenlive package.
-# SPDX-FileCopyrightText: 2023, 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Iñigo Gebara <igebara@disroot.org>, 2017, 2018, 2020, 2021, 2022, 2023.
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2017, 2019, 2020, 2021, 2022, 2023, 2024.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 # Imanol Manterola Agirrezabalaga <imanolmiru@gmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:41+0000\n"
-"PO-Revision-Date: 2025-01-02 08:00+0100\n"
+"PO-Revision-Date: 2025-01-08 22:56+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -16799,6 +16799,8 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"kdenlive «venv»en ezin da python3 aurkitu.\n"
+"Saiatu plugina desinstalatu eta berrinstalatzen."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
@@ -16806,6 +16808,8 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"kdenlive «venv»en ezin da pip3 aurkitu.\n"
+"Saiatu plugina desinstalatu eta berrinstalatzen."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:324
 #, kde-format

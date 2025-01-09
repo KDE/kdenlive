@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:41+0000\n"
-"PO-Revision-Date: 2025-01-02 12:28+0300\n"
+"PO-Revision-Date: 2025-01-08 15:15+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16723,6 +16723,8 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Kdenlive sanal ortamında python3 bulunamıyor.\n"
+"Eklentiyi kaldırıp yeniden kurmayı deneyin."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
@@ -16730,6 +16732,8 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Kdenlive sanal ortamında pip3 bulunamıyor.\n"
+"Eklentiyi kaldırıp yeniden kurmayı deneyin."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:324
 #, kde-format

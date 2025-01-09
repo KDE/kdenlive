@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-08 00:41+0000\n"
-"PO-Revision-Date: 2025-01-04 15:03+0100\n"
+"PO-Revision-Date: 2025-01-08 20:13+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -16836,6 +16836,8 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Non é posíbel atopar «python3» no venv de Kdenlive.\n"
+"Probe a desinstalar e reinstalar o complemento."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
@@ -16843,6 +16845,8 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Non é posíbel atopar «pip3» no venv de Kdenlive.\n"
+"Probe a desinstalar e reinstalar o complemento."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:324
 #, kde-format
