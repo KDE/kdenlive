@@ -277,7 +277,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="12" column="1">
     <widget class="QCheckBox" name="kcfg_enableBuiltInEffects">
      <property name="text">
-      <string>Enable Builtin Effects</string>
+      <string>Enable Built-in Effects</string>
      </property>
     </widget>
    </item>
