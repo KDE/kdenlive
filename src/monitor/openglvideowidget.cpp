@@ -140,12 +140,13 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
     check_error(f);
     f->glGenTextures(3, texture);
     check_error(f);
+    int interpolation = KdenliveSettings::nearestMonitorInterpolation() ? GL_NEAREST : GL_LINEAR;
 
     f->glBindTexture(GL_TEXTURE_2D, texture[0]);
     check_error(f);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolation);
     check_error(f);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolation);
     check_error(f);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     check_error(f);
@@ -156,9 +157,9 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
 
     f->glBindTexture(GL_TEXTURE_2D, texture[1]);
     check_error(f);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolation);
     check_error(f);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolation);
     check_error(f);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     check_error(f);
@@ -169,9 +170,9 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
 
     f->glBindTexture(GL_TEXTURE_2D, texture[2]);
     check_error(f);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolation);
     check_error(f);
-    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolation);
     check_error(f);
     f->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     check_error(f);

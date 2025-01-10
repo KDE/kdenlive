@@ -849,6 +849,8 @@ void VideoWidget::setZoom(float zoom, bool force)
         double scaley = rootObject()->property("scaley").toDouble() * zoomRatio;
         rootObject()->setProperty("scaley", scaley);
     }
+    // When zooming a lot in the image, switch to nearest neightbor interpolation for the display so we can see individual pixels
+    KdenliveSettings::setNearestMonitorInterpolation(zoom > 10);
     resizeVideo(width(), height());
 }
 
