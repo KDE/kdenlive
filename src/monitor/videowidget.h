@@ -200,6 +200,7 @@ protected:
     QSize m_profileSize;
     QMutex m_mutex;
     bool m_isInitialized;
+    bool m_nearestNeighborInterpolation{false};
 
     /** @brief adjust monitor ruler size (for example if we want to display audio thumbs permanently) */
     virtual void updateRulerHeight(int addedHeight);

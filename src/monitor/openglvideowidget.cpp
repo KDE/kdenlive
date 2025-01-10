@@ -125,7 +125,7 @@ void OpenGLVideoWidget::createShader()
     m_texCoordLocation = m_shader->attributeLocation("texCoord");
 }
 
-static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GLuint texture[])
+static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GLuint texture[], bool nearestNeighborInterpolation)
 {
     int width = frame.get_image_width();
     int height = frame.get_image_height();
@@ -140,7 +140,7 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
     check_error(f);
     f->glGenTextures(3, texture);
     check_error(f);
-    int interpolation = KdenliveSettings::nearestMonitorInterpolation() ? GL_NEAREST : GL_LINEAR;
+    int interpolation = nearestNeighborInterpolation ? GL_NEAREST : GL_LINEAR;
 
     f->glBindTexture(GL_TEXTURE_2D, texture[0]);
     check_error(f);
@@ -213,7 +213,7 @@ void OpenGLVideoWidget::renderVideo()
             m_mutex.unlock();
             return;
         }
-        uploadTextures(context, m_sharedFrame, m_displayTexture);
+        uploadTextures(context, m_sharedFrame, m_displayTexture, m_nearestNeighborInterpolation);
         m_mutex.unlock();
     }
 
@@ -340,7 +340,7 @@ void OpenGLVideoWidget::onFrameDisplayed(const SharedFrame &frame)
         // Using threaded OpenGL to upload textures.
         QOpenGLFunctions *f = m_context->functions();
         m_context->makeCurrent(&m_offscreenSurface);
-        uploadTextures(m_context.get(), frame, m_renderTexture);
+        uploadTextures(m_context.get(), frame, m_renderTexture, m_nearestNeighborInterpolation);
         f->glBindTexture(GL_TEXTURE_2D, 0);
         check_error(f);
         f->glFinish();

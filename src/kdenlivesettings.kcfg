@@ -491,11 +491,6 @@
       <default>#535353</default>
     </entry>
 
-    <entry name="nearestMonitorInterpolation" type="Bool">
-      <label>Use nearest neighbor interpolation for monitor view scaling.</label>
-      <default>false</default>
-      </entry>
-
     <entry name="showMonitorGrid" type="Bool">
       <label>Should we show the monitor grid.</label>
       <default>false</default>
