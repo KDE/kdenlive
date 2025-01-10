@@ -65,7 +65,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset theme="trash-empty">
+            <iconset theme="edit-delete">
              <normaloff>.</normaloff>.</iconset>
            </property>
           </widget>
@@ -79,7 +79,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset theme="trash-empty">
+            <iconset theme="edit-delete">
              <normaloff>.</normaloff>.</iconset>
            </property>
           </widget>
@@ -100,7 +100,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset theme="trash-empty">
+            <iconset theme="edit-delete">
              <normaloff>.</normaloff>.</iconset>
            </property>
           </widget>
@@ -131,7 +131,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset theme="trash-empty">
+            <iconset theme="edit-deletey">
              <normaloff>.</normaloff>.</iconset>
            </property>
           </widget>
@@ -277,7 +277,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset theme="trash-empty">
+            <iconset theme="edit-delete">
              <normaloff>.</normaloff>.</iconset>
            </property>
           </widget>
@@ -446,7 +446,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>Delete selected cache.</string>
            </property>
            <property name="icon">
-            <iconset theme="trash-empty">
+            <iconset theme="edit-delete">
              <normaloff>.</normaloff>.</iconset>
            </property>
           </widget>
@@ -557,7 +557,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>Delete all backup data.</string>
            </property>
            <property name="icon">
-            <iconset theme="trash-empty">
+            <iconset theme="edit-delete">
              <normaloff>.</normaloff>.</iconset>
            </property>
           </widget>
@@ -654,7 +654,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>Delete all proxy clips.</string>
            </property>
            <property name="icon">
-            <iconset theme="trash-empty">
+            <iconset theme="edit-delete">
              <normaloff>.</normaloff>.</iconset>
            </property>
           </widget>

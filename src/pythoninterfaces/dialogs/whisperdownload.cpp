@@ -125,7 +125,7 @@ void WhisperDownload::updateDownloadButton(int ix)
     } else {
         m_bd->setEnabled(true);
         if (installStatus == 1) {
-            m_bd->setIcon(QIcon::fromTheme("list-remove"));
+            m_bd->setIcon(QIcon::fromTheme("edit-delete"));
             m_bd->setText(i18n("Uninstall model"));
         } else {
             m_bd->setIcon(QIcon::fromTheme("list-add"));
