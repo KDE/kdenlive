@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:41+0000\n"
-"PO-Revision-Date: 2025-01-03 09:02+0100\n"
+"POT-Creation-Date: 2025-01-10 09:27+0000\n"
+"PO-Revision-Date: 2025-01-09 12:14+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -14969,18 +14969,18 @@ msgid "Enable Audio Spectrum"
 msgstr "Activer le spectre audio"
 
 # unreviewed-context
-#: src/monitor/videowidget.cpp:1065
+#: src/monitor/videowidget.cpp:1067
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Sélectionnez une zone à jouer."
 
 # unreviewed-context
-#: src/monitor/videowidget.cpp:1074
+#: src/monitor/videowidget.cpp:1076
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Sélectionnez une vidéo à lire."
 
-#: src/monitor/videowidget.cpp:1179
+#: src/monitor/videowidget.cpp:1181
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -16992,6 +16992,10 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Impossible de trouver python3 dans l'environnement virtuel (venv) "
+"« kdenlive ».\n"
+"Veuillez essayer une désinstallation puis une ré-installation du module "
+"externe."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
@@ -16999,6 +17003,10 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Impossible de trouver la commande « pip3 » dans l'environnement virtuel "
+"(venv) « kdenlive ».\n"
+"Veuillez essayer une désinstallation puis une ré-installation du module "
+"externe."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:324
 #, kde-format

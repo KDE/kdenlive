@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:41+0000\n"
+"POT-Creation-Date: 2025-01-10 09:27+0000\n"
 "PO-Revision-Date: 2025-01-06 18:58+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -14559,17 +14559,17 @@ msgstr "MLT devas esti kompilita kun libfftw3 por ebligi Audio Spectrum"
 msgid "Enable Audio Spectrum"
 msgstr "Ebligi Sonan Spektron"
 
-#: src/monitor/videowidget.cpp:1065
+#: src/monitor/videowidget.cpp:1067
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Elekti zonon por ludi"
 
-#: src/monitor/videowidget.cpp:1074
+#: src/monitor/videowidget.cpp:1076
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Elekti tondaĵon por ludi"
 
-#: src/monitor/videowidget.cpp:1179
+#: src/monitor/videowidget.cpp:1181
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

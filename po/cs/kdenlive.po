@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:41+0000\n"
+"POT-Creation-Date: 2025-01-10 09:27+0000\n"
 "PO-Revision-Date: 2024-09-18 09:45+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -1212,10 +1212,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:61
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Crop left"
-msgstr "Vlevo nahoře"
+msgstr "Ořezat zleva"
 
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
@@ -1232,10 +1231,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:66
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Crop right"
-msgstr "Vpravo nahoře"
+msgstr "Ořezat zprava"
 
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
@@ -1269,10 +1267,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:81
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Crop bottom"
-msgstr "Shora dolů"
+msgstr "Ořezat zespodu"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1289,10 +1286,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:86
-#, fuzzy, kde-format
-#| msgid "Crop"
+#, kde-format
 msgid "Crop top"
-msgstr "Oříznout"
+msgstr "Ořezat shora"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1346,10 +1342,9 @@ msgid "Sets the color #2 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:104
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 3"
-msgstr "Barva 2"
+msgstr "Barva 3"
 
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
@@ -1357,10 +1352,9 @@ msgid "Sets the color #3 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:108
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 4"
-msgstr "Barva 2"
+msgstr "Barva 4"
 
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
@@ -1368,10 +1362,9 @@ msgid "Sets the color #4 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:112
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 5"
-msgstr "Barva 2"
+msgstr "Barva 5"
 
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
@@ -1517,10 +1510,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background image"
-msgstr "Pozadí"
+msgstr "Obrázek na pozadí"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -6080,10 +6072,9 @@ msgid "Assign a new style to a subtitle."
 msgstr ""
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "Perský"
+msgstr "verze"
 
 #: src/bin/playlistclip.cpp:169
 #, fuzzy, kde-format
@@ -7742,10 +7733,9 @@ msgid "Colors and Guides"
 msgstr ""
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "Moduly TAP"
+msgstr "Moduly"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8034,10 +8024,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install"
-msgstr "Šeptat"
+msgstr "Instalovat"
 
 #: src/dialogs/settings/pluginssettings.cpp:356
 #, fuzzy, kde-format
@@ -8093,10 +8082,9 @@ msgid "All models are already installed"
 msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:524
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading…"
-msgstr "Stahuji model…"
+msgstr "Stahuji…"
 
 #: src/dialogs/settings/pluginssettings.cpp:534
 #, fuzzy, kde-format
@@ -14252,17 +14240,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Povolit spektrum zvuku"
 
-#: src/monitor/videowidget.cpp:1065
+#: src/monitor/videowidget.cpp:1067
 #, kde-format
 msgid "Select a zone to play"
 msgstr ""
 
-#: src/monitor/videowidget.cpp:1074
+#: src/monitor/videowidget.cpp:1076
 #, kde-format
 msgid "Select a clip to play"
 msgstr ""
 
-#: src/monitor/videowidget.cpp:1179
+#: src/monitor/videowidget.cpp:1181
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -14480,10 +14468,9 @@ msgid "Exit Mask Creation"
 msgstr "Upravit délku trvání"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "Přidat zónu náhledu"
+msgstr "Ukončit náhledový režim"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16259,10 +16246,9 @@ msgid "Checking available models"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Stahuji model…"
+msgstr "Stahování"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
 #, fuzzy, kde-format
@@ -20789,8 +20775,7 @@ msgstr "Kreslicí režim:"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:419
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Whisper"
 msgstr "Šeptat"
 
@@ -21390,13 +21375,13 @@ msgstr "S"
 #: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
-msgstr ""
+msgstr "Levý okraj"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
-msgstr ""
+msgstr "Pravý okraj"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:487
@@ -21473,17 +21458,15 @@ msgstr "Rozestupy znaků:"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "ScaleX"
+#, kde-format
 msgid "Scale X"
-msgstr "MěřítkoX"
+msgstr "Měřítko X"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Text clips"
+#, kde-format
 msgid "Text color"
-msgstr "Textové klipy"
+msgstr "Barva textu"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -21536,10 +21519,9 @@ msgstr "Zarovnání"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "ScaleY"
+#, kde-format
 msgid "Scale Y"
-msgstr "MěřítkoY"
+msgstr "Měřítko Y"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -22127,10 +22109,9 @@ msgstr "Náhled obrázku"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
 #: src/ui/maskmanage_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Format"
+#, kde-format
 msgid "Form"
-msgstr "Formát"
+msgstr "Formulář"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
@@ -22158,7 +22139,7 @@ msgstr "Importovaný projekt"
 #: src/ui/maskmanage_ui.ui:104
 #, kde-format
 msgid "Mask"
-msgstr ""
+msgstr "Maska"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
