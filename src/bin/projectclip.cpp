@@ -15,7 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/audiolevelstask.h"
+#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
 #include "jobs/proxytask.h"
@@ -52,6 +52,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPainter>
 #include <QProcess>
 #include <QtMath>
+#include <timeline2/view/qml/timelinewaveform.h>
 
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
@@ -266,45 +267,38 @@ void ProjectClip::updateAudioThumbnail(bool cachedThumb)
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
         if (thumb.isNull() && !pCore->taskManager.hasPendingJob(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB)) {
-            int iconHeight = int(QFontInfo(qApp->font()).pixelSize() * 3.5);
-            QImage img(QSize(int(iconHeight * pCore->getCurrentDar()), iconHeight), QImage::Format_ARGB32);
-            img.fill(Qt::darkGray);
-            QMap<int, QString> streams = audioInfo()->streams();
-            QMap<int, int> channelsList = audioInfo()->streamChannels();
-            QPainter painter(&img);
-            QPen pen = painter.pen();
-            pen.setColor(Qt::white);
-            painter.setPen(pen);
-            int streamCount = 0;
-            if (streams.count() > 0) {
-                double streamHeight = iconHeight / streams.count();
-                QMapIterator<int, QString> st(streams);
-                while (st.hasNext()) {
-                    st.next();
-                    int channels = channelsList.value(st.key());
-                    double channelHeight = double(streamHeight) / channels;
-                    const QVector<uint8_t> audioLevels = audioFrameCache(st.key());
-                    qreal indicesPrPixel = qreal(audioLevels.length()) / img.width();
-                    int idx;
-                    for (int channel = 0; channel < channels; channel++) {
-                        double y = (streamHeight * streamCount) + (channel * channelHeight) + channelHeight / 2;
-                        for (int i = 0; i <= img.width(); i++) {
-                            idx = int(ceil(i * indicesPrPixel));
-                            idx += idx % channels;
-                            idx += channel;
-                            if (idx >= audioLevels.length() || idx < 0) {
-                                break;
-                            }
-                            double level = audioLevels.at(idx) * channelHeight / 510.; // divide height by 510 (2*255) to get height
-                            painter.drawLine(i, int(y - level), i, int(y + level));
-                        }
-                    }
-                    streamCount++;
-                }
+            const auto height = int(QFontInfo(qApp->font()).pixelSize() * 8);
+            const auto width = int(height * pCore->getCurrentDar());
+            QImage img(width, height, QImage::Format_ARGB32);
+
+            int i = 0;
+            for (const auto streamIdx : audioInfo()->streams().keys()) {
+                const auto streamHeight = height / audioInfo()->streams().size();
+
+                QPainter painter(&img);
+                painter.translate(0, i * streamHeight);
+
+                auto renderer = TimelineWaveform();
+                renderer.setProperty("channels", audioInfo()->channelsForStream(streamIdx));
+                renderer.setProperty("binId", m_binId);
+                renderer.setProperty("audioStream", streamIdx);
+                renderer.setProperty("waveInPoint", 0);
+                renderer.setProperty("waveOutPoint", getFramePlaytime());
+                renderer.setProperty("scaleFactor", static_cast<double>(width) / getFramePlaytime());
+                renderer.setProperty("bgColorEven", QColor(Qt::darkGray));
+                renderer.setProperty("bgColorOdd", QColor(Qt::darkGray));
+                renderer.setProperty("fgColorEven", QColor(Qt::white));
+                renderer.setProperty("fgColorOdd", QColor(Qt::white));
+                renderer.setWidth(width);
+                renderer.setHeight(streamHeight);
+
+                renderer.paint(&painter);
+
+                i++;
             }
-            thumb = img;
             // Cache thumbnail
-            ThumbnailCache::get()->storeThumbnail(m_binId, 0, thumb, true);
+            ThumbnailCache::get()->storeThumbnail(m_binId, 0, img, true);
+            thumb = img;
         }
         if (!thumb.isNull()) {
             setThumbnail(thumb, -1, -1);
@@ -2159,7 +2153,7 @@ const QString ProjectClip::getAudioThumbPath(int stream)
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
     audioPath.append(QLatin1Char('_') + QString::number(stream));
     int roundedFps = int(pCore->getCurrentFps());
-    audioPath.append(QStringLiteral("_%1_audio.png").arg(roundedFps));
+    audioPath.append(QStringLiteral("_%1_audio.dat").arg(roundedFps));
     return audioPath;
 }
 
@@ -2437,7 +2431,6 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
     Fun operation = [this]() {
         // Free audio thumb data and timeline producers
         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()));
-        m_audioLevels.clear();
         m_disabledProducer.reset();
         m_audioProducers.clear();
         m_videoProducers.clear();
@@ -2567,7 +2560,7 @@ Fun ProjectClip::getAudio_lambda()
 {
     return [this]() {
         if (KdenliveSettings::audiothumbnails() &&
-            (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_clipType == ClipType::Playlist && m_hasAudio)) && m_audioLevels.isEmpty()) {
+            (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_clipType == ClipType::Playlist && m_hasAudio))) {
             // Generate audio levels
             AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), this, false);
         }
@@ -2730,75 +2723,24 @@ void ProjectClip::setRating(uint rating)
     pCore->currentDoc()->setModified(true);
 }
 
-int ProjectClip::getAudioMax(int stream)
+int16_t ProjectClip::getAudioMax(const int streamIdx) const
 {
-    const QString key = QStringLiteral("kdenlive:audio_max%1").arg(stream);
+    const QString key = QStringLiteral("_kdenlive:audio_max%1").arg(streamIdx);
     if (m_masterProducer->property_exists(key.toUtf8().constData())) {
         return m_masterProducer->get_int(key.toUtf8().constData());
     }
-    // Process audio max for the stream
-    const QString key2 = QStringLiteral("_kdenlive:audio%1").arg(stream);
-    if (!m_masterProducer->property_exists(key2.toUtf8().constData())) {
-        return 0;
-    }
-    const QVector<uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key2.toUtf8().constData()));
-    if (audioData.isEmpty()) {
-        return 0;
-    }
-    uint max = *std::max_element(audioData.constBegin(), audioData.constEnd());
-    m_masterProducer->set(key.toUtf8().constData(), int(max));
-    return int(max);
+    return std::numeric_limits<int16_t>::max();
 }
 
-const QVector<uint8_t> ProjectClip::audioFrameCache(int stream)
+QVector<int16_t> ProjectClip::audioFrameCache(const int streamIdx) const
 {
-    QVector<uint8_t> audioLevels;
-    if (stream == -1) {
-        if (m_audioInfo) {
-            stream = m_audioInfo->ffmpeg_audio_index();
-        } else {
-            return audioLevels;
-        }
-    }
-    const QString key = QStringLiteral("_kdenlive:audio%1").arg(stream);
+    const QString key = QStringLiteral("_kdenlive:audio%1").arg(streamIdx);
     if (m_masterProducer->get_data(key.toUtf8().constData())) {
-        const QVector<uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
+        const auto audioData = *static_cast<QVector<int16_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
         return audioData;
-    } else {
-        qDebug() << "=== AUDIO NOT FOUND ";
     }
-    return QVector<uint8_t>();
-
-    // TODO
-    /*QString key = QStringLiteral("%1:%2").arg(m_binId).arg(stream);
-    QByteArray audioData;
-    if (pCore->audioThumbCache.find(key, &audioData)) {
-        if (audioData != QByteArray("-")) {
-            QDataStream in(audioData);
-            in >> audioLevels;
-            return audioLevels;
-        }
-    }
-    // convert cached image
-    const QString cachePath = getAudioThumbPath(stream);
-    // checking for cached thumbs
-    QImage image(cachePath);
-    if (!image.isNull()) {
-        int channels = m_audioInfo->channelsForStream(stream);
-        int n = image.width() * image.height();
-        for (int i = 0; i < n; i++) {
-            QRgb p = image.pixel(i / channels, i % channels);
-            audioLevels << uint8_t(qRed(p));
-            audioLevels << uint8_t(qGreen(p));
-            audioLevels << uint8_t(qBlue(p));
-            audioLevels << uint8_t(qAlpha(p));
-        }
-        // populate vector
-        QDataStream st(&audioData, QIODevice::WriteOnly);
-        st << audioLevels;
-        pCore->audioThumbCache.insert(key, audioData);
-    }
-    return audioLevels;*/
+    qWarning() << "Audio levels not found for bin" << m_binId;
+    return {};
 }
 
 void ProjectClip::setClipStatus(FileStatus::ClipStatus status)

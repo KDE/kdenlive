@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "jobs/audiolevelstask.h"
+#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
 #include "jobs/proxytask.h"

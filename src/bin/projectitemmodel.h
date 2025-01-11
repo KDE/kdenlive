@@ -67,8 +67,8 @@ public:
     /** @brief Returns existing masks for a clip */
     const QVector<MaskInfo> getClipMasks(const QString &binId) const;
     /** @brief Returns audio levels for a clip from its id */
-    const QVector <uint8_t>getAudioLevelsByBinID(const QString &binId, int stream);
-    double getAudioMaxLevel(const QString &binId, int stream);
+    const QVector<int16_t> getAudioLevelsByBinID(const QString &binId, int stream);
+    int16_t getAudioMaxLevel(const QString &binId, int stream);
 
     /** @brief Returns a list of clips using the given url */
     QStringList getClipByUrl(const QFileInfo &url) const;
@@ -79,7 +79,7 @@ public:
     /** @brief Gets a folder by its id. If none is found, nullptr is returned */
     std::shared_ptr<ProjectFolder> getFolderByBinId(const QString &binId);
     /** @brief Gets a list of all folders in this project */
-    QList <std::shared_ptr<ProjectFolder> > getFolders();
+    QList<std::shared_ptr<ProjectFolder>> getFolders();
     /** @brief Gets a id folder by its name. If none is found, empty string returned */
     const QString getFolderIdByName(const QString &folderName);
 
@@ -97,7 +97,7 @@ public:
 
     /** @brief Returns the id of all the clips (excluding folders) */
     std::vector<QString> getAllClipIds() const;
-    
+
     /** @brief Updates the list of all created bin thumbnails */
     void updateCacheThumbnail(std::unordered_map<QString, std::vector<int>> &thumbData);
 
@@ -166,9 +166,12 @@ public:
        @param undo,redo: lambdas that are updated to accumulate operation.
        @param readyCallBack: lambda that will be executed when the clip becomes ready. It is given the binId as parameter
     */
-    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
-                           const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
-    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString(), const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
+    bool requestAddBinClip(
+        QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
+        const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
+    bool requestAddBinClip(
+        QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString(),
+        const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 
     /** @brief This is the addition function when we already have a producer for the clip*/
     bool requestAddBinClip(

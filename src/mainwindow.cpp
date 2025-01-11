@@ -26,7 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "docktitlebarmanager.h"
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
-#include "jobs/audiolevelstask.h"
+#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/customjobtask.h"
 #include "jobs/scenesplittask.h"
 #include "jobs/speedtask.h"

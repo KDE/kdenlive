@@ -19,6 +19,10 @@ set(kdenlive_SRCS
   timeline2/view/dialogs/trackdialog.cpp
   timeline2/view/previewmanager.cpp
   timeline2/view/qml/timelineitems.cpp
+  timeline2/view/qml/timelineplayhead.cpp
+  timeline2/view/qml/timelinerecwaveform.cpp
+  timeline2/view/qml/timelinetriangle.cpp
+  timeline2/view/qml/timelinewaveform.cpp
   timeline2/view/qmltypes/thumbnailprovider.cpp
   timeline2/view/timelinecontroller.cpp
   timeline2/view/timelinetabs.cpp

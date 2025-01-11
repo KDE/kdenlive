@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "cropcalculator.h"
 #include "doc/kdenlivedoc.h"
 #include "filewatcher.hpp"
-#include "jobs/audiolevelstask.h"
+#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/cliploadtask.h"
 #include "kdenlivesettings.h"
 #include "lib/localeHandling.h"
@@ -41,11 +41,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStorageInfo>
 #include <QTemporaryFile>
 
+#include <cmath>
 #include <mlt++/Mlt.h>
 #include <queue>
 #include <qvarlengtharray.h>
 #include <utility>
-#include <cmath>
 
 ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
@@ -513,24 +513,24 @@ const QVector<MaskInfo> ProjectItemModel::getClipMasks(const QString &binId) con
     return {};
 }
 
-const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId, int stream)
+const QVector<int16_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId, int stream)
 {
     READ_LOCK();
     auto search = m_allClipItems.find(binId.toInt());
     if (search != m_allClipItems.end()) {
         return search->second->audioFrameCache(stream);
     }
-    return QVector<uint8_t>();
+    return {};
 }
 
-double ProjectItemModel::getAudioMaxLevel(const QString &binId, int stream)
+int16_t ProjectItemModel::getAudioMaxLevel(const QString &binId, int stream)
 {
     READ_LOCK();
     auto search = m_allClipItems.find(binId.toInt());
     if (search != m_allClipItems.end()) {
         return search->second->getAudioMax(stream);
     }
-    return 0;
+    return std::numeric_limits<int16_t>::max();
 }
 
 bool ProjectItemModel::hasClip(const QString &binId)

@@ -24,7 +24,7 @@ Row {
         interval: 50; running: false; repeat: false
         onTriggered: processReload()
     }
-    
+
     onHeightChanged: {
         waveTimer.start()
     }
@@ -71,11 +71,9 @@ Row {
         waveform.totalChunks = total
         if (waveformRepeater.model === undefined || chunks !== waveformRepeater.model) {
             waveformRepeater.model = chunks
-        } else {
-            // Enforce repaint
-            waveformRepeater.repaintNodes = !waveformRepeater.repaintNodes
         }
     }
+
     Item {
         width: waveform.offset * waveform.maxWidth
         height: parent.height
@@ -83,26 +81,25 @@ Row {
 
     Repeater {
         id: waveformRepeater
-        property bool repaintNodes: false
         TimelineWaveform {
             width: waveform.maxWidth < waveform.width ? (index + waveform.offset == waveform.totalChunks - 1 ? waveform.width % waveform.maxWidth : waveform.maxWidth) : Math.round(waveform.width)
             height: waveform.height
-            ix: index
             channels: clipRoot.audioChannels
             binId: clipRoot.binId
             audioStream: clipRoot.audioStream
-            isFirstChunk: (index + waveform.offset) == 0
             isOpaque: true
             scaleFactor: waveform.timeScale
             format: timeline.audioThumbFormat
             normalize: timeline.audioThumbNormalize
             speed: clipRoot.speed
-            waveInPoint: clipRoot.speed < 0 ? (Math.ceil((clipRoot.maxDuration - 1 - clipRoot.inPoint) * Math.abs(clipRoot.speed)  - ((index + waveform.offset) * waveform.maxWidth / waveform.timeScale) * Math.abs(clipRoot.speed)) * clipRoot.audioChannels) : (Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / waveform.timeScale)) * clipRoot.speed) * clipRoot.audioChannels)
-            waveOutPoint: clipRoot.speed < 0 ? Math.max(0, (waveInPoint - Math.round(width / waveform.timeScale * Math.abs(clipRoot.speed)) * clipRoot.audioChannels)) : (waveInPoint + Math.round(width / waveform.timeScale * clipRoot.speed) * clipRoot.audioChannels)
-            fillColor0: clipRoot.color
-            fillColor1: root.thumbColor1
-            fillColor2: root.thumbColor2
-            enforceRepaint: waveformRepeater.repaintNodes
+            property int aWaveInPoint: Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / waveform.timeScale)) * Math.abs(clipRoot.speed))
+            waveInPoint: aWaveInPoint
+            waveOutPoint: aWaveInPoint + Math.round(width / waveform.timeScale * Math.abs(clipRoot.speed))
+            bgColorEven: root.thumbColor1.darker(5)
+            bgColorOdd: root.thumbColor2.darker(5)
+            fgColorEven: root.thumbColor1
+            fgColorOdd: root.thumbColor2
+            drawChannelNames: (index + waveform.offset) == 0
         }
     }
 }

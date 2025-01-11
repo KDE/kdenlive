@@ -197,7 +197,7 @@ public:
 
     /** @brief Returns the number of audio channels. */
     int audioChannels() const;
-     /** @brief get data analysis value. */
+    /** @brief get data analysis value. */
     QStringList updatedAnalysisData(const QString &name, const QString &data, int offset);
     QMap<QString, QString> analysisData(bool withPrefix = false);
     /** @brief Returns the list of this clip's subclip's ids. */
@@ -228,7 +228,8 @@ public:
            - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
            - if false, then the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
     */
-    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid, bool secondPlaylist = false);
+    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,
+                                                                                     PlaylistState::ClipState state, int tid, bool secondPlaylist = false);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false, bool timelineProducer = false);
     void cloneProducerToFile(const QString &path, bool thumbsProducer = false);
@@ -246,7 +247,7 @@ public:
 
     /** @brief Return audio cache for a stream
      */
-    const QVector <uint8_t> audioFrameCache(int stream = -1);
+    QVector<int16_t> audioFrameCache(int streamIdx) const;
     /** @brief Return FFmpeg's audio stream index for an MLT audio stream index
      */
     int getAudioStreamFfmpegIndex(int mltStream);
@@ -271,7 +272,7 @@ public:
     void updateTimelineOnReload();
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
-    int getAudioMax(int stream);
+    int16_t getAudioMax(int streamIdx) const;
     /** @brief A timeline clip was modified, reload its other timeline instances. */
     void reloadTimeline(std::shared_ptr<EffectStackModel> stack = nullptr);
     /** @brief Copy sequence clip timewarp producers to a new location (when saving / rendering). */
@@ -404,9 +405,7 @@ private:
     QMutex m_producerMutex;
     QByteArray m_thumbXml;
     const QString geometryWithOffset(const QString &data, int offset);
-    QMap <QString, QByteArray> m_audioLevels;
     QVector<MaskInfo> m_masks;
-    QProcess m_exportProcess;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
     bool m_resetTimelineOccurences;
     QTimer m_boundaryTimer;
@@ -428,7 +427,7 @@ Q_SIGNALS:
     void loadPropertiesPanel();
     void audioThumbReady();
     void updateStreamInfo(int ix);
-    void boundsChanged(QVector <QPoint>bounds);
+    void boundsChanged(QVector<QPoint> bounds);
     void registeredClipChanged();
     void firstFrameExported();
     void masksUpdated();

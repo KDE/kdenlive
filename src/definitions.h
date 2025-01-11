@@ -126,7 +126,7 @@ namespace FileStatus {
 Q_NAMESPACE
 enum ClipStatus { StatusReady = 0, StatusProxy, StatusMissing, StatusWaiting, StatusDeleting, StatusProxyOnly };
 Q_ENUM_NS(ClipStatus)
-} // namespace PlaylistState
+} // namespace FileStatus
 
 // returns a pair corresponding to (video, audio)
 std::pair<bool, bool> stateToBool(PlaylistState::ClipState state);
@@ -158,7 +158,7 @@ enum AssetType {
     Hidden = -1
 };
 Q_ENUM_NS(AssetType)
-}
+} // namespace AssetListType
 
 namespace ClipType {
 Q_NAMESPACE
@@ -218,18 +218,9 @@ Q_ENUM_NS(KeyframeEnum)
 
 namespace ToolType {
 Q_NAMESPACE
-enum ProjectTool {
-    SelectTool = 0,
-    RazorTool = 1,
-    SpacerTool = 2,
-    RippleTool = 3,
-    RollTool = 4,
-    SlipTool = 5,
-    SlideTool = 6,
-    MulticamTool = 7
-};
+enum ProjectTool { SelectTool = 0, RazorTool = 1, SpacerTool = 2, RippleTool = 3, RollTool = 4, SlipTool = 5, SlideTool = 6, MulticamTool = 7 };
 Q_ENUM_NS(ProjectTool)
-}
+} // namespace ToolType
 
 enum MonitorSceneType {
     MonitorSceneNone = 0,
@@ -390,7 +381,7 @@ private:
 class SubtitleEvent
 {
 public:
-    SubtitleEvent(){};
+    SubtitleEvent() {};
     // Create a subtitle event from a string, and pass the layer & start time through the pointer if needed
     SubtitleEvent(const QString &eventString, const double fps, const double factor = 1., std::pair<int, GenTime> *start = nullptr);
     SubtitleEvent(bool isDialogue, const GenTime &end, const QString &styleName, const QString &name, int marginL, int marginR, int marginV,
@@ -462,7 +453,7 @@ private:
 class SubtitleStyle
 {
 public:
-    SubtitleStyle(){};
+    SubtitleStyle() {};
     SubtitleStyle(QString styleString);
     SubtitleStyle(QString fontName, double fontSize, QColor primaryColour, QColor secondaryColour, QColor outlineColour, QColor backColour, bool bold,
                   bool italic, bool underline, bool strikeOut, double scaleX, double scaleY, double spacing, double angle, int borderStyle, double outline,
@@ -634,3 +625,5 @@ public:
 public: // actually private, but avoids compiler template friendship issues
     mutable std::weak_ptr<T> weak_this_;
 };
+
+constexpr int AUDIOLEVELS_POINTS_PER_FRAME = 5;

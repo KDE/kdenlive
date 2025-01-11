@@ -36,7 +36,7 @@ public:
     bool checkSetup(bool requestInstall = false, bool *newInstall = nullptr);
     /** @brief Check if the Python venv is setup correctly, if not create it if requested.
      *  @returns true if the venv is setup properly or was created sucessfully, otherwiese false
-      */
+     */
     bool checkVenv(bool calculateSize = false, bool forceInstall = false);
     /** @brief Check which versions of the dependencies are installed.
         @param Whether checkVersionsResult() will be emitted once the result is available.

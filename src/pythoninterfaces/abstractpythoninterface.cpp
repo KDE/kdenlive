@@ -269,7 +269,8 @@ bool AbstractPythonInterface::checkVenv(bool calculateSize, bool forceInstall)
     return checkVenv(calculateSize, false);
 }
 
-void AbstractPythonInterface::calculateVenvSize() {
+void AbstractPythonInterface::calculateVenvSize()
+{
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     if (pluginDir.cd(getVenvPath())) {
         KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(pluginDir.absolutePath()));

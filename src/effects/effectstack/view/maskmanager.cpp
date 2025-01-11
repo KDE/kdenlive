@@ -324,8 +324,8 @@ void MaskManager::deleteMask()
     const QString maskName = item->text(0);
     QFile file(maskFile);
     if (file.exists()) {
-        if (KMessageBox::warningContinueCancel(
-                this, i18n("This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone.", maskName, maskFile)) != KMessageBox::Continue) {
+        if (KMessageBox::warningContinueCancel(this, i18n("This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone.", maskName, maskFile)) !=
+            KMessageBox::Continue) {
             return;
         }
         file.remove();

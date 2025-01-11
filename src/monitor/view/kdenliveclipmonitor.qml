@@ -14,7 +14,9 @@ Item {
     id: root
     objectName: "root"
 
-    SystemPalette { id: activePalette }
+    SystemPalette {
+        id: activePalette
+    }
 
     // default size, but scalable by user
     height: 300; width: 400
@@ -29,13 +31,13 @@ Item {
     // Zoombar properties
     // The start position of the zoomed area, between 0 and 1
     property double zoomStart: 0
-    // The zoom factor (between 0 and 1). 0.5 means 2x zoom
+    // The zoom factor (between 0 and 1). 1 means no zoom, 0.5 means 2x zoom
     property double zoomFactor: 1
     // The pixel height of zoom bar, used to offset markers info
     property int zoomOffset: 0
     property bool showZoomBar: false
-    property double offsetx : 0
-    property double offsety : 0
+    property double offsetx: 0
+    property double offsety: 0
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false
@@ -50,7 +52,7 @@ Item {
     property bool showToolbar: false
     property string clipName: controller.clipName
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
-    property int duration: 300
+    property int duration: 300 // last selectable frame of the timecode display
     property int mouseRulerPos: 0
     property double frameSize: 10
     property double timeScale: 1
@@ -66,7 +68,7 @@ Item {
     function updateClickCapture() {
         root.captureRightClick = false
     }
-    
+
     FontMetrics {
         id: fontMetrics
         font: fixedFont
@@ -78,15 +80,15 @@ Item {
     }
 
     signal editCurrentMarker()
+
     signal endDrag()
 
-    function updateScrolling()
-    {
+    function updateScrolling() {
         if (thumbMouseArea.pressed) {
             var pos = Math.max(thumbMouseArea.mouseX, 0)
-            pos += audioThumb.width/root.zoomFactor * root.zoomStart
+            pos += audioThumb.width / root.zoomFactor * root.zoomStart
             controller.setPosition(Math.min(pos / root.timeScale, root.duration));
-            
+
         }
     }
 
@@ -111,7 +113,7 @@ Item {
             controller.rulerHeight = root.zoomOffset
         }
     }
-    
+
     onZoomOffsetChanged: {
         if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
@@ -119,10 +121,10 @@ Item {
             controller.rulerHeight = root.zoomOffset
         }
     }
-    
+
     onHeightChanged: {
         if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
-            controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight)/ 6) + root.zoomOffset
+            controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
         }
@@ -150,7 +152,7 @@ Item {
         onPositionChanged: mouse => {
             if (mouse.modifiers & Qt.ShiftModifier) {
                 var pos = Math.max(mouseX, 0)
-                pos += width/root.zoomFactor * root.zoomStart
+                pos += width / root.zoomFactor * root.zoomStart
                 controller.setPosition(Math.min(pos / root.timeScale, root.duration));
             }
         }
@@ -198,8 +200,7 @@ Item {
             Loader {
                 anchors.fill: parent
                 source: {
-                    switch(root.overlayType)
-                    {
+                    switch (root.overlayType) {
                         case 0:
                             return '';
                         case 1:
@@ -263,7 +264,7 @@ Item {
                         color: "#222277"
                     }
                     visible: text != ""
-                    padding :4
+                    padding: 4
                 }
                 onStateVisibleChanged: {
                     // adjust monitor image size
@@ -275,14 +276,25 @@ Item {
                 }
 
                 states: [
-                    State { when: audioThumb.stateVisible || audioThumb.isAudioClip;
-                        PropertyChanges {   target: audioThumb; opacity: 1.0    } },
-                    State { when: !audioThumb.stateVisible && !audioThumb.isAudioClip;
-                        PropertyChanges {   target: audioThumb; opacity: 0.0    } }
+                    State {
+                        when: audioThumb.stateVisible || audioThumb.isAudioClip;
+                        PropertyChanges {
+                            target: audioThumb; opacity: 1.0
+                        }
+                    },
+                    State {
+                        when: !audioThumb.stateVisible && !audioThumb.isAudioClip;
+                        PropertyChanges {
+                            target: audioThumb; opacity: 0.0
+                        }
+                    }
                 ]
-                transitions: [ Transition {
-                    NumberAnimation { property: "opacity"; duration: audioThumb.isAudioClip ? 0 : 500}
-                } ]
+                transitions: [Transition {
+                    NumberAnimation {
+                        property: "opacity";
+                        duration: audioThumb.isAudioClip ? 0 : 500
+                    }
+                }]
                 Rectangle {
                     color: "black"
                     opacity: audioThumb.isAudioClip || root.permanentAudiothumb ? 1 : 0.6
@@ -292,7 +304,7 @@ Item {
                     color: "yellow"
                     opacity: 0.3
                     height: parent.height
-                    x: controller.zoneIn * timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                    x: controller.zoneIn * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
                     width: (controller.zoneOut - controller.zoneIn) * timeScale
                     visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
                 }
@@ -314,14 +326,14 @@ Item {
                             channels: aChannels
                             binId: controller.clipId
                             audioStream: controller.audioStreams[model.index]
-                            isFirstChunk: false
                             format: controller.audioThumbFormat
                             normalize: controller.audioThumbNormalize
-                            scaleFactor: audioThumb.width / (root.duration - 1) / root.zoomFactor
-                            waveInPoint: (root.duration - 1) * root.zoomStart * aChannels
-                            waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * aChannels
-                            fillColor1: root.thumbColor1
-                            fillColor2: root.thumbColor2
+                            property int aClipDuration: root.duration + 1
+                            scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
+                            waveInPoint: aClipDuration * root.zoomStart
+                            waveOutPoint: aClipDuration * (root.zoomStart + root.zoomFactor)
+                            fgColorEven: root.thumbColor1
+                            fgColorOdd: root.thumbColor2
                         }
                         Rectangle {
                             width: parent.width
@@ -336,7 +348,7 @@ Item {
                     color: "red"
                     width: 1
                     height: parent.height
-                    x: controller.position * timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                    x: controller.position * timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
                 }
                 MouseArea {
                     id: thumbMouseArea
@@ -360,7 +372,7 @@ Item {
                             return
                         }
                         var pos = Math.max(mouseX, 0)
-                        pos += audioThumb.width/root.zoomFactor * root.zoomStart
+                        pos += audioThumb.width / root.zoomFactor * root.zoomStart
                         controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                     }
                     onPositionChanged: mouse => {
@@ -370,7 +382,7 @@ Item {
                         }
                         if (mouse.modifiers & Qt.ShiftModifier || pressed) {
                             var pos = Math.max(mouseX, 0)
-                            pos += audioThumb.width/root.zoomFactor * root.zoomStart
+                            pos += audioThumb.width / root.zoomFactor * root.zoomStart
                             controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                         }
                     }
@@ -386,7 +398,7 @@ Item {
                         } else {
                             wheel.accepted = false
                         }
-                        
+
                     }
                     Rectangle {
                         id: audioSeekZone
@@ -468,7 +480,9 @@ Item {
                     SequentialAnimation {
                         id: showAnimate
                         running: false
-                        NumberAnimation { target: labelContainer; duration: 3000 }
+                        NumberAnimation {
+                            target: labelContainer; duration: 3000
+                        }
                         onStarted: {
                             contextMenu.opacity = 1
                         }
@@ -482,7 +496,10 @@ Item {
                     ParallelAnimation {
                         id: fadeAnimate
                         running: false
-                        NumberAnimation { target: labelContainer; property: "opacity"; to: 0; duration: 1000 }
+                        NumberAnimation {
+                            target: labelContainer; property: "opacity";
+                            to: 0; duration: 1000
+                        }
                     }
                     onClicked: {
                         if (controller.lastClips.length > 1) {
@@ -572,7 +589,7 @@ Item {
                 background: Rectangle {
                     color: "#228b22"
                 }
-                padding:4
+                padding: 4
                 horizontalAlignment: TextInput.AlignHCenter
                 MouseArea {
                     id: inPointArea
@@ -641,8 +658,8 @@ Item {
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
             radius: 4
-            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse || dragAudioArea.pressed || dragVideoArea.pressed
-                      || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
+            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse || thumbMouseArea.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse || dragAudioArea.pressed || dragVideoArea.pressed
+                || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
             visible: controller.clipHasAV
             onOpacityChanged: {
                 if (opacity == 1) {
@@ -662,8 +679,8 @@ Item {
                     Drag.active: dragVideoArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "text/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
-                        "text/dragid" : dragZone.uuid
+                        "text/producerslist": "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "text/dragid": dragZone.uuid
                     }
                     Drag.onDragStarted: {
                         dragZone.uuid = controller.getUuid()
@@ -696,8 +713,8 @@ Item {
                     Drag.active: dragAudioArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "text/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
-                        "text/dragid" : dragZone.uuid
+                        "text/producerslist": "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "text/dragid": dragZone.uuid
                     }
                     Drag.onDragStarted: {
                         dragZone.uuid = controller.getUuid()
@@ -805,13 +822,13 @@ Item {
         visible: root.duration > 0
         height: controller.rulerHeight
         Repeater {
-            model:controller.clipBounds
+            model: controller.clipBounds
             anchors.fill: parent
             Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: 1
                 property point bd: controller.clipBoundary(model.index)
-                x: bd.x * root.timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                x: bd.x * root.timeScale - (audioThumb.width / root.zoomFactor * root.zoomStart)
                 width: bd.y * root.timeScale
                 height: 2
                 color: 'goldenrod'

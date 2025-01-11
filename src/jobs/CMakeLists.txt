@@ -5,7 +5,8 @@ set(kdenlive_SRCS
   ${kdenlive_SRCS}
   jobs/abstracttask.cpp
   jobs/taskmanager.cpp
-  jobs/audiolevelstask.cpp
+  jobs/audiolevels/audiolevelstask.cpp
+  jobs/audiolevels/generators.cpp
   jobs/cliploadtask.cpp
   jobs/proxytask.cpp
   jobs/stabilizetask.cpp

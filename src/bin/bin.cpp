@@ -25,7 +25,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "filefilter.h"
 #include "glaxnimatelauncher.h"
 #include "jobs/abstracttask.h"
-#include "jobs/audiolevelstask.h"
+#include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/cliploadtask.h"
 #include "jobs/taskmanager.h"
 #include "jobs/transcodetask.h"

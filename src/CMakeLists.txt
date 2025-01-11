@@ -185,6 +185,9 @@ target_link_libraries(kdenliveLib
     Qt${QT_MAJOR_VERSION}::SvgWidgets
 )
 
+target_link_libraries(kdenliveLib
+    PkgConfig::LIBAV)
+
 if(WIN32)
     target_link_libraries(kdenliveLib d3d11 d3dcompiler)
 endif()
