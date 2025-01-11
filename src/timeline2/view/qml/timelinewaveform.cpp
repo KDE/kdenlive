@@ -132,8 +132,14 @@ void TimelineWaveform::compute()
         for (int i = 0; i < outputPoints; i++) {
             int16_t maxValue = 0;
             for (int ch = 0; ch < m_channels; ch++) {
+                if (i * m_channels + ch >= m_audioLevels.size()) {
+                    break;
+                }
                 const auto val = m_audioLevels[i * m_channels + ch];
                 maxValue = std::max(maxValue, val);
+            }
+            if (i >= m_audioLevels.size()) {
+                break;
             }
             m_audioLevels[i] = maxValue;
         }
