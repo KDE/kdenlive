@@ -97,30 +97,30 @@ void TimelineWaveform::compute()
     const auto inPoint = static_cast<int>(m_inPoint);
     const auto outPoint = static_cast<int>(m_outPoint);
 
-    if (outPoint <= inPoint) {
+    if (inPoint < 0 || outPoint < 0 || outPoint <= inPoint) {
         return;
     }
 
     const auto clipLength = levels.size() / AUDIOLEVELS_POINTS_PER_FRAME / m_channels;
-    if (outPoint >= clipLength) { // pad the levels so we don't read uninitialized memory
-        levels.resize(outPoint * AUDIOLEVELS_POINTS_PER_FRAME * m_channels);
+    if (inPoint >= clipLength || outPoint > clipLength) {
+        qWarning() << "TimelineWaveform asked to draw out of bounds: inPoint=" << inPoint << "outPoint=" << outPoint << " but clipLength=" << clipLength;
+        return;
     }
 
     const double timescale = m_scale / std::abs(m_speed);
     const int length = outPoint - inPoint;
     const int inputPoints = AUDIOLEVELS_POINTS_PER_FRAME * length;
-    const int outputPoints = std::round(length * timescale);
-
-    m_pointsPerPixel = static_cast<double>(AUDIOLEVELS_POINTS_PER_FRAME) / timescale;
     const bool reverse = m_speed < 0;
+    m_pointsPerPixel = static_cast<double>(AUDIOLEVELS_POINTS_PER_FRAME) / timescale;
 
     if (m_pointsPerPixel > 1) {
         // Resample the levels and store them
+        const int outputPoints = std::round(length * timescale);
         m_audioLevels.resize(outputPoints * m_channels);
         computePeaks(&levels[inPoint * AUDIOLEVELS_POINTS_PER_FRAME * m_channels], m_audioLevels.data(), m_channels, inputPoints, outputPoints);
     } else {
         // Just extract the part to be displayed
-        m_audioLevels = levels.mid(inPoint * AUDIOLEVELS_POINTS_PER_FRAME * m_channels, outputPoints * m_channels);
+        m_audioLevels = levels.mid(inPoint * AUDIOLEVELS_POINTS_PER_FRAME * m_channels, inputPoints * m_channels);
     }
 
     if (reverse) {
@@ -129,21 +129,16 @@ void TimelineWaveform::compute()
 
     if (!m_separateChannels) {
         // merge all channels into one (in-place operation)
-        for (int i = 0; i < outputPoints; i++) {
+        const int points = m_audioLevels.size() / m_channels;
+        for (int i = 0; i < points; i++) {
             int16_t maxValue = 0;
             for (int ch = 0; ch < m_channels; ch++) {
-                if (i * m_channels + ch >= m_audioLevels.size()) {
-                    break;
-                }
                 const auto val = m_audioLevels[i * m_channels + ch];
                 maxValue = std::max(maxValue, val);
             }
-            if (i >= m_audioLevels.size()) {
-                break;
-            }
             m_audioLevels[i] = maxValue;
         }
-        m_audioLevels.resize(outputPoints);
+        m_audioLevels.resize(points);
     }
 
     m_needRecompute = false;
