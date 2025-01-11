@@ -258,7 +258,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     aBox->addWidget(new QLabel(i18n("Analysis data")));
     aBox->addWidget(m_analysisTree);
     auto *bar2 = new QToolBar;
-    bar2->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
+    bar2->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
     bar2->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the data set(s)."));
     bar2->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis…"), this, SLOT(slotSaveAnalysis()));
     bar2->setWhatsThis(xi18nc("@info:whatsthis", "Opens a file dialog window to export/save the analysis data."));
