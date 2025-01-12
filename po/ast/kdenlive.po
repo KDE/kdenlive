@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-10 09:27+0000\n"
+"POT-Creation-Date: 2025-01-12 00:41+0000\n"
 "PO-Revision-Date: 2024-03-27 23:13+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -5436,8 +5436,8 @@ msgstr ""
 msgid "Edit Tags"
 msgstr ""
 
-#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:187
-#: src/bin/projectclip.cpp:2024 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:188
+#: src/bin/projectclip.cpp:2018 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6017,54 +6017,54 @@ msgstr ""
 msgid "Sequence count"
 msgstr ""
 
-#: src/bin/projectclip.cpp:245
+#: src/bin/projectclip.cpp:246
 #, kde-format
 msgid "Timeline sequence"
 msgstr ""
 
-#: src/bin/projectclip.cpp:544 src/timeline2/view/qml/Clip.qml:1128
+#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1128
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr ""
 
-#: src/bin/projectclip.cpp:625
+#: src/bin/projectclip.cpp:619
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:919
+#: src/bin/projectclip.cpp:913
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1175 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1169 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1404 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1398 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2618
+#: src/bin/projectclip.cpp:2611
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2858
+#: src/bin/projectclip.cpp:2800
 #, kde-format
 msgid "Add stream effect"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2883
+#: src/bin/projectclip.cpp:2825
 #, kde-format
 msgid "Remove stream effect"
 msgstr ""
@@ -10431,7 +10431,7 @@ msgstr ""
 msgid "Generating mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:328
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -10482,17 +10482,17 @@ msgstr ""
 msgid "Item is not an animation clip"
 msgstr ""
 
-#: src/jobs/audiolevelstask.cpp:35
+#: src/jobs/audiolevels/audiolevelstask.cpp:31
 #, kde-format
 msgid "Audio thumbs"
 msgstr ""
 
-#: src/jobs/audiolevelstask.cpp:72 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevels/audiolevelstask.cpp:130
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr ""
 
-#: src/jobs/audiolevelstask.cpp:80
+#: src/jobs/audiolevels/audiolevelstask.cpp:138
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr ""
@@ -14129,7 +14129,7 @@ msgid "Move Toolbar"
 msgstr ""
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:169
-#: src/monitor/view/kdenliveclipmonitor.qml:169
+#: src/monitor/view/kdenliveclipmonitor.qml:171
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14140,34 +14140,34 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:537
-#: src/monitor/view/kdenliveclipmonitor.qml:537
+#: src/monitor/view/kdenliveclipmonitor.qml:554
 #: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr ""
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:570
+#: src/monitor/view/kdenliveclipmonitor.qml:587
 #, kde-format
 msgid "In/Out Point"
 msgstr ""
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:570
+#: src/monitor/view/kdenliveclipmonitor.qml:587
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr ""
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:592
-#: src/monitor/view/kdenliveclipmonitor.qml:592
+#: src/monitor/view/kdenliveclipmonitor.qml:609
 #: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr ""
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:759
-#: src/monitor/view/kdenliveclipmonitor.qml:759
+#: src/monitor/view/kdenliveclipmonitor.qml:776
 #, kde-format
 msgid "Terminate Job"
 msgstr ""
@@ -15846,7 +15846,7 @@ msgid "Video transcode"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:710
+#: src/pythoninterfaces/abstractpythoninterface.cpp:711
 #, kde-format
 msgid "Install missing dependencies"
 msgstr ""
@@ -15911,7 +15911,7 @@ msgid ""
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:324
+#: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -15919,25 +15919,25 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:349
-#: src/pythoninterfaces/abstractpythoninterface.cpp:351
+#: src/pythoninterfaces/abstractpythoninterface.cpp:350
+#: src/pythoninterfaces/abstractpythoninterface.cpp:352
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:368
+#: src/pythoninterfaces/abstractpythoninterface.cpp:369
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:442
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:476
+#: src/pythoninterfaces/abstractpythoninterface.cpp:477
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -15945,51 +15945,51 @@ msgid ""
 "happen offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
-#: src/pythoninterfaces/abstractpythoninterface.cpp:606
+#: src/pythoninterfaces/abstractpythoninterface.cpp:497
+#: src/pythoninterfaces/abstractpythoninterface.cpp:607
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:511
+#: src/pythoninterfaces/abstractpythoninterface.cpp:512
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:515
+#: src/pythoninterfaces/abstractpythoninterface.cpp:516
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:519
+#: src/pythoninterfaces/abstractpythoninterface.cpp:520
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:541
+#: src/pythoninterfaces/abstractpythoninterface.cpp:542
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:550
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:641
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:646
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:681
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -20210,7 +20210,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
 #, kde-format
-msgid "Enable Builtin Effects"
+msgid "Enable Built-in Effects"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)

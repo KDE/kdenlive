@@ -1,14 +1,14 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Stefan Asserhall <stefan.asserhall@gmail.com>
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Stefan Asserhall <stefan.asserhall@gmail.com>
 # SPDX-FileCopyrightText: 2024 Stefan Asserhäll <stefan.asserhall@bredband.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-10 09:27+0000\n"
-"PO-Revision-Date: 2024-12-04 18:06+0100\n"
+"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"PO-Revision-Date: 2025-01-11 22:00+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4062,10 +4062,9 @@ msgstr ""
 "alla klipp i gruppen."
 
 #: src/assets/assetpanel.cpp:102
-#, fuzzy, kde-format
-#| msgid "Create new points."
+#, kde-format
 msgid "Create an object mask"
-msgstr "Skapa nya punkter."
+msgstr ""
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -4171,14 +4170,9 @@ msgstr "Korg %1 effekter"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:136
 #: src/jobs/masktask.cpp:96
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
 msgstr ""
-"Misslyckades skapa klipp:\n"
-"%1"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
@@ -4869,14 +4863,9 @@ msgid "None (Dissolve)"
 msgstr "Ingen (lös upp)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
 msgstr ""
-"Kan inte skapa en tidslinje från klippet:\n"
-"%1"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -5775,8 +5764,8 @@ msgstr "Markera ett klipp för att lägga till en etikett"
 msgid "Edit Tags"
 msgstr "Redigera etiketter"
 
-#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:187
-#: src/bin/projectclip.cpp:2024 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:188
+#: src/bin/projectclip.cpp:2018 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6371,18 +6360,18 @@ msgstr "version"
 msgid "Sequence count"
 msgstr "Sekvensräkning"
 
-#: src/bin/projectclip.cpp:245
+#: src/bin/projectclip.cpp:246
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Tidslinjesekvens"
 
-#: src/bin/projectclip.cpp:544 src/timeline2/view/qml/Clip.qml:1128
+#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1128
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:625
+#: src/bin/projectclip.cpp:619
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -6391,7 +6380,7 @@ msgstr ""
 "Bilddimension mindre än 8 bildpunkter.\n"
 "Det stöds för närvarande inte av vårt videoramverk."
 
-#: src/bin/projectclip.cpp:919
+#: src/bin/projectclip.cpp:913
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6400,29 +6389,29 @@ msgstr ""
 "Kan inte extrahera metadata från %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1175 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1169 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Ogiltig"
 
-#: src/bin/projectclip.cpp:1404 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1398 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "Filen finns redan"
 
-#: src/bin/projectclip.cpp:2618
+#: src/bin/projectclip.cpp:2611
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Justera tidslinjeklipp"
 
-#: src/bin/projectclip.cpp:2858
+#: src/bin/projectclip.cpp:2800
 #, kde-format
 msgid "Add stream effect"
 msgstr "Lägg till strömningseffekt"
 
-#: src/bin/projectclip.cpp:2883
+#: src/bin/projectclip.cpp:2825
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ta bort strömningseffekt"
@@ -8075,10 +8064,9 @@ msgid "Colors and Guides"
 msgstr "Färger och flaggor"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:98
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugins"
-msgstr "TAP-insticksprogram"
+msgstr "Insticksprogram"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
@@ -8379,14 +8367,12 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
-#, fuzzy, kde-format
-#| msgid "Install model"
+#, kde-format
 msgid "Install"
-msgstr "Installera modell"
+msgstr "Installera"
 
 #: src/dialogs/settings/pluginssettings.cpp:356
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#, kde-format
 msgid "Check config"
 msgstr "Kontrollera inställning"
 
@@ -8394,34 +8380,28 @@ msgstr "Kontrollera inställning"
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "Original size"
+#, kde-format
 msgid "Plugin size"
-msgstr "Ursprunglig storlek"
+msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:378
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "Det här tar bort stilen <b>%1</b> och alla dess egenskaper."
+msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:395
 #: src/dialogs/settings/pluginssettings.cpp:409
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"Tar bort den virtuella Python-miljön från:<br/><b>%1</b><br/>Miljön kommer "
-"att återskapas och moduler laddas ner när du återaktiverar den virtuella "
-"Python-miljön."
+"Tar bort insticksprogrammets Python-miljö från:<br/><b>%1</b><br/>Miljön "
+"kommer att återskapas och moduler laddas ner när du återaktiverar "
+"insticksprogrammet."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
@@ -8430,16 +8410,14 @@ msgid "Install multilingual translation"
 msgstr "Installera flerspråksöversättning"
 
 #: src/dialogs/settings/pluginssettings.cpp:433
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Installera en talmodell. Vi rekommenderar <b>turbo</b>"
 
 #: src/dialogs/settings/pluginssettings.cpp:488
-#, fuzzy, kde-format
-#| msgid "Select new models to download"
+#, kde-format
 msgid "Select model to download"
-msgstr "Välj nya modeller att ladda ner"
+msgstr "Välj modell att ladda ner"
 
 #: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
@@ -8447,23 +8425,20 @@ msgid "All models are already installed"
 msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:524
-#, fuzzy, kde-format
-#| msgid "Downloading"
+#, kde-format
 msgid "Downloading…"
-msgstr "Laddar ner"
+msgstr "Laddar ner…"
 
 #: src/dialogs/settings/pluginssettings.cpp:534
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "Laddar ner modell…"
+msgstr "Laddar ner minsta modell…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
-#, fuzzy, kde-format
-#| msgid "Download Model"
+#, kde-format
 msgid "Download models"
-msgstr "Ladda ner modell"
+msgstr "Ladda ner modeller"
 
 #: src/dialogs/settings/pluginssettings.cpp:612
 #: src/dialogs/settings/pluginssettings.cpp:626
@@ -10444,26 +10419,23 @@ msgid "Proxy clips are not intended for compositing or color grading."
 msgstr ""
 
 #: src/doc/kdenlivedoc.cpp:1611
-#, fuzzy, kde-format
-#| msgid "copied to the alpha channel."
+#, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] "kopierad till alfakanalen."
-msgstr[1] "kopierad till alfakanalen."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/doc/kdenlivedoc.cpp:1617
-#, fuzzy, kde-format
-#| msgid "copied to the alpha channel."
+#, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] "kopierad till alfakanalen."
-msgstr[1] "kopierad till alfakanalen."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/doc/kdenlivedoc.cpp:1619
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Ersättningsklipp"
+msgstr ""
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
@@ -10994,32 +10966,27 @@ msgstr ""
 "Spara effekt utan beskrivning?"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "Anpassa tal-till-text."
+msgstr "Anpassa SAM2-insticksprogrammet"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "Ange förinställningens namn"
+msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
+#, kde-format
 msgid "Enter the name of this mask:"
-msgstr "Ange namnet på förinställningen:"
+msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:211
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating mask %1"
-msgstr "Skapar menybilder"
+msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:328
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11071,17 +11038,17 @@ msgstr "Misslyckades starta programmet Glaxnimate"
 msgid "Item is not an animation clip"
 msgstr "Objektet är inte ett animeringsklipp"
 
-#: src/jobs/audiolevelstask.cpp:35
+#: src/jobs/audiolevels/audiolevelstask.cpp:31
 #, kde-format
 msgid "Audio thumbs"
 msgstr "Ljudminiatyrer"
 
-#: src/jobs/audiolevelstask.cpp:72 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevels/audiolevelstask.cpp:130
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Ljudminiatyrer: kan inte öppna filen %1"
 
-#: src/jobs/audiolevelstask.cpp:80
+#: src/jobs/audiolevels/audiolevelstask.cpp:138
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "Ljudminiatyrer: okänd fillängd för %1"
@@ -11221,22 +11188,19 @@ msgid "Failed to filter source."
 msgstr "Misslyckades filtrera källa."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "X axis rotation"
+#, kde-format
 msgid "Mask creation"
-msgstr "X-axelrotation"
+msgstr ""
 
 #: src/jobs/masktask.cpp:44
-#, fuzzy, kde-format
-#| msgid "No keyframes to import"
+#, kde-format
 msgid "No source frames to process"
-msgstr "Inga nyckelbilder att importera"
+msgstr ""
 
 #: src/jobs/masktask.cpp:75
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
-msgstr "Misslyckades analysera klipp."
+msgstr ""
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14843,7 +14807,7 @@ msgid "Move Toolbar"
 msgstr "Förflyttningsverktygsrad"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:169
-#: src/monitor/view/kdenliveclipmonitor.qml:169
+#: src/monitor/view/kdenliveclipmonitor.qml:171
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14858,34 +14822,34 @@ msgstr ""
 "för att söka, <shortcut>Ctrl mushjul</shortcut> för att zooma"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:537
-#: src/monitor/view/kdenliveclipmonitor.qml:537
+#: src/monitor/view/kdenliveclipmonitor.qml:554
 #: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr "%1 bilder/s"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:570
+#: src/monitor/view/kdenliveclipmonitor.qml:587
 #, kde-format
 msgid "In/Out Point"
 msgstr "In-utpunkt"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:570
+#: src/monitor/view/kdenliveclipmonitor.qml:587
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr "Inpunkt"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:592
-#: src/monitor/view/kdenliveclipmonitor.qml:592
+#: src/monitor/view/kdenliveclipmonitor.qml:609
 #: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr "Utpunkt"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:759
-#: src/monitor/view/kdenliveclipmonitor.qml:759
+#: src/monitor/view/kdenliveclipmonitor.qml:776
 #, kde-format
 msgid "Terminate Job"
 msgstr "Avbryt jobb"
@@ -14907,10 +14871,9 @@ msgid "Transform"
 msgstr "Transformera"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:259
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating image mask"
-msgstr "Skapar menybilder"
+msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
@@ -14926,10 +14889,9 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:270
-#, fuzzy, kde-format
-#| msgid "Preview volume:"
+#, kde-format
 msgid "Previewing video mask"
-msgstr "Förhandsgranskningens volym:"
+msgstr ""
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -14987,39 +14949,34 @@ msgstr ""
 "högerklicka eller tryck på returtangenten för att sluta form."
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "Generera"
+msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "Ändra ogenomskinlighet (0 % - 25 % - 50 % - 100 %)"
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Padding Color"
+#, kde-format
 msgid "Change Color"
-msgstr "Vadderingsfärg"
+msgstr "Ändra färg"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "Invertera"
+msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "Redigera längd"
+msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "Lägg till förhandsgranskningszon"
+msgstr "Avsluta förhandsgranskning"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -16700,7 +16657,7 @@ msgid "Video transcode"
 msgstr "Video-omkodning"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:710
+#: src/pythoninterfaces/abstractpythoninterface.cpp:711
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Installera saknade beroenden"
@@ -16765,7 +16722,7 @@ msgid ""
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:324
+#: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -16776,8 +16733,8 @@ msgstr ""
 "Om det redan är installerat, kontrollera att det är installerat i en katalog "
 "som listas i miljövariabeln PATH."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:349
-#: src/pythoninterfaces/abstractpythoninterface.cpp:351
+#: src/pythoninterfaces/abstractpythoninterface.cpp:350
+#: src/pythoninterfaces/abstractpythoninterface.cpp:352
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -16786,76 +16743,70 @@ msgstr ""
 "Kan inte skapa Python virtuell miljö:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:368
+#: src/pythoninterfaces/abstractpythoninterface.cpp:369
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Skriptet %1 hittades inte. Kontrollera installationen."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:442
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Python-modulen <application>%1</application> krävs."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:476
-#, fuzzy, kde-format
-#| msgid ""
-#| "This requires an internet connection and will take several minutes to "
-#| "download all necessary dependencies. After that all processing will "
-#| "happen offline."
+#: src/pythoninterfaces/abstractpythoninterface.cpp:477
+#, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
-"Det kräver en Internetanslutning och det tar flera minuter att ladda ner "
-"alla nödvändiga beroenden. Därefter sker all behandling i nedkopplat läge."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
-#: src/pythoninterfaces/abstractpythoninterface.cpp:606
+#: src/pythoninterfaces/abstractpythoninterface.cpp:497
+#: src/pythoninterfaces/abstractpythoninterface.cpp:607
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Internt fel: Kan inte hitta beroendelista"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:511
+#: src/pythoninterfaces/abstractpythoninterface.cpp:512
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Fel vid kontroll av version för modul %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:515
+#: src/pythoninterfaces/abstractpythoninterface.cpp:516
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Åtminstone version %1 krävs för modul %2, men den nuvarande versionen är %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:519
+#: src/pythoninterfaces/abstractpythoninterface.cpp:520
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Överväg att uppdatera din konfiguration."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:541
+#: src/pythoninterfaces/abstractpythoninterface.cpp:542
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "saknas (valfri)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:550
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Ingen versionsinformation tillgänglig."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:641
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid "Python exec not found"
 msgstr "Körbart Python-program hittades inte"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:646
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Misslyckades hitta skriptfil %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:681
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -17038,7 +16989,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "Objektsegmentering (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -18531,10 +18482,9 @@ msgstr "Redigera längd för %1 klipp."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Redigerar med rippelläge."
+msgstr ""
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20258,10 +20208,9 @@ msgstr "Beskärningens slut:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Ändra storlek på klipp med rippel"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -21225,8 +21174,9 @@ msgstr "Textning:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, kde-format
-msgid "Enable Builtin Effects"
+#, fuzzy, kde-format
+#| msgid "Enable Builtin Effects"
+msgid "Enable Built-in Effects"
 msgstr "Inaktivera inbyggda effekter"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
@@ -21483,10 +21433,9 @@ msgstr "Översätt text till engelska"
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
-#, fuzzy, kde-format
-#| msgid "Uninstall model"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Avinstallera modell"
+msgstr "Avinstallera insticksprogram"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:419
@@ -21520,11 +21469,9 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:522
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Object Detection"
-msgstr "Scendetektering"
+msgstr "Objektdetektering"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
@@ -21539,13 +21486,14 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"Objektdetektering förlitar sig på SAM2: <a href=\"https://github.com/"
+"facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:617
-#, fuzzy, kde-format
-#| msgid "Delete all guides"
+#, kde-format
 msgid "Delete all models"
-msgstr "Ta bort alla flaggor"
+msgstr "Ta bort alla modeller"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22840,45 +22788,39 @@ msgstr "Formulär"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create New"
+#, kde-format
 msgid "Create New Mask"
-msgstr "Skapa ny"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "Ta bort markör"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "Importerat projekt"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "Maskera klipp"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "Förhandsgranskning"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "Verkställ"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18

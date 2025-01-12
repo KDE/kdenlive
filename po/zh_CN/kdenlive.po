@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-10 09:27+0000\n"
+"POT-Creation-Date: 2025-01-12 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5620,8 +5620,8 @@ msgstr "选择要添加标签的剪辑"
 msgid "Edit Tags"
 msgstr "编辑标签"
 
-#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:187
-#: src/bin/projectclip.cpp:2024 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:188
+#: src/bin/projectclip.cpp:2018 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6212,18 +6212,18 @@ msgstr "版本"
 msgid "Sequence count"
 msgstr "序列计数"
 
-#: src/bin/projectclip.cpp:245
+#: src/bin/projectclip.cpp:246
 #, kde-format
 msgid "Timeline sequence"
 msgstr "时间轴序列"
 
-#: src/bin/projectclip.cpp:544 src/timeline2/view/qml/Clip.qml:1128
+#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1128
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:625
+#: src/bin/projectclip.cpp:619
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -6232,7 +6232,7 @@ msgstr ""
 "图像尺寸小于 8 像素。\n"
 "视频程序框架尚不能正确支持此类图像。"
 
-#: src/bin/projectclip.cpp:919
+#: src/bin/projectclip.cpp:913
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6241,29 +6241,29 @@ msgstr ""
 "无法从 %1 提取元数据\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1175 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1169 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "无效"
 
-#: src/bin/projectclip.cpp:1404 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1398 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "文件已存在"
 
-#: src/bin/projectclip.cpp:2618
+#: src/bin/projectclip.cpp:2611
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "调整时间轴剪辑"
 
-#: src/bin/projectclip.cpp:2858
+#: src/bin/projectclip.cpp:2800
 #, kde-format
 msgid "Add stream effect"
 msgstr "添加流效果"
 
-#: src/bin/projectclip.cpp:2883
+#: src/bin/projectclip.cpp:2825
 #, kde-format
 msgid "Remove stream effect"
 msgstr "移除流效果"
@@ -10734,7 +10734,7 @@ msgstr "输入此蒙版的名称："
 msgid "Generating mask %1"
 msgstr "正在生成蒙版 %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:328
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -10785,17 +10785,17 @@ msgstr "启动 Glaxnimate 应用程序失败"
 msgid "Item is not an animation clip"
 msgstr "此项目不是动画剪辑"
 
-#: src/jobs/audiolevelstask.cpp:35
+#: src/jobs/audiolevels/audiolevelstask.cpp:31
 #, kde-format
 msgid "Audio thumbs"
 msgstr "音频缩略图"
 
-#: src/jobs/audiolevelstask.cpp:72 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevels/audiolevelstask.cpp:130
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "音频缩略图：无法打开文件 %1"
 
-#: src/jobs/audiolevelstask.cpp:80
+#: src/jobs/audiolevels/audiolevelstask.cpp:138
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "音频缩略图：%1 的文件长度未知"
@@ -14493,7 +14493,7 @@ msgid "Move Toolbar"
 msgstr "移动工具栏"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:169
-#: src/monitor/view/kdenliveclipmonitor.qml:169
+#: src/monitor/view/kdenliveclipmonitor.qml:171
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14507,34 +14507,34 @@ msgstr ""
 "shortcut>进行时移，<shortcut>Ctrl 鼠标滚轮</shortcut>进行缩放"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:537
-#: src/monitor/view/kdenliveclipmonitor.qml:537
+#: src/monitor/view/kdenliveclipmonitor.qml:554
 #: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:570
+#: src/monitor/view/kdenliveclipmonitor.qml:587
 #, kde-format
 msgid "In/Out Point"
 msgstr "入/出点"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:570
+#: src/monitor/view/kdenliveclipmonitor.qml:587
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr "入点"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:592
-#: src/monitor/view/kdenliveclipmonitor.qml:592
+#: src/monitor/view/kdenliveclipmonitor.qml:609
 #: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr "出点"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:759
-#: src/monitor/view/kdenliveclipmonitor.qml:759
+#: src/monitor/view/kdenliveclipmonitor.qml:776
 #, kde-format
 msgid "Terminate Job"
 msgstr "终止任务"
@@ -16303,7 +16303,7 @@ msgid "Video transcode"
 msgstr "视频转码"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:710
+#: src/pythoninterfaces/abstractpythoninterface.cpp:711
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "安装缺失依赖程序"
@@ -16372,7 +16372,7 @@ msgstr ""
 "无法在 kdenlive venv 中找到 pip3。\n"
 "请尝试卸载该插件并重新安装它。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:324
+#: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -16382,8 +16382,8 @@ msgstr ""
 "无法找到 python3，请在本机系统上安装该软件包。\n"
 "如果已经安装，请检查它是否已经安装到了 PATH 环境变量中包含的目录"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:349
-#: src/pythoninterfaces/abstractpythoninterface.cpp:351
+#: src/pythoninterfaces/abstractpythoninterface.cpp:350
+#: src/pythoninterfaces/abstractpythoninterface.cpp:352
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -16392,17 +16392,17 @@ msgstr ""
 "无法创建 Python 虚拟环境：\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:368
+#: src/pythoninterfaces/abstractpythoninterface.cpp:369
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "无法找到 %1 脚本，请检查软件的安装状态是否正常。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:442
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python 模块是必需的。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:476
+#: src/pythoninterfaces/abstractpythoninterface.cpp:477
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -16412,51 +16412,51 @@ msgstr ""
 "此操作需要连接到互联网，下载必要的依赖程序包将需要几分钟。\n"
 "下载完成后的剩余操作将离线进行。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
-#: src/pythoninterfaces/abstractpythoninterface.cpp:606
+#: src/pythoninterfaces/abstractpythoninterface.cpp:497
+#: src/pythoninterfaces/abstractpythoninterface.cpp:607
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "内部错误：无法找到依赖关系列表"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:511
+#: src/pythoninterfaces/abstractpythoninterface.cpp:512
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "检查模块 %1 版本时出错"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:515
+#: src/pythoninterfaces/abstractpythoninterface.cpp:516
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "模块 %2 所需的最低版本为 %1，而本机安装的版本是 %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:519
+#: src/pythoninterfaces/abstractpythoninterface.cpp:520
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "请考虑升级本机系统的相关软件。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:541
+#: src/pythoninterfaces/abstractpythoninterface.cpp:542
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "缺少的依赖 (可选)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:550
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "没有可用的版本信息。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:641
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid "Python exec not found"
 msgstr "无法找到 Python exec"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:646
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "无法找到脚本文件 %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:681
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -20761,8 +20761,9 @@ msgstr "字幕："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, kde-format
-msgid "Enable Builtin Effects"
+#, fuzzy, kde-format
+#| msgid "Enable Builtin Effects"
+msgid "Enable Built-in Effects"
 msgstr "启用内置效果"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)

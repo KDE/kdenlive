@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-10 09:27+0000\n"
+"POT-Creation-Date: 2025-01-12 00:41+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -5697,8 +5697,8 @@ msgstr "Selecione um clipe para adicionar uma etiqueta"
 msgid "Edit Tags"
 msgstr "Editar etiquetas"
 
-#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:187
-#: src/bin/projectclip.cpp:2024 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/bin.cpp:4570 src/bin/projectclip.cpp:188
+#: src/bin/projectclip.cpp:2018 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6303,20 +6303,20 @@ msgstr "Versão %1"
 msgid "Sequence count"
 msgstr "Nome da sequência"
 
-#: src/bin/projectclip.cpp:245
+#: src/bin/projectclip.cpp:246
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Timeline sequence"
 msgstr "Visualização da sequência"
 
-#: src/bin/projectclip.cpp:544 src/timeline2/view/qml/Clip.qml:1128
+#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1128
 #, fuzzy, kde-format
 #| msgid "P"
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:625
+#: src/bin/projectclip.cpp:619
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -6325,7 +6325,7 @@ msgstr ""
 "Dimensão da imagem menor que 8 pixels.\n"
 "Isso não é suportado corretamente por nossa estrutura de vídeo."
 
-#: src/bin/projectclip.cpp:919
+#: src/bin/projectclip.cpp:913
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6334,30 +6334,30 @@ msgstr ""
 "Não foi possível extrair metadados de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1175 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1169 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Inválido"
 
-#: src/bin/projectclip.cpp:1404 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1398 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "Arquivo já existe"
 
-#: src/bin/projectclip.cpp:2618
+#: src/bin/projectclip.cpp:2611
 #, fuzzy, kde-format
 #| msgid "Paste timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Colar clipes da linha do tempo"
 
-#: src/bin/projectclip.cpp:2858
+#: src/bin/projectclip.cpp:2800
 #, kde-format
 msgid "Add stream effect"
 msgstr "Adicionar efeito de fluxo"
 
-#: src/bin/projectclip.cpp:2883
+#: src/bin/projectclip.cpp:2825
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Remover efeito de fluxo"
@@ -11053,7 +11053,7 @@ msgstr "Insira o nome desta predefinição:"
 msgid "Generating mask %1"
 msgstr "Criando imagens do menu"
 
-#: src/effects/effectstack/view/maskmanager.cpp:328
+#: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11112,18 +11112,18 @@ msgstr "Digite o caminho para o aplicativo Glaxnimate"
 msgid "Item is not an animation clip"
 msgstr "Item não é um clipe de título"
 
-#: src/jobs/audiolevelstask.cpp:35
+#: src/jobs/audiolevels/audiolevelstask.cpp:31
 #, fuzzy, kde-format
 #| msgid "Audio thumbnails:"
 msgid "Audio thumbs"
 msgstr "Miniaturas de áudio:"
 
-#: src/jobs/audiolevelstask.cpp:72 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevels/audiolevelstask.cpp:130
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Miniaturas de áudio: não é possível abrir o arquivo %1"
 
-#: src/jobs/audiolevelstask.cpp:80
+#: src/jobs/audiolevels/audiolevelstask.cpp:138
 #, fuzzy, kde-format
 #| msgid "Audio thumbs: cannot open file %1"
 msgid "Audio thumbs: unknown file length for %1"
@@ -15020,7 +15020,7 @@ msgid "Move Toolbar"
 msgstr "Mover barra de ferramentas"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:169
-#: src/monitor/view/kdenliveclipmonitor.qml:169
+#: src/monitor/view/kdenliveclipmonitor.qml:171
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
@@ -15039,35 +15039,35 @@ msgstr ""
 "para ampliar"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:537
-#: src/monitor/view/kdenliveclipmonitor.qml:537
+#: src/monitor/view/kdenliveclipmonitor.qml:554
 #: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:570
+#: src/monitor/view/kdenliveclipmonitor.qml:587
 #, fuzzy, kde-format
 #| msgid "Out Point"
 msgid "In/Out Point"
 msgstr "Ponto de Saída"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:570
+#: src/monitor/view/kdenliveclipmonitor.qml:587
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr "Ponto de Entrada"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:592
-#: src/monitor/view/kdenliveclipmonitor.qml:592
+#: src/monitor/view/kdenliveclipmonitor.qml:609
 #: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr "Ponto de Saída"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:759
-#: src/monitor/view/kdenliveclipmonitor.qml:759
+#: src/monitor/view/kdenliveclipmonitor.qml:776
 #, fuzzy, kde-format
 #| msgid "Remove Job"
 msgid "Terminate Job"
@@ -16975,7 +16975,7 @@ msgid "Video transcode"
 msgstr "Trilhas de vídeo"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:710
+#: src/pythoninterfaces/abstractpythoninterface.cpp:711
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Instale as dependências faltantes"
@@ -17046,7 +17046,7 @@ msgid ""
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:324
+#: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not find \"otioconvert\" script.\n"
@@ -17067,8 +17067,8 @@ msgstr ""
 "e verificar se os scripts estão instalados em uma pasta listada na sua "
 "variável do ambiente PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:349
-#: src/pythoninterfaces/abstractpythoninterface.cpp:351
+#: src/pythoninterfaces/abstractpythoninterface.cpp:350
+#: src/pythoninterfaces/abstractpythoninterface.cpp:352
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary directory %1"
 msgid ""
@@ -17076,18 +17076,18 @@ msgid ""
 "%1"
 msgstr "Não foi possível criar a pasta temporária %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:368
+#: src/pythoninterfaces/abstractpythoninterface.cpp:369
 #, fuzzy, kde-format
 #| msgid "The speech script was not found, check your install."
 msgid "The %1 script was not found, check your install."
 msgstr "O script de fala não foi encontrado, cheque sua instalação."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:442
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "O módulo python <application>%1</application> é necessário."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:476
+#: src/pythoninterfaces/abstractpythoninterface.cpp:477
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -17095,55 +17095,55 @@ msgid ""
 "happen offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
-#: src/pythoninterfaces/abstractpythoninterface.cpp:606
+#: src/pythoninterfaces/abstractpythoninterface.cpp:497
+#: src/pythoninterfaces/abstractpythoninterface.cpp:607
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Erro interno: não é possível encontrar a lista de dependências"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:511
+#: src/pythoninterfaces/abstractpythoninterface.cpp:512
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Erro ao verificar a versão do módulo %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:515
+#: src/pythoninterfaces/abstractpythoninterface.cpp:516
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Pelo menos a versão %1 do módulo %2énecessária, mas sua versão atual é %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:519
+#: src/pythoninterfaces/abstractpythoninterface.cpp:520
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Por favor, considere atualizar sua configuração."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:541
+#: src/pythoninterfaces/abstractpythoninterface.cpp:542
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Opções de desenho"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:550
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Sem informações na área de transferência"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:641
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:646
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Falha ao criar o arquivo."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:681
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error while running python3 script:\n"
@@ -21656,7 +21656,7 @@ msgstr "Legendas:"
 #: src/ui/configmisc_ui.ui:280
 #, fuzzy, kde-format
 #| msgid "Disable Bin Effects"
-msgid "Enable Builtin Effects"
+msgid "Enable Built-in Effects"
 msgstr "Desativar efeitos do grupo"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
