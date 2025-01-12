@@ -258,7 +258,6 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
             dst_nb_samples = swr_get_out_samples(swr_ctx, frame->nb_samples);
             buf_nbsamples = std::max(dst_nb_samples, samplesPerMLTFrame);
             if (buf_nbsamples > max_buf_nbsamples) {
-                qDebug() << "Resizing output buffer to" << buf_nbsamples << "samples";
                 if (buf) {
                     av_freep(&buf[0]);
                 }
