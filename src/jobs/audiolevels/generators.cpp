@@ -231,6 +231,7 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
         }
 
         if (packet->stream_index != streamIdx) {
+            av_packet_unref(packet);
             continue;
         }
 
@@ -261,6 +262,7 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
                 if (buf) {
                     av_freep(&buf[0]);
                 }
+                av_freep(&buf);
                 ret = av_samples_alloc_array_and_samples(&buf, &dst_linesize, dst_nb_channels, buf_nbsamples, dst_sample_fmt, 0);
                 if (ret < 0) {
                     qWarning() << "Failed to allocate output buffer:" << av_err2string(ret);
@@ -292,7 +294,6 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
                 const size_t requiredSize = (MLTFrameCount + 1) * AUDIOLEVELS_POINTS_PER_FRAME * dst_nb_channels;
                 if (requiredSize > levels.size()) {
                     levels.resize(requiredSize);
-                    qDebug() << "Resized output buffer to " << levels.size();
                 }
                 computePeaks(reinterpret_cast<const int16_t *>(buf[0]), levels.data() + MLTFrameCount * AUDIOLEVELS_POINTS_PER_FRAME * dst_nb_channels,
                              dst_nb_channels, samplesPerMLTFrame, AUDIOLEVELS_POINTS_PER_FRAME);
@@ -315,6 +316,7 @@ cleanup:
     if (buf) {
         av_freep(&buf[0]);
     }
+    av_freep(&buf);
     av_audio_fifo_free(fifo);
     av_frame_free(&frame);
     av_packet_free(&packet);
