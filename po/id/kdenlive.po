@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -16802,9 +16802,9 @@ msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, fuzzy, kde-format
-#| msgid "Installed modules"
-msgid "Uninstall model"
-msgstr "Modul terinstal"
+#| msgid "Remove Folder"
+msgid "Remove model"
+msgstr "Buang Folder"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, fuzzy, kde-format
@@ -24426,6 +24426,11 @@ msgstr "%1mnt"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1jm"
+
+#, fuzzy
+#~| msgid "Installed modules"
+#~ msgid "Uninstall model"
+#~ msgstr "Modul terinstal"
 
 #~ msgid ""
 #~ "Cannot find pip3, please install it on your system.\n"

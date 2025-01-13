@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -17415,9 +17415,9 @@ msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, fuzzy, kde-format
-#| msgid "Installed modules"
-msgid "Uninstall model"
-msgstr "Nainštalované moduly"
+#| msgid "Remove Folder"
+msgid "Remove model"
+msgstr "Odstrániť priečinok"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, fuzzy, kde-format
@@ -25426,6 +25426,11 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#, fuzzy
+#~| msgid "Installed modules"
+#~ msgid "Uninstall model"
+#~ msgstr "Nainštalované moduly"
 
 #, fuzzy
 #~| msgid "Set the path for MLT environment"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -17138,9 +17138,9 @@ msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, fuzzy, kde-format
-#| msgid "Extension"
-msgid "Uninstall model"
-msgstr "كېڭەيتىلمە"
+#| msgid "Create Folder"
+msgid "Remove model"
+msgstr "قىسقۇچ قۇر"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -24939,6 +24939,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Extension"
+#~ msgid "Uninstall model"
+#~ msgstr "كېڭەيتىلمە"
 
 #, fuzzy
 #~| msgid "Border Width"

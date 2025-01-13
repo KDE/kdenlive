@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -16689,9 +16689,10 @@ msgid "Abort downloads"
 msgstr "डाउनलोड्स् निरस्तं कुर्वन्तु"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
-msgstr "मॉडलं विस्थापयन्तु"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
+msgstr "मॉडल् निष्कासयन्तु"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -24117,6 +24118,9 @@ msgstr "%1म्"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ह"
+
+#~ msgid "Uninstall model"
+#~ msgstr "मॉडलं विस्थापयन्तु"
 
 #~ msgid ""
 #~ "Cannot find pip3, please install it on your system.\n"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -17341,9 +17341,9 @@ msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, fuzzy, kde-format
-#| msgid "Extension"
-msgid "Uninstall model"
-msgstr "Eisínteacht"
+#| msgid "Remove file"
+msgid "Remove model"
+msgstr "Bain an comhad"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -25220,6 +25220,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Extension"
+#~ msgid "Uninstall model"
+#~ msgstr "Eisínteacht"
 
 #, fuzzy
 #~| msgid "Timeline"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -17284,9 +17284,9 @@ msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, fuzzy, kde-format
-#| msgid "Paint mode"
-msgid "Uninstall model"
-msgstr "Piešimo veiksena"
+#| msgid "Rename folder"
+msgid "Remove model"
+msgstr "Pervadinti aplanką"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -25132,6 +25132,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Paint mode"
+#~ msgid "Uninstall model"
+#~ msgstr "Piešimo veiksena"
 
 #, fuzzy
 #~| msgid "Fit to height"

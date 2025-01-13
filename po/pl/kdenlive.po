@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2025-01-04 07:46+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -16939,8 +16939,9 @@ msgid "Abort downloads"
 msgstr "Przerwij pobieranie"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
 msgstr "Usuń model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
@@ -24451,6 +24452,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Uninstall model"
+#~ msgstr "Usuń model"
 
 #~ msgid ""
 #~ "Cannot find pip3, please install it on your system.\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -17243,9 +17243,8 @@ msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, fuzzy, kde-format
-#| msgid "Installed modules"
-msgid "Uninstall model"
-msgstr "Εγκατεστημένα αρθρώματα"
+msgid "Remove model"
+msgstr "Μετονομασία φακέλου"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, fuzzy, kde-format
@@ -25168,6 +25167,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Installed modules"
+#~ msgid "Uninstall model"
+#~ msgstr "Εγκατεστημένα αρθρώματα"
 
 #, fuzzy
 #~| msgid "Set the path for MLT environment"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
-"PO-Revision-Date: 2025-01-08 15:15+0300\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
+"PO-Revision-Date: 2025-01-12 13:05+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16873,8 +16873,9 @@ msgid "Abort downloads"
 msgstr "İndirmeleri İptal Et"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
 msgstr "Modeli Kaldır"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
@@ -21201,10 +21202,9 @@ msgstr "Altyazılar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
-msgstr "Yerleşik Efektleri Devre Dışı Bırak"
+msgstr "Yerleşik efektleri etkinleştir"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -24363,6 +24363,9 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid "Uninstall model"
+#~ msgstr "Modeli Kaldır"
 
 #~ msgid ""
 #~ "Cannot find pip3, please install it on your system.\n"

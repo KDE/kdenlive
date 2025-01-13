@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2025-01-01 17:20+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -16841,9 +16841,10 @@ msgid "Abort downloads"
 msgstr "أحبط التنزيلات"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
-msgstr "نموذج مزال"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
+msgstr "أزل النموذج"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -24296,6 +24297,9 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "Uninstall model"
+#~ msgstr "نموذج مزال"
 
 #~ msgid ""
 #~ "Cannot find pip3, please install it on your system.\n"

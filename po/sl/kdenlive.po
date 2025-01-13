@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
-"PO-Revision-Date: 2025-01-08 23:28+0100\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
+"PO-Revision-Date: 2025-01-12 17:32+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -16951,8 +16951,9 @@ msgid "Abort downloads"
 msgstr "Prekini prenose"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
 msgstr "Odstrani model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
@@ -21282,8 +21283,7 @@ msgstr "Podnaslovi:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
 msgstr "Omogoči vgrajene učinke"
 
@@ -24437,3 +24437,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Uninstall model"
+#~ msgstr "Odstrani model"

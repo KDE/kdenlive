@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2025-01-06 13:33+0200\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -16732,9 +16732,10 @@ msgid "Abort downloads"
 msgstr "Keskeytä lataukset"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
-msgstr "Poista mallin asennus"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
+msgstr "Poista malli"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -24214,6 +24215,9 @@ msgstr "%1 min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgid "Uninstall model"
+#~ msgstr "Poista mallin asennus"
 
 #~ msgid ""
 #~ "Cannot find pip3, please install it on your system.\n"

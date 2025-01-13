@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -17091,9 +17091,9 @@ msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, fuzzy, kde-format
-#| msgid "Installed modules"
-msgid "Uninstall model"
-msgstr "Instalirani moduli"
+#| msgid "Rename folder"
+msgid "Remove model"
+msgstr "Preimenuj mapi"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, fuzzy, kde-format
@@ -24860,6 +24860,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Installed modules"
+#~ msgid "Uninstall model"
+#~ msgstr "Instalirani moduli"
 
 #, fuzzy
 #~ msgid "Setting up virtual environment…"

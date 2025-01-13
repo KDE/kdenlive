@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -17422,9 +17422,8 @@ msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, fuzzy, kde-format
-#| msgid "Installed modules"
-msgid "Uninstall model"
-msgstr "Instalirani moduli"
+msgid "Remove model"
+msgstr "Preimenuj folder"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, fuzzy, kde-format
@@ -25435,6 +25434,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Installed modules"
+#~ msgid "Uninstall model"
+#~ msgstr "Instalirani moduli"
 
 #, fuzzy
 #~| msgid "Set the path for MLT environment"

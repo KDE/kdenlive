@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
-"PO-Revision-Date: 2025-01-08 22:56+0100\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
+"PO-Revision-Date: 2025-01-12 08:54+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -16952,9 +16952,10 @@ msgid "Abort downloads"
 msgstr "Utzi zama-jaisteak bertan behera"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
-msgstr "Desinstalatu eredua"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
+msgstr "Kendu eredua"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -21290,8 +21291,7 @@ msgstr "Azpidatziak:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
 msgstr "Gaitu barneratutako efektuak"
 
@@ -24452,6 +24452,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Uninstall model"
+#~ msgstr "Desinstalatu eredua"
 
 #~ msgid ""
 #~ "Cannot find pip3, please install it on your system.\n"

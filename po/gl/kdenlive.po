@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
-"PO-Revision-Date: 2025-01-08 20:13+0100\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
+"PO-Revision-Date: 2025-01-12 17:07+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -6425,7 +6425,7 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 "Dimensión de imaxe inferior a 8 píxeles.\n"
-"A nosa infraestrutura de vídeo non o xestiona correctamente."
+"A nosa infraestrutura de vídeo non o permite correctamente."
 
 #: src/bin/projectclip.cpp:913
 #, kde-format
@@ -16989,9 +16989,10 @@ msgid "Abort downloads"
 msgstr "Interromper as descargas"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
-msgstr "Desinstalar o modelo"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
+msgstr "Retirar o modelo"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -21354,8 +21355,7 @@ msgstr "Subtítulos:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
 msgstr "Activar os efectos incluídos."
 
@@ -24526,6 +24526,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Uninstall model"
+#~ msgstr "Desinstalar o modelo"
 
 #~ msgid ""
 #~ "Cannot find pip3, please install it on your system.\n"

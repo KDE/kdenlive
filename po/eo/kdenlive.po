@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 00:41+0000\n"
-"PO-Revision-Date: 2025-01-06 18:58+0100\n"
+"POT-Creation-Date: 2025-01-13 00:40+0000\n"
+"PO-Revision-Date: 2025-01-12 08:09+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -16693,9 +16693,10 @@ msgid "Abort downloads"
 msgstr "Ĉesi elŝutojn"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, kde-format
-msgid "Uninstall model"
-msgstr "Malinstali modelon"
+#, fuzzy, kde-format
+#| msgid "Remove Model"
+msgid "Remove model"
+msgstr "Forigi Modelon"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -20999,10 +21000,9 @@ msgstr "Subtekstoj:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
-msgstr "Ebligi Enkonstruitajn Efikojn"
+msgstr "Ebligi Enkonstruitajn Efektojn"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -24152,11 +24152,5 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
 
-#~ msgid ""
-#~ "Cannot find pip3, please install it on your system.\n"
-#~ "If already installed, check it is installed in a directory listed in PATH "
-#~ "environment variable"
-#~ msgstr ""
-#~ "Ne povas trovi pip3, bonvolu instali ĝin en via sistemo.\n"
-#~ "Se jam instalite, kontrolu ke ĝi estas instalita en dosierujo listigita "
-#~ "en PATH-mediovariablo."
+#~ msgid "Uninstall model"
+#~ msgstr "Malinstali modelon"
