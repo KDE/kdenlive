@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-06 02:37+0000\n"
-"PO-Revision-Date: 2024-12-28 13:24+0100\n"
+"PO-Revision-Date: 2025-01-12 17:07+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -6348,7 +6348,7 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 "Dimensión de imaxe inferior a 8 píxeles.\n"
-"A nosa infraestrutura de vídeo non o xestiona correctamente."
+"A nosa infraestrutura de vídeo non o permite correctamente."
 
 #: src/bin/projectclip.cpp:916
 #, kde-format
