@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Antoni Bella Pérez <antonibella5@yahoo.com>
-# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
+# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-13 00:40+0000\n"
-"PO-Revision-Date: 2025-01-02 20:44+0100\n"
+"PO-Revision-Date: 2025-01-13 10:00+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -16888,6 +16888,8 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"No s'ha pogut trobar «python3» a «kdenlive venv».\n"
+"Intenteu desinstal·lar i després tornar a instal·lar el connector."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
@@ -16895,6 +16897,8 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"No s'ha pogut trobar «pip3» a «kdenlive venv».\n"
+"Intenteu desinstal·lar i després tornar a instal·lar el connector."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
@@ -16903,7 +16907,7 @@ msgid ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"No s'ha pogut trobar el «python3», instal·leu-lo al sistema.\n"
+"No s'ha pogut trobar «python3», instal·leu-lo al sistema.\n"
 "Si ja està instal·lat, comproveu que ho estiga en un directori llistat en la "
 "variable d'entorn PATH"
 
@@ -17039,8 +17043,7 @@ msgid "Abort downloads"
 msgstr "Interromp les baixades"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Remove Model"
+#, kde-format
 msgid "Remove model"
 msgstr "Elimina el model"
 
@@ -21400,8 +21403,7 @@ msgstr "Subtítols:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
 msgstr "Activa els efectes integrats"
 
@@ -24566,15 +24568,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Uninstall model"
-#~ msgstr "Desinstal·la el model"
-
-#~ msgid ""
-#~ "Cannot find pip3, please install it on your system.\n"
-#~ "If already installed, check it is installed in a directory listed in PATH "
-#~ "environment variable"
-#~ msgstr ""
-#~ "No s'ha pogut trobar «pip3», instal·leu-lo al sistema.\n"
-#~ "Si ja està instal·lat, comproveu que ho estiga en un directori llistat en "
-#~ "la variable d'entorn PATH"

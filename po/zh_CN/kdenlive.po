@@ -16509,10 +16509,9 @@ msgid "Abort downloads"
 msgstr "取消下载"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Remove Model"
+#, kde-format
 msgid "Remove model"
-msgstr "移除模型"
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -20764,7 +20763,7 @@ msgstr "字幕："
 #: src/ui/configmisc_ui.ui:280
 #, kde-format
 msgid "Enable Built-in Effects"
-msgstr ""
+msgstr "启用内置效果"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -23899,6 +23898,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Uninstall model"
-#~ msgstr "卸载语音模型"
