@@ -247,10 +247,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="0" column="1">
        <widget class="QSpinBox" name="value_x">
         <property name="minimum">
-         <number>-5000</number>
+         <number>-99999</number>
         </property>
         <property name="maximum">
-         <number>5000</number>
+         <number>99999</number>
         </property>
        </widget>
       </item>
@@ -300,10 +300,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="0" column="7">
        <widget class="QSpinBox" name="value_h">
         <property name="minimum">
-         <number>-1000</number>
+         <number>0</number>
         </property>
         <property name="maximum">
-         <number>5000</number>
+         <number>99999</number>
         </property>
        </widget>
       </item>
@@ -338,10 +338,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="0" column="5">
        <widget class="QSpinBox" name="value_w">
         <property name="minimum">
-         <number>-1000</number>
+         <number>0</number>
         </property>
         <property name="maximum">
-         <number>5000</number>
+         <number>99999</number>
         </property>
        </widget>
       </item>
@@ -355,10 +355,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="0" column="3">
        <widget class="QSpinBox" name="value_y">
         <property name="minimum">
-         <number>-5000</number>
+         <number>-99999</number>
         </property>
         <property name="maximum">
-         <number>5000</number>
+         <number>99999</number>
         </property>
        </widget>
       </item>
