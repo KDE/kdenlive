@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-06 02:37+0000\n"
-"PO-Revision-Date: 2024-11-27 04:23+0100\n"
+"PO-Revision-Date: 2025-01-15 02:29+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1080,7 +1080,7 @@ msgstr "გამა"
 #: data/effects/gpsgraphic.xml:4
 #, kde-format
 msgid "GPS Graphic"
-msgstr ""
+msgstr "GPS გრაფიკა"
 
 #: data/effects/gpsgraphic.xml:5
 #, kde-format
@@ -7513,8 +7513,7 @@ msgid "Install multilingual translation"
 msgstr "მრავალენოვანი თარგმანის დაყენება"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "დააყენეთ წარმოთქმის მოდელი. ჩვენ გირჩევთ <b>ტურბოს</b>"
 
