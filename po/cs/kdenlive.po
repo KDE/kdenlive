@@ -16262,10 +16262,9 @@ msgid "Abort downloads"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Remove Job"
+#, kde-format
 msgid "Remove model"
-msgstr "Smazat úlohu"
+msgstr "Odstranit model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
