@@ -106,8 +106,6 @@ void OtioImport::slotImport()
 void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &data)
 {
     // Import the tracks.
-    //
-    // TODO: Tracks are in reverse order?
     auto otioChildren = data->otioTimeline->tracks()->children();
     for (auto i = otioChildren.rbegin(); i != otioChildren.rend(); ++i) {
         if (auto otioTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*i)) {

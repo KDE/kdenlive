@@ -19,6 +19,7 @@
 #include <QFileDialog>
 
 #include <opentimelineio/externalReference.h>
+#include <opentimelineio/gap.h>
 #include <opentimelineio/stack.h>
 
 OtioExport::OtioExport(QObject *parent)
@@ -48,7 +49,9 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
     //
     // TODO: Tracks are in reverse order?
     //
-    for (int trackId : timeline->getAllTracksIds()) {
+    const int tracksCount = timeline->getTracksCount();
+    for (int index = tracksCount - 1; index >= 0; --index) {
+        const int trackId = timeline->getTrackIndexFromPosition(index);
         std::shared_ptr<TrackModel> track = timeline->getTrackById(trackId);
         exportTrack(timeline, trackId, track, otioTimeline);
     }
@@ -73,15 +76,26 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
 
     // Sort the clips by their position in the timeline.
     QMap<int, int> clipPositionToId;
-
     for (int clip = 0; clip < track->getClipsCount(); ++clip) {
         const int clipId = track->getClipByRow(clip);
         clipPositionToId[timeline->getItemPosition(clipId)] = clipId;
     }
 
     // Export the clips.
+    int position = 0;
+    const double fps = projectFps();
     for (int clipId : clipPositionToId) {
+        const int clipPosition = clipPositionToId.key(clipId);
+        if (clipPosition != position) {
+            // OTIO explicitly represents gaps.
+            const int duration = clipPosition - position;
+            OTIO_NS::SerializableObject::Retainer<OTIO_NS::Gap> otioGap(
+                new OTIO_NS::Gap(OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(duration, fps))));
+            otioTrack->append_child(otioGap);
+            position += duration;
+        }
         exportClip(timeline, clipId, otioTrack);
+        position += timeline->getItemPlaytime(clipId);
     }
 }
 
