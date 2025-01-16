@@ -95,16 +95,16 @@ void TimelineWaveform::compute()
     }
 
     const auto inPoint = static_cast<int>(m_inPoint);
-    const auto outPoint = static_cast<int>(m_outPoint);
+    auto outPoint = static_cast<int>(m_outPoint);
+    const auto clipLength = levels.size() / AUDIOLEVELS_POINTS_PER_FRAME / m_channels;
 
-    if (inPoint < 0 || outPoint < 0 || outPoint <= inPoint) {
+    if (inPoint < 0 || outPoint < 0 || outPoint <= inPoint || inPoint >= clipLength) {
         return;
     }
 
-    const auto clipLength = levels.size() / AUDIOLEVELS_POINTS_PER_FRAME / m_channels;
-    if (inPoint >= clipLength || outPoint > clipLength) {
-        qWarning() << "TimelineWaveform asked to draw out of bounds: inPoint=" << inPoint << "outPoint=" << outPoint << " but clipLength=" << clipLength;
-        return;
+    if (outPoint > clipLength) {
+        qWarning() << "Waveform render outPoint=" << outPoint << " is higher than clipLength=" << clipLength << ", truncating.";
+        outPoint = clipLength;
     }
 
     const double timescale = m_scale / std::abs(m_speed);

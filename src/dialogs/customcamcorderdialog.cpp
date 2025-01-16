@@ -203,12 +203,21 @@ void CustomCamcorderDialog::validateInput()
     if (currentItem->data(Qt::UserRole + 2).toInt() > 0) {
         currentItem->setData(Qt::UserRole + 2, QVariant());
     }
-    QStringList profileData;
-    profileData << le_relPathOrigToProxy->text().simplified();
-    profileData << le_prefix_proxy->text().simplified();
-    profileData << le_suffix_proxy->text().simplified();
-    profileData << le_relPathProxyToOrig->text().simplified();
-    profileData << le_prefix_clip->text().simplified();
-    profileData << le_suffix_clip->text().simplified();
-    currentItem->setData(Qt::UserRole, profileData.join(QLatin1Char(';')));
+
+    auto val1 = le_relPathOrigToProxy->text().simplified().split(';');
+    auto val2 = le_prefix_proxy->text().simplified().split(';');
+    auto val3 = le_suffix_proxy->text().simplified().split(';');
+    auto val4 = le_relPathProxyToOrig->text().simplified().split(';');
+    auto val5 = le_prefix_clip->text().simplified().split(';');
+    auto val6 = le_suffix_clip->text().simplified().split(';');
+    QStringList params;
+    while (!val1.empty()) {
+        params << val1.takeFirst();
+        params << val2.takeFirst();
+        params << val3.takeFirst();
+        params << val4.takeFirst();
+        params << val5.takeFirst();
+        params << val6.takeFirst();
+    }
+    currentItem->setData(Qt::UserRole, params.join(QLatin1Char(';')));
 }

@@ -103,7 +103,11 @@ QVector<int16_t> generateMLT(const size_t streamIdx, const QString &service, con
         if (mltFrame && mltFrame->is_valid()) {
             int samples = mlt_audio_calculate_frame_samples(static_cast<float>(framesPerSecond), sampleRate, f);
             const auto buf = static_cast<int16_t *>(mltFrame->get_audio(audioFormat, sampleRate, channels, samples));
-            computePeaks(buf, &levels[f * AUDIOLEVELS_POINTS_PER_FRAME * channels], channels, samples, AUDIOLEVELS_POINTS_PER_FRAME);
+            if (buf != nullptr) {
+                computePeaks(buf, &levels[f * AUDIOLEVELS_POINTS_PER_FRAME * channels], channels, samples, AUDIOLEVELS_POINTS_PER_FRAME);
+            } else {
+                qWarning() << "null audio buffer at frame" << f << "in" << resource << ", skipping";
+            }
         } else {
             qWarning() << "invalid frame" << f;
             levels.clear();

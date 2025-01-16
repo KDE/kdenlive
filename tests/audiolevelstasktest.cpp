@@ -229,3 +229,29 @@ TEST_CASE("(de)serialize audio levels")
     const auto deserialized = AudioLevelsTask::getLevelsFromCache(tmp.fileName());
     REQUIRE(deserialized == input);
 }
+
+TEST_CASE("MLT noise generator")
+{
+    auto xml = QTemporaryFile();
+    REQUIRE(xml.open());
+    QTextStream out(&xml);
+    out << R"(<?xml version="1.0" encoding="utf-8"?>
+<mlt LC_NUMERIC="C" version="7.28.0" root="/home/etiandre/git/kdenlive/build/bin">
+  <profile description="HD 1080p 30 fps" width="1920" height="1080" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="16" display_aspect_den="9" frame_rate_num="30" frame_rate_den="1" colorspace="709"/>
+  <producer id="producer0" in="0" out="59">
+    <property name="length">60</property>
+    <property name="eof">pause</property>
+    <property name="resource">&lt;producer&gt;</property>
+    <property name="aspect_ratio">1</property>
+    <property name="mlt_service">noise</property>
+  </producer>
+  <tractor id="tractor0" in="0" out="59">
+    <track producer="producer0"/>
+  </tractor>
+</mlt>
+)";
+    xml.close();
+
+    const auto output = generateMLT(1, "xml", xml.fileName(), 2, dummyClbk, 0);
+    REQUIRE(output.size() == 60 * 2 * AUDIOLEVELS_POINTS_PER_FRAME);
+}

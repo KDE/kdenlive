@@ -16511,7 +16511,7 @@ msgstr "取消下载"
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, kde-format
 msgid "Remove model"
-msgstr ""
+msgstr "移除模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
