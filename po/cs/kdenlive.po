@@ -4,20 +4,21 @@
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 # SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
+# SPDX-FileCopyrightText: 2025 Jan Papez (honyczek)
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-13 00:40+0000\n"
-"PO-Revision-Date: 2024-09-18 09:45+0200\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
-"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2025-01-15 22:27+0100\n"
+"Last-Translator: Jan Papez (honyczek) <honyczek@centrum.cz>\n"
+"Language-Team: Czech <kde-i18n-cs@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -339,6 +340,8 @@ msgid ""
 "The thickness of the line used to draw the waveform for line graph. The "
 "thickness of the bar for bar graph."
 msgstr ""
+"Tloušťka linky použitá pro vykreslení křivky v linkovém grafu. Tloušťka "
+"sloupce pro sloupcový graf."
 
 #: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:23
 #: data/transitions/region.xml:21
@@ -351,7 +354,7 @@ msgstr "Vyplnit"
 msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
 "line graph type."
-msgstr ""
+msgstr "Vyplnění oblasti pod křivkou. Platí jen pro linkový graf."
 
 #: data/effects/audiospectrum.xml:43
 #, kde-format
@@ -1054,7 +1057,7 @@ msgstr "Gama"
 #: data/effects/gpsgraphic.xml:4
 #, kde-format
 msgid "GPS Graphic"
-msgstr ""
+msgstr "Grafika GPS"
 
 #: data/effects/gpsgraphic.xml:5
 #, kde-format
@@ -1107,7 +1110,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
 msgid "Speed multiplier"
-msgstr ""
+msgstr "Násobek rychlosti"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1126,7 +1129,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "Zdroj dat grafu"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
@@ -1177,7 +1180,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "Konec prahu (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1195,10 +1198,9 @@ msgid "Percentage from min..max,Absolute value"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:55
-#, fuzzy, kde-format
-#| msgid "Center horizontally"
+#, kde-format
 msgid "Crop mode horizontal"
-msgstr "Zarovnat vodorovně"
+msgstr "Režim vodorovného ořezu"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1244,10 +1246,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:71
-#, fuzzy, kde-format
-#| msgid "Center vertically"
+#, kde-format
 msgid "Crop mode vertical"
-msgstr "Zarovnat svisle"
+msgstr "Režim svislého ořezu"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1309,15 +1310,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:92
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Graph color style"
-msgstr "Typ graf"
+msgstr "Styl barevného grafu"
 
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "Pro informace o různých dostupných stylech si přečtěte dokumentaci"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1328,7 +1328,7 @@ msgstr "Barva 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "Nastaví první barvu pro grafovou linku"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1339,7 +1339,7 @@ msgstr "Barva 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "Nastaví druhou barvu pro grafovou linku"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -1349,7 +1349,7 @@ msgstr "Barva 3"
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "Nastaví třetí barvu pro grafovou linku"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -1359,7 +1359,7 @@ msgstr "Barva 4"
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "Nastaví čtvrtou barvu pro grafovou linku"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -1369,13 +1369,12 @@ msgstr "Barva 5"
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "Nastaví pátou barvu pro grafovou linku"
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show more options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "Zobrazit více možností"
+msgstr "Zobrazit bod Teď"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1386,21 +1385,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Now dot color"
-msgstr "P&lná barva:"
+msgstr "Barva bodu Teď"
 
 #: data/effects/gpsgraphic.xml:122
 #, kde-format
 msgid "Sets the color for the Now dot"
-msgstr ""
+msgstr "Nastaví barvu pro bod Teď"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "Mluvené slovo na text"
+msgstr "Zobrazit text Teď"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1428,21 +1425,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Tloušťka čáry"
+msgstr "Tloušťka čáry (pixely)"
 
 #: data/effects/gpsgraphic.xml:135
 #, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr ""
+msgstr "Nastavit požadovanou tloušťku linkového grafu v pixelech."
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "Zobrazit mřížku"
+msgstr "Zobrazit vysvětlivky"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1459,7 +1454,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Jednotky vysvětlivek"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1479,10 +1474,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show Record Control"
+#, kde-format
 msgid "Show dots only"
-msgstr "Zobrazit ovládání nahrávání"
+msgstr "Zobrazovat pouze body"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1496,10 +1490,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "Obdélník"
+msgstr "Obdélník grafu"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1524,10 +1517,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "Pozadí"
+msgstr "Škálování pozadí"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1546,11 +1538,10 @@ msgstr "Krytí pozadí"
 #: data/effects/gpsgraphic.xml:170
 #, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr ""
+msgstr "<![CDATA[Nastaví průhlednost obrázku na pozadí]]>"
 
 #: data/effects/gpsgraphic.xml:173
-#, fuzzy, kde-format
-#| msgid "GPS processing start time"
+#, kde-format
 msgid "GPS start time"
 msgstr "Počáteční čas zpracování GPS"
 
@@ -1560,21 +1551,19 @@ msgid "Date and time of the first valid GPS point."
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "Video proud "
+msgstr "Čas začátku videa"
 
 #: data/effects/gpsgraphic.xml:178
 #, kde-format
 msgid "Date and time of the video file."
-msgstr ""
+msgstr "Datum a čas videosouboru."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Jít na začátek projektu"
+msgstr "Automatické počáteční odsazení"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1587,7 +1576,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Automatické odsazení teď"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1598,10 +1587,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map "
+#, kde-format
 msgid "Map hint"
-msgstr "Mapa "
+msgstr "Nápovědná mapa"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
@@ -2108,12 +2096,12 @@ msgstr "Posunutí"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "Počáteční pozice pro maskovací soubor."
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "Konečná pozice pro maskovací soubor."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -2630,10 +2618,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr ""
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "Operace s alfa kanálem"
+msgstr "Výběrová alfa"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2655,10 +2642,9 @@ msgid "Interval"
 msgstr "Interval"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "Doba trvání: %1 s"
+msgstr "Doba trvání vyběru"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -3829,7 +3815,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Create an object mask"
-msgstr ""
+msgstr "Vytvořit objektovou masku"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -3889,7 +3875,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:140
 #, kde-format
 msgid "Open composition documentation in browser"
-msgstr ""
+msgstr "Otevřít kompoziční dokumentaci v prohlížeči"
 
 #: src/assets/assetpanel.cpp:144
 #, kde-format
@@ -3929,14 +3915,9 @@ msgstr ""
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:136
 #: src/jobs/masktask.cpp:96
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
-"Selhalo generování klipu:\n"
-"%1"
+msgstr "Selhalo vykreslení masky %1"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
@@ -4621,14 +4602,9 @@ msgid "None (Dissolve)"
 msgstr "Žádné (Rozplynutí)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"Z tohoto klipu nelze vytvořit časovou osu:\n"
-"%1"
+msgstr "Vytvořit nebo upravit masku tohoto klipu"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -5992,7 +5968,7 @@ msgstr "Titulky"
 #: src/bin/model/subtitlemodel.cpp:110
 #, kde-format
 msgid "Edit global subtitle style"
-msgstr ""
+msgstr "Upravit globální styl titulků"
 
 #: src/bin/model/subtitlemodel.cpp:440 src/bin/model/subtitlemodel.cpp:655
 #: src/bin/model/subtitlemodel.cpp:1606 src/bin/model/subtitlemodel.cpp:2182
@@ -6053,12 +6029,12 @@ msgstr ""
 #: src/bin/model/subtitlemodel.cpp:1786
 #, kde-format
 msgid "Delete subtitle layer"
-msgstr ""
+msgstr "Smazat vrstvu s titulky"
 
 #: src/bin/model/subtitlemodel.cpp:1813
 #, kde-format
 msgid "Create subtitle layer"
-msgstr ""
+msgstr "Vytvořit vrstvu s titulky"
 
 #: src/bin/model/subtitlemodel.cpp:1919 src/bin/model/subtitlemodel.cpp:1922
 #, kde-format
@@ -6077,10 +6053,9 @@ msgid "version"
 msgstr "verze"
 
 #: src/bin/playlistclip.cpp:169
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Sekvence 1"
+msgstr "Počet sekvencí"
 
 #: src/bin/projectclip.cpp:246
 #, kde-format
@@ -7057,7 +7032,7 @@ msgstr "Přesunout vrstvu"
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "Vyberte soubor s titulky, do kterého chcete vrstvu přesunout:"
 
 #: src/dialogs/managesubtitles.cpp:102
 #, kde-format
@@ -7067,7 +7042,7 @@ msgstr "Kopírovat vrstvu"
 #: src/dialogs/managesubtitles.cpp:102
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "Vyberte soubor s titulky, do kterého chcete vrstvu zkopírovat:"
 
 #: src/dialogs/managesubtitles.cpp:132 src/dialogs/managesubtitles.cpp:213
 #, kde-format
@@ -7087,22 +7062,22 @@ msgstr "Globální"
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Move Style"
-msgstr ""
+msgstr "Styl přesunu"
 
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "Vyberte soubor s titulky, do kterého chcete styl přesunout:"
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Copy Style"
-msgstr ""
+msgstr "Kopírovat styl"
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "Vyberte soubor s titulky, do kterého chcete styl zkopírovat:"
 
 #: src/dialogs/managesubtitles.cpp:385
 #, kde-format
@@ -7168,12 +7143,12 @@ msgstr "Výchozí"
 #: src/dialogs/managesubtitles.cpp:537
 #, kde-format
 msgid "Box as Border"
-msgstr ""
+msgstr "Rámeček jako okraj"
 
 #: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:102
 #, kde-format
 msgid "Box as Shadow"
-msgstr ""
+msgstr "Rámeček jako stín"
 
 #: src/dialogs/managesubtitles.cpp:690
 #, kde-format
@@ -7185,17 +7160,17 @@ msgstr ""
 #: src/dialogs/managesubtitles.cpp:712
 #, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
-msgstr ""
+msgstr "Tímto odstraníte všechny události ve vrstvě <b>%1</b>."
 
 #: src/dialogs/managesubtitles.cpp:730
 #, kde-format
 msgid "Cannot delete default style."
-msgstr ""
+msgstr "Nelze smazat výchozí styl."
 
 #: src/dialogs/managesubtitles.cpp:734
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr ""
+msgstr "Tímto odstraníte styl <b>%1</b> a všechny jeho vlastnosti."
 
 #: src/dialogs/managesubtitles.cpp:739
 #, kde-format
@@ -7355,7 +7330,7 @@ msgstr "Čeká se…"
 #: src/dialogs/renderwidget.cpp:109
 #, kde-format
 msgid "Starting…"
-msgstr ""
+msgstr "Spouštění…"
 
 #: src/dialogs/renderwidget.cpp:112
 #, kde-format
@@ -7974,15 +7949,14 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:67
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Chyba stahování %1"
+msgstr "Stáhnout (1.4Gb)"
 
 #: src/dialogs/settings/pluginssettings.cpp:89
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Instaluji vícejazyčná data..."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -8002,10 +7976,9 @@ msgid "Probing..."
 msgstr "Sonduji..."
 
 #: src/dialogs/settings/pluginssettings.cpp:180
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Stahuji model…"
+msgstr "Stahuji vícejazyčný model…"
 
 #: src/dialogs/settings/pluginssettings.cpp:237
 #: src/dialogs/settings/pluginssettings.cpp:828
@@ -8029,19 +8002,17 @@ msgid "Install"
 msgstr "Instalovat"
 
 #: src/dialogs/settings/pluginssettings.cpp:356
-#, fuzzy, kde-format
-#| msgid "Check configuration"
+#, kde-format
 msgid "Check config"
-msgstr "Zkontrolovat nastavení"
+msgstr "Zkontrolovat konfiguraci"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "TAP Plugins"
+#, kde-format
 msgid "Plugin size"
-msgstr "Moduly TAP"
+msgstr "Velikost zásuvného modulu"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
@@ -8049,6 +8020,8 @@ msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
 msgstr ""
+"Toto smaže nainstalované modely.\n"
+"Později je můžete znovu nainstalovat."
 
 #: src/dialogs/settings/pluginssettings.cpp:395
 #: src/dialogs/settings/pluginssettings.cpp:409
@@ -8063,7 +8036,7 @@ msgstr ""
 #: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
-msgstr ""
+msgstr "Nainstalovat vícejazyčný překlad"
 
 #: src/dialogs/settings/pluginssettings.cpp:433
 #, kde-format
@@ -8071,15 +8044,14 @@ msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:488
-#, fuzzy, kde-format
-#| msgid "Select border color"
+#, kde-format
 msgid "Select model to download"
-msgstr "Vybrat barvu čáry"
+msgstr "Vyberte model ke stažení"
 
 #: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "Všechny modely jsou již nainstalovány"
 
 #: src/dialogs/settings/pluginssettings.cpp:524
 #, kde-format
@@ -8087,32 +8059,29 @@ msgid "Downloading…"
 msgstr "Stahuji…"
 
 #: src/dialogs/settings/pluginssettings.cpp:534
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "Stahuji model…"
+msgstr "Stahuji nejmenší model…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download models"
-msgstr "Stahuji model…"
+msgstr "Modely stahování"
 
 #: src/dialogs/settings/pluginssettings.cpp:612
 #: src/dialogs/settings/pluginssettings.cpp:626
 #: src/dialogs/settings/pluginssettings.cpp:635
 #, kde-format
 msgid "Install a model"
-msgstr ""
+msgstr "Nainstalovat model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/settings/pluginssettings.cpp:628
 #: src/dialogs/settings/pluginssettings.cpp:637 src/ui/configspeech_ui.ui:255
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Režim hrany"
+msgstr "Spravovat modely"
 
 #: src/dialogs/settings/pluginssettings.cpp:711
 #, kde-format
@@ -8237,10 +8206,9 @@ msgid "Speech recognition aborted."
 msgstr ""
 
 #: src/dialogs/speechdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "Speech recognition"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Rozpoznávání řeči"
+msgstr "Rozpoznávání řeči selhalo."
 
 #: src/dialogs/speechdialog.cpp:433
 #, kde-format
@@ -8823,7 +8791,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "Otevírá dialogové okno, abyste mohli upravit současné titulky."
 
 #: src/dialogs/subtitleedit.cpp:279
 #, kde-format
@@ -8944,7 +8912,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:311
 #, kde-format
 msgid "Toggle strikeout"
-msgstr ""
+msgstr "Přepnout přeškrtnuté"
 
 #: src/dialogs/subtitleedit.cpp:313
 #, kde-kuit-format
@@ -9019,17 +8987,17 @@ msgstr "Zdola nahoru"
 #: src/dialogs/subtitleedit.cpp:396
 #, kde-format
 msgid "Increase Editor Font Size"
-msgstr ""
+msgstr "Zvětšit velikost písma v editoru"
 
 #: src/dialogs/subtitleedit.cpp:398
 #, kde-format
 msgid "Decrease Editor Font Size"
-msgstr ""
+msgstr "Zmenšit velikost písma v editoru"
 
 #: src/dialogs/subtitleedit.cpp:400
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Smazat veškeré vlastní formátování"
 
 #: src/dialogs/subtitleedit.cpp:412
 #, kde-format
@@ -9039,18 +9007,18 @@ msgstr "Jednoduchý editor"
 #: src/dialogs/subtitleedit.cpp:609
 #, kde-format
 msgid "Manage Styles…"
-msgstr ""
+msgstr "Spravovat styly…"
 
 #: src/dialogs/subtitleedit.cpp:761 src/dialogs/subtitleedit.cpp:784
 #: src/dialogs/subtitleedit.cpp:786
 #, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr ""
+msgstr "Ukazatel: %1, celkem <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1681 src/dialogs/subtitleedit.cpp:1695
 #, kde-format
 msgid "Set Position X"
-msgstr ""
+msgstr "Nastavit umístění X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1681 src/dialogs/subtitleedit.cpp:1695
@@ -9062,7 +9030,7 @@ msgstr "X:"
 #: src/dialogs/subtitleedit.cpp:1683 src/dialogs/subtitleedit.cpp:1697
 #, kde-format
 msgid "Set Position Y"
-msgstr ""
+msgstr "Nastavit umístění Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1683 src/dialogs/subtitleedit.cpp:1697
@@ -9080,12 +9048,12 @@ msgstr "Vybrat písmo"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
-msgstr ""
+msgstr "Otevřít dialog pro výběr písma a nastavení jeho vlastností."
 
 #: src/dialogs/subtitlestyleedit.cpp:101
 #, kde-format
 msgid "Box as Outline"
-msgstr ""
+msgstr "Rámeček jako obrys"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:133 src/ui/editsubstyle_ui.ui:316
@@ -9108,17 +9076,17 @@ msgstr "Chyba"
 #: src/dialogs/subtitlestyleedit.cpp:170
 #, kde-format
 msgid "Style name already exists."
-msgstr ""
+msgstr "Název stylu již existuje."
 
 #: src/dialogs/subtitlestyleedit.cpp:175
 #, kde-format
 msgid "Style name cannot be empty."
-msgstr ""
+msgstr "Název stylu nesmí být prázdný."
 
 #: src/dialogs/subtitlestyleedit.cpp:180
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "Název stylu nemůže obsahovat ','."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9739,10 +9707,9 @@ msgid "Transition"
 msgstr "Přechod"
 
 #: src/doc/documentchecker.cpp:1865
-#, fuzzy, kde-format
-#| msgid "Gradient reference line"
+#, kde-format
 msgid "Unreferenced clip"
-msgstr "Referenční přímka přechodu"
+msgstr "Klip bez reference"
 
 #: src/doc/documentchecker.cpp:1867
 #, kde-format
@@ -9880,6 +9847,7 @@ msgstr ""
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
+"Soubor s titulky:<br/>%1<br/>již existuje. Opravdu si jej přejete přepsat?"
 
 #: src/doc/documentvalidator.cpp:2212 src/mainwindow.cpp:3453
 #, kde-format
@@ -10029,34 +9997,33 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
-msgstr ""
+msgstr "Zástupné klipy nejsou určeny pro skládání nebo barevné přechody."
 
 #: src/doc/kdenlivedoc.cpp:1611
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Tento klip má alfa kanál. "
+msgstr[1] "Tyto klipy mají alfa kanál. "
+msgstr[2] "Zahodit alfa kanál. "
 
 #: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Máte klip s alfa kanálem. "
+msgstr[1] "Máte %1 klipy s alfa kanálem. "
+msgstr[2] "Máte %1 klipů s alfa kanálem. "
 
 #: src/doc/kdenlivedoc.cpp:1619
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Zástupné klipy"
+msgstr "Zastoupit všechny klipy"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Zastoupit pouze klipy bez alfy"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -10297,7 +10264,7 @@ msgstr "Přidat efekt %1"
 #: src/effects/effectstack/model/effectstackmodel.cpp:674
 #, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr ""
+msgstr "Efekt %1 lze přidat pouze do hlavního"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1229
 #, kde-format
@@ -10343,7 +10310,7 @@ msgstr ""
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:79
 #, kde-format
 msgid "Open effect documentation in browser"
-msgstr ""
+msgstr "Otevřít efektovou dokumentaci v prohlížeči"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:106
 #, kde-format
@@ -10565,26 +10532,23 @@ msgstr ""
 #: src/effects/effectstack/view/maskmanager.cpp:47
 #, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr ""
+msgstr "Prosím nakonfigurujte zásuvný modul SAM2"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "Zadejte název šablony"
+msgstr "Zadejte název masky"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
 #, kde-format
 msgid "Enter the name of this mask:"
-msgstr ""
+msgstr "Zadejte název této masky:"
 
 #: src/effects/effectstack/view/maskmanager.cpp:211
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generating mask %1"
-msgstr "Vygenerovat"
+msgstr "Generuji masku %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
@@ -10787,21 +10751,19 @@ msgid "Failed to filter source."
 msgstr "Nelze filtrovat zdroj."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "Variation:"
+#, kde-format
 msgid "Mask creation"
-msgstr "Změna:"
+msgstr "Vytvoření masky"
 
 #: src/jobs/masktask.cpp:44
 #, kde-format
 msgid "No source frames to process"
-msgstr ""
+msgstr "Žádné zdrojové snímky pro zpracování"
 
 #: src/jobs/masktask.cpp:75
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
-msgstr "Selhala analýza klipu."
+msgstr "Selhala analýza videa."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14368,8 +14330,7 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformovat"
@@ -14377,12 +14338,12 @@ msgstr "Transformovat"
 #: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating image mask"
-msgstr ""
+msgstr "Generování obrazových masek"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
+msgstr "Generuji video masku"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
@@ -14395,7 +14356,7 @@ msgstr ""
 #: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
 msgid "Previewing video mask"
-msgstr ""
+msgstr "Náhled video masky"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -14439,10 +14400,9 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "Vygenerovat"
+msgstr "Vygenerovat masku"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
@@ -14450,22 +14410,19 @@ msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:80
-#, fuzzy, kde-format
-#| msgid "Shape color"
+#, kde-format
 msgid "Change Color"
-msgstr "Barva tvaru"
+msgstr "Změnit barvu"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "Obrátit"
+msgstr "Převrátit masku"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "Upravit délku trvání"
+msgstr "Ukončit tvorbu masky"
 
 #: src/monitor/view/MaskToolBar.qml:100
 #, kde-format
@@ -16150,6 +16107,8 @@ msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
 msgstr ""
+"Nelze vytvořit virtuální prostředí pythonu:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:369
 #, kde-format
@@ -16222,28 +16181,30 @@ msgid ""
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Stahuji model…"
+msgstr ""
+"Chyba při stahování modelu:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
 #, kde-format
 msgid "Select new models to download"
-msgstr ""
+msgstr "Vyberte nové modely ke stažení"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
 msgid "Installing model %1"
-msgstr ""
+msgstr "Instaluji model %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Kontrolují se dostupné modely"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
 #, kde-format
@@ -16251,15 +16212,14 @@ msgid "Downloading"
 msgstr "Stahování"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Stahuji model…"
+msgstr "Model stahování"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
 #, kde-format
 msgid "Abort downloads"
-msgstr ""
+msgstr "Zrušit stahování"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, kde-format
@@ -16269,31 +16229,27 @@ msgstr "Odstranit model"
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
 msgid "Install model"
-msgstr ""
+msgstr "Nainstalovat model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Celková velikost:"
+msgstr "Celková velikost stažení: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Zkontroluji nastavení..."
+msgstr "Kontroluje se neporušenost modelů..."
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Probíhá archivování, přejete si jej zastavit?"
+msgstr "Probíhá stahování, přejete si je zastavit?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Abort Job"
+#, kde-format
 msgid "Abort download"
-msgstr "Zrušit úlohu"
+msgstr "Zrušit stahování"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16390,7 +16346,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "Segmentování objektů (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -16626,10 +16582,9 @@ msgid "Yiddish"
 msgstr "Jidiš"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:246
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Šeptat"
+msgstr "Nainstalovat Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -17855,10 +17810,9 @@ msgid "Error initializing timeline preview"
 msgstr "Chyba během inicializace náhledu časové osy"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "Extrahuje se zvuk pro %1."
+msgstr "Upravuji délku pro %1 klipy."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
@@ -17867,7 +17821,7 @@ msgstr "Extrahuje se zvuk pro %1."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
 #, kde-format
 msgid "Resizing in Ripple mode."
-msgstr ""
+msgstr "Změna velikosti v režimu Ripple."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -19526,7 +19480,7 @@ msgstr "Zobrazit úchyty pro všechny body nebo pouze pro vybrané."
 #: src/ui/clipdurationdialog_ui.ui:34
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Použít trvání pro všechny položky"
 
 #. i18n: ectx: property (text), widget (QLabel, crop_label)
 #: src/ui/clipdurationdialog_ui.ui:41
@@ -19542,10 +19496,9 @@ msgstr "Konec ořezání:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "File size:"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Velikost souboru:"
+msgstr "Změna velikosti Ripple"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20391,7 +20344,7 @@ msgstr "Zkontrolovat, zda první přidaný klip odpovídá s profilu projektu"
 #: src/ui/configmisc_ui.ui:63
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "Zachovat v klipu původní velikost rámečku při importu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_automultistreams)
 #: src/ui/configmisc_ui.ui:70
@@ -20419,21 +20372,15 @@ msgstr "Získat metadata klipu vytvořená Magickou lucernou (Magic Lantern)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ignorovat podadresářovou strukturu"
+msgstr "Ignorovat podadresářovou strukturu při importu"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Ignorovat podadresářovou strukturu (importovat všechny soubory do složky "
-"nejvyšší úrovně)"
+msgstr "Toto naimportuje všechny soubory to nejvyššího adresáře"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -20509,8 +20456,7 @@ msgstr "Titulky:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
 msgstr "Povolit zabudované efekty"
 
@@ -20768,22 +20714,21 @@ msgstr "Přeložit text do angličtiny"
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
 #: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Uninstall plugin"
-msgstr "Kreslicí režim:"
+msgstr "Odinstalovat zásuvný modul"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:419
 #, kde-format
 msgid "Whisper"
-msgstr "Šeptat"
+msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
 #: src/ui/configspeech_ui.ui:450
 #, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Bezešvý"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configspeech_ui.ui:485
@@ -20795,21 +20740,19 @@ msgstr "Nástroj pro mluvu"
 #: src/ui/configspeech_ui.ui:492
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "Tento klip má alfa kanál. "
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:499
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Šeptat"
+msgstr "Wh&isper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:522
-#, fuzzy, kde-format
-#| msgid "Invert selection"
+#, kde-format
 msgid "Object Detection"
-msgstr "Obrátit výběr"
+msgstr "Objektová detekce"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
@@ -20827,10 +20770,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:617
-#, fuzzy, kde-format
-#| msgid "Delete all markers"
+#, kde-format
 msgid "Delete all models"
-msgstr "Smazat všechny značky"
+msgstr "Smazat všechny modely"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -21387,20 +21329,19 @@ msgstr "Pravý okraj"
 #: src/ui/editsub_ui.ui:487
 #, kde-format
 msgid "Upper Bound"
-msgstr ""
+msgstr "Vrchní hranice"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
-#, fuzzy, kde-format
-#| msgid "Vertical Flip"
+#, kde-format
 msgid "Vertical margin"
-msgstr "Svislé převrácení"
+msgstr "Svislý oddělovač"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
 #, kde-format
 msgid "Lower Bound"
-msgstr ""
+msgstr "Spodní hranice"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
@@ -21420,20 +21361,19 @@ msgstr "Rolovat"
 #: src/ui/editsub_ui.ui:581
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Název</p></body></html>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:18
 #, kde-format
 msgid "Subtitle Style Editor"
-msgstr ""
+msgstr "Editor stylu titulků"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "Folder name"
+#, kde-format
 msgid "Style name"
-msgstr "Název složky"
+msgstr "Název stylu"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -21451,10 +21391,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
+#, kde-format
 msgid "Character spacing"
-msgstr "Rozestupy znaků:"
+msgstr "Prostrkání znaků"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
@@ -21967,7 +21906,7 @@ msgstr "Smazat"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "Vrstvy a obsah"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: src/ui/managesubtitles_ui.ui:211
@@ -21991,7 +21930,7 @@ msgstr "Styly"
 #: src/ui/managesubtitles_ui.ui:354
 #, kde-format
 msgid "FontName"
-msgstr ""
+msgstr "NazevPisma"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
@@ -22009,19 +21948,19 @@ msgstr "PrimárníBarva"
 #: src/ui/managesubtitles_ui.ui:389
 #, kde-format
 msgid "SecondaryColor"
-msgstr ""
+msgstr "DruháBarva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
 #, kde-format
 msgid "OutlineColor"
-msgstr ""
+msgstr "ObrysováBarva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
 #, kde-format
 msgid "BackColor"
-msgstr ""
+msgstr "PozadníBarva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:419
@@ -22045,25 +21984,25 @@ msgstr "Rozestupy"
 #: src/ui/managesubtitles_ui.ui:439
 #, kde-format
 msgid "BoardStyle"
-msgstr ""
+msgstr "StylDesky"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
 #, kde-format
 msgid "MarginL"
-msgstr ""
+msgstr "OkrajL"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
 #, kde-format
 msgid "MarginR"
-msgstr ""
+msgstr "OkrajR"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
 #, kde-format
 msgid "MarginV"
-msgstr ""
+msgstr "OkrajV"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
@@ -22115,25 +22054,21 @@ msgstr "Formulář"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create New Mask"
-msgstr "Vytvořit novou sekvenci"
+msgstr "Vytvořit novou masku"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "Smazat značku"
+msgstr "Smazat masku"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "Importovaný projekt"
+msgstr "Importovat masku do projektu"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
@@ -22143,17 +22078,15 @@ msgstr "Maska"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "Náhled"
+msgstr "Náhled masky"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "Použít"
+msgstr "Použít masku"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -23291,8 +23224,7 @@ msgstr "&Přechod:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #: src/ui/titlewidget_ui.ui:1020
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Sol&id color:"
 msgstr "P&lná barva:"
 
@@ -23318,7 +23250,7 @@ msgstr ""
 #: src/ui/titlewidget_ui.ui:1081
 #, kde-format
 msgid "B&y char"
-msgstr ""
+msgstr "Podl&e znaku"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_word)
 #: src/ui/titlewidget_ui.ui:1091
