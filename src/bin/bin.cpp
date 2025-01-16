@@ -1513,7 +1513,9 @@ Bin::~Bin()
         disconnect(&pCore->taskManager, &TaskManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
         pCore->taskManager.slotCancelJobs(true);
         blockSignals(true);
-        m_proxyModel->selectionModel()->blockSignals(true);
+        if (m_proxyModel) {
+            m_proxyModel->selectionModel()->blockSignals(true);
+        }
         setEnabled(false);
         m_propertiesPanel = nullptr;
         abortOperations();
@@ -1521,7 +1523,9 @@ Bin::~Bin()
     } else {
         blockSignals(true);
         setEnabled(false);
-        m_proxyModel->selectionModel()->blockSignals(true);
+        if (m_proxyModel) {
+            m_proxyModel->selectionModel()->blockSignals(true);
+        }
     }
 }
 
@@ -2294,12 +2298,17 @@ void Bin::slotDuplicateClip()
 void Bin::cleanDocument()
 {
     blockSignals(true);
-    if (m_proxyModel) {
-        m_proxyModel->selectionModel()->blockSignals(true);
-    }
     setEnabled(false);
     // Cleanup references in the clip properties dialog
     Q_EMIT requestShowClipProperties(nullptr);
+
+    if (pCore->closing) {
+        m_proxyModel.reset(nullptr);
+    } else if (m_proxyModel) {
+        m_proxyModel->selectionModel()->blockSignals(true);
+    }
+    delete m_itemView;
+    m_itemView = nullptr;
 
     // Cleanup previous project
     m_itemModel->clean();
@@ -2309,8 +2318,6 @@ void Bin::cleanDocument()
             delete w;
         }
     }
-    delete m_itemView;
-    m_itemView = nullptr;
     isLoading = false;
     shouldCheckProfile = false;
     m_doc = nullptr;
