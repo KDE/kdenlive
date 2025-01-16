@@ -13,8 +13,8 @@
 #include <opentimelineio/timeline.h>
 #include <opentimelineio/track.h>
 
-class QModelIndex;
 class TimelineItemModel;
+class TrackModel;
 
 class OtioExport : public QObject
 {
@@ -28,7 +28,8 @@ public Q_SLOTS:
 
 private:
     void exportTimeline(const std::shared_ptr<TimelineItemModel> &, const QString &path);
-    void exportTrack(const std::shared_ptr<TimelineItemModel> &, const QModelIndex &, OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &);
+    void exportTrack(const std::shared_ptr<TimelineItemModel> &, int trackId, const std::shared_ptr<TrackModel> &,
+                     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &);
     void exportClip(const std::shared_ptr<TimelineItemModel> &, int clipId, OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &);
 
     double projectFps() const;

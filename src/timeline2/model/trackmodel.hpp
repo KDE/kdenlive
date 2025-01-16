@@ -55,6 +55,7 @@ public:
     friend struct TimelineFunctions;
     friend class TimelineItemModel;
     friend class TimelineModel;
+    friend class OtioExport;
 
 private:
     /** This constructor is private, call the static construct instead */

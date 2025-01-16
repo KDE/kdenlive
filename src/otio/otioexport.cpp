@@ -46,32 +46,22 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
 
     // Export the tracks.
     //
-    // TODO: The recommendation was to traverse the tracks using
-    // TimelineModel::getTrackById_const(), but that function is protected?
-    // For now we traverse the tracks by using the QAbstractItemModel
-    // functions.
-    //
     // TODO: Tracks are in reverse order?
     //
-    // for (int trackId : timeline->getAllTracksIds())
-    //{
-    //    std::shared_ptr<TrackModel> track = timeline->getTrackById(trackId);
-    //}
-    for (int track = timeline->rowCount() - 1; track >= 0; --track) {
-        const QModelIndex trackModelIndex = timeline->index(track);
-        exportTrack(timeline, trackModelIndex, otioTimeline);
+    for (int trackId : timeline->getAllTracksIds()) {
+        std::shared_ptr<TrackModel> track = timeline->getTrackById(trackId);
+        exportTrack(timeline, trackId, track, otioTimeline);
     }
 
     // Write the OTIO timeline to disk.
     otioTimeline->to_json_file(fileName.toStdString());
 }
 
-void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline, const QModelIndex &trackModelIndex,
+void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, const std::shared_ptr<TrackModel> &track,
                              OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &otioTimeline)
 {
     // Create the OTIO track.
     std::string trackKind = OTIO_NS::Track::Kind::video;
-    const int trackId = trackModelIndex.internalId();
     if (timeline->isAudioTrack(trackId)) {
         trackKind = OTIO_NS::Track::Kind::audio;
     } else if (timeline->isSubtitleTrack(trackId)) {
@@ -83,9 +73,9 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
 
     // Sort the clips by their position in the timeline.
     QMap<int, int> clipPositionToId;
-    for (int clip = 0; clip < timeline->rowCount(trackModelIndex); ++clip) {
-        const QModelIndex clipModelIndex = timeline->index(clip, 0, trackModelIndex);
-        const int clipId = clipModelIndex.internalId();
+
+    for (int clip = 0; clip < track->getClipsCount(); ++clip) {
+        const int clipId = track->getClipByRow(clip);
         clipPositionToId[timeline->getItemPosition(clipId)] = clipId;
     }
 
