@@ -6216,6 +6216,9 @@ QStringList TimelineModel::extractCompositionLumas() const
         if (luma.isEmpty()) {
             luma = compo.second->getProperty(QStringLiteral("luma"));
         }
+        if (luma.isEmpty()) {
+            luma = compo.second->getProperty(QStringLiteral("luma.resource"));
+        }
         if (!luma.isEmpty()) {
             if (parsedLumas.contains(luma)) {
                 continue;
