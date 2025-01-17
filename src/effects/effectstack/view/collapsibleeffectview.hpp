@@ -99,7 +99,6 @@ public Q_SLOTS:
     void updateGroupedInstances();
 
 private Q_SLOTS:
-    void setWidgetHeight(qreal value);
     void enableView(bool enabled);
     void enableHideKeyframes(bool enabled);
     void slotSwitch(bool expand);
@@ -144,6 +143,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 Q_SIGNALS:
     void parameterChanged(const QDomElement &, const QDomElement &, int);
