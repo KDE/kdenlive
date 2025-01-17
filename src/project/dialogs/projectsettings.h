@@ -22,7 +22,7 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, int audiochannels, const QString &projectPath,
+    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, int videotracks, int audiotracks, int audiochannels, const QString &projectPath,
                     bool readOnlyTracks, bool unsavedProject, QWidget *parent = nullptr);
     QString selectedProfile() const;
     std::pair<int, int> tracks() const;
@@ -82,6 +82,7 @@ private:
     ProfileWidget *m_pw;
     bool m_savedProject;
     QStringList m_lumas;
+    QStringList m_externalFiles;
     QString m_proxyparameters;
     QString m_proxyextension;
     bool m_newProject;

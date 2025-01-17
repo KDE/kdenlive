@@ -2821,3 +2821,27 @@ bool KdenliveDoc::isBusy() const
 {
     return loading || closing;
 }
+
+const QStringList KdenliveDoc::extractCompositionLumas()
+{
+    QStringList lumaFiles;
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        lumaFiles << j.value()->extractCompositionLumas();
+    }
+    lumaFiles.removeDuplicates();
+    return lumaFiles;
+}
+
+const QStringList KdenliveDoc::extractExternalEffectFiles()
+{
+    QStringList externalFiles;
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        externalFiles << j.value()->extractExternalEffectFiles();
+    }
+    externalFiles.removeDuplicates();
+    return externalFiles;
+}

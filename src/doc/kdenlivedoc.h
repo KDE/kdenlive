@@ -339,6 +339,10 @@ public:
     bool isBusy() const;
     /** @brief Returns a valid {fps_num, fps_den} based on a fps */
     static std::pair<int, int> getFpsFraction(double fps, bool *adjusted);
+    /** @brief Returns a list of all luma files used in compositions */
+    const QStringList extractCompositionLumas();
+    /** @brief Returns a list of all external files used in effects (LUT, Masks, etc) */
+    const QStringList extractExternalEffectFiles();
     enum RENDERLOCATION { SaveToVideoFolder = 0, SaveToProjectFolder, SaveToCustomFolder, SaveToProjectSubFolder };
 
 protected:

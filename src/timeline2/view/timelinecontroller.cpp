@@ -2062,16 +2062,6 @@ QPair<int, int> TimelineController::getAvTracksCount() const
     return m_model->getAVtracksCount();
 }
 
-QStringList TimelineController::extractCompositionLumas() const
-{
-    return m_model->extractCompositionLumas();
-}
-
-QStringList TimelineController::extractExternalEffectFiles() const
-{
-    return m_model->extractExternalEffectFiles();
-}
-
 void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
 {
     QList<int> activeClips;

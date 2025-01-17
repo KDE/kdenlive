@@ -208,8 +208,8 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(documentId));
         }
     } else {
-        QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString>(), QStringList(), projectTracks.first, projectTracks.second,
-                                                          audioChannels, KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
+        QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString>(), projectTracks.first, projectTracks.second, audioChannels,
+                                                          KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
         connect(w.data(), &ProjectSettings::refreshProfiles, pCore->window(), &MainWindow::slotRefreshProfiles);
         if (w->exec() != QDialog::Accepted) {
             delete w;
