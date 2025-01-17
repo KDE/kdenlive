@@ -17,6 +17,7 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "timeline2/model/timelinemodel.hpp"
+#include "utils/qstringutils.h"
 
 #include <QDir>
 #include <QDrag>
@@ -756,7 +757,7 @@ void EffectStackView::slotSaveStack()
             return;
         }
 
-        QString effectfilename = name + QStringLiteral(".xml");
+        QString effectfilename = QStringUtils::getCleanFileName(name) + QStringLiteral(".xml");
 
         if (description.trimmed().isEmpty()) {
             if (KMessageBox::questionTwoActions(this, i18n("No description provided. \nSave effect with no description?"), {}, KStandardGuiItem::save(),

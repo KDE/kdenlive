@@ -16,6 +16,7 @@
 #include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "utils/qstringutils.h"
 #include "widgets/dragvalue.h"
 
 #include "kdenlive_debug.h"
@@ -588,19 +589,20 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
     QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
 
     if (dialog.exec() == QDialog::Accepted) {
-        QString name = effectName->text();
-        QString enteredDescription = descriptionBox->toPlainText();
-        if (name.trimmed().isEmpty()) {
+        QString name = effectName->text().simplified();
+        if (name.isEmpty()) {
             KMessageBox::error(this, i18n("No name provided, effect not saved."));
             return;
         }
+        const QString fileName = QStringUtils::getCleanFileName(name);
+        QString enteredDescription = descriptionBox->toPlainText();
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
         if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
         }
 
-        if (dir.exists(name + QStringLiteral(".xml")))
-            if (KMessageBox::questionTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml")), {},
+        if (dir.exists(fileName + QStringLiteral(".xml")))
+            if (KMessageBox::questionTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", fileName + QStringLiteral(".xml")), {},
                                                 KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
                 return;
             }
@@ -660,7 +662,7 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
         QDomElement effectprops = effect.firstChildElement(QStringLiteral("properties"));
         effectprops.setAttribute(QStringLiteral("id"), name);
         effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
-        QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+        QFile file(dir.absoluteFilePath(fileName + QStringLiteral(".xml")));
 
         if (!enteredDescription.trimmed().isEmpty()) {
             QDomElement root = doc.documentElement();
@@ -680,7 +682,7 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
             slotSaveEffect(name, enteredDescription);
             return;
         }
-        Q_EMIT reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+        Q_EMIT reloadEffect(dir.absoluteFilePath(fileName + QStringLiteral(".xml")));
     }
 }
 

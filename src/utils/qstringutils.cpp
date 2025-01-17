@@ -6,6 +6,7 @@
 #include "qstringutils.h"
 
 #include <QFileInfo>
+#include <QRegularExpression>
 #include <QString>
 #include <QStringList>
 
@@ -39,4 +40,10 @@ QString QStringUtils::appendToFilename(const QString &filename, const QString &a
     QString name = filename.section(QLatin1Char('.'), 0, -2);
     QString extension = filename.section(QLatin1Char('.'), -1);
     return name + appendix + QLatin1Char('.') + extension;
+}
+
+QString QStringUtils::getCleanFileName(QString filename)
+{
+    // Replace all non letter based characters with a dash
+    return filename.replace(QRegularExpression("[^a-zA-Z0-9\\p{L}\\p{M} \\p{N}]"), QStringLiteral("-"));
 }
