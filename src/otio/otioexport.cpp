@@ -7,12 +7,14 @@
 
 #include "otioexport.h"
 
+#include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 #include "project/projectmanager.h"
+#include "timeline2/model/clipmodel.hpp"
 
 #include <KLocalizedString>
 
@@ -20,6 +22,7 @@
 
 #include <opentimelineio/externalReference.h>
 #include <opentimelineio/gap.h>
+#include <opentimelineio/marker.h>
 #include <opentimelineio/stack.h>
 
 OtioExport::OtioExport(QObject *parent)
@@ -46,9 +49,6 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline(new OTIO_NS::Timeline);
 
     // Export the tracks.
-    //
-    // TODO: Tracks are in reverse order?
-    //
     const int tracksCount = timeline->getTracksCount();
     for (int index = tracksCount - 1; index >= 0; --index) {
         const int trackId = timeline->getTrackIndexFromPosition(index);
@@ -85,6 +85,7 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
     int position = 0;
     const double fps = projectFps();
     for (int clipId : clipPositionToId) {
+
         const int clipPosition = clipPositionToId.key(clipId);
         if (clipPosition != position) {
             // OTIO explicitly represents gaps.
@@ -94,6 +95,7 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
             otioTrack->append_child(otioGap);
             position += duration;
         }
+
         exportClip(timeline, clipId, otioTrack);
         position += timeline->getItemPlaytime(clipId);
     }
@@ -120,6 +122,23 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
         new OTIO_NS::Clip(timeline->getClipName(clipId).toStdString(), otioMediaReference.value,
                           OTIO_NS::TimeRange(OTIO_NS::RationalTime(clipInOut.first, fps), OTIO_NS::RationalTime(clipInOut.second - clipInOut.first + 1, fps))));
     otioTrack->append_child(otioClip);
+
+    // Create the markers.
+    if (std::shared_ptr<ClipModel> clipModel = timeline->getClipPtr(clipId)) {
+        if (std::shared_ptr<MarkerListModel> markerModel = clipModel->getMarkerModel()) {
+            for (const CommentedTime &marker : markerModel->getAllMarkers()) {
+                OTIO_NS::SerializableObject::Retainer<OTIO_NS::Marker> otioMarker(new OTIO_NS::Marker);
+                otioMarker->set_comment(marker.comment().toStdString());
+                const int position = marker.time().frames(fps) - clipInOut.first;
+                otioMarker->set_marked_range(OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(1, fps)));
+                auto it = pCore->markerTypes.find(marker.markerType());
+                if (it != pCore->markerTypes.end()) {
+                    otioMarker->set_color(it->color.name().toStdString());
+                }
+                otioClip->markers().push_back(otioMarker);
+            }
+        }
+    }
 }
 
 double OtioExport::projectFps() const

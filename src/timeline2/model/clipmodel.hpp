@@ -19,6 +19,7 @@ class TimelineModel;
 class TrackModel;
 class KeyframeModel;
 class ClipSnapModel;
+class OtioExport;
 
 /** @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -165,6 +166,7 @@ public:
     friend class TimelineItemModel;
     friend class TimelineController;
     friend struct TimelineFunctions;
+    friend class OtioExport;
 
 protected:
     Mlt::Producer *service() const override;
