@@ -355,11 +355,6 @@ void CollapsibleEffectView::updateGroupedInstances()
     }
 }
 
-void CollapsibleEffectView::setWidgetHeight(qreal value)
-{
-    widgetFrame->setFixedHeight(int(m_view->contentHeight() * value));
-}
-
 void CollapsibleEffectView::slotCreateGroup()
 {
     Q_EMIT createGroup(m_model);
@@ -857,6 +852,12 @@ void CollapsibleEffectView::dragEnterEvent(QDragEnterEvent *event)
         QWidget::dragEnterEvent(event);
     }
     */
+}
+
+void CollapsibleEffectView::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    m_view->adjustSize();
 }
 
 void CollapsibleEffectView::dragLeaveEvent(QDragLeaveEvent * /*event*/)
