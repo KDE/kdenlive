@@ -282,7 +282,6 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("edit-reset")));
         buttonDel->setToolTip(i18n("Reset Effect"));
         connect(buttonDel, &QToolButton::clicked, this, &CollapsibleEffectView::slotResetEffect);
-        buttonDel->setEnabled(m_model->isAssetEnabled());
         connect(m_model.get(), &AssetParameterModel::enabledChange, this, [this](bool enable) {
             presetButton->setEnabled(enable);
             if (m_model->isAssetEnabled() != enable) {
