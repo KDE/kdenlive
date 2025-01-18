@@ -26,8 +26,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KZip>
 #include <kio/directorysizejob.h>
 
+#include <QMimeDatabase>
+#include <QStorageInfo>
 #include <QTreeWidget>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <utility>
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
     : QDialog(parent)

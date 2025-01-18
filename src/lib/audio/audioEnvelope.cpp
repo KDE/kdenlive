@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 #include <QElapsedTimer>
 #include <QImage>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <algorithm>
 #include <cmath>
 

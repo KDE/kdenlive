@@ -12,7 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QColor>
 #include <QMouseEvent>
 #include <QPainter>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>

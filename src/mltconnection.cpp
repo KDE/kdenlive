@@ -12,7 +12,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 #include <KUrlRequester>
 #include <KUrlRequesterDialog>
-#include <QtConcurrent>
+#include <QDirIterator>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include <clocale>
 #include <lib/localeHandling.h>

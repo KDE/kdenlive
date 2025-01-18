@@ -18,7 +18,7 @@
 #include <QProgressBar>
 #include <QPushButton>
 #include <QToolButton>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 
 ModelDownloadWidget::ModelDownloadWidget(SpeechToText *engine, const QString &scriptPath, const QStringList &args, QWidget *parent)
     : QWidget(parent)

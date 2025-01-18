@@ -27,7 +27,7 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QVBoxLayout>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 
 WhisperDownload::WhisperDownload(SpeechToText *engine, const QString &modelName, QWidget *parent)
     : QDialog(parent)

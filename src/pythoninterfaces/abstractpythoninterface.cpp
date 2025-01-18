@@ -17,7 +17,7 @@
 #include <QMutex>
 #include <QProcess>
 #include <QStandardPaths>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 
 static QMutex mutex;
 static bool installInProgress;

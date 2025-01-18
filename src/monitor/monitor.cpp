@@ -70,7 +70,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QSlider>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <utility>
 
 #define SEEK_INACTIVE (-1)
