@@ -2090,8 +2090,8 @@ void MainWindow::slotEditProjectSettings(int ix)
     KdenliveDoc *project = pCore->currentDoc();
     QPair<int, int> p = getCurrentTimeline()->getAvTracksCount();
     int channels = project->getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
-    ProjectSettings *w = new ProjectSettings(project, project->metadata(), getCurrentTimeline()->controller()->extractCompositionLumas(), p.second, p.first,
-                                             channels, project->projectTempFolder(), true, !project->isModified(), this);
+    ProjectSettings *w =
+        new ProjectSettings(project, project->metadata(), p.second, p.first, channels, project->projectTempFolder(), true, !project->isModified(), this);
     if (ix > 0) {
         w->tabWidget->setCurrentIndex(ix);
     }
@@ -4150,8 +4150,10 @@ void MainWindow::slotArchiveProject()
         KMessageBox::error(this, i18n("Project file could not be saved for archiving."));
         return;
     }
-    QPointer<ArchiveWidget> d(new ArchiveWidget(doc->url().fileName(), sceneData, getCurrentTimeline()->controller()->extractCompositionLumas(),
-                                                getCurrentTimeline()->controller()->extractExternalEffectFiles(), this));
+    QStringList compositionLumas = doc->extractCompositionLumas();
+    QStringList externalEffectFiles = doc->extractExternalEffectFiles();
+
+    QPointer<ArchiveWidget> d(new ArchiveWidget(doc->url().fileName(), sceneData, compositionLumas, externalEffectFiles, this));
     if (d->exec() != 0) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }

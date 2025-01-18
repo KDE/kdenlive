@@ -192,7 +192,7 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
     for (int i = 0; i < count(); i++) {
         if (static_cast<TimelineWidget *>(widget(i))->getUuid() == uuid) {
             tabBar()->setTabText(i, name);
-            pCore->projectManager()->setTimelinePropery(uuid, QStringLiteral("kdenlive:clipname"), name);
+            pCore->projectManager()->setTimelineProperty(uuid, QStringLiteral("kdenlive:clipname"), name);
             updateWindowTitle();
             break;
         }

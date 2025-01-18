@@ -1855,6 +1855,12 @@ QStringList EffectStackModel::externalFiles() const
             url = filter.get("luma.resource");
         } else if (filter.property_exists("resource")) {
             url = filter.get("resource");
+        } else if (filter.property_exists("filename")) {
+            url = filter.get("filename");
+            if (filter.property_exists("results")) {
+                // properties for vidstab files
+                urls << QString(filter.get("results"));
+            }
         }
         if (!url.isEmpty()) {
             urls << url;

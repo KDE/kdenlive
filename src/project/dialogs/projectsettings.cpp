@@ -53,11 +53,10 @@ public:
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, int audiochannels,
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, int videotracks, int audiotracks, int audiochannels,
                                  const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
     : QDialog(parent)
     , m_savedProject(savedProject)
-    , m_lumas(std::move(lumas))
     , m_newProject(doc == nullptr)
 {
     setupUi(this);
@@ -113,6 +112,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     if (doc) {
         currentProf = pCore->getCurrentProfile()->path();
         proxy_box->setChecked(doc->useProxy());
+        m_lumas = doc->extractCompositionLumas();
+        m_externalFiles = doc->extractExternalEffectFiles();
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt() != 0);
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
         m_proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));
@@ -439,6 +440,10 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     for (const QString &file : std::as_const(m_lumas)) {
         count++;
         new QTreeWidgetItem(images, QStringList() << file);
+    }
+    for (const QString &file : std::as_const(m_externalFiles)) {
+        count++;
+        new QTreeWidgetItem(others, QStringList() << file);
     }
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
     for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
