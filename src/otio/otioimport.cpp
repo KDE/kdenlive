@@ -8,6 +8,7 @@
 #include "otioimport.h"
 
 #include "bin/clipcreator.hpp"
+#include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -28,6 +29,7 @@
 #include <opentimelineio/externalReference.h>
 #include <opentimelineio/generatorReference.h>
 #include <opentimelineio/imageSequenceReference.h>
+#include <opentimelineio/marker.h>
 
 OtioImport::OtioImport(QObject *parent)
     : QObject(parent)
@@ -65,8 +67,6 @@ void OtioImport::slotImport()
     for (const auto &i : profiles) {
         const auto &profileModel = profileRepository->getProfile(i.second);
         if (profileModel->fps() == otioFps) {
-            const int width = profileModel->width();
-            const int height = profileModel->height();
             profileCandidates.push_back(i.second);
         }
     }
@@ -113,6 +113,12 @@ void OtioImport::slotImport()
     data->timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
     data->oldTracks = data->timeline->getAllTracksIds();
 
+    // Map color names to marker types.
+    for (const auto &i : pCore->markerTypes.keys()) {
+        const QString name = pCore->markerTypes[i].color.name();
+        m_colorNameToMarkerType[name] = i;
+    }
+
     // Find all of the OTIO media references and add them to the bin. When
     // the bin clips are ready, import the timeline.
     //
@@ -120,6 +126,8 @@ void OtioImport::slotImport()
     // guaranteed to be called? Can the callback be called and the bin
     // clip still not able to be added to the timeline (like a missing
     // file)?
+    //
+    // TODO: Add a progress dialog?
     for (const auto &otioClip : data->otioTimeline->find_clips()) {
         if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
             const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
@@ -223,12 +231,29 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
                     data->timeline->requestItemResize(clipId, duration, true, false, -1, true);
 
                     // Slip the clip.
-                    int slip = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
+                    const int start = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
+                    int slip = start;
                     if (!timecode.isEmpty()) {
                         const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(timecode.toStdString(), otioTimelineDuration.rate());
                         slip -= otioTimecode.value();
                     }
                     data->timeline->requestClipSlip(clipId, -slip, false, true);
+
+                    // Add markers.
+                    for (const auto &otioMarker : otioClip->markers()) {
+                        if (std::shared_ptr<ClipModel> clipModel = data->timeline->getClipPtr(clipId)) {
+                            if (std::shared_ptr<MarkerListModel> markerModel = clipModel->getMarkerModel()) {
+                                const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
+                                GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
+                                int type = -1;
+                                auto j = m_colorNameToMarkerType.find(QString::fromStdString(otioMarker->color()));
+                                if (j != m_colorNameToMarkerType.end()) {
+                                    type = *j;
+                                }
+                                markerModel->addMarker(pos, QString::fromStdString(otioMarker->comment()), type);
+                            }
+                        }
+                    }
                 }
             }
         } else if (auto otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {

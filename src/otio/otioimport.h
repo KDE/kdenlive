@@ -45,4 +45,6 @@ private:
     void importClip(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &, int trackId);
 
     static QString resolveFile(const QString &, const QFileInfo &timelineFileInfo);
+
+    QMap<QString, int> m_colorNameToMarkerType;
 };
