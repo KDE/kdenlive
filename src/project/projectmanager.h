@@ -117,7 +117,7 @@ public:
                       std::shared_ptr<TimelineItemModel> existingModel = nullptr, bool openInMonitor = true);
     /** @brief Set a property on timeline uuid
      */
-    void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);
+    void setTimelineProperty(QUuid uuid, const QString &prop, const QString &val);
     /** @brief Get the count of timelines in this project
      */
     int getTimelinesCount() const;

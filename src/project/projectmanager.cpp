@@ -2115,7 +2115,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
     return true;
 }
 
-void ProjectManager::setTimelinePropery(QUuid uuid, const QString &prop, const QString &val)
+void ProjectManager::setTimelineProperty(QUuid uuid, const QString &prop, const QString &val)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
     if (model) {
