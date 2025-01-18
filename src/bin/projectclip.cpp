@@ -270,11 +270,9 @@ void ProjectClip::updateAudioThumbnail(bool cachedThumb)
             const auto height = int(QFontInfo(qApp->font()).pixelSize() * 8);
             const auto width = int(height * pCore->getCurrentDar());
             QImage img(width, height, QImage::Format_ARGB32);
-
             int i = 0;
-            for (const auto streamIdx : audioInfo()->streams().keys()) {
+            for (const auto &streamIdx : audioInfo()->streams().keys()) {
                 const auto streamHeight = height / audioInfo()->streams().size();
-
                 QPainter painter(&img);
                 painter.translate(0, i * streamHeight);
 
@@ -1971,7 +1969,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
         QList<std::shared_ptr<ProjectClip>> clipList{std::static_pointer_cast<ProjectClip>(shared_from_this())};
         pCore->currentDoc()->slotProxyCurrentItem(doProxy, clipList);
     });
-    connect(panel, &ClipPropertiesController::deleteProxy, [this]() { deleteProxy(); });
+    connect(panel, &ClipPropertiesController::deleteProxy, this, [this]() { deleteProxy(); });
     return panel;
 }
 
@@ -3006,7 +3004,7 @@ const QStringList ProjectClip::enforcedParams() const
 
 const QString ProjectClip::baseThumbPath()
 {
-    return QStringLiteral("%1/%2/#").arg(m_binId).arg(m_uuid.toString());
+    return QStringLiteral("%1/%2/#").arg(m_binId, m_uuid.toString());
 }
 
 bool ProjectClip::canBeDropped(const QUuid &) const
@@ -3164,7 +3162,7 @@ void ProjectClip::addMask(MaskInfo mask)
 void ProjectClip::removeMask(const QString &maskName)
 {
     int ix = -1;
-    for (const MaskInfo &m : m_masks) {
+    for (const MaskInfo &m : std::as_const(m_masks)) {
         if (m.maskName == maskName) {
             ix = m_masks.indexOf(m);
             break;

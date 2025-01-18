@@ -362,7 +362,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     if (extraData[0].trimmed() == "MaxLayer") {
                         if (extraData[1].toInt() > m_maxLayer) setMaxLayer(extraData[1].toInt());
                     } else if (extraData[0].trimmed() == "DefaultStyles") {
-                        QStringList defaultStyles = extraData[1].trimmed().split(",");
+                        const QStringList defaultStyles = extraData[1].trimmed().split(",");
                         m_defaultStyles.clear();
                         for (const QString &style : defaultStyles) {
                             m_defaultStyles << style;
@@ -384,7 +384,6 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 }
                 if (section.contains("Events")) {
                     // if it is event
-                    QStringList format;
                     if (!line.contains("Format:")) {
                         start.clear();
                         end.clear();
@@ -1727,7 +1726,7 @@ void SubtitleModel::setSubtitlesList(QMap<std::pair<int, QString>, QString> list
 void SubtitleModel::updateModelName(int ix, const QString &name)
 {
     QMapIterator<std::pair<int, QString>, QString> i(m_subtitlesList);
-    std::pair<int, QString> oldSub = {-1, QStringLiteral()};
+    std::pair<int, QString> oldSub = {-1, QString()};
     QString path;
     while (i.hasNext()) {
         i.next();
@@ -1967,8 +1966,7 @@ const QString SubtitleModel::subtitlesFilesToJson()
 {
     QJsonArray list;
     QMapIterator<std::pair<int, QString>, QString> i(m_subtitlesList);
-    std::pair<int, QString> oldSub = {-1, QStringLiteral()};
-    QString path;
+    std::pair<int, QString> oldSub = {-1, QString()};
     while (i.hasNext()) {
         i.next();
         QJsonObject currentSubtitle;

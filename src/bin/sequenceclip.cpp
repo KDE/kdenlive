@@ -228,7 +228,6 @@ void SequenceClip::setProperties(const QMap<QString, QString> &properties, bool 
 {
     ProjectClip::setProperties(properties, refreshPanel);
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
-        const QString updatedName = properties.value(QStringLiteral("kdenlive:clipname"));
         if (!m_sequenceUuid.isNull()) {
             // This is a timeline clip, update tab name
             Q_EMIT pCore->bin()->updateTabName(m_sequenceUuid, m_name);

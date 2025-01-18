@@ -20,6 +20,7 @@ class MarkerSortModel : public QSortFilterProxyModel
 
 public:
     explicit MarkerSortModel(QObject *parent = nullptr);
+    std::vector<int> getIgnoredSnapPoints() const;
 
 public Q_SLOTS:
     /** @brief Set search tag that will filter the view */
@@ -29,7 +30,6 @@ public Q_SLOTS:
     void slotSetFilterString(const QString &filter);
     void slotSetSortColumn(int column);
     void slotSetSortOrder(bool descending);
-    std::vector<int> getIgnoredSnapPoints() const;
 
 protected:
     /** @brief Decide which items should be displayed depending on the search string  */

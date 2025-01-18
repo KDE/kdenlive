@@ -63,7 +63,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     m_op = new KDirOperator(QUrl(), parent);
     m_op->dirLister()->setAutoUpdate(false);
     // Ensure shortcuts are only active on this widget to avoid conflicts with app shortcuts
-    QList<QAction *> actions = m_op->allActions();
     QAction *trash = m_op->action(KDirOperator::Trash);
     QAction *up = m_op->action(KDirOperator::Up);
     QAction *back = m_op->action(KDirOperator::Back);
@@ -297,7 +296,6 @@ void MediaBrowser::importSelection()
         qDebug() << "=== GOT DROPPED MIME: " << type.name();
         if (type.name().startsWith(QLatin1String("image/")) && !type.name().contains(QLatin1String("image/gif"))) {
             QStringList patternlist;
-            QString pattern = SlideshowClip::selectedPath(url, false, QString(), &patternlist);
             Timecode tc = pCore->timecode();
             QScopedPointer<SlideshowClip> dia(new SlideshowClip(tc, url.toLocalFile(), nullptr, this));
             if (dia->exec() == QDialog::Accepted) {

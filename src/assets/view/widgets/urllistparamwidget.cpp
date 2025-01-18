@@ -15,7 +15,9 @@
 
 #include <QDirIterator>
 #include <QFileDialog>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
+
+static QRegularExpression lumaRegexp(QRegularExpression("^luma[0-2][0-9].pgm$"));
 
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -92,7 +94,7 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
                 paramValues.append({m_model->data(m_index, AssetParameterModel::NameRole).toString(), m_list->currentData()});
                 paramValues.append({QStringLiteral("in"), in});
                 paramValues.append({QStringLiteral("out"), out});
-                QMetaObject::invokeMethod(m_model.get(), "setParametersFromTask", Q_ARG(const paramVector &, paramValues));
+                QMetaObject::invokeMethod(m_model.get(), "setParametersFromTask", Q_ARG(paramVector, paramValues));
                 // m_model->setParametersFromTask(paramValues);
             } else {
                 Q_EMIT valueChanged(m_index, m_list->currentData().toString(), true);
@@ -196,8 +198,7 @@ void UrlListParamWidget::slotRefresh()
         bool builtIn = false;
         QFileInfo info(currentValue);
         // This is an MLT build luma
-        QRegularExpression re("^luma[0-2][0-9].pgm$");
-        if (re.match(info.fileName()).hasMatch() && !info.exists()) {
+        if (lumaRegexp.match(info.fileName()).hasMatch() && !info.exists()) {
             // This is a built in luma.
             currentValue = info.fileName();
             builtIn = true;
@@ -289,7 +290,7 @@ void UrlListParamWidget::slotRefresh()
         }
         // Check that current value is in the list or add a new entry
         bool currentFound = currentValue.isEmpty();
-        for (const auto &mask : masks) {
+        for (const auto &mask : std::as_const(masks)) {
             if (!mask.isValid) {
                 continue;
             }

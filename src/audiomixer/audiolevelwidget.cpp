@@ -232,8 +232,6 @@ void AudioLevelWidget::paintEvent(QPaintEvent * /*pe*/)
         return;
     }
     QPainter p(this);
-    // p.setClipRect(pe->rect());
-    QRect rect(0, 0, width(), height());
     if (m_values.isEmpty()) {
         p.setOpacity(0.3);
         p.drawPixmap(0, 0, m_pixmap);

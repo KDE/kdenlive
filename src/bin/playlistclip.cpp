@@ -109,7 +109,6 @@ QDomElement PlaylistClip::toXml(QDomDocument &document, bool includeMeta, bool i
 {
     getProducerXML(document, includeMeta, includeProfile);
     QDomElement prod;
-    QString tag = document.documentElement().tagName();
     prod = document.documentElement();
     prod.setAttribute(QStringLiteral("type"), int(m_clipType));
     return prod;

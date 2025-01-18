@@ -52,14 +52,14 @@ void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, cons
     QList<int> deletedCategories = loadCategories(categories);
     while (!deletedCategories.isEmpty()) {
         int ix = deletedCategories.takeFirst();
-        QList<CommentedTime> toDelete = getAllMarkers(ix);
+        const QList<CommentedTime> toDelete = getAllMarkers(ix);
         if (remapCategories.contains(ix)) {
             int newType = remapCategories.value(ix);
-            for (CommentedTime c : toDelete) {
+            for (const auto &c : toDelete) {
                 addMarker(c.time(), c.comment(), newType, local_undo, local_redo);
             }
         } else {
-            for (CommentedTime c : toDelete) {
+            for (const auto &c : toDelete) {
                 removeMarker(c.time(), local_undo, local_redo);
             }
         }
@@ -611,7 +611,7 @@ QList<CommentedTime> MarkerListModel::getAllMarkers(int type) const
 QList<CommentedTime> MarkerListModel::getMarkersInRange(int start, int end) const
 {
     QList<CommentedTime> markers;
-    QVector<int> mids = getMarkersIdInRange(start, end);
+    const QVector<int> mids = getMarkersIdInRange(start, end);
     // Now extract markers
     READ_LOCK();
     for (const auto &marker : mids) {

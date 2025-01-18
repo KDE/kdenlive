@@ -22,6 +22,9 @@
 #include <QString>
 #define DEBUG_LOCALE false
 
+static QRegularExpression posRegexp(QRegularExpression(R"((=\d+),(\d+))"));
+static QRegularExpression animatedRegexp(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"));
+
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString &originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
@@ -137,11 +140,11 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             case ParamType::KeyframeParam:
             case ParamType::Position:
                 // Fix values like <position>=1,5
-                value.replace(QRegularExpression(R"((=\d+),(\d+))"), "\\1.\\2");
+                value.replace(posRegexp, "\\1.\\2");
                 break;
             case ParamType::AnimatedRect:
                 // Fix values like <position>=50 20 1920 1080 0,75
-                value.replace(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
+                value.replace(animatedRegexp, "\\1.\\2");
                 break;
             case ParamType::ColorWheel:
                 // Color wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
@@ -345,13 +348,11 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                 for (int i = 0; i < names.count(); i++) {
                     const QString currentVal(m_asset->get(names.at(i).toLatin1().constData()));
                     QString updatedValue = values.at(i);
-                    QChar mod;
                     if (currentVal.contains(QLatin1Char('='))) {
-                        mod = getKeyframeType(currentVal);
+                        const QChar mod = getKeyframeType(currentVal);
                         if (!mod.isNull()) {
-                            QString replacement = mod + QLatin1Char('=');
+                            const QString replacement = mod + QLatin1Char('=');
                             updatedValue.replace(QLatin1Char('='), replacement);
-                            QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
                         }
                     }
                     m_asset->set(names.at(i).toLatin1().constData(), updatedValue.toLatin1().constData());
