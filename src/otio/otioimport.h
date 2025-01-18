@@ -26,6 +26,7 @@ struct OtioImportData
     std::shared_ptr<TimelineItemModel> timeline;
     std::unordered_set<int> oldTracks;
     QMap<QString, QString> otioExternalReferencesToBinIds;
+    QMap<QString, QString> mediaTimecode;
     int waitingBinIds = 0;
 };
 

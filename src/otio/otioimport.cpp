@@ -145,6 +145,27 @@ void OtioImport::slotImport()
                 const QString binId = ClipCreator::createClipFromFile(file, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(),
                                                                       undo, redo, callback);
                 data->otioExternalReferencesToBinIds[file] = binId;
+
+                // Find the start timecode of the media.
+                //
+                // TODO: Is there a better way to get the start timecode?
+                // * ProjectClip::getRecordTime() returns a value of 3590003 for the
+                //   timecode 00:59:50:00 @ 23.97?
+                // * Unfortunately MLT does not provide the start timecode:
+                //   https://github.com/mltframework/mlt/pull/1011
+                // * Could we use the FFmpeg libraries to avoid relying on an external
+                //   application?
+                QProcess mediainfo;
+                mediainfo.start(KdenliveSettings::mediainfopath(), {QStringLiteral("--Output=XML"), file});
+                mediainfo.waitForFinished();
+                if (mediainfo.exitStatus() == QProcess::NormalExit && mediainfo.exitCode() == 0) {
+                    QDomDocument doc;
+                    doc.setContent(mediainfo.readAllStandardOutput());
+                    QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
+                    if (!nodes.isEmpty()) {
+                        data->mediaTimecode[binId] = nodes.at(0).toElement().text();
+                    }
+                }
             }
         }
     }
@@ -188,78 +209,64 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
 {
     const auto otioTrimmedRange = otioClip->trimmed_range_in_parent();
     if (otioTrimmedRange.has_value()) {
-        if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
 
-            // Find the bin clip that corresponds to the OTIO media reference.
+        // Find the bin clip that corresponds to the OTIO media reference.
+        QString binId;
+        if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
             const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
             const auto i = data->otioExternalReferencesToBinIds.find(file);
             if (i != data->otioExternalReferencesToBinIds.end()) {
-
-                // Insert the clip into the track.
-                const OTIO_NS::RationalTime otioTimelineDuration = data->otioTimeline->duration();
-                const int position = otioTrimmedRange.value().start_time().rescaled_to(otioTimelineDuration).round().value();
-                int clipId = -1;
-                Fun undo = []() { return true; };
-                Fun redo = []() { return true; };
-                data->timeline->requestClipInsertion(i.value(), trackId, position, clipId, false, true, true, undo, redo);
-                if (clipId != -1) {
-
-                    // Find the start timecode of the media.
-                    //
-                    // TODO: Is there a better way to get the start timecode?
-                    // * ProjectClip::getRecordTime() returns a value of 3590003 for the
-                    //   timecode 00:59:50:00 @ 23.97?
-                    // * Unfortunately MLT does not provide the start timecode:
-                    //   https://github.com/mltframework/mlt/pull/1011
-                    // * Could we use the FFmpeg libraries to avoid relying on an external
-                    //   application?
-                    QString timecode;
-                    QProcess mediainfo;
-                    mediainfo.start(KdenliveSettings::mediainfopath(), {QStringLiteral("--Output=XML"), file});
-                    mediainfo.waitForFinished();
-                    if (mediainfo.exitStatus() == QProcess::NormalExit && mediainfo.exitCode() == 0) {
-                        QDomDocument doc;
-                        doc.setContent(mediainfo.readAllStandardOutput());
-                        QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
-                        if (!nodes.isEmpty()) {
-                            timecode = nodes.at(0).toElement().text();
-                        }
-                    }
-
-                    // Resize the clip.
-                    const int duration = otioTrimmedRange.value().duration().rescaled_to(otioTimelineDuration).round().value();
-                    data->timeline->requestItemResize(clipId, duration, true, false, -1, true);
-
-                    // Slip the clip.
-                    const int start = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
-                    int slip = start;
-                    if (!timecode.isEmpty()) {
-                        const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(timecode.toStdString(), otioTimelineDuration.rate());
-                        slip -= otioTimecode.value();
-                    }
-                    data->timeline->requestClipSlip(clipId, -slip, false, true);
-
-                    // Add markers.
-                    for (const auto &otioMarker : otioClip->markers()) {
-                        if (std::shared_ptr<ClipModel> clipModel = data->timeline->getClipPtr(clipId)) {
-                            if (std::shared_ptr<MarkerListModel> markerModel = clipModel->getMarkerModel()) {
-                                const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
-                                GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
-                                int type = -1;
-                                auto j = m_colorNameToMarkerType.find(QString::fromStdString(otioMarker->color()));
-                                if (j != m_colorNameToMarkerType.end()) {
-                                    type = *j;
-                                }
-                                markerModel->addMarker(pos, QString::fromStdString(otioMarker->comment()), type);
-                            }
-                        }
-                    }
-                }
+                binId = i.value();
             }
         } else if (auto otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
             // TODO: Image sequence references.
         } else if (auto otioGeneratorReference = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference())) {
             // TODO: Generator references.
+        }
+
+        // Insert the clip into the track.
+        if (!binId.isEmpty()) {
+            const OTIO_NS::RationalTime otioTimelineDuration = data->otioTimeline->duration();
+            const int position = otioTrimmedRange.value().start_time().rescaled_to(otioTimelineDuration).round().value();
+            int clipId = -1;
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            data->timeline->requestClipInsertion(binId, trackId, position, clipId, false, true, true, undo, redo);
+            if (clipId != -1) {
+
+                // Resize the clip.
+                const int duration = otioTrimmedRange.value().duration().rescaled_to(otioTimelineDuration).round().value();
+                data->timeline->requestItemResize(clipId, duration, true, false, -1, true);
+
+                // Slip the clip.
+                const int start = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
+                int slip = start;
+                const auto i = data->mediaTimecode.find(binId);
+                if (i != data->mediaTimecode.end()) {
+                    const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(i->toStdString(), otioTimelineDuration.rate());
+                    slip -= otioTimecode.value();
+                }
+                data->timeline->requestClipSlip(clipId, -slip, false, true);
+
+                // Add markers.
+                //
+                // TODO: If a marker is added to a clip, it also appears on other
+                // clips with the same bin id?
+                for (const auto &otioMarker : otioClip->markers()) {
+                    if (std::shared_ptr<ClipModel> clipModel = data->timeline->getClipPtr(clipId)) {
+                        if (std::shared_ptr<MarkerListModel> markerModel = clipModel->getMarkerModel()) {
+                            const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
+                            GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
+                            int type = -1;
+                            auto j = m_colorNameToMarkerType.find(QString::fromStdString(otioMarker->color()));
+                            if (j != m_colorNameToMarkerType.end()) {
+                                type = *j;
+                            }
+                            markerModel->addMarker(pos, QString::fromStdString(otioMarker->comment()), type);
+                        }
+                    }
+                }
+            }
         }
     }
 }
