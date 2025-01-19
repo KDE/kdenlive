@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-18 00:41+0000\n"
-"PO-Revision-Date: 2025-01-01 17:20+0400\n"
+"POT-Creation-Date: 2025-01-19 00:40+0000\n"
+"PO-Revision-Date: 2025-01-18 07:53+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -2260,12 +2260,12 @@ msgstr "الإزاحة"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "موضع البداية لملف القناع."
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "موضع النهاية لملف القناع."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -4012,10 +4012,9 @@ msgstr ""
 "جميع المقاطع في المجموعة."
 
 #: src/assets/assetpanel.cpp:102
-#, fuzzy, kde-format
-#| msgid "Create new points."
+#, kde-format
 msgid "Create an object mask"
-msgstr "أنشئ نقاط جديدة."
+msgstr "أنشئ قناع كائن"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -4024,6 +4023,8 @@ msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
 msgstr ""
+"يُظهر هذا لوحة إنشاء الأقنعة. يمكن استخدام الأقنعة على سبيل المثال لإزالة "
+"الخلفية في مقطع فيديو."
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4121,20 +4122,15 @@ msgstr "تأثيرات سلة %1"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:136
 #: src/jobs/masktask.cpp:96
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
-"فشل توليد المقطع:\n"
-"%1"
+msgstr "فشل تصيير قناع %1"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:157
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
-msgstr ""
+msgstr "يجب عليك تحديد نقاط التضمين في إطار الفيديو الأول من التسلسل."
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -4418,7 +4414,7 @@ msgid "Enter the name of this preset:"
 msgstr "أدخِل اسم الملف المعد مسبقا هذا:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:194
-#: src/project/dialogs/archivewidget.cpp:402
+#: src/project/dialogs/archivewidget.cpp:404
 #, kde-format
 msgid "Abort processing"
 msgstr "أجهض المعالجة"
@@ -4825,14 +4821,9 @@ msgid "None (Dissolve)"
 msgstr "بدون (إذابة)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:64
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create a timeline from this clip:\n"
-#| "%1"
+#, kde-format
 msgid "Create or edit a mask for this clip"
-msgstr ""
-"تعذّر إنشاء خط زمني لهذا المقطع:\n"
-" %1"
+msgstr "أنشئ أو حرر قناع لهذا المقطع"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:327
 #, kde-format
@@ -6097,7 +6088,7 @@ msgstr "استورد الملف عند النقر المزدوج"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6238,7 +6229,7 @@ msgstr "أضف علامات"
 
 #. i18n: ectx: Menu (subtitles)
 #: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:700 src/kdenliveui.rc:30
-#: src/mainwindow.cpp:226 src/project/dialogs/archivewidget.cpp:103
+#: src/mainwindow.cpp:226 src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
 msgid "Subtitles"
@@ -6277,10 +6268,10 @@ msgid "Move subtitle"
 msgstr "حرك الترجمة"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #: src/effects/effectstack/view/effectstackview.cpp:774
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
-#: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -7081,7 +7072,7 @@ msgstr "أدر تشكيلات التّرميز"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
-#: src/project/dialogs/archivewidget.cpp:98
+#: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
 msgstr "المقاطع وسيطة"
@@ -7237,14 +7228,14 @@ msgstr "صدر بيانات الأدلة"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:679
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:678
 #: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
-#: src/project/dialogs/archivewidget.cpp:699
-#: src/project/dialogs/archivewidget.cpp:703
-#: src/project/dialogs/archivewidget.cpp:887
-#: src/project/dialogs/archivewidget.cpp:899
-#: src/project/dialogs/archivewidget.cpp:905
+#: src/project/dialogs/archivewidget.cpp:701
+#: src/project/dialogs/archivewidget.cpp:705
+#: src/project/dialogs/archivewidget.cpp:889
+#: src/project/dialogs/archivewidget.cpp:901
+#: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1878 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -7854,7 +7845,7 @@ msgid "Transcode"
 msgstr "تبديل الترميز"
 
 #: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
-#: src/project/dialogs/archivewidget.cpp:893
+#: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "الملفّ الخرج موجود بالفعل. أتريد الكتابة فوقه؟"
@@ -8367,27 +8358,24 @@ msgid "Plugin size"
 msgstr "حجم الملحقة"
 
 #: src/dialogs/settings/pluginssettings.cpp:378
-#, fuzzy, kde-format
-#| msgid "This will delete the style <b>%1</b> and all its properties."
+#, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
-msgstr "سيؤدي هذا إلى حذف الطراز <b>%1</b> وجميع خصائصه."
+msgstr ""
+"سيؤدي هذا إلى حذف النماذج المثبتة.\n"
+"يمكنك إعادة تثبيتها لاحقًا."
 
 #: src/dialogs/settings/pluginssettings.cpp:395
 #: src/dialogs/settings/pluginssettings.cpp:409
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
-#| ">The environment will be recreated and modules downloaded whenever you "
-#| "reenable the python virtual environment."
+#, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
 "environment will be recreated and modules downloaded whenever you reenable "
 "the plugin."
 msgstr ""
-"سيؤدي هذا إلى حذف بيئة بيثون الافتراضية من:<br/><b>%1</b><br/>سيعاد إنشاء "
-"البيئة وتنزيل الوحدات كلما قمت بإعادة تمكين بيئة بيثون الافتراضية."
+"سيؤدي هذا إلى حذف بيئة بيثون للمحلق من:<br/><b>%1</b><br/>سيعاد إنشاء البيئة "
+"وتنزيل الوحدات  عند إعادة تمكين المحلق."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
@@ -8396,21 +8384,19 @@ msgid "Install multilingual translation"
 msgstr "ثبت ترجمة متعددة اللغات"
 
 #: src/dialogs/settings/pluginssettings.cpp:433
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr "ثبت نموذج الكلام - نوصي بـ <b>turbo</b>"
+msgstr "ثبت نموذج الكلام - نوصي بـ  <b>turbo</b>"
 
 #: src/dialogs/settings/pluginssettings.cpp:488
-#, fuzzy, kde-format
-#| msgid "Select new models to download"
+#, kde-format
 msgid "Select model to download"
-msgstr "حدد النماذج الجديدة للتنزيل"
+msgstr "حدد نموذج لتنزيله"
 
 #: src/dialogs/settings/pluginssettings.cpp:504
 #, kde-format
 msgid "All models are already installed"
-msgstr ""
+msgstr "كل النماذج مثبتة فعلًا"
 
 #: src/dialogs/settings/pluginssettings.cpp:524
 #, kde-format
@@ -9687,8 +9673,8 @@ msgid "Using MLT %1"
 msgstr "يستخدم ام ال تي %1"
 
 #: src/dialogs/wizard.cpp:82 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:789
-#: src/project/dialogs/archivewidget.cpp:1214
+#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:791
+#: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Abort"
 msgstr "أجهض"
@@ -10350,7 +10336,7 @@ msgid "Error moving project folder: %1"
 msgstr "خطأ في نقل مجلّد المشروع: %1"
 
 #: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2421
-#: src/project/dialogs/archivewidget.cpp:245
+#: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1709
 #, kde-format
 msgid "Untitled"
@@ -10384,37 +10370,29 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1609
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
-msgstr ""
+msgstr "لا يُقصد من مقاطع الوكيل أن تكون مخصصة للتركيب أو تصحيح الألوان."
 
 #: src/doc/kdenlivedoc.cpp:1611
-#, fuzzy, kde-format
-#| msgid "This clip has an alpha channel. Proxying is not recommended."
-#| msgid_plural ""
-#| "These clips have an alpha channel. Proxying is not recommended."
+#, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] "هذا المقطع يحوي قناة ألفا. لا يوصى بإنشاء وسيط له."
-msgstr[1] "هذا المقطع يحوي قناة ألفا. لا يوصى بإنشاء وسيط له."
-msgstr[2] "هذان المقطعان يحويان قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهما."
-msgstr[3] "هذه المقاطع تحوي قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهن."
-msgstr[4] "هذه المقاطع تحوي قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهن."
-msgstr[5] "هذه المقاطع تحوي قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهن."
+msgstr[0] "المقطع يحتوي على قناة ألفا. "
+msgstr[1] "يحوي المقطع على قناة ألفا. "
+msgstr[2] "يحوي المقطعان على قناة ألفا."
+msgstr[3] "تحوي المقاطع على قناة ألفا. "
+msgstr[4] "تحوي المقاطع على قناة ألفا. "
+msgstr[5] "تحوي المقاطع على قناة ألفا. "
 
 #: src/doc/kdenlivedoc.cpp:1617
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have a clip with an alpha channel. Proxying it is not recommended."
-#| msgid_plural ""
-#| "You have %1 clips with an alpha channel. Proxying these is not "
-#| "recommended."
+#, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] "عندك مقطع يحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط له."
-msgstr[1] "عندك مقطع يحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط له."
-msgstr[2] "عندك المقطعين يحويان قناة ألفا. لا يوصى بإنشاء مقاطع وسيط لهما."
-msgstr[3] "عندك %1 مقاطع تحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط لهن."
-msgstr[4] "عندك %1 مقطعًا تحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط لهن."
-msgstr[5] "عندك %1 مقطع تحوي قناة ألفا. لا يوصى بإنشاء مقطع وسيط لهن."
+msgstr[0] "ليس لديك مقطع يحوي قناة ألفا. "
+msgstr[1] "لديك مقطع يحوي قناة ألفا. "
+msgstr[2] "لديك مقطعان يحويان قناة ألفا. "
+msgstr[3] "لديك %1 مقاطع تحوي على قناة ألفا. "
+msgstr[4] "لديك %1 مقطعًا تحوي على قناة ألفا. "
+msgstr[5] "لديك %1 مقطع تحوي على قناة ألفا. "
 
 #: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
@@ -10832,23 +10810,23 @@ msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr "تفتح قائمة بالخيارات المتقدمة لإدارة مسبقات ضبط للتأثير."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:301
 #, kde-format
 msgid "Delete effect"
 msgstr "احذف التّأثير"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "تحذف التأثير من كومة التأثيرات."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:351
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:350
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 مثيل لهذا التأثير في المجموعة"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:512
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10858,28 +10836,28 @@ msgstr ""
 "<b>اسحب</b> التأثير إلى خط زمني آخر أو مسار أو مقطع مشروع لنسخه. <b>اسحب "
 "معAlt</b> لنسخه إلى عنصر واحد في مجموعة."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:536
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:535
 #, kde-format
 msgid "Disable %1"
 msgstr "عطّل %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:536
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:535
 #, kde-format
 msgid "Enable %1"
 msgstr "مكّن %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:572
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:571
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "احفظ التّأثير"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:577
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
 #, kde-format
 msgid "Comments:"
 msgstr "التعليقات:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:592
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:591
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "الاسم لم يعطَ، لذا لم يحفظ التأثير."
@@ -10949,36 +10927,33 @@ msgstr ""
 "هل أحفظ التأثير بدون وصف؟"
 
 #: src/effects/effectstack/view/maskmanager.cpp:47
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure the SAM2 plugin"
-msgstr "فضلاً اضبط تحويل الصوت إلى نص"
+msgstr "رجاء اضبط ملحق SAM2"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
-msgstr "أدخل اسم الإعداد المسبق"
+msgstr "أدخل اسم القناع"
 
 #: src/effects/effectstack/view/maskmanager.cpp:203
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
+#, kde-format
 msgid "Enter the name of this mask:"
-msgstr "أدخِل اسم الملف المعد مسبقا هذا:"
+msgstr "أدخِل اسم هذا القناع:"
 
 #: src/effects/effectstack/view/maskmanager.cpp:211
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating mask %1"
-msgstr "ينشئ صور القائمة"
+msgstr "يولد قناع %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:327
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
+"سيؤدي هذا إلى إخفاء الملف <b>%1</b>:<br/>%2<br/>لا يمكن التراجع عن هذه "
+"العملية."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11175,22 +11150,19 @@ msgid "Failed to filter source."
 msgstr "فشل ترشيح المصدر."
 
 #: src/jobs/masktask.cpp:28
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask creation"
-msgstr "مقطع قناع"
+msgstr "إنشاء القناع"
 
 #: src/jobs/masktask.cpp:44
-#, fuzzy, kde-format
-#| msgid "No keyframes to import"
+#, kde-format
 msgid "No source frames to process"
-msgstr "لا إطارات مفتاحيّة لاستيرادها"
+msgstr "لا توجد إطارات مصدر للمعالجة"
 
 #: src/jobs/masktask.cpp:75
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
-msgstr "أخفق في تحلل المقطع."
+msgstr "أخفق في تحليل الفيديو."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -11248,7 +11220,7 @@ msgstr "مشهد %1"
 #: src/jobs/scenesplittask.cpp:227
 #, kde-format
 msgid "Failed to analyse clip."
-msgstr "أخفق في تحلل المقطع."
+msgstr "أخفق في تحليل المقطع."
 
 #: src/jobs/speedtask.cpp:35
 #, kde-format
@@ -13799,12 +13771,12 @@ msgstr "إصدار كدنلايف قديمة بستة أشهر، نحن نشجع
 msgid "Checking cached data size"
 msgstr "يفحص حجم بيانات الخبيئة"
 
-#: src/mltconnection.cpp:201
+#: src/mltconnection.cpp:202
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr "تعذّر العثور على برنامج melt المطلوب للتّصيير (جزء من MLT)"
 
-#: src/mltconnection.cpp:235
+#: src/mltconnection.cpp:236
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "تعذّر العثور على تشكيلات MLT، رجاء قدّم مسارًا"
@@ -14835,15 +14807,14 @@ msgid "Transform"
 msgstr "التّحويل"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:259
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating image mask"
-msgstr "ينشئ صور القائمة"
+msgstr "يولد قناع الصورة"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:259
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
+msgstr "يولد قناع الفيديو"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:270
 #, kde-format
@@ -14852,12 +14823,14 @@ msgid ""
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
+"انقر فوق كائن لبدء قناع.\n"
+"اضغط على Shift مع النقر لتضمين منطقة أخرى.\n"
+"اضغط على Ctrl مع النقر لاستبعاد منطقة."
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:270
-#, fuzzy, kde-format
-#| msgid "Preview volume:"
+#, kde-format
 msgid "Previewing video mask"
-msgstr "مستوى صوت المعاينة:"
+msgstr "معاينة قناع الفيديو"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -14914,15 +14887,14 @@ msgstr ""
 "النقر باليمين أو اضغط enter لغلق الشكل."
 
 #: src/monitor/view/MaskToolBar.qml:55
-#, fuzzy, kde-format
-#| msgid "Generate"
+#, kde-format
 msgid "Generate Mask"
-msgstr "توليد"
+msgstr "ولّد القناع"
 
 #: src/monitor/view/MaskToolBar.qml:66
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
-msgstr ""
+msgstr "غيّر العتمة (0% - 25% - 50% - 100%)"
 
 #: src/monitor/view/MaskToolBar.qml:80
 #, kde-format
@@ -14930,22 +14902,19 @@ msgid "Change Color"
 msgstr "غيّر اللون"
 
 #: src/monitor/view/MaskToolBar.qml:92
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Invert Mask"
-msgstr "اعكس"
+msgstr "اعكس القناع"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Edit Duration"
+#, kde-format
 msgid "Exit Mask Creation"
-msgstr "حرّر المدّة"
+msgstr "اخرج من إنشاء القناع"
 
 #: src/monitor/view/MaskToolBar.qml:100
-#, fuzzy, kde-format
-#| msgid "Add Preview Zone"
+#, kde-format
 msgid "Exit Preview Mode"
-msgstr "أضف منطقة معاينة"
+msgstr "اخرج من وضع المعاينة"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -15393,53 +15362,53 @@ msgstr "انتهى تبديل الترميز."
 msgid "Transcoding failed"
 msgstr "فشل تبديل الترميز"
 
-#: src/project/dialogs/archivewidget.cpp:48
+#: src/project/dialogs/archivewidget.cpp:50
 #, kde-format
 msgctxt "@title:window"
 msgid "Archive Project"
 msgstr "أرشف المشروع"
 
-#: src/project/dialogs/archivewidget.cpp:65
+#: src/project/dialogs/archivewidget.cpp:67
 #, kde-format
 msgid "Video Clips"
 msgstr "مقاطع الفيديو"
 
-#: src/project/dialogs/archivewidget.cpp:69
+#: src/project/dialogs/archivewidget.cpp:71
 #, kde-format
 msgid "Audio Clips"
 msgstr "مقاطع الصّوت"
 
-#: src/project/dialogs/archivewidget.cpp:73
+#: src/project/dialogs/archivewidget.cpp:75
 #, kde-format
 msgid "Image Clips"
 msgstr "مقاطع الصّور"
 
-#: src/project/dialogs/archivewidget.cpp:77
+#: src/project/dialogs/archivewidget.cpp:79
 #, kde-format
 msgid "Slideshow Clips"
 msgstr "مقاطع عرض الشّرائح"
 
-#: src/project/dialogs/archivewidget.cpp:81
+#: src/project/dialogs/archivewidget.cpp:83
 #, kde-format
 msgid "Text Clips"
 msgstr "مقاطع النّصوص"
 
-#: src/project/dialogs/archivewidget.cpp:85
+#: src/project/dialogs/archivewidget.cpp:87
 #, kde-format
 msgid "Playlist Clips"
 msgstr "مقاطع قوائم التّشغيل"
 
-#: src/project/dialogs/archivewidget.cpp:89
+#: src/project/dialogs/archivewidget.cpp:91
 #, kde-format
 msgid "Other Clips"
 msgstr "مقاطع أخرى"
 
-#: src/project/dialogs/archivewidget.cpp:93
+#: src/project/dialogs/archivewidget.cpp:95
 #, kde-format
 msgid "Luma Files"
 msgstr "ملفّات ”لوما“"
 
-#: src/project/dialogs/archivewidget.cpp:217
+#: src/project/dialogs/archivewidget.cpp:219
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
@@ -15450,9 +15419,9 @@ msgstr[3] "تفقد %1 مقاطع في هذا المشروع."
 msgstr[4] "تفقد %1 مقطعاً في هذا المشروع."
 msgstr[5] "تفقد %1 مقطع في هذا المشروع."
 
-#: src/project/dialogs/archivewidget.cpp:241
-#: src/project/dialogs/archivewidget.cpp:1355
-#: src/project/dialogs/archivewidget.cpp:1420
+#: src/project/dialogs/archivewidget.cpp:243
+#: src/project/dialogs/archivewidget.cpp:1357
+#: src/project/dialogs/archivewidget.cpp:1422
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -15463,9 +15432,9 @@ msgstr[3] "(%1 عناصر)"
 msgstr[4] "(%1 عنصرًا)"
 msgstr[5] "(%1 عنصر)"
 
-#: src/project/dialogs/archivewidget.cpp:247
-#: src/project/dialogs/archivewidget.cpp:1358
-#: src/project/dialogs/archivewidget.cpp:1423
+#: src/project/dialogs/archivewidget.cpp:249
+#: src/project/dialogs/archivewidget.cpp:1360
+#: src/project/dialogs/archivewidget.cpp:1425
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -15476,45 +15445,45 @@ msgstr[3] "%1 ملفّات لأرشفتها، المطلوب %2"
 msgstr[4] "%1 ملفًّا لأرشفتها، المطلوب %2"
 msgstr[5] "%1 ملفّ لأرشفتها، المطلوب %2"
 
-#: src/project/dialogs/archivewidget.cpp:248
-#: src/project/dialogs/archivewidget.cpp:335
+#: src/project/dialogs/archivewidget.cpp:250
+#: src/project/dialogs/archivewidget.cpp:337
 #, kde-format
 msgid "Archive"
 msgstr "أرشف"
 
-#: src/project/dialogs/archivewidget.cpp:259
-#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:261
+#: src/project/dialogs/archivewidget.cpp:810
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "حدث خطأ في تحليل ملفّ المشروع"
 
-#: src/project/dialogs/archivewidget.cpp:266
+#: src/project/dialogs/archivewidget.cpp:268
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "رجاء احفظ المشروع قبل أرشفته"
 
-#: src/project/dialogs/archivewidget.cpp:302
+#: src/project/dialogs/archivewidget.cpp:304
 #, kde-format
 msgid "Extract to"
 msgstr "استخرج إلى"
 
-#: src/project/dialogs/archivewidget.cpp:303
+#: src/project/dialogs/archivewidget.cpp:305
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "افتح المشروع المؤرشف"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:307
 #, kde-format
 msgid "Extract"
 msgstr "استخرج"
 
-#: src/project/dialogs/archivewidget.cpp:340
+#: src/project/dialogs/archivewidget.cpp:342
 #, kde-format
 msgid "Opening archive…"
 msgstr "يفتح الأرشيف…"
 
-#: src/project/dialogs/archivewidget.cpp:350
+#: src/project/dialogs/archivewidget.cpp:352
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -15523,7 +15492,7 @@ msgstr ""
 "تعذّر فتح ملفّ الأرشيف:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:367
+#: src/project/dialogs/archivewidget.cpp:369
 #, kde-format
 msgid ""
 "File %1\n"
@@ -15532,88 +15501,88 @@ msgstr ""
 "الملفّ %1\n"
 " ليس مشروع كدنلايف مؤرشف"
 
-#: src/project/dialogs/archivewidget.cpp:373
+#: src/project/dialogs/archivewidget.cpp:375
 #, kde-format
 msgid "Ready"
 msgstr "جاهز"
 
-#: src/project/dialogs/archivewidget.cpp:397
+#: src/project/dialogs/archivewidget.cpp:399
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "الأرشفة تجري، أتريد إيقافها؟"
 
-#: src/project/dialogs/archivewidget.cpp:397
-#: src/project/dialogs/archivewidget.cpp:398
+#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:400
 #, kde-format
 msgid "Stop Archiving"
 msgstr "أوقف الأرشفة"
 
-#: src/project/dialogs/archivewidget.cpp:587
+#: src/project/dialogs/archivewidget.cpp:589
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "المساحة المتوفّرة في القرص: %1"
 
-#: src/project/dialogs/archivewidget.cpp:590
+#: src/project/dialogs/archivewidget.cpp:592
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "لا مساحة متوفّرة في القرص، المساحة الحرّة: %1"
 
-#: src/project/dialogs/archivewidget.cpp:605
+#: src/project/dialogs/archivewidget.cpp:607
 #, kde-format
 msgid "Starting archive job"
 msgstr "يبدأ عملية أرشفة"
 
-#: src/project/dialogs/archivewidget.cpp:626
+#: src/project/dialogs/archivewidget.cpp:628
 #, kde-format
 msgid "Archiving…"
 msgstr "يؤرشف… "
 
-#: src/project/dialogs/archivewidget.cpp:656
-#: src/project/dialogs/archivewidget.cpp:694
-#: src/project/dialogs/archivewidget.cpp:781
-#: src/project/dialogs/archivewidget.cpp:1211
+#: src/project/dialogs/archivewidget.cpp:658
+#: src/project/dialogs/archivewidget.cpp:696
+#: src/project/dialogs/archivewidget.cpp:783
+#: src/project/dialogs/archivewidget.cpp:1213
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "تعذّر إنشاء الدّليل %1"
 
-#: src/project/dialogs/archivewidget.cpp:682
-#: src/project/dialogs/archivewidget.cpp:761
+#: src/project/dialogs/archivewidget.cpp:684
+#: src/project/dialogs/archivewidget.cpp:763
 #, kde-format
 msgid "Copying %1"
 msgstr "ينسخ %1"
 
-#: src/project/dialogs/archivewidget.cpp:687
-#: src/project/dialogs/archivewidget.cpp:858
+#: src/project/dialogs/archivewidget.cpp:689
+#: src/project/dialogs/archivewidget.cpp:860
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "تعذّر إنشاء الملفّ المؤّقت"
 
-#: src/project/dialogs/archivewidget.cpp:806
+#: src/project/dialogs/archivewidget.cpp:808
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "أُرشف المشروع بنجاح."
 
-#: src/project/dialogs/archivewidget.cpp:816
+#: src/project/dialogs/archivewidget.cpp:818
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "حدث خطأ أثناء نسخ الملفّات: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1128
+#: src/project/dialogs/archivewidget.cpp:1130
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "تعذّر فتح ملفّ الأرشيف %1 "
 
-#: src/project/dialogs/archivewidget.cpp:1145
+#: src/project/dialogs/archivewidget.cpp:1147
 #, kde-format
 msgid "Archiving %1"
 msgstr "يؤرشف %1"
 
-#: src/project/dialogs/archivewidget.cpp:1151
+#: src/project/dialogs/archivewidget.cpp:1153
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "تعذّر نسخ الملفّ %1 إلى %2."
 
-#: src/project/dialogs/archivewidget.cpp:1181
+#: src/project/dialogs/archivewidget.cpp:1183
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -15622,27 +15591,27 @@ msgstr ""
 "أُرشف المشروع بنجاح.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1186
 #, kde-format
 msgid "Unknown Error"
 msgstr " خطأ مجهول"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1186
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "حدث خطأ أثناء نسخ الملفّات: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1213
+#: src/project/dialogs/archivewidget.cpp:1215
 #, kde-format
 msgid "Extracting…"
 msgstr "يستخرج…"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1277
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "تعذّر فتح ملفّ المشروع %1"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1277
 #, kde-format
 msgid "Cannot open file"
 msgstr "تعذّر فتح الملفّ"
@@ -16692,6 +16661,8 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"لا يمكن العثور على python3 في venv الخاص بـ kdenlive.\n"
+"حاول إلغاء تثبيت الملحق ثم إعادة تثبيته."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:241
 #, kde-format
@@ -16699,6 +16670,8 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"لا يمكن العثور على pip3 في venv الخاص بـ kdenlive.\n"
+"حاول إلغاء تثبيت الملحق ثم إعادة تثبيته."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
@@ -16731,18 +16704,14 @@ msgid "The <application>%1</application> python module is required."
 msgstr "وحدة بايثون <application>%1</application> مطلوبة."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:477
-#, fuzzy, kde-format
-#| msgid ""
-#| "This requires an internet connection and will take several minutes to "
-#| "download all necessary dependencies. After that all processing will "
-#| "happen offline."
+#, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
 "to download all necessary dependencies. After that all processing will "
 "happen offline."
 msgstr ""
-"يتطلب هذا اتصالاً بالإنترنت وسيستغرق تنزيل جميع التبعيات الضرورية عدة دقائق. "
-"بعد ذلك، ستنفذ جميع عمليات المعالجة دون اتصال بالإنترنت."
+"يتطلب هذا اتصالاً بالإنترنت وسيستغرق تنزيل جميع التبعيات الضرورية عدة دقائق.\n"
+" بعد ذلك، ستنفذ جميع عمليات المعالجة دون اتصال بالإنترنت."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:497
 #: src/pythoninterfaces/abstractpythoninterface.cpp:607
@@ -16841,8 +16810,7 @@ msgid "Abort downloads"
 msgstr "أحبط التنزيلات"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Remove Model"
+#, kde-format
 msgid "Remove model"
 msgstr "أزل النموذج"
 
@@ -16972,7 +16940,7 @@ msgstr ""
 #: src/pythoninterfaces/saminterface.cpp:70
 #, kde-format
 msgid "Object Segmentation (SAM2)"
-msgstr ""
+msgstr "تقسيم الكائنات (SAM2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
@@ -21137,10 +21105,9 @@ msgstr "الترجمة:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
-msgstr "مكن التأثيرات المضمنة"
+msgstr "مكّن التأثيرات المضمنة"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -21432,11 +21399,9 @@ msgstr "&وسبر Whisper"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:522
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Object Detection"
-msgstr "اكتشاف المناظر"
+msgstr "اكتشاف الكائنات"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
@@ -21451,13 +21416,14 @@ msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
+"يعتمد اكتشاف الكائنات على SAM2 - <a href=\"https://github.com/"
+"facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:617
-#, fuzzy, kde-format
-#| msgid "Delete all guides"
+#, kde-format
 msgid "Delete all models"
-msgstr "احذف كل الأدلة"
+msgstr "احذف كل النماذج"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22742,52 +22708,45 @@ msgstr "معاينة الصّورة"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, MaskManage_UI)
 #: src/ui/maskmanage_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Form"
+#, kde-format
 msgid "Form"
-msgstr "استمارة"
+msgstr "الاستمارة"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Create New"
+#, kde-format
 msgid "Create New Mask"
-msgstr "أنشئ جديدًا"
+msgstr "أنشئ قناعًا جديدًا"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
 #: src/ui/maskmanage_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Delete Marker"
+#, kde-format
 msgid "Delete Mask"
-msgstr "احذف علامة"
+msgstr "احذف قناع"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
 #: src/ui/maskmanage_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Imported Project"
+#, kde-format
 msgid "Import Mask in Project"
-msgstr "مشروع مستورد"
+msgstr "استورد القناع في المشروع"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
 #: src/ui/maskmanage_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask"
-msgstr "مقطع قناع"
+msgstr "القناع"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Preview"
+#, kde-format
 msgid "Preview Mask"
-msgstr "معاينة"
+msgstr "معاينة القناع"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
 #: src/ui/maskmanage_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply Mask"
-msgstr "طبّق"
+msgstr "طبّق القناع"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18

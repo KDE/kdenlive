@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-18 00:41+0000\n"
+"POT-Creation-Date: 2025-01-19 00:40+0000\n"
 "PO-Revision-Date: 2025-01-13 10:00+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -4514,7 +4514,7 @@ msgid "Enter the name of this preset:"
 msgstr "Introduïu el nom d'aquests valors predefinits:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:194
-#: src/project/dialogs/archivewidget.cpp:402
+#: src/project/dialogs/archivewidget.cpp:404
 #, kde-format
 msgid "Abort processing"
 msgstr "Interromp el processament"
@@ -6189,7 +6189,7 @@ msgstr "Importa el fitxer en fer doble clic"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6332,7 +6332,7 @@ msgstr "Afegeix marcadors"
 
 #. i18n: ectx: Menu (subtitles)
 #: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:700 src/kdenliveui.rc:30
-#: src/mainwindow.cpp:226 src/project/dialogs/archivewidget.cpp:103
+#: src/mainwindow.cpp:226 src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
 msgid "Subtitles"
@@ -6371,10 +6371,10 @@ msgid "Move subtitle"
 msgstr "Mou els subtítols"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #: src/effects/effectstack/view/effectstackview.cpp:774
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
-#: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -7182,7 +7182,7 @@ msgstr "Administra els perfils de codificació"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
-#: src/project/dialogs/archivewidget.cpp:98
+#: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
 msgstr "Clips intermediaris"
@@ -7341,14 +7341,14 @@ msgstr "Exportació de les dades de guies"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:679
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:678
 #: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
-#: src/project/dialogs/archivewidget.cpp:699
-#: src/project/dialogs/archivewidget.cpp:703
-#: src/project/dialogs/archivewidget.cpp:887
-#: src/project/dialogs/archivewidget.cpp:899
-#: src/project/dialogs/archivewidget.cpp:905
+#: src/project/dialogs/archivewidget.cpp:701
+#: src/project/dialogs/archivewidget.cpp:705
+#: src/project/dialogs/archivewidget.cpp:889
+#: src/project/dialogs/archivewidget.cpp:901
+#: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1878 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -7965,7 +7965,7 @@ msgid "Transcode"
 msgstr "Transcodifica"
 
 #: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
-#: src/project/dialogs/archivewidget.cpp:893
+#: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "El fitxer de sortida ja existeix. Voleu sobreescriure'l?"
@@ -9819,8 +9819,8 @@ msgid "Using MLT %1"
 msgstr "Usa el MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:789
-#: src/project/dialogs/archivewidget.cpp:1214
+#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:791
+#: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Abort"
 msgstr "Interromp"
@@ -10484,7 +10484,7 @@ msgid "Error moving project folder: %1"
 msgstr "Error en moure la carpeta del projecte: %1"
 
 #: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2421
-#: src/project/dialogs/archivewidget.cpp:245
+#: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1709
 #, kde-format
 msgid "Untitled"
@@ -10955,23 +10955,23 @@ msgstr ""
 "Obre una llista d'opcions avançades per a gestionar els valors predefinits "
 "de l'efecte."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:301
 #, kde-format
 msgid "Delete effect"
 msgstr "Suprimeix l'efecte"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Suprimeix l'efecte de la pila d'efectes."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:351
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:350
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instàncies d'aquest efecte en el grup"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:512
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10982,28 +10982,28 @@ msgstr ""
 "clip de projecte per a copiar-lo. <b>Arrossegueu + Alt</b> per a copiar-lo a "
 "un element individual d'un grup."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:536
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:535
 #, kde-format
 msgid "Disable %1"
 msgstr "Desactiva %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:536
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:535
 #, kde-format
 msgid "Enable %1"
 msgstr "Activa %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:572
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:571
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Desa l'efecte"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:577
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
 #, kde-format
 msgid "Comments:"
 msgstr "Comentaris:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:592
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:591
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "No s'ha proporcionat cap nom, l'efecte no s'ha desat."
@@ -13963,14 +13963,14 @@ msgstr ""
 msgid "Checking cached data size"
 msgstr "Comprovació de la mida de les dades a la memòria cau"
 
-#: src/mltconnection.cpp:201
+#: src/mltconnection.cpp:202
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr ""
 "No s'ha pogut trobar el programa «melt» necessari per a renderitzar (part "
 "del MLT)"
 
-#: src/mltconnection.cpp:235
+#: src/mltconnection.cpp:236
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "No es poden trobar els perfils del MLT. Si us plau, indiqueu el camí"
@@ -15578,116 +15578,116 @@ msgstr "La transcodificació ha finalitzat."
 msgid "Transcoding failed"
 msgstr "La transcodificació ha fallat"
 
-#: src/project/dialogs/archivewidget.cpp:48
+#: src/project/dialogs/archivewidget.cpp:50
 #, kde-format
 msgctxt "@title:window"
 msgid "Archive Project"
 msgstr "Arxiva el projecte"
 
-#: src/project/dialogs/archivewidget.cpp:65
+#: src/project/dialogs/archivewidget.cpp:67
 #, kde-format
 msgid "Video Clips"
 msgstr "Clips de vídeo"
 
-#: src/project/dialogs/archivewidget.cpp:69
+#: src/project/dialogs/archivewidget.cpp:71
 #, kde-format
 msgid "Audio Clips"
 msgstr "Clips d'àudio"
 
-#: src/project/dialogs/archivewidget.cpp:73
+#: src/project/dialogs/archivewidget.cpp:75
 #, kde-format
 msgid "Image Clips"
 msgstr "Clips d'imatges"
 
-#: src/project/dialogs/archivewidget.cpp:77
+#: src/project/dialogs/archivewidget.cpp:79
 #, kde-format
 msgid "Slideshow Clips"
 msgstr "Clips de presentació de diapositives"
 
-#: src/project/dialogs/archivewidget.cpp:81
+#: src/project/dialogs/archivewidget.cpp:83
 #, kde-format
 msgid "Text Clips"
 msgstr "Clips de text"
 
-#: src/project/dialogs/archivewidget.cpp:85
+#: src/project/dialogs/archivewidget.cpp:87
 #, kde-format
 msgid "Playlist Clips"
 msgstr "Clips de llista de reproducció"
 
-#: src/project/dialogs/archivewidget.cpp:89
+#: src/project/dialogs/archivewidget.cpp:91
 #, kde-format
 msgid "Other Clips"
 msgstr "Altres clips"
 
-#: src/project/dialogs/archivewidget.cpp:93
+#: src/project/dialogs/archivewidget.cpp:95
 #, kde-format
 msgid "Luma Files"
 msgstr "Fitxers de luma"
 
-#: src/project/dialogs/archivewidget.cpp:217
+#: src/project/dialogs/archivewidget.cpp:219
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "Manca %1 clip en el projecte."
 msgstr[1] "Manquen %1 clips en el projecte."
 
-#: src/project/dialogs/archivewidget.cpp:241
-#: src/project/dialogs/archivewidget.cpp:1355
-#: src/project/dialogs/archivewidget.cpp:1420
+#: src/project/dialogs/archivewidget.cpp:243
+#: src/project/dialogs/archivewidget.cpp:1357
+#: src/project/dialogs/archivewidget.cpp:1422
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 element)"
 msgstr[1] "(%1 elements)"
 
-#: src/project/dialogs/archivewidget.cpp:247
-#: src/project/dialogs/archivewidget.cpp:1358
-#: src/project/dialogs/archivewidget.cpp:1423
+#: src/project/dialogs/archivewidget.cpp:249
+#: src/project/dialogs/archivewidget.cpp:1360
+#: src/project/dialogs/archivewidget.cpp:1425
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 fitxer per a arxivar, es requereix %2"
 msgstr[1] "%1 fitxers per a arxivar, es requereix %2"
 
-#: src/project/dialogs/archivewidget.cpp:248
-#: src/project/dialogs/archivewidget.cpp:335
+#: src/project/dialogs/archivewidget.cpp:250
+#: src/project/dialogs/archivewidget.cpp:337
 #, kde-format
 msgid "Archive"
 msgstr "Arxiu"
 
-#: src/project/dialogs/archivewidget.cpp:259
-#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:261
+#: src/project/dialogs/archivewidget.cpp:810
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "S'ha produït un error en processar el fitxer de projecte"
 
-#: src/project/dialogs/archivewidget.cpp:266
+#: src/project/dialogs/archivewidget.cpp:268
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Deseu el projecte abans del seu arxivat"
 
-#: src/project/dialogs/archivewidget.cpp:302
+#: src/project/dialogs/archivewidget.cpp:304
 #, kde-format
 msgid "Extract to"
 msgstr "Extreu a"
 
-#: src/project/dialogs/archivewidget.cpp:303
+#: src/project/dialogs/archivewidget.cpp:305
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Obre un projecte arxivat"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:307
 #, kde-format
 msgid "Extract"
 msgstr "Extreu"
 
-#: src/project/dialogs/archivewidget.cpp:340
+#: src/project/dialogs/archivewidget.cpp:342
 #, kde-format
 msgid "Opening archive…"
 msgstr "S'està obrint l'arxiu…"
 
-#: src/project/dialogs/archivewidget.cpp:350
+#: src/project/dialogs/archivewidget.cpp:352
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -15696,7 +15696,7 @@ msgstr ""
 "No s'ha pogut obrir el fitxer d'arxiu:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:367
+#: src/project/dialogs/archivewidget.cpp:369
 #, kde-format
 msgid ""
 "File %1\n"
@@ -15705,88 +15705,88 @@ msgstr ""
 "El fitxer %1\n"
 " no és un projecte arxivat del Kdenlive"
 
-#: src/project/dialogs/archivewidget.cpp:373
+#: src/project/dialogs/archivewidget.cpp:375
 #, kde-format
 msgid "Ready"
 msgstr "Preparat"
 
-#: src/project/dialogs/archivewidget.cpp:397
+#: src/project/dialogs/archivewidget.cpp:399
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "S'està arxivant; voleu aturar el procés?"
 
-#: src/project/dialogs/archivewidget.cpp:397
-#: src/project/dialogs/archivewidget.cpp:398
+#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:400
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Atura l'arxivament"
 
-#: src/project/dialogs/archivewidget.cpp:587
+#: src/project/dialogs/archivewidget.cpp:589
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Espai disponible al disc: %1"
 
-#: src/project/dialogs/archivewidget.cpp:590
+#: src/project/dialogs/archivewidget.cpp:592
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "No hi ha prou espai al disc, l'espai lliure és: %1"
 
-#: src/project/dialogs/archivewidget.cpp:605
+#: src/project/dialogs/archivewidget.cpp:607
 #, kde-format
 msgid "Starting archive job"
 msgstr "S'està iniciant el treball d'arxivat"
 
-#: src/project/dialogs/archivewidget.cpp:626
+#: src/project/dialogs/archivewidget.cpp:628
 #, kde-format
 msgid "Archiving…"
 msgstr "S'està arxivant…"
 
-#: src/project/dialogs/archivewidget.cpp:656
-#: src/project/dialogs/archivewidget.cpp:694
-#: src/project/dialogs/archivewidget.cpp:781
-#: src/project/dialogs/archivewidget.cpp:1211
+#: src/project/dialogs/archivewidget.cpp:658
+#: src/project/dialogs/archivewidget.cpp:696
+#: src/project/dialogs/archivewidget.cpp:783
+#: src/project/dialogs/archivewidget.cpp:1213
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "No s'ha pogut crear el directori %1"
 
-#: src/project/dialogs/archivewidget.cpp:682
-#: src/project/dialogs/archivewidget.cpp:761
+#: src/project/dialogs/archivewidget.cpp:684
+#: src/project/dialogs/archivewidget.cpp:763
 #, kde-format
 msgid "Copying %1"
 msgstr "S'està copiant %1"
 
-#: src/project/dialogs/archivewidget.cpp:687
-#: src/project/dialogs/archivewidget.cpp:858
+#: src/project/dialogs/archivewidget.cpp:689
+#: src/project/dialogs/archivewidget.cpp:860
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "No s'ha pogut crear el fitxer temporal"
 
-#: src/project/dialogs/archivewidget.cpp:806
+#: src/project/dialogs/archivewidget.cpp:808
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "El projecte s'ha arxivat correctament."
 
-#: src/project/dialogs/archivewidget.cpp:816
+#: src/project/dialogs/archivewidget.cpp:818
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "S'ha produït un error en copiar els fitxers: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1128
+#: src/project/dialogs/archivewidget.cpp:1130
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "No s'ha pogut obrir el fitxer d'arxiu %1"
 
-#: src/project/dialogs/archivewidget.cpp:1145
+#: src/project/dialogs/archivewidget.cpp:1147
 #, kde-format
 msgid "Archiving %1"
 msgstr "S'està arxivant %1"
 
-#: src/project/dialogs/archivewidget.cpp:1151
+#: src/project/dialogs/archivewidget.cpp:1153
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "No s'ha pogut copiar el fitxer %1 a %2."
 
-#: src/project/dialogs/archivewidget.cpp:1181
+#: src/project/dialogs/archivewidget.cpp:1183
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -15795,27 +15795,27 @@ msgstr ""
 "El projecte s'ha arxivat correctament.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1186
 #, kde-format
 msgid "Unknown Error"
 msgstr "Error desconegut"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1186
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "S'ha produït un error en arxivar el projecte: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1213
+#: src/project/dialogs/archivewidget.cpp:1215
 #, kde-format
 msgid "Extracting…"
 msgstr "S'està extraient…"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1277
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "No s'ha pogut obrir el fitxer de projecte %1"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1277
 #, kde-format
 msgid "Cannot open file"
 msgstr "No s'ha pogut obrir el fitxer"
