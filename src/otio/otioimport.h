@@ -25,8 +25,9 @@ struct OtioImportData
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline;
     std::shared_ptr<TimelineItemModel> timeline;
     std::unordered_set<int> oldTracks;
-    QMap<QString, QString> otioExternalReferencesToBinIds;
-    QMap<QString, QString> mediaTimecode;
+    QMap<QString, QString> otioExternalRefToBinId;
+    QMap<QString, QString> binIdToTimecode;
+    QMap<QString, int> colorNameToMarkerType;
     int waitingBinIds = 0;
 };
 
@@ -46,6 +47,4 @@ private:
     void importClip(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &, int trackId);
 
     static QString resolveFile(const QString &, const QFileInfo &timelineFileInfo);
-
-    QMap<QString, int> m_colorNameToMarkerType;
 };

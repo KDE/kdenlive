@@ -116,7 +116,7 @@ void OtioImport::slotImport()
     // Map color names to marker types.
     for (const auto &i : pCore->markerTypes.keys()) {
         const QString name = pCore->markerTypes[i].color.name();
-        m_colorNameToMarkerType[name] = i;
+        data->colorNameToMarkerType[name] = i;
     }
 
     // Find all of the OTIO media references and add them to the bin. When
@@ -131,8 +131,8 @@ void OtioImport::slotImport()
     for (const auto &otioClip : data->otioTimeline->find_clips()) {
         if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
             const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
-            const auto i = data->otioExternalReferencesToBinIds.find(file);
-            if (i == data->otioExternalReferencesToBinIds.end()) {
+            const auto i = data->otioExternalRefToBinId.find(file);
+            if (i == data->otioExternalRefToBinId.end()) {
                 Fun undo = []() { return true; };
                 Fun redo = []() { return true; };
                 ++data->waitingBinIds;
@@ -144,7 +144,7 @@ void OtioImport::slotImport()
                 };
                 const QString binId = ClipCreator::createClipFromFile(file, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(),
                                                                       undo, redo, callback);
-                data->otioExternalReferencesToBinIds[file] = binId;
+                data->otioExternalRefToBinId[file] = binId;
 
                 // Find the start timecode of the media.
                 //
@@ -163,7 +163,7 @@ void OtioImport::slotImport()
                     doc.setContent(mediainfo.readAllStandardOutput());
                     QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
                     if (!nodes.isEmpty()) {
-                        data->mediaTimecode[binId] = nodes.at(0).toElement().text();
+                        data->binIdToTimecode[binId] = nodes.at(0).toElement().text();
                     }
                 }
             }
@@ -214,8 +214,8 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
         QString binId;
         if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
             const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
-            const auto i = data->otioExternalReferencesToBinIds.find(file);
-            if (i != data->otioExternalReferencesToBinIds.end()) {
+            const auto i = data->otioExternalRefToBinId.find(file);
+            if (i != data->otioExternalRefToBinId.end()) {
                 binId = i.value();
             }
         } else if (auto otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
@@ -241,8 +241,8 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
                 // Slip the clip.
                 const int start = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
                 int slip = start;
-                const auto i = data->mediaTimecode.find(binId);
-                if (i != data->mediaTimecode.end()) {
+                const auto i = data->binIdToTimecode.find(binId);
+                if (i != data->binIdToTimecode.end()) {
                     const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(i->toStdString(), otioTimelineDuration.rate());
                     slip -= otioTimecode.value();
                 }
@@ -258,8 +258,8 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
                             const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
                             GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
                             int type = -1;
-                            auto j = m_colorNameToMarkerType.find(QString::fromStdString(otioMarker->color()));
-                            if (j != m_colorNameToMarkerType.end()) {
+                            auto j = data->colorNameToMarkerType.find(QString::fromStdString(otioMarker->color()));
+                            if (j != data->colorNameToMarkerType.end()) {
                                 type = *j;
                             }
                             markerModel->addMarker(pos, QString::fromStdString(otioMarker->comment()), type);
