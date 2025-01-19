@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-18 02:35+0000\n"
-"PO-Revision-Date: 2024-12-12 10:50+0400\n"
+"PO-Revision-Date: 2025-01-18 07:53+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -7595,10 +7595,9 @@ msgid "Install multilingual translation"
 msgstr "ثبت ترجمة متعددة اللغات"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr "ثبت نموذج الكلام - نوصي بـ <b>turbo</b>"
+msgstr "ثبت نموذج الكلام - نوصي بـ  <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097
 #: src/dialogs/kdenlivesettingsdialog.cpp:2111
@@ -11015,7 +11014,7 @@ msgstr "مشهد %1"
 #: src/jobs/scenesplittask.cpp:227
 #, kde-format
 msgid "Failed to analyse clip."
-msgstr "أخفق في تحلل المقطع."
+msgstr "أخفق في تحليل المقطع."
 
 #: src/jobs/speedtask.cpp:35
 #, kde-format
