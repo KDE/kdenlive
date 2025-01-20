@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-18 02:35+0000\n"
-"PO-Revision-Date: 2025-01-12 17:07+0100\n"
+"PO-Revision-Date: 2025-01-19 12:58+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -3632,6 +3632,7 @@ msgctxt "Composite Transition Name"
 msgid "Composite"
 msgstr "Composición"
 
+# skip-rule: trasno-support3_reverse
 #: data/transitions/composite.xml:5
 #, kde-format
 msgid "A key-framable alpha-channel compositor for two frames."
@@ -17236,7 +17237,7 @@ msgstr ""
 #: src/scopes/abstractscopewidget.cpp:66
 #, kde-format
 msgid "Auto Refresh"
-msgstr "Anovar automaticamente"
+msgstr "Actualizar automaticamente"
 
 #: src/scopes/abstractscopewidget.cpp:68
 #, kde-format
