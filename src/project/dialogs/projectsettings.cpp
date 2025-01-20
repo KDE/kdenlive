@@ -265,7 +265,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(add_metadata, &QAbstractButton::clicked, this, &ProjectSettings::slotAddMetadataField);
     connect(delete_metadata, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteMetadataField);
     add_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    delete_metadata->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
+    delete_metadata->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete-remove")));
 
     // Guides categories
     QWidget *guidesPage = tabWidget->widget(2);
