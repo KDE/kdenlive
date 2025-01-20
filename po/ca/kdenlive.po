@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-19 00:40+0000\n"
-"PO-Revision-Date: 2025-01-13 10:00+0100\n"
+"PO-Revision-Date: 2025-01-19 19:32+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8191,7 +8191,7 @@ msgstr ""
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:248
 #, kde-format
 msgid "Select the Default Profile (preset)"
-msgstr "Selecciona el perfil per omissió (predefinit)"
+msgstr "Selecciona el perfil predeterminat (predefinit)"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:269
 #, kde-format

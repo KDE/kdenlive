@@ -14841,14 +14841,14 @@ msgstr "%1 FPS"
 #: src/monitor/view/kdenliveclipmonitor.qml:587
 #, kde-format
 msgid "In/Out Point"
-msgstr "Giriş/Çıkış Noktası"
+msgstr "Giriş/Çıkış noktası"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
 #: src/monitor/view/kdenliveclipmonitor.qml:587
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
-msgstr "Noktada"
+msgstr "Giriş noktası"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:592
 #: src/monitor/view/kdenliveclipmonitor.qml:609
