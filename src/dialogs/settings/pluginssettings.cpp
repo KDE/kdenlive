@@ -14,6 +14,7 @@
 #include <KArchive>
 #include <KArchiveDirectory>
 #include <KIO/FileCopyJob>
+#include <KLineEdit>
 #include <KMessageBox>
 #include <KTar>
 #include <KUrlRequesterDialog>
@@ -331,7 +332,44 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     if (modelBox->isEnabled()) {
         m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
     }
-    checkSamEnvironement(false);
+    system_python_message->setText(i18n(
+        "<b>Using system packages. Only use this if you know what that means</b>. You need to install all required packages by yourself on your system:<br>%1",
+        m_samInterface->listDependencies().join(QLatin1Char(','))));
+    sam_system_python_path->lineEdit()->setObjectName(QStringLiteral("kcfg_sam_system_python_path"));
+    if (KdenliveSettings::sam_system_python_path().isEmpty()) {
+#ifdef Q_OS_WIN
+        const QString pythonName = QStringLiteral("python");
+        const QString pipName = QStringLiteral("pip");
+#else
+        const QString pythonName = QStringLiteral("python3");
+        const QString pipName = QStringLiteral("pip3");
+#endif
+        const QString pythonExe = QStandardPaths::findExecutable(pythonName);
+        if (!pythonExe.isEmpty()) {
+            KdenliveSettings::setSam_system_python_path(pythonExe);
+        }
+    }
+    if (KdenliveSettings::sam_system_python()) {
+        // Using system packages only, disable all dependency checks
+        sam_venv_params->setEnabled(false);
+        reloadSamModels();
+    } else {
+        sam_system_params->setVisible(false);
+        checkSamEnvironement(false);
+    }
+    connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this](bool systemPackages) {
+        sam_system_params->setVisible(systemPackages);
+        sam_venv_params->setEnabled(systemPackages == false);
+        if (systemPackages) {
+            modelBox->setEnabled(true);
+            if (combo_sam_device->count() == 0) {
+                m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+            }
+            reloadSamModels();
+        } else {
+            checkSamEnvironement(false);
+        }
+    });
 }
 
 void PluginsSettings::samDependenciesChecked()
@@ -878,6 +916,9 @@ void PluginsSettings::applySettings()
             Q_EMIT pCore->speechEngineChanged();
         }
         break;
+    }
+    if (sam_system_python_path->text() != KdenliveSettings::sam_system_python_path()) {
+        KdenliveSettings::setSam_system_python_path(sam_system_python_path->text());
     }
 
     if (combo_wr_lang->currentData().toString() != KdenliveSettings::whisperLanguage()) {

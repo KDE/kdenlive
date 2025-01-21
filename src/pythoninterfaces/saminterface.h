@@ -25,6 +25,7 @@ public:
     virtual bool installNewModel(const QString &modelName = QString());
     const QString getVenvPath() override;
     static const QString configForModel();
+    AbstractPythonInterface::PythonExec venvPythonExecs(bool checkPip = false) override;
 
 protected:
     QString featureName() override;

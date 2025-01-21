@@ -99,3 +99,25 @@ const QString SamInterface::configForModel()
     }
     return QString();
 }
+
+AbstractPythonInterface::PythonExec SamInterface::venvPythonExecs(bool checkPip)
+{
+    if (KdenliveSettings::sam_system_python()) {
+        // Use system python for SAM plugin
+#ifdef Q_OS_WIN
+        const QString pythonName = QStringLiteral("python");
+        const QString pipName = QStringLiteral("pip");
+#else
+        const QString pythonName = QStringLiteral("python3");
+        const QString pipName = QStringLiteral("pip3");
+#endif
+        const QStringList pythonPaths = {QFileInfo(KdenliveSettings::sam_system_python_path()).dir().absolutePath()};
+        const QString pythonExe = QStandardPaths::findExecutable(pythonName, pythonPaths);
+        QString pipExe;
+        if (checkPip) {
+            pipExe = QStandardPaths::findExecutable(pipName, pythonPaths);
+        }
+        return {pythonExe, pipExe};
+    }
+    return AbstractPythonInterface::venvPythonExecs(checkPip);
+}

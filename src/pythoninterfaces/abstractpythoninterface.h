@@ -51,7 +51,7 @@ public:
      */
     QStringList missingDependencies(const QStringList &filter = {});
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
-    PythonExec venvPythonExecs(bool checkPip = false);
+    virtual PythonExec venvPythonExecs(bool checkPip = false);
     QString systemPythonExec();
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
@@ -71,6 +71,8 @@ public:
     const QString getScript(const QString &scriptName) const;
     /** @brief Delete the virtual environment. */
     void deleteVenv();
+    /** @brief User readable list of dependencies. */
+    const QStringList listDependencies();
 
     friend class PythonDependencyMessage;
 

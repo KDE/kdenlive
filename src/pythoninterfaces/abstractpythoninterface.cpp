@@ -632,6 +632,11 @@ QString AbstractPythonInterface::installPackage(const QStringList packageNames)
     return runScript(QStringLiteral("checkpackages.py"), packageNames, "--install", false, true);
 }
 
+const QStringList AbstractPythonInterface::listDependencies()
+{
+    return parseDependencies(m_dependencies.keys(), true);
+}
+
 QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg, bool concurrent, bool packageFeedback)
 {
     const QString scriptpath = m_scripts.value(script);
@@ -676,7 +681,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     qDebug() << "::: RUNNONG SCRIPT: " << pythonExe << " = " << args;
     scriptJob.waitForFinished(-1);
 
-    if (!concurrent && (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0)) {
+    if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
         const QString errorMessage = scriptJob.readAllStandardError();
         Q_EMIT setupError(i18n("Error while running python3 script:\n %1\n%2", scriptpath, errorMessage));
         return {};
