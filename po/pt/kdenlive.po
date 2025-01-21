@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-18 00:41+0000\n"
+"POT-Creation-Date: 2025-01-19 00:40+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -4479,7 +4479,7 @@ msgid "Enter the name of this preset:"
 msgstr "Indique o nome desta predefinição:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:194
-#: src/project/dialogs/archivewidget.cpp:402
+#: src/project/dialogs/archivewidget.cpp:404
 #, kde-format
 msgid "Abort processing"
 msgstr "Interromper o processamento"
@@ -6169,7 +6169,7 @@ msgstr "Importar um Ficheiro com um Duplo-Click"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6311,7 +6311,7 @@ msgstr "Adicionar marcadores"
 
 #. i18n: ectx: Menu (subtitles)
 #: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:700 src/kdenliveui.rc:30
-#: src/mainwindow.cpp:226 src/project/dialogs/archivewidget.cpp:103
+#: src/mainwindow.cpp:226 src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
 msgid "Subtitles"
@@ -6351,10 +6351,10 @@ msgid "Move subtitle"
 msgstr "Mover a legenda"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #: src/effects/effectstack/view/effectstackview.cpp:774
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
-#: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -7152,7 +7152,7 @@ msgstr "Gerir os Perfis de Codificação"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
-#: src/project/dialogs/archivewidget.cpp:98
+#: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
 msgstr "'Clips' Indirectos"
@@ -7310,14 +7310,14 @@ msgstr "Exportar os Dados das Guias"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:679
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:678
 #: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
-#: src/project/dialogs/archivewidget.cpp:699
-#: src/project/dialogs/archivewidget.cpp:703
-#: src/project/dialogs/archivewidget.cpp:887
-#: src/project/dialogs/archivewidget.cpp:899
-#: src/project/dialogs/archivewidget.cpp:905
+#: src/project/dialogs/archivewidget.cpp:701
+#: src/project/dialogs/archivewidget.cpp:705
+#: src/project/dialogs/archivewidget.cpp:889
+#: src/project/dialogs/archivewidget.cpp:901
+#: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1878 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -7952,7 +7952,7 @@ msgid "Transcode"
 msgstr "Codificação"
 
 #: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
-#: src/project/dialogs/archivewidget.cpp:893
+#: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "O ficheiro do resultado já existe. Deseja sobrepô-lo?"
@@ -9848,8 +9848,8 @@ msgid "Using MLT %1"
 msgstr "A usar o MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:789
-#: src/project/dialogs/archivewidget.cpp:1214
+#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:791
+#: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Abort"
 msgstr "Interromper"
@@ -10536,7 +10536,7 @@ msgid "Error moving project folder: %1"
 msgstr "Erro ao mover a pasta do projecto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2421
-#: src/project/dialogs/archivewidget.cpp:245
+#: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1709
 #, kde-format
 msgid "Untitled"
@@ -10999,23 +10999,23 @@ msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 "Abre uma lista de opções avançadas para gerir as predefinições do efeito."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:301
 #, kde-format
 msgid "Delete effect"
 msgstr "Apagar o efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Apaga o efeito da pilha de efeitos."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:351
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:350
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:512
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -11023,28 +11023,28 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:536
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:535
 #, kde-format
 msgid "Disable %1"
 msgstr "Desactivar o %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:536
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:535
 #, kde-format
 msgid "Enable %1"
 msgstr "Activar o %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:572
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:571
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Gravar o Efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:577
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
 #, kde-format
 msgid "Comments:"
 msgstr "Comentários:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:592
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:591
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Não foi indicado nenhum nome, pelo que o efeito não foi gravado."
@@ -14052,14 +14052,14 @@ msgstr ""
 msgid "Checking cached data size"
 msgstr "A verificar o tamanho dos dados em 'cache'"
 
-#: src/mltconnection.cpp:201
+#: src/mltconnection.cpp:202
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
 msgstr ""
 "Não é possível encontrar o programa 'melt', que é necessário para rasterizar "
 "(parte do MLT)"
 
-#: src/mltconnection.cpp:235
+#: src/mltconnection.cpp:236
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr ""
@@ -15670,116 +15670,116 @@ msgstr "A transformação da codificação terminou."
 msgid "Transcoding failed"
 msgstr "Transformação da codificação mal-sucedida"
 
-#: src/project/dialogs/archivewidget.cpp:48
+#: src/project/dialogs/archivewidget.cpp:50
 #, kde-format
 msgctxt "@title:window"
 msgid "Archive Project"
 msgstr "Arquivar o Projecto"
 
-#: src/project/dialogs/archivewidget.cpp:65
+#: src/project/dialogs/archivewidget.cpp:67
 #, kde-format
 msgid "Video Clips"
 msgstr "'Clips' de Vídeo"
 
-#: src/project/dialogs/archivewidget.cpp:69
+#: src/project/dialogs/archivewidget.cpp:71
 #, kde-format
 msgid "Audio Clips"
 msgstr "'Clips' de Áudio"
 
-#: src/project/dialogs/archivewidget.cpp:73
+#: src/project/dialogs/archivewidget.cpp:75
 #, kde-format
 msgid "Image Clips"
 msgstr "'Clips' de Imagem"
 
-#: src/project/dialogs/archivewidget.cpp:77
+#: src/project/dialogs/archivewidget.cpp:79
 #, kde-format
 msgid "Slideshow Clips"
 msgstr "'Clips' de Apresentação"
 
-#: src/project/dialogs/archivewidget.cpp:81
+#: src/project/dialogs/archivewidget.cpp:83
 #, kde-format
 msgid "Text Clips"
 msgstr "'Clips' de Texto"
 
-#: src/project/dialogs/archivewidget.cpp:85
+#: src/project/dialogs/archivewidget.cpp:87
 #, kde-format
 msgid "Playlist Clips"
 msgstr "'Clips' da Lista de Reprodução"
 
-#: src/project/dialogs/archivewidget.cpp:89
+#: src/project/dialogs/archivewidget.cpp:91
 #, kde-format
 msgid "Other Clips"
 msgstr "Outros 'Clips'"
 
-#: src/project/dialogs/archivewidget.cpp:93
+#: src/project/dialogs/archivewidget.cpp:95
 #, kde-format
 msgid "Luma Files"
 msgstr "Ficheiros do Luma"
 
-#: src/project/dialogs/archivewidget.cpp:217
+#: src/project/dialogs/archivewidget.cpp:219
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "Falta %1 'clip' no seu projecto."
 msgstr[1] "Faltam %1 'clips' no seu projecto."
 
-#: src/project/dialogs/archivewidget.cpp:241
-#: src/project/dialogs/archivewidget.cpp:1355
-#: src/project/dialogs/archivewidget.cpp:1420
+#: src/project/dialogs/archivewidget.cpp:243
+#: src/project/dialogs/archivewidget.cpp:1357
+#: src/project/dialogs/archivewidget.cpp:1422
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 item)"
 msgstr[1] "(%1 itens)"
 
-#: src/project/dialogs/archivewidget.cpp:247
-#: src/project/dialogs/archivewidget.cpp:1358
-#: src/project/dialogs/archivewidget.cpp:1423
+#: src/project/dialogs/archivewidget.cpp:249
+#: src/project/dialogs/archivewidget.cpp:1360
+#: src/project/dialogs/archivewidget.cpp:1425
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 ficheiro a arquivar, é necessário %2"
 msgstr[1] "%1 ficheiros a arquivar, é necessário %2"
 
-#: src/project/dialogs/archivewidget.cpp:248
-#: src/project/dialogs/archivewidget.cpp:335
+#: src/project/dialogs/archivewidget.cpp:250
+#: src/project/dialogs/archivewidget.cpp:337
 #, kde-format
 msgid "Archive"
 msgstr "Arquivo"
 
-#: src/project/dialogs/archivewidget.cpp:259
-#: src/project/dialogs/archivewidget.cpp:808
+#: src/project/dialogs/archivewidget.cpp:261
+#: src/project/dialogs/archivewidget.cpp:810
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Ocorreu um erro ao processar o ficheiro do projecto"
 
-#: src/project/dialogs/archivewidget.cpp:266
+#: src/project/dialogs/archivewidget.cpp:268
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Por favor, grave o seu projecto antes de o arquivar"
 
-#: src/project/dialogs/archivewidget.cpp:302
+#: src/project/dialogs/archivewidget.cpp:304
 #, kde-format
 msgid "Extract to"
 msgstr "Extrair para"
 
-#: src/project/dialogs/archivewidget.cpp:303
+#: src/project/dialogs/archivewidget.cpp:305
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Abrir um Projecto Arquivado"
 
-#: src/project/dialogs/archivewidget.cpp:305
+#: src/project/dialogs/archivewidget.cpp:307
 #, kde-format
 msgid "Extract"
 msgstr "Extrair"
 
-#: src/project/dialogs/archivewidget.cpp:340
+#: src/project/dialogs/archivewidget.cpp:342
 #, kde-format
 msgid "Opening archive…"
 msgstr "A abrir o arquivo…"
 
-#: src/project/dialogs/archivewidget.cpp:350
+#: src/project/dialogs/archivewidget.cpp:352
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -15788,7 +15788,7 @@ msgstr ""
 "Não é possível aceder ao ficheiro:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:367
+#: src/project/dialogs/archivewidget.cpp:369
 #, kde-format
 msgid ""
 "File %1\n"
@@ -15797,89 +15797,89 @@ msgstr ""
 "O ficheiro %1\n"
 "não é um projecto arquivado do Kdenlive"
 
-#: src/project/dialogs/archivewidget.cpp:373
+#: src/project/dialogs/archivewidget.cpp:375
 #, kde-format
 msgid "Ready"
 msgstr "Pronto"
 
-#: src/project/dialogs/archivewidget.cpp:397
+#: src/project/dialogs/archivewidget.cpp:399
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "O arquivo está em curso; deseja interrompê-lo?"
 
-#: src/project/dialogs/archivewidget.cpp:397
-#: src/project/dialogs/archivewidget.cpp:398
+#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:400
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Parar o Arquivo"
 
-#: src/project/dialogs/archivewidget.cpp:587
+#: src/project/dialogs/archivewidget.cpp:589
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Espaço livre em disco: %1"
 
-#: src/project/dialogs/archivewidget.cpp:590
+#: src/project/dialogs/archivewidget.cpp:592
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Não existe espaço suficiente em disco, espaço livre: %1"
 
-#: src/project/dialogs/archivewidget.cpp:605
+#: src/project/dialogs/archivewidget.cpp:607
 #, kde-format
 msgid "Starting archive job"
 msgstr "A iniciar a tarefa de arquivo"
 
-#: src/project/dialogs/archivewidget.cpp:626
+#: src/project/dialogs/archivewidget.cpp:628
 #, kde-format
 msgid "Archiving…"
 msgstr "A arquivar…"
 
-#: src/project/dialogs/archivewidget.cpp:656
-#: src/project/dialogs/archivewidget.cpp:694
-#: src/project/dialogs/archivewidget.cpp:781
-#: src/project/dialogs/archivewidget.cpp:1211
+#: src/project/dialogs/archivewidget.cpp:658
+#: src/project/dialogs/archivewidget.cpp:696
+#: src/project/dialogs/archivewidget.cpp:783
+#: src/project/dialogs/archivewidget.cpp:1213
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Não é possível criar a pasta %1"
 
-#: src/project/dialogs/archivewidget.cpp:682
-#: src/project/dialogs/archivewidget.cpp:761
+#: src/project/dialogs/archivewidget.cpp:684
+#: src/project/dialogs/archivewidget.cpp:763
 #, kde-format
 msgid "Copying %1"
 msgstr "A copiar o %1"
 
-#: src/project/dialogs/archivewidget.cpp:687
-#: src/project/dialogs/archivewidget.cpp:858
+#: src/project/dialogs/archivewidget.cpp:689
+#: src/project/dialogs/archivewidget.cpp:860
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Não é possível criar o ficheiro temporário"
 
-#: src/project/dialogs/archivewidget.cpp:806
+#: src/project/dialogs/archivewidget.cpp:808
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "O projecto foi arquivado com sucesso."
 
-#: src/project/dialogs/archivewidget.cpp:816
+#: src/project/dialogs/archivewidget.cpp:818
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Ocorreu um erro ao copiar os ficheiros: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1128
+#: src/project/dialogs/archivewidget.cpp:1130
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Não é possível aceder ao ficheiro de arquivo %1"
 
-#: src/project/dialogs/archivewidget.cpp:1145
+#: src/project/dialogs/archivewidget.cpp:1147
 #, kde-format
 msgid "Archiving %1"
 msgstr "A arquivar o %1"
 
-#: src/project/dialogs/archivewidget.cpp:1151
+#: src/project/dialogs/archivewidget.cpp:1153
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot copy file %1 to %2."
 msgstr "Não é possível aceder ao ficheiro %1"
 
-#: src/project/dialogs/archivewidget.cpp:1181
+#: src/project/dialogs/archivewidget.cpp:1183
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -15888,27 +15888,27 @@ msgstr ""
 "O projecto foi arquivado com sucesso.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1186
 #, kde-format
 msgid "Unknown Error"
 msgstr "Erro Desconhecido"
 
-#: src/project/dialogs/archivewidget.cpp:1184
+#: src/project/dialogs/archivewidget.cpp:1186
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Ocorreu um erro ao arquivar o projecto: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1213
+#: src/project/dialogs/archivewidget.cpp:1215
 #, kde-format
 msgid "Extracting…"
 msgstr "A extrair…"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1277
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Não é possível aceder ao ficheiro do projecto %1"
 
-#: src/project/dialogs/archivewidget.cpp:1275
+#: src/project/dialogs/archivewidget.cpp:1277
 #, kde-format
 msgid "Cannot open file"
 msgstr "Não é possível aceder ao ficheiro"
