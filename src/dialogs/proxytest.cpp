@@ -14,9 +14,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDialogButtonBox>
 #include <QFontDatabase>
 #include <QPushButton>
+#include <QTemporaryFile>
 #include <QTreeWidget>
 #include <QWheelEvent>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include "klocalizedstring.h"
 #include <kio/directorysizejob.h>

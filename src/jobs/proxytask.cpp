@@ -332,8 +332,8 @@ void ProxyTask::run()
             } else {
                 parameters << QStringLiteral("-i") << source;
             }
-            QString params = proxyParams;
-            for (const QString &s : params.split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
+            const QStringList params = proxyParams.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+            for (const QString &s : params) {
                 QString t = s.simplified();
                 parameters << t;
                 if (t == QLatin1String("-i")) {

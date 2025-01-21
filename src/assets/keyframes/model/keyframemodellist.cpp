@@ -982,7 +982,7 @@ std::vector<QPersistentModelIndex> KeyframeModelList::getIndexes()
     std::vector<QPersistentModelIndex> keys;
     keys.reserve(m_parameters.size());
 
-    for (auto kv : m_parameters) {
+    for (const auto &kv : m_parameters) {
         keys.push_back(kv.first);
     }
     return keys;

@@ -101,7 +101,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
         }
     });
 
-    connect(buttonReset, &QAbstractButton::clicked, [this, defaultFormat]() {
+    connect(buttonReset, &QAbstractButton::clicked, this, [this, defaultFormat]() {
         formatEdit->setText(defaultFormat);
         updateContentByModel();
     });
@@ -125,7 +125,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
         a->setData(i.key());
         infoButton->addAction(a);
     }
-    connect(infoButton, &QToolButton::triggered, [this](QAction *a) {
+    connect(infoButton, &QToolButton::triggered, this, [this](QAction *a) {
         formatEdit->insert(a->data().toString());
         updateContentByModel();
     });

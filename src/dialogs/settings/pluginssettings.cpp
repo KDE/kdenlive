@@ -65,7 +65,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     noModelMessage->hide();
     m_sttWhisper->checkVenv(true);
     m_downloadModelAction = new QAction(i18n("Download (1.4Gb)"), this);
-    connect(m_downloadModelAction, &QAction::triggered, [this]() {
+    connect(m_downloadModelAction, &QAction::triggered, this, [this]() {
         disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog);
         if (m_sttWhisper->installNewModel(QStringLiteral("turbo"))) {
             reloadWhisperModels();
@@ -123,7 +123,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     QButtonGroup *speechEngineSelection = new QButtonGroup(this);
     speechEngineSelection->addButton(engine_vosk);
     speechEngineSelection->addButton(engine_whisper);
-    connect(speechEngineSelection, &QButtonGroup::buttonClicked, [this](QAbstractButton *button) {
+    connect(speechEngineSelection, &QButtonGroup::buttonClicked, this, [this](QAbstractButton *button) {
         if (button == engine_vosk) {
             speech_stack->setCurrentIndex(0);
             m_sttVosk->checkDependencies(false);
@@ -159,7 +159,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
     message_layout_wr->addWidget(msgWhisper);
     // Also show VOSK setup messages in the python env page
-    connect(m_sttWhisper, &AbstractPythonInterface::setupMessage,
+    connect(m_sttWhisper, &AbstractPythonInterface::setupMessage, this,
             [msgWhisper](const QString message, int type) { msgWhisper->doShowMessage(message, KMessageWidget::MessageType(type)); });
     QMap<QString, QString> whisperLanguages = m_sttWhisper->speechLanguages();
     QMapIterator<QString, QString> j(whisperLanguages);
@@ -173,9 +173,9 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     }
     script_log->hide();
     script_log->setCenterOnScroll(true);
-    connect(m_sttWhisper, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
+    connect(m_sttWhisper, &SpeechToText::scriptStarted, this, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
     connect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
-    connect(m_sttWhisper, &SpeechToText::scriptFinished, [this, modelDownload, msgWhisper](const QStringList &args) {
+    connect(m_sttWhisper, &SpeechToText::scriptFinished, this, [this, modelDownload, msgWhisper](const QStringList &args) {
         if (args.join(QLatin1Char(' ')).contains("requirements-seamless.txt")) {
             install_seamless->setText(i18n("Downloading multilingual model…"));
             modelDownload->setVisible(true);
@@ -183,7 +183,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         }
         QMetaObject::invokeMethod(msgWhisper, "checkAfterInstall", Qt::QueuedConnection);
     });
-    connect(downloadButton, &QPushButton::clicked, [this]() {
+    connect(downloadButton, &QPushButton::clicked, this, [this]() {
         disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog);
         if (m_sttWhisper->installNewModel()) {
             reloadWhisperModels();
@@ -191,7 +191,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         connect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
     });
 
-    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
+    connect(m_sttWhisper, &SpeechToText::scriptFeedback, this, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
         Q_UNUSED(args);
         if (scriptName.contains("checkgpu")) {
             combo_wr_device->clear();
@@ -207,7 +207,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
 
     connect(deleteWrVenv, &QPushButton::clicked, this, &PluginsSettings::doDeleteWrVenv);
 
-    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, [this](const QString &scriptName, const QStringList &args) {
+    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, this, [this](const QString &scriptName, const QStringList &args) {
         qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
         if (scriptName.contains("checkgpu")) {
             if (!KdenliveSettings::whisperDevice().isEmpty()) {
@@ -238,9 +238,9 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         }
     });
     connect(m_sttVosk, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { speech_info->animatedHide(); });
-    connect(m_sttVosk, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
+    connect(m_sttVosk, &SpeechToText::scriptStarted, this, [this]() { QMetaObject::invokeMethod(script_log, "clear"); });
     connect(m_sttVosk, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog, Qt::QueuedConnection);
-    connect(m_sttVosk, &SpeechToText::scriptFinished, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_sttVosk, &SpeechToText::scriptFinished, msgVosk, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
 
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &PluginsSettings::getDictionary);
@@ -280,7 +280,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     PythonDependencyMessage *pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, false);
     message_layout_sam->addWidget(pythonSamLabel);
     // Also show VOSK setup messages in the python env page
-    connect(m_samInterface, &AbstractPythonInterface::setupMessage,
+    connect(m_samInterface, &AbstractPythonInterface::setupMessage, pythonSamLabel,
             [pythonSamLabel](const QString message, int type) { pythonSamLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
     connect(m_samInterface, &AbstractPythonInterface::gotPythonSize, this, [this](const QString &label) {
         sam_venv_size->setText(label);
@@ -288,7 +288,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     });
     m_samInterface->checkVenv(true);
     connect(m_samInterface, &AbstractPythonInterface::installFeedback, this, &PluginsSettings::showSamLog, Qt::QueuedConnection);
-    connect(m_samInterface, &AbstractPythonInterface::scriptFinished,
+    connect(m_samInterface, &AbstractPythonInterface::scriptFinished, pythonSamLabel,
             [pythonSamLabel]() { QMetaObject::invokeMethod(pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
     combo_sam_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     connect(downloadSamButton, &QPushButton::clicked, this, &PluginsSettings::downloadSamModels);
@@ -301,20 +301,21 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         modelBox->setEnabled(false);
         check_config_sam->setEnabled(true);
     });
-    connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
-        Q_UNUSED(args);
-        if (scriptName.contains("checkgpu")) {
-            combo_sam_device->clear();
-            for (auto &s : jobData) {
-                if (s.contains(QLatin1Char('#'))) {
-                    combo_sam_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
-                } else {
-                    combo_sam_device->addItem(s.simplified(), s.simplified());
+    connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, this,
+            [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
+                Q_UNUSED(args);
+                if (scriptName.contains("checkgpu")) {
+                    combo_sam_device->clear();
+                    for (auto &s : jobData) {
+                        if (s.contains(QLatin1Char('#'))) {
+                            combo_sam_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+                        } else {
+                            combo_sam_device->addItem(s.simplified(), s.simplified());
+                        }
+                    }
                 }
-            }
-        }
-    });
-    connect(m_samInterface, &AbstractPythonInterface::concurrentScriptFinished, [this](const QString &scriptName, const QStringList &args) {
+            });
+    connect(m_samInterface, &AbstractPythonInterface::concurrentScriptFinished, this, [this](const QString &scriptName, const QStringList &args) {
         qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
         if (scriptName.contains("checkgpu")) {
             if (!KdenliveSettings::samDevice().isEmpty()) {
@@ -560,7 +561,6 @@ void PluginsSettings::reloadSamModels()
             continue;
         }
         QString modelName = QFileInfo(m).completeBaseName();
-        QString listedModel;
         modelName[0] = modelName.at(0).toUpper();
         combo_sam_model->addItem(modelName, m);
     }

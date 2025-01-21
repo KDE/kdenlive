@@ -34,7 +34,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_proxyModel = std::make_unique<EffectFilter>(this);
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(EffectTreeModel::NameRole);
-    setFilterType(QStringLiteral());
+    setFilterType(QString());
     m_proxyModel->sort(0, Qt::AscendingOrder);
     m_effectsTree->setModel(m_proxyModel.get());
     m_effectsTree->setColumnHidden(1, true);

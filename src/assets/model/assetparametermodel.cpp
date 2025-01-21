@@ -22,9 +22,6 @@
 #include <QString>
 #define DEBUG_LOCALE false
 
-static QRegularExpression posRegexp(QRegularExpression(R"((=\d+),(\d+))"));
-static QRegularExpression animatedRegexp(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"));
-
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          const QString &originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
@@ -138,14 +135,18 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             QString originalValue(value);
             switch (currentRow.type) {
             case ParamType::KeyframeParam:
-            case ParamType::Position:
+            case ParamType::Position: {
                 // Fix values like <position>=1,5
+                static const QRegularExpression posRegexp(R"((=\d+),(\d+))");
                 value.replace(posRegexp, "\\1.\\2");
                 break;
-            case ParamType::AnimatedRect:
+            }
+            case ParamType::AnimatedRect: {
                 // Fix values like <position>=50 20 1920 1080 0,75
+                static const QRegularExpression animatedRegexp(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))");
                 value.replace(animatedRegexp, "\\1.\\2");
                 break;
+            }
             case ParamType::ColorWheel:
                 // Color wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
             case ParamType::Double:
@@ -226,7 +227,6 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     }
 
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
-    Q_EMIT modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes(int in, int out)
@@ -1061,7 +1061,6 @@ const QString AssetParameterModel::animationToPercentage(const QString &inputVal
     QStringList percentageResults;
     const QStringList values = inputValue.split(QLatin1Char(';'), Qt::SkipEmptyParts);
     const QSize profileSize = pCore->getCurrentFrameSize();
-    QStringList percentageValues;
     bool conversionSuccess = false;
     for (auto v : values) {
         QString percentValue;
@@ -1386,7 +1385,6 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
 
 void AssetParameterModel::deletePreset(const QString &presetFile, const QString &presetName)
 {
-    QJsonObject object;
     QJsonArray array;
     QFile loadFile(presetFile);
     if (loadFile.exists()) {

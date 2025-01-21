@@ -271,15 +271,17 @@ void ProjectClip::updateAudioThumbnail(bool cachedThumb)
             const auto width = int(height * pCore->getCurrentDar());
             QImage img(width, height, QImage::Format_ARGB32);
             int i = 0;
-            for (const auto &streamIdx : audioInfo()->streams().keys()) {
+            const QMap<int, QString> streams = audioInfo()->streams();
+            for (auto streamIdx = streams.cbegin(), end = streams.cend(); streamIdx != end; ++streamIdx) {
+                // for (const auto &streamIdx : audioInfo()->streams()) {
                 const auto streamHeight = height / audioInfo()->streams().size();
                 QPainter painter(&img);
                 painter.translate(0, i * streamHeight);
 
                 auto renderer = TimelineWaveform();
-                renderer.setProperty("channels", audioInfo()->channelsForStream(streamIdx));
+                renderer.setProperty("channels", audioInfo()->channelsForStream(streamIdx.key()));
                 renderer.setProperty("binId", m_binId);
-                renderer.setProperty("audioStream", streamIdx);
+                renderer.setProperty("audioStream", streamIdx.key());
                 renderer.setProperty("waveInPoint", 0);
                 renderer.setProperty("waveOutPoint", getFramePlaytime());
                 renderer.setProperty("scaleFactor", static_cast<double>(width) / getFramePlaytime());
@@ -2097,9 +2099,9 @@ void ProjectClip::discardAudioThumb()
     }
     pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB);
     QString audioThumbPath;
-    QList<int> streams = m_audioInfo->streams().keys();
+    const QList<int> streams = m_audioInfo->streams().keys();
     // Delete audio thumbnail data
-    for (int &st : streams) {
+    for (const int &st : streams) {
         audioThumbPath = getAudioThumbPath(st);
         if (!audioThumbPath.isEmpty()) {
             QFile::remove(audioThumbPath);
@@ -2109,7 +2111,7 @@ void ProjectClip::discardAudioThumb()
         pCore->audioThumbCache.insert(key, QByteArray("-"));
     }
     // Delete thumbnail
-    for (int &st : streams) {
+    for (const int &st : streams) {
         audioThumbPath = getAudioThumbPath(st);
         if (!audioThumbPath.isEmpty()) {
             QFile::remove(audioThumbPath);

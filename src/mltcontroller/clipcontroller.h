@@ -207,7 +207,7 @@ public:
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
     /** @brief Delete or re-assign all markers in a category. */
-    bool removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo);
+    bool removeMarkerCategories(const QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo);
     // This is the helper function that checks if the clip has audio and video and stores the result
     void checkAudioVideo();
     bool isFullRange() const;

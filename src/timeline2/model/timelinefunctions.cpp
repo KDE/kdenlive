@@ -396,7 +396,7 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                                                                    bool ignoreMultiTrackGroups, bool allowGroupBreaking)
 {
     if (trackId != -1 && timeline->trackIsLocked(trackId)) {
-        timeline->flashLock(trackId);
+        Q_EMIT timeline->flashLock(trackId);
         return {-1, -1};
     }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
@@ -2707,7 +2707,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     } else {
         // Check we have a blank and that it is in not between 2 grouped clips
         if (timeline->trackIsLocked(trackId)) {
-            timeline->flashLock(trackId);
+            Q_EMIT timeline->flashLock(trackId);
             return false;
         }
         if (timeline->isSubtitleTrack(trackId)) {
@@ -2762,7 +2762,7 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
 {
     // Abort if track is locked
     if (timeline->trackIsLocked(trackId)) {
-        timeline->flashLock(trackId);
+        Q_EMIT timeline->flashLock(trackId);
         return false;
     }
     // Start undoable command
@@ -2871,7 +2871,7 @@ bool TimelineFunctions::requestDeleteAllClipsFrom(const std::shared_ptr<Timeline
 {
     // Abort if track is locked
     if (timeline->trackIsLocked(trackId)) {
-        timeline->flashLock(trackId);
+        Q_EMIT timeline->flashLock(trackId);
         return false;
     }
     // Start undoable command

@@ -148,14 +148,17 @@ void AudioLevelsTask::run()
     }
     const QString res = qstrdup(producer->get("resource"));
 
-    for (auto streamIdx : binClip->audioInfo()->streams().keys()) {
+    const QMap<int, QString> streams = binClip->audioInfo()->streams();
+    for (auto streamIdx = streams.cbegin(), end = streams.cend(); streamIdx != end; ++streamIdx) {
         if (m_isCanceled) {
             break;
         }
 
-        auto clbk = [this, binClip, streamIdx](const int progress, const QVector<int16_t> &levels) { progressCallback(binClip, levels, streamIdx, progress); };
+        auto clbk = [this, binClip, ix = streamIdx.key()](const int progress, const QVector<int16_t> &levels) {
+            progressCallback(binClip, levels, ix, progress);
+        };
 
-        const QString cachePath = binClip->getAudioThumbPath(streamIdx);
+        const QString cachePath = binClip->getAudioThumbPath(streamIdx.key());
         QVector<int16_t> levels;
         bool skipSaving = false;
         if (!m_isCanceled && !m_isForce && QFile::exists(cachePath)) {
@@ -167,18 +170,18 @@ void AudioLevelsTask::run()
         if (!m_isCanceled && levels.empty() && service == QStringLiteral("avformat")) {
             // if the resource is a media file, we can use libav for speed
             const auto fps = producer->get_fps();
-            levels = generateLibav(streamIdx, res, lengthInFrames, fps, clbk, m_isCanceled);
+            levels = generateLibav(streamIdx.key(), res, lengthInFrames, fps, clbk, m_isCanceled);
         }
 
         if (!m_isCanceled && levels.empty()) {
             // else, or if using libav failed, use MLT
-            const int channels = binClip->audioInfo()->channelsForStream(streamIdx);
-            levels = generateMLT(streamIdx, service, res, channels, clbk, m_isCanceled);
+            const int channels = binClip->audioInfo()->channelsForStream(streamIdx.key());
+            levels = generateMLT(streamIdx.key(), service, res, channels, clbk, m_isCanceled);
         }
 
         if (!m_isCanceled && !levels.empty()) {
-            storeLevels(binClip, streamIdx, levels);
-            storeMax(binClip, streamIdx, levels);
+            storeLevels(binClip, streamIdx.key(), levels);
+            storeMax(binClip, streamIdx.key(), levels);
             if (!skipSaving) {
                 saveLevelsToCache(cachePath, levels);
             }

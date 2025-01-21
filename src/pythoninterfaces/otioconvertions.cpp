@@ -87,10 +87,10 @@ bool OtioConvertions::configureSetup()
     l->addWidget(buttonBox);
     d->setLayout(l);
 
-    connect(this, &OtioConvertions::scriptStarted, [textOutput]() { QMetaObject::invokeMethod(textOutput, "clear"); });
-    connect(this, &OtioConvertions::installFeedback,
+    connect(this, &OtioConvertions::scriptStarted, textOutput, [textOutput]() { QMetaObject::invokeMethod(textOutput, "clear"); });
+    connect(this, &OtioConvertions::installFeedback, textOutput,
             [textOutput](const QString jobData) { QMetaObject::invokeMethod(textOutput, "appendPlainText", Q_ARG(QString, jobData)); });
-    connect(this, &OtioConvertions::scriptFinished, [msg]() { QMetaObject::invokeMethod(msg, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(this, &OtioConvertions::scriptFinished, msg, [msg]() { QMetaObject::invokeMethod(msg, "checkAfterInstall", Qt::QueuedConnection); });
 
     if (!wellConfigured()) {
         d->show();
@@ -102,7 +102,6 @@ bool OtioConvertions::configureSetup()
 
 QString OtioConvertions::getOtioBinary()
 {
-    QString otioBinary;
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     return QStandardPaths::findExecutable(QStringLiteral("otioconvert"), {pluginDir.absoluteFilePath(QStringLiteral("venv/bin"))});
 }

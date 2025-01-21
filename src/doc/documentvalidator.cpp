@@ -1871,7 +1871,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // Fades: replace deprecated syntax (using start/end properties and alpha=-1) with level and alpha animated properties
         QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
         int max = effects.count();
-        QStringList changedEffects;
         for (int i = 0; i < max; ++i) {
             QDomElement t = effects.at(i).toElement();
             QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
@@ -1903,7 +1902,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // Slide: replace buggy composite transition with affine
         QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
         int max = transitions.count();
-        QStringList changedEffects;
         for (int i = 0; i < max; ++i) {
             QDomElement t = transitions.at(i).toElement();
             QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
@@ -1988,7 +1986,7 @@ void DocumentValidator::convertSubtitles()
                 QString style = Xml::getXmlProperty(effect, QStringLiteral("av.force_style"));
                 if (!style.isEmpty()) {
                     // convert to new style format
-                    QStringList styleList = style.split(QLatin1Char(','));
+                    const QStringList styleList = style.split(QLatin1Char(','));
                     for (const auto &style : styleList) {
                         if (style.contains("Fontname")) {
                             oldStyle.setFontName(style.section(QLatin1Char('='), 1));

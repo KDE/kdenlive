@@ -50,7 +50,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QSize>
 #include <QThread>
 #include <QTimer>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include <cstdio>
 #include <cstdlib>
@@ -1252,8 +1252,8 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configColors.kcfg_overlayColor->color() != KdenliveSettings::overlayColor()) {
         KdenliveSettings::setOverlayColor(m_configColors.kcfg_overlayColor->color());
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->colorsChanged();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->colorsChanged();
+        Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->colorsChanged();
+        Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->colorsChanged();
     }
 
     if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {

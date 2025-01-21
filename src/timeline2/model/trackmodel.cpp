@@ -56,13 +56,14 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         // When we use the second playlist, register it's stask as child of main playlist effectstack
         // m_subPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[1]);
         // m_effectStack->addService(m_subPlaylist);
-        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
-            if (auto ptr2 = m_parent.lock()) {
-                QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
-                qDebug() << "==== TRACK ZONES CHANGED";
-                Q_EMIT ptr2->dataChanged(ix, ix, roles);
-            }
-        });
+        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, m_effectStack.get(),
+                         [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
+                             if (auto ptr2 = m_parent.lock()) {
+                                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
+                                 qDebug() << "==== TRACK ZONES CHANGED";
+                                 Q_EMIT ptr2->dataChanged(ix, ix, roles);
+                             }
+                         });
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -1721,7 +1722,6 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
     int first_src_track = 0;
     bool secondClipHasEndMix = false;
     bool firstClipHasStartMix = false;
-    QList<int> allowedMixes = {clipIds.first};
     if (auto ptr = m_parent.lock()) {
         // The clip that will be moved to playlist 1
         std::shared_ptr<ClipModel> firstClip(ptr->getClipPtr(clipIds.first));
@@ -2131,7 +2131,7 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
             }
             // Clear asset panel if mix was selected
             if (ptr->m_selectedMix == clipIds.second) {
-                ptr->requestClearAssetView(clipIds.second);
+                Q_EMIT ptr->requestClearAssetView(clipIds.second);
             }
             Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[clipIds.second]->getAsset());
             std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));

@@ -137,7 +137,7 @@ void MarkerCategoryButton::refresh()
         if (m_menu->actions().isEmpty()) {
             m_menu->addAction(ac);
         } else {
-            m_menu->insertAction(m_menu->actions().first(), ac);
+            m_menu->insertAction(m_menu->actions().constFirst(), ac);
         }
         if (selected.isEmpty() || selected.contains(-1)) {
             ac->setChecked(true);

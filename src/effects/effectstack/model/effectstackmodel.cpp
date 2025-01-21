@@ -704,7 +704,7 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
         i.next();
         effect->filter().set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
     }
-    if (params.keys().contains(QLatin1String("kdenlive:builtin"))) {
+    if (params.contains(QLatin1String("kdenlive:builtin"))) {
         effect->setBuiltIn();
     }
     Fun local_undo = removeItem_lambda(effect->getId());

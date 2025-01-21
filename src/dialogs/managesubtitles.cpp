@@ -83,13 +83,13 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
                 int currentIx = -1;
                 int newIx = -1;
                 QStringList subKeys;
-                QMap<std::pair<int, QString>, QString> subs = this->m_model->getSubtitlesList();
-                for (auto &sub : subs.keys()) {
-                    subKeys.append(QString::number(sub.first) + " - " + sub.second);
-                    if (sub.first == m_activeSubFile) {
+                const QMap<std::pair<int, QString>, QString> subs = m_model->getSubtitlesList();
+                for (auto sub = subs.cbegin(), end = subs.cend(); sub != end; ++sub) {
+                    subKeys.append(QString::number(sub.key().first) + " - " + sub.key().second);
+                    if (sub.key().first == m_activeSubFile) {
                         currentIx = subKeys.size() - 1;
                     }
-                    if (sub.first == id) {
+                    if (sub.key().first == id) {
                         newIx = subKeys.size() - 1;
                     }
                 }
@@ -131,10 +131,10 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
 
             QAction *actionMoveLayer = new QAction(i18n("Move To..."), this);
             actionMoveLayer->setIcon(QIcon::fromTheme(QStringLiteral("go-next")));
-            connect(actionMoveLayer, &QAction::triggered, this, [&copyMoveLayer]() { copyMoveLayer(true); });
+            connect(actionMoveLayer, &QAction::triggered, this, [function = copyMoveLayer]() { function(true); });
             QAction *actionCopyLayer = new QAction(i18n("Copy To..."), this);
             actionCopyLayer->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-            connect(actionCopyLayer, &QAction::triggered, this, [&copyMoveLayer]() { copyMoveLayer(false); });
+            connect(actionCopyLayer, &QAction::triggered, this, [function = copyMoveLayer]() { function(false); });
             QMenu *layerMenu = new QMenu(this);
             layerMenu->addAction(actionCopyLayer);
             if (eventList->topLevelItemCount() > 1) {
@@ -157,13 +157,13 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
                 int currentIx = -1;
                 int newIx = -1;
                 QStringList subKeys;
-                QMap<std::pair<int, QString>, QString> subs = this->m_model->getSubtitlesList();
-                for (auto &sub : subs.keys()) {
-                    subKeys.append(QString::number(sub.first) + " - " + sub.second);
-                    if (sub.first == m_activeSubFile) {
+                const QMap<std::pair<int, QString>, QString> subs = m_model->getSubtitlesList();
+                for (auto sub = subs.cbegin(), end = subs.cend(); sub != end; ++sub) {
+                    subKeys.append(QString::number(sub.key().first) + " - " + sub.key().second);
+                    if (sub.key().first == m_activeSubFile) {
                         currentIx = subKeys.size() - 1;
                     }
-                    if (sub.first == id) {
+                    if (sub.key().first == id) {
                         newIx = subKeys.size() - 1;
                     }
                 }
@@ -212,10 +212,10 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
 
             QAction *actionMoveStyle = new QAction(i18n("Move To..."), this);
             actionMoveStyle->setIcon(QIcon::fromTheme(QStringLiteral("go-next")));
-            connect(actionMoveStyle, &QAction::triggered, this, [&copyMoveStyle]() { copyMoveStyle(true); });
+            connect(actionMoveStyle, &QAction::triggered, this, [function = copyMoveStyle]() { function(true); });
             QAction *actionCopyStyle = new QAction(i18n("Copy To..."), this);
             actionCopyStyle->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-            connect(actionCopyStyle, &QAction::triggered, this, [&copyMoveStyle]() { copyMoveStyle(false); });
+            connect(actionCopyStyle, &QAction::triggered, this, [function = copyMoveStyle]() { function(false); });
             QMenu *styleMenu = new QMenu(this);
             styleMenu->addAction(actionCopyStyle);
             if (fromGlobal || (styleList->currentItem() && styleList->currentItem()->text(0) != "Default")) {
@@ -257,7 +257,6 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
         }
 
         int layer = current->text(0).section(" ", 1, 1).toInt();
-        QString currentStyle = current->text(2);
         QMenu *menu = new QMenu(this);
         for (const auto &style : m_model->getAllSubtitleStyles(false)) {
             menu->addAction(style.first);

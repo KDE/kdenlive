@@ -5989,8 +5989,8 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
     // First step: all clips referenced by the bin model exist and are inserted
     for (const auto &binClip : binClips) {
         auto projClip = pCore->projectItemModel()->getClipByBinID(binClip);
-        QList<int> referenced = projClip->m_registeredClipsByUuid.value(uuid());
-        for (int cid : referenced) {
+        const QList<int> referenced = projClip->m_registeredClipsByUuid.value(uuid());
+        for (const int &cid : referenced) {
             if (!isClip(cid)) {
                 qWarning() << "Bin model registers a bad clip ID" << cid;
                 qDebug() << ":::: GOT REF CLIPS FOR UUID: " << referenced;

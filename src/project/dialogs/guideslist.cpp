@@ -375,7 +375,7 @@ void GuidesList::rebuildCategories()
     }
     if (!defaultCategoryFound) {
         // Default marker category not found. set it to first one
-        QAction *ac = markerDefaultMenu->actions().first();
+        QAction *ac = markerDefaultMenu->actions().constFirst();
         if (ac) {
             default_category->setIcon(ac->icon());
             KdenliveSettings::setDefault_marker_type(ac->data().toInt());
@@ -388,8 +388,8 @@ void GuidesList::refreshDefaultCategory()
     int ix = KdenliveSettings::default_marker_type();
     QMenu *menu = default_category->menu();
     if (menu) {
-        QList<QAction *> actions = menu->actions();
-        for (auto *ac : actions) {
+        const QList<QAction *> actions = menu->actions();
+        for (const auto *ac : actions) {
             if (ac->data() == ix) {
                 default_category->setIcon(ac->icon());
                 break;

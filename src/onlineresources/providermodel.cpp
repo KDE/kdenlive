@@ -404,13 +404,13 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
 {
     QUrl uri = getSearchUrl(searchText, page);
 
-    if (m_search["req"].toObject()["method"].toString() == "GET") {
+    if (m_search.value("req").toObject().value("method").toString() == "GET") {
         QNetworkRequest request(uri);
 
-        if (m_search["req"].toObject()["header"].isArray()) {
-            for (const auto &header : m_search["req"].toObject()["header"].toArray()) {
-                request.setRawHeader(header.toObject()["key"].toString().toUtf8(),
-                                     replacePlaceholders(header.toObject()["value"].toString(), searchText, page).toUtf8());
+        if (m_search.value("req").toObject().value("header").isArray()) {
+            for (const auto &header : m_search.value("req").toObject().value("header").toArray()) {
+                request.setRawHeader(header.toObject().value("key").toString().toUtf8(),
+                                     replacePlaceholders(header.toObject().value("value").toString(), searchText, page).toUtf8());
             }
         }
         QNetworkReply *reply = m_networkManager->get(request);
@@ -479,9 +479,9 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
             onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? int(objectGetValue(item.toObject(), "duration").toDouble())
                                                                                          : objectGetValue(item.toObject(), "duration").toInt();
 
-            if (keys["downloadUrls"].isObject()) {
-                if (keys["downloadUrls"].toObject()["isObject"].toBool(false)) {
-                    QJsonObject list = objectGetValue(item.toObject(), "downloadUrls.key").toObject();
+            if (keys.value("downloadUrls").isObject()) {
+                if (keys.value("downloadUrls").toObject().value("isObject").toBool(false)) {
+                    const QJsonObject list = objectGetValue(item.toObject(), "downloadUrls.key").toObject();
                     for (const auto &key : list.keys()) {
                         QJsonObject urlItem = list[key].toObject();
                         onlineItem.downloadUrls << objectGetString(urlItem, "downloadUrls.url", QString(), key);
@@ -496,7 +496,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
                 if (onlineItem.previewUrl.isEmpty() && !onlineItem.downloadUrls.isEmpty()) {
                     onlineItem.previewUrl = onlineItem.downloadUrls.first();
                 }
-            } else if (keys["downloadUrl"].isString()) {
+            } else if (keys.value("downloadUrl").isString()) {
                 onlineItem.downloadUrl = objectGetString(item.toObject(), "downloadUrl");
                 if (onlineItem.previewUrl.isEmpty()) {
                     onlineItem.previewUrl = onlineItem.downloadUrl;
@@ -528,8 +528,8 @@ QUrl ProviderModel::getFilesUrl(const QString &id)
     QUrlQuery query;
     url.setPath(url.path().append(replacePlaceholders(req["path"].toString(), QString(), 0, id)));
 
-    for (const auto param : req["params"].toArray()) {
-        query.addQueryItem(param.toObject()["key"].toString(), replacePlaceholders(param.toObject()["value"].toString(), QString(), 0, id));
+    for (const auto param : req.value("params").toArray()) {
+        query.addQueryItem(param.toObject().value("key").toString(), replacePlaceholders(param.toObject().value("value").toString(), QString(), 0, id));
     }
 
     url.setQuery(query);
@@ -551,13 +551,14 @@ void ProviderModel::slotFetchFiles(const QString &id)
         return;
     }
 
-    if (m_download["req"].toObject()["method"].toString() == "GET") {
+    if (m_download.value("req").toObject().value("method").toString() == "GET") {
 
         QNetworkRequest request(uri);
 
-        if (m_download["req"].toObject()["header"].isArray()) {
-            for (const auto &header : m_search["req"].toObject()["header"].toArray()) {
-                request.setRawHeader(header.toObject()["key"].toString().toUtf8(), replacePlaceholders(header.toObject()["value"].toString()).toUtf8());
+        if (m_download.value("req").toObject().value("header").isArray()) {
+            for (const auto &header : m_search.value("req").toObject().value("header").toArray()) {
+                request.setRawHeader(header.toObject().value("key").toString().toUtf8(),
+                                     replacePlaceholders(header.toObject().value("value").toString()).toUtf8());
             }
         }
         QNetworkReply *reply = m_networkManager->get(request);

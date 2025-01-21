@@ -39,8 +39,8 @@ void RenderPresetParams::insertFromString(const QString &params, bool overwrite)
     // to avoid splitting values that contain whitespaces
     static const QRegularExpression regexp(R"(\s+(?=\S*=))");
 
-    QStringList paramList = params.split(regexp, Qt::SkipEmptyParts);
-    for (QString param : paramList) {
+    const QStringList paramList = params.split(regexp, Qt::SkipEmptyParts);
+    for (const QString &param : paramList) {
         if (!param.contains(QLatin1Char('='))) {
             // invalid param, skip
             continue;
@@ -441,7 +441,7 @@ void RenderPresetModel::setParams(const QString &params)
 RenderPresetParams RenderPresetModel::params(QStringList removeParams) const
 {
     RenderPresetParams newParams = m_params;
-    for (QString toRemove : removeParams) {
+    for (const QString &toRemove : removeParams) {
         newParams.remove(toRemove);
     }
     return newParams;

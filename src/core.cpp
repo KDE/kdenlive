@@ -1076,7 +1076,7 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 void Core::invalidateRange(QPair<int, int> range)
 {
     if (!m_guiConstructed || currentDoc()->isBusy() || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
-    m_mainWindow->getCurrentTimeline()->model()->invalidateZone(range.first, range.second);
+    Q_EMIT m_mainWindow->getCurrentTimeline()->model()->invalidateZone(range.first, range.second);
 }
 
 void Core::invalidateItem(ObjectId itemId)
@@ -1100,7 +1100,7 @@ void Core::invalidateItem(ObjectId itemId)
         break;
     case KdenliveObjectType::Master:
         if (tl) {
-            tl->model()->invalidateZone(0, -1);
+            Q_EMIT tl->model()->invalidateZone(0, -1);
         }
         break;
     default:

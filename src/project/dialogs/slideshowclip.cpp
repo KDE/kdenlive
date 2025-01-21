@@ -70,7 +70,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     slideTranslations.insert(QStringLiteral("Pan"), i18nc("Image Pan", "Pan"));
     slideTranslations.insert(QStringLiteral("Pan and zoom"), i18n("Pan and zoom"));
     slideTranslations.insert(QStringLiteral("Zoom"), i18n("Zoom"));
-    QStringList animValues = group.keyList();
+    const QStringList animValues = group.keyList();
     for (const auto &val : animValues) {
         if (slideTranslations.contains(val)) {
             m_view.animation->addItem(slideTranslations.value(val), val);

@@ -1712,7 +1712,6 @@ void SubtitleEdit::updateOffset()
     QRegularExpressionMatchIterator allTagBlocks = tagBlockRegex.globalMatch(subText->toPlainText());
     while (allTagBlocks.hasNext()) {
         QRegularExpressionMatch match = allTagBlocks.next();
-        QString tagBlock = match.captured(0);
         int pos = match.capturedStart(0);
         int length = match.capturedLength(0);
         m_offsets.push_back({pos, {length, 0}});
@@ -1722,7 +1721,6 @@ void SubtitleEdit::updateOffset()
     QRegularExpressionMatchIterator allEscapes = escapeRegex.globalMatch(subText->toPlainText());
     while (allEscapes.hasNext()) {
         QRegularExpressionMatch match = allEscapes.next();
-        QString escape = match.captured(0);
         int pos = match.capturedStart(0);
         m_offsets.push_back({pos, {2, 1}});
     }

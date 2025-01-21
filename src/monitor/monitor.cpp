@@ -176,10 +176,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 }
             }
         }
-        m_glMonitor->reconnectWindow();
+        Q_EMIT m_glMonitor->reconnectWindow();
     };
 
-    connect(m_glMonitor, &VideoWidget::reconnectWindow, [this, rebuildViewConnection]() {
+    connect(m_glMonitor, &VideoWidget::reconnectWindow, this, [this, rebuildViewConnection]() {
         connect(m_glMonitor->quickWindow(), &QQuickWindow::destroyed, [rebuildViewConnection]() {
             if (!pCore->closing) {
                 rebuildViewConnection(true);
@@ -396,8 +396,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
     m_playAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
     connect(m_glMonitor, &VideoWidget::monitorPlay, m_playAction, &QAction::trigger);
-
-    QString strippedTooltip = m_playAction->toolTip().remove(QRegularExpression(QStringLiteral("\\s\\(.*\\)")));
+    static const QRegularExpression tooltipRegexp(QStringLiteral("\\s\\(.*\\)"));
+    QString strippedTooltip = m_playAction->toolTip().remove(tooltipRegexp);
     // append shortcut if it exists for action
     if (originalPlayAction->shortcut() == QKeySequence(0)) {
         m_playAction->setToolTip(strippedTooltip);
@@ -1363,8 +1363,6 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                 return;
             } else {
                 if (m_id == Kdenlive::ProjectMonitor) {
-                    // Create QImage with frame
-                    QImage frame;
                     // Disable monitor preview scaling if any
                     int previewScale = KdenliveSettings::previewScaling();
                     if (previewScale > 0) {
@@ -1600,9 +1598,11 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel>
 
     if (markerModel) {
         QAbstractItemModel *sourceModel = markerModel->sourceModel();
-        connect(sourceModel, SIGNAL(dataChanged(QModelIndex, QModelIndex, QVector<int>)), this, SLOT(checkOverlay()));
-        connect(sourceModel, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(checkOverlay()));
-        connect(sourceModel, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(checkOverlay()));
+        if (sourceModel) {
+            connect(sourceModel, SIGNAL(dataChanged(QModelIndex, QModelIndex, QVector<int>)), this, SLOT(checkOverlay()));
+            connect(sourceModel, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(checkOverlay()));
+            connect(sourceModel, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(checkOverlay()));
+        }
     } else {
         // Project simply changed length, update display
         Q_EMIT durationChanged(length);
@@ -2231,7 +2231,7 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
         return;
     }
     if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
-        QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(const QVariant, list));
+        QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
     if (!r.isEmpty()) {
         root->setProperty("framesize", r);
@@ -2787,7 +2787,7 @@ void Monitor::updateTimelineProducer()
 {
     const QUuid sequenceUuid = pCore->currentTimelineId();
     int position = pCore->currentDoc()->getSequenceProperty(sequenceUuid, QStringLiteral("position"), QString::number(0)).toInt();
-    QMetaObject::invokeMethod(this, "setProducer", Q_ARG(const QUuid, sequenceUuid),
+    QMetaObject::invokeMethod(this, "setProducer", Q_ARG(QUuid, sequenceUuid),
                               Q_ARG(std::shared_ptr<Mlt::Producer>, pCore->window()->getCurrentTimeline()->model()->producer()), Q_ARG(int, position));
 }
 

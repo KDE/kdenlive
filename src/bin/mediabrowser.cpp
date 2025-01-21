@@ -295,7 +295,6 @@ void MediaBrowser::importSelection()
         QDomElement prod;
         qDebug() << "=== GOT DROPPED MIME: " << type.name();
         if (type.name().startsWith(QLatin1String("image/")) && !type.name().contains(QLatin1String("image/gif"))) {
-            QStringList patternlist;
             Timecode tc = pCore->timecode();
             QScopedPointer<SlideshowClip> dia(new SlideshowClip(tc, url.toLocalFile(), nullptr, this));
             if (dia->exec() == QDialog::Accepted) {

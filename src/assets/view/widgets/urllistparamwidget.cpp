@@ -17,8 +17,6 @@
 #include <QFileDialog>
 #include <QtConcurrent/QtConcurrentRun>
 
-static QRegularExpression lumaRegexp(QRegularExpression("^luma[0-2][0-9].pgm$"));
-
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_listType(OTHERLIST)
@@ -198,6 +196,7 @@ void UrlListParamWidget::slotRefresh()
         bool builtIn = false;
         QFileInfo info(currentValue);
         // This is an MLT build luma
+        static const QRegularExpression lumaRegexp("^luma[0-2][0-9].pgm$");
         if (lumaRegexp.match(info.fileName()).hasMatch() && !info.exists()) {
             // This is a built in luma.
             currentValue = info.fileName();
@@ -214,7 +213,8 @@ void UrlListParamWidget::slotRefresh()
             m_list->addItem(i.key(), entry);
             int ix = m_list->findData(entry);
             // Create thumbnails
-            if (!entry.isEmpty() && (entry.toLower().endsWith(QLatin1String(".png")) || entry.toLower().endsWith(QLatin1String(".pgm")))) {
+            if (!entry.isEmpty() &&
+                (entry.endsWith(QLatin1String(".png"), Qt::CaseInsensitive) || entry.endsWith(QLatin1String(".pgm"), Qt::CaseInsensitive))) {
                 if (MainWindow::m_lumacache.contains(entry)) {
                     m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                 } else {
@@ -247,7 +247,7 @@ void UrlListParamWidget::slotRefresh()
         QStringList lutsToRemove;
         while (l.hasNext()) {
             l.next();
-            if (l.value().toLower().endsWith(QLatin1String(".cube")) && !KdenliveSettings::validated_luts().contains(l.value())) {
+            if (l.value().endsWith(QLatin1String(".cube"), Qt::CaseInsensitive) && !KdenliveSettings::validated_luts().contains(l.value())) {
                 // Open LUT file and check validity
                 if (isValidCubeFile(l.value())) {
                     QStringList validated = KdenliveSettings::validated_luts();
@@ -376,12 +376,12 @@ void UrlListParamWidget::addItemsInSameFolder(const QString currentValue, QMap<Q
         QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
         for (const auto &filename : std::as_const(entrys)) {
             const QString path = dir.absoluteFilePath(filename);
-            if (!(*listValues).values().contains(path)) {
+            if (std::find((*listValues).cbegin(), (*listValues).cend(), path) == (*listValues).cend()) {
                 (*listValues).insert(QFileInfo(filename).baseName(), path);
             }
         }
         // make sure the current value is added. If it is a duplicate we remove it later
-        if (!(*listValues).values().contains(currentValue)) {
+        if (std::find((*listValues).cbegin(), (*listValues).cend(), currentValue) == (*listValues).cend()) {
             if (QFileInfo::exists(currentValue)) {
                 (*listValues).insert(QFileInfo(currentValue).baseName(), currentValue);
             }
@@ -448,7 +448,7 @@ void UrlListParamWidget::openFile()
         } else if (m_listType == LUMALIST || m_listType == OTHERLIST) {
             KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QFileInfo(urlString).absolutePath());
         }
-        if (m_listType == LUTLIST && urlString.toLower().endsWith(QLatin1String(".cube"))) {
+        if (m_listType == LUTLIST && urlString.endsWith(QLatin1String(".cube"), Qt::CaseInsensitive)) {
             if (isValidCubeFile(urlString)) {
                 Q_EMIT valueChanged(m_index, urlString, true);
                 slotRefresh();

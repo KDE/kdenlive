@@ -172,7 +172,6 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
 {
     QString start, end, comment;
     QString timeLine;
-    QStringList srtTime;
     GenTime startPos, endPos;
     int turn = 0, r = 0, endIndex = 1, defaultTurn = 0;
     double transformMult = targetFramerate/startFramerate;
@@ -296,7 +295,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     } else if (filePath.endsWith(QLatin1String(".ass"))) {
         qDebug() << "ass File";
         QString startTime, endTime;
-        QString eventFormat, section;
+        QString section;
         turn = 0;
         QFile assFile(filePath);
         if (!assFile.exists() || !assFile.open(QIODevice::ReadOnly)) {
@@ -1163,7 +1162,7 @@ void SubtitleModel::subtitleFileFromZone(int in, int out, const QString &outFile
     double fps = pCore->getCurrentFps();
     GenTime zoneIn(in, fps);
     GenTime zoneOut(out, fps);
-    for (auto subtitle : m_subtitleList) {
+    for (const auto &subtitle : m_subtitleList) {
         int layer = subtitle.first.first;
         GenTime inTime = subtitle.first.second;
         GenTime outTime = subtitle.second.endTime();
@@ -1284,7 +1283,7 @@ int SubtitleModel::saveSubtitleData(const QJsonArray &list, const QString &outFi
             out << "[Kdenlive Extradata]\n";
             out << "MaxLayer: " + QString::number(getMaxLayer()) + '\n';
             QString defaultStyles;
-            for (const auto &style : m_defaultStyles) {
+            for (const auto &style : std::as_const(m_defaultStyles)) {
                 defaultStyles += style + ',';
             }
             defaultStyles.chop(1);

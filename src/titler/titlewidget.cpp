@@ -426,7 +426,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL | Qt::Key_S);
     m_buttonSave->setToolTip(i18n("Save As") + QLatin1Char(' ') + m_buttonSave->shortcut().toString(QKeySequence::NativeText));
-    connect(m_buttonSave, &QAction::triggered, [this]() { saveTitle(); });
+    connect(m_buttonSave, &QAction::triggered, this, [this]() { saveTitle(); });
 
     m_buttonDownload = new KNSWidgets::Action(i18n("Download New Title Templates..."), QStringLiteral(":data/kdenlive_titles.knsrc"), this);
     m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);

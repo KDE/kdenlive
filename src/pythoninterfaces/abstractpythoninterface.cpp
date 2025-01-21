@@ -294,7 +294,7 @@ bool AbstractPythonInterface::checkSetup(bool requestInstall, bool *newInstall)
 {
     PythonExec exes = venvPythonExecs(true);
     qDebug() << "::::: FOUND PYTHON EXECS: " << exes.python << exes.pip;
-    if (!exes.python.isEmpty() && !exes.pip.isEmpty() && !m_scripts.values().contains(QStringLiteral(""))) {
+    if (!exes.python.isEmpty() && !exes.pip.isEmpty() && !m_scripts.values().contains(QString())) {
         qDebug() << "//// SCRIP VALUES: " << m_scripts.values();
         return true;
     }
@@ -433,7 +433,7 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
     QStringList messages;
     if (!output.isEmpty()) {
         // We have missing dependencies
-        for (auto i : deps) {
+        for (const auto &i : deps) {
             if (outputMissing.contains(i)) {
                 if (m_optionalDeps.contains(i)) {
                     m_optionalMissing << i;
@@ -463,7 +463,7 @@ QStringList AbstractPythonInterface::missingDependencies(const QStringList &filt
         return m_missing;
     }
     QStringList filtered;
-    for (auto item : filter) {
+    for (const auto &item : filter) {
         if (m_missing.contains(item)) {
             filtered.append(item);
         }
@@ -573,7 +573,6 @@ QStringList AbstractPythonInterface::parseDependencies(const QStringList deps, b
     }
     for (auto &r : reqFiles) {
         // This is a requirements.txt file, read content
-        QStringList stringList;
         QFile textFile(r);
         if (textFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream textStream(&textFile);
@@ -664,7 +663,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
         if (concurrent) {
             scriptJob.setProcessChannelMode(QProcess::MergedChannels);
         }
-        connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
+        connect(&scriptJob, &QProcess::readyReadStandardOutput, this, [this, &scriptJob]() {
             const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
             if (!processData.isEmpty()) {
                 Q_EMIT installFeedback(processData.simplified());

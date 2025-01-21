@@ -118,7 +118,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     helpButton->setCheckable(true);
     helpButton->setChecked(KdenliveSettings::showRenderTextParameters());
     parameters->setVisible(KdenliveSettings::showRenderTextParameters());
-    connect(helpButton, &QPushButton::toggled, [this](bool checked) {
+    connect(helpButton, &QPushButton::toggled, this, [this](bool checked) {
         parameters->setVisible(checked);
         KdenliveSettings::setShowRenderTextParameters(checked);
     });
@@ -192,7 +192,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
     int parNum = projectProfile->sample_aspect_num();
     int parDen = projectProfile->sample_aspect_den();
-    connect(button_manual, &QPushButton::clicked, [this, helpButton]() {
+    connect(button_manual, &QPushButton::clicked, this, [this, helpButton]() {
         if (m_manualPreset) {
             return;
         }
@@ -451,7 +451,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         accept();
     });
 
-    connect(formatCombo, &QComboBox::currentTextChanged, [this](const QString &format) {
+    connect(formatCombo, &QComboBox::currentTextChanged, this, [this](const QString &format) {
         if (format == QLatin1String("matroska")) {
             preset_extension->setText(QStringLiteral("mkv"));
         } else {

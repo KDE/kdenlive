@@ -164,7 +164,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
             if (videoStreams.count() > 1) {
                 setProducerProperty(QStringLiteral("kdenlive:multistreams"), 1);
                 m_hasMultipleVideoStreams = true;
-                QMetaObject::invokeMethod(pCore->bin(), "processMultiStream", Qt::QueuedConnection, Q_ARG(const QString &, m_controllerBinId),
+                QMetaObject::invokeMethod(pCore->bin(), "processMultiStream", Qt::QueuedConnection, Q_ARG(QString, m_controllerBinId),
                                           Q_ARG(QList<int>, videoStreams), Q_ARG(QList<int>, audioStreams));
             }
         }
@@ -355,10 +355,11 @@ void ClipController::buildAudioInfo(int audioIndex)
     }
     m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
     // Load stream effects
-    for (int stream : m_audioInfo->streams().keys()) {
-        QString streamEffect = m_properties->get(QStringLiteral("kdenlive:stream:%1").arg(stream).toUtf8().constData());
+    const QMap<int, QString> streams = m_audioInfo->streams();
+    for (auto stream = streams.cbegin(), end = streams.cend(); stream != end; ++stream) {
+        QString streamEffect = m_properties->get(QStringLiteral("kdenlive:stream:%1").arg(stream.key()).toUtf8().constData());
         if (!streamEffect.isEmpty()) {
-            m_streamEffects.insert(stream, streamEffect.split(QChar('#')));
+            m_streamEffects.insert(stream.key(), streamEffect.split(QChar('#')));
         }
     }
 }
@@ -1182,26 +1183,26 @@ bool ClipController::isFullRange() const
     return full;
 }
 
-bool ClipController::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo)
+bool ClipController::removeMarkerCategories(const QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo)
 {
     bool found = false;
     if (m_markerModel->rowCount() == 0) {
         return false;
     }
     for (int i : toRemove) {
-        QList<CommentedTime> toDelete = m_markerModel->getAllMarkers(i);
+        const QList<CommentedTime> toDelete = m_markerModel->getAllMarkers(i);
         if (!found && toDelete.count() > 0) {
             found = true;
         }
         if (remapCategories.contains(i)) {
             // Move markers to another category
             int newType = remapCategories.value(i);
-            for (CommentedTime c : toDelete) {
+            for (const CommentedTime &c : toDelete) {
                 m_markerModel->addMarker(c.time(), c.comment(), newType, undo, redo);
             }
         } else {
             // Delete markers
-            for (CommentedTime c : toDelete) {
+            for (const CommentedTime &c : toDelete) {
                 m_markerModel->removeMarker(c.time(), undo, redo);
             }
         }

@@ -45,5 +45,6 @@ QString QStringUtils::appendToFilename(const QString &filename, const QString &a
 QString QStringUtils::getCleanFileName(QString filename)
 {
     // Replace all non letter based characters with a dash
-    return filename.replace(QRegularExpression("[^a-zA-Z0-9\\p{L}\\p{M} \\p{N}]"), QStringLiteral("-"));
+    static const QRegularExpression nameRegexp("[^a-zA-Z0-9\\p{L}\\p{M} \\p{N}]");
+    return filename.replace(nameRegexp, QStringLiteral("-"));
 }

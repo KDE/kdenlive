@@ -25,6 +25,7 @@ class AssetParameterModel;
 class MixInfo
 {
 public:
+    // MixInfo();
     int firstClipId = -1;
     int secondClipId = -1;
     /** @brief in and out of the first clip in the mix */

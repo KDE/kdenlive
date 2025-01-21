@@ -242,7 +242,7 @@ bool SubtitleEvent::operator!=(const SubtitleEvent &op) const
 
 QString SubtitleEvent::toString(int layer, GenTime start) const
 {
-    QString result = QStringLiteral("");
+    QString result;
 
     if (this->isDialogue())
         result += QStringLiteral("Dialogue: ");

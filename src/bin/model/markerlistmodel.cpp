@@ -193,7 +193,7 @@ bool MarkerListModel::hasMarker(GenTime pos) const
 
 CommentedTime MarkerListModel::markerById(int mid) const
 {
-    Q_ASSERT(m_markerPositions.values().contains(mid));
+    Q_ASSERT(std::find(m_markerPositions.cbegin(), m_markerPositions.cend(), mid) != m_markerPositions.cend());
     return m_markerList.at(mid);
 }
 
@@ -829,7 +829,7 @@ QString MarkerListModel::toJson(QList<int> categories) const
         }
     }
     std::sort(markers.begin(), markers.end());
-    for (const auto &marker : markers) {
+    for (const auto &marker : std::as_const(markers)) {
         QJsonObject currentMarker;
         currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.time().frames(pCore->getCurrentFps())));
         currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.comment()));

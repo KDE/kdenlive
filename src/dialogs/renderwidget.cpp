@@ -1214,9 +1214,8 @@ void RenderWidget::refreshParams()
     }
     m_params.replacePlaceholder(QLatin1String("%dv_standard"), dvstd);
 
-    m_params.replacePlaceholder(
-        QLatin1String("%dar"),
-        QStringLiteral("@%1/%2").arg(QString::number(projectProfile->display_aspect_num())).arg(QString::number(projectProfile->display_aspect_den())));
+    m_params.replacePlaceholder(QLatin1String("%dar"), QStringLiteral("@%1/%2").arg(QString::number(projectProfile->display_aspect_num()),
+                                                                                    QString::number(projectProfile->display_aspect_den())));
     m_params.replacePlaceholder(QLatin1String("%passes"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1));
 
     m_view.advanced_params->setPlainText(m_params.toString());

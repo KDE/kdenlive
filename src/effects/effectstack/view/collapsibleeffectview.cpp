@@ -1121,7 +1121,7 @@ void CollapsibleEffectView::slotHideKeyframes(bool hide)
 
 void CollapsibleEffectView::sendStandardCommand(int command)
 {
-    m_view->sendStandardCommand(command);
+    Q_EMIT m_view->sendStandardCommand(command);
 }
 
 int CollapsibleEffectView::getEffectRow() const

@@ -106,9 +106,9 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
         checkEncoding();
     }
     connect(codecs_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [updateSub]() { updateSub(); });
-    connect(subtitle_url, &KUrlRequester::urlSelected, [this]() { m_parseTimer.start(); });
-    connect(subtitle_url, &KUrlRequester::textChanged, [this]() { m_parseTimer.start(); });
-    connect(&m_parseTimer, &QTimer::timeout, [this, checkEncoding]() {
+    connect(subtitle_url, &KUrlRequester::urlSelected, this, [this]() { m_parseTimer.start(); });
+    connect(subtitle_url, &KUrlRequester::textChanged, this, [this]() { m_parseTimer.start(); });
+    connect(&m_parseTimer, &QTimer::timeout, this, [this, checkEncoding]() {
         buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
         checkEncoding();
     });

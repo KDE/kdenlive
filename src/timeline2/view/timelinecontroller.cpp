@@ -686,7 +686,7 @@ void TimelineController::deleteSelectedClips()
     }
     for (auto &tid : trackIds) {
         if (m_model->trackIsLocked(tid)) {
-            m_model->flashLock(tid);
+            Q_EMIT m_model->flashLock(tid);
             return;
         }
     }
@@ -694,7 +694,7 @@ void TimelineController::deleteSelectedClips()
         // Check if a mix is selected
         if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {
             m_model->removeMix(m_model->m_selectedMix);
-            m_model->requestClearAssetView(m_model->m_selectedMix);
+            Q_EMIT m_model->requestClearAssetView(m_model->m_selectedMix);
             m_model->requestClearSelection(true);
         }
         return;
@@ -5507,14 +5507,14 @@ void TimelineController::switchFocusClip()
                         std::shared_ptr<ClipModel> clip2 = m_model->getClipPtr(nextClip);
                         int row = clip2->assetRow(assetId, -1, true);
                         if (row > -1) {
-                            pCore->monitorManager()->projectMonitor()->blockSceneChange(true);
+                            Q_EMIT pCore->monitorManager()->projectMonitor()->blockSceneChange(true);
                             clip2->setActiveEffect(row);
                             m_model->requestSetSelection({nextClip});
                             if (m_model->m_groups->isInGroup(nextClip)) {
                                 // When the clip is grouped, we need to explicitely show the stack
                                 showAsset(nextClip);
                             }
-                            pCore->monitorManager()->projectMonitor()->blockSceneChange(false);
+                            Q_EMIT pCore->monitorManager()->projectMonitor()->blockSceneChange(false);
                             return;
                         }
                     }
@@ -5541,7 +5541,7 @@ void TimelineController::enableBuildInTransform()
             std::shared_ptr<ClipModel> clip2 = m_model->getClipPtr(nextClip);
             m_model->requestSetSelection({nextClip});
             showAsset(nextClip);
-            pCore->enableBuildInTransform();
+            Q_EMIT pCore->enableBuildInTransform();
             return;
         }
         track = m_model->getPreviousVideoTrackIndex(track);

@@ -55,7 +55,7 @@ void ModelDownloadWidget::processDownload()
 
     connect(this, &ModelDownloadWidget::abortScript, &scriptJob, &QProcess::kill, Qt::DirectConnection);
     scriptJob.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
+    connect(&scriptJob, &QProcess::readyReadStandardOutput, this, [this, &scriptJob]() {
         const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
         Q_EMIT installFeedback(processData);
         if (processData.contains(QLatin1Char('%'))) {

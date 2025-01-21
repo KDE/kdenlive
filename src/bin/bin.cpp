@@ -1560,7 +1560,9 @@ void Bin::abortOperations()
     m_infoMessage->hide();
     blockSignals(true);
     if (m_propertiesPanel) {
-        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
+        while (!children.isEmpty()) {
+            QWidget *w = children.takeFirst();
             delete w;
         }
     }
@@ -1662,7 +1664,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
 
 void Bin::refreshIcons()
 {
-    QList<QMenu *> allMenus = this->findChildren<QMenu *>();
+    const QList<QMenu *> allMenus = this->findChildren<QMenu *>();
     for (int i = 0; i < allMenus.count(); i++) {
         QMenu *m = allMenus.at(i);
         QIcon ic = m->icon();
@@ -1672,7 +1674,7 @@ void Bin::refreshIcons()
         QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
-    QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
+    const QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
     for (int i = 0; i < allButtons.count(); i++) {
         QToolButton *m = allButtons.at(i);
         QIcon ic = m->icon();
@@ -1796,7 +1798,7 @@ void Bin::slotDeleteClip()
         if (KMessageBox::warningContinueCancel(this, i18n("Deleting sequences cannot be undone")) != KMessageBox::Continue) {
             return;
         }
-        for (auto seq : sequences) {
+        for (auto seq : std::as_const(sequences)) {
             pCore->projectManager()->closeTimeline(seq, true);
         }
     }
@@ -2127,7 +2129,7 @@ void Bin::slotReplaceClip()
                                     }
                                     return true;
                                 };
-                                const QString clipId = ClipCreator::createClipFromFile(fileName, folder, m_itemModel, undo, redo, callBack);
+                                (void)ClipCreator::createClipFromFile(fileName, folder, m_itemModel, undo, redo, callBack);
                                 pCore->pushUndo(undo, redo, i18nc("@action", "Add clip"));
                             } else if ((hasAV.first && !replacementHasAV.first) || (hasAV.second && !replacementHasAV.second)) {
                                 KMessageBox::information(this, i18n("You cannot replace a clip with a different type of clip (audio/video not matching)."));
@@ -2314,7 +2316,9 @@ void Bin::cleanDocument()
     m_itemModel->clean();
     if (m_propertiesPanel) {
         m_propertiesPanel->setProperty("clipId", QString());
-        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
+        while (!children.isEmpty()) {
+            QWidget *w = children.takeFirst();
             delete w;
         }
     }
@@ -3108,7 +3112,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
 {
     bool enableClipActions = false;
     bool isFolder = false;
-    QString clipService;
     bool clickInView = false;
     if (m_itemView) {
         QRect viewRect(m_itemView->mapToGlobal(QPoint(0, 0)), m_itemView->mapToGlobal(QPoint(m_itemView->width(), m_itemView->height())));
@@ -3340,7 +3343,9 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         return;
     }
     if ((clip == nullptr) || !clip->statusReady() || clip->itemType() == AbstractProjectItem::FolderItem) {
-        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
+        while (!children.isEmpty()) {
+            QWidget *w = children.takeFirst();
             delete w;
         }
         m_propertiesPanel->setProperty("clipId", QString());
@@ -3355,7 +3360,9 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         return;
     }
     // Cleanup widget for new content
-    for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+    QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
+    while (!children.isEmpty()) {
+        QWidget *w = children.takeFirst();
         delete w;
     }
     m_propertiesPanel->setProperty("clipId", clip->AbstractProjectItem::clipId());
@@ -3624,7 +3631,7 @@ void Bin::setupGeneratorMenu()
     if (m_isMainBin) {
         connect(m_itemModel.get(), &ProjectItemModel::resetPlayOrLoopZone, monitor, &Monitor::resetPlayOrLoopZone, Qt::DirectConnection);
     }
-    connect(this, &Bin::openClip, [&, monitor](std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid) {
+    connect(this, &Bin::openClip, monitor, [&, monitor](std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid) {
         monitor->slotOpenClip(clip, in, out, uuid);
         if (clip && clip->hasLimitedDuration()) {
             clip->refreshBounds();
@@ -4148,8 +4155,8 @@ void Bin::updateTags(const QMap<int, QStringList> &previousTags, const QMap<int,
         return true;
     };
     // Check if some tags were removed
-    QList<QStringList> previous = previousTags.values();
-    QList<QStringList> updated = tags.values();
+    const QList<QStringList> previous = previousTags.values();
+    const QList<QStringList> updated = tags.values();
     QStringList deletedTags;
     QMap<QString, QString> modifiedTags;
     for (auto p : previous) {
@@ -5065,8 +5072,9 @@ void Bin::refreshProxySettings()
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     // en/disable proxy option in clip properties
     if (m_propertiesPanel) {
-        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
-            Q_EMIT static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
+        const QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
+        for (ClipPropertiesController *w : children) {
+            Q_EMIT w->enableProxy(m_doc->useProxy());
         }
     }
     bool isFolder = false;
@@ -5493,14 +5501,15 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
         connect(ac2, &QAction::triggered, this, [this, clipId]() {
             selectClipById(clipId);
             if (m_propertiesPanel) {
-                for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+                const QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
+                for (ClipPropertiesController *w : children) {
                     if (w->parentWidget() && w->parentWidget()->parentWidget()) {
                         // Raise panel
                         w->parentWidget()->parentWidget()->show();
                         w->parentWidget()->parentWidget()->raise();
                     }
                     // Show audio tab
-                    static_cast<ClipPropertiesController *>(w)->activatePage(2);
+                    w->activatePage(2);
                 }
             }
         });
@@ -5574,7 +5583,6 @@ void Bin::saveFolderState()
     }
     m_itemModel->saveProperty(QStringLiteral("kdenlive:expandedFolders"), expandedFolders.join(QLatin1Char(';')));
     m_itemModel->saveProperty(QStringLiteral("kdenlive:binZoom"), QString::number(KdenliveSettings::bin_zoom()));
-    const QStringList multiBins = pCore->window()->extraBinIds();
     m_itemModel->saveProperty(QStringLiteral("kdenlive:extraBins"), pCore->window()->extraBinIds().join(QLatin1Char(';')));
 }
 

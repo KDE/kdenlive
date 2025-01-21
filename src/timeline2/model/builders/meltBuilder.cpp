@@ -105,7 +105,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         }
         QStringList foldersToExpand;
         // Find updated ids for expanded folders
-        for (const QString &folderId : expandedFolders) {
+        for (const QString &folderId : std::as_const(expandedFolders)) {
             if (binIdCorresp.count(folderId) > 0) {
                 foldersToExpand << binIdCorresp.at(folderId);
             }

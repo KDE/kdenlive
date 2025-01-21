@@ -300,9 +300,8 @@ QPair<QStringList, QStringList> EffectsRepository::fixDeprecatedEffects()
     QDir current_dir(customAssetDir);
     QStringList filter;
     filter << QStringLiteral("*.xml");
-    QStringList fileList = current_dir.entryList(filter, QDir::Files);
-    QStringList failed;
-    for (const auto &file : std::as_const(fileList)) {
+    const QStringList fileList = current_dir.entryList(filter, QDir::Files);
+    for (const auto &file : fileList) {
         QString path = current_dir.absoluteFilePath(file);
         QPair<QString, QString> fixResult = fixCustomAssetFile(path);
         if (!fixResult.first.isEmpty()) {

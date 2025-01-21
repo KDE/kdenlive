@@ -342,7 +342,7 @@ void WhisperDownload::scriptFinished(const QString &scriptName, const QStringLis
             m_newModelInstalled = true;
             m_downloadProgress = 0;
             QString modelName;
-            for (auto a : args) {
+            for (const auto &a : args) {
                 if (a.startsWith(QStringLiteral("model="))) {
                     modelName = a.section(QLatin1Char('='), 1);
                     break;

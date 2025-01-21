@@ -39,7 +39,6 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
 
     Q_ASSERT(binIds.size() > 0);
     auto firstBinClip = pCore->projectItemModel()->getClipByBinID(m_binIds.front().section(QLatin1Char('/'), 0, 0));
-    auto firstUrl = firstBinClip->url();
     m_vbox = new QVBoxLayout(optionsbox);
     if (m_filtername == QLatin1String("vidstab")) {
         m_view = std::make_unique<AssetParameterView>(this);

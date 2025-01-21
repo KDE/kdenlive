@@ -342,8 +342,7 @@ void MonitorProxy::extractFrameToFile(int frame_position, const QStringList &pat
         delete frame;
         img.save(destPath);
         if (addToProject) {
-            QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Q_ARG(const QList<QUrl> &, {QUrl::fromLocalFile(destPath)}),
-                                      Q_ARG(const QString &, folderInfo));
+            QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Q_ARG(QList<QUrl>, {QUrl::fromLocalFile(destPath)}), Q_ARG(QString, folderInfo));
         }
         return;
     }
@@ -374,8 +373,7 @@ void MonitorProxy::extractFrameToFile(int frame_position, const QStringList &pat
         QImage img = KThumb::getFrame(producer.data(), frame_position, width, height, finalSize.width());
         img.save(destPath);
         if (addToProject) {
-            QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Q_ARG(const QList<QUrl> &, {QUrl::fromLocalFile(destPath)}),
-                                      Q_ARG(const QString &, folderInfo));
+            QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Q_ARG(QList<QUrl>, {QUrl::fromLocalFile(destPath)}), Q_ARG(QString, folderInfo));
         }
     } else {
         qDebug() << "::: INVALID PRODUCER: " << path;

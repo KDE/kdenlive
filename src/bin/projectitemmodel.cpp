@@ -1381,7 +1381,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
             QStringList notesBinIds;
             if (!notes.isEmpty() && version < 2) {
                 // Convert old format notes (Bin id > Control uuid)
-                QRegularExpression regexp("href=\"([^\"]+)");
+                static const QRegularExpression regexp("href=\"([^\"]+)");
                 QRegularExpressionMatchIterator i = regexp.globalMatch(notes);
                 while (i.hasNext()) {
                     QRegularExpressionMatch match = i.next();

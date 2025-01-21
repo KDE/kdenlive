@@ -189,8 +189,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
         propertyList.append({"subtitleModel", QVariant()});
     }
     rootContext()->setContextProperties(propertyList);
-    const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
-    const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     connect(rootObject(), SIGNAL(mousePosChanged(int)), this, SLOT(emitMousePos(int)));

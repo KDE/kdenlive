@@ -185,8 +185,6 @@ QString SpeechToTextWhisper::speechScript()
 
 bool SpeechToTextWhisper::installNewModel(const QString &modelName)
 {
-    // Ensure models folder exists
-    const QString folder = modelFolder(true, true);
     WhisperDownload d(this, modelName, QApplication::activeWindow());
     d.exec();
     bool installedNew = d.newModelsInstalled();

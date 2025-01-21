@@ -916,11 +916,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 }
                 QString destName = projectId;
                 if (QFileInfo(s).completeBaseName() == projectFileName) {
-                    destName.append(QStringLiteral("-%1.%2").arg(pCore->sessionId).arg(QFileInfo(s).suffix()));
+                    destName.append(QStringLiteral("-%1.%2").arg(pCore->sessionId, QFileInfo(s).suffix()));
                 } else {
                     QString uuid = QFileInfo(s).completeBaseName();
                     uuid.remove(0, projectFileName.length());
-                    destName.append(QStringLiteral("%1-%2.%3").arg(uuid).arg(pCore->sessionId).arg(QFileInfo(s).suffix()));
+                    destName.append(QStringLiteral("%1-%2.%3").arg(uuid, pCore->sessionId, QFileInfo(s).suffix()));
                 }
                 QFileInfo destFile(QDir::temp().absoluteFilePath(destName));
                 if (destFile.exists()) {
@@ -2298,5 +2298,5 @@ void ProjectManager::handleLog(const QString &message)
 
 void ProjectManager::showTrackEffectStack(int tid)
 {
-    m_activeTimelineModel->showTrackEffectStack(tid);
+    Q_EMIT m_activeTimelineModel->showTrackEffectStack(tid);
 }

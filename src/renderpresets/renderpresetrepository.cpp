@@ -191,7 +191,6 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
     while (!groups.item(i).isNull()) {
         documentElement = groups.item(i).toElement();
         QString groupName = documentElement.attribute(QStringLiteral("name"), i18nc("Attribute Name", "Custom"));
-        QString extension = documentElement.attribute(QStringLiteral("extension"), QString());
         QString renderer = documentElement.attribute(QStringLiteral("renderer"), QString());
 
         QDomNode n = groups.item(i).firstChild();

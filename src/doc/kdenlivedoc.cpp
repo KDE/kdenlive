@@ -51,7 +51,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStandardPaths>
 #include <QUndoGroup>
 #include <QUndoStack>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <memory>
 #include <mlt++/Mlt.h>
 
@@ -2082,7 +2082,7 @@ void KdenliveDoc::selectPreviewProfile()
     QMap<QString, QString> values = group.entryMap();
     if (!KdenliveSettings::supportedHWCodecs().isEmpty()) {
         QString codecFormat = QStringLiteral("x264-");
-        codecFormat.append(KdenliveSettings::supportedHWCodecs().first().section(QLatin1Char('_'), 1));
+        codecFormat.append(KdenliveSettings::supportedHWCodecs().constFirst().section(QLatin1Char('_'), 1));
         if (values.contains(codecFormat)) {
             const QString bestMatch = values.value(codecFormat);
             setDocumentProperty(QStringLiteral("previewparameters"), bestMatch.section(QLatin1Char(';'), 0, 0));
@@ -2159,7 +2159,7 @@ void KdenliveDoc::initProxySettings()
     // Select best proxy profile depending on hw encoder support
     if (!KdenliveSettings::supportedHWCodecs().isEmpty()) {
         QString codecFormat = QStringLiteral("x264-");
-        codecFormat.append(KdenliveSettings::supportedHWCodecs().first().section(QLatin1Char('_'), 1));
+        codecFormat.append(KdenliveSettings::supportedHWCodecs().constFirst().section(QLatin1Char('_'), 1));
         if (values.contains(codecFormat)) {
             params = values.value(codecFormat);
         }
@@ -2794,11 +2794,12 @@ void KdenliveDoc::cleanupTimelinePreview(const QDateTime &documentDate)
 const QStringList KdenliveDoc::getDefaultGuideCategories()
 {
     // Don't change this or it will break compatibility for projects created with Kdenlive < 22.12
-    QStringList colors = {QLatin1String("#9b59b6"), QLatin1String("#3daee9"), QLatin1String("#1abc9c"), QLatin1String("#1cdc9a"), QLatin1String("#c9ce3b"),
-                          QLatin1String("#fdbc4b"), QLatin1String("#f39c1f"), QLatin1String("#f47750"), QLatin1String("#da4453")};
+    const QStringList colors = {QLatin1String("#9b59b6"), QLatin1String("#3daee9"), QLatin1String("#1abc9c"),
+                                QLatin1String("#1cdc9a"), QLatin1String("#c9ce3b"), QLatin1String("#fdbc4b"),
+                                QLatin1String("#f39c1f"), QLatin1String("#f47750"), QLatin1String("#da4453")};
     QStringList guidesCategories;
     for (int i = 0; i < 9; i++) {
-        guidesCategories << QStringLiteral("%1 %2:%3:%4").arg(i18n("Category")).arg(QString::number(i + 1)).arg(QString::number(i)).arg(colors.at(i));
+        guidesCategories << QStringLiteral("%1 %2:%3:%4").arg(i18n("Category"), QString::number(i + 1), QString::number(i), colors.at(i));
     }
     return guidesCategories;
 }
