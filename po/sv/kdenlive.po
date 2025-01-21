@@ -8329,7 +8329,7 @@ msgstr "Nerladdning (1,4 GB)"
 #: src/dialogs/settings/pluginssettings.cpp:89
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr "Installerar flerspråksdata…"
+msgstr "Installerar flerspråkig data…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -8351,7 +8351,7 @@ msgstr "Sonderar..."
 #: src/dialogs/settings/pluginssettings.cpp:180
 #, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Laddar ner flerspråksmodell…"
+msgstr "Laddar ner flerspråkig modell…"
 
 #: src/dialogs/settings/pluginssettings.cpp:237
 #: src/dialogs/settings/pluginssettings.cpp:828
@@ -8412,7 +8412,7 @@ msgstr ""
 #: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
-msgstr "Installera flerspråksöversättning"
+msgstr "Installera flerspråkig översättning"
 
 #: src/dialogs/settings/pluginssettings.cpp:433
 #, kde-format
