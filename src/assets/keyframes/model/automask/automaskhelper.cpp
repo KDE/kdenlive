@@ -51,6 +51,7 @@ void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int posi
         if (!extend) {
             m_includePoints.clear();
             m_excludePoints.clear();
+            m_boxes.clear();
         } else {
             if (m_includePoints.contains(m_lastPos)) {
                 pointsList = m_includePoints.value(m_lastPos);
@@ -75,8 +76,38 @@ void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int posi
         points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
         pointsTypes << 0;
     }
+    QRect box;
+    if (m_boxes.contains(m_lastPos)) {
+        box = m_boxes.value(m_lastPos);
+    }
     qDebug() << "===== ADDED CONTROL POINT; TOTAL: " << "EXCLUDING: " << exclude << ", " << points.size() << ", CENTERS: " << pointsTypes;
-    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes);
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, box);
+    (void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
+}
+
+void AutomaskHelper::addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend, bool exclude)
+{
+    m_lastPos = position;
+    QList<QPoint> pointsList;
+    if (!extend) {
+        m_includePoints.clear();
+        m_excludePoints.clear();
+        m_boxes.clear();
+    }
+    m_boxes.insert(m_lastPos, rect);
+    QVariantList points;
+    QVariantList pointsTypes;
+    pointsList = m_includePoints.value(m_lastPos);
+    for (auto &p : pointsList) {
+        points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
+        pointsTypes << 1;
+    }
+    pointsList = m_excludePoints.value(m_lastPos);
+    for (auto &p : pointsList) {
+        points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
+        pointsTypes << 0;
+    }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, rect);
     (void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
 }
 
@@ -101,6 +132,10 @@ void AutomaskHelper::generateImage(const QString &previewFile)
             labelsList << QStringLiteral("0");
         }
     }
+    QRect box;
+    if (m_boxes.contains(m_lastPos)) {
+        box = m_boxes.value(m_lastPos);
+    }
     bool ok;
     QDir maskSrcFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
     if (!ok) {
@@ -108,23 +143,18 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     }
     SamInterface sam;
     std::pair<QString, QString> maskScript = {sam.venvPythonExecs().python, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
-    QStringList args = {maskScript.second,
-                        QStringLiteral("-I"),
-                        maskSrcFolder.absolutePath(),
-                        QStringLiteral("-P"),
-                        QStringLiteral("%1=%2").arg(m_lastPos).arg(pointsList.join(QLatin1Char(','))),
-                        QStringLiteral("-L"),
-                        QStringLiteral("%1=%2").arg(m_lastPos).arg(labelsList.join(QLatin1Char(','))),
-                        QStringLiteral("-F"),
-                        QString::number(m_lastPos),
-                        QStringLiteral("-O"),
-                        previewFile,
-                        QStringLiteral("-M"),
-                        KdenliveSettings::samModelFile(),
-                        QStringLiteral("-C"),
-                        SamInterface::configForModel()};
+    QStringList args = {
+        maskScript.second, QStringLiteral("-I"), maskSrcFolder.absolutePath(),     QStringLiteral("-F"), QString::number(m_lastPos),    QStringLiteral("-O"),
+        previewFile,       QStringLiteral("-M"), KdenliveSettings::samModelFile(), QStringLiteral("-C"), SamInterface::configForModel()};
+    if (!pointsList.isEmpty()) {
+        args << QStringLiteral("-P") << QStringLiteral("%1=%2").arg(m_lastPos).arg(pointsList.join(QLatin1Char(','))) << QStringLiteral("-L")
+             << QStringLiteral("%1=%2").arg(m_lastPos).arg(labelsList.join(QLatin1Char(',')));
+    }
     if (!KdenliveSettings::samDevice().isEmpty()) {
         args << QStringLiteral("-D") << KdenliveSettings::samDevice();
+    }
+    if (!box.isNull()) {
+        args << QStringLiteral("-B") << QStringLiteral("%1=%2,%3,%4,%5").arg(m_lastPos).arg(box.x()).arg(box.y()).arg(box.right()).arg(box.bottom());
     }
     qDebug() << "---- STARTING IMAGE GENERATION: " << maskScript.first << " = " << args;
     scriptJob.setProcessChannelMode(QProcess::MergedChannels);
@@ -144,19 +174,19 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     }
 }
 
-void AutomaskHelper::generateMask(const QString &binId, const QString &maskName, const QPoint &zone)
+bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName, const QPoint &zone)
 {
     // Generate params
     QMap<int, QString> maskParams;
     bool ok;
     QDir maskSrcFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
     if (!ok) {
-        return;
+        return false;
     }
-    if (!m_includePoints.contains(0)) {
+    if (!m_includePoints.contains(0) && !m_boxes.contains(0)) {
         KMessageBox::information(pCore->getMonitor(Kdenlive::ClipMonitor), i18n("You must define include points in the first video frame of the sequence."));
         pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeek(zone.x());
-        return;
+        return false;
     }
     maskParams.insert(MaskTask::INPUTFOLDER, maskSrcFolder.absolutePath());
     QString outFolder = QStringLiteral("output-frames");
@@ -168,7 +198,7 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
     }
     maskSrcFolder.mkpath(outFolder);
     if (!maskSrcFolder.cd(outFolder)) {
-        return;
+        return false;
     }
     maskParams.insert(MaskTask::OUTPUTFOLDER, maskSrcFolder.absolutePath());
     maskParams.insert(MaskTask::NAME, maskName);
@@ -209,15 +239,6 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
                 labelsList << QStringLiteral("0");
             }
         }
-        if (m_boxes.contains(f)) {
-            const QList<QRect> rects = m_boxes.value(f);
-            for (auto &r : rects) {
-                boxList << QString::number(r.x());
-                boxList << QString::number(r.y());
-                boxList << QString::number(r.width());
-                boxList << QString::number(r.height());
-            }
-        }
         if (!pointsList.isEmpty()) {
             QString pointsValue = QStringLiteral("%1=").arg(f);
             QString labelsValue = pointsValue;
@@ -226,10 +247,11 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
             fullPointsList << pointsValue;
             fullLabelsList << labelsValue;
         }
-        if (!boxList.isEmpty()) {
-            QString boxValue = QStringLiteral("%1=").arg(f);
-            ;
-            boxValue.append(boxList.join(QLatin1Char(',')));
+        if (m_boxes.contains(f)) {
+            QRect rect = m_boxes.value(f);
+            const QString boxValue = QStringLiteral("%1=%2,%3,%4,%5")
+                                         .arg(QString::number(f), QString::number(rect.x()), QString::number(rect.y()), QString::number(rect.right()),
+                                              QString::number(rect.bottom()));
             fullBoxList << boxValue;
         }
     }
@@ -245,7 +267,7 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
         bool ok;
         QDir maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
         if (!ok) {
-            return;
+            return false;
         }
         int ix = 1;
         // QString baseName = QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(zone.x()).arg(zone.y());
@@ -261,6 +283,7 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
         std::pair<QString, QString> maskScript = {sam.venvPythonExecs().python, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
         MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, maskScript, zone.x(), zone.y(), clip.get());
     }
+    return true;
 }
 
 void AutomaskHelper::monitorSeek(int)

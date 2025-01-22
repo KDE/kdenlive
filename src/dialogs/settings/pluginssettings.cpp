@@ -357,14 +357,16 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         sam_system_params->setVisible(false);
         checkSamEnvironement(false);
     }
-    connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this](bool systemPackages) {
+    connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this, pythonSamLabel](bool systemPackages) {
+        pythonSamLabel->setVisible(false);
+        KdenliveSettings::setSam_system_python(systemPackages);
         sam_system_params->setVisible(systemPackages);
         sam_venv_params->setEnabled(systemPackages == false);
+        KdenliveSettings::setSam_system_python_path(sam_system_python_path->text());
         if (systemPackages) {
             modelBox->setEnabled(true);
-            if (combo_sam_device->count() == 0) {
-                m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
-            }
+            // Force device reload to ensure torch is found
+            m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
             reloadSamModels();
         } else {
             checkSamEnvironement(false);

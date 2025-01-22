@@ -30,9 +30,10 @@ public:
     explicit AutomaskHelper(QObject *parent = nullptr);
 
 public Q_SLOTS:
-    void generateMask(const QString &binId, const QString &maskName, const QPoint &zone);
+    bool generateMask(const QString &binId, const QString &maskName, const QPoint &zone);
     void monitorSeek(int pos);
     void addMonitorControlPoint(const QString &previewFile, int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
+    void addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend, bool exclude);
 
 private:
     Monitor *m_monitor;
@@ -40,7 +41,7 @@ private:
     int m_lastPos{0};
     QMap<int, QList<QPoint>> m_includePoints;
     QMap<int, QList<QPoint>> m_excludePoints;
-    QMap<int, QList<QRect>> m_boxes;
+    QMap<int, QRect> m_boxes;
 
 private Q_SLOTS:
     void generateImage(const QString &previewFile);

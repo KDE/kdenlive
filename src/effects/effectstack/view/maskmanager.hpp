@@ -30,6 +30,7 @@ public:
 private Q_SLOTS:
     void initMaskMode();
     void addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
+    void addControlRect(int position, QSize frameSize, const QRect rect, bool extend, bool exclude);
     void previewMask(bool show);
     void generateMask();
     void loadMasks();

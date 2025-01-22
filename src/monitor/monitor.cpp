@@ -2224,11 +2224,20 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, co
     loadQmlScene(sceneType, sceneData);
 }
 
-void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, const QVariantList &types)
+void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, const QVariantList &types, const QRect &box)
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (!root) {
         return;
+    }
+    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+        QVariantList boxPoints;
+        if (!box.isNull()) {
+            const QSize frameSize = pCore->getCurrentFrameSize();
+            boxPoints << double(box.x()) / frameSize.width() << double(box.y()) / frameSize.height() << double(box.width()) / frameSize.width()
+                      << double(box.height()) / frameSize.height();
+        }
+        QMetaObject::invokeMethod(root, "updateRect", Q_ARG(QVariant, boxPoints));
     }
     if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
@@ -2992,6 +3001,14 @@ void Monitor::addControlPoint(double x, double y, bool extend, bool exclude)
     int yPos = qRound(y * fSize.height());
     int pos = position();
     Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude);
+}
+
+void Monitor::addControlRect(double x, double y, double width, double height, bool extend, bool exclude)
+{
+    QSize fSize = pCore->getCurrentFrameDisplaySize();
+    QRect rect(qRound(x * fSize.width()), qRound(y * fSize.height()), qRound(width * fSize.width()), qRound(height * fSize.height()));
+    int pos = position();
+    Q_EMIT addMonitorControlRect(pos, fSize, rect, extend, exclude);
 }
 
 void Monitor::previewMask(const QString &maskFile, int in, int out)

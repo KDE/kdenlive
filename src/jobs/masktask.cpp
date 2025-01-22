@@ -64,7 +64,6 @@ void MaskTask::generateMask()
     if (!KdenliveSettings::samDevice().isEmpty()) {
         args << QStringLiteral("-D") << KdenliveSettings::samDevice();
     }
-    qDebug() << "---- STARTING IMAGE GENERATION: " << args;
     qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
     m_scriptJob = std::make_unique<QProcess>(new QProcess);
     QObject::connect(this, &AbstractTask::jobCanceled, m_scriptJob.get(), &QProcess::kill, Qt::DirectConnection);

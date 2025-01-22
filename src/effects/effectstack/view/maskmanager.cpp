@@ -99,6 +99,7 @@ void MaskManager::initMaskMode()
         Q_ASSERT(clipMon != nullptr);
         connect(clipMon, &Monitor::generateMask, this, &MaskManager::generateMask, Qt::QueuedConnection);
         connect(clipMon, &Monitor::addMonitorControlPoint, this, &MaskManager::addControlPoint, Qt::UniqueConnection);
+        connect(clipMon, &Monitor::addMonitorControlRect, this, &MaskManager::addControlRect, Qt::UniqueConnection);
         connect(clipMon, &Monitor::disablePreviewMask, this, &MaskManager::abortPreviewByMonitor, Qt::UniqueConnection);
         m_connected = true;
     }
@@ -144,6 +145,21 @@ void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int y
     }
     m_maskHelper->addMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, xPos, yPos, extend,
                                          exclude);
+}
+
+void MaskManager::addControlRect(int position, QSize frameSize, const QRect rect, bool extend, bool exclude)
+{
+    if (position < m_zone.x()) {
+        qDebug() << "/// POSITION OUTSIDE ZONE!!!";
+    }
+    position -= m_zone.x();
+    if (!QFile::exists(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/%1.jpg").arg(position, 5, 10, QLatin1Char('0'))))) {
+        // Frame has not been extracted
+        qDebug() << "/// FILE FOR FRAME: " << position
+                 << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
+        return;
+    }
+    m_maskHelper->addMonitorControlRect(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, rect, extend, exclude);
 }
 
 std::shared_ptr<ProjectClip> MaskManager::getOwnerClip()
@@ -207,12 +223,13 @@ void MaskManager::generateMask()
     if (!clip) {
         return;
     }
-    m_maskHelper->generateMask(clip->clipId(), maskName, m_zone);
-    samStatus->setText(i18n("Generating mask %1", maskName));
-    samStatus->clearActions();
-    samStatus->setCloseButtonVisible(true);
-    samStatus->setMessageType(KMessageWidget::Information);
-    samStatus->animatedShow();
+    if (m_maskHelper->generateMask(clip->clipId(), maskName, m_zone)) {
+        samStatus->setText(i18n("Generating mask %1", maskName));
+        samStatus->clearActions();
+        samStatus->setCloseButtonVisible(true);
+        samStatus->setMessageType(KMessageWidget::Information);
+        samStatus->animatedShow();
+    }
     // Exit mask creation mode
     pCore->getMonitor(Kdenlive::ClipMonitor)->requestAbortPreviewMask();
 }

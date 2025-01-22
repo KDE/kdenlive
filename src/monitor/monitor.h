@@ -92,7 +92,9 @@ public:
      * E.g. if the user sets in=100, out=101, then this returns <100, 102>.
      */
     QPoint getZoneInfo() const;
-    void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());
+    /** @brief Initialize the qml monitor overlay with points and rect related to the current frame
+     */
+    void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList(), const QRect &box = QRect());
     /** @brief Set a property on the effect scene */
     void setEffectSceneProperty(const QString &name, const QVariant &value);
     /** @brief Returns effective display size */
@@ -298,6 +300,7 @@ private Q_SLOTS:
     /** @brief En/Disable the show record timecode feature in clip monitor */
     void slotSwitchRecTimecode(bool enable);
     void addControlPoint(double x, double y, bool extend, bool exclude);
+    void addControlRect(double x, double y, double width, double height, bool extend, bool exclude);
 
 public Q_SLOTS:
     void updateTimelineProducer();
@@ -415,6 +418,7 @@ Q_SIGNALS:
     void zoneDurationChanged();
     void blockSceneChange(bool);
     void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
+    void addMonitorControlRect(int position, const QSize frameSize, const QRect rect, bool extend, bool exclude);
     void generateMask();
     void disablePreviewMask();
 };

@@ -79,6 +79,18 @@ Item {
         root.centerPoints = points
     }
 
+    function updateRect(box) {
+        if (box.length == 4 && box[2] > 0) {
+            frameBox.x = box[0] * frame.width
+            frameBox.y = box[1] * frame.height
+            frameBox.width = box[2] * frame.width
+            frameBox.height = box[3] * frame.height
+            frameBox.visible = true
+        } else {
+            frameBox.visible = false
+        }
+    }
+
     function updateClickCapture() {
         root.captureRightClick = false
     }
@@ -94,6 +106,7 @@ Item {
     }
 
     signal addControlPoint(real x, real y, bool extend, bool exclude)
+    signal addControlRect(real x, real y, real width, real height, bool extend, bool exclude)
     signal generateMask()
     signal exitMaskPreview()
 
@@ -162,7 +175,10 @@ Item {
                 anchors.fill: frame
                 property bool shiftClick: false
                 property bool ctrlClick: false
+                property bool handleEvent: false
                 property bool isDragEvent: false
+                property real clickPointX: 0
+                property real clickPointY: 0
                 property real xPos: 0
                 property real yPos: 0
                 onPressed: mouse => {
@@ -170,22 +186,73 @@ Item {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
                         root.captureRightClick
+                        clickPointX = mouseX
+                        clickPointY = mouseY
+                        selectionRect.x = mouseX
+                        selectionRect.y = mouseY
                         isDragEvent = false
                     } else {
                         mouse.accepted = false;
                     }
+                    handleEvent = mouse.button == Qt.LeftButton
                 }
                 onPositionChanged: {
                     if (maskMode == 0 && ctrlClick) {
                         isDragEvent = true
+                    } else {
+                        if (isDragEvent) {
+                            selectionRect.width = Math.abs(mouseX - clickPointX)
+                            if (mouseX < clickPointX) {
+                                selectionRect.x = mouseX
+                            }
+                            selectionRect.height = Math.abs(mouseY - clickPointY)
+                            if (mouseY < clickPointY) {
+                                selectionRect.y = mouseY
+                            }
+                        } else if (pressed && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
+                            isDragEvent = true
+                            selectionRect.visible = true
+                            if (mouseX < selectionRect.x) {
+                                selectionRect.width = selectionRect.x + selectionRect.width - mouseX
+                                selectionRect.x = mouseX
+                            } else {
+                                selectionRect.width = mouseX - selectionRect.x
+                            }
+                            if (mouseY < selectionRect.y) {
+                                selectionRect.height = selectionRect.y + selectionRect.height - mouseY
+                                selectionRect.y = mouseY
+                            } else {
+                                selectionRect.height = mouseY - selectionRect.y
+                            }
+                        }
                     }
                 }
                 onReleased: {
+                    if (maskMode == 1) {
+                        mouse.accepted = false;
+                        return;
+                    }
                     if (maskMode == 0) {
                         root.captureRightClick = false
                     }
+                    selectionRect.visible = false
+                    if (!ctrlClick && handleEvent) {
+                        if (isDragEvent) {
+                            // Rect selection
+                            xPos = selectionRect.x / frame.width
+                            yPos = selectionRect.y / frame.height
+                            addControlRect(xPos, yPos, selectionRect.width / frame.width, selectionRect.height / frame.height, shiftClick, ctrlClick)
+                            generateLabel.visible = true
+                        } else {
+                            // Single point selection
+                            xPos = mouse.x / frame.width
+                            yPos = mouse.y / frame.height
+                            addControlPoint(xPos, yPos, shiftClick, ctrlClick)
+                            generateLabel.visible = true
+                        }
+                    }
                 }
-                onClicked: mouse => {
+                /*onClicked: mouse => {
                     if (maskMode == 1) {
                         mouse.accepted = false;
                         return;
@@ -196,6 +263,12 @@ Item {
                         addControlPoint(xPos, yPos, shiftClick, ctrlClick)
                         generateLabel.visible = true
                     }
+                }*/
+                Rectangle {
+                    id: selectionRect
+                    color: '#66ffffff'
+                    border.color: 'red'
+                    border.width: 1
                 }
             }
             Image {
@@ -247,6 +320,13 @@ Item {
 
                         }
                     }
+                }
+                Rectangle {
+                    id: frameBox
+                    visible: false
+                    color: 'transparent'
+                    border.color: '#ff0000'
+                    border.width: 1
                 }
             }
             Label {
