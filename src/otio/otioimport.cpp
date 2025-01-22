@@ -16,10 +16,12 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "otioutil.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
+#include "timeline2/view/timelinewidget.h"
 
 #include <KLocalizedString>
 
@@ -29,7 +31,6 @@
 #include <opentimelineio/externalReference.h>
 #include <opentimelineio/generatorReference.h>
 #include <opentimelineio/imageSequenceReference.h>
-#include <opentimelineio/marker.h>
 
 OtioImport::OtioImport(QObject *parent)
     : QObject(parent)
@@ -113,12 +114,6 @@ void OtioImport::slotImport()
     data->timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
     data->oldTracks = data->timeline->getAllTracksIds();
 
-    // Map color names to marker types.
-    for (const auto &i : pCore->markerTypes.keys()) {
-        const QString name = pCore->markerTypes[i].color.name();
-        data->colorNameToMarkerType[name] = i;
-    }
-
     // Find all of the OTIO media references and add them to the bin. When
     // the bin clips are ready, import the timeline.
     //
@@ -187,6 +182,12 @@ void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &data)
     }
     data->timeline->updateDuration();
 
+    // Import the OTIO markers as guides.
+    for (const auto &otioMarker : data->otioTimeline->tracks()->markers()) {
+        const GenTime pos(otioMarker->marked_range().start_time().value(), data->otioTimeline->duration().rate());
+        importMarker(otioMarker, pos, data->timeline->getGuideModel());
+    }
+
     // Clean up.
     for (int id : data->oldTracks) {
         Fun undo = []() { return true; };
@@ -249,26 +250,33 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
                 data->timeline->requestClipSlip(clipId, -slip, false, true);
 
                 // Add markers.
-                //
-                // TODO: If a marker is added to a clip, it also appears on other
-                // clips with the same bin id?
-                for (const auto &otioMarker : otioClip->markers()) {
-                    if (std::shared_ptr<ClipModel> clipModel = data->timeline->getClipPtr(clipId)) {
-                        if (std::shared_ptr<MarkerListModel> markerModel = clipModel->getMarkerModel()) {
-                            const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
-                            GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
-                            int type = -1;
-                            auto j = data->colorNameToMarkerType.find(QString::fromStdString(otioMarker->color()));
-                            if (j != data->colorNameToMarkerType.end()) {
-                                type = *j;
-                            }
-                            markerModel->addMarker(pos, QString::fromStdString(otioMarker->comment()), type);
-                        }
+                if (std::shared_ptr<ClipModel> clipModel = data->timeline->getClipPtr(clipId)) {
+                    for (const auto &otioMarker : otioClip->markers()) {
+                        const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
+                        const GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
+                        importMarker(otioMarker, pos, clipModel->getMarkerModel());
                     }
                 }
             }
         }
     }
+}
+
+void OtioImport::importMarker(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Marker> &otioMarker, const GenTime &pos,
+                              const std::shared_ptr<MarkerListModel> &markerModel)
+{
+    // Check the OTIO metadata for the marker type, otherwise find the marker
+    // type closest to the OTIO marker color.
+    int type = -1;
+    if (otioMarker->metadata().has_key("kdenlive") && otioMarker->metadata()["kdenlive"].type() == typeid(OTIO_NS::AnyDictionary)) {
+        auto otioMetadata = std::any_cast<OTIO_NS::AnyDictionary>(otioMarker->metadata()["kdenlive"]);
+        if (otioMetadata.has_key("type") && otioMetadata["type"].type() == typeid(int64_t)) {
+            type = std::any_cast<int64_t>(otioMetadata["type"]);
+        }
+    } else {
+        type = fromOtioMarkerColor(otioMarker->color());
+    }
+    markerModel->addMarker(pos, QString::fromStdString(otioMarker->comment()), type);
 }
 
 QString OtioImport::resolveFile(const QString &file, const QFileInfo &timelineFile)

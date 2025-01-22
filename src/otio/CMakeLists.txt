@@ -5,5 +5,6 @@ set(kdenlive_SRCS
   ${kdenlive_SRCS}
   otio/otioexport.cpp
   otio/otioimport.cpp
+  otio/otioutil.cpp
   PARENT_SCOPE
 )

@@ -12,11 +12,14 @@
 #include <QObject>
 
 #include <opentimelineio/clip.h>
+#include <opentimelineio/marker.h>
 #include <opentimelineio/timeline.h>
 #include <opentimelineio/track.h>
 
 #include <unordered_set>
 
+class GenTime;
+class MarkerListModel;
 class TimelineItemModel;
 
 struct OtioImportData
@@ -27,7 +30,6 @@ struct OtioImportData
     std::unordered_set<int> oldTracks;
     QMap<QString, QString> otioExternalRefToBinId;
     QMap<QString, QString> binIdToTimecode;
-    QMap<QString, int> colorNameToMarkerType;
     int waitingBinIds = 0;
 };
 
@@ -45,6 +47,7 @@ private:
     void importTimeline(const std::shared_ptr<OtioImportData> &);
     void importTrack(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &, int trackId);
     void importClip(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &, int trackId);
+    void importMarker(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Marker> &, const GenTime &, const std::shared_ptr<MarkerListModel> &);
 
     static QString resolveFile(const QString &, const QFileInfo &timelineFileInfo);
 };

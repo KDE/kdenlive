@@ -13,6 +13,7 @@
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
+#include "otioutil.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 
@@ -48,6 +49,13 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
     // Create the OTIO timeline.
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline(new OTIO_NS::Timeline);
 
+    // Export guides as OTIO markers.
+    const double fps = projectFps();
+    for (const CommentedTime &marker : timeline->getGuideModel()->getAllMarkers()) {
+        const int position = marker.time().frames(fps);
+        exportMarker(marker, OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(1, fps)), otioTimeline->tracks());
+    }
+
     // Export the tracks.
     const int tracksCount = timeline->getTracksCount();
     for (int index = tracksCount - 1; index >= 0; --index) {
@@ -64,6 +72,7 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
                              OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &otioTimeline)
 {
     // Create the OTIO track.
+    const double fps = projectFps();
     std::string trackKind = OTIO_NS::Track::Kind::video;
     if (timeline->isAudioTrack(trackId)) {
         trackKind = OTIO_NS::Track::Kind::audio;
@@ -71,7 +80,8 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
         trackKind = "Subtitle";
     }
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> otioTrack(
-        new OTIO_NS::Track(timeline->getTrackFullName(trackId).toStdString(), std::nullopt, trackKind));
+        new OTIO_NS::Track(timeline->getTrackFullName(trackId).toStdString(),
+                           OTIO_NS::TimeRange(OTIO_NS::RationalTime(0.0, fps), OTIO_NS::RationalTime(track->trackDuration(), fps)), trackKind));
     otioTimeline->tracks()->append_child(otioTrack);
 
     // Sort the clips by their position in the timeline.
@@ -83,7 +93,6 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
 
     // Export the clips.
     int position = 0;
-    const double fps = projectFps();
     for (int clipId : clipPositionToId) {
 
         const int clipPosition = clipPositionToId.key(clipId);
@@ -123,22 +132,30 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
                           OTIO_NS::TimeRange(OTIO_NS::RationalTime(clipInOut.first, fps), OTIO_NS::RationalTime(clipInOut.second - clipInOut.first + 1, fps))));
     otioTrack->append_child(otioClip);
 
-    // Create the markers.
+    // Create the OTIO markers.
     if (std::shared_ptr<ClipModel> clipModel = timeline->getClipPtr(clipId)) {
         if (std::shared_ptr<MarkerListModel> markerModel = clipModel->getMarkerModel()) {
             for (const CommentedTime &marker : markerModel->getAllMarkers()) {
-                OTIO_NS::SerializableObject::Retainer<OTIO_NS::Marker> otioMarker(new OTIO_NS::Marker);
-                otioMarker->set_comment(marker.comment().toStdString());
+
                 const int position = marker.time().frames(fps) - clipInOut.first;
-                otioMarker->set_marked_range(OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(1, fps)));
-                auto it = pCore->markerTypes.find(marker.markerType());
-                if (it != pCore->markerTypes.end()) {
-                    otioMarker->set_color(it->color.name().toStdString());
-                }
-                otioClip->markers().push_back(otioMarker);
+                exportMarker(marker, OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(1, fps)),
+                             OTIO_NS::dynamic_retainer_cast<OTIO_NS::Item>(otioClip));
             }
         }
     }
+}
+
+void OtioExport::exportMarker(const CommentedTime &marker, const OTIO_NS::TimeRange &otioRange,
+                              const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Item> &otioItem)
+{
+    OTIO_NS::SerializableObject::Retainer<OTIO_NS::Marker> otioMarker(new OTIO_NS::Marker);
+    otioMarker->set_comment(marker.comment().toStdString());
+    otioMarker->set_marked_range(otioRange);
+    otioMarker->set_color(toOtioMarkerColor(marker.markerType()));
+    OTIO_NS::AnyDictionary otioMetadata;
+    otioMetadata["type"] = static_cast<int64_t>(marker.markerType());
+    otioMarker->metadata()["kdenlive"] = otioMetadata;
+    otioItem->markers().push_back(otioMarker);
 }
 
 double OtioExport::projectFps() const

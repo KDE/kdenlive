@@ -13,6 +13,7 @@
 #include <opentimelineio/timeline.h>
 #include <opentimelineio/track.h>
 
+class CommentedTime;
 class TimelineItemModel;
 class TrackModel;
 
@@ -31,6 +32,7 @@ private:
     void exportTrack(const std::shared_ptr<TimelineItemModel> &, int trackId, const std::shared_ptr<TrackModel> &,
                      OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &);
     void exportClip(const std::shared_ptr<TimelineItemModel> &, int clipId, OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &);
+    void exportMarker(const CommentedTime &, const OTIO_NS::TimeRange &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Item> &);
 
     double projectFps() const;
 };
