@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-19 00:40+0000\n"
+"POT-Creation-Date: 2025-01-22 00:40+0000\n"
 "PO-Revision-Date: 2025-01-08 17:53+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -662,7 +662,7 @@ msgid "Trim the edges of a clip"
 msgstr "修剪素材的邊緣"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:525
+#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:524
 #: src/dialogs/subtitlestyleedit.cpp:107 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
@@ -670,14 +670,14 @@ msgstr "頂端"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:512 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
 msgstr "左"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:507
+#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:506
 #: src/dialogs/subtitlestyleedit.cpp:113 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
@@ -685,7 +685,7 @@ msgstr "底端"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:518 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
@@ -1933,7 +1933,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1391
-#: src/bin/bin.cpp:1396 src/bin/bin.cpp:2348
+#: src/bin/bin.cpp:1396 src/bin/bin.cpp:2352
 #, kde-format
 msgid "Filter"
 msgstr "過濾器"
@@ -4132,7 +4132,7 @@ msgid "Delete keyframes"
 msgstr "刪除關鍵幀"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:729
-#: src/assets/model/assetparametermodel.cpp:1570
+#: src/assets/model/assetparametermodel.cpp:1569
 #, kde-format
 msgid "Update effect"
 msgstr "更新效果"
@@ -4206,13 +4206,13 @@ msgstr "編輯 %1 關鍵幀"
 msgid "Update %1"
 msgstr "更新 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1421
-#: src/assets/model/assetparametermodel.cpp:1468
+#: src/assets/model/assetparametermodel.cpp:1420
+#: src/assets/model/assetparametermodel.cpp:1467
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "無法寫入預設檔 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1544
+#: src/assets/model/assetparametermodel.cpp:1543
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -4321,7 +4321,7 @@ msgstr "中左"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:515 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -4667,23 +4667,23 @@ msgstr "無（溶解）"
 msgid "Create or edit a mask for this clip"
 msgstr "為這個素材建立或編輯遮罩"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:327
+#: src/assets/view/widgets/urllistparamwidget.cpp:328
 #, kde-format
 msgid "Custom…"
 msgstr "自訂..."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:456
+#: src/assets/view/widgets/urllistparamwidget.cpp:457
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "無效的 LUT 檔案 %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:271
+#: src/audiomixer/audiolevelwidget.cpp:269
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "左："
 
-#: src/audiomixer/audiolevelwidget.cpp:272
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -4980,51 +4980,51 @@ msgstr "取消保留中的工作"
 msgid "Bin Clip Properties"
 msgstr "素材庫素材屬性"
 
-#: src/bin/bin.cpp:1793
+#: src/bin/bin.cpp:1795
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr "您不能刪除專案中的所有序列"
 
-#: src/bin/bin.cpp:1796
+#: src/bin/bin.cpp:1798
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr "刪除序列是無法復原的"
 
-#: src/bin/bin.cpp:1803
+#: src/bin/bin.cpp:1805
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr "這會從時間軸刪除所有已選的素材"
 
-#: src/bin/bin.cpp:1806
+#: src/bin/bin.cpp:1808
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "這會刪除所有資料夾內容"
 
-#: src/bin/bin.cpp:1823
+#: src/bin/bin.cpp:1825
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr "某些項目無法被刪除。或許它們有實體在已鎖定的軌道上？"
 
-#: src/bin/bin.cpp:1825
+#: src/bin/bin.cpp:1827
 #, kde-format
 msgid "Delete bin Clips"
 msgstr "刪除素材庫的素材"
 
-#: src/bin/bin.cpp:1850
+#: src/bin/bin.cpp:1852
 #, kde-format
 msgid "Missing source clip"
 msgstr "缺乏來源素材"
 
-#: src/bin/bin.cpp:1870 src/bin/bin.cpp:2552
+#: src/bin/bin.cpp:1872 src/bin/bin.cpp:2556
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
 #: src/renderpresets/renderpresetrepository.cpp:156
-#: src/renderpresets/renderpresetrepository.cpp:427
+#: src/renderpresets/renderpresetrepository.cpp:426
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "無法寫入到檔案 %1"
 
-#: src/bin/bin.cpp:1877 src/bin/bin.cpp:2558 src/doc/kdenlivedoc.cpp:743
+#: src/bin/bin.cpp:1879 src/bin/bin.cpp:2562 src/doc/kdenlivedoc.cpp:743
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -5033,17 +5033,17 @@ msgstr ""
 "您的專案檔案已由 Kdenlive 修改。\n"
 "為了確保沒有喪失資料，已經建立了稱作 %1 的備份複本。"
 
-#: src/bin/bin.cpp:1883
+#: src/bin/bin.cpp:1885
 #, kde-format
 msgid "Unable to parse file %1"
 msgstr "無法剖析檔案 %1"
 
-#: src/bin/bin.cpp:1894
+#: src/bin/bin.cpp:1896
 #, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr "無法將素材取代成無效檔案 %1"
 
-#: src/bin/bin.cpp:1920 src/bin/bin.cpp:2141
+#: src/bin/bin.cpp:1922 src/bin/bin.cpp:2143
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -5053,41 +5053,41 @@ msgstr ""
 "您正將素材替換成較短的素材，這可能在時間軸上會造成問題。\n"
 "替換素材短了 %1 個影格。"
 
-#: src/bin/bin.cpp:1927 src/bin/bin.cpp:2147
-#: src/bin/model/subtitlemodel.cpp:430
+#: src/bin/bin.cpp:1929 src/bin/bin.cpp:2149
+#: src/bin/model/subtitlemodel.cpp:428
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "選取的檔案 %1 是無效的。"
 
-#: src/bin/bin.cpp:1933
+#: src/bin/bin.cpp:1935
 #, kde-format
 msgid "Cannot find original clip to be replaced"
 msgstr "找不到要取代的原始素材"
 
-#: src/bin/bin.cpp:1957
+#: src/bin/bin.cpp:1959
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr "需要至少選取兩個素材（替換素材與原本的素材）才能進行時間軸替換。"
 
-#: src/bin/bin.cpp:1963
+#: src/bin/bin.cpp:1965
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr "目前素材 <b>%1</b> 未插入作用中時間軸。"
 
-#: src/bin/bin.cpp:1968
+#: src/bin/bin.cpp:1970
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr "您不能將序列 <b>%1</b> 插入它自己當中。"
 
-#: src/bin/bin.cpp:1987
+#: src/bin/bin.cpp:1989
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr "選取的素材 %1 與 %2 不相符，無法取代音訊或視訊"
 
-#: src/bin/bin.cpp:1998
+#: src/bin/bin.cpp:2000
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
@@ -5096,7 +5096,7 @@ msgstr ""
 "正在將作用中時間軸中素材 <b>%1</b> (%2) 的實體<br/>\n"
 "取代為素材 <b>%3</b> (%4)"
 
-#: src/bin/bin.cpp:2003
+#: src/bin/bin.cpp:2005
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -5105,35 +5105,35 @@ msgstr ""
 "正在將作用中時間軸中素材 <b>%1</b> 的實體<br/>\n"
 "取代為素材 <b>%2</b>"
 
-#: src/bin/bin.cpp:2005 src/timeline2/model/timelineitemmodel.cpp:998
+#: src/bin/bin.cpp:2007 src/timeline2/model/timelineitemmodel.cpp:998
 #, kde-format
 msgid "Replace audio"
 msgstr "取代音訊"
 
-#: src/bin/bin.cpp:2008 src/timeline2/model/timelineitemmodel.cpp:998
+#: src/bin/bin.cpp:2010 src/timeline2/model/timelineitemmodel.cpp:998
 #, kde-format
 msgid "Replace video"
 msgstr "取代視訊"
 
-#: src/bin/bin.cpp:2018
+#: src/bin/bin.cpp:2020
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr "替換素材比來源素材還要短。<br><b>時間軸上的某些素材可能未被取代</b>"
 
-#: src/bin/bin.cpp:2021
+#: src/bin/bin.cpp:2023
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr "替換素材比來源素材還要長"
 
-#: src/bin/bin.cpp:2057
+#: src/bin/bin.cpp:2059
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "開啟 %1 的替代"
 
-#: src/bin/bin.cpp:2098
+#: src/bin/bin.cpp:2100
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
@@ -5141,7 +5141,7 @@ msgid ""
 msgstr ""
 "替換素材不包含視訊串流。您要只取代這個素材在作用中時間軸中的音訊部分嗎？"
 
-#: src/bin/bin.cpp:2103
+#: src/bin/bin.cpp:2105
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
@@ -5149,103 +5149,103 @@ msgid ""
 msgstr ""
 "替換素材不包含音訊串流。您要只取代這個素材在作用中時間軸中的視訊部分嗎？"
 
-#: src/bin/bin.cpp:2107 src/bin/bin.cpp:2133
+#: src/bin/bin.cpp:2109 src/bin/bin.cpp:2135
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr "您不能將素材取代為另一種類的素材（音訊/視訊不相符）。"
 
-#: src/bin/bin.cpp:2110
+#: src/bin/bin.cpp:2112
 #, kde-format
 msgid "Replace in timeline"
 msgstr "在時間軸中取代"
 
-#: src/bin/bin.cpp:2131 src/bin/bin.cpp:5857 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
 #: src/effects/effectstack/view/maskmanager.cpp:357
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "新增素材"
 
-#: src/bin/bin.cpp:2179
+#: src/bin/bin.cpp:2181
 #, kde-format
 msgid "Could not locate %1"
 msgstr "找不到 %1"
 
-#: src/bin/bin.cpp:2233
+#: src/bin/bin.cpp:2235
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "無法在 %1 建立暫存檔"
 
-#: src/bin/bin.cpp:2241
+#: src/bin/bin.cpp:2243
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr "建立序列複本失敗"
 
-#: src/bin/bin.cpp:2254
+#: src/bin/bin.cpp:2256
 #, kde-format
 msgid "%1 (copy)"
 msgstr "%1（複本）"
 
-#: src/bin/bin.cpp:2259 src/bin/bin.cpp:2280
+#: src/bin/bin.cpp:2261 src/bin/bin.cpp:2282
 #, kde-format
 msgid "Duplicate clip"
 msgstr "建立素材複本"
 
-#: src/bin/bin.cpp:2272
+#: src/bin/bin.cpp:2274
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr "（複本）"
 
-#: src/bin/bin.cpp:2400
+#: src/bin/bin.cpp:2404
 #, kde-format
 msgid "Clear Filters"
 msgstr "清除過濾器"
 
-#: src/bin/bin.cpp:2406
+#: src/bin/bin.cpp:2410
 #, kde-format
 msgid "No Tags"
 msgstr "沒有標籤"
 
-#: src/bin/bin.cpp:2425
+#: src/bin/bin.cpp:2429
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "%1 顆星"
 
-#: src/bin/bin.cpp:2432
+#: src/bin/bin.cpp:2436
 #, kde-format
 msgid "Filter by Usage"
 msgstr "依使用量過濾"
 
-#: src/bin/bin.cpp:2435
+#: src/bin/bin.cpp:2439
 #, kde-format
 msgid "All Clips"
 msgstr "所有素材"
 
-#: src/bin/bin.cpp:2440
+#: src/bin/bin.cpp:2444
 #, kde-format
 msgid "Unused Clips"
 msgstr "未使用的素材"
 
-#: src/bin/bin.cpp:2444
+#: src/bin/bin.cpp:2448
 #, kde-format
 msgid "Used Clips"
 msgstr "已使用的素材"
 
-#: src/bin/bin.cpp:2451
+#: src/bin/bin.cpp:2455
 #, kde-format
 msgid "Filter by Type"
 msgstr "依類型過濾"
 
-#: src/bin/bin.cpp:2454
+#: src/bin/bin.cpp:2458
 #, kde-format
 msgid "AV Clip"
 msgstr "影音素材"
 
-#: src/bin/bin.cpp:2458
+#: src/bin/bin.cpp:2462
 #, kde-format
 msgid "Mute Video"
 msgstr "將影片靜音"
@@ -5255,7 +5255,7 @@ msgstr "將影片靜音"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2462 src/effects/effectlist/model/effecttreemodel.cpp:65
+#: src/bin/bin.cpp:2466 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layoutmanagement.cpp:34 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:589
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:533
@@ -5265,64 +5265,64 @@ msgstr "將影片靜音"
 msgid "Audio"
 msgstr "音訊"
 
-#: src/bin/bin.cpp:2466 src/mltcontroller/clippropertiescontroller.cpp:453
+#: src/bin/bin.cpp:2470 src/mltcontroller/clippropertiescontroller.cpp:453
 #, kde-format
 msgid "Image"
 msgstr "圖片"
 
-#: src/bin/bin.cpp:2470
+#: src/bin/bin.cpp:2474
 #, kde-format
 msgid "Slideshow"
 msgstr "幻燈片"
 
-#: src/bin/bin.cpp:2474
+#: src/bin/bin.cpp:2478
 #, kde-format
 msgid "Playlist"
 msgstr "播放清單"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2478 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/bin/bin.cpp:2482 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
 #: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1579
 #: src/project/projectmanager.cpp:1581 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "序列"
 
-#: src/bin/bin.cpp:2482 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2486 src/project/dialogs/projectsettings.cpp:217
 #, kde-format
 msgid "Title"
 msgstr "字幕 / 標題"
 
-#: src/bin/bin.cpp:2486
+#: src/bin/bin.cpp:2490
 #, kde-format
 msgid "Title Template"
 msgstr "標題樣板"
 
-#: src/bin/bin.cpp:2490 src/layoutmanagement.cpp:36
+#: src/bin/bin.cpp:2494 src/layoutmanagement.cpp:36
 #: src/mltcontroller/clippropertiescontroller.cpp:352
 #, kde-format
 msgid "Color"
 msgstr "色彩"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2579 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2583 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "資料夾"
 
-#: src/bin/bin.cpp:2580
+#: src/bin/bin.cpp:2584
 #, kde-format
 msgid "Create bin folder"
 msgstr "建立素材庫資料夾"
 
-#: src/bin/bin.cpp:2714 src/bin/bin.cpp:2727 src/bin/bin.cpp:3721
+#: src/bin/bin.cpp:2718 src/bin/bin.cpp:2731 src/bin/bin.cpp:3728
 #: src/timeline2/model/timelinemodel.cpp:2163
 #, kde-format
 msgid "Delete Clip"
 msgstr "刪除素材"
 
-#: src/bin/bin.cpp:2716 src/bin/bin.cpp:2729
+#: src/bin/bin.cpp:2720 src/bin/bin.cpp:2733
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5330,37 +5330,37 @@ msgid ""
 "timeline."
 msgstr "從專案素材庫與時間軸刪除目前選取的素材。"
 
-#: src/bin/bin.cpp:2717 src/bin/bin.cpp:2730 src/bin/bin.cpp:3697
+#: src/bin/bin.cpp:2721 src/bin/bin.cpp:2734 src/bin/bin.cpp:3704
 #, kde-format
 msgid "Proxy Clip"
 msgstr "代理素材"
 
-#: src/bin/bin.cpp:2721
+#: src/bin/bin.cpp:2725
 #, kde-format
 msgid "Delete Folder"
 msgstr "刪除資料夾"
 
-#: src/bin/bin.cpp:2722
+#: src/bin/bin.cpp:2726
 #, kde-format
 msgid "Proxy Folder"
 msgstr "代理資料夾"
 
-#: src/bin/bin.cpp:2981
+#: src/bin/bin.cpp:2985
 #, kde-format
 msgid "Edit rating"
 msgstr "編輯評分"
 
-#: src/bin/bin.cpp:2983
+#: src/bin/bin.cpp:2987
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "無法為此項目設定評分"
 
-#: src/bin/bin.cpp:3641
+#: src/bin/bin.cpp:3648
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "新增素材或資料夾…"
 
-#: src/bin/bin.cpp:3642
+#: src/bin/bin.cpp:3649
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5373,97 +5373,97 @@ msgstr ""
 "點擊向下箭頭圖示來選擇原始素材類別。<nl/>點擊媒體圖示來開啟選擇原始檔案的視"
 "窗。"
 
-#: src/bin/bin.cpp:3648
+#: src/bin/bin.cpp:3655
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "新增色彩素材…"
 
-#: src/bin/bin.cpp:3650
+#: src/bin/bin.cpp:3657
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "新增圖片序列…"
 
-#: src/bin/bin.cpp:3652
+#: src/bin/bin.cpp:3659
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "新增標題素材"
 
-#: src/bin/bin.cpp:3654
+#: src/bin/bin.cpp:3661
 #, kde-format
 msgid "Add Template Title…"
 msgstr "新增樣板標題…"
 
-#: src/bin/bin.cpp:3656
+#: src/bin/bin.cpp:3663
 #, kde-format
 msgid "Create Animation…"
 msgstr "建立動畫…"
 
-#: src/bin/bin.cpp:3658
+#: src/bin/bin.cpp:3665
 #, kde-format
 msgid "Add Sequence…"
 msgstr "新增序列…"
 
-#: src/bin/bin.cpp:3661 src/mainwindow.cpp:327
+#: src/bin/bin.cpp:3668 src/mainwindow.cpp:327
 #, kde-format
 msgid "Online Resources"
 msgstr "線上資源"
 
-#: src/bin/bin.cpp:3665
+#: src/bin/bin.cpp:3672
 #, kde-format
 msgid "Locate Clip…"
 msgstr "找出素材…"
 
-#: src/bin/bin.cpp:3670
+#: src/bin/bin.cpp:3677
 #, kde-format
 msgid "Reload Clip"
 msgstr "重新載入素材"
 
-#: src/bin/bin.cpp:3676
+#: src/bin/bin.cpp:3683
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "轉碼成適合編輯的格式…"
 
-#: src/bin/bin.cpp:3681
+#: src/bin/bin.cpp:3688
 #, kde-format
 msgid "Replace Clip…"
 msgstr "取代素材…"
 
-#: src/bin/bin.cpp:3687
+#: src/bin/bin.cpp:3694
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "取代時間軸中的素材…"
 
-#: src/bin/bin.cpp:3692
+#: src/bin/bin.cpp:3699
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "複製素材"
 
-#: src/bin/bin.cpp:3704 src/bin/bin.cpp:3759
+#: src/bin/bin.cpp:3711 src/bin/bin.cpp:3766
 #, kde-format
 msgid "Clip Properties"
 msgstr "素材屬性"
 
-#: src/bin/bin.cpp:3709 src/mltcontroller/clippropertiescontroller.cpp:281
+#: src/bin/bin.cpp:3716 src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-format
 msgid "Edit Clip"
 msgstr "編輯素材"
 
-#: src/bin/bin.cpp:3727
+#: src/bin/bin.cpp:3734
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "序列的預設目標資料夾"
 
-#: src/bin/bin.cpp:3732
+#: src/bin/bin.cpp:3739
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "音訊擷取的預設目標資料夾"
 
-#: src/bin/bin.cpp:3736
+#: src/bin/bin.cpp:3743
 #, kde-format
 msgid "Create Folder"
 msgstr "建立資料夾"
 
-#: src/bin/bin.cpp:3739
+#: src/bin/bin.cpp:3746
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5473,72 +5473,72 @@ msgstr ""
 "在專案素材庫中的目前位置建立資料夾。用來更好地整理原始檔案。資料夾中可以包含"
 "子資料夾。"
 
-#: src/bin/bin.cpp:3809 src/dialogs/speechdialog.cpp:51
+#: src/bin/bin.cpp:3816 src/dialogs/speechdialog.cpp:51
 #: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "顯示紀錄"
 
-#: src/bin/bin.cpp:3812 src/dialogs/textbasededit.cpp:717
+#: src/bin/bin.cpp:3819 src/dialogs/textbasededit.cpp:717
 #, kde-format
 msgid "Detailed log"
 msgstr "詳細紀錄"
 
-#: src/bin/bin.cpp:3872 src/bin/bin.cpp:3905
+#: src/bin/bin.cpp:3879 src/bin/bin.cpp:3912
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "建立新的序列"
 
-#: src/bin/bin.cpp:3875 src/bin/bin.cpp:3878 src/bin/bin.cpp:3908
+#: src/bin/bin.cpp:3882 src/bin/bin.cpp:3885 src/bin/bin.cpp:3915
 #, kde-format
 msgid "Sequence %1"
 msgstr "序列 %1"
 
-#: src/bin/bin.cpp:3939
+#: src/bin/bin.cpp:3946
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "移動素材"
 
-#: src/bin/bin.cpp:3981
+#: src/bin/bin.cpp:3988
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "沒有可插入的有效素材"
 
-#: src/bin/bin.cpp:3994 src/timeline2/view/timelinecontroller.cpp:1551
+#: src/bin/bin.cpp:4001 src/timeline2/view/timelinecontroller.cpp:1551
 #: src/timeline2/view/timelinecontroller.cpp:3429
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "選取素材來套用效果"
 
-#: src/bin/bin.cpp:4005
+#: src/bin/bin.cpp:4012
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "無法將效果套用在資料夾上"
 
-#: src/bin/bin.cpp:4033 src/effects/effectstack/model/effectstackmodel.cpp:692
+#: src/bin/bin.cpp:4040 src/effects/effectstack/model/effectstackmodel.cpp:692
 #: src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "無法新增效果到素材上"
 
-#: src/bin/bin.cpp:4071 src/effects/effectstack/model/effectstackmodel.cpp:648
+#: src/bin/bin.cpp:4078 src/effects/effectstack/model/effectstackmodel.cpp:648
 #, kde-format
 msgid "Paste effect"
 msgstr "貼上效果"
 
-#: src/bin/bin.cpp:4108 src/bin/bin.cpp:4115
+#: src/bin/bin.cpp:4115 src/bin/bin.cpp:4122
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "選擇要加標籤的素材"
 
-#: src/bin/bin.cpp:4254
+#: src/bin/bin.cpp:4261
 #, kde-format
 msgid "Edit Tags"
 msgstr "編輯標籤"
 
-#: src/bin/bin.cpp:4577 src/bin/projectclip.cpp:188
+#: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
 #: src/bin/projectclip.cpp:2018 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
@@ -5546,41 +5546,41 @@ msgstr "編輯標籤"
 msgid "Unnamed"
 msgstr "未命名"
 
-#: src/bin/bin.cpp:4641
+#: src/bin/bin.cpp:4648
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "輸入您的圖片編輯應用程式的路徑"
 
-#: src/bin/bin.cpp:4653
+#: src/bin/bin.cpp:4660
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "請設定開啟圖片用的預設應用程式"
 
-#: src/bin/bin.cpp:4658
+#: src/bin/bin.cpp:4665
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "輸入您的音訊編輯應用程式的路徑"
 
-#: src/bin/bin.cpp:4670
+#: src/bin/bin.cpp:4677
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "請設定用於開啟音訊檔案的應用程式"
 
-#: src/bin/bin.cpp:4680 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4687 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
-#: src/renderpresets/renderpresetrepository.cpp:371
+#: src/renderpresets/renderpresetrepository.cpp:370
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "無法開啟檔案 %1"
 
-#: src/bin/bin.cpp:4860 src/dialogs/profilesdialog.cpp:235
+#: src/bin/bin.cpp:4867 src/dialogs/profilesdialog.cpp:235
 #, kde-format
 msgid "(copy)"
 msgstr "（複本）"
 
-#: src/bin/bin.cpp:4870
+#: src/bin/bin.cpp:4877
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5589,113 +5589,113 @@ msgstr ""
 "您正在編輯外部標題素材（%1）。您希望將變更儲存到該標題檔案，還是要只為此專案"
 "儲存變更？"
 
-#: src/bin/bin.cpp:4873 src/titler/titlewidget.cpp:2251
+#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2251
 #, kde-format
 msgid "Save Title"
 msgstr "儲存標題"
 
-#: src/bin/bin.cpp:4873
+#: src/bin/bin.cpp:4880
 #, kde-format
 msgid "Save to title file"
 msgstr "儲存到標題檔"
 
-#: src/bin/bin.cpp:4874
+#: src/bin/bin.cpp:4881
 #, kde-format
 msgid "Save in project only"
 msgstr "只儲存於專案中"
 
-#: src/bin/bin.cpp:4897 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4904 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "標題素材"
 
-#: src/bin/bin.cpp:4947
+#: src/bin/bin.cpp:4954
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "素材無效，將從專案中移除。"
 
-#: src/bin/bin.cpp:4951
+#: src/bin/bin.cpp:4958
 #, kde-format
 msgid "Invalid clip"
 msgstr "無效的素材"
 
-#: src/bin/bin.cpp:5065
+#: src/bin/bin.cpp:5072
 #, kde-format
 msgid "Enable proxies"
 msgstr "啟用代理"
 
-#: src/bin/bin.cpp:5065
+#: src/bin/bin.cpp:5072
 #, kde-format
 msgid "Disable proxies"
 msgstr "停用代理"
 
-#: src/bin/bin.cpp:5239
+#: src/bin/bin.cpp:5247
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "重新產生代理"
 
-#: src/bin/bin.cpp:5474
+#: src/bin/bin.cpp:5482
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:5490
+#: src/bin/bin.cpp:5498
 #, kde-format
 msgid "Add Tracks"
 msgstr "新增軌道"
 
-#: src/bin/bin.cpp:5492
+#: src/bin/bin.cpp:5500
 #, kde-format
 msgid "Edit Streams"
 msgstr "編輯串流"
 
-#: src/bin/bin.cpp:5507
+#: src/bin/bin.cpp:5516
 #, kde-format
 msgid "Don't ask again"
 msgstr "不要再詢問"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5511
+#: src/bin/bin.cpp:5520
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr "您的專案需要更多音訊軌才能處理所有串流。要新增 %1 個音訊軌嗎？"
 
-#: src/bin/bin.cpp:5523 src/mainwindow.cpp:2707
+#: src/bin/bin.cpp:5532 src/mainwindow.cpp:2707
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要新增標記的素材"
 
-#: src/bin/bin.cpp:5617
+#: src/bin/bin.cpp:5625
 #, kde-format
 msgid "Could not find master clip"
 msgstr "找不到 master 素材"
 
-#: src/bin/bin.cpp:5879
+#: src/bin/bin.cpp:5887
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> 個素材 | "
 
-#: src/bin/bin.cpp:5881
+#: src/bin/bin.cpp:5889
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> 個素材（已選 %2 個）| "
 
-#: src/bin/bin.cpp:5948 src/bin/bin.cpp:6025
+#: src/bin/bin.cpp:5956 src/bin/bin.cpp:6033
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "為素材新增額外串流"
 
-#: src/bin/bin.cpp:5969
+#: src/bin/bin.cpp:5977
 #, kde-format
 msgid "Import selected clips"
 msgstr "匯入所選素材"
 
-#: src/bin/bin.cpp:5971
+#: src/bin/bin.cpp:5979
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5704,51 +5704,51 @@ msgstr ""
 "以下素材的額外串流\n"
 " %1"
 
-#: src/bin/bin.cpp:5984 src/mltcontroller/clippropertiescontroller.cpp:680
+#: src/bin/bin.cpp:5992 src/mltcontroller/clippropertiescontroller.cpp:680
 #, kde-format
 msgid "Video stream %1"
 msgstr "視訊串流 %1"
 
-#: src/bin/bin.cpp:5999
+#: src/bin/bin.cpp:6007
 #, kde-format
 msgid "Audio stream %1"
 msgstr "音訊串流 %1"
 
-#: src/bin/bin.cpp:6052
+#: src/bin/bin.cpp:6060
 #, kde-format
 msgid "Remove clip markers"
 msgstr "移除素材標記"
 
-#: src/bin/bin.cpp:6212
+#: src/bin/bin.cpp:6220
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我們建議您在進行轉碼前先儲存專案"
 
-#: src/bin/bin.cpp:6213
+#: src/bin/bin.cpp:6221
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "儲存專案"
 
-#: src/bin/bin.cpp:6214
+#: src/bin/bin.cpp:6222
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "繼續轉換編碼而不儲存"
 
-#: src/bin/bin.cpp:6363 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6371 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "刪除效果 %1"
 
-#: src/bin/bin.cpp:6428 src/mainwindow.cpp:320
+#: src/bin/bin.cpp:6436 src/mainwindow.cpp:320
 #, kde-format
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:6431 src/bin/bin.cpp:6434 src/mainwindow.cpp:4802
+#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4802
 #, kde-format
 msgid "Project Bin %1"
 msgstr "專案素材庫 %1"
@@ -5889,7 +5889,7 @@ msgstr "雙擊匯入檔案"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:184
+#: src/bin/mediabrowser.cpp:183
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -5897,22 +5897,22 @@ msgstr "雙擊匯入檔案"
 msgid "Name:"
 msgstr "名稱："
 
-#: src/bin/mediabrowser.cpp:188
+#: src/bin/mediabrowser.cpp:187
 #, kde-format
 msgid "Filter:"
 msgstr "過濾器："
 
-#: src/bin/mediabrowser.cpp:192 src/dialogs/clipcreationdialog.cpp:418
+#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:418
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "忽略子資料夾結構"
 
-#: src/bin/mediabrowser.cpp:194 src/dialogs/clipcreationdialog.cpp:420
+#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:420
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "不要在專案素材庫中建立子資料夾"
 
-#: src/bin/mediabrowser.cpp:197 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:423
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5922,17 +5922,17 @@ msgstr ""
 "啟用時，Kdenlive 會在匯入資料夾及其子資料夾內素材時不在專案素材庫建立子資料"
 "夾。"
 
-#: src/bin/mediabrowser.cpp:200 src/dialogs/clipcreationdialog.cpp:413
+#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:413
 #, kde-format
 msgid "Import image sequence"
 msgstr "匯入圖片序列"
 
-#: src/bin/mediabrowser.cpp:203 src/dialogs/clipcreationdialog.cpp:414
+#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:414
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "試著匯入圖片序列"
 
-#: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:416
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:416
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -6042,34 +6042,34 @@ msgstr "字幕"
 msgid "Edit global subtitle style"
 msgstr "編輯全域字幕樣式"
 
-#: src/bin/model/subtitlemodel.cpp:440 src/bin/model/subtitlemodel.cpp:655
-#: src/bin/model/subtitlemodel.cpp:1606 src/bin/model/subtitlemodel.cpp:2182
-#: src/bin/model/subtitlemodel.cpp:2249 src/bin/model/subtitlemodel.cpp:2282
-#: src/bin/model/subtitlemodel.cpp:2315 src/bin/model/subtitlemodel.cpp:2348
-#: src/bin/model/subtitlemodel.cpp:2381
+#: src/bin/model/subtitlemodel.cpp:438 src/bin/model/subtitlemodel.cpp:653
+#: src/bin/model/subtitlemodel.cpp:1604 src/bin/model/subtitlemodel.cpp:2179
+#: src/bin/model/subtitlemodel.cpp:2246 src/bin/model/subtitlemodel.cpp:2279
+#: src/bin/model/subtitlemodel.cpp:2312 src/bin/model/subtitlemodel.cpp:2345
+#: src/bin/model/subtitlemodel.cpp:2378
 #, kde-format
 msgid "Edit subtitle"
 msgstr "編輯字幕"
 
-#: src/bin/model/subtitlemodel.cpp:690 src/bin/model/subtitlemodel.cpp:1694
+#: src/bin/model/subtitlemodel.cpp:688 src/bin/model/subtitlemodel.cpp:1692
 #: src/timeline2/model/timelinefunctions.cpp:229
 #, kde-format
 msgid "Cut clip"
 msgstr "分割素材"
 
-#: src/bin/model/subtitlemodel.cpp:852 src/bin/model/subtitlemodel.cpp:1625
+#: src/bin/model/subtitlemodel.cpp:850 src/bin/model/subtitlemodel.cpp:1623
 #: src/timeline2/model/timelinemodel.cpp:3974
 #, kde-format
 msgid "Resize subtitle"
 msgstr "調整字幕大小"
 
-#: src/bin/model/subtitlemodel.cpp:1050
+#: src/bin/model/subtitlemodel.cpp:1048
 #: src/timeline2/model/timelinemodel.cpp:1349
 #, kde-format
 msgid "Move subtitle"
 msgstr "移動字幕"
 
-#: src/bin/model/subtitlemodel.cpp:1220
+#: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
@@ -6082,49 +6082,49 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/bin/model/subtitlemodel.cpp:1637 src/titler/titlewidget.cpp:393
+#: src/bin/model/subtitlemodel.cpp:1635 src/titler/titlewidget.cpp:393
 #: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Text"
 msgstr "新增文字"
 
-#: src/bin/model/subtitlemodel.cpp:1662 src/dialogs/subtitleedit.cpp:283
+#: src/bin/model/subtitlemodel.cpp:1660 src/dialogs/subtitleedit.cpp:283
 #, kde-format
 msgid "Add subtitle"
 msgstr "新增字幕"
 
-#: src/bin/model/subtitlemodel.cpp:1714 src/dialogs/subtitleedit.cpp:293
+#: src/bin/model/subtitlemodel.cpp:1712 src/dialogs/subtitleedit.cpp:293
 #, kde-format
 msgid "Delete subtitle"
 msgstr "刪除字幕"
 
-#: src/bin/model/subtitlemodel.cpp:1786
+#: src/bin/model/subtitlemodel.cpp:1784
 #, kde-format
 msgid "Delete subtitle layer"
 msgstr "刪除字幕圖層"
 
-#: src/bin/model/subtitlemodel.cpp:1813
+#: src/bin/model/subtitlemodel.cpp:1811
 #, kde-format
 msgid "Create subtitle layer"
 msgstr "建立字幕圖層"
 
-#: src/bin/model/subtitlemodel.cpp:1919 src/bin/model/subtitlemodel.cpp:1922
+#: src/bin/model/subtitlemodel.cpp:1917 src/bin/model/subtitlemodel.cpp:1920
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "字幕 %1"
 
-#: src/bin/model/subtitlemodel.cpp:2218
+#: src/bin/model/subtitlemodel.cpp:2215
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "將新樣式指派給字幕。"
 
-#: src/bin/playlistclip.cpp:140
+#: src/bin/playlistclip.cpp:139
 #, kde-format
 msgid "version"
 msgstr "版本"
 
-#: src/bin/playlistclip.cpp:169
+#: src/bin/playlistclip.cpp:168
 #, kde-format
 msgid "Sequence count"
 msgstr "序列數量"
@@ -6208,7 +6208,7 @@ msgstr "用量"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
-#: src/mltcontroller/clipcontroller.cpp:513 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:514 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -6255,7 +6255,7 @@ msgstr "讀取專案素材中…"
 msgid "Loading project clips…"
 msgstr "載入專案素材中…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2411
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2409
 #, kde-format
 msgid "Zone %1"
 msgstr "區段 %1"
@@ -7010,12 +7010,12 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "匯出參照線資料"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
-#: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1729
+#: src/dialogs/renderwidget.cpp:1753 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
-#: src/effects/effectsrepository.cpp:419
+#: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:678
 #: src/effects/effectstack/view/effectstackview.cpp:812
 #: src/profiles/profilerepository.cpp:190
@@ -7025,8 +7025,8 @@ msgstr "匯出參照線資料"
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1878 src/render/renderrequest.cpp:313
-#: src/renderpresets/renderpresetrepository.cpp:377
-#: src/renderpresets/renderpresetrepository.cpp:433
+#: src/renderpresets/renderpresetrepository.cpp:376
+#: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5129
 #: src/timeline2/view/timelinecontroller.cpp:5134
 #: src/titler/titlewidget.cpp:2264
@@ -7092,7 +7092,7 @@ msgstr "若不確定，請試試看：<br/><b>Unicode (UTF-8)</b>。"
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1768
-#: src/renderpresets/renderpresetrepository.cpp:310
+#: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "無法讀取檔案 %1"
@@ -7153,7 +7153,7 @@ msgstr "移動到..."
 msgid "Copy To..."
 msgstr "複製到..."
 
-#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:590
+#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:589
 #, kde-format
 msgid "Global"
 msgstr "全域"
@@ -7178,60 +7178,60 @@ msgstr "複製樣式"
 msgid "Select the subtitle file to copy the style to:"
 msgstr "選擇樣式要複製到的字幕檔："
 
-#: src/dialogs/managesubtitles.cpp:385
+#: src/dialogs/managesubtitles.cpp:384
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "匯入字幕"
 
-#: src/dialogs/managesubtitles.cpp:386
+#: src/dialogs/managesubtitles.cpp:385
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
 msgstr "匯出字幕"
 
-#: src/dialogs/managesubtitles.cpp:445
+#: src/dialogs/managesubtitles.cpp:444
 #, kde-format
 msgid "Layer "
 msgstr "圖層 "
 
-#: src/dialogs/managesubtitles.cpp:445
+#: src/dialogs/managesubtitles.cpp:444
 #, kde-format
 msgid "with "
 msgstr "內含 "
 
-#: src/dialogs/managesubtitles.cpp:445 src/dialogs/managesubtitles.cpp:451
+#: src/dialogs/managesubtitles.cpp:444 src/dialogs/managesubtitles.cpp:450
 #, kde-format
 msgid " event"
 msgstr " 個事件"
 
-#: src/dialogs/managesubtitles.cpp:451
+#: src/dialogs/managesubtitles.cpp:450
 #, kde-format
 msgid " events"
 msgstr " 個事件"
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:503 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Bottom Left"
 msgstr "左下方"
 
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:509 src/dialogs/subtitlestyleedit.cpp:114
 #, kde-format
 msgid "Bottom Right"
 msgstr "右下方"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:521 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Top Left"
 msgstr "左上方"
 
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:527 src/dialogs/subtitlestyleedit.cpp:108
 #, kde-format
 msgid "Top Right"
 msgstr "右上方"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/managesubtitles.cpp:533 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -7239,39 +7239,39 @@ msgstr "右上方"
 msgid "Default"
 msgstr "預設"
 
-#: src/dialogs/managesubtitles.cpp:537
+#: src/dialogs/managesubtitles.cpp:536
 #, kde-format
 msgid "Box as Border"
 msgstr "方框為邊框"
 
-#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:102
+#: src/dialogs/managesubtitles.cpp:539 src/dialogs/subtitlestyleedit.cpp:102
 #, kde-format
 msgid "Box as Shadow"
 msgstr "方框為陰影"
 
-#: src/dialogs/managesubtitles.cpp:690
+#: src/dialogs/managesubtitles.cpp:689
 #, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr "這會刪除 <b>%1</b> 及字幕檔 %2 當中的<br/>所有字幕條目"
 
-#: src/dialogs/managesubtitles.cpp:712
+#: src/dialogs/managesubtitles.cpp:711
 #, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
 msgstr "這會刪除圖層 <b>%1</b> 中的所有事件。"
 
-#: src/dialogs/managesubtitles.cpp:730
+#: src/dialogs/managesubtitles.cpp:729
 #, kde-format
 msgid "Cannot delete default style."
 msgstr "無法刪除預設樣式。"
 
-#: src/dialogs/managesubtitles.cpp:734
+#: src/dialogs/managesubtitles.cpp:733
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
 msgstr "這會刪除樣式 <b>%1</b> 以及它的所有屬性。"
 
-#: src/dialogs/managesubtitles.cpp:739
+#: src/dialogs/managesubtitles.cpp:738
 #, kde-format
 msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
@@ -7316,38 +7316,38 @@ msgid ""
 "open."
 msgstr "目前專案的編碼方案無法在專案開啟時修改。"
 
-#: src/dialogs/proxytest.cpp:30
+#: src/dialogs/proxytest.cpp:31
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
 msgstr "比對代理設定檔"
 
-#: src/dialogs/proxytest.cpp:31
+#: src/dialogs/proxytest.cpp:32
 #, kde-format
 msgid "Test Proxy Profiles"
 msgstr "測試代理設定檔"
 
-#: src/dialogs/proxytest.cpp:34
+#: src/dialogs/proxytest.cpp:35
 #, kde-format
 msgid "Failing profiles"
 msgstr "失敗的編碼方案"
 
-#: src/dialogs/proxytest.cpp:49
+#: src/dialogs/proxytest.cpp:50
 #, kde-format
 msgid "Starting process"
 msgstr "正在啟動行程"
 
-#: src/dialogs/proxytest.cpp:114 src/dialogs/proxytest.cpp:151
+#: src/dialogs/proxytest.cpp:115 src/dialogs/proxytest.cpp:152
 #, kde-format
 msgid "Cannot create temporary files"
 msgstr "無法建立暫存檔"
 
-#: src/dialogs/proxytest.cpp:120
+#: src/dialogs/proxytest.cpp:121
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
 msgstr "正在產生 60 秒長的測試影片 %1"
 
-#: src/dialogs/proxytest.cpp:144
+#: src/dialogs/proxytest.cpp:145
 #, kde-format
 msgid "Processing %1"
 msgstr "正在處理 %1"
@@ -7424,7 +7424,7 @@ msgid ""
 msgstr ""
 "以下參數不會有效果，因為它們被同用途的使用者介面選項覆寫了：<icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1559
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1558
 #, kde-format
 msgid "Waiting…"
 msgstr "請稍候…"
@@ -7627,7 +7627,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "轉換編碼"
 
-#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
+#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1532
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -7647,7 +7647,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "嘗試進行算繪時發生以下錯誤"
 
-#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1546
+#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1545
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7656,7 +7656,7 @@ msgstr ""
 "目前有個正在寫入檔案的作業：<br/><b>%1</b><br/> 如果您想要覆寫它，請中止這項"
 "作業…"
 
-#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1547
+#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1546
 #, kde-format
 msgid "Already running"
 msgstr "正在執行"
@@ -7703,81 +7703,81 @@ msgid ""
 "of both."
 msgstr "音訊與視訊皆未啟用時無法進行算繪。請至少啟用其中一個。"
 
-#: src/dialogs/renderwidget.cpp:1287
+#: src/dialogs/renderwidget.cpp:1286
 #, kde-format
 msgid "Remaining time "
 msgstr "剩餘時間 "
 
-#: src/dialogs/renderwidget.cpp:1289 src/dialogs/renderwidget.cpp:1344
+#: src/dialogs/renderwidget.cpp:1288 src/dialogs/renderwidget.cpp:1343
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 天 "
 
-#: src/dialogs/renderwidget.cpp:1301
+#: src/dialogs/renderwidget.cpp:1300
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr "（影格 %1 於 %2 fps）"
 
-#: src/dialogs/renderwidget.cpp:1316
+#: src/dialogs/renderwidget.cpp:1315
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "剩餘不到 %1MB 的可用記憶體。"
 
-#: src/dialogs/renderwidget.cpp:1346
+#: src/dialogs/renderwidget.cpp:1345
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "算繪已完成，耗時：%1"
 
-#: src/dialogs/renderwidget.cpp:1354
+#: src/dialogs/renderwidget.cpp:1353
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 的算繪已完成，耗時：%2"
 
-#: src/dialogs/renderwidget.cpp:1374
+#: src/dialogs/renderwidget.cpp:1373
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 的算繪已崩潰</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1418 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1417 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "中止工作"
 
-#: src/dialogs/renderwidget.cpp:1421
+#: src/dialogs/renderwidget.cpp:1420
 #, kde-format
 msgid "Remove Job"
 msgstr "移除工作"
 
-#: src/dialogs/renderwidget.cpp:1814
+#: src/dialogs/renderwidget.cpp:1813
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "請將素材加入時間軸後再進行算繪"
 
-#: src/dialogs/renderwidget.cpp:1819
+#: src/dialogs/renderwidget.cpp:1818
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "輸出檔案長度：%1"
 
-#: src/dialogs/renderwidget.cpp:1823
+#: src/dialogs/renderwidget.cpp:1822
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>專案中使用了 %1 個遺失的素材。</b>"
 
-#: src/dialogs/renderwidget.cpp:1825
+#: src/dialogs/renderwidget.cpp:1824
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "%1 個遺失素材（未使用）。"
 
-#: src/dialogs/renderwidget.cpp:1827
+#: src/dialogs/renderwidget.cpp:1826
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 個遺失的素材（<b>有 %2 已在專案中使用</b>）。"
 
-#: src/dialogs/renderwidget.cpp:1909
+#: src/dialogs/renderwidget.cpp:1908
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7786,12 +7786,12 @@ msgstr ""
 "編碼速度參數：\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1929
+#: src/dialogs/renderwidget.cpp:1928
 #, kde-format
 msgid "Add to Current Project"
 msgstr "加入目前專案"
 
-#: src/dialogs/renderwidget.cpp:1932 src/library/librarywidget.cpp:248
+#: src/dialogs/renderwidget.cpp:1931 src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "開啟包含資料夾"
@@ -7829,7 +7829,7 @@ msgstr "其它"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:795
-#: src/doc/documentvalidator.cpp:2523
+#: src/doc/documentvalidator.cpp:2521
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
@@ -8039,12 +8039,12 @@ msgstr "目前設定"
 msgid "Progressive"
 msgstr "漸進式"
 
-#: src/dialogs/settings/pluginssettings.cpp:61
+#: src/dialogs/settings/pluginssettings.cpp:62
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr "CPU 處理會非常慢，建議使用 GPU 讓處理加速"
 
-#: src/dialogs/settings/pluginssettings.cpp:62
+#: src/dialogs/settings/pluginssettings.cpp:63
 #, kde-format
 msgid ""
 "Text translation is performed by the SeamlessM4T model. This requires "
@@ -8054,12 +8054,12 @@ msgstr ""
 "文字翻譯使用 SeamlessM4T 模型。這需要下載大約 10Gb 的資料。安裝後所有處理都會"
 "在線下進行。"
 
-#: src/dialogs/settings/pluginssettings.cpp:67
+#: src/dialogs/settings/pluginssettings.cpp:68
 #, kde-format
 msgid "Download (1.4Gb)"
 msgstr "下載 (1.4Gb)"
 
-#: src/dialogs/settings/pluginssettings.cpp:89
+#: src/dialogs/settings/pluginssettings.cpp:90
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr "正在安裝多語言資料…"
@@ -8067,32 +8067,32 @@ msgstr "正在安裝多語言資料…"
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
-#: src/dialogs/settings/pluginssettings.cpp:98
-#: src/dialogs/settings/pluginssettings.cpp:831 src/ui/configspeech_ui.ui:120
-#: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:653
+#: src/dialogs/settings/pluginssettings.cpp:99
+#: src/dialogs/settings/pluginssettings.cpp:869 src/ui/configspeech_ui.ui:120
+#: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:737
 #, kde-format
 msgid "Models folder"
 msgstr "模型資料夾"
 
-#: src/dialogs/settings/pluginssettings.cpp:150
-#: src/dialogs/settings/pluginssettings.cpp:153
-#: src/dialogs/settings/pluginssettings.cpp:156
+#: src/dialogs/settings/pluginssettings.cpp:151
+#: src/dialogs/settings/pluginssettings.cpp:154
+#: src/dialogs/settings/pluginssettings.cpp:157
 #, kde-format
 msgid "Probing..."
 msgstr "探測中…"
 
-#: src/dialogs/settings/pluginssettings.cpp:180
+#: src/dialogs/settings/pluginssettings.cpp:181
 #, kde-format
 msgid "Downloading multilingual model…"
 msgstr "正在下載多語言模型…"
 
-#: src/dialogs/settings/pluginssettings.cpp:237
-#: src/dialogs/settings/pluginssettings.cpp:828
+#: src/dialogs/settings/pluginssettings.cpp:238
+#: src/dialogs/settings/pluginssettings.cpp:866
 #, kde-format
 msgid "Please add a speech model."
 msgstr "請新增一個語音模型。"
 
-#: src/dialogs/settings/pluginssettings.cpp:271
+#: src/dialogs/settings/pluginssettings.cpp:272
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -8101,26 +8101,33 @@ msgstr ""
 "由此下載語言模型：<a href=\"https://alphacephei.com/vosk/models\">https://"
 "alphacephei.com/vosk/models</a>"
 
+#: src/dialogs/settings/pluginssettings.cpp:336
+#, kde-format
+msgid ""
+"<b>Using system packages. Only use this if you know what that means</b>. You "
+"need to install all required packages by yourself on your system:<br>%1"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:350 src/ui/configspeech_ui.ui:701
+#: src/dialogs/settings/pluginssettings.cpp:389 src/ui/configspeech_ui.ui:712
 #, kde-format
 msgid "Install"
 msgstr "安裝"
 
-#: src/dialogs/settings/pluginssettings.cpp:356
+#: src/dialogs/settings/pluginssettings.cpp:395
 #, kde-format
 msgid "Check config"
 msgstr "檢查設定"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:366 src/ui/configspeech_ui.ui:358
-#: src/ui/configspeech_ui.ui:746
+#: src/dialogs/settings/pluginssettings.cpp:405 src/ui/configspeech_ui.ui:358
+#: src/ui/configspeech_ui.ui:767
 #, kde-format
 msgid "Plugin size"
 msgstr "外掛程式大小"
 
-#: src/dialogs/settings/pluginssettings.cpp:378
+#: src/dialogs/settings/pluginssettings.cpp:417
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
@@ -8129,8 +8136,8 @@ msgstr ""
 "這會刪除已安裝的模型\n"
 "您之後還是可以重新安裝它們。"
 
-#: src/dialogs/settings/pluginssettings.cpp:395
-#: src/dialogs/settings/pluginssettings.cpp:409
+#: src/dialogs/settings/pluginssettings.cpp:434
+#: src/dialogs/settings/pluginssettings.cpp:448
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -8141,78 +8148,78 @@ msgstr ""
 "該外掛程式時會重新下載模組並重新建立 virtualenv 虛擬環境。"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:424 src/ui/configspeech_ui.ui:331
+#: src/dialogs/settings/pluginssettings.cpp:463 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "安裝多語言翻譯"
 
-#: src/dialogs/settings/pluginssettings.cpp:433
+#: src/dialogs/settings/pluginssettings.cpp:472
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "安裝一個語音模型 —— 我們建議使用 <b>turbo</b>"
 
-#: src/dialogs/settings/pluginssettings.cpp:488
+#: src/dialogs/settings/pluginssettings.cpp:527
 #, kde-format
 msgid "Select model to download"
 msgstr "選取要下載的模型"
 
-#: src/dialogs/settings/pluginssettings.cpp:504
+#: src/dialogs/settings/pluginssettings.cpp:543
 #, kde-format
 msgid "All models are already installed"
 msgstr "所有模型皆已安裝"
 
-#: src/dialogs/settings/pluginssettings.cpp:524
+#: src/dialogs/settings/pluginssettings.cpp:563
 #, kde-format
 msgid "Downloading…"
 msgstr "下載中…"
 
-#: src/dialogs/settings/pluginssettings.cpp:534
+#: src/dialogs/settings/pluginssettings.cpp:573
 #, kde-format
 msgid "Downloading smallest model…"
 msgstr "正在下載最小的模型…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:553 src/ui/configspeech_ui.ui:566
+#: src/dialogs/settings/pluginssettings.cpp:592 src/ui/configspeech_ui.ui:607
 #, kde-format
 msgid "Download models"
 msgstr "下載模型"
 
-#: src/dialogs/settings/pluginssettings.cpp:612
-#: src/dialogs/settings/pluginssettings.cpp:626
-#: src/dialogs/settings/pluginssettings.cpp:635
+#: src/dialogs/settings/pluginssettings.cpp:650
+#: src/dialogs/settings/pluginssettings.cpp:664
+#: src/dialogs/settings/pluginssettings.cpp:673
 #, kde-format
 msgid "Install a model"
 msgstr "安裝模型"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:628
-#: src/dialogs/settings/pluginssettings.cpp:637 src/ui/configspeech_ui.ui:255
+#: src/dialogs/settings/pluginssettings.cpp:666
+#: src/dialogs/settings/pluginssettings.cpp:675 src/ui/configspeech_ui.ui:255
 #, kde-format
 msgid "Manage models"
 msgstr "管理模型"
 
-#: src/dialogs/settings/pluginssettings.cpp:711
+#: src/dialogs/settings/pluginssettings.cpp:749
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "輸入新字典的 URL"
 
-#: src/dialogs/settings/pluginssettings.cpp:717
+#: src/dialogs/settings/pluginssettings.cpp:755
 #, kde-format
 msgid "Downloading model…"
 msgstr "模型下載中…"
 
-#: src/dialogs/settings/pluginssettings.cpp:727
+#: src/dialogs/settings/pluginssettings.cpp:765
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "我們不提供刪除自訂資料夾模型的功能，請自行手動處理。"
 
-#: src/dialogs/settings/pluginssettings.cpp:733
-#: src/dialogs/settings/pluginssettings.cpp:787
+#: src/dialogs/settings/pluginssettings.cpp:771
+#: src/dialogs/settings/pluginssettings.cpp:825
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "無法存取字典資料夾。"
 
-#: src/dialogs/settings/pluginssettings.cpp:742
+#: src/dialogs/settings/pluginssettings.cpp:780
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8221,22 +8228,22 @@ msgstr ""
 "刪除資料夾：\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:762
+#: src/dialogs/settings/pluginssettings.cpp:800
 #, kde-format
 msgid "Download error"
 msgstr "下載錯誤"
 
-#: src/dialogs/settings/pluginssettings.cpp:766
+#: src/dialogs/settings/pluginssettings.cpp:804
 #, kde-format
 msgid "Download error %1"
 msgstr "下載錯誤 %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:794
+#: src/dialogs/settings/pluginssettings.cpp:832
 #, kde-format
 msgid "Extracting archive…"
 msgstr "正在解開封存…"
 
-#: src/dialogs/settings/pluginssettings.cpp:801
+#: src/dialogs/settings/pluginssettings.cpp:839
 #, kde-format
 msgid "New dictionary installed."
 msgstr "已安裝新字典。"
@@ -9912,7 +9919,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "更新文字素材"
 
-#: src/doc/documentvalidator.cpp:731 src/doc/documentvalidator.cpp:2514
+#: src/doc/documentvalidator.cpp:731 src/doc/documentvalidator.cpp:2512
 #, kde-format
 msgid "Convert"
 msgstr "轉換"
@@ -9927,18 +9934,18 @@ msgstr "無法復原這個專案檔案"
 msgid "extra audio"
 msgstr "額外音訊"
 
-#: src/doc/documentvalidator.cpp:2211
+#: src/doc/documentvalidator.cpp:2209
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "字幕檔案：<br/>%1<br/>已經存在。您是否要覆寫它?"
 
-#: src/doc/documentvalidator.cpp:2212 src/mainwindow.cpp:3453
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3453
 #, kde-format
 msgid "Overwrite"
 msgstr "覆寫"
 
-#: src/doc/documentvalidator.cpp:2512
+#: src/doc/documentvalidator.cpp:2510
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -9950,17 +9957,17 @@ msgstr ""
 "您要將它轉換為不需要 GPU 的版本嗎？\n"
 "這可能會造成資料遺失。"
 
-#: src/doc/documentvalidator.cpp:2514
+#: src/doc/documentvalidator.cpp:2512
 #, kde-format
 msgid "GPU Effects"
 msgstr "GPU 效果"
 
-#: src/doc/documentvalidator.cpp:2607
+#: src/doc/documentvalidator.cpp:2605
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "以下過濾器/轉場特效已轉換為不使用 GPU 的版本："
 
-#: src/doc/documentvalidator.cpp:2610
+#: src/doc/documentvalidator.cpp:2608
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "以下過濾器/轉場特效已自專案中刪除："
@@ -10236,7 +10243,7 @@ msgid "Cyan"
 msgstr "青色"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2801 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2802 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -14954,12 +14961,12 @@ msgctxt "@title:window"
 msgid "Stabilize Clip"
 msgstr "穩定化素材"
 
-#: src/project/clipstabilize.cpp:53
+#: src/project/clipstabilize.cpp:52
 #, kde-format
 msgid "Last setting"
 msgstr "上次的設定"
 
-#: src/project/clipstabilize.cpp:88
+#: src/project/clipstabilize.cpp:87
 #, kde-format
 msgctxt "Description"
 msgid "Stabilize clip"
@@ -16195,7 +16202,7 @@ msgid "Video transcode"
 msgstr "視訊轉譯"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:711
+#: src/pythoninterfaces/abstractpythoninterface.cpp:715
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "安裝缺乏的依賴軟體"
@@ -16306,7 +16313,7 @@ msgstr ""
 "下載完成後，所有處理都會在線下進行。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:497
-#: src/pythoninterfaces/abstractpythoninterface.cpp:607
+#: src/pythoninterfaces/abstractpythoninterface.cpp:606
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "內部錯誤：找不到相依性清單"
@@ -16339,17 +16346,17 @@ msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "沒有可用的版本資訊。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:642
+#: src/pythoninterfaces/abstractpythoninterface.cpp:646
 #, kde-format
 msgid "Python exec not found"
 msgstr "找不到 Python 執行檔"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:646
+#: src/pythoninterfaces/abstractpythoninterface.cpp:650
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "尋找文稿檔案 %1 失敗"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:682
+#: src/pythoninterfaces/abstractpythoninterface.cpp:686
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -16468,58 +16475,58 @@ msgstr "調整 OpenTimelineIO 設定"
 msgid "Check again"
 msgstr "再次檢查"
 
-#: src/pythoninterfaces/otioconvertions.cpp:115
+#: src/pythoninterfaces/otioconvertions.cpp:114
 #, kde-format
 msgid "OpenTimelineIO Application otioconvert not found"
 msgstr "找不到 OpenTimelineIO 應用程式 otioconvert"
 
-#: src/pythoninterfaces/otioconvertions.cpp:121
+#: src/pythoninterfaces/otioconvertions.cpp:120
 #, kde-format
 msgid "OpenTimelineIO Project conversion failed"
 msgstr "OpenTimelineIO 專案轉換失敗"
 
-#: src/pythoninterfaces/otioconvertions.cpp:124
+#: src/pythoninterfaces/otioconvertions.cpp:123
 #, kde-format
 msgid "Project conversion complete"
 msgstr "專案轉換完成"
 
-#: src/pythoninterfaces/otioconvertions.cpp:133
+#: src/pythoninterfaces/otioconvertions.cpp:132
 #, kde-format
 msgid "Export Project"
 msgstr "匯出專案"
 
-#: src/pythoninterfaces/otioconvertions.cpp:134
-#: src/pythoninterfaces/otioconvertions.cpp:162
+#: src/pythoninterfaces/otioconvertions.cpp:133
+#: src/pythoninterfaces/otioconvertions.cpp:161
 #, kde-format
 msgid "OpenTimelineIO adapters (%1)(%1)"
 msgstr "OpenTimelineIO 轉接器 (%1)(%1)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:140
+#: src/pythoninterfaces/otioconvertions.cpp:139
 #, kde-format
 msgid "Project file could not be saved for export."
 msgstr "無法為匯出儲存專案檔。"
 
-#: src/pythoninterfaces/otioconvertions.cpp:146
+#: src/pythoninterfaces/otioconvertions.cpp:145
 #, kde-format
 msgid "Unable to write to temporary kdenlive file for export: %1"
 msgstr "無法為匯出寫入暫存 kdenlive 檔案：%1"
 
-#: src/pythoninterfaces/otioconvertions.cpp:161
+#: src/pythoninterfaces/otioconvertions.cpp:160
 #, kde-format
 msgid "Project to import"
 msgstr "要匯入的專案"
 
-#: src/pythoninterfaces/otioconvertions.cpp:167
+#: src/pythoninterfaces/otioconvertions.cpp:166
 #, kde-format
 msgid "Imported Project"
 msgstr "匯入的設定"
 
-#: src/pythoninterfaces/otioconvertions.cpp:168
+#: src/pythoninterfaces/otioconvertions.cpp:167
 #, kde-format
 msgid "Kdenlive project (*.kdenlive)"
 msgstr "Kdenlive 專案 (*.kdenlive)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:177
+#: src/pythoninterfaces/otioconvertions.cpp:176
 #, kde-format
 msgid ""
 "The current project has not been saved\n"
@@ -16766,7 +16773,7 @@ msgstr "瓦倫西亞語"
 msgid "Yiddish"
 msgstr "意第緒語"
 
-#: src/pythoninterfaces/speechtotextwhisper.cpp:246
+#: src/pythoninterfaces/speechtotextwhisper.cpp:244
 #, kde-format
 msgid "Install Whisper"
 msgstr "安裝 Whisper"
@@ -16874,23 +16881,23 @@ msgctxt "Attribute Name"
 msgid "Custom"
 msgstr "自訂"
 
-#: src/renderpresets/renderpresetrepository.cpp:227
+#: src/renderpresets/renderpresetrepository.cpp:226
 #, kde-format
 msgid "Lossless/HQ"
 msgstr "無損 / 高品質"
 
-#: src/renderpresets/renderpresetrepository.cpp:240
+#: src/renderpresets/renderpresetrepository.cpp:239
 #, kde-format
 msgctxt "Category Name"
 msgid "Images sequence"
 msgstr "圖片序列"
 
-#: src/renderpresets/renderpresetrepository.cpp:346
+#: src/renderpresets/renderpresetrepository.cpp:345
 #, kde-format
 msgid "Preset already exists"
 msgstr "預設檔已經存在"
 
-#: src/renderpresets/renderpresetrepository.cpp:347
+#: src/renderpresets/renderpresetrepository.cpp:346
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "
@@ -18697,7 +18704,7 @@ msgstr "插入效果..."
 msgid "Insert a composition..."
 msgstr "插入合成方案…"
 
-#: src/timeline2/view/timelinewidget.cpp:318
+#: src/timeline2/view/timelinewidget.cpp:316
 #, kde-format
 msgid "No available stream"
 msgstr "沒有可用的串流"
@@ -20120,7 +20127,7 @@ msgstr "擷取檔案名稱："
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:294 src/ui/configspeech_ui.ui:580
+#: src/ui/configspeech_ui.ui:294 src/ui/configspeech_ui.ui:614
 #, kde-format
 msgid "Device:"
 msgstr "裝置："
@@ -20860,7 +20867,7 @@ msgstr "語音轉文字"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
-#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:698
+#: src/ui/configspeech_ui.ui:50 src/ui/configspeech_ui.ui:709
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "檢查語音引擎安裝"
@@ -20915,7 +20922,7 @@ msgstr "將文本翻譯成英文"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:726
+#: src/ui/configspeech_ui.ui:372 src/ui/configspeech_ui.ui:757
 #, kde-format
 msgid "Uninstall plugin"
 msgstr "解除安裝外掛程式"
@@ -20957,13 +20964,20 @@ msgid "Object Detection"
 msgstr "物件偵測"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:549 src/ui/speechdialog_ui.ui:94
+#: src/ui/configspeech_ui.ui:559 src/ui/speechdialog_ui.ui:94
 #, kde-format
 msgid "Model"
 msgstr "模型"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
+#: src/ui/configspeech_ui.ui:591
+#, fuzzy, kde-format
+#| msgid "Use system install"
+msgid "Use system packages only"
+msgstr "使用系統安裝"
+
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:573
+#: src/ui/configspeech_ui.ui:600
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -20973,7 +20987,7 @@ msgstr ""
 "sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:617
+#: src/ui/configspeech_ui.ui:787
 #, kde-format
 msgid "Delete all models"
 msgstr "刪除所有模型"
@@ -23898,9 +23912,6 @@ msgstr "%1 小時"
 
 #~ msgid "Use virtual environment (recommended)"
 #~ msgstr "使用 virtualenv（建議）"
-
-#~ msgid "Use system install"
-#~ msgstr "使用系統安裝"
 
 #~ msgctxt "Model file to download, smallest one"
 #~ msgid "Tiny (72MB)"
