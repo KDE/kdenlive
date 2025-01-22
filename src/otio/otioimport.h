@@ -37,6 +37,7 @@ struct OtioImportData
 };
 
 /** @brief This class provides support for importing OpenTimelineIO files.
+ * See the comments in otioexport.h for notes about the import/export process.
  */
 class OtioImport : public QObject
 {
