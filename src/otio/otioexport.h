@@ -17,6 +17,8 @@ class CommentedTime;
 class TimelineItemModel;
 class TrackModel;
 
+/** @brief This class provides support for exporting OpenTimelineIO files.
+ */
 class OtioExport : public QObject
 {
     Q_OBJECT

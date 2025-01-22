@@ -112,7 +112,7 @@ void OtioImport::slotImport()
     // Create a new document.
     pCore->projectManager()->newFile(profile, false);
     data->timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
-    data->oldTracks = data->timeline->getAllTracksIds();
+    data->defaultTracks = data->timeline->getAllTracksIds();
 
     // Find all of the OTIO media references and add them to the bin. When
     // the bin clips are ready, import the timeline.
@@ -183,13 +183,18 @@ void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &data)
     data->timeline->updateDuration();
 
     // Import the OTIO markers as guides.
+    //
+    // TODO: The guides do not appear in the timeline widget? They appear
+    // in the project monitor and can be edited, but they are not visible in
+    // the timeline widget. If the document is saved and re-opened they
+    // do appear.
     for (const auto &otioMarker : data->otioTimeline->tracks()->markers()) {
         const GenTime pos(otioMarker->marked_range().start_time().value(), data->otioTimeline->duration().rate());
         importMarker(otioMarker, pos, data->timeline->getGuideModel());
     }
 
-    // Clean up.
-    for (int id : data->oldTracks) {
+    // Delete the default tracks.
+    for (int id : data->defaultTracks) {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         data->timeline->requestTrackDeletion(id, undo, redo);

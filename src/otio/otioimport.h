@@ -22,17 +22,22 @@ class GenTime;
 class MarkerListModel;
 class TimelineItemModel;
 
+/** @brief This struct provides data associated with importing OpenTimelineIO
+ * files.
+ */
 struct OtioImportData
 {
     QFileInfo otioFile;
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline;
     std::shared_ptr<TimelineItemModel> timeline;
-    std::unordered_set<int> oldTracks;
+    std::unordered_set<int> defaultTracks;
     QMap<QString, QString> otioExternalRefToBinId;
     QMap<QString, QString> binIdToTimecode;
     int waitingBinIds = 0;
 };
 
+/** @brief This class provides support for importing OpenTimelineIO files.
+ */
 class OtioImport : public QObject
 {
     Q_OBJECT
