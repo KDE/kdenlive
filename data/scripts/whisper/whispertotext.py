@@ -45,7 +45,7 @@ def avoid_fp16(device):
 def ffmpeg_path():
     if sys.platform == 'darwin':
         from os.path import abspath, dirname, join
-        return abspath(join(dirname(__file__), '../../MacOS/ffmpeg'))
+        return abspath(join(dirname(__file__), '../../../MacOS/ffmpeg'))
     else:
         return 'ffmpeg'
 
@@ -101,7 +101,7 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
     if sys.platform == 'darwin':
         # Set FFmpeg path for whisper
         from os.path import abspath, dirname, join
-        os.environ["PATH"] += os.pathsep + abspath(join(dirname(__file__), '../../MacOS/'))
+        os.environ["PATH"] += os.pathsep + abspath(join(dirname(__file__), '../../../MacOS/'))
 
     output_dir = None
     output_format = None

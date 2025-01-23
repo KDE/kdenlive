@@ -23,7 +23,7 @@ if not os.path.exists(sys.argv[2]):
 
 if sys.platform == 'darwin':
     from os.path import abspath, dirname, join
-    path = abspath(join(dirname(__file__), '../../MacOS/ffmpeg'))
+    path = abspath(join(dirname(__file__), '../../../MacOS/ffmpeg'))
 else:
     path = 'ffmpeg'
 
