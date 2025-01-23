@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 00:40+0000\n"
+"POT-Creation-Date: 2025-01-23 00:40+0000\n"
 "PO-Revision-Date: 2024-12-16 16:51+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -4162,8 +4162,8 @@ msgstr "%1. celiņa efekti"
 msgid "Bin %1 effects"
 msgstr "%1. lādes efekti"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
-#: src/jobs/masktask.cpp:96
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:166
+#: src/jobs/masktask.cpp:95
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"
@@ -4173,7 +4173,7 @@ msgstr ""
 "Neizdevās ģenerēt klipu:\n"
 "%1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:187
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5390,7 +5390,7 @@ msgid "Replace in timeline"
 msgstr "Aizvietot laika joslā"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:357
+#: src/effects/effectstack/view/maskmanager.cpp:374
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8345,7 +8345,7 @@ msgstr "Instalē vairākvalodu datus…"
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
-#: src/dialogs/settings/pluginssettings.cpp:869 src/ui/configspeech_ui.ui:120
+#: src/dialogs/settings/pluginssettings.cpp:871 src/ui/configspeech_ui.ui:120
 #: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:737
 #, kde-format
 msgid "Models folder"
@@ -8364,7 +8364,7 @@ msgid "Downloading multilingual model…"
 msgstr "Lejupielādē vairākvalodu modeli…"
 
 #: src/dialogs/settings/pluginssettings.cpp:238
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:868
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Pievienojiet runas modeli."
@@ -8386,13 +8386,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:389 src/ui/configspeech_ui.ui:712
+#: src/dialogs/settings/pluginssettings.cpp:391 src/ui/configspeech_ui.ui:712
 #, fuzzy, kde-format
 #| msgid "Install model"
 msgid "Install"
 msgstr "Instalēt modeli"
 
-#: src/dialogs/settings/pluginssettings.cpp:395
+#: src/dialogs/settings/pluginssettings.cpp:397
 #, fuzzy, kde-format
 #| msgid "Check configuration"
 msgid "Check config"
@@ -8400,14 +8400,14 @@ msgstr "Pārbaudīt konfigurāciju"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:405 src/ui/configspeech_ui.ui:358
+#: src/dialogs/settings/pluginssettings.cpp:407 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:767
 #, fuzzy, kde-format
 #| msgid "TAP Plugins"
 msgid "Plugin size"
 msgstr "TAP spraudņi"
 
-#: src/dialogs/settings/pluginssettings.cpp:417
+#: src/dialogs/settings/pluginssettings.cpp:419
 #, fuzzy, kde-format
 #| msgid "This will delete the style <b>%1</b> and all its properties."
 msgid ""
@@ -8415,8 +8415,8 @@ msgid ""
 "You can reinstall them later."
 msgstr "Šī darbība dzēsīs stilu <b>%1</b> un visas tā īpašības."
 
-#: src/dialogs/settings/pluginssettings.cpp:434
-#: src/dialogs/settings/pluginssettings.cpp:448
+#: src/dialogs/settings/pluginssettings.cpp:436
+#: src/dialogs/settings/pluginssettings.cpp:450
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
@@ -8432,83 +8432,83 @@ msgstr ""
 "virtuālo vidi."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:463 src/ui/configspeech_ui.ui:331
+#: src/dialogs/settings/pluginssettings.cpp:465 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Instalēt vairākvalodu tulkošanu"
 
-#: src/dialogs/settings/pluginssettings.cpp:472
+#: src/dialogs/settings/pluginssettings.cpp:474
 #, fuzzy, kde-format
 #| msgid "Install a speech model - we recommand <b>turbo</b>"
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Instalēt runas modeli — iesakām <b>turbo</b>"
 
-#: src/dialogs/settings/pluginssettings.cpp:527
+#: src/dialogs/settings/pluginssettings.cpp:529
 #, fuzzy, kde-format
 #| msgid "Select new models to download"
 msgid "Select model to download"
 msgstr "Atlasiet lejupielādējamos modeļus"
 
-#: src/dialogs/settings/pluginssettings.cpp:543
+#: src/dialogs/settings/pluginssettings.cpp:545
 #, kde-format
 msgid "All models are already installed"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:563
+#: src/dialogs/settings/pluginssettings.cpp:565
 #, fuzzy, kde-format
 #| msgid "Downloading"
 msgid "Downloading…"
 msgstr "Lejupielādē"
 
-#: src/dialogs/settings/pluginssettings.cpp:573
+#: src/dialogs/settings/pluginssettings.cpp:575
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Downloading smallest model…"
 msgstr "Lejupielādē modeli…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:592 src/ui/configspeech_ui.ui:607
+#: src/dialogs/settings/pluginssettings.cpp:594 src/ui/configspeech_ui.ui:607
 #, fuzzy, kde-format
 #| msgid "Download Model"
 msgid "Download models"
 msgstr "Lejupielādēt modeli"
 
-#: src/dialogs/settings/pluginssettings.cpp:650
-#: src/dialogs/settings/pluginssettings.cpp:664
-#: src/dialogs/settings/pluginssettings.cpp:673
+#: src/dialogs/settings/pluginssettings.cpp:652
+#: src/dialogs/settings/pluginssettings.cpp:666
+#: src/dialogs/settings/pluginssettings.cpp:675
 #, kde-format
 msgid "Install a model"
 msgstr "Instalēt modeli"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:666
-#: src/dialogs/settings/pluginssettings.cpp:675 src/ui/configspeech_ui.ui:255
+#: src/dialogs/settings/pluginssettings.cpp:668
+#: src/dialogs/settings/pluginssettings.cpp:677 src/ui/configspeech_ui.ui:255
 #, kde-format
 msgid "Manage models"
 msgstr "Pārvaldīt modeļus"
 
-#: src/dialogs/settings/pluginssettings.cpp:749
+#: src/dialogs/settings/pluginssettings.cpp:751
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Ievadiet jaunās mapes URL"
 
-#: src/dialogs/settings/pluginssettings.cpp:755
+#: src/dialogs/settings/pluginssettings.cpp:757
 #, kde-format
 msgid "Downloading model…"
 msgstr "Lejupielādē modeli…"
 
-#: src/dialogs/settings/pluginssettings.cpp:765
+#: src/dialogs/settings/pluginssettings.cpp:767
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Nav atļauts dzēst pielāgoto mapju modeļus, dariet to manuāli."
 
-#: src/dialogs/settings/pluginssettings.cpp:771
-#: src/dialogs/settings/pluginssettings.cpp:825
+#: src/dialogs/settings/pluginssettings.cpp:773
+#: src/dialogs/settings/pluginssettings.cpp:827
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Nevar piekļūt vārdnīcas mapei."
 
-#: src/dialogs/settings/pluginssettings.cpp:780
+#: src/dialogs/settings/pluginssettings.cpp:782
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8517,22 +8517,22 @@ msgstr ""
 "Dzēst mapi:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:800
+#: src/dialogs/settings/pluginssettings.cpp:802
 #, kde-format
 msgid "Download error"
 msgstr "Nesekmīga lejupielāde"
 
-#: src/dialogs/settings/pluginssettings.cpp:804
+#: src/dialogs/settings/pluginssettings.cpp:806
 #, kde-format
 msgid "Download error %1"
 msgstr "Nesekmīga lejupielāde %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:832
+#: src/dialogs/settings/pluginssettings.cpp:834
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Atspiež arhīvu…"
 
-#: src/dialogs/settings/pluginssettings.cpp:839
+#: src/dialogs/settings/pluginssettings.cpp:841
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Ieinstalēta jauna vārdnīca."
@@ -11007,7 +11007,7 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "Konfigurējiet runas pārvēršanu tekstā."
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Enter Preset Name"
@@ -11015,19 +11015,19 @@ msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "Ierakstiet priekšiestatījuma nosaukumu"
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset:"
 msgid "Enter the name of this mask:"
 msgstr "Ievadiet šī priekšiestatījuma nosaukumu:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:211
+#: src/effects/effectstack/view/maskmanager.cpp:227
 #, fuzzy, kde-format
 #| msgid "Generate"
 msgid "Generating mask %1"
 msgstr "Ģenerēšana"
 
-#: src/effects/effectstack/view/maskmanager.cpp:327
+#: src/effects/effectstack/view/maskmanager.cpp:344
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11238,7 +11238,7 @@ msgstr "Maskēt klipu"
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:75
+#: src/jobs/masktask.cpp:74
 #, fuzzy, kde-format
 #| msgid "Failed to analyse clip."
 msgid "Failed to analyse video."
@@ -14535,12 +14535,12 @@ msgstr[0] "%1 audio straume"
 msgstr[1] "%1 audio straumes"
 msgstr[2] "%1 audio straumju"
 
-#: src/monitor/monitor.cpp:2368
+#: src/monitor/monitor.cpp:2377
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Nevar palaist „Movit“ GLSL pārvaldnieku. Izslēdziet „Movit“."
 
-#: src/monitor/monitor.cpp:2410 src/monitor/monitor.cpp:2467
+#: src/monitor/monitor.cpp:2419 src/monitor/monitor.cpp:2476
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14549,17 +14549,17 @@ msgstr ""
 "Lai šī iespēja darbotos, ierīcē ir jābūt „alphagrad“ filtram. Instalējiet "
 "„frei0r“ un pārstartējiet „Kdenlive“"
 
-#: src/monitor/monitor.cpp:2430
+#: src/monitor/monitor.cpp:2439
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipam nav efektu"
 
-#: src/monitor/monitor.cpp:2432
+#: src/monitor/monitor.cpp:2441
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Atlasiet klipu projekta lādē, lai salīdzinātu efektu"
 
-#: src/monitor/monitor.cpp:2474
+#: src/monitor/monitor.cpp:2483
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14568,7 +14568,7 @@ msgstr ""
 "Lai šī iespēja darbotos, ir nepieciešama „cairoblend“ iespēja. Instalējiet "
 "„frei0r“ un pārstartējiet „Kdenlive“"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2533
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ieslēdziet rediģēšanas režīmu un pārskatiet rediģēšanas efektu"
@@ -14915,25 +14915,25 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformēt"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
 #, kde-format
 msgid ""
-"Click on an object to start a mask.\n"
+"Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
 #, fuzzy, kde-format
 #| msgid "Preview Using Proxy Clips"
 msgid "Previewing video mask"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 00:40+0000\n"
-"PO-Revision-Date: 2025-01-13 15:52+0300\n"
+"POT-Creation-Date: 2025-01-23 00:40+0000\n"
+"PO-Revision-Date: 2025-01-22 12:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4179,13 +4179,13 @@ msgstr "%1 efekti izle"
 msgid "Bin %1 effects"
 msgstr "%1 efekti kovaya at"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
-#: src/jobs/masktask.cpp:96
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:166
+#: src/jobs/masktask.cpp:95
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "%1 maskesi sunulamadı"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:187
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5394,7 +5394,7 @@ msgid "Replace in timeline"
 msgstr "Zaman akışında değiştir"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:357
+#: src/effects/effectstack/view/maskmanager.cpp:374
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8341,7 +8341,7 @@ msgstr "Çok dilli model kuruluyor…"
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
-#: src/dialogs/settings/pluginssettings.cpp:869 src/ui/configspeech_ui.ui:120
+#: src/dialogs/settings/pluginssettings.cpp:871 src/ui/configspeech_ui.ui:120
 #: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:737
 #, kde-format
 msgid "Models folder"
@@ -8360,7 +8360,7 @@ msgid "Downloading multilingual model…"
 msgstr "Çok dilli model indiriliyor…"
 
 #: src/dialogs/settings/pluginssettings.cpp:238
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:868
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Lütfen bir konuşma modeli kurun."
@@ -8380,27 +8380,30 @@ msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
+"<b>Sistem paketleri kullanılıyor. Bunu yalnızca bunun ne anlama geldiğini "
+"biliyorsanız kullanın</b>. Gereken tüm paketleri sisteminize kendiniz "
+"kurmanız gerekecektir:<br>%1"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:389 src/ui/configspeech_ui.ui:712
+#: src/dialogs/settings/pluginssettings.cpp:391 src/ui/configspeech_ui.ui:712
 #, kde-format
 msgid "Install"
 msgstr "Kur"
 
-#: src/dialogs/settings/pluginssettings.cpp:395
+#: src/dialogs/settings/pluginssettings.cpp:397
 #, kde-format
 msgid "Check config"
 msgstr "Yapılandırmayı Denetle"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:405 src/ui/configspeech_ui.ui:358
+#: src/dialogs/settings/pluginssettings.cpp:407 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:767
 #, kde-format
 msgid "Plugin size"
 msgstr "Eklenti boyutu"
 
-#: src/dialogs/settings/pluginssettings.cpp:417
+#: src/dialogs/settings/pluginssettings.cpp:419
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
@@ -8409,8 +8412,8 @@ msgstr ""
 "Bu, kurulu modelleri siler.\n"
 "Onları daha sonra yeniden kurabilirsiniz."
 
-#: src/dialogs/settings/pluginssettings.cpp:434
-#: src/dialogs/settings/pluginssettings.cpp:448
+#: src/dialogs/settings/pluginssettings.cpp:436
+#: src/dialogs/settings/pluginssettings.cpp:450
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -8422,78 +8425,78 @@ msgstr ""
 "yeniden oluşturulur ve modüller yeniden indirilir."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:463 src/ui/configspeech_ui.ui:331
+#: src/dialogs/settings/pluginssettings.cpp:465 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Çok Dilli Çeviri Kur"
 
-#: src/dialogs/settings/pluginssettings.cpp:472
+#: src/dialogs/settings/pluginssettings.cpp:474
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Bir konuşma modeli kurun; <b>turbo</b> kullanmanız önerilir."
 
-#: src/dialogs/settings/pluginssettings.cpp:527
+#: src/dialogs/settings/pluginssettings.cpp:529
 #, kde-format
 msgid "Select model to download"
 msgstr "İndirilecek modeli seç"
 
-#: src/dialogs/settings/pluginssettings.cpp:543
+#: src/dialogs/settings/pluginssettings.cpp:545
 #, kde-format
 msgid "All models are already installed"
 msgstr "Tüm modeller halihazırda kurulu"
 
-#: src/dialogs/settings/pluginssettings.cpp:563
+#: src/dialogs/settings/pluginssettings.cpp:565
 #, kde-format
 msgid "Downloading…"
 msgstr "İndiriliyor…"
 
-#: src/dialogs/settings/pluginssettings.cpp:573
+#: src/dialogs/settings/pluginssettings.cpp:575
 #, kde-format
 msgid "Downloading smallest model…"
 msgstr "En küçük model indiriliyor…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:592 src/ui/configspeech_ui.ui:607
+#: src/dialogs/settings/pluginssettings.cpp:594 src/ui/configspeech_ui.ui:607
 #, kde-format
 msgid "Download models"
 msgstr "Modelleri İndir"
 
-#: src/dialogs/settings/pluginssettings.cpp:650
-#: src/dialogs/settings/pluginssettings.cpp:664
-#: src/dialogs/settings/pluginssettings.cpp:673
+#: src/dialogs/settings/pluginssettings.cpp:652
+#: src/dialogs/settings/pluginssettings.cpp:666
+#: src/dialogs/settings/pluginssettings.cpp:675
 #, kde-format
 msgid "Install a model"
 msgstr "Bir Model Kur"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:666
-#: src/dialogs/settings/pluginssettings.cpp:675 src/ui/configspeech_ui.ui:255
+#: src/dialogs/settings/pluginssettings.cpp:668
+#: src/dialogs/settings/pluginssettings.cpp:677 src/ui/configspeech_ui.ui:255
 #, kde-format
 msgid "Manage models"
 msgstr "Modelleri Yönet"
 
-#: src/dialogs/settings/pluginssettings.cpp:749
+#: src/dialogs/settings/pluginssettings.cpp:751
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Yeni sözlük için URL girin"
 
-#: src/dialogs/settings/pluginssettings.cpp:755
+#: src/dialogs/settings/pluginssettings.cpp:757
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model indiriliyor…"
 
-#: src/dialogs/settings/pluginssettings.cpp:765
+#: src/dialogs/settings/pluginssettings.cpp:767
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Özel klasör modellerini silmeye izin vermiyoruz, lütfen elle yapın."
 
-#: src/dialogs/settings/pluginssettings.cpp:771
-#: src/dialogs/settings/pluginssettings.cpp:825
+#: src/dialogs/settings/pluginssettings.cpp:773
+#: src/dialogs/settings/pluginssettings.cpp:827
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Sözlük klasörüne erişilemiyor."
 
-#: src/dialogs/settings/pluginssettings.cpp:780
+#: src/dialogs/settings/pluginssettings.cpp:782
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8502,22 +8505,22 @@ msgstr ""
 "Klasörü sil:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:800
+#: src/dialogs/settings/pluginssettings.cpp:802
 #, kde-format
 msgid "Download error"
 msgstr "İndirme hatası"
 
-#: src/dialogs/settings/pluginssettings.cpp:804
+#: src/dialogs/settings/pluginssettings.cpp:806
 #, kde-format
 msgid "Download error %1"
 msgstr "İndirme hatası %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:832
+#: src/dialogs/settings/pluginssettings.cpp:834
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Arşiv çıkarılıyor…"
 
-#: src/dialogs/settings/pluginssettings.cpp:839
+#: src/dialogs/settings/pluginssettings.cpp:841
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Yeni sözlük kuruldu."
@@ -10975,23 +10978,23 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "Lütfen SAM2 eklentisini yapılandırın"
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "Maske Adı Gir"
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, kde-format
 msgid "Enter the name of this mask:"
 msgstr "Bu maskenin adını girin:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:211
+#: src/effects/effectstack/view/maskmanager.cpp:227
 #, kde-format
 msgid "Generating mask %1"
 msgstr "%1 maskesi üretiliyor"
 
-#: src/effects/effectstack/view/maskmanager.cpp:327
+#: src/effects/effectstack/view/maskmanager.cpp:344
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11203,7 +11206,7 @@ msgstr "Maske oluşturma"
 msgid "No source frames to process"
 msgstr "İşlenecek kaynak kare yok"
 
-#: src/jobs/masktask.cpp:75
+#: src/jobs/masktask.cpp:74
 #, kde-format
 msgid "Failed to analyse video."
 msgstr "Video çözümlenemedi."
@@ -14504,13 +14507,13 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 ses akışı"
 msgstr[1] "%1 ses akışı"
 
-#: src/monitor/monitor.cpp:2368
+#: src/monitor/monitor.cpp:2377
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit’in GLSL yöneticisi başlatılamıyor, lütfen Movit’i devre dışı bırakın"
 
-#: src/monitor/monitor.cpp:2410 src/monitor/monitor.cpp:2467
+#: src/monitor/monitor.cpp:2419 src/monitor/monitor.cpp:2476
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14519,17 +14522,17 @@ msgstr ""
 "Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2430
+#: src/monitor/monitor.cpp:2439
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip bir efekt içermiyor"
 
-#: src/monitor/monitor.cpp:2432
+#: src/monitor/monitor.cpp:2441
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Efekti uygulamak için proje kovasından bir klip seçin"
 
-#: src/monitor/monitor.cpp:2474
+#: src/monitor/monitor.cpp:2483
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14538,7 +14541,7 @@ msgstr ""
 "Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2533
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Efekti düzenlemek için monitörde düzenleme modunu etkinleştir"
@@ -14886,20 +14889,24 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Dönüşüm"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating image mask"
 msgstr "Görsel maskesi üretiliyor"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating video mask"
 msgstr "Video maskesi üretiliyor"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
-#, kde-format
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click on an object to start a mask.\n"
+#| "Shift+click to include another zone.\n"
+#| "Ctrl+click to exclude a zone."
 msgid ""
-"Click on an object to start a mask.\n"
+"Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
@@ -14907,7 +14914,7 @@ msgstr ""
 "Başka bir bölge içermek için Üst Karakter düğmesi ile tıklayın.\n"
 "Bir bölgeyi dışlamak için Kontrol düğmesi ile tıklayın."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Video maskesi önizleniyor"
@@ -21516,7 +21523,7 @@ msgstr "Model"
 #: src/ui/configspeech_ui.ui:591
 #, kde-format
 msgid "Use system packages only"
-msgstr ""
+msgstr "Yalnızca sistem paketlerini kullan"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configspeech_ui.ui:600
