@@ -52,6 +52,7 @@ public:
     QStringList missingDependencies(const QStringList &filter = {});
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
     virtual PythonExec venvPythonExecs(bool checkPip = false);
+    virtual bool useSystemPython();
     QString systemPythonExec();
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
@@ -84,7 +85,7 @@ public Q_SLOTS:
         To get a list of all missing dependencies use missingDependencies
         @returns wether all checks succeeded.
     */
-    void checkDependencies(bool force = false, bool async = true);
+    bool checkDependencies(bool force = false, bool async = true);
     void checkDependenciesConcurrently();
     void checkVersionsConcurrently();
     /** @brief Ensure all dependenciew are installed. */

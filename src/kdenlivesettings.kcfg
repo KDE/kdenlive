@@ -1386,6 +1386,14 @@
      </entry>
    </group>
    <group name="speech">
+     <entry name="speech_system_python" type="Bool">
+       <label>Use system packages for STT plugin</label>
+       <default>false</default>
+     </entry>
+     <entry name="speech_system_python_path" type="Path">
+       <label>Path to python exec for STT.</label>
+       <default></default>
+     </entry>
        <entry name="vosk_folder_path" type="String">
            <label>Custom path for the folder containins the vosk speech models. Uses default XDG location if empty</label>
            <default></default>

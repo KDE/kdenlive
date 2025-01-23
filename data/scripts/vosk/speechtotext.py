@@ -8,55 +8,76 @@
 from vosk import Model, KaldiRecognizer, SetLogLevel
 import sys
 import os
-import wave
 import subprocess
-import codecs
-import datetime
+import argparse
 
 SetLogLevel(-1)
 
-os.chdir(sys.argv[1])
 
-if not os.path.exists(sys.argv[2]):
-    print ("Please download the model from https://alphacephei.com/vosk/models and unpack as ",sys.argv[2]," in the current folder.")
-    exit (1)
+def main():
 
-if sys.platform == 'darwin':
-    from os.path import abspath, dirname, join
-    path = abspath(join(dirname(__file__), '../../MacOS/ffmpeg'))
-else:
-    path = 'ffmpeg'
+    parser = argparse.ArgumentParser("VOSK to text script")
+    parser.add_argument("-S", "--src", help="source audio file")
+    parser.add_argument("-M", "--model", help="model name")
+    parser.add_argument("-D", "--model_directory", help="the folder where the model is")
+    parser.add_argument("-I", "--in_point", help="in point if not starting from 0", default="0")
+    parser.add_argument("-O", "--out_point", help="out point if not operating on full file", default="0")
+    parser.add_argument("-F", "--ffmpeg_path", help="path for ffmpeg", default="ffmpeg")
+    args = parser.parse_args()
 
-sample_rate=16000
-model = Model(sys.argv[2])
-rec = KaldiRecognizer(model, sample_rate)
-rec.SetWords(True)
+    src = args.src
 
-# zone rendering
-if len(sys.argv) > 4 and (float(sys.argv[4])>0 or float(sys.argv[5])>0):
-    process = subprocess.Popen([path, '-loglevel', 'quiet', '-i',
-                            sys.argv[3], '-ss', sys.argv[4], '-t', sys.argv[5],
-                            '-ar', str(sample_rate) , '-ac', '1', '-f', 's16le', '-'],
+    if src is None:
+        config = vars(args)
+        print(config)
+        sys.exit()
+
+    source = src.replace('"', '')
+    print(f"ANALYSING SOURCE FILE: {source}.")
+    if not os.path.exists(source):
+        print(f"Source file does not exist: {source}.")
+        sys.exit()
+
+    model = args.model
+    ffmpeg_path = args.ffmpeg_path
+
+    os.chdir(args.model_directory)
+
+    if not os.path.exists(model):
+        print(f"Please download the model from https://alphacephei.com/vosk/models and unpack as {model} in the current folder.")
+        exit (1)
+
+    sample_rate=16000
+    voskModel = Model(model)
+    rec = KaldiRecognizer(voskModel, sample_rate)
+    rec.SetWords(True)
+
+    # zone rendering
+    if (float(args.in_point)>0 or float(args.out_point)>0):
+        process = subprocess.Popen([ffmpeg_path, '-loglevel', 'quiet', '-i',
+                            source, '-ss', args.in_point, '-t', args.out_point,
+                            '-ar', str(sample_rate), '-ac', '1', '-f', 's16le', '-'],
                             stdout=subprocess.PIPE)
-else:
-    process = subprocess.Popen([path, '-loglevel', 'quiet', '-i',
-                            sys.argv[3],
-                            '-ar', str(sample_rate) , '-ac', '1', '-f', 's16le', '-'],
+    else:
+        process = subprocess.Popen([ffmpeg_path, '-loglevel', 'quiet', '-i',
+                            source,
+                            '-ar', str(sample_rate), '-ac', '1', '-f', 's16le', '-'],
                             stdout=subprocess.PIPE)
-WORDS_PER_LINE = 7
+    WORDS_PER_LINE = 7
 
-def transcribe():
-    while True:
-       data = process.stdout.read(4000)
-       if len(data) == 0:
-           sys.stdout.buffer.write(rec.FinalResult().encode('utf-8'))
-           sys.stdout.flush()
-           break
-       if rec.AcceptWaveform(data):
-           sys.stdout.buffer.write(rec.Result().encode('utf-8'))
-           sys.stdout.flush()
+    def transcribe():
+        while True:
+            data = process.stdout.read(4000)
+            if len(data) == 0:
+                sys.stdout.buffer.write(rec.FinalResult().encode('utf-8'))
+                sys.stdout.flush()
+                break
+            if rec.AcceptWaveform(data):
+                sys.stdout.buffer.write(rec.Result().encode('utf-8'))
+                sys.stdout.flush()
 
-transcribe()
-#with open(sys.argv[3], 'w') as f:
-#    f.writelines(subtitle)
-#f.close()
+    transcribe()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

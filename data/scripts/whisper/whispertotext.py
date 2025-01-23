@@ -2,25 +2,16 @@
 # SPDX-FileCopyrightText: 2023 Jean-Baptiste Mardelle <jb@kdenlive.org>
 # SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
-import codecs
-import datetime
 import os
 import re
 import subprocess
 import sys
-import wave
+import argparse
 
 import torch
 import whisper
 from whisper.utils import (
-    exact_div,
-    format_timestamp,
-    get_end,
-    get_writer,
-    make_safe,
-    optional_float,
-    optional_int,
-    str2bool,
+    get_writer
 )
 
 # Call this script with the following arguments
@@ -33,29 +24,22 @@ from whisper.utils import (
 # 7. out point
 # 8. tmp file name to extract a clip's part
 
+
 def avoid_fp16(device):
-    """fp16 doesn't work on some GPUs, such as Nvidia GTX 16xx. See bug 467573."""
-    if device == "cpu": # fp16 option doesn't matter for CPU
+    # fp16 doesn't work on some GPUs, such as Nvidia GTX 16xx. See bug 467573.
+    if device == "cpu":  # fp16 option doesn't matter for CPU
         return True
     device = torch.cuda.get_device_name(device)
     if re.search(r"GTX 16\d\d", device):
         sys.stderr.write("GTX 16xx series GPU detected, disabling fp16\n")
         return True
 
-def ffmpeg_path():
-    if sys.platform == 'darwin':
-        from os.path import abspath, dirname, join
-        return abspath(join(dirname(__file__), '../../MacOS/ffmpeg'))
-    else:
-        return 'ffmpeg'
 
-
-def extract_zone(source, outfile, in_point, out_point):
+def extract_zone(source, outfile, in_point, out_point, ffmpeg_path):
     sample_rate = 16000
-    path = ffmpeg_path()
-    process = subprocess.run([path, '-loglevel', 'quiet', '-y', '-i',
+    process = subprocess.run([ffmpeg_path, '-loglevel', 'quiet', '-y', '-i',
                             source, '-ss', in_point, '-t', out_point,
-                            '-vn', '-ar', str(sample_rate) , '-ac', '1', '-f', 'wav', outfile],
+                            '-vn', '-ar', str(sample_rate), '-ac', '1', '-f', 'wav', outfile],
                             stdout=subprocess.PIPE)
 
 
@@ -89,8 +73,8 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
         'patience': None,
         'length_penalty': None,
         'suppress_tokens': '-1',
-        'condition_on_previous_text':True,
-        'word_timestamps':True,
+        'condition_on_previous_text': True,
+        'word_timestamps': True,
         'highlight_words': None,
         'max_line_count': None,
         'max_line_width': None,
@@ -98,11 +82,6 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
         'language': None,
         'fp16': None
     }
-    if sys.platform == 'darwin':
-        # Set FFmpeg path for whisper
-        from os.path import abspath, dirname, join
-        os.environ["PATH"] += os.pathsep + abspath(join(dirname(__file__), '../../MacOS/'))
-
     output_dir = None
     output_format = None
     if len(extraparams) > 1:
@@ -110,7 +89,14 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
         for x in extraArgs:
             param = x.split('=')
             if (len(param) > 1):
-                transcribe_kwargs[param[0]] = param[1]
+                if param[0] == 'ffmpeg_path': # and sys.platform == 'darwin':
+                    # Set FFmpeg path for whisper
+                    from os.path import abspath, dirname
+                    os.environ["PATH"] += os.pathsep + abspath(dirname(param[1]))
+                    np = os.pathsep + abspath(dirname(param[1]))
+                    print(f"UPDATED FFMPEG PATH: {np}", file=sys.stdout, flush=True)
+                else:
+                    transcribe_kwargs[param[0]] = param[1]
 
     if 'fp16' in transcribe_kwargs and transcribe_kwargs['fp16'] == 'False':
         transcribe_kwargs["fp16"] = False
@@ -121,7 +107,7 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
         output_format = transcribe_kwargs.pop("output_format")
     if "output_dir" in transcribe_kwargs:
         output_dir = transcribe_kwargs.pop("output_dir")
-        if output_dir != None:
+        if output_dir is not None:
             writer = get_writer(output_format, output_dir)
 
     word_options = [
@@ -132,30 +118,60 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
     ]
     print(f"READY TO OURPUT: {output_format} , {output_dir}", file=sys.stdout,flush=True)
     writer_args = {arg: transcribe_kwargs.pop(arg) for arg in word_options}
-    if writer_args["max_line_count"] != None:
-       writer_args["max_line_count"] = int(writer_args["max_line_count"])
-    if writer_args["max_line_width"] != None:
-       writer_args["max_line_width"] = int(writer_args["max_line_width"])
+    if writer_args["max_line_count"] is not None:
+        writer_args["max_line_count"] = int(writer_args["max_line_count"])
+    if writer_args["max_line_width"] is not None:
+        writer_args["max_line_width"] = int(writer_args["max_line_width"])
 
     result = loadedModel.transcribe(source, **transcribe_kwargs)
-    if output_dir != None:
+    if output_dir is not None:
         writer(result, source, **writer_args)
 
     return result
 
 
 def main():
-    source=sys.argv[1]
-    if len(sys.argv) > 8 and (float(sys.argv[6])>0 or float(sys.argv[7])>0):
-        tmp_file = sys.argv[8]
-        extract_zone(source, tmp_file, sys.argv[6], sys.argv[7])
+    parser = argparse.ArgumentParser("Whisper to text script")
+    parser.add_argument("-S", "--src", help="source audio file")
+    parser.add_argument("-M", "--model", help="model name")
+    parser.add_argument("-D", "--device", help="the device on which we operate, cpu or cuda")
+    parser.add_argument("-T", "--task", help="transcribe or translate", default="transcribe")
+    parser.add_argument("-I", "--in_point", help="in point if not starting from 0", default="0")
+    parser.add_argument("-O", "--out_point", help="out point if not operating on full file", default="0")
+    parser.add_argument("--temporary_file", help="temporary transcoding output file")
+    parser.add_argument("-F", "--ffmpeg_path", help="path for ffmpeg")
+    parser.add_argument("-L", "--language", help="transcription language")
+    args = parser.parse_args()
+
+    src = args.src
+    if src is None:
+        config = vars(args)
+        print(config)
+        sys.exit()
+
+    source = src.replace('"', '')
+    print(f"ANALYSING SOURCE FILE: {source}.")
+    if not os.path.exists(source):
+        print(f"Source file does not exist: {source}.")
+        sys.exit()
+
+    if float(args.in_point) > 0 or float(args.out_point) > 0:
+        tmp_file = args.temporary_file
+        extract_zone(source, tmp_file, args.in_point, args.out_point, args.ffmpeg_path)
         source = tmp_file
 
-    model = sys.argv[2]
-    device = sys.argv[3]
-    task = sys.argv[4]
-    language = sys.argv[5]
-    result = run_whisper(source, model, device, task, language)
+    model = args.model
+    device = args.device
+    task = args.task
+    language = args.language
+    ffmpeg_path = args.ffmpeg_path
+    jobArgs = ''
+    if ffmpeg_path:
+        jobArgs = f"ffmpeg_path={ffmpeg_path} "
+    if language:
+        jobArgs = f"language={language} "
+
+    result = run_whisper(source, model, device, task, jobArgs)
 
     for i in result["segments"]:
         start_time = i["start"]

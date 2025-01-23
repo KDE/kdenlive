@@ -121,3 +121,8 @@ AbstractPythonInterface::PythonExec SamInterface::venvPythonExecs(bool checkPip)
     }
     return AbstractPythonInterface::venvPythonExecs(checkPip);
 }
+
+bool SamInterface::useSystemPython()
+{
+    return KdenliveSettings::sam_system_python();
+}

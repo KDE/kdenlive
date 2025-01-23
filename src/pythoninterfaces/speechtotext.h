@@ -26,6 +26,8 @@ public:
     virtual const QString modelFolder(bool mainFolder = true, bool create = false) = 0;
     virtual const QStringList getInstalledModels() = 0;
     virtual bool installNewModel(const QString &modelName = QString()) = 0;
+    AbstractPythonInterface::PythonExec venvPythonExecs(bool checkPip = false) override;
+    bool useSystemPython() override;
 
 protected:
     QString featureName() override;

@@ -25,23 +25,25 @@ import whispertotext
 # tmpfile (tmp file name to extract a clip's part)
 # fp16 = False to disable fp16
 
+
 def main(source, model, **kwargs):
     kwargs_def = {
-        'device':'cpu',
-        'task':'transcribe',
-        'language':'',
+        'device': 'cpu',
+        'task': 'transcribe',
+        'language': '',
         'max_line_width': None,
         'max_line_count': None,
         'shorten_method': 'greedy',
-        'zone_in':-1,
-        'zone_out':-1,
-        'tmpfile':'',
+        'zone_in': -1,
+        'zone_out': -1,
+        'tmpfile': '',
         'fp16': True,
-        'seamless_source':'',
-        'seamless_target':''
+        'seamless_source': '',
+        'seamless_target': '',
+        'ffmpeg_path': ''
     }
     assert all(k in kwargs_def for k in kwargs), f"Invalid kwargs: {kwargs.keys()}"
-    kwargs = { **kwargs_def, **kwargs }
+    kwargs = {**kwargs_def, **kwargs}
 
     device = kwargs['device']
     language = kwargs['language']
@@ -51,31 +53,34 @@ def main(source, model, **kwargs):
     zone_out = int(kwargs['zone_out'])
     tmpfile = kwargs['tmpfile']
     fp16 = kwargs['fp16'] != 'False'
+    ffmpeg_path = kwargs['ffmpeg_path']
 
     outFolder = os.path.dirname(source)
     if tmpfile:
         whispertotext.extract_zone(source, zone_in, zone_out, tmpfile)
         source = tmpfile
     args = ''
+    if ffmpeg_path:
+        args = f"ffmpeg_path={ffmpeg_path} "
     if language:
         args = f"language={language} "
     args += f"fp16={fp16} "
     if kwargs['seamless_source']:
         # we want to use seamless to translate, get full text from whisper
-        args += f"output_format=json "
+        args += "output_format=json "
     else:
         # let whisper do all the processing and write the srt file
-        args += f"output_format=srt "
+        args += "output_format=srt "
         args += f"output_dir={outFolder} "
-        if kwargs['max_line_width'] != None:
+        if kwargs['max_line_width'] is not None:
             args += f"max_line_width={kwargs['max_line_width']} "
-        if kwargs['max_line_count'] != None:
+        if kwargs['max_line_count'] is not None:
             args += f"max_line_count={kwargs['max_line_count']} "
 
     result = whispertotext.run_whisper(source, model, device, task, args)
 
     if kwargs['seamless_source']:
-        print(f"0%| initialize", file=sys.stdout,flush=True)
+        print("0%| initialize", file=sys.stdout, flush=True)
         from transformers import AutoProcessor, SeamlessM4Tv2Model
         import srt
         processor = AutoProcessor.from_pretrained("facebook/seamless-m4t-v2-large")
@@ -93,14 +98,14 @@ def main(source, model, **kwargs):
             text = result["segments"][i]["text"]
 
             progress = int(100*i / subCount)
-            print(f"{progress}%| translating", file=sys.stdout,flush=True)
+            print(f"{progress}%| translating", file=sys.stdout, flush=True)
             text_inputs = processor(text, src_lang=kwargs['seamless_source'], return_tensors="pt").to(device)
             output_tokens = loadedSeamlessModel.generate(**text_inputs, tgt_lang=kwargs['seamless_target'], generate_speech=False)
             translated_text_from_text = processor.decode(output_tokens[0].tolist()[0], skip_special_tokens=True)
             sub = srt.Subtitle(index=len(subs), content=translated_text_from_text, start=datetime.timedelta(seconds=start_time), end=datetime.timedelta(seconds=end_time))
             subs.append(sub)
 
-        if kwargs['max_line_width'] == None:
+        if kwargs['max_line_width'] is None:
             subtitle = srt.compose(subs)
         else:
             try:
@@ -128,6 +133,6 @@ def main(source, model, **kwargs):
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1], # source AV file
-         sys.argv[2], # model name
+    sys.exit(main(sys.argv[1],  # source AV file
+         sys.argv[2],  # model name
          **dict(arg.split('=') for arg in sys.argv[3:]))) # kwargs

@@ -147,7 +147,7 @@ void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int y
                                          exclude);
 }
 
-void MaskManager::addControlRect(int position, QSize frameSize, const QRect rect, bool extend, bool exclude)
+void MaskManager::addControlRect(int position, QSize frameSize, const QRect rect, bool extend)
 {
     if (position < m_zone.x()) {
         qDebug() << "/// POSITION OUTSIDE ZONE!!!";
@@ -159,7 +159,7 @@ void MaskManager::addControlRect(int position, QSize frameSize, const QRect rect
                  << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
         return;
     }
-    m_maskHelper->addMonitorControlRect(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, rect, extend, exclude);
+    m_maskHelper->addMonitorControlRect(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, rect, extend);
 }
 
 std::shared_ptr<ProjectClip> MaskManager::getOwnerClip()

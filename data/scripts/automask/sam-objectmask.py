@@ -7,17 +7,17 @@ import os
 # os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 import numpy as np
 import torch
-import cv2
 import sys
 import argparse
 from PIL import Image
+
 
 def process_csv(csv_string, resize):
     # Convert the CSV string back to a NumPy array
     resulting_array = {}
     vals_list = csv_string.split(';')
     for vals in vals_list:
-        frame,csv_data = vals.split("=")
+        frame, csv_data = vals.split("=")
         np_array = np.fromstring(csv_data, dtype=int, sep=',')
 
         # Reshape the array if necessary (e.g., if it was a 2D array)
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     parser.add_argument("-C", "--config", help="config for the model")
     parser.add_argument("-D", "--device", help="enforce a device: cuda, cpu")
     args = parser.parse_args()
-    if (args.point_coordinates == None or args.labels == None) and args.box_coordinates == None:
+    if (args.point_coordinates is None or args.labels is None) and args.box_coordinates is None:
         config = vars(args)
         print(config)
         sys.exit()
@@ -117,7 +117,7 @@ def save_mask(mask, filename, obj_id=None):
     if borders > 0:
         import cv2
         mask = mask.astype(np.uint8)
-        contours, _ = cv2.findContours(mask,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         # Try to smooth contours
         contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
         color2 = color
@@ -127,17 +127,12 @@ def save_mask(mask, filename, obj_id=None):
     pil_img = Image.fromarray(np.uint8(mask_image))
     pil_img.save(filename)
 
+
 def show_points(coords, labels, ax, marker_size=200):
-    pos_points = coords[labels==1]
-    neg_points = coords[labels==0]
+    pos_points = coords[labels == 1]
+    neg_points = coords[labels == 0]
     ax.scatter(pos_points[:, 0], pos_points[:, 1], color='green', marker='*', s=marker_size, edgecolor='white', linewidth=1.25)
     ax.scatter(neg_points[:, 0], neg_points[:, 1], color='red', marker='*', s=marker_size, edgecolor='white', linewidth=1.25)
-
-
-def show_box(box, ax):
-    x0, y0 = box[0], box[1]
-    w, h = box[2] - box[0], box[3] - box[1]
-    #ax.add_patch(plt.Rectangle((x0, y0), w, h, edgecolor='green', facecolor=(0, 0, 0, 0), lw=2))
 
 # scan all the JPEG frame names in this directory
 frame_names = [
@@ -155,7 +150,7 @@ frame_names.sort(key=lambda p: int(os.path.splitext(p)[0]))
 ann_obj_id = 1  # give a unique id to each object we interact with (it can be any integers)
 
 if preview_frame > -1:
-    print(f"Init predictor on image: ", os.path.join(inputFolder, frame_names[preview_frame]))
+    print(f"Init predictor on image: {os.path.join(inputFolder, frame_names[preview_frame])}")
     image = Image.open(os.path.join(inputFolder, frame_names[preview_frame]))
     image = np.array(image.convert("RGB"))
     predictor.set_image(image)
@@ -166,14 +161,14 @@ if preview_frame > -1:
         box=None if not box else box[preview_frame],
         multimask_output=False)
 
-    print(f"Saving preview image as: ", output_frame)
+    print(f"Saving preview image as: {output_frame}")
     save_mask((masks[0]), output_frame, ann_obj_id)
     sys.exit()
 else:
     inference_state = predictor.init_state(video_path=inputFolder)
 
 
-print(f"Adding points...")
+print("Adding points...")
 # Let's add a positive click at (x, y) = (210, 350) to get started
 #points = np.array([[423, 556], [250, 220]], dtype=np.float32)
 # for labels, `1` means positive click and `0` means negative click
@@ -195,7 +190,7 @@ for frame in result:
         labels=None if not labels else labels[frame]
     )
 
-print(f"Adding points...DONE")
+print("Adding points...DONE")
 
 # show the results on the current (interacted) frame
 # plt.figure(figsize=(9, 6))
@@ -210,7 +205,7 @@ for out_frame_idx, out_obj_ids, out_mask_logits in predictor.propagate_in_video(
         out_obj_id: (out_mask_logits[i] > 0.0).cpu().numpy()
         for i, out_obj_id in enumerate(out_obj_ids)
     }
-print(f"Rendering all frames...")
+print("Rendering all frames...")
 # render the segmentation results every few frames
 vis_frame_stride = 1
 #plt.close("all")

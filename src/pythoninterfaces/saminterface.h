@@ -26,6 +26,7 @@ public:
     const QString getVenvPath() override;
     static const QString configForModel();
     AbstractPythonInterface::PythonExec venvPythonExecs(bool checkPip = false) override;
+    bool useSystemPython() override;
 
 protected:
     QString featureName() override;

@@ -3003,12 +3003,12 @@ void Monitor::addControlPoint(double x, double y, bool extend, bool exclude)
     Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude);
 }
 
-void Monitor::addControlRect(double x, double y, double width, double height, bool extend, bool exclude)
+void Monitor::addControlRect(double x, double y, double width, double height, bool extend)
 {
     QSize fSize = pCore->getCurrentFrameDisplaySize();
     QRect rect(qRound(x * fSize.width()), qRound(y * fSize.height()), qRound(width * fSize.width()), qRound(height * fSize.height()));
     int pos = position();
-    Q_EMIT addMonitorControlRect(pos, fSize, rect, extend, exclude);
+    Q_EMIT addMonitorControlRect(pos, fSize, rect, extend);
 }
 
 void Monitor::previewMask(const QString &maskFile, int in, int out)

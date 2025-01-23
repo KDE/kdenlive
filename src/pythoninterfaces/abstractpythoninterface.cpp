@@ -210,8 +210,16 @@ QString AbstractPythonInterface::systemPythonExec()
     return QStandardPaths::findExecutable(pythonName);
 }
 
+bool AbstractPythonInterface::useSystemPython()
+{
+    return false;
+}
+
 bool AbstractPythonInterface::checkVenv(bool calculateSize, bool forceInstall)
 {
+    if (useSystemPython()) {
+        return true;
+    }
     if (installInProgress) {
         qDebug() << "...... ANOTHER INSTALL IN PROGRESS..";
         return false;
@@ -402,11 +410,11 @@ void AbstractPythonInterface::checkVersionsConcurrently()
     (void)QtConcurrent::run(&AbstractPythonInterface::checkVersions, this, true);
 }
 
-void AbstractPythonInterface::checkDependencies(bool force, bool async)
+bool AbstractPythonInterface::checkDependencies(bool force, bool async)
 {
     if (!force && m_dependenciesChecked) {
         // Don't check twice if dependecies are satisfied
-        return;
+        return true;
     }
     // Force check, reset flag
     m_missing.clear();
@@ -418,7 +426,7 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
         if (checkSetup(true, &newInstall) && newInstall) {
             // Venv was just built, install requirements
             installMissingDependencies();
-            return;
+            return false;
         }
     }
     const QString output = runPackageScript(QStringLiteral("--check"), false, false, force);
@@ -453,8 +461,10 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
         }
         Q_EMIT dependenciesAvailable();
     } else {
+        messages.prepend(i18n("Using python from %1", exes.python));
         Q_EMIT dependenciesMissing(messages);
     }
+    return false;
 }
 
 QStringList AbstractPythonInterface::missingDependencies(const QStringList &filter)

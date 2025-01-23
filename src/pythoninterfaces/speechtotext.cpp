@@ -55,3 +55,30 @@ SpeechToTextEngine::EngineType SpeechToText::engineType() const
 {
     return m_engineType;
 }
+
+AbstractPythonInterface::PythonExec SpeechToText::venvPythonExecs(bool checkPip)
+{
+    if (KdenliveSettings::speech_system_python()) {
+// Use system python for Speech plugin
+#ifdef Q_OS_WIN
+        const QString pythonName = QStringLiteral("python");
+        const QString pipName = QStringLiteral("pip");
+#else
+        const QString pythonName = QStringLiteral("python3");
+        const QString pipName = QStringLiteral("pip3");
+#endif
+        const QStringList pythonPaths = {QFileInfo(KdenliveSettings::speech_system_python_path()).dir().absolutePath()};
+        const QString pythonExe = QStandardPaths::findExecutable(pythonName, pythonPaths);
+        QString pipExe;
+        if (checkPip) {
+            pipExe = QStandardPaths::findExecutable(pipName, pythonPaths);
+        }
+        return {pythonExe, pipExe};
+    }
+    return AbstractPythonInterface::venvPythonExecs(checkPip);
+}
+
+bool SpeechToText::useSystemPython()
+{
+    return KdenliveSettings::speech_system_python();
+}

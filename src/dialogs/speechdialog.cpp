@@ -162,6 +162,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             m_speechJob->kill();
         }
     });
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     QTimer::singleShot(200, this, &SpeechDialog::checkDeps);
 }
 
@@ -169,7 +170,10 @@ SpeechDialog::~SpeechDialog() {}
 
 void SpeechDialog::checkDeps()
 {
-    m_stt->checkDependencies();
+    connect(m_stt, &AbstractPythonInterface::dependenciesAvailable, this, [this]() { buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true); });
+    if (m_stt->checkDependencies(false, true)) {
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+    }
     // Only enable subtitle max size if srt_equalizer is found
     bool equalizerAvailable = m_stt->optionalDependencyAvailable(QLatin1String("srt_equalizer"));
     check_maxchars->setEnabled(equalizerAvailable);
@@ -262,7 +266,7 @@ void SpeechDialog::slotProcessSpeech()
     speech_info->show();
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     QStringList missingDeps = m_stt->missingDependencies();
-    if (!m_stt->checkSetup() || !missingDeps.isEmpty()) {
+    if (!KdenliveSettings::speech_system_python() && (!m_stt->checkSetup() || !missingDeps.isEmpty())) {
         speech_info->setMessageType(KMessageWidget::Warning);
         if (!missingDeps.isEmpty()) {
             speech_info->setText(i18n("Please configure speech to text, missing dependencies: %1", missingDeps.join(QLatin1String(", "))));
@@ -405,7 +409,14 @@ void SpeechDialog::slotProcessSpeech()
         // Vosk
         QString modelName = speech_model->currentText();
         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
-        m_speechJob->start(m_stt->venvPythonExecs().python, {m_stt->subtitleScript(), modelDirectory, modelName, audio, m_tmpSrtPath});
+        const QStringList voskArgs = {m_stt->subtitleScript(),
+                                      QStringLiteral("--model_directory=%1").arg(modelDirectory),
+                                      QStringLiteral("--model=%1").arg(modelName),
+                                      QStringLiteral("--src=\"%1\"").arg(audio),
+                                      QStringLiteral("--output=%1").arg(m_tmpSrtPath),
+                                      QStringLiteral("--ffmpeg_path=%1").arg(KdenliveSettings::ffmpegpath())};
+        qDebug() << "::: STARTING VOSK JOB: " << voskArgs;
+        m_speechJob->start(m_stt->venvPythonExecs().python, voskArgs);
     }
 }
 
@@ -423,7 +434,7 @@ void SpeechDialog::slotProcessSpeechStatus(int exitCode, QProcess::ExitStatus st
     }
     if (exitCode == 1 || !QFile::exists(m_tmpSrtPath)) {
         speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("Speech recognition failed."));
+        speech_info->setText(i18n("Speech recognition failed:\n%1", m_speechJob->readAllStandardError()));
         speech_info->animatedShow();
         return;
     }

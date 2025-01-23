@@ -990,7 +990,7 @@ void TextBasedEdit::startRecognition()
     QString modelName;
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         // Whisper engine
-        if (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("openai-whisper")}).isEmpty()) {
+        if (!KdenliveSettings::speech_system_python() && (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("openai-whisper")}).isEmpty())) {
             showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_speechConfig);
             return;
         }
@@ -1006,7 +1006,7 @@ void TextBasedEdit::startRecognition()
         }
     } else {
         // VOSK engine
-        if (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("vosk")}).isEmpty()) {
+        if (!KdenliveSettings::speech_system_python() && (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("vosk")}).isEmpty())) {
             showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_speechConfig);
             return;
         }
@@ -1107,9 +1107,19 @@ void TextBasedEdit::startRecognition()
                                 slotProcessSpeechStatus(code, status);
                             });
                     qDebug() << "::: STARTING SPEECH: " << modelDirectory << " / " << modelName << " / " << language;
+                    QStringList args;
                     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
                         // Whisper
                         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
+                        args = {
+                            m_stt->speechScript(),
+                            QStringLiteral("--src=\"%1\"").arg(m_playlistWav.fileName()),
+                            QStringLiteral("--model=%1").arg(modelName),
+                            QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice()),
+                            QStringLiteral("--task=%1").arg(KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
+                            QStringLiteral("--ffmpeg=%1").arg(KdenliveSettings::ffmpegpath()),
+                            QStringLiteral("--language=%1").arg(language)};
+
                         if (speech_zone->isChecked()) {
                             m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
                             if (!m_tmpCutWav.open()) {
@@ -1117,19 +1127,22 @@ void TextBasedEdit::startRecognition()
                                 return;
                             }
                             m_tmpCutWav.close();
-                            m_speechJob->start(m_stt->venvPythonExecs().python,
-                                               {m_stt->speechScript(), m_playlistWav.fileName(), modelName, KdenliveSettings::whisperDevice(),
-                                                KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language,
-                                                QString::number(m_clipOffset), QString::number(endPos), m_tmpCutWav.fileName()});
-                        } else {
-                            m_speechJob->start(m_stt->venvPythonExecs().python,
-                                               {m_stt->speechScript(), m_playlistWav.fileName(), modelName, KdenliveSettings::whisperDevice(),
-                                                KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
+                            args << QStringLiteral("--in_point=%1").arg(m_clipOffset) << QStringLiteral("--out_point=%1").arg(endPos)
+                                 << QStringLiteral("--temporary_file=%1").arg(m_tmpCutWav.fileName());
                         }
+                        qDebug() << ":: STARTING COMMAND: " << args;
+                        m_speechJob->start(m_stt->venvPythonExecs().python, args);
                     } else {
-                        m_speechJob->start(m_stt->venvPythonExecs().python, {m_stt->speechScript(), modelDirectory, modelName, m_playlistWav.fileName(),
-                                                                             QString::number(m_clipOffset), QString::number(endPos)});
+                        args = {m_stt->speechScript(),
+                                QStringLiteral("--model_directory=%1").arg(modelDirectory),
+                                QStringLiteral("--model=%1").arg(modelName),
+                                QStringLiteral("--src=\"%1\"").arg(m_playlistWav.fileName()),
+                                QStringLiteral("--in_point=%1").arg(m_clipOffset),
+                                QStringLiteral("--out_point=%1").arg(endPos),
+                                QStringLiteral("--ffmpeg=%1").arg(KdenliveSettings::ffmpegpath())};
                     }
+                    qDebug() << ":: STARTING COMMAND: " << args;
+                    m_speechJob->start(m_stt->venvPythonExecs().python, args);
                     speech_progress->setValue(0);
                     frame_progress->setVisible(true);
                 });
@@ -1152,12 +1165,16 @@ void TextBasedEdit::startRecognition()
         connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
                 &TextBasedEdit::slotProcessSpeechStatus);
         button_insert->setEnabled(false);
+        QStringList args;
         if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
             // Whisper
-            qDebug() << "=== STARTING Whisper reco: " << m_stt->speechScript() << " / " << language_box->currentData().toString() << " / "
-                     << KdenliveSettings::whisperDevice() << " / "
-                     << (KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")) << " / " << m_sourceUrl
-                     << ", START: " << m_clipOffset << ", DUR: " << endPos << " / " << language;
+            args = {m_stt->speechScript(),
+                    QStringLiteral("--src=\"%1\"").arg(m_sourceUrl),
+                    QStringLiteral("--model=%1").arg(modelName),
+                    QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice()),
+                    QStringLiteral("--task=%1").arg(KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
+                    QStringLiteral("--language=%1").arg(language),
+                    QStringLiteral("--ffmpeg_path=%1").arg(KdenliveSettings::ffmpegpath())};
             connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
             if (speech_zone->isChecked()) {
                 m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
@@ -1166,23 +1183,21 @@ void TextBasedEdit::startRecognition()
                     return;
                 }
                 m_tmpCutWav.close();
-                m_speechJob->start(m_stt->venvPythonExecs().python,
-                                   {m_stt->speechScript(), m_sourceUrl, modelName, KdenliveSettings::whisperDevice(),
-                                    KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language,
-                                    QString::number(m_clipOffset), QString::number(endPos), m_tmpCutWav.fileName()});
-            } else {
-                m_speechJob->start(m_stt->venvPythonExecs().python,
-                                   {m_stt->speechScript(), m_sourceUrl, modelName, KdenliveSettings::whisperDevice(),
-                                    KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
+                args << QStringLiteral("--in_point=%1").arg(m_clipOffset) << QStringLiteral("--out_point=%1").arg(endPos)
+                     << QStringLiteral("--temporary_file=%1").arg(m_tmpCutWav.fileName());
             }
         } else {
             // VOSK
-            qDebug() << "=== STARTING RECO: " << m_stt->speechScript() << " / " << modelDirectory << " / " << modelName << " / " << m_sourceUrl
-                     << ", START: " << m_clipOffset << ", DUR: " << endPos;
             connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessSpeech);
-            m_speechJob->start(m_stt->venvPythonExecs().python,
-                               {m_stt->speechScript(), modelDirectory, modelName, m_sourceUrl, QString::number(m_clipOffset), QString::number(endPos)});
+            args = {m_stt->speechScript(),
+                    QStringLiteral("--model_directory=%1").arg(modelDirectory),
+                    QStringLiteral("--model=%1").arg(modelName),
+                    QStringLiteral("--src=\"%1\"").arg(m_sourceUrl),
+                    QStringLiteral("--in_point=%1").arg(m_clipOffset),
+                    QStringLiteral("--out_point=%1").arg(endPos)};
         }
+        qDebug() << ":::: STARTING SPEECH COMMAND: " << args;
+        m_speechJob->start(m_stt->venvPythonExecs().python, args);
         speech_progress->setValue(0);
         frame_progress->setVisible(true);
     }

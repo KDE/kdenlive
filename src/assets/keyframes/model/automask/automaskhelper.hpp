@@ -33,7 +33,7 @@ public Q_SLOTS:
     bool generateMask(const QString &binId, const QString &maskName, const QPoint &zone);
     void monitorSeek(int pos);
     void addMonitorControlPoint(const QString &previewFile, int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
-    void addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend, bool exclude);
+    void addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend);
 
 private:
     Monitor *m_monitor;

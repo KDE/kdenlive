@@ -85,7 +85,7 @@ void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int posi
     (void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
 }
 
-void AutomaskHelper::addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend, bool exclude)
+void AutomaskHelper::addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend)
 {
     m_lastPos = position;
     QList<QPoint> pointsList;

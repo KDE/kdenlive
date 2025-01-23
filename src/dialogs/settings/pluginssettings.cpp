@@ -275,7 +275,56 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(button_delete, &QToolButton::clicked, this, &PluginsSettings::removeDictionary);
     connect(this, &PluginsSettings::parseDictionaries, this, &PluginsSettings::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
-    checkSpeechDependencies();
+
+    speech_system_python_message->setText(i18n(
+        "<b>Using system packages. Only use this if you know what that means</b>. You need to install all required packages by yourself on your system:<br>%1",
+        m_sttWhisper->listDependencies().join(QLatin1Char(','))));
+    speech_system_python_path->lineEdit()->setObjectName(QStringLiteral("kcfg_speech_system_python_path"));
+
+    if (KdenliveSettings::speech_system_python_path().isEmpty() || KdenliveSettings::sam_system_python_path().isEmpty()) {
+#ifdef Q_OS_WIN
+        const QString pythonName = QStringLiteral("python");
+        const QString pipName = QStringLiteral("pip");
+#else
+        const QString pythonName = QStringLiteral("python3");
+        const QString pipName = QStringLiteral("pip3");
+#endif
+        const QString pythonExe = QStandardPaths::findExecutable(pythonName);
+        if (!pythonExe.isEmpty()) {
+            if (KdenliveSettings::speech_system_python_path().isEmpty()) {
+                KdenliveSettings::setSpeech_system_python_path(pythonExe);
+            }
+            if (KdenliveSettings::sam_system_python_path().isEmpty()) {
+                KdenliveSettings::setSam_system_python_path(pythonExe);
+            }
+        }
+    }
+    if (KdenliveSettings::speech_system_python()) {
+        // Using system packages only, disable all dependency checks
+        whisper_venv_params->setEnabled(false);
+        reloadWhisperModels();
+        script_log->setVisible(false);
+    } else {
+        speech_system_params->setVisible(false);
+        checkSpeechDependencies();
+    }
+    connect(kcfg_speech_system_python, &QCheckBox::toggled, this, [this, msgWhisper](bool systemPackages) {
+        msgWhisper->setVisible(false);
+        KdenliveSettings::setSpeech_system_python(systemPackages);
+        speech_system_params->setVisible(systemPackages);
+        whisper_venv_params->setEnabled(systemPackages == false);
+        script_log->setVisible(systemPackages == false);
+        KdenliveSettings::setSpeech_system_python_path(speech_system_python_path->text());
+        if (systemPackages) {
+            whispersettings->setEnabled(true);
+            // Force device reload to ensure torch is found
+            m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+            reloadWhisperModels();
+        } else {
+            m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+            checkSamEnvironement(false);
+        }
+    });
 
     // Sam
     PythonDependencyMessage *pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, false);
@@ -336,22 +385,11 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         "<b>Using system packages. Only use this if you know what that means</b>. You need to install all required packages by yourself on your system:<br>%1",
         m_samInterface->listDependencies().join(QLatin1Char(','))));
     sam_system_python_path->lineEdit()->setObjectName(QStringLiteral("kcfg_sam_system_python_path"));
-    if (KdenliveSettings::sam_system_python_path().isEmpty()) {
-#ifdef Q_OS_WIN
-        const QString pythonName = QStringLiteral("python");
-        const QString pipName = QStringLiteral("pip");
-#else
-        const QString pythonName = QStringLiteral("python3");
-        const QString pipName = QStringLiteral("pip3");
-#endif
-        const QString pythonExe = QStandardPaths::findExecutable(pythonName);
-        if (!pythonExe.isEmpty()) {
-            KdenliveSettings::setSam_system_python_path(pythonExe);
-        }
-    }
+
     if (KdenliveSettings::sam_system_python()) {
         // Using system packages only, disable all dependency checks
         sam_venv_params->setEnabled(false);
+        script_sam_log->setVisible(false);
         reloadSamModels();
     } else {
         sam_system_params->setVisible(false);
@@ -362,6 +400,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         KdenliveSettings::setSam_system_python(systemPackages);
         sam_system_params->setVisible(systemPackages);
         sam_venv_params->setEnabled(systemPackages == false);
+        script_sam_log->setVisible(systemPackages == false);
         KdenliveSettings::setSam_system_python_path(sam_system_python_path->text());
         if (systemPackages) {
             modelBox->setEnabled(true);
