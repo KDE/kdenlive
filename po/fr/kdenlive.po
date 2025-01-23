@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 00:40+0000\n"
+"POT-Creation-Date: 2025-01-23 00:40+0000\n"
 "PO-Revision-Date: 2025-01-14 09:23+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -4242,13 +4242,13 @@ msgstr "Effets de a piste %1"
 msgid "Bin %1 effects"
 msgstr "Effets pour la source %1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
-#: src/jobs/masktask.cpp:96
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:166
+#: src/jobs/masktask.cpp:95
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "Impossible de faire un rendu du masque %1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:187
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5476,7 +5476,7 @@ msgid "Replace in timeline"
 msgstr "Remplacer dans la frise chronologique"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:357
+#: src/effects/effectstack/view/maskmanager.cpp:374
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8468,7 +8468,7 @@ msgstr "Installation de données multilingues..."
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
-#: src/dialogs/settings/pluginssettings.cpp:869 src/ui/configspeech_ui.ui:120
+#: src/dialogs/settings/pluginssettings.cpp:871 src/ui/configspeech_ui.ui:120
 #: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:737
 #, kde-format
 msgid "Models folder"
@@ -8487,7 +8487,7 @@ msgid "Downloading multilingual model…"
 msgstr "Téléchargement d'un modèle multilingue en cours..."
 
 #: src/dialogs/settings/pluginssettings.cpp:238
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:868
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Veuillez ajouter un modèle vocal."
@@ -8509,25 +8509,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:389 src/ui/configspeech_ui.ui:712
+#: src/dialogs/settings/pluginssettings.cpp:391 src/ui/configspeech_ui.ui:712
 #, kde-format
 msgid "Install"
 msgstr "Installer"
 
-#: src/dialogs/settings/pluginssettings.cpp:395
+#: src/dialogs/settings/pluginssettings.cpp:397
 #, kde-format
 msgid "Check config"
 msgstr "Vérifier la configuration"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:405 src/ui/configspeech_ui.ui:358
+#: src/dialogs/settings/pluginssettings.cpp:407 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:767
 #, kde-format
 msgid "Plugin size"
 msgstr "Taille du module externe"
 
-#: src/dialogs/settings/pluginssettings.cpp:417
+#: src/dialogs/settings/pluginssettings.cpp:419
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
@@ -8536,8 +8536,8 @@ msgstr ""
 "Cela supprimera les modèles installés.\n"
 "Vous pourrez les installer à nouveau plus tard."
 
-#: src/dialogs/settings/pluginssettings.cpp:434
-#: src/dialogs/settings/pluginssettings.cpp:448
+#: src/dialogs/settings/pluginssettings.cpp:436
+#: src/dialogs/settings/pluginssettings.cpp:450
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -8549,82 +8549,82 @@ msgstr ""
 "fois que vous réactiverez le module externe."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:463 src/ui/configspeech_ui.ui:331
+#: src/dialogs/settings/pluginssettings.cpp:465 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Installer une traduction multilingue"
 
-#: src/dialogs/settings/pluginssettings.cpp:472
+#: src/dialogs/settings/pluginssettings.cpp:474
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 "Installez un modèle de synthèse vocale - nous vous recommandons <b>turbo</b>."
 
 # unreviewed-context
-#: src/dialogs/settings/pluginssettings.cpp:527
+#: src/dialogs/settings/pluginssettings.cpp:529
 #, kde-format
 msgid "Select model to download"
 msgstr "Sélectionner le modèle à télécharger"
 
-#: src/dialogs/settings/pluginssettings.cpp:543
+#: src/dialogs/settings/pluginssettings.cpp:545
 #, kde-format
 msgid "All models are already installed"
 msgstr "Tous les modèles sont déjà installés."
 
-#: src/dialogs/settings/pluginssettings.cpp:563
+#: src/dialogs/settings/pluginssettings.cpp:565
 #, kde-format
 msgid "Downloading…"
 msgstr "Téléchargement en cours..."
 
-#: src/dialogs/settings/pluginssettings.cpp:573
+#: src/dialogs/settings/pluginssettings.cpp:575
 #, kde-format
 msgid "Downloading smallest model…"
 msgstr "Téléchargement en cours des plus petits modèles…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:592 src/ui/configspeech_ui.ui:607
+#: src/dialogs/settings/pluginssettings.cpp:594 src/ui/configspeech_ui.ui:607
 #, kde-format
 msgid "Download models"
 msgstr "Télécharger des modèles"
 
-#: src/dialogs/settings/pluginssettings.cpp:650
-#: src/dialogs/settings/pluginssettings.cpp:664
-#: src/dialogs/settings/pluginssettings.cpp:673
+#: src/dialogs/settings/pluginssettings.cpp:652
+#: src/dialogs/settings/pluginssettings.cpp:666
+#: src/dialogs/settings/pluginssettings.cpp:675
 #, kde-format
 msgid "Install a model"
 msgstr "Installer un modèle"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:666
-#: src/dialogs/settings/pluginssettings.cpp:675 src/ui/configspeech_ui.ui:255
+#: src/dialogs/settings/pluginssettings.cpp:668
+#: src/dialogs/settings/pluginssettings.cpp:677 src/ui/configspeech_ui.ui:255
 #, kde-format
 msgid "Manage models"
 msgstr "Gérer les modèles"
 
-#: src/dialogs/settings/pluginssettings.cpp:749
+#: src/dialogs/settings/pluginssettings.cpp:751
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Saisir l'« URL » du nouveau dictionnaire"
 
-#: src/dialogs/settings/pluginssettings.cpp:755
+#: src/dialogs/settings/pluginssettings.cpp:757
 #, kde-format
 msgid "Downloading model…"
 msgstr "Téléchargement du modèle…"
 
-#: src/dialogs/settings/pluginssettings.cpp:765
+#: src/dialogs/settings/pluginssettings.cpp:767
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Suppression des dossiers de modèles personnalisés non prise en charge, "
 "veuillez le faire manuellement."
 
-#: src/dialogs/settings/pluginssettings.cpp:771
-#: src/dialogs/settings/pluginssettings.cpp:825
+#: src/dialogs/settings/pluginssettings.cpp:773
+#: src/dialogs/settings/pluginssettings.cpp:827
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Impossible d'accéder au dossier des dictionnaires."
 
-#: src/dialogs/settings/pluginssettings.cpp:780
+#: src/dialogs/settings/pluginssettings.cpp:782
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8633,22 +8633,22 @@ msgstr ""
 "Supprimer le dossier :\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:800
+#: src/dialogs/settings/pluginssettings.cpp:802
 #, kde-format
 msgid "Download error"
 msgstr "Erreur de téléchargement"
 
-#: src/dialogs/settings/pluginssettings.cpp:804
+#: src/dialogs/settings/pluginssettings.cpp:806
 #, kde-format
 msgid "Download error %1"
 msgstr "Erreur de téléchargement %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:832
+#: src/dialogs/settings/pluginssettings.cpp:834
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Extraction de l'archive..."
 
-#: src/dialogs/settings/pluginssettings.cpp:839
+#: src/dialogs/settings/pluginssettings.cpp:841
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nouveau dictionnaire installé."
@@ -11158,23 +11158,23 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "Veuillez configurer le module externe « SAM2 »."
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "Saisir un nom de masque"
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, kde-format
 msgid "Enter the name of this mask:"
 msgstr "Saisissez le nom de ce masque :"
 
-#: src/effects/effectstack/view/maskmanager.cpp:211
+#: src/effects/effectstack/view/maskmanager.cpp:227
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Génération en cours du masque %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:327
+#: src/effects/effectstack/view/maskmanager.cpp:344
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11390,7 +11390,7 @@ msgstr "Création de masque"
 msgid "No source frames to process"
 msgstr "Aucune trame source à traiter"
 
-#: src/jobs/masktask.cpp:75
+#: src/jobs/masktask.cpp:74
 #, kde-format
 msgid "Failed to analyse video."
 msgstr "Impossible d'analyser la vidéo."
@@ -14736,14 +14736,14 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 flux audio"
 msgstr[1] "%1 flux audio"
 
-#: src/monitor/monitor.cpp:2368
+#: src/monitor/monitor.cpp:2377
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Impossible d'initialiser le gestionnaire GLSL de Movit, veuillez désactiver "
 "Movit"
 
-#: src/monitor/monitor.cpp:2410 src/monitor/monitor.cpp:2467
+#: src/monitor/monitor.cpp:2419 src/monitor/monitor.cpp:2476
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14752,17 +14752,17 @@ msgstr ""
 "Le filtre alphagrad est nécessaire à cette fonction, veuillez installer les "
 "modules frei0r et redémarrer Kdenlive"
 
-#: src/monitor/monitor.cpp:2430
+#: src/monitor/monitor.cpp:2439
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Le clip n'a aucun effet"
 
-#: src/monitor/monitor.cpp:2432
+#: src/monitor/monitor.cpp:2441
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Sélectionner un clip dans les sources du projet pour comparer l'effet"
 
-#: src/monitor/monitor.cpp:2474
+#: src/monitor/monitor.cpp:2483
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14771,7 +14771,7 @@ msgstr ""
 "La transition cairoblend est nécessaire à cette fonction, veuillez installer "
 "les modules frei0r et redémarrer Kdenlive"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2533
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Activer le mode d'édition dans le moniteur pour ajuster l'effet"
@@ -15117,20 +15117,24 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformer"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating image mask"
 msgstr "Génération en cours d'un masque d'image"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating video mask"
 msgstr "Génération en cours d'un masque de vidéo"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
-#, kde-format
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click on an object to start a mask.\n"
+#| "Shift+click to include another zone.\n"
+#| "Ctrl+click to exclude a zone."
 msgid ""
-"Click on an object to start a mask.\n"
+"Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
@@ -15138,7 +15142,7 @@ msgstr ""
 "« Maj » + clic pour inclure une autre zone.\n"
 "« CTRL » + clic pour exclure une zone."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Génération d'un aperçu d'un masque de vidéo"

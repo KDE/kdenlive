@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 00:40+0000\n"
+"POT-Creation-Date: 2025-01-23 00:40+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -4106,8 +4106,8 @@ msgstr "Efekty stopy %1"
 msgid "Bin %1 effects"
 msgstr "Bin efekty pre %1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
-#: src/jobs/masktask.cpp:96
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:166
+#: src/jobs/masktask.cpp:95
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"
@@ -4117,7 +4117,7 @@ msgstr ""
 "Zlyhalo generovanie klipu:\n"
 "%1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:187
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5393,7 +5393,7 @@ msgid "Replace in timeline"
 msgstr "Hlavná časová os"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:357
+#: src/effects/effectstack/view/maskmanager.cpp:374
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -8510,7 +8510,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
-#: src/dialogs/settings/pluginssettings.cpp:869 src/ui/configspeech_ui.ui:120
+#: src/dialogs/settings/pluginssettings.cpp:871 src/ui/configspeech_ui.ui:120
 #: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:737
 #, fuzzy, kde-format
 #| msgid "Custom project folder"
@@ -8531,7 +8531,7 @@ msgid "Downloading multilingual model…"
 msgstr "Stiahnuť nové Wipe..."
 
 #: src/dialogs/settings/pluginssettings.cpp:238
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:868
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
@@ -8552,13 +8552,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:389 src/ui/configspeech_ui.ui:712
+#: src/dialogs/settings/pluginssettings.cpp:391 src/ui/configspeech_ui.ui:712
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install"
 msgstr "Nainštalované moduly"
 
-#: src/dialogs/settings/pluginssettings.cpp:395
+#: src/dialogs/settings/pluginssettings.cpp:397
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Check config"
@@ -8566,22 +8566,22 @@ msgstr "Nastavenie zariadenia"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:405 src/ui/configspeech_ui.ui:358
+#: src/dialogs/settings/pluginssettings.cpp:407 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:767
 #, fuzzy, kde-format
 #| msgid "Original size"
 msgid "Plugin size"
 msgstr "Pôvodná veľkosť"
 
-#: src/dialogs/settings/pluginssettings.cpp:417
+#: src/dialogs/settings/pluginssettings.cpp:419
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:434
-#: src/dialogs/settings/pluginssettings.cpp:448
+#: src/dialogs/settings/pluginssettings.cpp:436
+#: src/dialogs/settings/pluginssettings.cpp:450
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -8590,88 +8590,88 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:463 src/ui/configspeech_ui.ui:331
+#: src/dialogs/settings/pluginssettings.cpp:465 src/ui/configspeech_ui.ui:331
 #, fuzzy, kde-format
 #| msgid "Invalid transition"
 msgid "Install multilingual translation"
 msgstr "Neplatný prechod"
 
-#: src/dialogs/settings/pluginssettings.cpp:472
+#: src/dialogs/settings/pluginssettings.cpp:474
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:527
+#: src/dialogs/settings/pluginssettings.cpp:529
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select model to download"
 msgstr "Nástroj pre výber"
 
-#: src/dialogs/settings/pluginssettings.cpp:543
+#: src/dialogs/settings/pluginssettings.cpp:545
 #, kde-format
 msgid "All models are already installed"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:563
+#: src/dialogs/settings/pluginssettings.cpp:565
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading…"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:573
+#: src/dialogs/settings/pluginssettings.cpp:575
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading smallest model…"
 msgstr "Stiahnuť nové Wipe..."
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:592 src/ui/configspeech_ui.ui:607
+#: src/dialogs/settings/pluginssettings.cpp:594 src/ui/configspeech_ui.ui:607
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download models"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:650
-#: src/dialogs/settings/pluginssettings.cpp:664
-#: src/dialogs/settings/pluginssettings.cpp:673
+#: src/dialogs/settings/pluginssettings.cpp:652
+#: src/dialogs/settings/pluginssettings.cpp:666
+#: src/dialogs/settings/pluginssettings.cpp:675
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install a model"
 msgstr "Nainštalované moduly"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:666
-#: src/dialogs/settings/pluginssettings.cpp:675 src/ui/configspeech_ui.ui:255
+#: src/dialogs/settings/pluginssettings.cpp:668
+#: src/dialogs/settings/pluginssettings.cpp:677 src/ui/configspeech_ui.ui:255
 #, fuzzy, kde-format
 #| msgid "Edge mode"
 msgid "Manage models"
 msgstr "Režim hrany"
 
-#: src/dialogs/settings/pluginssettings.cpp:749
+#: src/dialogs/settings/pluginssettings.cpp:751
 #, fuzzy, kde-format
 #| msgid "Enter a name for the clip in Library"
 msgid "Enter url for the new dictionary"
 msgstr "Zadajte názov pre klip v knižnici"
 
-#: src/dialogs/settings/pluginssettings.cpp:755
+#: src/dialogs/settings/pluginssettings.cpp:757
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:765
+#: src/dialogs/settings/pluginssettings.cpp:767
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:771
-#: src/dialogs/settings/pluginssettings.cpp:825
+#: src/dialogs/settings/pluginssettings.cpp:773
+#: src/dialogs/settings/pluginssettings.cpp:827
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "Nie je možné pridať video efekt do tohto klipu"
 
-#: src/dialogs/settings/pluginssettings.cpp:780
+#: src/dialogs/settings/pluginssettings.cpp:782
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -8679,25 +8679,25 @@ msgid ""
 "%1"
 msgstr "Vymazať priečinok"
 
-#: src/dialogs/settings/pluginssettings.cpp:800
+#: src/dialogs/settings/pluginssettings.cpp:802
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:804
+#: src/dialogs/settings/pluginssettings.cpp:806
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Stiahnuť nové Wipe..."
 
-#: src/dialogs/settings/pluginssettings.cpp:832
+#: src/dialogs/settings/pluginssettings.cpp:834
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Extrahujem..."
 
-#: src/dialogs/settings/pluginssettings.cpp:839
+#: src/dialogs/settings/pluginssettings.cpp:841
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -11314,26 +11314,26 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "Vybrať prechod"
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
 msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "Zadať názov predvoľby"
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset"
 msgid "Enter the name of this mask:"
 msgstr "Zadajte názov tejto predvoľby"
 
-#: src/effects/effectstack/view/maskmanager.cpp:211
+#: src/effects/effectstack/view/maskmanager.cpp:227
 #, fuzzy, kde-format
 #| msgid "Creating menu images"
 msgid "Generating mask %1"
 msgstr "Vytváranie obrázkov menu"
 
-#: src/effects/effectstack/view/maskmanager.cpp:327
+#: src/effects/effectstack/view/maskmanager.cpp:344
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11568,7 +11568,7 @@ msgstr "Rotácia osi X"
 msgid "No source frames to process"
 msgstr "Žiadne kľúčové snímky na import"
 
-#: src/jobs/masktask.cpp:75
+#: src/jobs/masktask.cpp:74
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to analyse video."
@@ -15007,12 +15007,12 @@ msgstr[0] "Audio stream"
 msgstr[1] "Audio stream"
 msgstr[2] "Audio stream"
 
-#: src/monitor/monitor.cpp:2368
+#: src/monitor/monitor.cpp:2377
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Nemôžem inicializovať správcu GLSL od Movit, prosím zakážte Movit"
 
-#: src/monitor/monitor.cpp:2410 src/monitor/monitor.cpp:2467
+#: src/monitor/monitor.cpp:2419 src/monitor/monitor.cpp:2476
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -15021,17 +15021,17 @@ msgstr ""
 "Na túto funkciu je potrebný filter alphagrad filter, prosím nainštalujte "
 "frei0r a reštartujte Kdenlive"
 
-#: src/monitor/monitor.cpp:2430
+#: src/monitor/monitor.cpp:2439
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip nemá žiadne efekty"
 
-#: src/monitor/monitor.cpp:2432
+#: src/monitor/monitor.cpp:2441
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Vyberte klip v projektovom koši na efekt porovnania"
 
-#: src/monitor/monitor.cpp:2474
+#: src/monitor/monitor.cpp:2483
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -15040,7 +15040,7 @@ msgstr ""
 "Na túto funkciu je potrebný prechod cairoblend, prosím nainštalujte frei0r a "
 "reštartujte Kdenlive"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2533
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -15394,26 +15394,26 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformovať"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, fuzzy, kde-format
 #| msgid "Creating menu images"
 msgid "Generating image mask"
 msgstr "Vytváranie obrázkov menu"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
 #, kde-format
 msgid ""
-"Click on an object to start a mask.\n"
+"Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Previewing video mask"

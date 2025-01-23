@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 00:40+0000\n"
+"POT-Creation-Date: 2025-01-23 00:40+0000\n"
 "PO-Revision-Date: 2025-01-13 23:26+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -4180,13 +4180,13 @@ msgstr "Učinki steze %1"
 msgid "Bin %1 effects"
 msgstr "Učinki posode %1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:136
-#: src/jobs/masktask.cpp:96
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:166
+#: src/jobs/masktask.cpp:95
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "Izris maske %1 ni uspel"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:157
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:187
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5404,7 +5404,7 @@ msgid "Replace in timeline"
 msgstr "Zamenjaj na časovnici"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:357
+#: src/effects/effectstack/view/maskmanager.cpp:374
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8368,7 +8368,7 @@ msgstr "Nameščanje večjezičnih podatkov ..."
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
-#: src/dialogs/settings/pluginssettings.cpp:869 src/ui/configspeech_ui.ui:120
+#: src/dialogs/settings/pluginssettings.cpp:871 src/ui/configspeech_ui.ui:120
 #: src/ui/configspeech_ui.ui:399 src/ui/configspeech_ui.ui:737
 #, kde-format
 msgid "Models folder"
@@ -8387,7 +8387,7 @@ msgid "Downloading multilingual model…"
 msgstr "Prejemanje večjezičnega modela ..."
 
 #: src/dialogs/settings/pluginssettings.cpp:238
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:868
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Prosimo, dodajte model govora."
@@ -8409,25 +8409,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:389 src/ui/configspeech_ui.ui:712
+#: src/dialogs/settings/pluginssettings.cpp:391 src/ui/configspeech_ui.ui:712
 #, kde-format
 msgid "Install"
 msgstr "Namesti"
 
-#: src/dialogs/settings/pluginssettings.cpp:395
+#: src/dialogs/settings/pluginssettings.cpp:397
 #, kde-format
 msgid "Check config"
 msgstr "Preveri nastavitev"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:405 src/ui/configspeech_ui.ui:358
+#: src/dialogs/settings/pluginssettings.cpp:407 src/ui/configspeech_ui.ui:358
 #: src/ui/configspeech_ui.ui:767
 #, kde-format
 msgid "Plugin size"
 msgstr "Velikost vstavka"
 
-#: src/dialogs/settings/pluginssettings.cpp:417
+#: src/dialogs/settings/pluginssettings.cpp:419
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
@@ -8436,8 +8436,8 @@ msgstr ""
 "S tem boste izbrisali nameščene modele\n"
 "Pozneje jih lahko znova namestite."
 
-#: src/dialogs/settings/pluginssettings.cpp:434
-#: src/dialogs/settings/pluginssettings.cpp:448
+#: src/dialogs/settings/pluginssettings.cpp:436
+#: src/dialogs/settings/pluginssettings.cpp:450
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -8449,78 +8449,78 @@ msgstr ""
 "omogočili vstavek."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:463 src/ui/configspeech_ui.ui:331
+#: src/dialogs/settings/pluginssettings.cpp:465 src/ui/configspeech_ui.ui:331
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Namesti večjezično prevajanje"
 
-#: src/dialogs/settings/pluginssettings.cpp:472
+#: src/dialogs/settings/pluginssettings.cpp:474
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Namestite govorni model - priporočamo <b>turbo</b>"
 
-#: src/dialogs/settings/pluginssettings.cpp:527
+#: src/dialogs/settings/pluginssettings.cpp:529
 #, kde-format
 msgid "Select model to download"
 msgstr "Izberite model za prejem"
 
-#: src/dialogs/settings/pluginssettings.cpp:543
+#: src/dialogs/settings/pluginssettings.cpp:545
 #, kde-format
 msgid "All models are already installed"
 msgstr "Vsi modeli so že nameščeni"
 
-#: src/dialogs/settings/pluginssettings.cpp:563
+#: src/dialogs/settings/pluginssettings.cpp:565
 #, kde-format
 msgid "Downloading…"
 msgstr "Prejemanje …"
 
-#: src/dialogs/settings/pluginssettings.cpp:573
+#: src/dialogs/settings/pluginssettings.cpp:575
 #, kde-format
 msgid "Downloading smallest model…"
 msgstr "Prejemanje najmanjšega modela …"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:592 src/ui/configspeech_ui.ui:607
+#: src/dialogs/settings/pluginssettings.cpp:594 src/ui/configspeech_ui.ui:607
 #, kde-format
 msgid "Download models"
 msgstr "Prenesi modele"
 
-#: src/dialogs/settings/pluginssettings.cpp:650
-#: src/dialogs/settings/pluginssettings.cpp:664
-#: src/dialogs/settings/pluginssettings.cpp:673
+#: src/dialogs/settings/pluginssettings.cpp:652
+#: src/dialogs/settings/pluginssettings.cpp:666
+#: src/dialogs/settings/pluginssettings.cpp:675
 #, kde-format
 msgid "Install a model"
 msgstr "Namestite model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:666
-#: src/dialogs/settings/pluginssettings.cpp:675 src/ui/configspeech_ui.ui:255
+#: src/dialogs/settings/pluginssettings.cpp:668
+#: src/dialogs/settings/pluginssettings.cpp:677 src/ui/configspeech_ui.ui:255
 #, kde-format
 msgid "Manage models"
 msgstr "Upravljanje modelov"
 
-#: src/dialogs/settings/pluginssettings.cpp:749
+#: src/dialogs/settings/pluginssettings.cpp:751
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Vnesite spletni naslov novega slovarja"
 
-#: src/dialogs/settings/pluginssettings.cpp:755
+#: src/dialogs/settings/pluginssettings.cpp:757
 #, kde-format
 msgid "Downloading model…"
 msgstr "Prenašanje modela …"
 
-#: src/dialogs/settings/pluginssettings.cpp:765
+#: src/dialogs/settings/pluginssettings.cpp:767
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Ne dovoljujemo brisanja map modelov po meri, izvedite to ročno."
 
-#: src/dialogs/settings/pluginssettings.cpp:771
-#: src/dialogs/settings/pluginssettings.cpp:825
+#: src/dialogs/settings/pluginssettings.cpp:773
+#: src/dialogs/settings/pluginssettings.cpp:827
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ni možno dostopati do mape slovarja."
 
-#: src/dialogs/settings/pluginssettings.cpp:780
+#: src/dialogs/settings/pluginssettings.cpp:782
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8529,22 +8529,22 @@ msgstr ""
 "Izbriši mapo:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:800
+#: src/dialogs/settings/pluginssettings.cpp:802
 #, kde-format
 msgid "Download error"
 msgstr "Napaka pri prenosu"
 
-#: src/dialogs/settings/pluginssettings.cpp:804
+#: src/dialogs/settings/pluginssettings.cpp:806
 #, kde-format
 msgid "Download error %1"
 msgstr "Napaka pri prenosu %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:832
+#: src/dialogs/settings/pluginssettings.cpp:834
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Razširjanje arhiva …"
 
-#: src/dialogs/settings/pluginssettings.cpp:839
+#: src/dialogs/settings/pluginssettings.cpp:841
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nov slovar nameščen."
@@ -11024,23 +11024,23 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "Nastavite vstavek SAM2"
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "Vnesi ime maske"
 
-#: src/effects/effectstack/view/maskmanager.cpp:203
+#: src/effects/effectstack/view/maskmanager.cpp:219
 #, kde-format
 msgid "Enter the name of this mask:"
 msgstr "Vnesite ime te maske:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:211
+#: src/effects/effectstack/view/maskmanager.cpp:227
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Tvorjenje maske %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:327
+#: src/effects/effectstack/view/maskmanager.cpp:344
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11252,7 +11252,7 @@ msgstr "Ustvarjanje maske"
 msgid "No source frames to process"
 msgstr "Ni izvornih sličic za obdelavo"
 
-#: src/jobs/masktask.cpp:75
+#: src/jobs/masktask.cpp:74
 #, kde-format
 msgid "Failed to analyse video."
 msgstr "Videoposnetka ni bilo možno analizirati."
@@ -14551,12 +14551,12 @@ msgstr[1] "%1 tok zvoka"
 msgstr[2] "%1 tokova zvoka"
 msgstr[3] "%1 tokovi zvoka"
 
-#: src/monitor/monitor.cpp:2368
+#: src/monitor/monitor.cpp:2377
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Ni možno začeti upravljalnika GLSL za Movit. Onemogočite Movit"
 
-#: src/monitor/monitor.cpp:2410 src/monitor/monitor.cpp:2467
+#: src/monitor/monitor.cpp:2419 src/monitor/monitor.cpp:2476
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14565,17 +14565,17 @@ msgstr ""
 "Za to zmožnost je zahtevan filter alphagrad. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2430
+#: src/monitor/monitor.cpp:2439
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Posnetek nima učinkov"
 
-#: src/monitor/monitor.cpp:2432
+#: src/monitor/monitor.cpp:2441
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Izberite posnetek v posodi projekta, če želite primerjati učinek"
 
-#: src/monitor/monitor.cpp:2474
+#: src/monitor/monitor.cpp:2483
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14584,7 +14584,7 @@ msgstr ""
 "Za to zmožnost je zahtevan prehod cairoblend. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2533
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Omogoči urejanje in nadzoruj učinke urejanja"
@@ -14929,20 +14929,24 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Preoblikuj"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating image mask"
 msgstr "Tvojenje slikovne maske"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:259
+#: src/monitor/view/kdenlivemonitorautomask.qml:339
 #, kde-format
 msgid "Generating video mask"
 msgstr "Tvorjenje video maske"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
-#, kde-format
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click on an object to start a mask.\n"
+#| "Shift+click to include another zone.\n"
+#| "Ctrl+click to exclude a zone."
 msgid ""
-"Click on an object to start a mask.\n"
+"Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
@@ -14950,7 +14954,7 @@ msgstr ""
 "Dvigalka+klik: vključite drugo območje.\n"
 "Krmilka+klik: izključite območje."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:270
+#: src/monitor/view/kdenlivemonitorautomask.qml:350
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Predogled video maske"
