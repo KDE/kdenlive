@@ -199,13 +199,12 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
     buttonConfigure->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     buttonConfigure->setText(i18n("Configure profiles"));
     buttonConfigure->setToolTip(i18n("Manage Encoding Profiles"));
+    buttonConfigure->setWhatsThis(xi18nc("@info:whatsthis", "Opens a dialog window to create, change, and delete encoding profiles"));
     QToolButton *buttonInfo = new QToolButton();
     buttonInfo->setCheckable(true);
     buttonInfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    buttonConfigure->setToolTip(i18n("Show Profile Parameters"));
-    buttonConfigure->setWhatsThis(
-        xi18nc("@info:whatsthis", "Opens a window with encoding profiles and their parameters. From here you can create, change, delete and download profiles "
-                                  "used for timeline preview, proxy generation, and video, screen and decklink capture."));
+    buttonInfo->setToolTip(i18n("Show Profile Parameters"));
+    buttonInfo->setWhatsThis(xi18nc("@info:whatsthis", "Displays the parameters for the selected profile"));
 
     m_info = new QPlainTextEdit();
     m_info->setReadOnly(true);
