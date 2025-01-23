@@ -106,7 +106,7 @@ Item {
     }
 
     signal addControlPoint(real x, real y, bool extend, bool exclude)
-    signal addControlRect(real x, real y, real width, real height, bool extend, bool exclude)
+    signal addControlRect(real x, real y, real width, real height, bool extend)
     signal generateMask()
     signal exitMaskPreview()
 
@@ -241,7 +241,7 @@ Item {
                             // Rect selection
                             xPos = selectionRect.x / frame.width
                             yPos = selectionRect.y / frame.height
-                            addControlRect(xPos, yPos, selectionRect.width / frame.width, selectionRect.height / frame.height, shiftClick, ctrlClick)
+                            addControlRect(xPos, yPos, selectionRect.width / frame.width, selectionRect.height / frame.height, shiftClick)
                             generateLabel.visible = true
                         } else {
                             // Single point selection
