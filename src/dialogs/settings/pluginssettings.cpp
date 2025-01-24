@@ -279,8 +279,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     speech_system_python_message->setText(i18n(
         "<b>Using system packages. Only use this if you know what that means</b>. You need to install all required packages by yourself on your system:<br>%1",
         m_sttWhisper->listDependencies().join(QLatin1Char(','))));
-    speech_system_python_path->lineEdit()->setObjectName(QStringLiteral("kcfg_speech_system_python_path"));
-
     if (KdenliveSettings::speech_system_python_path().isEmpty() || KdenliveSettings::sam_system_python_path().isEmpty()) {
 #ifdef Q_OS_WIN
         const QString pythonName = QStringLiteral("python");
@@ -299,6 +297,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
             }
         }
     }
+    speech_system_python_path->setText(KdenliveSettings::speech_system_python_path());
+    sam_system_python_path->setText(KdenliveSettings::sam_system_python_path());
     if (KdenliveSettings::speech_system_python()) {
         // Using system packages only, disable all dependency checks
         whisper_venv_params->setEnabled(false);
@@ -384,7 +384,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     system_python_message->setText(i18n(
         "<b>Using system packages. Only use this if you know what that means</b>. You need to install all required packages by yourself on your system:<br>%1",
         m_samInterface->listDependencies().join(QLatin1Char(','))));
-    sam_system_python_path->lineEdit()->setObjectName(QStringLiteral("kcfg_sam_system_python_path"));
 
     if (KdenliveSettings::sam_system_python()) {
         // Using system packages only, disable all dependency checks
@@ -957,6 +956,9 @@ void PluginsSettings::applySettings()
             Q_EMIT pCore->speechEngineChanged();
         }
         break;
+    }
+    if (speech_system_python_path->text() != KdenliveSettings::speech_system_python_path()) {
+        KdenliveSettings::setSpeech_system_python_path(speech_system_python_path->text());
     }
     if (sam_system_python_path->text() != KdenliveSettings::sam_system_python_path()) {
         KdenliveSettings::setSam_system_python_path(sam_system_python_path->text());
