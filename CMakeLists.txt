@@ -169,7 +169,9 @@ pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
 )
 
 # OpenTimelineIO
-find_package(OTIO REQUIRED)
+if (NOT FETCH_OTIO)
+    find_package(OTIO REQUIRED)
+endif()
 
 # Windows
 include(CheckIncludeFiles)
