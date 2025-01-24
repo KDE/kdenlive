@@ -108,6 +108,7 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     case MonitorSceneAutoMask:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorautomask.qml")));
         root = m_view->rootObject();
+        QObject::connect(root, SIGNAL(moveControlPoint(int, double, double)), m_monitor, SLOT(moveControlPoint(int, double, double)), Qt::UniqueConnection);
         QObject::connect(root, SIGNAL(addControlPoint(double, double, bool, bool)), m_monitor, SLOT(addControlPoint(double, double, bool, bool)),
                          Qt::UniqueConnection);
         QObject::connect(root, SIGNAL(addControlRect(double, double, double, double, bool)), m_monitor,

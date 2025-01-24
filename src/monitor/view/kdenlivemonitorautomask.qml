@@ -105,6 +105,7 @@ Item {
         interval: 3000; running: false;
     }
 
+    signal moveControlPoint(int index, real x, real y)
     signal addControlPoint(real x, real y, bool extend, bool exclude)
     signal addControlRect(real x, real y, real width, real height, bool extend)
     signal generateMask()
@@ -176,7 +177,10 @@ Item {
                 property bool shiftClick: false
                 property bool ctrlClick: false
                 property bool handleEvent: false
-                property bool isDragEvent: false
+                // Pan is when user want to move the view
+                property bool isPanEvent: false
+                // Rect is when drawing a selection rect
+                property bool isRectEvent: false
                 property real clickPointX: 0
                 property real clickPointY: 0
                 property real xPos: 0
@@ -190,17 +194,19 @@ Item {
                         clickPointY = mouseY
                         selectionRect.x = mouseX
                         selectionRect.y = mouseY
-                        isDragEvent = false
+                        isRectEvent = false
+                        isPanEvent = false
                     } else {
                         mouse.accepted = false;
                     }
                     handleEvent = mouse.button == Qt.LeftButton
                 }
-                onPositionChanged: {
-                    if (maskMode == 0 && ctrlClick) {
-                        isDragEvent = true
-                    } else {
-                        if (isDragEvent) {
+                onPositionChanged: mouse => {
+                    if (pressed && !isPanEvent && maskMode == 0 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
+                        isPanEvent = true
+                        mouse.accepted = true;
+                    } else if (!isPanEvent) {
+                        if (isRectEvent) {
                             selectionRect.width = Math.abs(mouseX - clickPointX)
                             if (mouseX < clickPointX) {
                                 selectionRect.x = mouseX
@@ -210,7 +216,7 @@ Item {
                                 selectionRect.y = mouseY
                             }
                         } else if (pressed && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
-                            isDragEvent = true
+                            isRectEvent = true
                             selectionRect.visible = true
                             if (mouseX < selectionRect.x) {
                                 selectionRect.width = selectionRect.x + selectionRect.width - mouseX
@@ -236,14 +242,14 @@ Item {
                         root.captureRightClick = false
                     }
                     selectionRect.visible = false
-                    if (!ctrlClick && handleEvent) {
-                        if (isDragEvent) {
+                    if (handleEvent) {
+                        if (isRectEvent) {
                             // Rect selection
                             xPos = selectionRect.x / frame.width
                             yPos = selectionRect.y / frame.height
                             addControlRect(xPos, yPos, selectionRect.width / frame.width, selectionRect.height / frame.height, shiftClick)
                             generateLabel.visible = true
-                        } else {
+                        } else if (!isPanEvent) {
                             // Single point selection
                             xPos = mouse.x / frame.width
                             yPos = mouse.y / frame.height
@@ -297,18 +303,37 @@ Item {
                     Rectangle {
                         id: kfrPoint
                         required property int index
-                        x: root.centerPoints[index].x * frame.width
-                        y: root.centerPoints[index].y * frame.height
-                        color: root.centerPointsTypes[index] == 1 ? "#FF00FF00" : "#FFFF0000"
-                        height: baseUnit / 2
+                        property bool isNegative: root.centerPointsTypes[index] == 0
+                        x: root.centerPoints[index].x * frame.width - width / 2
+                        y: root.centerPoints[index].y * frame.height - height / 2
+                        color: isNegative ? "#FF990000" : "#FF006600"
+                        height: baseUnit * 1.5
                         width: height
                         radius: 180
-                        border.width: 1
-                        border.color: "red"
+                        border.width: 2
+                        border.color: "white"
+                        Rectangle {
+                            anchors.fill: kfrPoint
+                            anchors.leftMargin: kfrPoint.width / 4
+                            anchors.rightMargin: kfrPoint.width / 4
+                            anchors.topMargin: kfrPoint.height / 2 - 1
+                            anchors.bottomMargin: kfrPoint.height / 2 - 1
+                            color: "#FFFFFF"
+                        }
+                        Rectangle {
+                            visible: !kfrPoint.isNegative
+                            anchors.fill: kfrPoint
+                            anchors.leftMargin: kfrPoint.width / 2 - 1
+                            anchors.rightMargin: kfrPoint.width / 2 - 1
+                            anchors.topMargin: kfrPoint.height / 4
+                            anchors.bottomMargin: kfrPoint.height / 4
+                            color: "#FFFFFF"
+                        }
                         MouseArea {
                             anchors.fill: kfrPoint
                             cursorShape: Qt.PointingHand
                             drag.target: kfrPoint
+                            drag.smoothed: false
                             onPressed: mouse => {
                                 root.captureRightClick = true
                                 mouse.accepted = true
@@ -316,6 +341,9 @@ Item {
                             onReleased: mouse => {
                                 mouse.accepted = true
                                 root.captureRightClick = false
+                                var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                                moveControlPoint(index, positionInFrame.x / frame.width, positionInFrame.y / frame.height)
+                                generateLabel.visible = true
                             }
 
                         }
@@ -348,7 +376,7 @@ Item {
                 anchors.centerIn: frame
                 padding: 5
                 text: maskMode == 0 ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
-                visible: root.centerPoints.length == 0 && !frameArea.containsMouse && !generateLabel.visible
+                visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible
                 background: Rectangle {
                     color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
                     radius: 5

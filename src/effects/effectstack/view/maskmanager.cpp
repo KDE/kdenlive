@@ -98,6 +98,7 @@ void MaskManager::initMaskMode()
     if (!m_connected) {
         Q_ASSERT(clipMon != nullptr);
         connect(clipMon, &Monitor::generateMask, this, &MaskManager::generateMask, Qt::QueuedConnection);
+        connect(clipMon, &Monitor::moveMonitorControlPoint, this, &MaskManager::moveControlPoint, Qt::UniqueConnection);
         connect(clipMon, &Monitor::addMonitorControlPoint, this, &MaskManager::addControlPoint, Qt::UniqueConnection);
         connect(clipMon, &Monitor::addMonitorControlRect, this, &MaskManager::addControlRect, Qt::UniqueConnection);
         connect(clipMon, &Monitor::disablePreviewMask, this, &MaskManager::abortPreviewByMonitor, Qt::UniqueConnection);
@@ -145,6 +146,21 @@ void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int y
     }
     m_maskHelper->addMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, xPos, yPos, extend,
                                          exclude);
+}
+
+void MaskManager::moveControlPoint(int ix, int position, QSize frameSize, int xPos, int yPos)
+{
+    if (position < m_zone.x()) {
+        qDebug() << "/// POSITION OUTSIDE ZONE!!!";
+    }
+    position -= m_zone.x();
+    if (!QFile::exists(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/%1.jpg").arg(position, 5, 10, QLatin1Char('0'))))) {
+        // Frame has not been extracted
+        qDebug() << "/// FILE FOR FRAME: " << position
+                 << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
+        return;
+    }
+    m_maskHelper->moveMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), ix, position, frameSize, xPos, yPos);
 }
 
 void MaskManager::addControlRect(int position, QSize frameSize, const QRect rect, bool extend)

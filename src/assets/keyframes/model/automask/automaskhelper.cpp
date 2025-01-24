@@ -85,6 +85,38 @@ void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int posi
     (void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
 }
 
+void AutomaskHelper::moveMonitorControlPoint(const QString &previewFile, int ix, int position, const QSize frameSize, int xPos, int yPos)
+{
+    const QPoint p(xPos, yPos);
+    m_lastPos = position;
+    QList<QPoint> pointsList;
+    if (m_excludePoints.contains(position) && ix >= m_includePoints.value(position).size()) {
+        // We moved an exclude point
+        ix -= m_includePoints.value(position).size();
+        m_excludePoints[position][ix] = p;
+    } else {
+        m_includePoints[position][ix] = p;
+    }
+    QVariantList points;
+    QVariantList pointsTypes;
+    pointsList = m_includePoints.value(m_lastPos);
+    for (auto &p : pointsList) {
+        points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
+        pointsTypes << 1;
+    }
+    pointsList = m_excludePoints.value(m_lastPos);
+    for (auto &p : pointsList) {
+        points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
+        pointsTypes << 0;
+    }
+    QRect box;
+    if (m_boxes.contains(m_lastPos)) {
+        box = m_boxes.value(m_lastPos);
+    }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, box);
+    (void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
+}
+
 void AutomaskHelper::addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend)
 {
     m_lastPos = position;

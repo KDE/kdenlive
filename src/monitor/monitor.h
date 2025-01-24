@@ -300,6 +300,7 @@ private Q_SLOTS:
     /** @brief En/Disable the show record timecode feature in clip monitor */
     void slotSwitchRecTimecode(bool enable);
     void addControlPoint(double x, double y, bool extend, bool exclude);
+    void moveControlPoint(int ix, double x, double y);
     void addControlRect(double x, double y, double width, double height, bool extend);
 
 public Q_SLOTS:
@@ -418,6 +419,7 @@ Q_SIGNALS:
     void zoneDurationChanged();
     void blockSceneChange(bool);
     void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
+    void moveMonitorControlPoint(int ix, int position, const QSize frameSize, int xPos, int yPos);
     void addMonitorControlRect(int position, const QSize frameSize, const QRect rect, bool extend);
     void generateMask();
     void disablePreviewMask();

@@ -2238,8 +2238,8 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
                       << double(box.height()) / frameSize.height();
         }
         QMetaObject::invokeMethod(root, "updateRect", Q_ARG(QVariant, boxPoints));
-    }
-    if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
+        QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
+    } else if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
     if (!r.isEmpty()) {
@@ -3001,6 +3001,15 @@ void Monitor::addControlPoint(double x, double y, bool extend, bool exclude)
     int yPos = qRound(y * fSize.height());
     int pos = position();
     Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude);
+}
+
+void Monitor::moveControlPoint(int ix, double x, double y)
+{
+    QSize fSize = pCore->getCurrentFrameDisplaySize();
+    int xPos = qRound(x * fSize.width());
+    int yPos = qRound(y * fSize.height());
+    int pos = position();
+    Q_EMIT moveMonitorControlPoint(ix, pos, fSize, xPos, yPos);
 }
 
 void Monitor::addControlRect(double x, double y, double width, double height, bool extend)
