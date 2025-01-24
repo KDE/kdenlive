@@ -127,7 +127,16 @@ void MaskManager::initMaskMode()
             srcMaskFolder.mkpath(QStringLiteral("."));
         }
     }
-    (void)QtConcurrent::run(&ProjectClip::exportFrames, clip, srcMaskFolder, m_zone.x(), m_zone.y());
+    if (!m_watcher.isRunning()) {
+        Mlt::Consumer c(pCore->getProjectProfile(), "xml", "/tmp/test.mlt");
+        std::shared_ptr<Mlt::Producer> p(clip->originalProducer()->parent().cut(m_zone.x(), m_zone.y()));
+        c.connect(*p.get());
+        c.run();
+        c.disconnect_all_producers();
+        p.reset();
+        m_exportTask = QtConcurrent::run(&ProjectClip::exportFrames, clip, srcMaskFolder, m_zone.x(), m_zone.y());
+        m_watcher.setFuture(m_exportTask);
+    }
     clipMon->slotSeek(m_zone.x());
     clipMon->loadQmlScene(MonitorSceneAutoMask);
 }

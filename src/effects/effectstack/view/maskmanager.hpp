@@ -9,6 +9,7 @@
 #include "ui_maskmanage_ui.h"
 
 #include <QDir>
+#include <QFutureWatcher>
 #include <QMutex>
 #include <QReadWriteLock>
 #include <QTimer>
@@ -48,5 +49,7 @@ private:
     QSize m_iconSize;
     QDir m_maskFolder;
     bool m_connected{false};
+    QFutureWatcher<void> m_watcher;
+    QFuture<void> m_exportTask;
     std::shared_ptr<ProjectClip> getOwnerClip();
 };

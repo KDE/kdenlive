@@ -233,7 +233,7 @@ Item {
                         }
                     }
                 }
-                onReleased: {
+                onReleased: mouse => {
                     if (maskMode == 1) {
                         mouse.accepted = false;
                         return;
@@ -287,13 +287,13 @@ Item {
                 onSourceChanged: {
                     generateLabel.visible = false
                 }
-                MultiEffect {
+                /*MultiEffect {
                     source: maskPreview
                     anchors.fill: parent
                     colorization: 1
                     enabled: controller.maskColor > 0
                     colorizationColor: maskColors[controller.maskColor]
-                }
+                }*/
             }
             Item {
                 anchors.fill: frame

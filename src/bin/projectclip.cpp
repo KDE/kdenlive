@@ -3136,11 +3136,9 @@ void ProjectClip::exportFrames(const QDir folder, int in, int out)
     Mlt::Consumer c(pCore->getProjectProfile(), "avformat", folder.absoluteFilePath(QStringLiteral("%05d.jpg")).toUtf8().constData());
     c.set("preset", "stills/JPEG");
     c.set("start_number", 0);
-    std::unique_ptr<Mlt::Producer> p(m_masterProducer->parent().cut(in, out));
-    c.connect(*p.get());
+    Mlt::Producer p(pCore->getProjectProfile(), "xml", "/tmp/test.mlt");
+    c.connect(p);
     c.run();
-    c.disconnect_all_producers();
-    p.reset();
 }
 
 void ProjectClip::addMask(MaskInfo mask)

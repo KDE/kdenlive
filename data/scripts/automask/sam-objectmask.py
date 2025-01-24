@@ -63,7 +63,7 @@ if __name__ == "__main__":
     modelFile = args.model
     configFile = args.config
     requestedDevice = args.device
-    borders = 0
+    borders = 1
 
 # select the device for computation
 if requestedDevice != None:
@@ -105,24 +105,28 @@ if preview_frame > -1:
     predictor = SAM2ImagePredictor(sam2_model)
 else:
     if device.type == "cuda" and torch.cuda.get_device_properties(0).major >= 8:
-        predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device, vos_optimized=True)
+        predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device)  #, vos_optimized=True)
     else:
         predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device)
 
 def save_mask(mask, filename, obj_id=None):
-
-    color = [255, 255, 255, 255]
+    color = [255, 100, 100, 100]
     h, w = mask.shape[-2:]
+    mask = mask.astype(np.uint8)
     mask_image = mask.reshape(h, w, 1) * color
+    print(f"Saving mask: {filename}")
     if borders > 0:
         import cv2
-        mask = mask.astype(np.uint8)
-        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        # Try to smooth contours
-        contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
-        color2 = color
-        color2[3] = 100
-        mask_image = cv2.drawContours(mask_image, contours, -1, color2, borders)
+        #mask = mask.astype(np.uint8)
+        try:
+            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+            # Try to smooth contours
+            contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
+            color2 = [255, 0, 0, 255]
+            #color2[3] = 255
+            mask_image = cv2.drawContours(mask_image, contours, -1, color2, borders)
+        except:
+            print("skipping contour")
 
     pil_img = Image.fromarray(np.uint8(mask_image))
     pil_img.save(filename)
@@ -164,8 +168,10 @@ if preview_frame > -1:
     print(f"Saving preview image as: {output_frame}")
     save_mask((masks[0]), output_frame, ann_obj_id)
     sys.exit()
-else:
-    inference_state = predictor.init_state(video_path=inputFolder)
+
+
+#with torch.inference_mode(), torch.autocast("cuda", dtype=torch.bfloat16):
+inference_state = predictor.init_state(video_path=inputFolder)
 
 
 print("Adding points...")
