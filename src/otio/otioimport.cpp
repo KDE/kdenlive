@@ -127,11 +127,6 @@ void OtioImport::slotImport()
     // Find all of the OTIO media references and add them to the bin. When
     // the bin clips are ready, import the timeline.
     //
-    // TODO: Is the callback passed to ClipCreator::createClipFromFile
-    // guaranteed to be called? Can the callback be called and the bin
-    // clip still not able to be added to the timeline (like a missing
-    // file)?
-    //
     // TODO: Add a progress dialog?
     for (const auto &otioClip : data->otioTimeline->find_clips()) {
         if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
@@ -178,11 +173,6 @@ void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &data)
     data->timeline->updateDuration();
 
     // Import the OTIO markers as guides.
-    //
-    // TODO: The guides do not appear in the timeline widget? They appear
-    // in the project monitor and can be edited, but they are not visible in
-    // the timeline widget. If the document is saved and re-opened they
-    // do appear.
     for (const auto &otioMarker : data->otioTimeline->tracks()->markers()) {
         const GenTime pos(otioMarker->marked_range().start_time().value(), data->otioTimeline->duration().rate());
         importMarker(otioMarker, pos, data->timeline->getGuideModel());
