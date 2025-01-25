@@ -141,25 +141,10 @@ void OtioImport::slotImport()
                                                                       undo, redo, callback);
                 data->otioExternalRefToBinId[file] = binId;
 
-                // Find the start timecode of the media.
-                //
-                // TODO: Is there a better way to get the start timecode?
-                // * ProjectClip::getRecordTime() returns a value of 3590003 for the
-                //   timecode 00:59:50:00 @ 23.97?
-                // * Unfortunately MLT does not provide the start timecode:
-                //   https://github.com/mltframework/mlt/pull/1011
-                // * Could we use the FFmpeg libraries to avoid relying on an external
-                //   application?
-                QProcess mediainfo;
-                mediainfo.start(KdenliveSettings::mediainfopath(), {QStringLiteral("--Output=XML"), file});
-                mediainfo.waitForFinished();
-                if (mediainfo.exitStatus() == QProcess::NormalExit && mediainfo.exitCode() == 0) {
-                    QDomDocument doc;
-                    doc.setContent(mediainfo.readAllStandardOutput());
-                    QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
-                    if (!nodes.isEmpty()) {
-                        data->binIdToTimecode[binId] = nodes.at(0).toElement().text();
-                    }
+                // Get the start timecode from the media.
+                const QString timecode = getTimecode(file);
+                if (!timecode.isEmpty()) {
+                    data->binIdToTimecode[binId] = timecode;
                 }
             }
         }
@@ -252,7 +237,9 @@ void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const O
                     const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(i->toStdString(), otioTimelineDuration.rate());
                     slip -= otioTimecode.value();
                 }
-                data->timeline->requestClipSlip(clipId, -slip, false, true);
+                if (slip != 0) {
+                    data->timeline->requestClipSlip(clipId, -slip, false, true);
+                }
 
                 // Add markers.
                 if (std::shared_ptr<ClipModel> clipModel = data->timeline->getClipPtr(clipId)) {

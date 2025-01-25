@@ -7,11 +7,23 @@
 
 #pragma once
 
-#include <QColor>
-#include <QList>
+#include <QSize>
+#include <QString>
+
+#include <string>
 
 /** @brief Converts an OTIO marker color to a marker type */
 int fromOtioMarkerColor(const std::string &);
 
 /** @brief Convert a marker type to the closest OTIO color */
 std::string toOtioMarkerColor(int);
+
+/** @brief Get the video size from the media. */
+QSize getVideoSize(const QString &fileName);
+
+/** @brief Get the start timecode from the media.
+ *
+ * Note that MLT does not provide the start timecode:
+ * https://github.com/mltframework/mlt/pull/1011
+ */
+QString getTimecode(const QString &fileName);

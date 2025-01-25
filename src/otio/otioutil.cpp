@@ -11,6 +11,11 @@
 
 #include <QMap>
 
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+}
+
 namespace {
 
 const QMap<std::string, QColor> otioMarkerColors = {{"PINK", QColor(255, 192, 203)}, {"RED", QColor(255, 0, 0)},       {"ORANGE", QColor(255, 120, 0)},
@@ -67,4 +72,88 @@ std::string toOtioMarkerColor(int markerType)
         }
     }
     return out;
+}
+
+namespace {
+class FFmpegInfo
+{
+public:
+    FFmpegInfo(const QString &fileName);
+
+    ~FFmpegInfo();
+
+    const QSize &getVideoSize() const { return m_videoSize; }
+    const QString &getTimecode() const { return m_timecode; }
+
+private:
+    QString getTimecode(int streamType);
+
+    AVFormatContext *m_context = nullptr;
+    QSize m_videoSize;
+    QString m_timecode;
+};
+
+FFmpegInfo::FFmpegInfo(const QString &fileName)
+{
+    int r = avformat_open_input(&m_context, fileName.toLocal8Bit().data(), nullptr, nullptr);
+    if (r >= 0) {
+        r = avformat_find_stream_info(m_context, nullptr);
+        if (r >= 0) {
+
+            // Check the data stream for timecode.
+            m_timecode = getTimecode(AVMEDIA_TYPE_DATA);
+
+            // Check the video stream for timecode.
+            if (m_timecode.isEmpty()) {
+                m_timecode = getTimecode(AVMEDIA_TYPE_VIDEO);
+            }
+        }
+    }
+}
+
+FFmpegInfo::~FFmpegInfo()
+{
+    if (m_context) {
+        avformat_close_input(&m_context);
+    }
+}
+
+QString FFmpegInfo::getTimecode(int streamType)
+{
+    QString out;
+    int stream = -1;
+    for (unsigned int i = 0; i < m_context->nb_streams; ++i) {
+        if (streamType == m_context->streams[i]->codecpar->codec_type && AV_DISPOSITION_DEFAULT == m_context->streams[i]->disposition) {
+            stream = i;
+            break;
+        }
+    }
+    if (-1 == stream) {
+        for (unsigned int i = 0; i < m_context->nb_streams; ++i) {
+            if (streamType == m_context->streams[i]->codecpar->codec_type) {
+                stream = i;
+                break;
+            }
+        }
+    }
+    if (stream != -1) {
+        AVDictionaryEntry *tag = nullptr;
+        while ((tag = av_dict_get(m_context->streams[stream]->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))) {
+            if (0 == QString(tag->key).compare("timecode", Qt::CaseInsensitive)) {
+                out = tag->value;
+            }
+        }
+    }
+    return out;
+}
+} // namespace
+
+QSize getVideoSize(const QString &fileName)
+{
+    return FFmpegInfo(fileName).getVideoSize();
+}
+
+QString getTimecode(const QString &fileName)
+{
+    return FFmpegInfo(fileName).getTimecode();
 }
