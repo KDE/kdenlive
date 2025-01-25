@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-24 00:41+0000\n"
+"POT-Creation-Date: 2025-01-25 00:40+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -4104,7 +4104,7 @@ msgstr "%1 प्रभाव ट्रैक करें"
 msgid "Bin %1 effects"
 msgstr "बिन %1 प्रभाव"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:166
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:198
 #: src/jobs/masktask.cpp:95
 #, fuzzy, kde-format
 #| msgid ""
@@ -4115,7 +4115,7 @@ msgstr ""
 "क्लिप बनाने में विफल:\n"
 "%1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:187
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:219
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5323,7 +5323,7 @@ msgid "Replace in timeline"
 msgstr "समयरेखा में प्रतिस्थापित करें"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:374
+#: src/effects/effectstack/view/maskmanager.cpp:390
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8260,7 +8260,7 @@ msgstr "बहुभाषी डेटा स्थापित किया �
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
-#: src/dialogs/settings/pluginssettings.cpp:910 src/ui/configspeech_ui.ui:107
+#: src/dialogs/settings/pluginssettings.cpp:909 src/ui/configspeech_ui.ui:107
 #: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:826
 #, kde-format
 msgid "Models folder"
@@ -8279,7 +8279,7 @@ msgid "Downloading multilingual model…"
 msgstr "बहुभाषी मॉडल डाउनलोड हो रहा है…"
 
 #: src/dialogs/settings/pluginssettings.cpp:238
-#: src/dialogs/settings/pluginssettings.cpp:907
+#: src/dialogs/settings/pluginssettings.cpp:906
 #, kde-format
 msgid "Please add a speech model."
 msgstr "कृपया एक भाषण मॉडल जोड़ें."
@@ -8302,13 +8302,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:430 src/ui/configspeech_ui.ui:801
+#: src/dialogs/settings/pluginssettings.cpp:429 src/ui/configspeech_ui.ui:801
 #, fuzzy, kde-format
 #| msgid "Install model"
 msgid "Install"
 msgstr "मॉडल स्थापित करें"
 
-#: src/dialogs/settings/pluginssettings.cpp:436
+#: src/dialogs/settings/pluginssettings.cpp:435
 #, fuzzy, kde-format
 #| msgid "Check configuration"
 msgid "Check config"
@@ -8316,14 +8316,14 @@ msgstr "कॉन्फ़िगरेशन जांचें"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:446 src/ui/configspeech_ui.ui:383
+#: src/dialogs/settings/pluginssettings.cpp:445 src/ui/configspeech_ui.ui:383
 #: src/ui/configspeech_ui.ui:856
 #, fuzzy, kde-format
 #| msgid "TAP Plugins"
 msgid "Plugin size"
 msgstr "टैप प्लगइन्स"
 
-#: src/dialogs/settings/pluginssettings.cpp:458
+#: src/dialogs/settings/pluginssettings.cpp:457
 #, fuzzy, kde-format
 #| msgid "This will delete the style <b>%1</b> and all its properties."
 msgid ""
@@ -8331,8 +8331,8 @@ msgid ""
 "You can reinstall them later."
 msgstr "इससे शैली <b>%1</b> और उसके सभी गुणधर्म हट जायेंगे।"
 
-#: src/dialogs/settings/pluginssettings.cpp:475
-#: src/dialogs/settings/pluginssettings.cpp:489
+#: src/dialogs/settings/pluginssettings.cpp:474
+#: src/dialogs/settings/pluginssettings.cpp:488
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will delete the python virtual environment from:<br/><b>%1</b><br/"
@@ -8348,83 +8348,83 @@ msgstr ""
 "हो जाएंगे।"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:504 src/ui/configspeech_ui.ui:424
+#: src/dialogs/settings/pluginssettings.cpp:503 src/ui/configspeech_ui.ui:424
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "बहुभाषी अनुवाद स्थापित करें"
 
-#: src/dialogs/settings/pluginssettings.cpp:513
+#: src/dialogs/settings/pluginssettings.cpp:512
 #, fuzzy, kde-format
 #| msgid "Install a speech model - we recommand <b>turbo</b>"
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "एक भाषण मॉडल स्थापित करें - हम <b>टर्बो की</b> सिफारिश करते हैं"
 
-#: src/dialogs/settings/pluginssettings.cpp:568
+#: src/dialogs/settings/pluginssettings.cpp:567
 #, fuzzy, kde-format
 #| msgid "Select new models to download"
 msgid "Select model to download"
 msgstr "डाउनलोड करने के लिए नए मॉडल चुनें"
 
-#: src/dialogs/settings/pluginssettings.cpp:584
+#: src/dialogs/settings/pluginssettings.cpp:583
 #, kde-format
 msgid "All models are already installed"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:604
+#: src/dialogs/settings/pluginssettings.cpp:603
 #, fuzzy, kde-format
 #| msgid "Downloading"
 msgid "Downloading…"
 msgstr "डाउनलोड"
 
-#: src/dialogs/settings/pluginssettings.cpp:614
+#: src/dialogs/settings/pluginssettings.cpp:613
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Downloading smallest model…"
 msgstr "मॉडल डाउनलोड हो रहा है…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:633 src/ui/configspeech_ui.ui:696
+#: src/dialogs/settings/pluginssettings.cpp:632 src/ui/configspeech_ui.ui:696
 #, fuzzy, kde-format
 #| msgid "Download Model"
 msgid "Download models"
 msgstr "मॉडल डाउनलोड करें"
 
-#: src/dialogs/settings/pluginssettings.cpp:691
-#: src/dialogs/settings/pluginssettings.cpp:705
-#: src/dialogs/settings/pluginssettings.cpp:714
+#: src/dialogs/settings/pluginssettings.cpp:690
+#: src/dialogs/settings/pluginssettings.cpp:704
+#: src/dialogs/settings/pluginssettings.cpp:713
 #, kde-format
 msgid "Install a model"
 msgstr "मॉडल स्थापित करें"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:707
-#: src/dialogs/settings/pluginssettings.cpp:716 src/ui/configspeech_ui.ui:273
+#: src/dialogs/settings/pluginssettings.cpp:706
+#: src/dialogs/settings/pluginssettings.cpp:715 src/ui/configspeech_ui.ui:273
 #, kde-format
 msgid "Manage models"
 msgstr "मॉडल प्रबंधित करें"
 
-#: src/dialogs/settings/pluginssettings.cpp:790
+#: src/dialogs/settings/pluginssettings.cpp:789
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "नये शब्दकोष के लिए यूआरएल दर्ज करें"
 
-#: src/dialogs/settings/pluginssettings.cpp:796
+#: src/dialogs/settings/pluginssettings.cpp:795
 #, kde-format
 msgid "Downloading model…"
 msgstr "मॉडल डाउनलोड हो रहा है…"
 
-#: src/dialogs/settings/pluginssettings.cpp:806
+#: src/dialogs/settings/pluginssettings.cpp:805
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "हम कस्टम फ़ोल्डर मॉडल को हटाने की अनुमति नहीं देते हैं, कृपया इसे मैन्युअल रूप से करें।"
 
-#: src/dialogs/settings/pluginssettings.cpp:812
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:811
+#: src/dialogs/settings/pluginssettings.cpp:865
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "शब्दकोश फ़ोल्डर तक पहुँच नहीं हो सकती."
 
-#: src/dialogs/settings/pluginssettings.cpp:821
+#: src/dialogs/settings/pluginssettings.cpp:820
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8433,22 +8433,22 @@ msgstr ""
 "फ़ोल्डर हटाएँ:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:841
+#: src/dialogs/settings/pluginssettings.cpp:840
 #, kde-format
 msgid "Download error"
 msgstr "डाउनलोड त्रुटि"
 
-#: src/dialogs/settings/pluginssettings.cpp:845
+#: src/dialogs/settings/pluginssettings.cpp:844
 #, kde-format
 msgid "Download error %1"
 msgstr "डाउनलोड त्रुटि %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:873
+#: src/dialogs/settings/pluginssettings.cpp:872
 #, kde-format
 msgid "Extracting archive…"
 msgstr "पुरालेख निकाला जा रहा है…"
 
-#: src/dialogs/settings/pluginssettings.cpp:880
+#: src/dialogs/settings/pluginssettings.cpp:879
 #, kde-format
 msgid "New dictionary installed."
 msgstr "नया शब्दकोष स्थापित किया गया."
@@ -10880,7 +10880,7 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "कृपया भाषण को पाठ में कॉन्फ़िगर करें."
 
-#: src/effects/effectstack/view/maskmanager.cpp:219
+#: src/effects/effectstack/view/maskmanager.cpp:235
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Enter Preset Name"
@@ -10888,19 +10888,19 @@ msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "प्रीसेट नाम दर्ज करें"
 
-#: src/effects/effectstack/view/maskmanager.cpp:219
+#: src/effects/effectstack/view/maskmanager.cpp:235
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset:"
 msgid "Enter the name of this mask:"
 msgstr "इस प्रीसेट का नाम दर्ज करें:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:227
+#: src/effects/effectstack/view/maskmanager.cpp:243
 #, fuzzy, kde-format
 #| msgid "Generate"
 msgid "Generating mask %1"
 msgstr "उत्पन्न"
 
-#: src/effects/effectstack/view/maskmanager.cpp:344
+#: src/effects/effectstack/view/maskmanager.cpp:360
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -14762,17 +14762,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "परिवर्तन"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:339
+#: src/monitor/view/kdenlivemonitorautomask.qml:367
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:339
+#: src/monitor/view/kdenlivemonitorautomask.qml:367
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:350
+#: src/monitor/view/kdenlivemonitorautomask.qml:378
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -14780,7 +14780,7 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:350
+#: src/monitor/view/kdenlivemonitorautomask.qml:378
 #, fuzzy, kde-format
 #| msgid "Preview Using Proxy Clips"
 msgid "Previewing video mask"

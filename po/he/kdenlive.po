@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-24 00:41+0000\n"
-"PO-Revision-Date: 2025-01-22 11:38+0200\n"
+"POT-Creation-Date: 2025-01-25 00:40+0000\n"
+"PO-Revision-Date: 2025-01-24 09:27+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -3865,7 +3865,7 @@ msgstr "מחיקת אפקט מותאם אישית"
 #: src/assets/assetlist/view/assetlistwidget.cpp:66
 #, kde-format
 msgid "Reload custom effect"
-msgstr "רענון אפקטים מותאמים אישית"
+msgstr "ריענון אפקטים מותאמים אישית"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:71
 #, kde-format
@@ -4087,13 +4087,13 @@ msgstr "אפקטים לרצועת %1"
 msgid "Bin %1 effects"
 msgstr "אפקטים לסל %1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:166
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:198
 #: src/jobs/masktask.cpp:95
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "עיבוד המסכה %1 נכשל"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:187
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:219
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5294,7 +5294,7 @@ msgid "Replace in timeline"
 msgstr "החלפה בציר הזמן"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:374
+#: src/effects/effectstack/view/maskmanager.cpp:390
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8241,7 +8241,7 @@ msgstr "מותקנים נתונים רב־לשוניים…"
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
-#: src/dialogs/settings/pluginssettings.cpp:910 src/ui/configspeech_ui.ui:107
+#: src/dialogs/settings/pluginssettings.cpp:909 src/ui/configspeech_ui.ui:107
 #: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:826
 #, kde-format
 msgid "Models folder"
@@ -8260,7 +8260,7 @@ msgid "Downloading multilingual model…"
 msgstr "הדגם הרב־לשוני מתקבל…"
 
 #: src/dialogs/settings/pluginssettings.cpp:238
-#: src/dialogs/settings/pluginssettings.cpp:907
+#: src/dialogs/settings/pluginssettings.cpp:906
 #, kde-format
 msgid "Please add a speech model."
 msgstr "נא להוסיף דגם הקראה."
@@ -8285,25 +8285,25 @@ msgstr ""
 "ההשלכות</b>. יש להתקין את כל החבילות הנדרשות בעצמך במערכת שלך:<br>%1"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:430 src/ui/configspeech_ui.ui:801
+#: src/dialogs/settings/pluginssettings.cpp:429 src/ui/configspeech_ui.ui:801
 #, kde-format
 msgid "Install"
 msgstr "התקנה"
 
-#: src/dialogs/settings/pluginssettings.cpp:436
+#: src/dialogs/settings/pluginssettings.cpp:435
 #, kde-format
 msgid "Check config"
 msgstr "בדיקת ההגדרות"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:446 src/ui/configspeech_ui.ui:383
+#: src/dialogs/settings/pluginssettings.cpp:445 src/ui/configspeech_ui.ui:383
 #: src/ui/configspeech_ui.ui:856
 #, kde-format
 msgid "Plugin size"
 msgstr "גודל תוסף"
 
-#: src/dialogs/settings/pluginssettings.cpp:458
+#: src/dialogs/settings/pluginssettings.cpp:457
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
@@ -8312,8 +8312,8 @@ msgstr ""
 "הפעולה הזאת תמחק את המודלים המותקנים\n"
 "אפשר להתקין אותם מחדש בהמשך."
 
-#: src/dialogs/settings/pluginssettings.cpp:475
-#: src/dialogs/settings/pluginssettings.cpp:489
+#: src/dialogs/settings/pluginssettings.cpp:474
+#: src/dialogs/settings/pluginssettings.cpp:488
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -8324,79 +8324,79 @@ msgstr ""
 "תיווצר מחדש והמודולים ירדו מחדש עם כל הפעלה של התוסף מחדש."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:504 src/ui/configspeech_ui.ui:424
+#: src/dialogs/settings/pluginssettings.cpp:503 src/ui/configspeech_ui.ui:424
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "התקנת תרגום רב־לשוני"
 
-#: src/dialogs/settings/pluginssettings.cpp:513
+#: src/dialogs/settings/pluginssettings.cpp:512
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "התקנת מודל דיבור - אנו ממליצים על <b>טורבו/turbo</b>"
 
-#: src/dialogs/settings/pluginssettings.cpp:568
+#: src/dialogs/settings/pluginssettings.cpp:567
 #, kde-format
 msgid "Select model to download"
 msgstr "נא לבחור מודל להורדה"
 
-#: src/dialogs/settings/pluginssettings.cpp:584
+#: src/dialogs/settings/pluginssettings.cpp:583
 #, kde-format
 msgid "All models are already installed"
 msgstr "כל המודלים כבר הותקנו"
 
-#: src/dialogs/settings/pluginssettings.cpp:604
+#: src/dialogs/settings/pluginssettings.cpp:603
 #, kde-format
 msgid "Downloading…"
 msgstr "מתבצעת הורדה…"
 
-#: src/dialogs/settings/pluginssettings.cpp:614
+#: src/dialogs/settings/pluginssettings.cpp:613
 #, kde-format
 msgid "Downloading smallest model…"
 msgstr "הדגם הקטן ביותר מתקבל…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:633 src/ui/configspeech_ui.ui:696
+#: src/dialogs/settings/pluginssettings.cpp:632 src/ui/configspeech_ui.ui:696
 #, kde-format
 msgid "Download models"
 msgstr "הורדת מודלים"
 
-#: src/dialogs/settings/pluginssettings.cpp:691
-#: src/dialogs/settings/pluginssettings.cpp:705
-#: src/dialogs/settings/pluginssettings.cpp:714
+#: src/dialogs/settings/pluginssettings.cpp:690
+#: src/dialogs/settings/pluginssettings.cpp:704
+#: src/dialogs/settings/pluginssettings.cpp:713
 #, kde-format
 msgid "Install a model"
 msgstr "התקנת מודל"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:707
-#: src/dialogs/settings/pluginssettings.cpp:716 src/ui/configspeech_ui.ui:273
+#: src/dialogs/settings/pluginssettings.cpp:706
+#: src/dialogs/settings/pluginssettings.cpp:715 src/ui/configspeech_ui.ui:273
 #, kde-format
 msgid "Manage models"
 msgstr "ניהול מודלים"
 
-#: src/dialogs/settings/pluginssettings.cpp:790
+#: src/dialogs/settings/pluginssettings.cpp:789
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "נא למלא כתובת למילון החדש"
 
-#: src/dialogs/settings/pluginssettings.cpp:796
+#: src/dialogs/settings/pluginssettings.cpp:795
 #, kde-format
 msgid "Downloading model…"
 msgstr "הדגם מתקבל…"
 
-#: src/dialogs/settings/pluginssettings.cpp:806
+#: src/dialogs/settings/pluginssettings.cpp:805
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "אנחנו לא מאפשרים מחיקת מודלים של תיקיות מותאמות אישית, נא לעשות זאת ידנית."
 
-#: src/dialogs/settings/pluginssettings.cpp:812
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:811
+#: src/dialogs/settings/pluginssettings.cpp:865
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "לא ניתן לגשת לתיקיית המילון."
 
-#: src/dialogs/settings/pluginssettings.cpp:821
+#: src/dialogs/settings/pluginssettings.cpp:820
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8405,22 +8405,22 @@ msgstr ""
 "מחיקת תיקייה:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:841
+#: src/dialogs/settings/pluginssettings.cpp:840
 #, kde-format
 msgid "Download error"
 msgstr "שגיאת הורדה"
 
-#: src/dialogs/settings/pluginssettings.cpp:845
+#: src/dialogs/settings/pluginssettings.cpp:844
 #, kde-format
 msgid "Download error %1"
 msgstr "שגיאת הורדה %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:873
+#: src/dialogs/settings/pluginssettings.cpp:872
 #, kde-format
 msgid "Extracting archive…"
 msgstr "הארכיון מחולץ…"
 
-#: src/dialogs/settings/pluginssettings.cpp:880
+#: src/dialogs/settings/pluginssettings.cpp:879
 #, kde-format
 msgid "New dictionary installed."
 msgstr "הותקן מילון חדש."
@@ -8500,12 +8500,13 @@ msgid "Speech recognition aborted."
 msgstr "זיהוי קולי בוטל."
 
 #: src/dialogs/speechdialog.cpp:437
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed."
+#, kde-format
 msgid ""
 "Speech recognition failed:\n"
 "%1"
-msgstr "זיהוי הדיבור נכשל."
+msgstr ""
+"זיהוי הדיבור נכשל:\n"
+"%1"
 
 #: src/dialogs/speechdialog.cpp:444
 #, kde-format
@@ -10025,7 +10026,7 @@ msgstr "קבוע"
 #: src/doc/documentchecker.cpp:1879
 #, kde-format
 msgid "Reload"
-msgstr "רענון"
+msgstr "ריענון"
 
 #: src/doc/documentchecker.cpp:1881
 #, kde-format
@@ -10859,23 +10860,23 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "נא להגדיר את תוסף SAM2"
 
-#: src/effects/effectstack/view/maskmanager.cpp:219
+#: src/effects/effectstack/view/maskmanager.cpp:235
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "נא למלא שם מסכה"
 
-#: src/effects/effectstack/view/maskmanager.cpp:219
+#: src/effects/effectstack/view/maskmanager.cpp:235
 #, kde-format
 msgid "Enter the name of this mask:"
 msgstr "נא למלא את שם המסכה:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:227
+#: src/effects/effectstack/view/maskmanager.cpp:243
 #, kde-format
 msgid "Generating mask %1"
 msgstr "נוצרת מסכה %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:344
+#: src/effects/effectstack/view/maskmanager.cpp:360
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -14718,32 +14719,28 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "התמרה"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:339
+#: src/monitor/view/kdenlivemonitorautomask.qml:367
 #, kde-format
 msgid "Generating image mask"
 msgstr "נוצרת מסכת תמונה"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:339
+#: src/monitor/view/kdenlivemonitorautomask.qml:367
 #, kde-format
 msgid "Generating video mask"
 msgstr "נוצרה מסכת וידאו"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:350
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click on an object to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to exclude a zone."
+#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
-"לחיצה על עצם תתחיל יצירת מסכה.\n"
+"לחיצה על עצם או ציור תיבה יתחילו יצירת מסכה.\n"
 "Shift+לחיצה כדי לכלול אזור נוסף.\n"
 "Ctrl+לחיצה כדי להחריג אזור."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:350
+#: src/monitor/view/kdenlivemonitorautomask.qml:378
 #, kde-format
 msgid "Previewing video mask"
 msgstr "תצוגה מקדימה של מסכת וידאו"
@@ -17213,7 +17210,7 @@ msgstr "כבר קיימת ערכה בשם הזה. נא לשנות את השם כ
 #: src/scopes/abstractscopewidget.cpp:66
 #, kde-format
 msgid "Auto Refresh"
-msgstr "רענון אוטומטי"
+msgstr "ריענון אוטומטי"
 
 #: src/scopes/abstractscopewidget.cpp:68
 #, kde-format

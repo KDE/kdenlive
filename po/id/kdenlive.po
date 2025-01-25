@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-24 00:41+0000\n"
+"POT-Creation-Date: 2025-01-25 00:40+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -4053,7 +4053,7 @@ msgstr "Efek %1 trek"
 msgid "Bin %1 effects"
 msgstr "Efek %1 bin"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:166
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:198
 #: src/jobs/masktask.cpp:95
 #, fuzzy, kde-format
 #| msgid ""
@@ -4064,7 +4064,7 @@ msgstr ""
 "Gagal menghasilkan klip:\n"
 "%1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:187
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:219
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5269,7 +5269,7 @@ msgid "Replace in timeline"
 msgstr "lini masa utama"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:374
+#: src/effects/effectstack/view/maskmanager.cpp:390
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -8218,7 +8218,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
-#: src/dialogs/settings/pluginssettings.cpp:910 src/ui/configspeech_ui.ui:107
+#: src/dialogs/settings/pluginssettings.cpp:909 src/ui/configspeech_ui.ui:107
 #: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:826
 #, fuzzy, kde-format
 #| msgid "Custom models folder"
@@ -8239,7 +8239,7 @@ msgid "Downloading multilingual model…"
 msgstr "Model pengunduhan..."
 
 #: src/dialogs/settings/pluginssettings.cpp:238
-#: src/dialogs/settings/pluginssettings.cpp:907
+#: src/dialogs/settings/pluginssettings.cpp:906
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Mohon tambahkan model lisan."
@@ -8262,13 +8262,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:430 src/ui/configspeech_ui.ui:801
+#: src/dialogs/settings/pluginssettings.cpp:429 src/ui/configspeech_ui.ui:801
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install"
 msgstr "Modul terinstal"
 
-#: src/dialogs/settings/pluginssettings.cpp:436
+#: src/dialogs/settings/pluginssettings.cpp:435
 #, fuzzy, kde-format
 #| msgid "Check configuration"
 msgid "Check config"
@@ -8276,22 +8276,22 @@ msgstr "Periksa konfigurasi"
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:446 src/ui/configspeech_ui.ui:383
+#: src/dialogs/settings/pluginssettings.cpp:445 src/ui/configspeech_ui.ui:383
 #: src/ui/configspeech_ui.ui:856
 #, fuzzy, kde-format
 #| msgid "TAP Plugins"
 msgid "Plugin size"
 msgstr "Plugin TAP"
 
-#: src/dialogs/settings/pluginssettings.cpp:458
+#: src/dialogs/settings/pluginssettings.cpp:457
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:475
-#: src/dialogs/settings/pluginssettings.cpp:489
+#: src/dialogs/settings/pluginssettings.cpp:474
+#: src/dialogs/settings/pluginssettings.cpp:488
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -8300,86 +8300,86 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:504 src/ui/configspeech_ui.ui:424
+#: src/dialogs/settings/pluginssettings.cpp:503 src/ui/configspeech_ui.ui:424
 #, kde-format
 msgid "Install multilingual translation"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:513
+#: src/dialogs/settings/pluginssettings.cpp:512
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:568
+#: src/dialogs/settings/pluginssettings.cpp:567
 #, fuzzy, kde-format
 #| msgid "Select a zone to play"
 msgid "Select model to download"
 msgstr "Pilih zona untuk diputar"
 
-#: src/dialogs/settings/pluginssettings.cpp:584
+#: src/dialogs/settings/pluginssettings.cpp:583
 #, kde-format
 msgid "All models are already installed"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:604
+#: src/dialogs/settings/pluginssettings.cpp:603
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Downloading…"
 msgstr "Model pengunduhan..."
 
-#: src/dialogs/settings/pluginssettings.cpp:614
+#: src/dialogs/settings/pluginssettings.cpp:613
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Downloading smallest model…"
 msgstr "Model pengunduhan..."
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:633 src/ui/configspeech_ui.ui:696
+#: src/dialogs/settings/pluginssettings.cpp:632 src/ui/configspeech_ui.ui:696
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Download models"
 msgstr "Model pengunduhan..."
 
-#: src/dialogs/settings/pluginssettings.cpp:691
-#: src/dialogs/settings/pluginssettings.cpp:705
-#: src/dialogs/settings/pluginssettings.cpp:714
+#: src/dialogs/settings/pluginssettings.cpp:690
+#: src/dialogs/settings/pluginssettings.cpp:704
+#: src/dialogs/settings/pluginssettings.cpp:713
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install a model"
 msgstr "Modul terinstal"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:707
-#: src/dialogs/settings/pluginssettings.cpp:716 src/ui/configspeech_ui.ui:273
+#: src/dialogs/settings/pluginssettings.cpp:706
+#: src/dialogs/settings/pluginssettings.cpp:715 src/ui/configspeech_ui.ui:273
 #, fuzzy, kde-format
 #| msgid "Edge mode"
 msgid "Manage models"
 msgstr "Mode tepi"
 
-#: src/dialogs/settings/pluginssettings.cpp:790
+#: src/dialogs/settings/pluginssettings.cpp:789
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Masukkan url untuk kamus baru"
 
-#: src/dialogs/settings/pluginssettings.cpp:796
+#: src/dialogs/settings/pluginssettings.cpp:795
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model pengunduhan..."
 
-#: src/dialogs/settings/pluginssettings.cpp:806
+#: src/dialogs/settings/pluginssettings.cpp:805
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Kami tidak mengizinkan penghapusan model folder khusus, harap lakukan secara "
 "manual."
 
-#: src/dialogs/settings/pluginssettings.cpp:812
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:811
+#: src/dialogs/settings/pluginssettings.cpp:865
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Tidak bisa mengakses folder kamus."
 
-#: src/dialogs/settings/pluginssettings.cpp:821
+#: src/dialogs/settings/pluginssettings.cpp:820
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -8388,22 +8388,22 @@ msgstr ""
 "Hapus folder:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:841
+#: src/dialogs/settings/pluginssettings.cpp:840
 #, kde-format
 msgid "Download error"
 msgstr "Unduhan galat"
 
-#: src/dialogs/settings/pluginssettings.cpp:845
+#: src/dialogs/settings/pluginssettings.cpp:844
 #, kde-format
 msgid "Download error %1"
 msgstr "Unduhan galat %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:873
+#: src/dialogs/settings/pluginssettings.cpp:872
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Mengekstrak arsip..."
 
-#: src/dialogs/settings/pluginssettings.cpp:880
+#: src/dialogs/settings/pluginssettings.cpp:879
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Kamus baru terinstal."
@@ -10899,7 +10899,7 @@ msgstr ""
 msgid "Please configure the SAM2 plugin"
 msgstr "Mohon konfigurasi lisankan teks."
 
-#: src/effects/effectstack/view/maskmanager.cpp:219
+#: src/effects/effectstack/view/maskmanager.cpp:235
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Enter Preset Name"
@@ -10907,19 +10907,19 @@ msgctxt "@title:window"
 msgid "Enter Mask Name"
 msgstr "Masukkan Nama Preset"
 
-#: src/effects/effectstack/view/maskmanager.cpp:219
+#: src/effects/effectstack/view/maskmanager.cpp:235
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset:"
 msgid "Enter the name of this mask:"
 msgstr "Masukkan nama preset ini:"
 
-#: src/effects/effectstack/view/maskmanager.cpp:227
+#: src/effects/effectstack/view/maskmanager.cpp:243
 #, fuzzy, kde-format
 #| msgid "Generate"
 msgid "Generating mask %1"
 msgstr "Menghasilkan"
 
-#: src/effects/effectstack/view/maskmanager.cpp:344
+#: src/effects/effectstack/view/maskmanager.cpp:360
 #, kde-format
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -14803,17 +14803,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformasi"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:339
+#: src/monitor/view/kdenlivemonitorautomask.qml:367
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:339
+#: src/monitor/view/kdenlivemonitorautomask.qml:367
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:350
+#: src/monitor/view/kdenlivemonitorautomask.qml:378
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -14821,7 +14821,7 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:350
+#: src/monitor/view/kdenlivemonitorautomask.qml:378
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Previewing video mask"
