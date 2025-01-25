@@ -57,10 +57,11 @@ void OtioImport::slotImport()
         return;
     }
 
-    // Find a profile with a frame rate that matches the OTIO timeline.
-    // Note that OTIO files do not store information about the render
-    // resolution, so we will pick an arbitrary one. An alternative might
-    // be to check the media files for the resolution.
+    // Try to find an existing profile that matches the frame rate
+    // and resolution, otherwise create a custom profile.
+    //
+    // Note that OTIO files do not contain information about rendering,
+    // so we get the resolution from the first video clip.
     const double otioFps = data->otioTimeline->duration().rate();
     QVector<QString> profileCandidates;
     auto &profileRepository = ProfileRepository::get();
@@ -71,40 +72,49 @@ void OtioImport::slotImport()
             profileCandidates.push_back(i.second);
         }
     }
+    QSize videoSize(1920, 1080);
+    for (const auto &otioItem : data->otioTimeline->tracks()->children()) {
+        if (auto otioTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(otioItem)) {
+            if (OTIO_NS::Track::Kind::video == otioTrack->kind()) {
+                for (const auto &otioClip : otioTrack->find_clips()) {
+                    if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
+                        const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
+                        videoSize = getVideoSize(file);
+                        break;
+                    }
+                }
+            }
+        }
+    }
     QString profile;
     if (!profileCandidates.empty()) {
-        // Try and find a profile with 1920x1080 resolution, otherwise
-        // just use the first one.
         for (const auto &i : profileCandidates) {
             const auto &profileModel = profileRepository->getProfile(i);
             const bool progressive = profileModel->progressive();
             const int width = profileModel->width();
             const int height = profileModel->height();
-            if (progressive && 1920 == width && 1080 == height) {
+            if (progressive && videoSize.width() == width && videoSize.height() == height) {
                 profile = i;
                 break;
             }
         }
-        if (profile.isEmpty()) {
-            profile = profileCandidates.first();
-        }
-    } else {
-        // No profiles match the frame rate, create a new one.
+    }
+    if (profile.isEmpty()) {
         QDomDocument doc;
         QDomElement elem = doc.createElement("profile");
-        elem.setAttribute("description", QString("HD 1080p %1FPS").arg(otioFps));
+        elem.setAttribute("description", QString("%1x%2 %3FPS").arg(videoSize.width()).arg(videoSize.height()).arg(otioFps));
         bool adjusted = false;
-        const std::pair<int, int> fraction = KdenliveDoc::getFpsFraction(otioFps, &adjusted);
+        std::pair<int, int> fraction = KdenliveDoc::getFpsFraction(otioFps, &adjusted);
         elem.setAttribute("frame_rate_num", fraction.first);
         elem.setAttribute("frame_rate_den", fraction.second);
         elem.setAttribute("progressive", 1);
         elem.setAttribute("sample_aspect_num", 1.0);
         elem.setAttribute("sample_aspect_den", 1.0);
-        elem.setAttribute("display_aspect_num", 16.0);
-        elem.setAttribute("display_asepct_den", 9.0);
+        elem.setAttribute("display_aspect_num", videoSize.width());
+        elem.setAttribute("display_asepct_den", videoSize.height());
         elem.setAttribute("colorspace", 0);
-        elem.setAttribute("width", 1920);
-        elem.setAttribute("height", 1080);
+        elem.setAttribute("width", videoSize.width());
+        elem.setAttribute("height", videoSize.height());
         ProfileParam profileParam(elem);
         profile = ProfileRepository::get()->saveProfile(&profileParam);
     }

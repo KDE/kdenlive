@@ -86,7 +86,8 @@ public:
     const QString &getTimecode() const { return m_timecode; }
 
 private:
-    QString getTimecode(int streamType);
+    int getStream(int streamType) const;
+    QString getTimecode(int stream) const;
 
     AVFormatContext *m_context = nullptr;
     QSize m_videoSize;
@@ -99,13 +100,19 @@ FFmpegInfo::FFmpegInfo(const QString &fileName)
     if (r >= 0) {
         r = avformat_find_stream_info(m_context, nullptr);
         if (r >= 0) {
+            // Get the size and timecode from the video stream.
+            int stream = getStream(AVMEDIA_TYPE_VIDEO);
+            if (stream != -1) {
+                m_videoSize = QSize(m_context->streams[stream]->codecpar->width, m_context->streams[stream]->codecpar->height);
+                m_timecode = getTimecode(stream);
+            }
 
-            // Check the data stream for timecode.
-            m_timecode = getTimecode(AVMEDIA_TYPE_DATA);
-
-            // Check the video stream for timecode.
+            // If the video stream did not have timecode check the data stream.
             if (m_timecode.isEmpty()) {
-                m_timecode = getTimecode(AVMEDIA_TYPE_VIDEO);
+                stream = getStream(AVMEDIA_TYPE_DATA);
+                if (stream != -1) {
+                    m_timecode = getTimecode(AVMEDIA_TYPE_DATA);
+                }
             }
         }
     }
@@ -118,9 +125,8 @@ FFmpegInfo::~FFmpegInfo()
     }
 }
 
-QString FFmpegInfo::getTimecode(int streamType)
+int FFmpegInfo::getStream(int streamType) const
 {
-    QString out;
     int stream = -1;
     for (unsigned int i = 0; i < m_context->nb_streams; ++i) {
         if (streamType == m_context->streams[i]->codecpar->codec_type && AV_DISPOSITION_DEFAULT == m_context->streams[i]->disposition) {
@@ -136,12 +142,16 @@ QString FFmpegInfo::getTimecode(int streamType)
             }
         }
     }
-    if (stream != -1) {
-        AVDictionaryEntry *tag = nullptr;
-        while ((tag = av_dict_get(m_context->streams[stream]->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))) {
-            if (0 == QString(tag->key).compare("timecode", Qt::CaseInsensitive)) {
-                out = tag->value;
-            }
+    return stream;
+}
+
+QString FFmpegInfo::getTimecode(int stream) const
+{
+    QString out;
+    AVDictionaryEntry *tag = nullptr;
+    while ((tag = av_dict_get(m_context->streams[stream]->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))) {
+        if (0 == QString(tag->key).compare("timecode", Qt::CaseInsensitive)) {
+            out = tag->value;
         }
     }
     return out;
