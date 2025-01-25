@@ -120,7 +120,11 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
                 ripple_resize->setChecked(true);
                 m_infoMessageStrings << i18n("Resizing in Ripple mode.");
             }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
             connect(ripple_resize, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
+            connect(ripple_resize, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [this](int state) {
+#endif
                 bool rippleMode = state == Qt::CheckState::Checked;
                 KdenliveSettings::setRippleResize(rippleMode);
                 if (rippleMode) {
