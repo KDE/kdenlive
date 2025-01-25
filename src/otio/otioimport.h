@@ -37,7 +37,22 @@ struct OtioImportData
 };
 
 /** @brief This class provides support for importing OpenTimelineIO files.
- * See the comments in otioexport.h for notes about the import/export process.
+ *
+ * Notes about importing OpenTimelineIO files:
+ *
+ * OTIO files do not contain information about rendering, so we get the
+ * render resolution from the first video clip.
+ *
+ * OTIO markers on the timeline stack are converted to kdenlive guides.
+ *
+ * OTIO markers on clips are converted to kdenlive clip markers. Note that
+ * clip markers work differently between kdenlive and OTIO; in kdenlive they
+ * are shared between each instance of the clip, in OTIO the they are unique
+ * to each instance of the clip.
+ *
+ * If the OTIO marker metadata does not contain the kdenlive marker type,
+ * we pick the kdenlive guide/marker with the closest color to the OTIO
+ * marker.
  */
 class OtioImport : public QObject
 {
