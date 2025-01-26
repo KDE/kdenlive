@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-25 00:40+0000\n"
+"POT-Creation-Date: 2025-01-26 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -7257,7 +7257,13 @@ msgstr "سەپلە"
 msgid "Manage Encoding Profiles"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:205
+#: src/dialogs/encodingprofilesdialog.cpp:202
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a dialog window to create, change, and delete encoding profiles"
+msgstr ""
+
+#: src/dialogs/encodingprofilesdialog.cpp:206
 #, fuzzy, kde-format
 #| msgid "Profile name:"
 msgid "Show Profile Parameters"
@@ -7266,22 +7272,19 @@ msgstr "Profile نامى:"
 #: src/dialogs/encodingprofilesdialog.cpp:207
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
-msgid ""
-"Opens a window with encoding profiles and their parameters. From here you "
-"can create, change, delete and download profiles used for timeline preview, "
-"proxy generation, and video, screen and decklink capture."
+msgid "Displays the parameters for the selected profile"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:259
-#: src/dialogs/encodingprofilesdialog.cpp:348
+#: src/dialogs/encodingprofilesdialog.cpp:258
+#: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/project/dialogs/projectsettings.cpp:909
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic (%1)"
 msgstr "ئاپتوماتىك"
 
-#: src/dialogs/encodingprofilesdialog.cpp:261
-#: src/dialogs/encodingprofilesdialog.cpp:350
+#: src/dialogs/encodingprofilesdialog.cpp:260
+#: src/dialogs/encodingprofilesdialog.cpp:349
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
@@ -7289,14 +7292,14 @@ msgstr "ئاپتوماتىك"
 msgid "Automatic"
 msgstr "ئاپتوماتىك"
 
-#: src/dialogs/encodingprofilesdialog.cpp:329
+#: src/dialogs/encodingprofilesdialog.cpp:328
 #: src/project/dialogs/projectsettings.cpp:946
 #: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:422
+#: src/dialogs/encodingprofilesdialog.cpp:421
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -18813,16 +18816,16 @@ msgid "Editing duration for %1 clips."
 msgstr "thumbnails نى كۆرسەتسۇن"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:132
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:135
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:145
 #, fuzzy, kde-format
 #| msgid "View Mode"
 msgid "Resizing in Ripple mode."
 msgstr "كۆرۈنۈش ھالىتى"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:316
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Edit item"

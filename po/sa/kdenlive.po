@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-25 00:40+0000\n"
+"POT-Creation-Date: 2025-01-26 00:41+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -7078,32 +7078,33 @@ msgstr "प्रोफाइल विन्यस्तं कुर्वन�
 msgid "Manage Encoding Profiles"
 msgstr "एन्कोडिंग् प्रोफाइल्स् प्रबन्धयन्तु"
 
-#: src/dialogs/encodingprofilesdialog.cpp:205
+#: src/dialogs/encodingprofilesdialog.cpp:202
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a dialog window to create, change, and delete encoding profiles"
+msgstr ""
+
+#: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
 msgid "Show Profile Parameters"
 msgstr "प्रोफाइल पैरामीटर्स् दर्शयतु"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgid "Disable parameters when the effect is disabled"
 msgctxt "@info:whatsthis"
-msgid ""
-"Opens a window with encoding profiles and their parameters. From here you "
-"can create, change, delete and download profiles used for timeline preview, "
-"proxy generation, and video, screen and decklink capture."
-msgstr ""
-"एन्कोडिंग् प्रोफाइल् इत्यनेन सह तेषां पैरामीटर् इत्यनेन सह विण्डो उद्घाटयति । इतः भवान् "
-"समयरेखापूर्वावलोकनार्थं, प्रॉक्सीजननार्थं, तथा च विडियो, स्क्रीन, डेक्लिङ्क् कैप्चर इत्येतयोः "
-"कृते उपयुज्यमानं प्रोफाइलं निर्मातुम्, परिवर्तयितुं, विलोपयितुं, डाउनलोड् कर्तुं च शक्नोति ।"
+msgid "Displays the parameters for the selected profile"
+msgstr "यदा प्रभावः अक्षमः भवति तदा मापदण्डान् अक्षमं कुर्वन्तु"
 
-#: src/dialogs/encodingprofilesdialog.cpp:259
-#: src/dialogs/encodingprofilesdialog.cpp:348
+#: src/dialogs/encodingprofilesdialog.cpp:258
+#: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "स्वचालित (%1)"
 
-#: src/dialogs/encodingprofilesdialog.cpp:261
-#: src/dialogs/encodingprofilesdialog.cpp:350
+#: src/dialogs/encodingprofilesdialog.cpp:260
+#: src/dialogs/encodingprofilesdialog.cpp:349
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
@@ -7111,14 +7112,14 @@ msgstr "स्वचालित (%1)"
 msgid "Automatic"
 msgstr "स्वतः"
 
-#: src/dialogs/encodingprofilesdialog.cpp:329
+#: src/dialogs/encodingprofilesdialog.cpp:328
 #: src/project/dialogs/projectsettings.cpp:946
 #: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "वर्तमान सेटिंग्स्"
 
-#: src/dialogs/encodingprofilesdialog.cpp:422
+#: src/dialogs/encodingprofilesdialog.cpp:421
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -18316,15 +18317,15 @@ msgid "Editing duration for %1 clips."
 msgstr "%1 क्लिप्स् कृते सम्पादनकालः ।"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:132
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:135
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:145
 #, kde-format
 msgid "Resizing in Ripple mode."
 msgstr "Ripple मोड् मध्ये आकारान्तरं करणम् ।"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:316
 #, kde-format
 msgid "Edit item"
 msgstr "मदं सम्पादयतु"
@@ -24145,6 +24146,17 @@ msgstr "%1म्"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ह"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "Opens a window with encoding profiles and their parameters. From here you "
+#~ "can create, change, delete and download profiles used for timeline "
+#~ "preview, proxy generation, and video, screen and decklink capture."
+#~ msgstr ""
+#~ "एन्कोडिंग् प्रोफाइल् इत्यनेन सह तेषां पैरामीटर् इत्यनेन सह विण्डो उद्घाटयति । इतः भवान् "
+#~ "समयरेखापूर्वावलोकनार्थं, प्रॉक्सीजननार्थं, तथा च विडियो, स्क्रीन, डेक्लिङ्क् कैप्चर "
+#~ "इत्येतयोः कृते उपयुज्यमानं प्रोफाइलं निर्मातुम्, परिवर्तयितुं, विलोपयितुं, डाउनलोड् कर्तुं च "
+#~ "शक्नोति ।"
 
 #~ msgid "Uninstall model"
 #~ msgstr "मॉडलं विस्थापयन्तु"

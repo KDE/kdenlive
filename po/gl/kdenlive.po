@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-25 00:40+0000\n"
-"PO-Revision-Date: 2025-01-19 12:58+0100\n"
+"POT-Creation-Date: 2025-01-26 00:41+0000\n"
+"PO-Revision-Date: 2025-01-25 12:15+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -7213,33 +7213,33 @@ msgstr "Configurar os perfís"
 msgid "Manage Encoding Profiles"
 msgstr "Xestionar os perfís de codificación"
 
-#: src/dialogs/encodingprofilesdialog.cpp:205
+#: src/dialogs/encodingprofilesdialog.cpp:202
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a dialog window to create, change, and delete encoding profiles"
+msgstr ""
+
+#: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
 msgid "Show Profile Parameters"
 msgstr "Amosar os parámetros do perfil"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgid "Disable parameters when the effect is disabled"
 msgctxt "@info:whatsthis"
-msgid ""
-"Opens a window with encoding profiles and their parameters. From here you "
-"can create, change, delete and download profiles used for timeline preview, "
-"proxy generation, and video, screen and decklink capture."
-msgstr ""
-"Abre unha xanela con perfís de codificación e os seus parámetros. Desde aquí "
-"pode crear, cambiar, eliminar e descargar perfís que se usan para a vista "
-"previa da cronoloxía, xeración de mandatarios, e captura de vídeo, de "
-"pantalla e de decklink."
+msgid "Displays the parameters for the selected profile"
+msgstr "Desactivar os parámetros cando o efecto está desactivado."
 
-#: src/dialogs/encodingprofilesdialog.cpp:259
-#: src/dialogs/encodingprofilesdialog.cpp:348
+#: src/dialogs/encodingprofilesdialog.cpp:258
+#: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Automático (%1)"
 
-#: src/dialogs/encodingprofilesdialog.cpp:261
-#: src/dialogs/encodingprofilesdialog.cpp:350
+#: src/dialogs/encodingprofilesdialog.cpp:260
+#: src/dialogs/encodingprofilesdialog.cpp:349
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
@@ -7247,14 +7247,14 @@ msgstr "Automático (%1)"
 msgid "Automatic"
 msgstr "Automático"
 
-#: src/dialogs/encodingprofilesdialog.cpp:329
+#: src/dialogs/encodingprofilesdialog.cpp:328
 #: src/project/dialogs/projectsettings.cpp:946
 #: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "Configuración actual"
 
-#: src/dialogs/encodingprofilesdialog.cpp:422
+#: src/dialogs/encodingprofilesdialog.cpp:421
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -8428,6 +8428,8 @@ msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
+"<b>Usar os paquetes do sistema. Só use isto se sabe o que significa</b>. Ten "
+"que instalar os paquetes necesarios manualmente no sistema:<br>%1"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:429 src/ui/configspeech_ui.ui:801
@@ -8646,12 +8648,13 @@ msgid "Speech recognition aborted."
 msgstr "Interrompeuse o recoñecemento de fala."
 
 #: src/dialogs/speechdialog.cpp:437
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed."
+#, kde-format
 msgid ""
 "Speech recognition failed:\n"
 "%1"
-msgstr "O recoñecemento da fala fallou."
+msgstr ""
+"O recoñecemento da fala fallou:\n"
+"%1"
 
 #: src/dialogs/speechdialog.cpp:444
 #, kde-format
@@ -14996,17 +14999,13 @@ msgid "Generating video mask"
 msgstr "Xerando a máscara de vídeo"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:378
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click on an object to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to exclude a zone."
+#, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
-"Prema un obxecto para iniciar unha máscara.\n"
+"Prema un obxecto ou debuxe unha caixa para iniciar unha máscara.\n"
 "Maiús+prema para incluír outra zona.\n"
 "Ctrl+prema para excluír unha zona."
 
@@ -18663,15 +18662,15 @@ msgid "Editing duration for %1 clips."
 msgstr "Editando a duración de %1 fragmentos."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:132
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:135
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:145
 #, kde-format
 msgid "Resizing in Ripple mode."
 msgstr "Cambiar de tamaño en modo de onda."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:316
 #, kde-format
 msgid "Edit item"
 msgstr "Editar o elemento"
@@ -21578,10 +21577,9 @@ msgstr "Fala a texto"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
 #: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:680
-#, fuzzy, kde-format
-#| msgid "Use system install"
+#, kde-format
 msgid "Use system packages only"
-msgstr "Usar a instalación do sistema"
+msgstr "Só usar os paquetes do sistema."
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:85
@@ -24554,6 +24552,17 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "Opens a window with encoding profiles and their parameters. From here you "
+#~ "can create, change, delete and download profiles used for timeline "
+#~ "preview, proxy generation, and video, screen and decklink capture."
+#~ msgstr ""
+#~ "Abre unha xanela con perfís de codificación e os seus parámetros. Desde "
+#~ "aquí pode crear, cambiar, eliminar e descargar perfís que se usan para a "
+#~ "vista previa da cronoloxía, xeración de mandatarios, e captura de vídeo, "
+#~ "de pantalla e de decklink."
 
 #~ msgid "Uninstall model"
 #~ msgstr "Desinstalar o modelo"

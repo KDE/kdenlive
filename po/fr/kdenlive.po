@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-25 00:40+0000\n"
-"PO-Revision-Date: 2025-01-23 16:28+0100\n"
+"POT-Creation-Date: 2025-01-26 00:41+0000\n"
+"PO-Revision-Date: 2025-01-24 11:13+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -7279,33 +7279,33 @@ msgstr "Configurer les profils"
 msgid "Manage Encoding Profiles"
 msgstr "Organiser les profils d'encodage"
 
-#: src/dialogs/encodingprofilesdialog.cpp:205
+#: src/dialogs/encodingprofilesdialog.cpp:202
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a dialog window to create, change, and delete encoding profiles"
+msgstr ""
+
+#: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
 msgid "Show Profile Parameters"
 msgstr "Afficher les paramètres de profil"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgid "Disable parameters when the effect is disabled"
 msgctxt "@info:whatsthis"
-msgid ""
-"Opens a window with encoding profiles and their parameters. From here you "
-"can create, change, delete and download profiles used for timeline preview, "
-"proxy generation, and video, screen and decklink capture."
-msgstr ""
-"Ouvre une fenêtre avec les profils d'encodage et leurs paramètres. À partir "
-"de là, vous pouvez créer, modifier, supprimer et télécharger des profils "
-"utilisés pour l'aperçu de la frise chronologique, la génération de serveur "
-"mandataire ainsi que la capture de vidéo, d'écran et de bureaux distants."
+msgid "Displays the parameters for the selected profile"
+msgstr "Désactiver les paramètres quand l'effet est désactivé"
 
-#: src/dialogs/encodingprofilesdialog.cpp:259
-#: src/dialogs/encodingprofilesdialog.cpp:348
+#: src/dialogs/encodingprofilesdialog.cpp:258
+#: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Automatique (%1)"
 
-#: src/dialogs/encodingprofilesdialog.cpp:261
-#: src/dialogs/encodingprofilesdialog.cpp:350
+#: src/dialogs/encodingprofilesdialog.cpp:260
+#: src/dialogs/encodingprofilesdialog.cpp:349
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
@@ -7313,14 +7313,14 @@ msgstr "Automatique (%1)"
 msgid "Automatic"
 msgstr "Automatique"
 
-#: src/dialogs/encodingprofilesdialog.cpp:329
+#: src/dialogs/encodingprofilesdialog.cpp:328
 #: src/project/dialogs/projectsettings.cpp:946
 #: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "Réglages courants"
 
-#: src/dialogs/encodingprofilesdialog.cpp:422
+#: src/dialogs/encodingprofilesdialog.cpp:421
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -15135,17 +15135,13 @@ msgid "Generating video mask"
 msgstr "Génération en cours d'un masque de vidéo"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:378
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click on an object to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to exclude a zone."
+#, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
-"Veuillez cliquer sur un objet pour démarrer un masque.\n"
+"Veuillez cliquer sur un objet ou dessiner un cadre pour démarrer un masque.\n"
 "« Maj » + clic pour inclure une autre zone.\n"
 "« CTRL » + clic pour exclure une zone."
 
@@ -18827,15 +18823,15 @@ msgid "Editing duration for %1 clips."
 msgstr "Durée d'édition pour les %1 séquences"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:132
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:135
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:145
 #, kde-format
 msgid "Resizing in Ripple mode."
 msgstr "Redimensionnement en mode « Propagation » en cours"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:316
 #, kde-format
 msgid "Edit item"
 msgstr "Modifier l'élément"
@@ -24743,6 +24739,18 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "Opens a window with encoding profiles and their parameters. From here you "
+#~ "can create, change, delete and download profiles used for timeline "
+#~ "preview, proxy generation, and video, screen and decklink capture."
+#~ msgstr ""
+#~ "Ouvre une fenêtre avec les profils d'encodage et leurs paramètres. À "
+#~ "partir de là, vous pouvez créer, modifier, supprimer et télécharger des "
+#~ "profils utilisés pour l'aperçu de la frise chronologique, la génération "
+#~ "de serveur mandataire ainsi que la capture de vidéo, d'écran et de "
+#~ "bureaux distants."
 
 #~ msgid "Uninstall model"
 #~ msgstr "Désinstaller un modèle"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-25 00:40+0000\n"
+"POT-Creation-Date: 2025-01-26 00:41+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -7130,32 +7130,33 @@ msgstr "Profilləri tənziləyin"
 msgid "Manage Encoding Profiles"
 msgstr "Şifrələmə profillərini idarə edin"
 
-#: src/dialogs/encodingprofilesdialog.cpp:205
+#: src/dialogs/encodingprofilesdialog.cpp:202
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a dialog window to create, change, and delete encoding profiles"
+msgstr ""
+
+#: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
 msgid "Show Profile Parameters"
 msgstr "Profil parametrlərini göstərmək"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgid "Disable parameters when the effect is disabled"
 msgctxt "@info:whatsthis"
-msgid ""
-"Opens a window with encoding profiles and their parameters. From here you "
-"can create, change, delete and download profiles used for timeline preview, "
-"proxy generation, and video, screen and decklink capture."
-msgstr ""
-"Pəncərələri şifrələmə profilləri və onların parametrləri ilə açır. Burada "
-"siz zaman xəttindəki önbaxışlar üçün önbaxışlarI, proksi yaradılmasını "
-"yarada, dəyişə, silə və video ekran şəkli və DekLink qeydi apara bilərsiniz."
+msgid "Displays the parameters for the selected profile"
+msgstr "Effekt söndürüldüyündə parametrlər söndürülsün"
 
-#: src/dialogs/encodingprofilesdialog.cpp:259
-#: src/dialogs/encodingprofilesdialog.cpp:348
+#: src/dialogs/encodingprofilesdialog.cpp:258
+#: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Avtomatik (%1)"
 
-#: src/dialogs/encodingprofilesdialog.cpp:261
-#: src/dialogs/encodingprofilesdialog.cpp:350
+#: src/dialogs/encodingprofilesdialog.cpp:260
+#: src/dialogs/encodingprofilesdialog.cpp:349
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
@@ -7163,14 +7164,14 @@ msgstr "Avtomatik (%1)"
 msgid "Automatic"
 msgstr "Avtomatik"
 
-#: src/dialogs/encodingprofilesdialog.cpp:329
+#: src/dialogs/encodingprofilesdialog.cpp:328
 #: src/project/dialogs/projectsettings.cpp:946
 #: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "Cari ayarlar"
 
-#: src/dialogs/encodingprofilesdialog.cpp:422
+#: src/dialogs/encodingprofilesdialog.cpp:421
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -18636,16 +18637,16 @@ msgid "Editing duration for %1 clips."
 msgstr "%1 üçün audio çıxarılır"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:132
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:135
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:145
 #, fuzzy, kde-format
 #| msgid "Editing profiles for:"
 msgid "Resizing in Ripple mode."
 msgstr "Bunu üçün profilə düzəliş edin::"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:316
 #, kde-format
 msgid "Edit item"
 msgstr "Elemntə düzəliş edin"
@@ -24586,6 +24587,17 @@ msgstr "%1d"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1s"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "Opens a window with encoding profiles and their parameters. From here you "
+#~ "can create, change, delete and download profiles used for timeline "
+#~ "preview, proxy generation, and video, screen and decklink capture."
+#~ msgstr ""
+#~ "Pəncərələri şifrələmə profilləri və onların parametrləri ilə açır. Burada "
+#~ "siz zaman xəttindəki önbaxışlar üçün önbaxışlarI, proksi yaradılmasını "
+#~ "yarada, dəyişə, silə və video ekran şəkli və DekLink qeydi apara "
+#~ "bilərsiniz."
 
 #, fuzzy
 #~| msgid "Installed modules"

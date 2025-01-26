@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-25 00:40+0000\n"
-"PO-Revision-Date: 2025-01-04 07:46+0100\n"
+"POT-Creation-Date: 2025-01-26 00:41+0000\n"
+"PO-Revision-Date: 2025-01-25 12:53+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7193,32 +7193,33 @@ msgstr "Ustawienia profili"
 msgid "Manage Encoding Profiles"
 msgstr "Zarządzaj profilami kodowania"
 
-#: src/dialogs/encodingprofilesdialog.cpp:205
+#: src/dialogs/encodingprofilesdialog.cpp:202
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a dialog window to create, change, and delete encoding profiles"
+msgstr ""
+
+#: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
 msgid "Show Profile Parameters"
 msgstr "Pokaż parametry profilu"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgid "Disable parameters when the effect is disabled"
 msgctxt "@info:whatsthis"
-msgid ""
-"Opens a window with encoding profiles and their parameters. From here you "
-"can create, change, delete and download profiles used for timeline preview, "
-"proxy generation, and video, screen and decklink capture."
-msgstr ""
-"Otwiera okno z profilami kodowania i ich parametrami. Stąd możesz tworzyć, "
-"zmieniać oraz pobierać profile używane do podglądu na osi czasu, tworzenia "
-"wycinków pośrednich, a także zrzucania nagrań, obrazu i decklink."
+msgid "Displays the parameters for the selected profile"
+msgstr "Wyłącz parametry gdy efekt jest wyłączony"
 
-#: src/dialogs/encodingprofilesdialog.cpp:259
-#: src/dialogs/encodingprofilesdialog.cpp:348
+#: src/dialogs/encodingprofilesdialog.cpp:258
+#: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "Samoczynnie (%1)"
 
-#: src/dialogs/encodingprofilesdialog.cpp:261
-#: src/dialogs/encodingprofilesdialog.cpp:350
+#: src/dialogs/encodingprofilesdialog.cpp:260
+#: src/dialogs/encodingprofilesdialog.cpp:349
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
@@ -7226,14 +7227,14 @@ msgstr "Samoczynnie (%1)"
 msgid "Automatic"
 msgstr "Samoczynnie"
 
-#: src/dialogs/encodingprofilesdialog.cpp:329
+#: src/dialogs/encodingprofilesdialog.cpp:328
 #: src/project/dialogs/projectsettings.cpp:946
 #: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "Bieżące ustawienia"
 
-#: src/dialogs/encodingprofilesdialog.cpp:422
+#: src/dialogs/encodingprofilesdialog.cpp:421
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -8412,6 +8413,9 @@ msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
+"<b>Używanie pakietów systemowych. Użyj tego tylko wtedy, gdy wiesz, co "
+"robisz</b>. Konieczne będzie samodzielne wgranie wszystkich wymaganych "
+"pakietów na twoim systemie:<br>%1"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:429 src/ui/configspeech_ui.ui:801
@@ -8629,12 +8633,13 @@ msgid "Speech recognition aborted."
 msgstr "Przerwano rozpoznawanie mowy."
 
 #: src/dialogs/speechdialog.cpp:437
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed."
+#, kde-format
 msgid ""
 "Speech recognition failed:\n"
 "%1"
-msgstr "Nie udało się rozpoznać mowy."
+msgstr ""
+"Nie udało się rozpoznać mowy:\n"
+"%1"
 
 #: src/dialogs/speechdialog.cpp:444
 #, kde-format
@@ -14949,17 +14954,13 @@ msgid "Generating video mask"
 msgstr "Tworzenie maski filmu"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:378
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click on an object to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to exclude a zone."
+#, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
-"Naciśnij na obiekcie, aby rozpocząć maskę.\n"
+"Naciśnij na obiekcie lub narysuj pole, aby rozpocząć maskę.\n"
 "Shift+klik, aby dodać nowy obszar.\n"
 "Ctrl+klik, aby wykluczyć dany obszar."
 
@@ -16806,6 +16807,8 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Nie można było znaleźć python3 w środowisku venv kdenlive.\n"
+"Spróbuj usunąć i wgrać tę wtyczkę na nowo."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:249
 #, kde-format
@@ -16813,6 +16816,8 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Nie można było znaleźć pip3 w środowisku venv kdenlive.\n"
+"Spróbuj usunąć i wgrać tę wtyczkę na nowo."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:333
 #, kde-format
@@ -16959,8 +16964,7 @@ msgid "Abort downloads"
 msgstr "Przerwij pobieranie"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Remove Model"
+#, kde-format
 msgid "Remove model"
 msgstr "Usuń model"
 
@@ -18601,15 +18605,15 @@ msgid "Editing duration for %1 clips."
 msgstr "Zmienianie czasu trwania dla %1 wycinków."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:132
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:135
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:145
 #, kde-format
 msgid "Resizing in Ripple mode."
 msgstr "Zmiana rozmiaru w trybie zafalowania."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:316
 #, kde-format
 msgid "Edit item"
 msgstr "Edytuj element"
@@ -21315,8 +21319,7 @@ msgstr "Napisy:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
 msgstr "Wyłącz wbudowane efekty"
 
@@ -21519,10 +21522,9 @@ msgstr "Mowa na tekst"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
 #: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:680
-#, fuzzy, kde-format
-#| msgid "Use system install"
+#, kde-format
 msgid "Use system packages only"
-msgstr "Użyj instalacji systemowej"
+msgstr "Użyj tylko pakietów systemowych"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:85
@@ -24480,6 +24482,17 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "Opens a window with encoding profiles and their parameters. From here you "
+#~ "can create, change, delete and download profiles used for timeline "
+#~ "preview, proxy generation, and video, screen and decklink capture."
+#~ msgstr ""
+#~ "Otwiera okno z profilami kodowania i ich parametrami. Stąd możesz "
+#~ "tworzyć, zmieniać oraz pobierać profile używane do podglądu na osi czasu, "
+#~ "tworzenia wycinków pośrednich, a także zrzucania nagrań, obrazu i "
+#~ "decklink."
 
 #~ msgid "Uninstall model"
 #~ msgstr "Usuń model"
