@@ -315,7 +315,7 @@ public:
     /** @brief returns true if an avformat producer has an alpha channel */
     bool hasAlpha();
     /** @brief Export video as jpg frames for analysis */
-    void exportFrames(const QDir folder, int in, int out);
+    void exportFrames(const QString &fileName, const QDir folder);
     /** @brief Get a list of masks */
     QVector<MaskInfo> masks() const;
     /** @brief Get a list of masks with only {name, url} */

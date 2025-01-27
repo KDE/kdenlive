@@ -24,6 +24,7 @@
 #include <QDragEnterEvent>
 #include <QFontDatabase>
 #include <QFormLayout>
+#include <QFutureWatcher>
 #include <QHBoxLayout>
 #include <QInputDialog>
 #include <QLabel>
@@ -87,6 +88,10 @@ MaskManager::MaskManager(QWidget *parent)
     checkModelAvailability();
     connect(buttonApply, &QPushButton::clicked, this, &MaskManager::applyMask);
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
+    connect(&m_watcher, &QFutureWatcherBase::finished, this, [this]() {
+        qDebug() << ":::: GENERATING FRAMES DONE...";
+        buttonAdd->setEnabled(true);
+    });
 }
 
 MaskManager::~MaskManager() {}
@@ -128,13 +133,20 @@ void MaskManager::initMaskMode()
         }
     }
     if (!m_watcher.isRunning()) {
-        Mlt::Consumer c(pCore->getProjectProfile(), "xml", "/tmp/test.mlt");
-        std::shared_ptr<Mlt::Producer> p(clip->originalProducer()->parent().cut(m_zone.x(), m_zone.y()));
-        c.connect(*p.get());
+        buttonAdd->setEnabled(false);
+        QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
+        src.setAutoRemove(false);
+        if (!src.open()) {
+            return;
+        }
+        src.close();
+        Mlt::Consumer c(pCore->getProjectProfile(), "xml", src.fileName().toUtf8().constData());
+        Mlt::Playlist playlist(pCore->getProjectProfile());
+        Mlt::Producer prod(clip->originalProducer()->parent());
+        playlist.append(prod, m_zone.x(), m_zone.y());
+        c.connect(playlist);
         c.run();
-        c.disconnect_all_producers();
-        p.reset();
-        m_exportTask = QtConcurrent::run(&ProjectClip::exportFrames, clip, srcMaskFolder, m_zone.x(), m_zone.y());
+        m_exportTask = QtConcurrent::run(&ProjectClip::exportFrames, clip, src.fileName(), srcMaskFolder);
         m_watcher.setFuture(m_exportTask);
     }
     clipMon->slotSeek(m_zone.x());
@@ -150,7 +162,7 @@ void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int y
     if (!QFile::exists(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/%1.jpg").arg(position, 5, 10, QLatin1Char('0'))))) {
         // Frame has not been extracted
         qDebug() << "/// FILE FOR FRAME: " << position
-                 << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
+                 << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
         return;
     }
     m_maskHelper->addMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, xPos, yPos, extend,

@@ -3114,7 +3114,7 @@ bool ProjectClip::hasAlpha()
     return false;
 }
 
-void ProjectClip::exportFrames(const QDir folder, int in, int out)
+void ProjectClip::exportFrames(const QString &fileName, const QDir folder)
 {
     // exporting through ffmpeg gives frames mismatch when clip fps != project fps
     /*GenTime inPos;
@@ -3133,12 +3133,16 @@ void ProjectClip::exportFrames(const QDir folder, int in, int out)
     // TODO Inform monitor when all frames are exported
     // connect(&m_exportProcess, &QProcess::finished, this, [this]() { m_exportFramesTimer.stop(); });
     m_exportProcess.startDetached(KdenliveSettings::ffmpegpath(), args);*/
-    Mlt::Consumer c(pCore->getProjectProfile(), "avformat", folder.absoluteFilePath(QStringLiteral("%05d.jpg")).toUtf8().constData());
-    c.set("preset", "stills/JPEG");
-    c.set("start_number", 0);
-    Mlt::Producer p(pCore->getProjectProfile(), "xml", "/tmp/test.mlt");
-    c.connect(p);
-    c.run();
+    QProcess p;
+    QStringList args = {QStringLiteral("xml:%1").arg(fileName),
+                        QStringLiteral("-consumer"),
+                        QStringLiteral("avformat:%1").arg(folder.absoluteFilePath(QStringLiteral("%05d.jpg"))),
+                        QStringLiteral("start_number=0"),
+                        QStringLiteral("-preset"),
+                        QStringLiteral("stills/JPEG")};
+    p.start(KdenliveSettings::meltpath(), args);
+    p.waitForFinished(-1);
+    QFile::remove(fileName);
 }
 
 void ProjectClip::addMask(MaskInfo mask)
