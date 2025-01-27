@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-18 02:35+0000\n"
-"PO-Revision-Date: 2025-01-19 12:58+0100\n"
+"PO-Revision-Date: 2025-01-26 19:43+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -15850,7 +15850,7 @@ msgstr "Ano"
 #: src/project/dialogs/projectsettings.cpp:382
 #, kde-format
 msgid "No files to delete on your drive."
-msgstr "Non hai ficheiro para eliminar no dispositivo."
+msgstr "Non hai ficheiro para eliminar na unidade."
 
 #: src/project/dialogs/projectsettings.cpp:390
 #, kde-format
