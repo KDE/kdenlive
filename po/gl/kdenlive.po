@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-25 12:15+0100\n"
+"PO-Revision-Date: 2025-01-26 19:43+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7218,6 +7218,8 @@ msgstr "Xestionar os perfís de codificación"
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
+"Abre unha xanela de diálogo para crear, cambiar e eliminar perfís de "
+"codificación."
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7225,11 +7227,10 @@ msgid "Show Profile Parameters"
 msgstr "Amosar os parámetros do perfil"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Desactivar os parámetros cando o efecto está desactivado."
+msgstr "Amosa os parámetros do perfil seleccionado."
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -16135,7 +16136,7 @@ msgstr "Ano"
 #: src/project/dialogs/projectsettings.cpp:383
 #, kde-format
 msgid "No files to delete on your drive."
-msgstr "Non hai ficheiro para eliminar no dispositivo."
+msgstr "Non hai ficheiro para eliminar na unidade."
 
 #: src/project/dialogs/projectsettings.cpp:391
 #, kde-format

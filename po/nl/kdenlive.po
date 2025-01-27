@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-24 11:28+0100\n"
+"PO-Revision-Date: 2025-01-26 23:37+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7216,6 +7216,8 @@ msgstr "Codeer profielen beheren"
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
+"Opent een dialoogvenster om coderingsprofielen aan te maken, te wijzigen en "
+"te verwijderen"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7223,11 +7225,10 @@ msgid "Show Profile Parameters"
 msgstr "Profielparameters tonen"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Parameters uitschakelen wanneer het effect is uitgeschakeld"
+msgstr "De parameters tonenvoor het geselecteerde profiel"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347

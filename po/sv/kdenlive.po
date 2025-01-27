@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-25 08:16+0100\n"
+"PO-Revision-Date: 2025-01-26 07:44+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -7166,6 +7166,7 @@ msgstr "Hantera kodningsprofiler"
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
+"Öppnar ett dialogfönster för att skapa, ändra och ta bort kodningsprofiler"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7173,11 +7174,10 @@ msgid "Show Profile Parameters"
 msgstr "Visa profilparametrar"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Inaktivera parametrar när effekten är inaktiverad"
+msgstr "Visar parametrarna för den valda profilen"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347

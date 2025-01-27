@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-24 06:20+0100\n"
+"PO-Revision-Date: 2025-01-26 22:31+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -7209,6 +7209,8 @@ msgstr "Kudeatu kodeketa profilak"
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
+"Kodetze-profilak sortzeko, aldatzeko, eta ezabatzeko elkarrizketa-koadro bat "
+"irekitzen du"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7216,11 +7218,10 @@ msgid "Show Profile Parameters"
 msgstr "Bistaratu Profilaren Parametroak"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Ezgaitu parametroak efektua ezgaituta dagoenean"
+msgstr "Hautatutako profilerako parametroak azaltzen ditu"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347

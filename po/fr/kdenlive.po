@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-24 11:13+0100\n"
+"PO-Revision-Date: 2025-01-25 16:55+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1229,12 +1229,12 @@ msgstr ""
 "Remarque : pour le type 1 (zoom et centre, alias « Suivre le point » :<br>\n"
 "* les valeurs de rognage ne sont valables uniquement en pourcentage et "
 "seules les valeurs inférieures (Respectivement à gauche) \n"
-"seront pris en considération car les deux valeurs (C’est-à-dire : en bas / "
+"seront pris en considération car les deux valeurs (C'est-à-dire : en bas / "
 "en haut) devront être égales à \n"
 "de façon à conserver le point centré)<br>\n"
-"* si la source de données n’est pas l’emplacement GPS, le centrage ne sera "
-"effectué que pour l’axe horizontal \n"
-"(heure). Le rognage de l’axe vertical se comportera comme pour la ligne de "
+"* si la source de données n'est pas l'emplacement GPS, le centrage ne sera "
+"effectué que pour l'axe horizontal \n"
+"(heure). Le rognage de l'axe vertical se comportera comme pour la ligne de "
 "base de la carte 2D (Il conservera \n"
 " la même limite minimale / maximale permettant au point à la date "
 "d'aujourd'hui de se déplacer vers le haut et vers le bas).]]>"
@@ -1331,9 +1331,9 @@ msgstr ""
 "\t La valeur est interprétée soit comme un pourcentage de la valeur totale, "
 "soit comme une valeur absolue en fonction du mode de rognage horizontal. En "
 "mode pourcentage, les valeurs ne sont pas limitées à l'intervalle de 0 à 100 "
-"pour permettre le comportement de « zoom arrière » (C’est-à-dire que le "
+"pour permettre le comportement de « zoom arrière » (C'est-à-dire que le "
 "rognage à - 50 ajoutera une moitié supplémentaire de la distance horizontale "
-"totale). Les valeurs supérieures à 100 (En % du mode) n’affichent rien. Si "
+"totale). Les valeurs supérieures à 100 (En % du mode) n'affichent rien. Si "
 "le <em>Type de graphique<em> est réglé sur <b>Compteur de vitesse</b>, "
 "toutes les valeurs de rognage gauche / droite sont ignorées.]]>"
 
@@ -1351,7 +1351,7 @@ msgid ""
 msgstr ""
 "<![CDATA[Identique à <em>Rognage sur la gauche</em> mais pour le côté droit. "
 "Le type de pourcentage est interprété comme un pourcentage inverse (C'est-à-"
-"dire : 100 = ne rien rogner). Les valeurs inférieures à 0 n’affichent "
+"dire : 100 = ne rien rogner). Les valeurs inférieures à 0 n'affichent "
 "absolument rien.]]>"
 
 #: data/effects/gpsgraphic.xml:71
@@ -1378,16 +1378,16 @@ msgstr ""
 "<! [CDATA[Définit comment interpréter les valeurs <em>Rogner sur la partie "
 "inférieure</em> et <em>Rogner sur la partie supérieur</em>. <br/>\n"
 "\t Avec une valeur absolue, il peut zoomer en avant entre 100 et 150 mètres "
-"d’altitude\n"
-" pour mieux afficher de petits changements d’altitude entre ces 2 valeurs. "
+"d'altitude\n"
+" pour mieux afficher de petits changements d'altitude entre ces 2 valeurs. "
 "<br />\n"
 "Remarque : pour le type vertical, les valeurs absolues sont des degrés de\n"
-" latitude (Pour le type de source d’emplacement) et l’altitude, la fréquence "
+" latitude (Pour le type de source d'emplacement) et l'altitude, la fréquence "
 "cardiaque, la vitesse pour les autres, interprétées dans le type d'<em>unité "
 "de légende</em> \n"
-"lorsque applicable (C'est-à-dire une valeur de 10 pour l’altitude sera "
+"lorsque applicable (C'est-à-dire une valeur de 10 pour l'altitude sera "
 "considérée en mètres par défaut \n"
-"mais si vous changez <em>l’unité de légende</em> en pieds, cela signifiera "
+"mais si vous changez <em>l'unité de légende</em> en pieds, cela signifiera "
 "10 pieds).]]>"
 
 #: data/effects/gpsgraphic.xml:81
@@ -1413,11 +1413,11 @@ msgstr ""
 "\t La valeur est interprétée soit comme un pourcentage de la valeur totale "
 "ou une valeur absolue selon le mode de rognage vertical. En mode "
 "pourcentage, les valeurs ne sont pas limitées à l'intervalle de 0 à 100 pour "
-"permettre le comportement en « zoom arrière » (C’est-à-dire, qu'un rognage à "
+"permettre le comportement en « zoom arrière » (C'est-à-dire, qu'un rognage à "
 "- 50  ajoutera une moitié supplémentaire de la distance verticale totale sur "
 "la partie inférieure). Les valeurs supérieures à 100 (En mode pourcentage) "
-"n’affichent rien. Si le <em>Type de graphique</em> est <b>Compteur de "
-"vitesse<b>, cela définira la position minimale de l’aiguille, qui figera "
+"n'affichent rien. Si le <em>Type de graphique</em> est <b>Compteur de "
+"vitesse<b>, cela définira la position minimale de l'aiguille, qui figera "
 "toutes les valeurs inférieures.]]>"
 
 #: data/effects/gpsgraphic.xml:86
@@ -1663,7 +1663,7 @@ msgid ""
 msgstr ""
 "<![CDATA[Si cette option est activée, le graphique sera dessiné en utilisant "
 "des points individuels au lieu de lignes.<br>\n"
-"        Cela montrera efficacement les points de données individuels "
+"        Cela affichera efficacement les points de données individuels "
 "affectés par le lissage (C'est-à-dire que pour les données de localisation, "
 "il affichera chaque correction GPS si le lissage est à 1). Il peut être "
 "utilisé comme un effet agréable lorsque le zoom avant est suffisant ou pour "
@@ -1767,9 +1767,9 @@ msgid ""
 "was started at the same time."
 msgstr ""
 "Fournit un décalage d'assistant pour garantir que le début du fichier vidéo "
-"est synchrone avec le début du fichier GPS . Définit correctement le "
-"décalage lorsque le fichier vidéo et l'enregistrement GPS ont été démarrés "
-"en même temps."
+"est synchrone avec le début du fichier GPS. Définit correctement le décalage "
+"lorsque le fichier vidéo et l'enregistrement GPS ont été démarrés en même "
+"temps."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
@@ -8736,12 +8736,13 @@ msgid "Speech recognition aborted."
 msgstr "Reconnaissance vocale interrompue."
 
 #: src/dialogs/speechdialog.cpp:437
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed."
+#, kde-format
 msgid ""
 "Speech recognition failed:\n"
 "%1"
-msgstr "La reconnaissance vocale a échoué."
+msgstr ""
+"La reconnaissance vocale a échoué :\n"
+"%1"
 
 #: src/dialogs/speechdialog.cpp:444
 #, kde-format
@@ -9474,7 +9475,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:318
 #, kde-format
 msgid "Set font"
-msgstr "Définir une fonte"
+msgstr "Définir une police"
 
 #: src/dialogs/subtitleedit.cpp:321
 #, kde-kuit-format
@@ -9541,12 +9542,12 @@ msgstr "De bas en haut"
 #: src/dialogs/subtitleedit.cpp:396
 #, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Augmenter la taille de la fonte de l'éditeur"
+msgstr "Augmenter la taille de la police de l'éditeur"
 
 #: src/dialogs/subtitleedit.cpp:398
 #, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Diminuer la taille de la fonte de l'éditeur"
+msgstr "Diminuer la taille de la police de l'éditeur"
 
 #: src/dialogs/subtitleedit.cpp:400
 #, kde-format
@@ -9596,14 +9597,14 @@ msgstr "Y :"
 #: src/dialogs/subtitlestyleedit.cpp:48
 #, kde-format
 msgid "Select font"
-msgstr "Sélectionner une fonte"
+msgstr "Sélectionner une police"
 
 #: src/dialogs/subtitlestyleedit.cpp:49
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
-"Ouvrir une boîte de dialogue pour les fontes afin d'en sélectionner une et "
+"Ouvrir une boîte de dialogue pour les polices afin d'en sélectionner une et "
 "définir ses propriétés."
 
 #: src/dialogs/subtitlestyleedit.cpp:101
@@ -9716,12 +9717,12 @@ msgstr "Ajouter un marqueur pour la sélection courante"
 #: src/dialogs/textbasededit.cpp:734
 #, kde-format
 msgid "Increase Font Size"
-msgstr "Augmenter la taille de la fonte"
+msgstr "Augmenter la taille de la police"
 
 #: src/dialogs/textbasededit.cpp:737
 #, kde-format
 msgid "Decrease Font Size"
-msgstr "Diminuer la taille de la fonte"
+msgstr "Diminuer la taille de la police"
 
 #: src/dialogs/textbasededit.cpp:741
 #, kde-format
@@ -11186,8 +11187,8 @@ msgstr "Génération en cours du masque %1"
 msgid ""
 "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgstr ""
-"Ceci sera le fichier <b>%1</b> de masque : <br/>%2<br/>Cette opération ne "
-"peut pas être annulée."
+"Ceci sera le fichier <b>%1</b> de masque : <br/>%2<br/>Il est impossible "
+"d'annuler cette opération."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -12648,7 +12649,7 @@ msgstr "Outil Razor"
 #: src/mainwindow.cpp:1200
 #, kde-format
 msgid "Spacer Tool"
-msgstr "Outil d'espacement"
+msgstr "Outil pour séparateurs"
 
 #: src/mainwindow.cpp:1203
 #, kde-kuit-format
@@ -19468,8 +19469,8 @@ msgstr ""
 "La piste courante de sous-titres contient plusieurs calque, ce qui signifie "
 "que si les sous-titres des différents calques partagent la même position de "
 "départ, seul le sous-titre du calque inférieur sera conservé. Cela peut "
-"entraîner la perte de certains sous-titres dans le fichier exporté. "
-"Souhaitez-vous continuer ?"
+"entraîner la perte de certains sous-titres dans le fichier exporté. Voulez-"
+"vous vraiment continuer ?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5114
 #, kde-format
@@ -21479,7 +21480,7 @@ msgstr "Obtenir les méta-données du clip avec Magic Lantern"
 #: src/ui/configmisc_ui.ui:100
 #, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ignorer la structure du sous-dossier à  l'importation"
+msgstr "Ignorer la structure du sous-dossier à l'importation"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107

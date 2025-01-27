@@ -7013,11 +7013,10 @@ msgid "Show Profile Parameters"
 msgstr "显示编码方案参数"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "禁用效果时禁用其参数"
+msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -23926,12 +23925,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "Opens a window with encoding profiles and their parameters. From here you "
-#~ "can create, change, delete and download profiles used for timeline "
-#~ "preview, proxy generation, and video, screen and decklink capture."
-#~ msgstr ""
-#~ "打开显示了编码方案及其参数的窗口。您可以在该窗口中创建、更改、删除和下载用"
-#~ "于时间轴预览、代理生成、视频、屏幕和 Decklink 捕获的编码方案。"

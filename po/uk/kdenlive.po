@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-24 22:21+0200\n"
+"PO-Revision-Date: 2025-01-26 21:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -7239,6 +7239,8 @@ msgstr "Керування профілями кодування"
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
+"Відкриває діалогове вікно для створення, зміни та вилучення профілів "
+"кодування"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7246,11 +7248,10 @@ msgid "Show Profile Parameters"
 msgstr "Показати параметри профілю"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Вимкнути налаштування, якщо вимкнено ефект"
+msgstr "Показує параметри позначеного профілю"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-25 14:21+0100\n"
+"PO-Revision-Date: 2025-01-26 10:00+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7195,6 +7195,8 @@ msgstr "Upravljajte s profili kodiranja"
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
+"Odpre pogovorno okno za ustvarjanje, spreminjanje in brisanje profilov "
+"kodiranja"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7202,11 +7204,10 @@ msgid "Show Profile Parameters"
 msgstr "Pokaži parametre profila"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Onemogoči parametre, ko je učinek onemogočen"
+msgstr "Prikaže parametre za izbrani profil"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -24462,14 +24463,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "Opens a window with encoding profiles and their parameters. From here you "
-#~ "can create, change, delete and download profiles used for timeline "
-#~ "preview, proxy generation, and video, screen and decklink capture."
-#~ msgstr ""
-#~ "Odpre okno s profili kodiranja in njihovimi parametri. Odtod lahko "
-#~ "ustvarite, spremenite, izbrišete in prenesete profile, ki se uporabljajo "
-#~ "za predogled časovnice, ustvarjanje posrednih posnetkov ter zajem "
-#~ "videoposnetkov, zaslona in iz kartice decklink."

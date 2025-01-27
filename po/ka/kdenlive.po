@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-24 05:12+0100\n"
+"PO-Revision-Date: 2025-01-26 02:54+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7156,6 +7156,7 @@ msgstr "კოდირების პროფილების მართ�
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
+"გახსნის დიალოგს კოდირების პროფილების შესაქმნელად, შესაცვლელად და წასაშლელად"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7163,11 +7164,10 @@ msgid "Show Profile Parameters"
 msgstr "პროფილის პარამეტრების ჩვენება"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "პარამეტრების გათიშვა, როცა ეფექტი გამორთულია"
+msgstr "აჩვენებს პარამეტრებს არჩეული პროფილისთვის"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
