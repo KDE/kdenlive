@@ -28,6 +28,7 @@ public:
        @param index is the index of this parameter in its model
      */
     explicit AutomaskHelper(QObject *parent = nullptr);
+    void showMessage(const QString &message);
 
 public Q_SLOTS:
     bool generateMask(const QString &binId, const QString &maskName, const QPoint &zone);

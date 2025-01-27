@@ -85,6 +85,11 @@ void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int posi
     (void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
 }
 
+void AutomaskHelper::showMessage(const QString &message)
+{
+    // pCore->getMonitor(Kdenlive::ClipMonitor)->statusMessage(message);
+}
+
 void AutomaskHelper::moveMonitorControlPoint(const QString &previewFile, int ix, int position, const QSize frameSize, int xPos, int yPos)
 {
     const QPoint p(xPos, yPos);

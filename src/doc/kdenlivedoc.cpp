@@ -328,6 +328,16 @@ KdenliveDoc::~KdenliveDoc()
             }
         }
     }
+    // Clear mask source folder if exists
+    bool ok;
+    QDir srcMaskFolder = getCacheDir(CacheMaskSource, &ok);
+    if (ok) {
+        if (!srcMaskFolder.isEmpty()) {
+            if (srcMaskFolder.dirName() == QLatin1String("source-frames")) {
+                // srcMaskFolder.removeRecursively();
+            }
+        }
+    }
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
     if (pCore->window()) {
         disconnect(this, &KdenliveDoc::docModified, pCore->window(), &MainWindow::slotUpdateDocumentState);

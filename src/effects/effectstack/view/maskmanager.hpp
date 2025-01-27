@@ -9,7 +9,6 @@
 #include "ui_maskmanage_ui.h"
 
 #include <QDir>
-#include <QFutureWatcher>
 #include <QMutex>
 #include <QReadWriteLock>
 #include <QTimer>
@@ -22,7 +21,6 @@ class AutomaskHelper;
 class MaskManager : public QWidget, public Ui::MaskManage_UI
 {
     Q_OBJECT
-
 public:
     MaskManager(QWidget *parent);
     virtual ~MaskManager() override;
@@ -49,7 +47,5 @@ private:
     QSize m_iconSize;
     QDir m_maskFolder;
     bool m_connected{false};
-    QFutureWatcher<void> m_watcher;
-    QFuture<void> m_exportTask;
     std::shared_ptr<ProjectClip> getOwnerClip();
 };

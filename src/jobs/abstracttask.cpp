@@ -51,6 +51,7 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject *object)
     case AbstractTask::LOADJOB:
         m_priority = 10;
         break;
+    case AbstractTask::MELTJOB:
     case AbstractTask::TRANSCODEJOB:
     case AbstractTask::PROXYJOB:
         m_priority = 8;

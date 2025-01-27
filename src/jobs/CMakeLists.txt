@@ -14,6 +14,7 @@ set(kdenlive_SRCS
   jobs/transcodetask.cpp
   jobs/filtertask.cpp
   jobs/masktask.cpp
+  jobs/melttask.cpp
   jobs/cachetask.cpp
   jobs/scenesplittask.cpp
   jobs/cuttask.cpp

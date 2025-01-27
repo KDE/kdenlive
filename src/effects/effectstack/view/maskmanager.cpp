@@ -12,6 +12,7 @@
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "jobs/melttask.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -88,10 +89,6 @@ MaskManager::MaskManager(QWidget *parent)
     checkModelAvailability();
     connect(buttonApply, &QPushButton::clicked, this, &MaskManager::applyMask);
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
-    connect(&m_watcher, &QFutureWatcherBase::finished, this, [this]() {
-        qDebug() << ":::: GENERATING FRAMES DONE...";
-        buttonAdd->setEnabled(true);
-    });
 }
 
 MaskManager::~MaskManager() {}
@@ -132,7 +129,7 @@ void MaskManager::initMaskMode()
             srcMaskFolder.mkpath(QStringLiteral("."));
         }
     }
-    if (!m_watcher.isRunning()) {
+    if (!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB)) {
         buttonAdd->setEnabled(false);
         QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
         src.setAutoRemove(false);
@@ -146,11 +143,28 @@ void MaskManager::initMaskMode()
         playlist.append(prod, m_zone.x(), m_zone.y());
         c.connect(playlist);
         c.run();
-        m_exportTask = QtConcurrent::run(&ProjectClip::exportFrames, clip, src.fileName(), srcMaskFolder);
-        m_watcher.setFuture(m_exportTask);
+        QStringList args = {QStringLiteral("xml:%1").arg(src.fileName()),
+                            QStringLiteral("-consumer"),
+                            QStringLiteral("avformat:%1").arg(srcMaskFolder.absoluteFilePath(QStringLiteral("%05d.jpg"))),
+                            QStringLiteral("start_number=0"),
+                            QStringLiteral("-preset"),
+                            QStringLiteral("stills/JPEG")};
+        std::function<void(const QString &)> callBack = [this](const QString &binId) {
+            QMetaObject::invokeMethod(samStatus, "hide", Qt::QueuedConnection);
+            buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
+            Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
+            clipMon->slotSeek(m_zone.x());
+            clipMon->loadQmlScene(MonitorSceneAutoMask);
+            return true;
+        };
+        const QString binId = clip->clipId();
+        samStatus->setText(i18n("Exporting video frames for analysis"));
+        samStatus->clearActions();
+        samStatus->setCloseButtonVisible(true);
+        samStatus->setMessageType(KMessageWidget::Information);
+        samStatus->animatedShow();
+        MeltTask::start(m_owner, binId, src.fileName(), args, clip.get(), std::bind(callBack, binId));
     }
-    clipMon->slotSeek(m_zone.x());
-    clipMon->loadQmlScene(MonitorSceneAutoMask);
 }
 
 void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
@@ -163,6 +177,7 @@ void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int y
         // Frame has not been extracted
         qDebug() << "/// FILE FOR FRAME: " << position
                  << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
+        m_maskHelper->showMessage(i18n("Missing source frames"));
         return;
     }
     m_maskHelper->addMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, xPos, yPos, extend,
@@ -230,6 +245,8 @@ void MaskManager::setOwner(ObjectId owner)
         }
     }
     m_owner = owner;
+    // Enable new mask if no job running
+    buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
     // Clean up tmp folder
     QDir srcFramesFolder(QStringLiteral("/tmp/src-frames"));
     if (srcFramesFolder.exists()) {
