@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-18 02:35+0000\n"
-"PO-Revision-Date: 2025-01-04 23:38+0100\n"
+"PO-Revision-Date: 2025-01-19 10:30+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -21309,7 +21309,7 @@ msgstr "Riproduci/metti in pausa il controllo al clic del mouse"
 #: src/ui/configsdl_ui.ui:35
 #, kde-format
 msgid "Monitor for fullscreen output:"
-msgstr "Schermo per la visualizzazione a schermo intero:"
+msgstr "Controllo per la visualizzazione a schermo intero:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configsdl_ui.ui:52
