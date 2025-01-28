@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-24 09:27+0200\n"
+"PO-Revision-Date: 2025-01-27 08:24+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -7075,7 +7075,7 @@ msgstr "ניהול פרופילי קידוד"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
-msgstr ""
+msgstr "פתיחת חלונית ליצירת, שינוי ומחיקת פרופילי קידוד"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7083,11 +7083,10 @@ msgid "Show Profile Parameters"
 msgstr "הצגת משתני פרופיל"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "השבתת משתנים כשהאפקט מושבת"
+msgstr "הצגת המשתנים לפרופיל הנבחר"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347

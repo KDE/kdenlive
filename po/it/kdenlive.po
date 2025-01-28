@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-26 00:41+0000\n"
-"PO-Revision-Date: 2025-01-04 23:38+0100\n"
+"PO-Revision-Date: 2025-01-19 10:30+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4083,10 +4083,9 @@ msgstr ""
 "un effetto lo eliminerà per tutte le clip del gruppo."
 
 #: src/assets/assetpanel.cpp:102
-#, fuzzy, kde-format
-#| msgid "Create new points."
+#, kde-format
 msgid "Create an object mask"
-msgstr "Crea nuovi punti."
+msgstr "Crea un oggetto maschera"
 
 #: src/assets/assetpanel.cpp:106
 #, kde-kuit-format
@@ -4193,14 +4192,9 @@ msgstr "Effetti contenitore %1"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:198
 #: src/jobs/masktask.cpp:95
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to render mask %1"
-msgstr ""
-"Impossibile generare la clip:\n"
-"%1"
+msgstr "Impossibile rendere la maschera %1"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:219
 #, kde-format
@@ -11091,10 +11085,9 @@ msgid "Enter the name of this mask:"
 msgstr "Inserisci il nome di questa maschera:"
 
 #: src/effects/effectstack/view/maskmanager.cpp:243
-#, fuzzy, kde-format
-#| msgid "Creating menu images"
+#, kde-format
 msgid "Generating mask %1"
-msgstr "Generazione delle immagini del menu"
+msgstr "Generazione della maschera %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:360
 #, kde-format
@@ -11309,10 +11302,9 @@ msgid "No source frames to process"
 msgstr "Non ci sono fotogrammi chiave da importare"
 
 #: src/jobs/masktask.cpp:74
-#, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
+#, kde-format
 msgid "Failed to analyse video."
-msgstr "Impossibile analizzare la clip."
+msgstr "Impossibile analizzare il video."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -16904,6 +16896,8 @@ msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Impossibile trovare python3 nell'ambiente virtuale di kdenlive.\n"
+"Prova a disinstallare e a reinstallare l'estensione."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:249
 #, kde-format
@@ -16911,6 +16905,8 @@ msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
+"Impossibile trovare pip3 nell'ambiente virtuale di kdenlive.\n"
+"Prova a disinstallare e a reinstallare l'estensione."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:333
 #, kde-format
@@ -17059,8 +17055,7 @@ msgid "Abort downloads"
 msgstr "Interrompi gli scaricamenti"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Remove Model"
+#, kde-format
 msgid "Remove model"
 msgstr "Rimuovi modello"
 
@@ -21435,8 +21430,7 @@ msgstr "Sottotitoli:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
 #: src/ui/configmisc_ui.ui:280
-#, fuzzy, kde-format
-#| msgid "Enable Builtin Effects"
+#, kde-format
 msgid "Enable Built-in Effects"
 msgstr "Abilita gli effetti incorporati"
 
@@ -21576,7 +21570,7 @@ msgstr "Riproduci/metti in pausa il controllo al clic del mouse"
 #: src/ui/configsdl_ui.ui:35
 #, kde-format
 msgid "Monitor for fullscreen output:"
-msgstr "Schermo per la visualizzazione a schermo intero:"
+msgstr "Controllo per la visualizzazione a schermo intero:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configsdl_ui.ui:52
