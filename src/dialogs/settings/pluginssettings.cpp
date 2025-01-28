@@ -218,6 +218,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
                 }
             } else if (combo_wr_device->count() > 0) {
                 combo_wr_device->setCurrentIndex(0);
+                KdenliveSettings::setWhisperDevice(combo_wr_device->currentData().toString());
             }
         }
     });
@@ -375,6 +376,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
                 }
             } else if (combo_sam_device->count() > 0) {
                 combo_sam_device->setCurrentIndex(0);
+                KdenliveSettings::setSamDevice(combo_sam_device->currentData().toString());
             }
         }
     });

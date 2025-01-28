@@ -16,9 +16,10 @@ class MeltTask : public AbstractTask
 {
     Q_OBJECT
 public:
-    MeltTask(const ObjectId &owner, const QString &binId, const QString &playlistName, const QStringList &jobArgs, QObject *object);
+    MeltTask(const ObjectId &owner, const QString &binId, const QString &playlistName, const QStringList &jobArgs, const QString &jobDescription,
+             QObject *object);
     static void start(
-        const ObjectId &owner, const QString &binId, const QString &playlistName, const QStringList &jobArgs, QObject *object,
+        const ObjectId &owner, const QString &binId, const QString &playlistName, const QStringList &jobArgs, const QString &jobDescription, QObject *object,
         const std::function<void()> &readyCallBack = []() {});
 
 private Q_SLOTS:
@@ -33,6 +34,7 @@ private:
     QStringList m_jobArgs;
     QString m_errorMessage;
     QString m_logDetails;
+    int m_jobDuration{0};
     std::unique_ptr<QProcess> m_jobProcess;
 
 Q_SIGNALS:

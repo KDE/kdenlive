@@ -12,22 +12,24 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <KMessageWidget>
+#include <QDir>
 #include <QProcess>
 #include <QThread>
 
-MeltTask::MeltTask(const ObjectId &owner, const QString &binId, const QString &playlistName, const QStringList &jobArgs, QObject *object)
+MeltTask::MeltTask(const ObjectId &owner, const QString &binId, const QString &playlistName, const QStringList &jobArgs, const QString &jobDescription,
+                   QObject *object)
     : AbstractTask(owner, AbstractTask::MELTJOB, object)
     , m_binId(binId)
     , m_playlistName(playlistName)
     , m_jobArgs(jobArgs)
 {
-    m_description = i18n("Processing playlist %1", playlistName);
+    m_description = jobDescription;
 }
 
-void MeltTask::start(const ObjectId &owner, const QString &binId, const QString &playlistName, const QStringList &jobArgs, QObject *object,
-                     const std::function<void()> &readyCallBack)
+void MeltTask::start(const ObjectId &owner, const QString &binId, const QString &playlistName, const QStringList &jobArgs, const QString &jobDescription,
+                     QObject *object, const std::function<void()> &readyCallBack)
 {
-    MeltTask *task = new MeltTask(owner, binId, playlistName, jobArgs, object);
+    MeltTask *task = new MeltTask(owner, binId, playlistName, jobArgs, jobDescription, object);
     connect(task, &MeltTask::taskDone, [readyCallBack]() { QMetaObject::invokeMethod(qApp, [readyCallBack] { readyCallBack(); }); });
     pCore->taskManager.startTask(owner.itemId, task);
 }
@@ -52,9 +54,12 @@ void MeltTask::run()
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (m_isCanceled || !result) {
         if (!m_isCanceled) {
-            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to filter source.")),
+            QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to process playlist.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
+    }
+    if (m_playlistName.startsWith(QDir::tempPath())) {
+        QFile::remove(m_playlistName);
     }
     Q_EMIT taskDone();
 }
@@ -66,9 +71,9 @@ void MeltTask::processLogInfo()
     // Parse MLT output
     if (buffer.contains(QLatin1String("percentage:"))) {
         int progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-        if (progress == m_progress) {
-            return;
+        if (progress != m_progress) {
+            m_progress = progress;
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
         }
-        QMetaObject::invokeMethod(m_object, "updateJobProgress");
     }
 }

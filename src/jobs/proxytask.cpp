@@ -397,7 +397,7 @@ void ProxyTask::processLogInfo()
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
             if (buffer.contains(QLatin1String("Duration:"))) {
-                QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+                const QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
                 if (!data.isEmpty()) {
                     QStringList numbers = data.split(QLatin1Char(':'));
                     if (numbers.size() < 3) {
@@ -408,9 +408,9 @@ void ProxyTask::processLogInfo()
             }
         } else if (buffer.contains(QLatin1String("time="))) {
             int progress = 0;
-            QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
+            const QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
             if (!time.isEmpty()) {
-                QStringList numbers = time.split(QLatin1Char(':'));
+                const QStringList numbers = time.split(QLatin1Char(':'));
                 if (numbers.size() < 3) {
                     progress = time.toInt();
                     if (progress == 0) {

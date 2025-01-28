@@ -173,6 +173,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_transitionWidget->setVisible(false);
     m_mixWidget->setVisible(false);
     m_effectStackWidget->setVisible(false);
+    m_maskManager->setVisible(false);
     updatePalette();
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
     connect(m_effectStackWidget, &EffectStackView::scrollView, this, &AssetPanel::scrollTo);

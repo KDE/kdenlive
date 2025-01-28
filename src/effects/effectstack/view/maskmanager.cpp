@@ -148,8 +148,9 @@ void MaskManager::initMaskMode()
                             QStringLiteral("avformat:%1").arg(srcMaskFolder.absoluteFilePath(QStringLiteral("%05d.jpg"))),
                             QStringLiteral("start_number=0"),
                             QStringLiteral("-preset"),
-                            QStringLiteral("stills/JPEG")};
-        std::function<void(const QString &)> callBack = [this](const QString &binId) {
+                            QStringLiteral("stills/JPEG"),
+                            QStringLiteral("progress=1")};
+        std::function<void(const QString &)> callBack = [this](const QString &) {
             QMetaObject::invokeMethod(samStatus, "hide", Qt::QueuedConnection);
             buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
             Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
@@ -163,7 +164,7 @@ void MaskManager::initMaskMode()
         samStatus->setCloseButtonVisible(true);
         samStatus->setMessageType(KMessageWidget::Information);
         samStatus->animatedShow();
-        MeltTask::start(m_owner, binId, src.fileName(), args, clip.get(), std::bind(callBack, binId));
+        MeltTask::start(m_owner, binId, src.fileName(), args, i18n("Exporting video frames"), clip.get(), std::bind(callBack, binId));
     }
 }
 

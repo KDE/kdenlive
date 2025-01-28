@@ -147,18 +147,18 @@ void MonitorManager::refreshMonitors()
 {
     if (m_activeMonitor) {
         if (m_activeMonitor == m_clipMonitor) {
-            activateMonitor(Kdenlive::ProjectMonitor);
+            activateMonitor(Kdenlive::ProjectMonitor, true, true);
             refreshProjectMonitor(true);
-            activateMonitor(Kdenlive::ClipMonitor);
+            activateMonitor(Kdenlive::ClipMonitor, true, true);
             refreshClipMonitor(true);
         } else {
             bool playing = m_projectMonitor->isPlaying();
             if (playing) {
                 m_projectMonitor->switchPlay(false);
             }
-            activateMonitor(Kdenlive::ClipMonitor);
+            activateMonitor(Kdenlive::ClipMonitor, true, true);
             refreshClipMonitor(true);
-            activateMonitor(Kdenlive::ProjectMonitor);
+            activateMonitor(Kdenlive::ProjectMonitor, true, true);
             refreshProjectMonitor(true);
             if (playing) {
                 m_projectMonitor->switchPlay(true);
@@ -167,7 +167,7 @@ void MonitorManager::refreshMonitors()
     }
 }
 
-bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor)
+bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor, bool quickSwitch)
 {
     if ((m_activeMonitor != nullptr) && m_activeMonitor->id() == name) {
         return true;
@@ -189,26 +189,30 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!m_clipMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
                     m_clipMonitor->parentWidget()->raise();
-                    pCore->window()->activeBin()->focusBinView();
+                    if (!quickSwitch) {
+                        pCore->window()->activeBin()->focusBinView();
+                    }
                 }
             } else {
                 m_clipMonitor->fixFocus();
             }
-            // Set guides list to show guides
-            m_clipMonitor->updateGuidesList();
-            if (!m_clipMonitor->isVisible()) {
-                pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"),
-                                      MessageType::InformationMessage);
-                m_activeMonitor = m_projectMonitor;
-                return false;
-            }
-            Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
-            m_projectMonitor->displayAudioMonitor(false);
-            m_clipMonitor->displayAudioMonitor(true);
-            if (m_clipMonitor->isDirty()) {
-                // refresh
-                m_clipMonitor->markDirty(QUuid());
-                m_clipMonitor->refreshMonitor(true);
+            if (!quickSwitch) {
+                // Set guides list to show guides
+                m_clipMonitor->updateGuidesList();
+                if (!m_clipMonitor->isVisible()) {
+                    pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"),
+                                          MessageType::InformationMessage);
+                    m_activeMonitor = m_projectMonitor;
+                    return false;
+                }
+                Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
+                m_projectMonitor->displayAudioMonitor(false);
+                m_clipMonitor->displayAudioMonitor(true);
+                if (m_clipMonitor->isDirty()) {
+                    // refresh
+                    m_clipMonitor->markDirty(QUuid());
+                    m_clipMonitor->refreshMonitor(true);
+                }
             }
         } else if (name == Kdenlive::ProjectMonitor) {
             // Set guides list to show guides
@@ -216,28 +220,34 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
                     m_projectMonitor->parentWidget()->raise();
-                    pCore->window()->focusTimeline();
+                    if (!quickSwitch) {
+                        pCore->window()->focusTimeline();
+                    }
                 }
             } else {
                 m_projectMonitor->fixFocus();
             }
-            if (!m_projectMonitor->isVisible()) {
-                pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"),
-                                      MessageType::InformationMessage);
-                m_activeMonitor = m_clipMonitor;
-                return false;
-            }
-            Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
-            m_clipMonitor->displayAudioMonitor(false);
-            m_projectMonitor->displayAudioMonitor(true);
-            if (m_projectMonitor->isDirty()) {
-                // refresh
-                m_projectMonitor->markDirty(QUuid());
-                m_projectMonitor->refreshMonitor(true);
+            if (!quickSwitch) {
+                if (!m_projectMonitor->isVisible()) {
+                    pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"),
+                                          MessageType::InformationMessage);
+                    m_activeMonitor = m_clipMonitor;
+                    return false;
+                }
+                Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
+                m_clipMonitor->displayAudioMonitor(false);
+                m_projectMonitor->displayAudioMonitor(true);
+                if (m_projectMonitor->isDirty()) {
+                    // refresh
+                    m_projectMonitor->markDirty(QUuid());
+                    m_projectMonitor->refreshMonitor(true);
+                }
             }
         }
     }
-    Q_EMIT checkColorScopes();
+    if (!quickSwitch) {
+        Q_EMIT checkColorScopes();
+    }
     return (m_activeMonitor != nullptr);
 }
 

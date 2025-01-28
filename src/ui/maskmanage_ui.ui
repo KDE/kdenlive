@@ -11,35 +11,52 @@
     <x>0</x>
     <y>0</y>
     <width>313</width>
-    <height>259</height>
+    <height>212</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <widget class="QLabel" name="thumbPreview">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="1" column="0" rowspan="3">
+    <widget class="QTreeWidget" name="maskTree">
+     <column>
+      <property name="text">
+       <string>Mask</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Zone</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="buttonPreview">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
      <property name="text">
-      <string/>
+      <string>Preview Mask</string>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="KMessageWidget" name="samStatus">
-     <property name="closeButtonVisible">
-      <bool>false</bool>
+   <item row="6" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
-    </widget>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item row="4" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -97,46 +114,6 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" rowspan="3">
-    <widget class="QTreeWidget" name="maskTree">
-     <column>
-      <property name="text">
-       <string>Mask</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Zone</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QPushButton" name="buttonPreview">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Preview Mask</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="2" column="1">
     <widget class="QPushButton" name="buttonApply">
      <property name="enabled">
@@ -144,6 +121,29 @@
      </property>
      <property name="text">
       <string>Apply Mask</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="thumbPreview">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="KMessageWidget" name="samStatus">
+     <property name="closeButtonVisible">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

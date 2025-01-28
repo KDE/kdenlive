@@ -72,7 +72,7 @@ public Q_SLOTS:
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate
      * @param name raiseMonitor, will raise (bring to front) the monitor if true */
-    bool activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor = true);
+    bool activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor = true, bool quickSwitch = false);
     void slotPlay();
     void slotPause();
     void slotPlayZone();

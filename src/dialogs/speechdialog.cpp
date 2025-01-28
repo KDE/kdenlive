@@ -384,8 +384,10 @@ void SpeechDialog::slotProcessSpeech()
             KdenliveSettings::setWhisperMaxChars(maxCount);
         }
         KdenliveSettings::setCutWhisperMaxChars(check_maxchars->isChecked());
-        QStringList arguments = {m_stt->subtitleScript(), audio, modelName};
-        arguments << QStringLiteral("device=%1").arg(KdenliveSettings::whisperDevice()) << QStringLiteral("ffmpeg_path=%1").arg(KdenliveSettings::ffmpegpath());
+        QStringList arguments = {m_stt->subtitleScript(), audio, modelName, QStringLiteral("ffmpeg_path=%1").arg(KdenliveSettings::ffmpegpath())};
+        if (!KdenliveSettings::whisperDevice().isEmpty()) {
+            arguments << QStringLiteral("device=%1").arg(KdenliveSettings::whisperDevice());
+        }
         if (translate_seamless->isChecked()) {
             arguments << QStringLiteral("seamless_source=%1").arg(seamless_in->currentData().toString());
             arguments << QStringLiteral("seamless_target=%1").arg(seamless_out->currentData().toString());
