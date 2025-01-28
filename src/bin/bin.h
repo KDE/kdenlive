@@ -378,6 +378,8 @@ public:
     const QString loadInfo(const QStringList binInfo, const QStringList existingNames);
     /** @brief Display a clip effect stack */
     void showItemEffectStack(ObjectId owner);
+    /** @brief Return the bin search widget */
+    QLineEdit *searchLine();
 
 private Q_SLOTS:
     void slotAddClip();

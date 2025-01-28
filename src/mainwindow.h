@@ -619,6 +619,8 @@ private Q_SLOTS:
     void slotRemoveBinDock(const QString &name);
     /** @brief Focus the guides list search line */
     void slotSearchGuide();
+    /** @brief Focus the bin search line */
+    void slotSearchBin();
     /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
     void slotCreateSequenceFromSelection();
 

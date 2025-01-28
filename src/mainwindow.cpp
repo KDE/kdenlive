@@ -1750,6 +1750,7 @@ void MainWindow::setupActions()
     act->setEnabled(false);
     // "C" as data means this action should only be available for clips - not for compositions
     act->setData('C');
+    addAction(QStringLiteral("search_bin"), i18n("Search Bin Clip…"), this, SLOT(slotSearchBin()), QIcon::fromTheme(QStringLiteral("edit-find")));
 
     addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
               Qt::SHIFT | Qt::Key_R);
@@ -2961,6 +2962,11 @@ void MainWindow::slotEditGuide()
 void MainWindow::slotSearchGuide()
 {
     pCore->guidesList()->filter_line->setFocus();
+}
+
+void MainWindow::slotSearchBin()
+{
+    pCore->activeBin()->searchLine()->setFocus();
 }
 
 void MainWindow::slotExportGuides()

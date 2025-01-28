@@ -6456,3 +6456,8 @@ void Bin::slotOpenNewBin()
     const QString id = getCurrentFolder();
     pCore.get()->addBin(id);
 }
+
+QLineEdit *Bin::searchLine()
+{
+    return m_searchLine;
+}
