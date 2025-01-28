@@ -134,7 +134,7 @@
 <text>Calf  Plugins</text>
 </group> 
 
-<group list="avfilter.dctdnoiz,avfilter.delogo,avfilter.pixscope,avfilter.vaguedenoiser,boxblur,BurningTV,frei0r.cluster,frei0r.dither,frei0r.IIRblur,frei0r.medians,frei0r.rgbnoise,frei0r.sharpness,grain,wave">
+<group list="avfilter.dctdnoiz,avfilter.delogo,avfilter.pixscope,avfilter.vaguedenoiser,boxblur,BurningTV,frei0r.cluster,frei0r.dither,frei0r.IIRblur,frei0r.medians,frei0r.rgbnoise,frei0r.sharpness,grain,wave,rotation">
 <text>Deprecated</text>
 </group>
 

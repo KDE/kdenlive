@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect LC_NUMERIC="C" tag="avfilter.oscilloscope" id="avfilter.oscilloscope">
+    <name>Oscilloscope (avfilter)</name>
+    <description>2D video oscilloscope</description>
+    <author>libavfilter maintainers</author>
+    <parameter type="animated" name="av.x" default="0.5" min="0" max="%width" factor="%width">
+        <name>Trace X position</name>
+       	<comment><![CDATA[X position of the trace profile]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.y" default="0.5" min="0" max="%height" factor="%height">
+        <name>Trace Y position</name>
+       	<comment><![CDATA[Y position of the trace profile]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.s" default="0.5" min="0" max="%width" factor="%width">
+        <name>Size</name>
+       	<comment><![CDATA[Size/length of the trace profile in pixel]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.t" default="0.5" min="0" max="1000" factor="1000">
+        <name>Tilt</name>
+       	<comment><![CDATA[Tilting of the trace profile]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.o" default="0.5" min="0" max="1000" factor="1000">
+        <name>Opacity</name>
+       	<comment><![CDATA[Opacity of the scope display]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.tx" default="0.5" min="0" max="%width" factor="%width">
+        <name>Scope X position</name>
+       	<comment><![CDATA[X position of the scope display]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.ty" default="0.9" min="0" max="%height" factor="%height">
+        <name>Scope Y position</name>
+       	<comment><![CDATA[Y position of the scope display]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.tw" default="0.8" min="0" max="%height" factor="%height">
+        <name>Scope width</name>
+       	<comment><![CDATA[Width of the scope display]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.th" default="0.3" min="0" max="%height" factor="%height">
+        <name>Scope height</name>
+       	<comment><![CDATA[Height of the scope display]]></comment>
+    </parameter>
+    <parameter type="list" name="av.c" default="7" paramlist="0;1;2;3;4;5;6;7">
+        <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV</paramlistdisplay>
+        <name>Components</name>
+       	<comment><![CDATA[Select the components to be traced]]></comment>
+    </parameter>
+    <parameter type="bool" name="av.g" default="1" min="0" max="1">
+        <name>Draw scope grid</name>
+    	<comment><![CDATA[Switch grid on or off]]></comment>
+    </parameter>
+    <parameter type="bool" name="av.st" default="1" min="0" max="1">
+        <name>Print statistics</name>
+    	<comment><![CDATA[switch statistics on or off]]></comment>
+    </parameter>
+    <parameter type="bool" name="av.sc" default="1" min="0" max="1">
+        <name>Draw trace profile line</name>
+    	<comment><![CDATA[Switch drawing the trace profile line on or off]]></comment>
+    </parameter>
+</effect>

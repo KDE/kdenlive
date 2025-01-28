@@ -4,23 +4,29 @@
     <name>Alpha gradient</name>
     <description>Fill the alpha channel with a specified gradient</description>
     <author>Marko Cebokli</author>
-    <parameter type="animated" name="Position" default="0.5" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Position" default="0.5" min="0" max="%height" factor="%height">
         <name>Position</name>
+    	<comment><![CDATA[Define where the gradient starts.]]></comment>
     </parameter>
-    <parameter type="animated" name="Transition width" default="0.5" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Transition width" default="0.5" min="0" max="100" factor="100" suffix="%">
         <name>Transition width</name>
+    	<comment><![CDATA[Define the width of the transition between the densities.]]></comment>
     </parameter>
-    <parameter type="animated" name="Tilt" default="0.5" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Tilt" default="0" min="0" max="360" factor="360" decimals="1" suffix="°">
         <name>Tilt</name>
+    	<comment><![CDATA[Angle for the gradient.]]></comment>
     </parameter>
-    <parameter type="animated" name="Min" default="0" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Min" default="1" min="0" max="100" factor="100" suffix="%">
         <name>Min</name>
+    	<comment><![CDATA[Define the transparency at the top of the gradient.]]></comment>
     </parameter>
-    <parameter type="animated" name="Max" default="1" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Max" default="0" min="0" max="100" factor="100" suffix="%">
         <name>Max</name>
+    	<comment><![CDATA[Define the transparency at the bottom of the gradient.]]></comment>
     </parameter>
     <parameter type="list" name="Operation" default="0" paramlist="0;0.3;0.5;0.7;1">
         <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
         <name>Operation</name>
+    	<comment><![CDATA[Define the alpha operation for compositing.]]></comment>
     </parameter>
 </effect>

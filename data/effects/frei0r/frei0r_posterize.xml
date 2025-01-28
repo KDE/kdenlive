@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.posterize" id="frei0r.posterize">
+    <name>Posterize</name>
+    <description>Posterizes image by reducing the number of colors used in image</description>
+    <author>Janne Liljeblad</author>
+    <parameter type="animated" name="0" default="0.104167" min="0" max="1000" factor="1000">
+        <name>Levels</name>
+        <comment>Number of (color) values per channel</comment>
+    </parameter>
+</effect>

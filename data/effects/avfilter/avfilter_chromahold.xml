@@ -4,16 +4,22 @@
     <name>Chroma Hold</name>
     <description>Remove all color information for all colors except for certain one. </description>
     <author>libavfilter</author>
-    <parameter type="fixedcolor" name="av.color">
+    <parameter type="color" name="av.color" notintimeline="1">
         <name>Color key</name>
+        <comment>The color which will not be replaced with neutral chroma</comment>
     </parameter>
-    <parameter type="constant" name="av.similarity" default="1" max="1" min="0" decimals="2">
+    <parameter type="animated" name="av.similarity" default="0.01" max="1.00" min="0.01" decimals="2" notintimeline="1">
         <name>Similarity</name>
+        <comment><![CDATA[Similarity percentage with the select color<br>
+        0.01 matches only the exact key color, while 1.0 matches everything.]]></comment>
     </parameter>
-    <parameter type="constant" name="av.blend" default="0" max="1" min="0" decimals="2">
+    <parameter type="animated" name="av.blend" default="0" max="1" min="0" decimals="2" notintimeline="1">
         <name>Blend</name>
+        <comment><![CDATA[Blend percentage. 0.0 makes pixels either fully grey, or not grey at all.<br>
+        Higher values result in more preserved color.]]></comment>
     </parameter>
     <parameter type="bool" name="av.yuv" default="false">
-        <name>for YUV color</name>
+        <name>YUV color</name>
+        <comment><![CDATA[Select this if the clip has YUV data instead of RGB.]]></comment>
     </parameter>
 </effect>

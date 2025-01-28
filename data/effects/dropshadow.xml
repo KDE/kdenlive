@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="dropshadow" id="dropshadow">
+    <name>Drop Shadow</name>
+    <description>Create a shadow effect from the alpha channel</description>
+    <author>Meltytech, LLC</author>
+    <parameter type="animated" name="radius" max="100" min="0" default="1">
+        <name>Blur Radius</name>
+        <comment>The amount in pixel to blur the edge of the shadow</comment>
+    </parameter>
+    <parameter type="animated" name="x" max="100" min="-100" default="8">
+        <name>X Offset</name>
+        <comment>The relative horizontal position of the shadow</comment>
+    </parameter>
+    <parameter type="animated" name="y" max="100" min="-100" default="8">
+        <name>Y Offset</name>
+        <comment>The relative vertical position of the shadow</comment>
+    </parameter>
+    <parameter type="color" name="color" default="#b4636363" alpha="1">
+        <name>Color</name>
+        <comment>The color of the shadow including alpha</comment>
+    </parameter>
+</effect>

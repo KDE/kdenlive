@@ -3,6 +3,7 @@
 
 INSTALL (FILES 
 
+frei0r_aech0r.xml
 frei0r_alpha0ps.xml
 frei0r_alphagrad.xml
 frei0r_alphaspot.xml
@@ -65,6 +66,7 @@ frei0r_nervous.xml
 frei0r_nosync0r.xml
 frei0r_pixeliz0r.xml
 frei0r_pixs0r.xml
+frei0r_posterize.xml
 frei0r_pr0be.xml
 frei0r_pr0file.xml
 frei0r_primaries.xml

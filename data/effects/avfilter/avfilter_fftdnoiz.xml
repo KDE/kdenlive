@@ -6,24 +6,37 @@
     <author>libavfilter</author>
     <parameter type="constant" name="av.sigma" default="1" min="0" max="30" factor="1">
         <name>Sigma</name>
+       	<comment><![CDATA[Set the noise sigma constant.<br>
+       	This sets denoising strength. Using very high sigma with low overlap may give blocking artifacts.]]></comment>
     </parameter>
-    <parameter type="constant" name="av.amount" default="1" min="0.01" max="1" decimals="3">
+    <parameter type="constant" name="av.amount" default="1" min="0" max="100" factor="100" decimals="1" suffix="%">
         <name>Amount</name>
+       	<comment><![CDATA[Set the amount of denoising.<br>
+       	By default all detected noise is reduced..]]></comment>
     </parameter>
-    <parameter type="constant" name="av.block" default="4" min="3" max="6" factor="1">
+    <parameter type="constant" name="av.block" default="32" min="8" max="256" factor="1">
         <name>Block</name>
+       	<comment><![CDATA[Set size of block in pixels]]></comment>
     </parameter>
     <parameter type="constant" name="av.overlap" default="0.5" min="0.2" max="0.8" decimals="3">
         <name>Overlap</name>
+       	<comment><![CDATA[Set block overlap]]></comment>
+    </parameter>
+    <parameter type="list" name="av.method" default="0" paramlist="0;1">
+        <paramlistdisplay>wiener,hard</paramlistdisplay>
+        <name>Method</name>
+       	<comment><![CDATA[Set denoising method]]></comment>
     </parameter>
     <parameter type="bool" name="av.prev" default="0">
-        <name>Add previous frame to temporal denoise</name>
+        <name><![CDATA[Add <em>previous<em> frame<br>
+        for temporal denoising]]></name>
     </parameter>
     <parameter type="bool" name="av.next" default="0">
-        <name>Add next frame to temporal denoise</name>
+        <name><![CDATA[Add <em>next<em> frame<br>
+        for temporal denoising]]></name>
     </parameter>
-    <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7;8">
-        <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV,Alpha</paramlistdisplay>
+    <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7">
+        <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV</paramlistdisplay>
         <name>Planes</name>
     </parameter>
 </effect>

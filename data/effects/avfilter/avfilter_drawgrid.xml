@@ -6,20 +6,33 @@
     <author>libavfilter</author>
     <parameter type="animated" name="av.x" default="0" min="0" max="%width" factor="1">
         <name>X Offset</name>
+    	<comment><![CDATA[Distance from the left edge in pixel]]></comment>
     </parameter>
     <parameter type="animated" name="av.y" default="0" min="0" max="%height" factor="1">
         <name>Y Offset</name>
+    	<comment><![CDATA[Distance from the top edge in pixel]]></comment>
     </parameter>
     <parameter type="animated" name="av.w" default="0" min="0" max="%width" factor="1">
         <name>Width</name>
+    	<comment><![CDATA[Distance between vertical lines in pixel]]></comment>
     </parameter>
     <parameter type="animated" name="av.h" default="0" min="0" max="%height" factor="1">
         <name>Height</name>
+    	<comment><![CDATA[Distance between horizontal lines in pixel]]></comment>
     </parameter>
-    <parameter type="fixedcolor" name="av.color" default="black">
+    <parameter type="fixedcolor" name="av.color" default="0x0000FF" alpha="1">
         <name>Color</name>
+    	<comment><![CDATA[Select a color for the grid lines.<br>
+    	Use the <em>Alpha<em> value to make the grid semi-transparent.]]></comment>
     </parameter>
     <parameter type="animated" name="av.t" default="3" min="0" max="%height" factor="1">
-        <name>Thickness</name>
+        <name>Thickness (px)</name>
+    	<comment><![CDATA[Sets the thickness for the grid lines in pixels]]></comment>
+    </parameter>
+    <parameter type="bool" name="av.replace " default="0" min="0" max="1">
+        <name>Replace color and alpha</name>
+    	<comment><![CDATA[If the input has alpha, checking this<br>
+    	will overwrite the video's color and alpha pixels with the pixels of the grid lines.<br>
+    	By default, the grid lines will be composited onto the input, leaving the video's alpha intact.]]></comment>
     </parameter>
 </effect>

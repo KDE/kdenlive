@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="affine" id="affine">
-    <name>Rotate and Shear</name>
+    <name>Rotate and Shear (deprecated)</name>
     <description>Rotate clip in any 3 directions</description>
     <author>Charles Yates</author>
     <parameter type="keyframe" name="transition.fix_rotate_x" max="1800" min="-1800" default="0" factor="10">
