@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="affine" id="affineshear">
+    <name context="Affine Transform Effect Name">Shear</name>
+    <description>Shear a clip along the 3 axes</description>
+    <author>Charles Yates</author>
+    <parameter type="fixed" name="keyed" default="1">
+    </parameter>
+    <parameter type="bool" name="transition.repeat_off" default="1">
+        <name>Disable repeat</name>
+    	<comment><![CDATA[When animating properties with keyframes,<br>
+	    whether to repeat the animation after it reaches the last key frame.]]></comment>
+    </parameter>
+    <parameter type="bool" name="transition.mirror_off" default="1">
+        <name>Disable mirror</name>
+    	<comment><![CDATA[When animating properties with keyframes and <em>Disable repeat<em> is off,<br>
+	    whether the animation alternates between reverses and forwards for each repetition.]]></comment>
+    </parameter>
+    <parameter type="bool" name="transition.invert_scale" default="1">
+        <name>Invert scale</name>
+        <comment><![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values.<br>
+        This is helpful to make animation interpolation sane because otherwise the scale values do not animate linearly.]]></comment>
+    </parameter>
+    <parameter type="animated" name="transition.fix_shear_x" max="360" min="-360" default="0" decimals="1" notintimeline="1" suffix="°">
+        <name>Shear X</name>
+ 	    <comment><![CDATA[Shear angle around the X axis]]></comment>
+    </parameter>
+    <parameter type="animated" name="transition.fix_shear_y" max="360" min="-360" default="0" decimals="1" notintimeline="1" suffix="°">
+        <name>Shear Y</name>
+	    <comment><![CDATA[Shear angle around the Y axis]]></comment>
+    </parameter>
+    <parameter type="animated" name="transition.fix_shear_z" max="360" min="-360" default="0" decimals="1" notintimeline="1" suffix="°">
+        <name>Shear Z</name>
+	    <comment><![CDATA[Shear angle around the Z axis]]></comment>
+    </parameter>
+    <parameter type="animated" name="transition.ox" max="%width" min="-%width" default="0" factor="-1" notintimeline="1">
+        <name>Offset X</name>
+	    <comment><![CDATA[Offset along the X axis]]></comment>
+    </parameter>
+    <parameter type="animated" name="transition.oy" max="%height" min="-%height" default="0" notintimeline="1">
+        <name>Offset Y</name>
+	    <comment><![CDATA[Offset along Y axis]]></comment>
+    </parameter>
+    <parameter type="animated" name="transition.scale_x" max="10" min="0" default="1" decimals="2" notintimeline="1">
+        <name>Scale X</name>
+	    <comment><![CDATA[Scale factor applied to the X axis]]></comment>
+    </parameter>
+    <parameter type="animated" name="transition.scale_y" max="10" min="0" default="1" decimals="2" notintimeline="1">
+        <name>Scale Y</name>
+	    <comment><![CDATA[Scale factor applied to the Y axis]]></comment>
+    </parameter>
+</effect>

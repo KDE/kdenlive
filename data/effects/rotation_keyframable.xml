@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="affine" id="affinerotate">
-    <name>Rotate (keyframable)</name>
+    <name>Rotate (deprecated)</name>
     <description>Rotate clip in any 3 directions</description>
     <author>Charles Yates</author>
     <parameter type="simplekeyframe" name="transition.rotate_x" max="1800" min="-1800" default="0" factor="10">

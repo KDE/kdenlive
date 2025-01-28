@@ -72,6 +72,7 @@ avfilter_flanger.xml
 avfilter_framestep.xml
 avfilter_fspp.xml
 avfilter_gblur.xml
+avfilter_gradfun.xml
 avfilter_graphmonitor.xml
 avfilter_haas.xml
 avfilter_hflip.xml
@@ -98,8 +99,10 @@ avfilter_monochrome.xml
 avfilter_negate.xml
 avfilter_noise.xml
 avfilter_normalize.xml
+avfilter_oscilloscope.xml
 avfilter_phase.xml
 avfilter_photosensitivity.xml
+avfilter_pixelize.xml
 avfilter_prewitt.xml
 avfilter_random.xml
 avfilter_removegrain.xml

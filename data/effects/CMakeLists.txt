@@ -20,6 +20,7 @@ chroma_hold.xml
 chroma.xml
 crop.xml
 dance.xml
+dropshadow.xml
 dust.xml
 dynamic_loudness.xml
 dynamictext.xml
@@ -59,11 +60,13 @@ qtcrop.xml
 rboctaveshift.xml
 rbpitchscale.xml
 rotation_keyframable.xml
+rotate-3-way.xml
 rotation.xml
 rotoscoping.xml
 scratchlines.xml
 sepia.xml
 shape.xml
+shear.xml
 speed.xml
 spot_remover.xml
 strobe.xml

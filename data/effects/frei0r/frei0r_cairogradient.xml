@@ -11,32 +11,32 @@
     <parameter type="color" name="1" default="#000000">
         <name>Start Color</name>
     </parameter>
-    <parameter type="animated" name="2" max="1" min="0" default="0.5" decimals="3">
+    <parameter type="animated" name="2" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
         <name>Start Opacity</name>
     </parameter>
     <parameter type="color" name="3" default="#ffffff">
         <name>End Color</name>
     </parameter>
-    <parameter type="animated" name="4" max="1" min="0" default="0.5" decimals="3">
+    <parameter type="animated" name="4" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
         <name>End Opacity</name>
     </parameter>
-    <parameter type="animated" name="5" max="1" min="0" default="0.5" decimals="3">
+    <parameter type="animated" name="5" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
         <name>Start X</name>
     </parameter>
-    <parameter type="animated" name="6" max="1" min="0" default="0.5" decimals="3">
+    <parameter type="animated" name="6" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
         <name>Start Y</name>
     </parameter>
-    <parameter type="animated" name="7" max="1" min="0" default="0.5" decimals="3">
+    <parameter type="animated" name="7" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
         <name>End X</name>
     </parameter>
-    <parameter type="animated" name="8" max="1" min="0" default="0.5" decimals="3">
+    <parameter type="animated" name="8" max="100" min="0" default="0.5" factor="100" decimals="1" suffix="%">
         <name>End Y</name>
     </parameter>
-    <parameter type="animated" name="9" max="1" min="0" default="0" decimals="3">
+    <parameter type="animated" name="9" max="100" min="0" default="0" factor="100" decimals="1" suffix="%">
         <name>Offset</name>
     </parameter>
     <parameter type="list" name="10" default="1" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity">
-        <paramlistdisplay>normal,add,saturate,multiply,screen,overlay,darken,lighten,colordodge,colorburn,hardlight,softlight,difference,exclusion,hslhue,hslsaturation,hslcolor,hslluminosity</paramlistdisplay>
+        <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL color,HSL luminosity</paramlistdisplay>
         <name>Blend Mode</name>
     </parameter>
 </effect>

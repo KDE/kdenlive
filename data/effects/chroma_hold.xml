@@ -4,10 +4,12 @@
     <name>Chroma Keep</name>
     <description>Make image greyscale except for chosen color</description>
     <author>Charles Yates</author>
-    <parameter type="color" name="key" default="0x000000ff">
+    <parameter type="color" name="key" default="0x000000ff" notintimeline="1">
         <name>Color key</name>
     </parameter>
-    <parameter type="keyframe" name="variance" max="100" min="0" factor="100" default="15">
+    <parameter type="animated" name="variance" max="1.00" min="0.01" decimals="2" default="0.01" notintimeline="1">
         <name>Variance</name>
+        <comment><![CDATA[Percentage of deviation from the selected color value.<br>
+        Lower values keep the colors closer to the selected one; higher values include more colors..]]></comment>
     </parameter>
 </effect>
