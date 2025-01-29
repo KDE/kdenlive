@@ -398,11 +398,6 @@ ManageSubtitles::~ManageSubtitles()
     QSignalBlocker bk3(styleFileSideBar);
     QSignalBlocker bk4(eventList);
     QSignalBlocker bk5(styleList);
-    delete fileList;
-    delete eventFileSideBar;
-    delete styleFileSideBar;
-    delete eventList;
-    delete styleList;
 }
 
 void ManageSubtitles::parseFileList()
