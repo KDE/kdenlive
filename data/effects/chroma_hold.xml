@@ -10,6 +10,6 @@
     <parameter type="animated" name="variance" max="1.00" min="0.01" decimals="2" default="0.01" notintimeline="1">
         <name>Variance</name>
         <comment><![CDATA[Percentage of deviation from the selected color value.<br>
-        Lower values keep the colors closer to the selected one; higher values include more colors..]]></comment>
+        Lower values keep the colors closer to the selected one; higher values include more colors.]]></comment>
     </parameter>
 </effect>
