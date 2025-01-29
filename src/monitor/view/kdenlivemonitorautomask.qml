@@ -57,6 +57,7 @@ Item {
     property double timeScale: 1
     property var centerPoints: []
     property var centerPointsTypes: []
+    property var boxCoords: [0, 0, 0, 0]
     property var maskColors: ["#ffffff", "#ff0000", "#ffff00", "#0000ff", "#000000"]
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
@@ -81,13 +82,9 @@ Item {
 
     function updateRect(box) {
         if (box.length == 4 && box[2] > 0) {
-            frameBox.x = box[0] * frame.width
-            frameBox.y = box[1] * frame.height
-            frameBox.width = box[2] * frame.width
-            frameBox.height = box[3] * frame.height
-            frameBox.visible = true
+            root.boxCoords = box
         } else {
-            frameBox.visible = false
+            root.boxCoords = [0, 0, 0, 0]
         }
     }
 
@@ -351,37 +348,41 @@ Item {
                 }
                 Rectangle {
                     id: frameBox
-                    visible: false
-                    color: 'transparent'
+                    color: '#33ffffff'
                     border.color: '#ff0000'
                     border.width: 1
+                    x: root.boxCoords[0] * frame.width
+                    y: root.boxCoords[1] * frame.height
+                    width: root.boxCoords[2] * frame.width
+                    height: root.boxCoords[3] * frame.height
+                    visible: root.boxCoords[2] > 0
                 }
             }
-            Label {
-                id: generateLabel
-                anchors.top: frame.top
-                anchors.left: frame.left
-                anchors.leftMargin: 10
-                anchors.topMargin: 10
-                padding: 5
-                text: maskMode == 0 ? i18n("Generating image mask") : i18n("Generating video mask")
-                visible: false
-                background: Rectangle {
-                    color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
-                    radius: 5
-                }
-            }
-            Label {
-                id: infoLabel
-                anchors.centerIn: frame
-                padding: 5
-                text: maskMode == 0 ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
-                visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible
-                background: Rectangle {
-                    color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
-                    radius: 5
-                }
-            }
+        }
+    }
+    Label {
+        id: generateLabel
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        anchors.topMargin: 10
+        padding: 5
+        text: maskMode == 0 ? i18n("Generating image mask") : i18n("Generating video mask")
+        visible: false
+        background: Rectangle {
+            color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
+            radius: 5
+        }
+    }
+    Label {
+        id: infoLabel
+        anchors.centerIn: parent
+        padding: 5
+        text: maskMode == 0 ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
+        visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible
+        background: Rectangle {
+            color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
+            radius: 5
         }
     }
     MaskToolBar {
