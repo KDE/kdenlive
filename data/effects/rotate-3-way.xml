@@ -13,12 +13,12 @@
     </parameter>
     <parameter type="bool" name="transition.mirror_off" default="1">
         <name>Disable mirror</name>
-    	<comment><![CDATA[When animating properties with keyframes and <em>Disable repeat<em> is off,<br>
+    	<comment><![CDATA[When animating properties with keyframes and <em>Disable repeat</em> is off,<br>
 	    whether the animation alternates between reverses and forwards for each repetition.]]></comment>
     </parameter>
     <parameter type="bool" name="transition.invert_scale" default="1">
         <name>Invert scale</name>
-        <comment><![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values.<br>
+        <comment><![CDATA[Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values.<br>
         This is helpful to make animation interpolation sane because otherwise the scale values do not animate linearly.]]></comment>
     </parameter>
      <parameter type="animated" name="transition.rotate_x" max="360" min="-360" default="0" decimals="2" suffix="°" notintimeline="1">
