@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-29 00:40+0000\n"
-"PO-Revision-Date: 2025-01-27 08:24+0200\n"
+"POT-Creation-Date: 2025-01-30 00:41+0000\n"
+"PO-Revision-Date: 2025-01-29 08:34+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -638,7 +638,7 @@ msgstr "הפיכת תמונה לגווני אפור למעט צבע נבחר"
 msgid ""
 "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
 "        Lower values keep the colors closer to the selected one; higher "
-"values include more colors..]]>"
+"values include more colors.]]>"
 msgstr ""
 
 #: data/effects/copychannelstostereo.xml:4
@@ -678,7 +678,7 @@ msgid "Trim the edges of a clip"
 msgstr "קיצוץ שולי סרטון"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:524
+#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:519
 #: src/dialogs/subtitlestyleedit.cpp:107 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
@@ -686,14 +686,14 @@ msgstr "עליון"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:512 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
 msgstr "שמאל"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:506
+#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:501
 #: src/dialogs/subtitlestyleedit.cpp:113 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
@@ -701,7 +701,7 @@ msgstr "תחתון"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:518 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
@@ -783,10 +783,9 @@ msgid "Create a shadow effect from the alpha channel"
 msgstr "צייר צורה פשוטה לתוך ערוץ האלפא"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "רדיוס"
+msgstr "רדיוס טשטוש"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
@@ -794,10 +793,9 @@ msgid "The amount in pixel to blur the edge of the shadow"
 msgstr ""
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "היסט"
+msgstr "היסט ב־X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
@@ -805,10 +803,9 @@ msgid "The relative horizontal position of the shadow"
 msgstr ""
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "היסט"
+msgstr "היסט ב־Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
@@ -2668,8 +2665,8 @@ msgstr ""
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
 msgid ""
-"<![CDATA[When animating properties with keyframes and <em>Disable repeat<em> "
-"is off,<br>\n"
+"<![CDATA[When animating properties with keyframes and <em>Disable repeat</"
+"em> is off,<br>\n"
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
@@ -2683,7 +2680,7 @@ msgstr "הוספת רווח"
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
 msgid ""
-"<![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values."
+"<![CDATA[Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values."
 "<br>\n"
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
@@ -2696,10 +2693,9 @@ msgid "Rotate X"
 msgstr "סיבוב בציר X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "סיבוב מסביב לציר X"
+msgstr "<![CDATA[זווית סיבוב לאורך ציר X]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2708,10 +2704,9 @@ msgid "Rotate Y"
 msgstr "סיבוב בציר Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "סיבוב מסביב לציר Y"
+msgstr "<![CDATA[זווית סיבוב לאורך ציר Y]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2720,10 +2715,9 @@ msgid "Rotate Z"
 msgstr "סיבוב בציר Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "סיבוב מסביב לציר Z"
+msgstr "<![CDATA[זווית סיבוב לאורך ציר Z]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2772,10 +2766,9 @@ msgid "<![CDATA[Scale factor applied to the Y axis]]>"
 msgstr ""
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "סיבוב וגזירה"
+msgstr "סיבוב וגזירה (לא בשימוש עוד)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2818,10 +2811,9 @@ msgid "Pan and Zoom"
 msgstr "הסטה ותקריב"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "חלק (לא בשימוש עוד)"
+msgstr "סיבוב (לא בשימוש עוד)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2895,17 +2887,15 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "יצירת ערוץ שקיפות (אלפא) על בסיס משאב אחר"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "גזירה ב־X"
+msgstr "גזירה"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "נא לבחור סרטון להחלת הערבוב"
+msgstr "גזירת סרטון לאורך 3 הצירים"
 
 #: data/effects/shear.xml:26
 #, kde-format
@@ -2918,10 +2908,9 @@ msgid "<![CDATA[Shear angle around the Y axis]]>"
 msgstr ""
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "גזירה ב־X"
+msgstr "גזירה ב־Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
@@ -4635,7 +4624,7 @@ msgstr "שמאל מרכז"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:515 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -7505,7 +7494,7 @@ msgstr "העברה אל…"
 msgid "Copy To..."
 msgstr "העתקה אל…"
 
-#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:589
+#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:584
 #, kde-format
 msgid "Global"
 msgstr "כללי"
@@ -7542,48 +7531,48 @@ msgctxt "@action:inmenu"
 msgid "Export Subtitle"
 msgstr "ייצוא כתוביות"
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "Layer "
 msgstr "שכבה "
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "with "
 msgstr "עם"
 
-#: src/dialogs/managesubtitles.cpp:444 src/dialogs/managesubtitles.cpp:450
+#: src/dialogs/managesubtitles.cpp:439 src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " event"
 msgstr " אירוע"
 
-#: src/dialogs/managesubtitles.cpp:450
+#: src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " events"
 msgstr " אירועים"
 
-#: src/dialogs/managesubtitles.cpp:503 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Bottom Left"
 msgstr "למטה משמאל"
 
-#: src/dialogs/managesubtitles.cpp:509 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:114
 #, kde-format
 msgid "Bottom Right"
 msgstr "למטה מימין"
 
-#: src/dialogs/managesubtitles.cpp:521 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Top Left"
 msgstr "למעלה משמאל"
 
-#: src/dialogs/managesubtitles.cpp:527 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:108
 #, kde-format
 msgid "Top Right"
 msgstr "למעלה מימין"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:533 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -7591,17 +7580,17 @@ msgstr "למעלה מימין"
 msgid "Default"
 msgstr "ברירת מחדל"
 
-#: src/dialogs/managesubtitles.cpp:536
+#: src/dialogs/managesubtitles.cpp:531
 #, kde-format
 msgid "Box as Border"
 msgstr "תיבה כמסגרת "
 
-#: src/dialogs/managesubtitles.cpp:539 src/dialogs/subtitlestyleedit.cpp:102
+#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:102
 #, kde-format
 msgid "Box as Shadow"
 msgstr "תיבה כהצללה"
 
-#: src/dialogs/managesubtitles.cpp:689
+#: src/dialogs/managesubtitles.cpp:684
 #, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
@@ -7610,22 +7599,22 @@ msgstr ""
 "הפעולה הזאת תמחק את כל רשומות הכתוביות של <b>%1</b>,<br/>לרבות קובץ "
 "הכתוביות: %2"
 
-#: src/dialogs/managesubtitles.cpp:711
+#: src/dialogs/managesubtitles.cpp:706
 #, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
 msgstr "הפעולה הזאת תמחק את כל האירועים בשכבה <b>%1</b>."
 
-#: src/dialogs/managesubtitles.cpp:729
+#: src/dialogs/managesubtitles.cpp:724
 #, kde-format
 msgid "Cannot delete default style."
 msgstr "לא ניתן למחוק את סגנון ברירת המחדל."
 
-#: src/dialogs/managesubtitles.cpp:733
+#: src/dialogs/managesubtitles.cpp:728
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
 msgstr "הפעולה הזאת תמחק את הסגנון <b>%1</b> ואת כל המאפיינים שלו."
 
-#: src/dialogs/managesubtitles.cpp:738
+#: src/dialogs/managesubtitles.cpp:733
 #, kde-format
 msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
@@ -14945,17 +14934,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "התמרה"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:367
+#: src/monitor/view/kdenlivemonitorautomask.qml:370
 #, kde-format
 msgid "Generating image mask"
 msgstr "נוצרת מסכת תמונה"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:367
+#: src/monitor/view/kdenlivemonitorautomask.qml:370
 #, kde-format
 msgid "Generating video mask"
 msgstr "נוצרה מסכת וידאו"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#: src/monitor/view/kdenlivemonitorautomask.qml:381
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -14966,7 +14955,7 @@ msgstr ""
 "Shift+לחיצה כדי לכלול אזור נוסף.\n"
 "Ctrl+לחיצה כדי להחריג אזור."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#: src/monitor/view/kdenlivemonitorautomask.qml:381
 #, kde-format
 msgid "Previewing video mask"
 msgstr "תצוגה מקדימה של מסכת וידאו"

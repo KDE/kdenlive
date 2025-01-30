@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-29 00:40+0000\n"
-"PO-Revision-Date: 2025-01-26 10:40+0100\n"
+"POT-Creation-Date: 2025-01-30 00:41+0000\n"
+"PO-Revision-Date: 2025-01-29 12:38+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -648,12 +648,19 @@ msgid "Make image greyscale except for chosen color"
 msgstr "Converteix la imatge a escala de grisos, excepte el color seleccionat"
 
 #: data/effects/chroma_hold.xml:13
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
+#| "        Lower values keep the colors closer to the selected one; higher "
+#| "values include more colors..]]>"
 msgid ""
 "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
 "        Lower values keep the colors closer to the selected one; higher "
-"values include more colors..]]>"
+"values include more colors.]]>"
 msgstr ""
+"<![CDATA[Percentatge de desviació del valor del color seleccionat.<br>\n"
+"        Els valors més baixos conserven els colors més semblants al "
+"seleccionat; els valors més alts inclouen més colors.]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -692,7 +699,7 @@ msgid "Trim the edges of a clip"
 msgstr "Retalla les vores d'un clip"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:524
+#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:519
 #: src/dialogs/subtitlestyleedit.cpp:107 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
@@ -700,14 +707,14 @@ msgstr "Dalt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:512 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
 msgstr "Esquerra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:506
+#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:501
 #: src/dialogs/subtitlestyleedit.cpp:113 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
@@ -715,7 +722,7 @@ msgstr "Baix"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:518 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
@@ -787,49 +794,44 @@ msgid "Counter Clockwise"
 msgstr "Sentit antihorari"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "Ombra"
+msgstr "Ombra difusa"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Usa la luma de la imatge en lloc del canal alfa."
+msgstr "Crea una ombra difusa a partir del canal alfa"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Radi"
+msgstr "Radi de difuminat"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "La quantitat en píxels a difuminar la vora de l'ombra"
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Desplaçament"
+msgstr "Desplaçament X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "La posició horitzontal relativa de l'ombra"
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Desplaçament"
+msgstr "Desplaçament Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "La posició vertical relativa de l'ombra"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -839,10 +841,9 @@ msgid "Color"
 msgstr "Color"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "El color del degradat amb forma d'ona."
+msgstr "El color de l'ombra incloent-hi l'alfa"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -2745,11 +2746,10 @@ msgstr ""
 "de l'octava."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Gira"
+msgstr "Gir a 3 bandes"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2763,30 +2763,50 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[Quan s'animen les propietats amb fotogrames clau,<br>\n"
+"\t    si s'ha de repetir l'animació després d'arribar a l'últim fotograma "
+"clau.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[When animating properties with keyframes and <em>Disable "
+#| "repeat<em> is off,<br>\n"
+#| "\t    whether the animation alternates between reverses and forwards for "
+#| "each repetition.]]>"
 msgid ""
-"<![CDATA[When animating properties with keyframes and <em>Disable repeat<em> "
-"is off,<br>\n"
+"<![CDATA[When animating properties with keyframes and <em>Disable repeat</"
+"em> is off,<br>\n"
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[En animar les propietats amb fotogrames clau i <em>Desactiva la "
+"repetició<em> està desactivat,<br>\n"
+"\t    si l'animació s'alternarà entre invertit i directe per a cada "
+"repetició.]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Insereix un espai"
+msgstr "Inverteix l'escala"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values."
+#| "<br>\n"
+#| "        This is helpful to make animation interpolation sane because "
+#| "otherwise the scale values do not animate linearly.]]>"
 msgid ""
-"<![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values."
+"<![CDATA[Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values."
 "<br>\n"
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"<![CDATA[Si s'inverteixen els valors de l'<em>Escala X<en> i l'<em>Escala "
+"Y<em>.<br>\n"
+"        Això és útil per a fer que la interpolació de l'animació sigui sana "
+"perquè en cas contrari els valors de l'escala no s'animaran linealment.]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -2795,10 +2815,9 @@ msgid "Rotate X"
 msgstr "Gira en X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Gir al voltant de l'eix X"
+msgstr "<![CDATA[Angle de gir de l'eix X]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2807,10 +2826,9 @@ msgid "Rotate Y"
 msgstr "Gira en Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Gir al voltant de l'eix Y"
+msgstr "<![CDATA[Angle de gir de l'eix Y]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2819,10 +2837,9 @@ msgid "Rotate Z"
 msgstr "Gira en Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Gir al voltant de l'eix Z"
+msgstr "<![CDATA[Angle de gir de l'eix Z]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2833,7 +2850,7 @@ msgstr "Desplaçament X"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desplaçament al llarg de l'eix X]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2844,7 +2861,7 @@ msgstr "Desplaçament Y"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desplaçament al llarg de l'eix Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -2856,7 +2873,7 @@ msgstr "Escala X"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Factor d'escala aplicat a l'eix X]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2868,13 +2885,12 @@ msgstr "Escala Y"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Factor d'escala aplicat a l'eix Y]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Gira i inclina"
+msgstr "Gira i inclina (obsolet)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2917,10 +2933,9 @@ msgid "Pan and Zoom"
 msgstr "Panoràmica i zoom"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Suau (obsolet)"
+msgstr "Gir (obsolet)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2994,43 +3009,40 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Crea un canal alfa (transparència) basat en un altre recurs"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Inclina X"
+msgstr "Inclina"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "Seleccioneu un clip per a aplicar la mescla"
+msgstr "Inclina un clip al llarg dels 3 eixos"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Angle d'inclinació al voltant de l'eix X]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Angle d'inclinació al voltant de l'eix Y]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Inclina X"
+msgstr "Inclina Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[Angle d'inclinació al voltant de l'eix Z]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desplaçament al llarg de l'eix Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4771,7 +4783,7 @@ msgstr "Esquerra centre"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:515 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -7676,7 +7688,7 @@ msgstr "Mou a..."
 msgid "Copy To..."
 msgstr "Copia a..."
 
-#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:589
+#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:584
 #, kde-format
 msgid "Global"
 msgstr "Global"
@@ -7713,48 +7725,48 @@ msgctxt "@action:inmenu"
 msgid "Export Subtitle"
 msgstr "Exporta subtítols"
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "Layer "
 msgstr "Capa "
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "with "
 msgstr "amb "
 
-#: src/dialogs/managesubtitles.cpp:444 src/dialogs/managesubtitles.cpp:450
+#: src/dialogs/managesubtitles.cpp:439 src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " event"
 msgstr " esdeveniment"
 
-#: src/dialogs/managesubtitles.cpp:450
+#: src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " events"
 msgstr " esdeveniments"
 
-#: src/dialogs/managesubtitles.cpp:503 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Bottom Left"
 msgstr "A baix a l'esquerra"
 
-#: src/dialogs/managesubtitles.cpp:509 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:114
 #, kde-format
 msgid "Bottom Right"
 msgstr "A baix a la dreta"
 
-#: src/dialogs/managesubtitles.cpp:521 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Top Left"
 msgstr "A dalt a l'esquerra"
 
-#: src/dialogs/managesubtitles.cpp:527 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:108
 #, kde-format
 msgid "Top Right"
 msgstr "A dalt a la dreta"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:533 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -7762,17 +7774,17 @@ msgstr "A dalt a la dreta"
 msgid "Default"
 msgstr "Per omissió"
 
-#: src/dialogs/managesubtitles.cpp:536
+#: src/dialogs/managesubtitles.cpp:531
 #, kde-format
 msgid "Box as Border"
 msgstr "Quadre com a vora"
 
-#: src/dialogs/managesubtitles.cpp:539 src/dialogs/subtitlestyleedit.cpp:102
+#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:102
 #, kde-format
 msgid "Box as Shadow"
 msgstr "Quadre com a ombra"
 
-#: src/dialogs/managesubtitles.cpp:689
+#: src/dialogs/managesubtitles.cpp:684
 #, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
@@ -7781,22 +7793,22 @@ msgstr ""
 "Això suprimirà totes les entrades de subtítols a <b>%1</b>,<br/>així com el "
 "fitxer de subtítols: %2"
 
-#: src/dialogs/managesubtitles.cpp:711
+#: src/dialogs/managesubtitles.cpp:706
 #, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
 msgstr "Això suprimirà tots els esdeveniments a la capa <b>%1</b>."
 
-#: src/dialogs/managesubtitles.cpp:729
+#: src/dialogs/managesubtitles.cpp:724
 #, kde-format
 msgid "Cannot delete default style."
 msgstr "No s'ha pogut suprimir l'estil predeterminat."
 
-#: src/dialogs/managesubtitles.cpp:733
+#: src/dialogs/managesubtitles.cpp:728
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
 msgstr "Això suprimirà l'estil <b>%1</b> i totes les seves propietats."
 
-#: src/dialogs/managesubtitles.cpp:738
+#: src/dialogs/managesubtitles.cpp:733
 #, kde-format
 msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
@@ -11292,19 +11304,17 @@ msgstr "Configureu el connector SAM2"
 #: src/effects/effectstack/view/maskmanager.cpp:162
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "Exportació de fotogrames de vídeo per a analitzar"
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "S'està generant la màscara de vídeo"
+msgstr "Exportació de fotogrames de vídeo"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Manca clip d'origen"
+msgstr "Manquen fotogrames d'origen"
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11541,10 +11551,9 @@ msgid "Failed to analyse video."
 msgstr "Ha fallat en analitzar el vídeo."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "No s'ha pogut crear el clip intermediari."
+msgstr "Ha fallat en processar la llista de reproducció."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -13474,11 +13483,9 @@ msgid "Clip in Project Bin"
 msgstr "Clip a la safata del projecte"
 
 #: src/mainwindow.cpp:1753
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Cerca pendent…"
+msgstr "Cerca un clip de la safata…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1755 src/ui/cutjobdialog_ui.ui:18
@@ -15258,17 +15265,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transforma"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:367
+#: src/monitor/view/kdenlivemonitorautomask.qml:370
 #, kde-format
 msgid "Generating image mask"
 msgstr "S'està generant la màscara d'imatge"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:367
+#: src/monitor/view/kdenlivemonitorautomask.qml:370
 #, kde-format
 msgid "Generating video mask"
 msgstr "S'està generant la màscara de vídeo"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#: src/monitor/view/kdenlivemonitorautomask.qml:381
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -15280,7 +15287,7 @@ msgstr ""
 "Maj+clic per a incloure una altra zona.\n"
 "Ctrl+clic per a excloure una zona."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#: src/monitor/view/kdenlivemonitorautomask.qml:381
 #, kde-format
 msgid "Previewing video mask"
 msgstr "S'està previsualitzant la màscara de vídeo"
