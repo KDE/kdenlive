@@ -801,8 +801,8 @@ void Monitor::buildBackgroundedProducer(int pos)
     m_timePos->setRange(0, maxDuration);
     m_glMonitor->setRulerInfo(maxDuration, m_controller->getFilteredMarkerModel());
     QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
-    if (oldZone.y() > maxDuration) {
-        m_glMonitor->getControllerProxy()->setZone(oldZone.x(), maxDuration, true);
+    if (oldZone.y() > maxDuration + 1) {
+        m_glMonitor->getControllerProxy()->setZone(oldZone.x(), maxDuration + 1, true);
         Q_EMIT zoneDurationChanged();
     }
     if (KdenliveSettings::monitor_background() != "black") {
