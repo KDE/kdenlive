@@ -2875,7 +2875,7 @@ void Monitor::slotEnd()
     if (m_id == Kdenlive::ClipMonitor) {
         m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->duration() - 1);
     } else {
-        m_glMonitor->getControllerProxy()->setPosition(pCore->projectDuration() - 1);
+        m_glMonitor->getControllerProxy()->setPosition(pCore->projectDuration());
     }
 }
 
