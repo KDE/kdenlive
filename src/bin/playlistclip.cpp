@@ -179,6 +179,9 @@ void PlaylistClip::parsePlaylistProps()
         generateTmpPlaylists();
     } else {
         qDebug() << "::::::::::\nRETAIN LIST INVALID\n\n::";
+        // This is probably a library MLT clip, try reading xml root
+        qDebug() << ":::: READING XMLROOT:" << s.get("kdenlive:projectroot");
+        m_playlistRoot = QString(s.get("kdenlive:projectroot"));
     }
 }
 
@@ -413,4 +416,12 @@ void PlaylistClip::setSequenceThumbnail(const QImage &img, const QUuid &uuid, bo
     if (sub) {
         sub->setThumbnail(img);
     }
+}
+
+const QString PlaylistClip::getPlaylistRoot()
+{
+    if (m_playlistRoot.isEmpty()) {
+        return pCore->currentDoc()->documentRoot();
+    }
+    return m_playlistRoot;
 }
