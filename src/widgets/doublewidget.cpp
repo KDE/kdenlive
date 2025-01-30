@@ -46,7 +46,7 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
         setToolTip(comment);
     }
     m_dragVal->setValue(value * factor, false);
-    connect(m_dragVal, &DragValue::valueChanged, this, &DoubleWidget::slotSetValue);
+    connect(m_dragVal, &DragValue::customValueChanged, this, &DoubleWidget::slotSetValue);
 }
 
 QLabel *DoubleWidget::createLabel()

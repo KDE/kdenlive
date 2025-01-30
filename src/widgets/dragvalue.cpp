@@ -316,7 +316,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_label->setObjectName("draggLabel");
         l->addWidget(m_label, 0, Qt::AlignVCenter);
         // setMinimumHeight(m_label->sizeHint().height());
-        connect(m_label, &CustomLabel::valueChanged, this, &DragValue::setValueFromProgress);
+        connect(m_label, &CustomLabel::customValueChanged, this, &DragValue::setValueFromProgress);
         connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
         minWidth += m_label->sizeHint().width();
     } else if (!isInGroup) {
@@ -597,12 +597,12 @@ void DragValue::slotReset()
         m_intEdit->blockSignals(true);
         m_intEdit->setValue(m_default);
         m_intEdit->blockSignals(false);
-        Q_EMIT valueChanged((int)m_default, true);
+        Q_EMIT customValueChanged((int)m_default, true);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(m_default);
         m_doubleEdit->blockSignals(false);
-        Q_EMIT valueChanged(m_default, true);
+        Q_EMIT customValueChanged(m_default, true);
     }
     if (m_label) {
         m_label->setProgressValue((m_default - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
@@ -637,7 +637,7 @@ void DragValue::setValue(double value, bool final, bool createUndoEntry, bool up
         value = m_minimum + (div * m_intEdit->singleStep());
     }
     if (!updateWidget) {
-        Q_EMIT valueChanged(value, final, createUndoEntry);
+        Q_EMIT customValueChanged(value, final, createUndoEntry);
         return;
     }
     if (m_label) {
@@ -647,12 +647,12 @@ void DragValue::setValue(double value, bool final, bool createUndoEntry, bool up
         m_intEdit->blockSignals(true);
         m_intEdit->setValue((int)value);
         m_intEdit->blockSignals(false);
-        Q_EMIT valueChanged(qRound(value), final, createUndoEntry);
+        Q_EMIT customValueChanged(qRound(value), final, createUndoEntry);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(value);
         m_doubleEdit->blockSignals(false);
-        Q_EMIT valueChanged(value, final, createUndoEntry);
+        Q_EMIT customValueChanged(value, final, createUndoEntry);
     }
 }
 
@@ -669,7 +669,7 @@ void DragValue::slotEditingFinished()
         m_intEdit->clearFocus();
         m_intEdit->blockSignals(false);
         if (!KdenliveSettings::dragvalue_directupdate()) {
-            Q_EMIT valueChanged((double)newValue, true);
+            Q_EMIT customValueChanged((double)newValue, true);
         }
     } else {
         double value = m_doubleEdit->value();
@@ -677,7 +677,7 @@ void DragValue::slotEditingFinished()
         m_doubleEdit->clearFocus();
         m_doubleEdit->blockSignals(false);
         if (!KdenliveSettings::dragvalue_directupdate()) {
-            Q_EMIT valueChanged(value, true);
+            Q_EMIT customValueChanged(value, true);
         }
     }
 }
@@ -849,7 +849,7 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
     if (m_dragMode) {
         double newValue = m_value;
         // Simulate a return to initial click position to create undo entry
-        Q_EMIT valueChanged(m_clickValue, true, false, false);
+        Q_EMIT customValueChanged(m_clickValue, true, false, false);
         setNewValue(newValue, true, true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
@@ -913,7 +913,7 @@ void CustomLabel::setNewValue(double value, bool update, bool createUndoEntry)
 {
     m_value = value;
     setValue(qRound(value));
-    Q_EMIT valueChanged(value, update, createUndoEntry);
+    Q_EMIT customValueChanged(value, update, createUndoEntry);
 }
 
 void CustomLabel::setStep(double step)

@@ -220,6 +220,7 @@ private:
 
 Q_SIGNALS:
     void modelChanged();
+    void refreshModel();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 
 public:

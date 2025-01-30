@@ -93,7 +93,7 @@ private:
     void setNewValue(double value, bool directUpdate, bool createUndoEntry);
 
 Q_SIGNALS:
-    void valueChanged(double value, bool directUpdate, bool createUndoEntry, bool updateWidget = true);
+    void customValueChanged(double value, bool directUpdate, bool createUndoEntry, bool updateWidget = true);
     void setInTimeline();
     void resetValue();
 };
@@ -160,7 +160,7 @@ public Q_SLOTS:
     void slotReset();
 
 Q_SIGNALS:
-    void valueChanged(double value, bool final = true, bool createUndoEntry = true);
+    void customValueChanged(double value, bool final = true, bool createUndoEntry = true);
     void inTimeline(int);
 
     /*

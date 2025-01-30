@@ -91,6 +91,7 @@ void KeyframeModelList::addParameter(const QModelIndex &index, int in, int out)
 {
     std::shared_ptr<KeyframeModel> parameter(new KeyframeModel(m_model, index, m_undoStack, in, out));
     connect(parameter.get(), &KeyframeModel::modelChanged, this, &KeyframeModelList::modelChanged);
+    connect(parameter.get(), &KeyframeModel::refreshModel, this, &KeyframeModelList::modelChanged);
     connect(parameter.get(), &KeyframeModel::requestModelUpdate, this, &KeyframeModelList::slotUpdateModels);
     m_parameters.insert({index, std::move(parameter)});
 }

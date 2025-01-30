@@ -84,7 +84,11 @@ void KeyframeModel::setup()
             // Selection role changed, no need to update the keyframe parameters
             return;
         }
-        Q_EMIT modelChanged();
+        // First modifiy the param value
+        sendModification();
+        // Then trigger a refresh of the keyframe view
+        Q_EMIT refreshModel();
+
     });
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }

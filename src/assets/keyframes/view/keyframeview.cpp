@@ -74,6 +74,7 @@ void KeyframeView::slotLoseFocus()
     disconnect(m_model.get(), &KeyframeModelList::modelChanged, this, &KeyframeView::slotModelChanged);
     disconnect(m_model.get(), &KeyframeModelList::modelDisplayChanged, this, &KeyframeView::slotModelDisplayChanged);
 }
+
 void KeyframeView::slotModelChanged()
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());

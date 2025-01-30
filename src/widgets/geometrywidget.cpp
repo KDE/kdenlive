@@ -30,12 +30,12 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
 
     // auto *positionLayout = new QHBoxLayout;
     m_spinX = new DragValue(i18nc("x axis position", "Position X"), 0, 0, -99000, 99000, -1, QString(), false, false, parent, true);
-    connect(m_spinX, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectXKeyframeValue);
+    connect(m_spinX, &DragValue::customValueChanged, this, &GeometryWidget::slotAdjustRectXKeyframeValue);
     m_spinX->setObjectName("spinX");
     m_allWidgets << m_spinX;
 
     m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, false, parent, true);
-    connect(m_spinY, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectYKeyframeValue);
+    connect(m_spinY, &DragValue::customValueChanged, this, &GeometryWidget::slotAdjustRectYKeyframeValue);
     m_spinY->setObjectName("spinY");
     m_allWidgets << m_spinY;
 
@@ -52,7 +52,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     m_allWidgets << label;
 
     m_spinWidth = new DragValue(i18nc("Image Size (Width)", "Size W"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, parent, true);
-    connect(m_spinWidth, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectWidth);
+    connect(m_spinWidth, &DragValue::customValueChanged, this, &GeometryWidget::slotAdjustRectWidth);
     m_spinWidth->setObjectName("spinW");
     m_allWidgets << m_spinWidth;
 
@@ -67,7 +67,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     m_allWidgets << ratioButton;
 
     m_spinHeight = new DragValue(i18nc("Image Height", "H"), m_defaultSize.height(), 0, 1, 99000, -1, QString(), false, false, parent, true);
-    connect(m_spinHeight, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectHeight);
+    connect(m_spinHeight, &DragValue::customValueChanged, this, &GeometryWidget::slotAdjustRectHeight);
     m_spinHeight->setObjectName("spinH");
     QHBoxLayout *sizelayout = new QHBoxLayout;
     sizelayout->addWidget(m_spinWidth);
@@ -135,7 +135,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     m_spinSize = new DragValue(i18n("Scale"), 100, 2, 1, 99000, -1, i18n("%"), false, false, parent, true);
     m_spinSize->setStep(5);
     m_spinSize->setObjectName("spinS");
-    connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
+    connect(m_spinSize, &DragValue::customValueChanged, this, &GeometryWidget::slotResize);
     scaleLayout->addWidget(m_spinSize);
     m_allWidgets << m_spinSize;
     int opacityLabel = 0;
@@ -143,7 +143,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     if (useOpacity) {
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), false, false, parent, true);
         m_opacity->setValue((int)(opacity * m_opacityFactor));
-        connect(m_opacity, &DragValue::valueChanged, this, [&]() { Q_EMIT valueChanged(getValue(), 4); });
+        connect(m_opacity, &DragValue::customValueChanged, this, [&]() { Q_EMIT valueChanged(getValue(), 4); });
         m_opacity->setObjectName("spinO");
         label = m_opacity->createLabel();
         opacityLabel = label->sizeHint().width();

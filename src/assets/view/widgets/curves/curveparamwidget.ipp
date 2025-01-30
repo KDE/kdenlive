@@ -184,8 +184,8 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setupLay
     m_pY->setStep(0.001);
     m_ui.layoutP->addWidget(m_pX);
     m_ui.layoutP->addWidget(m_pY);
-    connect(m_pX, &DragValue::valueChanged, this, &CurveParamWidget<CurveWidget_t>::slotUpdatePointP);
-    connect(m_pY, &DragValue::valueChanged, this, &CurveParamWidget<CurveWidget_t>::slotUpdatePointP);
+    connect(m_pX, &DragValue::customValueChanged, this, &CurveParamWidget<CurveWidget_t>::slotUpdatePointP);
+    connect(m_pY, &DragValue::customValueChanged, this, &CurveParamWidget<CurveWidget_t>::slotUpdatePointP);
 }
 
 template <> void CurveParamWidget<BezierSplineEditor>::setupLayoutHandles()
@@ -204,10 +204,10 @@ template <> void CurveParamWidget<BezierSplineEditor>::setupLayoutHandles()
     m_ui.layoutH2->addWidget(new QLabel(i18n("Handle 2:")));
     m_ui.layoutH2->addWidget(m_h2X);
     m_ui.layoutH2->addWidget(m_h2Y);
-    connect(m_h1X, &DragValue::valueChanged, this, &CurveParamWidget<BezierSplineEditor>::slotUpdatePointH1);
-    connect(m_h1Y, &DragValue::valueChanged, this, &CurveParamWidget<BezierSplineEditor>::slotUpdatePointH1);
-    connect(m_h2X, &DragValue::valueChanged, this, &CurveParamWidget<BezierSplineEditor>::slotUpdatePointH2);
-    connect(m_h2Y, &DragValue::valueChanged, this, &CurveParamWidget<BezierSplineEditor>::slotUpdatePointH2);
+    connect(m_h1X, &DragValue::customValueChanged, this, &CurveParamWidget<BezierSplineEditor>::slotUpdatePointH1);
+    connect(m_h1Y, &DragValue::customValueChanged, this, &CurveParamWidget<BezierSplineEditor>::slotUpdatePointH1);
+    connect(m_h2X, &DragValue::customValueChanged, this, &CurveParamWidget<BezierSplineEditor>::slotUpdatePointH2);
+    connect(m_h2Y, &DragValue::customValueChanged, this, &CurveParamWidget<BezierSplineEditor>::slotUpdatePointH2);
 }
 
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setupLayoutHandles()
