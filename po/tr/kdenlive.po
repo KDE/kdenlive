@@ -1,7 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 # Volkan Gezer <volkangezer@gmail.com>, 2015, 2017, 2021.
 # Emir SARI <emir_sari@icloud.com>, 2023.
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-18 02:35+0000\n"
-"PO-Revision-Date: 2024-12-29 13:57+0300\n"
+"PO-Revision-Date: 2025-01-29 12:16+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2554,22 +2554,22 @@ msgstr "Döndürme Canlandırması Z"
 #: data/effects/rotation.xml:26
 #, kde-format
 msgid "Shear X"
-msgstr "Kırp X"
+msgstr "X çarpıtması"
 
 #: data/effects/rotation.xml:29
 #, kde-format
 msgid "Shear Y"
-msgstr "Kırp Y"
+msgstr "Y çarpıtması"
 
 #: data/effects/rotation.xml:32
 #, kde-format
 msgid "Animate Shear X"
-msgstr "X Kırpmayı Canlandır"
+msgstr "X Çarpıtmasını Canlandır"
 
 #: data/effects/rotation.xml:35
 #, kde-format
 msgid "Animate Shear Y"
-msgstr "Y Kırpmayı Canlandır"
+msgstr "Y Çarpıtmasını Canlandır"
 
 #: data/effects/rotation.xml:38
 #, kde-format

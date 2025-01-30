@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-18 02:35+0000\n"
-"PO-Revision-Date: 2025-01-18 07:53+0400\n"
+"PO-Revision-Date: 2025-01-29 17:04+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -9567,7 +9567,7 @@ msgstr "حسنًا"
 #: src/dialogs/wizard.cpp:92
 #, kde-format
 msgid "Converting old custom effects successful:"
-msgstr "نحج في تحويل التأثيرات المخصصة القديمة:"
+msgstr "نجح في تحويل التأثيرات المخصصة القديمة:"
 
 #: src/dialogs/wizard.cpp:100
 #, kde-format
@@ -16130,7 +16130,7 @@ msgstr "فشل حفظ ملف المشروع <br><b>%1</B>"
 #: src/project/projectmanager.cpp:590
 #, kde-format
 msgid "Saving successful"
-msgstr "نحج الحفظ"
+msgstr "نجح الحفظ"
 
 #: src/project/projectmanager.cpp:603
 #, kde-format

@@ -1,7 +1,7 @@
 # Translation for kdenlive.po to Euskara/Basque (eu).
 # Copyright (C) 2017-2024 This file is copyright:
 # This file is distributed under the same license as the kdenlive package.
-# SPDX-FileCopyrightText: 2023, 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Iñigo Gebara <igebara@disroot.org>, 2017, 2018, 2020, 2021, 2022, 2023.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-18 02:35+0000\n"
-"PO-Revision-Date: 2024-12-29 15:52+0100\n"
+"PO-Revision-Date: 2025-01-29 22:10+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2656,7 +2656,7 @@ msgstr "Biratu eta zizailatu"
 #: data/effects/rotation.xml:5 data/effects/rotation_keyframable.xml:5
 #, kde-format
 msgid "Rotate clip in any 3 directions"
-msgstr "Biratu klipa edozein 3 norabidetan"
+msgstr "Klipa 3 norabidetako edozeinetan biratzea"
 
 #: data/effects/rotation.xml:8 data/effects/rotation_keyframable.xml:8
 #: data/transitions/affine.xml:11
