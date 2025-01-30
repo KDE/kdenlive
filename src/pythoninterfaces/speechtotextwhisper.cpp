@@ -199,11 +199,24 @@ const QString SpeechToTextWhisper::modelFolder(bool mainFolder, bool create)
     if (mainFolder) {
         folder = KdenliveSettings::whisperModelFolder();
         if (folder.isEmpty() || !QFileInfo::exists(folder)) {
+            bool useXdgPath = !qgetenv("XDG_CACHE_HOME").isEmpty();
             if (create) {
-                QDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-                dir.mkpath(".cache/whisper");
+                if (useXdgPath) {
+                    QDir dir(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+                    dir.mkpath("/whisper");
+                    qDebug() << "Created whisper XDG models folder: " << dir.absolutePath();
+                } else {
+                    // On Windows / Mac, whisper downloads in $HOME/.cache
+                    QDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+                    dir.mkpath("/.cache/whisper");
+                    qDebug() << "Created whisper models folder: " << dir.absolutePath();
+                }
             }
-            folder = QStandardPaths::locate(QStandardPaths::HomeLocation, QStringLiteral("/.cache/whisper"), QStandardPaths::LocateDirectory);
+            if (useXdgPath) {
+                folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("/whisper"), QStandardPaths::LocateDirectory);
+            } else {
+                folder = QStandardPaths::locate(QStandardPaths::HomeLocation, QStringLiteral("/.cache/whisper"), QStandardPaths::LocateDirectory);
+            }
         }
     } else {
         folder = QStandardPaths::locate(QStandardPaths::HomeLocation, QStringLiteral("/.cache/huggingface/hub/models--facebook--seamless-m4t-v2-large"),
