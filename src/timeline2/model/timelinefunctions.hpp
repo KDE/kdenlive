@@ -53,9 +53,9 @@ struct TimelineFunctions
     static QString copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds, int mainClip = -1);
 
     /** @brief Paste the clips as described by the string. Returns true on success*/
-    static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position);
-    static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo, Fun &redo,
-                           int inPos = 0, int duration = -1);
+    static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, QDir rootDir, const QString &pasteString, int trackId, int position);
+    static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, QDir rootDir, const QString &pasteString, int trackId, int position, Fun &undo,
+                           Fun &redo, int inPos = 0, int duration = -1);
     static bool pasteClipsWithUndo(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo,
                                    Fun &redo);
     static bool pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, const QDomDocument &copiedItems, int position, int inPos = 0,

@@ -86,10 +86,14 @@ public:
     std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &uuid = QUuid()) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
     bool isActiveTimeline(const QUuid &uuid) const;
+    /** @brief Returns the active path used when creating the playlist. */
+    const QString getPlaylistRoot();
 
 private:
     /** @brief The timeline sequences contained in this project file. */
     QMap<QUuid, SequenceInfo> m_sequences;
+    /** @brief The xml document root used to create this playlist. */
+    QString m_playlistRoot;
     /** @brief The timeline sequences tmp playlists for this project file. */
     QMap<QUuid, QString> m_sequencePlaylists;
     QUuid m_activeTimeline;
