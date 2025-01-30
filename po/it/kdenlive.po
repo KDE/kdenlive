@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-29 00:40+0000\n"
+"POT-Creation-Date: 2025-01-30 00:41+0000\n"
 "PO-Revision-Date: 2025-01-19 10:30+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -656,7 +656,7 @@ msgstr "Rende l'immagine in scala di grigi, tranne il colore selezionato"
 msgid ""
 "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
 "        Lower values keep the colors closer to the selected one; higher "
-"values include more colors..]]>"
+"values include more colors.]]>"
 msgstr ""
 
 #: data/effects/copychannelstostereo.xml:4
@@ -696,7 +696,7 @@ msgid "Trim the edges of a clip"
 msgstr "Taglia i bordi di una clip"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:524
+#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:519
 #: src/dialogs/subtitlestyleedit.cpp:107 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
@@ -704,14 +704,14 @@ msgstr "Sopra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:512 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
 msgstr "Sinistra"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:506
+#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:501
 #: src/dialogs/subtitlestyleedit.cpp:113 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
@@ -719,7 +719,7 @@ msgstr "Sotto"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:518 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
@@ -2744,8 +2744,8 @@ msgstr ""
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
 msgid ""
-"<![CDATA[When animating properties with keyframes and <em>Disable repeat<em> "
-"is off,<br>\n"
+"<![CDATA[When animating properties with keyframes and <em>Disable repeat</"
+"em> is off,<br>\n"
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
@@ -2759,7 +2759,7 @@ msgstr "Inserisci spazio"
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
 msgid ""
-"<![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values."
+"<![CDATA[Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values."
 "<br>\n"
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
@@ -4736,7 +4736,7 @@ msgstr "In centro a sinistra"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:515 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -7645,7 +7645,7 @@ msgstr "Sposta in..."
 msgid "Copy To..."
 msgstr "Copia in..."
 
-#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:589
+#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:584
 #, kde-format
 msgid "Global"
 msgstr "Globale"
@@ -7682,48 +7682,48 @@ msgctxt "@action:inmenu"
 msgid "Export Subtitle"
 msgstr "Esporta sottotitoli"
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "Layer "
 msgstr "Livello"
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "with "
 msgstr "con "
 
-#: src/dialogs/managesubtitles.cpp:444 src/dialogs/managesubtitles.cpp:450
+#: src/dialogs/managesubtitles.cpp:439 src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " event"
 msgstr " evento"
 
-#: src/dialogs/managesubtitles.cpp:450
+#: src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " events"
 msgstr " eventi"
 
-#: src/dialogs/managesubtitles.cpp:503 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Bottom Left"
 msgstr "In basso a sinistra"
 
-#: src/dialogs/managesubtitles.cpp:509 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:114
 #, kde-format
 msgid "Bottom Right"
 msgstr "In basso a destra"
 
-#: src/dialogs/managesubtitles.cpp:521 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Top Left"
 msgstr "In alto a sinistra"
 
-#: src/dialogs/managesubtitles.cpp:527 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:108
 #, kde-format
 msgid "Top Right"
 msgstr "In alto a destra"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:533 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -7731,17 +7731,17 @@ msgstr "In alto a destra"
 msgid "Default"
 msgstr "Predefinito"
 
-#: src/dialogs/managesubtitles.cpp:536
+#: src/dialogs/managesubtitles.cpp:531
 #, kde-format
 msgid "Box as Border"
 msgstr "Riquadro come bordo"
 
-#: src/dialogs/managesubtitles.cpp:539 src/dialogs/subtitlestyleedit.cpp:102
+#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:102
 #, kde-format
 msgid "Box as Shadow"
 msgstr "Riquadro come ombra"
 
-#: src/dialogs/managesubtitles.cpp:689
+#: src/dialogs/managesubtitles.cpp:684
 #, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
@@ -7750,22 +7750,22 @@ msgstr ""
 "Questo eliminerà tutte le voci dei sottotitoli <b>%1</b>,<br/>così come nel "
 "file dei sottotitoli: %2"
 
-#: src/dialogs/managesubtitles.cpp:711
+#: src/dialogs/managesubtitles.cpp:706
 #, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
 msgstr "Questa azione eliminerà tutti gli eventi nel livello <b>%1</b>."
 
-#: src/dialogs/managesubtitles.cpp:729
+#: src/dialogs/managesubtitles.cpp:724
 #, kde-format
 msgid "Cannot delete default style."
 msgstr "Impossibile eliminare lo stile predefinito."
 
-#: src/dialogs/managesubtitles.cpp:733
+#: src/dialogs/managesubtitles.cpp:728
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
 msgstr "Questa azione eliminerà lo stile <b>%1</b> e tutte le sue proprietà."
 
-#: src/dialogs/managesubtitles.cpp:738
+#: src/dialogs/managesubtitles.cpp:733
 #, kde-format
 msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
@@ -15244,17 +15244,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Trasforma"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:367
+#: src/monitor/view/kdenlivemonitorautomask.qml:370
 #, kde-format
 msgid "Generating image mask"
 msgstr "Generazione maschera immagine"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:367
+#: src/monitor/view/kdenlivemonitorautomask.qml:370
 #, kde-format
 msgid "Generating video mask"
 msgstr "Generazione della maschera video"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#: src/monitor/view/kdenlivemonitorautomask.qml:381
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -15262,7 +15262,7 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#: src/monitor/view/kdenlivemonitorautomask.qml:381
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Generazione anteprima maschera video"

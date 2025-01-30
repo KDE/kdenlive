@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-29 00:40+0000\n"
-"PO-Revision-Date: 2025-01-26 22:31+0100\n"
+"POT-Creation-Date: 2025-01-30 00:41+0000\n"
+"PO-Revision-Date: 2025-01-29 22:40+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -646,12 +646,19 @@ msgid "Make image greyscale except for chosen color"
 msgstr "Bihurtu irudia txuri-beltzera hautatuko kolorea ezik"
 
 #: data/effects/chroma_hold.xml:13
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
+#| "        Lower values keep the colors closer to the selected one; higher "
+#| "values include more colors..]]>"
 msgid ""
 "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
 "        Lower values keep the colors closer to the selected one; higher "
-"values include more colors..]]>"
+"values include more colors.]]>"
 msgstr ""
+"<![CDATA[Aukeratutako kolore-balioarekin desbideratzearen ehuenkoa.<br>\n"
+"        Balio txikiagoek koloreak aukeratuta koloretik gertuago mantentzen "
+"ditu; balio handiagoek kolore gehiago barneratzen ditu..]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -690,7 +697,7 @@ msgid "Trim the edges of a clip"
 msgstr "Kimatu klip baten ertzak"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:524
+#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:519
 #: src/dialogs/subtitlestyleedit.cpp:107 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
@@ -698,14 +705,14 @@ msgstr "Goian"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:512 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
 msgstr "Ezkerrean"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:506
+#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:501
 #: src/dialogs/subtitlestyleedit.cpp:113 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
@@ -713,7 +720,7 @@ msgstr "Behean"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:518 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
@@ -785,49 +792,44 @@ msgid "Counter Clockwise"
 msgstr "Erloju-orratzen aurkako noranzkoa"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "Itzala"
+msgstr "Itzala erortzen utzi"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Alfa kanalean forma sinpleak marrazten ditu"
+msgstr "Alfa kanaletik itzal efektu bat sortzea"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Erradioa"
+msgstr "Lausotze-erradioa"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "Itzalaren ertza lausotzeko kopurua pixeletan"
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Desplazamendua"
+msgstr "X desplazamendua"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "Itzalaren kokapen horizontal erlatiboa"
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Desplazamendua"
+msgstr "Y desplazamendua"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "Itzalaren kokapen bertikal erlatiboa"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -837,10 +839,9 @@ msgid "Color"
 msgstr "Kolorea"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "Uhin-formaren gradientearen kolorea."
+msgstr "Itzalaren kolorea, alfa barne"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -2734,17 +2735,16 @@ msgstr ""
 "honakoa da: f= pow (2.0, o). zortzikoaldaketa indargabetzen du."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Biratu"
+msgstr "3 norabidetan biratu"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
 #, kde-format
 msgid "Rotate clip in any 3 directions"
-msgstr "Biratu klipa edozein 3 norabidetan"
+msgstr "Klipa 3 norabidetako edozeinetan biratzea"
 
 #: data/effects/rotate-3-way.xml:12 data/effects/shear.xml:12
 #, kde-format
@@ -2752,30 +2752,49 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[Propietateak gako-fotogramekin animatzean,<br>\n"
+"\t    azken gako-fotogramara iristean animazioa errepikatu behar den.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[When animating properties with keyframes and <em>Disable "
+#| "repeat<em> is off,<br>\n"
+#| "\t    whether the animation alternates between reverses and forwards for "
+#| "each repetition.]]>"
 msgid ""
-"<![CDATA[When animating properties with keyframes and <em>Disable repeat<em> "
-"is off,<br>\n"
+"<![CDATA[When animating properties with keyframes and <em>Disable repeat</"
+"em> is off,<br>\n"
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[Propietateak gako-fotogramekin animatzean eta <em>Ezgaitu "
+"errepikapena<em> itzalita dagoenean,<br>\n"
+"\t    animazioa errepikapen bakoitzerako alderantziz eta aurrerantz artean "
+"txandakatu behar duen.]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Txertatu zuriunea"
+msgstr "Alderantzikatu eskala"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values."
+#| "<br>\n"
+#| "        This is helpful to make animation interpolation sane because "
+#| "otherwise the scale values do not animate linearly.]]>"
 msgid ""
-"<![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values."
+"<![CDATA[Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values."
 "<br>\n"
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"<![CDATA[<em>X eskala<en> eta <em>Y eskala<em> balioak alderantzikatu behar "
+"diren.<br>\n"
+"        Animazioaren interpolazioa zentzuzko egiteko lagungarria da hau, "
+"bestela eskala balioek ez baitute linealki animatzen.]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -2784,10 +2803,9 @@ msgid "Rotate X"
 msgstr "Biratu X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Errotazioa X ardatzaren inguruan"
+msgstr "<![CDATA[X ardatzean zehar biratzeko angelua]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2796,10 +2814,9 @@ msgid "Rotate Y"
 msgstr "Biratu Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Errotazioa Y ardatzaren inguruan"
+msgstr "<![CDATA[Y ardatzean zehar biratzeko angelua]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2808,10 +2825,9 @@ msgid "Rotate Z"
 msgstr "Biratu Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Errotazioa z ardatzaren inguruan"
+msgstr "<![CDATA[Z ardatzean zehar biratzeko angelua]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2822,7 +2838,7 @@ msgstr "X desplazamendua"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[X ardatzean zehar desplazamendua]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2833,7 +2849,7 @@ msgstr "Y desplazamendua"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Y ardatzean zehar desplazamendua]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -2845,7 +2861,7 @@ msgstr "X eskala"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[X ardatzari aplikatutako eskala-faktorea]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2857,13 +2873,12 @@ msgstr "Y eskala"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Y ardatzari aplikatutako eskala-faktorea]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Biratu eta zizailatu"
+msgstr "Biratu eta zizailatu (zaharkitua)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2906,10 +2921,9 @@ msgid "Pan and Zoom"
 msgstr "Panorama eta Zooma"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Leuna (baztertua)"
+msgstr "Biratu (zaharkitua)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2983,43 +2997,40 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Sortu alfa kanala (gardentasuna) beste baliabide batetik"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Zizailatu X"
+msgstr "Zizailatu"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "Hautatu klipa nahasketa aplikatzeko"
+msgstr "Zizailatu klipa 3 ardatzetan zehar"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[X ardatzean zehar zizailatzeko angelua]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Y ardatzean zehar zizailatzeko angelua]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Zizailatu X"
+msgstr "Zizailatu Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[Z ardatzean zehar zizailatzeko angelua]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Y ardatzean zehar desplazamendua]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4746,7 +4757,7 @@ msgstr "Ezkerrean erdian"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:515 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -7642,7 +7653,7 @@ msgstr "Mugitu hona..."
 msgid "Copy To..."
 msgstr "Kopiatu hemen..."
 
-#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:589
+#: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:584
 #, kde-format
 msgid "Global"
 msgstr "Globala"
@@ -7679,48 +7690,48 @@ msgctxt "@action:inmenu"
 msgid "Export Subtitle"
 msgstr "Esportatu azpidatzia"
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "Layer "
 msgstr "Geruza "
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "with "
 msgstr "honekin, "
 
-#: src/dialogs/managesubtitles.cpp:444 src/dialogs/managesubtitles.cpp:450
+#: src/dialogs/managesubtitles.cpp:439 src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " event"
 msgstr " gertaera"
 
-#: src/dialogs/managesubtitles.cpp:450
+#: src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " events"
 msgstr " gertaerak"
 
-#: src/dialogs/managesubtitles.cpp:503 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Bottom Left"
 msgstr "Behean Ezkerrean"
 
-#: src/dialogs/managesubtitles.cpp:509 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:114
 #, kde-format
 msgid "Bottom Right"
 msgstr "Behean Eskuinean"
 
-#: src/dialogs/managesubtitles.cpp:521 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Top Left"
 msgstr "Goian Ezkerrean"
 
-#: src/dialogs/managesubtitles.cpp:527 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:108
 #, kde-format
 msgid "Top Right"
 msgstr "Goian Eskuinean"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:533 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -7728,17 +7739,17 @@ msgstr "Goian Eskuinean"
 msgid "Default"
 msgstr "Lehenetsia"
 
-#: src/dialogs/managesubtitles.cpp:536
+#: src/dialogs/managesubtitles.cpp:531
 #, kde-format
 msgid "Box as Border"
 msgstr "Kutxa Ertz gisa"
 
-#: src/dialogs/managesubtitles.cpp:539 src/dialogs/subtitlestyleedit.cpp:102
+#: src/dialogs/managesubtitles.cpp:534 src/dialogs/subtitlestyleedit.cpp:102
 #, kde-format
 msgid "Box as Shadow"
 msgstr "Kutxa Itzal gisa"
 
-#: src/dialogs/managesubtitles.cpp:689
+#: src/dialogs/managesubtitles.cpp:684
 #, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
@@ -7747,22 +7758,22 @@ msgstr ""
 "Honek <b>%1</b>(e)ko azpidatzi-sarrera denak ezabatuko ditu,<br/>baita "
 "azpidatzi-fitxategia ere: %2"
 
-#: src/dialogs/managesubtitles.cpp:711
+#: src/dialogs/managesubtitles.cpp:706
 #, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
 msgstr "Honek <b>%1</b> geruzako gertaera denak ezabatuko ditu."
 
-#: src/dialogs/managesubtitles.cpp:729
+#: src/dialogs/managesubtitles.cpp:724
 #, kde-format
 msgid "Cannot delete default style."
 msgstr "Ezin da ezabatu estilo lehenetsia."
 
-#: src/dialogs/managesubtitles.cpp:733
+#: src/dialogs/managesubtitles.cpp:728
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
 msgstr "Honek <b>%1</b> estiloa eta bere propietate denak ezabatuko ditu."
 
-#: src/dialogs/managesubtitles.cpp:738
+#: src/dialogs/managesubtitles.cpp:733
 #, kde-format
 msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
@@ -11245,19 +11256,17 @@ msgstr "Mesedez, konfiguratu SAM2 plugina."
 #: src/effects/effectstack/view/maskmanager.cpp:162
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "Bideo-fotogramak aztertzeko esportatzea"
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Bideo-maskara sortzen"
+msgstr "Bideo-fotogramak esportatzea"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Jatorrizko klipa falta da"
+msgstr "Sorburu-fotogramak falta dira"
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11494,10 +11503,9 @@ msgid "Failed to analyse video."
 msgstr "Bideoa aztertzea huts egin du."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "Klip-ordezkaria sortzea huts egin du."
+msgstr "Erreprodukzio-zerrenda prozesatzea huts egin du."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -13412,11 +13420,9 @@ msgid "Clip in Project Bin"
 msgstr "Proiektu-ontziko klipa"
 
 #: src/mainwindow.cpp:1753
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Bilatzeke…"
+msgstr "Bilatu ontziko klipa..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1755 src/ui/cutjobdialog_ui.ui:18
@@ -15184,17 +15190,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Eraldatu"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:367
+#: src/monitor/view/kdenlivemonitorautomask.qml:370
 #, kde-format
 msgid "Generating image mask"
 msgstr "Irudi-maskara sortzen"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:367
+#: src/monitor/view/kdenlivemonitorautomask.qml:370
 #, kde-format
 msgid "Generating video mask"
 msgstr "Bideo-maskara sortzen"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#: src/monitor/view/kdenlivemonitorautomask.qml:381
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -15205,7 +15211,7 @@ msgstr ""
 "maskara bat hasteko. Maius+klik beste eskualde\n"
 "bat barneratzeko. Ktrl+klik eskualde bat kanporatzeko."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:378
+#: src/monitor/view/kdenlivemonitorautomask.qml:381
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Bideo-maskara aurreikusten"
