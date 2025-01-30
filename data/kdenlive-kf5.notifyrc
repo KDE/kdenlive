@@ -491,7 +491,7 @@ Action=Sound
 
 [Event/SaveSuccess]
 Name=Saving successful
-Name[ar]=نحج الحفظ
+Name[ar]=نجح الحفظ
 Name[ca]=S'ha desat correctament
 Name[ca@valencia]=S'ha guardat correctament
 Name[cs]=Ukládání bylo úspěšné
