@@ -1645,11 +1645,9 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
         }
         ix++;
     }
-    newTractor.set("kdenlive:projectroot", pCore->currentDoc()->documentRoot().toUtf8().constData());
     QReadLocker lock(&pCore->xmlMutex);
     Mlt::Consumer xmlConsumer(*newTractor.profile(), ("xml:" + fullPath).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
-    xmlConsumer.set("store", "kdenlive");
     xmlConsumer.connect(newTractor);
     xmlConsumer.run();
 }
@@ -1869,11 +1867,11 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     return copiedItems.toString();
 }
 
-bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, QDir rootDir, const QString &pasteString, int trackId, int position)
+bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    if (TimelineFunctions::pasteClips(timeline, rootDir, pasteString, trackId, position, undo, redo)) {
+    if (TimelineFunctions::pasteClips(timeline, pasteString, trackId, position, undo, redo)) {
         pCore->pushUndo(undo, redo, i18n("Paste clips"));
         return true;
     }
@@ -1944,7 +1942,7 @@ bool TimelineFunctions::pasteClipsWithUndo(const std::shared_ptr<TimelineItemMod
 {
     std::function<bool(void)> paste_undo = []() { return true; };
     std::function<bool(void)> paste_redo = []() { return true; };
-    if (TimelineFunctions::pasteClips(timeline, QDir(pCore->currentDoc()->documentRoot()), pasteString, trackId, position, paste_undo, paste_redo)) {
+    if (TimelineFunctions::pasteClips(timeline, pasteString, trackId, position, paste_undo, paste_redo)) {
         PUSH_FRONT_LAMBDA(paste_undo, undo);
         PUSH_FRONT_LAMBDA(paste_redo, redo);
         return true;
@@ -1952,8 +1950,8 @@ bool TimelineFunctions::pasteClipsWithUndo(const std::shared_ptr<TimelineItemMod
     return false;
 }
 
-bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, QDir rootDir, const QString &pasteString, int trackId, int position,
-                                   Fun &undo, Fun &redo, int inPos, int duration)
+bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo,
+                                   Fun &redo, int inPos, int duration)
 {
     timeline->requestClearSelection();
     if (!semaphore.tryAcquire(1)) {
@@ -2200,19 +2198,13 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
         updatedPosition = position + (pasteDuration * ratio);
 
-        auto disableProxy = [rootDir](QDomElement &producer) {
+        auto disableProxy = [](QDomElement &producer) {
             const QString proxy = Xml::getXmlProperty(producer, QStringLiteral("kdenlive:proxy"));
             if (proxy.length() < 4) {
                 return;
             }
-            QString resource = Xml::getXmlProperty(producer, QStringLiteral("kdenlive:originalurl"));
+            const QString resource = Xml::getXmlProperty(producer, QStringLiteral("kdenlive:originalurl"));
             if (!resource.isEmpty()) {
-                // Fix resource for proxied clips
-                QFileInfo info(resource);
-                if (info.isRelative()) {
-                    resource = rootDir.absoluteFilePath(resource);
-                    Xml::setXmlProperty(producer, QStringLiteral("kdenlive:originalurl"), resource);
-                }
                 Xml::setXmlProperty(producer, QStringLiteral("resource"), resource);
                 Xml::setXmlProperty(producer, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
             }

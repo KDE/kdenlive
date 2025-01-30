@@ -11,7 +11,6 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/markersortmodel.h"
 #include "bin/model/subtitlemodel.hpp"
-#include "bin/playlistclip.h"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -867,7 +866,7 @@ bool TimelineController::pasteItem(int position, int tid)
     if (position == -1) {
         position = getMenuOrTimelinePos();
     }
-    return TimelineFunctions::pasteClips(m_model, QDir(pCore->currentDoc()->documentRoot()), txt, tid, position);
+    return TimelineFunctions::pasteClips(m_model, txt, tid, position);
 }
 
 void TimelineController::triggerAction(const QString &name)
@@ -4951,18 +4950,9 @@ void TimelineController::expandActiveClip()
                 int pos = clip->getPosition();
                 int inPos = m_model->getClipIn(id);
                 int duration = m_model->getClipPlaytime(id);
-                const QString binId = getClipBinId(id);
-                QDomDocument doc = TimelineFunctions::extractClip(m_model, id, binId);
+                QDomDocument doc = TimelineFunctions::extractClip(m_model, id, getClipBinId(id));
                 m_model->requestClipDeletion(id, undo, redo);
-                QDir rootDir(pCore->currentDoc()->documentRoot());
-                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
-                if (clip->clipType() == ClipType::Playlist) {
-                    auto pClip = std::static_pointer_cast<PlaylistClip>(clip);
-                    if (pClip) {
-                        rootDir = QDir(pClip->getPlaylistRoot());
-                    }
-                }
-                result = TimelineFunctions::pasteClips(m_model, rootDir, doc.toString(), m_activeTrack, pos, undo, redo, inPos, duration);
+                result = TimelineFunctions::pasteClips(m_model, doc.toString(), m_activeTrack, pos, undo, redo, inPos, duration);
                 if (result) {
                     pCore->pushUndo(undo, redo, i18n("Expand clip"));
                 } else {
