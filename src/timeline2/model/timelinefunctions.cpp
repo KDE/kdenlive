@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/bin.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/model/subtitlemodel.hpp"
+#include "bin/playlistclip.h"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -1646,8 +1647,10 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
         ix++;
     }
     QReadLocker lock(&pCore->xmlMutex);
+    newTractor.set("kdenlive:projectroot", pCore->currentDoc()->documentRoot().toUtf8().constData());
     Mlt::Consumer xmlConsumer(*newTractor.profile(), ("xml:" + fullPath).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
+    xmlConsumer.set("store", "kdenlive");
     xmlConsumer.connect(newTractor);
     xmlConsumer.run();
 }
@@ -2899,6 +2902,13 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     int tid = timeline->getClipTrackId(cid);
     int pos = timeline->getClipPosition(cid);
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
+    QDir rootDir(pCore->currentDoc()->documentRoot());
+    if (clip->clipType() == ClipType::Playlist) {
+        auto pClip = std::static_pointer_cast<PlaylistClip>(clip);
+        if (pClip) {
+            rootDir = QDir(pClip->getPlaylistRoot());
+        }
+    }
     QDomDocument sourceDoc;
     QDomDocument destDoc;
     if (!Xml::docContentFromFile(sourceDoc, clip->clipUrl(), false)) {
@@ -2980,7 +2990,17 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         // This could be a timeline track producer, reset custom audio/video setting
         Xml::removeXmlProperty(currentProd, QLatin1String("set.test_audio"));
         Xml::removeXmlProperty(currentProd, QLatin1String("set.test_image"));
-        bin.appendChild(destDoc.importNode(currentProd, true));
+        QDomElement binProducer = destDoc.importNode(currentProd, true).toElement();
+        QString prodResource = Xml::getXmlProperty(binProducer, QStringLiteral("kdenlive:originalurl"));
+        if (!prodResource.isEmpty()) {
+            // Fix resource for proxied clips
+            QFileInfo info(prodResource);
+            if (info.isRelative()) {
+                prodResource = rootDir.absoluteFilePath(prodResource);
+                Xml::setXmlProperty(binProducer, QStringLiteral("kdenlive:originalurl"), prodResource);
+            }
+        }
+        bin.appendChild(binProducer);
     }
     // Same for chains
     QDomNodeList chains = sourceDoc.elementsByTagName(QStringLiteral("chain"));
@@ -3040,7 +3060,17 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         // This could be a timeline track producer, reset custom audio/video setting
         Xml::removeXmlProperty(currentProd, QLatin1String("set.test_audio"));
         Xml::removeXmlProperty(currentProd, QLatin1String("set.test_image"));
-        bin.appendChild(destDoc.importNode(currentProd, true));
+        QDomElement binProducer = destDoc.importNode(currentProd, true).toElement();
+        QString prodResource = Xml::getXmlProperty(binProducer, QStringLiteral("kdenlive:originalurl"));
+        if (!prodResource.isEmpty()) {
+            // Fix resource for proxied clips
+            QFileInfo info(prodResource);
+            if (info.isRelative()) {
+                prodResource = rootDir.absoluteFilePath(prodResource);
+                Xml::setXmlProperty(binProducer, QStringLiteral("kdenlive:originalurl"), prodResource);
+            }
+        }
+        bin.appendChild(binProducer);
     }
     // Check for audio tracks
     QMap<QString, bool> tracksType;
