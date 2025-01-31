@@ -102,6 +102,7 @@ private:
     KeyframeView *m_keyframeview;
     KeyframeMonitorHelper *m_monitorHelper;
     QTabWidget *m_curveeditorcontainer;
+    int m_lastKeyframePos{-1};
     QVector<KeyframeCurveEditor *> m_curveeditorview;
     QStackedWidget *m_editorviewcontainer;
     KDualAction *m_addDeleteAction;

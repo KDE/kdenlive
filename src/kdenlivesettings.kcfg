@@ -1069,6 +1069,14 @@
       <label>Automatically create a new keyframe on keyframe move.</label>
       <default>true</default>
     </entry>
+    <entry name="limitAutoKeyframes" type="Int">
+      <label>Limit the frequency of created keyframes when playing.</label>
+      <default>0</default>
+    </entry>
+    <entry name="limitAutoKeyframesInterval" type="Int">
+      <label>Default interval for auto keyframes limit when playing.</label>
+      <default>10</default>
+    </entry>
     <entry name="maskOpacity" type="Int">
       <label>Opacity of object masks on monitor.</label>
       <default>100</default>

@@ -36,6 +36,11 @@ bool KeyframeMonitorHelper::connectMonitor(bool activate)
     return m_active;
 }
 
+bool KeyframeMonitorHelper::isPlaying() const
+{
+    return m_monitor->isPlaying();
+}
+
 void KeyframeMonitorHelper::addIndex(const QPersistentModelIndex &index)
 {
     m_indexes << index;

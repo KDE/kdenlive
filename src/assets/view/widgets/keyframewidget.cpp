@@ -211,6 +211,18 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         kfType->setCurrentAction(linear2);
     }
 
+    // Auto keyframe limit
+    QAction *autoLimit = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")), i18n("Limit automatic keyframes"), this);
+    autoLimit->setCheckable(true);
+    autoLimit->setChecked(KdenliveSettings::limitAutoKeyframes() > 0);
+    connect(autoLimit, &QAction::toggled, this, [this](bool toggled) {
+        if (toggled) {
+            KdenliveSettings::setLimitAutoKeyframes(KdenliveSettings::limitAutoKeyframesInterval());
+        } else {
+            KdenliveSettings::setLimitAutoKeyframes(0);
+        }
+    });
+
     // Menu toolbutton
     auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
     menuAction->setWhatsThis(
@@ -223,6 +235,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     menuAction->addSeparator();
     menuAction->addAction(kfType);
     menuAction->addAction(removeNext);
+    menuAction->addAction(autoLimit);
     m_toolbar->addAction(menuAction);
 
     m_editorviewcontainer->addWidget(m_keyframeview);
@@ -984,6 +997,20 @@ void KeyframeWidget::slotAddRemove()
             slotRemoveKeyframe({position});
         }
     } else {
+        // when playing, limit the keyframe interval
+        if (m_monitorHelper && m_monitorHelper->isPlaying() && KdenliveSettings::limitAutoKeyframes() > 0) {
+            if (m_lastKeyframePos < 0) {
+                m_lastKeyframePos = position;
+            } else if (position < m_lastKeyframePos) {
+                m_lastKeyframePos = -1;
+            } else if (position - m_lastKeyframePos < KdenliveSettings::limitAutoKeyframes()) {
+                // Abort keyframe
+                return;
+            } else {
+                // Proceed
+                m_lastKeyframePos = position;
+            }
+        }
         if (slotAddKeyframe(position)) {
             GenTime pos(position, pCore->getCurrentFps());
             int currentIx = m_keyframes->getIndexForPos(pos);

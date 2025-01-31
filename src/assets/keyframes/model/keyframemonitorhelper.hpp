@@ -40,6 +40,10 @@ public:
      */
     virtual void refreshParams(int pos);
 
+    /** @brief Returns true if the monitor is playing
+     */
+    bool isPlaying() const;
+
     QList<QPersistentModelIndex> getIndexes();
 
 protected:

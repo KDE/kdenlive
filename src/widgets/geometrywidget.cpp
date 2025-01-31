@@ -413,7 +413,9 @@ void GeometryWidget::slotUpdateGeometryRect(const QRectF &r)
     m_spinHeight->blockSignals(false);
     // Q_EMIT updateMonitorGeometry(r);
     adjustSizeValue();
-    Q_EMIT valueChanged(getValue(), -1, m_frameForRect);
+    if (m_spinX->isEnabled()) {
+        Q_EMIT valueChanged(getValue(), -1, m_frameForRect);
+    }
 }
 
 void GeometryWidget::setValue(const QRect r, double opacity, int frame)
