@@ -160,7 +160,7 @@ QDomElement ProjectFolder::toXml(QDomDocument &document, bool, bool)
 bool ProjectFolder::rename(const QString &name, int column)
 {
     Q_UNUSED(column)
-    if (m_name == name) {
+    if (m_name == name || name.isEmpty()) {
         return false;
     }
     // Rename folder

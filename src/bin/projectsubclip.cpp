@@ -160,7 +160,7 @@ bool ProjectSubClip::rename(const QString &name, int column)
 {
     // TODO refac: rework this
     Q_UNUSED(column)
-    if (m_name == name) {
+    if (m_name == name || name.isEmpty()) {
         return false;
     }
     // Rename folder
