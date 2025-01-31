@@ -51,6 +51,14 @@ Item {
     signal effectChanged(rect frame)
     signal centersChanged()
 
+    function updateEffectRect(rect) {
+      if (moveArea.pressed) {
+          // We are moving a rect, don't update
+          return
+      }
+      root.framesize = rect
+    }
+
     function updatePoints(types, points) {
       if (global.pressed) {
         return

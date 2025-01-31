@@ -2242,7 +2242,12 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
     if (!r.isEmpty()) {
-        root->setProperty("framesize", r);
+        if (isPlaying()) {
+            // Don't refresh rect if we are moving it
+            QMetaObject::invokeMethod(root, "updateEffectRect", Q_ARG(QRect, r));
+        } else {
+            root->setProperty("framesize", r);
+        }
     }
 }
 
