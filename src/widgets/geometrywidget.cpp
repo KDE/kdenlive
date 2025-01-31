@@ -394,7 +394,7 @@ void GeometryWidget::slotAdjustRectYKeyframeValue()
     Q_EMIT valueChanged(getValue(), 1);
 }
 
-void GeometryWidget::slotUpdateGeometryRect(const QRect r)
+void GeometryWidget::slotUpdateGeometryRect(const QRectF &r)
 {
     if (!r.isValid()) {
         return;
@@ -403,10 +403,10 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinY->blockSignals(true);
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinX->setValue(r.x());
-    m_spinY->setValue(r.y());
-    m_spinWidth->setValue(r.width());
-    m_spinHeight->setValue(r.height());
+    m_spinX->setValue(qRound(r.x()));
+    m_spinY->setValue(qRound(r.y()));
+    m_spinWidth->setValue(qRound(r.width()));
+    m_spinHeight->setValue(qRound(r.height()));
     m_spinX->blockSignals(false);
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);

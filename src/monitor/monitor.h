@@ -392,7 +392,7 @@ Q_SIGNALS:
     void durationChanged(int);
     void zoneUpdated(const QPoint &);
     void zoneUpdatedWithUndo(const QPoint &, const QPoint &);
-    void effectChanged(const QRect &);
+    void effectChanged(const QRectF &);
     void effectPointsChanged(const QVariantList &);
     void addRemoveKeyframe();
     /** @brief Seek to an effect keyframe

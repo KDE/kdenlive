@@ -58,7 +58,7 @@ private:
     void adjustSizeValue();
 
 public Q_SLOTS:
-    void slotUpdateGeometryRect(const QRect r);
+    void slotUpdateGeometryRect(const QRectF &r);
     void slotSetRange(QPair<int, int>);
 
 private Q_SLOTS:

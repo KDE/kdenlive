@@ -34,7 +34,7 @@ bool RectHelper::connectMonitor(bool activate)
     return m_active;
 }
 
-void RectHelper::slotUpdateFromMonitorRect(const QRect &rect)
+void RectHelper::slotUpdateFromMonitorRect(const QRectF &rect)
 {
     QSize frameSize = pCore->getCurrentFrameSize();
     double x = double(rect.x() + rect.width() / 2) / frameSize.width();

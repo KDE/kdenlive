@@ -40,12 +40,10 @@ public Q_SLOTS:
     void blockSceneChange(bool block);
 
 private Q_SLOTS:
-    void effectRectChanged();
     void effectPolygonChanged();
     void effectRotoChanged(const QVariant&,const QVariant&);
 
 Q_SIGNALS:
-    void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
     void activateTrack(int);
 };

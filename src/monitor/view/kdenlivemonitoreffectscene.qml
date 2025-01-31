@@ -48,7 +48,7 @@ Item {
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
-    signal effectChanged()
+    signal effectChanged(rect frame)
     signal centersChanged()
 
     function updatePoints(types, points) {
@@ -419,7 +419,7 @@ Item {
                 if (root.iskeyframe == false && controller.autoKeyframe) {
                   controller.addRemoveKeyframe();
                 }
-                root.effectChanged()
+                root.effectChanged(root.framesize)
                 mouse.accepted = true
             }
           }
@@ -491,7 +491,7 @@ Item {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
-                  root.effectChanged()
+                  root.effectChanged(root.framesize)
                 }
               }
               onReleased: {
@@ -573,7 +573,7 @@ Item {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
-                  root.effectChanged()
+                  root.effectChanged(root.framesize)
                 }
               }
               onReleased: {
@@ -643,7 +643,7 @@ Item {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
-                  root.effectChanged()
+                  root.effectChanged(root.framesize)
                 }
               }
               onReleased: {
@@ -715,7 +715,7 @@ Item {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
-                  root.effectChanged()
+                  root.effectChanged(root.framesize)
                 }
               }
               onReleased: {
@@ -788,7 +788,7 @@ Item {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
-                  root.effectChanged()
+                  root.effectChanged(root.framesize)
                 }
               }
               onReleased: {
@@ -858,7 +858,7 @@ Item {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
-                  root.effectChanged()
+                  root.effectChanged(root.framesize)
                 }
               }
               onReleased: {
@@ -928,7 +928,7 @@ Item {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
-                  root.effectChanged()
+                  root.effectChanged(root.framesize)
                 }
               }
               onReleased: {
@@ -1009,7 +1009,7 @@ Item {
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
-                  root.effectChanged()
+                  root.effectChanged(root.framesize)
                 }
               }
               onReleased: {

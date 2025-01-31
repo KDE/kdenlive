@@ -196,7 +196,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addTimelineEffect, this, &Monitor::addTimelineEffect);
 
     m_qmlManager = new QmlManager(m_glMonitor, this);
-    connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(this, &Monitor::blockSceneChange, m_qmlManager, &QmlManager::blockSceneChange);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged, Qt::QueuedConnection);
     connect(m_qmlManager, &QmlManager::activateTrack, this, [&](int ix) { Q_EMIT activateTrack(ix, false); });

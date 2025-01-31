@@ -40,5 +40,5 @@ public:
     void refreshParams(int pos) override;
 
 private Q_SLOTS:
-    void slotUpdateFromMonitorRect(const QRect &rect);
+    void slotUpdateFromMonitorRect(const QRectF &rect);
 };
