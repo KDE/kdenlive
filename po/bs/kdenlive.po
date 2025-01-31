@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-30 00:41+0000\n"
+"POT-Creation-Date: 2025-01-31 00:41+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -4331,103 +4331,103 @@ msgstr ""
 msgid "Smooth (deprecated)"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:143
-#: src/assets/keyframes/model/keyframemodellist.cpp:133
-#: src/assets/keyframes/model/keyframemodellist.cpp:214
+#: src/assets/keyframes/model/keyframemodel.cpp:147
+#: src/assets/keyframes/model/keyframemodellist.cpp:134
+#: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframewidget.cpp:89 src/dialogs/timeremap.cpp:1615
 #: src/dialogs/timeremap.cpp:1640
 #, kde-format
 msgid "Add keyframe"
 msgstr "Dodaj glavni okvir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:143
-#: src/assets/keyframes/model/keyframemodellist.cpp:133
-#: src/assets/keyframes/model/keyframemodellist.cpp:214
+#: src/assets/keyframes/model/keyframemodel.cpp:147
+#: src/assets/keyframes/model/keyframemodellist.cpp:134
+#: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, fuzzy, kde-format
 #| msgid "Change clip type"
 msgid "Change keyframe type"
 msgstr "Izmjeni tip snimka"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:236
-#: src/assets/keyframes/model/keyframemodellist.cpp:266
+#: src/assets/keyframes/model/keyframemodel.cpp:240
+#: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframewidget.cpp:91 src/dialogs/timeremap.cpp:1636
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Izbriši glavni okvir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:431
+#: src/assets/keyframes/model/keyframemodel.cpp:435
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Izbriši glavni okvir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:452
-#: src/assets/keyframes/model/keyframemodellist.cpp:390
-#: src/assets/keyframes/model/keyframemodellist.cpp:486
-#: src/assets/keyframes/view/keyframeview.cpp:199
+#: src/assets/keyframes/model/keyframemodel.cpp:456
+#: src/assets/keyframes/model/keyframemodellist.cpp:391
+#: src/assets/keyframes/model/keyframemodellist.cpp:487
+#: src/assets/keyframes/view/keyframeview.cpp:200
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Izbriši glavni okvir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:523
-#: src/assets/keyframes/model/keyframemodellist.cpp:589
+#: src/assets/keyframes/model/keyframemodel.cpp:527
+#: src/assets/keyframes/model/keyframemodellist.cpp:590
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframe"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:883
-#: src/assets/keyframes/model/keyframemodellist.cpp:334
+#: src/assets/keyframes/model/keyframemodel.cpp:887
+#: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, fuzzy, kde-format
 #| msgid "Reset all keyframes"
 msgid "Delete all keyframes"
 msgstr "Ponovo postavi sve glavne okvire"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1096
+#: src/assets/keyframes/model/keyframemodel.cpp:1100
 #, kde-format
 msgid "effect"
 msgstr "efekat"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1105
+#: src/assets/keyframes/model/keyframemodel.cpp:1109
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Reset %1"
 msgstr "Resetuj"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1368
+#: src/assets/keyframes/model/keyframemodel.cpp:1372
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Reset effect"
 msgstr "Restartuj efekat"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:358
+#: src/assets/keyframes/model/keyframemodellist.cpp:359
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Delete keyframes"
 msgstr "Izbriši glavni okvir"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:729
+#: src/assets/keyframes/model/keyframemodellist.cpp:730
 #: src/assets/model/assetparametermodel.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
 msgstr "Zalijepi efekte"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:951
+#: src/assets/keyframes/model/keyframemodellist.cpp:952
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
 
-#: src/assets/keyframes/view/keyframeview.cpp:139
+#: src/assets/keyframes/view/keyframeview.cpp:140
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Duplicate keyframe"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:493
+#: src/assets/keyframes/view/keyframeview.cpp:494
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Move keyframe"
@@ -4436,44 +4436,44 @@ msgstr[0] "Izbriši glavni okvir"
 msgstr[1] "Izbriši glavni okvir"
 msgstr[2] "Izbriši glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:745
+#: src/assets/keyframes/view/keyframeview.cpp:746
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes X position"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:753
+#: src/assets/keyframes/view/keyframeview.cpp:754
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes Y position"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:761
+#: src/assets/keyframes/view/keyframeview.cpp:762
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes width"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:769
+#: src/assets/keyframes/view/keyframeview.cpp:770
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes height"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:777
+#: src/assets/keyframes/view/keyframeview.cpp:778
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes opacity"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:782
-#: src/assets/keyframes/view/keyframeview.cpp:784
+#: src/assets/keyframes/view/keyframeview.cpp:783
+#: src/assets/keyframes/view/keyframeview.cpp:785
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Update keyframes value"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:788
+#: src/assets/keyframes/view/keyframeview.cpp:789
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframe value copied"
@@ -6539,7 +6539,7 @@ msgid "Edit subtitle"
 msgstr "Dodaj vodiča"
 
 #: src/bin/model/subtitlemodel.cpp:688 src/bin/model/subtitlemodel.cpp:1692
-#: src/timeline2/model/timelinefunctions.cpp:229
+#: src/timeline2/model/timelinefunctions.cpp:230
 #, kde-format
 msgid "Cut clip"
 msgstr "Izreži isječak"
@@ -6656,7 +6656,7 @@ msgstr "Neispravan snimak"
 
 #: src/bin/projectclip.cpp:1398 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1494
+#: src/timeline2/model/timelinefunctions.cpp:1495
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "File already exists"
@@ -13689,7 +13689,7 @@ msgstr "Obriši Marker"
 msgid "Edit Marker…"
 msgstr "Uredi obilježivač"
 
-#: src/mainwindow.cpp:1697 src/timeline2/model/timelinefunctions.cpp:1211
+#: src/mainwindow.cpp:1697 src/timeline2/model/timelinefunctions.cpp:1212
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "Restore Audio"
@@ -14227,7 +14227,7 @@ msgstr "Nije moguće pronaći snimak za dodavanje markera"
 msgid "Marker category does not exist"
 msgstr "Kategorija"
 
-#: src/mainwindow.cpp:3016 src/timeline2/model/timelinefunctions.cpp:787
+#: src/mainwindow.cpp:3016 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3143
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
@@ -14235,7 +14235,7 @@ msgid "Overwrite zone"
 msgstr "Režim prepisivanja preko"
 
 #: src/mainwindow.cpp:3018 src/mainwindow.cpp:3037
-#: src/timeline2/model/timelinefunctions.cpp:789
+#: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3145
 #, fuzzy, kde-format
 #| msgid "Insert mode"
@@ -14248,7 +14248,7 @@ msgstr "Režim umetanja"
 msgid "No clip selected in project bin"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/mainwindow.cpp:3035 src/timeline2/model/timelinefunctions.cpp:787
+#: src/mainwindow.cpp:3035 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3143
 #, fuzzy, kde-format
 #| msgid "Insert mode"
@@ -18036,7 +18036,7 @@ msgstr ""
 msgid "Yiddish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotextwhisper.cpp:244
+#: src/pythoninterfaces/speechtotextwhisper.cpp:254
 #, kde-format
 msgid "Install Whisper"
 msgstr ""
@@ -18715,63 +18715,63 @@ msgstr "Nevažeći isječak je uklonjen sa snimka %1 na %2\n"
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:121
+#: src/timeline2/model/timelinefunctions.cpp:122
 #, fuzzy, kde-format
 #| msgid "Insert clip"
 msgid "Insert Clips"
 msgstr "Unesi isječak"
 
-#: src/timeline2/model/timelinefunctions.cpp:285
+#: src/timeline2/model/timelinefunctions.cpp:286
 #, fuzzy, kde-format
 #| msgid "Cannot cut a transition"
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
 msgstr "Nije moguće rezanje prelaza"
 
-#: src/timeline2/model/timelinefunctions.cpp:356
-#: src/timeline2/model/timelinefunctions.cpp:376
+#: src/timeline2/model/timelinefunctions.cpp:357
+#: src/timeline2/model/timelinefunctions.cpp:377
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to cut clip"
 msgstr "Nije uspjelo da se kreiraj proxy isječak."
 
-#: src/timeline2/model/timelinefunctions.cpp:367
+#: src/timeline2/model/timelinefunctions.cpp:368
 #, fuzzy, kde-format
 #| msgid "All tracks"
 msgid "All tracks are locked"
 msgstr "Sve trake"
 
-#: src/timeline2/model/timelinefunctions.cpp:387
+#: src/timeline2/model/timelinefunctions.cpp:388
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clips to cut"
 msgstr "Nije kopiran nijedan snimak"
 
-#: src/timeline2/model/timelinefunctions.cpp:389
+#: src/timeline2/model/timelinefunctions.cpp:390
 #, fuzzy, kde-format
 #| msgid "Cut clip"
 msgid "Cut all clips"
 msgstr "Izreži isječak"
 
-#: src/timeline2/model/timelinefunctions.cpp:681
+#: src/timeline2/model/timelinefunctions.cpp:682
 #: src/timeline2/view/timelinecontroller.cpp:1490
 #, kde-format
 msgid "Insert space"
 msgstr "Umetnuti razmak"
 
-#: src/timeline2/model/timelinefunctions.cpp:683
+#: src/timeline2/model/timelinefunctions.cpp:684
 #: src/timeline2/view/timelinecontroller.cpp:1492
 #, kde-format
 msgid "Remove space"
 msgstr "Izabaci razmak"
 
-#: src/timeline2/model/timelinefunctions.cpp:752
+#: src/timeline2/model/timelinefunctions.cpp:753
 #: src/timeline2/view/timelinecontroller.cpp:2949
 #, fuzzy, kde-format
 msgid "Lift zone"
 msgstr "Zona navoda"
 
-#: src/timeline2/model/timelinefunctions.cpp:752
+#: src/timeline2/model/timelinefunctions.cpp:753
 #: src/timeline2/view/timelinecontroller.cpp:730
 #: src/timeline2/view/timelinecontroller.cpp:2949
 #, fuzzy, kde-format
@@ -18779,12 +18779,12 @@ msgstr "Zona navoda"
 msgid "Extract zone"
 msgstr "Ekstraktuj zonu"
 
-#: src/timeline2/model/timelinefunctions.cpp:823
+#: src/timeline2/model/timelinefunctions.cpp:824
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:947
+#: src/timeline2/model/timelinefunctions.cpp:948
 #: src/timeline2/view/timelinecontroller.cpp:1229
 #: src/timeline2/view/timelinecontroller.cpp:1309
 #: src/timeline2/view/timelinecontroller.cpp:1319
@@ -18811,42 +18811,42 @@ msgstr ""
 msgid "No clip selected"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/timeline2/model/timelinefunctions.cpp:1012
+#: src/timeline2/model/timelinefunctions.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Cannot move effect"
 msgid "Cannot move selected group"
 msgstr "Nije moguće pomjeranje efekta"
 
-#: src/timeline2/model/timelinefunctions.cpp:1113
-#: src/timeline2/model/timelinefunctions.cpp:1117
-#: src/timeline2/model/timelinefunctions.cpp:1124
+#: src/timeline2/model/timelinefunctions.cpp:1114
+#: src/timeline2/model/timelinefunctions.cpp:1118
+#: src/timeline2/model/timelinefunctions.cpp:1125
 #: src/timeline2/view/timelinecontroller.cpp:4006
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Enable clip"
 msgstr "Naslov snimka"
 
-#: src/timeline2/model/timelinefunctions.cpp:1113
-#: src/timeline2/model/timelinefunctions.cpp:1117
-#: src/timeline2/model/timelinefunctions.cpp:1124
+#: src/timeline2/model/timelinefunctions.cpp:1114
+#: src/timeline2/model/timelinefunctions.cpp:1118
+#: src/timeline2/model/timelinefunctions.cpp:1125
 #: src/timeline2/view/timelinecontroller.cpp:4006
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Disable clip"
 msgstr "Naslov snimka"
 
-#: src/timeline2/model/timelinefunctions.cpp:1166
+#: src/timeline2/model/timelinefunctions.cpp:1167
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1183
+#: src/timeline2/model/timelinefunctions.cpp:1184
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1191
-#: src/timeline2/model/timelinefunctions.cpp:1204
+#: src/timeline2/model/timelinefunctions.cpp:1192
+#: src/timeline2/model/timelinefunctions.cpp:1205
 #, fuzzy, kde-format
 #| msgid ""
 #| "Audio\n"
@@ -18856,142 +18856,142 @@ msgstr ""
 "Audio\n"
 "brzina prijenosa"
 
-#: src/timeline2/model/timelinefunctions.cpp:1243
+#: src/timeline2/model/timelinefunctions.cpp:1244
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1251
-#: src/timeline2/model/timelinefunctions.cpp:1264
+#: src/timeline2/model/timelinefunctions.cpp:1252
+#: src/timeline2/model/timelinefunctions.cpp:1265
 #, fuzzy, kde-format
 #| msgid "Video player"
 msgid "Video restore failed"
 msgstr "Video plejer"
 
-#: src/timeline2/model/timelinefunctions.cpp:1270
+#: src/timeline2/model/timelinefunctions.cpp:1271
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Restore Video"
 msgstr "Zašuti video snimak"
 
-#: src/timeline2/model/timelinefunctions.cpp:1317
+#: src/timeline2/model/timelinefunctions.cpp:1318
 #, fuzzy, kde-format
 msgid "Change Composition Track"
 msgstr "Interpolacija"
 
-#: src/timeline2/model/timelinefunctions.cpp:1332
+#: src/timeline2/model/timelinefunctions.cpp:1333
 #, fuzzy, kde-format
 #| msgid "Cannot remove space in a locked track"
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Ne mogu skloniti prostor na lociranom snimku"
 
-#: src/timeline2/model/timelinefunctions.cpp:1486
+#: src/timeline2/model/timelinefunctions.cpp:1487
 #, fuzzy, kde-format
 #| msgid "Add clip to project"
 #| msgid_plural "Add clips to project"
 msgid "Add Clip to Library"
 msgstr "Dodaj snimak u projekat"
 
-#: src/timeline2/model/timelinefunctions.cpp:1486
+#: src/timeline2/model/timelinefunctions.cpp:1487
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1875
+#: src/timeline2/model/timelinefunctions.cpp:1878
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste clips"
 msgstr "Snimci liste zvukova"
 
-#: src/timeline2/model/timelinefunctions.cpp:1889
-#: src/timeline2/model/timelinefunctions.cpp:2063
-#: src/timeline2/model/timelinefunctions.cpp:2086
-#: src/timeline2/model/timelinefunctions.cpp:2125
-#: src/timeline2/model/timelinefunctions.cpp:2403
+#: src/timeline2/model/timelinefunctions.cpp:1892
+#: src/timeline2/model/timelinefunctions.cpp:2066
+#: src/timeline2/model/timelinefunctions.cpp:2089
+#: src/timeline2/model/timelinefunctions.cpp:2128
+#: src/timeline2/model/timelinefunctions.cpp:2406
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "Not enough tracks to paste clipboard"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/timeline2/model/timelinefunctions.cpp:1958
+#: src/timeline2/model/timelinefunctions.cpp:1961
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1970
+#: src/timeline2/model/timelinefunctions.cpp:1973
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "No valid data in clipboard"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/timeline2/model/timelinefunctions.cpp:2009
+#: src/timeline2/model/timelinefunctions.cpp:2012
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/timeline2/model/timelinefunctions.cpp:2143
-#: src/timeline2/model/timelinefunctions.cpp:2161
-#: src/timeline2/model/timelinefunctions.cpp:2192
-#: src/timeline2/model/timelinefunctions.cpp:2197
+#: src/timeline2/model/timelinefunctions.cpp:2146
+#: src/timeline2/model/timelinefunctions.cpp:2164
+#: src/timeline2/model/timelinefunctions.cpp:2195
+#: src/timeline2/model/timelinefunctions.cpp:2200
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Pasted clips"
 msgstr "Snimci liste zvukova"
 
-#: src/timeline2/model/timelinefunctions.cpp:2181
+#: src/timeline2/model/timelinefunctions.cpp:2184
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2183
+#: src/timeline2/model/timelinefunctions.cpp:2186
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2183
+#: src/timeline2/model/timelinefunctions.cpp:2186
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste"
 msgstr "Snimci liste zvukova"
 
-#: src/timeline2/model/timelinefunctions.cpp:2265
-#: src/timeline2/model/timelinefunctions.cpp:2273
-#: src/timeline2/model/timelinefunctions.cpp:2341
+#: src/timeline2/model/timelinefunctions.cpp:2268
+#: src/timeline2/model/timelinefunctions.cpp:2276
+#: src/timeline2/model/timelinefunctions.cpp:2344
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not add bin clip"
 msgstr "Dodavanje isječaka"
 
-#: src/timeline2/model/timelinefunctions.cpp:2395
+#: src/timeline2/model/timelinefunctions.cpp:2398
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2445
-#: src/timeline2/model/timelinefunctions.cpp:2626
+#: src/timeline2/model/timelinefunctions.cpp:2448
+#: src/timeline2/model/timelinefunctions.cpp:2629
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "ažuriraj vrijednosti na vremenskoj osi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2646
+#: src/timeline2/model/timelinefunctions.cpp:2649
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"
 msgid "Paste timeline clips"
 msgstr "Obriši snimak vremenske skale"
 
-#: src/timeline2/model/timelinefunctions.cpp:2866
+#: src/timeline2/model/timelinefunctions.cpp:2869
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "Izbaci prostor"
 
-#: src/timeline2/model/timelinefunctions.cpp:2893
+#: src/timeline2/model/timelinefunctions.cpp:2896
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"

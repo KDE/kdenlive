@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-30 00:41+0000\n"
-"PO-Revision-Date: 2025-01-26 19:43+0100\n"
+"POT-Creation-Date: 2025-01-31 00:41+0000\n"
+"PO-Revision-Date: 2025-01-30 08:32+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -783,49 +783,44 @@ msgid "Counter Clockwise"
 msgstr "Antihorario"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "Sombra"
+msgstr "Sombreado"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Debuxa formas simples na canle alfa"
+msgstr "Crear un efecto de sombra a partir da canle alfa."
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Raio"
+msgstr "Raio de desenfoque"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "A cantidade, en píxeles, para sombrear o extremo da sombra."
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Desprazamento"
+msgstr "Desprazamento en X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "A posición horizontal relativa da sombra."
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Desprazamento"
+msgstr "Desprazamento en Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "A posición vertical relativa da sombra."
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -835,10 +830,9 @@ msgid "Color"
 msgstr "Cor"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "A cor da gradación da forma de onda."
+msgstr "A cor da sombra, incluída a alfa."
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -2738,11 +2732,10 @@ msgstr ""
 "potencia(2.0, o). Sobredefine «octaveshift» (cambio de oitava)."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Rotar"
+msgstr "Rotar en 3 direccións"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2756,6 +2749,8 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[Ao animar propiedades con fotogramas clave,<br>\n"
+"\t    se repetir a animación tras alcanzar esta o último fotograma clave.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -2767,10 +2762,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Inserir espazo"
+msgstr "Inverter a escala"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2788,10 +2782,9 @@ msgid "Rotate X"
 msgstr "Rotar X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Rotación arredor do eixo X"
+msgstr "<![CDATA[Ángulo de rotación no eixe X.]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2800,10 +2793,9 @@ msgid "Rotate Y"
 msgstr "Rotar Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Rotación arredor do eixo Y"
+msgstr "<![CDATA[Ángulo de rotación no eixe Y.]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2812,10 +2804,9 @@ msgid "Rotate Z"
 msgstr "Rotar Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Rotación arredor do eixo Z"
+msgstr "<![CDATA[Ángulo de rotación no eixe Z.]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2826,7 +2817,7 @@ msgstr "Desprazamento en X"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desprazamento no eixe X.]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2837,37 +2828,36 @@ msgstr "Desprazamento en Y"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desprazamento no eixe Y.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
 #: src/ui/editsubstyle_ui.ui:279
 #, kde-format
 msgid "Scale X"
-msgstr "Escala X"
+msgstr "Escala en X"
 
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Factor de escala que se aplica no eixe X.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
 #: src/ui/editsubstyle_ui.ui:465
 #, kde-format
 msgid "Scale Y"
-msgstr "Escala Y"
+msgstr "Escala en Y"
 
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Factor de escala que se aplica no eixe Y.]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Rotar e podar"
+msgstr "Rotar e podar (obsoleto)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2910,10 +2900,9 @@ msgid "Pan and Zoom"
 msgstr "Panorámica e ampliación"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Suavizar (obsoleto)"
+msgstr "Rotar (obsoleto)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2987,17 +2976,15 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Crear unha canle alfa (transparencia) baseada noutro recurso"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Podar X"
+msgstr "Podar"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "Seleccione un fragmento para aplicar a mestura"
+msgstr "Podar un fragmento nos tres eixes."
 
 #: data/effects/shear.xml:26
 #, kde-format
@@ -3111,12 +3098,12 @@ msgstr "Sobresaturar a cor no vídeo, como nas antigas películas en Technicolor
 #: data/effects/tcolor.xml:8
 #, kde-format
 msgid "Blue/Yellow axis"
-msgstr "Eixo azul/amarelo"
+msgstr "Eixe azul/amarelo"
 
 #: data/effects/tcolor.xml:11
 #, kde-format
 msgid "Red/Green axis"
-msgstr "Eixo vermello/verde"
+msgstr "Eixe vermello/verde"
 
 #: data/effects/threshold.xml:4
 #, kde-format
@@ -4488,133 +4475,133 @@ msgstr "Saída elástica"
 msgid "Smooth (deprecated)"
 msgstr "Suavizar (obsoleto)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:143
-#: src/assets/keyframes/model/keyframemodellist.cpp:133
-#: src/assets/keyframes/model/keyframemodellist.cpp:214
+#: src/assets/keyframes/model/keyframemodel.cpp:147
+#: src/assets/keyframes/model/keyframemodellist.cpp:134
+#: src/assets/keyframes/model/keyframemodellist.cpp:215
 #: src/assets/view/widgets/keyframewidget.cpp:89 src/dialogs/timeremap.cpp:1615
 #: src/dialogs/timeremap.cpp:1640
 #, kde-format
 msgid "Add keyframe"
 msgstr "Engadir fotograma clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:143
-#: src/assets/keyframes/model/keyframemodellist.cpp:133
-#: src/assets/keyframes/model/keyframemodellist.cpp:214
+#: src/assets/keyframes/model/keyframemodel.cpp:147
+#: src/assets/keyframes/model/keyframemodellist.cpp:134
+#: src/assets/keyframes/model/keyframemodellist.cpp:215
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Cambiar o tipo de fotograma clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:236
-#: src/assets/keyframes/model/keyframemodellist.cpp:266
+#: src/assets/keyframes/model/keyframemodel.cpp:240
+#: src/assets/keyframes/model/keyframemodellist.cpp:267
 #: src/assets/view/widgets/keyframewidget.cpp:91 src/dialogs/timeremap.cpp:1636
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Eliminar fotograma clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:431
+#: src/assets/keyframes/model/keyframemodel.cpp:435
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Mover os fotogramas clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:452
-#: src/assets/keyframes/model/keyframemodellist.cpp:390
-#: src/assets/keyframes/model/keyframemodellist.cpp:486
-#: src/assets/keyframes/view/keyframeview.cpp:199
+#: src/assets/keyframes/model/keyframemodel.cpp:456
+#: src/assets/keyframes/model/keyframemodellist.cpp:391
+#: src/assets/keyframes/model/keyframemodellist.cpp:487
+#: src/assets/keyframes/view/keyframeview.cpp:200
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Mover o fotograma clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:523
-#: src/assets/keyframes/model/keyframemodellist.cpp:589
+#: src/assets/keyframes/model/keyframemodel.cpp:527
+#: src/assets/keyframes/model/keyframemodellist.cpp:590
 #, kde-format
 msgid "Update keyframe"
 msgstr "Actualizar o fotograma clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:883
-#: src/assets/keyframes/model/keyframemodellist.cpp:334
+#: src/assets/keyframes/model/keyframemodel.cpp:887
+#: src/assets/keyframes/model/keyframemodellist.cpp:335
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Eliminar todos os fotogramas clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1096
+#: src/assets/keyframes/model/keyframemodel.cpp:1100
 #, kde-format
 msgid "effect"
 msgstr "efecto"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1105
+#: src/assets/keyframes/model/keyframemodel.cpp:1109
 #, kde-format
 msgid "Reset %1"
 msgstr "Restabelecer %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1368
+#: src/assets/keyframes/model/keyframemodel.cpp:1372
 #, kde-format
 msgid "Reset effect"
 msgstr "Reiniciar efecto"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:358
+#: src/assets/keyframes/model/keyframemodellist.cpp:359
 #, kde-format
 msgid "Delete keyframes"
 msgstr "Eliminar os fotogramas clave"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:729
+#: src/assets/keyframes/model/keyframemodellist.cpp:730
 #: src/assets/model/assetparametermodel.cpp:1569
 #, kde-format
 msgid "Update effect"
 msgstr "Actualizar o efecto"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:951
+#: src/assets/keyframes/model/keyframemodellist.cpp:952
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
 "Detectouse a falta dun fotograma clave en %1, engadiuse de novo "
 "automaticamente"
 
-#: src/assets/keyframes/view/keyframeview.cpp:139
+#: src/assets/keyframes/view/keyframeview.cpp:140
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Duplicar o fotograma clave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:493
+#: src/assets/keyframes/view/keyframeview.cpp:494
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Mover o fotograma clave"
 msgstr[1] "Mover os fotogramas clave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:745
+#: src/assets/keyframes/view/keyframeview.cpp:746
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Actualizar a posición en X dos fotogramas clave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:753
+#: src/assets/keyframes/view/keyframeview.cpp:754
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Actualizar a posición en Y dos fotogramas clave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:761
+#: src/assets/keyframes/view/keyframeview.cpp:762
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Actualizar a anchura dos fotogramas clave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:769
+#: src/assets/keyframes/view/keyframeview.cpp:770
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Actualizar a altura dos fotogramas clave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:777
+#: src/assets/keyframes/view/keyframeview.cpp:778
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Actualizar a opacidade dos fotogramas clave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:782
-#: src/assets/keyframes/view/keyframeview.cpp:784
+#: src/assets/keyframes/view/keyframeview.cpp:783
+#: src/assets/keyframes/view/keyframeview.cpp:785
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Actualizar o valor dos fotogramas clave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:788
+#: src/assets/keyframes/view/keyframeview.cpp:789
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Copiouse o valor do fotograma clave"
@@ -6527,7 +6514,7 @@ msgid "Edit subtitle"
 msgstr "Editar o subtítulo"
 
 #: src/bin/model/subtitlemodel.cpp:688 src/bin/model/subtitlemodel.cpp:1692
-#: src/timeline2/model/timelinefunctions.cpp:229
+#: src/timeline2/model/timelinefunctions.cpp:230
 #, kde-format
 msgid "Cut clip"
 msgstr "Recortar o fragmento"
@@ -6640,7 +6627,7 @@ msgstr "Incorrecta"
 
 #: src/bin/projectclip.cpp:1398 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1494
+#: src/timeline2/model/timelinefunctions.cpp:1495
 #, kde-format
 msgid "File already exists"
 msgstr "O ficheiro xa existe"
@@ -13389,7 +13376,7 @@ msgstr "Eliminar o marcador"
 msgid "Edit Marker…"
 msgstr "Editar o marcador…"
 
-#: src/mainwindow.cpp:1697 src/timeline2/model/timelinefunctions.cpp:1211
+#: src/mainwindow.cpp:1697 src/timeline2/model/timelinefunctions.cpp:1212
 #, kde-format
 msgid "Restore Audio"
 msgstr "Restaurar o son"
@@ -13890,14 +13877,14 @@ msgstr "Non é posíbel atopar o fragmento ao que editar o marcador"
 msgid "Marker category does not exist"
 msgstr "A categoría de marcadores non existe."
 
-#: src/mainwindow.cpp:3016 src/timeline2/model/timelinefunctions.cpp:787
+#: src/mainwindow.cpp:3016 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3143
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Sobrescribir a zona"
 
 #: src/mainwindow.cpp:3018 src/mainwindow.cpp:3037
-#: src/timeline2/model/timelinefunctions.cpp:789
+#: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3145
 #, kde-format
 msgid "Could not insert zone"
@@ -13908,7 +13895,7 @@ msgstr "Non foi posíbel inserir a zona"
 msgid "No clip selected in project bin"
 msgstr "Non seleccionou ningún fragmento na caixa do proxecto"
 
-#: src/mainwindow.cpp:3035 src/timeline2/model/timelinefunctions.cpp:787
+#: src/mainwindow.cpp:3035 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3143
 #, kde-format
 msgid "Insert zone"
@@ -17600,7 +17587,7 @@ msgid "Yiddish"
 msgstr "Yiddish"
 
 # https://docs.kdenlive.org/en/effects_and_compositions/speech_to_text.html#whisper
-#: src/pythoninterfaces/speechtotextwhisper.cpp:244
+#: src/pythoninterfaces/speechtotextwhisper.cpp:254
 #, kde-format
 msgid "Install Whisper"
 msgstr "Instalar Whisper"
@@ -17995,7 +17982,7 @@ msgstr "RGB"
 #: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Draw axis"
-msgstr "Amosar o eixo"
+msgstr "Amosar o eixe"
 
 #: src/scopes/colorscopes/rgbparade.cpp:34
 #, kde-format
@@ -18298,69 +18285,69 @@ msgstr ""
 "%1 Atopouse un fragmento (%2) cunha lista de reprodución subordinada "
 "incorrecta"
 
-#: src/timeline2/model/timelinefunctions.cpp:121
+#: src/timeline2/model/timelinefunctions.cpp:122
 #, kde-format
 msgid "Insert Clips"
 msgstr "Inserir fragmentos"
 
-#: src/timeline2/model/timelinefunctions.cpp:285
+#: src/timeline2/model/timelinefunctions.cpp:286
 #, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
 msgstr "Non é posíbel cortar subtítulos entrelazados."
 
-#: src/timeline2/model/timelinefunctions.cpp:356
-#: src/timeline2/model/timelinefunctions.cpp:376
+#: src/timeline2/model/timelinefunctions.cpp:357
+#: src/timeline2/model/timelinefunctions.cpp:377
 #, kde-format
 msgid "Failed to cut clip"
 msgstr "Non foi posíbel cortar o fragmento"
 
-#: src/timeline2/model/timelinefunctions.cpp:367
+#: src/timeline2/model/timelinefunctions.cpp:368
 #, kde-format
 msgid "All tracks are locked"
 msgstr "Todas as pistas están bloqueadas"
 
-#: src/timeline2/model/timelinefunctions.cpp:387
+#: src/timeline2/model/timelinefunctions.cpp:388
 #, kde-format
 msgid "No clips to cut"
 msgstr "Non hai un fragmento que cortar"
 
-#: src/timeline2/model/timelinefunctions.cpp:389
+#: src/timeline2/model/timelinefunctions.cpp:390
 #, kde-format
 msgid "Cut all clips"
 msgstr "Cortar todos os fragmentos"
 
-#: src/timeline2/model/timelinefunctions.cpp:681
+#: src/timeline2/model/timelinefunctions.cpp:682
 #: src/timeline2/view/timelinecontroller.cpp:1490
 #, kde-format
 msgid "Insert space"
 msgstr "Inserir espazo"
 
-#: src/timeline2/model/timelinefunctions.cpp:683
+#: src/timeline2/model/timelinefunctions.cpp:684
 #: src/timeline2/view/timelinecontroller.cpp:1492
 #, kde-format
 msgid "Remove space"
 msgstr "Retirar espazo"
 
-#: src/timeline2/model/timelinefunctions.cpp:752
+#: src/timeline2/model/timelinefunctions.cpp:753
 #: src/timeline2/view/timelinecontroller.cpp:2949
 #, kde-format
 msgid "Lift zone"
 msgstr "Elevar a zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:752
+#: src/timeline2/model/timelinefunctions.cpp:753
 #: src/timeline2/view/timelinecontroller.cpp:730
 #: src/timeline2/view/timelinecontroller.cpp:2949
 #, kde-format
 msgid "Extract zone"
 msgstr "Extraer a zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:823
+#: src/timeline2/model/timelinefunctions.cpp:824
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Active unha pista facendo clic na súa etiqueta"
 
-#: src/timeline2/model/timelinefunctions.cpp:947
+#: src/timeline2/model/timelinefunctions.cpp:948
 #: src/timeline2/view/timelinecontroller.cpp:1229
 #: src/timeline2/view/timelinecontroller.cpp:1309
 #: src/timeline2/view/timelinecontroller.cpp:1319
@@ -18386,104 +18373,104 @@ msgstr "Active unha pista facendo clic na súa etiqueta"
 msgid "No clip selected"
 msgstr "Non seleccionou ningún fragmento"
 
-#: src/timeline2/model/timelinefunctions.cpp:1012
+#: src/timeline2/model/timelinefunctions.cpp:1013
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Non é posíbel mover o grupo seleccionado"
 
-#: src/timeline2/model/timelinefunctions.cpp:1113
-#: src/timeline2/model/timelinefunctions.cpp:1117
-#: src/timeline2/model/timelinefunctions.cpp:1124
+#: src/timeline2/model/timelinefunctions.cpp:1114
+#: src/timeline2/model/timelinefunctions.cpp:1118
+#: src/timeline2/model/timelinefunctions.cpp:1125
 #: src/timeline2/view/timelinecontroller.cpp:4006
 #, kde-format
 msgid "Enable clip"
 msgstr "Activar o fragmento"
 
-#: src/timeline2/model/timelinefunctions.cpp:1113
-#: src/timeline2/model/timelinefunctions.cpp:1117
-#: src/timeline2/model/timelinefunctions.cpp:1124
+#: src/timeline2/model/timelinefunctions.cpp:1114
+#: src/timeline2/model/timelinefunctions.cpp:1118
+#: src/timeline2/model/timelinefunctions.cpp:1125
 #: src/timeline2/view/timelinecontroller.cpp:4006
 #, kde-format
 msgid "Disable clip"
 msgstr "Desactivar o fragmento"
 
-#: src/timeline2/model/timelinefunctions.cpp:1166
+#: src/timeline2/model/timelinefunctions.cpp:1167
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Algúns fragmentos non teñen son ou xa son de son"
 
-#: src/timeline2/model/timelinefunctions.cpp:1183
+#: src/timeline2/model/timelinefunctions.cpp:1184
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "Non hai pistas de son dispoñíbeis para a operación de restauración"
 
-#: src/timeline2/model/timelinefunctions.cpp:1191
-#: src/timeline2/model/timelinefunctions.cpp:1204
+#: src/timeline2/model/timelinefunctions.cpp:1192
+#: src/timeline2/model/timelinefunctions.cpp:1205
 #, kde-format
 msgid "Audio restore failed"
 msgstr "A restauración de son fallou"
 
-#: src/timeline2/model/timelinefunctions.cpp:1243
+#: src/timeline2/model/timelinefunctions.cpp:1244
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Non hai pistas de vídeo dispoñíbeis para a operación de restauración"
 
-#: src/timeline2/model/timelinefunctions.cpp:1251
-#: src/timeline2/model/timelinefunctions.cpp:1264
+#: src/timeline2/model/timelinefunctions.cpp:1252
+#: src/timeline2/model/timelinefunctions.cpp:1265
 #, kde-format
 msgid "Video restore failed"
 msgstr "A restauración de vídeo fallou"
 
-#: src/timeline2/model/timelinefunctions.cpp:1270
+#: src/timeline2/model/timelinefunctions.cpp:1271
 #, kde-format
 msgid "Restore Video"
 msgstr "Restaurar o vídeo"
 
-#: src/timeline2/model/timelinefunctions.cpp:1317
+#: src/timeline2/model/timelinefunctions.cpp:1318
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Cambiar a pista da composición"
 
-#: src/timeline2/model/timelinefunctions.cpp:1332
+#: src/timeline2/model/timelinefunctions.cpp:1333
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Non é posíbel activar a vista de varias pistas nunha pista individual"
 
-#: src/timeline2/model/timelinefunctions.cpp:1486
+#: src/timeline2/model/timelinefunctions.cpp:1487
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Engadir o fragmento á biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1486
+#: src/timeline2/model/timelinefunctions.cpp:1487
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Insira un nome para o fragmento na biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1875
+#: src/timeline2/model/timelinefunctions.cpp:1878
 #, kde-format
 msgid "Paste clips"
 msgstr "Pegar os fragmentos"
 
-#: src/timeline2/model/timelinefunctions.cpp:1889
-#: src/timeline2/model/timelinefunctions.cpp:2063
-#: src/timeline2/model/timelinefunctions.cpp:2086
-#: src/timeline2/model/timelinefunctions.cpp:2125
-#: src/timeline2/model/timelinefunctions.cpp:2403
+#: src/timeline2/model/timelinefunctions.cpp:1892
+#: src/timeline2/model/timelinefunctions.cpp:2066
+#: src/timeline2/model/timelinefunctions.cpp:2089
+#: src/timeline2/model/timelinefunctions.cpp:2128
+#: src/timeline2/model/timelinefunctions.cpp:2406
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Non hai pistas dabondo para pegar o portapapeis"
 
-#: src/timeline2/model/timelinefunctions.cpp:1958
+#: src/timeline2/model/timelinefunctions.cpp:1961
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Hai outra operación de pegar en progreso"
 
-#: src/timeline2/model/timelinefunctions.cpp:1970
+#: src/timeline2/model/timelinefunctions.cpp:1973
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Non hai datos válidos no portapapeis"
 
-#: src/timeline2/model/timelinefunctions.cpp:2009
+#: src/timeline2/model/timelinefunctions.cpp:2012
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -18491,15 +18478,15 @@ msgstr ""
 "Non hai pistas dabondo para pegar o portapapeis (require %1 pistas de son e "
 "%2 de vídeo)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2143
-#: src/timeline2/model/timelinefunctions.cpp:2161
-#: src/timeline2/model/timelinefunctions.cpp:2192
-#: src/timeline2/model/timelinefunctions.cpp:2197
+#: src/timeline2/model/timelinefunctions.cpp:2146
+#: src/timeline2/model/timelinefunctions.cpp:2164
+#: src/timeline2/model/timelinefunctions.cpp:2195
+#: src/timeline2/model/timelinefunctions.cpp:2200
 #, kde-format
 msgid "Pasted clips"
 msgstr "Fragmentos pegados"
 
-#: src/timeline2/model/timelinefunctions.cpp:2181
+#: src/timeline2/model/timelinefunctions.cpp:2184
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -18509,45 +18496,45 @@ msgstr ""
 "proxectos actuais.<br/>\n"
 "Pode que os fragmentos e fotogramas clave se estragasen."
 
-#: src/timeline2/model/timelinefunctions.cpp:2183
+#: src/timeline2/model/timelinefunctions.cpp:2186
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Advertencia de pegado"
 
-#: src/timeline2/model/timelinefunctions.cpp:2183
+#: src/timeline2/model/timelinefunctions.cpp:2186
 #, kde-format
 msgid "Paste"
 msgstr "Pegar"
 
-#: src/timeline2/model/timelinefunctions.cpp:2265
-#: src/timeline2/model/timelinefunctions.cpp:2273
-#: src/timeline2/model/timelinefunctions.cpp:2341
+#: src/timeline2/model/timelinefunctions.cpp:2268
+#: src/timeline2/model/timelinefunctions.cpp:2276
+#: src/timeline2/model/timelinefunctions.cpp:2344
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Non foi posíbel engadir o fragmento da caixa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2395
+#: src/timeline2/model/timelinefunctions.cpp:2398
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Non se copiaron todos os fragmentos"
 
-#: src/timeline2/model/timelinefunctions.cpp:2445
-#: src/timeline2/model/timelinefunctions.cpp:2626
+#: src/timeline2/model/timelinefunctions.cpp:2448
+#: src/timeline2/model/timelinefunctions.cpp:2629
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Non foi posíbel pegar os elementos na cronoloxía"
 
-#: src/timeline2/model/timelinefunctions.cpp:2646
+#: src/timeline2/model/timelinefunctions.cpp:2649
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Pegar os fragmentos da cronoloxía"
 
-#: src/timeline2/model/timelinefunctions.cpp:2866
+#: src/timeline2/model/timelinefunctions.cpp:2869
 #, kde-format
 msgid "Remove space on track"
 msgstr "Retirar o espazo da pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:2893
+#: src/timeline2/model/timelinefunctions.cpp:2896
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Eliminar os fragmentos da pista"
@@ -19663,17 +19650,17 @@ msgstr "Opacidade da cor de fondo"
 #: src/titler/titlewidget.cpp:150
 #, kde-format
 msgid "Rotation around the X axis"
-msgstr "Rotación arredor do eixo X"
+msgstr "Rotación arredor do eixe X"
 
 #: src/titler/titlewidget.cpp:156
 #, kde-format
 msgid "Rotation around the Y axis"
-msgstr "Rotación arredor do eixo Y"
+msgstr "Rotación arredor do eixe Y"
 
 #: src/titler/titlewidget.cpp:162
 #, kde-format
 msgid "Rotation around the Z axis"
-msgstr "Rotación arredor do eixo Z"
+msgstr "Rotación arredor do eixe Z"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
 #: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1469
@@ -19776,12 +19763,12 @@ msgstr "Anular a selección"
 #: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Invert x axis and change 0 point"
-msgstr "Inverter o eixo x e cambiar punto 0"
+msgstr "Inverter o eixe x e cambiar punto 0"
 
 #: src/titler/titlewidget.cpp:359
 #, kde-format
 msgid "Invert y axis and change 0 point"
-msgstr "Inverter o eixo y e cambiar punto 0"
+msgstr "Inverter o eixe y e cambiar punto 0"
 
 #: src/titler/titlewidget.cpp:360
 #, kde-format
