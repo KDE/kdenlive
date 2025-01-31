@@ -334,6 +334,8 @@ Item {
                             waveOutPoint: aClipDuration * (root.zoomStart + root.zoomFactor)
                             fgColorEven: root.thumbColor1
                             fgColorOdd: root.thumbColor2
+                            bgColorEven: "#00000000"
+                            bgColorOdd: "#00000000"
                         }
                         Rectangle {
                             width: parent.width
