@@ -31,7 +31,7 @@ public:
      */
     explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
                             bool useOpacity, QWidget *parent, QFormLayout *layout);
-    void setValue(const QRect r, double opacity = 1);
+    void setValue(const QRect r, double opacity = 1, int frame = -1);
     void connectMonitor(bool activate, bool singleKeyframe = false);
     void setEnabled(bool enable);
     const QRect getRect() const;
@@ -47,6 +47,7 @@ private:
     DragValue *m_spinHeight;
     DragValue *m_spinSize;
     DragValue *m_opacity{nullptr};
+    int m_frameForRect{-1};
     double m_opacityFactor;
     QFormLayout *m_layout;
     QSize m_defaultSize;
@@ -88,6 +89,6 @@ private Q_SLOTS:
     void slotAdjustRectWidth();
 
 Q_SIGNALS:
-    void valueChanged(const QString val, int ix);
+    void valueChanged(const QString val, int ix, int frame);
     void updateMonitorGeometry(const QRect r);
 };

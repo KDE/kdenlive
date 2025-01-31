@@ -143,7 +143,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     if (useOpacity) {
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), false, false, parent, true);
         m_opacity->setValue((int)(opacity * m_opacityFactor));
-        connect(m_opacity, &DragValue::customValueChanged, this, [&]() { Q_EMIT valueChanged(getValue(), 4); });
+        connect(m_opacity, &DragValue::customValueChanged, this, [&]() { Q_EMIT valueChanged(getValue(), 4, m_frameForRect); });
         m_opacity->setObjectName("spinO");
         label = m_opacity->createLabel();
         opacityLabel = label->sizeHint().width();
@@ -377,21 +377,21 @@ void GeometryWidget::slotAdjustRectKeyframeValue(int ix)
 {
     QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
     Q_EMIT updateMonitorGeometry(rect);
-    Q_EMIT valueChanged(getValue(), ix);
+    Q_EMIT valueChanged(getValue(), ix, m_frameForRect);
 }
 
 void GeometryWidget::slotAdjustRectXKeyframeValue()
 {
     QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
     Q_EMIT updateMonitorGeometry(rect);
-    Q_EMIT valueChanged(getValue(), 0);
+    Q_EMIT valueChanged(getValue(), 0, m_frameForRect);
 }
 
 void GeometryWidget::slotAdjustRectYKeyframeValue()
 {
     QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
     Q_EMIT updateMonitorGeometry(rect);
-    Q_EMIT valueChanged(getValue(), 1);
+    Q_EMIT valueChanged(getValue(), 1, m_frameForRect);
 }
 
 void GeometryWidget::slotUpdateGeometryRect(const QRectF &r)
@@ -413,14 +413,15 @@ void GeometryWidget::slotUpdateGeometryRect(const QRectF &r)
     m_spinHeight->blockSignals(false);
     // Q_EMIT updateMonitorGeometry(r);
     adjustSizeValue();
-    Q_EMIT valueChanged(getValue(), -1);
+    Q_EMIT valueChanged(getValue(), -1, m_frameForRect);
 }
 
-void GeometryWidget::setValue(const QRect r, double opacity)
+void GeometryWidget::setValue(const QRect r, double opacity, int frame)
 {
     if (!r.isValid()) {
         return;
     }
+    m_frameForRect = frame;
     m_spinX->blockSignals(true);
     m_spinY->blockSignals(true);
     m_spinWidth->blockSignals(true);

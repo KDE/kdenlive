@@ -432,7 +432,7 @@ void KeyframeWidget::slotRefreshParams()
             }
             if (m_geom) {
                 qDebug() << "=== QUERY REFRESH DONE FOR: " << val;
-                m_geom->setValue(rect, opacity);
+                m_geom->setValue(rect, opacity, getPosition());
             } else {
                 qDebug() << "=== QUERY REFRESH FAILED!!!: " << val;
             }
@@ -602,9 +602,9 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         m_geom.reset(new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, m_layout));
-        connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this, index](const QString &v, int ix) {
+        connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this, index](const QString &v, int ix, int frame) {
             Q_EMIT activateEffect();
-            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), ix, index);
+            m_keyframes->updateKeyframe(GenTime(frame, pCore->getCurrentFps()), QVariant(v), ix, index);
         });
         connect(m_geom.get(), &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
             if (m_model->isActive()) {
