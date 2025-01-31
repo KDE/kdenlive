@@ -316,7 +316,7 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onClicked: mouse => {
+                onClicked: {
                     timeline.switchTrackActive(trackHeadRoot.trackId)
                 }
             }
