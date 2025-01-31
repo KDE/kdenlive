@@ -3430,6 +3430,21 @@ void TimelineController::alignAudio(int clipId)
     }
 }
 
+void TimelineController::zoomWaveform()
+{
+    if (KdenliveSettings::normalizechannels()) {
+        KdenliveSettings::setNormalizechannels(false);
+        pCore->monitorManager()->clipMonitor()->normalizeAudioThumbs();
+        Q_EMIT audioThumbNormalizeChanged();
+    }
+    if (KdenliveSettings::waveformScaler() < 5) {
+        KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() * 2);
+    } else {
+        KdenliveSettings::setWaveformScaler(1);
+    }
+    pCore->window()->slotNormalizeAudioChannel(true);
+}
+
 void TimelineController::switchTrackActive(int trackId)
 {
     if (trackId == -1) {
@@ -4849,6 +4864,11 @@ bool TimelineController::hasActiveTracks() const
         ++it;
     }
     return false;
+}
+
+QString TimelineController::audioZoomText() const
+{
+    return QStringLiteral("X%1").arg(KdenliveSettings::waveformScaler());
 }
 
 void TimelineController::showMasterEffects()

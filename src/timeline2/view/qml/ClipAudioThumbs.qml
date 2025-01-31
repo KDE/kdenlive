@@ -74,11 +74,6 @@ Row {
         }
     }
 
-    Item {
-        width: waveform.offset * waveform.maxWidth
-        height: parent.height
-    }
-
     Repeater {
         id: waveformRepeater
         TimelineWaveform {

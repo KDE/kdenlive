@@ -358,6 +358,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="waveformScaler" type="Int">
+      <label>Vertical scaler for audio waveform.</label>
+      <default>1</default>
+    </entry>
+
     <entry name="showmarkers" type="Bool">
       <label>Display clip markers comments in timeline.</label>
       <default>true</default>

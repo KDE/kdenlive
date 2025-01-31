@@ -411,6 +411,8 @@ public Q_SLOTS:
     void slotUpdateMousePosition(int pos, int duration = -1);
     /** @brief Focus current timeline clip in bin and display its range */
     void slotClipInProjectTree();
+    /** @brief Normalize audio channels before displaying them */
+    void slotNormalizeAudioChannel(bool normalize);
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
@@ -504,8 +506,6 @@ private Q_SLOTS:
     void slotResizeItemEnd();
     void configureNotifications();
     void slotSeparateAudioChannel();
-    /** @brief Normalize audio channels before displaying them */
-    void slotNormalizeAudioChannel();
     /** @brief Toggle automatic fit track height */
     void slotAutoTrackHeight(bool enable);
     void slotInsertTrack();
@@ -592,6 +592,8 @@ private Q_SLOTS:
     void slotGrabItem();
     /** @brief Collapse or expand current item (depending on focused widget: effet, track)*/
     void slotCollapse();
+    /** @brief Cycle zoom audio waveforms*/
+    void slotZoomWaveForm();
     /** @brief Save currently selected timeline clip as bin subclip*/
     void slotExtractClip();
     /** @brief Save currently selected timeline clip as bin subclip*/

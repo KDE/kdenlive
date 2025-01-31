@@ -528,7 +528,7 @@ int16_t ProjectItemModel::getAudioMaxLevel(const QString &binId, int stream)
     READ_LOCK();
     auto search = m_allClipItems.find(binId.toInt());
     if (search != m_allClipItems.end()) {
-        return search->second->getAudioMax(stream);
+        return search->second->getAudioMax(stream) / KdenliveSettings::waveformScaler();
     }
     return std::numeric_limits<int16_t>::max();
 }

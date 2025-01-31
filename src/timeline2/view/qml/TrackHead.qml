@@ -316,7 +316,7 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onClicked: {
+                onClicked: mouse => {
                     timeline.switchTrackActive(trackHeadRoot.trackId)
                 }
             }
@@ -333,7 +333,7 @@ Rectangle {
                     color: activePalette.text
                     text: i18n("Click to make track active/inactive. Active tracks will react to editing operations")
                 }
-                }
+            }
         state:  'normalled'
             states: [
                 State {
@@ -536,10 +536,12 @@ Rectangle {
             }
         }
         Item {
+            id: nameEditContainer
             anchors.bottom: trackHeadColumn.bottom
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
             anchors.margins: 2
+            anchors.rightMargin: audioZoomLabel.visible ? audioZoomLabel.width + 4 : 2
             height: nameEdit.height
             Rectangle {
                 id: trackLabel
@@ -608,6 +610,46 @@ Rectangle {
                         tracksArea.focus = true
                         visible = false
                     }
+                }
+            }
+        }
+        Label {
+            id: audioZoomLabel
+            anchors.bottom: trackHeadColumn.bottom
+            anchors.right: trackHeadColumn.right
+            anchors.margins: 2
+
+            background: Rectangle {
+                color: audioZoomLabel.text == "X1" ? 'transparent' : 'darkred'
+            }
+            height: nameEdit.height
+            width: height
+            text: trackHeadRoot.isAudio && trackHeadRoot.trackTag == "A1" ? timeline.audioZoomText : ""
+            font: miniFont
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            visible: trackLabel.visible && text.length > 0
+            MouseArea {
+                id: zoomMouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    timeline.zoomWaveform()
+                }
+            }
+            ToolTip {
+                visible: zoomMouseArea.containsMouse
+                font: miniFont
+                delay: 1500
+                timeout: 5000
+                background: Rectangle {
+                    color: activePalette.alternateBase
+                    border.color: activePalette.light
+                }
+                contentItem: Label {
+                    color: activePalette.text
+                    text: i18n("Click to cycle audio waveforms zoom")
                 }
             }
         }

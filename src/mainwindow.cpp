@@ -1244,6 +1244,10 @@ void MainWindow::setupActions()
 
     toolGroup->setExclusive(true);
 
+    QAction *zoomWaveform = new QAction(QIcon::fromTheme(QStringLiteral("zoom-1-to-2")), i18n("Zoom Audio Waveforms"), this);
+    addAction(QStringLiteral("zoom_audio_thumbs"), zoomWaveform);
+    connect(zoomWaveform, &QAction::triggered, this, &MainWindow::slotZoomWaveForm);
+
     QAction *collapseItem = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand Item"), this);
     addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
     connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
@@ -2890,9 +2894,9 @@ void MainWindow::slotAutoTrackHeight(bool enable)
     Q_EMIT pCore->autoTrackHeight(enable);
 }
 
-void MainWindow::slotNormalizeAudioChannel()
+void MainWindow::slotNormalizeAudioChannel(bool normalize)
 {
-    KdenliveSettings::setNormalizechannels(!KdenliveSettings::normalizechannels());
+    KdenliveSettings::setNormalizechannels(normalize);
     Q_EMIT getCurrentTimeline()->controller()->audioThumbNormalizeChanged();
     if (m_clipMonitor) {
         m_clipMonitor->normalizeAudioThumbs();
@@ -4496,6 +4500,11 @@ void MainWindow::slotSwitchTimelineZone(bool active)
 void MainWindow::slotGrabItem()
 {
     getCurrentTimeline()->controller()->grabCurrent();
+}
+
+void MainWindow::slotZoomWaveForm()
+{
+    getCurrentTimeline()->controller()->zoomWaveform();
 }
 
 void MainWindow::slotCollapse()

@@ -48,6 +48,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
     Q_PROPERTY(bool scrollVertically READ scrollVertically NOTIFY scrollVerticallyChanged)
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
+    Q_PROPERTY(QString audioZoomText READ audioZoomText NOTIFY audioThumbNormalizeChanged)
     Q_PROPERTY(int activeSubLayer READ activeSubLayer WRITE setActiveSubLayer NOTIFY activeSubLayerChanged)
     Q_PROPERTY(QVariantList subtitlesList READ subtitlesList NOTIFY subtitlesListChanged)
     Q_PROPERTY(int maxSubLayer READ getMaxSubLayer WRITE setMaxSubLayer NOTIFY maxSubLayerChanged)
@@ -162,6 +163,10 @@ public:
     /** @brief Returns true if we have at least one active track
      */
     Q_INVOKABLE bool hasActiveTracks() const;
+
+    /** @brief Returns the audio zoom factor, empty if none
+     */
+    Q_INVOKABLE QString audioZoomText() const;
 
     /** @brief returns current timeline's zoom factor
      */
@@ -505,6 +510,8 @@ public:
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
     Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());
     Q_INVOKABLE bool hasKeyframeAt(int cid, int frame);
+    /** @brief Cycle vertical zooming of audio waveforms */
+    Q_INVOKABLE void zoomWaveform();
 
     /** @brief Make current timeline track active/inactive*/
     Q_INVOKABLE void switchTrackActive(int trackId = -1);

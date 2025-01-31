@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="232" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="233" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -208,6 +208,7 @@
 	  <Separator />
 		<Action name="show_video_thumbs" />
 		<Action name="show_audio_thumbs" />
+        <Action name="zoom_audio_thumbs" />
 		<Action name="show_markers" />
 		<Action name="snap" />
 	  <Separator />

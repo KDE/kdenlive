@@ -390,6 +390,10 @@ Item {
                     }
                     onWheel: wheel => {
                         if (wheel.modifiers & Qt.ControlModifier) {
+                            if (wheel.angleDelta.y == 0) {
+                                // Don't trigger zoom if delta is null
+                                return
+                            }
                             if (wheel.angleDelta.y < 0) {
                                 // zoom out
                                 clipMonitorRuler.zoomOutRuler(wheel.x)
