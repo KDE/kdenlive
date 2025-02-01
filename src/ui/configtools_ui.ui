@@ -100,7 +100,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="0" column="2">
        <widget class="KContextualHelpButton" name="kcontextualhelpbutton">
         <property name="text">
-         <string>When adding automatic keyframes (for example in the Transform effect) while the monitor is playling, this is the minimum frame interval between 2 keyframes.</string>
+         <string>When adding automatic keyframes (for example in the Transform effect) while the monitor is playing, this is the minimum frame interval between 2 keyframes.</string>
         </property>
        </widget>
       </item>
