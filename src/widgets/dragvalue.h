@@ -23,7 +23,6 @@ class MySpinBox : public QSpinBox
 public:
     explicit MySpinBox(QWidget *parent = nullptr);
     bool blockWheel{false};
-    int charWidth() const;
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;

@@ -157,11 +157,6 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
     return QObject::eventFilter(watched, event);
 }
 
-int MySpinBox::charWidth() const
-{
-    return QFontMetrics(lineEdit()->font()).averageCharWidth();
-}
-
 MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
     : QDoubleSpinBox(parent)
 {
@@ -322,6 +317,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     } else if (!isInGroup) {
         l->addStretch(10);
     }
+    int charWidth = QFontMetrics(font()).averageCharWidth();
 
     if (decimals == 0) {
         if (m_label) {
@@ -342,8 +338,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setRange((int)m_minimum, (int)m_maximum);
         m_intEdit->setValue((int)m_default);
         // Try to have all spin boxes of the same size
-        int maxWidth = m_intEdit->charWidth();
-        m_intEdit->setMinimumWidth(maxWidth * 9);
+        m_intEdit->setMinimumWidth(charWidth * 9);
         minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);
@@ -379,6 +374,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         l->addWidget(m_doubleEdit);
         m_doubleEdit->setValue(m_default);
+        // Try to have all spin boxes of the same size
+        m_doubleEdit->setMinimumWidth(charWidth * 9);
         m_doubleEdit->installEventFilter(this);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
