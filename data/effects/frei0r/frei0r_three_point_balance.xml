@@ -13,10 +13,10 @@
     <parameter type="color" name="White color" default="0xffffffff">
         <name>White color</name>
     </parameter>
-    <parameter type="bool" name="Split preview" default="0">
+    <parameter type="fixed" name="Split preview" default="0">
         <name>Split screen preview</name>
     </parameter>
-    <parameter type="bool" name="Source image on left side" default="1">
+    <parameter type="fixed" name="Source image on left side" default="0">
         <name>Source image on left side</name>
     </parameter>
 </effect>
