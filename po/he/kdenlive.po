@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-01 00:40+0000\n"
-"PO-Revision-Date: 2025-01-29 08:34+0200\n"
+"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"PO-Revision-Date: 2025-02-01 09:37+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -634,11 +634,7 @@ msgid "Make image greyscale except for chosen color"
 msgstr "הפיכת תמונה לגווני אפור למעט צבע נבחר"
 
 #: data/effects/chroma_hold.xml:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
-#| "        Lower values keep the colors closer to the selected one; higher "
-#| "values include more colors..]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Percentage of deviation from the selected color value.<br>\n"
 "        Lower values keep the colors closer to the selected one; higher "
@@ -2668,19 +2664,14 @@ msgstr ""
 "\t    האם לחזור על ההנפשה כשהיא מגיעה לתמונית המפתח האחרונה.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[When animating properties with keyframes and <em>Disable "
-#| "repeat<em> is off,<br>\n"
-#| "\t    whether the animation alternates between reverses and forwards for "
-#| "each repetition.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[When animating properties with keyframes and <em>Disable repeat</"
 "em> is off,<br>\n"
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
-"<![CDATA[בעת הנפשת תכונות עם תמוניות מפתח ו<em>השבתת חזרה<em> כבויה,<br>\n"
+"<![CDATA[בעת הנפשת תכונות עם תמוניות מפתח ו<em>השבתת חזרה</em> כבויה,<br>\n"
 "\t    האם ההנפשה מחליפה בין ניגון קדימה וניגון אחורה בכל אחת מהחזרות.]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
@@ -2689,19 +2680,14 @@ msgid "Invert scale"
 msgstr "היפוך קנה מידה"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Whether to invert the <em>Scale X<en> and <em>Scale Y<em> values."
-#| "<br>\n"
-#| "        This is helpful to make animation interpolation sane because "
-#| "otherwise the scale values do not animate linearly.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Whether to invert the <em>Scale X</em> and <em>Scale Y</em> values."
 "<br>\n"
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
-"<![CDATA[האם להפוך את ערכי <em>קנה מידה X<en> ב<em>קנה מידה Y<em>.<br>\n"
+"<![CDATA[האם להפוך את ערכי <em>קנה מידה X<em> ב<em>קנה מידה Y<em>.<br>\n"
 "        שימושי להפיכת התמרת ההנפשה לשפויה כיוון שאחרת ערכי קנה המידה לא "
 "מונפשים בצורה קווית.]]>"
 
@@ -4208,13 +4194,13 @@ msgstr ""
 #: src/assets/assetpanel.cpp:112
 #, kde-format
 msgid "Save Effect Stack…"
-msgstr "שמירת ערימת אפקטים…"
+msgstr "שמירת ערמת אפקטים…"
 
 #: src/assets/assetpanel.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
-msgstr "שומר את כל ערימת האפקטים כקובץ XML לשימוש במיזמים אחרים."
+msgstr "שמירת כל ערמת האפקטים כקובץ XML לשימוש במיזמים אחרים."
 
 #: src/assets/assetpanel.cpp:118
 #, kde-format
@@ -4899,10 +4885,9 @@ msgid "Default Keyframe Type"
 msgstr "סוג תמונית מפתח כברירת מחדל"
 
 #: src/assets/view/widgets/keyframewidget.cpp:215
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "תמוניות מפתח אוטומטיות"
+msgstr "הגבלת תמוניות מפתח אוטומטיות"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:227 src/bin/bin.cpp:1343
@@ -5123,19 +5108,19 @@ msgstr "מחליף את תצוגת בקרי רצועת השמע בתצוגת מ�
 #: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
-msgstr "פתיחת ערימת אפקטים"
+msgstr "פתיחת ערמת אפקטים"
 
 #: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "פותח את ערימת האפקטים לרצועת השמע."
+msgstr "פתיחת ערמת האפקטים על רצועת השמע."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr "פותח את ערימת האפקטים לערוץ השמע הראשי."
+msgstr "פתיחת ערמת האפקטים לערוץ השמע הראשי."
 
 #: src/bin/bin.cpp:703 src/bin/bin.cpp:863
 #, kde-format
@@ -10958,7 +10943,7 @@ msgstr "מחיקת אפקט"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr "מוחק את האפקט מערימת האפקטים."
+msgstr "מחיקת האפקט מערמת האפקטים."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:350
 #, kde-format
@@ -11020,13 +11005,13 @@ msgstr "היפוך"
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
-msgstr "הפעלת ערימת אפקטים"
+msgstr "הפעלת ערמת אפקטים"
 
 #: src/effects/effectstack/view/effectstackview.cpp:692
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
-msgstr "השבתת ערימת אפקט"
+msgstr "השבתת ערמת אפקט"
 
 #: src/effects/effectstack/view/effectstackview.cpp:731
 #, kde-format
@@ -11037,12 +11022,12 @@ msgstr "לא נבחר אפקט."
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
-msgstr "שמירת ערימת האפקטים הנוכחית"
+msgstr "שמירת ערמת האפקטים הנוכחית"
 
 #: src/effects/effectstack/view/effectstackview.cpp:742
 #, kde-format
 msgid "Name for saved stack:"
-msgstr "שם לערימות שמורות:"
+msgstr "שם לערמה שמורה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/effects/effectstack/view/effectstackview.cpp:743
@@ -11054,7 +11039,7 @@ msgstr "תיאור:"
 #: src/effects/effectstack/view/effectstackview.cpp:755
 #, kde-format
 msgid "No name provided, effect stack not saved."
-msgstr "לא סופק שם, ערימת האפקטים לא נשמרה."
+msgstr "לא סופק שם, ערמת האפקטים לא נשמרה."
 
 #: src/effects/effectstack/view/effectstackview.cpp:762
 #, kde-format
@@ -12254,7 +12239,7 @@ msgstr "דפדפן מדיה"
 #: src/mainwindow.cpp:348
 #, kde-format
 msgid "Effect/Composition Stack"
-msgstr "ערימת אפקטים/תרכובות"
+msgstr "ערמת אפקטים/תרכובות"
 
 #: src/mainwindow.cpp:415
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
@@ -12590,10 +12575,9 @@ msgid "Multicam Tool"
 msgstr "כלי ריבוי מצלמות"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "מסנן צורת גל של שמע"
+msgstr "תקריב על צורת גל של שמע"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -18246,12 +18230,12 @@ msgstr "שינוי שם רצועה"
 #: src/timeline2/model/timelineitemmodel.cpp:612
 #, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "הפעלת ערימת אפקטים על רצועה"
+msgstr "הפעלת ערמת אפקטים על רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
 #, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "השבתת ערימת אפקטים על רצועה"
+msgstr "השבתת ערמת אפקטים על רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -18935,7 +18919,7 @@ msgstr "עריכת שם רצועה"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "לחיצה תחליף בין מצבי תקריב צורת גל השמע בלולאה"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -21721,25 +21705,30 @@ msgstr "לפצל אחרי השורה הראשונה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Hide Keyframes"
+#, kde-format
 msgid "Keyframes"
-msgstr "הסתרת תמוניות מפתח"
+msgstr "תמוניות מפתח"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "הפרש מזערי בין תמוניות ליצירת תמוניות מפתח אוטומטיות:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When adding automatic keyframes (for example in the Transform effect) "
+#| "while the monitor is playling, this is the minimum frame interval between "
+#| "2 keyframes."
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
-"the monitor is playling, this is the minimum frame interval between 2 "
+"the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"בעת הוספת תמוניות מפתח אוטומטיות (למשל באפקט התמרה) בזמן שהצג מציג, זה ההפרש "
+"המזערי בין 2 תמוניות."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)

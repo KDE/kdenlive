@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-01 00:40+0000\n"
-"PO-Revision-Date: 2025-01-30 05:29+0100\n"
+"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"PO-Revision-Date: 2025-02-01 05:34+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4964,10 +4964,9 @@ msgid "Default Keyframe Type"
 msgstr "ნაგულისხმევი ძირითადი კადრის ტიპი"
 
 #: src/assets/view/widgets/keyframewidget.cpp:215
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "ავტომატური საკვანძო კადრები"
+msgstr "ავტომატური საკვანძო კადრების შეზღუდვა"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:227 src/bin/bin.cpp:1343
@@ -12694,10 +12693,9 @@ msgid "Multicam Tool"
 msgstr "მრავალკამერიანი მონტაჟის ხელსაწყო"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "აუდიოს ტალღის ფორმის ფილტრი"
+msgstr "აუდიოს ტალღის ფორმის გადიდება"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -19100,7 +19098,7 @@ msgstr "ტრეკის სახელის ჩასწორება"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "დააწკაპუნეთ აუდიოს ტალღის ფორმის გადიდების წრეზე სატარებლად"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -21913,25 +21911,31 @@ msgstr "გაყოფა პირველი ხაზის შემდე
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Hide Keyframes"
+#, kde-format
 msgid "Keyframes"
-msgstr "კადრების დამალვა"
+msgstr "საკვანძო კადრები"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "მინიმალური კადრის ინტერვალი ავტომატური საკვანძო კადრებისთვის:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When adding automatic keyframes (for example in the Transform effect) "
+#| "while the monitor is playling, this is the minimum frame interval between "
+#| "2 keyframes."
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
-"the monitor is playling, this is the minimum frame interval between 2 "
+"the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"როცა ამატებთ ავტომატურ საკვანძო კადრებს (მაგალითად, გარდაქმნის ეფექტში) "
+"მაშინ, როცა მონიტორი უკრავს, ეს მინიმალური კადრის ინტერვალია 2 საკვანძო "
+"კადრს შუა."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)

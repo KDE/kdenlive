@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-01 00:40+0000\n"
-"PO-Revision-Date: 2025-01-30 19:53+0100\n"
+"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"PO-Revision-Date: 2025-02-01 08:17+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -4974,10 +4974,9 @@ msgid "Default Keyframe Type"
 msgstr "Standardtyp för nyckelbild"
 
 #: src/assets/view/widgets/keyframewidget.cpp:215
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Automatiska nyckelbilder"
+msgstr "Begränsa automatiska nyckelbilder"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:227 src/bin/bin.cpp:1343
@@ -12716,10 +12715,9 @@ msgid "Multicam Tool"
 msgstr "Flerkameraverktyg"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Ljudvågformsfilter"
+msgstr "Zooma ljudvågformer"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -19118,7 +19116,7 @@ msgstr "Redigera spårnamn"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "Klicka för att gå igenom zoom av ljudvågformer"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -21921,25 +21919,31 @@ msgstr "Dela efter första rad"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "Keyframes"
-msgstr "bildrutor"
+msgstr "Nyckelbilder"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Minimalt bildintervall för automatiska nyckelbilder:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When adding automatic keyframes (for example in the Transform effect) "
+#| "while the monitor is playling, this is the minimum frame interval between "
+#| "2 keyframes."
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
-"the monitor is playling, this is the minimum frame interval between 2 "
+"the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"När automatiska nyckelbilder läggs till (exempelvis i "
+"transformeringseffekten) medan skärmen spelar, är det här minsta "
+"bildintervallet mellan två nyckelbilder."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)

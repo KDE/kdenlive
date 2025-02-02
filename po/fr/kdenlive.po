@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-01 00:40+0000\n"
-"PO-Revision-Date: 2025-01-27 09:23+0100\n"
+"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"PO-Revision-Date: 2025-01-31 16:03+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -662,6 +662,10 @@ msgid ""
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors.]]>"
 msgstr ""
+"![CDATA[Écart en pourcentage par rapport à la valeur de couleur "
+"sélectionnée. <br>n        Les valeurs inférieures permettent de rapprocher "
+"les couleurs de la couleur sélectionnée. Les valeurs supérieures permettent "
+"d’inclure plus de couleurs. ]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -795,49 +799,44 @@ msgid "Counter Clockwise"
 msgstr "Compter en sens horaire"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "Ombre"
+msgstr "Ombre portée"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Dessine des formes simples dans le canal alpha"
+msgstr "Créer un effect d'ombre à partir du canal Alpha"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Rayon"
+msgstr "Rayon de floutage"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "La quantité en pixels pour flouter le bord de l'ombre"
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Écart"
+msgstr "Décalage en X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "La position horizontale relative de l'ombre"
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Écart"
+msgstr "Décalage en Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "La position verticale relative de l'ombre"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -847,10 +846,9 @@ msgid "Color"
 msgstr "Couleur"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "La couleur du dégradé pour la forme d'onde."
+msgstr "La couleur de l'ombre incluant le canal Alpha"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -2771,11 +2769,10 @@ msgstr ""
 "le bas) est : f = pow (2.0, o). Remplace le décalage en octave."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Faire pivoter"
+msgstr "Faire pivoter sur 3 axes"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2789,6 +2786,9 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[Lors de l’animation des propriétés avec les trames clé,<br>\n"
+"\t    Définit si l’animation doit être répétée après avoir atteint la "
+"dernière trame clé clé.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -2798,12 +2798,15 @@ msgid ""
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[Lors de l’animation de propriétés avec les trames clé et "
+"<em>Désactiver la répétition</em> est désactivée,<br>\n"
+"\t définit si l’animation alterne entre les mouvements avant et arrière à "
+"chaque répétition. ]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Insérer un espace"
+msgstr "Échelle d'inversion"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2813,6 +2816,10 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"![DATA[Définit si inverser ou non les valeurs sur <em>Échelle en X<em> et "
+"<em>Échelle en Y<em>. <br>\n"
+"        Ceci est utile pour maintenir correcte l’interpolation d’animation, "
+"car sinon, les valeurs d’échelle s’animent de manière non linéaire. ]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -2821,10 +2828,9 @@ msgid "Rotate X"
 msgstr "Rotation X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Pivotement autour de l'axe X"
+msgstr "<![CDATA[Angle de rotation le long de l'axe X]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2833,10 +2839,9 @@ msgid "Rotate Y"
 msgstr "Rotation Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Pivotement autour de l'axe Y"
+msgstr "<![CDATA[Angle de rotation le long de l'axe Y]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2845,10 +2850,9 @@ msgid "Rotate Z"
 msgstr "Rotation Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Pivotement autour de l'axe Z"
+msgstr "<![CDATA[Angle de rotation le long de l'axe Z]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2859,7 +2863,7 @@ msgstr "Décalage X"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Décalage le long de l'axe X]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2870,7 +2874,7 @@ msgstr "Décalage Y"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Décalage le long de l'axe Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -2882,7 +2886,7 @@ msgstr "Échelle en X"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Facteur d’échelle appliqué à l’axe X]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2894,13 +2898,12 @@ msgstr "Échelle en Y"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Facteur d’échelle appliqué à l’axe Y]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Pivoter et cisailler"
+msgstr "Faire pivoter et cisailler (Déconseillé)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2943,10 +2946,9 @@ msgid "Pan and Zoom"
 msgstr "Panoramique et zoom"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Doux (Déconseillé)"
+msgstr "Faire pivoter (Déconseillé)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -3020,44 +3022,41 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Créé un canal alpha (transparence) créé à partir d'une autre ressource"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Cisaillement X"
+msgstr "Cisaillement"
 
 # unreviewed-context
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "Sélectionnez une vidéo à laquelle appliquer le mixage."
+msgstr "Déchirer une séquence vidéo selon les 3 axes"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Cisaillement avec angle autour de l'axe X]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Cisaillement avec angle autour de l'axe Y]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Cisaillement X"
+msgstr "Cisaillement en Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[Cisaillement avec angle autour de l'axe Z]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Décalage le long de l'axe Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -11373,19 +11372,17 @@ msgstr "Veuillez configurer le module externe « SAM2 »."
 #: src/effects/effectstack/view/maskmanager.cpp:162
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "Exportation en cours de trames vidéo pour analyse"
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Génération en cours d'un masque de vidéo"
+msgstr "Exportation des trames vidéo en cours"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Clip source manquant"
+msgstr "Trames sources manquantes"
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11625,10 +11622,9 @@ msgid "Failed to analyse video."
 msgstr "Impossible d'analyser la vidéo."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "Impossible de créer le clip intermédiaire."
+msgstr "Impossible de traiter la liste de lecture."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -13578,11 +13574,9 @@ msgid "Clip in Project Bin"
 msgstr "Clip dans les sources du projet"
 
 #: src/mainwindow.cpp:1757
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Recherche en attente..."
+msgstr "Rechercher une séquence vidéo du projet…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1759 src/ui/cutjobdialog_ui.ui:18
@@ -22307,7 +22301,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
-"the monitor is playling, this is the minimum frame interval between 2 "
+"the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
 

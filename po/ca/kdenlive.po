@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-01 00:40+0000\n"
-"PO-Revision-Date: 2025-01-30 10:20+0100\n"
+"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"PO-Revision-Date: 2025-02-01 10:37+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5029,10 +5029,9 @@ msgid "Default Keyframe Type"
 msgstr "Tipus de fotograma clau predeterminat"
 
 #: src/assets/view/widgets/keyframewidget.cpp:215
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Fotogrames clau automàtics"
+msgstr "Limita els fotogrames clau automàtics"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:227 src/bin/bin.cpp:1343
@@ -12837,10 +12836,9 @@ msgid "Multicam Tool"
 msgstr "Eina de multicàmera"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Filtre de forma d'ona d'àudio"
+msgstr "Zoom de les formes d'ona d'àudio"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -19317,7 +19315,7 @@ msgstr "Edita el nom de la pista"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "Cliqueu per a circular pel zoom de les formes d'ona d'àudio"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -22140,25 +22138,31 @@ msgstr "Divideix després de la primera línia"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Hide Keyframes"
+#, kde-format
 msgid "Keyframes"
-msgstr "Oculta els fotogrames clau"
+msgstr "Fotogrames clau"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Interval mínim de fotogrames per als fotogrames clau automàtics:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When adding automatic keyframes (for example in the Transform effect) "
+#| "while the monitor is playling, this is the minimum frame interval between "
+#| "2 keyframes."
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
-"the monitor is playling, this is the minimum frame interval between 2 "
+"the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"Quan s'afegeixen fotogrames clau automàtics (per exemple en l'efecte "
+"Transforma) mentre el monitor està reproduint, aquest és l'interval mínim de "
+"fotogrames entre 2 fotogrames clau."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-01 00:40+0000\n"
-"PO-Revision-Date: 2025-01-31 00:32+0100\n"
+"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"PO-Revision-Date: 2025-02-02 00:32+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -5003,10 +5003,9 @@ msgid "Default Keyframe Type"
 msgstr "Gako-fotograma Mota Lehenetsia"
 
 #: src/assets/view/widgets/keyframewidget.cpp:215
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Gako-fotograma automatikoak"
+msgstr "Mugatu gako-fotograma automatikoak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:227 src/bin/bin.cpp:1343
@@ -12777,10 +12776,9 @@ msgid "Multicam Tool"
 msgstr "Kamera-anitzeko Tresna"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Audio Uhin-formaren Iragazkia"
+msgstr "Audio uhin-formaren zooma"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -19205,7 +19203,7 @@ msgstr "Editatu pistaren izena"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "Egin klik audio uhin-formen zoomean zikloa egiteko"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -22025,25 +22023,30 @@ msgstr "Zatitu lehenengo lerroaren ondoren"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Hide Keyframes"
+#, kde-format
 msgid "Keyframes"
-msgstr "Ezkutatu gako-fotogramak"
+msgstr "Gako-fotogramak"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Gako-fotograma automatikoetarako fotograma-tarte minimoa:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When adding automatic keyframes (for example in the Transform effect) "
+#| "while the monitor is playling, this is the minimum frame interval between "
+#| "2 keyframes."
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
-"the monitor is playling, this is the minimum frame interval between 2 "
+"the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"Monitorea jotzen ari den bitartean, gako-fotograma automatikoak gehitzean "
+"(Eraldatu efektuan adibidez), hau da 2 gako-fotograma arteko tarte minimoa."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)

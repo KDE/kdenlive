@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-01 00:40+0000\n"
-"PO-Revision-Date: 2025-01-30 22:34+0200\n"
+"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"PO-Revision-Date: 2025-02-01 09:49+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5012,10 +5012,9 @@ msgid "Default Keyframe Type"
 msgstr "Типовий тип ключових кадрів"
 
 #: src/assets/view/widgets/keyframewidget.cpp:215
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Автоматичні ключові кадри"
+msgstr "Обмеження на автоматичні ключові кадри"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:227 src/bin/bin.cpp:1343
@@ -12859,10 +12858,9 @@ msgid "Multicam Tool"
 msgstr "Інструмент-мультикам"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Фільтр звукової хвилі"
+msgstr "Масштаб форм звукової хвилі"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -19349,7 +19347,7 @@ msgstr "Змінити назву доріжки"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "Натисніть для циклічного переходу списком масштабів форм хвилі"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -22179,25 +22177,31 @@ msgstr "Розділити після першого рядка"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Hide Keyframes"
+#, kde-format
 msgid "Keyframes"
-msgstr "Приховати ключові кадри"
+msgstr "Ключові кадри"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Мінімальний інтервал між кадрами для автоматичних ключових кадрів:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "When adding automatic keyframes (for example in the Transform effect) "
+#| "while the monitor is playling, this is the minimum frame interval between "
+#| "2 keyframes."
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
-"the monitor is playling, this is the minimum frame interval between 2 "
+"the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"При автоматичному додаванні ключових кадрів (наприклад, в ефекті "
+"перетворення) під час відтворення на моніторі це буде мінімальна відстань у "
+"кадрах між 2 ключовими кадрами."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
