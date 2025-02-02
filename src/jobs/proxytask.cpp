@@ -359,7 +359,7 @@ void ProxyTask::run()
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
-        result = m_jobProcess->exitStatus() == QProcess::NormalExit;
+        result = m_jobProcess->exitStatus() == QProcess::NormalExit && m_jobProcess->exitCode() == 0;
     }
     // remove temporary playlist if it exists
     m_progress = 100;
@@ -378,7 +378,7 @@ void ProxyTask::run()
             QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(QString, dest));
         }
     } else {
-        // Proxy process crashed
+        // Proxy process crashed of failed
         QFile::remove(dest);
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create proxy clip.")),
