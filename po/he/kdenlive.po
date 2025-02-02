@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-31 02:34+0000\n"
-"PO-Revision-Date: 2024-12-29 17:58+0200\n"
+"PO-Revision-Date: 2025-02-01 09:37+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -3955,13 +3955,13 @@ msgstr ""
 #: src/assets/assetpanel.cpp:98
 #, kde-format
 msgid "Save Effect Stack…"
-msgstr "שמירת ערימת אפקטים…"
+msgstr "שמירת ערמת אפקטים…"
 
 #: src/assets/assetpanel.cpp:99
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
-msgstr "שומר את כל ערימת האפקטים כקובץ XML לשימוש במיזמים אחרים."
+msgstr "שמירת כל ערמת האפקטים כקובץ XML לשימוש במיזמים אחרים."
 
 #: src/assets/assetpanel.cpp:104
 #, kde-format
@@ -4847,19 +4847,19 @@ msgstr "מחליף את תצוגת בקרי רצועת השמע בתצוגת מ�
 #: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
-msgstr "פתיחת ערימת אפקטים"
+msgstr "פתיחת ערמת אפקטים"
 
 #: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "פותח את ערימת האפקטים לרצועת השמע."
+msgstr "פתיחת ערמת האפקטים על רצועת השמע."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr "פותח את ערימת האפקטים לערוץ השמע הראשי."
+msgstr "פתיחת ערמת האפקטים לערוץ השמע הראשי."
 
 #: src/bin/bin.cpp:700 src/bin/bin.cpp:858
 #, kde-format
@@ -10590,7 +10590,7 @@ msgstr "מחיקת אפקט"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr "מוחק את האפקט מערימת האפקטים."
+msgstr "מחיקת האפקט מערמת האפקטים."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:347
 #, kde-format
@@ -10652,13 +10652,13 @@ msgstr "היפוך"
 #: src/timeline2/view/timelinecontroller.cpp:3296
 #, kde-format
 msgid "Enable Effect Stack"
-msgstr "הפעלת ערימת אפקטים"
+msgstr "הפעלת ערמת אפקטים"
 
 #: src/effects/effectstack/view/effectstackview.cpp:692
 #: src/timeline2/view/timelinecontroller.cpp:3296
 #, kde-format
 msgid "Disable Effect Stack"
-msgstr "השבתת ערימת אפקט"
+msgstr "השבתת ערמת אפקט"
 
 #: src/effects/effectstack/view/effectstackview.cpp:731
 #, kde-format
@@ -10669,12 +10669,12 @@ msgstr "לא נבחר אפקט."
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
-msgstr "שמירת ערימת האפקטים הנוכחית"
+msgstr "שמירת ערמת האפקטים הנוכחית"
 
 #: src/effects/effectstack/view/effectstackview.cpp:742
 #, kde-format
 msgid "Name for saved stack:"
-msgstr "שם לערימות שמורות:"
+msgstr "שם לערמה שמורה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/effects/effectstack/view/effectstackview.cpp:743
@@ -10686,7 +10686,7 @@ msgstr "תיאור:"
 #: src/effects/effectstack/view/effectstackview.cpp:756
 #, kde-format
 msgid "No name provided, effect stack not saved."
-msgstr "לא סופק שם, ערימת האפקטים לא נשמרה."
+msgstr "לא סופק שם, ערמת האפקטים לא נשמרה."
 
 #: src/effects/effectstack/view/effectstackview.cpp:763
 #, kde-format
@@ -11824,7 +11824,7 @@ msgstr "דפדפן מדיה"
 #: src/mainwindow.cpp:347
 #, kde-format
 msgid "Effect/Composition Stack"
-msgstr "ערימת אפקטים/תרכובות"
+msgstr "ערמת אפקטים/תרכובות"
 
 #: src/mainwindow.cpp:414
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
@@ -17746,12 +17746,12 @@ msgstr "שינוי שם רצועה"
 #: src/timeline2/model/timelineitemmodel.cpp:612
 #, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "הפעלת ערימת אפקטים על רצועה"
+msgstr "הפעלת ערמת אפקטים על רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
 #, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "השבתת ערימת אפקטים על רצועה"
+msgstr "השבתת ערמת אפקטים על רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
