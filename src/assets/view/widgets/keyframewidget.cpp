@@ -443,7 +443,7 @@ void KeyframeWidget::slotRefreshParams()
             (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
-    if (m_monitorHelper && m_model->isActive()) {
+    if (m_monitorHelper && m_model->isActive() && isEnabled()) {
         m_monitorHelper->refreshParams(pos);
     }
 }
