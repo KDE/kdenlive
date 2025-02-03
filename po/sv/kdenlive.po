@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-02 00:41+0000\n"
-"PO-Revision-Date: 2025-02-01 08:17+0100\n"
+"POT-Creation-Date: 2025-02-03 00:40+0000\n"
+"PO-Revision-Date: 2025-02-02 08:23+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -17797,7 +17797,7 @@ msgstr "Filändelse"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
 #, kde-format
 msgid "Scaling"
 msgstr "Skalning"
@@ -21931,11 +21931,7 @@ msgstr "Minimalt bildintervall för automatiska nyckelbilder:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, fuzzy, kde-format
-#| msgid ""
-#| "When adding automatic keyframes (for example in the Transform effect) "
-#| "while the monitor is playling, this is the minimum frame interval between "
-#| "2 keyframes."
+#, kde-format
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
 "the monitor is playing, this is the minimum frame interval between 2 "
@@ -24489,37 +24485,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Rotera med  90° steg"
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:400
 #, kde-format
 msgid "Normal scale"
 msgstr "Normal skala"
 
-#: src/widgets/dragvalue.cpp:404
+#: src/widgets/dragvalue.cpp:401
 #, kde-format
 msgid "Pixel scale"
 msgstr "Bildpunktsskala"
 
-#: src/widgets/dragvalue.cpp:405
+#: src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Ickelinjär skala"
 
-#: src/widgets/dragvalue.cpp:409
+#: src/widgets/dragvalue.cpp:406
 #, kde-format
 msgid "Direct update"
 msgstr "Direktuppdatering"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Reset value"
 msgstr "Återställ värde"
 
-#: src/widgets/dragvalue.cpp:419
+#: src/widgets/dragvalue.cpp:416
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Visa %1 i tidslinje"
 
-#: src/widgets/dragvalue.cpp:748
+#: src/widgets/dragvalue.cpp:745
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Skift + dra för att justera värdet ett i taget."

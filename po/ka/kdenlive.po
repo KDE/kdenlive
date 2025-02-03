@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-02 00:41+0000\n"
-"PO-Revision-Date: 2025-02-01 05:34+0100\n"
+"POT-Creation-Date: 2025-02-03 00:40+0000\n"
+"PO-Revision-Date: 2025-02-02 05:11+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -17774,7 +17774,7 @@ msgstr "ფაილის გაფართოება"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
 #, kde-format
 msgid "Scaling"
 msgstr "მასშტაბირება"
@@ -21923,11 +21923,7 @@ msgstr "მინიმალური კადრის ინტერვა�
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, fuzzy, kde-format
-#| msgid ""
-#| "When adding automatic keyframes (for example in the Transform effect) "
-#| "while the monitor is playling, this is the minimum frame interval between "
-#| "2 keyframes."
+#, kde-format
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
 "the monitor is playing, this is the minimum frame interval between 2 "
@@ -24483,37 +24479,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "შებრუნება 90 ° ნაბიჯებით"
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:400
 #, kde-format
 msgid "Normal scale"
 msgstr "ნორმალური მასშტაბი"
 
-#: src/widgets/dragvalue.cpp:404
+#: src/widgets/dragvalue.cpp:401
 #, kde-format
 msgid "Pixel scale"
 msgstr "პიქსელის მასშტაბი"
 
-#: src/widgets/dragvalue.cpp:405
+#: src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "არახაზოვანი მასშტაბი"
 
-#: src/widgets/dragvalue.cpp:409
+#: src/widgets/dragvalue.cpp:406
 #, kde-format
 msgid "Direct update"
 msgstr "პირდაპირი განახლება"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Reset value"
 msgstr "მნიშვნელობის ჩამოყრა"
 
-#: src/widgets/dragvalue.cpp:419
+#: src/widgets/dragvalue.cpp:416
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "%1-ის ჩვენება დროის ხაზში"
 
-#: src/widgets/dragvalue.cpp:748
+#: src/widgets/dragvalue.cpp:745
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + გაადთრევა მნიშვნელობის ერთით გასასწორებლად."
