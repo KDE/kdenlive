@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-02 00:41+0000\n"
-"PO-Revision-Date: 2025-01-19 10:30+0100\n"
+"POT-Creation-Date: 2025-02-03 00:40+0000\n"
+"PO-Revision-Date: 2025-01-30 09:04+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -814,10 +814,9 @@ msgid "The amount in pixel to blur the edge of the shadow"
 msgstr ""
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Scostamento"
+msgstr "Scostamento X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
@@ -825,10 +824,9 @@ msgid "The relative horizontal position of the shadow"
 msgstr ""
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Scostamento"
+msgstr "Scostamento Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
@@ -17976,7 +17974,7 @@ msgstr "Estensione file"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
 #, kde-format
 msgid "Scaling"
 msgstr "Ridimensionamento"
@@ -24723,37 +24721,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Ruota per passi di 90°"
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:400
 #, kde-format
 msgid "Normal scale"
 msgstr "Scala normale"
 
-#: src/widgets/dragvalue.cpp:404
+#: src/widgets/dragvalue.cpp:401
 #, kde-format
 msgid "Pixel scale"
 msgstr "Scala dei pixel"
 
-#: src/widgets/dragvalue.cpp:405
+#: src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Riscalatura non lineare"
 
-#: src/widgets/dragvalue.cpp:409
+#: src/widgets/dragvalue.cpp:406
 #, kde-format
 msgid "Direct update"
 msgstr "Aggiornamento diretto"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Reset value"
 msgstr "Ripristina valore"
 
-#: src/widgets/dragvalue.cpp:419
+#: src/widgets/dragvalue.cpp:416
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Mostra %1 nella linea temporale"
 
-#: src/widgets/dragvalue.cpp:748
+#: src/widgets/dragvalue.cpp:745
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Maiusc + trascina per regolare il valore a passi di uno."

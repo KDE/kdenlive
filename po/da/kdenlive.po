@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"POT-Creation-Date: 2025-02-03 00:40+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -18241,7 +18241,7 @@ msgstr "Filendelse:"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
 #, kde-format
 msgid "Scaling"
 msgstr "Skalering"
@@ -25378,37 +25378,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:400
 #, kde-format
 msgid "Normal scale"
 msgstr "Normal skalering"
 
-#: src/widgets/dragvalue.cpp:404
+#: src/widgets/dragvalue.cpp:401
 #, kde-format
 msgid "Pixel scale"
 msgstr "Pixelskalering"
 
-#: src/widgets/dragvalue.cpp:405
+#: src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Ikke-lineær skalering"
 
-#: src/widgets/dragvalue.cpp:409
+#: src/widgets/dragvalue.cpp:406
 #, kde-format
 msgid "Direct update"
 msgstr "Direkte opdatering"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Reset value"
 msgstr "Nulstil værdi"
 
-#: src/widgets/dragvalue.cpp:419
+#: src/widgets/dragvalue.cpp:416
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Vis %1 i tidslinje"
 
-#: src/widgets/dragvalue.cpp:748
+#: src/widgets/dragvalue.cpp:745
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""

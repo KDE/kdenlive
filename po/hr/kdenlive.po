@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-02 00:41+0000\n"
+"POT-Creation-Date: 2025-02-03 00:40+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -18021,7 +18021,7 @@ msgstr "Proširenje"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
 #, fuzzy, kde-format
 msgid "Scaling"
 msgstr "Skaliraj"
@@ -24987,41 +24987,41 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:400
 #, fuzzy, kde-format
 #| msgid "Normalise"
 msgid "Normal scale"
 msgstr "Normaliziraj"
 
-#: src/widgets/dragvalue.cpp:404
+#: src/widgets/dragvalue.cpp:401
 #, fuzzy, kde-format
 #| msgid "Rescale"
 msgid "Pixel scale"
 msgstr "Skaliraj"
 
-#: src/widgets/dragvalue.cpp:405
+#: src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Nonlinear scale"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:409
+#: src/widgets/dragvalue.cpp:406
 #, fuzzy, kde-format
 #| msgid "Direct FB"
 msgid "Direct update"
 msgstr "Direktni FB"
 
-#: src/widgets/dragvalue.cpp:414
+#: src/widgets/dragvalue.cpp:411
 #, fuzzy, kde-format
 msgid "Reset value"
 msgstr "Odaberite zadani video player"
 
-#: src/widgets/dragvalue.cpp:419
+#: src/widgets/dragvalue.cpp:416
 #, fuzzy, kde-format
 #| msgid "Show keyframes in timeline"
 msgid "Show %1 in timeline"
 msgstr "Prikaži ključne okvire na vremenskoj liniji"
 
-#: src/widgets/dragvalue.cpp:748
+#: src/widgets/dragvalue.cpp:745
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
