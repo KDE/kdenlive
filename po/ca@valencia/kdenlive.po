@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-03 00:40+0000\n"
-"PO-Revision-Date: 2025-02-01 10:37+0100\n"
+"PO-Revision-Date: 2025-02-02 08:49+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -22151,11 +22151,7 @@ msgstr "Interval mínim de fotogrames per als fotogrames clau automàtics:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
-#, fuzzy, kde-format
-#| msgid ""
-#| "When adding automatic keyframes (for example in the Transform effect) "
-#| "while the monitor is playling, this is the minimum frame interval between "
-#| "2 keyframes."
+#, kde-format
 msgid ""
 "When adding automatic keyframes (for example in the Transform effect) while "
 "the monitor is playing, this is the minimum frame interval between 2 "
