@@ -448,11 +448,20 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         whiteAction->setData("white");
         QAction *pinkAction = m_background->addAction(QIcon(), i18n("Pink"));
         pinkAction->setData("#ff00ff");
+#if LIBMLT_VERSION_INT > QT_VERSION_CHECK(7, 30, 0)
+        QAction *checkerboardAction = m_background->addAction(QIcon(), i18n("Checkerboard"));
+        checkerboardAction->setData("checkerboard");
+#endif
+
         m_configMenuAction->addAction(m_background);
         if (KdenliveSettings::monitor_background() == whiteAction->data().toString()) {
             m_background->setCurrentAction(whiteAction);
         } else if (KdenliveSettings::monitor_background() == pinkAction->data().toString()) {
             m_background->setCurrentAction(pinkAction);
+#if LIBMLT_VERSION_INT > QT_VERSION_CHECK(7, 30, 0)
+        } else if (KdenliveSettings::monitor_background() == checkerboardAction->data().toString()) {
+            m_background->setCurrentAction(checkerboardAction);
+#endif
         } else {
             m_background->setCurrentAction(blackAction);
         }
