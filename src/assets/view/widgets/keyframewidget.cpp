@@ -784,6 +784,10 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
             // For rotoscoping, don't add a second keyframe at cursor pos
             auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
             if (type == ParamType::Roto_spline) {
+                if (m_model->monitorId == Kdenlive::ClipMonitor) {
+                    // Clip monitor does not always refresh on first keyframe for some reason
+                    pCore->getMonitor(m_model->monitorId)->forceMonitorRefresh();
+                }
                 return;
             }
         }

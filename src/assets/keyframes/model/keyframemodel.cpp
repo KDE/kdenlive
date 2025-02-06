@@ -1124,6 +1124,9 @@ void KeyframeModel::parseRotoProperty(const QString &prop)
             addKeyframe(GenTime(i.key().toInt(), pCore->getCurrentFps()), KeyframeType::Linear, i.value(), false, undo, redo);
             ++i;
         }
+    } else {
+        // Empty doc, clear all keyframes
+        m_keyframeList.clear();
     }
 }
 

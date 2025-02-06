@@ -49,7 +49,7 @@ void RotoHelper::refreshParams(int pos)
     QVariantList controlPoints;
     std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
     if (!keyframes->isEmpty()) {
-        QVariant splineData = keyframes->getInterpolatedValue(pos, m_indexes.first());
+        const QVariant splineData = keyframes->getInterpolatedValue(pos, m_indexes.first());
         QList<BPoint> p = getPoints(splineData, pCore->getCurrentFrameSize());
         for (const auto &i : std::as_const(p)) {
             centerPoints << QVariant(i.p);
@@ -57,7 +57,7 @@ void RotoHelper::refreshParams(int pos)
             controlPoints << QVariant(i.h2);
         }
     }
-    if (m_monitor && keyframes->count() > 0) {
+    if (m_monitor) {
         m_monitor->setUpEffectGeometry(QRect(), centerPoints, controlPoints);
     }
 }

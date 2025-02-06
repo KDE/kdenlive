@@ -108,7 +108,7 @@ Item {
 
     onIsDefinedChanged: {
         controller.setWidgetKeyBinding(root.isDefined ? defaultKeyBindInfo : emptyCanvasKeyBindInfo);
-        root.captureRightClick = false
+        root.captureRightClick = !root.isDefined
     }
 
     onAutoKeyframeChanged: {
@@ -153,6 +153,9 @@ Item {
     function checkDefined() {
         if (root.isDefined != root.centerPointsTypes.length > 0) {
             root.isDefined = root.centerPointsTypes.length > 0
+            if (!root.isDefined) {
+                root.requestedKeyFrame = -1
+            }
             canvas.requestPaint()
         }
     }
