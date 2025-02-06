@@ -2172,8 +2172,8 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     bool res = true;
     if (singleSelectOperation) {
         // Ungroup all items first
-        auto selection = m_currentSelection;
-        for (auto s : selection) {
+        const auto selection = m_currentSelection;
+        for (auto &s : selection) {
             if (m_groups->isInGroup(s)) {
                 extractSelectionFromGroup(s, undo, redo, true);
             }
@@ -2247,22 +2247,21 @@ std::pair<int, int> TimelineModel::extractSelectionFromGroup(int selection, Fun 
                 PUSH_LAMBDA(local_undo, undo);
             }
         }
-        if (!onDeletion) {
-            // Remove the top group
-            Fun local_redo = [this, selection]() {
-                // Clear selection
-                m_groups->removeFromGroup(selection);
-                return true;
-            };
-            Fun local_undo = [this, selection, gid]() {
-                // Clear selection
-                m_groups->setGroup(selection, gid, false);
-                return true;
-            };
-            local_redo();
-            PUSH_FRONT_LAMBDA(local_redo, redo);
-            PUSH_LAMBDA(local_undo, undo);
-        }
+
+        // Remove the top group
+        Fun local_redo = [this, selection]() {
+            // Clear selection
+            m_groups->removeFromGroup(selection);
+            return true;
+        };
+        Fun local_undo = [this, selection, gid]() {
+            // Clear selection
+            m_groups->setGroup(selection, gid, false);
+            return true;
+        };
+        local_redo();
+        PUSH_FRONT_LAMBDA(local_redo, redo);
+        PUSH_LAMBDA(local_undo, undo);
     }
     return grpPair;
 }
@@ -6576,7 +6575,6 @@ int TimelineModel::getNextTrackId(int trackId)
 bool TimelineModel::requestClearSelection(bool onDeletion)
 {
     QWriteLocker locker(&m_lock);
-    qDebug() << "::: REQUESTING SELECTION CLEAR!!!!!!";
     TRACE();
     if (m_singleSelectionMode) {
         m_singleSelectionMode = false;
