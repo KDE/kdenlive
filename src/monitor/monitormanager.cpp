@@ -30,8 +30,15 @@ MonitorManager::MonitorManager(QObject *parent)
 {
     setupActions();
     refreshTimer.setSingleShot(true);
-    refreshTimer.setInterval(200);
-    connect(&refreshTimer, &QTimer::timeout, this, &MonitorManager::forceProjectMonitorRefresh);
+    refreshTimer.setInterval(300);
+    connect(&refreshTimer, &QTimer::timeout, this, [this]() {
+        if (m_activeMonitor == m_clipMonitor) {
+            activateMonitor(Kdenlive::ProjectMonitor, true, true);
+            refreshProjectMonitor(true);
+            activateMonitor(Kdenlive::ClipMonitor, true, true);
+        }
+    });
+
     connect(pCore.get(), &Core::monitorProfileUpdated, this, [&]() {
         QAction *prog = pCore->window()->actionCollection()->action(QStringLiteral("mlt_progressive"));
         if (prog) {

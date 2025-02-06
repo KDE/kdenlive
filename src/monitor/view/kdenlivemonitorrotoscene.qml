@@ -78,6 +78,8 @@ Item {
                 root.closeShape()
                 event.accepted = true;
             }
+        } else {
+            event.accepted = false;
         }
     }
 
