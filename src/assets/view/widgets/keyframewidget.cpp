@@ -28,6 +28,7 @@
 #include <KActionMenu>
 #include <KDualAction>
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KSelectAction>
 #include <KStandardAction>
 #include <QApplication>
@@ -963,7 +964,16 @@ void KeyframeWidget::slotCopyValueAtCursorPos()
 void KeyframeWidget::slotImportKeyframes()
 {
     QClipboard *clipboard = QApplication::clipboard();
-    QString values = clipboard->text();
+    const QString values = clipboard->text();
+    // Check if there is some valid data in clipboard
+    auto json = QJsonDocument::fromJson(values.toUtf8());
+    if (!json.isArray()) {
+        if (!values.contains(QLatin1Char('=')) || !values.contains(QLatin1Char(';'))) {
+            // No valid keyframe data
+            KMessageBox::information(this, i18n("No keyframe data in clipboard"));
+            return;
+        }
+    }
     QList<QPersistentModelIndex> indexes;
     for (const auto &w : m_parameters) {
         indexes << w.first;

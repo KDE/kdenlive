@@ -102,6 +102,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     }
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
+        close();
         return;
     }
     auto list = json.array();
@@ -1165,6 +1166,10 @@ int KeyframeImport::getImportType() const
 
 void KeyframeImport::updateView()
 {
+    if (m_targetCombo == nullptr) {
+        // Invalid data
+        return;
+    }
     QPersistentModelIndex ix = m_targetCombo->currentData().toModelIndex();
     QString paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
 
