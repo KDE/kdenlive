@@ -6,19 +6,19 @@ MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
 
 [proxy]
 # proxy settings should be FFmpeg type parameters, like: -vcodec libx264
-x264=-vf scale=%width:-2 -vcodec libx264 -g 1 -bf 0 -vb 0 -crf 20 -preset veryfast -acodec aac -ab 128k;mov
-x264-vaapi=-init_hw_device vaapi=vaapi0: -filter_hw_device vaapi0 -i -vf scale=%width:-2,format=nv12,hwupload -codec:v h264_vaapi -g 1 -bf 0 -qp 26 -acodec ac3 -ab 128k;mov
-x264-amf=-f mp4 -codec:v h264_amf -g 1 -bf 0 -qp 26 -acodec ac3 -ab 128k;mp4
-x264-qsv=-f mp4 -codec:v h264_qsv -g 1 -bf 0 -qp 26 -acodec ac3 -ab 128k;mp4
-x264-videotoolbox=-f mp4 -codec:v h264_videotoolbox -g 1 -bf 0 -qp 26 -acodec ac3 -ab 128k;mp4
-x264-vaapi-scale=-hwaccel vaapi -hwaccel_output_format vaapi -i -vf scale_vaapi=w=%width:h=-2:format=nv12,hwupload -codec:v h264_vaapi -g 1 -bf 0 -qp 26 -acodec ac3 -ab 128k;mov
-x264-nvenc=-vsync 0 -c:v %nvcodec -resize %frameSize -i -vcodec h264_nvenc -g 2 -bf 0 -acodec copy;mov
-MPEG2=-vf scale=%width:-2 -g 1 -bf 0 -vb 0 -qscale 6 -ab 128k -vcodec mpeg2video -acodec ac3;mpg
-MJPEG=-vf yadif,scale=%width:-2 -qscale 3 -vcodec mjpeg -acodec pcm_s16le;mkv
-MJPEG-vaapi=-init_hw_device vaapi=vaapi0:,connection_type=x11 -filter_hw_device vaapi0 -vf format=nv12,hwupload -codec:v mjpeg_vaapi -codec:a copy;mkv
-ProRes=-vf scale=%width:-2 -vcodec prores_ks -vb 0 -g 1 -bf 0 -vprofile 0 -vendor ap10 -qscale 11;mov
-NVENC H264=-vcodec h264_nvenc -vb 30000k -rc cbr -acodec aac -ab 192k;mp4
-NVENC H265=-vcodec hevc_nvenc -vb 30000k -acodec aac -ab 192k;mp4
+x264=-vf scale=%width:-2 -vsync 1 -c:v libx264 -g 1 -bf 0 -vb 0 -crf 20 -preset veryfast -c:a aac -ab 128k;mov
+x264-vaapi=-init_hw_device vaapi=vaapi0: -filter_hw_device vaapi0 -i -vf scale=%width:-2,format=nv12,hwupload -vsync 1 -c:v h264_vaapi -g 1 -bf 0 -qp 26 -c:a ac3 -ab 128k;mov
+x264-amf=-f mp4 -vsync 1 -c:v h264_amf -g 1 -bf 0 -qp 26 -c:a ac3 -ab 128k;mp4
+x264-qsv=-f mp4 -vsync 1 -c:v h264_qsv -g 1 -bf 0 -qp 26 -c:a ac3 -ab 128k;mp4
+x264-videotoolbox=-f mp4 -vsync 1 -c:v h264_videotoolbox -g 1 -bf 0 -qp 26 -c:a ac3 -ab 128k;mp4
+x264-vaapi-scale=-hwaccel vaapi -hwaccel_output_format vaapi -i -vf scale_vaapi=w=%width:h=-2:format=nv12,hwupload -vsync 1 -c:v h264_vaapi -g 1 -bf 0 -qp 26 -c:a ac3 -ab 128k;mov
+x264-nvenc=-vsync 1 -c:v %nvcodec -resize %frameSize -i -c:v h264_nvenc -g 2 -bf 0 -c:a copy;mov
+MPEG2=-vf scale=%width:-2 -g 1 -bf 0 -vb 0 -qscale 6 -ab 128k -c:v mpeg2video -c:a ac3;mpg
+MJPEG=-vf yadif,scale=%width:-2 -qscale 3 -c:v mjpeg -c:a pcm_s16le;mkv
+MJPEG-vaapi=-init_hw_device vaapi=vaapi0:,connection_type=x11 -filter_hw_device vaapi0 -vf format=nv12,hwupload -c:v mjpeg_vaapi -codec:a copy;mkv
+ProRes=-vf scale=%width:-2 -c:v prores_ks -vb 0 -g 1 -bf 0 -vprofile 0 -vendor ap10 -qscale 11;mov
+NVENC H264=-vsync 1 -c:v h264_nvenc -vb 30000k -rc cbr -acodec aac -ab 192k;mp4
+NVENC H265=-c:v hevc_nvenc -vb 30000k -acodec aac -ab 192k;mp4
 
 [screengrab]
 # proxy settings should be FFmpeg type parameters, like: -vcodec libx264
