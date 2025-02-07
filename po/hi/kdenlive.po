@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-03 00:40+0000\n"
+"POT-Creation-Date: 2025-02-07 00:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -151,10 +151,10 @@ msgstr "तरंगरूप पर लागू किया जाने व�
 #: data/effects/tracker.xml:8 data/transitions/affine.xml:8
 #: data/transitions/composite.xml:8 data/transitions/qtblend.xml:8
 #: data/transitions/region.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:265
-#: src/assets/view/widgets/keyframeimport.cpp:433
-#: src/assets/view/widgets/keyframeimport.cpp:913
-#: src/assets/view/widgets/keyframeimport.cpp:1188
+#: src/assets/view/widgets/keyframeimport.cpp:266
+#: src/assets/view/widgets/keyframeimport.cpp:434
+#: src/assets/view/widgets/keyframeimport.cpp:914
+#: src/assets/view/widgets/keyframeimport.cpp:1193
 #, kde-format
 msgid "Rectangle"
 msgstr "आयत"
@@ -898,7 +898,7 @@ msgid "Overlay text with keywords replaced"
 msgstr "प्रतिस्थापित कीवर्ड के साथ ओवरले टेक्स्ट"
 
 #: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:419
+#: src/assets/view/widgets/keyframeimport.cpp:420
 #, kde-format
 msgid "Geometry"
 msgstr "ज्यामिति"
@@ -996,7 +996,7 @@ msgstr "वीडियो को काले रंग से फीका क
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
-#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:171
+#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1294 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
@@ -1006,7 +1006,7 @@ msgid "Duration"
 msgstr "अवधि"
 
 #: data/effects/fade_from_black.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:168
+#: src/assets/view/widgets/keyframeimport.cpp:169
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
 #: src/timeline2/view/qml/Track.qml:84
 #, kde-format
@@ -1564,7 +1564,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:189
+#: src/assets/view/widgets/keyframeimport.cpp:406 src/ui/editsubstyle_ui.ui:189
 #, kde-format
 msgid "Rotation"
 msgstr "ROTATION"
@@ -4397,7 +4397,7 @@ msgstr "चिकना (बहिष्कृत)"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframewidget.cpp:89 src/dialogs/timeremap.cpp:1615
+#: src/assets/view/widgets/keyframewidget.cpp:90 src/dialogs/timeremap.cpp:1615
 #: src/dialogs/timeremap.cpp:1640
 #, kde-format
 msgid "Add keyframe"
@@ -4412,7 +4412,7 @@ msgstr "मुख्यफ़्रेम प्रकार बदलें"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframewidget.cpp:91 src/dialogs/timeremap.cpp:1636
+#: src/assets/view/widgets/keyframewidget.cpp:92 src/dialogs/timeremap.cpp:1636
 #, kde-format
 msgid "Delete keyframe"
 msgstr "मुख्यफ़्रेम हटाएं"
@@ -4454,7 +4454,7 @@ msgstr "प्रभाव"
 msgid "Reset %1"
 msgstr "रीसेट करें%1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1372
+#: src/assets/keyframes/model/keyframemodel.cpp:1375
 #, kde-format
 msgid "Reset effect"
 msgstr "प्रभाव रीसेट करें"
@@ -4616,230 +4616,230 @@ msgstr "मुख्यफ़्रेम ले जाएँ"
 msgid "Data to import:"
 msgstr "आयात करने हेतु डेटा:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:177
+#: src/assets/view/widgets/keyframeimport.cpp:178
 #, kde-format
 msgid "Time offset:"
 msgstr "समय ऑफसेट:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:191
-#: src/assets/view/widgets/keyframeimport.cpp:414
-#: src/assets/view/widgets/keyframeimport.cpp:509
-#: src/assets/view/widgets/keyframeimport.cpp:922
+#: src/assets/view/widgets/keyframeimport.cpp:192
+#: src/assets/view/widgets/keyframeimport.cpp:415
+#: src/assets/view/widgets/keyframeimport.cpp:510
+#: src/assets/view/widgets/keyframeimport.cpp:923
 #, kde-format
 msgid "Rotoscoping shape"
 msgstr "रोटोस्कोपिंग आकार"
 
-#: src/assets/view/widgets/keyframeimport.cpp:225
-#: src/assets/view/widgets/keyframeimport.cpp:235
+#: src/assets/view/widgets/keyframeimport.cpp:226
+#: src/assets/view/widgets/keyframeimport.cpp:236
 #, kde-format
 msgid "Top left"
 msgstr "बाएं से बाएं"
 
-#: src/assets/view/widgets/keyframeimport.cpp:226
-#: src/assets/view/widgets/keyframeimport.cpp:236
+#: src/assets/view/widgets/keyframeimport.cpp:227
+#: src/assets/view/widgets/keyframeimport.cpp:237
 #, kde-format
 msgid "Top center"
 msgstr "शीर्ष केंद्र"
 
-#: src/assets/view/widgets/keyframeimport.cpp:227
-#: src/assets/view/widgets/keyframeimport.cpp:237
+#: src/assets/view/widgets/keyframeimport.cpp:228
+#: src/assets/view/widgets/keyframeimport.cpp:238
 #, kde-format
 msgid "Top right"
 msgstr "ठीक तरह से ऊपर"
 
-#: src/assets/view/widgets/keyframeimport.cpp:228
-#: src/assets/view/widgets/keyframeimport.cpp:238
+#: src/assets/view/widgets/keyframeimport.cpp:229
+#: src/assets/view/widgets/keyframeimport.cpp:239
 #, kde-format
 msgid "Left center"
 msgstr "बायां केंद्र"
 
-#: src/assets/view/widgets/keyframeimport.cpp:229
-#: src/assets/view/widgets/keyframeimport.cpp:239
+#: src/assets/view/widgets/keyframeimport.cpp:230
+#: src/assets/view/widgets/keyframeimport.cpp:240
 #: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "केंद्र"
 
-#: src/assets/view/widgets/keyframeimport.cpp:230
-#: src/assets/view/widgets/keyframeimport.cpp:240
+#: src/assets/view/widgets/keyframeimport.cpp:231
+#: src/assets/view/widgets/keyframeimport.cpp:241
 #, kde-format
 msgid "Right center"
 msgstr "दायाँ मध्य"
 
-#: src/assets/view/widgets/keyframeimport.cpp:231
-#: src/assets/view/widgets/keyframeimport.cpp:241
+#: src/assets/view/widgets/keyframeimport.cpp:232
+#: src/assets/view/widgets/keyframeimport.cpp:242
 #, kde-format
 msgid "Bottom left"
 msgstr "तली छोड़ें"
 
-#: src/assets/view/widgets/keyframeimport.cpp:232
-#: src/assets/view/widgets/keyframeimport.cpp:242
+#: src/assets/view/widgets/keyframeimport.cpp:233
+#: src/assets/view/widgets/keyframeimport.cpp:243
 #, kde-format
 msgid "Bottom center"
 msgstr "निचला बीच का"
 
-#: src/assets/view/widgets/keyframeimport.cpp:233
-#: src/assets/view/widgets/keyframeimport.cpp:243
+#: src/assets/view/widgets/keyframeimport.cpp:234
+#: src/assets/view/widgets/keyframeimport.cpp:244
 #, kde-format
 msgid "Bottom right"
 msgstr "नीचे दाएं"
 
-#: src/assets/view/widgets/keyframeimport.cpp:246
+#: src/assets/view/widgets/keyframeimport.cpp:247
 #, kde-format
 msgid "Map "
 msgstr "नक्शा"
 
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label1)
-#: src/assets/view/widgets/keyframeimport.cpp:247
+#: src/assets/view/widgets/keyframeimport.cpp:248
 #: src/ui/import_subtitle_ui.ui:131
 #, kde-format
 msgid " to "
 msgstr " को "
 
-#: src/assets/view/widgets/keyframeimport.cpp:324
+#: src/assets/view/widgets/keyframeimport.cpp:325
 #, kde-format
 msgid "Horizontal offset:"
 msgstr "क्षैतिज ऑफसेट:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:325
+#: src/assets/view/widgets/keyframeimport.cpp:326
 #, kde-format
 msgid "Vertical offset:"
 msgstr "ऊर्ध्वाधर ऑफसेट:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:329
-#: src/assets/view/widgets/keyframeimport.cpp:463
-#: src/assets/view/widgets/keyframeimport.cpp:466
-#: src/assets/view/widgets/keyframeimport.cpp:469
-#: src/assets/view/widgets/keyframeimport.cpp:472
-#: src/assets/view/widgets/keyframeimport.cpp:483
-#: src/assets/view/widgets/keyframeimport.cpp:486
-#: src/assets/view/widgets/keyframeimport.cpp:489
-#: src/assets/view/widgets/keyframeimport.cpp:492
-#: src/assets/view/widgets/keyframeimport.cpp:495
+#: src/assets/view/widgets/keyframeimport.cpp:330
+#: src/assets/view/widgets/keyframeimport.cpp:464
+#: src/assets/view/widgets/keyframeimport.cpp:467
+#: src/assets/view/widgets/keyframeimport.cpp:470
+#: src/assets/view/widgets/keyframeimport.cpp:473
+#: src/assets/view/widgets/keyframeimport.cpp:484
+#: src/assets/view/widgets/keyframeimport.cpp:487
+#: src/assets/view/widgets/keyframeimport.cpp:490
+#: src/assets/view/widgets/keyframeimport.cpp:493
+#: src/assets/view/widgets/keyframeimport.cpp:496
 #, kde-format
 msgid "Source range %1 to %2"
 msgstr "स्रोत श्रेणी %1 से %2"
 
-#: src/assets/view/widgets/keyframeimport.cpp:337
+#: src/assets/view/widgets/keyframeimport.cpp:338
 #, kde-format
 msgid "Destination range:"
 msgstr "गंतव्य सीमा:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:345
+#: src/assets/view/widgets/keyframeimport.cpp:346
 #, kde-format
 msgid "Actual range only"
 msgstr "केवल वास्तविक सीमा"
 
-#: src/assets/view/widgets/keyframeimport.cpp:352
+#: src/assets/view/widgets/keyframeimport.cpp:353
 #, kde-format
 msgid "Limit keyframe number"
 msgstr "कीफ़्रेम संख्या सीमित करें"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
-#: src/assets/view/widgets/keyframeimport.cpp:420
+#: src/assets/view/widgets/keyframeimport.cpp:421
 #: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:32
 #, kde-format
 msgid "Position"
 msgstr "पद"
 
-#: src/assets/view/widgets/keyframeimport.cpp:421
+#: src/assets/view/widgets/keyframeimport.cpp:422
 #, kde-format
 msgid "Inverted Position"
 msgstr "उलटी स्थिति"
 
-#: src/assets/view/widgets/keyframeimport.cpp:422
+#: src/assets/view/widgets/keyframeimport.cpp:423
 #, kde-format
 msgid "Offset Position"
 msgstr "ऑफसेट स्थिति"
 
-#: src/assets/view/widgets/keyframeimport.cpp:423
+#: src/assets/view/widgets/keyframeimport.cpp:424
 #, kde-format
 msgid "X"
 msgstr "एक्स"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbY)
-#: src/assets/view/widgets/keyframeimport.cpp:424 src/ui/histogram_ui.ui:54
+#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
 #, kde-format
 msgid "Y"
 msgstr "और"
 
-#: src/assets/view/widgets/keyframeimport.cpp:426
-#: src/assets/view/widgets/keyframeimport.cpp:813
-#: src/assets/view/widgets/keyframewidget.cpp:275
-#: src/assets/view/widgets/keyframewidget.cpp:332
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframeimport.cpp:427
+#: src/assets/view/widgets/keyframeimport.cpp:814
+#: src/assets/view/widgets/keyframewidget.cpp:276
+#: src/assets/view/widgets/keyframewidget.cpp:333
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Width"
 msgstr "चौड़ाई"
 
-#: src/assets/view/widgets/keyframeimport.cpp:429
-#: src/assets/view/widgets/keyframeimport.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:274
-#: src/assets/view/widgets/keyframewidget.cpp:326
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframeimport.cpp:430
+#: src/assets/view/widgets/keyframeimport.cpp:822
+#: src/assets/view/widgets/keyframewidget.cpp:275
+#: src/assets/view/widgets/keyframewidget.cpp:327
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Height"
 msgstr "ऊंचाई"
 
-#: src/assets/view/widgets/keyframeimport.cpp:475
-#: src/assets/view/widgets/keyframeimport.cpp:498
+#: src/assets/view/widgets/keyframeimport.cpp:476
+#: src/assets/view/widgets/keyframeimport.cpp:499
 #, kde-format
 msgid "Source range: (%1-%2), (%3-%4)"
 msgstr "स्रोत श्रेणी: (%1-%2), (%3-%4)"
 
-#: src/assets/view/widgets/keyframeimport.cpp:795
+#: src/assets/view/widgets/keyframeimport.cpp:796
 #, kde-format
 msgctxt "X as in x coordinate"
 msgid "X"
 msgstr "एक्स"
 
-#: src/assets/view/widgets/keyframeimport.cpp:804
+#: src/assets/view/widgets/keyframeimport.cpp:805
 #, kde-format
 msgctxt "Y as in y coordinate"
 msgid "Y"
 msgstr "और"
 
-#: src/assets/view/widgets/keyframeimport.cpp:1155
+#: src/assets/view/widgets/keyframeimport.cpp:1156
 #, kde-format
 msgid "Import keyframes from clipboard"
 msgstr "क्लिपबोर्ड से कीफ़्रेम आयात करें"
 
-#: src/assets/view/widgets/keyframewidget.cpp:73
+#: src/assets/view/widgets/keyframewidget.cpp:74
 #, kde-format
 msgid "Switch to timeline view"
 msgstr "टाइमलाइन दृश्य पर स्विच करें"
 
-#: src/assets/view/widgets/keyframewidget.cpp:75
+#: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
 msgstr "वक्र संपादक दृश्य पर स्विच करें"
 
-#: src/assets/view/widgets/keyframewidget.cpp:96 src/dialogs/timeremap.cpp:1621
+#: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1621
 #: src/mainwindow.cpp:1820
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "पिछले कीफ़्रेम पर जाएँ"
 
-#: src/assets/view/widgets/keyframewidget.cpp:100
+#: src/assets/view/widgets/keyframewidget.cpp:101
 #: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1818
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "अगले कीफ़्रेम पर जाएँ"
 
-#: src/assets/view/widgets/keyframewidget.cpp:105
+#: src/assets/view/widgets/keyframewidget.cpp:106
 #: src/dialogs/timeremap.cpp:1626 src/dialogs/timeremap.cpp:1628
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "चयनित कीफ़्रेम को कर्सर पर ले जाएँ"
 
-#: src/assets/view/widgets/keyframewidget.cpp:108
-#: src/assets/view/widgets/keyframewidget.cpp:110
+#: src/assets/view/widgets/keyframewidget.cpp:109
+#: src/assets/view/widgets/keyframewidget.cpp:111
 #, kde-format
 msgid "Copy keyframes"
 msgstr "मुख्य-फ़्रेम कॉपी करें"
 
-#: src/assets/view/widgets/keyframewidget.cpp:112
+#: src/assets/view/widgets/keyframewidget.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4849,35 +4849,35 @@ msgstr ""
 "मुख्य-फ़्रेम कॉपी करें। चयनित मुख्य-फ़्रेम कॉपी करें, या यदि कोई मुख्य-फ़्रेम चयनित नहीं है तो "
 "वर्तमान पैरामीटर मान कॉपी करें।"
 
-#: src/assets/view/widgets/keyframewidget.cpp:114
-#: src/assets/view/widgets/keyframewidget.cpp:932
+#: src/assets/view/widgets/keyframewidget.cpp:115
+#: src/assets/view/widgets/keyframewidget.cpp:937
 #, kde-format
 msgid "Paste keyframe"
 msgstr "मुख्य फ़्रेम चिपकाएँ"
 
-#: src/assets/view/widgets/keyframewidget.cpp:116
+#: src/assets/view/widgets/keyframewidget.cpp:117
 #, kde-format
 msgid "Paste keyframes"
 msgstr "मुख्य फ़्रेम चिपकाएँ"
 
-#: src/assets/view/widgets/keyframewidget.cpp:117
+#: src/assets/view/widgets/keyframewidget.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr "कीफ़्रेम चिपकाएँ। क्लिपबोर्ड डेटा को वर्तमान स्थिति पर कीफ़्रेम के रूप में चिपकाएँ।"
 
-#: src/assets/view/widgets/keyframewidget.cpp:119
+#: src/assets/view/widgets/keyframewidget.cpp:120
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "चयनित कीफ़्रेम पर वर्तमान स्थिति मान लागू करें"
 
-#: src/assets/view/widgets/keyframewidget.cpp:122
-#: src/assets/view/widgets/keyframewidget.cpp:135
+#: src/assets/view/widgets/keyframewidget.cpp:123
+#: src/assets/view/widgets/keyframewidget.cpp:136
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "कीफ़्रेम इंटरपोलेशन"
 
-#: src/assets/view/widgets/keyframewidget.cpp:136
+#: src/assets/view/widgets/keyframewidget.cpp:137
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4887,45 +4887,45 @@ msgstr ""
 "कीफ़्रेम इंटरपोलेशन। यह परिभाषित करता है कि वर्तमान कीफ़्रेम के लिए कौन सा इंटरपोलेशन "
 "उपयोग किया जाएगा।"
 
-#: src/assets/view/widgets/keyframewidget.cpp:157
+#: src/assets/view/widgets/keyframewidget.cpp:158
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "चयन पर कीफ़्रेम की तलाश करें"
 
-#: src/assets/view/widgets/keyframewidget.cpp:162
+#: src/assets/view/widgets/keyframewidget.cpp:163
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "सभी कीफ़्रेम को क्लिपबोर्ड पर कॉपी करें"
 
-#: src/assets/view/widgets/keyframewidget.cpp:164
+#: src/assets/view/widgets/keyframewidget.cpp:165
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "क्लिपबोर्ड से कीफ़्रेम आयात करें…"
 
-#: src/assets/view/widgets/keyframewidget.cpp:172
+#: src/assets/view/widgets/keyframewidget.cpp:173
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "कर्सर के बाद सभी कीफ़्रेम हटाएँ"
 
-#: src/assets/view/widgets/keyframewidget.cpp:176
+#: src/assets/view/widgets/keyframewidget.cpp:177
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "डिफ़ॉल्ट कीफ़्रेम प्रकार"
 
-#: src/assets/view/widgets/keyframewidget.cpp:215
+#: src/assets/view/widgets/keyframewidget.cpp:216
 #, fuzzy, kde-format
 #| msgid "Automatic Keyframes"
 msgid "Limit automatic keyframes"
 msgstr "स्वचालित कीफ़्रेम"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:227 src/bin/bin.cpp:1343
+#: src/assets/view/widgets/keyframewidget.cpp:228 src/bin/bin.cpp:1343
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "विकल्प"
 
-#: src/assets/view/widgets/keyframewidget.cpp:229
+#: src/assets/view/widgets/keyframewidget.cpp:230
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4935,62 +4935,68 @@ msgstr ""
 "मुख्य-फ़्रेमों को प्रबंधित करने के लिए आगे की क्रियाओं की एक सूची खोलता है (उदाहरण के लिए: "
 "क्लिपबोर्ड से मुख्य-फ़्रेमों को कॉपी करना और पेस्ट करना)."
 
-#: src/assets/view/widgets/keyframewidget.cpp:272
-#: src/assets/view/widgets/keyframewidget.cpp:320
-#: src/assets/view/widgets/keyframewidget.cpp:588
+#: src/assets/view/widgets/keyframewidget.cpp:273
+#: src/assets/view/widgets/keyframewidget.cpp:321
+#: src/assets/view/widgets/keyframewidget.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
 msgstr "अस्पष्टता"
 
-#: src/assets/view/widgets/keyframewidget.cpp:276
-#: src/assets/view/widgets/keyframewidget.cpp:344
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframewidget.cpp:277
+#: src/assets/view/widgets/keyframewidget.cpp:345
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Y position"
 msgstr "वाई स्थिति"
 
-#: src/assets/view/widgets/keyframewidget.cpp:277
-#: src/assets/view/widgets/keyframewidget.cpp:338
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframewidget.cpp:278
+#: src/assets/view/widgets/keyframewidget.cpp:339
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "X position"
 msgstr "एक्स स्थिति"
 
-#: src/assets/view/widgets/keyframewidget.cpp:296
+#: src/assets/view/widgets/keyframewidget.cpp:297
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "कॉपी करने के लिए पैरामीटर चुनें"
 
-#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:842
 #, kde-format
 msgid "Keyframes copied"
 msgstr "मुख्य फ़्रेम कॉपी किए गए"
 
-#: src/assets/view/widgets/keyframewidget.cpp:848
-#: src/assets/view/widgets/keyframewidget.cpp:889
-#: src/assets/view/widgets/keyframewidget.cpp:896
+#: src/assets/view/widgets/keyframewidget.cpp:853
+#: src/assets/view/widgets/keyframewidget.cpp:894
+#: src/assets/view/widgets/keyframewidget.cpp:901
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "क्लिपबोर्ड में कोई वैध कीफ़्रेम डेटा नहीं है"
 
-#: src/assets/view/widgets/keyframewidget.cpp:940
+#: src/assets/view/widgets/keyframewidget.cpp:945
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "वर्तमान पैरामीटर मानों की प्रतिलिपि नहीं बनाई जा सकती"
 
-#: src/assets/view/widgets/keyframewidget.cpp:945
-#: src/assets/view/widgets/keyframewidget.cpp:956
+#: src/assets/view/widgets/keyframewidget.cpp:950
+#: src/assets/view/widgets/keyframewidget.cpp:961
 #, kde-format
 msgid "Current values copied"
 msgstr "वर्तमान मान कॉपी किए गए"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1035
+#: src/assets/view/widgets/keyframewidget.cpp:973
+#, fuzzy, kde-format
+#| msgid "No valid keyframe data in clipboard"
+msgid "No keyframe data in clipboard"
+msgstr "क्लिपबोर्ड में कोई वैध कीफ़्रेम डेटा नहीं है"
+
+#: src/assets/view/widgets/keyframewidget.cpp:1049
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "अंतिम मुख्यफ़्रेम हटाया नहीं जा सकता"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1047
+#: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -6430,7 +6436,7 @@ msgid "Cut clip"
 msgstr "क्लिप काटें"
 
 #: src/bin/model/subtitlemodel.cpp:850 src/bin/model/subtitlemodel.cpp:1623
-#: src/timeline2/model/timelinemodel.cpp:3974
+#: src/timeline2/model/timelinemodel.cpp:3973
 #, kde-format
 msgid "Resize subtitle"
 msgstr "उपशीर्षक का आकार बदलें"
@@ -7839,12 +7845,12 @@ msgstr "रेंडरिंग निरस्त"
 msgid "Nearest (fast)"
 msgstr "निकटतम (तेज़)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:618
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:625
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "द्विरेखीय (अच्छा)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:619
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "बाइक्यूबिक (बेहतर)"
@@ -7869,17 +7875,17 @@ msgstr "वर्टिकल (9:16)"
 msgid "Square (1:1)"
 msgstr "वर्ग (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:599
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:606
 #, kde-format
 msgid "One Field (fast)"
 msgstr "एक फ़ील्ड (तेज़)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:600
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:607
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "रैखिक मिश्रण (तेज़)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:601
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:608
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "यादिफ़ - केवल लौकिक (अच्छा)"
@@ -8063,7 +8069,7 @@ msgstr "वीडियो ट्रैक के बिना ऑडियो"
 msgid "Rendering <i>%1</i> started"
 msgstr "रेंडरिंग <i>%1</i> शुरू हुआ"
 
-#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1294
+#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1303
 #, kde-format
 msgid "untitled"
 msgstr "शीर्षकहीन"
@@ -10796,7 +10802,7 @@ msgstr "प्रभाव %1 को दो बार नहीं जोड़�
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
 #: src/effects/effectstack/view/effectstackview.cpp:236
-#: src/timeline2/model/timelinemodel.cpp:5088
+#: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
 msgstr "प्रभाव %1 जोड़ें"
@@ -14154,7 +14160,7 @@ msgid "Audio streams"
 msgstr "ऑडियो स्ट्रीम"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:756
-#: src/monitor/monitor.cpp:1959
+#: src/monitor/monitor.cpp:1968
 #, kde-format
 msgid "Merge all streams"
 msgstr "सभी स्ट्रीम्स को मर्ज करें"
@@ -14452,34 +14458,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:660
+#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:667
 #, kde-format
 msgid "Set Zone In"
 msgstr "ज़ोन सेट करें"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:664
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:671
 #, kde-format
 msgid "Set Zone Out"
 msgstr "ज़ोन आउट सेट करें"
 
-#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:544
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:551
 #, kde-format
 msgid "Rewind"
 msgstr "रिवाइंड"
 
 #: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
-#: src/monitor/monitormanager.cpp:519
+#: src/monitor/monitormanager.cpp:526
 #, kde-format
 msgid "Play"
 msgstr "खेल"
 
-#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:519
-#: src/monitor/monitormanager.cpp:525
+#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:526
+#: src/monitor/monitormanager.cpp:532
 #, kde-format
 msgid "Pause"
 msgstr "विराम"
 
-#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:557
+#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:564
 #, kde-format
 msgid "Forward"
 msgstr "आगे"
@@ -14542,93 +14548,100 @@ msgstr "सफ़ेद"
 msgid "Pink"
 msgstr "गुलाबी"
 
-#: src/monitor/monitor.cpp:517
+#: src/monitor/monitor.cpp:452
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Checkerboard Small"
+msgid "Checkerboard"
+msgstr "चेकरबोर्ड छोटा"
+
+#: src/monitor/monitor.cpp:526
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:523
+#: src/monitor/monitor.cpp:532
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:529
+#: src/monitor/monitor.cpp:538
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:535
+#: src/monitor/monitor.cpp:544
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:681
+#: src/monitor/monitor.cpp:690
 #, kde-format
 msgid "Extract Zone"
 msgstr "निष्कर्ष क्षेत्र"
 
-#: src/monitor/monitor.cpp:694
+#: src/monitor/monitor.cpp:703
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "वर्तमान छवि को थंबनेल के रूप में सेट करें"
 
-#: src/monitor/monitor.cpp:701
+#: src/monitor/monitor.cpp:710
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "हमेशा ऑडियो थंबनेल दिखाएं"
 
-#: src/monitor/monitor.cpp:718
+#: src/monitor/monitor.cpp:727
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "ऑडियो स्तर दिखाएं"
 
-#: src/monitor/monitor.cpp:725
+#: src/monitor/monitor.cpp:734
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "स्रोत टाइमकोड दिखाएं"
 
-#: src/monitor/monitor.cpp:762
+#: src/monitor/monitor.cpp:771
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "इस कार्रवाई के लिए आपका स्क्रीन रिज़ॉल्यूशन पर्याप्त नहीं है"
 
-#: src/monitor/monitor.cpp:916 src/monitor/monitor.cpp:947
+#: src/monitor/monitor.cpp:925 src/monitor/monitor.cpp:956
 #: src/timeline2/view/timelinecontroller.cpp:1814
 #, kde-format
 msgid "Set Zone"
 msgstr "क्षेत्र निर्धारित करें"
 
-#: src/monitor/monitor.cpp:1307
+#: src/monitor/monitor.cpp:1316
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "छवि को प्रोजेक्ट में सहेजें"
 
-#: src/monitor/monitor.cpp:1307
+#: src/monitor/monitor.cpp:1316
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "चित्र को सेव करें"
 
-#: src/monitor/monitor.cpp:1314
+#: src/monitor/monitor.cpp:1323
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "स्रोत रिज़ॉल्यूशन का उपयोग करके छवि निर्यात करें"
 
-#: src/monitor/monitor.cpp:1944 src/monitor/monitor.cpp:2074
+#: src/monitor/monitor.cpp:1953 src/monitor/monitor.cpp:2083
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 ऑडियो स्ट्रीम"
 msgstr[1] "%1 ऑडियो स्ट्रीम"
 
-#: src/monitor/monitor.cpp:2381
+#: src/monitor/monitor.cpp:2390
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit के GLSL प्रबंधक को आरंभ नहीं किया जा सकता, कृपया Movit को अक्षम करें"
 
-#: src/monitor/monitor.cpp:2423 src/monitor/monitor.cpp:2480
+#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14637,17 +14650,17 @@ msgstr ""
 "उस सुविधा के लिए अल्फाग्रेड फ़िल्टर आवश्यक है, कृपया frei0r स्थापित करें और Kdenlive को "
 "पुनः आरंभ करें"
 
-#: src/monitor/monitor.cpp:2443
+#: src/monitor/monitor.cpp:2452
 #, kde-format
 msgid "Clip has no effects"
 msgstr "क्लिप का कोई प्रभाव नहीं है"
 
-#: src/monitor/monitor.cpp:2445
+#: src/monitor/monitor.cpp:2454
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "प्रभाव की तुलना करने के लिए प्रोजेक्ट बिन में एक क्लिप का चयन करें"
 
-#: src/monitor/monitor.cpp:2487
+#: src/monitor/monitor.cpp:2496
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14656,12 +14669,12 @@ msgstr ""
 "उस सुविधा के लिए कैरोब्लेंड संक्रमण आवश्यक है, कृपया frei0r स्थापित करें और Kdenlive को "
 "पुनः आरंभ करें"
 
-#: src/monitor/monitor.cpp:2537
+#: src/monitor/monitor.cpp:2546
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभाव संपादित करने के लिए मॉनिटर में संपादन मोड सक्षम करें"
 
-#: src/monitor/monitormanager.cpp:203
+#: src/monitor/monitormanager.cpp:210
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
@@ -14670,7 +14683,7 @@ msgstr ""
 "क्या आप टाइमलाइन देखने के लिए <a href=\"#clipmonitor\">क्लिप मॉनिटर दिखाना</a> "
 "चाहते हैं?"
 
-#: src/monitor/monitormanager.cpp:232
+#: src/monitor/monitormanager.cpp:239
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
@@ -14679,125 +14692,125 @@ msgstr ""
 "क्या आप समयरेखा देखने के लिए <a href=\"#projectmonitor\">प्रोजेक्ट मॉनिटर दिखाना</a> "
 "चाहते हैं?"
 
-#: src/monitor/monitormanager.cpp:529
+#: src/monitor/monitormanager.cpp:536
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "स्विच मॉनिटर फ़ुलस्क्रीन"
 
-#: src/monitor/monitormanager.cpp:534
+#: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "ज़ूम इन मॉनिटर"
 
-#: src/monitor/monitormanager.cpp:539
+#: src/monitor/monitormanager.cpp:546
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "ज़ूम आउट मॉनिटर"
 
-#: src/monitor/monitormanager.cpp:548
+#: src/monitor/monitormanager.cpp:555
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "1 फ्रेम रिवाइंड करें"
 
-#: src/monitor/monitormanager.cpp:552
+#: src/monitor/monitormanager.cpp:559
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "1 सेकंड पीछे जाएं"
 
-#: src/monitor/monitormanager.cpp:561
+#: src/monitor/monitormanager.cpp:568
 #, kde-format
 msgid "Go to Project Start"
 msgstr "प्रोजेक्ट प्रारंभ पर जाएं"
 
-#: src/monitor/monitormanager.cpp:565
+#: src/monitor/monitormanager.cpp:572
 #, kde-format
 msgid "Go to Project End"
 msgstr "प्रोजेक्ट समाप्ति पर जाएँ"
 
-#: src/monitor/monitormanager.cpp:569
+#: src/monitor/monitormanager.cpp:576
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "1 फ्रेम आगे"
 
-#: src/monitor/monitormanager.cpp:573
+#: src/monitor/monitormanager.cpp:580
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "1 सेकंड आगे"
 
-#: src/monitor/monitormanager.cpp:578
+#: src/monitor/monitormanager.cpp:585
 #, kde-format
 msgid "Multitrack View"
 msgstr "मल्टीट्रैक दृश्य"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:594
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "मल्टीट्रैक ऑपरेशन निष्पादित करें"
 
-#: src/monitor/monitormanager.cpp:591
+#: src/monitor/monitormanager.cpp:598
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "संपादन मोड दिखाएँ/छिपाएँ"
 
-#: src/monitor/monitormanager.cpp:592
+#: src/monitor/monitormanager.cpp:599
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "संपादन मोड (और ऑब्जेक्ट हैंडल का प्रदर्शन) को टॉगल करता है।"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:598 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:605 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "डिइंटरलैसर"
 
-#: src/monitor/monitormanager.cpp:602
+#: src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF - टेम्पोरल + स्पैशियल (सर्वोत्तम)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:616 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:623 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "प्रक्षेप"
 
-#: src/monitor/monitormanager.cpp:617
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "निकटतम पड़ोसी (तेज़)"
 
-#: src/monitor/monitormanager.cpp:620
+#: src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "हाइपर/लैंक्ज़ोस (सर्वोत्तम)"
 
-#: src/monitor/monitormanager.cpp:634
+#: src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Progressive playback"
 msgstr "प्रगतिशील प्लेबैक"
 
-#: src/monitor/monitormanager.cpp:640
+#: src/monitor/monitormanager.cpp:647
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "ऑडियो स्क्रबिंग"
 
-#: src/monitor/monitormanager.cpp:646
+#: src/monitor/monitormanager.cpp:653
 #, kde-format
 msgid "Mute Monitor"
 msgstr "म्यूट मॉनिटर"
 
-#: src/monitor/monitormanager.cpp:646
+#: src/monitor/monitormanager.cpp:653
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "मॉनिटर अनम्यूट करें"
 
-#: src/monitor/monitormanager.cpp:652
+#: src/monitor/monitormanager.cpp:659
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "ज़ोन प्रारंभ पर जाएँ"
 
-#: src/monitor/monitormanager.cpp:656
+#: src/monitor/monitormanager.cpp:663
 #, kde-format
 msgid "Go to Zone End"
 msgstr "जोन अंत पर जाएँ"
@@ -15070,7 +15083,7 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "केंद्र-आधारित आकार परिवर्तन के लिए <shortcut>Shift ड्रैग हैंडल</shortcut>"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:431
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:436
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -18266,7 +18279,7 @@ msgid "Delete clips on track"
 msgstr "ट्रैक पर मौजूद क्लिप हटाएँ"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4665
+#: src/timeline2/model/timelinemodel.cpp:4664
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -18402,59 +18415,59 @@ msgstr "समूह हटाएँ"
 msgid "Delete Composition"
 msgstr "रचना हटाएं"
 
-#: src/timeline2/model/timelinemodel.cpp:2405
-#: src/timeline2/model/timelinemodel.cpp:2695
+#: src/timeline2/model/timelinemodel.cpp:2404
+#: src/timeline2/model/timelinemodel.cpp:2694
 #: src/timeline2/view/timelinecontroller.cpp:4258
 #, kde-format
 msgid "Move group"
 msgstr "समूह ले जाएँ"
 
-#: src/timeline2/model/timelinemodel.cpp:3389
+#: src/timeline2/model/timelinemodel.cpp:3388
 #, kde-format
 msgid "Resize group"
 msgstr "समूह का आकार बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:3513
+#: src/timeline2/model/timelinemodel.cpp:3512
 #, kde-format
 msgid "Resize clip speed"
 msgstr "क्लिप का आकार बदलने की गति"
 
-#: src/timeline2/model/timelinemodel.cpp:3672
+#: src/timeline2/model/timelinemodel.cpp:3671
 #, kde-format
 msgid "Remove mix"
 msgstr "मिश्रण हटाएँ"
 
-#: src/timeline2/model/timelinemodel.cpp:3674
+#: src/timeline2/model/timelinemodel.cpp:3673
 #, kde-format
 msgid "Removing mix failed"
 msgstr "मिश्रण हटाना विफल रहा"
 
-#: src/timeline2/model/timelinemodel.cpp:3970
+#: src/timeline2/model/timelinemodel.cpp:3969
 #, kde-format
 msgid "Resize clip"
 msgstr "क्लिप का आकार बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:3972
+#: src/timeline2/model/timelinemodel.cpp:3971
 #, kde-format
 msgid "Resize composition"
 msgstr "रचना का आकार बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:4291
+#: src/timeline2/model/timelinemodel.cpp:4290
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "रिपल आकार बदलें क्लिप"
 
-#: src/timeline2/model/timelinemodel.cpp:4293
+#: src/timeline2/model/timelinemodel.cpp:4292
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "तरंग आकार परिवर्तन रचना"
 
-#: src/timeline2/model/timelinemodel.cpp:4295
+#: src/timeline2/model/timelinemodel.cpp:4294
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "लहर आकार उपशीर्षक"
 
-#: src/timeline2/model/timelinemodel.cpp:4438
+#: src/timeline2/model/timelinemodel.cpp:4437
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -18462,135 +18475,135 @@ msgid_plural "Slip clips"
 msgstr[0] "स्लिप क्लिप"
 msgstr[1] "स्लिप क्लिप"
 
-#: src/timeline2/model/timelinemodel.cpp:4473
+#: src/timeline2/model/timelinemodel.cpp:4472
 #, kde-format
 msgid "Slip clip"
 msgstr "स्लिप क्लिप"
 
-#: src/timeline2/model/timelinemodel.cpp:4508
+#: src/timeline2/model/timelinemodel.cpp:4507
 #, kde-format
 msgid "Group clips"
 msgstr "समूह क्लिप"
 
-#: src/timeline2/model/timelinemodel.cpp:4593
-#: src/timeline2/model/timelinemodel.cpp:4609
+#: src/timeline2/model/timelinemodel.cpp:4592
+#: src/timeline2/model/timelinemodel.cpp:4608
 #, kde-format
 msgid "Ungroup clips"
 msgstr "क्लिपों को असमूहीकृत करें"
 
-#: src/timeline2/model/timelinemodel.cpp:4774
+#: src/timeline2/model/timelinemodel.cpp:4773
 #: src/timeline2/view/timelinecontroller.cpp:965
 #, kde-format
 msgid "Delete Track"
 msgstr "ट्रैक हटाएं"
 
-#: src/timeline2/model/timelinemodel.cpp:4784
+#: src/timeline2/model/timelinemodel.cpp:4783
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "टाइमलाइन में अंतिम ट्रैक हटाया नहीं जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:5009
+#: src/timeline2/model/timelinemodel.cpp:5008
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "मास्टर ट्रैक में प्रभाव %1 नहीं जोड़ा जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:5016
+#: src/timeline2/model/timelinemodel.cpp:5015
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "चयनित ट्रैक में प्रभाव %1 नहीं जोड़ा जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:5037
+#: src/timeline2/model/timelinemodel.cpp:5036
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "मास्टर ट्रैक पर प्रभाव चिपकाया नहीं जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:5043
+#: src/timeline2/model/timelinemodel.cpp:5042
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "चयनित ट्रैक पर प्रभाव चिपकाया नहीं जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:5091
+#: src/timeline2/model/timelinemodel.cpp:5090
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "चयनित क्लिप में प्रभाव %1 नहीं जोड़ा जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:5115
+#: src/timeline2/model/timelinemodel.cpp:5114
 #, kde-format
 msgid "Adjust Fade"
 msgstr "फीका समायोजित करें"
 
-#: src/timeline2/model/timelinemodel.cpp:5467
+#: src/timeline2/model/timelinemodel.cpp:5466
 #, kde-format
 msgid "Insert Composition"
 msgstr "रचना डालें"
 
-#: src/timeline2/model/timelinemodel.cpp:5688
+#: src/timeline2/model/timelinemodel.cpp:5687
 #, kde-format
 msgid "Move composition"
 msgstr "रचना ले जाएँ"
 
-#: src/timeline2/model/timelinemodel.cpp:6359
+#: src/timeline2/model/timelinemodel.cpp:6358
 #, kde-format
 msgid "Enable time remap"
 msgstr "समय रीमैप सक्षम करें"
 
-#: src/timeline2/model/timelinemodel.cpp:6433
+#: src/timeline2/model/timelinemodel.cpp:6432
 #, kde-format
 msgid "Change speed failed"
 msgstr "गति परिवर्तन विफल"
 
-#: src/timeline2/model/timelinemodel.cpp:6443
+#: src/timeline2/model/timelinemodel.cpp:6442
 #, kde-format
 msgid "Change clip speed"
 msgstr "क्लिप की गति बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:6892
+#: src/timeline2/model/timelinemodel.cpp:6890
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "ट्रैक लॉक करें"
 
-#: src/timeline2/model/timelinemodel.cpp:6897
+#: src/timeline2/model/timelinemodel.cpp:6895
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "ट्रैक अनलॉक करें"
 
-#: src/timeline2/model/timelinemodel.cpp:6931
-#: src/timeline2/model/timelinemodel.cpp:6993
+#: src/timeline2/model/timelinemodel.cpp:6929
+#: src/timeline2/model/timelinemodel.cpp:6991
 #, kde-format
 msgid "Change composition"
 msgstr "रचना बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:6945
+#: src/timeline2/model/timelinemodel.cpp:6943
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "समूहीकृत संरचना पर काम नहीं किया जा सकता, कृपया समूह हटाएँ"
 
-#: src/timeline2/model/timelinemodel.cpp:7140
-#: src/timeline2/model/timelinemodel.cpp:7177
-#: src/timeline2/model/timelinemodel.cpp:7210
-#: src/timeline2/model/timelinemodel.cpp:7289
+#: src/timeline2/model/timelinemodel.cpp:7138
+#: src/timeline2/model/timelinemodel.cpp:7175
+#: src/timeline2/model/timelinemodel.cpp:7208
+#: src/timeline2/model/timelinemodel.cpp:7287
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "मिश्रण का आकार 1 फ्रेम से कम नहीं किया जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:7151
-#: src/timeline2/model/timelinemodel.cpp:7185
-#: src/timeline2/model/timelinemodel.cpp:7227
-#: src/timeline2/model/timelinemodel.cpp:7313
+#: src/timeline2/model/timelinemodel.cpp:7149
+#: src/timeline2/model/timelinemodel.cpp:7183
+#: src/timeline2/model/timelinemodel.cpp:7225
+#: src/timeline2/model/timelinemodel.cpp:7311
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "मिश्रण का आकार बदला नहीं जा सकता"
 
-#: src/timeline2/model/timelinemodel.cpp:7327
+#: src/timeline2/model/timelinemodel.cpp:7325
 #, kde-format
 msgid "Resize mix"
 msgstr "मिश्रण का आकार बदलें"
 
-#: src/timeline2/model/timelinemodel.cpp:7447
+#: src/timeline2/model/timelinemodel.cpp:7445
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "टाइमलाइन पूर्वावलोकन आरंभ करने में त्रुटि"

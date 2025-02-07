@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-03 00:40+0000\n"
-"PO-Revision-Date: 2025-01-29 17:04+0400\n"
+"POT-Creation-Date: 2025-02-07 00:42+0000\n"
+"PO-Revision-Date: 2025-02-06 09:29+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -152,10 +152,10 @@ msgstr "زاوية الدوران التي ستطبق على الشكل المو
 #: data/effects/tracker.xml:8 data/transitions/affine.xml:8
 #: data/transitions/composite.xml:8 data/transitions/qtblend.xml:8
 #: data/transitions/region.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:265
-#: src/assets/view/widgets/keyframeimport.cpp:433
-#: src/assets/view/widgets/keyframeimport.cpp:913
-#: src/assets/view/widgets/keyframeimport.cpp:1188
+#: src/assets/view/widgets/keyframeimport.cpp:266
+#: src/assets/view/widgets/keyframeimport.cpp:434
+#: src/assets/view/widgets/keyframeimport.cpp:914
+#: src/assets/view/widgets/keyframeimport.cpp:1193
 #, kde-format
 msgid "Rectangle"
 msgstr "مستطيل"
@@ -639,6 +639,9 @@ msgid ""
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors.]]>"
 msgstr ""
+"<![CDATA[نسبة الانحراف عن قيمة اللون المحدد.<br>\n"
+"القيم المنخفضة تحافظ على الألوان أقرب إلى اللون المحدد؛ القيم الأعلى تتضمن "
+"المزيد من الألوان.]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -770,27 +773,24 @@ msgid "Counter Clockwise"
 msgstr "عكس عقارب السّاعة"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "ظل"
+msgstr "ظلّ ساقط"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "استخدم لوما الصورة عوضا عن قناة ألفا."
+msgstr "أنشئ تأثير الظل من قناة ألفا"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "نصف القطر"
+msgstr "نصف قطر الغشاوة"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "الكمية بالبكسل لطمس حافة الظل"
 
 #: data/effects/dropshadow.xml:12
 #, kde-format
@@ -800,7 +800,7 @@ msgstr "إزاحة س"
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "الموضع الأفقي النسبي للظل"
 
 #: data/effects/dropshadow.xml:16
 #, kde-format
@@ -810,7 +810,7 @@ msgstr "إزاحة ص"
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "الموضع الرأسي النسبي للظل"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -820,10 +820,9 @@ msgid "Color"
 msgstr "لون"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "لون التدرج الموجيّ."
+msgstr "لون الظل بما في ذلك ألفا"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -892,7 +891,7 @@ msgid "Overlay text with keywords replaced"
 msgstr "نص مُسقط مع استبدال الكلمات الرئيسية"
 
 #: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:419
+#: src/assets/view/widgets/keyframeimport.cpp:420
 #, kde-format
 msgid "Geometry"
 msgstr "الأبعاد"
@@ -988,7 +987,7 @@ msgstr "تلاشٍ الفيديو من الأسود"
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
-#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:171
+#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1294 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
@@ -998,7 +997,7 @@ msgid "Duration"
 msgstr "المدّة"
 
 #: data/effects/fade_from_black.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:168
+#: src/assets/view/widgets/keyframeimport.cpp:169
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
 #: src/timeline2/view/qml/Track.qml:84
 #, kde-format
@@ -1575,7 +1574,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:189
+#: src/assets/view/widgets/keyframeimport.cpp:406 src/ui/editsubstyle_ui.ui:189
 #, kde-format
 msgid "Rotation"
 msgstr "التّدوير"
@@ -2672,11 +2671,10 @@ msgstr ""
 "F = pow (2.0 ، o). يتجاوز Octaveshift."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "دوّر"
+msgstr "تدوير ثلاثي الاتجاهات"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2690,6 +2688,8 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[عند تحريك الخصائص باستخدام الإطارات الرئيسة،<br>\n"
+"\t ما إذا كان سيتكرر التحريك بعد وصوله إلى الإطار الرئيس الأخير.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -2699,12 +2699,15 @@ msgid ""
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[عند إيقاف تشغيل تحريك الخصائص باستخدام الإطارات الرئيسة وتعطيل "
+"التكرار،<br>\n"
+"\t       ما إذا كانت الرسوم المتحركة تتناوب بين الانعكاسات والتقدم لكل "
+"تكرار.]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "أدرج فضاء"
+msgstr "عكس المقياس"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2714,6 +2717,9 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"<![CDATA[سواء كان من الواجب عكس قيم <em>مقاس س</em> و<em>مقاس ص</em>.<br>\n"
+"وهذا مفيد لجعل عملية استيفاء الرسوم المتحركة منطقية، لأنه بخلاف ذلك لن تُحرك "
+"قيم المقياس خطيًا.]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -2722,10 +2728,9 @@ msgid "Rotate X"
 msgstr "دوّر س:"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "التّدوير حول المحور السّينيّ"
+msgstr "<![CDATA[زاوية الدوران على طول المحور س]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2734,10 +2739,9 @@ msgid "Rotate Y"
 msgstr "دوّر ص:"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "التّدوير حول المحور الصّاديّ"
+msgstr "<![CDATA[زاوية الدوران على طول المحور ص]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2746,10 +2750,9 @@ msgid "Rotate Z"
 msgstr "دوّر ع:"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "التّدوير حول المحور العينيّ"
+msgstr "<![CDATA[زاوية الدوران على طول المحور ع]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2760,7 +2763,7 @@ msgstr "إزاحة س"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[الإزاحة على طول المحور س]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2771,7 +2774,7 @@ msgstr "إزاحة ص"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[الإزاحة على طول المحور ص]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -2783,7 +2786,7 @@ msgstr "حجّم س"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[عامل المقياس المطبق على المحور س]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2795,13 +2798,12 @@ msgstr "حجّم ص"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[عامل المقياس المطبق على المحور ص]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "دوّر واقطع"
+msgstr "دوّر واقطع (بائدة)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2821,12 +2823,12 @@ msgstr "حرك تدوير ع"
 #: data/effects/rotation.xml:26 data/effects/shear.xml:25
 #, kde-format
 msgid "Shear X"
-msgstr "قطع س"
+msgstr "اقطع س"
 
 #: data/effects/rotation.xml:29 data/effects/shear.xml:29
 #, kde-format
 msgid "Shear Y"
-msgstr "قطع ص"
+msgstr "اقطع ص"
 
 #: data/effects/rotation.xml:32
 #, kde-format
@@ -2844,10 +2846,9 @@ msgid "Pan and Zoom"
 msgstr "وزع وكبر"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "سلس (مهمل)"
+msgstr "دوّر (بائدة)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2921,43 +2922,40 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "أنشئ قناة ألفا (الشفافية) بالاعتماد على مصدر أخر"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "قطع س"
+msgstr "اقطع"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "حدد مقطع لتطبيق المزج عليه"
+msgstr "اقطع مقطع على طول المحاور الثلاثة"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[زاوية القص حول المحور س]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[زاوية القص حول المحور ص]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "قطع س"
+msgstr "اقطع ع"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[زاوية القص حول المحور ع]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[الإزاحة على طول المحور ص]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4406,7 +4404,7 @@ msgstr "سلس (مهمل)"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframewidget.cpp:89 src/dialogs/timeremap.cpp:1615
+#: src/assets/view/widgets/keyframewidget.cpp:90 src/dialogs/timeremap.cpp:1615
 #: src/dialogs/timeremap.cpp:1640
 #, kde-format
 msgid "Add keyframe"
@@ -4421,7 +4419,7 @@ msgstr "غير نوع الإطار الرئيس"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframewidget.cpp:91 src/dialogs/timeremap.cpp:1636
+#: src/assets/view/widgets/keyframewidget.cpp:92 src/dialogs/timeremap.cpp:1636
 #, kde-format
 msgid "Delete keyframe"
 msgstr "احذف الإطار الرئيس"
@@ -4463,7 +4461,7 @@ msgstr "تأثير"
 msgid "Reset %1"
 msgstr "صفّر %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1372
+#: src/assets/keyframes/model/keyframemodel.cpp:1375
 #, kde-format
 msgid "Reset effect"
 msgstr "صفّر التّأثير"
@@ -4629,230 +4627,230 @@ msgstr "حرك الإطار الرئيس"
 msgid "Data to import:"
 msgstr "البيانات الاستيراد:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:177
+#: src/assets/view/widgets/keyframeimport.cpp:178
 #, kde-format
 msgid "Time offset:"
 msgstr "الإزاحة الزمنية:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:191
-#: src/assets/view/widgets/keyframeimport.cpp:414
-#: src/assets/view/widgets/keyframeimport.cpp:509
-#: src/assets/view/widgets/keyframeimport.cpp:922
+#: src/assets/view/widgets/keyframeimport.cpp:192
+#: src/assets/view/widgets/keyframeimport.cpp:415
+#: src/assets/view/widgets/keyframeimport.cpp:510
+#: src/assets/view/widgets/keyframeimport.cpp:923
 #, kde-format
 msgid "Rotoscoping shape"
 msgstr "شكل مُسقَط"
 
-#: src/assets/view/widgets/keyframeimport.cpp:225
-#: src/assets/view/widgets/keyframeimport.cpp:235
+#: src/assets/view/widgets/keyframeimport.cpp:226
+#: src/assets/view/widgets/keyframeimport.cpp:236
 #, kde-format
 msgid "Top left"
 msgstr "أعلى اليسار"
 
-#: src/assets/view/widgets/keyframeimport.cpp:226
-#: src/assets/view/widgets/keyframeimport.cpp:236
+#: src/assets/view/widgets/keyframeimport.cpp:227
+#: src/assets/view/widgets/keyframeimport.cpp:237
 #, kde-format
 msgid "Top center"
 msgstr "أعلى الوسط"
 
-#: src/assets/view/widgets/keyframeimport.cpp:227
-#: src/assets/view/widgets/keyframeimport.cpp:237
+#: src/assets/view/widgets/keyframeimport.cpp:228
+#: src/assets/view/widgets/keyframeimport.cpp:238
 #, kde-format
 msgid "Top right"
 msgstr "أعلى اليمين"
 
-#: src/assets/view/widgets/keyframeimport.cpp:228
-#: src/assets/view/widgets/keyframeimport.cpp:238
+#: src/assets/view/widgets/keyframeimport.cpp:229
+#: src/assets/view/widgets/keyframeimport.cpp:239
 #, kde-format
 msgid "Left center"
 msgstr "الوسط اليسار"
 
-#: src/assets/view/widgets/keyframeimport.cpp:229
-#: src/assets/view/widgets/keyframeimport.cpp:239
+#: src/assets/view/widgets/keyframeimport.cpp:230
+#: src/assets/view/widgets/keyframeimport.cpp:240
 #: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "الوسط"
 
-#: src/assets/view/widgets/keyframeimport.cpp:230
-#: src/assets/view/widgets/keyframeimport.cpp:240
+#: src/assets/view/widgets/keyframeimport.cpp:231
+#: src/assets/view/widgets/keyframeimport.cpp:241
 #, kde-format
 msgid "Right center"
 msgstr "الوسط اليمين"
 
-#: src/assets/view/widgets/keyframeimport.cpp:231
-#: src/assets/view/widgets/keyframeimport.cpp:241
+#: src/assets/view/widgets/keyframeimport.cpp:232
+#: src/assets/view/widgets/keyframeimport.cpp:242
 #, kde-format
 msgid "Bottom left"
 msgstr "أسفل اليسار"
 
-#: src/assets/view/widgets/keyframeimport.cpp:232
-#: src/assets/view/widgets/keyframeimport.cpp:242
+#: src/assets/view/widgets/keyframeimport.cpp:233
+#: src/assets/view/widgets/keyframeimport.cpp:243
 #, kde-format
 msgid "Bottom center"
 msgstr "أسفل الوسط"
 
-#: src/assets/view/widgets/keyframeimport.cpp:233
-#: src/assets/view/widgets/keyframeimport.cpp:243
+#: src/assets/view/widgets/keyframeimport.cpp:234
+#: src/assets/view/widgets/keyframeimport.cpp:244
 #, kde-format
 msgid "Bottom right"
 msgstr "أسفل اليمين"
 
-#: src/assets/view/widgets/keyframeimport.cpp:246
+#: src/assets/view/widgets/keyframeimport.cpp:247
 #, kde-format
 msgid "Map "
 msgstr "خريطة"
 
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label1)
-#: src/assets/view/widgets/keyframeimport.cpp:247
+#: src/assets/view/widgets/keyframeimport.cpp:248
 #: src/ui/import_subtitle_ui.ui:131
 #, kde-format
 msgid " to "
 msgstr "إلى"
 
-#: src/assets/view/widgets/keyframeimport.cpp:324
+#: src/assets/view/widgets/keyframeimport.cpp:325
 #, kde-format
 msgid "Horizontal offset:"
 msgstr "الإزاحة الأفقية:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:325
+#: src/assets/view/widgets/keyframeimport.cpp:326
 #, kde-format
 msgid "Vertical offset:"
 msgstr "الإزاحة العمودية:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:329
-#: src/assets/view/widgets/keyframeimport.cpp:463
-#: src/assets/view/widgets/keyframeimport.cpp:466
-#: src/assets/view/widgets/keyframeimport.cpp:469
-#: src/assets/view/widgets/keyframeimport.cpp:472
-#: src/assets/view/widgets/keyframeimport.cpp:483
-#: src/assets/view/widgets/keyframeimport.cpp:486
-#: src/assets/view/widgets/keyframeimport.cpp:489
-#: src/assets/view/widgets/keyframeimport.cpp:492
-#: src/assets/view/widgets/keyframeimport.cpp:495
+#: src/assets/view/widgets/keyframeimport.cpp:330
+#: src/assets/view/widgets/keyframeimport.cpp:464
+#: src/assets/view/widgets/keyframeimport.cpp:467
+#: src/assets/view/widgets/keyframeimport.cpp:470
+#: src/assets/view/widgets/keyframeimport.cpp:473
+#: src/assets/view/widgets/keyframeimport.cpp:484
+#: src/assets/view/widgets/keyframeimport.cpp:487
+#: src/assets/view/widgets/keyframeimport.cpp:490
+#: src/assets/view/widgets/keyframeimport.cpp:493
+#: src/assets/view/widgets/keyframeimport.cpp:496
 #, kde-format
 msgid "Source range %1 to %2"
 msgstr "مدى المصدر من %1 إلى %2"
 
-#: src/assets/view/widgets/keyframeimport.cpp:337
+#: src/assets/view/widgets/keyframeimport.cpp:338
 #, kde-format
 msgid "Destination range:"
 msgstr "المدى الهدف:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:345
+#: src/assets/view/widgets/keyframeimport.cpp:346
 #, kde-format
 msgid "Actual range only"
 msgstr "المدى الحقيقي فقط"
 
-#: src/assets/view/widgets/keyframeimport.cpp:352
+#: src/assets/view/widgets/keyframeimport.cpp:353
 #, kde-format
 msgid "Limit keyframe number"
 msgstr "حد عدد الأطر الرئيسة"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
-#: src/assets/view/widgets/keyframeimport.cpp:420
+#: src/assets/view/widgets/keyframeimport.cpp:421
 #: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:32
 #, kde-format
 msgid "Position"
 msgstr "الموضع"
 
-#: src/assets/view/widgets/keyframeimport.cpp:421
+#: src/assets/view/widgets/keyframeimport.cpp:422
 #, kde-format
 msgid "Inverted Position"
 msgstr "موضع معكوس"
 
-#: src/assets/view/widgets/keyframeimport.cpp:422
+#: src/assets/view/widgets/keyframeimport.cpp:423
 #, kde-format
 msgid "Offset Position"
 msgstr "موضع مزاح"
 
-#: src/assets/view/widgets/keyframeimport.cpp:423
+#: src/assets/view/widgets/keyframeimport.cpp:424
 #, kde-format
 msgid "X"
 msgstr "س"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbY)
-#: src/assets/view/widgets/keyframeimport.cpp:424 src/ui/histogram_ui.ui:54
+#: src/assets/view/widgets/keyframeimport.cpp:425 src/ui/histogram_ui.ui:54
 #, kde-format
 msgid "Y"
 msgstr "ص"
 
-#: src/assets/view/widgets/keyframeimport.cpp:426
-#: src/assets/view/widgets/keyframeimport.cpp:813
-#: src/assets/view/widgets/keyframewidget.cpp:275
-#: src/assets/view/widgets/keyframewidget.cpp:332
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframeimport.cpp:427
+#: src/assets/view/widgets/keyframeimport.cpp:814
+#: src/assets/view/widgets/keyframewidget.cpp:276
+#: src/assets/view/widgets/keyframewidget.cpp:333
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Width"
 msgstr "العرض"
 
-#: src/assets/view/widgets/keyframeimport.cpp:429
-#: src/assets/view/widgets/keyframeimport.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:274
-#: src/assets/view/widgets/keyframewidget.cpp:326
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframeimport.cpp:430
+#: src/assets/view/widgets/keyframeimport.cpp:822
+#: src/assets/view/widgets/keyframewidget.cpp:275
+#: src/assets/view/widgets/keyframewidget.cpp:327
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Height"
 msgstr "الارتفاع"
 
-#: src/assets/view/widgets/keyframeimport.cpp:475
-#: src/assets/view/widgets/keyframeimport.cpp:498
+#: src/assets/view/widgets/keyframeimport.cpp:476
+#: src/assets/view/widgets/keyframeimport.cpp:499
 #, kde-format
 msgid "Source range: (%1-%2), (%3-%4)"
 msgstr "مدى المصدر: (%1-%2)، (%3-%4)"
 
-#: src/assets/view/widgets/keyframeimport.cpp:795
+#: src/assets/view/widgets/keyframeimport.cpp:796
 #, kde-format
 msgctxt "X as in x coordinate"
 msgid "X"
 msgstr "س"
 
-#: src/assets/view/widgets/keyframeimport.cpp:804
+#: src/assets/view/widgets/keyframeimport.cpp:805
 #, kde-format
 msgctxt "Y as in y coordinate"
 msgid "Y"
 msgstr "ص"
 
-#: src/assets/view/widgets/keyframeimport.cpp:1155
+#: src/assets/view/widgets/keyframeimport.cpp:1156
 #, kde-format
 msgid "Import keyframes from clipboard"
 msgstr "استورد الأطر الرئيسة من الحافظة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:73
+#: src/assets/view/widgets/keyframewidget.cpp:74
 #, kde-format
 msgid "Switch to timeline view"
 msgstr "بدّل إلى عرض الخطّ الزّمنيّ"
 
-#: src/assets/view/widgets/keyframewidget.cpp:75
+#: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
 msgstr "بدل إلى عرض محرر المنحنى"
 
-#: src/assets/view/widgets/keyframewidget.cpp:96 src/dialogs/timeremap.cpp:1621
+#: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1621
 #: src/mainwindow.cpp:1820
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "انتقل إلى الإطار الرئيس السّابق"
 
-#: src/assets/view/widgets/keyframewidget.cpp:100
+#: src/assets/view/widgets/keyframewidget.cpp:101
 #: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1818
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "انتقل إلى الإطار الرئيس التّالي"
 
-#: src/assets/view/widgets/keyframewidget.cpp:105
+#: src/assets/view/widgets/keyframewidget.cpp:106
 #: src/dialogs/timeremap.cpp:1626 src/dialogs/timeremap.cpp:1628
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "انقل الإطار الرئيس إلى المؤشّر"
 
-#: src/assets/view/widgets/keyframewidget.cpp:108
-#: src/assets/view/widgets/keyframewidget.cpp:110
+#: src/assets/view/widgets/keyframewidget.cpp:109
+#: src/assets/view/widgets/keyframewidget.cpp:111
 #, kde-format
 msgid "Copy keyframes"
 msgstr "انسخ الأطر الرئيسة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:112
+#: src/assets/view/widgets/keyframewidget.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4862,35 +4860,35 @@ msgstr ""
 "انسخ الأطر الرئيسة. انسخ الأطر الرئيسة المحددة أو قيم المعاملات الحالية إذا "
 "لم يكن هناك إطار رئيس محدد."
 
-#: src/assets/view/widgets/keyframewidget.cpp:114
-#: src/assets/view/widgets/keyframewidget.cpp:932
+#: src/assets/view/widgets/keyframewidget.cpp:115
+#: src/assets/view/widgets/keyframewidget.cpp:937
 #, kde-format
 msgid "Paste keyframe"
 msgstr "ألصق الإطار الرئيس"
 
-#: src/assets/view/widgets/keyframewidget.cpp:116
+#: src/assets/view/widgets/keyframewidget.cpp:117
 #, kde-format
 msgid "Paste keyframes"
 msgstr "ألصق الأطر الرئيسة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:117
+#: src/assets/view/widgets/keyframewidget.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr "ألص الأطر الرئيسة. ألصق بيانات الحافظة كأطر رئيسة عند الموضع الحالي."
 
-#: src/assets/view/widgets/keyframewidget.cpp:119
+#: src/assets/view/widgets/keyframewidget.cpp:120
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "طبّق قيمة الموضع الحالي على الأطر الرئيسة المحددة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:122
-#: src/assets/view/widgets/keyframewidget.cpp:135
+#: src/assets/view/widgets/keyframewidget.cpp:123
+#: src/assets/view/widgets/keyframewidget.cpp:136
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "استكمال المشهد الرئيس"
 
-#: src/assets/view/widgets/keyframewidget.cpp:136
+#: src/assets/view/widgets/keyframewidget.cpp:137
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4900,45 +4898,44 @@ msgstr ""
 "استكمال الإطار الرئيس. يعرف هذا أي نوع من الاستكمال سيستخدم للإطار الرئيس "
 "الحالي."
 
-#: src/assets/view/widgets/keyframewidget.cpp:157
+#: src/assets/view/widgets/keyframewidget.cpp:158
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "اقصد الإطار الرئيس عند التحديد"
 
-#: src/assets/view/widgets/keyframewidget.cpp:162
+#: src/assets/view/widgets/keyframewidget.cpp:163
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "انسخ كل الأطر الرئيسة إلى الحافظة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:164
+#: src/assets/view/widgets/keyframewidget.cpp:165
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "استورد الأطر الرئيسة من مقطع…"
 
-#: src/assets/view/widgets/keyframewidget.cpp:172
+#: src/assets/view/widgets/keyframewidget.cpp:173
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "أزل كلّ الأطر الرئيسة بعد المؤشّر"
 
-#: src/assets/view/widgets/keyframewidget.cpp:176
+#: src/assets/view/widgets/keyframewidget.cpp:177
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "نوع الإطار الرئيس المبدئي"
 
-#: src/assets/view/widgets/keyframewidget.cpp:215
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#: src/assets/view/widgets/keyframewidget.cpp:216
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "أطر رئيسة آليّة"
+msgstr "أطر رئيسة آليّة محدودة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:227 src/bin/bin.cpp:1343
+#: src/assets/view/widgets/keyframewidget.cpp:228 src/bin/bin.cpp:1343
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "خيارات"
 
-#: src/assets/view/widgets/keyframewidget.cpp:229
+#: src/assets/view/widgets/keyframewidget.cpp:230
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4948,62 +4945,68 @@ msgstr ""
 "تفتح  قائمة الإجراءات الممكنة لإدارة الأطر الرئيسة (مثل نسخ ولصق الأطر "
 "الرئيسة من الحافظة)"
 
-#: src/assets/view/widgets/keyframewidget.cpp:272
-#: src/assets/view/widgets/keyframewidget.cpp:320
-#: src/assets/view/widgets/keyframewidget.cpp:588
+#: src/assets/view/widgets/keyframewidget.cpp:273
+#: src/assets/view/widgets/keyframewidget.cpp:321
+#: src/assets/view/widgets/keyframewidget.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
 msgstr "العُتَمَة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:276
-#: src/assets/view/widgets/keyframewidget.cpp:344
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframewidget.cpp:277
+#: src/assets/view/widgets/keyframewidget.cpp:345
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Y position"
 msgstr "موضع ص"
 
-#: src/assets/view/widgets/keyframewidget.cpp:277
-#: src/assets/view/widgets/keyframewidget.cpp:338
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframewidget.cpp:278
+#: src/assets/view/widgets/keyframewidget.cpp:339
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "X position"
 msgstr "موضع س"
 
-#: src/assets/view/widgets/keyframewidget.cpp:296
+#: src/assets/view/widgets/keyframewidget.cpp:297
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "حدد المعاملات لنسخها"
 
-#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:842
 #, kde-format
 msgid "Keyframes copied"
 msgstr "نسخت الأطر الرئيسة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:848
-#: src/assets/view/widgets/keyframewidget.cpp:889
-#: src/assets/view/widgets/keyframewidget.cpp:896
+#: src/assets/view/widgets/keyframewidget.cpp:853
+#: src/assets/view/widgets/keyframewidget.cpp:894
+#: src/assets/view/widgets/keyframewidget.cpp:901
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "لا يوجد إطار رئيس صالح في الحافظة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:940
+#: src/assets/view/widgets/keyframewidget.cpp:945
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "تعذّر نسخ قيم المعامل الحالي"
 
-#: src/assets/view/widgets/keyframewidget.cpp:945
-#: src/assets/view/widgets/keyframewidget.cpp:956
+#: src/assets/view/widgets/keyframewidget.cpp:950
+#: src/assets/view/widgets/keyframewidget.cpp:961
 #, kde-format
 msgid "Current values copied"
 msgstr "نُسخت القيم الحالية"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1035
+#: src/assets/view/widgets/keyframewidget.cpp:973
+#, fuzzy, kde-format
+#| msgid "No valid keyframe data in clipboard"
+msgid "No keyframe data in clipboard"
+msgstr "لا يوجد إطار رئيس صالح في الحافظة"
+
+#: src/assets/view/widgets/keyframewidget.cpp:1049
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "لا يمكن إزالة الإطار الرئيس الأخير"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1047
+#: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -6456,7 +6459,7 @@ msgid "Cut clip"
 msgstr "قص المقطع"
 
 #: src/bin/model/subtitlemodel.cpp:850 src/bin/model/subtitlemodel.cpp:1623
-#: src/timeline2/model/timelinemodel.cpp:3974
+#: src/timeline2/model/timelinemodel.cpp:3973
 #, kde-format
 msgid "Resize subtitle"
 msgstr "أعد تحجيم الترجمة"
@@ -7331,7 +7334,7 @@ msgstr "أدر تشكيلات التّرميز"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
-msgstr ""
+msgstr "يفتح نافذة حوار لإنشاء تشكيلات الترميز وتغييرها وحذفها"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7339,11 +7342,10 @@ msgid "Show Profile Parameters"
 msgstr "أظهر معاملات التشكيلة"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "عطّل المعاملات عندما يكون التّأثير معطّلًا"
+msgstr "يعرض المعاملات للتشكيلة المحددة"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -7870,12 +7872,12 @@ msgstr "أُجهض التّصيير"
 msgid "Nearest (fast)"
 msgstr "الأقرب (سريع)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:618
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:625
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "خطي ثنائي (جيد)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:619
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "تكعيبي مزدوج (أفضل)"
@@ -7900,17 +7902,17 @@ msgstr "عمودي (9:16)"
 msgid "Square (1:1)"
 msgstr "مربع (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:599
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:606
 #, kde-format
 msgid "One Field (fast)"
 msgstr "حقل واحد (سريع)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:600
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:607
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "خلط خطي (سريع)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:601
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:608
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF-الزمانيه فقط (جيد)"
@@ -8094,7 +8096,7 @@ msgstr "صوت بلا مسار فيديو"
 msgid "Rendering <i>%1</i> started"
 msgstr "بدأ تصيير <i>%1</i>"
 
-#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1294
+#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1303
 #, kde-format
 msgid "untitled"
 msgstr "بلا عنوان"
@@ -10860,7 +10862,7 @@ msgstr "لا يمكن إضافة التأثير %1 مرتين."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
 #: src/effects/effectstack/view/effectstackview.cpp:236
-#: src/timeline2/model/timelinemodel.cpp:5088
+#: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
 msgstr "أضف تأثير %1"
@@ -11149,19 +11151,17 @@ msgstr "رجاء اضبط ملحق SAM2"
 #: src/effects/effectstack/view/maskmanager.cpp:162
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "يصدر إطارات الفيديو للتحليل"
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "يولد قناع الفيديو"
+msgstr "يصدر إطارات الفيديو"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "المقطع المصدر مفقود"
+msgstr "الأطر المصدر المفقودة"
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11397,10 +11397,9 @@ msgid "Failed to analyse video."
 msgstr "أخفق في تحليل الفيديو."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "فشل إنشاء المقطع الوسيط."
+msgstr "فشل في معالجة قائمة التشغيل."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -12676,10 +12675,9 @@ msgid "Multicam Tool"
 msgstr "أداة الكاميرات"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "مرشح الصوت الموجي"
+msgstr "تكبير الموجات الصوتية"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -13305,11 +13303,9 @@ msgid "Clip in Project Bin"
 msgstr "مقطع في سلة المشروع"
 
 #: src/mainwindow.cpp:1757
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "البحث في الانتظار…"
+msgstr "البحث في سلة المقطع…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1759 src/ui/cutjobdialog_ui.ui:18
@@ -14211,7 +14207,7 @@ msgid "Audio streams"
 msgstr "التدفقات الصوتية"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:756
-#: src/monitor/monitor.cpp:1959
+#: src/monitor/monitor.cpp:1968
 #, kde-format
 msgid "Merge all streams"
 msgstr "ادمج كل التدفقات"
@@ -14508,34 +14504,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:660
+#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:667
 #, kde-format
 msgid "Set Zone In"
 msgstr "عيين التكبير"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:664
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:671
 #, kde-format
 msgid "Set Zone Out"
 msgstr "عيين التصغير"
 
-#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:544
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:551
 #, kde-format
 msgid "Rewind"
 msgstr "رجوع"
 
 #: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
-#: src/monitor/monitormanager.cpp:519
+#: src/monitor/monitormanager.cpp:526
 #, kde-format
 msgid "Play"
 msgstr "شغّل"
 
-#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:519
-#: src/monitor/monitormanager.cpp:525
+#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:526
+#: src/monitor/monitormanager.cpp:532
 #, kde-format
 msgid "Pause"
 msgstr "ألبث"
 
-#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:557
+#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:564
 #, kde-format
 msgid "Forward"
 msgstr "تقدّم"
@@ -14597,81 +14593,88 @@ msgstr "الأبيض"
 msgid "Pink"
 msgstr "الوردي"
 
-#: src/monitor/monitor.cpp:517
+#: src/monitor/monitor.cpp:452
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Checkerboard Small"
+msgid "Checkerboard"
+msgstr "رقعة الداما الصغيرة"
+
+#: src/monitor/monitor.cpp:526
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:523
+#: src/monitor/monitor.cpp:532
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:529
+#: src/monitor/monitor.cpp:538
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:535
+#: src/monitor/monitor.cpp:544
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:681
+#: src/monitor/monitor.cpp:690
 #, kde-format
 msgid "Extract Zone"
 msgstr "استخرج المنطقة"
 
-#: src/monitor/monitor.cpp:694
+#: src/monitor/monitor.cpp:703
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "اضبط الصّورة الحاليّة كمصغّرة"
 
-#: src/monitor/monitor.cpp:701
+#: src/monitor/monitor.cpp:710
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "أظهر مصغّرات الصّوت دئماً"
 
-#: src/monitor/monitor.cpp:718
+#: src/monitor/monitor.cpp:727
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "أظهر مستويات الصّوت"
 
-#: src/monitor/monitor.cpp:725
+#: src/monitor/monitor.cpp:734
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "اعرض رمز وقت المصدر"
 
-#: src/monitor/monitor.cpp:762
+#: src/monitor/monitor.cpp:771
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "ميز الشّاشة لديك ليس كافيًا لهذا الإجراء"
 
-#: src/monitor/monitor.cpp:916 src/monitor/monitor.cpp:947
+#: src/monitor/monitor.cpp:925 src/monitor/monitor.cpp:956
 #: src/timeline2/view/timelinecontroller.cpp:1814
 #, kde-format
 msgid "Set Zone"
 msgstr "عين المنطقة"
 
-#: src/monitor/monitor.cpp:1307
+#: src/monitor/monitor.cpp:1316
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "احفظ الصّورة في المشروع"
 
-#: src/monitor/monitor.cpp:1307
+#: src/monitor/monitor.cpp:1316
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "احفظ الصّورة"
 
-#: src/monitor/monitor.cpp:1314
+#: src/monitor/monitor.cpp:1323
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "صدر الصورة باستعمال دقة المصدر"
 
-#: src/monitor/monitor.cpp:1944 src/monitor/monitor.cpp:2074
+#: src/monitor/monitor.cpp:1953 src/monitor/monitor.cpp:2083
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -14682,12 +14685,12 @@ msgstr[3] "%1 دفق صوتية"
 msgstr[4] "%1 دفق صوتية"
 msgstr[5] "%1 دفق صوتية"
 
-#: src/monitor/monitor.cpp:2381
+#: src/monitor/monitor.cpp:2390
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "لا يمكن بدء مدير GLSL لـMovit ، الرجاء تعطيل Movit"
 
-#: src/monitor/monitor.cpp:2423 src/monitor/monitor.cpp:2480
+#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14695,17 +14698,17 @@ msgid ""
 msgstr ""
 "مطلوب مرشح alphagrad لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
-#: src/monitor/monitor.cpp:2443
+#: src/monitor/monitor.cpp:2452
 #, kde-format
 msgid "Clip has no effects"
 msgstr "المقطع لا يحوي تأثيرات"
 
-#: src/monitor/monitor.cpp:2445
+#: src/monitor/monitor.cpp:2454
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "اختر مقطع في سلة المشروع لتقاران التأثير"
 
-#: src/monitor/monitor.cpp:2487
+#: src/monitor/monitor.cpp:2496
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14713,12 +14716,12 @@ msgid ""
 msgstr ""
 "مطلوب مرشح cairoblend لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
-#: src/monitor/monitor.cpp:2537
+#: src/monitor/monitor.cpp:2546
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "مكّن نمط التحرير في الشاشة لتحرر التأثير"
 
-#: src/monitor/monitormanager.cpp:203
+#: src/monitor/monitormanager.cpp:210
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
@@ -14726,7 +14729,7 @@ msgid ""
 msgstr ""
 "هل تريد <a href=\"#clipmonitor\"> إظهار مراقبة المقطع </a> لعرض الخط الزمني؟"
 
-#: src/monitor/monitormanager.cpp:232
+#: src/monitor/monitormanager.cpp:239
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
@@ -14735,125 +14738,125 @@ msgstr ""
 "هل تريد <a href=\"#projectmonitor\"> إظهار مراقبة المشروع </a> لعرض الخط "
 "الزمني؟"
 
-#: src/monitor/monitormanager.cpp:529
+#: src/monitor/monitormanager.cpp:536
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "بدّل بين ملء الشّاشة"
 
-#: src/monitor/monitormanager.cpp:534
+#: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "قرّب الشاشة"
 
-#: src/monitor/monitormanager.cpp:539
+#: src/monitor/monitormanager.cpp:546
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "بعّد الشاشة"
 
-#: src/monitor/monitormanager.cpp:548
+#: src/monitor/monitormanager.cpp:555
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "ارجع إطار واحد"
 
-#: src/monitor/monitormanager.cpp:552
+#: src/monitor/monitormanager.cpp:559
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "ارجع ثانية واحدة"
 
-#: src/monitor/monitormanager.cpp:561
+#: src/monitor/monitormanager.cpp:568
 #, kde-format
 msgid "Go to Project Start"
 msgstr "انتقل إلى بداية المشروع"
 
-#: src/monitor/monitormanager.cpp:565
+#: src/monitor/monitormanager.cpp:572
 #, kde-format
 msgid "Go to Project End"
 msgstr "انتقل إلى نهاية المشروع"
 
-#: src/monitor/monitormanager.cpp:569
+#: src/monitor/monitormanager.cpp:576
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "قدّم إطار واحد"
 
-#: src/monitor/monitormanager.cpp:573
+#: src/monitor/monitormanager.cpp:580
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "قدّم ثانية واحدة"
 
-#: src/monitor/monitormanager.cpp:578
+#: src/monitor/monitormanager.cpp:585
 #, kde-format
 msgid "Multitrack View"
 msgstr "عرض متعدد المسارات"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:594
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "نفذ عملية متعددة المسارات"
 
-#: src/monitor/monitormanager.cpp:591
+#: src/monitor/monitormanager.cpp:598
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "أظهر/أخفِ وضع التّحرير"
 
-#: src/monitor/monitormanager.cpp:592
+#: src/monitor/monitormanager.cpp:599
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "تظهر/تخفي نمط التحرير (وتعرض مقابض الكائنات)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:598 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:605 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "التشابك"
 
-#: src/monitor/monitormanager.cpp:602
+#: src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF -الزماني + الخاص (الأفضل)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:616 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:623 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "الاستيفاء"
 
-#: src/monitor/monitormanager.cpp:617
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "أقرب جار (سريع)"
 
-#: src/monitor/monitormanager.cpp:620
+#: src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "فائق/لنكوزس (الأفضل)"
 
-#: src/monitor/monitormanager.cpp:634
+#: src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Progressive playback"
 msgstr "تشغيل متتالي"
 
-#: src/monitor/monitormanager.cpp:640
+#: src/monitor/monitormanager.cpp:647
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "تنقية الصوت"
 
-#: src/monitor/monitormanager.cpp:646
+#: src/monitor/monitormanager.cpp:653
 #, kde-format
 msgid "Mute Monitor"
 msgstr "اكتم الشّاشة"
 
-#: src/monitor/monitormanager.cpp:646
+#: src/monitor/monitormanager.cpp:653
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "ألغ كتم الشّاشة"
 
-#: src/monitor/monitormanager.cpp:652
+#: src/monitor/monitormanager.cpp:659
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "انتقل إلى بداية المنطقة"
 
-#: src/monitor/monitormanager.cpp:656
+#: src/monitor/monitormanager.cpp:663
 #, kde-format
 msgid "Go to Zone End"
 msgstr "انتقل إلى نهاية المنطقة"
@@ -15068,17 +15071,13 @@ msgid "Generating video mask"
 msgstr "يولد قناع الفيديو"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:381
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click on an object to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to exclude a zone."
+#, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
-"انقر فوق كائن لبدء قناع.\n"
+"انقر فوق كائن أو ارسم صندوق لبدء قناع.\n"
 "اضغط على Shift مع النقر لتضمين منطقة أخرى.\n"
 "اضغط على Ctrl مع النقر لاستبعاد منطقة."
 
@@ -15132,7 +15131,7 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 "<shortcut>Shift مع سحب المقبض </shortcut> للتغييرات المستندة إلى المركز"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:431
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:436
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -18341,7 +18340,7 @@ msgid "Delete clips on track"
 msgstr "احذف مقاطع في المسار"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4665
+#: src/timeline2/model/timelinemodel.cpp:4664
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -18481,59 +18480,59 @@ msgstr "أزل المجموعة"
 msgid "Delete Composition"
 msgstr "احذف التّراكب"
 
-#: src/timeline2/model/timelinemodel.cpp:2405
-#: src/timeline2/model/timelinemodel.cpp:2695
+#: src/timeline2/model/timelinemodel.cpp:2404
+#: src/timeline2/model/timelinemodel.cpp:2694
 #: src/timeline2/view/timelinecontroller.cpp:4258
 #, kde-format
 msgid "Move group"
 msgstr "تحريك مجموعة"
 
-#: src/timeline2/model/timelinemodel.cpp:3389
+#: src/timeline2/model/timelinemodel.cpp:3388
 #, kde-format
 msgid "Resize group"
 msgstr "غيّر الحجم مجموعة"
 
-#: src/timeline2/model/timelinemodel.cpp:3513
+#: src/timeline2/model/timelinemodel.cpp:3512
 #, kde-format
 msgid "Resize clip speed"
 msgstr "سرعة تغيير حجم المقطع"
 
-#: src/timeline2/model/timelinemodel.cpp:3672
+#: src/timeline2/model/timelinemodel.cpp:3671
 #, kde-format
 msgid "Remove mix"
 msgstr "أزل مزج"
 
-#: src/timeline2/model/timelinemodel.cpp:3674
+#: src/timeline2/model/timelinemodel.cpp:3673
 #, kde-format
 msgid "Removing mix failed"
 msgstr "فشل في إزالة المزج"
 
-#: src/timeline2/model/timelinemodel.cpp:3970
+#: src/timeline2/model/timelinemodel.cpp:3969
 #, kde-format
 msgid "Resize clip"
 msgstr "تغيير حجم مقطع"
 
-#: src/timeline2/model/timelinemodel.cpp:3972
+#: src/timeline2/model/timelinemodel.cpp:3971
 #, kde-format
 msgid "Resize composition"
 msgstr "تغيير حجم التركيب"
 
-#: src/timeline2/model/timelinemodel.cpp:4291
+#: src/timeline2/model/timelinemodel.cpp:4290
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "تمويج تغيير حجم مقطع"
 
-#: src/timeline2/model/timelinemodel.cpp:4293
+#: src/timeline2/model/timelinemodel.cpp:4292
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "تغيير حجم التركيب التموجي"
 
-#: src/timeline2/model/timelinemodel.cpp:4295
+#: src/timeline2/model/timelinemodel.cpp:4294
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "غيّر حجم الترجمة تموجياً"
 
-#: src/timeline2/model/timelinemodel.cpp:4438
+#: src/timeline2/model/timelinemodel.cpp:4437
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -18545,135 +18544,135 @@ msgstr[3] "أزلق مقطع"
 msgstr[4] "أزلق المقاطع"
 msgstr[5] "أزلق مقطع"
 
-#: src/timeline2/model/timelinemodel.cpp:4473
+#: src/timeline2/model/timelinemodel.cpp:4472
 #, kde-format
 msgid "Slip clip"
 msgstr "أزلق مقطع"
 
-#: src/timeline2/model/timelinemodel.cpp:4508
+#: src/timeline2/model/timelinemodel.cpp:4507
 #, kde-format
 msgid "Group clips"
 msgstr "تجميع مقاطع"
 
-#: src/timeline2/model/timelinemodel.cpp:4593
-#: src/timeline2/model/timelinemodel.cpp:4609
+#: src/timeline2/model/timelinemodel.cpp:4592
+#: src/timeline2/model/timelinemodel.cpp:4608
 #, kde-format
 msgid "Ungroup clips"
 msgstr "إزالة تجميع مقاطع"
 
-#: src/timeline2/model/timelinemodel.cpp:4774
+#: src/timeline2/model/timelinemodel.cpp:4773
 #: src/timeline2/view/timelinecontroller.cpp:965
 #, kde-format
 msgid "Delete Track"
 msgstr "احذف المقطع"
 
-#: src/timeline2/model/timelinemodel.cpp:4784
+#: src/timeline2/model/timelinemodel.cpp:4783
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "تعذّر حذف أخر مسار في الخطّ الزّمنيّ"
 
-#: src/timeline2/model/timelinemodel.cpp:5009
+#: src/timeline2/model/timelinemodel.cpp:5008
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "تعذّر إضافة تأثير %1 للمسار الرئيس"
 
-#: src/timeline2/model/timelinemodel.cpp:5016
+#: src/timeline2/model/timelinemodel.cpp:5015
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "تعذّر إضافة تأثير %1 إلى المسار المحدد"
 
-#: src/timeline2/model/timelinemodel.cpp:5037
+#: src/timeline2/model/timelinemodel.cpp:5036
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "تعذّر لصق تأثير المقطع في المسار الرئيس"
 
-#: src/timeline2/model/timelinemodel.cpp:5043
+#: src/timeline2/model/timelinemodel.cpp:5042
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "تعذّر لصق تأثير المقطع في المسار المحدد"
 
-#: src/timeline2/model/timelinemodel.cpp:5091
+#: src/timeline2/model/timelinemodel.cpp:5090
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "لا يمكن إضافة تأثير %1 على المقطع المحدد"
 
-#: src/timeline2/model/timelinemodel.cpp:5115
+#: src/timeline2/model/timelinemodel.cpp:5114
 #, kde-format
 msgid "Adjust Fade"
 msgstr "اضبط التلاشي"
 
-#: src/timeline2/model/timelinemodel.cpp:5467
+#: src/timeline2/model/timelinemodel.cpp:5466
 #, kde-format
 msgid "Insert Composition"
 msgstr "أدرج تركيباً"
 
-#: src/timeline2/model/timelinemodel.cpp:5688
+#: src/timeline2/model/timelinemodel.cpp:5687
 #, kde-format
 msgid "Move composition"
 msgstr "حرك التركيب"
 
-#: src/timeline2/model/timelinemodel.cpp:6359
+#: src/timeline2/model/timelinemodel.cpp:6358
 #, kde-format
 msgid "Enable time remap"
 msgstr "مكن إعادة تعيين الوقت"
 
-#: src/timeline2/model/timelinemodel.cpp:6433
+#: src/timeline2/model/timelinemodel.cpp:6432
 #, kde-format
 msgid "Change speed failed"
 msgstr "فشل في تغيير السرعة"
 
-#: src/timeline2/model/timelinemodel.cpp:6443
+#: src/timeline2/model/timelinemodel.cpp:6442
 #, kde-format
 msgid "Change clip speed"
 msgstr "غيّر سرعة مقطع"
 
-#: src/timeline2/model/timelinemodel.cpp:6892
+#: src/timeline2/model/timelinemodel.cpp:6890
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "اقفل المسار"
 
-#: src/timeline2/model/timelinemodel.cpp:6897
+#: src/timeline2/model/timelinemodel.cpp:6895
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "فكّ قفل المسار"
 
-#: src/timeline2/model/timelinemodel.cpp:6931
-#: src/timeline2/model/timelinemodel.cpp:6993
+#: src/timeline2/model/timelinemodel.cpp:6929
+#: src/timeline2/model/timelinemodel.cpp:6991
 #, kde-format
 msgid "Change composition"
 msgstr "غيّر التركيب"
 
-#: src/timeline2/model/timelinemodel.cpp:6945
+#: src/timeline2/model/timelinemodel.cpp:6943
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "لا يمكن العمل على تركيب المجموع، فضلاً أزل التجميع"
 
-#: src/timeline2/model/timelinemodel.cpp:7140
-#: src/timeline2/model/timelinemodel.cpp:7177
-#: src/timeline2/model/timelinemodel.cpp:7210
-#: src/timeline2/model/timelinemodel.cpp:7289
+#: src/timeline2/model/timelinemodel.cpp:7138
+#: src/timeline2/model/timelinemodel.cpp:7175
+#: src/timeline2/model/timelinemodel.cpp:7208
+#: src/timeline2/model/timelinemodel.cpp:7287
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "تعذّر تغير حجم المزيج إلى أقل من إطار واحد"
 
-#: src/timeline2/model/timelinemodel.cpp:7151
-#: src/timeline2/model/timelinemodel.cpp:7185
-#: src/timeline2/model/timelinemodel.cpp:7227
-#: src/timeline2/model/timelinemodel.cpp:7313
+#: src/timeline2/model/timelinemodel.cpp:7149
+#: src/timeline2/model/timelinemodel.cpp:7183
+#: src/timeline2/model/timelinemodel.cpp:7225
+#: src/timeline2/model/timelinemodel.cpp:7311
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "تعذّر تغيير حجم المزج"
 
-#: src/timeline2/model/timelinemodel.cpp:7327
+#: src/timeline2/model/timelinemodel.cpp:7325
 #, kde-format
 msgid "Resize mix"
 msgstr "غيّر حجم مزج"
 
-#: src/timeline2/model/timelinemodel.cpp:7447
+#: src/timeline2/model/timelinemodel.cpp:7445
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "خطأ في بدء معاينة الخط الزمني"
@@ -19054,7 +19053,7 @@ msgstr "حرر اسم المسار"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "انقر لتكبير وتصغير أشكال الموجات الصوتية"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -21846,16 +21845,15 @@ msgstr "افصل بعد السطر الأول"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Hide Keyframes"
+#, kde-format
 msgid "Keyframes"
-msgstr "أخفِ الأطر الرئيسة"
+msgstr "أطر رئيسة"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "الحد الأدنى لفاصل الإطارات للإطارات الرئيسة التلقائية:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
@@ -21865,6 +21863,8 @@ msgid ""
 "the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"عند إضافة إطارات رئيسة تلقائية (على سبيل المثال في تأثير التحويل) أثناء "
+"تشغيل الشاشة، يكون هذا هو الحد الأدنى لفاصل الإطارات بين إطارين رئيسين."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
