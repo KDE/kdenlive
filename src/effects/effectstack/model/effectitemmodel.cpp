@@ -10,7 +10,7 @@
 #include "effectstackmodel.hpp"
 #include <utility>
 
-EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,
+EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Service> effect, const QDomElement &xml, const QString &effectId,
                                  const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled, QString originalDecimalPoint)
     : AbstractEffectItem(EffectItemType::Effect, effectData, stack, false, isEnabled)
     , AssetParameterModel(std::move(effect), xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId(), originalDecimalPoint)
@@ -30,7 +30,7 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_
         while (i.hasNext()) {
             i.next();
             for (const QString &name : names) {
-                i.value()->filter().set(name.toUtf8().constData(), m_asset->get(name.toUtf8().constData()));
+                i.value()->getAsset()->set(name.toUtf8().constData(), m_asset->get(name.toUtf8().constData()));
             }
         }
     });
@@ -42,19 +42,21 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     Q_ASSERT(EffectsRepository::get()->exists(effectId));
     QDomElement xml = EffectsRepository::get()->getXml(effectId);
 
-    std::unique_ptr<Mlt::Properties> effect = EffectsRepository::get()->getEffect(effectId);
+    std::unique_ptr<Mlt::Service> effect = EffectsRepository::get()->getEffect(effectId);
     effect->set("kdenlive_id", effectId.toUtf8().constData());
 
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
+    bool isLink = effect->type() == mlt_service_link_type;
 
     std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, stack, effectEnabled));
+    self->m_isLink = isLink;
 
     baseFinishConstruct(self);
     return self;
 }
 
-std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack,
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Service> effect, std::shared_ptr<AbstractTreeModel> stack,
                                                             const QString &originalDecimalPoint)
 {
     QString effectId = effect->get("kdenlive_id");
@@ -97,7 +99,13 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
 void EffectItemModel::plant(const std::weak_ptr<Mlt::Service> &service)
 {
     if (auto ptr = service.lock()) {
-        int ret = ptr->attach(filter());
+        int ret;
+        if (m_isLink) {
+            Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+            ret = fromChain.attach(link());
+        } else {
+            ret = ptr->attach(filter());
+        }
         Q_ASSERT(ret == 0);
     } else {
         qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
@@ -115,8 +123,8 @@ void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
             if (effName == m_assetId && filt->get_int("_kdenlive_processed") == 0) {
                 if (auto ptr2 = m_model.lock()) {
                     effect = EffectItemModel::construct(std::move(filt), ptr2, QString());
-                    if (filter().get_int("disable") == 1) {
-                        effect->filter().set("disable", 1);
+                    if (getAsset()->get_int("disable") == 1) {
+                        effect->getAsset()->set("disable", 1);
                     }
                     int childId = ptr->get_int("_childid");
                     if (childId == 0) {
@@ -155,7 +163,7 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int
             effect->setParameters(getAllParameters(), false);
             // ensure duplicated assets gets disabled if the original is
             if (disable || m_asset->get_int("disable") == 1) {
-                effect->filter().set("disable", 1);
+                effect->getAsset()->set("disable", 1);
             }
             int childId = ptr->get_int("_childid");
             if (childId == 0) {
@@ -163,7 +171,13 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int
                 ptr->set("_childid", childId);
             }
             m_childEffects.insert(childId, effect);
-            int ret = ptr->attach(effect->filter());
+            int ret;
+            if (m_isLink) {
+                Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+                ret = fromChain.attach(effect->link());
+            } else {
+                ret = ptr->attach(effect->filter());
+            }
             if (ret == 0 && target > -1) {
                 ptr->move_filter(ptr->count() - 1, target);
             }
@@ -178,7 +192,13 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int
 void EffectItemModel::unplant(const std::weak_ptr<Mlt::Service> &service)
 {
     if (auto ptr = service.lock()) {
-        int ret = ptr->detach(filter());
+        int ret = 0;
+        if (m_isLink) {
+            Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+            ret = fromChain.detach(link());
+        } else {
+            ret = ptr->detach(filter());
+        }
         Q_ASSERT(ret == 0);
     } else {
         qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
@@ -192,7 +212,13 @@ void EffectItemModel::unplantClone(const std::weak_ptr<Mlt::Service> &service)
         return;
     }
     if (auto ptr = service.lock()) {
-        int ret = ptr->detach(filter());
+        int ret = 0;
+        if (m_isLink) {
+            Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+            ret = fromChain.detach(link());
+        } else {
+            ret = ptr->detach(filter());
+        }
         Q_ASSERT(ret == 0);
         if (!ptr->property_exists("_childid")) {
             return;
@@ -200,7 +226,13 @@ void EffectItemModel::unplantClone(const std::weak_ptr<Mlt::Service> &service)
         int childId = ptr->get_int("_childid");
         auto effect = m_childEffects.take(childId);
         if (effect && effect->isValid()) {
-            ptr->detach(effect->filter());
+            int ret;
+            if (effect->m_isLink) {
+                Mlt::Chain fromChain(static_cast<Mlt::Producer *>(ptr.get())->parent());
+                ret = fromChain.detach(effect->link());
+            } else {
+                ret = ptr->detach(effect->filter());
+            }
             effect.reset();
         } else {
             qDebug() << "TRYING TO REMOVE INVALID EFFECT!!!!!!!";
@@ -211,9 +243,38 @@ void EffectItemModel::unplantClone(const std::weak_ptr<Mlt::Service> &service)
     }
 }
 
+int EffectItemModel::get_in() const
+{
+    return m_isLink ? link().get_in() : filter().get_in();
+}
+
+int EffectItemModel::get_out() const
+{
+    return m_isLink ? link().get_out() : filter().get_out();
+}
+
+int EffectItemModel::get_length() const
+{
+    return m_isLink ? link().get_length() : filter().get_length();
+}
+
+void EffectItemModel::set_in_and_out(int in, int out)
+{
+    if (m_isLink) {
+        link().set_in_and_out(in, out);
+    } else {
+        filter().set_in_and_out(in, out);
+    }
+}
+
 Mlt::Filter &EffectItemModel::filter() const
 {
     return *static_cast<Mlt::Filter *>(m_asset.get());
+}
+
+Mlt::Link &EffectItemModel::link() const
+{
+    return *static_cast<Mlt::Link *>(m_asset.get());
 }
 
 bool EffectItemModel::isValid() const
@@ -224,16 +285,16 @@ bool EffectItemModel::isValid() const
 void EffectItemModel::setBuiltIn()
 {
     m_builtIn = true;
-    filter().set("kdenlive:builtin", 1);
+    getAsset()->set("kdenlive:builtin", 1);
 }
 
 void EffectItemModel::updateEnable(bool updateTimeline)
 {
     bool enabled = isAssetEnabled();
     if (enabled) {
-        filter().clear("disable");
+        getAsset()->clear("disable");
     } else {
-        filter().set("disable", 1);
+        getAsset()->set("disable", 1);
     }
     if (updateTimeline && !isAudio()) {
         pCore->refreshProjectItem(m_ownerId);
@@ -249,23 +310,23 @@ void EffectItemModel::updateEnable(bool updateTimeline)
 
 void EffectItemModel::setCollapsed(bool collapsed)
 {
-    filter().set("kdenlive:collapsed", collapsed ? 1 : 0);
+    getAsset()->set("kdenlive:collapsed", collapsed ? 1 : 0);
 }
 
 bool EffectItemModel::isCollapsed() const
 {
-    return filter().get_int("kdenlive:collapsed") == 1;
+    return getAsset()->get_int("kdenlive:collapsed") == 1;
 }
 
 void EffectItemModel::setKeyframesHidden(bool hidden)
 {
     Fun undo = [this, hidden]() {
-        filter().set("kdenlive:kfrhidden", hidden ? 0 : 1);
+        getAsset()->set("kdenlive:kfrhidden", hidden ? 0 : 1);
         Q_EMIT hideKeyframesChange(hidden ? false : true);
         return true;
     };
     Fun redo = [this, hidden]() {
-        filter().set("kdenlive:kfrhidden", hidden ? 1 : 0);
+        getAsset()->set("kdenlive:kfrhidden", hidden ? 1 : 0);
         Q_EMIT hideKeyframesChange(hidden ? true : false);
         return true;
     };
@@ -275,17 +336,17 @@ void EffectItemModel::setKeyframesHidden(bool hidden)
 
 bool EffectItemModel::isKeyframesHidden() const
 {
-    return filter().get_int("kdenlive:kfrhidden") == 1;
+    return getAsset()->get_int("kdenlive:kfrhidden") == 1;
 }
 
 bool EffectItemModel::keyframesHiddenUnset() const
 {
-    return filter().property_exists("kdenlive:kfrhidden") == false;
+    return getAsset()->property_exists("kdenlive:kfrhidden") == false;
 }
 
 bool EffectItemModel::hasForcedInOut() const
 {
-    return filter().get_int("kdenlive:force_in_out") == 1 && filter().get_int("out") > 0;
+    return getAsset()->get_int("kdenlive:force_in_out") == 1 && getAsset()->get_int("out") > 0;
 }
 
 bool EffectItemModel::isAudio() const

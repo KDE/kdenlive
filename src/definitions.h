@@ -142,6 +142,8 @@ enum AssetType {
     Preferred,
     Video,
     Audio,
+    VideoLink,
+    AudioLink,
     Custom,
     CustomAudio,
     Template,

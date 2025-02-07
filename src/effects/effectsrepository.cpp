@@ -108,6 +108,11 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                     result.type = AssetListType::AssetType::Custom;
                 }
             }
+            QString mlt_type = base.attribute(QStringLiteral("mlt_type"), QString());
+            if (mlt_type == QLatin1String("link")) {
+                result.isLink = true;
+            }
+
             result.id = base.attribute(QStringLiteral("id"), QString());
             if (result.id.isEmpty()) {
                 result.id = QFileInfo(file_name).baseName();
@@ -156,7 +161,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         // Parse type information.
         // Video effect by default
         result.type = AssetListType::AssetType::Video;
-        QString type = currentEffect.attribute(QStringLiteral("type"), QString());
+        const QString type = currentEffect.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("audio")) {
             result.type = AssetListType::AssetType::Audio;
         } else if (type == QLatin1String("customVideo")) {
@@ -185,6 +190,10 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         }
         if (m_includedList.contains(result.mltId)) {
             result.included = true;
+        }
+        const QString mlt_type = currentEffect.attribute(QStringLiteral("mlt_type"), QString());
+        if (mlt_type == QLatin1String("link")) {
+            result.isLink = true;
         }
         customAssets[result.id] = result;
     }
@@ -237,11 +246,16 @@ bool EffectsRepository::isPreferred(const QString &effectId) const
     return m_preferred_list.contains(effectId);
 }
 
-std::unique_ptr<Mlt::Filter> EffectsRepository::getEffect(const QString &effectId) const
+std::unique_ptr<Mlt::Service> EffectsRepository::getEffect(const QString &effectId) const
 {
     Q_ASSERT(exists(effectId));
     QString service_name = m_assets.at(effectId).mltId;
     // We create the Mlt element from its name
+    qDebug() << "::: QUERYING EFFECT: " << effectId << " IS A LINK: " << m_assets.at(effectId).isLink;
+    if (m_assets.at(effectId).isLink) {
+        auto link = std::make_unique<Mlt::Link>(service_name.toLatin1().constData(), nullptr);
+        return link;
+    }
     auto filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile(), service_name.toLatin1().constData(), nullptr);
     return filter;
 }

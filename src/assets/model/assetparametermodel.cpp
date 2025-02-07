@@ -1643,7 +1643,7 @@ void AssetParameterModel::setProgress(int progress)
     Q_EMIT dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {AssetParameterModel::FilterProgressRole});
 }
 
-Mlt::Properties *AssetParameterModel::getAsset()
+Mlt::Properties *AssetParameterModel::getAsset() const
 {
     return m_asset.get();
 }

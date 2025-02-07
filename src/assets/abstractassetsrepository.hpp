@@ -53,6 +53,7 @@ protected:
     {
         QString id;    // identifier of the asset
         QString mltId; //"tag" of the asset, that is the name of the mlt service
+        bool isLink{false}; // If this effect is a mlt link instead of a mlt filter
         QString name, description, author, version_str;
         int version{};
         bool included{false};

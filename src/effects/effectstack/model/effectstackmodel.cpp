@@ -312,8 +312,8 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         QDomElement sub = document.createElement(QStringLiteral("effect"));
         sub.setAttribute(QStringLiteral("id"), sourceEffect->getAssetId());
-        int filterIn = sourceEffect->filter().get_int("in");
-        int filterOut = sourceEffect->filter().get_int("out");
+        int filterIn = sourceEffect->getAsset()->get_int("in");
+        int filterOut = sourceEffect->getAsset()->get_int("out");
         if (filterOut > filterIn) {
             sub.setAttribute(QStringLiteral("in"), filterIn);
             sub.setAttribute(QStringLiteral("out"), filterOut);
@@ -321,7 +321,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
         QStringList passProps{QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed"), QStringLiteral("kdenlive:builtin"),
                               QStringLiteral("kdenlive:hiddenbuiltin"), QStringLiteral("kdenlive:kfrhidden")};
         for (const QString &param : passProps) {
-            int paramVal = sourceEffect->filter().get_int(param.toUtf8().constData());
+            int paramVal = sourceEffect->getAsset()->get_int(param.toUtf8().constData());
             if (paramVal > 0) {
                 Xml::setXmlProperty(sub, param, QString::number(paramVal));
             }
@@ -346,15 +346,15 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(row));
     QDomElement sub = document.createElement(QStringLiteral("effect"));
     sub.setAttribute(QStringLiteral("id"), sourceEffect->getAssetId());
-    int filterIn = sourceEffect->filter().get_int("in");
-    int filterOut = sourceEffect->filter().get_int("out");
+    int filterIn = sourceEffect->getAsset()->get_int("in");
+    int filterOut = sourceEffect->getAsset()->get_int("out");
     if (filterOut > filterIn) {
         sub.setAttribute(QStringLiteral("in"), filterIn);
         sub.setAttribute(QStringLiteral("out"), filterOut);
     }
     QStringList passProps{QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed"), QStringLiteral("kdenlive:builtin")};
     for (const QString &param : passProps) {
-        int paramVal = sourceEffect->filter().get_int(param.toUtf8().constData());
+        int paramVal = sourceEffect->getAsset()->get_int(param.toUtf8().constData());
         if (paramVal > 0) {
             Xml::setXmlProperty(sub, param, QString::number(paramVal));
         }
@@ -436,8 +436,8 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         const QString in = node.attribute(QStringLiteral("in"));
         const QString out = node.attribute(QStringLiteral("out"));
         if (!out.isEmpty()) {
-            effect->filter().set("in", in.toUtf8().constData());
-            effect->filter().set("out", out.toUtf8().constData());
+            effect->getAsset()->set("in", in.toUtf8().constData());
+            effect->getAsset()->set("out", out.toUtf8().constData());
         }
         QMap<QString, std::pair<ParamType, bool>> keyframeParams = effect->getKeyframableParameters();
         QVector<QPair<QString, QVariant>> parameters;
@@ -465,7 +465,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         if (Xml::hasXmlProperty(node, QLatin1String("kdenlive:builtin"))) {
             effect->setBuiltIn();
             if (Xml::hasXmlProperty(node, QLatin1String("kdenlive:hiddenbuiltin"))) {
-                effect->filter().set("kdenlive:hiddenbuiltin", Xml::getXmlProperty(node, QLatin1String("kdenlive:hiddenbuiltin")).toInt());
+                effect->getAsset()->set("kdenlive:hiddenbuiltin", Xml::getXmlProperty(node, QLatin1String("kdenlive:hiddenbuiltin")).toInt());
             }
         }
         effect->setParameters(parameters);
@@ -479,25 +479,25 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
             m_fadeIns.insert(effect->getId());
             int duration = effect->filter().get_length() - 1;
-            effect->filter().set("in", currentIn);
-            effect->filter().set("out", currentIn + duration);
+            effect->getAsset()->set("in", currentIn);
+            effect->getAsset()->set("out", currentIn + duration);
             if (effectId.startsWith(QLatin1String("fade_"))) {
                 const QString keyframeString = Xml::getXmlProperty(node, QLatin1String("level\nalpha"));
                 const QChar mod = AssetParameterModel::getKeyframeType(keyframeString);
-                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                if (effect->getAsset()->get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
                     if (!mod.isNull()) {
                         QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
-                        effect->filter().set("level", val.toUtf8().constData());
+                        effect->getAsset()->set("level", val.toUtf8().constData());
                     } else {
-                        effect->filter().set("level", "0=0;-1=1");
+                        effect->getAsset()->set("level", "0=0;-1=1");
                     }
-                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                } else if (effect->getAsset()->get("level") == QLatin1String("1")) {
                     if (!mod.isNull()) {
                         QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
-                        effect->filter().set("alpha", val.toUtf8().constData());
+                        effect->getAsset()->set("alpha", val.toUtf8().constData());
                     } else {
-                        effect->filter().set("alpha", "0=0;-1=1");
+                        effect->getAsset()->set("alpha", "0=0;-1=1");
                     }
                 }
             }
@@ -505,25 +505,25 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             m_fadeOuts.insert(effect->getId());
             int duration = effect->filter().get_length() - 1;
             int filterOut = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
-            effect->filter().set("in", filterOut - duration);
-            effect->filter().set("out", filterOut);
+            effect->getAsset()->set("in", filterOut - duration);
+            effect->getAsset()->set("out", filterOut);
             if (effectId.startsWith(QLatin1String("fade_"))) {
                 const QString keyframeString = Xml::getXmlProperty(node, QLatin1String("level\nalpha"));
                 const QChar mod = AssetParameterModel::getKeyframeType(keyframeString);
-                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                if (effect->getAsset()->get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
                     if (!mod.isNull()) {
                         QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
-                        effect->filter().set("level", val.toUtf8().constData());
+                        effect->getAsset()->set("level", val.toUtf8().constData());
                     } else {
-                        effect->filter().set("level", "0=1;-1=0");
+                        effect->getAsset()->set("level", "0=1;-1=0");
                     }
-                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                } else if (effect->getAsset()->get("level") == QLatin1String("1")) {
                     if (!mod.isNull()) {
                         QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
-                        effect->filter().set("alpha", val.toUtf8().constData());
+                        effect->getAsset()->set("alpha", val.toUtf8().constData());
                     } else {
-                        effect->filter().set("alpha", "0=1;-1=0");
+                        effect->getAsset()->set("alpha", "0=1;-1=0");
                     }
                 }
             }
@@ -574,32 +574,32 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
     if (sourceEffect->isBuiltIn()) {
         effect->setBuiltIn();
     }
-    if (sourceEffect->filter().property_exists("kdenlive:kfrhidden")) {
-        effect->filter().set("kdenlive:kfrhidden", sourceEffect->filter().get_int("kdenlive:kfrhidden"));
+    if (sourceEffect->getAsset()->property_exists("kdenlive:kfrhidden")) {
+        effect->getAsset()->set("kdenlive:kfrhidden", sourceEffect->getAsset()->get_int("kdenlive:kfrhidden"));
     }
-    if (sourceEffect->filter().property_exists("kdenlive:collapsed")) {
-        effect->filter().set("kdenlive:collapsed", sourceEffect->filter().get_int("kdenlive:collapsed"));
+    if (sourceEffect->getAsset()->property_exists("kdenlive:collapsed")) {
+        effect->getAsset()->set("kdenlive:collapsed", sourceEffect->getAsset()->get_int("kdenlive:collapsed"));
     }
-    if (sourceEffect->filter().property_exists("kdenlive:builtin")) {
-        int builtin = sourceEffect->filter().get_int("kdenlive:builtin");
+    if (sourceEffect->getAsset()->property_exists("kdenlive:builtin")) {
+        int builtin = sourceEffect->getAsset()->get_int("kdenlive:builtin");
         if (builtin == 1 && !enabled && !KdenliveSettings::enableBuiltInEffects()) {
             // Ignore disabled builtin effects
             return false;
         }
         effect->setBuiltIn();
-        if (sourceEffect->filter().property_exists("kdenlive:hiddenbuiltin")) {
-            effect->filter().set("kdenlive:hiddenbuiltin", sourceEffect->filter().get_int("kdenlive:hiddenbuiltin"));
+        if (sourceEffect->getAsset()->property_exists("kdenlive:hiddenbuiltin")) {
+            effect->getAsset()->set("kdenlive:hiddenbuiltin", sourceEffect->getAsset()->get_int("kdenlive:hiddenbuiltin"));
         }
     }
     if (!enabled) {
-        effect->filter().set("disable", 1);
+        effect->getAsset()->set("disable", 1);
     }
     if (m_ownerId.type == KdenliveObjectType::TimelineTrack || m_ownerId.type == KdenliveObjectType::Master) {
-        effect->filter().set("in", 0);
-        effect->filter().set("out", pCore->getItemDuration(m_ownerId) - 1);
+        effect->getAsset()->set("in", 0);
+        effect->getAsset()->set("out", pCore->getItemDuration(m_ownerId) - 1);
     } else {
-        effect->filter().set("in", sourceEffect->filter().get_int("in"));
-        effect->filter().set("out", sourceEffect->filter().get_int("out"));
+        effect->getAsset()->set("in", sourceEffect->getAsset()->get_int("in"));
+        effect->getAsset()->set("out", sourceEffect->getAsset()->get_int("out"));
     }
     Fun local_undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
@@ -613,15 +613,15 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
         m_fadeIns.insert(effect->getId());
         int duration = effect->filter().get_length() - 1;
         int in = pCore->getItemIn(m_ownerId);
-        effect->filter().set("in", in);
-        effect->filter().set("out", in + duration);
+        effect->getAsset()->set("in", in);
+        effect->getAsset()->set("out", in + duration);
         roles << TimelineModel::FadeInRole;
     } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
         m_fadeOuts.insert(effect->getId());
         int duration = effect->filter().get_length() - 1;
         int out = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
-        effect->filter().set("in", out - duration);
-        effect->filter().set("out", out);
+        effect->getAsset()->set("in", out - duration);
+        effect->getAsset()->set("out", out);
         roles << TimelineModel::FadeOutRole;
     }
     bool res = local_redo();
@@ -702,7 +702,7 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
     QMapIterator<QString, QString> i(params);
     while (i.hasNext()) {
         i.next();
-        effect->filter().set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+        effect->getAsset()->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
     }
     if (params.contains(QLatin1String("kdenlive:builtin"))) {
         effect->setBuiltIn();
@@ -725,17 +725,17 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
         if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
             int duration = effect->filter().get_length() - 1;
             int in = pCore->getItemIn(m_ownerId);
-            effect->filter().set("in", in);
-            effect->filter().set("out", in + duration);
+            effect->getAsset()->set("in", in);
+            effect->getAsset()->set("out", in + duration);
             inFades++;
         } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
             /*int duration = effect->filter().get_length() - 1;
             int out = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
-            effect->filter().set("in", out - duration);
-            effect->filter().set("out", out);*/
+            effect->getAsset()->set("in", out - duration);
+            effect->getAsset()->set("out", out);*/
             outFades++;
         } else if (m_ownerId.type == KdenliveObjectType::TimelineTrack) {
-            effect->filter().set("out", pCore->getItemDuration(m_ownerId));
+            effect->getAsset()->set("out", pCore->getItemDuration(m_ownerId));
         }
         Fun update = [this, inFades, outFades]() {
             // TODO: only update if effect is fade or keyframe
@@ -815,12 +815,12 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 };
                 PUSH_LAMBDA(operation, redo);
                 PUSH_LAMBDA(reverse, undo);
-            } else if (effectDuration < oldEffectOut - oldEffectIn || (logUndo && effect->filter().get_int("_refout") > 0)) {
+            } else if (effectDuration < oldEffectOut - oldEffectIn || (logUndo && effect->getAsset()->get_int("_refout") > 0)) {
                 // Clip length changed, shorter than effect length so resize
-                int referenceEffectOut = effect->filter().get_int("_refout");
+                int referenceEffectOut = effect->getAsset()->get_int("_refout");
                 if (referenceEffectOut <= 0) {
                     referenceEffectOut = oldEffectOut;
-                    effect->filter().set("_refout", referenceEffectOut);
+                    effect->getAsset()->set("_refout", referenceEffectOut);
                 }
                 Fun operation = [effect, oldEffectIn, effectDuration, logUndo]() {
                     effect->setParameter(QStringLiteral("out"), oldEffectIn + effectDuration, logUndo);
@@ -833,7 +833,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 if (logUndo) {
                     Fun reverse = [effect, referenceEffectOut]() {
                         effect->setParameter(QStringLiteral("out"), referenceEffectOut, true);
-                        effect->filter().set("_refout", nullptr);
+                        effect->getAsset()->set("_refout", nullptr);
                         return true;
                     };
                     PUSH_LAMBDA(operation, redo);
@@ -844,12 +844,12 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             // Adjust fade out
             int effectDuration = qMin(fadeOutDuration, duration);
             int newFadeIn = out - effectDuration;
-            int oldFadeIn = effect->filter().get_int("in");
-            int oldOut = effect->filter().get_int("out");
-            int referenceEffectIn = effect->filter().get_int("_refin");
+            int oldFadeIn = effect->getAsset()->get_int("in");
+            int oldOut = effect->getAsset()->get_int("out");
+            int referenceEffectIn = effect->getAsset()->get_int("_refin");
             if (referenceEffectIn <= 0) {
                 referenceEffectIn = oldFadeIn;
-                effect->filter().set("_refin", referenceEffectIn);
+                effect->getAsset()->set("_refin", referenceEffectIn);
             }
             Fun operation = [effect, newFadeIn, out, logUndo]() {
                 effect->setParameter(QStringLiteral("in"), newFadeIn, false);
@@ -864,7 +864,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 Fun reverse = [effect, referenceEffectIn, oldOut]() {
                     effect->setParameter(QStringLiteral("in"), referenceEffectIn, false);
                     effect->setParameter(QStringLiteral("out"), oldOut, true);
-                    effect->filter().set("_refin", nullptr);
+                    effect->getAsset()->set("_refin", nullptr);
                     return true;
                 };
                 PUSH_LAMBDA(operation, redo);
@@ -872,7 +872,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             }
         } else {
             // Not a fade effect, check for keyframes
-            bool hasZone = effect->filter().get_int("kdenlive:force_in_out") == 1 && effect->filter().get_int("out");
+            bool hasZone = effect->getAsset()->get_int("kdenlive:force_in_out") == 1 && effect->getAsset()->get_int("out");
             std::shared_ptr<KeyframeModelList> keyframes = effect->getKeyframeModel();
             if (keyframes != nullptr) {
                 // Effect has keyframes, update these
@@ -889,7 +889,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 qDebug() << "// NULL Keyframes---------";
             }
             if (m_ownerId.type == KdenliveObjectType::TimelineTrack && !hasZone) {
-                int oldEffectOut = effect->filter().get_out();
+                int oldEffectOut = effect->get_out();
                 Fun operation = [effect, out, logUndo]() {
                     effect->setParameter(QStringLiteral("out"), out, logUndo);
                     return true;
@@ -907,12 +907,12 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     PUSH_LAMBDA(reverse, undo);
                 }
             } else if (m_ownerId.type == KdenliveObjectType::TimelineClip && effect->data(QModelIndex(), AssetParameterModel::RequiresInOut).toBool() == true) {
-                int oldEffectIn = qMax(0, effect->filter().get_in());
-                int oldEffectOut = effect->filter().get_out();
+                int oldEffectIn = qMax(0, effect->get_in());
+                int oldEffectOut = effect->get_out();
                 int newIn = pCore->getItemIn(m_ownerId);
                 int newOut = newIn + pCore->getItemDuration(m_ownerId) - 1;
                 Fun operation = [effect, newIn, newOut]() {
-                    effect->filter().set_in_and_out(newIn, newOut);
+                    effect->set_in_and_out(newIn, newOut);
                     qDebug() << "--new effect: " << newIn << "-" << newOut;
                     return true;
                 };
@@ -921,7 +921,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     return false;
                 }
                 Fun reverse = [effect, oldEffectIn, oldEffectOut]() {
-                    effect->filter().set_in_and_out(oldEffectIn, oldEffectOut);
+                    effect->set_in_and_out(oldEffectIn, oldEffectOut);
                     return true;
                 };
                 PUSH_LAMBDA(operation, redo);
@@ -956,31 +956,31 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             if (m_fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 if (oldDuration == -1) {
-                    oldDuration = effect->filter().get_length();
+                    oldDuration = effect->get_length();
                 }
-                effect->filter().set("in", in);
+                effect->getAsset()->set("in", in);
                 duration = qMin(pCore->getItemDuration(m_ownerId), duration);
-                effect->filter().set("out", in + duration);
+                effect->getAsset()->set("out", in + duration);
                 indexes << getIndexFromItem(effect);
-                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                if (effect->getAsset()->get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
-                    const QString current = effect->filter().get("level");
+                    const QString current = effect->getAsset()->get("level");
                     const QChar mod = AssetParameterModel::getKeyframeType(current);
                     if (!mod.isNull()) {
                         const QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
-                        effect->filter().set("level", val.toUtf8().constData());
+                        effect->getAsset()->set("level", val.toUtf8().constData());
                     } else {
-                        effect->filter().set("level", "0=0;-1=1");
+                        effect->getAsset()->set("level", "0=0;-1=1");
                     }
-                } else if (effect->filter().get("level") == QLatin1String("1")) {
+                } else if (effect->getAsset()->get("level") == QLatin1String("1")) {
                     // Adjust level value to match filter end
-                    const QString current = effect->filter().get("alpha");
+                    const QString current = effect->getAsset()->get("alpha");
                     const QChar mod = AssetParameterModel::getKeyframeType(current);
                     if (!mod.isNull()) {
                         const QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
-                        effect->filter().set("alpha", val.toUtf8().constData());
+                        effect->getAsset()->set("alpha", val.toUtf8().constData());
                     } else {
-                        effect->filter().set("alpha", "0=0;-1=1");
+                        effect->getAsset()->set("alpha", "0=0;-1=1");
                     }
                 }
             }
@@ -1020,30 +1020,30 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             if (m_fadeOuts.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 if (oldDuration == -1) {
-                    oldDuration = effect->filter().get_length();
+                    oldDuration = effect->get_length();
                 }
-                effect->filter().set("out", out);
+                effect->getAsset()->set("out", out);
                 duration = qMin(itemDuration, duration);
-                effect->filter().set("in", out - duration);
+                effect->getAsset()->set("in", out - duration);
                 indexes << getIndexFromItem(effect);
-                if (effect->filter().get("alpha") == QLatin1String("1")) {
+                if (effect->getAsset()->get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
-                    const QString current = effect->filter().get("level");
+                    const QString current = effect->getAsset()->get("level");
                     const QChar mod = AssetParameterModel::getKeyframeType(current);
                     if (!mod.isNull()) {
                         const QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
-                        effect->filter().set("level", val.toUtf8().constData());
+                        effect->getAsset()->set("level", val.toUtf8().constData());
                     } else {
-                        effect->filter().set("level", "0=1;-1=0");
+                        effect->getAsset()->set("level", "0=1;-1=0");
                     }
-                } else if (effect->filter().get("level") == QLatin1String("1")) {
-                    const QString current = effect->filter().get("alpha");
+                } else if (effect->getAsset()->get("level") == QLatin1String("1")) {
+                    const QString current = effect->getAsset()->get("alpha");
                     const QChar mod = AssetParameterModel::getKeyframeType(current);
                     if (!mod.isNull()) {
                         const QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
-                        effect->filter().set("alpha", val.toUtf8().constData());
+                        effect->getAsset()->set("alpha", val.toUtf8().constData());
                     } else {
-                        effect->filter().set("alpha", "0=1;-1=0");
+                        effect->getAsset()->set("alpha", "0=1;-1=0");
                     }
                 }
             }
@@ -1103,9 +1103,9 @@ int EffectStackModel::getFadeMethod(bool fromStart)
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (*(m_fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-                QString fadeData = effect->filter().get("alpha");
+                QString fadeData = effect->getAsset()->get("alpha");
                 if (!fadeData.contains(QLatin1Char('='))) {
-                    fadeData = effect->filter().get("level");
+                    fadeData = effect->getAsset()->get("level");
                     if (!fadeData.contains(QLatin1Char('='))) {
                         return 0;
                     }
@@ -1125,9 +1125,9 @@ int EffectStackModel::getFadeMethod(bool fromStart)
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (*(m_fadeOuts.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-                QString fadeData = effect->filter().get("alpha");
+                QString fadeData = effect->getAsset()->get("alpha");
                 if (!fadeData.contains(QLatin1Char('='))) {
-                    fadeData = effect->filter().get("level");
+                    fadeData = effect->getAsset()->get("level");
                     if (!fadeData.contains(QLatin1Char('='))) {
                         return 0;
                     }
@@ -1153,7 +1153,7 @@ int EffectStackModel::getFadePosition(bool fromStart)
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (*(m_fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-                return effect->filter().get_length() - 1;
+                return effect->get_length() - 1;
             }
         }
     } else {
@@ -1163,7 +1163,7 @@ int EffectStackModel::getFadePosition(bool fromStart)
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (*(m_fadeOuts.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-                return effect->filter().get_length() - 1;
+                return effect->get_length() - 1;
             }
         }
     }
@@ -1267,7 +1267,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         if (effectItem->data(QModelIndex(), AssetParameterModel::RequiresInOut).toBool() == true) {
             int in = pCore->getItemIn(m_ownerId);
             int out = in + pCore->getItemDuration(m_ownerId) - 1;
-            effectItem->filter().set_in_and_out(in, out);
+            effectItem->set_in_and_out(in, out);
         }
         if (!m_loadingExisting) {
             // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_childServices.size();
@@ -1482,7 +1482,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 effect = EffectItemModel::construct(std::move(filter), shared_from_this(), originalDecimalPoint);
             } else {
                 // duplicate effect
-                std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(effectId);
+                std::unique_ptr<Mlt::Service> asset = EffectsRepository::get()->getEffect(effectId);
                 asset->inherit(*(filter));
                 effect = EffectItemModel::construct(std::move(asset), shared_from_this(), originalDecimalPoint);
             }
@@ -1510,22 +1510,22 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             effect->prepareKeyframes(clipIn, clipOut);
             if (redo()) {
                 if (forcedInOut) {
-                    effect->filter().set_in_and_out(filterIn, filterOut);
+                    effect->set_in_and_out(filterIn, filterOut);
                 } else if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
                     m_fadeIns.insert(effect->getId());
-                    if (effect->filter().get_int("in") != clipIn) {
+                    if (effect->getAsset()->get_int("in") != clipIn) {
                         // Broken fade, fix
-                        int filterLength = effect->filter().get_length() - 1;
-                        effect->filter().set("in", clipIn);
-                        effect->filter().set("out", clipIn + filterLength);
+                        int filterLength = effect->get_length() - 1;
+                        effect->getAsset()->set("in", clipIn);
+                        effect->getAsset()->set("out", clipIn + filterLength);
                     }
                 } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
                     m_fadeOuts.insert(effect->getId());
-                    if (effect->filter().get_int("out") != clipOut) {
+                    if (effect->getAsset()->get_int("out") != clipOut) {
                         // Broken fade, fix
-                        int filterLength = effect->filter().get_length() - 1;
-                        effect->filter().set("in", clipOut - filterLength);
-                        effect->filter().set("out", clipOut);
+                        int filterLength = effect->get_length() - 1;
+                        effect->getAsset()->set("in", clipOut - filterLength);
+                        effect->getAsset()->set("out", clipOut);
                     }
                 }
             }
@@ -1727,7 +1727,7 @@ double EffectStackModel::getFilterParam(const QString &effectId, const QString &
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         if (effectId == sourceEffect->getAssetId()) {
-            return sourceEffect->filter().get_double(paramName.toUtf8().constData());
+            return sourceEffect->getAsset()->get_double(paramName.toUtf8().constData());
         }
     }
     return 0.0;
@@ -1885,7 +1885,7 @@ bool EffectStackModel::addEffectKeyFrame(int frame, double normalisedVal)
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
     if (m_ownerId.type == KdenliveObjectType::TimelineTrack) {
-        sourceEffect->filter().set("out", pCore->getItemDuration(m_ownerId));
+        sourceEffect->getAsset()->set("out", pCore->getItemDuration(m_ownerId));
     }
     return listModel->addKeyframe(frame, normalisedVal);
 }
@@ -1912,7 +1912,7 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant norma
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
     if (m_ownerId.type == KdenliveObjectType::TimelineTrack) {
-        sourceEffect->filter().set("out", pCore->getItemDuration(m_ownerId));
+        sourceEffect->getAsset()->set("out", pCore->getItemDuration(m_ownerId));
     }
     return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), std::move(normalisedVal));
 }
@@ -2097,8 +2097,8 @@ void EffectStackModel::appendAudioBuildInEffects()
     }
     QWriteLocker lock(&m_lock);
     auto effect = EffectItemModel::construct(QStringLiteral("volume"), shared_from_this(), false);
-    effect->filter().set("disable", 1);
-    effect->filter().set("kdenlive:kfrhidden", 1);
+    effect->getAsset()->set("disable", 1);
+    effect->getAsset()->set("kdenlive:kfrhidden", 1);
     effect->setBuiltIn();
     effect->prepareKeyframes();
     connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
@@ -2124,9 +2124,9 @@ void EffectStackModel::appendVideoBuildInEffects()
         QWriteLocker locker(&m_lock);
         std::shared_ptr<EffectItemModel> effect = EffectItemModel::construct(QStringLiteral("qtblend"), shared_from_this(), false);
         effect->prepareKeyframes();
-        effect->filter().set("disable", 1);
-        // effect->filter().set("kdenlive:kfrhidden", 1);
-        effect->filter().set("kdenlive:collapsed", 1);
+        effect->getAsset()->set("disable", 1);
+        // effect->getAsset()->set("kdenlive:kfrhidden", 1);
+        effect->getAsset()->set("kdenlive:collapsed", 1);
         effect->setBuiltIn();
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);

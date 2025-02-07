@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-<effect tag="freeze" id="freeze">
+<effect tag="freeze" id="freeze" mlt_type="link">
     <name context="Freeze Effect Name">Freeze</name>
     <description>Freeze video on a chosen frame</description>
     <author>Jean-Baptiste Mardelle</author>
