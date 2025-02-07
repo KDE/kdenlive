@@ -59,7 +59,7 @@ public Q_SLOTS:
     void slotInitMonitor(bool active, bool) override;
     /** @brief Activate a standard action passed from the mainwindow, like copy or paste */
     void sendStandardCommand(int command);
-    void slotAddRemove();
+    void slotAddRemove(bool addOnly);
     void slotGoToNext();
     void slotGoToPrev();
     void slotSetPosition(int pos = -1, bool update = true);
@@ -134,7 +134,7 @@ Q_SIGNALS:
     void updateEffectKeyframe(bool atkeyframe, bool outside);
     void goToNext();
     void goToPrevious();
-    void addRemove();
+    void addRemove(bool addOnly = false);
     void onCurveEditorView();
     void onKeyframeView();
 };

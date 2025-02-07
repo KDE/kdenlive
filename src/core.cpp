@@ -662,12 +662,12 @@ double Core::getCurrentFps() const
     return getCurrentProfile()->fps();
 }
 
-QSize Core::getCurrentFrameDisplaySize() const
+const QSize Core::getCurrentFrameDisplaySize() const
 {
     return {qRound(getCurrentProfile()->height() * getCurrentDar()), getCurrentProfile()->height()};
 }
 
-QSize Core::getCurrentFrameSize() const
+const QSize Core::getCurrentFrameSize() const
 {
     return {getCurrentProfile()->width(), getCurrentProfile()->height()};
 }

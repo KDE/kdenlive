@@ -177,7 +177,7 @@ Q_SIGNALS:
     void showGridChanged();
     void builtinEffectsEnabledChanged();
     void gridChanged();
-    void addRemoveKeyframe();
+    void addRemoveKeyframe(bool addOnly = false);
     /** @brief Seek to an effect keyframe
      *  @param ix the index of the keyframe we want to reach
      *  @param offset if offset != 0, the ix param is ignored and we seek to previous (-1) or next(+1) keyframe

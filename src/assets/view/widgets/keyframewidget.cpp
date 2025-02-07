@@ -795,16 +795,23 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
         // Next add keyframe at playhead position
         m_keyframes->addKeyframe(pos, KeyframeType::Linear);
         m_keyframes->updateKeyframe(pos, res, -1, index);
-    } else if (m_keyframes->hasKeyframe(getPosition()) || m_keyframes->singleKeyframe()) {
-        GenTime pos(getPosition(), pCore->getCurrentFps());
-        // Auto add keyframe only if there already is more than 1 keyframe
-        if (!m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == MonitorSceneType::MonitorSceneRoto &&
-            !m_keyframes->hasKeyframe(getPosition())) {
+        return;
+    }
+    int framePos = getPosition();
+    GenTime pos(framePos, pCore->getCurrentFps());
+    if (!m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == MonitorSceneType::MonitorSceneRoto) {
+        if (!m_keyframes->hasKeyframe(framePos)) {
+            // Auto add keyframe only if there already is more than 1 keyframe
             m_keyframes->addKeyframe(pos, KeyframeType::Linear);
+        } else if (m_monitorHelper && m_monitorHelper->isPlaying()) {
+            // Don't try to modify a keyframe when playing in roto monitor
+            return;
         }
+    }
+    if (m_keyframes->hasKeyframe(framePos) || m_keyframes->singleKeyframe()) {
         m_keyframes->updateKeyframe(pos, res, -1, index);
     } else {
-        qDebug() << "==== NO KFR AT: " << getPosition();
+        qDebug() << "==== NO KFR AT: " << framePos;
     }
 }
 
@@ -993,11 +1000,15 @@ void KeyframeWidget::slotImportKeyframes()
     import->show();
 }
 
-void KeyframeWidget::slotAddRemove()
+void KeyframeWidget::slotAddRemove(bool addOnly)
 {
     Q_EMIT activateEffect();
     int position = getPosition();
     if (m_keyframes->hasKeyframe(position)) {
+        if (addOnly) {
+            // Do nothing
+            return;
+        }
         QVector<int> selectedPositions;
         for (auto &kf : m_keyframes->selectedKeyframes()) {
             if (kf > 0) {
@@ -1012,7 +1023,8 @@ void KeyframeWidget::slotAddRemove()
         }
     } else {
         // when playing, limit the keyframe interval
-        if (m_monitorHelper && m_monitorHelper->isPlaying() && KdenliveSettings::limitAutoKeyframes() > 0) {
+        bool addOnPlay = m_monitorHelper && m_monitorHelper->isPlaying();
+        if (addOnPlay && KdenliveSettings::limitAutoKeyframes() > 0) {
             if (m_lastKeyframePos < 0) {
                 m_lastKeyframePos = position;
             } else if (position < m_lastKeyframePos) {
@@ -1025,7 +1037,7 @@ void KeyframeWidget::slotAddRemove()
                 m_lastKeyframePos = position;
             }
         }
-        if (slotAddKeyframe(position)) {
+        if (slotAddKeyframe(position) && !addOnPlay) {
             GenTime pos(position, pCore->getCurrentFps());
             int currentIx = m_keyframes->getIndexForPos(pos);
             if (currentIx > -1) {

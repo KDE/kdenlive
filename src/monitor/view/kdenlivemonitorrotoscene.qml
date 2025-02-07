@@ -102,7 +102,9 @@ Item {
         if (root.displayResize && !controller.autoKeyframe) {
             root.displayResize = false
         }
-        canvas.requestPaint()
+        if (!global.pressed) {
+            canvas.requestPaint()
+        }
     }
     onDisplayResizeChanged: {
         controller.setWidgetKeyBinding(root.displayResize ? resizeKeyBindInfo : defaultKeyBindInfo);
@@ -452,6 +454,9 @@ Item {
         anchors.fill: parent
         property bool pointContainsMouse
         property bool centerContainsMouse
+        property double lastMouseX
+        property double lastMouseY
+        property int lastMousePos
         hoverEnabled: true
         cursorShape: (!root.isDefined || pointContainsMouse || centerContainsMouse || addedPointIndex >= 0 || resizeContainsMouse > 0 ) ? Qt.PointingHandCursor : Qt.ArrowCursor
         onEntered: {
@@ -462,6 +467,10 @@ Item {
             } else {
                 controller.setWidgetKeyBinding(defaultKeyBindInfo);
             }
+        }
+        onPressed: mouse=> {
+            lastMouseX = mouse.x
+            lastMouseY = mouse.y
         }
         onExited: {
             controller.setWidgetKeyBinding()
@@ -536,13 +545,6 @@ Item {
         }
 
         onPositionChanged: mouse => {
-            if (pressed && root.iskeyframe == false) {
-                if (controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                } else {
-                    return;
-                }
-            }
             if (pressed) {
                 if (root.resizeContainsMouse > 0) {
                     // resizing shape
@@ -605,8 +607,15 @@ Item {
                 }
                 if (centerContainsMouse) {
                     // moving shape
-                    var xDiff = (mouseX - centerCross.x) / root.scalex
-                    var yDiff = (mouseY - centerCross.y) / root.scaley
+                    if (controller.position == lastMousePos && controller.autoKeyframe && controller.speed > 0) {
+                        // Don't try to update existing keyframe when playing
+                        return
+                    }
+                    var xDiff = (mouse.x - lastMouseX) / root.scalex
+                    var yDiff = (mouse.y - lastMouseY) / root.scaley
+                    lastMouseX = mouse.x
+                    lastMouseY = mouse.y
+                    lastMousePos = controller.position
                     for (var j = 0; j < root.centerPoints.length; j++) {
                         root.centerPoints[j].x += xDiff
                         root.centerPoints[j].y += yDiff

@@ -171,9 +171,9 @@ public:
     double getCurrentFps() const;
 
     /** @brief Returns the frame size (width x height) of current profile */
-    QSize getCurrentFrameSize() const;
+    const QSize getCurrentFrameSize() const;
     /** @brief Returns the frame display size (width x height) of current profile */
-    QSize getCurrentFrameDisplaySize() const;
+    const QSize getCurrentFrameDisplaySize() const;
     /** @brief Request project monitor refresh, and restore previously active monitor */
     void refreshProjectMonitorOnce(bool slowUpdate = false);
     /** @brief Request project monitor refresh if current position is inside range*/

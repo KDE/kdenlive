@@ -102,7 +102,7 @@ Q_SIGNALS:
     void activateEffect();
     void nextKeyframe();
     void previousKeyframe();
-    void addRemoveKeyframe();
+    void addRemoveKeyframe(bool addOnly = false);
     void saveEffect();
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);

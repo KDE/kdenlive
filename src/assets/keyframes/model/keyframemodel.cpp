@@ -1185,6 +1185,48 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     if (m_keyframeList.size() == 0) {
         return QVariant();
     }
+    if (m_paramType == ParamType::Roto_spline) {
+        // interpolate
+        auto next = m_keyframeList.upper_bound(pos);
+        if (next == m_keyframeList.cbegin()) {
+            return (m_keyframeList.cbegin())->second.second;
+        }
+        if (next == m_keyframeList.cend()) {
+            auto it = m_keyframeList.cend();
+            --it;
+            return it->second.second;
+        }
+        auto prev = next;
+        --prev;
+
+        const QSize frame = pCore->getCurrentFrameSize();
+        QList<BPoint> p1 = RotoHelper::getPoints(prev->second.second, frame);
+        QList<BPoint> p2 = RotoHelper::getPoints(next->second.second, frame);
+        // relPos should be in [0,1]:
+        // - equal to 0 on prev keyframe
+        // - equal to 1 on next keyframe
+        qreal relPos = 0;
+        if (next->first != prev->first) {
+            relPos = (pos.frames(pCore->getCurrentFps()) - prev->first.frames(pCore->getCurrentFps())) /
+                     qreal(((next->first - prev->first).frames(pCore->getCurrentFps())));
+        }
+        int count = qMin(p1.count(), p2.count());
+        QList<QVariant> vlist;
+        for (int i = 0; i < count; ++i) {
+            BPoint bp;
+            QList<QVariant> pl;
+            for (int j = 0; j < 3; ++j) {
+                if (p1.at(i)[j] != p2.at(i)[j]) {
+                    bp[j] = QLineF(p1.at(i)[j], p2.at(i)[j]).pointAt(relPos);
+                } else {
+                    bp[j] = p1.at(i)[j];
+                }
+                pl << QVariant(QList<QVariant>() << QVariant(bp[j].x() / frame.width()) << QVariant(bp[j].y() / frame.height()));
+            }
+            vlist << QVariant(pl);
+        }
+        return vlist;
+    }
     Mlt::Properties mlt_prop;
     QString animData;
     int out = 0;
@@ -1220,47 +1262,6 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         mlt_color mltColor = mlt_prop.anim_get_color("key", pos.frames(pCore->getCurrentFps()));
         QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
         return QVariant(QColorUtils::colorToString(color, true));
-    }
-    if (m_paramType == ParamType::Roto_spline) {
-        // interpolate
-        auto next = m_keyframeList.upper_bound(pos);
-        if (next == m_keyframeList.cbegin()) {
-            return (m_keyframeList.cbegin())->second.second;
-        } else if (next == m_keyframeList.cend()) {
-            auto it = m_keyframeList.cend();
-            --it;
-            return it->second.second;
-        }
-        auto prev = next;
-        --prev;
-
-        QSize frame = pCore->getCurrentFrameSize();
-        QList<BPoint> p1 = RotoHelper::getPoints(prev->second.second, frame);
-        QList<BPoint> p2 = RotoHelper::getPoints(next->second.second, frame);
-        // relPos should be in [0,1]:
-        // - equal to 0 on prev keyframe
-        // - equal to 1 on next keyframe
-        qreal relPos = 0;
-        if (next->first != prev->first) {
-            relPos = (pos.frames(pCore->getCurrentFps()) - prev->first.frames(pCore->getCurrentFps())) /
-                     qreal(((next->first - prev->first).frames(pCore->getCurrentFps())));
-        }
-        int count = qMin(p1.count(), p2.count());
-        QList<QVariant> vlist;
-        for (int i = 0; i < count; ++i) {
-            BPoint bp;
-            QList<QVariant> pl;
-            for (int j = 0; j < 3; ++j) {
-                if (p1.at(i)[j] != p2.at(i)[j]) {
-                    bp[j] = QLineF(p1.at(i)[j], p2.at(i)[j]).pointAt(relPos);
-                } else {
-                    bp[j] = p1.at(i)[j];
-                }
-                pl << QVariant(QList<QVariant>() << QVariant(bp[j].x() / frame.width()) << QVariant(bp[j].y() / frame.height()));
-            }
-            vlist << QVariant(pl);
-        }
-        return vlist;
     }
     return QVariant();
 }
