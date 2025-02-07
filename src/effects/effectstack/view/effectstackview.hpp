@@ -113,6 +113,7 @@ private:
 
 private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
+    void slotCollapseAllEffects(bool collapse);
     void slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height);
     void slotDeleteEffect(const std::shared_ptr<EffectItemModel> &effect);
     void loadEffects();

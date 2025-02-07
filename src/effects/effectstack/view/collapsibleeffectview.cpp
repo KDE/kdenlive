@@ -73,6 +73,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     m_collapse = new KDualAction(i18n("Collapse Effect"), i18n("Expand Effect"), this);
     m_collapse->setActiveIcon(QIcon::fromTheme(QStringLiteral("arrow-right")));
     collapseButton->setDefaultAction(m_collapse);
+    collapseButton->installEventFilter(this);
     m_collapse->setActive(m_model->isCollapsed());
     connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
     infoButton->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
@@ -382,6 +383,18 @@ void CollapsibleEffectView::slotUnGroup()
 
 bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
 {
+    if (o == collapseButton) {
+        if (e->type() == QEvent::MouseButtonPress) {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(e);
+            if (mouseEvent->modifiers() == Qt::ShiftModifier) {
+                // do what you need
+                bool doCollapse = m_collapse->isActive();
+                Q_EMIT collapseAllEffects(doCollapse);
+                return true;
+            }
+        }
+        return QWidget::eventFilter(o, e);
+    }
     if (e->type() == QEvent::Enter) {
         frame->setProperty("mouseover", true);
         frame->setStyleSheet(frame->styleSheet());
@@ -1148,4 +1161,9 @@ void CollapsibleEffectView::enableAndExpand()
     }
     m_collapse->setActive(false);
     Q_EMIT activateEffect(m_model->row());
+}
+
+void CollapsibleEffectView::collapseEffect(bool collapse)
+{
+    m_collapse->setActive(!collapse);
 }

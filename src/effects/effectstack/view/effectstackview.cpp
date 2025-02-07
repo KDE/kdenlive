@@ -459,6 +459,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
+        connect(view, &CollapsibleEffectView::collapseAllEffects, this, &EffectStackView::slotCollapseAllEffects);
         connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) { m_model->setActiveEffect(row); });
         connect(view, &CollapsibleEffectView::effectNamesUpdated, this,
                 [=]() { Q_EMIT m_model->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole}); });
@@ -573,6 +574,19 @@ void EffectStackView::startDrag(const QPixmap pix, const QString assetId, Object
     drag->setMimeData(mime);
     // Start the drag and drop operation
     drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+}
+
+void EffectStackView::slotCollapseAllEffects(bool collapse)
+{
+    for (int i = 0; i < m_model->rowCount(); ++i) {
+        QModelIndex ix = m_filter->mapFromSource(m_model->index(i, 0, QModelIndex()));
+        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        if (w) {
+            w->collapseEffect(collapse);
+        } else {
+            qDebug() << " / / / EFFECT ROW: " << i << " NOT FOUND!!";
+        }
+    }
 }
 
 void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int newHeight)

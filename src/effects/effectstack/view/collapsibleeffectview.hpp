@@ -78,6 +78,8 @@ public:
     QPixmap getDragPixmap() const;
     /** @brief Get the asset id */
     const QString getAssetId() const;
+    /** @brief Collapse / expand the effect */
+    void collapseEffect(bool collapse);
 
 public Q_SLOTS:
     void slotSyncEffectsPos(int pos);
@@ -169,5 +171,7 @@ Q_SIGNALS:
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     /** @brief A built in effect was enabled/disabled, udate effect names. */
     void effectNamesUpdated();
+    /** @brief Collapse / Expand all effects in the stack. */
+    void collapseAllEffects(bool collapse);
     void refresh();
 };
