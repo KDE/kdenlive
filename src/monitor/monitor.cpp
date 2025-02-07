@@ -2568,7 +2568,6 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
         m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
         if (m_id == Kdenlive::ClipMonitor) {
-            QObject::connect(root, SIGNAL(endDrag()), pCore.get(), SIGNAL(processDragEnd()), Qt::UniqueConnection);
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
