@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-07 00:42+0000\n"
+"POT-Creation-Date: 2025-02-08 00:40+0000\n"
 "PO-Revision-Date: 2025-02-02 21:24+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -4542,7 +4542,7 @@ msgstr "efektua"
 msgid "Reset %1"
 msgstr "Berrezarri %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1375
+#: src/assets/keyframes/model/keyframemodel.cpp:1376
 #, kde-format
 msgid "Reset effect"
 msgstr "Berrabiarazi efektua"
@@ -4641,7 +4641,7 @@ msgid "Failed to load preset %1"
 msgstr "%1 aurrezarpena zamatzea huts egin du"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:283
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:284
 #, kde-format
 msgid "Reset Effect"
 msgstr "Berrabiarazi Efektua"
@@ -4938,7 +4938,7 @@ msgstr ""
 "parametroak gako-fotogramarik hautatuta ez badago."
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:937
+#: src/assets/view/widgets/keyframewidget.cpp:944
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Itsatsi gako-fotograma"
@@ -5051,41 +5051,41 @@ msgstr "X kokapena"
 msgid "Select parameters to copy"
 msgstr "Hautatu kopiatu beharreko parametroak"
 
-#: src/assets/view/widgets/keyframewidget.cpp:842
+#: src/assets/view/widgets/keyframewidget.cpp:849
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Gako-fotogramak kopiatu dira"
 
-#: src/assets/view/widgets/keyframewidget.cpp:853
-#: src/assets/view/widgets/keyframewidget.cpp:894
+#: src/assets/view/widgets/keyframewidget.cpp:860
 #: src/assets/view/widgets/keyframewidget.cpp:901
+#: src/assets/view/widgets/keyframewidget.cpp:908
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Arbelean ez dago gako-fotogramen datu baliodunik"
 
-#: src/assets/view/widgets/keyframewidget.cpp:945
+#: src/assets/view/widgets/keyframewidget.cpp:952
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Ezin dira uneko parametroaren balioak kopiatu"
 
-#: src/assets/view/widgets/keyframewidget.cpp:950
-#: src/assets/view/widgets/keyframewidget.cpp:961
+#: src/assets/view/widgets/keyframewidget.cpp:957
+#: src/assets/view/widgets/keyframewidget.cpp:968
 #, kde-format
 msgid "Current values copied"
 msgstr "Uneko balioak kopiatu dira"
 
-#: src/assets/view/widgets/keyframewidget.cpp:973
+#: src/assets/view/widgets/keyframewidget.cpp:980
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "Arbelean ez dago gako-fotogramen datu baliodunik"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1049
+#: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Ezin da azken gako-fotograma ezabatu"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1061
+#: src/assets/view/widgets/keyframewidget.cpp:1073
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -6362,7 +6362,7 @@ msgstr "Inportatu fitxategia klik bikoitza egitean"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:588
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6543,8 +6543,8 @@ msgid "Move subtitle"
 msgstr "Mugitu azpidatzia"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
-#: src/effects/effectstack/view/effectstackview.cpp:774
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:615
+#: src/effects/effectstack/view/effectstackview.cpp:788
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -7513,8 +7513,8 @@ msgstr "Esportatu Gidalerroen datuak"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:418
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:678
-#: src/effects/effectstack/view/effectstackview.cpp:812
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:691
+#: src/effects/effectstack/view/effectstackview.cpp:826
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -11012,72 +11012,72 @@ msgstr "Efektua tolestu"
 msgid "Expand Effect"
 msgstr "Zabaldu efektu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:79
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:80
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Ireki efektuen dokumentazioa arakatzailean"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:106
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Gaitu gako-fotogramak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Ezkutatu gako-fotogramak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Erakutsi gako-fotogramak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Gako-fotogramaren erregela erakustea eragiten du."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
 #, kde-format
 msgid "Disable Effect"
 msgstr "Desgaitu efektua"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
 #, kde-format
 msgid "Enable Effect"
 msgstr "Gaitu efektu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 "Efektua ezgaitzen du. Erabilgarria aurreko eta ondoko ezarpenak alderatzeko."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 "Efektua gaitzen du. Erabilgarria aurreko eta ondoko ezarpenak alderatzeko."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:148
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:149
 #, kde-format
 msgid "Create Group"
 msgstr "Sortu taldea"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:155
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:156
 #, kde-format
 msgid "In:"
 msgstr "Sarrera:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:161
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:162
 #, kde-format
 msgid "Set zone in"
 msgstr "Ezarri eskualdearen sarrera"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:162
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
@@ -11085,17 +11085,17 @@ msgstr ""
 "Uneko fotograma/erreprodukzio-kurtsorearen kokapena eskualdearen hasiera "
 "gisa ezartzen du."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:167
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:168
 #, kde-format
 msgid "Out:"
 msgstr "Irteera:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
 #, kde-format
 msgid "Set zone out"
 msgstr "Ezarri eskualdearen irteera"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
@@ -11103,12 +11103,12 @@ msgstr ""
 "Uneko fotograma/erreprodukzio-kurtsorearen kokapena eskualdearen amaiera "
 "gisa ezartzen du."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:210
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:211
 #, kde-format
 msgid "Use effect zone"
 msgstr "Erabili efektuaren zonaldea"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:211
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -11116,13 +11116,13 @@ msgstr "Efektu eskualdea azaltzea txandakatzen du."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Aurrezarpenak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -11130,23 +11130,23 @@ msgstr ""
 "Efektuaren aurrezarpenak kudeatzeko aukera aurreratuen zerrenda bat "
 "irekitzen du."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:301
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
 #, kde-format
 msgid "Delete effect"
 msgstr "Kendu efektua"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Efektua efektu-pilatik ezabatzen du."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:350
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:351
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "taldean efektu horren %1 instantzia daude"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:524
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -11157,28 +11157,28 @@ msgstr ""
 "klip batera hura kopiatzeko. <b>Alt + Arrastatu</b> talde bateko elementu "
 "bakarrean kopiatzeko."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:535
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 desgaitu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:535
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
 #, kde-format
 msgid "Enable %1"
 msgstr "Gaitu %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:571
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Gorde Efektua"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:589
 #, kde-format
 msgid "Comments:"
 msgstr "Iruzkinak:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:591
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:604
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Ez da izenik eman, ez da efektua gorde."
@@ -11198,47 +11198,47 @@ msgstr "Iraultze bertikala"
 msgid "Flip"
 msgstr "Irauli"
 
-#: src/effects/effectstack/view/effectstackview.cpp:692
+#: src/effects/effectstack/view/effectstackview.cpp:706
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Gaitu efektu-pila"
 
-#: src/effects/effectstack/view/effectstackview.cpp:692
+#: src/effects/effectstack/view/effectstackview.cpp:706
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Ezgaitu efektu-pila"
 
-#: src/effects/effectstack/view/effectstackview.cpp:731
+#: src/effects/effectstack/view/effectstackview.cpp:745
 #, kde-format
 msgid "No effect selected."
 msgstr "Ez da efekturik hautatu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:737
+#: src/effects/effectstack/view/effectstackview.cpp:751
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Gorde uneko efektu-pila"
 
-#: src/effects/effectstack/view/effectstackview.cpp:742
+#: src/effects/effectstack/view/effectstackview.cpp:756
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Gordetako pilarentzako izena:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:743
+#: src/effects/effectstack/view/effectstackview.cpp:757
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Deskribapena:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:755
+#: src/effects/effectstack/view/effectstackview.cpp:769
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Ez da izenik eman, ez da efektu-pila gorde."
 
-#: src/effects/effectstack/view/effectstackview.cpp:762
+#: src/effects/effectstack/view/effectstackview.cpp:776
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -15135,7 +15135,7 @@ msgid "Move Toolbar"
 msgstr "Tresna-barra mugitu"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:169
-#: src/monitor/view/kdenliveclipmonitor.qml:171
+#: src/monitor/view/kdenliveclipmonitor.qml:170
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15151,34 +15151,34 @@ msgstr ""
 "zoom egiteko"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:537
-#: src/monitor/view/kdenliveclipmonitor.qml:560
+#: src/monitor/view/kdenliveclipmonitor.qml:559
 #: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:593
+#: src/monitor/view/kdenliveclipmonitor.qml:592
 #, kde-format
 msgid "In/Out Point"
 msgstr "Sarrera/Irteera puntua"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:570
-#: src/monitor/view/kdenliveclipmonitor.qml:593
+#: src/monitor/view/kdenliveclipmonitor.qml:592
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr "Sarrera puntua"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:592
-#: src/monitor/view/kdenliveclipmonitor.qml:615
+#: src/monitor/view/kdenliveclipmonitor.qml:614
 #: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr "Irteera puntua"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:759
-#: src/monitor/view/kdenliveclipmonitor.qml:782
+#: src/monitor/view/kdenliveclipmonitor.qml:788
 #, kde-format
 msgid "Terminate Job"
 msgstr "Amaitu ataza"
@@ -15273,7 +15273,7 @@ msgstr ""
 "<shortcut>Shift arrastatu heldulekua</shortcut> zentroan oinarritutako  "
 "tamaina aldaketarako"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:436
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:438
 #, kde-format
 msgid ""
 "Click to add points,\n"
