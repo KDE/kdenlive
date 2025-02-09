@@ -2048,8 +2048,16 @@ void TitleWidget::itemHCenter()
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsItem *item = l.at(0);
+        int offset = 0;
+        if (item->type() == QGraphicsTextItem::Type) {
+            MyTextItem *titem = static_cast<MyTextItem *>(item);
+            if (titem) {
+                auto font = titem->font();
+                offset = int(font.letterSpacing());
+            }
+        }
         QRectF br = item->sceneBoundingRect();
-        int width = int(br.width());
+        int width = int(br.width()) - offset;
         int newPos = (m_frameWidth - width) / 2;
         newPos += int(item->pos().x() - br.left()); // Check item transformation
         item->setPos(newPos, item->pos().y());
