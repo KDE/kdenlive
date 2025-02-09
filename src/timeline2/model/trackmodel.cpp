@@ -2303,9 +2303,12 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString, QVector<QPair<QStrin
         int duration = info.firstClipInOut.second - info.secondClipInOut.first;
         int out = in + duration;
         movedClip->setMixDuration(duration, info.mixOffset);
-        std::unique_ptr<Mlt::Transition> t;
         const QString assetId = params.first;
-        t = std::make_unique<Mlt::Transition>(pCore->getProjectProfile().get_profile(), assetId.toUtf8().constData());
+        std::unique_ptr<Mlt::Transition> t = TransitionsRepository::get()->getTransition(assetId);
+        if (!t) {
+            qDebug() << "== COULD NOT CREATE MIX: " << assetId;
+            return false;
+        }
         t->set_in_and_out(in, out);
         t->set("kdenlive:mixcut", info.mixOffset);
         t->set("kdenlive_id", assetId.toUtf8().constData());
