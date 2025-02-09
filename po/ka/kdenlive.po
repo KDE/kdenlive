@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-08 00:40+0000\n"
-"PO-Revision-Date: 2025-02-02 05:11+0100\n"
+"PO-Revision-Date: 2025-02-08 04:10+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -5036,10 +5036,9 @@ msgid "Current values copied"
 msgstr "მიმდინარე მნიშვნელობები კოპირებულია"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "ბუფერში სწორი საკვანძო კადრის მონაცემები არაა"
+msgstr "ბუფერში საკვანძო კადრის მონაცემები არაა"
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -14637,11 +14636,9 @@ msgid "Pink"
 msgstr "ვარდისფერი"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "პატარა უჯრედში"
+msgstr "ჭადრაკის დაფა"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-08 00:40+0000\n"
-"PO-Revision-Date: 2025-02-02 08:49+0100\n"
+"PO-Revision-Date: 2025-02-07 09:40+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5102,10 +5102,9 @@ msgid "Current values copied"
 msgstr "S'ha copiat els valors actuals"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "No hi ha cap dada vàlida de fotograma clau en el porta-retalls"
+msgstr "No hi ha cap dada de fotograma clau al porta-retalls"
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -14802,11 +14801,9 @@ msgid "Pink"
 msgstr "Rosa"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Tauler d'escacs xicotet"
+msgstr "Tauler d'escacs"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
