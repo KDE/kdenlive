@@ -1996,7 +1996,6 @@ void MainWindow::setupActions()
 
     // Setup effects and transitions actions.
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
-    // m_transitions = new QAction*[transitions.count()];
     auto allTransitions = TransitionsRepository::get()->getNames();
     for (const auto &transition : std::as_const(allTransitions)) {
         auto *transAction = new QAction(transition.first, this);
