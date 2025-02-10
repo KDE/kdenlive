@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-08 00:40+0000\n"
+"POT-Creation-Date: 2025-02-10 00:40+0000\n"
 "PO-Revision-Date: 2025-02-07 09:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -6030,7 +6030,7 @@ msgstr ""
 "Harici başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık "
 "dosyasına mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
 
-#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2251
+#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2259
 #, kde-format
 msgid "Save Title"
 msgstr "Başlığı Kaydet"
@@ -7492,7 +7492,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5149
 #: src/timeline2/view/timelinecontroller.cpp:5154
-#: src/titler/titlewidget.cpp:2264
+#: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Dosyaya yazılamadı: %1"
@@ -13702,7 +13702,7 @@ msgstr "Yeniden Oluştur"
 
 #: src/mainwindow.cpp:2147 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2247
+#: src/titler/titlewidget.cpp:2255
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -19486,7 +19486,7 @@ msgid "No available stream"
 msgstr "Kullanılabilir akış yok"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
+#: src/titler/titlewidget.cpp:3322 src/titler/titlewidget.cpp:3325
 #, kde-format
 msgid "Gradient %1"
 msgstr "%1 gradyan"
@@ -19787,17 +19787,17 @@ msgstr "−Y"
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2198
+#: src/titler/titlewidget.cpp:2206
 #, kde-format
 msgid "Load Title"
 msgstr "Başlık Yükle"
 
-#: src/titler/titlewidget.cpp:2199
+#: src/titler/titlewidget.cpp:2207
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive başlığı"
 
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2253
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -19806,57 +19806,57 @@ msgstr ""
 "Görselleri bu BaşlıkBelgesi’ne gömmek istiyor musunuz?\n"
 "Bu Başlıkları paylaşmak için en çok gerekli şeydir."
 
-#: src/titler/titlewidget.cpp:2246
+#: src/titler/titlewidget.cpp:2254
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Görseller Göm"
 
-#: src/titler/titlewidget.cpp:2301
+#: src/titler/titlewidget.cpp:2309
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Bu başlıkta 1 eksik öge var"
 msgstr[1] "Bu başlıkta %1 eksik öge var"
 
-#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2310 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Ayrıntılar"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2313
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Eksik ögeleri sil"
 
-#: src/titler/titlewidget.cpp:2365
+#: src/titler/titlewidget.cpp:2373
 #, kde-format
 msgid "Update Title"
 msgstr "Başlığı Güncelle"
 
-#: src/titler/titlewidget.cpp:2368
+#: src/titler/titlewidget.cpp:2376
 #, kde-format
 msgid "Add as new Title"
 msgstr "Yeni başlık olarak ekle"
 
-#: src/titler/titlewidget.cpp:2422
+#: src/titler/titlewidget.cpp:2430
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Aşağıdaki dosyalar eksik:"
 
-#: src/titler/titlewidget.cpp:2616
+#: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Görüş Alanını Başlat"
 
-#: src/titler/titlewidget.cpp:2617
+#: src/titler/titlewidget.cpp:2625
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Görüş Alanını Sonlandır"
 
-#: src/titler/titlewidget.cpp:3347
+#: src/titler/titlewidget.cpp:3355
 #, kde-format
 msgid "Gradient"
 msgstr "Gradyan"

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-08 00:40+0000\n"
-"PO-Revision-Date: 2025-02-03 09:25+0100\n"
+"POT-Creation-Date: 2025-02-10 00:40+0000\n"
+"PO-Revision-Date: 2025-02-08 09:41+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -5124,10 +5124,9 @@ msgid "Current values copied"
 msgstr "Valeurs courantes copiées"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "Aucune donnée valable de trames clé dans le presse-papier"
+msgstr "Aucune donnée de trames clé dans le presse-papier"
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -6120,7 +6119,7 @@ msgstr ""
 "modifications dans le fichier titre ou enregistrer les modifications pour ce "
 "projet seulement ?"
 
-#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2251
+#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2259
 #, kde-format
 msgid "Save Title"
 msgstr "Enregistrer le titre"
@@ -7603,7 +7602,7 @@ msgstr "Exporter des données de guides"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5149
 #: src/timeline2/view/timelinecontroller.cpp:5154
-#: src/titler/titlewidget.cpp:2264
+#: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Impossible d'écrire dans le fichier %1"
@@ -13924,7 +13923,7 @@ msgstr "Re-créer"
 
 #: src/mainwindow.cpp:2147 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2247
+#: src/titler/titlewidget.cpp:2255
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -14902,11 +14901,9 @@ msgid "Pink"
 msgstr "Rose"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Petit damier"
+msgstr "Damier"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -19811,7 +19808,7 @@ msgid "No available stream"
 msgstr "Aucun flux disponible"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
+#: src/titler/titlewidget.cpp:3322 src/titler/titlewidget.cpp:3325
 #, kde-format
 msgid "Gradient %1"
 msgstr "Dégradé %1"
@@ -20114,17 +20111,17 @@ msgstr "−Y"
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2198
+#: src/titler/titlewidget.cpp:2206
 #, kde-format
 msgid "Load Title"
 msgstr "Charger le titre"
 
-#: src/titler/titlewidget.cpp:2199
+#: src/titler/titlewidget.cpp:2207
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Titre sous Kdenlive"
 
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2253
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -20133,57 +20130,57 @@ msgstr ""
 "Voulez-vous embarquer les images dans ce document de titrage ? Ceci est "
 "nécessaire pour partager des titrages"
 
-#: src/titler/titlewidget.cpp:2246
+#: src/titler/titlewidget.cpp:2254
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Intégrer des images"
 
-#: src/titler/titlewidget.cpp:2301
+#: src/titler/titlewidget.cpp:2309
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Il manque un élément au titre"
 msgstr[1] "Il manque %1 éléments au titre"
 
-#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2310 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Détails"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2313
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Supprimer les éléments manquants"
 
-#: src/titler/titlewidget.cpp:2365
+#: src/titler/titlewidget.cpp:2373
 #, kde-format
 msgid "Update Title"
 msgstr "Mettre à jour le titre"
 
-#: src/titler/titlewidget.cpp:2368
+#: src/titler/titlewidget.cpp:2376
 #, kde-format
 msgid "Add as new Title"
 msgstr "Ajouter comme nouveau titre"
 
-#: src/titler/titlewidget.cpp:2422
+#: src/titler/titlewidget.cpp:2430
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Les fichiers suivants manquent :"
 
-#: src/titler/titlewidget.cpp:2616
+#: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Démarrer Viewport"
 
-#: src/titler/titlewidget.cpp:2617
+#: src/titler/titlewidget.cpp:2625
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Fermer Viewport"
 
-#: src/titler/titlewidget.cpp:3347
+#: src/titler/titlewidget.cpp:3355
 #, kde-format
 msgid "Gradient"
 msgstr "Dégradé"

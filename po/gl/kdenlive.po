@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-08 00:40+0000\n"
-"PO-Revision-Date: 2025-01-30 08:32+0100\n"
+"POT-Creation-Date: 2025-02-10 00:40+0000\n"
+"PO-Revision-Date: 2025-02-09 14:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -650,6 +650,9 @@ msgid ""
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors.]]>"
 msgstr ""
+"<![CDATA[Porcentaxe de desviación do valor seleccionado de cor.<br>\n"
+"        A menor valor, máis próximas están as cores á seleccionada; a maior "
+"valor, inclúense máis cores.]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -2760,6 +2763,10 @@ msgid ""
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[Ao animar propiedades con fotogramas clave e a opción de "
+"<em>desactivar a repetición</em> está desactivada,<br>\n"
+"\t    se a animación alterna entre inversións e adiantos por cada "
+"repetición.]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
 #, kde-format
@@ -2774,6 +2781,10 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"<![CDATA[Se inverter os valores de <em>escala en X</em> e <em>escala en "
+"Y<em>.<br>\n"
+"        Isto axuda a dar xeito á interpolación da animación, porque senón os "
+"valores da escala non se animal de maneira lineal.]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -2989,28 +3000,27 @@ msgstr "Podar un fragmento nos tres eixes."
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Podar o ángulo arredor do eixe X.]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Podar o ángulo arredor do eixe Y.]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Podar X"
+msgstr "Podar Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[Podar o ángulo arredor do eixe Z.]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desprazamento no eixe Y.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4998,10 +5008,9 @@ msgid "Default Keyframe Type"
 msgstr "Tipo predeterminado de fotograma clave"
 
 #: src/assets/view/widgets/keyframewidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Fotogramas clave automáticos"
+msgstr "Limitar os fotogramas clave automáticos."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:228 src/bin/bin.cpp:1343
@@ -5071,10 +5080,9 @@ msgid "Current values copied"
 msgstr "Copiáronse os valores actuais"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "Non hai datos de fotogramas clave válidos no portapapeis"
+msgstr "Non hai datos de fotogramas clave no portapapeis."
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -6056,7 +6064,7 @@ msgstr ""
 "Está a editar un fragmento de título externo (%1). Quere gardar os cambios "
 "no ficheiro do título ou gardar os cambios só para este proxecto?"
 
-#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2251
+#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2259
 #, kde-format
 msgid "Save Title"
 msgstr "Gardar o título"
@@ -7525,7 +7533,7 @@ msgstr "Exportar os datos das guías"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5149
 #: src/timeline2/view/timelinecontroller.cpp:5154
-#: src/titler/titlewidget.cpp:2264
+#: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Non é posíbel escribir no ficheiro %1"
@@ -11260,19 +11268,17 @@ msgstr "Configure o complemento SAM2."
 #: src/effects/effectstack/view/maskmanager.cpp:162
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "Exportando os fotogramas de vídeo para analizalos…"
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Xerando a máscara de vídeo"
+msgstr "Exportando os fotogramas de vídeo…"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Fragmento orixinal ausente"
+msgstr "Faltan fotogramas orixinais."
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11511,10 +11517,9 @@ msgid "Failed to analyse video."
 msgstr "Non foi posíbel analizar o vídeo."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "Non foi posíbel crear o fragmento proxy."
+msgstr "Non foi posíbel procesar a lista de reprodución."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -12802,10 +12807,9 @@ msgid "Multicam Tool"
 msgstr "Ferramenta de varias cámaras"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Filtro de onda sonora"
+msgstr "Ampliar as ondas sonoras"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -13445,11 +13449,9 @@ msgid "Clip in Project Bin"
 msgstr "Fragmento na caixa do proxecto"
 
 #: src/mainwindow.cpp:1757
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Buscar no pendente…"
+msgstr "Buscar no fragmento da caixa…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1759 src/ui/cutjobdialog_ui.ui:18
@@ -13791,7 +13793,7 @@ msgstr "Crear de novo"
 
 #: src/mainwindow.cpp:2147 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2247
+#: src/titler/titlewidget.cpp:2255
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -14760,11 +14762,9 @@ msgid "Pink"
 msgstr "Rosa"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Taboleiro de xadrez pequeno"
+msgstr "Taboleiro de xadrez"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -19278,7 +19278,7 @@ msgstr "Editar o nome da pista"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "Prema para cambiar a ampliación das ondas sonoras."
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -19635,7 +19635,7 @@ msgid "No available stream"
 msgstr "Non hai ningún fluxo dispoñíbel"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
+#: src/titler/titlewidget.cpp:3322 src/titler/titlewidget.cpp:3325
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradación %1"
@@ -19937,17 +19937,17 @@ msgstr "−Y"
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2198
+#: src/titler/titlewidget.cpp:2206
 #, kde-format
 msgid "Load Title"
 msgstr "Cargar título"
 
-#: src/titler/titlewidget.cpp:2199
+#: src/titler/titlewidget.cpp:2207
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Título de Kdenlive"
 
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2253
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -19956,57 +19956,57 @@ msgstr ""
 "Quere incorporar imaxes a este documento de título?\n"
 "Isto é moi necesario para compartir títulos."
 
-#: src/titler/titlewidget.cpp:2246
+#: src/titler/titlewidget.cpp:2254
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Incrustar as imaxes"
 
-#: src/titler/titlewidget.cpp:2301
+#: src/titler/titlewidget.cpp:2309
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Ao título fáltalle 1 elemento"
 msgstr[1] "Ao título fáltanlle %1 elementos"
 
-#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2310 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detalles"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2313
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Eliminar os elementos que faltan"
 
-#: src/titler/titlewidget.cpp:2365
+#: src/titler/titlewidget.cpp:2373
 #, kde-format
 msgid "Update Title"
 msgstr "Actualizar o título"
 
-#: src/titler/titlewidget.cpp:2368
+#: src/titler/titlewidget.cpp:2376
 #, kde-format
 msgid "Add as new Title"
 msgstr "Engadir como novo título"
 
-#: src/titler/titlewidget.cpp:2422
+#: src/titler/titlewidget.cpp:2430
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Faltan os seguintes ficheiros:"
 
-#: src/titler/titlewidget.cpp:2616
+#: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Área de visualización inicial"
 
-#: src/titler/titlewidget.cpp:2617
+#: src/titler/titlewidget.cpp:2625
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Área de visualización final"
 
-#: src/titler/titlewidget.cpp:3347
+#: src/titler/titlewidget.cpp:3355
 #, kde-format
 msgid "Gradient"
 msgstr "Gradación"
@@ -22100,16 +22100,15 @@ msgstr "Dividir tras a primeira liña"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "Keyframes"
-msgstr "fotogramas"
+msgstr "Fotogramas clave"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Intervalo mínimo de fotogramas para fotogramas clave automáticos:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103

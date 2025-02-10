@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-08 00:40+0000\n"
+"POT-Creation-Date: 2025-02-10 00:40+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -5942,7 +5942,7 @@ msgstr ""
 "भवान् बाह्यशीर्षकक्लिप् (%1) सम्पादयति । किं भवान् स्वपरिवर्तनं शीर्षकसञ्चिकायां रक्षितुं "
 "इच्छति अथवा परिवर्तनं केवलं अस्य परियोजनायाः कृते रक्षितुं इच्छति वा?"
 
-#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2251
+#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2259
 #, kde-format
 msgid "Save Title"
 msgstr "शीर्षकं रक्षतु"
@@ -7401,7 +7401,7 @@ msgstr "निर्यात मार्गदर्शकाः आँकड�
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5149
 #: src/timeline2/view/timelinecontroller.cpp:5154
-#: src/titler/titlewidget.cpp:2264
+#: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "%1 सञ्चिकायां लिखितुं न शक्यते"
@@ -13553,7 +13553,7 @@ msgstr "पुनः सृजतु"
 
 #: src/mainwindow.cpp:2147 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2247
+#: src/titler/titlewidget.cpp:2255
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -19284,7 +19284,7 @@ msgid "No available stream"
 msgstr "न उपलब्धः धारा"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
+#: src/titler/titlewidget.cpp:3322 src/titler/titlewidget.cpp:3325
 #, kde-format
 msgid "Gradient %1"
 msgstr "ढाल %1"
@@ -19583,17 +19583,17 @@ msgstr "−अथ च"
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2198
+#: src/titler/titlewidget.cpp:2206
 #, kde-format
 msgid "Load Title"
 msgstr "भार शीर्षक"
 
-#: src/titler/titlewidget.cpp:2199
+#: src/titler/titlewidget.cpp:2207
 #, kde-format
 msgid "Kdenlive title"
 msgstr "क्डेन्लाइव शीर्षक"
 
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2253
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -19602,57 +19602,57 @@ msgstr ""
 "किं भवान् अस्मिन् TitleDocument मध्ये Images एम्बेड् कर्तुम् इच्छति?\n"
 "शीर्षकसाझेदारी कर्तुं एतत् सर्वाधिकं आवश्यकम् अस्ति।"
 
-#: src/titler/titlewidget.cpp:2246
+#: src/titler/titlewidget.cpp:2254
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "चित्राणि एम्बेड् कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:2301
+#: src/titler/titlewidget.cpp:2309
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "अस्मिन् शीर्षके १ तत्त्वम् अस्ति"
 msgstr[1] "अस्मिन् शीर्षके %1 लुप्ततत्त्वानि सन्ति"
 
-#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2310 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "वर्णन"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2313
 #, kde-format
 msgid "Delete missing elements"
 msgstr "लुप्ततत्त्वानि विलोपयन्तु"
 
-#: src/titler/titlewidget.cpp:2365
+#: src/titler/titlewidget.cpp:2373
 #, kde-format
 msgid "Update Title"
 msgstr "शीर्षक अद्यतन करें"
 
-#: src/titler/titlewidget.cpp:2368
+#: src/titler/titlewidget.cpp:2376
 #, kde-format
 msgid "Add as new Title"
 msgstr "नूतनं शीर्षकरूपेण योजयन्तु"
 
-#: src/titler/titlewidget.cpp:2422
+#: src/titler/titlewidget.cpp:2430
 #, kde-format
 msgid "The following files are missing:"
 msgstr "निम्नलिखितसञ्चिकाः अनुपलब्धाः सन्ति ।"
 
-#: src/titler/titlewidget.cpp:2616
+#: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Viewport आरभत"
 
-#: src/titler/titlewidget.cpp:2617
+#: src/titler/titlewidget.cpp:2625
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "दृश्यस्थानकं समाप्तं कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:3347
+#: src/titler/titlewidget.cpp:3355
 #, kde-format
 msgid "Gradient"
 msgstr "ढाल"

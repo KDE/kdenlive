@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-08 00:40+0000\n"
-"PO-Revision-Date: 2025-01-25 12:53+0100\n"
+"POT-Creation-Date: 2025-02-10 00:40+0000\n"
+"PO-Revision-Date: 2025-02-08 17:23+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -646,6 +646,9 @@ msgid ""
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors.]]>"
 msgstr ""
+"<![CDATA[Procent odchylenia od wartości zaznaczonego koloru.<br>\n"
+"        Niższe wartości utrzymują kolory bliżej temu zaznaczonemu; wyższe "
+"dodają więcej kolorów.]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -779,49 +782,44 @@ msgid "Counter Clockwise"
 msgstr "W lewo"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "Cień"
+msgstr "Zewnętrzny cień"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Rysuje proste kształty w kanale alfa"
+msgstr "Utwórz efekt cienia z kanału alfa"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Promień"
+msgstr "Promień rozmycia"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "Ilość w pikselach do rozmycia krawędzi cienia"
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Przesunięcie"
+msgstr "Przesunięcie X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "Względne położenie cienia w poziomie"
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Przesunięcie"
+msgstr "Przesunięcie Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "Względne położenie cienia w pionie"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -831,10 +829,9 @@ msgid "Color"
 msgstr "Kolor"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "Barwa gradientu kształtu fali."
+msgstr "Kolor cienia z uwzględnieniem alfy"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -2720,11 +2717,10 @@ msgstr ""
 "oktawy."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Obróć"
+msgstr "Obróć trzystronnie"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2738,6 +2734,9 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[Przy animowaniu właściwości przy użyciu klatek kluczowych,<br>\n"
+"\t    określa czy powtórzyć animację, gdy dotrze ona do ostatniej klatki "
+"kluczowej.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -2747,12 +2746,15 @@ msgid ""
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[Przy animowaniu właściwości przy użyciu klatek kluczowych i "
+"wyłączonym <em>wyłączonym powtarzaniem</em>,<br>\n"
+"\t    określa, czy animacja przechodzi naprzemiennie pomiędzy ruchami wstecz "
+"i wprzód dla każdego powtórzenia.]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Wstaw odstęp"
+msgstr "Odwróć skalę"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2762,6 +2764,10 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"<![CDATA[Określa czy odwrócić wartości <em>Skali X</em> oraz <em>Skali Y</"
+"em>.<br>\n"
+"        Pomocne przy tworzeniu sensownej interpolacji animacji, bo inaczej "
+"wartości skali nie animują liniowo.]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -2770,10 +2776,9 @@ msgid "Rotate X"
 msgstr "Obrót X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Obrót wokół osi X"
+msgstr "<![CDATA[Kąt obrotu wzdłuż osi X]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2782,10 +2787,9 @@ msgid "Rotate Y"
 msgstr "Obrót Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Obrót wokół osi Y"
+msgstr "<![CDATA[Kąt obrotu wzdłuż osi Y]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2794,10 +2798,9 @@ msgid "Rotate Z"
 msgstr "Obrót Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Obrót wokół osi Z"
+msgstr "<![CDATA[Kąt obrotu wzdłuż osi Z]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2808,7 +2811,7 @@ msgstr "Przesunięcie X"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Przesunięcie wzdłuż osi X]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2819,7 +2822,7 @@ msgstr "Przesunięcie Y"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Przesunięcie wzdłuż osi Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -2831,7 +2834,7 @@ msgstr "Skala X"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Współczynnik skali zastosowany wzdłuż osi X]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2843,13 +2846,12 @@ msgstr "Skala Y"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Współczynnik skali zastosowany wzdłuż osi Y]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Obrót i pochylenie"
+msgstr "Obróć i pochyl (przestarzałe)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2892,10 +2894,9 @@ msgid "Pan and Zoom"
 msgstr "Przesuń i zbliż"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Gładki (przestarzały)"
+msgstr "Obróć (przestarzały)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2969,43 +2970,40 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Utwórz kanał alfa (przezroczystość) na podstawie innego źródła"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Pochylenie X"
+msgstr "Pochyl"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "Wybierz wycinek do nałożenia mieszaniny"
+msgstr "Pochyl wycinek wzdłuż trzech osi"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Kąt pochylenia wokół osi X]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Kąt pochylenia wokół osi Y]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Pochylenie X"
+msgstr "Pochyl Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[Kąt pochylenia wokół osi Z]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Przesunięcie wzdłuż osi Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4987,10 +4985,9 @@ msgid "Default Keyframe Type"
 msgstr "Domyślny rodzaj klatki kluczowej"
 
 #: src/assets/view/widgets/keyframewidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Samoczynne klatki kluczowe"
+msgstr "Ogranicz samododane klatki kluczowe"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:228 src/bin/bin.cpp:1343
@@ -5060,10 +5057,9 @@ msgid "Current values copied"
 msgstr "Skopiowano bieżące wartości"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "Nie ma żadnych prawidłowych danych klatki kluczowej w schowku"
+msgstr "Nie ma żadnych danych klatki kluczowej w schowku"
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -6045,7 +6041,7 @@ msgstr ""
 "Edytujesz zewnętrzny wycinek tytułowy (%1). Czy chcesz zapisać swoje zmiany "
 "w pliku tytułowym czy może zapisać zmiany tylko dla tego projektu?"
 
-#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2251
+#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2259
 #, kde-format
 msgid "Save Title"
 msgstr "Zapisz tytuł"
@@ -7405,7 +7401,7 @@ msgstr "Zarządzaj profilami kodowania"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
-msgstr ""
+msgstr "Otwiera okno do stworzenia, zmienienia lub usunięcia profili kodowania"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7413,11 +7409,10 @@ msgid "Show Profile Parameters"
 msgstr "Pokaż parametry profilu"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Wyłącz parametry gdy efekt jest wyłączony"
+msgstr "Wyświetla parametry dla zaznaczonego profilu"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -7517,7 +7512,7 @@ msgstr "Wyeksportuj dane prowadnic"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5149
 #: src/timeline2/view/timelinecontroller.cpp:5154
-#: src/titler/titlewidget.cpp:2264
+#: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Nie można pisać do pliku %1"
@@ -11239,19 +11234,17 @@ msgstr "Nadaj ustawienia wtyczce SAM2"
 #: src/effects/effectstack/view/maskmanager.cpp:162
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "Eksportowanie klatek filmu do analizy"
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Tworzenie maski filmu"
+msgstr "Eksportowanie klatek filmu"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Brakuje wycinka źródłowego"
+msgstr "Brakuje klatki źródłowej"
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11487,10 +11480,9 @@ msgid "Failed to analyse video."
 msgstr "Nie udało się zanalizować wycinka."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "Nie udało się utworzyć wycinka pośredniego."
+msgstr "Nie udało się przetworzyć listy odtwarzania."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -12775,10 +12767,9 @@ msgid "Multicam Tool"
 msgstr "Narzędzie multicam"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Fala fali dźwiękowej"
+msgstr "Przybliż kształty fali dźwiękowej"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -13416,11 +13407,9 @@ msgid "Clip in Project Bin"
 msgstr "Wycinek w pojemniku projektu"
 
 #: src/mainwindow.cpp:1757
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Wyszukiwanie w trakcie…"
+msgstr "Poszukaj wycinka w pojemniku…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1759 src/ui/cutjobdialog_ui.ui:18
@@ -13762,7 +13751,7 @@ msgstr "Utwórz ponownie"
 
 #: src/mainwindow.cpp:2147 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2247
+#: src/titler/titlewidget.cpp:2255
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -14726,11 +14715,9 @@ msgid "Pink"
 msgstr "Różowy"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Mała szachownica"
+msgstr "Szachownica"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -15103,7 +15090,7 @@ msgstr "Przejdź do poprzedniej klatki kluczowej"
 #: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
 msgid "Automatic Keyframes"
-msgstr "Samoczynne klatki kluczowe"
+msgstr "Samododane klatki kluczowe"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
 #: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:120
@@ -19233,7 +19220,7 @@ msgstr "Przemianuj ścieżkę"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "Kliknij, aby krążyć pomiędzy powiększeniem kształt fali dźwiękowych"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -19588,7 +19575,7 @@ msgid "No available stream"
 msgstr "Brak strumieni"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
+#: src/titler/titlewidget.cpp:3322 src/titler/titlewidget.cpp:3325
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradient %1"
@@ -19891,17 +19878,17 @@ msgstr "−Y"
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2198
+#: src/titler/titlewidget.cpp:2206
 #, kde-format
 msgid "Load Title"
 msgstr "Wczytaj tytuł"
 
-#: src/titler/titlewidget.cpp:2199
+#: src/titler/titlewidget.cpp:2207
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Tytuł Kdenlive"
 
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2253
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -19910,13 +19897,13 @@ msgstr ""
 "Czy chcesz osadzić obrazy w dokumencie tytułowym?\n"
 "Jest to najbardziej potrzebne przy współdzieleniu tytułów."
 
-#: src/titler/titlewidget.cpp:2246
+#: src/titler/titlewidget.cpp:2254
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Osadź obrazy"
 
-#: src/titler/titlewidget.cpp:2301
+#: src/titler/titlewidget.cpp:2309
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -19924,44 +19911,44 @@ msgstr[0] "Ten tytuł ma 1 brakujący element"
 msgstr[1] "Ten tytuł ma %1 brakujące elementy"
 msgstr[2] "Ten tytuł ma %1 brakujących elementów"
 
-#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2310 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Szczegóły"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2313
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Usuń brakujące elementy"
 
-#: src/titler/titlewidget.cpp:2365
+#: src/titler/titlewidget.cpp:2373
 #, kde-format
 msgid "Update Title"
 msgstr "Uaktualnij tytuł"
 
-#: src/titler/titlewidget.cpp:2368
+#: src/titler/titlewidget.cpp:2376
 #, kde-format
 msgid "Add as new Title"
 msgstr "Dodaj jako nowy tytuł"
 
-#: src/titler/titlewidget.cpp:2422
+#: src/titler/titlewidget.cpp:2430
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Brakuje następujących plików:"
 
-#: src/titler/titlewidget.cpp:2616
+#: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Początkowy widok"
 
-#: src/titler/titlewidget.cpp:2617
+#: src/titler/titlewidget.cpp:2625
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Końcowy widok"
 
-#: src/titler/titlewidget.cpp:3347
+#: src/titler/titlewidget.cpp:3355
 #, kde-format
 msgid "Gradient"
 msgstr "Gradient"
@@ -22052,16 +22039,15 @@ msgstr "Podziel po pierwszym wierszu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "Keyframes"
-msgstr "klatki"
+msgstr "Klatki kluczowe"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Najmniejszy odstęp klatkowy dla samododawanych klatek kluczowych:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
@@ -22071,6 +22057,9 @@ msgid ""
 "the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"Przy dodawaniu samododawanych klatek kluczowych (np. w efekcie "
+"przekształcenia), gdy monitor odtwarza, to jest to najkrótszy odstęp "
+"klatkowy pomiędzy dwoma klatkami kluczowymi."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)

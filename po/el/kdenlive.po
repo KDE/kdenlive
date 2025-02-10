@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-08 00:40+0000\n"
+"POT-Creation-Date: 2025-02-10 00:40+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -6035,7 +6035,7 @@ msgstr ""
 "Επεξεργάζεστε έναν εξωτερικό τίτλο κλιπ (%1). Θέλετε να αποθηκεύσετε τις "
 "αλλαγές σας στον τίτλο αρχείου ή να τις αποθηκεύσετε για το έργο αυτό μόνο;"
 
-#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2251
+#: src/bin/bin.cpp:4880 src/titler/titlewidget.cpp:2259
 #, kde-format
 msgid "Save Title"
 msgstr "Αποθήκευση τίτλου"
@@ -7550,7 +7550,7 @@ msgstr "Προσθήκη δείκτη"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5149
 #: src/timeline2/view/timelinecontroller.cpp:5154
-#: src/titler/titlewidget.cpp:2264
+#: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Αδύνατη η εγγραφή στο αρχείο %1"
@@ -14048,7 +14048,7 @@ msgstr "Δημιουργία ομάδας"
 
 #: src/mainwindow.cpp:2147 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2247
+#: src/titler/titlewidget.cpp:2255
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -19998,7 +19998,7 @@ msgid "No available stream"
 msgstr " καρέ"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3317
+#: src/titler/titlewidget.cpp:3322 src/titler/titlewidget.cpp:3325
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -20306,18 +20306,18 @@ msgstr ""
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2198
+#: src/titler/titlewidget.cpp:2206
 #, kde-format
 msgid "Load Title"
 msgstr "Φόρτωση τίτλου"
 
-#: src/titler/titlewidget.cpp:2199
+#: src/titler/titlewidget.cpp:2207
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "Kdenlive"
 
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2253
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -20326,14 +20326,14 @@ msgstr ""
 "Θέλετε να ενσωματώσετε Εικόνες σε αυτό το TitleDocument;\n"
 "Αυτό περισσότερο απαιτείται για κοινόχρηστους Τίτλους."
 
-#: src/titler/titlewidget.cpp:2246
+#: src/titler/titlewidget.cpp:2254
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Προσθήκη εικόνας"
 
-#: src/titler/titlewidget.cpp:2301
+#: src/titler/titlewidget.cpp:2309
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -20341,48 +20341,48 @@ msgid_plural "This title has %1 missing elements"
 msgstr[0] "Διαγραφή των επιλεγμένων αντικειμένων"
 msgstr[1] "Διαγραφή των επιλεγμένων αντικειμένων"
 
-#: src/titler/titlewidget.cpp:2302 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2310 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
-#: src/titler/titlewidget.cpp:2305
+#: src/titler/titlewidget.cpp:2313
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Διαγραφή των επιλεγμένων αντικειμένων"
 
-#: src/titler/titlewidget.cpp:2365
+#: src/titler/titlewidget.cpp:2373
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Ενημέρωση προφίλ"
 
-#: src/titler/titlewidget.cpp:2368
+#: src/titler/titlewidget.cpp:2376
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Προσθήκη προτύπου τίτλου"
 
-#: src/titler/titlewidget.cpp:2422
+#: src/titler/titlewidget.cpp:2430
 #, kde-format
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2616
+#: src/titler/titlewidget.cpp:2624
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Εκκίνηση σεναρίου"
 
-#: src/titler/titlewidget.cpp:2617
+#: src/titler/titlewidget.cpp:2625
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3347
+#: src/titler/titlewidget.cpp:3355
 #, fuzzy, kde-format
 #| msgid "Alpha gradient"
 msgid "Gradient"
