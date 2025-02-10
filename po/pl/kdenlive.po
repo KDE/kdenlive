@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-31 02:34+0000\n"
-"PO-Revision-Date: 2024-12-29 08:31+0100\n"
+"PO-Revision-Date: 2025-02-08 17:23+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -14632,7 +14632,7 @@ msgstr "Przejdź do poprzedniej klatki kluczowej"
 #: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
 msgid "Automatic Keyframes"
-msgstr "Samoczynne klatki kluczowe"
+msgstr "Samododane klatki kluczowe"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
 #: src/monitor/view/EffectToolBar.qml:112
