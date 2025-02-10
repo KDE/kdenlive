@@ -2247,22 +2247,20 @@ std::pair<int, int> TimelineModel::extractSelectionFromGroup(int selection, Fun 
                 PUSH_LAMBDA(local_undo, undo);
             }
         }
-        if (!onDeletion) {
-            // Remove the top group
-            Fun local_redo = [this, selection]() {
-                // Clear selection
-                m_groups->removeFromGroup(selection);
-                return true;
-            };
-            Fun local_undo = [this, selection, gid]() {
-                // Clear selection
-                m_groups->setGroup(selection, gid, false);
-                return true;
-            };
-            local_redo();
-            PUSH_FRONT_LAMBDA(local_redo, redo);
-            PUSH_LAMBDA(local_undo, undo);
-        }
+        // Remove the top group
+        Fun local_redo = [this, selection]() {
+            // Clear selection
+            m_groups->removeFromGroup(selection);
+            return true;
+        };
+        Fun local_undo = [this, selection, gid]() {
+            // Clear selection
+            m_groups->setGroup(selection, gid, false);
+            return true;
+        };
+        local_redo();
+        PUSH_FRONT_LAMBDA(local_redo, redo);
+        PUSH_LAMBDA(local_undo, undo);
     }
     return grpPair;
 }
