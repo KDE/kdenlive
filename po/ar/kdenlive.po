@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-10 00:40+0000\n"
+"POT-Creation-Date: 2025-02-11 00:41+0000\n"
 "PO-Revision-Date: 2025-02-09 10:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -6054,7 +6054,7 @@ msgstr ""
 "يحتاج مشروعك إلى مزيد من المسارات الصوتية للتعامل مع جميع التدفقات. إضافة %1 "
 "مسارات الصوت؟"
 
-#: src/bin/bin.cpp:5532 src/mainwindow.cpp:2712
+#: src/bin/bin.cpp:5532 src/mainwindow.cpp:2711
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "لم يعثر على مقطع ليضيف علامة لها"
@@ -6143,7 +6143,7 @@ msgstr "احذف التّأثير %1"
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4817
+#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4816
 #, kde-format
 msgid "Project Bin %1"
 msgstr "سلّة المشروع %1"
@@ -8230,7 +8230,7 @@ msgstr "أضف إلى المشروع الحالي"
 msgid "Open Containing Folder"
 msgstr "افتح المجلد الحاوي"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3940
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3939
 #, kde-format
 msgid "Timeline"
 msgstr "الخطّ الزّمنيّ"
@@ -10429,7 +10429,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "ملف الترجمة:<br/>%1<br/>موجود بالفعل. هل تريد الكتابة فوقه؟"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3463
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3462
 #, kde-format
 msgid "Overwrite"
 msgstr "استبدل"
@@ -11554,13 +11554,13 @@ msgid "Add Markers by Category"
 msgstr "أضف علامات حسب الفئة"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3835
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3834
 #, kde-format
 msgid "Extract Audio"
 msgstr "استخرج الصوت"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3809
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3808
 #, kde-format
 msgid "Clip Jobs"
 msgstr "مهام المقطع"
@@ -12771,7 +12771,7 @@ msgstr "يضبط مستوى التكبير ليلائم كامل المشروع 
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "المعالجة الرسومية بالعتاد التجربية مفعلة - ليست للإنتاج"
 
-#: src/mainwindow.cpp:1337 src/mainwindow.cpp:3449
+#: src/mainwindow.cpp:1337 src/mainwindow.cpp:3448
 #, kde-format
 msgid "Multicam"
 msgstr "الكاميرات"
@@ -13618,17 +13618,17 @@ msgstr "حدد مسار الفيديو %1"
 msgid "Select Target %1"
 msgstr "اختر الهدف %1"
 
-#: src/mainwindow.cpp:2009
+#: src/mainwindow.cpp:2008
 #, kde-format
 msgid "Extract Frame…"
 msgstr "استخرج الإطار…"
 
-#: src/mainwindow.cpp:2012
+#: src/mainwindow.cpp:2011
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "استخرج الإطار إلى مشروع…"
 
-#: src/mainwindow.cpp:2145
+#: src/mainwindow.cpp:2144
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -13637,13 +13637,13 @@ msgstr ""
 "لقد غيرت المعلمات الوسيط. هل تريد إعادة إنشاء جميع مقاطع الوسطاء لهذا "
 "المشروع؟"
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2145
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "أعد الإنشاء"
 
-#: src/mainwindow.cpp:2147 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2146 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2255
 #, kde-format
@@ -13651,7 +13651,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "تابع دونها"
 
-#: src/mainwindow.cpp:2203
+#: src/mainwindow.cpp:2202
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -13662,7 +13662,7 @@ msgstr ""
 "الملفات المؤقتة من <br/><b>%1</b> إلى <b>%2</b>،<br> و إعادة تحميل ملف "
 "المشروع"
 
-#: src/mainwindow.cpp:2211
+#: src/mainwindow.cpp:2210
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -13671,38 +13671,38 @@ msgstr ""
 "سيؤدي إلى نقل جميع الملفات المؤقتة من<br/> <b>%1</b> إلى <b>%2</b> ،<br/> و "
 "إعادة تحميل ملف المشروع"
 
-#: src/mainwindow.cpp:2220 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "لا يمكن إجراء العمليّة، مستند غير صالح: %1"
 
-#: src/mainwindow.cpp:2225 src/project/projectmanager.cpp:621
+#: src/mainwindow.cpp:2224 src/project/projectmanager.cpp:621
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "لا يمكن إجراء العمليّة، دليل المقصد موجود فعلاً: %1"
 
-#: src/mainwindow.cpp:2372
+#: src/mainwindow.cpp:2371
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "سيزيل هذا كلّ المقاطع غير المستخدمة من مشروعك."
 
-#: src/mainwindow.cpp:2372
+#: src/mainwindow.cpp:2371
 #, kde-format
 msgid "Clean up project"
 msgstr "تنظيف المشروع"
 
-#: src/mainwindow.cpp:2514
+#: src/mainwindow.cpp:2513
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "تشكيلات لوحة المفاتيح جديدة…"
 
-#: src/mainwindow.cpp:2523
+#: src/mainwindow.cpp:2522
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "عامّ"
 
-#: src/mainwindow.cpp:2597
+#: src/mainwindow.cpp:2596
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -13710,28 +13710,28 @@ msgid ""
 msgstr ""
 "سيؤدي هذا إلى حذف ملف ضبط كدنلايف وإعادة التشغيل التطبيق. هل تريد المتابعة؟"
 
-#: src/mainwindow.cpp:2598
+#: src/mainwindow.cpp:2597
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "أعد الضبط"
 
-#: src/mainwindow.cpp:2730 src/mainwindow.cpp:2757
+#: src/mainwindow.cpp:2729 src/mainwindow.cpp:2756
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "لم يعثر على مقطع ليحذف العلامة"
 
-#: src/mainwindow.cpp:2740 src/mainwindow.cpp:2786
+#: src/mainwindow.cpp:2739 src/mainwindow.cpp:2785
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "لم يعثر على علامة في وقت المُؤشِر"
 
-#: src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2761
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "حدث خطأ في أثناء حذف العلامات"
 
-#: src/mainwindow.cpp:2779 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2778 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -13740,46 +13740,46 @@ msgstr "حدث خطأ في أثناء حذف العلامات"
 msgid "Cannot find clip to edit marker"
 msgstr "لم يعثر على مقطع ليحرر العلامة"
 
-#: src/mainwindow.cpp:2830
+#: src/mainwindow.cpp:2829
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "فئة العلامة غير موجودة"
 
-#: src/mainwindow.cpp:3020 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3019 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3143
 #, kde-format
 msgid "Overwrite zone"
 msgstr "استبدل منطقة"
 
-#: src/mainwindow.cpp:3022 src/mainwindow.cpp:3041
+#: src/mainwindow.cpp:3021 src/mainwindow.cpp:3040
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3145
 #, kde-format
 msgid "Could not insert zone"
 msgstr "تعذر إدراج منطقة"
 
-#: src/mainwindow.cpp:3032
+#: src/mainwindow.cpp:3031
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "لم تحدد مقطع في سلة المشروع"
 
-#: src/mainwindow.cpp:3039 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3038 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3143
 #, kde-format
 msgid "Insert zone"
 msgstr "أدرج منطقة"
 
-#: src/mainwindow.cpp:3206
+#: src/mainwindow.cpp:3205
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "لا يمكن إضافة تأثير للعنصر النشط"
 
-#: src/mainwindow.cpp:3268
+#: src/mainwindow.cpp:3267
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "مستوى التكبير: %1/%2"
 
-#: src/mainwindow.cpp:3417
+#: src/mainwindow.cpp:3416
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13791,7 +13791,7 @@ msgstr ""
 "مع shift</shortcut> للتحديد المتعدد، <shortcut>سحب مع Meta</shortcut> لنقل "
 "المقطع المجموع إلى مسار أخر،<shortcut>سحب مع ctrl</shortcut> للتوزيع"
 
-#: src/mainwindow.cpp:3421
+#: src/mainwindow.cpp:3420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13804,24 +13804,24 @@ msgstr ""
 "مع shift</shortcut> للتحديد المتعدد، <shortcut>سحب مع Meta + Alt</shortcut> "
 "لنقل المقطع المجموع إلى مسار أخر،<shortcut>سحب مع ctrl</shortcut> للتوزيع"
 
-#: src/mainwindow.cpp:3424
+#: src/mainwindow.cpp:3423
 #, kde-format
 msgid "Select"
 msgstr "اختر"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3425
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> لمعاينة الإطار المقطوع"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3427 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3426 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "المقصّ"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3430
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13831,12 +13831,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> للتطبيق على المسار الحالي فقط، <shortcut>Shift</"
 "shortcut> يحرك الخطوط الإرشادية. يمكنك الجمع بين المعدلين."
 
-#: src/mainwindow.cpp:3432
+#: src/mainwindow.cpp:3431
 #, kde-format
 msgid "Spacer"
 msgstr "مُباعد"
 
-#: src/mainwindow.cpp:3434
+#: src/mainwindow.cpp:3433
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13846,13 +13846,13 @@ msgstr ""
 "<shortcut>النقر</shortcut> على العنصر لإزلاقه, <shortcut>النقر مع Shift</"
 "shortcut> للتحديد المتعدد"
 
-#: src/mainwindow.cpp:3435
+#: src/mainwindow.cpp:3434
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "انزلاق"
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3439
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13864,13 +13864,13 @@ msgstr ""
 "مع Shift</shortcut> للتحديد المتعدد، <shortcut>النقر مع Alt</shortcut> لتحيد "
 "عنصر في مجموعة،<shortcut>سحب مع Ctrl</shortcut> للتوزيع"
 
-#: src/mainwindow.cpp:3442
+#: src/mainwindow.cpp:3441
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "تموج"
 
-#: src/mainwindow.cpp:3448
+#: src/mainwindow.cpp:3447
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13880,139 +13880,139 @@ msgstr ""
 "<shortcut>انقر</shortcut> على عرض المسار في شاشة المشروع لتنفذ رفع لكل "
 "المسارات باستثناء النشط منها"
 
-#: src/mainwindow.cpp:3460
+#: src/mainwindow.cpp:3459
 #, kde-format
 msgid "Insert"
 msgstr "أدرج"
 
-#: src/mainwindow.cpp:3725 src/mainwindow.cpp:3727
+#: src/mainwindow.cpp:3724 src/mainwindow.cpp:3726
 #, kde-format
 msgid "Scopes"
 msgstr "مناظير"
 
-#: src/mainwindow.cpp:3732
+#: src/mainwindow.cpp:3731
 #, kde-format
 msgid "Project Bins"
 msgstr "سلال المشروع"
 
-#: src/mainwindow.cpp:3828
+#: src/mainwindow.cpp:3827
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "اضبط مهامّ المقاطع…"
 
-#: src/mainwindow.cpp:3834
+#: src/mainwindow.cpp:3833
 #, kde-format
 msgid "Transcoders"
 msgstr "مبدلات الترميز"
 
-#: src/mainwindow.cpp:3894
+#: src/mainwindow.cpp:3893
 #, kde-format
 msgid "-merged"
 msgstr "-مدمج"
 
-#: src/mainwindow.cpp:3897
+#: src/mainwindow.cpp:3896
 #, kde-format
 msgid "-stream-%1"
 msgstr "-الدفق-%1"
 
-#: src/mainwindow.cpp:3939
+#: src/mainwindow.cpp:3938
 #, kde-format
 msgid "Interface"
 msgstr "الواجهة"
 
-#: src/mainwindow.cpp:3961
+#: src/mainwindow.cpp:3960
 #, kde-format
 msgid "Raise %1"
 msgstr "ارفع %1"
 
-#: src/mainwindow.cpp:4028
+#: src/mainwindow.cpp:4027
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "ملفات ليبدل ترميزها"
 
-#: src/mainwindow.cpp:4160
+#: src/mainwindow.cpp:4159
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "لا يمكن حفظ ملف المشروع للأرشفة."
 
-#: src/mainwindow.cpp:4168
+#: src/mainwindow.cpp:4167
 #, kde-format
 msgid "Archiving project"
 msgstr "يأرشف المشروع"
 
-#: src/mainwindow.cpp:4308
+#: src/mainwindow.cpp:4307
 #, kde-format
 msgid "Icon Size"
 msgstr "حجم الأيقونات"
 
-#: src/mainwindow.cpp:4312
+#: src/mainwindow.cpp:4311
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "الافتراضيّ"
 
-#: src/mainwindow.cpp:4333 src/mainwindow.cpp:4361
+#: src/mainwindow.cpp:4332 src/mainwindow.cpp:4360
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "صغيرة (%1×%2)"
 
-#: src/mainwindow.cpp:4335 src/mainwindow.cpp:4363
+#: src/mainwindow.cpp:4334 src/mainwindow.cpp:4362
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "متوسّطة (%1×%2)"
 
-#: src/mainwindow.cpp:4337 src/mainwindow.cpp:4365
+#: src/mainwindow.cpp:4336 src/mainwindow.cpp:4364
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "كبيرة (%1×%2)"
 
-#: src/mainwindow.cpp:4339 src/mainwindow.cpp:4367
+#: src/mainwindow.cpp:4338 src/mainwindow.cpp:4366
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ضخمة (%1×%2)"
 
-#: src/mainwindow.cpp:4423
+#: src/mainwindow.cpp:4422
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "سيُخفي هذا شريط القوائم بالكامل. يمكنك إظهاره مجدّدًا بضغط Ctrl+M."
 
-#: src/mainwindow.cpp:4423
+#: src/mainwindow.cpp:4422
 #, kde-format
 msgid "Hide menu bar"
 msgstr "أخفِ شريط القوائم"
 
-#: src/mainwindow.cpp:4686 src/timeline2/view/timelinecontroller.cpp:5107
+#: src/mainwindow.cpp:4685 src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "لا يوجد ترجمات في المشروع الحالي"
 
-#: src/mainwindow.cpp:4973
+#: src/mainwindow.cpp:4972
 #, kde-format
 msgid "Go to download page"
 msgstr "اذهب إلى صفحة التحميل"
 
-#: src/mainwindow.cpp:4978
+#: src/mainwindow.cpp:4977
 #, kde-format
 msgid "Never check again"
 msgstr "لا تحقق مجددًا"
 
-#: src/mainwindow.cpp:4981
+#: src/mainwindow.cpp:4980
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "الإصدار كدنلايف قديمة بعام كامل، نحن نشجعك بشدة على الترقية"
 
-#: src/mainwindow.cpp:4984
+#: src/mainwindow.cpp:4983
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "إصدار كدنلايف قديمة بستة أشهر، نحن نشجعك على الترقية"
 
-#: src/mainwindow.cpp:5027
+#: src/mainwindow.cpp:5026
 #, kde-format
 msgid "Checking cached data size"
 msgstr "يفحص حجم بيانات الخبيئة"

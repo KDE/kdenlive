@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-10 00:40+0000\n"
+"POT-Creation-Date: 2025-02-11 00:41+0000\n"
 "PO-Revision-Date: 2025-01-15 22:27+0100\n"
 "Last-Translator: Jan Papez (honyczek) <honyczek@centrum.cz>\n"
 "Language-Team: Czech <kde-i18n-cs@kde.org>\n"
@@ -763,22 +763,19 @@ msgid "Counter Clockwise"
 msgstr "Proti směru hodinových ručiček"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "Stín"
+msgstr "Vrhat stín"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Použít luma obrázku namísto kanálu alfa."
+msgstr ""
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Poloměr"
+msgstr ""
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
@@ -786,10 +783,9 @@ msgid "The amount in pixel to blur the edge of the shadow"
 msgstr ""
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Posunutí"
+msgstr "Posun X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
@@ -797,10 +793,9 @@ msgid "The relative horizontal position of the shadow"
 msgstr ""
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Posunutí"
+msgstr "Posun Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
@@ -2498,11 +2493,10 @@ msgid ""
 msgstr ""
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Otočit"
+msgstr ""
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2527,10 +2521,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Vložit místo"
+msgstr ""
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2548,10 +2541,9 @@ msgid "Rotate X"
 msgstr "Otočení X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Otočení okolo osy X"
+msgstr ""
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2560,10 +2552,9 @@ msgid "Rotate Y"
 msgstr "Otočení Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Otočení okolo osy Y"
+msgstr ""
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2572,10 +2563,9 @@ msgid "Rotate Z"
 msgstr "Otočení Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Otočení podle osy Z"
+msgstr ""
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2624,10 +2614,9 @@ msgid "<![CDATA[Scale factor applied to the Y axis]]>"
 msgstr ""
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Otočení a zkosení"
+msgstr ""
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2670,10 +2659,9 @@ msgid "Pan and Zoom"
 msgstr "Roztažení a přiblížení"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Normalise (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Normalizovat (zastaralé)"
+msgstr ""
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2747,11 +2735,10 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr ""
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Zkosit podle X"
+msgstr ""
 
 #: data/effects/shear.xml:5
 #, kde-format
@@ -2769,10 +2756,9 @@ msgid "<![CDATA[Shear angle around the Y axis]]>"
 msgstr ""
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Zkosit podle X"
+msgstr ""
 
 #: data/effects/shear.xml:34
 #, kde-format
@@ -4712,10 +4698,9 @@ msgid "Default Keyframe Type"
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Limit keyframe number"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Omezit číslo klíčového snímku"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:228 src/bin/bin.cpp:1343
@@ -4783,10 +4768,9 @@ msgid "Current values copied"
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "Import keyframes from clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "Importovat klíčové snímky ze schránky"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -5799,7 +5783,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5532 src/mainwindow.cpp:2712
+#: src/bin/bin.cpp:5532 src/mainwindow.cpp:2711
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nelze přidat značku neznámému klipu"
@@ -5885,7 +5869,7 @@ msgstr "Smazat efekt %1"
 msgid "Project Bin"
 msgstr "Zásobník projektu"
 
-#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4817
+#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4816
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Zásobník projektu %1"
@@ -7043,11 +7027,10 @@ msgid "Show Profile Parameters"
 msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Zakázat parametry pokud je efekt zakázaný"
+msgstr ""
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -7907,7 +7890,7 @@ msgstr ""
 msgid "Open Containing Folder"
 msgstr "Otevřít odpovídající složku"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3940
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3939
 #, kde-format
 msgid "Timeline"
 msgstr "Časová osa"
@@ -8424,12 +8407,11 @@ msgid "Speech recognition aborted."
 msgstr ""
 
 #: src/dialogs/speechdialog.cpp:439
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed."
+#, kde-format
 msgid ""
 "Speech recognition failed:\n"
 "%1"
-msgstr "Rozpoznávání řeči selhalo."
+msgstr ""
 
 #: src/dialogs/speechdialog.cpp:446
 #, kde-format
@@ -10070,7 +10052,7 @@ msgid ""
 msgstr ""
 "Soubor s titulky:<br/>%1<br/>již existuje. Opravdu si jej přejete přepsat?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3463
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3462
 #, kde-format
 msgid "Overwrite"
 msgstr "Přepsat"
@@ -10761,16 +10743,14 @@ msgid "Exporting video frames for analysis"
 msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Generuji video masku"
+msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Chybí zdrojový klip"
+msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11004,10 +10984,9 @@ msgid "Failed to analyse video."
 msgstr "Selhala analýza videa."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "Nepodařilo se vytvořit zástupný klip."
+msgstr ""
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -11165,13 +11144,13 @@ msgid "Add Markers by Category"
 msgstr "Přidat značky podle kategorie"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3835
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3834
 #, kde-format
 msgid "Extract Audio"
 msgstr "Extrahovat zvuk"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3809
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3808
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Úlohy klipů"
@@ -12263,10 +12242,9 @@ msgid "Multicam Tool"
 msgstr "Nástroj Multicam"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Filtr zvukových vln"
+msgstr ""
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -12358,7 +12336,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1337 src/mainwindow.cpp:3449
+#: src/mainwindow.cpp:1337 src/mainwindow.cpp:3448
 #, kde-format
 msgid "Multicam"
 msgstr "Multicam"
@@ -12873,10 +12851,9 @@ msgid "Clip in Project Bin"
 msgstr "Klip v Zásobníku projektu"
 
 #: src/mainwindow.cpp:1757
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Hledat…"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1759 src/ui/cutjobdialog_ui.ui:18
@@ -13184,17 +13161,17 @@ msgstr "Vyberte video stopu %1"
 msgid "Select Target %1"
 msgstr "Vyberte cíl %1"
 
-#: src/mainwindow.cpp:2009
+#: src/mainwindow.cpp:2008
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Uložit aktuální snímek…"
 
-#: src/mainwindow.cpp:2012
+#: src/mainwindow.cpp:2011
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Rozbalit snímek do projektu…"
 
-#: src/mainwindow.cpp:2145
+#: src/mainwindow.cpp:2144
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -13203,13 +13180,13 @@ msgstr ""
 "Změnili jste parametry zástupných klipů. Přejete si znovu vytvořit zástupné "
 "klipy pro všechny klipy v tomto projektu?"
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2145
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Vytvořit znovu"
 
-#: src/mainwindow.cpp:2147 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2146 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2255
 #, kde-format
@@ -13217,7 +13194,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Pokračovat bez"
 
-#: src/mainwindow.cpp:2203
+#: src/mainwindow.cpp:2202
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -13225,73 +13202,73 @@ msgid ""
 "<br>and the project file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2211
+#: src/mainwindow.cpp:2210
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2220 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Operaci nelze provést, neplatné ID dokumentu: %1"
 
-#: src/mainwindow.cpp:2225 src/project/projectmanager.cpp:621
+#: src/mainwindow.cpp:2224 src/project/projectmanager.cpp:621
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Operaci nelze provést, cílový adresář již existuje: %1"
 
-#: src/mainwindow.cpp:2372
+#: src/mainwindow.cpp:2371
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Tímto smažete z vašeho projektu všechny nepoužívané klipy."
 
-#: src/mainwindow.cpp:2372
+#: src/mainwindow.cpp:2371
 #, kde-format
 msgid "Clean up project"
 msgstr "Vyčištění projektu"
 
-#: src/mainwindow.cpp:2514
+#: src/mainwindow.cpp:2513
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr ""
 
-#: src/mainwindow.cpp:2523
+#: src/mainwindow.cpp:2522
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Obecné"
 
-#: src/mainwindow.cpp:2597
+#: src/mainwindow.cpp:2596
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2598
+#: src/mainwindow.cpp:2597
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Obnovit nastavení"
 
-#: src/mainwindow.cpp:2730 src/mainwindow.cpp:2757
+#: src/mainwindow.cpp:2729 src/mainwindow.cpp:2756
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Nelze najít značku ke smazání"
 
-#: src/mainwindow.cpp:2740 src/mainwindow.cpp:2786
+#: src/mainwindow.cpp:2739 src/mainwindow.cpp:2785
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Na pozici kurzoru neexistuje žádná značka"
 
-#: src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2761
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2779 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2778 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -13300,46 +13277,46 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr ""
 
-#: src/mainwindow.cpp:2830
+#: src/mainwindow.cpp:2829
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "Kategorie značek neexistuje"
 
-#: src/mainwindow.cpp:3020 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3019 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3143
 #, kde-format
 msgid "Overwrite zone"
 msgstr ""
 
-#: src/mainwindow.cpp:3022 src/mainwindow.cpp:3041
+#: src/mainwindow.cpp:3021 src/mainwindow.cpp:3040
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3145
 #, kde-format
 msgid "Could not insert zone"
 msgstr ""
 
-#: src/mainwindow.cpp:3032
+#: src/mainwindow.cpp:3031
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr ""
 
-#: src/mainwindow.cpp:3039 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3038 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3143
 #, kde-format
 msgid "Insert zone"
 msgstr ""
 
-#: src/mainwindow.cpp:3206
+#: src/mainwindow.cpp:3205
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr ""
 
-#: src/mainwindow.cpp:3268
+#: src/mainwindow.cpp:3267
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Stupeň přiblížení: %1/%2"
 
-#: src/mainwindow.cpp:3417
+#: src/mainwindow.cpp:3416
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13348,7 +13325,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3421
+#: src/mainwindow.cpp:3420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13358,24 +13335,24 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3424
+#: src/mainwindow.cpp:3423
 #, kde-format
 msgid "Select"
 msgstr "Vybrat"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3425
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3427 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3426 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Břitva"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3430
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13383,12 +13360,12 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3432
+#: src/mainwindow.cpp:3431
 #, kde-format
 msgid "Spacer"
 msgstr "Mezera"
 
-#: src/mainwindow.cpp:3434
+#: src/mainwindow.cpp:3433
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13396,13 +13373,13 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3435
+#: src/mainwindow.cpp:3434
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr ""
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3439
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13411,13 +13388,13 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3442
+#: src/mainwindow.cpp:3441
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Ripple"
 
-#: src/mainwindow.cpp:3448
+#: src/mainwindow.cpp:3447
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13425,99 +13402,99 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3460
+#: src/mainwindow.cpp:3459
 #, kde-format
 msgid "Insert"
 msgstr "Vložit"
 
-#: src/mainwindow.cpp:3725 src/mainwindow.cpp:3727
+#: src/mainwindow.cpp:3724 src/mainwindow.cpp:3726
 #, kde-format
 msgid "Scopes"
 msgstr "Rozsahy"
 
-#: src/mainwindow.cpp:3732
+#: src/mainwindow.cpp:3731
 #, kde-format
 msgid "Project Bins"
 msgstr ""
 
-#: src/mainwindow.cpp:3828
+#: src/mainwindow.cpp:3827
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr ""
 
-#: src/mainwindow.cpp:3834
+#: src/mainwindow.cpp:3833
 #, kde-format
 msgid "Transcoders"
 msgstr "Převodníky"
 
-#: src/mainwindow.cpp:3894
+#: src/mainwindow.cpp:3893
 #, kde-format
 msgid "-merged"
 msgstr ""
 
-#: src/mainwindow.cpp:3897
+#: src/mainwindow.cpp:3896
 #, kde-format
 msgid "-stream-%1"
 msgstr ""
 
-#: src/mainwindow.cpp:3939
+#: src/mainwindow.cpp:3938
 #, kde-format
 msgid "Interface"
 msgstr "Rozhraní"
 
-#: src/mainwindow.cpp:3961
+#: src/mainwindow.cpp:3960
 #, kde-format
 msgid "Raise %1"
 msgstr "Do popředí %1"
 
-#: src/mainwindow.cpp:4028
+#: src/mainwindow.cpp:4027
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Soubory k překódování"
 
-#: src/mainwindow.cpp:4160
+#: src/mainwindow.cpp:4159
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4168
+#: src/mainwindow.cpp:4167
 #, kde-format
 msgid "Archiving project"
 msgstr "Archivuji projekt"
 
-#: src/mainwindow.cpp:4308
+#: src/mainwindow.cpp:4307
 #, kde-format
 msgid "Icon Size"
 msgstr "Velikost ikon"
 
-#: src/mainwindow.cpp:4312
+#: src/mainwindow.cpp:4311
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Výchozí"
 
-#: src/mainwindow.cpp:4333 src/mainwindow.cpp:4361
+#: src/mainwindow.cpp:4332 src/mainwindow.cpp:4360
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Malá (%1x%2)"
 
-#: src/mainwindow.cpp:4335 src/mainwindow.cpp:4363
+#: src/mainwindow.cpp:4334 src/mainwindow.cpp:4362
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Střední (%1x%2)"
 
-#: src/mainwindow.cpp:4337 src/mainwindow.cpp:4365
+#: src/mainwindow.cpp:4336 src/mainwindow.cpp:4364
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Velká (%1x%2)"
 
-#: src/mainwindow.cpp:4339 src/mainwindow.cpp:4367
+#: src/mainwindow.cpp:4338 src/mainwindow.cpp:4366
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Obrovská (%1x%2)"
 
-#: src/mainwindow.cpp:4423
+#: src/mainwindow.cpp:4422
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -13525,40 +13502,40 @@ msgid ""
 msgstr ""
 "Toto úplně skryje panel nabídky. Můžete ji opětovně zobrazit pomocí Ctrl+M."
 
-#: src/mainwindow.cpp:4423
+#: src/mainwindow.cpp:4422
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Skrýt nabídku"
 
-#: src/mainwindow.cpp:4686 src/timeline2/view/timelinecontroller.cpp:5107
+#: src/mainwindow.cpp:4685 src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "No subtitles in current project"
 msgstr ""
 
-#: src/mainwindow.cpp:4973
+#: src/mainwindow.cpp:4972
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:4978
+#: src/mainwindow.cpp:4977
 #, kde-format
 msgid "Never check again"
 msgstr ""
 
-#: src/mainwindow.cpp:4981
+#: src/mainwindow.cpp:4980
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:4984
+#: src/mainwindow.cpp:4983
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5027
+#: src/mainwindow.cpp:5026
 #, kde-format
 msgid "Checking cached data size"
 msgstr ""
@@ -14140,10 +14117,9 @@ msgid "Pink"
 msgstr "Růžová"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgid "Checkered"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Kostkovaný"
+msgstr ""
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -21203,10 +21179,9 @@ msgstr "Rozdělit po prvním řádku"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid " frames"
+#, kde-format
 msgid "Keyframes"
-msgstr " snímků"
+msgstr "Klíčové snímky"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
@@ -23876,38 +23851,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Rotate (keyframable)"
-#~ msgstr "Rotace (pomocí klíčových snímků)"
-
-#, fuzzy
-#~| msgid "Paint mode:"
-#~ msgid "Uninstall model"
-#~ msgstr "Kreslicí režim:"
-
-#~ msgid "Python"
-#~ msgstr "Python"
-
-#~ msgid "Delete "
-#~ msgstr "Smazat "
-
-#~ msgid "Margin"
-#~ msgstr "Okraj"
-
-#~ msgid "R: "
-#~ msgstr "Č: "
-
-#~ msgid "G: "
-#~ msgstr "Z: "
-
-#~ msgid "B: "
-#~ msgstr "M: "
-
-#~ msgid "Force Breeze Icon Theme"
-#~ msgstr "Vynutit motiv ikon Breeze"
-
-#~ msgid "VOSK"
-#~ msgstr "VOSK"
-
-#~ msgid "VOSK Speech Models"
-#~ msgstr "Modely řeči VOSK"
