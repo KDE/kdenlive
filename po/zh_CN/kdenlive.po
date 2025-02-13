@@ -2369,7 +2369,7 @@ msgstr "归一化"
 #: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
-msgstr "禁用重复"
+msgstr "禁用循环"
 
 #: data/effects/pan_zoom.xml:23 data/effects/rotation.xml:47
 #: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
