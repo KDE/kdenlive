@@ -111,7 +111,7 @@ FFmpegInfo::FFmpegInfo(const QString &fileName)
             if (m_timecode.isEmpty()) {
                 stream = getStream(AVMEDIA_TYPE_DATA);
                 if (stream != -1) {
-                    m_timecode = getTimecode(AVMEDIA_TYPE_DATA);
+                    m_timecode = getTimecode(stream);
                 }
             }
         }
@@ -128,12 +128,14 @@ FFmpegInfo::~FFmpegInfo()
 int FFmpegInfo::getStream(int streamType) const
 {
     int stream = -1;
+    // Check if there is a default stream to use.
     for (unsigned int i = 0; i < m_context->nb_streams; ++i) {
         if (streamType == m_context->streams[i]->codecpar->codec_type && AV_DISPOSITION_DEFAULT == m_context->streams[i]->disposition) {
             stream = i;
             break;
         }
     }
+    // If there is no default stream, use the first stream.
     if (-1 == stream) {
         for (unsigned int i = 0; i < m_context->nb_streams; ++i) {
             if (streamType == m_context->streams[i]->codecpar->codec_type) {
