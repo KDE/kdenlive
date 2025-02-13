@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 00:41+0000\n"
-"PO-Revision-Date: 2025-01-13 22:15+0100\n"
+"PO-Revision-Date: 2025-02-12 07:01+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -777,49 +777,44 @@ msgid "Counter Clockwise"
 msgstr "Kontraŭhorloĝe"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "Ombro"
+msgstr "Falombro"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Uzi la bildlumon anstataŭ la alfa-kanalon."
+msgstr "Krei ombro-efikon el la alfa-kanal."
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Radiuso"
+msgstr "Radiuso de Malklariĝo"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "La kvanto en rastrumeroj malklarigi la eĝon de la ombro"
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Deŝovo"
+msgstr "X-Deŝovo"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "La relitiva horizontala pozicio de la ombro"
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Deŝovo"
+msgstr "Y-Deŝovo"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "La relitiva vertikala pozicio de la ombro"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -829,10 +824,9 @@ msgid "Color"
 msgstr "Koloro"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "La koloro de la ondformgradiento."
+msgstr "La koloro de la ombro inkluzive alfa"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -2709,11 +2703,10 @@ msgstr ""
 "pow(2.0, o). Anstataŭigas oktavŝanĝon."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Rotacii"
+msgstr "3-voja Rotacio"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2738,10 +2731,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Enigi spacon"
+msgstr "Renversigi skalon"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2759,10 +2751,9 @@ msgid "Rotate X"
 msgstr "Rotacii X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Rotacio ĉirkaŭ la X-akso"
+msgstr "<![CDATA[Angulo de rotacio laŭ la X-akso]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2771,10 +2762,9 @@ msgid "Rotate Y"
 msgstr "Rotacii Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Rotacio ĉirkaŭ la Y-akso"
+msgstr "<![CDATA[Angulo de rotacio laŭ la Y-akso]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2783,10 +2773,9 @@ msgid "Rotate Z"
 msgstr "Rotacii Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Rotacio ĉirkaŭ la Z-akso"
+msgstr "<![CDATA[Angulo de rotacio laŭ la Z-akso]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2797,7 +2786,7 @@ msgstr "Deŝovo X"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Deŝovo laŭ la X-akso]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2808,19 +2797,19 @@ msgstr "Deŝovo Y"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Deŝovo laŭ la Y-akso]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
 #: src/ui/editsubstyle_ui.ui:279
 #, kde-format
 msgid "Scale X"
-msgstr "Skalo X"
+msgstr "Skali X"
 
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Skalfaktoro aplikita al la X-akso]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2832,13 +2821,12 @@ msgstr "Skalo Y"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Skalfaktoro aplikita al la Y-akso]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Rotacii kaj Tondi"
+msgstr "Rotacii kaj Tondi (evitinda)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2881,10 +2869,9 @@ msgid "Pan and Zoom"
 msgstr "Ŝovumi kaj Zomi"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Glata (malrekomendita)"
+msgstr "Rotacii (evitinda)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2958,38 +2945,35 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Krei alfa-kanalon (travideblecon) bazitan sur alia rimedo"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Tondi X"
+msgstr "Tondo"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "Elekti tondaĵon por apliki la miksaĵon"
+msgstr "Tondi tondaĵon laŭ la 3 aksoj"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Tond-angulo ĉirkaŭ la X-akso]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Tond-angulo ĉirkaŭ la Y-akso]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Tondi X"
+msgstr "Tondi Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[Tond-angulo ĉirkaŭ la Z-akso]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
@@ -4971,10 +4955,9 @@ msgid "Default Keyframe Type"
 msgstr "Defaŭlta Ŝlosilkadra Tipo"
 
 #: src/assets/view/widgets/keyframewidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Aŭtomataj Ŝlosilkadroj"
+msgstr "Limigi aŭtomatajn ŝlosilkadrojn"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:228 src/bin/bin.cpp:1343
@@ -5044,10 +5027,9 @@ msgid "Current values copied"
 msgstr "Nunaj valoroj kopiitaj"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "Neniuj validaj ŝlosilkadraj datumoj en la tondujo"
+msgstr "Neniuj ŝlosilkadraj datumoj en tondujo"
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -7379,11 +7361,10 @@ msgid "Show Profile Parameters"
 msgstr "Montri Profilajn Parametrojn"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Malebligi parametrojn kiam la efiko estas malŝaltita"
+msgstr "Montras la parametrojn por la elektita profilo"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -8795,12 +8776,13 @@ msgid "Speech recognition aborted."
 msgstr "Parolrekono ĉesigita."
 
 #: src/dialogs/speechdialog.cpp:439
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed."
+#, kde-format
 msgid ""
 "Speech recognition failed:\n"
 "%1"
-msgstr "Parola rekono malsukcesis."
+msgstr ""
+"Parola rekono malsukcesis:\n"
+"%1"
 
 #: src/dialogs/speechdialog.cpp:446
 #, kde-format
@@ -10965,7 +10947,7 @@ msgstr "Montri Ŝlosilkadrojn"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
-msgstr "Enŝaltas la ekranon de la ŝlosilframa reganto."
+msgstr "Enŝaltas la ekranon de la ŝlosilframa mezurilo."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:118
 #, kde-format
@@ -11180,16 +11162,14 @@ msgid "Exporting video frames for analysis"
 msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Generante filmetan maskon"
+msgstr "Elportante filmetajn kadrojn"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Mankas fonta tondaĵo"
+msgstr "Mankas fontaj kadroj"
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11425,10 +11405,9 @@ msgid "Failed to analyse video."
 msgstr "Malsukcesis analizi filmeton."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "Malsukcesis krei prokurilon."
+msgstr "Malsukcesis prilabori ludliston."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -12706,10 +12685,9 @@ msgid "Multicam Tool"
 msgstr "Multikamera Ilo"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Filtrilo de Audio Ondform"
+msgstr "Zomi Aŭd-Ondoformojn"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -13346,11 +13324,9 @@ msgid "Clip in Project Bin"
 msgstr "Aŭdvidaĵo en projektujo"
 
 #: src/mainwindow.cpp:1757
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Serĉo pritraktata…"
+msgstr "Serĉi Bin-Tondaĵon…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1759 src/ui/cutjobdialog_ui.ui:18
@@ -14655,11 +14631,9 @@ msgid "Pink"
 msgstr "Rozkolora"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Damtabulo Malgranda"
+msgstr "Damtabulo"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -15133,17 +15107,13 @@ msgid "Generating video mask"
 msgstr "Generante filmetan maskon"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:381
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click on an object to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to exclude a zone."
+#, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
-"Klaku sur objekto por komenci maskon.\n"
+"Klaku sur objekto aŭ desegnu skatolon por komenci maskon.\n"
 "Shift+klako por inkluzivi alian zonon.\n"
 "Ktrl+klako por ekskludi zonon."
 
@@ -21928,10 +21898,9 @@ msgstr "Divido post unua linio"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Hide Keyframes"
+#, kde-format
 msgid "Keyframes"
-msgstr "Kaŝi Ŝlosilkadrojn"
+msgstr "Ŝlosilkadroj"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
@@ -24623,17 +24592,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Rotate (keyframable)"
-#~ msgstr "Rotacii (ŝlosilframebla)"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "Opens a window with encoding profiles and their parameters. From here you "
-#~ "can create, change, delete and download profiles used for timeline "
-#~ "preview, proxy generation, and video, screen and decklink capture."
-#~ msgstr ""
-#~ "Malfermas fenestron kun kodigaj profiloj kaj iliaj parametroj. De ĉi tie "
-#~ "vi povas krei, ŝanĝi, forigi kaj elŝuti profilojn uzatajn por "
-#~ "antaŭrigardo de templinio, genero de prokurilo kaj kaptado de video, "
-#~ "ekrano kaj decklink."

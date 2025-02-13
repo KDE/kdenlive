@@ -2859,7 +2859,8 @@ msgid "<![CDATA[Shear angle around the Y axis]]>"
 msgstr ""
 
 #: data/effects/shear.xml:33
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Shear Z"
 msgid "Shear Z"
 msgstr "Scheren Z"
 

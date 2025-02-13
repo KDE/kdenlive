@@ -637,6 +637,8 @@ msgid ""
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors.]]>"
 msgstr ""
+"<![CDATA[与所选颜色数值的偏差百分比。<br>\n"
+"        较低的值使颜色更接近所选颜色；较高的值包含更多颜色。]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -768,49 +770,44 @@ msgid "Counter Clockwise"
 msgstr "逆时针"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "阴影"
+msgstr "Drop Shadow - 投影"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "使用图像的亮度数值而不是透明度通道数值。"
+msgstr "使用透明度通道创建投影效果"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "半径"
+msgstr "模糊半径"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "投影边缘模糊的像素数量"
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "偏移"
+msgstr "X 偏移"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "投影的相对水平位置"
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "偏移"
+msgstr "Y 偏移"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "投影的相对垂直位置"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -820,10 +817,9 @@ msgid "Color"
 msgstr "颜色"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "波形图渐变的颜色。"
+msgstr "投影的颜色，包括透明度数值"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -2453,7 +2449,7 @@ msgstr "归一化"
 #: data/effects/shear.xml:10 data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
-msgstr "禁用重复"
+msgstr "禁用循环"
 
 #: data/effects/pan_zoom.xml:23 data/effects/rotate-3-way.xml:15
 #: data/effects/rotation.xml:47 data/effects/rotation_keyframable.xml:30
@@ -2624,11 +2620,10 @@ msgstr ""
 "pow(2.0, o)。此选项将覆盖八度偏移选项。"
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "旋转"
+msgstr "3-way Rotate - 三路旋转"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2642,6 +2637,8 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[在是使用关键帧为属性设置动画时，<br>\n"
+"\t    是否在动画到达最后一个关键帧后重复播放。]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -2651,12 +2648,13 @@ msgid ""
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[在使用关键帧为属性设置动画且 <em>禁用循环</em> 关闭时，<br>\n"
+"\t    是否让动画在每次循环时在反向和正向之间交替。]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "插入空白区域"
+msgstr "反转缩放"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2666,6 +2664,9 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"<![CDATA[是否反转 <em>缩放 X</em> 和 <em>缩放 Y</em> 的值。<br>\n"
+"        这有助于使动画插值合理，因为不反转的话缩放值的动画效果将不会线性变"
+"化。]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -2674,10 +2675,9 @@ msgid "Rotate X"
 msgstr "旋转 (沿 X 轴)"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "旋转 (绕 X 轴)"
+msgstr "<![CDATA[沿 X 轴的旋转角度]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2686,10 +2686,9 @@ msgid "Rotate Y"
 msgstr "旋转 (沿 Y 轴)"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "旋转 (绕 Y 轴)"
+msgstr "<![CDATA[沿 Y 轴的旋转角度]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2698,10 +2697,9 @@ msgid "Rotate Z"
 msgstr "旋转 (沿 Z 轴)"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "旋转 (绕 Z 轴)"
+msgstr "<![CDATA[沿 Z 轴的旋转角度]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2712,7 +2710,7 @@ msgstr "X 偏移"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[沿 X 轴的偏移量]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2723,7 +2721,7 @@ msgstr "Y 偏移"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[沿 Y 轴的偏移量]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -2735,7 +2733,7 @@ msgstr "缩放 X"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[应用到 X 轴的缩放比例因子]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2747,13 +2745,12 @@ msgstr "缩放 Y"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[应用到 Y 轴的缩放比例因子]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Rotate and Shear - 旋转和斜切"
+msgstr "Rotate and Shear - 旋转和斜切 (已废弃)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2796,10 +2793,9 @@ msgid "Pan and Zoom"
 msgstr "平移和缩放"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "平滑 (已废弃)"
+msgstr "Rotate - 旋转 (已废弃)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2873,43 +2869,40 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "创建一个基于其他资源的透明度通道"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "沿 X 轴斜切"
+msgstr "斜切"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "选择剪辑以应用混合"
+msgstr "沿 3 个轴对剪辑进行斜切变形"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[绕 X 轴的斜切角度]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[绕 Y 轴的斜切角度]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "沿 X 轴斜切"
+msgstr "斜切 Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[绕 Z 轴的斜切角度]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[沿 Y 轴的偏移量]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4858,10 +4851,9 @@ msgid "Default Keyframe Type"
 msgstr "默认关键帧类型"
 
 #: src/assets/view/widgets/keyframewidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "自动关键帧"
+msgstr "限制自动关键帧"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:228 src/bin/bin.cpp:1343
@@ -4931,10 +4923,9 @@ msgid "Current values copied"
 msgstr "当前值已复制"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "剪贴板中没有有效的关键帧数据"
+msgstr "剪贴板中没有关键帧数据"
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -7213,7 +7204,7 @@ msgstr "管理编码方案"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
-msgstr ""
+msgstr "打开用于创建、更改和删除编码方案的对话框窗口"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7224,7 +7215,7 @@ msgstr "显示编码方案参数"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr ""
+msgstr "显示所选编码方案的参数"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -10944,19 +10935,17 @@ msgstr "请配置 SAM2 插件"
 #: src/effects/effectstack/view/maskmanager.cpp:162
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "导出视频帧供分析"
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "正在生成视频蒙版"
+msgstr "导出视频帧"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "缺少来源素材"
+msgstr "缺少来源帧"
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11190,10 +11179,9 @@ msgid "Failed to analyse video."
 msgstr "分析视频失败。"
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "无法创建代理剪辑。"
+msgstr "处理播放列表失败。"
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -12457,10 +12445,9 @@ msgid "Multicam Tool"
 msgstr "多机位工具"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "音频波形图滤镜"
+msgstr "缩放音频波形"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -13075,11 +13062,9 @@ msgid "Clip in Project Bin"
 msgstr "项目素材箱中的剪辑"
 
 #: src/mainwindow.cpp:1757
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "搜索正在等待…"
+msgstr "搜索素材箱剪辑…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1759 src/ui/cutjobdialog_ui.ui:18
@@ -14364,11 +14349,9 @@ msgid "Pink"
 msgstr "粉红"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Checkerboard Small - 棋盘 (小)"
+msgstr "棋盘格"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -18736,7 +18719,7 @@ msgstr "编辑轨道名称"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "点击以循环切换音频波形缩放状态"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -21510,16 +21493,15 @@ msgstr "在第一行后拆分"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Hide Keyframes"
+#, kde-format
 msgid "Keyframes"
-msgstr "隐藏关键帧"
+msgstr "关键帧"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "自动关键帧的最小帧间隔："
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
@@ -21529,6 +21511,8 @@ msgid ""
 "the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"在监视器播放时添加自动关键帧 (例如在“变形”效果中)，此值是两个关键帧之间的最小"
+"帧间隔。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -24191,6 +24175,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Rotate (keyframable)"
-#~ msgstr "Rotate (keyframable) - 旋转 (可关键帧调整)"
