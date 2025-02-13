@@ -23,6 +23,7 @@ set(KdenliveTest_SOURCES
     modeltest.cpp
     movetest.cpp
     nestingtest.cpp
+    otiotest.cpp
     regressions.cpp
     rendermodeltest.cpp
     replacetest.cpp
