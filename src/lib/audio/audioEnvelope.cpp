@@ -18,7 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <algorithm>
 #include <cmath>
 
-AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, size_t length, size_t startPos)
+AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, int stream, size_t offset, size_t length, size_t startPos)
     : m_offset(offset)
     , m_clipId(clipId)
     , m_startpos(startPos)
@@ -33,6 +33,9 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
     m_envelopeSize = size_t(m_producer->get_playtime());
 
     m_producer->set("set.test_image", 1);
+    if (stream > -1) {
+        m_producer->set("audio_index", stream);
+    }
     connect(&m_watcher, &QFutureWatcherBase::finished, this, [this] { Q_EMIT envelopeReady(this); });
     if (!m_producer || !m_producer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// Cannot create envelope for producer: " << binId;

@@ -28,7 +28,7 @@ class AudioEnvelope : public QObject
     Q_OBJECT
 
 public:
-    explicit AudioEnvelope(const QString &binId, int clipId, size_t offset = 0, size_t length = 0, size_t startPos = 0);
+    explicit AudioEnvelope(const QString &binId, int clipId, int stream = -1, size_t offset = 0, size_t length = 0, size_t startPos = 0);
     ~AudioEnvelope() override;
     /**
        Starts the asynchronous computation that computes the

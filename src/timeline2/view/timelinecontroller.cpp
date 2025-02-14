@@ -3342,7 +3342,13 @@ void TimelineController::setAudioRef(int clipId)
         }
     }
     m_audioRef = clipId;
-    std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(getClipBinId(clipId), clipId));
+    std::shared_ptr<ClipModel> clip = m_model->getClipPtr(clipId);
+    if (!clip) {
+        pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+        return;
+    }
+    int audioStream = clip->getIntProperty(QStringLiteral("audio_index"));
+    std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(clip->binId(), clipId, audioStream));
     m_audioCorrelator.reset(new AudioCorrelation(std::move(envelope)));
     connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, this, [&](int cid, int shift) {
         // Ensure the clip was not deleted while processing calculations
@@ -3388,7 +3394,12 @@ void TimelineController::alignAudio(int clipId)
         if (!m_model->isClip(cid) || cid == m_audioRef) {
             continue;
         }
-        const QString otherBinId = getClipBinId(cid);
+        std::shared_ptr<ClipModel> otherClip = m_model->getClipPtr(cid);
+        if (!otherClip) {
+            continue;
+        }
+        const QString otherBinId = otherClip->binId();
+        int stream = otherClip->getIntProperty(QStringLiteral("audio_index"));
         if (m_model->m_groups->isInGroup(cid)) {
             int parentGroup = m_model->m_groups->getRootId(cid);
             if (processedGroups.contains(parentGroup)) {
@@ -3420,8 +3431,8 @@ void TimelineController::alignAudio(int clipId)
         }
         processed++;
         // Perform audio calculation
-        auto *envelope =
-            new AudioEnvelope(otherBinId, cid, size_t(m_model->getClipIn(cid)), size_t(m_model->getClipPlaytime(cid)), size_t(m_model->getClipPosition(cid)));
+        auto *envelope = new AudioEnvelope(otherBinId, cid, stream, size_t(m_model->getClipIn(cid)), size_t(m_model->getClipPlaytime(cid)),
+                                           size_t(m_model->getClipPosition(cid)));
         m_audioCorrelator->addChild(envelope);
     }
     if (processed == 0) {
