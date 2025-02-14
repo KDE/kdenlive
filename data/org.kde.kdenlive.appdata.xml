@@ -101,6 +101,7 @@
     <p xml:lang="lv">„Kdenlive“ ir video rediģēšanas programma ar daudzu audio un video formātu atbalstu. Tā sniedz plašas rediģēšanas iespējas, dažādus efektus un pārejas, krāsu korekcijas iespējas, skaņas pēcapstrādes un subtitru rīkus. Turklāt „Kdenlive“ ļauj renderēt praktiski jebkurā formātā pēc jūsu izvēles.</p>
     <p xml:lang="nl">Kdenlive is een toepassing voor video bewerken met ondersteuning voor vele audio- en videoformaten. Het biedt geavanceerde bewerkingsfuncties, een verscheidenheid aan effecten en transities, kleurcorrectie, audio nabewerking en hulpmiddelen voor ondertiteling. Bovendien levert het de flexibiliteit om te renderen in praktisch elk formaat van uw keuze.</p>
     <p xml:lang="pl">Kdenlive jest aplikacją do edytowania wideo z obsługą wielu formatów dźwięku i obrazu. Daje rozbudowane możliwości, wiele efektów i przejść, poprawianie barw, po-produkcję dźwięki oraz narzędzia do napisów. Dodatkowo, zapewnia możliwość zapisania do właściwie dowolnego formatu jaki sobie wybierzesz.</p>
+    <p xml:lang="pt-BR">Kdenlive é um aplicativo de edição de vídeo com suporte para vários formatos de áudio e vídeo. Ele oferece recursos avançados de edição, uma variedade de efeitos e transições, correção de cores, pós-produção de áudio e ferramentas de legenda. Além disso, fornece a flexibilidade para renderizar em praticamente qualquer formato que você escolher.</p>
     <p xml:lang="ru">Kdenlive — видеоредактор, поддерживающий различные форматы аудио- и видеозаписей. Программа предоставляет расширенные возможности редактирования, широкий ряд эффектов и переходов, инструменты цветокоррекции, окончательного монтажа аудио и наложения субтитров. Кроме того, гибкость настройки программы позволяет получить на выходе файл практически любого формата.</p>
     <p xml:lang="sa">Kdenlive इति एकः विडियो सम्पादन-अनुप्रयोगः अस्ति यस्य समर्थनं बहुषु श्रव्य-वीडियो-स्वरूपेषु भवति । अस्मिन् उन्नतसम्पादनविशेषताः, विविधाः प्रभावाः संक्रमणाः च, वर्णशुद्धिः, श्रव्य-उत्तरनिर्माणं, उपशीर्षकसाधनं च प्राप्यते । तदतिरिक्तं, भवतः पसन्दस्य व्यावहारिकरूपेण कस्मिन् अपि प्रारूपे प्रतिपादयितुं लचीलापनं प्रदाति ।</p>
     <p xml:lang="sl">Kdenlive je program za montažo videoposnetkov s podporo za številne zvokovne in video zapise. Ponuja napredne funkcije montaže, urejanja, različne učinke in prehode, korekcijo barv, poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru.</p>
@@ -171,6 +172,7 @@
       <li xml:lang="lv">Ievietotas sekvences</li>
       <li xml:lang="nl">Geneste sequenties</li>
       <li xml:lang="pl">Osadzone odcinki</li>
+      <li xml:lang="pt-BR">Sequências aninhadas</li>
       <li xml:lang="ru">Вложенные последовательности</li>
       <li xml:lang="sa">नेस्टेड अनुक्रम</li>
       <li xml:lang="sl">Ugnezdena zaporedja</li>
@@ -199,6 +201,7 @@
       <li xml:lang="lv">Konfigurējama saskarne un saīsnes</li>
       <li xml:lang="nl">Te configureren interface en sneltoetsen</li>
       <li xml:lang="pl">Interfejs i skróty dające się dostosować</li>
+      <li xml:lang="pt-BR">Interface e atalhos configuráveis</li>
       <li xml:lang="ru">Настраиваемые интерфейс и комбинации клавиш</li>
       <li xml:lang="sa">विन्यासयोग्यं अन्तरफलकं शॉर्टकट् च</li>
       <li xml:lang="sl">Nastavljiv vmesnik in bližnjice</li>
@@ -226,6 +229,7 @@
       <li xml:lang="lv">Tvērumi: histogramma, vektorskops, RGB parāde, viļņformas un audio mērītājs</li>
       <li xml:lang="nl">Scopes: Histogram, Vectorscope, RGB Parade, golfvorm en Audio-meter</li>
       <li xml:lang="pl">Widoki: Histogram, Wektoroskop, Parada RGB, Kształt Fali oraz Miernik Dźwięku</li>
+      <li xml:lang="pt-BR">Escopos: Histograma, Vetorescópio, Desfile RGB, Forma de onda e Medidor de áudio</li>
       <li xml:lang="ru">Отображение: гистограмма, вектороскоп, парад RGB, звуковой спектр и уровень звука</li>
       <li xml:lang="sa">व्याप्तिः : हिस्टोग्राम, वेक्टरस्कोप, आरजीबी परेड, तरङ्गरूप तथा ऑडियो मीटर्</li>
       <li xml:lang="sl">Merilniki: histogram, vektroskop, parada RGB, signalna oblika in merilnik jakosti zvoka</li>
@@ -254,6 +258,7 @@
       <li xml:lang="lv">Rediģēšana caur starpniekvideo un starpniekattēliem</li>
       <li xml:lang="nl">Proxy-bewerking</li>
       <li xml:lang="pl">Edytowanie pośredników</li>
+      <li xml:lang="pt-BR">Edição com proxy</li>
       <li xml:lang="ru">Редактирование с промежуточными клипами</li>
       <li xml:lang="sa">प्रॉक्सी सम्पादनम्</li>
       <li xml:lang="sl">Montaža posrednih posnetkov</li>
@@ -281,6 +286,7 @@
       <li xml:lang="lv">Bezmaksas tiešsaistes resursi un veidnes</li>
       <li xml:lang="nl">Vrij online bezit en sjablonen</li>
       <li xml:lang="pl">Darmowe zasoby i wzorce z sieci</li>
+      <li xml:lang="pt-BR">Recursos e modelos online gratuitos</li>
       <li xml:lang="ru">Бесплатные ресурсы и шаблоны в Интернете</li>
       <li xml:lang="sa">निःशुल्क ऑनलाइन सम्पत्तिः टेम्पलेट् च</li>
       <li xml:lang="sl">Brezplačna spletna sredstva in predloge</li>
@@ -569,6 +575,7 @@
       <caption xml:lang="lv">Laika pārkartēšana ar viena celiņa pārejām</caption>
       <caption xml:lang="nl">Snelheid van video wijzigen (time remapping) en overgangen in dezelfde track</caption>
       <caption xml:lang="pl">Przemapowywanie czasu oraz przejścia w obrębie jednej ścieżki</caption>
+      <caption xml:lang="pt-BR">Remapeamento de tempo e transições na mesma trilha</caption>
       <caption xml:lang="ru">Переназначение времени и переходы в одной и той же дорожке</caption>
       <caption xml:lang="sa">समयस्य पुनः मानचित्रणं तथा समान-पट्टिका-संक्रमणम्</caption>
       <caption xml:lang="sl">Preslikava časa in prehodi na isti stezi</caption>
