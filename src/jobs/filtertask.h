@@ -25,8 +25,13 @@ class QProcess;
 class FilterTask : public AbstractTask
 {
 public:
-    FilterTask(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName, const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object);
-    static void start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName, const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object, bool force = false);
+    FilterTask(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out,
+               const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData,
+               const QStringList &consumerArgs, QObject *object);
+
+    static void start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out,
+                      const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData,
+                      const QStringList &consumerArgs, QObject *object, bool force = false);
     int length;
 
 private Q_SLOTS:
@@ -41,7 +46,6 @@ private:
     int m_outPoint;
     QString m_assetId;
     std::weak_ptr<AssetParameterModel> m_model;
-    QString m_filterName;
     std::unordered_map<QString, QVariant> m_filterParams;
     std::unordered_map<QString, QString> m_filterData;
     QStringList m_consumerArgs;

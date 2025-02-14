@@ -5175,6 +5175,19 @@ bool TimelineModel::isInGroup(int id) const
     return m_groups->isInGroup(id);
 }
 
+void TimelineModel::limitBlackTrack(bool limit)
+{
+    int duration;
+    if (limit) {
+        duration = m_blackClip->get_playtime() - TimelineModel::seekDuration - 1;
+    } else {
+        duration = m_blackClip->get_playtime() + TimelineModel::seekDuration - 1;
+    }
+    m_blackClip->lock();
+    m_blackClip->set_in_and_out(0, duration);
+    m_blackClip->unlock();
+}
+
 void TimelineModel::updateDuration()
 {
     if (m_closing) {

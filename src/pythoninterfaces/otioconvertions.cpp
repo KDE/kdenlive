@@ -134,7 +134,7 @@ void OtioConvertions::slotExportProject()
     if (exportFile.isNull()) {
         return;
     }
-    QByteArray xml = pCore->projectManager()->projectSceneList("").first.toUtf8();
+    QByteArray xml = pCore->projectManager()->projectSceneList(QString()).first.toUtf8();
     if (xml.isNull()) {
         KMessageBox::error(pCore->window(), i18n("Project file could not be saved for export."));
         return;

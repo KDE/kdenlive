@@ -1382,8 +1382,8 @@ void Core::updateProjectTags(int previousCount, const QMap<int, QStringList> &ta
 std::unique_ptr<Mlt::Producer> Core::getMasterProducerInstance()
 {
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()) {
-        std::unique_ptr<Mlt::Producer> producer(
-            m_mainWindow->getCurrentTimeline()->controller()->tractor()->cut(0, m_mainWindow->getCurrentTimeline()->controller()->duration() - 1));
+        const QString scene = m_projectManager->projectSceneList(QString(), true).first;
+        std::unique_ptr<Mlt::Producer> producer(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", scene.toUtf8().constData()));
         return producer;
     }
     return nullptr;

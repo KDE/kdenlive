@@ -24,8 +24,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 
 FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out,
-                       const QString &filterName, const std::unordered_map<QString, QVariant> &filterParams,
-                       const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject *object)
+                       const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData,
+                       const QStringList &consumerArgs, QObject *object)
     : AbstractTask(owner, AbstractTask::FILTERCLIPJOB, object)
     , length(0)
     , m_binId(binId)
@@ -33,19 +33,18 @@ FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::w
     , m_outPoint(out)
     , m_assetId(assetId)
     , m_model(model)
-    , m_filterName(filterName)
     , m_filterParams(filterParams)
     , m_filterData(filterData)
     , m_consumerArgs(consumerArgs)
 {
-    m_description = i18n("Processing filter %1", filterName);
+    m_description = i18n("Processing filter %1", m_assetId);
 }
 
 void FilterTask::start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out,
-                       const QString &filterName, const std::unordered_map<QString, QVariant> &filterParams,
-                       const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject *object, bool force)
+                       const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData,
+                       const QStringList &consumerArgs, QObject *object, bool force)
 {
-    FilterTask *task = new FilterTask(owner, binId, model, assetId, in, out, filterName, filterParams, filterData, consumerArgs, object);
+    FilterTask *task = new FilterTask(owner, binId, model, assetId, in, out, filterParams, filterData, consumerArgs, object);
     // Otherwise, start a filter thread.
     task->m_isForce = force;
     pCore->taskManager.startTask(owner.itemId, task);
@@ -121,7 +120,7 @@ void FilterTask::run()
             if (m_owner.type == KdenliveObjectType::TimelineClip) {
                 // Add the timeline clip effects
                 std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(pCore->currentTimelineId(), int(m_owner.type), m_owner.itemId);
-                stack->passEffects(producer.get(), m_filterName);
+                stack->passEffects(producer.get(), m_assetId);
             }
         }
         if ((producer == nullptr) || !producer->is_valid()) {
@@ -153,7 +152,9 @@ void FilterTask::run()
     }
     length = producer->get_playtime();
     if (length == 0) {
-        length = producer->get_length();
+        length = qMax(0, producer->get_length() - 1);
+    } else {
+        length--;
     }
 
     // Build consumer
@@ -180,40 +181,39 @@ void FilterTask::run()
     consumer->connect(*producer.get());
     producer->set_speed(0);
 
-    if (binClip) {
-        // Build filter
-        Mlt::Filter filter(profile, m_filterName.toUtf8().data());
-        if (!filter.is_valid()) {
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create filter %1", m_filterName)),
-                                      Q_ARG(int, int(KMessageWidget::Warning)));
-            return;
-        }
-
-        // Process filter params
-        qDebug() << " = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
-        for (const auto &it : m_filterParams) {
-            qDebug() << ". . ." << it.first << " = " << it.second;
-            if (it.first == QLatin1String("in") || it.first == QLatin1String("out")) {
-                continue;
-            }
-            if (it.second.typeId() == QMetaType::Double) {
-                filter.set(it.first.toUtf8().constData(), it.second.toDouble());
-            } else {
-                filter.set(it.first.toUtf8().constData(), it.second.toString().toUtf8().constData());
-            }
-        }
-        if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
-            // leave it operate on full clip
-        } else {
-            filter.set_in_and_out(m_inPoint, m_outPoint);
-        }
-        producer->attach(filter);
-        filter.set("kdenlive:id", "kdenlive-analysis");
+    // Build filter
+    Mlt::Filter filter(profile, m_assetId.toUtf8().data());
+    if (!filter.is_valid()) {
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create filter %1", m_assetId)),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
+        return;
     }
 
-    qDebug() << "=== FILTER READY TO PROCESS; LENGTH: " << length;
+    // Process filter params
+    qDebug() << " = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
+    for (const auto &it : m_filterParams) {
+        qDebug() << ". . ." << it.first << " = " << it.second;
+        if (it.first == QLatin1String("in") || it.first == QLatin1String("out")) {
+            continue;
+        }
+        if (it.second.typeId() == QMetaType::Double) {
+            filter.set(it.first.toUtf8().constData(), it.second.toDouble());
+        } else {
+            filter.set(it.first.toUtf8().constData(), it.second.toString().toUtf8().constData());
+        }
+    }
+    if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
+        // leave it operate on full clip
+        filter.set_in_and_out(0, length);
+    } else {
+        filter.set_in_and_out(m_inPoint, m_outPoint);
+    }
+    filter.set("kdenlive:id", "kdenlive-analysis");
+    producer->attach(filter);
+
     consumer->run();
     consumer.reset();
+    producer->detach(filter);
     producer.reset();
     xmlLock.unlock();
     // wholeProducer.reset();
@@ -238,6 +238,31 @@ void FilterTask::run()
     consumerNode.setAttribute("resource", destFile.fileName());
     consumerNode.setAttribute("store", "kdenlive");
 
+    if (m_owner.type == KdenliveObjectType::TimelineTrack) {
+        // For audio tasks, we need to add a background audio track or there will be missing frames
+        QDomNodeList tracks = dom.documentElement().elementsByTagName(QStringLiteral("track"));
+        if (!tracks.isEmpty()) {
+            // Check if this is an audio job
+            if (tracks.at(0).toElement().attribute(QStringLiteral("hide")) == QLatin1String("video")) {
+                // Match, audio track job. Add a fake background track producing audio
+                QDomElement bgNode = dom.createElement("track");
+                bgNode.setAttribute(QStringLiteral("hide"), QStringLiteral("video"));
+                bgNode.setAttribute(QStringLiteral("producer"), QStringLiteral("black"));
+                QDomElement tractor = dom.documentElement().firstChildElement(QStringLiteral("tractor"));
+                tractor.insertAfter(bgNode, tracks.at(tracks.count() - 1));
+                QDomElement bgProducer = dom.createElement("producer");
+                bgProducer.setAttribute(QStringLiteral("id"), QStringLiteral("black"));
+                bgProducer.setAttribute(QStringLiteral("out"), QString::number(length));
+                Xml::setXmlProperty(bgProducer, QStringLiteral("length"), QString::number(length + 1));
+                Xml::setXmlProperty(bgProducer, QStringLiteral("resource"), QStringLiteral("black"));
+                Xml::setXmlProperty(bgProducer, QStringLiteral("aspect_ratio"), QStringLiteral("1"));
+                Xml::setXmlProperty(bgProducer, QStringLiteral("mlt_service"), QStringLiteral("color"));
+                Xml::setXmlProperty(bgProducer, QStringLiteral("set.test_audio"), QStringLiteral("0"));
+                dom.documentElement().insertAfter(bgProducer, consumerNode);
+            }
+        }
+    }
+
     QFile f1(sourceFile.fileName());
     f1.open(QIODevice::WriteOnly);
     QTextStream stream(&f1);
@@ -246,7 +271,7 @@ void FilterTask::run()
     dom.clear();
 
     // Step 2: process the xml file and save in another .mlt file
-    QStringList args({QStringLiteral("progress=1"), sourceFile.fileName()});
+    const QStringList args({QStringLiteral("progress=1"), sourceFile.fileName()});
     m_jobProcess.reset(new QProcess);
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &FilterTask::processLogInfo);
@@ -273,13 +298,10 @@ void FilterTask::run()
 
     QString resultData;
     if (Xml::docContentFromFile(dom, destFile.fileName(), false)) {
-        qDebug() << "AAAA\nGOT DOC\n" << dom.toString();
         QDomNodeList filters = dom.elementsByTagName(QLatin1String("filter"));
         for (int i = 0; i < filters.count(); ++i) {
             QDomElement currentParameter = filters.item(i).toElement();
-            if (Xml::getXmlProperty(currentParameter, QLatin1String("mlt_service")) == m_filterName) {
-                resultData = Xml::getXmlProperty(currentParameter, key);
-            } else if (Xml::getXmlProperty(currentParameter, QLatin1String("kdenlive:id")) == QLatin1String("kdenlive-analysis")) {
+            if (Xml::getXmlProperty(currentParameter, QLatin1String("kdenlive:id")) == QLatin1String("kdenlive-analysis")) {
                 resultData = Xml::getXmlProperty(currentParameter, key);
             }
             if (!resultData.isEmpty()) {
@@ -292,6 +314,10 @@ void FilterTask::run()
         // Motion tracker keyframes always start at master clip 0, so no need to set in/out points
         params.append({QStringLiteral("in"), m_inPoint});
         params.append({QStringLiteral("out"), m_outPoint});
+    }
+    if (resultData.isEmpty()) {
+        QMetaObject::invokeMethod(pCore.get(), "displayMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Effect analysis failed for %1", m_assetId)),
+                                  Q_ARG(MessageType, MessageType::ErrorMessage));
     }
     params.append({key, QVariant(resultData)});
     if (m_filterData.find(QStringLiteral("storedata")) != m_filterData.end()) {

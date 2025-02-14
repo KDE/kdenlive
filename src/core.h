@@ -195,8 +195,6 @@ public:
         Note that if you class permits and requires it, you should use the macro PUSH_UNDO instead*/
     void pushUndo(const Fun &undo, const Fun &redo, const QString &text);
     void pushUndo(QUndoCommand *command);
-    /** @brief display a user info/warning message in statusbar */
-    void displayMessage(const QString &message, MessageType type, int timeout = -1);
     /** @brief display timeline selection info in statusbar */
     void displaySelectionMessage(const QString &message);
     /** @brief Clear asset view if itemId is displayed. */
@@ -399,6 +397,8 @@ public Q_SLOTS:
     const QString actionText(const QString &name);
     /** @brief Add an action to the app's actionCollection */
     void addActionToCollection(const QString &name, QAction *action);
+    /** @brief display a user info/warning message in statusbar */
+    void displayMessage(const QString &message, MessageType type, int timeout = -1);
     /** @brief display a user info/warning message in the project bin */
     void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
                            BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);

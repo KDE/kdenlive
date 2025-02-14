@@ -1669,7 +1669,7 @@ std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
 }
 
 const std::pair<QString, QString> ProjectItemModel::sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration,
-                                                              const QString &aspectRatio)
+                                                              bool timelineProducerOnly, const QString &aspectRatio)
 {
     QWriteLocker lock(&pCore->xmlMutex);
     LocaleHandling::resetLocale();
@@ -1702,10 +1702,15 @@ const std::pair<QString, QString> ProjectItemModel::sceneList(const QString &roo
     if (m_projectTractor->count() > 0) {
         m_projectTractor->remove_track(0);
     }
-    std::unique_ptr<Mlt::Producer> cut(activeTractor->cut(0, duration));
-    m_projectTractor->insert_track(*cut.get(), 0);
+    Mlt::Service s;
+    if (timelineProducerOnly) {
+        s = Mlt::Service(activeTractor->get_service());
+    } else {
+        std::unique_ptr<Mlt::Producer> cut(activeTractor->cut(0, duration));
+        m_projectTractor->insert_track(*cut.get(), 0);
+        s = Mlt::Service(m_projectTractor->get_service());
+    }
 
-    Mlt::Service s(m_projectTractor->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
     if (!filterData.isEmpty()) {
         filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile(), QStringLiteral("dynamictext:%1").arg(filterData).toUtf8().constData());

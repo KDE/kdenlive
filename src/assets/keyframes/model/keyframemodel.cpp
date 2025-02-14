@@ -967,7 +967,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
     }
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
-    (void)mlt_prop.anim_get_double("key", 0, out);
+    (void)mlt_prop.anim_get_double("key", 0, in + out);
 
     Mlt::Animation anim = mlt_prop.get_animation("key");
 
@@ -1014,13 +1014,13 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
         }
         if (i == 0 && frame > in) {
             // Always add a keyframe at start pos
-            addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, true, undo, redo);
+            addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
         } else if (frame == in && hasKeyframe(GenTime(in))) {
             // First keyframe already exists, adjust its value
-            updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, true);
+            updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
             continue;
         }
-        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, true, undo, redo);
+        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }

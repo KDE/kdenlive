@@ -375,6 +375,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
         m_asset->set(name.toLatin1().constData(), paramValue.toUtf8().constData());
         if (m_fixedParams.count(name) == 0) {
             m_params[name].value = paramValue;
+            qDebug() << ":::: SETTING PARAM: " << name << " = " << paramValue << "\nHHHHHHHHHHHHHHHHHH";
             if (m_keyframes) {
                 // This is a fake query to force the animation to be parsed
                 (void)m_asset->anim_get_int(name.toLatin1().constData(), 0, -1);
@@ -384,7 +385,6 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
                 } else {
                     qDebug() << "====ERROR KFMODEL NOT FOUND FOR: " << name << ", " << paramIndex;
                 }
-                // m_keyframes->refresh();
             }
         } else {
             m_fixedParams[name] = paramValue;
@@ -453,7 +453,6 @@ const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
 
 void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, QModelIndex paramIndex)
 {
-    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update; // << ", VAL: " << paramValue;
     if (!paramIndex.isValid()) {
         paramIndex = index(m_rows.indexOf(name), 0);
     }
@@ -499,7 +498,9 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
     // Update timeline view if necessary
     if (m_ownerId.type == KdenliveObjectType::NoItem) {
         // Used for generator clips
-        if (!update) Q_EMIT modelChanged();
+        if (!update) {
+            Q_EMIT modelChanged();
+        }
     } else {
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId, name);

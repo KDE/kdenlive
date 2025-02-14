@@ -105,7 +105,6 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 // values << QPair<QString, QVariant>(QStringLiteral("_reset"),1);
                 values << QPair<QString, QVariant>(m_keyParam, current);
             } else {
-
                 values << QPair<QString, QVariant>(m_keyParam, defaultValue);
             }
             m_model->setParametersFromTask(values);
@@ -160,7 +159,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
             pCore->taskManager.discardJobs(owner, AbstractTask::FILTERCLIPJOB);
             setToolTip(m_conditionalText);
         } else {
-            FilterTask::start(owner, binId, m_model, assetId, in, out, assetId, fParams, fData, consumerParams, this);
+            FilterTask::start(owner, binId, m_model, assetId, in, out, fParams, fData, consumerParams, this);
             setToolTip(QString());
             m_button->setEnabled(false);
         }

@@ -412,7 +412,7 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
     pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>());
     // QString scene = m_activeTimelineModel->sceneList(saveFolder);
     int duration = m_activeTimelineModel->duration();
-    QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), m_activeTimelineModel->tractor(), duration).first;
+    const QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), m_activeTimelineModel->tractor(), duration).first;
     if (scene.isEmpty()) {
         qDebug() << "//////  ERROR writing EMPTY scene list to file: " << outputFileName;
         return false;
@@ -1231,7 +1231,8 @@ void ProjectManager::slotAutoSave()
     m_lastSave.start();
 }
 
-std::pair<QString, QString> ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData, const QString &aspectRatio)
+std::pair<QString, QString> ProjectManager::projectSceneList(const QString &outputFolder, bool timelineProducerOnly, const QString &overlayData,
+                                                             const QString &aspectRatio)
 {
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager() && pCore->monitorManager()->isMultiTrack();
@@ -1252,8 +1253,16 @@ std::pair<QString, QString> ProjectManager::projectSceneList(const QString &outp
 
     // We must save from the primary timeline model
     int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
+    if (timelineProducerOnly) {
+        // Ensure the producer has the correct duration
+        m_activeTimelineModel->limitBlackTrack(true);
+    }
     std::pair<QString, QString> scene =
-        pCore->projectItemModel()->sceneList(outputFolder, overlayData, m_activeTimelineModel->tractor(), duration, aspectRatio);
+        pCore->projectItemModel()->sceneList(outputFolder, overlayData, m_activeTimelineModel->tractor(), duration, timelineProducerOnly, aspectRatio);
+    if (timelineProducerOnly) {
+        // Restore the producer's duration (with seeking offset)
+        m_activeTimelineModel->limitBlackTrack(false);
+    }
     if (pCore->mixer()) {
         pCore->mixer()->pauseMonitoring(false);
     }

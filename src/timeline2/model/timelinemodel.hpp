@@ -531,6 +531,11 @@ public:
     /**  @brief True if we are selecting a single item in a group
      */
     bool singleSelectionMode() const;
+    /**  @brief CHange the black bacground track duration.
+     *  if @limit is  true, reduce track duration to project duration
+     *  if @limit is false, add seek offset
+     */
+    void limitBlackTrack(bool limit);
 
 protected:
     /** @brief Creates a new clip instance without inserting it.

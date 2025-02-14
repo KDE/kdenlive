@@ -148,7 +148,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
     bool modified = false;
 
     std::pair<QString, QString> playlistContent = pCore->projectManager()->projectSceneList(
-        project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData, m_aspectRatio);
+        project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), false, m_overlayData, m_aspectRatio);
 
     QDomDocument doc;
     if (!playlistContent.second.isEmpty()) {

@@ -254,7 +254,7 @@ public:
     /** @brief Return the main sequence's xml as a playlist. If the render ratio is used and we use a tmp file containing the real xml data, return the tmp
      * file's path as second parameter */
     const std::pair<QString, QString> sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration,
-                                                const QString &aspectRatio = QString());
+                                                bool timelineProducerOnly = false, const QString &aspectRatio = QString());
     /** @brief Ensure that sequence @destUuid is not embedded in any dependency of sequence @srcUuid */
     bool canBeEmbeded(const QUuid destUuid, const QUuid srcUuid);
     /** @brief Store a newly created sequence tractor for reuse */

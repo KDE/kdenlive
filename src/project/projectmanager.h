@@ -65,10 +65,14 @@ public:
     void disableBinEffects(bool disable, bool refreshMonitor = true);
     /** @brief Returns current project's xml scene
      * @param outputFolder The output folder for the project scene.
+     * @param timelineProducerOnly If true, we will return a direct instance of our timeline producer with black track duration adjusted to project's duration,
+     * for use in tasks'
      * @param overlayData The overlay data for the project.
      * @param aspectRation The aspect ratio for the project (e.g. square).
+     * @returns a string pair as: {xml data; path for tmp file if an aspect ratio change was requested}
      */
-    std::pair<QString, QString> projectSceneList(const QString &outputFolder, const QString &overlayData = QString(), const QString &aspectRation = QString());
+    std::pair<QString, QString> projectSceneList(const QString &outputFolder, bool timelineProducerOnly = false, const QString &overlayData = QString(),
+                                                 const QString &aspectRation = QString());
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
