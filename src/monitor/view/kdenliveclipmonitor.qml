@@ -707,9 +707,11 @@ Item {
                     }
                     Drag.onDragFinished: dropAction => {
                         videoDragButton.isDragging = false
+                        dragVideoArea.enabled = false
                         root.captureRightClick = false
                     }
                     onPressed: {
+                        dragVideoArea.enabled = true
                         videoDragButton.grabToImage(function(result) {
                             videoDragButton.Drag.imageSource = result.url
                         })
@@ -718,6 +720,7 @@ Item {
                         id: dragVideoArea
                         acceptedButtons: Qt.LeftButton
                         target: null
+                        enabled: false
                     }
                 }
                 ToolButton {
@@ -739,8 +742,10 @@ Item {
                     Drag.onDragFinished: {
                         audioDragButton.isDragging = false
                         root.captureRightClick = false
+                        dragAudioArea.enabled = false
                     }
                     onPressed: {
+                        dragAudioArea.enabled = true
                         audioDragButton.grabToImage(function(result) {
                             audioDragButton.Drag.imageSource = result.url
                         })
@@ -749,6 +754,7 @@ Item {
                         id: dragAudioArea
                         acceptedButtons: Qt.LeftButton
                         target: null
+                        enabled: false
                     }
                 }
             }
