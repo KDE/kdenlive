@@ -7970,7 +7970,6 @@ namespace fakeit {
             template<typename current_arg, typename ... valuelist, typename ... arglist>
             static void
             Assign(ArgumentsTuple<valuelist...> arg_vals, current_arg &&p, arglist&&... args) {
-                ParamWalker<N - 1>::template Assign(arg_vals, std::forward<arglist>(args)...);
                 GetArg(std::forward<current_arg>(p)) = std::get<sizeof...(valuelist) - N>(arg_vals);
             }
         };
