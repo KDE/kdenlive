@@ -54,23 +54,12 @@ if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 6)
 endif()
 
-# OpenTimelineIO
+# The dependencies (currently only OpenTimelineIO) are located in a
+# subdirectory so their CMake variables are not exposed to the main project.
 #
 # Note that this needs to come before the KDECompilerSettings. OTIO is not
 # compatible with the KDE compiler flag "-fno-operator-names".
-#
-# TODO: Use CMake's FetchContent to include OpenTimelineIO until a system
-# package is available.
-if (FETCH_OTIO)
-    include(FetchContent)
-    set(OTIO_SHARED_LIBS OFF)
-    FetchContent_Declare(
-        OTIO
-        GIT_REPOSITORY https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git
-        GIT_TAG v0.17.0)
-    FetchContent_MakeAvailable(OTIO)
-    include_directories(${otio_SOURCE_DIR}/src)
-endif()
+add_subdirectory(deps)
 
 ## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -89,10 +78,6 @@ remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, bu
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
 endif()
-# Enable exceptions for OTIO and dependencies.
-kde_target_enable_exceptions(opentime PUBLIC)
-kde_target_enable_exceptions(opentimelineio PUBLIC)
-kde_target_enable_exceptions(Imath PUBLIC)
 
 # KDE Frameworks
 if (NOT DEFINED KF_MAJOR)
@@ -169,7 +154,13 @@ pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
 )
 
 # OpenTimelineIO
-if (NOT FETCH_OTIO)
+if(FETCH_OTIO)
+    include_directories(${otio_SOURCE_DIR}/src)
+    # Enable exceptions for OTIO and dependencies.
+    kde_target_enable_exceptions(opentime PUBLIC)
+    kde_target_enable_exceptions(opentimelineio PUBLIC)
+    kde_target_enable_exceptions(Imath PUBLIC)
+else()
     find_package(OTIO REQUIRED)
 endif()
 
