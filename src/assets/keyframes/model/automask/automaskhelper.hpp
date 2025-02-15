@@ -7,8 +7,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include <KMessageWidget>
+
 #include <QObject>
 #include <QPoint>
+#include <QProcess>
 #include <QVariant>
 
 #include <memory>
@@ -28,7 +31,7 @@ public:
        @param index is the index of this parameter in its model
      */
     explicit AutomaskHelper(QObject *parent = nullptr);
-    void showMessage(const QString &message);
+    void launchSam(const QString &previewFile);
 
 public Q_SLOTS:
     bool generateMask(const QString &binId, const QString &maskName, const QPoint &zone);
@@ -36,6 +39,7 @@ public Q_SLOTS:
     void addMonitorControlPoint(const QString &previewFile, int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
     void moveMonitorControlPoint(const QString &previewFile, int ix, int position, const QSize frameSize, int xPos, int yPos);
     void addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend);
+    void abortJob();
 
 private:
     Monitor *m_monitor;
@@ -44,7 +48,14 @@ private:
     QMap<int, QList<QPoint>> m_includePoints;
     QMap<int, QList<QPoint>> m_excludePoints;
     QMap<int, QRect> m_boxes;
+    QProcess m_samProcess;
+    QMap<int, QString> m_maskParams;
+    QString m_binId;
 
 private Q_SLOTS:
     void generateImage(const QString &previewFile);
+
+Q_SIGNALS:
+    void showMessage(const QString &message, KMessageWidget::MessageType type = KMessageWidget::Information);
+    void updateProgress(int progress);
 };

@@ -3114,37 +3114,6 @@ bool ProjectClip::hasAlpha()
     return false;
 }
 
-void ProjectClip::exportFrames(const QString &fileName, const QDir folder)
-{
-    // exporting through ffmpeg gives frames mismatch when clip fps != project fps
-    /*GenTime inPos;
-    QStringList args = {QStringLiteral("-y")};
-    if (in > 0) {
-        inPos = GenTime(in, pCore->getCurrentFps());
-        args << QStringLiteral("-ss") << QString::number(inPos.seconds());
-    }
-    args << QStringLiteral("-i") << clipUrl();
-    if (out > 0) {
-        GenTime outPos(out + 1, pCore->getCurrentFps());
-        args << QStringLiteral("-t") << QString::number((outPos - inPos).seconds());
-    }
-    args << QStringLiteral("-start_number") << QStringLiteral("0");
-    args << folder.absoluteFilePath(QStringLiteral("%05d.jpg"));
-    // TODO Inform monitor when all frames are exported
-    // connect(&m_exportProcess, &QProcess::finished, this, [this]() { m_exportFramesTimer.stop(); });
-    m_exportProcess.startDetached(KdenliveSettings::ffmpegpath(), args);*/
-    QProcess p;
-    QStringList args = {QStringLiteral("xml:%1").arg(fileName),
-                        QStringLiteral("-consumer"),
-                        QStringLiteral("avformat:%1").arg(folder.absoluteFilePath(QStringLiteral("%05d.jpg"))),
-                        QStringLiteral("start_number=0"),
-                        QStringLiteral("-preset"),
-                        QStringLiteral("stills/JPEG")};
-    p.start(KdenliveSettings::meltpath(), args);
-    p.waitForFinished(-1);
-    QFile::remove(fileName);
-}
-
 void ProjectClip::addMask(MaskInfo mask)
 {
     m_masks.append(mask);

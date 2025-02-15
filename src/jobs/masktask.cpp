@@ -18,21 +18,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QImage>
 #include <QString>
 
-MaskTask::MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, std::pair<QString, QString> scriptPath, int in, int out, QObject *object)
+MaskTask::MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object)
     : AbstractTask(owner, AbstractTask::MASKJOB, object)
     , m_properties(maskProperties)
-    , m_scriptPath(scriptPath)
-    , m_in(in)
-    , m_out(out)
 {
     m_description = i18n("Mask creation");
 }
 
 MaskTask::~MaskTask() {}
 
-void MaskTask::start(const ObjectId &owner, QMap<int, QString> maskProperties, std::pair<QString, QString> scriptPath, int in, int out, QObject *object)
+void MaskTask::start(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object)
 {
-    MaskTask *task = new MaskTask(owner, maskProperties, scriptPath, in, out, object);
+    MaskTask *task = new MaskTask(owner, maskProperties, object);
     pCore->taskManager.startTask(owner.itemId, task);
 }
 
@@ -46,48 +43,23 @@ void MaskTask::generateMask()
     }
     const QString outFile = m_properties.value(MaskTask::OUTPUTFILE);
     const QString outFramesFolder = m_properties.value(MaskTask::OUTPUTFOLDER);
-    QStringList args = {m_scriptPath.second,
-                        QStringLiteral("-I"),
-                        m_properties.value(MaskTask::INPUTFOLDER),
-                        QStringLiteral("-O"),
-                        outFramesFolder,
-                        QStringLiteral("-M"),
-                        KdenliveSettings::samModelFile(),
-                        QStringLiteral("-C"),
-                        SamInterface::configForModel()};
-    if (!m_properties.value(MaskTask::POINTS).isEmpty()) {
-        args << QStringLiteral("-P") << m_properties.value(MaskTask::POINTS) << QStringLiteral("-L") << m_properties.value(MaskTask::LABELS);
-    }
-    if (!m_properties.value(MaskTask::BOX).isEmpty()) {
-        args << QStringLiteral("-B") << m_properties.value(MaskTask::BOX);
-    }
-    if (!KdenliveSettings::samDevice().isEmpty()) {
-        args << QStringLiteral("-D") << KdenliveSettings::samDevice();
-    }
-    qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
     m_scriptJob = std::make_unique<QProcess>(new QProcess);
     QObject::connect(this, &AbstractTask::jobCanceled, m_scriptJob.get(), &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_scriptJob.get(), &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);
-    m_scriptJob->start(m_scriptPath.first, args);
-    m_scriptJob->waitForFinished(-1);
-    if (m_scriptJob->exitCode() != 0) {
-        QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to analyse video.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
-        return;
-    }
     m_isFfmpegJob = true;
     // Now convert frames to video
     // ffmpeg -framerate 25 -pattern_type glob -i '*.png' -c:v ffv1 -pix_fmt yuva420p output.mkv
-    args = {QStringLiteral("-y"),
-            QStringLiteral("-framerate"),
-            QString::number(pCore->getCurrentFps()),
-            QStringLiteral("-i"),
-            QStringLiteral("%1/%05d.png").arg(outFramesFolder),
-            QStringLiteral("-c:v"),
-            QStringLiteral("ffv1"),
-            QStringLiteral("-pix_fmt"),
-            QStringLiteral("yuva420p"),
-            outFile};
+    const QStringList args = {QStringLiteral("-y"),
+                              QStringLiteral("-framerate"),
+                              QString::number(pCore->getCurrentFps()),
+                              QStringLiteral("-i"),
+                              QStringLiteral("%1/%05d.png").arg(outFramesFolder),
+                              QStringLiteral("-c:v"),
+                              QStringLiteral("ffv1"),
+                              QStringLiteral("-pix_fmt"),
+                              QStringLiteral("yuva420p"),
+                              outFile};
+    qDebug() << "================\nSTARTING MASK TCIODE:\n" << args << "\n\”===================";
     m_scriptJob->start(KdenliveSettings::ffmpegpath(), args);
     m_scriptJob->waitForFinished(-1);
     if (!QFile::exists(outFile)) {
@@ -112,8 +84,8 @@ void MaskTask::generateMask()
         MaskInfo mask;
         mask.maskName = m_properties.value(MaskTask::NAME);
         mask.maskFile = outFile;
-        mask.in = m_in;
-        mask.out = m_out;
+        mask.in = m_properties.value(MaskTask::ZONEIN).toInt();
+        mask.out = m_properties.value(MaskTask::ZONEOUT).toInt();
         QMetaObject::invokeMethod(binClip.get(), "addMask", Qt::QueuedConnection, Q_ARG(MaskInfo, mask));
     }
 }

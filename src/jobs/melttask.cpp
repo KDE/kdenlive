@@ -47,6 +47,7 @@ void MeltTask::run()
     m_jobProcess.reset(new QProcess);
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &MeltTask::processLogInfo);
+    qDebug() << "::: // STARTING MELT JOB: " << m_jobArgs << "\nFOR FILE: " << m_playlistName;
     m_jobProcess->start(KdenliveSettings::meltpath(), m_jobArgs);
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
@@ -59,7 +60,7 @@ void MeltTask::run()
         }
     }
     if (m_playlistName.startsWith(QDir::tempPath())) {
-        QFile::remove(m_playlistName);
+        // QFile::remove(m_playlistName);
     }
     Q_EMIT taskDone();
 }

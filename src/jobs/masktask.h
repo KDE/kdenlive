@@ -22,20 +22,16 @@ class ProjectClip;
 class MaskTask : public AbstractTask
 {
 public:
-    enum MaskProperty { INPUTFOLDER, OUTPUTFOLDER, POINTS, LABELS, BOX, NAME, OUTPUTFILE };
-    MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, std::pair<QString, QString> scriptPath, int in, int out, QObject *object);
+    enum MaskProperty { INPUTFOLDER, OUTPUTFOLDER, POINTS, LABELS, BOX, NAME, OUTPUTFILE, ZONEIN, ZONEOUT };
+    MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object);
     ~MaskTask() override;
-    static void start(const ObjectId &owner, QMap<int, QString> maskProperties, std::pair<QString, QString> scriptPath, int in = 0, int out = 0,
-                      QObject *object = nullptr);
+    static void start(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object = nullptr);
 
 protected:
     void run() override;
 
 private:
     QMap<int, QString> m_properties;
-    std::pair<QString, QString> m_scriptPath;
-    int m_in;
-    int m_out;
     int m_jobDuration{0};
     std::function<void()> m_readyCallBack;
     QString m_errorMessage;
