@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2025 Darby Johnston <darbyjohnston@yahoo.com>
+# SPDX-License-Identifier: BSD-2-Clause
+
 # OpenTimelineIO
 #
 # TODO: Use CMake's FetchContent to include OpenTimelineIO until a system
