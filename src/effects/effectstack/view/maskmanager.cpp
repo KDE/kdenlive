@@ -45,6 +45,8 @@ MaskManager::MaskManager(QWidget *parent)
     : QWidget(parent)
 {
     setupUi(this);
+    samProgress->hide();
+    buttonAbort->hide();
     samStatus->hide();
     samStatus->setText(i18n("Please configure the SAM2 plugin"));
     samStatus->setMessageType(KMessageWidget::Warning);
@@ -87,6 +89,18 @@ MaskManager::MaskManager(QWidget *parent)
     maskTree->setAllColumnsShowFocus(true);
     maskTree->setIconSize(m_iconSize);
     checkModelAvailability();
+    connect(buttonAbort, &QToolButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
+    connect(m_maskHelper, &AutomaskHelper::showMessage, this, [this](QString message, KMessageWidget::MessageType type) {
+        samStatus->setMessageType(type);
+        samStatus->setText(message);
+        samStatus->show();
+    });
+    connect(m_maskHelper, &AutomaskHelper::updateProgress, this, [this](int progress) {
+        samProgress->setValue(progress);
+        bool visible = progress < 100;
+        samProgress->setVisible(visible);
+        buttonAbort->setVisible(visible);
+    });
     connect(buttonApply, &QPushButton::clicked, this, &MaskManager::applyMask);
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
 }
@@ -143,19 +157,21 @@ void MaskManager::initMaskMode()
         playlist.append(prod, m_zone.x(), m_zone.y());
         c.connect(playlist);
         c.run();
-        QStringList args = {QStringLiteral("xml:%1").arg(src.fileName()),
-                            QStringLiteral("-consumer"),
-                            QStringLiteral("avformat:%1").arg(srcMaskFolder.absoluteFilePath(QStringLiteral("%05d.jpg"))),
-                            QStringLiteral("start_number=0"),
-                            QStringLiteral("-preset"),
-                            QStringLiteral("stills/JPEG"),
+        QStringList args = {QStringLiteral("xml:%1").arg(src.fileName()), QStringLiteral("-consumer"),
+                            QStringLiteral("avformat:%1").arg(srcMaskFolder.absoluteFilePath(QStringLiteral("%05d.jpg"))), QStringLiteral("start_number=0"),
                             QStringLiteral("progress=1")};
+        if (false) { // rescale) {
+            const QSize fullSize = pCore->getCurrentFrameSize() / 2;
+            args << QStringLiteral("width=%1").arg(fullSize.width()) << QStringLiteral("height=%1").arg(fullSize.height());
+        }
+        args << QStringLiteral("-preset") << QStringLiteral("stills/JPEG");
         std::function<void(const QString &)> callBack = [this](const QString &) {
             QMetaObject::invokeMethod(samStatus, "hide", Qt::QueuedConnection);
             buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
             Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
             clipMon->slotSeek(m_zone.x());
             clipMon->loadQmlScene(MonitorSceneAutoMask);
+            m_maskHelper->launchSam(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")));
             return true;
         };
         const QString binId = clip->clipId();
