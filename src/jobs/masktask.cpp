@@ -59,7 +59,6 @@ void MaskTask::generateMask()
                               QStringLiteral("-pix_fmt"),
                               QStringLiteral("yuva420p"),
                               outFile};
-    qDebug() << "================\nSTARTING MASK TCIODE:\n" << args << "\n\”===================";
     m_scriptJob->start(KdenliveSettings::ffmpegpath(), args);
     m_scriptJob->waitForFinished(-1);
     if (!QFile::exists(outFile)) {
