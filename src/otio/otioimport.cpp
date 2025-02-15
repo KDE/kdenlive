@@ -37,16 +37,11 @@ OtioImport::OtioImport(QObject *parent)
 {
 }
 
-void OtioImport::slotImport()
+void OtioImport::importFile(const QString &fileName, bool newDocument)
 {
-    // Get the file name.
+    // Create the temporary data for importing.
     std::shared_ptr<OtioImportData> data = std::make_shared<OtioImportData>();
-    data->otioFile = QFileInfo(QFileDialog::getOpenFileName(pCore->window(), i18n("OpenTimelineIO Import"), pCore->currentDoc()->projectDataFolder(),
-                                                            QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project"))));
-    if (!data->otioFile.exists()) {
-        // TODO: Error handling?
-        return;
-    }
+    data->otioFile = QFileInfo(fileName);
 
     // Open the OTIO timeline.
     OTIO_NS::ErrorStatus otioError;
@@ -79,8 +74,11 @@ void OtioImport::slotImport()
                 for (const auto &otioClip : otioTrack->find_clips()) {
                     if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
                         const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
-                        videoSize = getVideoSize(file);
-                        break;
+                        QSize fileVideoSize = getVideoSize(file);
+                        if (fileVideoSize.isValid()) {
+                            videoSize = fileVideoSize;
+                            break;
+                        }
                     }
                 }
             }
@@ -111,16 +109,22 @@ void OtioImport::slotImport()
         elem.setAttribute("sample_aspect_num", 1.0);
         elem.setAttribute("sample_aspect_den", 1.0);
         elem.setAttribute("display_aspect_num", videoSize.width());
-        elem.setAttribute("display_asepct_den", videoSize.height());
+        elem.setAttribute("display_aspect_den", videoSize.height());
         elem.setAttribute("colorspace", 0);
         elem.setAttribute("width", videoSize.width());
         elem.setAttribute("height", videoSize.height());
         ProfileParam profileParam(elem);
         profile = ProfileRepository::get()->saveProfile(&profileParam);
     }
+    pCore->setCurrentProfile(profile);
 
-    // Create a new document.
-    pCore->projectManager()->newFile(profile, false);
+    if (newDocument) {
+        // Create a new document.
+        pCore->projectManager()->newFile(false);
+    }
+
+    // Get the timeline model. We save the default tracks so we can delete
+    // them after the import is finished.
     data->timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
     data->defaultTracks = data->timeline->getAllTracksIds();
 
@@ -154,6 +158,16 @@ void OtioImport::slotImport()
             }
         }
     }
+}
+
+void OtioImport::slotImport()
+{
+    const QString &fileName = QFileDialog::getOpenFileName(pCore->window(), i18n("OpenTimelineIO Import"), pCore->currentDoc()->projectDataFolder(),
+                                                           QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
+    if (fileName.isNull()) {
+        return;
+    }
+    importFile(fileName);
 }
 
 void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &data)

@@ -39,9 +39,13 @@ class OtioExport : public QObject
     Q_OBJECT
 
 public:
-    OtioExport(QObject *parent);
+    OtioExport(QObject *parent = nullptr);
+
+    /** @brief Export an OTIO file. */
+    void exportFile(const QString &fileName);
 
 public Q_SLOTS:
+    /** @brief Open a file dialog and export an OTIO file. */
     void slotExport();
 
 private:

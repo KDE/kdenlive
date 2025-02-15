@@ -31,17 +31,19 @@ OtioExport::OtioExport(QObject *parent)
 {
 }
 
+void OtioExport::exportFile(const QString &fileName)
+{
+    exportTimeline(pCore->currentDoc()->getTimeline(pCore->currentTimelineId()), fileName);
+}
+
 void OtioExport::slotExport()
 {
-    // Get the file name.
     const QString fileName = QFileDialog::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(),
                                                           QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
     if (fileName.isNull()) {
         return;
     }
-
-    // Export the timeline.
-    exportTimeline(pCore->currentDoc()->getTimeline(pCore->currentTimelineId()), fileName);
+    exportFile(fileName);
 }
 
 void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeline, const QString &fileName)

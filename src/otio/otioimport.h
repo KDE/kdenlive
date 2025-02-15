@@ -59,9 +59,13 @@ class OtioImport : public QObject
     Q_OBJECT
 
 public:
-    OtioImport(QObject *parent);
+    OtioImport(QObject *parent = nullptr);
+
+    /** @brief Import an OTIO file. */
+    void importFile(const QString &fileName, bool newDocument = true);
 
 public Q_SLOTS:
+    /** @brief Open a file dialog and import the chosen OTIO file. */
     void slotImport();
 
 private:
