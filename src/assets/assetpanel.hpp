@@ -58,6 +58,8 @@ public:
     bool addEffect(const QString &effectId);
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
+    /** @brief Project is closing, check if we have a running task */
+    bool hasRunningTask() const;
 
 public Q_SLOTS:
     /** @brief Clear panel if displaying itemId */

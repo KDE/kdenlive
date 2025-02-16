@@ -206,6 +206,7 @@ while 1:
             labels = process_csv(inArgs.labels, 1)
         if inArgs.box_coordinates != None:
             box = process_csv(inArgs.box_coordinates, 4)
+        preview_frame = int(inArgs.preview_frame)
         generate_preview(predictor)
 
         # get ready for rendering

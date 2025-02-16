@@ -97,8 +97,23 @@ MaskManager::MaskManager(QWidget *parent)
             buttonAbort->hide();
             samStatus->hide();
         } else {
+            // Remove existing actions if any
+            QList<QAction *> acts = samStatus->actions();
+            while (!acts.isEmpty()) {
+                QAction *a = acts.takeFirst();
+                samStatus->removeAction(a);
+                delete a;
+            }
+            if (message.length() > 60) {
+                // Display message in a separate popup
+                samStatus->setText(i18n("Job failed"));
+                QAction *ac = new QAction(i18n("Show log"), this);
+                samStatus->addAction(ac);
+                connect(ac, &QAction::triggered, this, [this, message](bool) { KMessageBox::error(this, message, i18n("Detailed log")); });
+            } else {
+                samStatus->setText(message);
+            }
             samStatus->setMessageType(type);
-            samStatus->setText(message);
             samStatus->show();
         }
     });
@@ -112,7 +127,10 @@ MaskManager::MaskManager(QWidget *parent)
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
 }
 
-MaskManager::~MaskManager() {}
+MaskManager::~MaskManager()
+{
+    m_maskHelper->terminate();
+}
 
 void MaskManager::initMaskMode()
 {
@@ -258,8 +276,17 @@ std::shared_ptr<ProjectClip> MaskManager::getOwnerClip()
     return pCore->projectItemModel()->getClipByBinID(binId);
 }
 
+bool MaskManager::jobRunning() const
+{
+    return m_maskHelper->jobRunning();
+}
+
 void MaskManager::setOwner(ObjectId owner)
 {
+    // If a job is running, don't switch
+    if (m_maskHelper->jobRunning()) {
+        return;
+    }
     // Disconnect previous clip
     if (m_owner.type != KdenliveObjectType::NoItem) {
         std::shared_ptr<ProjectClip> clip = getOwnerClip();
@@ -277,11 +304,6 @@ void MaskManager::setOwner(ObjectId owner)
     }
     m_maskFolder.remove(QStringLiteral("preview.png"));
 
-    QDir dstFramesFolder(QStringLiteral("/tmp/out_dir"));
-    if (dstFramesFolder.exists()) {
-        dstFramesFolder.removeRecursively();
-    }
-    dstFramesFolder.mkpath(QStringLiteral("."));
     if (m_owner.type != KdenliveObjectType::NoItem) {
         connect(pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy(), &MonitorProxy::positionChanged, m_maskHelper, &AutomaskHelper::monitorSeek,
                 Qt::UniqueConnection);
@@ -419,8 +441,8 @@ void MaskManager::deleteMask()
     const QString maskName = item->text(0);
     QFile file(maskFile);
     if (file.exists()) {
-        if (KMessageBox::warningContinueCancel(this, i18n("This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone.", maskName, maskFile)) !=
-            KMessageBox::Continue) {
+        if (KMessageBox::warningContinueCancel(
+                this, i18n("This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone.", maskName, maskFile)) != KMessageBox::Continue) {
             return;
         }
         file.remove();

@@ -194,33 +194,30 @@ void AutomaskHelper::launchSam(const QString &previewFile)
     connect(&m_samProcess, &QProcess::stateChanged, this, [this](QProcess::ProcessState state) {
         if (state == QProcess::NotRunning) {
             qDebug() << "===== SAM SCRIPT TERMINATED ========";
+            m_jobStatus = QProcess::NotRunning;
             if (m_killedOnRequest) {
                 Q_EMIT showMessage(QStringLiteral(), KMessageWidget::Information);
-            } else if (m_samProcess.exitStatus() == QProcess::CrashExit) {
-                const QString crashLog = m_samProcess.readAllStandardError();
-                Q_EMIT showMessage(crashLog, KMessageWidget::Warning);
+            } else if (m_samProcess.exitStatus() == QProcess::CrashExit || m_samProcess.exitCode() != 0) {
+                Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
             }
         }
+        m_errorLog.clear();
         m_killedOnRequest = false;
     });
     connect(&m_samProcess, &QProcess::readyReadStandardOutput, this, [this, previewFile]() {
         const QString command = m_samProcess.readAllStandardOutput().simplified();
         if (command == QLatin1String("preview ok")) {
             // Load preview image
+            m_jobStatus = QProcess::NotRunning;
             QUrl url = QUrl::fromLocalFile(previewFile);
             url.setQuery(QStringLiteral("pos=%1&ctrl=%2").arg(m_lastPos).arg(QDateTime::currentSecsSinceEpoch()));
             qDebug() << "---- IMAGE GENERATION DONE; RESULTING URL: " << url;
             pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
             Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
         } else if (command == QLatin1String("mask ok")) {
+            m_jobStatus = QProcess::NotRunning;
             auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
             MaskTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), m_maskParams, binClip.get());
-            /*MaskInfo mask;
-            mask.maskName = m_maskParams.value(MaskTask::NAME);
-            mask.maskFile = m_maskParams.value(MaskTask::OUTPUTFILE);
-            mask.in = m_maskParams.value(MaskTask::ZONEIN).toInt();
-            mask.out = m_maskParams.value(MaskTask::ZONEOUT).toInt();
-            QMetaObject::invokeMethod(binClip.get(), "addMask", Qt::QueuedConnection, Q_ARG(MaskInfo, mask));*/
         } else if (command.startsWith(QLatin1String("INFO:"))) {
             const QString msg = command.section(QLatin1Char(':'), 1);
             Q_EMIT showMessage(msg, KMessageWidget::Information);
@@ -232,14 +229,13 @@ void AutomaskHelper::launchSam(const QString &previewFile)
         QString output = m_samProcess.readAllStandardError();
         if (output.contains(QLatin1String("%|"))) {
             output = output.section(QLatin1String("%|"), 0, 0).section(QLatin1Char(' '), -1);
-            qDebug() << " ERROR READREADY : " << output;
             bool ok;
             int progress = output.toInt(&ok);
             if (ok) {
                 Q_EMIT updateProgress(progress);
             }
         } else {
-            qDebug() << " ERROR : " << output;
+            m_errorLog.append(output);
         }
     });
     m_samProcess.setProcessChannelMode(QProcess::SeparateChannels);
@@ -285,9 +281,7 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     }
     /*SamInterface sam;
     std::pair<QString, QString> maskScript = {sam.venvPythonExecs().python, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};*/
-    QStringList args; /* = {
-         maskScript.second, QStringLiteral("-I"), maskSrcFolder.absolutePath(),     QStringLiteral("-F"), QString::number(m_lastPos),    QStringLiteral("-O"),
-         previewFile,       QStringLiteral("-M"), KdenliveSettings::samModelFile(), QStringLiteral("-C"), SamInterface::configForModel()};*/
+    QStringList args = {QStringLiteral("-F"), QString::number(m_lastPos)};
     if (!pointsList.isEmpty()) {
         args << QStringLiteral("-P") << QStringLiteral("%1=%2").arg(m_lastPos).arg(pointsList.join(QLatin1Char(','))) << QStringLiteral("-L")
              << QStringLiteral("%1=%2").arg(m_lastPos).arg(labelsList.join(QLatin1Char(',')));
@@ -301,6 +295,7 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     const QString samCommand = QStringLiteral("preview=%1\n").arg(args.join(QLatin1Char(' ')));
     qDebug() << "::: SEMNDING SAM COMMAND: " << samCommand;
     if (m_samProcess.state() == QProcess::Running) {
+        m_jobStatus = QProcess::Running;
         m_samProcess.write(samCommand.toUtf8());
     } else {
         qDebug() << ":::: CANNOT COMMUNICATE WITH SAM PROCESS";
@@ -352,6 +347,7 @@ bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
         return false;
     }
     // Launch the sam analysis process
+    m_jobStatus = QProcess::Running;
     m_samProcess.write(QStringLiteral("render=%1\n").arg(maskSrcFolder.absolutePath()).toUtf8());
     m_maskParams.insert(MaskTask::OUTPUTFOLDER, maskSrcFolder.absolutePath());
     m_maskParams.insert(MaskTask::NAME, maskName);
@@ -444,9 +440,21 @@ void AutomaskHelper::abortJob()
     }
 }
 
+bool AutomaskHelper::jobRunning() const
+{
+    return m_jobStatus == QProcess::Running;
+}
+
 void AutomaskHelper::monitorSeek(int)
 {
     /*pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay =
         QUrl::fromLocalFile(QStringLiteral("/tmp/out_dir/color_img-%1.png").arg(pos, 5, 10, QLatin1Char('0')));
     Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();*/
+}
+
+void AutomaskHelper::terminate()
+{
+    if (m_samProcess.state() == QProcess::Running) {
+        m_samProcess.write("q\n");
+    }
 }

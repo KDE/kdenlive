@@ -204,6 +204,8 @@ public:
     ObjectId effectStackOwner();
     bool effectIsMasterOnly(const QString &assetId) const;
     void reloadAssetPanel();
+    /** @brief If any task is running, ask user before closing */
+    bool hasRunningTask() const;
 
 protected:
     /** @brief Closes the window.
