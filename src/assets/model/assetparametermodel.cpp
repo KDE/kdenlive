@@ -863,10 +863,10 @@ QVariant AssetParameterModel::parseAttribute(const QString &attribute, const QDo
             if (binId.isEmpty()) {
                 return defaultValue;
             }
-            /*QMap<QString, QString> masks = pCore->projectItemModel()->getClipMasks(binId);
+            QVector<MaskInfo> masks = pCore->projectItemModel()->getClipMasks(binId);
             if (!masks.isEmpty()) {
-                return masks.value(masks.firstKey());
-            }*/
+                return masks.first().maskFile;
+            }
             return defaultValue;
         }
     }

@@ -47,6 +47,7 @@ MaskManager::MaskManager(QWidget *parent)
     setupUi(this);
     samProgress->hide();
     buttonAbort->hide();
+    samStatus->setCloseButtonVisible(false);
     samStatus->hide();
     samStatus->setText(i18n("Please configure the SAM2 plugin"));
     samStatus->setMessageType(KMessageWidget::Warning);
@@ -91,9 +92,15 @@ MaskManager::MaskManager(QWidget *parent)
     checkModelAvailability();
     connect(buttonAbort, &QToolButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
     connect(m_maskHelper, &AutomaskHelper::showMessage, this, [this](QString message, KMessageWidget::MessageType type) {
-        samStatus->setMessageType(type);
-        samStatus->setText(message);
-        samStatus->show();
+        if (message.isEmpty()) {
+            samProgress->hide();
+            buttonAbort->hide();
+            samStatus->hide();
+        } else {
+            samStatus->setMessageType(type);
+            samStatus->setText(message);
+            samStatus->show();
+        }
     });
     connect(m_maskHelper, &AutomaskHelper::updateProgress, this, [this](int progress) {
         samProgress->setValue(progress);
@@ -177,7 +184,6 @@ void MaskManager::initMaskMode()
         const QString binId = clip->clipId();
         samStatus->setText(i18n("Exporting video frames for analysis"));
         samStatus->clearActions();
-        samStatus->setCloseButtonVisible(true);
         samStatus->setMessageType(KMessageWidget::Information);
         samStatus->animatedShow();
         MeltTask::start(m_owner, binId, src.fileName(), args, i18n("Exporting video frames"), clip.get(), std::bind(callBack, binId));
@@ -297,7 +303,6 @@ void MaskManager::generateMask()
     if (m_maskHelper->generateMask(clip->clipId(), maskName, m_zone)) {
         samStatus->setText(i18n("Generating mask %1", maskName));
         samStatus->clearActions();
-        samStatus->setCloseButtonVisible(true);
         samStatus->setMessageType(KMessageWidget::Information);
         samStatus->animatedShow();
     }
@@ -390,6 +395,8 @@ void MaskManager::applyMask()
     params.insert(QStringLiteral("resource"), maskFile);
     params.insert(QStringLiteral("in"), QString::number(in));
     params.insert(QStringLiteral("out"), QString::number(out));
+    params.insert(QStringLiteral("softness"), QString::number(0.5));
+    params.insert(QStringLiteral("mix"), QString("%1=70").arg(in));
     std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(m_owner.uuid, int(m_owner.type), m_owner.itemId);
     if (stack) {
         stack->appendEffect(QStringLiteral("shape"), true, params);

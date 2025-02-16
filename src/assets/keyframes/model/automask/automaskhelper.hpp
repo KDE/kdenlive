@@ -51,6 +51,7 @@ private:
     QProcess m_samProcess;
     QMap<int, QString> m_maskParams;
     QString m_binId;
+    bool m_killedOnRequest{false};
 
 private Q_SLOTS:
     void generateImage(const QString &previewFile);

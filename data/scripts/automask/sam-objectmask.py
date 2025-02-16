@@ -106,7 +106,7 @@ sam2_model = build_sam2(model_cfg, sam2_checkpoint, device=device)
 predictor = SAM2ImagePredictor(sam2_model)
 
 def save_mask(mask, filename, obj_id=None):
-    color = [255, 100, 100, 100]
+    color = [255, 100, 100, 180]
     h, w = mask.shape[-2:]
     mask = mask.astype(np.uint8)
     mask_image = mask.reshape(h, w, 1) * color
@@ -170,13 +170,17 @@ def render_video():
     # render the segmentation results every few frames
     vis_frame_stride = 1
     print("INFO:Exporting frames\n", file=sys.stdout, flush=True)
-    for out_frame_idx in range(0, len(frame_names), vis_frame_stride):
+    framesCount = len(frame_names)
+    for out_frame_idx in range(0, framesCount, vis_frame_stride):
         #plt.figure(figsize=(6, 4))
         #plt.title(f"frame {out_frame_idx}")
         #plt.imshow(Image.open(os.path.join(inputFolder, frame_names[out_frame_idx])))
         for out_obj_id, out_mask in video_segments[out_frame_idx].items():
             filename = output_frame + '/{:05d}'.format(out_frame_idx) + '.png'
             save_mask(out_mask, filename, obj_id=out_obj_id)
+        if framesCount > 100:
+            percent = 100 * out_frame_idx / framesCount
+            print(f"Export {percent}%|\n", file=sys.stdout, flush=True)
 
 # take a look the first video frame
 #frame_idx = 0
