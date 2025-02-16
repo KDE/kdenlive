@@ -190,15 +190,18 @@ void AutomaskHelper::launchSam(const QString &previewFile)
     if (!box.isNull()) {
         args << QStringLiteral("-B") << QStringLiteral("%1=%2,%3,%4,%5").arg(m_lastPos).arg(box.x()).arg(box.y()).arg(box.right()).arg(box.bottom());
     }
-    qDebug() << "---- STARTING IMAGE GENERATION: " << maskScript.first << " = " << args;
+
     connect(&m_samProcess, &QProcess::stateChanged, this, [this](QProcess::ProcessState state) {
         if (state == QProcess::NotRunning) {
             qDebug() << "===== SAM SCRIPT TERMINATED ========";
-            if (m_samProcess.exitStatus() == QProcess::CrashExit) {
+            if (m_killedOnRequest) {
+                Q_EMIT showMessage(QStringLiteral(), KMessageWidget::Information);
+            } else if (m_samProcess.exitStatus() == QProcess::CrashExit) {
                 const QString crashLog = m_samProcess.readAllStandardError();
                 Q_EMIT showMessage(crashLog, KMessageWidget::Warning);
             }
         }
+        m_killedOnRequest = false;
     });
     connect(&m_samProcess, &QProcess::readyReadStandardOutput, this, [this, previewFile]() {
         const QString command = m_samProcess.readAllStandardOutput().simplified();
@@ -436,6 +439,7 @@ bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
 void AutomaskHelper::abortJob()
 {
     if (m_samProcess.state() == QProcess::Running) {
+        m_killedOnRequest = true;
         m_samProcess.kill();
     }
 }
