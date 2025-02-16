@@ -11,13 +11,13 @@
 <author>
 <personname
 ><firstname
->Deze documentatie is nu verouderd, bekijk in plaats daarvan het nieuwe <ulink url="https://docs.kdenlive.org/"
+>Deze documentatie is nu verouderd, bekijk in plaats daarvan het nieuwe <ulink url="https://docs.kdenlive.org/?mtm_campaign=kdenlive_docbook"
 >Kdenlive handboek</ulink
 >.</firstname
 > <surname
->Deze handleiding is afgeleid van de KDE UserBase <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Deze handleiding is afgeleid van de KDE UserBase pagina <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
 >Kdenlive/Manual/QuickStart</ulink
-> pagina.</surname
+>.</surname
 > </personname>
     </author>
 &Ronald.Stroethoff; 

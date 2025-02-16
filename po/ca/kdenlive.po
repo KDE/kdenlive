@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-15 00:41+0000\n"
-"PO-Revision-Date: 2025-02-07 09:40+0100\n"
+"PO-Revision-Date: 2025-02-15 12:15+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -11534,7 +11534,7 @@ msgstr "Ha fallat en filtrar l'origen."
 #: src/jobs/filtertask.cpp:319
 #, kde-format
 msgid "Effect analysis failed for %1"
-msgstr ""
+msgstr "L'anàlisi d'efectes ha fallat per a %1"
 
 #: src/jobs/masktask.cpp:28
 #, kde-format

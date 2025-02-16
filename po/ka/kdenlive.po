@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-15 00:41+0000\n"
-"PO-Revision-Date: 2025-02-08 04:10+0100\n"
+"PO-Revision-Date: 2025-02-15 04:08+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -11408,7 +11408,7 @@ msgstr "წყაროს ფილტრი ჩავარდა."
 #: src/jobs/filtertask.cpp:319
 #, kde-format
 msgid "Effect analysis failed for %1"
-msgstr ""
+msgstr "%1-სთვის ეფექტის ანალიზი ჩავარდა"
 
 #: src/jobs/masktask.cpp:28
 #, kde-format

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-15 00:41+0000\n"
-"PO-Revision-Date: 2025-02-07 17:02+0200\n"
+"PO-Revision-Date: 2025-02-15 09:25+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -11552,7 +11552,7 @@ msgstr "Не вдалося виконати фільтрування джере
 #: src/jobs/filtertask.cpp:319
 #, kde-format
 msgid "Effect analysis failed for %1"
-msgstr ""
+msgstr "Помилка аналізу ефекту для %1"
 
 #: src/jobs/masktask.cpp:28
 #, kde-format

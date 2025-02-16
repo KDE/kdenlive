@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-15 00:41+0000\n"
-"PO-Revision-Date: 2025-02-07 21:39+0100\n"
+"PO-Revision-Date: 2025-02-15 08:04+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -11426,10 +11426,9 @@ msgid "Failed to filter source."
 msgstr "Misslyckades filtrera källa."
 
 #: src/jobs/filtertask.cpp:319
-#, fuzzy, kde-format
-#| msgid "Effects for %1"
+#, kde-format
 msgid "Effect analysis failed for %1"
-msgstr "Effekter för %1"
+msgstr "Effektanalys misslyckades för %1"
 
 #: src/jobs/masktask.cpp:28
 #, kde-format
