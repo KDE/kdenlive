@@ -434,6 +434,11 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
 
 bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 {
+    // Check if we have a running mask task
+    bool guiConstructed = pCore->window() != nullptr;
+    if (guiConstructed && pCore->window()->hasRunningTask()) {
+        return false;
+    }
     // Disable autosave
     m_autoSaveTimer.stop();
     if ((m_project != nullptr) && m_project->isModified() && saveChanges) {
@@ -458,7 +463,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
-    bool guiConstructed = pCore->window() != nullptr;
     if (quit) {
         if (guiConstructed && m_project == nullptr) {
             return false;

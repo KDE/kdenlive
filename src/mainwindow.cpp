@@ -5278,6 +5278,11 @@ void MainWindow::reloadAssetPanel()
     pCore->showEffectStackFromId(owner);
 }
 
+bool MainWindow::hasRunningTask() const
+{
+    return m_assetPanel->hasRunningTask();
+}
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif

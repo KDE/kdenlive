@@ -25,6 +25,7 @@
 #include <KColorUtils>
 #include <KDualAction>
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KMessageWidget>
 #include <KSqueezedTextLabel>
 #include <QApplication>
@@ -629,4 +630,15 @@ void AssetPanel::slotShowMaskPanel()
         m_transitionWidget->setVisible(false);
         m_maskManager->setVisible(false);
     }
+}
+
+bool AssetPanel::hasRunningTask() const
+{
+    if (m_maskManager->jobRunning()) {
+        if (KMessageBox::questionTwoActions(QApplication::activeWindow(), i18n("You have a mask job running. Abort the task ?"), {},
+                                            KGuiItem(i18nc("@action:button", "Abort Mask Task")), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -32,6 +32,8 @@ public:
      */
     explicit AutomaskHelper(QObject *parent = nullptr);
     void launchSam(const QString &previewFile);
+    bool jobRunning() const;
+    void terminate();
 
 public Q_SLOTS:
     bool generateMask(const QString &binId, const QString &maskName, const QPoint &zone);
@@ -49,6 +51,8 @@ private:
     QMap<int, QList<QPoint>> m_excludePoints;
     QMap<int, QRect> m_boxes;
     QProcess m_samProcess;
+    QString m_errorLog;
+    QProcess::ProcessState m_jobStatus{QProcess::NotRunning};
     QMap<int, QString> m_maskParams;
     QString m_binId;
     bool m_killedOnRequest{false};

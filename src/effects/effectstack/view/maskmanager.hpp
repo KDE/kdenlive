@@ -25,6 +25,7 @@ public:
     MaskManager(QWidget *parent);
     virtual ~MaskManager() override;
     void setOwner(ObjectId owner);
+    bool jobRunning() const;
 
 private Q_SLOTS:
     void initMaskMode();
