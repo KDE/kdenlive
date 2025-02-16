@@ -39,7 +39,7 @@ Row {
     }
 
     onTimeScaleChanged: {
-        waveTimer.start()
+        processReload()
     }
 
     function processReload() {
@@ -52,7 +52,7 @@ Row {
         var chunks = total
         var updatedOffset = 0
         if (chunks > 10) {
-            // Having too many chunks causes major slowdowns. In this case, we use an offset and only allow up to 20 chunks
+            // Having too many chunks causes major slowdowns. In this case, we use an offset and only allow up to 10 chunks
             waveform.usesOffset = true
             updatedOffset = Math.max(0, Math.floor(clipRoot.scrollStart / waveform.maxWidth - 2))
             if (updatedOffset < waveform.offset || updatedOffset > (waveform.offset + 5) || total != waveform.totalChunks) {
@@ -73,6 +73,11 @@ Row {
             waveformRepeater.model = chunks
         }
     }
+    Item {
+        // Placeholder item for the offset
+        width: waveform.usesOffset ? waveform.offset * waveform.maxWidth : 0
+        height: waveform.height
+    }
 
     Repeater {
         id: waveformRepeater
@@ -87,9 +92,9 @@ Row {
             format: timeline.audioThumbFormat
             normalize: timeline.audioThumbNormalize
             speed: clipRoot.speed
-            property int aWaveInPoint: Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / waveform.timeScale)) * Math.abs(clipRoot.speed))
+            property int aWaveInPoint: Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / scaleFactor)) * Math.abs(clipRoot.speed))
             waveInPoint: aWaveInPoint
-            waveOutPoint: aWaveInPoint + Math.round(width / waveform.timeScale * Math.abs(clipRoot.speed))
+            waveOutPoint: aWaveInPoint + Math.round(width / scaleFactor * Math.abs(clipRoot.speed))
             bgColorEven: root.thumbColor1.darker(5)
             bgColorOdd: root.thumbColor2.darker(5)
             fgColorEven: root.thumbColor1
