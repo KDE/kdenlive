@@ -12,9 +12,9 @@ import argparse
 from PIL import Image
 
 
-def process_csv(csv_string, resize):
+def process_csv(array_data, csv_string, resize):
     # Convert the CSV string back to a NumPy array
-    resulting_array = {}
+    #resulting_array = {}
     vals_list = csv_string.split(';')
     for vals in vals_list:
         frame, csv_data = vals.split("=")
@@ -24,9 +24,9 @@ def process_csv(csv_string, resize):
         if resize > 1:
             cols = int((np.shape(np_array)[0])/resize)
             np_array = np_array.reshape(cols, resize)
-        resulting_array[int(frame)] = np_array
+        array_data[int(frame)] = np_array
 
-    return resulting_array
+    #return array_data
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("SAM Object Mask Creator")
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     parser.add_argument("-L", "--labels", help="Points labels, 1 for include, 0 for exclude, like '0=1,0;100=1' for frame 0 and 100")
     parser.add_argument("-B", "--box_coordinates", help="Box coordinates with frame, like '0=10,20,150,255'")
     parser.add_argument("-I", "--inputFolder", help="folder where input jpg files are stored", default="/tmp/src-frames")
-    parser.add_argument("-O", "--output", help="path for rendered jpg image for preview of folder for rendering", default="/tmp/preview.png")
+    parser.add_argument("-O", "--output", help="folder for rendered png image for preview of folder for rendering", default="/tmp/")
     parser.add_argument("-M", "--model", help="path for the model")
     parser.add_argument("-C", "--config", help="config for the model")
     parser.add_argument("-D", "--device", help="enforce a device: cuda, cpu")
@@ -49,10 +49,10 @@ if __name__ == "__main__":
     points = {}
     labels = {}
     if args.point_coordinates != None:
-        points = process_csv(args.point_coordinates, 2)
-        labels = process_csv(args.labels, 1)
+        process_csv(points, args.point_coordinates, 2)
+        process_csv(labels, args.labels, 1)
     if args.box_coordinates != None:
-        box = process_csv(args.box_coordinates, 4)
+        process_csv(box, args.box_coordinates, 4)
     preview_frame = int(args.preview_frame)
     if args.output != None:
         output_frame = args.output
@@ -154,9 +154,9 @@ def generate_preview(predictor):
         point_labels=None if not labels else labels[preview_frame],
         box=None if not box else box[preview_frame],
         multimask_output=False)
-
-    save_mask((masks[0]), output_frame, ann_obj_id)
-    print("preview ok", file=sys.stdout, flush=True)
+    filename = output_frame + '/preview-{:05d}'.format(preview_frame) + '.png'
+    save_mask((masks[0]), filename, ann_obj_id)
+    print(f"preview ok {preview_frame}", file=sys.stdout, flush=True)
 
 def render_video():
     # run propagation throughout the video and collect the results in a dict
@@ -202,10 +202,10 @@ while 1:
         # Generate image preview
         inArgs = parser.parse_args(line[8:].split())
         if inArgs.point_coordinates != None:
-            points = process_csv(inArgs.point_coordinates, 2)
-            labels = process_csv(inArgs.labels, 1)
+            process_csv(points, inArgs.point_coordinates, 2)
+            process_csv(labels, inArgs.labels, 1)
         if inArgs.box_coordinates != None:
-            box = process_csv(inArgs.box_coordinates, 4)
+            process_csv(box, inArgs.box_coordinates, 4)
         preview_frame = int(inArgs.preview_frame)
         generate_preview(predictor)
 

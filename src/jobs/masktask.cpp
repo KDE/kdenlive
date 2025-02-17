@@ -85,6 +85,9 @@ void MaskTask::generateMask()
         mask.maskFile = outFile;
         mask.in = m_properties.value(MaskTask::ZONEIN).toInt();
         mask.out = m_properties.value(MaskTask::ZONEOUT).toInt();
+        mask.includepoints = m_properties.value(MaskTask::INCLUDEPOINTS);
+        mask.excludepoints = m_properties.value(MaskTask::EXCLUDEPOINTS);
+        mask.boxes = m_properties.value(MaskTask::BOXES);
         QMetaObject::invokeMethod(binClip.get(), "addMask", Qt::QueuedConnection, Q_ARG(MaskInfo, mask));
     }
 }

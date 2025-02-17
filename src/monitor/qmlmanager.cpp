@@ -119,6 +119,8 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("scalex", scalex);
         root->setProperty("scaley", scaley);
         root->setProperty("center", displayRect.center());
+        root->setProperty("maskStart", m_monitor->getZoneStart());
+        root->setProperty("maskEnd", m_monitor->getZoneEnd());
         break;
     default:
         if (id == Kdenlive::ClipMonitor) {

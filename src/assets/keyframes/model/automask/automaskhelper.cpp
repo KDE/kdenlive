@@ -31,7 +31,7 @@ AutomaskHelper::AutomaskHelper(QObject *parent)
 {
 }
 
-void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
+void AutomaskHelper::addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
 {
     const QPoint p(xPos, yPos);
     m_lastPos = position;
@@ -48,10 +48,10 @@ void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int posi
         pointsList.append(p);
         m_excludePoints.insert(m_lastPos, pointsList);
     } else {
-        if (!extend) {
-            m_includePoints.clear();
-            m_excludePoints.clear();
-            m_boxes.clear();
+        if (!extend && (m_includePoints.contains(m_lastPos) || m_boxes.contains(m_lastPos))) {
+            m_includePoints.remove(m_lastPos);
+            m_excludePoints.remove(m_lastPos);
+            m_boxes.remove(m_lastPos);
         } else {
             if (m_includePoints.contains(m_lastPos)) {
                 pointsList = m_includePoints.value(m_lastPos);
@@ -80,13 +80,15 @@ void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int posi
     if (m_boxes.contains(m_lastPos)) {
         box = m_boxes.value(m_lastPos);
     }
-    qDebug() << "===== ADDED CONTROL POINT; TOTAL: " << "EXCLUDING: " << exclude << ", " << points.size() << ", CENTERS: " << pointsTypes;
-    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, box);
-    generateImage(previewFile);
-    //(void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
+    QVariantList keyframes;
+    for (auto i = m_includePoints.cbegin(), end = m_includePoints.cend(); i != end; ++i) {
+        keyframes << i.key();
+    }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, box);
+    generateImage();
 }
 
-void AutomaskHelper::moveMonitorControlPoint(const QString &previewFile, int ix, int position, const QSize frameSize, int xPos, int yPos)
+void AutomaskHelper::moveMonitorControlPoint(int ix, int position, const QSize frameSize, int xPos, int yPos)
 {
     const QPoint p(xPos, yPos);
     m_lastPos = position;
@@ -114,19 +116,22 @@ void AutomaskHelper::moveMonitorControlPoint(const QString &previewFile, int ix,
     if (m_boxes.contains(m_lastPos)) {
         box = m_boxes.value(m_lastPos);
     }
-    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, box);
-    generateImage(previewFile);
-    //(void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
+    QVariantList keyframes;
+    for (auto i = m_includePoints.cbegin(), end = m_includePoints.cend(); i != end; ++i) {
+        keyframes << i.key();
+    }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, box);
+    generateImage();
 }
 
-void AutomaskHelper::addMonitorControlRect(const QString &previewFile, int position, const QSize frameSize, const QRect rect, bool extend)
+void AutomaskHelper::addMonitorControlRect(int position, const QSize frameSize, const QRect rect, bool extend)
 {
     m_lastPos = position;
     QList<QPoint> pointsList;
-    if (!extend) {
-        m_includePoints.clear();
-        m_excludePoints.clear();
-        m_boxes.clear();
+    if (!extend && (m_includePoints.contains(m_lastPos) || m_boxes.contains(m_lastPos))) {
+        m_includePoints.remove(m_lastPos);
+        m_excludePoints.remove(m_lastPos);
+        m_boxes.remove(m_lastPos);
     }
     m_boxes.insert(m_lastPos, rect);
     QVariantList points;
@@ -141,15 +146,20 @@ void AutomaskHelper::addMonitorControlRect(const QString &previewFile, int posit
         points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
         pointsTypes << 0;
     }
-    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, rect);
-    generateImage(previewFile);
-    //(void)QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
+    QVariantList keyframes;
+    for (auto i = m_includePoints.cbegin(), end = m_includePoints.cend(); i != end; ++i) {
+        keyframes << i.key();
+    }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, rect);
+    generateImage();
 }
 
-void AutomaskHelper::launchSam(const QString &previewFile)
+void AutomaskHelper::launchSam(const QDir &previewFolder, int offset)
 {
     QStringList pointsList;
     QStringList labelsList;
+    m_previewFolder = previewFolder;
+    m_offset = offset;
     if (m_includePoints.contains(m_lastPos)) {
         const QList<QPoint> points = m_includePoints.value(m_lastPos);
         for (auto &p : points) {
@@ -177,9 +187,17 @@ void AutomaskHelper::launchSam(const QString &previewFile)
     }
     SamInterface sam;
     std::pair<QString, QString> maskScript = {sam.venvPythonExecs().python, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
-    QStringList args = {
-        maskScript.second, QStringLiteral("-I"), maskSrcFolder.absolutePath(),     QStringLiteral("-F"), QString::number(m_lastPos),    QStringLiteral("-O"),
-        previewFile,       QStringLiteral("-M"), KdenliveSettings::samModelFile(), QStringLiteral("-C"), SamInterface::configForModel()};
+    QStringList args = {maskScript.second,
+                        QStringLiteral("-I"),
+                        maskSrcFolder.absolutePath(),
+                        QStringLiteral("-F"),
+                        QString::number(m_lastPos),
+                        QStringLiteral("-O"),
+                        previewFolder.absolutePath(),
+                        QStringLiteral("-M"),
+                        KdenliveSettings::samModelFile(),
+                        QStringLiteral("-C"),
+                        SamInterface::configForModel()};
     if (!pointsList.isEmpty()) {
         args << QStringLiteral("-P") << QStringLiteral("%1=%2").arg(m_lastPos).arg(pointsList.join(QLatin1Char(','))) << QStringLiteral("-L")
              << QStringLiteral("%1=%2").arg(m_lastPos).arg(labelsList.join(QLatin1Char(',')));
@@ -204,12 +222,13 @@ void AutomaskHelper::launchSam(const QString &previewFile)
         m_errorLog.clear();
         m_killedOnRequest = false;
     });
-    connect(&m_samProcess, &QProcess::readyReadStandardOutput, this, [this, previewFile]() {
+    connect(&m_samProcess, &QProcess::readyReadStandardOutput, this, [this]() {
         const QString command = m_samProcess.readAllStandardOutput().simplified();
-        if (command == QLatin1String("preview ok")) {
+        if (command.startsWith(QLatin1String("preview ok"))) {
             // Load preview image
+            int frame = command.section(QLatin1Char(' '), -1).toInt();
             m_jobStatus = QProcess::NotRunning;
-            QUrl url = QUrl::fromLocalFile(previewFile);
+            QUrl url = QUrl::fromLocalFile(m_previewFolder.absoluteFilePath(QStringLiteral("preview-%1.png").arg(frame, 5, 10, QLatin1Char('0'))));
             url.setQuery(QStringLiteral("pos=%1&ctrl=%2").arg(m_lastPos).arg(QDateTime::currentSecsSinceEpoch()));
             qDebug() << "---- IMAGE GENERATION DONE; RESULTING URL: " << url;
             pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
@@ -249,7 +268,7 @@ void AutomaskHelper::launchSam(const QString &previewFile)
     // scriptJob.waitForFinished(-1);
 }
 
-void AutomaskHelper::generateImage(const QString &previewFile)
+void AutomaskHelper::generateImage()
 {
     QProcess scriptJob;
     QStringList pointsList;
@@ -300,22 +319,6 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     } else {
         qDebug() << ":::: CANNOT COMMUNICATE WITH SAM PROCESS";
     }
-    return;
-    // scriptJob.setProcessChannelMode(QProcess::MergedChannels);
-    // scriptJob.start(maskScript.first, args);
-    // scriptJob.waitForFinished(-1);
-    if (!QFile::exists(previewFile) || scriptJob.exitStatus() != 0) {
-        // TODO error handling
-        const QString logDetails = scriptJob.readAllStandardOutput();
-        QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to render mask %1", previewFile)),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, logDetails));
-    } else {
-        QUrl url = QUrl::fromLocalFile(previewFile);
-        url.setQuery(QStringLiteral("pos=%1&ctrl=%2").arg(m_lastPos).arg(QDateTime::currentSecsSinceEpoch()));
-        qDebug() << "---- IMAGE GENERATION DONE; RESULTING URL: " << url;
-        pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
-        Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
-    }
 }
 
 bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName, const QPoint &zone)
@@ -351,65 +354,40 @@ bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
     m_samProcess.write(QStringLiteral("render=%1\n").arg(maskSrcFolder.absolutePath()).toUtf8());
     m_maskParams.insert(MaskTask::OUTPUTFOLDER, maskSrcFolder.absolutePath());
     m_maskParams.insert(MaskTask::NAME, maskName);
-    QList<int> frames = m_includePoints.keys();
-    QList<int> keys = m_excludePoints.keys();
-    for (auto &k : keys) {
-        if (!frames.contains(k)) {
-            frames << k;
-        }
-    }
-    keys = m_boxes.keys();
-    for (auto &k : keys) {
-        if (!frames.contains(k)) {
-            frames << k;
-        }
-    }
     // Generate points strings
-    QStringList fullPointsList;
-    QStringList fullLabelsList;
+    QStringList fullIncludePoints;
+    QStringList fullExcludePoints;
     QStringList fullBoxList;
-    for (auto &f : frames) {
-        QStringList pointsList;
-        QStringList labelsList;
-        QStringList boxList;
-        if (m_includePoints.contains(f)) {
-            const QList<QPoint> points = m_includePoints.value(f);
-            for (auto &p : points) {
-                pointsList << QString::number(p.x());
-                pointsList << QString::number(p.y());
-                labelsList << QStringLiteral("1");
-            }
+    for (auto i = m_includePoints.cbegin(), end = m_includePoints.cend(); i != end; ++i) {
+        auto pts = i.value();
+        QStringList pointsData;
+        for (auto &p : pts) {
+            pointsData << QString::number(p.x()) << QString::number(p.y());
         }
-        if (m_excludePoints.contains(f)) {
-            const QList<QPoint> points = m_excludePoints.value(f);
-            for (auto &p : points) {
-                pointsList << QString::number(p.x());
-                pointsList << QString::number(p.y());
-                labelsList << QStringLiteral("0");
-            }
-        }
-        if (!pointsList.isEmpty()) {
-            QString pointsValue = QStringLiteral("%1=").arg(f);
-            QString labelsValue = pointsValue;
-            pointsValue.append(pointsList.join(QLatin1Char(',')));
-            labelsValue.append(labelsList.join(QLatin1Char(',')));
-            fullPointsList << pointsValue;
-            fullLabelsList << labelsValue;
-        }
-        if (m_boxes.contains(f)) {
-            QRect rect = m_boxes.value(f);
-            const QString boxValue = QStringLiteral("%1=%2,%3,%4,%5")
-                                         .arg(QString::number(f), QString::number(rect.x()), QString::number(rect.y()), QString::number(rect.right()),
-                                              QString::number(rect.bottom()));
-            fullBoxList << boxValue;
-        }
+        fullIncludePoints << QStringLiteral("%1=%2").arg(i.key()).arg(pointsData.join(QLatin1Char(',')));
     }
-    if (!fullPointsList.isEmpty()) {
-        m_maskParams.insert(MaskTask::POINTS, fullPointsList.join(QLatin1Char(';')));
-        m_maskParams.insert(MaskTask::LABELS, fullLabelsList.join(QLatin1Char(';')));
+    for (auto i = m_excludePoints.cbegin(), end = m_excludePoints.cend(); i != end; ++i) {
+        auto pts = i.value();
+        QStringList pointsData;
+        for (auto &p : pts) {
+            pointsData << QString::number(p.x()) << QString::number(p.y());
+        }
+        fullExcludePoints << QStringLiteral("%1=%2").arg(i.key()).arg(pointsData.join(QLatin1Char(',')));
+    }
+    for (auto i = m_boxes.cbegin(), end = m_boxes.cend(); i != end; ++i) {
+        auto pts = i.value();
+        QStringList pointsData = {QString::number(pts.x()), QString::number(pts.y()), QString::number(pts.right()), QString::number(pts.bottom())};
+        fullBoxList << QStringLiteral("%1=%2").arg(i.key()).arg(pointsData.join(QLatin1Char(',')));
+    }
+
+    if (!fullIncludePoints.isEmpty()) {
+        m_maskParams.insert(MaskTask::INCLUDEPOINTS, fullIncludePoints.join(QLatin1Char(';')));
+    }
+    if (!fullExcludePoints.isEmpty()) {
+        m_maskParams.insert(MaskTask::EXCLUDEPOINTS, fullExcludePoints.join(QLatin1Char(';')));
     }
     if (!fullBoxList.isEmpty()) {
-        m_maskParams.insert(MaskTask::BOX, fullBoxList.join(QLatin1Char(';')));
+        m_maskParams.insert(MaskTask::BOXES, fullBoxList.join(QLatin1Char(';')));
     }
     std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
     if (clip) {
@@ -445,16 +423,105 @@ bool AutomaskHelper::jobRunning() const
     return m_jobStatus == QProcess::Running;
 }
 
-void AutomaskHelper::monitorSeek(int)
+void AutomaskHelper::monitorSeek(int pos)
 {
-    /*pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay =
-        QUrl::fromLocalFile(QStringLiteral("/tmp/out_dir/color_img-%1.png").arg(pos, 5, 10, QLatin1Char('0')));
-    Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();*/
+    pos -= m_offset;
+    QUrl url = QUrl::fromLocalFile(m_previewFolder.absoluteFilePath(QStringLiteral("preview-%1.png").arg(pos, 5, 10, QLatin1Char('0'))));
+    pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
+    Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
+    // Update keyframe points
+    QList<QPoint> pointsList;
+    QVariantList points;
+    QVariantList pointsTypes;
+    QSize frameSize = pCore->getCurrentFrameDisplaySize();
+    pointsList = m_includePoints.value(pos);
+    for (auto &p : pointsList) {
+        points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
+        pointsTypes << 1;
+    }
+    pointsList = m_excludePoints.value(pos);
+    for (auto &p : pointsList) {
+        points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
+        pointsTypes << 0;
+    }
+    QVariantList keyframes;
+    for (auto i = m_includePoints.cbegin(), end = m_includePoints.cend(); i != end; ++i) {
+        keyframes << i.key();
+    }
+    QRect box;
+    if (m_boxes.contains(pos)) {
+        box = m_boxes.value(pos);
+    }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, box);
 }
 
 void AutomaskHelper::terminate()
 {
     if (m_samProcess.state() == QProcess::Running) {
         m_samProcess.write("q\n");
+    }
+}
+
+void AutomaskHelper::cleanup()
+{
+    // We switched to another clip, delete all data if any
+    m_includePoints.clear();
+    m_excludePoints.clear();
+    m_boxes.clear();
+    // Remove source and preview data
+    if (m_previewFolder.dirName() == QLatin1String("source-frames") && m_previewFolder.exists()) {
+        m_previewFolder.removeRecursively();
+    }
+}
+
+void AutomaskHelper::loadData(const QString ipoints, const QString epoints, const QString boxes, int in, const QDir &previewFolder)
+{
+    m_includePoints.clear();
+    m_excludePoints.clear();
+    m_boxes.clear();
+    m_offset = in;
+    m_previewFolder = previewFolder;
+    QSet<int> keyframes;
+    QStringList pts = ipoints.split(QLatin1Char(';'));
+    for (auto &p : pts) {
+        int frame = p.section(QLatin1Char('='), 0, 0).toInt();
+        keyframes << frame;
+        const QStringList pointsData = p.section(QLatin1Char('='), 1).split(QLatin1Char(','));
+        if (pointsData.size() % 2 != 0) {
+            // Invalid data
+            continue;
+        }
+        QList<QPoint> pointsList;
+        for (int ix = 0; ix < pointsData.size(); ix += 2) {
+            pointsList << QPoint(pointsData.at(ix).toInt(), pointsData.at(ix + 1).toInt());
+        }
+        m_includePoints.insert(frame, pointsList);
+    }
+    pts = epoints.split(QLatin1Char(';'));
+    for (auto &p : pts) {
+        int frame = p.section(QLatin1Char('='), 0, 0).toInt();
+        keyframes << frame;
+        const QStringList pointsData = p.section(QLatin1Char('='), 1).split(QLatin1Char(','));
+        if (pointsData.size() % 2 != 0) {
+            // Invalid data
+            continue;
+        }
+        QList<QPoint> pointsList;
+        for (int ix = 0; ix < pointsData.size(); ix += 2) {
+            pointsList << QPoint(pointsData.at(ix).toInt(), pointsData.at(ix + 1).toInt());
+        }
+        m_excludePoints.insert(frame, pointsList);
+    }
+    pts = boxes.split(QLatin1Char(';'));
+    for (auto &p : pts) {
+        int frame = p.section(QLatin1Char('='), 0, 0).toInt();
+        keyframes << frame;
+        QStringList pointsData = p.section(QLatin1Char('='), 1).split(QLatin1Char(','));
+        if (pointsData.size() != 4) {
+            // Invalid data
+            continue;
+        }
+        QRect r(pointsData.at(0).toInt(), pointsData.at(1).toInt(), pointsData.at(2).toInt(), pointsData.at(3).toInt());
+        m_boxes.insert(frame, r);
     }
 }

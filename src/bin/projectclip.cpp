@@ -3125,6 +3125,9 @@ void ProjectClip::addMask(MaskInfo mask)
         currentMask.insert(QLatin1String("file"), QJsonValue(m.maskFile));
         currentMask.insert(QLatin1String("in"), QJsonValue(m.in));
         currentMask.insert(QLatin1String("out"), QJsonValue(m.out));
+        currentMask.insert(QLatin1String("includepoints"), QJsonValue(m.includepoints));
+        currentMask.insert(QLatin1String("excludepoints"), QJsonValue(m.excludepoints));
+        currentMask.insert(QLatin1String("boxes"), QJsonValue(m.boxes));
         list.push_back(currentMask);
     }
     QJsonDocument json(list);
@@ -3186,6 +3189,9 @@ void ProjectClip::loadMasks(const QString &maskData)
         mask.maskFile = entryObj[QLatin1String("file")].toString();
         mask.in = entryObj[QLatin1String("in")].toInt();
         mask.out = entryObj[QLatin1String("out")].toInt();
+        mask.includepoints = entryObj[QLatin1String("includepoints")].toString();
+        mask.excludepoints = entryObj[QLatin1String("excludepoints")].toString();
+        mask.boxes = entryObj[QLatin1String("boxes")].toString();
         if (!QFile::exists(mask.maskFile)) {
             mask.isValid = false;
         }

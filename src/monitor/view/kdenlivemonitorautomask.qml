@@ -22,6 +22,7 @@ Item {
     property string markerText
     property int itemType: 0
     property point profile: controller.profile
+    property int displayFrame: controller.position
     property double zoom
     property point center
     property double scalex
@@ -58,6 +59,10 @@ Item {
     property var centerPoints: []
     property var centerPointsTypes: []
     property var boxCoords: [0, 0, 0, 0]
+    // The frame positions that have points defined
+    property var keyframes: []
+    property int maskStart: -1
+    property int maskEnd: -1
     property var maskColors: ["#ffffff", "#ff0000", "#ffff00", "#0000ff", "#000000"]
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
@@ -69,18 +74,28 @@ Item {
     property int overlayMargin: 0
     property int maskMode: controller.maskMode
 
+    onDisplayFrameChanged: {
+        if (root.maskStart > -1 && (root.displayFrame < root.maskStart || root.displayFrame > root.maskEnd)) {
+            outsideLabel.visible = true
+        } else if (outsideLabel.visible) {
+            outsideLabel.visible = false
+        }
+    }
+
     onMaskModeChanged: {
-        if (maskMode == 1) {
+        if (maskMode == 2) {
             generateLabel.visible = false
         }
     }
 
-    function updatePoints(types, points) {
+    function updatePoints(keyframes, types, points) {
+        root.keyframes = keyframes
         root.centerPointsTypes = types
         root.centerPoints = points
     }
 
-    function updateRect(box) {
+    function updateRect(keyframes, box) {
+        root.keyframes = keyframes
         if (box.length == 4 && box[2] > 0) {
             root.boxCoords = box
         } else {
@@ -183,7 +198,7 @@ Item {
                 property real xPos: 0
                 property real yPos: 0
                 onPressed: mouse => {
-                    if (maskMode == 0) {
+                    if (maskMode < 2) {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
                         root.captureRightClick
@@ -199,7 +214,7 @@ Item {
                     handleEvent = mouse.button == Qt.LeftButton
                 }
                 onPositionChanged: mouse => {
-                    if (pressed && !isPanEvent && maskMode == 0 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
+                    if (pressed && !isPanEvent && maskMode < 2 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
                         isPanEvent = true
                         mouse.accepted = true;
                     } else if (!isPanEvent) {
@@ -231,13 +246,11 @@ Item {
                     }
                 }
                 onReleased: mouse => {
-                    if (maskMode == 1) {
+                    if (maskMode == 2) {
                         mouse.accepted = false;
                         return;
                     }
-                    if (maskMode == 0) {
-                        root.captureRightClick = false
-                    }
+                    root.captureRightClick = false
                     selectionRect.visible = false
                     if (handleEvent) {
                         if (isRectEvent) {
@@ -277,10 +290,10 @@ Item {
             Image {
                 id: maskPreview
                 anchors.fill: frame
-                source: maskMode == 0 ? controller.previewOverlay : ''
+                source: maskMode < 2 ? controller.previewOverlay : ''
                 asynchronous: true
                 opacity: controller.maskOpacity / 100
-                visible: maskMode == 0
+                visible: maskMode < 2
                 onSourceChanged: {
                     generateLabel.visible = false
                 }
@@ -367,7 +380,7 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: maskMode == 0 ? i18n("Generating image mask") : i18n("Generating video mask")
+        text: maskMode < 2 ? i18n("Generating image mask") : i18n("Generating video mask")
         visible: false
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -378,11 +391,49 @@ Item {
         id: infoLabel
         anchors.centerIn: parent
         padding: 5
-        text: maskMode == 0 ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
-        visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible
+        text: maskMode < 2 ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
+        visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
             radius: 5
+        }
+    }
+    Label {
+        id: outsideLabel
+        anchors.centerIn: parent
+        padding: 5
+        text: i18n("You are outside of the time zone defined\nfor the mask and cannot add keyframes.\n\n\n")
+        visible: false
+        color: 'white'
+        background: Rectangle {
+            color: 'darkred'
+            radius: 5
+        }
+        ToolButton {
+            anchors.bottom: outsideLabel.bottom
+            anchors.left: outsideLabel.left
+            text: i18n("Go to mask start")
+            onPressed: mouse =>{
+                root.captureRightClick = true
+                mouse.accepted = true
+            }
+            onReleased: mouse => {
+                root.updateClickCapture()
+            }
+            onClicked: controller.position = root.maskStart
+        }
+        ToolButton {
+            anchors.bottom: outsideLabel.bottom
+            anchors.right: outsideLabel.right
+            text: i18n("Go to mask end")
+            onPressed: mouse =>{
+                root.captureRightClick = true
+                mouse.accepted = true
+            }
+            onReleased: mouse => {
+                root.updateClickCapture()
+            }
+            onClicked: controller.position = root.maskEnd
         }
     }
     MaskToolBar {
@@ -405,16 +456,33 @@ Item {
         visible: root.duration > 0
         height: controller.rulerHeight
         Repeater {
-            model:controller.clipBounds
+            model:root.keyframes
             anchors.fill: parent
             Rectangle {
-                anchors.top: parent.top
-                anchors.topMargin: 1
-                property point bd: controller.clipBoundary(model.index)
-                x: bd.x * root.timeScale - (frame.width/root.zoomFactor * root.zoomStart)
-                width: bd.y * root.timeScale
-                height: 2
-                color: 'goldenrod'
+                id: marker
+                property int kf: modelData + root.maskStart
+                anchors.bottom: clipMonitorRuler.bottom
+                color: 'red'
+                width: clipMonitorRuler.height / 2
+                height: width
+                radius: width
+                x: kf * root.timeScale - (frame.width/root.zoomFactor * root.zoomStart) - width / 2
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    onPressed: mouse =>{
+                        root.captureRightClick = true
+                        mouse.accepted = true
+                    }
+                    onClicked: {
+                        controller.position = marker.kf
+                    }
+                    onReleased: mouse => {
+                        root.updateClickCapture()
+                    }
+                }
             }
         }
     }

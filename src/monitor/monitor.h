@@ -94,7 +94,8 @@ public:
     QPoint getZoneInfo() const;
     /** @brief Initialize the qml monitor overlay with points and rect related to the current frame
      */
-    void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList(), const QRect &box = QRect());
+    void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList(),
+                             const QVariantList &keyframes = QVariantList(), const QRect &box = QRect());
     /** @brief Set a property on the effect scene */
     void setEffectSceneProperty(const QString &name, const QVariant &value);
     /** @brief Returns effective display size */
@@ -167,8 +168,12 @@ public:
     void markDirty(const QUuid uuid);
     /** @brief If true, the monitor will need a refresh on next activation */
     bool isDirty() const;
-    /** @brief Display a  mask as overlay to the clip */
-    void previewMask(const QString &maskFile, int in, int out);
+    /** @brief Display a  mask as overlay to the clip
+     *  @param maskFile the video mask file
+     *  @param in the zone in for the mask
+     *  @param out the zone out for the mask
+     *  @param maskMode set to 1 for edit, 2 for preview only */
+    void previewMask(const QString &maskFile, int in, int out, int maskMode);
     /** @brief Update the preview mask properties */
     void updatePreviewMask();
 

@@ -54,7 +54,7 @@ MouseArea {
                 iconName: "media-record"
                 toolTipText: i18n("Generate Mask")
                 checkable: false
-                visible: root.maskMode == 0
+                visible: root.maskMode < 2
                 onClicked: {
                     generateLabel.visible = true
                     root.generateMask()
@@ -97,7 +97,7 @@ MouseArea {
             MonitorToolButton {
                 objectName: "abortMask"
                 iconName: "dialog-close"
-                toolTipText: root.maskMode == 0 ? i18n("Exit Mask Creation") : i18n("Exit Preview Mode")
+                toolTipText: root.maskMode < 2 ? i18n("Exit Mask Creation") : i18n("Exit Preview Mode")
                 checkable: false
                 onClicked: {
                     root.exitMaskPreview()

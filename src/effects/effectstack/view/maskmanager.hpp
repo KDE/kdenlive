@@ -22,6 +22,7 @@ class MaskManager : public QWidget, public Ui::MaskManage_UI
 {
     Q_OBJECT
 public:
+    enum MaskRoles { MASKFILE = Qt::UserRole, MASKIN, MASKOUT, MASKINCLUDEPOINTS, MASKEXCLUDEPOINTS, MASKBOXES, MASKMISSING };
     MaskManager(QWidget *parent);
     virtual ~MaskManager() override;
     void setOwner(ObjectId owner);
@@ -33,6 +34,7 @@ private Q_SLOTS:
     void moveControlPoint(int ix, int position, QSize frameSize, int xPos, int yPos);
     void addControlRect(int position, QSize frameSize, const QRect rect, bool extend);
     void previewMask(bool show);
+    void editMask(bool show);
     void generateMask();
     void loadMasks();
     void checkModelAvailability();
@@ -49,4 +51,5 @@ private:
     QDir m_maskFolder;
     bool m_connected{false};
     std::shared_ptr<ProjectClip> getOwnerClip();
+    void exportFrames();
 };

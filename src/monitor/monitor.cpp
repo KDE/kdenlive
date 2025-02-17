@@ -2232,7 +2232,7 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, co
     loadQmlScene(sceneType, sceneData);
 }
 
-void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, const QVariantList &types, const QRect &box)
+void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, const QVariantList &types, const QVariantList &keyframes, const QRect &box)
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (!root) {
@@ -2245,8 +2245,9 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
             boxPoints << double(box.x()) / frameSize.width() << double(box.y()) / frameSize.height() << double(box.width()) / frameSize.width()
                       << double(box.height()) / frameSize.height();
         }
-        QMetaObject::invokeMethod(root, "updateRect", Q_ARG(QVariant, boxPoints));
-        QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
+        QMetaObject::invokeMethod(root, "updateRect", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, boxPoints));
+        qDebug() << ":: UPDATING POINTS WITH: " << list;
+        QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     } else if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     }
@@ -3032,7 +3033,7 @@ void Monitor::addControlRect(double x, double y, double width, double height, bo
     Q_EMIT addMonitorControlRect(pos, fSize, rect, extend);
 }
 
-void Monitor::previewMask(const QString &maskFile, int in, int out)
+void Monitor::previewMask(const QString &maskFile, int in, int out, int maskMode)
 {
     Mlt::Tractor trac(pCore->getProjectProfile());
     Mlt::Playlist maskPlaylist(pCore->getProjectProfile());
@@ -3070,7 +3071,7 @@ void Monitor::previewMask(const QString &maskFile, int in, int out)
     // Set zone
     slotLoadClipZone(QPoint(in, out));
     m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
-    getControllerProxy()->setMaskMode(1);
+    getControllerProxy()->setMaskMode(maskMode);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
     loadQmlScene(MonitorSceneAutoMask);
 }

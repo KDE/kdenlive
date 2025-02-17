@@ -296,9 +296,9 @@ struct MaskInfo
     int in;
     int out;
     bool isValid{true};
-    QMap<int, QString> includePoints;
-    QMap<int, QString> excludePoints;
-    QMap<int, QString> boxes;
+    QString includepoints;
+    QString excludepoints;
+    QString boxes;
     bool operator==(const MaskInfo a) const { return maskFile == a.maskFile; }
 };
 

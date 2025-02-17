@@ -22,7 +22,7 @@ class ProjectClip;
 class MaskTask : public AbstractTask
 {
 public:
-    enum MaskProperty { INPUTFOLDER, OUTPUTFOLDER, POINTS, LABELS, BOX, NAME, OUTPUTFILE, ZONEIN, ZONEOUT };
+    enum MaskProperty { INPUTFOLDER, OUTPUTFOLDER, INCLUDEPOINTS, EXCLUDEPOINTS, BOXES, NAME, OUTPUTFILE, ZONEIN, ZONEOUT };
     MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object);
     ~MaskTask() override;
     static void start(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object = nullptr);

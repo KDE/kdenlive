@@ -57,28 +57,29 @@ MaskManager::MaskManager(QWidget *parent)
     connect(buttonAdd, &QToolButton::clicked, this, &MaskManager::initMaskMode);
     connect(buttonDelete, &QToolButton::clicked, this, &MaskManager::deleteMask);
     connect(buttonImport, &QToolButton::clicked, this, &MaskManager::importMask);
+    connect(buttonEdit, &QPushButton::toggled, this, &MaskManager::editMask);
     connect(buttonPreview, &QPushButton::toggled, this, &MaskManager::previewMask);
     connect(maskTree, &QTreeWidget::itemDoubleClicked, this, [this]() { previewMask(true); });
     connect(maskTree, &QTreeWidget::currentItemChanged, this, [this]() {
         QTreeWidgetItem *item = maskTree->currentItem();
         if (item) {
-            QIcon icon = item->icon(0);
-            thumbPreview->setPixmap(icon.pixmap(thumbPreview->width(), thumbPreview->height()));
             buttonDelete->setEnabled(true);
-            if (!item->data(0, Qt::UserRole + 3).isNull()) {
+            if (!item->data(0, MASKMISSING).isNull()) {
                 // Invalid mask
                 buttonPreview->setEnabled(false);
                 buttonApply->setEnabled(false);
+                buttonEdit->setEnabled(false);
                 buttonImport->setEnabled(false);
             } else {
                 buttonPreview->setEnabled(true);
                 buttonApply->setEnabled(true);
+                buttonEdit->setEnabled(true);
                 buttonImport->setEnabled(true);
             }
         } else {
-            thumbPreview->setPixmap(QPixmap());
             buttonPreview->setEnabled(false);
             buttonApply->setEnabled(false);
+            buttonEdit->setEnabled(false);
             buttonImport->setEnabled(false);
             buttonDelete->setEnabled(false);
         }
@@ -154,41 +155,54 @@ void MaskManager::initMaskMode()
         pCore->window()->slotClipInProjectTree();
     }
     clipMon->slotActivateMonitor();
+
+    // Seek to zone start
+    bool ok;
+    m_zone = QPoint(clipMon->getZoneStart(), clipMon->getZoneEnd());
+    m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
+    exportFrames();
+}
+
+void MaskManager::exportFrames()
+{
+    if (pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB)) {
+        return;
+    }
+    buttonAdd->setEnabled(false);
+    QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
+    src.setAutoRemove(false);
+    if (!src.open()) {
+        return;
+    }
+    src.close();
+    std::shared_ptr<ProjectClip> clip = getOwnerClip();
+    if (!clip) {
+        return;
+    }
     bool ok;
     QDir srcMaskFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
     if (!ok) {
         return;
     }
-    // Seek to zone start
-    m_zone = QPoint(clipMon->getZoneStart(), clipMon->getZoneEnd());
-    m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
     if (!srcMaskFolder.isEmpty()) {
         if (srcMaskFolder.dirName() == QLatin1String("source-frames")) {
             srcMaskFolder.removeRecursively();
             srcMaskFolder.mkpath(QStringLiteral("."));
         }
     }
-    if (!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB)) {
-        buttonAdd->setEnabled(false);
-        QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
-        src.setAutoRemove(false);
-        if (!src.open()) {
-            return;
-        }
-        src.close();
-        Mlt::Consumer c(pCore->getProjectProfile(), "xml", src.fileName().toUtf8().constData());
-        Mlt::Playlist playlist(pCore->getProjectProfile());
-        Mlt::Producer prod(clip->originalProducer()->parent());
-        playlist.append(prod, m_zone.x(), m_zone.y());
-        c.connect(playlist);
-        c.run();
-        QStringList args = {QStringLiteral("xml:%1").arg(src.fileName()), QStringLiteral("-consumer"),
-                            QStringLiteral("avformat:%1").arg(srcMaskFolder.absoluteFilePath(QStringLiteral("%05d.jpg"))), QStringLiteral("start_number=0"),
-                            QStringLiteral("progress=1")};
-        if (false) { // rescale) {
-            const QSize fullSize = pCore->getCurrentFrameSize() / 2;
-            args << QStringLiteral("width=%1").arg(fullSize.width()) << QStringLiteral("height=%1").arg(fullSize.height());
-        }
+    Mlt::Consumer c(pCore->getProjectProfile(), "xml", src.fileName().toUtf8().constData());
+    Mlt::Playlist playlist(pCore->getProjectProfile());
+    Mlt::Producer prod(clip->originalProducer()->parent());
+    playlist.append(prod, m_zone.x(), m_zone.y());
+    c.connect(playlist);
+    c.run();
+    QStringList args = {QStringLiteral("xml:%1").arg(src.fileName()), QStringLiteral("-consumer"),
+                        QStringLiteral("avformat:%1").arg(srcMaskFolder.absoluteFilePath(QStringLiteral("%05d.jpg"))), QStringLiteral("start_number=0"),
+                        QStringLiteral("progress=1")};
+    if (false) { // rescale) {
+        const QSize fullSize = pCore->getCurrentFrameSize() / 2;
+        args << QStringLiteral("width=%1").arg(fullSize.width()) << QStringLiteral("height=%1").arg(fullSize.height());
+    }
         args << QStringLiteral("-preset") << QStringLiteral("stills/JPEG");
         std::function<void(const QString &)> callBack = [this](const QString &) {
             QMetaObject::invokeMethod(samStatus, "hide", Qt::QueuedConnection);
@@ -196,7 +210,12 @@ void MaskManager::initMaskMode()
             Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
             clipMon->slotSeek(m_zone.x());
             clipMon->loadQmlScene(MonitorSceneAutoMask);
-            m_maskHelper->launchSam(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")));
+            QDir previewFolder = m_maskFolder;
+            if (!previewFolder.exists(QStringLiteral("source-frames"))) {
+                previewFolder.mkpath(QStringLiteral("source-frames"));
+            }
+            previewFolder.cd(QStringLiteral("source-frames"));
+            m_maskHelper->launchSam(previewFolder, clipMon->getZoneStart());
             return true;
         };
         const QString binId = clip->clipId();
@@ -205,7 +224,6 @@ void MaskManager::initMaskMode()
         samStatus->setMessageType(KMessageWidget::Information);
         samStatus->animatedShow();
         MeltTask::start(m_owner, binId, src.fileName(), args, i18n("Exporting video frames"), clip.get(), std::bind(callBack, binId));
-    }
 }
 
 void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
@@ -221,8 +239,7 @@ void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int y
         m_maskHelper->showMessage(i18n("Missing source frames"));
         return;
     }
-    m_maskHelper->addMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, xPos, yPos, extend,
-                                         exclude);
+    m_maskHelper->addMonitorControlPoint(position, frameSize, xPos, yPos, extend, exclude);
 }
 
 void MaskManager::moveControlPoint(int ix, int position, QSize frameSize, int xPos, int yPos)
@@ -237,7 +254,7 @@ void MaskManager::moveControlPoint(int ix, int position, QSize frameSize, int xP
                  << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
         return;
     }
-    m_maskHelper->moveMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), ix, position, frameSize, xPos, yPos);
+    m_maskHelper->moveMonitorControlPoint(ix, position, frameSize, xPos, yPos);
 }
 
 void MaskManager::addControlRect(int position, QSize frameSize, const QRect rect, bool extend)
@@ -252,7 +269,7 @@ void MaskManager::addControlRect(int position, QSize frameSize, const QRect rect
                  << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
         return;
     }
-    m_maskHelper->addMonitorControlRect(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, rect, extend);
+    m_maskHelper->addMonitorControlRect(position, frameSize, rect, extend);
 }
 
 std::shared_ptr<ProjectClip> MaskManager::getOwnerClip()
@@ -297,12 +314,7 @@ void MaskManager::setOwner(ObjectId owner)
     m_owner = owner;
     // Enable new mask if no job running
     buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
-    // Clean up tmp folder
-    QDir srcFramesFolder(QStringLiteral("/tmp/src-frames"));
-    if (srcFramesFolder.exists()) {
-        srcFramesFolder.removeRecursively();
-    }
-    m_maskFolder.remove(QStringLiteral("preview.png"));
+    m_maskHelper->cleanup();
 
     if (m_owner.type != KdenliveObjectType::NoItem) {
         connect(pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy(), &MonitorProxy::positionChanged, m_maskHelper, &AutomaskHelper::monitorSeek,
@@ -313,11 +325,7 @@ void MaskManager::setOwner(ObjectId owner)
 
 void MaskManager::generateMask()
 {
-    bool ok;
-    const QString maskName =
-        QInputDialog::getText(this, i18nc("@title:window", "Enter Mask Name"), i18n("Enter the name of this mask:"), QLineEdit::Normal, QString(), &ok);
-    if (!ok) return;
-
+    const QString maskName = i18n("mask %1", 1 + maskTree->topLevelItemCount());
     std::shared_ptr<ProjectClip> clip = getOwnerClip();
     if (!clip) {
         return;
@@ -347,9 +355,12 @@ void MaskManager::loadMasks()
     for (auto &mask : masks) {
         QTreeWidgetItem *item = new QTreeWidgetItem(maskTree, {mask.maskName, QStringLiteral("%1 - %2").arg(mask.in).arg(mask.out)});
         QString maskFile = mask.maskFile;
-        item->setData(0, Qt::UserRole, maskFile);
-        item->setData(0, Qt::UserRole + 1, mask.in);
-        item->setData(0, Qt::UserRole + 2, mask.out);
+        item->setData(0, MASKFILE, maskFile);
+        item->setData(0, MASKIN, mask.in);
+        item->setData(0, MASKOUT, mask.out);
+        item->setData(0, MASKINCLUDEPOINTS, mask.includepoints);
+        item->setData(0, MASKEXCLUDEPOINTS, mask.excludepoints);
+        item->setData(0, MASKBOXES, mask.boxes);
         QString thumbFile = maskFile.section(QLatin1Char('.'), 0, -2);
         thumbFile.append(QStringLiteral(".png"));
         QIcon icon(thumbFile);
@@ -362,7 +373,7 @@ void MaskManager::loadMasks()
             QImage overlay = QIcon::fromTheme(QStringLiteral("image-missing")).pixmap(m_iconSize).toImage();
             KIconEffect::overlay(img, overlay);
             icon = QIcon(QPixmap::fromImage(overlay));
-            item->setData(0, Qt::UserRole + 3, 1);
+            item->setData(0, MASKMISSING, 1);
         } else if (masks.size() == 1) {
             maskTree->setCurrentItem(item);
         }
@@ -382,11 +393,55 @@ void MaskManager::previewMask(bool show)
         m_connected = true;
     }
     if (show && maskTree->currentItem()) {
+        const QString maskIncludePoints = maskTree->currentItem()->data(0, MASKINCLUDEPOINTS).toString();
+        const QString maskExcludePoints = maskTree->currentItem()->data(0, MASKEXCLUDEPOINTS).toString();
+        const QString maskBoxes = maskTree->currentItem()->data(0, MASKBOXES).toString();
+        int in = maskTree->currentItem()->data(0, MASKIN).toInt();
+        int out = maskTree->currentItem()->data(0, MASKOUT).toInt();
+        QDir previewFolder = m_maskFolder;
+        if (!previewFolder.exists(QStringLiteral("source-frames"))) {
+            previewFolder.mkpath(QStringLiteral("source-frames"));
+        }
+        previewFolder.cd(QStringLiteral("source-frames"));
+        m_maskHelper->loadData(maskIncludePoints, maskExcludePoints, maskBoxes, in, previewFolder);
         buttonPreview->setChecked(true);
         const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
-        int in = maskTree->currentItem()->data(0, Qt::UserRole + 1).toInt();
-        int out = maskTree->currentItem()->data(0, Qt::UserRole + 2).toInt();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out);
+        pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out, 2);
+    } else {
+        pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
+    }
+}
+
+void MaskManager::editMask(bool show)
+{
+    if (!m_connected) {
+        Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
+        Q_ASSERT(clipMon != nullptr);
+        connect(clipMon, &Monitor::generateMask, this, &MaskManager::generateMask, Qt::QueuedConnection);
+        connect(clipMon, &Monitor::moveMonitorControlPoint, this, &MaskManager::moveControlPoint, Qt::UniqueConnection);
+        connect(clipMon, &Monitor::addMonitorControlPoint, this, &MaskManager::addControlPoint, Qt::UniqueConnection);
+        connect(clipMon, &Monitor::addMonitorControlRect, this, &MaskManager::addControlRect, Qt::UniqueConnection);
+        connect(clipMon, &Monitor::disablePreviewMask, this, &MaskManager::abortPreviewByMonitor, Qt::UniqueConnection);
+        m_connected = true;
+    }
+    if (show && maskTree->currentItem()) {
+        bool ok;
+        m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
+        const QString maskIncludePoints = maskTree->currentItem()->data(0, MASKINCLUDEPOINTS).toString();
+        const QString maskExcludePoints = maskTree->currentItem()->data(0, MASKEXCLUDEPOINTS).toString();
+        const QString maskBoxes = maskTree->currentItem()->data(0, MASKBOXES).toString();
+        m_zone.setX(maskTree->currentItem()->data(0, MASKIN).toInt());
+        m_zone.setY(maskTree->currentItem()->data(0, MASKOUT).toInt());
+        QDir previewFolder = m_maskFolder;
+        if (!previewFolder.exists(QStringLiteral("source-frames"))) {
+            previewFolder.mkpath(QStringLiteral("source-frames"));
+        }
+        previewFolder.cd(QStringLiteral("source-frames"));
+        m_maskHelper->loadData(maskIncludePoints, maskExcludePoints, maskBoxes, m_zone.x(), m_zone.y(), previewFolder);
+        exportFrames();
+        buttonEdit->setChecked(true);
+        const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
+        pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, m_zone.x(), m_zone.y(), 1);
     } else {
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
