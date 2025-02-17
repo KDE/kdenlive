@@ -25,6 +25,7 @@
 #include <opentimelineio/gap.h>
 #include <opentimelineio/marker.h>
 #include <opentimelineio/stack.h>
+#include <opentimelineio/transition.h>
 
 OtioExport::OtioExport(QObject *parent)
     : QObject(parent)
@@ -86,37 +87,59 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
                            OTIO_NS::TimeRange(OTIO_NS::RationalTime(0.0, fps), OTIO_NS::RationalTime(track->trackDuration(), fps)), trackKind));
     otioTimeline->tracks()->append_child(otioTrack);
 
-    // Sort the clips by their position in the timeline.
-    QMap<int, int> clipPositionToId;
-    for (int clip = 0; clip < track->getClipsCount(); ++clip) {
-        const int clipId = track->getClipByRow(clip);
-        clipPositionToId[timeline->getItemPosition(clipId)] = clipId;
+    // Order clips by their position. If there are any mixes, we adjust the
+    // clip in and out points to remove overlaps.
+    std::vector<ClipData> orderedClips;
+    for (int i = 0; i < track->getClipsCount(); ++i) {
+        const int clipId = track->getClipByRow(i);
+        int clipPos = timeline->getClipPosition(clipId);
+        std::pair<int, int> clipInOut = timeline->getClipInOut(clipId);
+        const auto mixInfo = track->getMixInfo(clipId);
+        if (mixInfo.first.firstClipId != -1 && mixInfo.first.secondClipId != -1) {
+            auto clipModel = timeline->getClipPtr(clipId);
+            const int offset = clipModel->getMixDuration() - clipModel->getMixCutPosition();
+            clipPos += offset;
+            clipInOut.first += offset;
+        }
+        if (mixInfo.second.firstClipId != -1 && mixInfo.second.secondClipId != -1) {
+            auto clipModel = timeline->getClipPtr(mixInfo.second.secondClipId);
+            clipInOut.second -= clipModel->getMixCutPosition();
+        }
+        orderedClips.push_back({clipId, clipPos, clipInOut.first, clipInOut.second});
     }
+    std::sort(orderedClips.begin(), orderedClips.end(), [](const ClipData &a, const ClipData &b) { return a.pos < b.pos; });
 
-    // Export the clips.
-    int position = 0;
-    for (int clipId : clipPositionToId) {
+    // Export clips, gaps, and transitions.
+    for (const auto &clip : orderedClips) {
 
-        const int clipPosition = clipPositionToId.key(clipId);
-        if (clipPosition != position) {
-            // OTIO explicitly represents gaps.
-            const int duration = clipPosition - position;
+        // OTIO explicitly represents gaps.
+        const int blankSize = track->getBlankSizeNearClip(clip.id, false);
+        if (blankSize > 0) {
             OTIO_NS::SerializableObject::Retainer<OTIO_NS::Gap> otioGap(
-                new OTIO_NS::Gap(OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(duration, fps))));
+                new OTIO_NS::Gap(OTIO_NS::TimeRange(OTIO_NS::RationalTime(0.0, fps), OTIO_NS::RationalTime(blankSize, fps))));
             otioTrack->append_child(otioGap);
-            position += duration;
         }
 
-        exportClip(timeline, clipId, otioTrack);
-        position += timeline->getItemPlaytime(clipId);
+        // Convert mixes to OTIO transitions.
+        const auto mixInfo = track->getMixInfo(clip.id);
+        if (mixInfo.first.firstClipId != -1 && mixInfo.first.secondClipId != -1) {
+            auto clipModel = timeline->getClipPtr(clip.id);
+            OTIO_NS::SerializableObject::Retainer<OTIO_NS::Transition> otioTransition(new OTIO_NS::Transition(
+                "Transition", OTIO_NS::Transition::Type::SMPTE_Dissolve,
+                OTIO_NS::RationalTime(clipModel->getMixDuration() - clipModel->getMixCutPosition(), fps), OTIO_NS::RationalTime(mixInfo.first.mixOffset, fps)));
+            otioTrack->append_child(otioTransition);
+        }
+
+        exportClip(timeline, clip, otioTrack);
     }
 }
 
-void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &otioTrack)
+void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, const ClipData &clip,
+                            OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &otioTrack)
 {
     // Create the OTIO media reference.
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::MediaReference> otioMediaReference;
-    const QString clipBinId = timeline->getClipBinId(clipId);
+    const QString clipBinId = timeline->getClipBinId(clip.id);
     if (std::shared_ptr<ProjectClip> projectClip = pCore->projectItemModel()->getClipByBinID(clipBinId)) {
         if (projectClip->hasUrl()) {
             const double mediaFps = projectClip->getOriginalFps();
@@ -127,19 +150,19 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
     }
 
     // Create the OTIO clip.
-    const std::pair<int, int> clipInOut = timeline->getClipInOut(clipId);
+    auto clipModel = timeline->getClipPtr(clip.id);
     const double fps = projectFps();
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> otioClip(
-        new OTIO_NS::Clip(timeline->getClipName(clipId).toStdString(), otioMediaReference.value,
-                          OTIO_NS::TimeRange(OTIO_NS::RationalTime(clipInOut.first, fps), OTIO_NS::RationalTime(clipInOut.second - clipInOut.first + 1, fps))));
+        new OTIO_NS::Clip(timeline->getClipName(clip.id).toStdString(), otioMediaReference.value,
+                          OTIO_NS::TimeRange(OTIO_NS::RationalTime(clip.in, fps), OTIO_NS::RationalTime(clip.out - clip.in + 1, fps))));
     otioTrack->append_child(otioClip);
 
     // Create the OTIO markers.
-    if (std::shared_ptr<ClipModel> clipModel = timeline->getClipPtr(clipId)) {
+    if (std::shared_ptr<ClipModel> clipModel = timeline->getClipPtr(clip.id)) {
         if (std::shared_ptr<MarkerListModel> markerModel = clipModel->getMarkerModel()) {
             for (const CommentedTime &marker : markerModel->getAllMarkers()) {
 
-                const int position = marker.time().frames(fps) - clipInOut.first;
+                const int position = marker.time().frames(fps) - clip.in;
                 exportMarker(marker, OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(1, fps)),
                              OTIO_NS::dynamic_retainer_cast<OTIO_NS::Item>(otioClip));
             }
