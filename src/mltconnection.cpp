@@ -77,7 +77,7 @@ MltConnection::MltConnection(const QString &mltPath)
         producersList << producers->get_name(i);
     }
     KdenliveSettings::setProducerslist(producersList);
-    mlt_log_set_level(MLT_LOG_WARNING);
+    mlt_log_set_level(MLT_LOG_ERROR);
     mlt_log_set_callback(mlt_log_handler);
     refreshLumas();
 }
