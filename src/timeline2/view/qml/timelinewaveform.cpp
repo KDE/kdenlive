@@ -189,7 +189,7 @@ void TimelineWaveform::paint(QPainter *painter)
         }
 
         // draw channel names
-        if (m_drawChannelNames && m_channels > 1 && m_channels < 7) {
+        if (m_drawChannelNames && channels > 1 && m_channels > 1 && m_channels < 7) {
             painter->setPen(fgColor);
             painter->drawText(2, yOrigin + channelHeight, channelNames[ch]);
         }
