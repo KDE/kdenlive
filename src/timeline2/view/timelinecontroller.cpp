@@ -3347,7 +3347,7 @@ void TimelineController::setAudioRef(int clipId)
         pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         return;
     }
-    int audioStream = clip->getIntProperty(QStringLiteral("audio_index"));
+    std::pair<int, int> audioStream = {clip->getIntProperty(QStringLiteral("audio_index")), clip->getIntProperty(QStringLiteral("astream"))};
     std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(clip->binId(), clipId, audioStream));
     m_audioCorrelator.reset(new AudioCorrelation(std::move(envelope)));
     connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, this, [&](int cid, int shift) {
@@ -3399,7 +3399,7 @@ void TimelineController::alignAudio(int clipId)
             continue;
         }
         const QString otherBinId = otherClip->binId();
-        int stream = otherClip->getIntProperty(QStringLiteral("audio_index"));
+        std::pair<int, int> stream = {otherClip->getIntProperty(QStringLiteral("audio_index")), otherClip->getIntProperty(QStringLiteral("astream"))};
         if (m_model->m_groups->isInGroup(cid)) {
             int parentGroup = m_model->m_groups->getRootId(cid);
             if (processedGroups.contains(parentGroup)) {
