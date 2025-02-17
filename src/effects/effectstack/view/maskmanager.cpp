@@ -314,6 +314,8 @@ void MaskManager::setOwner(ObjectId owner)
     m_owner = owner;
     // Enable new mask if no job running
     buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
+    buttonPreview->setChecked(false);
+    buttonEdit->setChecked(false);
     m_maskHelper->cleanup();
 
     if (m_owner.type != KdenliveObjectType::NoItem) {
@@ -398,14 +400,8 @@ void MaskManager::previewMask(bool show)
         const QString maskBoxes = maskTree->currentItem()->data(0, MASKBOXES).toString();
         int in = maskTree->currentItem()->data(0, MASKIN).toInt();
         int out = maskTree->currentItem()->data(0, MASKOUT).toInt();
-        QDir previewFolder = m_maskFolder;
-        if (!previewFolder.exists(QStringLiteral("source-frames"))) {
-            previewFolder.mkpath(QStringLiteral("source-frames"));
-        }
-        previewFolder.cd(QStringLiteral("source-frames"));
-        m_maskHelper->loadData(maskIncludePoints, maskExcludePoints, maskBoxes, in, previewFolder);
         buttonPreview->setChecked(true);
-        const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
+        const QString maskFile = maskTree->currentItem()->data(0, MASKFILE).toString();
         pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out, 2);
     } else {
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
@@ -437,10 +433,10 @@ void MaskManager::editMask(bool show)
             previewFolder.mkpath(QStringLiteral("source-frames"));
         }
         previewFolder.cd(QStringLiteral("source-frames"));
-        m_maskHelper->loadData(maskIncludePoints, maskExcludePoints, maskBoxes, m_zone.x(), m_zone.y(), previewFolder);
+        m_maskHelper->loadData(maskIncludePoints, maskExcludePoints, maskBoxes, m_zone.x(), previewFolder);
         exportFrames();
         buttonEdit->setChecked(true);
-        const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
+        const QString maskFile = maskTree->currentItem()->data(0, MASKFILE).toString();
         pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, m_zone.x(), m_zone.y(), 1);
     } else {
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
@@ -478,7 +474,7 @@ void MaskManager::applyMask()
     if (stack) {
         stack->appendEffect(QStringLiteral("shape"), true, params);
     }
-    if (buttonPreview->isChecked()) {
+    if (buttonPreview->isChecked() || buttonEdit->isChecked()) {
         // Disable preview
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
@@ -535,4 +531,5 @@ void MaskManager::importMask()
 void MaskManager::abortPreviewByMonitor()
 {
     buttonPreview->setChecked(false);
+    buttonEdit->setChecked(false);
 }
