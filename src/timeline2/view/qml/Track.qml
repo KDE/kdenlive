@@ -383,7 +383,7 @@ Item{
                 Binding {
                     target: loader.item
                     property: "aStreamIndex"
-                    value: model.aStreamIndex
+                    value: model.audioStreamIndex
                     when: loader.status == Loader.Ready && clipItem
                 }
                 sourceComponent: {
