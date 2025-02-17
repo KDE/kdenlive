@@ -97,7 +97,8 @@ void StabilizeTask::run()
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
     QString folderId = QLatin1String("-1");
-    QStringList producerArgs = {QStringLiteral("progress=1"), QStringLiteral("-profile"), pCore->getCurrentProfilePath()};
+    QStringList producerArgs = {QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("progress=1"), QStringLiteral("-profile"),
+                                pCore->getCurrentProfilePath()};
     if (binClip) {
         // Filter applied on a timeline or bin clip
         folderId = binClip->parent()->clipId();

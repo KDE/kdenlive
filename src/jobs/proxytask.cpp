@@ -73,7 +73,7 @@ void ProxyTask::run()
     if (type == ClipType::Playlist || type == ClipType::SlideShow) {
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
-        QStringList mltParameters;
+        QStringList mltParameters = {QStringLiteral("-loglevel"), QStringLiteral("error")};
         QTemporaryFile *playlist = nullptr;
         // set clip origin
         if (type == ClipType::Playlist) {

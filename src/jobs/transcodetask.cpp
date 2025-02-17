@@ -163,6 +163,8 @@ void TranscodeTask::run()
             mltParameters.prepend(QStringLiteral("in=%1").arg(m_inPoint));
         }
         mltParameters.prepend(source);
+        mltParameters.prepend(QStringLiteral("error"));
+        mltParameters.prepend(QStringLiteral("-loglevel"));
         m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);

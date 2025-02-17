@@ -205,6 +205,9 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset)
     if (!KdenliveSettings::samDevice().isEmpty()) {
         args << QStringLiteral("-D") << KdenliveSettings::samDevice();
     }
+    if (KdenliveSettings::sam_offload_video()) {
+        args << QStringLiteral("--offload");
+    }
     if (!box.isNull()) {
         args << QStringLiteral("-B") << QStringLiteral("%1=%2,%3,%4,%5").arg(m_lastPos).arg(box.x()).arg(box.y()).arg(box.right()).arg(box.bottom());
     }
@@ -237,6 +240,8 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset)
             m_jobStatus = QProcess::NotRunning;
             auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
             MaskTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), m_maskParams, binClip.get());
+            // Ensure we hide the progress bar on completion
+            Q_EMIT updateProgress(100);
         } else if (command.startsWith(QLatin1String("INFO:"))) {
             const QString msg = command.section(QLatin1Char(':'), 1);
             Q_EMIT showMessage(msg, KMessageWidget::Information);

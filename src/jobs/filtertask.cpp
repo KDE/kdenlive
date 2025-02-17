@@ -271,7 +271,7 @@ void FilterTask::run()
     dom.clear();
 
     // Step 2: process the xml file and save in another .mlt file
-    const QStringList args({QStringLiteral("progress=1"), sourceFile.fileName()});
+    const QStringList args({QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("progress=1"), sourceFile.fileName()});
     m_jobProcess.reset(new QProcess);
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &FilterTask::processLogInfo);

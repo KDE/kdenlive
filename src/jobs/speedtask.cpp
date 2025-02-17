@@ -174,7 +174,8 @@ void SpeedTask::run()
 
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
-    QStringList producerArgs = {QStringLiteral("progress=1"), QStringLiteral("-profile"), pCore->getCurrentProfilePath()};
+    QStringList producerArgs = {QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("progress=1"), QStringLiteral("-profile"),
+                                pCore->getCurrentProfilePath()};
     QString folderId = QLatin1String("-1");
     if (binClip) {
         folderId = binClip->parent()->clipId();

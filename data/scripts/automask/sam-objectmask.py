@@ -39,6 +39,7 @@ if __name__ == "__main__":
     parser.add_argument("-M", "--model", help="path for the model")
     parser.add_argument("-C", "--config", help="config for the model")
     parser.add_argument("-D", "--device", help="enforce a device: cuda, cpu")
+    parser.add_argument('--offload', action='store_true')
     args = parser.parse_args()
     #if (args.point_coordinates is None or args.labels is None) and args.box_coordinates is None:
     #    config = vars(args)
@@ -82,6 +83,7 @@ else:
 if device.type == "cuda":
     # Check available memory
     memInfo = torch.cuda.mem_get_info()
+    print(f"GPU MEMINFO: {memInfo[0]} - {memInfo[1]}", file=sys.stdout, flush=True)
     # use bfloat16 for the entire notebook
     torch.autocast("cuda", dtype=torch.bfloat16).__enter__()
     # turn on tfloat32 for Ampere GPUs (https://pytorch.org/docs/stable/notes/cuda.html#tensorfloat-32-tf32-on-ampere-devices)
@@ -179,8 +181,8 @@ def render_video():
             filename = output_frame + '/{:05d}'.format(out_frame_idx) + '.png'
             save_mask(out_mask, filename, obj_id=out_obj_id)
         if framesCount > 100:
-            percent = 100 * out_frame_idx / framesCount
-            print(f"Export {percent}%|\n", file=sys.stdout, flush=True)
+            percent = int(100 * out_frame_idx / framesCount)
+            print(f"Export {percent}%|\n", file=sys.stderr, flush=True)
 
 # take a look the first video frame
 #frame_idx = 0
@@ -211,7 +213,9 @@ while 1:
 
         # get ready for rendering
         if videoPredictor_initialized == False:
-            inference_state = videoPredictor.init_state(video_path=inputFolder, async_loading_frames=True)
+            if args.offload:
+                print("Offloading video to CPU\n", file=sys.stdout, flush=True)
+            inference_state = videoPredictor.init_state(video_path=inputFolder, async_loading_frames=True, offload_video_to_cpu=args.offload)
             videoPredictor_initialized = True
 
     if line.startswith("render="):

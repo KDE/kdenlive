@@ -1389,6 +1389,10 @@
        <label>Path for the chosen sam model.</label>
        <default></default>
      </entry>
+     <entry name="sam_offload_video" type="Bool">
+       <label>Offload video to CPU to reduce memory use.</label>
+       <default>false</default>
+     </entry>
      <entry name="sam_system_python" type="Bool">
        <label>Use system packages for SAM plugin</label>
        <default>false</default>

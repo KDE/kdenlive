@@ -191,6 +191,8 @@ void ClipTranscode::slotStartTransCode()
         parameters.prepend(s_url);
         buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
         m_destination = destination + extension;
+        parameters.prepend(QStringLiteral("error"));
+        parameters.prepend(QStringLiteral("-loglevel"));
         m_transcodeProcess.start(KdenliveSettings::meltpath(), parameters);
         source_url->setEnabled(false);
         dest_url->setEnabled(false);
