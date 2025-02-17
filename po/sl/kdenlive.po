@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-15 00:41+0000\n"
-"PO-Revision-Date: 2025-02-07 11:19+0100\n"
+"PO-Revision-Date: 2025-02-16 09:09+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -11470,7 +11470,7 @@ msgstr "Vira ni bilo možno filtrirati."
 #: src/jobs/filtertask.cpp:319
 #, kde-format
 msgid "Effect analysis failed for %1"
-msgstr ""
+msgstr "Analiza učinka za %1 ni uspela"
 
 #: src/jobs/masktask.cpp:28
 #, kde-format

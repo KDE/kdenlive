@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-15 00:41+0000\n"
-"PO-Revision-Date: 2025-01-15 23:09-0300\n"
+"PO-Revision-Date: 2025-02-14 16:28-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -654,6 +654,10 @@ msgid ""
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors.]]>"
 msgstr ""
+"<![CDATA[Porcentaje de desviación desde el valor del color seleccionado."
+"<br>\n"
+"        Valores menores mantendrán los colores más próximos al seleccionado; "
+"valores mayores incluirán más colores.]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -787,49 +791,44 @@ msgid "Counter Clockwise"
 msgstr "Antihorario"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
-msgstr "Sombra"
+msgstr "Proyectar sombra"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Permite dibujar formas simples en el canal alfa"
+msgstr "Crea un efecto de sombra a partir del canal alfa"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Radio"
+msgstr "Radio de desenfoque"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "La cantidad de píxeles del desenfoque del borde de la sombra"
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "X Offset"
-msgstr "Desplazamiento"
+msgstr "Desplazamiento X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "La posición horizontal relativa de la sombra"
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Y Offset"
-msgstr "Desplazamiento"
+msgstr "Desplazamiento Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "La posición vertical relativa de la sombra"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -839,10 +838,9 @@ msgid "Color"
 msgstr "Color"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "Color del gradiente de la forma de onda."
+msgstr "El color de la sombra, incluyendo el alfa"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -941,7 +939,7 @@ msgstr "Color del contorno"
 #: data/effects/dynamictext.xml:29 data/effects/timer.xml:32
 #, kde-format
 msgid "Outline Width"
-msgstr "Anchura del contorno"
+msgstr "Ancho del contorno"
 
 #: data/effects/dynamictext.xml:32 data/effects/timer.xml:35
 #, kde-format
@@ -2726,7 +2724,7 @@ msgstr "La cantidad de retardo de cada muestra entre el origen y la salida."
 #: data/effects/rbpitchscale.xml:4
 #, kde-format
 msgid "Rubberband Pitch Scale"
-msgstr "Escala de tono (Rubberband)"
+msgstr "Escala de tono (banda elástica)"
 
 #: data/effects/rbpitchscale.xml:8
 #, kde-format
@@ -2752,11 +2750,10 @@ msgstr ""
 "pow(2.0, o). Tiene precedencia frente al Desplazamiento de octava."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Rotación"
+msgstr "Rotación de 3 ejes"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2770,6 +2767,9 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[Al animar propiedades mediante claves,<br>\n"
+"\t    permite definir si se repetirá la animación después del último "
+"clave.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -2779,12 +2779,15 @@ msgid ""
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[Al animar propiedades mediante claves cuando <em>Desactivar "
+"repetición </em> esté inactiva,<br>\n"
+"\t    permite definir si la animación alternará entre ir en reversa o hacia "
+"adelante en cada repetición.]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Insertar espacio"
+msgstr "Invertir escala"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2794,6 +2797,10 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"<![CDATA[Permite definir si invertir los valores de <em>Escala X</em> y "
+"<em>Escala Y</em>.<br>\n"
+"        Resultará útil para sanear la interpolación de la animación, dado "
+"que de otro modo los valores de escala no se animarán linealmente.]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -2802,10 +2809,9 @@ msgid "Rotate X"
 msgstr "Rotación X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Rota alrededor del eje X"
+msgstr "<![CDATA[Ángulo de rotación en el eje X]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2814,10 +2820,9 @@ msgid "Rotate Y"
 msgstr "Rotación Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Rota alrededor del eje Y"
+msgstr "<![CDATA[Ángulo de rotación en el eje Y]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2826,10 +2831,9 @@ msgid "Rotate Z"
 msgstr "Rotación Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Rota alrededor del eje Z"
+msgstr "<![CDATA[Ángulo de rotación en el eje Z]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2840,7 +2844,7 @@ msgstr "Desplazamiento X"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desplazamiento en el eje X]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2851,7 +2855,7 @@ msgstr "Desplazamiento Y"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desplazamiento en el eje Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -2863,7 +2867,7 @@ msgstr "Escala X"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Factor de escala en el eje X]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2875,13 +2879,12 @@ msgstr "Escala Y"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Factor de escala en el eje Y]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Rotar e inclinar"
+msgstr "Rotar y sesgar (obsoleto)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2901,22 +2904,22 @@ msgstr "Animar rotación Z"
 #: data/effects/rotation.xml:26 data/effects/shear.xml:25
 #, kde-format
 msgid "Shear X"
-msgstr "Inclinación X"
+msgstr "Sesgo X"
 
 #: data/effects/rotation.xml:29 data/effects/shear.xml:29
 #, kde-format
 msgid "Shear Y"
-msgstr "Inclinación Y"
+msgstr "Sesgo Y"
 
 #: data/effects/rotation.xml:32
 #, kde-format
 msgid "Animate Shear X"
-msgstr "Animar inclinación X"
+msgstr "Animar sesgo X"
 
 #: data/effects/rotation.xml:35
 #, kde-format
 msgid "Animate Shear Y"
-msgstr "Animar inclinación Y"
+msgstr "Animar sesgo Y"
 
 #: data/effects/rotation.xml:38
 #, kde-format
@@ -2924,10 +2927,9 @@ msgid "Pan and Zoom"
 msgstr "Panear y ampliar"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Suave (obsoleta)"
+msgstr "Rotar (obsoleto)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -3001,43 +3003,40 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Crea un canal alfa (transparencia) basado en otra fuente"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Inclinación X"
+msgstr "Sesgar"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "Seleccionar un clip para aplicar la mezcla"
+msgstr "Permite sesgar un clip en los 3 ejes"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Ángulo del sesgo en el eje X]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Ángulo del sesgo en el eje Y]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Inclinación X"
+msgstr "Sesgo Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[Ángulo del sesgo en el eje Z]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Desplazamiento en el eje Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -5037,10 +5036,9 @@ msgid "Default Keyframe Type"
 msgstr "Interpolación predeterminada"
 
 #: src/assets/view/widgets/keyframewidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Automatic Keyframes"
+#, kde-format
 msgid "Limit automatic keyframes"
-msgstr "Claves automáticos"
+msgstr "Limitar claves automáticos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:228 src/bin/bin.cpp:1343
@@ -5110,10 +5108,9 @@ msgid "Current values copied"
 msgstr "Valores actuales copiados"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "No hay datos válidos de claves en el portapapeles"
+msgstr "No hay datos de claves en el portapapeles"
 
 #: src/assets/view/widgets/keyframewidget.cpp:1061
 #, kde-format
@@ -7462,7 +7459,7 @@ msgstr "Administrar perfiles de codificación"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
-msgstr ""
+msgstr "Abre un diálogo para crear, cambiar y borrar perfiles de codificación"
 
 #: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
@@ -7470,11 +7467,10 @@ msgid "Show Profile Parameters"
 msgstr "Mostrar parámetros del perfil"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Deshabilitar parámetros al deshabilitar un efecto"
+msgstr "Mostrar los parámetros para el perfil seleccionado"
 
 #: src/dialogs/encodingprofilesdialog.cpp:258
 #: src/dialogs/encodingprofilesdialog.cpp:347
@@ -8680,6 +8676,9 @@ msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
+"<b>Sólo usar paquetes del sistema. Usarlo si se conoce su significado </b>. "
+"Se necesitará instalar manualmente en el sistema todos los paquetes "
+"requeridos:<br>%1"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:431 src/ui/configspeech_ui.ui:801
@@ -8900,12 +8899,13 @@ msgid "Speech recognition aborted."
 msgstr "Reconocimiento de voz cancelado."
 
 #: src/dialogs/speechdialog.cpp:439
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed."
+#, kde-format
 msgid ""
 "Speech recognition failed:\n"
 "%1"
-msgstr "Falló el reconocimiento de voz."
+msgstr ""
+"Falló el reconocimiento de voz:\n"
+"%1"
 
 #: src/dialogs/speechdialog.cpp:446
 #, kde-format
@@ -11305,19 +11305,17 @@ msgstr "El complemento SAM2 debe ser configurado"
 #: src/effects/effectstack/view/maskmanager.cpp:162
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "Exportando fotogramas del video para su análisis"
 
 #: src/effects/effectstack/view/maskmanager.cpp:167
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Generando la máscara del video"
+msgstr "Exportando fotogramas del video"
 
 #: src/effects/effectstack/view/maskmanager.cpp:181
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Clip original faltante"
+msgstr "Fotogramas de origen faltantes"
 
 #: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
@@ -11562,10 +11560,9 @@ msgid "Failed to analyse video."
 msgstr "No fue posible analizar el video."
 
 #: src/jobs/melttask.cpp:57
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "No fue posible crear clip de reemplazo."
+msgstr "No fue posible procesar la lista de reproducción."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -12853,10 +12850,9 @@ msgid "Multicam Tool"
 msgstr "Multicámara"
 
 #: src/mainwindow.cpp:1247
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Visualizar onda de audio"
+msgstr "Ampliar ondas de audio"
 
 #: src/mainwindow.cpp:1251
 #, kde-format
@@ -13347,7 +13343,7 @@ msgstr "Deseleccionar clip"
 #: src/mainwindow.cpp:1630
 #, kde-format
 msgid "Add Clip to Selection"
-msgstr "Agregar clip a la selección"
+msgstr "Agregar clip a selección"
 
 #: src/mainwindow.cpp:1632
 #, kde-format
@@ -13362,7 +13358,7 @@ msgstr "Deseleccionar transición"
 #: src/mainwindow.cpp:1636
 #, kde-format
 msgid "Add Transition to Selection"
-msgstr "Agregar transición a la selección"
+msgstr "Agregar transición a selección"
 
 #: src/mainwindow.cpp:1639
 #, kde-format
@@ -13495,11 +13491,9 @@ msgid "Clip in Project Bin"
 msgstr "Localizar en bandeja del proyecto"
 
 #: src/mainwindow.cpp:1757
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Búsqueda pendiente…"
+msgstr "Buscar clip de bandeja…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1759 src/ui/cutjobdialog_ui.ui:18
@@ -13560,7 +13554,7 @@ msgid ""
 "that can be opened in another timeline tab."
 msgstr ""
 "Agrega los clips seleccionados en la línea de tiempo a un nuevo clip de "
-"secuencia, que podrá ser abierto en una nueva solapa de la línea de tiempo."
+"secuencia, que podrá ser abierto en una nueva pestaña de la línea de tiempo."
 
 #: src/mainwindow.cpp:1815
 #, kde-format
@@ -13987,10 +13981,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut>Mayús+arrastrar</shortcut> para marco de selección, <shortcut>Mayús"
-"+clic</shortcut> para selección múltiple, <shortcut>Meta+arrastrar</"
-"shortcut> para mover un clip agrupado hacia otra pista, <shortcut>Ctrl"
-"+arrastrar</shortcut> para desplazar vista"
+"<shortcut>Mayús+arrastrar</shortcut> marco de selección, <shortcut>Mayús"
+"+clic</shortcut> selección múltiple, <shortcut>Meta+arrastrar</shortcut> "
+"mover clip agrupado a otra pista, <shortcut>Ctrl+arrastrar</shortcut> "
+"desplazar vista"
 
 #: src/mainwindow.cpp:3420
 #, kde-kuit-format
@@ -14001,10 +13995,10 @@ msgid ""
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
 "shortcut> to pan"
 msgstr ""
-"<shortcut>Mayús+arrastrar</shortcut> para marco de selección, <shortcut>Mayús"
-"+clic</shortcut> para selección múltiple, <shortcut>Meta+Alt+arrastrar</"
-"shortcut> para mover un clip agrupado hacia otra pista, <shortcut>Ctrl"
-"+arrastrar</shortcut> para desplazar vista"
+"<shortcut>Mayús+arrastrar</shortcut> marco de selección, <shortcut>Mayús"
+"+clic</shortcut> selección múltiple, <shortcut>Meta+Alt+arrastrar</shortcut> "
+"mover clip agrupado a otra pista, <shortcut>Ctrl+arrastrar</shortcut> "
+"desplazar vista"
 
 #: src/mainwindow.cpp:3423
 #, kde-format
@@ -14015,7 +14009,7 @@ msgstr "Seleccionar"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
-msgstr "<shortcut>Mayús</shortcut> para previsualizar el fotograma de corte"
+msgstr "<shortcut>Mayús</shortcut> previsualizar fotograma de corte"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: src/mainwindow.cpp:3426 src/ui/configtools_ui.ui:21
@@ -14030,9 +14024,8 @@ msgid ""
 "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</"
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
-"<shortcut>Ctrl</shortcut> para aplicar sólo en la pista actual, "
-"<shortcut>Mayús</shortcut> para mover también las guías. Es posible combinar "
-"ambos modificadores."
+"<shortcut>Ctrl</shortcut> aplicar sólo en pista actual, <shortcut>Mayús</"
+"shortcut> mover también guías. (es posible combinar ambos)"
 
 #: src/mainwindow.cpp:3431
 #, kde-format
@@ -14047,7 +14040,7 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 "<shortcut>Clic</shortcut> sobre un elemento para desplazarlo, <shortcut>Mayús"
-"+clic</shortcut> para selección múltiple"
+"+clic</shortcut> selección múltiple"
 
 #: src/mainwindow.cpp:3434
 #, kde-format
@@ -14063,10 +14056,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut>Mayús+arrastrar</shortcut> para marco de selección, <shortcut>Mayús"
-"+clic</shortcut> para selección múltiple, <shortcut>Alt+clic</shortcut> para "
-"seleccionar un elemento de un grupo, <shortcut>Ctrl+arrastrar</shortcut> "
-"para desplazar vista"
+"<shortcut>Mayús+arrastrar</shortcut> marco de selección, <shortcut>Mayús"
+"+clic</shortcut> selección múltiple, <shortcut>Alt+clic</shortcut> "
+"seleccionar elemento de un grupo, <shortcut>Ctrl+arrastrar</shortcut> "
+"desplazar vista"
 
 #: src/mainwindow.cpp:3441
 #, kde-format
@@ -14081,7 +14074,7 @@ msgid ""
 "<shortcut>Click</shortcut> on a track view in the project monitor to perform "
 "a lift of all tracks except active one"
 msgstr ""
-"<shortcut>Clic</shortcut> sobre la vista de una pista en el monitor del "
+"<shortcut>Clic</shortcut> en la vista de una pista en el monitor del "
 "proyecto para eliminar todas las pistas, excepto la activa"
 
 #: src/mainwindow.cpp:3459
@@ -14810,11 +14803,9 @@ msgid "Pink"
 msgstr "Rosa"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Damero pequeño"
+msgstr "Damero"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -15228,10 +15219,10 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
-"<shortcut>Clic</shortcut> para reproducir, <shortcut>Doble clic</shortcut> "
-"para pantalla completa, <shortcut>Posar a la derecha</shortcut> para barra "
-"de herramientas, <shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> "
-"para saltar, <shortcut>Ctrl+rueda</shortcut> para ampliar"
+"<shortcut>Clic</shortcut> reproducir, <shortcut>Doble clic</shortcut> "
+"pantalla completa, <shortcut>Posar a la derecha</shortcut> barra de "
+"herramientas, <shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> "
+"saltar, <shortcut>Ctrl+rueda</shortcut> ampliar"
 
 #: src/monitor/view/kdenliveclipmonitor-orig.qml:537
 #: src/monitor/view/kdenliveclipmonitor.qml:559
@@ -15293,17 +15284,13 @@ msgid "Generating video mask"
 msgstr "Generando la máscara del video"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:381
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click on an object to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to exclude a zone."
+#, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
-"Hacer clic sobre un objeto para iniciar una máscara.\n"
+"Hacer clic sobre un objeto o dibujar un marco para iniciar una máscara.\n"
 "Mayús+clic para incluir una nueva zona.\n"
 "Ctrl+clic para excluir una zona."
 
@@ -15321,10 +15308,10 @@ msgid ""
 "center-based rescale, <shortcut>Hover right</shortcut> for toolbar, "
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
-"<b>Doble clic</b> para agregar un clave, <b>Mayús+arrastrar</b> para escalar "
-"proporcionalmente, <shortcut>Ctrl+arrastrar</shortcut> para escalar desde el "
-"centro, <b>Posar a la derecha</b> para barra de herramientas, <b>Clic</b> "
-"sobre un centro para saltar a su clave"
+"<b>Doble clic</b> agregar un clave, <b>Mayús+arrastrar</b> escalar "
+"proporcionalmente, <shortcut>Ctrl+arrastrar</shortcut> escalar desde el "
+"centro, <b>Posar a la derecha</b> barra de herramientas, <b>Clic</b> sobre "
+"un centro para saltar a su clave"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
@@ -15333,8 +15320,8 @@ msgid ""
 "<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
 "to close shape."
 msgstr ""
-"<shortcut>Clic</shortcut> para agregar puntos, <shortcut>Clic derecho</"
-"shortcut> para cerrar la forma."
+"<shortcut>Clic</shortcut> agregar puntos, <shortcut>Clic derecho</shortcut> "
+"cerrar la forma."
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
@@ -15348,13 +15335,13 @@ msgstr ""
 "<b>Doble clic</b> sobre el centro para redimensionar, <b>Doble clic</b> "
 "sobre un segmento de línea para agregar un nuevo punto, <b>Doble clic</b> "
 "sobre un punto para borrarlo, <b>Doble clic</b> sobre el fondo para crear un "
-"nuevo clave, <b>Posar a la derecha</b> para barra de herramientas"
+"nuevo clave, <b>Posar a la derecha</b> barra de herramientas"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
-msgstr "<shortcut>Mayús+arrastrar</shortcut> para escalar desde el centro"
+msgstr "<shortcut>Mayús+arrastrar</shortcut> escalar desde el centro"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:438
 #, kde-format
@@ -15404,10 +15391,10 @@ msgid ""
 "seek to marker, <shortcut>Home</shortcut> / <shortcut>End</shortcut> to go "
 "to first / last frame"
 msgstr ""
-"<shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> para saltar 1 "
-"fotograma, <shortcut>Mayús</shortcut> para saltar 1 segundo, <shortcut>Alt</"
-"shortcut> para saltar hasta un marcador, <shortcut>Inicio</shortcut> / "
-"<shortcut>Fin</shortcut> para ir al primer / último fotograma"
+"<shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> saltar 1 "
+"fotograma, <shortcut>Mayús</shortcut> saltar 1 segundo, <shortcut>Alt</"
+"shortcut> saltar hasta marcador, <shortcut>Inicio</shortcut> / "
+"<shortcut>Fin</shortcut> ir al primer / último fotograma"
 
 #: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
@@ -15416,9 +15403,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>Arrastrar</shortcut> para establecer el punto de entrada de la "
-"zona, <shortcut>Mayús+arrastrar</shortcut> para previsualizar mientras se "
-"arrastra"
+"<shortcut>Arrastrar</shortcut> establecer punto de entrada de la zona, "
+"<shortcut>Mayús+arrastrar</shortcut> previsualizar mientras se arrastra"
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -15427,9 +15413,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Arrastrar</shortcut> para establecer el punto de salida de la "
-"zona, <shortcut>Mayús+arrastrar</shortcut> para previsualizar mientras se "
-"arrastra"
+"<shortcut>Arrastrar</shortcut> establecer el punto de salida de la zona, "
+"<shortcut>Mayús+arrastrar</shortcut> previsualizar mientras se arrastra"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -18235,7 +18220,7 @@ msgid ""
 msgstr ""
 "Se detectaron algunos errores en el archivo del proyecto.\n"
 "El mismo fue modificado para corregir los conflictos. Los cambios realizados "
-"se detallan en la solapa Notas del proyecto,\n"
+"se detallan en la pestaña Notas del proyecto,\n"
 "por favor revisarlos para confirmar su integridad."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:705
@@ -19326,7 +19311,7 @@ msgstr "Editar nombre de pista"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "Hacer clic para recorrer ampliación de formas de ondas de audio"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -21609,13 +21594,13 @@ msgstr "Deshabilitar parámetros al deshabilitar un efecto"
 #: src/ui/configmisc_ui.ui:130
 #, kde-format
 msgid "Tab position:"
-msgstr "Posición de las solapas:"
+msgstr "Ubicación de las pestañas:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configmisc_ui.ui:168
 #, kde-format
 msgid "Preferred track compositing composition:"
-msgstr "Composición preferida para composición de pistas:"
+msgstr "Composición preferida entre pistas:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configmisc_ui.ui:178
@@ -21877,10 +21862,9 @@ msgstr "Voz a texto"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
 #: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:680
-#, fuzzy, kde-format
-#| msgid "Use system install"
+#, kde-format
 msgid "Use system packages only"
-msgstr "Usar instalación del sistema"
+msgstr "Sólo usar paquetes del sistema"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:85
@@ -22152,16 +22136,15 @@ msgstr "Dividir después de la primera línea"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "Keyframes"
-msgstr "fotogr."
+msgstr "Fotogramas clave"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Intervalo mínimo de fotogramas para claves automáticos:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
@@ -22171,6 +22154,9 @@ msgid ""
 "the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"Al insertar claves automáticos (por ejemplo en el efecto Transformación) "
+"mientras el monitor esté reproduciendo, este será el intervalo mínimo de "
+"fotogramas entre 2 claves."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
