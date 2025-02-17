@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2025-02-15 01:45-0300\n"
+"PO-Revision-Date: 2025-02-16 01:55-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -8178,7 +8178,7 @@ msgstr "Bicúbico (melhor)"
 #: src/dialogs/renderwidget.cpp:232
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (melhor)"
 
 #: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
@@ -10126,10 +10126,9 @@ msgid "Transition"
 msgstr "Transição"
 
 #: src/doc/documentchecker.cpp:1865
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Unreferenced clip"
-msgstr "Remover clipes"
+msgstr "Clipe sem referência"
 
 #: src/doc/documentchecker.cpp:1867
 #, fuzzy, kde-format
@@ -10468,7 +10467,7 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1943
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "Aviso: fps fora do padrão, ajustando para o inteiro mais próximo. "
 
 #: src/doc/kdenlivedoc.cpp:1961
 #, kde-format
@@ -12416,10 +12415,9 @@ msgid ""
 msgstr ""
 
 #: src/mainwindow.cpp:1207
-#, fuzzy, kde-format
-#| msgid "File Exists"
+#, kde-format
 msgid "Ripple Tool"
-msgstr "O arquivo já existe"
+msgstr "Ferramenta de cascata"
 
 #: src/mainwindow.cpp:1210
 #, kde-kuit-format
@@ -12558,7 +12556,7 @@ msgstr "Processamento de GPU experimental ativado - não para produção"
 #: src/mainwindow.cpp:1332 src/mainwindow.cpp:3438
 #, kde-format
 msgid "Multicam"
-msgstr ""
+msgstr "Multicâmera"
 
 #: src/mainwindow.cpp:1333
 #, kde-format
@@ -13689,11 +13687,10 @@ msgstr ""
 "b> para deslocar"
 
 #: src/mainwindow.cpp:3431
-#, fuzzy, kde-format
-#| msgid "Ripple"
+#, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
-msgstr "Ondulação"
+msgstr "Cascata"
 
 #: src/mainwindow.cpp:3437
 #, kde-kuit-format
@@ -14330,10 +14327,9 @@ msgid "Audio volume"
 msgstr "Volume do áudio"
 
 #: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
-#, fuzzy, kde-format
-#| msgid "%1 %%"
+#, kde-format
 msgid "%1%"
-msgstr "%1 %%"
+msgstr "%1%"
 
 #: src/monitor/monitor.cpp:232
 #, kde-format
@@ -15250,8 +15246,7 @@ msgid "Online Resources Preview"
 msgstr "Pré-visualização de recursos online"
 
 #: src/onlineresources/resourcewidget.cpp:545
-#, fuzzy, kde-format
-#| msgid "Choose File Version"
+#, kde-format
 msgctxt "@title:window"
 msgid "Choose File Version"
 msgstr "Escolha a versão do arquivo"
@@ -15625,14 +15620,9 @@ msgid "There was an error while copying the files: %1"
 msgstr "Ocorreu um erro ao copiar os arquivos: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1128
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot open archive file %1"
-msgstr ""
-"Não foi possível abrir o arquivo:\n"
-" %1"
+msgstr "Não foi possível abrir arquivo de arquivamento %1"
 
 #: src/project/dialogs/archivewidget.cpp:1145
 #, kde-format
@@ -15640,10 +15630,9 @@ msgid "Archiving %1"
 msgstr "Arquivando %1"
 
 #: src/project/dialogs/archivewidget.cpp:1151
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "Não foi possível abrir o arquivo %1"
+msgstr "Não foi possível copiar o arquivo %1 para %2."
 
 #: src/project/dialogs/archivewidget.cpp:1181
 #, kde-format
@@ -15660,10 +15649,9 @@ msgid "Unknown Error"
 msgstr "Erro desconhecido"
 
 #: src/project/dialogs/archivewidget.cpp:1184
-#, fuzzy, kde-format
-#| msgid "There was an error while copying the files: %1"
+#, kde-format
 msgid "There was an error while archiving the project: %1"
-msgstr "Ocorreu um erro ao copiar os arquivos: %1"
+msgstr "Ocorreu um erro ao arquivar o projeto: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1213
 #, kde-format
@@ -15681,11 +15669,10 @@ msgid "Cannot open file"
 msgstr "Não foi possível abrir o arquivo"
 
 #: src/project/dialogs/backupwidget.cpp:18
-#, fuzzy, kde-format
-#| msgid "Restore Backup File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
-msgstr "Restaurar arquivos de Backup"
+msgstr "Restaurar arquivo de Backup"
 
 #: src/project/dialogs/backupwidget.cpp:22
 #, kde-format
@@ -15698,10 +15685,9 @@ msgid "Showing backup files for %1"
 msgstr "Mostrando arquivos de backup para %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Editar Guia"
+msgstr "Editar categoria de guia"
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
@@ -15714,10 +15700,9 @@ msgid "Category %1"
 msgstr "Categoria %1"
 
 #: src/project/dialogs/guidecategories.cpp:152
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Excluir guia"
+msgstr "Excluir categoria de guia"
 
 #: src/project/dialogs/guidecategories.cpp:157
 #, kde-format
@@ -15740,34 +15725,29 @@ msgid "Export..."
 msgstr "Exportar…"
 
 #: src/project/dialogs/guideslist.cpp:91
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Configurar perfis"
+msgstr "Configurar categorias"
 
 #: src/project/dialogs/guideslist.cpp:99
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Categoria"
+msgstr "Ordenar por categoria"
 
 #: src/project/dialogs/guideslist.cpp:101
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Ordenar por"
+msgstr "Ordenar por tempo"
 
 #: src/project/dialogs/guideslist.cpp:103
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Comentário"
+msgstr "Ordenar por comentários"
 
 #: src/project/dialogs/guideslist.cpp:136
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Adicionar guia"
+msgstr "Adicionar nova guia."
 
 #: src/project/dialogs/guideslist.cpp:137
 #, kde-kuit-format
@@ -15788,10 +15768,9 @@ msgid "Delete guide. This will erase all selected guides."
 msgstr "Excluir guia. Isso apagará todas as guias selecionadas."
 
 #: src/project/dialogs/guideslist.cpp:140
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Excluir guia"
+msgstr "Editar guia selecionada."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-kuit-format
@@ -15819,10 +15798,9 @@ msgstr ""
 "categorias de guia selecionadas nesta caixa de diálogo e na linha do tempo."
 
 #: src/project/dialogs/guideslist.cpp:145
-#, fuzzy, kde-format
-#| msgid "Default quality"
+#, kde-format
 msgid "Default guide category."
-msgstr "Qualidade padrão"
+msgstr "Categoria padrão de guia."
 
 #: src/project/dialogs/guideslist.cpp:146
 #, kde-kuit-format
@@ -15831,8 +15809,7 @@ msgid "Default guide category. The category used for newly created guides."
 msgstr "Categoria de guia padrão. A categoria usada para guias recém-criadas."
 
 #: src/project/dialogs/guideslist.cpp:158
-#, fuzzy, kde-format
-#| msgid "Load Clip Markers"
+#, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "Carregar marcadores de clipe"
@@ -15844,22 +15821,19 @@ msgstr ""
 "O arquivo do marcador tem mais de 1 MB. Tem certeza de que deseja importar?"
 
 #: src/project/dialogs/guideslist.cpp:247
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Remover guia"
+msgstr "Remover guias"
 
 #: src/project/dialogs/guideslist.cpp:295
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Marcadores"
+msgstr "Marcadores para %1"
 
 #: src/project/dialogs/guideslist.cpp:321
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Modo de edição da linha do tempo"
+msgstr "Guias da linha do tempo"
 
 #: src/project/dialogs/noteswidget.cpp:33
 #, kde-format
@@ -15879,10 +15853,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Atribuir timestamps para o clipe atual"
 
 #: src/project/dialogs/noteswidget.cpp:137
-#, fuzzy, kde-format
-#| msgid "Cannot insert clip."
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Não foi possível inserir clipe."
+msgstr "Não foi possível encontrar o clipe do projeto"
 
 #: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
@@ -15897,7 +15870,7 @@ msgstr "Selecione alguns códigos de tempo para criar marcadores"
 #: src/project/dialogs/profilewidget.cpp:32
 #, kde-format
 msgid "Fps:"
-msgstr "QPS:"
+msgstr "Fps:"
 
 #: src/project/dialogs/profilewidget.cpp:48
 #, kde-format
@@ -15931,16 +15904,14 @@ msgid "Video Settings"
 msgstr "Configurações de vídeo"
 
 #: src/project/dialogs/profilewidget.cpp:196
-#, fuzzy, kde-format
-#| msgid "<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>"
+#, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
-msgstr "<p style='font-size:small'>Tamanho do quadro: %1 x %2 (%3:%4)<br/>"
+msgstr "Tamanho do quadro: %1 x %2 (%3:%4)"
 
 #: src/project/dialogs/profilewidget.cpp:197
-#, fuzzy, kde-format
-#| msgid "Frame rate: %1 fps<br/>"
+#, kde-format
 msgid "Frame rate: %1 fps"
-msgstr "Taxa de quadros: %1 fps<br/>"
+msgstr "Taxa de quadros: %1 fps"
 
 #: src/project/dialogs/profilewidget.cpp:199
 #, kde-format
@@ -16270,10 +16241,10 @@ msgid "No backup data older than %1 months was found."
 msgstr "Nenhum dado de backup com mais de %1 meses foi encontrado."
 
 #: src/project/dialogs/temporarydata.cpp:398
-#, fuzzy, kde-format
-#| msgid "This will delete backup data for projects older than %1 months."
+#, kde-format
 msgid "This will delete backup data (%1) for projects older than %2 months."
-msgstr "Isso excluirá os dados de backup para projetos com mais de %1 meses."
+msgstr ""
+"Isso excluirá os dados de backup (%1) para projetos com mais de %2 meses."
 
 #: src/project/dialogs/temporarydata.cpp:440
 #, kde-format
@@ -16382,8 +16353,7 @@ msgstr ""
 "Contém clipes de proxy para todos os seus projetos."
 
 #: src/project/dialogs/temporarydata.cpp:774
-#, fuzzy, kde-format
-#| msgid "No proxy clips older than %1 months was found."
+#, kde-format
 msgid "No proxy clip older than %1 months found."
 msgstr "Nenhum clipe de proxy com mais de %1 meses foi encontrado."
 
@@ -16449,16 +16419,14 @@ msgid "Cannot perform assign"
 msgstr "Não é possível executar atribuição"
 
 #: src/project/projectmanager.cpp:67
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Renderizar projeto"
+msgstr "Projeto Kdenlive"
 
 #: src/project/projectmanager.cpp:69
-#, fuzzy, kde-format
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Arquivar projeto"
+msgstr "Projeto arquivado"
 
 #: src/project/projectmanager.cpp:150
 #, kde-format
@@ -16466,10 +16434,9 @@ msgid "Save Copy…"
 msgstr "Salvar cópia…"
 
 #: src/project/projectmanager.cpp:154
-#, fuzzy, kde-format
-#| msgid "Open Backup File"
+#, kde-format
 msgid "Open Backup File…"
-msgstr "Abrir arquivo de backup"
+msgstr "Abrir arquivo de backup…"
 
 #: src/project/projectmanager.cpp:442
 #, kde-format
@@ -16514,10 +16481,10 @@ msgid "Save Copy"
 msgstr "Salvar cópia"
 
 #: src/project/projectmanager.cpp:750
-#, fuzzy, kde-format
-#| msgid "Auto-saved file exist. Do you want to recover now?"
+#, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
-msgstr "Existe um arquivo salvo automaticamente. Você quer recuperar agora?"
+msgstr ""
+"Existe um arquivo salvo automaticamente. Você deseja recuperá-lo agora?"
 
 #: src/project/projectmanager.cpp:750
 #, kde-format
@@ -16540,17 +16507,15 @@ msgid "Opening file %1"
 msgstr "Abrindo arquivo %1"
 
 #: src/project/projectmanager.cpp:838
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open the project file %1,\n"
-#| "Do you want to open a backup file?"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
 "Do you want to open a backup file?"
 msgstr ""
-"Não foi possível abrir o arquivo do projeto %1.\n"
-"Deseja abrir o arquivo de backup?"
+"Não foi possível abrir o arquivo do projeto. Erro:\n"
+"%1\n"
+"Deseja abrir um arquivo de backup?"
 
 #: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1073
 #, kde-format
@@ -16563,10 +16528,9 @@ msgid "Open Backup"
 msgstr "Abrir Backup"
 
 #: src/project/projectmanager.cpp:855
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Não foi possível abrir o arquivo de projeto %1"
+msgstr "Não foi possível abrir o arquivo de backup do projeto."
 
 #: src/project/projectmanager.cpp:870
 #, kde-format
@@ -16583,24 +16547,23 @@ msgstr ""
 "salvamento"
 
 #: src/project/projectmanager.cpp:943
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "Baixando modelo…"
+msgstr "Carregando linha do tempo…"
 
 #: src/project/projectmanager.cpp:961
-#, fuzzy, kde-format
-#| msgid "Preview sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "Visualização da sequência"
+msgstr "Construindo sequências…"
 
 #: src/project/projectmanager.cpp:1100
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "Não foi possível abrir o arquivo de projeto %1"
+msgstr ""
+"Não foi possível abrir o arquivo de projeto. Erro:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:1140
 #, kde-format
@@ -16626,10 +16589,10 @@ msgstr ""
 "arquivo do projeto para recuperar o último backup"
 
 #: src/project/projectmanager.cpp:1431
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Error moving project folder, cannot access cache folder"
-msgstr "Erro ao mover a pasta do projeto: %1"
+msgstr ""
+"Erro ao mover a pasta do projeto: não é possível acessar a pasta de cache"
 
 #: src/project/projectmanager.cpp:1467
 #, kde-format
@@ -16643,13 +16606,12 @@ msgid "Sequence 1"
 msgstr "Sequência 1"
 
 #: src/project/projectmanager.cpp:1569
-#, fuzzy, kde-format
-#| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
+#, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
-"O arquivo de projeto está corrompido (sem faixas). Tentar encontrar um "
-"arquivo de backup?"
+"O arquivo do projeto está corrompido - erro ao carregar trilhar. Tentar "
+"encontrar um arquivo de backup?"
 
 #: src/project/projectmanager.cpp:1712 src/project/projectmanager.cpp:1717
 #: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1741
@@ -16672,12 +16634,13 @@ msgid "Project profile changed"
 msgstr "Perfil do projeto alterado"
 
 #: src/project/projectmanager.cpp:1950
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
-msgstr "Não foi possível criar o filtro %1"
+msgstr ""
+"Não foi possível criar uma linha do tempo a partir desse clipe:\n"
+"%1"
 
 #: src/project/projectmanager.cpp:2032
 #, kde-format
@@ -16685,16 +16648,14 @@ msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Importando um clipe em sequência, atualmente em estado experimental"
 
 #: src/project/projectmanager.cpp:2221
-#, fuzzy, kde-format
-#| msgid "Select a clip to compare effect"
+#, kde-format
 msgid "Select a clip to create sequence"
-msgstr "Selecione um clipe para comparar o efeito"
+msgstr "Selecione um clipe para criar a sequência"
 
 #: src/project/projectmanager.cpp:2259
-#, fuzzy, kde-format
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create Sequence Clip"
-msgstr "Criar nova frequência"
+msgstr "Criar clipe de sequência"
 
 #: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, kde-format
@@ -16713,34 +16674,29 @@ msgid "Install missing dependencies"
 msgstr "Instale as dependências faltantes"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:33
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Checar instalação do VOSK"
+msgstr "Cancelar instalação"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:48
-#, fuzzy, kde-format
-#| msgid "Speech to text is properly configured."
+#, kde-format
 msgid "Everything is properly configured."
-msgstr "Fala para texto está propriamente configurada."
+msgstr "Tudo está propriamente configurado."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:50
-#, fuzzy, kde-format
-#| msgid "Speech to text is properly configured."
+#, kde-format
 msgid "%1 is properly configured."
-msgstr "Fala para texto está propriamente configurada."
+msgstr "%1 está propriamente configurado."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:54
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Tudo está configurado: %1"
+msgstr "Tudo está configurado:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:56
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 está configurado: %2"
+msgstr "%1 está configurado:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:75
 #: src/pythoninterfaces/abstractpythoninterface.cpp:86
@@ -16749,10 +16705,9 @@ msgid "Check for update"
 msgstr "Verificar por atualização"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Instalando módulos…"
+msgstr "Instalando módulos… isto pode demorar um tempo"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:112
 #, kde-format
@@ -16766,59 +16721,36 @@ msgstr "Verificando configuração…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:203
 #: src/pythoninterfaces/abstractpythoninterface.cpp:272
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not find \"otioconvert\" script.\n"
-#| "You need to install OpenTimelineIO,\n"
-#| "through your package manager if available,\n"
-#| "or by \"pip3 install opentimelineio\",\n"
-#| "and check the scripts are installed in a directory listed in PATH "
-#| "environment variable"
+#, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Não foi possível encontrar o script \"otioconvert\".\n"
-"Você precisa instalar o OpenTimelineIO,\n"
-"através do seu gerenciador de pacotes se disponível,\n"
-"ou usando \"pip3 install opentimelineio\",\n"
-"e verificar se os scripts estão instalados em uma pasta listada na sua "
-"variável do ambiente PATH"
+"Não foi possível encontrar o python3, por favor, instale-o em seu sistema.\n"
+"Caso já esteja instalado, certifique-se que ele está instalado em uma pasta "
+"listada na sua variável do ambiente PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:209
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not find \"otioconvert\" script.\n"
-#| "You need to install OpenTimelineIO,\n"
-#| "through your package manager if available,\n"
-#| "or by \"pip3 install opentimelineio\",\n"
-#| "and check the scripts are installed in a directory listed in PATH "
-#| "environment variable"
+#, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Não foi possível encontrar o script \"otioconvert\".\n"
-"Você precisa instalar o OpenTimelineIO,\n"
-"através do seu gerenciador de pacotes se disponível,\n"
-"ou usando \"pip3 install opentimelineio\",\n"
-"e verificar se os scripts estão instalados em uma pasta listada na sua "
-"variável do ambiente PATH"
+"Não foi possível encontrar o pip3, por favor, instale-o em seu sistema.\n"
+"Caso já esteja instalado, certifique-se que ele está instalado em uma pasta "
+"listada na sua variável do ambiente PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:218
-#, fuzzy, kde-format
-#| msgid "MLT version: %1"
+#, kde-format
 msgid "Using python from %1"
-msgstr "Versão do MLT: %1"
+msgstr "Usando python de %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:226
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "No items found."
+#, kde-format
 msgid "No python venv found"
-msgstr "Nenhum item encontrado."
+msgstr "Nenhum venv python encontrado"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:239
 #, kde-format
@@ -16827,18 +16759,18 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:309
 #: src/pythoninterfaces/abstractpythoninterface.cpp:311
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary directory %1"
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Não foi possível criar a pasta temporária %1"
+msgstr ""
+"Não foi possível criar o ambiente virtual do python:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:327
-#, fuzzy, kde-format
-#| msgid "The speech script was not found, check your install."
+#, kde-format
 msgid "The %1 script was not found, check your install."
-msgstr "O script de fala não foi encontrado, cheque sua instalação."
+msgstr "O script %1 foi encontrado, verifique sua instalação."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:381
 #, kde-kuit-format
@@ -16877,18 +16809,16 @@ msgid "Please consider to update your setup."
 msgstr "Por favor, considere atualizar sua configuração."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:482
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Opções de desenho"
+msgstr "faltando (opcional)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:490
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Sem informações na área de transferência"
+msgstr "Não há informações disponíveis sobre a versão."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:573
 #, kde-format
@@ -16896,23 +16826,20 @@ msgid "Python exec not found"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:575
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Falha ao criar o arquivo."
+msgstr "Falha ao encontrar o arquivo de script %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:610
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
-"Erro ao executar o script python3:\n"
-" %1"
+"Erro ao executar script python3:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:637
 #, kde-format
@@ -16923,25 +16850,25 @@ msgid ""
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Error Downloading File. Error code: %1"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Ocorreu um erro ao baixar o arquivo. Código do erro: %1"
+msgstr ""
+"Erro ao baixar modelo:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Selecione uma área para reproduzir"
+msgstr "Selecione novos modelos para baixar"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "Módulos instalados"
+msgstr "Instalando modelo %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
@@ -16954,10 +16881,9 @@ msgid "Downloading"
 msgstr "Baixando"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Baixando modelo…"
+msgstr "Baixar modelo"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
 #, kde-format
@@ -16965,74 +16891,57 @@ msgid "Abort downloads"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Módulos instalados"
+msgstr "Desinstalar modelo"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "Módulos instalados"
+msgstr "Instalar modelo"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Tamanho total:"
+msgstr "Tamanho total do download: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Verificando configuração…"
+msgstr "Verificando integridade dos modelos…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Arquivamento em progresso, você deseja parar este?"
+msgstr "O download está em progresso, deseja pará-lo?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Abort Job"
+#, kde-format
 msgid "Abort download"
-msgstr "Cancelar trabalho"
+msgstr "Cancelar download"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "&Exportar OpenTimelineIO"
+msgstr "Funcionalidade principal do OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "&Exportar OpenTimelineIO"
+msgstr "Suporte do Kdenlive ao OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not find \"otioconvert\" script.\n"
-#| "You need to install OpenTimelineIO,\n"
-#| "through your package manager if available,\n"
-#| "or by \"pip3 install opentimelineio\",\n"
-#| "and check the scripts are installed in a directory listed in PATH "
-#| "environment variable"
+#, kde-format
 msgid ""
 "Could not find \"otioconvert\" script although it is installed through "
 "pip3.\n"
 "Please check the otio scripts are installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Não foi possível encontrar o script \"otioconvert\".\n"
-"Você precisa instalar o OpenTimelineIO,\n"
-"através do seu gerenciador de pacotes se disponível,\n"
-"ou usando \"pip3 install opentimelineio\",\n"
-"e verificar se os scripts estão instalados em uma pasta listada na sua "
-"variável do ambiente PATH"
+"Não foi possível encontrar o script \"otioconvert\", apesar dele estar "
+"instalado pelo pip3.\n"
+"Certifique-se que os scripts otio estão instalados em uma pasta listada na "
+"sua variável do ambiente PATH"
 
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
@@ -17050,20 +16959,14 @@ msgid "Check again"
 msgstr "Verificar novamente"
 
 #: src/pythoninterfaces/otioconvertions.cpp:118
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport"
+#, kde-format
 msgid "OpenTimelineIO Application otioconvert not found"
-msgstr "&Exportar OpenTimelineIO"
+msgstr "O aplicativo otioconvert do OpenTimelineIO não foi encontrado"
 
 #: src/pythoninterfaces/otioconvertions.cpp:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "Project conversion failed:\n"
-#| "%1"
+#, kde-format
 msgid "OpenTimelineIO Project conversion failed"
-msgstr ""
-"Falha na conversão do projeto:\n"
-"%1"
+msgstr "Falha na conversão do projeto OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:127
 #, kde-format
@@ -17077,10 +16980,9 @@ msgstr "Exportar projeto"
 
 #: src/pythoninterfaces/otioconvertions.cpp:137
 #: src/pythoninterfaces/otioconvertions.cpp:165
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO adapters (%1)"
+#, kde-format
 msgid "OpenTimelineIO adapters (%1)(%1)"
-msgstr "Adaptadores OpenTimelineIO (%1)"
+msgstr "Adaptadores OpenTimelineIO (%1)(%1)"
 
 #: src/pythoninterfaces/otioconvertions.cpp:143
 #, kde-format
@@ -17128,10 +17030,9 @@ msgid "speech features"
 msgstr "recursos de fala"
 
 #: src/pythoninterfaces/speechtotextvosk.cpp:33
-#, fuzzy, kde-format
-#| msgid "Move subtitle"
+#, kde-format
 msgid "automated subtitling"
-msgstr "Mover legenda"
+msgstr "legendagem automatizada"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:62
 #, kde-format
@@ -17349,37 +17250,32 @@ msgid "Yiddish"
 msgstr "Iídiche"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:259
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Instalar o Whisper"
 
 #: src/render/renderrequest.cpp:142
-#, fuzzy, kde-format
-#| msgid "Cannot create autosave file %1"
+#, kde-format
 msgid ""
 "Could not create assets folder:\n"
 " %1"
-msgstr "Não é possível criar o arquivo de salvamento automático %1"
+msgstr ""
+"Não é possível criar pasta de recursos:\n"
+" %1"
 
 #: src/render/renderrequest.cpp:237
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Could not create temporary subtitle file"
-msgstr "Não foi possível criar o arquivo temporário"
+msgstr "Não foi possível criar o arquivo temporário de legenda"
 
 #: src/render/renderrequest.cpp:264
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 "A renderização por script e a exportação de áudio de várias faixas não podem "
-"ser usadas juntas.\n"
-"O script será salvo sem exportação de várias faixas."
+"ser usadas juntas. O script será salvo sem exportação de várias faixas."
 
 #: src/render/renderrequest.cpp:346
 #, kde-format
@@ -17654,8 +17550,7 @@ msgid "%1 px"
 msgstr "%1 px"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:156
-#, fuzzy, kde-format
-#| msgid "File has no extension. Add extension (%1)?"
+#, kde-format
 msgid "File has no valid extension. Add extension (%1)?"
 msgstr "O arquivo não tem extensão. Adicionar extensão (%1)?"
 
@@ -17836,10 +17731,9 @@ msgid "Histogram"
 msgstr "Histograma"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:55
-#, fuzzy, kde-format
-#| msgid "You cannot add a project inside itself."
+#, kde-format
 msgid "Found an invalid sequence clip in Bin"
-msgstr "Você não pode adicionar um projeto dentro dele mesmo."
+msgstr "Sequência de clipes inválidos encontrados na biblioteca de mídia"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:298
 #: src/timeline2/model/builders/meltBuilder.cpp:550
@@ -17862,13 +17756,11 @@ msgstr ""
 "%4 foi definida como trilha forçada."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:312
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Composição inválida %1 encontrada na trilha %2 em %3, composição com a "
+"Composição desconhecida %1 encontrada na trilha %2 em %3, composição com a "
 "trilha %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:322
@@ -17900,16 +17792,14 @@ msgstr ""
 "trilha."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:587
-#, fuzzy, kde-format
-#| msgid "Invalid composition %1 found on track %2 at %3."
+#, kde-format
 msgid "%1 Invalid composition found and removed."
-msgstr "Composição inválida %1 encontrada na trilha %2 em %3."
+msgstr "%1 Composição inválida encontrada e removida."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:623
-#, fuzzy, kde-format
-#| msgid "Error moving project folder: %1"
+#, kde-format
 msgid "Errors found when opening project file (%1)"
-msgstr "Erro ao mover a pasta do projeto: %1"
+msgstr "Erros encontrados ao abrir arquivo do projeto (%1)"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:627
 #, kde-format
@@ -17944,20 +17834,16 @@ msgstr "Mixagem incorreta encontrada na faixa %1 em %2, clipe %3 removido."
 #: src/timeline2/model/builders/meltBuilder.cpp:808
 #: src/timeline2/model/builders/meltBuilder.cpp:820
 #: src/timeline2/model/builders/meltBuilder.cpp:843
-#, fuzzy, kde-format
-#| msgid "Invalid clip %1 (%2) not found in project bin, recovered."
+#, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
-"Clipe inválido %1 (%2) não encontrado no compartimento do projeto, "
-"recuperado."
+"Clipe da linha do tempo %1 (%2) sem referência na biblioteca de mídia "
+"encontrado e removido."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr ""
-"Projeto corrompido. O clipe %1 (%2) não foi encontrado nos arquivos do "
-"projeto."
+msgstr "Projeto corrompido. O clipe %1 (%2) tem ID inválido."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
@@ -18015,30 +17901,25 @@ msgstr "Clipe inválido %1 encontrado na trilha %2 em %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:941
 #: src/timeline2/model/builders/meltBuilder.cpp:986
-#, fuzzy, kde-format
-#| msgid "Invalid clip %1 (%2) not found in project bin, recovered."
+#, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
-msgstr ""
-"Clipe inválido %1 (%2) não encontrado no compartimento do projeto, "
-"recuperado."
+msgstr "%1 Clipe inválido (%2) encontrado e removido"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:963
-#, fuzzy, kde-format
-#| msgid "Invalid clip %1 found on track %2 at %3."
+#, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
-msgstr "Clipe inválido %1 encontrado na trilha %2 em %3."
+msgstr ""
+"Clipe %1 em subtrilha incorreta encontrado e corrigido na trilha %2 em %3"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:965
-#, fuzzy, kde-format
-#| msgid "Invalid clip %1 found on track %2 at %3."
+#, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
-msgstr "Clipe inválido %1 encontrado na trilha %2 em %3."
+msgstr "%1 Clipe (%2) em subtrilha incorreta encontrado e corrigido / %3"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:968
-#, fuzzy, kde-format
-#| msgid "Invalid clip %1 found on track %2 at %3."
+#, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
-msgstr "Clipe inválido %1 encontrado na trilha %2 em %3."
+msgstr "Clipe %1 em subtrilha incorreta encontrado na trilha %2 em %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:970
 #, kde-format
@@ -18051,11 +17932,10 @@ msgid "Insert Clips"
 msgstr "Inserir clipes"
 
 #: src/timeline2/model/timelinefunctions.cpp:286
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "Ao cortar legendas:"
+msgstr "Não é possível recortar legendas sobrepostas"
 
 #: src/timeline2/model/timelinefunctions.cpp:357
 #: src/timeline2/model/timelinefunctions.cpp:377
@@ -18232,11 +18112,12 @@ msgid "No valid data in clipboard"
 msgstr "Nenhum dado válido na área de transferência"
 
 #: src/timeline2/model/timelinefunctions.cpp:2012
-#, fuzzy, kde-format
-#| msgid "Not enough tracks to paste clipboard"
+#, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
-msgstr "Não há trilhas suficientes para colar a área de transferência"
+msgstr ""
+"Não há trilhas suficientes para colar a área de transferência (requer %1 "
+"áudio, %2 trilhas de vídeo)"
 
 #: src/timeline2/model/timelinefunctions.cpp:2146
 #: src/timeline2/model/timelinefunctions.cpp:2164
@@ -18289,16 +18170,14 @@ msgid "Paste timeline clips"
 msgstr "Colar clipes da linha do tempo"
 
 #: src/timeline2/model/timelinefunctions.cpp:2869
-#, fuzzy, kde-format
-#| msgid "Remove Space In All Tracks"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Remover espaço em todas as faixas"
+msgstr "Remover espaço na trilha"
 
 #: src/timeline2/model/timelinefunctions.cpp:2896
-#, fuzzy, kde-format
-#| msgid "Delete track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "Excluir trilha"
+msgstr "Excluir clipes na trilha"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
 #: src/timeline2/model/timelinemodel.cpp:4663
@@ -18319,16 +18198,14 @@ msgid "Rename Track"
 msgstr "Renomear trilha"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Ativar efeito"
+msgstr "Ativar pilha de efeitos da trilha"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Desativar efeito"
+msgstr "Desativar pilha de efeitos da trilha"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -18343,12 +18220,11 @@ msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:967
 #: src/timeline2/model/timelineitemmodel.cpp:994
-#, fuzzy, kde-format
-#| msgid "No clip selected"
+#, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "Nenhum clipe selecionado"
-msgstr[1] "Nenhum clipe selecionado"
+msgstr[0] "Um clipe substituído"
+msgstr[1] "%1 clipes substituídos"
 
 #: src/timeline2/model/timelineitemmodel.cpp:992
 #, kde-format
@@ -18406,10 +18282,9 @@ msgid "Insert Clip"
 msgstr "Inserir clipe"
 
 #: src/timeline2/model/timelinemodel.cpp:1898
-#, fuzzy, kde-format
-#| msgid "You cannot add a project inside itself."
+#, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr "Você não pode adicionar um projeto dentro dele mesmo."
+msgstr "Você não pode adicionar uma sequência dentro dela mesma"
 
 #: src/timeline2/model/timelinemodel.cpp:1946
 #: src/timeline2/model/timelinemodel.cpp:1968
@@ -18480,22 +18355,19 @@ msgid "Resize composition"
 msgstr "Redimensionar composição"
 
 #: src/timeline2/model/timelinemodel.cpp:4289
-#, fuzzy, kde-format
-#| msgid "Resize clip"
+#, kde-format
 msgid "Ripple resize clip"
-msgstr "Redimensionar clipe"
+msgstr "Redimensionar clipe em cascata"
 
 #: src/timeline2/model/timelinemodel.cpp:4291
-#, fuzzy, kde-format
-#| msgid "Resize composition"
+#, kde-format
 msgid "Ripple resize composition"
-msgstr "Redimensionar composição"
+msgstr "Redimensionar composição em cascata"
 
 #: src/timeline2/model/timelinemodel.cpp:4293
-#, fuzzy, kde-format
-#| msgid "Resize subtitle"
+#, kde-format
 msgid "Ripple resize subtitle"
-msgstr "Redimensionar legenda"
+msgstr "Redimensionar subtitulo em cascata"
 
 #: src/timeline2/model/timelinemodel.cpp:4436
 #, kde-format
@@ -18635,10 +18507,9 @@ msgid "Resize mix"
 msgstr "Redimensionar mistura"
 
 #: src/timeline2/model/timelinemodel.cpp:7422
-#, fuzzy, kde-format
-#| msgid "Disable Timeline Preview"
+#, kde-format
 msgid "Error initializing timeline preview"
-msgstr "Desabilitar visualização da linha do tempo"
+msgstr "Erro ao inicializar a prévia da linha do tempo"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
 #, kde-format
@@ -18648,7 +18519,7 @@ msgstr "Duração da edição para %1 clipes."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
 #, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Editando no modo de ondas."
+msgstr "Editando no modo cascata."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -18713,10 +18584,9 @@ msgid "Wrong document ID, cannot create temporary folder"
 msgstr "ID do documento errado, não é possível criar pasta temporária"
 
 #: src/timeline2/view/previewmanager.cpp:90
-#, fuzzy, kde-format
-#| msgid "Cannot create folder %1"
+#, kde-format
 msgid "Cannot read folder %1"
-msgstr "Não foi possível criar a pasta %1"
+msgstr "Não foi possível ler a pasta %1"
 
 #: src/timeline2/view/previewmanager.cpp:96
 #: src/timeline2/view/previewmanager.cpp:102
@@ -20973,17 +20843,15 @@ msgstr "Sempre usar pasta personalizada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #: src/ui/configenv_ui.ui:241
-#, fuzzy, kde-format
-#| msgid "Always use active project folder"
+#, kde-format
 msgid "Always use a custom subfolder of project folder"
-msgstr "Sempre usar a pasta do projeto ativo"
+msgstr "Sempre usar uma subpasta personalizada da pasta do projeto"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
 #: src/ui/configenv_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Subfolder of project folder"
-msgstr "Pasta padrão dos arquivos do projeto"
+msgstr "Subpasta da pasta do projeto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:263
@@ -21368,10 +21236,9 @@ msgstr "Pasta do projeto:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of project file"
-msgstr "Pasta padrão dos arquivos do projeto"
+msgstr "Pasta pai do arquivo do projeto"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:67
@@ -21500,21 +21367,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:65
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "GPU processing (Movit library):"
-msgstr ""
-"Usar o processamento do GPU (biblioteca Movit) - reinicie o Kdenlive para "
-"aplicar"
+msgstr "Processamento de GPU (biblioteca Movit):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr ""
-"Usar o processamento do GPU (biblioteca Movit) - reinicie o Kdenlive para "
-"aplicar"
+msgstr "Habilitar - reinicie o Kdenlive para aplicar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:86
