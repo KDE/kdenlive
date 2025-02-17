@@ -74,7 +74,7 @@ parts:
     source: .
     source-type: local
     build-snaps:
-      - ffmpeg-2404
+      - ffmpeg-2404-sdk
     build-packages:
       - librttr-dev
       - libv4l-dev
