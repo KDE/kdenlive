@@ -120,7 +120,7 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
 
     if (newDocument) {
         // Create a new document.
-        pCore->projectManager()->newFile(false);
+        pCore->projectManager()->newFile(profile, false);
     }
 
     // Get the timeline model. We save the default tracks so we can delete
