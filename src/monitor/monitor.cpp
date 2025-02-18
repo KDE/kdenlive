@@ -46,6 +46,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "KLocalizedString"
 #include <KActionMenu>
+#include <KColorScheme>
 #include <KDualAction>
 #include <KFileWidget>
 #include <KMessageBox>
@@ -478,7 +479,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(this, &Monitor::scopesClear, m_glMonitor, &VideoWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, &VideoWidget::analyseFrame, this, &Monitor::frameUpdated);
     m_timePos = new TimecodeDisplay(this);
-
     if (id == Kdenlive::ProjectMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZoneWithUndo, this, &Monitor::zoneUpdatedWithUndo);
@@ -3102,4 +3102,15 @@ void Monitor::updatePreviewMask()
     m_maskColor->set("0", color.name().toUtf8().constData());
     m_maskColor->set("1", color.name().toUtf8().constData());
     refreshMonitor();
+}
+
+void Monitor::activeChanged()
+{
+    bool isActive = m_monitorManager->isActive(m_id);
+    QPalette pal = m_timePos->palette();
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    QColor bg = isActive ? scheme.foreground(KColorScheme::PositiveText).color() : scheme.foreground(KColorScheme::NormalText).color();
+    pal.setColor(QPalette::Text, bg);
+    m_timePos->setPalette(pal);
+    Q_EMIT getControllerProxy() -> activeMonitorChanged();
 }

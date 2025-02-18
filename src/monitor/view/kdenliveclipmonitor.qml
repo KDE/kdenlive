@@ -536,7 +536,7 @@ Item {
                 color: "#ffffff"
                 padding: 2
                 background: Rectangle {
-                    color: "#66000000"
+                    color: controller.monitorIsActive ? "#DD006600": "#66000000"
                 }
                 text: controller.timecode
                 visible: root.showTimecode

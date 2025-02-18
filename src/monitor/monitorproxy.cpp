@@ -713,3 +713,8 @@ void MonitorProxy::terminateJob(const QString &uuid)
 {
     pCore->taskManager.discardJob(ObjectId(KdenliveObjectType::BinClip, m_clipId, QUuid()), QUuid(uuid));
 }
+
+bool MonitorProxy::monitorIsActive() const
+{
+    return pCore->monitorManager()->isActive(Kdenlive::MonitorId(q->m_id));
+}

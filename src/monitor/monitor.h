@@ -176,6 +176,8 @@ public:
     void previewMask(const QString &maskFile, int in, int out, int maskMode);
     /** @brief Update the preview mask properties */
     void updatePreviewMask();
+    /** @brief Monitor active property changed, update timecode color */
+    void activeChanged();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

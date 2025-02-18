@@ -71,6 +71,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QStringList runningJobs MEMBER m_runningJobs NOTIFY runningJobsChanged)
     Q_PROPERTY(QList<int> jobsProgress MEMBER m_jobsProgress NOTIFY jobsProgressChanged)
     Q_PROPERTY(QStringList jobsUuids MEMBER m_jobsUuids NOTIFY jobsProgressChanged)
+    Q_PROPERTY(bool monitorIsActive READ monitorIsActive NOTIFY activeMonitorChanged)
 
 public:
     MonitorProxy(VideoWidget *parent);
@@ -157,6 +158,7 @@ public:
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
     void clearJobsProgress();
     void buildInEffectsChanged();
+    bool monitorIsActive() const;
 
 Q_SIGNALS:
     void positionChanged(int);
@@ -209,6 +211,7 @@ Q_SIGNALS:
     void enableTransform();
     void previewOverlayChanged();
     void refreshMask();
+    void activeMonitorChanged();
 
 private:
     VideoWidget *q;
