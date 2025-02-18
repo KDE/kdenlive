@@ -3112,5 +3112,6 @@ void Monitor::activeChanged()
     QColor bg = isActive ? scheme.foreground(KColorScheme::PositiveText).color() : scheme.foreground(KColorScheme::NormalText).color();
     pal.setColor(QPalette::Text, bg);
     m_timePos->setPalette(pal);
+    m_timePos->setBold(isActive);
     Q_EMIT getControllerProxy() -> activeMonitorChanged();
 }

@@ -260,3 +260,10 @@ void TimecodeDisplay::setOffset(int offset)
         Q_EMIT timeCodeUpdated();
     }
 }
+
+void TimecodeDisplay::setBold(bool enable)
+{
+    QFont font = lineEdit()->font();
+    font.setBold(enable);
+    lineEdit()->setFont(font);
+}

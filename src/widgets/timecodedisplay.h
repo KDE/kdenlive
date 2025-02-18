@@ -90,6 +90,8 @@ public:
 
     /** @brief Select all timecode text */
     void selectAll();
+    /** @brief Make font bold */
+    void setBold(bool enable);
 
 private:
     /** timecode for widget */
