@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-15 00:41+0000\n"
+"POT-Creation-Date: 2025-02-18 00:40+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4123,22 +4123,22 @@ msgctxt "@info:tooltip"
 msgid "Online documentation"
 msgstr "在线文档"
 
-#: src/assets/assetpanel.cpp:72
+#: src/assets/assetpanel.cpp:73
 #, kde-format
 msgid "Change composition type"
 msgstr "更改合成类型"
 
-#: src/assets/assetpanel.cpp:83
+#: src/assets/assetpanel.cpp:84
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "仅应用到具有相同数值的效果"
 
-#: src/assets/assetpanel.cpp:89
+#: src/assets/assetpanel.cpp:90
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "应用效果更改到分组中的所有剪辑…"
 
-#: src/assets/assetpanel.cpp:91
+#: src/assets/assetpanel.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4149,12 +4149,12 @@ msgstr ""
 "当启用了此选项并且剪辑在某个分组中时，此分组中包含相同效果的所有剪辑都将以相"
 "同方式更改参数。删除某个效果将把它从该分组中所有剪辑中删除。"
 
-#: src/assets/assetpanel.cpp:102
+#: src/assets/assetpanel.cpp:103
 #, kde-format
 msgid "Create an object mask"
 msgstr "创建对象蒙版"
 
-#: src/assets/assetpanel.cpp:106
+#: src/assets/assetpanel.cpp:107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4162,28 +4162,28 @@ msgid ""
 "the background in a video."
 msgstr "此处显示的是蒙版创建面板。蒙版可用于移除视频中的背景等用途。"
 
-#: src/assets/assetpanel.cpp:112
+#: src/assets/assetpanel.cpp:113
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "保存效果堆栈…"
 
-#: src/assets/assetpanel.cpp:113
+#: src/assets/assetpanel.cpp:114
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr "保存整个效果堆栈为 XML 文件，以便其他项目使用。"
 
-#: src/assets/assetpanel.cpp:118
+#: src/assets/assetpanel.cpp:119
 #, kde-format
 msgid "Normal view"
 msgstr "正常视图"
 
-#: src/assets/assetpanel.cpp:118 src/assets/assetpanel.cpp:122
+#: src/assets/assetpanel.cpp:119 src/assets/assetpanel.cpp:123
 #, kde-format
 msgid "Compare effect"
 msgstr "比较效果"
 
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4193,17 +4193,17 @@ msgstr ""
 "打开/关闭项目、剪辑监视器中的分割视图：左侧视图显示带有效果的剪辑，右侧视图显"
 "示不带效果的剪辑。"
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Effects disabled"
 msgstr "效果已禁用"
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Effects enabled"
 msgstr "效果已启用"
 
-#: src/assets/assetpanel.cpp:133
+#: src/assets/assetpanel.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4213,54 +4213,59 @@ msgstr ""
 "启用/禁用效果堆栈。用于对比原始版本和调整后版本的区别，也可以用于关闭效果来加"
 "速拖动。"
 
-#: src/assets/assetpanel.cpp:140
+#: src/assets/assetpanel.cpp:141
 #, kde-format
 msgid "Open composition documentation in browser"
 msgstr "使用网页浏览器打开合成文档"
 
-#: src/assets/assetpanel.cpp:144
+#: src/assets/assetpanel.cpp:145
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "显示关键帧到时间轴"
 
-#: src/assets/assetpanel.cpp:144
+#: src/assets/assetpanel.cpp:145
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "隐藏时间轴的关键帧"
 
-#: src/assets/assetpanel.cpp:145
+#: src/assets/assetpanel.cpp:146
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "显示/隐藏时间轴上剪辑中的关键帧"
 
-#: src/assets/assetpanel.cpp:261
+#: src/assets/assetpanel.cpp:262
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 效果"
 
-#: src/assets/assetpanel.cpp:266 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:267 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 参数"
 
-#: src/assets/assetpanel.cpp:270
+#: src/assets/assetpanel.cpp:271
 #, kde-format
 msgid "Track %1 effects"
 msgstr "轨道 %1 效果"
 
-#: src/assets/assetpanel.cpp:275
+#: src/assets/assetpanel.cpp:276
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "项目素材箱 %1 效果"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:203
-#: src/jobs/masktask.cpp:95
+#: src/assets/assetpanel.cpp:638
 #, kde-format
-msgid "Failed to render mask %1"
-msgstr "渲染蒙版 %1 失败"
+msgid "You have a mask job running. Abort the task ?"
+msgstr ""
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:224
+#: src/assets/assetpanel.cpp:639
+#, kde-format
+msgctxt "@action:button"
+msgid "Abort Mask Task"
+msgstr ""
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:341
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5449,7 +5454,7 @@ msgid "Replace in timeline"
 msgstr "替换时间轴中的剪辑"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:429
+#: src/effects/effectstack/view/maskmanager.cpp:525
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5570,8 +5575,8 @@ msgstr "播放列表"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2482 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1588
-#: src/project/projectmanager.cpp:1590 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1592
+#: src/project/projectmanager.cpp:1594 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "序列"
@@ -5755,12 +5760,15 @@ msgstr ""
 "夹可以嵌套。"
 
 #: src/bin/bin.cpp:3816 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:716
+#: src/effects/effectstack/view/maskmanager.cpp:111
+#: src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "显示日志"
 
 #: src/bin/bin.cpp:3819 src/dialogs/textbasededit.cpp:717
+#: src/effects/effectstack/view/maskmanager.cpp:113
 #, kde-format
 msgid "Detailed log"
 msgstr "详细日志"
@@ -6549,7 +6557,7 @@ msgstr "标签 %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
 #: src/dialogs/textbasededit.cpp:635
-#: src/effects/effectstack/view/maskmanager.cpp:51
+#: src/effects/effectstack/view/maskmanager.cpp:54
 #, kde-format
 msgid "Configure"
 msgstr "配置"
@@ -6639,7 +6647,7 @@ msgstr ""
 "指定的编码方案无效。默认的编码方案为“dv_pal”，您也可以在 Kdenlive 的设置对话"
 "框对此进行更改。"
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:824
+#: src/core.cpp:255 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Loading project…"
 msgstr "正在加载项目…"
@@ -7309,7 +7317,7 @@ msgstr "导出辅助线数据…"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1887 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1891 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5160
@@ -7376,7 +7384,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "如果不确定，请尝试：<br/><b>Unicode (UTF-8)</b>"
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1777
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1781
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -8355,7 +8363,7 @@ msgstr "正在安装多语言数据…"
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
 #: src/dialogs/settings/pluginssettings.cpp:911 src/ui/configspeech_ui.ui:107
-#: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:826
+#: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:833
 #, kde-format
 msgid "Models folder"
 msgstr "模型文件夹"
@@ -8398,7 +8406,7 @@ msgstr ""
 "统上安装所有必需的软件包：<br>%1"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:431 src/ui/configspeech_ui.ui:801
+#: src/dialogs/settings/pluginssettings.cpp:431 src/ui/configspeech_ui.ui:808
 #, kde-format
 msgid "Install"
 msgstr "安装"
@@ -8411,7 +8419,7 @@ msgstr "检查配置"
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:447 src/ui/configspeech_ui.ui:383
-#: src/ui/configspeech_ui.ui:856
+#: src/ui/configspeech_ui.ui:863
 #, kde-format
 msgid "Plugin size"
 msgstr "插件大小"
@@ -8468,7 +8476,7 @@ msgid "Downloading smallest model…"
 msgstr "正在下载最小模型…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:634 src/ui/configspeech_ui.ui:696
+#: src/dialogs/settings/pluginssettings.cpp:634 src/ui/configspeech_ui.ui:701
 #, kde-format
 msgid "Download models"
 msgstr "下载模型"
@@ -9735,7 +9743,7 @@ msgid "Using MLT %1"
 msgstr "正在运行 MLT 媒体框架程序 %1"
 
 #: src/dialogs/wizard.cpp:82 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:791
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:791
 #: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Abort"
@@ -9765,7 +9773,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
-#: src/dialogs/wizard.cpp:132 src/project/cliptranscode.cpp:268
+#: src/dialogs/wizard.cpp:132 src/project/cliptranscode.cpp:270
 #: src/ui/renderwidget_ui.ui:363 src/ui/renderwidget_ui.ui:947
 #: src/ui/renderwidget_ui.ui:1105
 #, kde-format
@@ -10276,8 +10284,8 @@ msgstr "下列滤镜/转场已被从项目中删除："
 msgid "Invalid file path"
 msgstr "无效文件路径 "
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:809
-#: src/project/projectmanager.cpp:851
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:813
+#: src/project/projectmanager.cpp:855
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "无法恢复损坏的文件。"
@@ -10352,15 +10360,15 @@ msgid ""
 msgstr ""
 "您的项目文件已被升级到最新的 Kdenlive 项目文件版本，但是无法创建备份副本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1462
-#: src/project/projectmanager.cpp:1498
+#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1466
+#: src/project/projectmanager.cpp:1502
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2431
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1718
+#: src/project/projectmanager.cpp:1722
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -10927,46 +10935,49 @@ msgstr ""
 "没有提供描述。\n"
 "您想要保存不含描述的效果吗？"
 
-#: src/effects/effectstack/view/maskmanager.cpp:49
+#: src/effects/effectstack/view/maskmanager.cpp:52
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "请配置 SAM2 插件"
 
-#: src/effects/effectstack/view/maskmanager.cpp:162
+#: src/effects/effectstack/view/maskmanager.cpp:110
+#, fuzzy, kde-format
+#| msgid "Cut job failed."
+msgid "Job failed"
+msgstr "剪切任务失败。"
+
+#: src/effects/effectstack/view/maskmanager.cpp:222
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "导出视频帧供分析"
 
-#: src/effects/effectstack/view/maskmanager.cpp:167
+#: src/effects/effectstack/view/maskmanager.cpp:226
 #, kde-format
 msgid "Exporting video frames"
 msgstr "导出视频帧"
 
-#: src/effects/effectstack/view/maskmanager.cpp:181
+#: src/effects/effectstack/view/maskmanager.cpp:239
 #, kde-format
 msgid "Missing source frames"
 msgstr "缺少来源帧"
 
-#: src/effects/effectstack/view/maskmanager.cpp:274
+#: src/effects/effectstack/view/maskmanager.cpp:330
 #, kde-format
-msgctxt "@title:window"
-msgid "Enter Mask Name"
-msgstr "输入蒙版名称"
+msgid "mask %1"
+msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:274
-#, kde-format
-msgid "Enter the name of this mask:"
-msgstr "输入此蒙版的名称："
-
-#: src/effects/effectstack/view/maskmanager.cpp:282
+#: src/effects/effectstack/view/maskmanager.cpp:336
 #, kde-format
 msgid "Generating mask %1"
 msgstr "正在生成蒙版 %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:399
-#, kde-format
+#: src/effects/effectstack/view/maskmanager.cpp:496
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgid ""
-"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
+"This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
+"undone."
 msgstr "这将对 <b>%1</b> 文件应用蒙版：<br/>%2<br/>此操作无法撤销。"
 
 #: src/filefilter.cpp:122
@@ -11060,8 +11071,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "找不到应用程序 %1，请更新任务设置"
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:230
-#: src/jobs/transcodetask.cpp:266
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:232
+#: src/jobs/transcodetask.cpp:268
 #, kde-format
 msgid "Failed to create file."
 msgstr "无法创建文件。"
@@ -11117,8 +11128,8 @@ msgid "Extracting %1 out of %2"
 msgstr "正在提取 %2 的 %1"
 
 #: src/jobs/cuttask.cpp:211 src/jobs/cuttask.cpp:213 src/jobs/filtertask.cpp:70
-#: src/jobs/speedtask.cpp:184 src/jobs/speedtask.cpp:196
-#: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
+#: src/jobs/speedtask.cpp:185 src/jobs/speedtask.cpp:197
+#: src/jobs/stabilizetask.cpp:107 src/jobs/stabilizetask.cpp:124
 #, kde-format
 msgid "No producer for this clip."
 msgstr "此剪辑没有生产来源。"
@@ -11166,24 +11177,24 @@ msgstr "过滤来源失败。"
 #: src/jobs/filtertask.cpp:319
 #, kde-format
 msgid "Effect analysis failed for %1"
-msgstr ""
+msgstr "%1 的效果分析失败"
 
-#: src/jobs/masktask.cpp:28
+#: src/jobs/masktask.cpp:25
 #, kde-format
 msgid "Mask creation"
 msgstr "蒙版创建"
 
-#: src/jobs/masktask.cpp:44
+#: src/jobs/masktask.cpp:41
 #, kde-format
 msgid "No source frames to process"
 msgstr "没有要处理的来源帧"
 
-#: src/jobs/masktask.cpp:74
+#: src/jobs/masktask.cpp:66
 #, kde-format
-msgid "Failed to analyse video."
-msgstr "分析视频失败。"
+msgid "Failed to render mask %1"
+msgstr "渲染蒙版 %1 失败"
 
-#: src/jobs/melttask.cpp:57
+#: src/jobs/melttask.cpp:60
 #, kde-format
 msgid "Failed to process playlist."
 msgstr "处理播放列表失败。"
@@ -11203,7 +11214,7 @@ msgstr "无法加载图像 %1。"
 msgid "Image too small to be proxied."
 msgstr "图片太小，无法代理。"
 
-#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:180
+#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -11285,7 +11296,7 @@ msgstr "百分比"
 msgid "Pitch compensation"
 msgstr "音调补偿"
 
-#: src/jobs/speedtask.cpp:240
+#: src/jobs/speedtask.cpp:241
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "创建速度剪辑失败。"
@@ -11295,7 +11306,7 @@ msgstr "创建速度剪辑失败。"
 msgid "Stabilizing"
 msgstr "正在稳定"
 
-#: src/jobs/stabilizetask.cpp:175
+#: src/jobs/stabilizetask.cpp:176
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "稳定失败。"
@@ -11598,12 +11609,12 @@ msgctxt "@title:window"
 msgid "Export Layout"
 msgstr "导出布局"
 
-#: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:135
+#: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
 msgid "Audio analysis finished"
 msgstr "音频分析已完成"
 
-#: src/lib/audio/audioEnvelope.cpp:122
+#: src/lib/audio/audioEnvelope.cpp:123
 #, kde-format
 msgid "Processing data analysis"
 msgstr "正在处理数据分析"
@@ -13433,12 +13444,12 @@ msgstr ""
 "此操作会将所有临时文件从 <br/><b>%1</b> 移动到 <b>%2</b>，<br/>然后重新加载项"
 "目文件。"
 
-#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:619
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "无法执行操作，无效文档 ID：%1"
 
-#: src/mainwindow.cpp:2224 src/project/projectmanager.cpp:621
+#: src/mainwindow.cpp:2224 src/project/projectmanager.cpp:625
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "无法执行操作，目标目录已经存在：%1"
@@ -14438,12 +14449,12 @@ msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 个音频流"
 
-#: src/monitor/monitor.cpp:2390
+#: src/monitor/monitor.cpp:2391
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "无法初始化Movit 的 GLSL 管理器，请禁用 Movit"
 
-#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
+#: src/monitor/monitor.cpp:2433 src/monitor/monitor.cpp:2490
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14451,17 +14462,17 @@ msgid ""
 msgstr ""
 "该功能需要透明度渐变 (alphagrad) 滤镜，请安装 frei0r 并重新启动 Kdenlive"
 
-#: src/monitor/monitor.cpp:2452
+#: src/monitor/monitor.cpp:2453
 #, kde-format
 msgid "Clip has no effects"
 msgstr "剪辑没有使用效果"
 
-#: src/monitor/monitor.cpp:2454
+#: src/monitor/monitor.cpp:2455
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "选择项目素材箱中的一段剪辑来比较效果"
 
-#: src/monitor/monitor.cpp:2496
+#: src/monitor/monitor.cpp:2497
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14469,7 +14480,7 @@ msgid ""
 msgstr ""
 "该功能需要 Cairo 混合 (cairoblend) 滤镜，请安装 frei0r 并重新启动 Kdenlive"
 
-#: src/monitor/monitor.cpp:2546
+#: src/monitor/monitor.cpp:2547
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "启用监视器编辑模式以编辑效果"
@@ -14808,17 +14819,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transform - 变形"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:370
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr "正在生成图像蒙版"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:370
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr "正在生成视频蒙版"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:381
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -14829,10 +14840,31 @@ msgstr ""
 "Shift + 点击以包含另一个区域。\n"
 "Ctrl + 点击以排除某个区域。"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:381
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid "Previewing video mask"
 msgstr "正在预览视频蒙版"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#, kde-format
+msgid ""
+"You are outside of the time zone defined\n"
+"for the mask and cannot add keyframes.\n"
+"\n"
+"\n"
+msgstr ""
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#, fuzzy, kde-format
+#| msgid "Go to Clip Start"
+msgid "Go to mask start"
+msgstr "跳转到剪辑开头"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#, fuzzy, kde-format
+#| msgid "Go to Clip End"
+msgid "Go to mask end"
+msgstr "跳转到剪辑结尾"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -15345,12 +15377,12 @@ msgstr "目标文件夹"
 msgid "Source and destination file can't be the same"
 msgstr "来源和目标文件不能相同"
 
-#: src/project/cliptranscode.cpp:279 src/project/cliptranscode.cpp:304
+#: src/project/cliptranscode.cpp:281 src/project/cliptranscode.cpp:306
 #, kde-format
 msgid "Transcoding finished."
 msgstr "转码已完成。"
 
-#: src/project/cliptranscode.cpp:309
+#: src/project/cliptranscode.cpp:311
 #, kde-format
 msgid "Transcoding failed"
 msgstr "转码失败"
@@ -16338,12 +16370,12 @@ msgstr "保存副本..."
 msgid "Open Backup File…"
 msgstr "打开备份文件…"
 
-#: src/project/projectmanager.cpp:442
+#: src/project/projectmanager.cpp:447
 #, kde-format
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1717
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1721
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -16352,17 +16384,17 @@ msgstr ""
 "项目<b>”%1“</b>已经更改。\n"
 "您想要保存更改吗？"
 
-#: src/project/projectmanager.cpp:557
+#: src/project/projectmanager.cpp:561
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "保存项目文件 <br><b>%1</B> 失败"
 
-#: src/project/projectmanager.cpp:590
+#: src/project/projectmanager.cpp:594
 #, kde-format
 msgid "Saving successful"
 msgstr "保存成功"
 
-#: src/project/projectmanager.cpp:603
+#: src/project/projectmanager.cpp:607
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -16372,38 +16404,38 @@ msgstr ""
 "项目文件的位置已更改。您已选择使用项目文件的位置来保存临时文件。这将把所有临"
 "时文件从 <b>%1</b> 移动到 <b>%2</b>，然后重新加载项该目文件。"
 
-#: src/project/projectmanager.cpp:644
+#: src/project/projectmanager.cpp:648
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "保存副本"
 
-#: src/project/projectmanager.cpp:750
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "自动保存文件已经存在。您想要进行恢复吗？"
 
-#: src/project/projectmanager.cpp:750
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "File Recovery"
 msgstr "文件恢复"
 
-#: src/project/projectmanager.cpp:751 src/project/projectmanager.cpp:839
+#: src/project/projectmanager.cpp:755 src/project/projectmanager.cpp:843
 #, kde-format
 msgid "Recover"
 msgstr "恢复"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Do not recover"
 msgstr "不恢复"
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Opening file %1"
 msgstr "正在打开文件 %1"
 
-#: src/project/projectmanager.cpp:838
+#: src/project/projectmanager.cpp:842
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -16414,43 +16446,43 @@ msgstr ""
 "%1\n"
 "您想要打开备份文件吗？"
 
-#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1073
+#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1077
 #, kde-format
 msgid "Error opening file"
 msgstr "打开文件时出错"
 
-#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1074
+#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1078
 #, kde-format
 msgid "Open Backup"
 msgstr "打开备份"
 
-#: src/project/projectmanager.cpp:855
+#: src/project/projectmanager.cpp:859
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "无法打开备份项目文件"
 
-#: src/project/projectmanager.cpp:870
+#: src/project/projectmanager.cpp:874
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "您的项目文件已经升级，下次保存时将创建备份"
 
-#: src/project/projectmanager.cpp:872
+#: src/project/projectmanager.cpp:876
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "您的项目在打开时已被修改，下次保存时将创建备份"
 
-#: src/project/projectmanager.cpp:943
+#: src/project/projectmanager.cpp:947
 #, kde-format
 msgid "Loading timeline…"
 msgstr "正在加载时间轴…"
 
-#: src/project/projectmanager.cpp:961
+#: src/project/projectmanager.cpp:965
 #, kde-format
 msgid "Building sequences…"
 msgstr "正在构建序列…"
 
-#: src/project/projectmanager.cpp:1100
+#: src/project/projectmanager.cpp:1104
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -16459,19 +16491,19 @@ msgstr ""
 "无法打开项目文件。错误：\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1140
+#: src/project/projectmanager.cpp:1144
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "此操作将删除您最后一次保存项目之后的所有更改，您确定要继续吗？"
 
-#: src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:1145
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "恢复到最后保存的版本"
 
-#: src/project/projectmanager.cpp:1227
+#: src/project/projectmanager.cpp:1231
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -16480,35 +16512,35 @@ msgstr ""
 "项目已经损坏，无法备份。请先关闭您的项目文件，然后重新打开它以恢复到最近一次"
 "备份。"
 
-#: src/project/projectmanager.cpp:1440
+#: src/project/projectmanager.cpp:1444
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "移动项目文件夹时出错，无法访问缓存文件夹"
 
-#: src/project/projectmanager.cpp:1476
+#: src/project/projectmanager.cpp:1480
 #, kde-format
 msgid "Moving project folder"
 msgstr "正在移动项目文件夹"
 
-#: src/project/projectmanager.cpp:1567 src/project/projectmanager.cpp:1622
-#: src/project/projectmanager.cpp:1626
+#: src/project/projectmanager.cpp:1571 src/project/projectmanager.cpp:1626
+#: src/project/projectmanager.cpp:1630
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1582
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1723 src/project/projectmanager.cpp:1728
-#: src/project/projectmanager.cpp:1738 src/project/projectmanager.cpp:1752
+#: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1732
+#: src/project/projectmanager.cpp:1742 src/project/projectmanager.cpp:1756
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:1875
+#: src/project/projectmanager.cpp:1879
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -16517,12 +16549,12 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:1897
+#: src/project/projectmanager.cpp:1901
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:1961
+#: src/project/projectmanager.cpp:1965
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -16531,17 +16563,17 @@ msgstr ""
 "无法从此剪辑创建时间轴：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2044
+#: src/project/projectmanager.cpp:2048
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "导入一个序列剪辑，此功能目前仍在实验阶段。"
 
-#: src/project/projectmanager.cpp:2234
+#: src/project/projectmanager.cpp:2238
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "选择一个剪辑以创建序列"
 
-#: src/project/projectmanager.cpp:2272
+#: src/project/projectmanager.cpp:2276
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "创建序列剪辑"
@@ -19840,6 +19872,7 @@ msgstr "删除当前点。"
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, buttonImport)
+#. i18n: ectx: property (text), widget (QToolButton, buttonAbort)
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
 #. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
@@ -19980,32 +20013,32 @@ msgstr "删除当前点。"
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
 #: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
-#: src/ui/maskmanage_ui.ui:69 src/ui/maskmanage_ui.ui:82
-#: src/ui/maskmanage_ui.ui:95 src/ui/projectsettings_ui.ui:421
-#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
-#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
-#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
-#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
-#: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:163
-#: src/ui/textbasededit_ui.ui:179 src/ui/textbasededit_ui.ui:189
-#: src/ui/textbasededit_ui.ui:199 src/ui/textbasededit_ui.ui:216
-#: src/ui/textbasededit_ui.ui:226 src/ui/textbasededit_ui.ui:255
-#: src/ui/textbasededit_ui.ui:276 src/ui/timeremap_ui.ui:84
-#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
-#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
-#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:672
-#: src/ui/titlewidget_ui.ui:685 src/ui/titlewidget_ui.ui:698
-#: src/ui/titlewidget_ui.ui:711 src/ui/titlewidget_ui.ui:724
-#: src/ui/titlewidget_ui.ui:737 src/ui/titlewidget_ui.ui:955
-#: src/ui/titlewidget_ui.ui:965 src/ui/titlewidget_ui.ui:1169
-#: src/ui/titlewidget_ui.ui:1223 src/ui/titlewidget_ui.ui:1272
-#: src/ui/titlewidget_ui.ui:1294 src/ui/titlewidget_ui.ui:1326
-#: src/ui/titlewidget_ui.ui:1415 src/ui/titlewidget_ui.ui:1733
-#: src/ui/titlewidget_ui.ui:1749 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
-#: src/ui/urllistparamwidget_ui.ui:117
+#: src/ui/maskmanage_ui.ui:56 src/ui/maskmanage_ui.ui:69
+#: src/ui/maskmanage_ui.ui:82 src/ui/maskmanage_ui.ui:109
+#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
+#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
+#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
+#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
+#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
+#: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
+#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
+#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
+#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
+#: src/ui/titlewidget_ui.ui:672 src/ui/titlewidget_ui.ui:685
+#: src/ui/titlewidget_ui.ui:698 src/ui/titlewidget_ui.ui:711
+#: src/ui/titlewidget_ui.ui:724 src/ui/titlewidget_ui.ui:737
+#: src/ui/titlewidget_ui.ui:955 src/ui/titlewidget_ui.ui:965
+#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1223
+#: src/ui/titlewidget_ui.ui:1272 src/ui/titlewidget_ui.ui:1294
+#: src/ui/titlewidget_ui.ui:1326 src/ui/titlewidget_ui.ui:1415
+#: src/ui/titlewidget_ui.ui:1733 src/ui/titlewidget_ui.ui:1749
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226 src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -20487,7 +20520,7 @@ msgstr "捕获文件名称："
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:312 src/ui/configspeech_ui.ui:703
+#: src/ui/configspeech_ui.ui:312 src/ui/configspeech_ui.ui:645
 #, kde-format
 msgid "Device:"
 msgstr "设备："
@@ -21226,7 +21259,7 @@ msgstr "语音转文字"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
-#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:680
+#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:750
 #, kde-format
 msgid "Use system packages only"
 msgstr "仅使用系统软件包"
@@ -21281,7 +21314,7 @@ msgstr "翻译文本为英语"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:397 src/ui/configspeech_ui.ui:846
+#: src/ui/configspeech_ui.ui:397 src/ui/configspeech_ui.ui:853
 #, kde-format
 msgid "Uninstall plugin"
 msgstr "卸载插件"
@@ -21294,7 +21327,7 @@ msgstr "Whisper"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
-#: src/ui/configspeech_ui.ui:494 src/ui/configspeech_ui.ui:798
+#: src/ui/configspeech_ui.ui:494 src/ui/configspeech_ui.ui:805
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "检查语音引擎安装状态"
@@ -21329,14 +21362,8 @@ msgstr "Wh&isper"
 msgid "Object Detection"
 msgstr "对象检测"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:648 src/ui/speechdialog_ui.ui:94
-#, kde-format
-msgid "Model"
-msgstr "模型"
-
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:689
+#: src/ui/configspeech_ui.ui:638
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -21345,8 +21372,20 @@ msgstr ""
 "对象检测功能依赖 SAM2 - <a href=\"https://github.com/facebookresearch/"
 "sam2\">https://github.com/facebookresearch/sam2</a>"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/configspeech_ui.ui:718 src/ui/speechdialog_ui.ui:94
+#, kde-format
+msgid "Model"
+msgstr "模型"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_offload_video)
+#: src/ui/configspeech_ui.ui:759
+#, kde-format
+msgid "Offload video to CPU to save GPU Memory"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:876
+#: src/ui/configspeech_ui.ui:883
 #, kde-format
 msgid "Delete all models"
 msgstr "删除所有模型"
@@ -22655,28 +22694,35 @@ msgid "Preview Mask"
 msgstr "预览蒙版"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
-#: src/ui/maskmanage_ui.ui:66
+#: src/ui/maskmanage_ui.ui:53
 #, kde-format
 msgid "Create New Mask"
 msgstr "创建新蒙版"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/ui/maskmanage_ui.ui:79
+#: src/ui/maskmanage_ui.ui:66
 #, kde-format
 msgid "Delete Mask"
 msgstr "删除蒙版"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
-#: src/ui/maskmanage_ui.ui:92
+#: src/ui/maskmanage_ui.ui:79
 #, kde-format
 msgid "Import Mask in Project"
 msgstr "导入蒙版到项目中"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
-#: src/ui/maskmanage_ui.ui:123
+#: src/ui/maskmanage_ui.ui:154
 #, kde-format
 msgid "Apply Mask"
 msgstr "应用蒙版"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
+#: src/ui/maskmanage_ui.ui:164
+#, fuzzy, kde-format
+#| msgid "Edit Marker"
+msgid "Edit Mask"
+msgstr "编辑标记"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24181,3 +24227,13 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgctxt "@title:window"
+#~ msgid "Enter Mask Name"
+#~ msgstr "输入蒙版名称"
+
+#~ msgid "Enter the name of this mask:"
+#~ msgstr "输入此蒙版的名称："
+
+#~ msgid "Failed to analyse video."
+#~ msgstr "分析视频失败。"

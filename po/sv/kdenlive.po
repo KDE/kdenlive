@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-15 00:41+0000\n"
+"POT-Creation-Date: 2025-02-18 00:40+0000\n"
 "PO-Revision-Date: 2025-02-15 08:04+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -4233,22 +4233,22 @@ msgctxt "@info:tooltip"
 msgid "Online documentation"
 msgstr "Dokumentation på nätet"
 
-#: src/assets/assetpanel.cpp:72
+#: src/assets/assetpanel.cpp:73
 #, kde-format
 msgid "Change composition type"
 msgstr "Ändra kompositionstyp"
 
-#: src/assets/assetpanel.cpp:83
+#: src/assets/assetpanel.cpp:84
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "Använd endast för effekter med samma värde"
 
-#: src/assets/assetpanel.cpp:89
+#: src/assets/assetpanel.cpp:90
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Utför effektändring på alla klipp i gruppen…"
 
-#: src/assets/assetpanel.cpp:91
+#: src/assets/assetpanel.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4260,12 +4260,12 @@ msgstr ""
 "samma effekt också parametrarna justerade. Om en effekt tas bort görs det i "
 "alla klipp i gruppen."
 
-#: src/assets/assetpanel.cpp:102
+#: src/assets/assetpanel.cpp:103
 #, kde-format
 msgid "Create an object mask"
 msgstr "Skapa en objektmask"
 
-#: src/assets/assetpanel.cpp:106
+#: src/assets/assetpanel.cpp:107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4275,29 +4275,29 @@ msgstr ""
 "Visar panelen för att skapa mask. Masker kan till exempel användas för att "
 "ta bort bakgrunden i en video."
 
-#: src/assets/assetpanel.cpp:112
+#: src/assets/assetpanel.cpp:113
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Spara effektstapel…"
 
-#: src/assets/assetpanel.cpp:113
+#: src/assets/assetpanel.cpp:114
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
 "Sparar hela effektstapeln som en XML-fil för användning i andra projekt."
 
-#: src/assets/assetpanel.cpp:118
+#: src/assets/assetpanel.cpp:119
 #, kde-format
 msgid "Normal view"
 msgstr "Normal vy"
 
-#: src/assets/assetpanel.cpp:118 src/assets/assetpanel.cpp:122
+#: src/assets/assetpanel.cpp:119 src/assets/assetpanel.cpp:123
 #, kde-format
 msgid "Compare effect"
 msgstr "Jämför effekt"
 
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4308,17 +4308,17 @@ msgstr ""
 "klippskärmen: till vänster visas klippet med effekt, till höger visas "
 "klippet utan effekt."
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Effects disabled"
 msgstr "Effekter inaktiverade"
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Effects enabled"
 msgstr "Effekter aktiverade"
 
-#: src/assets/assetpanel.cpp:133
+#: src/assets/assetpanel.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4328,54 +4328,59 @@ msgstr ""
 "Aktiverar eller inaktiverar effektstapeln. Användbart för att se skillnad "
 "mellan original och redigerad eller för att öka snabbspolningshastighet."
 
-#: src/assets/assetpanel.cpp:140
+#: src/assets/assetpanel.cpp:141
 #, kde-format
 msgid "Open composition documentation in browser"
 msgstr "Öppna kompositionstdokumentation i webbläsare"
 
-#: src/assets/assetpanel.cpp:144
+#: src/assets/assetpanel.cpp:145
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Visa nyckelbilder i tidslinje"
 
-#: src/assets/assetpanel.cpp:144
+#: src/assets/assetpanel.cpp:145
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Dölj nyckelbilder i tidslinje"
 
-#: src/assets/assetpanel.cpp:145
+#: src/assets/assetpanel.cpp:146
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Visar eller döljer nyckelbilder för klippet i tidslinjen"
 
-#: src/assets/assetpanel.cpp:261
+#: src/assets/assetpanel.cpp:262
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 effekter"
 
-#: src/assets/assetpanel.cpp:266 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:267 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parametrar"
 
-#: src/assets/assetpanel.cpp:270
+#: src/assets/assetpanel.cpp:271
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Spår %1 effekter"
 
-#: src/assets/assetpanel.cpp:275
+#: src/assets/assetpanel.cpp:276
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Korg %1 effekter"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:203
-#: src/jobs/masktask.cpp:95
+#: src/assets/assetpanel.cpp:638
 #, kde-format
-msgid "Failed to render mask %1"
-msgstr "Misslyckades återge mask %1"
+msgid "You have a mask job running. Abort the task ?"
+msgstr ""
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:224
+#: src/assets/assetpanel.cpp:639
+#, kde-format
+msgctxt "@action:button"
+msgid "Abort Mask Task"
+msgstr ""
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:341
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5595,7 +5600,7 @@ msgid "Replace in timeline"
 msgstr "Ersätt i tidslinje"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:429
+#: src/effects/effectstack/view/maskmanager.cpp:525
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5717,8 +5722,8 @@ msgstr "Spellista"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2482 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1588
-#: src/project/projectmanager.cpp:1590 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1592
+#: src/project/projectmanager.cpp:1594 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekvenser"
@@ -5905,12 +5910,15 @@ msgstr ""
 "bättre organisation av källfiler. Kataloger kan nästlas."
 
 #: src/bin/bin.cpp:3816 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:716
+#: src/effects/effectstack/view/maskmanager.cpp:111
+#: src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Visa logg"
 
 #: src/bin/bin.cpp:3819 src/dialogs/textbasededit.cpp:717
+#: src/effects/effectstack/view/maskmanager.cpp:113
 #, kde-format
 msgid "Detailed log"
 msgstr "Detaljerad logg"
@@ -6705,7 +6713,7 @@ msgstr "Etikett %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
 #: src/dialogs/textbasededit.cpp:635
-#: src/effects/effectstack/view/maskmanager.cpp:51
+#: src/effects/effectstack/view/maskmanager.cpp:54
 #, kde-format
 msgid "Configure"
 msgstr "Anpassa"
@@ -6797,7 +6805,7 @@ msgstr ""
 "Den angivna profilen är ogiltig. Standardvärdet \"dv_pal\" har valts, men "
 "det går att ändra det i Kdenlives inställningsruta."
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:824
+#: src/core.cpp:255 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Loading project…"
 msgstr "Läser in projekt…"
@@ -7476,7 +7484,7 @@ msgstr "Exportera flaggdata"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1887 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1891 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5160
@@ -7543,7 +7551,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Om osäker, prova:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1777
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1781
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -8539,7 +8547,7 @@ msgstr "Installerar flerspråkig data…"
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
 #: src/dialogs/settings/pluginssettings.cpp:911 src/ui/configspeech_ui.ui:107
-#: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:826
+#: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:833
 #, kde-format
 msgid "Models folder"
 msgstr "Modellkatalog"
@@ -8582,7 +8590,7 @@ msgstr ""
 "b>. Du måste installera alla nödvändiga paket själv på systemet:<br>%1"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:431 src/ui/configspeech_ui.ui:801
+#: src/dialogs/settings/pluginssettings.cpp:431 src/ui/configspeech_ui.ui:808
 #, kde-format
 msgid "Install"
 msgstr "Installera"
@@ -8595,7 +8603,7 @@ msgstr "Kontrollera inställning"
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:447 src/ui/configspeech_ui.ui:383
-#: src/ui/configspeech_ui.ui:856
+#: src/ui/configspeech_ui.ui:863
 #, kde-format
 msgid "Plugin size"
 msgstr "Insticksprogramstorlek"
@@ -8653,7 +8661,7 @@ msgid "Downloading smallest model…"
 msgstr "Laddar ner minsta modell…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:634 src/ui/configspeech_ui.ui:696
+#: src/dialogs/settings/pluginssettings.cpp:634 src/ui/configspeech_ui.ui:701
 #, kde-format
 msgid "Download models"
 msgstr "Ladda ner modeller"
@@ -9945,7 +9953,7 @@ msgid "Using MLT %1"
 msgstr "Använder  MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:791
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:791
 #: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Abort"
@@ -9975,7 +9983,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
-#: src/dialogs/wizard.cpp:132 src/project/cliptranscode.cpp:268
+#: src/dialogs/wizard.cpp:132 src/project/cliptranscode.cpp:270
 #: src/ui/renderwidget_ui.ui:363 src/ui/renderwidget_ui.ui:947
 #: src/ui/renderwidget_ui.ui:1105
 #, kde-format
@@ -10516,8 +10524,8 @@ msgstr "Följande filter och övertoningar togs bort från projektet:"
 msgid "Invalid file path"
 msgstr "Ogiltig filsökväg"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:809
-#: src/project/projectmanager.cpp:851
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:813
+#: src/project/projectmanager.cpp:855
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Kan inte återställa skadad fil."
@@ -10597,15 +10605,15 @@ msgstr ""
 "Projektfilen uppgraderades till den senaste Kdenlive-dokumentversion, men "
 "det var inte möjligt att skapa säkerhetskopian %1."
 
-#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1462
-#: src/project/projectmanager.cpp:1498
+#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1466
+#: src/project/projectmanager.cpp:1502
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fel när projektkatalogen skulle flyttas: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2431
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1718
+#: src/project/projectmanager.cpp:1722
 #, kde-format
 msgid "Untitled"
 msgstr "Namnlös"
@@ -11188,46 +11196,49 @@ msgstr ""
 "Ingen beskrivning angiven. \n"
 "Spara effekt utan beskrivning?"
 
-#: src/effects/effectstack/view/maskmanager.cpp:49
+#: src/effects/effectstack/view/maskmanager.cpp:52
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "Anpassa SAM2-insticksprogrammet"
 
-#: src/effects/effectstack/view/maskmanager.cpp:162
+#: src/effects/effectstack/view/maskmanager.cpp:110
+#, fuzzy, kde-format
+#| msgid "Cut job failed."
+msgid "Job failed"
+msgstr "Skärningsjobb misslyckades"
+
+#: src/effects/effectstack/view/maskmanager.cpp:222
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Exporterar videobildrutor för analys"
 
-#: src/effects/effectstack/view/maskmanager.cpp:167
+#: src/effects/effectstack/view/maskmanager.cpp:226
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Exporterar videobildrutor"
 
-#: src/effects/effectstack/view/maskmanager.cpp:181
+#: src/effects/effectstack/view/maskmanager.cpp:239
 #, kde-format
 msgid "Missing source frames"
 msgstr "Saknar källbildrutor"
 
-#: src/effects/effectstack/view/maskmanager.cpp:274
+#: src/effects/effectstack/view/maskmanager.cpp:330
 #, kde-format
-msgctxt "@title:window"
-msgid "Enter Mask Name"
-msgstr "Ange masknamn"
+msgid "mask %1"
+msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:274
-#, kde-format
-msgid "Enter the name of this mask:"
-msgstr "Ange namnet på masken:"
-
-#: src/effects/effectstack/view/maskmanager.cpp:282
+#: src/effects/effectstack/view/maskmanager.cpp:336
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Genererar mask %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:399
-#, kde-format
+#: src/effects/effectstack/view/maskmanager.cpp:496
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
 msgid ""
-"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
+"This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
+"undone."
 msgstr "Det maskerar filen <b>%1</b>:<br/>%2<br/>Åtgärden går inte att ångra."
 
 #: src/filefilter.cpp:122
@@ -11322,8 +11333,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "Programmet %1 hittades inte. Uppdatera jobbinställningarna."
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:230
-#: src/jobs/transcodetask.cpp:266
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:232
+#: src/jobs/transcodetask.cpp:268
 #, kde-format
 msgid "Failed to create file."
 msgstr "Misslyckades skapa fil."
@@ -11379,8 +11390,8 @@ msgid "Extracting %1 out of %2"
 msgstr "Packar up %1 av %2"
 
 #: src/jobs/cuttask.cpp:211 src/jobs/cuttask.cpp:213 src/jobs/filtertask.cpp:70
-#: src/jobs/speedtask.cpp:184 src/jobs/speedtask.cpp:196
-#: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
+#: src/jobs/speedtask.cpp:185 src/jobs/speedtask.cpp:197
+#: src/jobs/stabilizetask.cpp:107 src/jobs/stabilizetask.cpp:124
 #, kde-format
 msgid "No producer for this clip."
 msgstr "Ingen producent för det här klippet."
@@ -11430,22 +11441,22 @@ msgstr "Misslyckades filtrera källa."
 msgid "Effect analysis failed for %1"
 msgstr "Effektanalys misslyckades för %1"
 
-#: src/jobs/masktask.cpp:28
+#: src/jobs/masktask.cpp:25
 #, kde-format
 msgid "Mask creation"
 msgstr "Skapa mask"
 
-#: src/jobs/masktask.cpp:44
+#: src/jobs/masktask.cpp:41
 #, kde-format
 msgid "No source frames to process"
 msgstr "Inga källbildrutor att behandla"
 
-#: src/jobs/masktask.cpp:74
+#: src/jobs/masktask.cpp:66
 #, kde-format
-msgid "Failed to analyse video."
-msgstr "Misslyckades analysera video."
+msgid "Failed to render mask %1"
+msgstr "Misslyckades återge mask %1"
 
-#: src/jobs/melttask.cpp:57
+#: src/jobs/melttask.cpp:60
 #, kde-format
 msgid "Failed to process playlist."
 msgstr "Misslyckades behandla spellista."
@@ -11465,7 +11476,7 @@ msgstr "Kan inte läsa in bild %1."
 msgid "Image too small to be proxied."
 msgstr "Bilden är för liten för att ersättas."
 
-#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:180
+#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -11549,7 +11560,7 @@ msgstr "Procentvärde"
 msgid "Pitch compensation"
 msgstr "Tonhöjdskompensation"
 
-#: src/jobs/speedtask.cpp:240
+#: src/jobs/speedtask.cpp:241
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Misslyckades skapa hastighetsklipp."
@@ -11559,7 +11570,7 @@ msgstr "Misslyckades skapa hastighetsklipp."
 msgid "Stabilizing"
 msgstr "Stabiliserar"
 
-#: src/jobs/stabilizetask.cpp:175
+#: src/jobs/stabilizetask.cpp:176
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "Misslyckades stabilisera."
@@ -11862,12 +11873,12 @@ msgctxt "@title:window"
 msgid "Export Layout"
 msgstr "Exportera layout"
 
-#: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:135
+#: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
 msgid "Audio analysis finished"
 msgstr "Ljudanalys klar"
 
-#: src/lib/audio/audioEnvelope.cpp:122
+#: src/lib/audio/audioEnvelope.cpp:123
 #, kde-format
 msgid "Processing data analysis"
 msgstr "Behandlar dataanalys"
@@ -13732,12 +13743,12 @@ msgstr ""
 "Det flyttar alla tillfälliga filer från<br/><b>%1</b> till <b>%2</b>,<br/"
 ">och därefter läses projektfilen in igen"
 
-#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:619
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Kan inte utföra åtgärden. Ogiltigt dokumentidentifierare: %1"
 
-#: src/mainwindow.cpp:2224 src/project/projectmanager.cpp:621
+#: src/mainwindow.cpp:2224 src/project/projectmanager.cpp:625
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Kan inte utföra åtgärden. Målkatalogen finns redan: %1"
@@ -14755,12 +14766,12 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 ljudström"
 msgstr[1] "%1 ljudströmmar"
 
-#: src/monitor/monitor.cpp:2390
+#: src/monitor/monitor.cpp:2391
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Kan inte initiera GLSL-hanteraren i Movit, inaktivera Movit"
 
-#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
+#: src/monitor/monitor.cpp:2433 src/monitor/monitor.cpp:2490
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14769,17 +14780,17 @@ msgstr ""
 "Filtret alphagrad krävs för funktionen, installera frei0r och starta om "
 "Kdenlive"
 
-#: src/monitor/monitor.cpp:2452
+#: src/monitor/monitor.cpp:2453
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipp har inga effekter"
 
-#: src/monitor/monitor.cpp:2454
+#: src/monitor/monitor.cpp:2455
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Markera ett klipp i projektkorgen för att jämföra effekt"
 
-#: src/monitor/monitor.cpp:2496
+#: src/monitor/monitor.cpp:2497
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14788,7 +14799,7 @@ msgstr ""
 "Övertoningen Kairoblandning krävs för funktionen, installera frei0r och "
 "starta om Kdenlive"
 
-#: src/monitor/monitor.cpp:2546
+#: src/monitor/monitor.cpp:2547
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Aktivera redigeringsläge på bildskärm för att redigera effekt"
@@ -15133,17 +15144,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformera"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:370
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr "Genererar bildmask"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:370
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr "Genererar videomask"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:381
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -15154,10 +15165,31 @@ msgstr ""
 "Skift+klicka för att inkludera en annan zon.\n"
 "Ctrl+klicka för att utesluta en zon."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:381
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Förhandsgranska videomask"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#, kde-format
+msgid ""
+"You are outside of the time zone defined\n"
+"for the mask and cannot add keyframes.\n"
+"\n"
+"\n"
+msgstr ""
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#, fuzzy, kde-format
+#| msgid "Go to Clip Start"
+msgid "Go to mask start"
+msgstr "Gå till klippets början"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#, fuzzy, kde-format
+#| msgid "Go to Clip End"
+msgid "Go to mask end"
+msgstr "Gå till klippets slut"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -15677,12 +15709,12 @@ msgstr "Resultatkatalog"
 msgid "Source and destination file can't be the same"
 msgstr "Käll- och målfil kan inte vara samma"
 
-#: src/project/cliptranscode.cpp:279 src/project/cliptranscode.cpp:304
+#: src/project/cliptranscode.cpp:281 src/project/cliptranscode.cpp:306
 #, kde-format
 msgid "Transcoding finished."
 msgstr "Omkodning klar."
 
-#: src/project/cliptranscode.cpp:309
+#: src/project/cliptranscode.cpp:311
 #, kde-format
 msgid "Transcoding failed"
 msgstr "Omkodning misslyckades"
@@ -16694,12 +16726,12 @@ msgstr "Spara kopia…"
 msgid "Open Backup File…"
 msgstr "Öppna säkerhetskopia…"
 
-#: src/project/projectmanager.cpp:442
+#: src/project/projectmanager.cpp:447
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Spara ändringar i dokument?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1717
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1721
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -16708,17 +16740,17 @@ msgstr ""
 "Projektet <b>\"%1\"</b> har ändrats.\n"
 "Vill du spara ändringarna?"
 
-#: src/project/projectmanager.cpp:557
+#: src/project/projectmanager.cpp:561
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Misslyckades spara projektfilen <br><b>%1</b>"
 
-#: src/project/projectmanager.cpp:590
+#: src/project/projectmanager.cpp:594
 #, kde-format
 msgid "Saving successful"
 msgstr "Spara lyckades"
 
-#: src/project/projectmanager.cpp:603
+#: src/project/projectmanager.cpp:607
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -16729,38 +16761,38 @@ msgstr ""
 "för att spara tillfälliga filer. Det flyttar alla tillfälliga filer från <b>"
 "%1</b> till <b>%2</b> och projektfilen läses därefter in igen."
 
-#: src/project/projectmanager.cpp:644
+#: src/project/projectmanager.cpp:648
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Spara kopia"
 
-#: src/project/projectmanager.cpp:750
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Det finns en automatiskt sparad fil. Vill du återställa den nu?"
 
-#: src/project/projectmanager.cpp:750
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "File Recovery"
 msgstr "Återställning av filer"
 
-#: src/project/projectmanager.cpp:751 src/project/projectmanager.cpp:839
+#: src/project/projectmanager.cpp:755 src/project/projectmanager.cpp:843
 #, kde-format
 msgid "Recover"
 msgstr "Återställ"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Do not recover"
 msgstr "Återställ inte"
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Opening file %1"
 msgstr "Öppnar fil %1"
 
-#: src/project/projectmanager.cpp:838
+#: src/project/projectmanager.cpp:842
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -16771,28 +16803,28 @@ msgstr ""
 "%1\n"
 "Vill du öppna en säkerhetskopia?"
 
-#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1073
+#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1077
 #, kde-format
 msgid "Error opening file"
 msgstr "Fel när filen skulle öppnas"
 
-#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1074
+#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1078
 #, kde-format
 msgid "Open Backup"
 msgstr "Öppna säkerhetskopia"
 
-#: src/project/projectmanager.cpp:855
+#: src/project/projectmanager.cpp:859
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Kan inte öppna projektfilens säkerhetskopia."
 
-#: src/project/projectmanager.cpp:870
+#: src/project/projectmanager.cpp:874
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Projektet har uppgraderats, en säkerhetskopia skapas nästa gång det sparas"
 
-#: src/project/projectmanager.cpp:872
+#: src/project/projectmanager.cpp:876
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -16800,17 +16832,17 @@ msgstr ""
 "Projektet har ändrats när det öppnades, en säkerhetskopia skapas nästa gång "
 "det sparas"
 
-#: src/project/projectmanager.cpp:943
+#: src/project/projectmanager.cpp:947
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Läser in tidslinje…"
 
-#: src/project/projectmanager.cpp:961
+#: src/project/projectmanager.cpp:965
 #, kde-format
 msgid "Building sequences…"
 msgstr "Bygger sekvenser…"
 
-#: src/project/projectmanager.cpp:1100
+#: src/project/projectmanager.cpp:1104
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -16819,7 +16851,7 @@ msgstr ""
 "Kan inte öppna projektfilen. Fel:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1140
+#: src/project/projectmanager.cpp:1144
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -16828,12 +16860,12 @@ msgstr ""
 "Detta tar bort alla ändringar som gjorts sedan projektet senast sparades. Är "
 "du säker på att du vill fortsätta?"
 
-#: src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:1145
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Återgå till senast sparade version"
 
-#: src/project/projectmanager.cpp:1227
+#: src/project/projectmanager.cpp:1231
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -16842,24 +16874,24 @@ msgstr ""
 "Projektet är skadat, kan inte säkerhetskopiera. Stäng och öppna projektfilen "
 "igen för att återställa senaste säkerhetskopia."
 
-#: src/project/projectmanager.cpp:1440
+#: src/project/projectmanager.cpp:1444
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Fel när projektkatalogen skulle flyttas, kan inte komma åt cachekatalog"
 
-#: src/project/projectmanager.cpp:1476
+#: src/project/projectmanager.cpp:1480
 #, kde-format
 msgid "Moving project folder"
 msgstr "Flyttar projektkatalog"
 
-#: src/project/projectmanager.cpp:1567 src/project/projectmanager.cpp:1622
-#: src/project/projectmanager.cpp:1626
+#: src/project/projectmanager.cpp:1571 src/project/projectmanager.cpp:1626
+#: src/project/projectmanager.cpp:1630
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvens 1"
 
-#: src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1582
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -16867,13 +16899,13 @@ msgstr ""
 "Projektfilen är skadad. Misslyckades läsa in spår. Försök hitta en "
 "säkerhetskopia?"
 
-#: src/project/projectmanager.cpp:1723 src/project/projectmanager.cpp:1728
-#: src/project/projectmanager.cpp:1738 src/project/projectmanager.cpp:1752
+#: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1732
+#: src/project/projectmanager.cpp:1742 src/project/projectmanager.cpp:1756
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projektprofil ändring avbruten"
 
-#: src/project/projectmanager.cpp:1875
+#: src/project/projectmanager.cpp:1879
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -16882,12 +16914,12 @@ msgstr ""
 "Utdatafilen %1 finns redan.\n"
 "Vill du skriva över den?"
 
-#: src/project/projectmanager.cpp:1897
+#: src/project/projectmanager.cpp:1901
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil ändrad"
 
-#: src/project/projectmanager.cpp:1961
+#: src/project/projectmanager.cpp:1965
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -16896,18 +16928,18 @@ msgstr ""
 "Kan inte skapa en tidslinje från klippet:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2044
+#: src/project/projectmanager.cpp:2048
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importerar ett sekvensklipp, för närvarande i ett experimentellt tillstånd"
 
-#: src/project/projectmanager.cpp:2234
+#: src/project/projectmanager.cpp:2238
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Markera ett klipp för att skapa sekvens"
 
-#: src/project/projectmanager.cpp:2272
+#: src/project/projectmanager.cpp:2276
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Skapa sekvensklipp"
@@ -20265,6 +20297,7 @@ msgstr "Ta bort nuvarande punkt."
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, buttonImport)
+#. i18n: ectx: property (text), widget (QToolButton, buttonAbort)
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
 #. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
@@ -20405,32 +20438,32 @@ msgstr "Ta bort nuvarande punkt."
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
 #: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
-#: src/ui/maskmanage_ui.ui:69 src/ui/maskmanage_ui.ui:82
-#: src/ui/maskmanage_ui.ui:95 src/ui/projectsettings_ui.ui:421
-#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
-#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
-#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
-#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
-#: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:163
-#: src/ui/textbasededit_ui.ui:179 src/ui/textbasededit_ui.ui:189
-#: src/ui/textbasededit_ui.ui:199 src/ui/textbasededit_ui.ui:216
-#: src/ui/textbasededit_ui.ui:226 src/ui/textbasededit_ui.ui:255
-#: src/ui/textbasededit_ui.ui:276 src/ui/timeremap_ui.ui:84
-#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
-#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
-#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:672
-#: src/ui/titlewidget_ui.ui:685 src/ui/titlewidget_ui.ui:698
-#: src/ui/titlewidget_ui.ui:711 src/ui/titlewidget_ui.ui:724
-#: src/ui/titlewidget_ui.ui:737 src/ui/titlewidget_ui.ui:955
-#: src/ui/titlewidget_ui.ui:965 src/ui/titlewidget_ui.ui:1169
-#: src/ui/titlewidget_ui.ui:1223 src/ui/titlewidget_ui.ui:1272
-#: src/ui/titlewidget_ui.ui:1294 src/ui/titlewidget_ui.ui:1326
-#: src/ui/titlewidget_ui.ui:1415 src/ui/titlewidget_ui.ui:1733
-#: src/ui/titlewidget_ui.ui:1749 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
-#: src/ui/urllistparamwidget_ui.ui:117
+#: src/ui/maskmanage_ui.ui:56 src/ui/maskmanage_ui.ui:69
+#: src/ui/maskmanage_ui.ui:82 src/ui/maskmanage_ui.ui:109
+#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
+#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
+#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
+#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
+#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
+#: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
+#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
+#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
+#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
+#: src/ui/titlewidget_ui.ui:672 src/ui/titlewidget_ui.ui:685
+#: src/ui/titlewidget_ui.ui:698 src/ui/titlewidget_ui.ui:711
+#: src/ui/titlewidget_ui.ui:724 src/ui/titlewidget_ui.ui:737
+#: src/ui/titlewidget_ui.ui:955 src/ui/titlewidget_ui.ui:965
+#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1223
+#: src/ui/titlewidget_ui.ui:1272 src/ui/titlewidget_ui.ui:1294
+#: src/ui/titlewidget_ui.ui:1326 src/ui/titlewidget_ui.ui:1415
+#: src/ui/titlewidget_ui.ui:1733 src/ui/titlewidget_ui.ui:1749
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226 src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -20915,7 +20948,7 @@ msgstr "Lagringsfilnamn:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:312 src/ui/configspeech_ui.ui:703
+#: src/ui/configspeech_ui.ui:312 src/ui/configspeech_ui.ui:645
 #, kde-format
 msgid "Device:"
 msgstr "Enhet:"
@@ -21660,7 +21693,7 @@ msgstr "Tal-till-text"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
-#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:680
+#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:750
 #, kde-format
 msgid "Use system packages only"
 msgstr "Använd bara systempaket"
@@ -21715,7 +21748,7 @@ msgstr "Översätt text till engelska"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:397 src/ui/configspeech_ui.ui:846
+#: src/ui/configspeech_ui.ui:397 src/ui/configspeech_ui.ui:853
 #, kde-format
 msgid "Uninstall plugin"
 msgstr "Avinstallera insticksprogram"
@@ -21728,7 +21761,7 @@ msgstr "Whisper"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
-#: src/ui/configspeech_ui.ui:494 src/ui/configspeech_ui.ui:798
+#: src/ui/configspeech_ui.ui:494 src/ui/configspeech_ui.ui:805
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "Kontrollera installation av talgränssnitt"
@@ -21763,14 +21796,8 @@ msgstr "Wh&isper"
 msgid "Object Detection"
 msgstr "Objektdetektering"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:648 src/ui/speechdialog_ui.ui:94
-#, kde-format
-msgid "Model"
-msgstr "Modell"
-
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:689
+#: src/ui/configspeech_ui.ui:638
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -21779,8 +21806,20 @@ msgstr ""
 "Objektdetektering förlitar sig på SAM2: <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/configspeech_ui.ui:718 src/ui/speechdialog_ui.ui:94
+#, kde-format
+msgid "Model"
+msgstr "Modell"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_offload_video)
+#: src/ui/configspeech_ui.ui:759
+#, kde-format
+msgid "Offload video to CPU to save GPU Memory"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:876
+#: src/ui/configspeech_ui.ui:883
 #, kde-format
 msgid "Delete all models"
 msgstr "Ta bort alla modeller"
@@ -23101,28 +23140,35 @@ msgid "Preview Mask"
 msgstr "Förhandsgranskningsmask"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
-#: src/ui/maskmanage_ui.ui:66
+#: src/ui/maskmanage_ui.ui:53
 #, kde-format
 msgid "Create New Mask"
 msgstr "Skapa ny mask"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/ui/maskmanage_ui.ui:79
+#: src/ui/maskmanage_ui.ui:66
 #, kde-format
 msgid "Delete Mask"
 msgstr "Ta bort mask"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
-#: src/ui/maskmanage_ui.ui:92
+#: src/ui/maskmanage_ui.ui:79
 #, kde-format
 msgid "Import Mask in Project"
 msgstr "Importera mask i projekt"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
-#: src/ui/maskmanage_ui.ui:123
+#: src/ui/maskmanage_ui.ui:154
 #, kde-format
 msgid "Apply Mask"
 msgstr "Verkställ mask"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
+#: src/ui/maskmanage_ui.ui:164
+#, fuzzy, kde-format
+#| msgid "Edit Marker"
+msgid "Edit Mask"
+msgstr "Redigera markör"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24634,6 +24680,16 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgctxt "@title:window"
+#~ msgid "Enter Mask Name"
+#~ msgstr "Ange masknamn"
+
+#~ msgid "Enter the name of this mask:"
+#~ msgstr "Ange namnet på masken:"
+
+#~ msgid "Failed to analyse video."
+#~ msgstr "Misslyckades analysera video."
 
 #~ msgid "Rotate (keyframable)"
 #~ msgstr "Rotera (kan använda nyckelbilder)"

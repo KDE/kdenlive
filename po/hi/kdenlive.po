@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-15 00:41+0000\n"
+"POT-Creation-Date: 2025-02-18 00:40+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -4174,22 +4174,22 @@ msgctxt "@info:tooltip"
 msgid "Online documentation"
 msgstr "ऑनलाइन दस्तावेज़ीकरण"
 
-#: src/assets/assetpanel.cpp:72
+#: src/assets/assetpanel.cpp:73
 #, kde-format
 msgid "Change composition type"
 msgstr "रचना प्रकार बदलें"
 
-#: src/assets/assetpanel.cpp:83
+#: src/assets/assetpanel.cpp:84
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "केवल समान मान वाले प्रभावों पर लागू करें"
 
-#: src/assets/assetpanel.cpp:89
+#: src/assets/assetpanel.cpp:90
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "समूह में सभी क्लिप पर प्रभाव परिवर्तन लागू करें…"
 
-#: src/assets/assetpanel.cpp:91
+#: src/assets/assetpanel.cpp:92
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4201,12 +4201,12 @@ msgstr ""
 "प्रभाव समान है, उनके पैरामीटर भी समायोजित किए जाएंगे। किसी प्रभाव को हटाने से वह समूह "
 "की सभी क्लिप में से हट जाएगा।"
 
-#: src/assets/assetpanel.cpp:102
+#: src/assets/assetpanel.cpp:103
 #, kde-format
 msgid "Create an object mask"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:106
+#: src/assets/assetpanel.cpp:107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4214,28 +4214,28 @@ msgid ""
 "the background in a video."
 msgstr ""
 
-#: src/assets/assetpanel.cpp:112
+#: src/assets/assetpanel.cpp:113
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "प्रभाव स्टैक सहेजें…"
 
-#: src/assets/assetpanel.cpp:113
+#: src/assets/assetpanel.cpp:114
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr "अन्य परियोजनाओं में उपयोग के लिए संपूर्ण प्रभाव स्टैक को XML फ़ाइल के रूप में सहेजता है।"
 
-#: src/assets/assetpanel.cpp:118
+#: src/assets/assetpanel.cpp:119
 #, kde-format
 msgid "Normal view"
 msgstr "सामान्य दृश्य"
 
-#: src/assets/assetpanel.cpp:118 src/assets/assetpanel.cpp:122
+#: src/assets/assetpanel.cpp:119 src/assets/assetpanel.cpp:123
 #, kde-format
 msgid "Compare effect"
 msgstr "प्रभाव की तुलना करें"
 
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4245,17 +4245,17 @@ msgstr ""
 "प्रोजेक्ट और/या क्लिप मॉनीटर में विभाजित दृश्य को चालू या बंद करता है: बाईं ओर प्रभाव "
 "वाली क्लिप दिखाई जाती है, दाईं ओर प्रभाव रहित क्लिप दिखाई जाती है।"
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Effects disabled"
 msgstr "प्रभाव अक्षम"
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Effects enabled"
 msgstr "प्रभाव सक्षम"
 
-#: src/assets/assetpanel.cpp:133
+#: src/assets/assetpanel.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4265,59 +4265,59 @@ msgstr ""
 "प्रभाव स्टैक को सक्षम या अक्षम करने के लिए टॉगल करता है। मूल और संपादित के बीच अंतर देखने "
 "या स्क्रबिंग को गति देने के लिए उपयोगी है।"
 
-#: src/assets/assetpanel.cpp:140
+#: src/assets/assetpanel.cpp:141
 #, kde-format
 msgid "Open composition documentation in browser"
 msgstr "ब्राउज़र में रचना दस्तावेज़ खोलें"
 
-#: src/assets/assetpanel.cpp:144
+#: src/assets/assetpanel.cpp:145
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "टाइमलाइन में मुख्य फ़्रेम प्रदर्शित करें"
 
-#: src/assets/assetpanel.cpp:144
+#: src/assets/assetpanel.cpp:145
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "टाइमलाइन में मुख्य फ़्रेम छिपाएँ"
 
-#: src/assets/assetpanel.cpp:145
+#: src/assets/assetpanel.cpp:146
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "टाइमलाइन पर क्लिप में मुख्य फ़्रेमों के प्रदर्शन को टॉगल करता है"
 
-#: src/assets/assetpanel.cpp:261
+#: src/assets/assetpanel.cpp:262
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 प्रभाव"
 
-#: src/assets/assetpanel.cpp:266 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:267 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 पैरामीटर"
 
-#: src/assets/assetpanel.cpp:270
+#: src/assets/assetpanel.cpp:271
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 प्रभाव ट्रैक करें"
 
-#: src/assets/assetpanel.cpp:275
+#: src/assets/assetpanel.cpp:276
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "बिन %1 प्रभाव"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:203
-#: src/jobs/masktask.cpp:95
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to generate clip:\n"
-#| "%1"
-msgid "Failed to render mask %1"
+#: src/assets/assetpanel.cpp:638
+#, kde-format
+msgid "You have a mask job running. Abort the task ?"
 msgstr ""
-"क्लिप बनाने में विफल:\n"
-"%1"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:224
+#: src/assets/assetpanel.cpp:639
+#, kde-format
+msgctxt "@action:button"
+msgid "Abort Mask Task"
+msgstr ""
+
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:341
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5537,7 +5537,7 @@ msgid "Replace in timeline"
 msgstr "समयरेखा में प्रतिस्थापित करें"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:429
+#: src/effects/effectstack/view/maskmanager.cpp:525
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5659,8 +5659,8 @@ msgstr "प्लेलिस्ट"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2482 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1588
-#: src/project/projectmanager.cpp:1590 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1592
+#: src/project/projectmanager.cpp:1594 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "दृश्यों"
@@ -5845,12 +5845,15 @@ msgstr ""
 "अनुमति देता है। फ़ोल्डरों को नेस्ट किया जा सकता है।"
 
 #: src/bin/bin.cpp:3816 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:716
+#: src/effects/effectstack/view/maskmanager.cpp:111
+#: src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "प्रवेश देखें"
 
 #: src/bin/bin.cpp:3819 src/dialogs/textbasededit.cpp:717
+#: src/effects/effectstack/view/maskmanager.cpp:113
 #, kde-format
 msgid "Detailed log"
 msgstr "विस्तृत लॉग"
@@ -6644,7 +6647,7 @@ msgstr "टैग %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
 #: src/dialogs/textbasededit.cpp:635
-#: src/effects/effectstack/view/maskmanager.cpp:51
+#: src/effects/effectstack/view/maskmanager.cpp:54
 #, kde-format
 msgid "Configure"
 msgstr "कॉन्फ़िगर"
@@ -6736,7 +6739,7 @@ msgstr ""
 "दी गई प्रोफ़ाइल अमान्य है। हम डिफ़ॉल्ट रूप से \"dv_pal\" प्रोफ़ाइल का उपयोग करते हैं, "
 "लेकिन आप इसे Kdenlive के सेटिंग पैनल से बदल सकते हैं"
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:824
+#: src/core.cpp:255 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Loading project…"
 msgstr "प्रोजेक्ट लोड हो रहा है…"
@@ -7412,7 +7415,7 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1887 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1891 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5160
@@ -7479,7 +7482,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "यदि अनिश्चित हों तो प्रयास करें:<br/> <b>यूनिकोड (UTF-8)</b> ."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1777
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1781
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -8470,7 +8473,7 @@ msgstr "बहुभाषी डेटा स्थापित किया �
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:99
 #: src/dialogs/settings/pluginssettings.cpp:911 src/ui/configspeech_ui.ui:107
-#: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:826
+#: src/ui/configspeech_ui.ui:441 src/ui/configspeech_ui.ui:833
 #, kde-format
 msgid "Models folder"
 msgstr "मॉडल फ़ोल्डर"
@@ -8511,7 +8514,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
-#: src/dialogs/settings/pluginssettings.cpp:431 src/ui/configspeech_ui.ui:801
+#: src/dialogs/settings/pluginssettings.cpp:431 src/ui/configspeech_ui.ui:808
 #, fuzzy, kde-format
 #| msgid "Install model"
 msgid "Install"
@@ -8526,7 +8529,7 @@ msgstr "कॉन्फ़िगरेशन जांचें"
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
 #: src/dialogs/settings/pluginssettings.cpp:447 src/ui/configspeech_ui.ui:383
-#: src/ui/configspeech_ui.ui:856
+#: src/ui/configspeech_ui.ui:863
 #, fuzzy, kde-format
 #| msgid "TAP Plugins"
 msgid "Plugin size"
@@ -8592,7 +8595,7 @@ msgid "Downloading smallest model…"
 msgstr "मॉडल डाउनलोड हो रहा है…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:634 src/ui/configspeech_ui.ui:696
+#: src/dialogs/settings/pluginssettings.cpp:634 src/ui/configspeech_ui.ui:701
 #, fuzzy, kde-format
 #| msgid "Download Model"
 msgid "Download models"
@@ -9865,7 +9868,7 @@ msgid "Using MLT %1"
 msgstr "MLT %1 का उपयोग करना"
 
 #: src/dialogs/wizard.cpp:82 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:791
+#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:791
 #: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Abort"
@@ -9894,7 +9897,7 @@ msgstr "स्टार्टअप त्रुटि या चेतावन
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
-#: src/dialogs/wizard.cpp:132 src/project/cliptranscode.cpp:268
+#: src/dialogs/wizard.cpp:132 src/project/cliptranscode.cpp:270
 #: src/ui/renderwidget_ui.ui:363 src/ui/renderwidget_ui.ui:947
 #: src/ui/renderwidget_ui.ui:1105
 #, kde-format
@@ -10417,8 +10420,8 @@ msgstr "परियोजना से निम्नलिखित फ़ि
 msgid "Invalid file path"
 msgstr "अमान्य फ़ाइल पथ"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:809
-#: src/project/projectmanager.cpp:851
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:813
+#: src/project/projectmanager.cpp:855
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "दूषित फ़ाइल पुनर्प्राप्त नहीं की जा सकी."
@@ -10494,15 +10497,15 @@ msgstr ""
 "आपकी प्रोजेक्ट फ़ाइल को नवीनतम Kdenlive दस्तावेज़ संस्करण में अपग्रेड कर दिया गया था, "
 "लेकिन बैकअप प्रतिलिपि %1 बनाना संभव नहीं था।"
 
-#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1462
-#: src/project/projectmanager.cpp:1498
+#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1466
+#: src/project/projectmanager.cpp:1502
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाते समय त्रुटि: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2431
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1718
+#: src/project/projectmanager.cpp:1722
 #, kde-format
 msgid "Untitled"
 msgstr "शीर्षकहीन"
@@ -11083,53 +11086,51 @@ msgstr ""
 "कोई विवरण नहीं दिया गया है।\n"
 "बिना विवरण के प्रभाव सहेजें?"
 
-#: src/effects/effectstack/view/maskmanager.cpp:49
+#: src/effects/effectstack/view/maskmanager.cpp:52
 #, fuzzy, kde-format
 #| msgid "Please configure speech to text."
 msgid "Please configure the SAM2 plugin"
 msgstr "कृपया भाषण को पाठ में कॉन्फ़िगर करें."
 
-#: src/effects/effectstack/view/maskmanager.cpp:162
+#: src/effects/effectstack/view/maskmanager.cpp:110
+#, fuzzy, kde-format
+#| msgid "Cut job failed."
+msgid "Job failed"
+msgstr "काटने का काम विफल हुआ."
+
+#: src/effects/effectstack/view/maskmanager.cpp:222
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:167
+#: src/effects/effectstack/view/maskmanager.cpp:226
 #, fuzzy, kde-format
 #| msgid "Export guides"
 msgid "Exporting video frames"
 msgstr "गाइड निर्यात करें"
 
-#: src/effects/effectstack/view/maskmanager.cpp:181
+#: src/effects/effectstack/view/maskmanager.cpp:239
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "स्रोत क्लिप गायब है"
 
-#: src/effects/effectstack/view/maskmanager.cpp:274
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Enter Preset Name"
-msgctxt "@title:window"
-msgid "Enter Mask Name"
-msgstr "प्रीसेट नाम दर्ज करें"
+#: src/effects/effectstack/view/maskmanager.cpp:330
+#, kde-format
+msgid "mask %1"
+msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:274
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset:"
-msgid "Enter the name of this mask:"
-msgstr "इस प्रीसेट का नाम दर्ज करें:"
-
-#: src/effects/effectstack/view/maskmanager.cpp:282
+#: src/effects/effectstack/view/maskmanager.cpp:336
 #, fuzzy, kde-format
 #| msgid "Generate"
 msgid "Generating mask %1"
 msgstr "उत्पन्न"
 
-#: src/effects/effectstack/view/maskmanager.cpp:399
+#: src/effects/effectstack/view/maskmanager.cpp:496
 #, kde-format
 msgid ""
-"This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
+"This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
+"undone."
 msgstr ""
 
 #: src/filefilter.cpp:122
@@ -11223,8 +11224,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "आवेदन %1 नहीं मिला, कृपया जॉब सेटिंग अपडेट करें"
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:230
-#: src/jobs/transcodetask.cpp:266
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:232
+#: src/jobs/transcodetask.cpp:268
 #, kde-format
 msgid "Failed to create file."
 msgstr "फ़ाइल बनाने में विफल."
@@ -11280,8 +11281,8 @@ msgid "Extracting %1 out of %2"
 msgstr "%2 में से %1 निकाला जा रहा है"
 
 #: src/jobs/cuttask.cpp:211 src/jobs/cuttask.cpp:213 src/jobs/filtertask.cpp:70
-#: src/jobs/speedtask.cpp:184 src/jobs/speedtask.cpp:196
-#: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
+#: src/jobs/speedtask.cpp:185 src/jobs/speedtask.cpp:197
+#: src/jobs/stabilizetask.cpp:107 src/jobs/stabilizetask.cpp:124
 #, kde-format
 msgid "No producer for this clip."
 msgstr "इस क्लिप के लिए कोई निर्माता नहीं है."
@@ -11331,24 +11332,28 @@ msgstr "स्रोत फ़िल्टर करने में विफ�
 msgid "Effect analysis failed for %1"
 msgstr ""
 
-#: src/jobs/masktask.cpp:28
+#: src/jobs/masktask.cpp:25
 #, fuzzy, kde-format
 #| msgid "Mask clip"
 msgid "Mask creation"
 msgstr "मास्क क्लिप"
 
-#: src/jobs/masktask.cpp:44
+#: src/jobs/masktask.cpp:41
 #, kde-format
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:74
+#: src/jobs/masktask.cpp:66
 #, fuzzy, kde-format
-#| msgid "Failed to analyse clip."
-msgid "Failed to analyse video."
-msgstr "क्लिप का विश्लेषण करने में विफल."
+#| msgid ""
+#| "Failed to generate clip:\n"
+#| "%1"
+msgid "Failed to render mask %1"
+msgstr ""
+"क्लिप बनाने में विफल:\n"
+"%1"
 
-#: src/jobs/melttask.cpp:57
+#: src/jobs/melttask.cpp:60
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to process playlist."
@@ -11369,7 +11374,7 @@ msgstr "छवि %1 लोड नहीं किया जा सका."
 msgid "Image too small to be proxied."
 msgstr "छवि प्रॉक्सी करने के लिए बहुत छोटी है."
 
-#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:180
+#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -11451,7 +11456,7 @@ msgstr "को PERCENTAGE"
 msgid "Pitch compensation"
 msgstr "पिच मुआवजा"
 
-#: src/jobs/speedtask.cpp:240
+#: src/jobs/speedtask.cpp:241
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "स्पीड क्लिप बनाने में विफल."
@@ -11461,7 +11466,7 @@ msgstr "स्पीड क्लिप बनाने में विफल."
 msgid "Stabilizing"
 msgstr "स्थिर"
 
-#: src/jobs/stabilizetask.cpp:175
+#: src/jobs/stabilizetask.cpp:176
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "स्थिरीकरण करने में असफल."
@@ -11764,12 +11769,12 @@ msgctxt "@title:window"
 msgid "Export Layout"
 msgstr "लेआउट निर्यात करें"
 
-#: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:135
+#: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
 msgid "Audio analysis finished"
 msgstr "ऑडियो विश्लेषण समाप्त"
 
-#: src/lib/audio/audioEnvelope.cpp:122
+#: src/lib/audio/audioEnvelope.cpp:123
 #, kde-format
 msgid "Processing data analysis"
 msgstr "डेटा विश्लेषण प्रसंस्करण"
@@ -13624,12 +13629,12 @@ msgstr ""
 "इससे सभी अस्थायी फ़ाइलें स्थानांतरित हो जाएंगी<br/> <b>%1</b> से <b>%2</b> ,<br/> फिर "
 "प्रोजेक्ट फ़ाइल पुनः लोड हो जाएगी"
 
-#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:619
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "कार्रवाई नहीं की जा सकती, अवैध दस्तावेज़ आईडी: %1"
 
-#: src/mainwindow.cpp:2224 src/project/projectmanager.cpp:621
+#: src/mainwindow.cpp:2224 src/project/projectmanager.cpp:625
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ऑपरेशन निष्पादित नहीं किया जा सकता, लक्ष्य निर्देशिका पहले से मौजूद है: %1"
@@ -14641,12 +14646,12 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 ऑडियो स्ट्रीम"
 msgstr[1] "%1 ऑडियो स्ट्रीम"
 
-#: src/monitor/monitor.cpp:2390
+#: src/monitor/monitor.cpp:2391
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit के GLSL प्रबंधक को आरंभ नहीं किया जा सकता, कृपया Movit को अक्षम करें"
 
-#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
+#: src/monitor/monitor.cpp:2433 src/monitor/monitor.cpp:2490
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14655,17 +14660,17 @@ msgstr ""
 "उस सुविधा के लिए अल्फाग्रेड फ़िल्टर आवश्यक है, कृपया frei0r स्थापित करें और Kdenlive को "
 "पुनः आरंभ करें"
 
-#: src/monitor/monitor.cpp:2452
+#: src/monitor/monitor.cpp:2453
 #, kde-format
 msgid "Clip has no effects"
 msgstr "क्लिप का कोई प्रभाव नहीं है"
 
-#: src/monitor/monitor.cpp:2454
+#: src/monitor/monitor.cpp:2455
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "प्रभाव की तुलना करने के लिए प्रोजेक्ट बिन में एक क्लिप का चयन करें"
 
-#: src/monitor/monitor.cpp:2496
+#: src/monitor/monitor.cpp:2497
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14674,7 +14679,7 @@ msgstr ""
 "उस सुविधा के लिए कैरोब्लेंड संक्रमण आवश्यक है, कृपया frei0r स्थापित करें और Kdenlive को "
 "पुनः आरंभ करें"
 
-#: src/monitor/monitor.cpp:2546
+#: src/monitor/monitor.cpp:2547
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभाव संपादित करने के लिए मॉनिटर में संपादन मोड सक्षम करें"
@@ -15019,17 +15024,17 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "परिवर्तन"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:370
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:370
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:381
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -15037,11 +15042,32 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:381
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, fuzzy, kde-format
 #| msgid "Preview Using Proxy Clips"
 msgid "Previewing video mask"
 msgstr "प्रॉक्सी क्लिप का उपयोग करके पूर्वावलोकन करें"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#, kde-format
+msgid ""
+"You are outside of the time zone defined\n"
+"for the mask and cannot add keyframes.\n"
+"\n"
+"\n"
+msgstr ""
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#, fuzzy, kde-format
+#| msgid "Go to Clip Start"
+msgid "Go to mask start"
+msgstr "क्लिप प्रारंभ पर जाएं"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#, fuzzy, kde-format
+#| msgid "Go to Clip End"
+msgid "Go to mask end"
+msgstr "क्लिप अंत पर जाएं"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -15564,12 +15590,12 @@ msgstr "गंतव्य फ़ोल्डर"
 msgid "Source and destination file can't be the same"
 msgstr "स्रोत और गंतव्य फ़ाइल एक ही नहीं हो सकती"
 
-#: src/project/cliptranscode.cpp:279 src/project/cliptranscode.cpp:304
+#: src/project/cliptranscode.cpp:281 src/project/cliptranscode.cpp:306
 #, kde-format
 msgid "Transcoding finished."
 msgstr "ट्रांसकोडिंग समाप्त हो गया."
 
-#: src/project/cliptranscode.cpp:309
+#: src/project/cliptranscode.cpp:311
 #, kde-format
 msgid "Transcoding failed"
 msgstr "ट्रांसकोडिंग विफल"
@@ -16574,12 +16600,12 @@ msgstr "सहेजें प्रतिलिपि…"
 msgid "Open Backup File…"
 msgstr "बैकअप फ़ाइल खोलें…"
 
-#: src/project/projectmanager.cpp:442
+#: src/project/projectmanager.cpp:447
 #, kde-format
 msgid "Save changes to document?"
 msgstr "दस्तावेज़ में परिवर्तन सहेजें?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1717
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1721
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -16587,17 +16613,17 @@ msgid ""
 msgstr ""
 "प्रोजेक्ट <b>&quot;%1&quot;</b> बदल दिया गया है। क्या आप अपने परिवर्तन सहेजना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:557
+#: src/project/projectmanager.cpp:561
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "प्रोजेक्ट फ़ाइल सहेजा जा रहा है<br> <b>%1</b> विफल"
 
-#: src/project/projectmanager.cpp:590
+#: src/project/projectmanager.cpp:594
 #, kde-format
 msgid "Saving successful"
 msgstr "सहेजना सफल रहा"
 
-#: src/project/projectmanager.cpp:603
+#: src/project/projectmanager.cpp:607
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -16608,38 +16634,38 @@ msgstr ""
 "स्थान का उपयोग करना चुना है। इससे सभी अस्थायी फ़ाइलें <b>%1</b> से <b>%2</b> पर चली "
 "जाएँगी, फिर प्रोजेक्ट फ़ाइल को फिर से लोड किया जाएगा"
 
-#: src/project/projectmanager.cpp:644
+#: src/project/projectmanager.cpp:648
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "सहेजें प्रतिलिपि"
 
-#: src/project/projectmanager.cpp:750
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "स्वतः सहेजी गई फ़ाइल मौजूद है। क्या आप अभी पुनर्प्राप्त करना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:750
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "File Recovery"
 msgstr "फ़ाइल पुनर्प्राप्ति"
 
-#: src/project/projectmanager.cpp:751 src/project/projectmanager.cpp:839
+#: src/project/projectmanager.cpp:755 src/project/projectmanager.cpp:843
 #, kde-format
 msgid "Recover"
 msgstr "वापस पाना"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Do not recover"
 msgstr "ठीक न होना"
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Opening file %1"
 msgstr "फ़ाइल %1 खोली जा रही है"
 
-#: src/project/projectmanager.cpp:838
+#: src/project/projectmanager.cpp:842
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -16650,44 +16676,44 @@ msgstr ""
 "%1\n"
 "क्या आप बैकअप फ़ाइल खोलना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1073
+#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1077
 #, kde-format
 msgid "Error opening file"
 msgstr "फ़ाइल खोलने में त्रुटि"
 
-#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1074
+#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1078
 #, kde-format
 msgid "Open Backup"
 msgstr "बैकअप खोलें"
 
-#: src/project/projectmanager.cpp:855
+#: src/project/projectmanager.cpp:859
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "बैकअप प्रोजेक्ट फ़ाइल नहीं खोली जा सकी."
 
-#: src/project/projectmanager.cpp:870
+#: src/project/projectmanager.cpp:874
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "आपका प्रोजेक्ट अपग्रेड हो गया है, अगली बार सेव करने पर बैकअप बनाया जाएगा"
 
-#: src/project/projectmanager.cpp:872
+#: src/project/projectmanager.cpp:876
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "आपका प्रोजेक्ट खोलते समय संशोधित किया गया था, अगली बार सहेजने पर एक बैकअप बनाया जाएगा"
 
-#: src/project/projectmanager.cpp:943
+#: src/project/projectmanager.cpp:947
 #, kde-format
 msgid "Loading timeline…"
 msgstr "टाइमलाइन लोड हो रही है…"
 
-#: src/project/projectmanager.cpp:961
+#: src/project/projectmanager.cpp:965
 #, kde-format
 msgid "Building sequences…"
 msgstr "अनुक्रम निर्माण…"
 
-#: src/project/projectmanager.cpp:1100
+#: src/project/projectmanager.cpp:1104
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -16696,7 +16722,7 @@ msgstr ""
 "प्रोजेक्ट फ़ाइल नहीं खोली जा सकी। त्रुटि:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1140
+#: src/project/projectmanager.cpp:1144
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -16705,12 +16731,12 @@ msgstr ""
 "इससे आपके द्वारा अपना प्रोजेक्ट अंतिम बार सहेजे जाने के बाद किए गए सभी परिवर्तन मिट "
 "जाएँगे। क्या आप वाकई जारी रखना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:1145
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "अंतिम सहेजे गए संस्करण पर वापस लौटें"
 
-#: src/project/projectmanager.cpp:1227
+#: src/project/projectmanager.cpp:1231
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -16719,47 +16745,47 @@ msgstr ""
 "प्रोजेक्ट दूषित हो गया है, बैकअप नहीं लिया जा सकता। कृपया अंतिम बैकअप प्राप्त करने के लिए "
 "अपनी प्रोजेक्ट फ़ाइल को बंद करके पुनः खोलें"
 
-#: src/project/projectmanager.cpp:1440
+#: src/project/projectmanager.cpp:1444
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाने में त्रुटि, कैश फ़ोल्डर तक पहुँच नहीं पा रहा"
 
-#: src/project/projectmanager.cpp:1476
+#: src/project/projectmanager.cpp:1480
 #, kde-format
 msgid "Moving project folder"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाना"
 
-#: src/project/projectmanager.cpp:1567 src/project/projectmanager.cpp:1622
-#: src/project/projectmanager.cpp:1626
+#: src/project/projectmanager.cpp:1571 src/project/projectmanager.cpp:1626
+#: src/project/projectmanager.cpp:1630
 #, kde-format
 msgid "Sequence 1"
 msgstr "अनुक्रम 1"
 
-#: src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1582
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "प्रोजेक्ट फ़ाइल दूषित है - ट्रैक लोड करने में विफल। बैकअप फ़ाइल ढूँढने का प्रयास करें?"
 
-#: src/project/projectmanager.cpp:1723 src/project/projectmanager.cpp:1728
-#: src/project/projectmanager.cpp:1738 src/project/projectmanager.cpp:1752
+#: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1732
+#: src/project/projectmanager.cpp:1742 src/project/projectmanager.cpp:1756
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "प्रोजेक्ट प्रोफ़ाइल परिवर्तन निरस्त किया गया"
 
-#: src/project/projectmanager.cpp:1875
+#: src/project/projectmanager.cpp:1879
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr "आउटपुट फ़ाइल %1 पहले से मौजूद है। क्या आप इसे अधिलेखित करना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:1897
+#: src/project/projectmanager.cpp:1901
 #, kde-format
 msgid "Project profile changed"
 msgstr "प्रोजेक्ट प्रोफ़ाइल परिवर्तित"
 
-#: src/project/projectmanager.cpp:1961
+#: src/project/projectmanager.cpp:1965
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -16768,17 +16794,17 @@ msgstr ""
 "इस क्लिप से टाइमलाइन नहीं बनाई जा सकती:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2044
+#: src/project/projectmanager.cpp:2048
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "अनुक्रम क्लिप आयात किया जा रहा है, यह वर्तमान में प्रायोगिक अवस्था में है"
 
-#: src/project/projectmanager.cpp:2234
+#: src/project/projectmanager.cpp:2238
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "अनुक्रम बनाने के लिए एक क्लिप चुनें"
 
-#: src/project/projectmanager.cpp:2272
+#: src/project/projectmanager.cpp:2276
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "अनुक्रम क्लिप बनाएँ"
@@ -20111,6 +20137,7 @@ msgstr "वर्तमान बिंदु मिटाएँ."
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, buttonImport)
+#. i18n: ectx: property (text), widget (QToolButton, buttonAbort)
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
 #. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
@@ -20251,32 +20278,32 @@ msgstr "वर्तमान बिंदु मिटाएँ."
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
 #: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
-#: src/ui/maskmanage_ui.ui:69 src/ui/maskmanage_ui.ui:82
-#: src/ui/maskmanage_ui.ui:95 src/ui/projectsettings_ui.ui:421
-#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
-#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
-#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
-#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
-#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
-#: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:163
-#: src/ui/textbasededit_ui.ui:179 src/ui/textbasededit_ui.ui:189
-#: src/ui/textbasededit_ui.ui:199 src/ui/textbasededit_ui.ui:216
-#: src/ui/textbasededit_ui.ui:226 src/ui/textbasededit_ui.ui:255
-#: src/ui/textbasededit_ui.ui:276 src/ui/timeremap_ui.ui:84
-#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
-#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
-#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:672
-#: src/ui/titlewidget_ui.ui:685 src/ui/titlewidget_ui.ui:698
-#: src/ui/titlewidget_ui.ui:711 src/ui/titlewidget_ui.ui:724
-#: src/ui/titlewidget_ui.ui:737 src/ui/titlewidget_ui.ui:955
-#: src/ui/titlewidget_ui.ui:965 src/ui/titlewidget_ui.ui:1169
-#: src/ui/titlewidget_ui.ui:1223 src/ui/titlewidget_ui.ui:1272
-#: src/ui/titlewidget_ui.ui:1294 src/ui/titlewidget_ui.ui:1326
-#: src/ui/titlewidget_ui.ui:1415 src/ui/titlewidget_ui.ui:1733
-#: src/ui/titlewidget_ui.ui:1749 src/ui/titlewidget_ui.ui:1762
-#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
-#: src/ui/urllistparamwidget_ui.ui:117
+#: src/ui/maskmanage_ui.ui:56 src/ui/maskmanage_ui.ui:69
+#: src/ui/maskmanage_ui.ui:82 src/ui/maskmanage_ui.ui:109
+#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
+#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
+#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
+#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
+#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
+#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
+#: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
+#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
+#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
+#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
+#: src/ui/titlewidget_ui.ui:672 src/ui/titlewidget_ui.ui:685
+#: src/ui/titlewidget_ui.ui:698 src/ui/titlewidget_ui.ui:711
+#: src/ui/titlewidget_ui.ui:724 src/ui/titlewidget_ui.ui:737
+#: src/ui/titlewidget_ui.ui:955 src/ui/titlewidget_ui.ui:965
+#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1223
+#: src/ui/titlewidget_ui.ui:1272 src/ui/titlewidget_ui.ui:1294
+#: src/ui/titlewidget_ui.ui:1326 src/ui/titlewidget_ui.ui:1415
+#: src/ui/titlewidget_ui.ui:1733 src/ui/titlewidget_ui.ui:1749
+#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
+#: src/ui/unicodewidget_ui.ui:226 src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -20762,7 +20789,7 @@ msgstr "कैप्चर फ़ाइल का नाम:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:312 src/ui/configspeech_ui.ui:703
+#: src/ui/configspeech_ui.ui:312 src/ui/configspeech_ui.ui:645
 #, kde-format
 msgid "Device:"
 msgstr "उपकरण:"
@@ -21506,7 +21533,7 @@ msgstr "भाषण से पाठ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
-#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:680
+#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:750
 #, kde-format
 msgid "Use system packages only"
 msgstr ""
@@ -21561,7 +21588,7 @@ msgstr "पाठ का अंग्रेजी में अनुवाद �
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:397 src/ui/configspeech_ui.ui:846
+#: src/ui/configspeech_ui.ui:397 src/ui/configspeech_ui.ui:853
 #, fuzzy, kde-format
 #| msgid "Uninstall model"
 msgid "Uninstall plugin"
@@ -21575,7 +21602,7 @@ msgstr "फुसफुसाना"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
-#: src/ui/configspeech_ui.ui:494 src/ui/configspeech_ui.ui:798
+#: src/ui/configspeech_ui.ui:494 src/ui/configspeech_ui.ui:805
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "स्पीच इंजन की स्थापना की जाँच करें"
@@ -21612,22 +21639,28 @@ msgstr "Wh&isper"
 msgid "Object Detection"
 msgstr "दृश्य पहचान"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:648 src/ui/speechdialog_ui.ui:94
-#, kde-format
-msgid "Model"
-msgstr "नमूना"
-
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:689
+#: src/ui/configspeech_ui.ui:638
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/configspeech_ui.ui:718 src/ui/speechdialog_ui.ui:94
+#, kde-format
+msgid "Model"
+msgstr "नमूना"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_offload_video)
+#: src/ui/configspeech_ui.ui:759
+#, kde-format
+msgid "Offload video to CPU to save GPU Memory"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:876
+#: src/ui/configspeech_ui.ui:883
 #, fuzzy, kde-format
 #| msgid "Delete all markers"
 msgid "Delete all models"
@@ -22945,32 +22978,39 @@ msgid "Preview Mask"
 msgstr "पूर्व दर्शन"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
-#: src/ui/maskmanage_ui.ui:66
+#: src/ui/maskmanage_ui.ui:53
 #, fuzzy, kde-format
 #| msgid "Create new preset"
 msgid "Create New Mask"
 msgstr "नया प्रीसेट बनाएं"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/ui/maskmanage_ui.ui:79
+#: src/ui/maskmanage_ui.ui:66
 #, fuzzy, kde-format
 #| msgid "Delete Marker"
 msgid "Delete Mask"
 msgstr "मार्कर हटाएँ"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
-#: src/ui/maskmanage_ui.ui:92
+#: src/ui/maskmanage_ui.ui:79
 #, fuzzy, kde-format
 #| msgid "Imported Project"
 msgid "Import Mask in Project"
 msgstr "आयातित परियोजना"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
-#: src/ui/maskmanage_ui.ui:123
+#: src/ui/maskmanage_ui.ui:154
 #, fuzzy, kde-format
 #| msgid "Apply"
 msgid "Apply Mask"
 msgstr "आवेदन करना"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
+#: src/ui/maskmanage_ui.ui:164
+#, fuzzy, kde-format
+#| msgid "Edit Marker"
+msgid "Edit Mask"
+msgstr "मार्कर संपादित करें"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24480,6 +24520,23 @@ msgstr "%1मि"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1घंटा"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Enter Preset Name"
+#~ msgctxt "@title:window"
+#~ msgid "Enter Mask Name"
+#~ msgstr "प्रीसेट नाम दर्ज करें"
+
+#, fuzzy
+#~| msgid "Enter the name of this preset:"
+#~ msgid "Enter the name of this mask:"
+#~ msgstr "इस प्रीसेट का नाम दर्ज करें:"
+
+#, fuzzy
+#~| msgid "Failed to analyse clip."
+#~ msgid "Failed to analyse video."
+#~ msgstr "क्लिप का विश्लेषण करने में विफल."
 
 #~ msgid "Rotate (keyframable)"
 #~ msgstr "घुमाएँ (कीफ़्रेम करने योग्य)"
