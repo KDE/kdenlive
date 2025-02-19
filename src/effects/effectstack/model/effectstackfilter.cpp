@@ -15,7 +15,7 @@ EffectStackFilter::EffectStackFilter(QObject *parent)
 bool EffectStackFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     auto *model = static_cast<AbstractTreeModel *>(sourceModel());
-    QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
+    QModelIndex row = model->index(sourceRow, 0, sourceParent);
     std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
     std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
     qDebug() << "=== FILTERING EFFECT: " << effectModel->getAssetId();

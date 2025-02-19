@@ -430,4 +430,5 @@ Q_SIGNALS:
     void addMonitorControlRect(int position, const QSize frameSize, const QRect rect, bool extend);
     void generateMask();
     void disablePreviewMask();
+    void sceneChanged(MonitorSceneType sceneType);
 };
