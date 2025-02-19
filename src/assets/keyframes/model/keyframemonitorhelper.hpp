@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include "definitions.h"
 #include <QPersistentModelIndex>
 
 #include <QObject>
@@ -31,7 +32,8 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index, QObject *parent = nullptr);
+    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index, MonitorSceneType sceneType,
+                                   QObject *parent = nullptr);
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
@@ -39,6 +41,9 @@ public:
     /** @brief Send data update to the monitor
      */
     virtual void refreshParams(int pos);
+    /** @brief Wait until monitor scene is active to send data
+     */
+    void refreshParamsWhenReady(int pos);
 
     /** @brief Returns true if the monitor is playing
      */
@@ -53,6 +58,7 @@ protected:
      */
     QList<QPersistentModelIndex> m_indexes;
     bool m_active;
+    MonitorSceneType m_requestedSceneType{MonitorSceneNone};
 
 private Q_SLOTS:
     virtual void slotUpdateFromMonitorData(const QVariantList &v);

@@ -2534,8 +2534,29 @@ QSize Monitor::profileSize() const
 
 void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
 {
-    if (type == m_qmlManager->sceneType() && sceneData.isNull()) {
-        return;
+    if (type == m_qmlManager->sceneType()) {
+        if (sceneData.isNull()) {
+            return;
+        }
+    } else {
+        QQuickItem *root = m_glMonitor->rootObject();
+        if (root) {
+            connect(root, &QObject::destroyed, this, [this, type, sceneData]() {
+                m_qmlManager->blockSceneChange(false);
+                if (m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
+                                           double(m_glMonitor->zoom()), m_timePos->maximum())) {
+                    // Perform scene change
+                    loadQmlScene(type, sceneData);
+                    Q_EMIT sceneChanged(type);
+                }
+            });
+            m_qmlManager->blockSceneChange(true);
+            root->deleteLater();
+            return;
+        } else if (!m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
+                                           double(m_glMonitor->zoom()), m_timePos->maximum())) {
+            return;
+        }
     }
     if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
         // Disable preview / editing in mask manager
@@ -2547,11 +2568,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         pCore->displayMessage(i18n("Enable edit mode in monitor to edit effect"), InformationMessage, 500);
         type = MonitorSceneDefault;
     }
-    if (!m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()),
-                                m_timePos->maximum())) {
-        // Scene change was not accepted
-        return;
-    }
+
     if (m_glMonitor->zoom() != 1.) {
         m_glMonitor->setZoom(m_glMonitor->zoom(), true);
     }

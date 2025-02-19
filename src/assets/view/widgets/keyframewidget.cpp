@@ -603,7 +603,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
-        m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
+        m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, index, MonitorSceneGeometry, this);
         QRect rect;
         double opacity = 0;
         QStringList vals = value.split(QLatin1Char(' '));
@@ -734,7 +734,7 @@ void KeyframeWidget::slotInitMonitor(bool active, bool)
         connect(monitor, &Monitor::updateScene, i, &KeyframeCurveEditor::slotModelChanged, Qt::UniqueConnection);
     }
     if (m_monitorHelper) {
-        m_monitorHelper->refreshParams(getPosition());
+        m_monitorHelper->refreshParamsWhenReady(getPosition());
     }
 }
 

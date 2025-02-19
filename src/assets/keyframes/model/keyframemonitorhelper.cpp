@@ -12,11 +12,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <core.h>
 #include <utility>
-KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index, QObject *parent)
+KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index,
+                                             MonitorSceneType sceneType, QObject *parent)
     : QObject(parent)
     , m_monitor(monitor)
     , m_model(std::move(model))
     , m_active(false)
+    , m_requestedSceneType(sceneType)
 {
     m_indexes << index;
 }
@@ -49,6 +51,23 @@ void KeyframeMonitorHelper::addIndex(const QPersistentModelIndex &index)
 QList<QPersistentModelIndex> KeyframeMonitorHelper::getIndexes()
 {
     return m_indexes;
+}
+
+void KeyframeMonitorHelper::refreshParamsWhenReady(int pos)
+{
+    if (!m_monitor) {
+        return;
+    }
+    if (m_monitor->effectSceneDisplayed(m_requestedSceneType)) {
+        refreshParams(pos);
+    } else {
+        // Scene is not ready yet
+        connect(m_monitor, &Monitor::sceneChanged, this, [this, pos](MonitorSceneType sceneType) {
+            if (sceneType == m_requestedSceneType) {
+                refreshParams(pos);
+            }
+        });
+    }
 }
 
 void KeyframeMonitorHelper::refreshParams(int pos)
