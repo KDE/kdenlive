@@ -71,7 +71,7 @@ public Q_SLOTS:
 private:
     void importTimeline(const std::shared_ptr<OtioImportData> &);
     void importTrack(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &, int trackId);
-    void importClip(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &, int trackId);
+    int importClip(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &, int trackId);
     void importMarker(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Marker> &, const GenTime &, const std::shared_ptr<MarkerListModel> &);
 
     static QString resolveFile(const QString &, const QFileInfo &timelineFileInfo);
