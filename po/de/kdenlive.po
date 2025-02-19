@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-18 00:40+0000\n"
+"POT-Creation-Date: 2025-02-19 00:41+0000\n"
 "PO-Revision-Date: 2024-10-21 13:23+0200\n"
 "Last-Translator: R. Arp <rarp@7bps.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -95,7 +95,7 @@ msgstr "Der Diagrammtyp zur Anzeige des Spektrums."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
 #: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:444
+#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Background Color"
 msgstr "Hintergrundfarbe"
@@ -7896,12 +7896,12 @@ msgstr "Rendern abgebrochen"
 msgid "Nearest (fast)"
 msgstr "Ungefähr (schnell)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:625
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilinear (gut)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:626
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:628
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bikubisch (besser)"
@@ -7930,17 +7930,17 @@ msgstr "Senkrecht"
 msgid "Square (1:1)"
 msgstr "Quadrat-Verwischen"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:606
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:608
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Ein Feld (schnell)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:607
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Lineares Überblenden (schnell)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:608
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:610
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - nur zeitlich (gut)"
@@ -12006,7 +12006,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:320
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:321
 #, kde-format
 msgid "Merged streams"
 msgstr "Zusammengeführte Streams"
@@ -12602,7 +12602,7 @@ msgstr "Render-Knopf"
 msgid "Rendering preview"
 msgstr "Render-Vorschau"
 
-#: src/mainwindow.cpp:598 src/monitor/monitor.cpp:428
+#: src/mainwindow.cpp:598 src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Zu Hilfslinie gehen ..."
@@ -13107,22 +13107,22 @@ msgstr "Monitorüberlagerung Clip-Vorgänge"
 msgid "Full Resolution (1:1)"
 msgstr "Volle Auflösung (1:1)"
 
-#: src/mainwindow.cpp:1503 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1503 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1507 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1507 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1511 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1511 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1515 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1515 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -14412,7 +14412,7 @@ msgid "Enable audio"
 msgstr "Audio aktivieren"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:734
-#: src/monitor/monitor.cpp:303
+#: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "Audio-Streams"
@@ -14688,22 +14688,22 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Analysedaten öffnen"
 
-#: src/monitor/monitor.cpp:87
+#: src/monitor/monitor.cpp:88
 #, kde-format
 msgid "Audio volume"
 msgstr "Lautstärke"
 
-#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
+#: src/monitor/monitor.cpp:93 src/scopes/colorscopes/vectorscope.cpp:256
 #, kde-format
 msgid "%1%"
 msgstr "%1 %"
 
-#: src/monitor/monitor.cpp:231
+#: src/monitor/monitor.cpp:232
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr "Vorschauauflösung - geringere Auflösung bedeutet schnellere Vorschau"
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:233
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14712,49 +14712,49 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:235
+#: src/monitor/monitor.cpp:236
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:667
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:669
 #, kde-format
 msgid "Set Zone In"
 msgstr "Bereichs-Anfangspunkt setzen"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:671
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Bereichs-Endpunkt setzen"
 
-#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:551
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:553
 #, kde-format
 msgid "Rewind"
 msgstr "Zurückspulen"
 
-#: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
-#: src/monitor/monitormanager.cpp:526
+#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
+#: src/monitor/monitormanager.cpp:528
 #, kde-format
 msgid "Play"
 msgstr "Wiedergabe"
 
-#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:526
-#: src/monitor/monitormanager.cpp:532
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:528
+#: src/monitor/monitormanager.cpp:534
 #, kde-format
 msgid "Pause"
 msgstr "Pause"
 
-#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:564
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Forward"
 msgstr "Vorspulen"
 
-#: src/monitor/monitor.cpp:418
+#: src/monitor/monitor.cpp:419
 #, kde-format
 msgid "More Options…"
 msgstr "Weitere Einstellungen ..."
 
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14762,51 +14762,51 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:428
+#: src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Go to Marker…"
 msgstr "Zu Markierung gehen ..."
 
-#: src/monitor/monitor.cpp:432
+#: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Monitorgröße erzwingen"
 
-#: src/monitor/monitor.cpp:433
+#: src/monitor/monitor.cpp:434
 #, kde-format
 msgid "Force 100%"
 msgstr "100 % erzwingen"
 
-#: src/monitor/monitor.cpp:435
+#: src/monitor/monitor.cpp:436
 #, kde-format
 msgid "Force 50%"
 msgstr "50 % erzwingen"
 
-#: src/monitor/monitor.cpp:437
+#: src/monitor/monitor.cpp:438
 #, kde-format
 msgid "Free Resize"
 msgstr "Beliebige Bildgröße"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:445 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "Schwarz"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:447 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "Weiß"
 
-#: src/monitor/monitor.cpp:449
+#: src/monitor/monitor.cpp:450
 #, kde-format
 msgid "Pink"
 msgstr "Rosa"
 
-#: src/monitor/monitor.cpp:452
+#: src/monitor/monitor.cpp:453
 #, fuzzy, kde-format
 #| msgid "Checkered"
 msgid "Checkerboard"
@@ -14948,125 +14948,125 @@ msgid ""
 "view timeline?"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:536
+#: src/monitor/monitormanager.cpp:538
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "Auf Vollbild-Monitor wechseln"
 
-#: src/monitor/monitormanager.cpp:541
+#: src/monitor/monitormanager.cpp:543
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "In Monitor hineinzoomen"
 
-#: src/monitor/monitormanager.cpp:546
+#: src/monitor/monitormanager.cpp:548
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "Aus Monitor herauszoomen"
 
-#: src/monitor/monitormanager.cpp:555
+#: src/monitor/monitormanager.cpp:557
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "1 Bild zurück"
 
-#: src/monitor/monitormanager.cpp:559
+#: src/monitor/monitormanager.cpp:561
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "1 Sekunde zurück"
 
-#: src/monitor/monitormanager.cpp:568
+#: src/monitor/monitormanager.cpp:570
 #, kde-format
 msgid "Go to Project Start"
 msgstr "Zum Anfang des Projekts gehen"
 
-#: src/monitor/monitormanager.cpp:572
+#: src/monitor/monitormanager.cpp:574
 #, kde-format
 msgid "Go to Project End"
 msgstr "Zum Ende des Projekts gehen"
 
-#: src/monitor/monitormanager.cpp:576
+#: src/monitor/monitormanager.cpp:578
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "1 Bild vorwärts"
 
-#: src/monitor/monitormanager.cpp:580
+#: src/monitor/monitormanager.cpp:582
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "1 Sekunde vorwärts"
 
-#: src/monitor/monitormanager.cpp:585
+#: src/monitor/monitormanager.cpp:587
 #, kde-format
 msgid "Multitrack View"
 msgstr "Mehrspur-Ansicht"
 
-#: src/monitor/monitormanager.cpp:594
+#: src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:598
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "Bearbeitungsmodus anzeigen/ausblenden"
 
-#: src/monitor/monitormanager.cpp:599
+#: src/monitor/monitormanager.cpp:601
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:605 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:607 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "Deinterlacer"
 
-#: src/monitor/monitormanager.cpp:609
+#: src/monitor/monitormanager.cpp:611
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF - zeitlich + räumlich (am besten)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:623 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "Interpolation"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "Ungefähr (schnell)"
 
-#: src/monitor/monitormanager.cpp:627
+#: src/monitor/monitormanager.cpp:629
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Hyper/Lanczos (am besten)"
 
-#: src/monitor/monitormanager.cpp:641
+#: src/monitor/monitormanager.cpp:643
 #, kde-format
 msgid "Progressive playback"
 msgstr "Progressive Wiedergabe"
 
-#: src/monitor/monitormanager.cpp:647
+#: src/monitor/monitormanager.cpp:649
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "Audio-Scrubbing"
 
-#: src/monitor/monitormanager.cpp:653
+#: src/monitor/monitormanager.cpp:655
 #, kde-format
 msgid "Mute Monitor"
 msgstr "Monitor stummschalten"
 
-#: src/monitor/monitormanager.cpp:653
+#: src/monitor/monitormanager.cpp:655
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "Monitor nicht stummschalten"
 
-#: src/monitor/monitormanager.cpp:659
+#: src/monitor/monitormanager.cpp:661
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "Zum Anfang des Bereichs gehen"
 
-#: src/monitor/monitormanager.cpp:663
+#: src/monitor/monitormanager.cpp:665
 #, kde-format
 msgid "Go to Zone End"
 msgstr "Zum Ende des Bereichs gehen"

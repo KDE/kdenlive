@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-18 00:40+0000\n"
+"POT-Creation-Date: 2025-02-19 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -90,7 +90,7 @@ msgstr "音量显示图表的类型。"
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
 #: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:444
+#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Background Color"
 msgstr "背景颜色"
@@ -7746,12 +7746,12 @@ msgstr "导出已中止"
 msgid "Nearest (fast)"
 msgstr "最近邻 (最快)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:625
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:627
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "双线性 (一般画质)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:626
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:628
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "双立方 (较好画质)"
@@ -7776,17 +7776,17 @@ msgstr "垂直 (9:16)"
 msgid "Square (1:1)"
 msgstr "正方形 (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:606
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:608
 #, kde-format
 msgid "One Field (fast)"
 msgstr "单场 (快速)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:607
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "线性混合 (快速)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:608
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:610
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - 仅时域滤波 (较好画质)"
@@ -10941,10 +10941,9 @@ msgid "Please configure the SAM2 plugin"
 msgstr "请配置 SAM2 插件"
 
 #: src/effects/effectstack/view/maskmanager.cpp:110
-#, fuzzy, kde-format
-#| msgid "Cut job failed."
+#, kde-format
 msgid "Job failed"
-msgstr "剪切任务失败。"
+msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:222
 #, kde-format
@@ -10972,13 +10971,11 @@ msgid "Generating mask %1"
 msgstr "正在生成蒙版 %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:496
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
+#, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
 "undone."
-msgstr "这将对 <b>%1</b> 文件应用蒙版：<br/>%2<br/>此操作无法撤销。"
+msgstr ""
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11644,7 +11641,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:320
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:321
 #, kde-format
 msgid "Merged streams"
 msgstr "已合并流"
@@ -12221,7 +12218,7 @@ msgstr "导出按钮"
 msgid "Rendering preview"
 msgstr "导出预览"
 
-#: src/mainwindow.cpp:598 src/monitor/monitor.cpp:428
+#: src/mainwindow.cpp:598 src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Go to Guide…"
 msgstr "跳转到辅助线…"
@@ -12699,22 +12696,22 @@ msgstr "监视器叠加剪辑任务"
 msgid "Full Resolution (1:1)"
 msgstr "完整分辨率 (1:1)"
 
-#: src/mainwindow.cpp:1503 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1503 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1507 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1507 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1511 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1511 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1515 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1515 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -13972,7 +13969,7 @@ msgid "Enable audio"
 msgstr "启用音频"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:734
-#: src/monitor/monitor.cpp:303
+#: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "音频流"
@@ -14244,22 +14241,22 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "打开分析数据"
 
-#: src/monitor/monitor.cpp:87
+#: src/monitor/monitor.cpp:88
 #, kde-format
 msgid "Audio volume"
 msgstr "音频音量"
 
-#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
+#: src/monitor/monitor.cpp:93 src/scopes/colorscopes/vectorscope.cpp:256
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
 
-#: src/monitor/monitor.cpp:231
+#: src/monitor/monitor.cpp:232
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr "预览分辨率 - 分辨率越低，预览速度越快"
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:233
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14270,49 +14267,49 @@ msgstr ""
 "设置项目/剪辑监视器的预览分辨率。可用分辨率有 1:1、720p、540p、360p、270p (分"
 "辨率越低，预览处理速度越快)。"
 
-#: src/monitor/monitor.cpp:235
+#: src/monitor/monitor.cpp:236
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:667
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:669
 #, kde-format
 msgid "Set Zone In"
 msgstr "设置区段入点"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:671
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:673
 #, kde-format
 msgid "Set Zone Out"
 msgstr "设置区段出点"
 
-#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:551
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:553
 #, kde-format
 msgid "Rewind"
 msgstr "快退"
 
-#: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
-#: src/monitor/monitormanager.cpp:526
+#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
+#: src/monitor/monitormanager.cpp:528
 #, kde-format
 msgid "Play"
 msgstr "播放"
 
-#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:526
-#: src/monitor/monitormanager.cpp:532
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:528
+#: src/monitor/monitormanager.cpp:534
 #, kde-format
 msgid "Pause"
 msgstr "暂停"
 
-#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:564
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Forward"
 msgstr "快进"
 
-#: src/monitor/monitor.cpp:418
+#: src/monitor/monitor.cpp:419
 #, kde-format
 msgid "More Options…"
 msgstr "更多选项…"
 
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14320,51 +14317,51 @@ msgid ""
 "size)."
 msgstr "打开项目/剪辑监视器选项列表 (例如：音频音量、监视器大小)。"
 
-#: src/monitor/monitor.cpp:428
+#: src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Go to Marker…"
 msgstr "跳转到标记…"
 
-#: src/monitor/monitor.cpp:432
+#: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "强制监视器大小"
 
-#: src/monitor/monitor.cpp:433
+#: src/monitor/monitor.cpp:434
 #, kde-format
 msgid "Force 100%"
 msgstr "强制 100%"
 
-#: src/monitor/monitor.cpp:435
+#: src/monitor/monitor.cpp:436
 #, kde-format
 msgid "Force 50%"
 msgstr "强制 50%"
 
-#: src/monitor/monitor.cpp:437
+#: src/monitor/monitor.cpp:438
 #, kde-format
 msgid "Free Resize"
 msgstr "自由缩放"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:445 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "黑"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:447 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "白"
 
-#: src/monitor/monitor.cpp:449
+#: src/monitor/monitor.cpp:450
 #, kde-format
 msgid "Pink"
 msgstr "粉红"
 
-#: src/monitor/monitor.cpp:452
+#: src/monitor/monitor.cpp:453
 #, kde-format
 msgid "Checkerboard"
 msgstr "棋盘格"
@@ -14499,125 +14496,125 @@ msgid ""
 "view timeline?"
 msgstr "您想要<a href=\"#projectmonitor\">显示项目监视器</a>到视图时间轴吗？"
 
-#: src/monitor/monitormanager.cpp:536
+#: src/monitor/monitormanager.cpp:538
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "切换监视器全屏模式"
 
-#: src/monitor/monitormanager.cpp:541
+#: src/monitor/monitormanager.cpp:543
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "放大监视器"
 
-#: src/monitor/monitormanager.cpp:546
+#: src/monitor/monitormanager.cpp:548
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "缩小监视器"
 
-#: src/monitor/monitormanager.cpp:555
+#: src/monitor/monitormanager.cpp:557
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "后退 1 帧"
 
-#: src/monitor/monitormanager.cpp:559
+#: src/monitor/monitormanager.cpp:561
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "后退 1 秒"
 
-#: src/monitor/monitormanager.cpp:568
+#: src/monitor/monitormanager.cpp:570
 #, kde-format
 msgid "Go to Project Start"
 msgstr "跳转到项目开头"
 
-#: src/monitor/monitormanager.cpp:572
+#: src/monitor/monitormanager.cpp:574
 #, kde-format
 msgid "Go to Project End"
 msgstr "跳转到项目结尾"
 
-#: src/monitor/monitormanager.cpp:576
+#: src/monitor/monitormanager.cpp:578
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "前进 1 帧"
 
-#: src/monitor/monitormanager.cpp:580
+#: src/monitor/monitormanager.cpp:582
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "前进 1 秒"
 
-#: src/monitor/monitormanager.cpp:585
+#: src/monitor/monitormanager.cpp:587
 #, kde-format
 msgid "Multitrack View"
 msgstr "多轨道视图"
 
-#: src/monitor/monitormanager.cpp:594
+#: src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "执行多轨操作"
 
-#: src/monitor/monitormanager.cpp:598
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "显示/隐藏编辑模式"
 
-#: src/monitor/monitormanager.cpp:599
+#: src/monitor/monitormanager.cpp:601
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "进入/退出编辑模式 (和显示/隐藏对象操作手柄)。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:605 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:607 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "去隔行扫描"
 
-#: src/monitor/monitormanager.cpp:609
+#: src/monitor/monitormanager.cpp:611
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF - 时域 + 空间滤波 (最佳画质)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:623 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "插值方式"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "最近邻 (快速)"
 
-#: src/monitor/monitormanager.cpp:627
+#: src/monitor/monitormanager.cpp:629
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Hyper/Lanczos (最佳画质)"
 
-#: src/monitor/monitormanager.cpp:641
+#: src/monitor/monitormanager.cpp:643
 #, kde-format
 msgid "Progressive playback"
 msgstr "渐进播放"
 
-#: src/monitor/monitormanager.cpp:647
+#: src/monitor/monitormanager.cpp:649
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "音频拖动"
 
-#: src/monitor/monitormanager.cpp:653
+#: src/monitor/monitormanager.cpp:655
 #, kde-format
 msgid "Mute Monitor"
 msgstr "监视器静音"
 
-#: src/monitor/monitormanager.cpp:653
+#: src/monitor/monitormanager.cpp:655
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "监视器解除静音"
 
-#: src/monitor/monitormanager.cpp:659
+#: src/monitor/monitormanager.cpp:661
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "跳转到区段开头"
 
-#: src/monitor/monitormanager.cpp:663
+#: src/monitor/monitormanager.cpp:665
 #, kde-format
 msgid "Go to Zone End"
 msgstr "跳转到区段结尾"
@@ -14855,16 +14852,14 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:415
-#, fuzzy, kde-format
-#| msgid "Go to Clip Start"
+#, kde-format
 msgid "Go to mask start"
-msgstr "跳转到剪辑开头"
+msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:428
-#, fuzzy, kde-format
-#| msgid "Go to Clip End"
+#, kde-format
 msgid "Go to mask end"
-msgstr "跳转到剪辑结尾"
+msgstr ""
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -22719,10 +22714,9 @@ msgstr "应用蒙版"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
 #: src/ui/maskmanage_ui.ui:164
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Mask"
-msgstr "编辑标记"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24227,13 +24221,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgctxt "@title:window"
-#~ msgid "Enter Mask Name"
-#~ msgstr "输入蒙版名称"
-
-#~ msgid "Enter the name of this mask:"
-#~ msgstr "输入此蒙版的名称："
-
-#~ msgid "Failed to analyse video."
-#~ msgstr "分析视频失败。"
