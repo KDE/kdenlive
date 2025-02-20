@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-19 00:41+0000\n"
-"PO-Revision-Date: 2025-02-17 13:32+0100\n"
+"PO-Revision-Date: 2025-02-19 18:01+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -4401,13 +4401,13 @@ msgstr "Bin-%1 effecten"
 #: src/assets/assetpanel.cpp:638
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
-msgstr ""
+msgstr "U hebt een maskertaak actief. De taak afbreken?"
 
 #: src/assets/assetpanel.cpp:639
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
-msgstr ""
+msgstr "Maskertaak afbreken"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:341
 #, kde-format
@@ -11264,10 +11264,9 @@ msgid "Please configure the SAM2 plugin"
 msgstr "De SAM2-plug-in configureren"
 
 #: src/effects/effectstack/view/maskmanager.cpp:110
-#, fuzzy, kde-format
-#| msgid "failed"
+#, kde-format
 msgid "Job failed"
-msgstr "mislukt"
+msgstr "Taak is mislukt"
 
 #: src/effects/effectstack/view/maskmanager.cpp:222
 #, kde-format
@@ -11287,7 +11286,7 @@ msgstr "Ontbrekende bronframes"
 #: src/effects/effectstack/view/maskmanager.cpp:330
 #, kde-format
 msgid "mask %1"
-msgstr ""
+msgstr "masker %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:336
 #, kde-format
@@ -11295,15 +11294,13 @@ msgid "Generating mask %1"
 msgstr "Masker %1 wordt gegenereerd"
 
 #: src/effects/effectstack/view/maskmanager.cpp:496
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
+#, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
 "undone."
 msgstr ""
-"Dit zal <b>%1</b> maskeren bestand:<br/>%2<br/>Deze bewerking kan niet "
-"ongedaan worden gemaakt."
+"Dit zal masker <b>%1</b> verwijderen bestand:<br/>%2<br/>Deze bewerking kan "
+"niet ongedaan worden gemaakt."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -15254,18 +15251,20 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"U bent buiten de gedefinieerde tijdzone\n"
+"voor het masker en kan geen keyframes toevoegen.\n"
+"\n"
+"\n"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:415
-#, fuzzy, kde-format
-#| msgid "Go to Clip Start"
+#, kde-format
 msgid "Go to mask start"
-msgstr "Ga naar het begin van de clip"
+msgstr "Ga naar het begin van het masker"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:428
-#, fuzzy, kde-format
-#| msgid "Go to Clip End"
+#, kde-format
 msgid "Go to mask end"
-msgstr "Ga naar het einde van de clip"
+msgstr "Ga naar het einde van het masker"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -21921,7 +21920,7 @@ msgstr "Model"
 #: src/ui/configspeech_ui.ui:759
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
-msgstr ""
+msgstr "Video ontladen naar CPU om GPU-geheugen te sparen"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:883
@@ -23269,10 +23268,9 @@ msgstr "Masker toepassen"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
 #: src/ui/maskmanage_ui.ui:164
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Mask"
-msgstr "Markering bewerken"
+msgstr "Marker bewerken"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18

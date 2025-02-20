@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-19 00:41+0000\n"
-"PO-Revision-Date: 2025-02-16 06:12+0100\n"
+"PO-Revision-Date: 2025-02-19 07:27+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -4404,13 +4404,13 @@ msgstr "Tirar os efectos de %1"
 #: src/assets/assetpanel.cpp:638
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
-msgstr ""
+msgstr "Ten un traballo de máscara en execución. Quere interromper a tarefa?"
 
 #: src/assets/assetpanel.cpp:639
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
-msgstr ""
+msgstr "Interromper a tarefa de máscara"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:341
 #, kde-format
@@ -11274,10 +11274,9 @@ msgid "Please configure the SAM2 plugin"
 msgstr "Configure o complemento SAM2."
 
 #: src/effects/effectstack/view/maskmanager.cpp:110
-#, fuzzy, kde-format
-#| msgid "Cut job failed."
+#, kde-format
 msgid "Job failed"
-msgstr "Non foi posíbel cortar a tarefa."
+msgstr "O traballo fallou"
 
 #: src/effects/effectstack/view/maskmanager.cpp:222
 #, kde-format
@@ -11297,7 +11296,7 @@ msgstr "Faltan fotogramas orixinais."
 #: src/effects/effectstack/view/maskmanager.cpp:330
 #, kde-format
 msgid "mask %1"
-msgstr ""
+msgstr "máscara %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:336
 #, kde-format
@@ -11306,9 +11305,7 @@ msgstr "Xerando a máscara %1"
 
 # skip-rule: trasno-delete_reverse
 #: src/effects/effectstack/view/maskmanager.cpp:496
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
+#, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
 "undone."
@@ -15277,18 +15274,21 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"Está fóra do fuso horario definido\n"
+"para a máscara e non pode engadir\n"
+"fotogramas clave.\n"
+"\n"
+"\n"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:415
-#, fuzzy, kde-format
-#| msgid "Go to Clip Start"
+#, kde-format
 msgid "Go to mask start"
-msgstr "Ir ao inicio do fragmento"
+msgstr "Ir ao inicio da máscara"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:428
-#, fuzzy, kde-format
-#| msgid "Go to Clip End"
+#, kde-format
 msgid "Go to mask end"
-msgstr "Ir ao final do fragmento"
+msgstr "Ir ao final da máscara"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -21985,7 +21985,7 @@ msgstr "Modelo"
 #: src/ui/configspeech_ui.ui:759
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
-msgstr ""
+msgstr "Deixar que a CPU se encargue do vídeo para aforrar memoria da GPU."
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:883
@@ -23342,10 +23342,9 @@ msgstr "Aplicar a máscara"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
 #: src/ui/maskmanage_ui.ui:164
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Mask"
-msgstr "Editar o marcador"
+msgstr "Editar a máscara"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
