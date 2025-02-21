@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-19 00:41+0000\n"
-"PO-Revision-Date: 2025-02-16 17:59+0100\n"
+"PO-Revision-Date: 2025-02-19 09:29+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -4448,12 +4448,14 @@ msgstr "Effets pour la source %1"
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
+"Vous avez une tâche de masque en cours d'exécution. Voulez-vous vraiment "
+"annuler la tâche ?"
 
 #: src/assets/assetpanel.cpp:639
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
-msgstr ""
+msgstr "Abandonner la tâche de masque"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:341
 #, kde-format
@@ -11382,10 +11384,9 @@ msgid "Please configure the SAM2 plugin"
 msgstr "Veuillez configurer le module externe « SAM2 »."
 
 #: src/effects/effectstack/view/maskmanager.cpp:110
-#, fuzzy, kde-format
-#| msgid "Cut job failed."
+#, kde-format
 msgid "Job failed"
-msgstr "Le travail de coupe a échoué."
+msgstr "Échec de la tâche"
 
 #: src/effects/effectstack/view/maskmanager.cpp:222
 #, kde-format
@@ -11405,7 +11406,7 @@ msgstr "Trames sources manquantes"
 #: src/effects/effectstack/view/maskmanager.cpp:330
 #, kde-format
 msgid "mask %1"
-msgstr ""
+msgstr "masque %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:336
 #, kde-format
@@ -11413,15 +11414,13 @@ msgid "Generating mask %1"
 msgstr "Génération en cours du masque %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:496
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
+#, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
 "undone."
 msgstr ""
-"Ceci sera le fichier <b>%1</b> de masque : <br/>%2<br/>Il est impossible "
-"d'annuler cette opération."
+"Ceci supprimera le fichier <b>%1</b> de masque : <br/>%2<br/>Il est "
+"impossible d'annuler cette opération."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -15417,18 +15416,20 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"Vous êtes en dehors de l'intervalle de temps défini\n"
+"pour le masque. L'ajout de trames clé est impossible.\n"
+"\n"
+"\n"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:415
-#, fuzzy, kde-format
-#| msgid "Go to Clip Start"
+#, kde-format
 msgid "Go to mask start"
-msgstr "Aller au début du clip"
+msgstr "Aller au début du masque"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:428
-#, fuzzy, kde-format
-#| msgid "Go to Clip End"
+#, kde-format
 msgid "Go to mask end"
-msgstr "Aller à la fin du clip"
+msgstr "Aller à la fin du masque"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -22177,6 +22178,8 @@ msgstr "Modèle"
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
 msgstr ""
+"Décharger la vidéo vers le processeur pour économiser de la mémoire du "
+"processeur graphique (GPU)"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:883
@@ -23529,10 +23532,9 @@ msgstr "Appliquer un masque"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
 #: src/ui/maskmanage_ui.ui:164
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Mask"
-msgstr "Modifier le repère"
+msgstr "Modifier un masque"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
