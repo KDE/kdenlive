@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2025-01-08 17:53+0900\n"
+"PO-Revision-Date: 2025-02-20 15:43+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -16319,7 +16319,7 @@ msgstr "亞塞拜然語"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:70
 #, kde-format
 msgid "Bashkir"
-msgstr "巴什吉爾語"
+msgstr "巴什喀爾語"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:75
 #, kde-format
