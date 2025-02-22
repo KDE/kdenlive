@@ -12,8 +12,6 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 
-#include <opentimelineio/externalReference.h>
-
 #include <QDir>
 #include <QTemporaryDir>
 
@@ -35,17 +33,17 @@ TEST_CASE("Export/import tracks and clips", "[OTIO]")
 
         // Import the OTIO timeline.
         OtioImport otioImport;
-        QString path = sourcesPath + "/dataset/test-clips.otio";
-        otioImport.importFile(path, false);
+        QString inputPath = sourcesPath + "/dataset/test-clips.otio";
+        otioImport.importFile(inputPath, false);
+        REQUIRE(timeline->getTracksCount() == 1);
+        REQUIRE(timeline->getClipsCount() == 3);
 
         // Export to an OTIO timeline.
         OtioExport otioExport;
         // TODO: Replace with QTemporaryDir.
         QDir dir = QDir::temp();
-        path = dir.filePath("test-clips.otio");
-        otioExport.exportFile(path);
-
-        // TODO: Compare timelines.
+        QString outputPath = dir.filePath("test-clips.otio");
+        otioExport.exportFile(outputPath);
 
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
