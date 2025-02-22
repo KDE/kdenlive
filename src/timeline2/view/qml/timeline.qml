@@ -1151,7 +1151,7 @@ Rectangle {
                             focusPolicy: Qt.NoFocus
                             contentItem: Item {
                                 Image {
-                                    source: "image://icon/autocorrection"
+                                    source: "image://icon/text-speak"
                                     anchors.centerIn: parent
                                     width: root.collapsedHeight - 4
                                     height: root.collapsedHeight - 4
