@@ -4257,13 +4257,13 @@ msgstr "项目素材箱 %1 效果"
 #: src/assets/assetpanel.cpp:638
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
-msgstr ""
+msgstr "您有一个蒙版任务正在运行。您想要终止该任务吗？"
 
 #: src/assets/assetpanel.cpp:639
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
-msgstr ""
+msgstr "中止蒙版任务"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:341
 #, kde-format
@@ -10943,7 +10943,7 @@ msgstr "请配置 SAM2 插件"
 #: src/effects/effectstack/view/maskmanager.cpp:110
 #, kde-format
 msgid "Job failed"
-msgstr ""
+msgstr "任务失败"
 
 #: src/effects/effectstack/view/maskmanager.cpp:222
 #, kde-format
@@ -10963,7 +10963,7 @@ msgstr "缺少来源帧"
 #: src/effects/effectstack/view/maskmanager.cpp:330
 #, kde-format
 msgid "mask %1"
-msgstr ""
+msgstr "蒙版 %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:336
 #, kde-format
@@ -10975,7 +10975,7 @@ msgstr "正在生成蒙版 %1"
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
 "undone."
-msgstr ""
+msgstr "这将删除蒙版 <b>%1</b> 的文件：<br/>%2<br/>此操作无法撤销。"
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -14850,16 +14850,20 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"您处于蒙版定义的时间范围之外，\n"
+"无法添加关键帧。\n"
+"\n"
+"\n"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:415
 #, kde-format
 msgid "Go to mask start"
-msgstr ""
+msgstr "转到蒙版起点"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:428
 #, kde-format
 msgid "Go to mask end"
-msgstr ""
+msgstr "转到蒙版终点"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -21377,7 +21381,7 @@ msgstr "模型"
 #: src/ui/configspeech_ui.ui:759
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
-msgstr ""
+msgstr "将视频转至 CPU 以节省 GPU 显存"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:883
@@ -22716,7 +22720,7 @@ msgstr "应用蒙版"
 #: src/ui/maskmanage_ui.ui:164
 #, kde-format
 msgid "Edit Mask"
-msgstr ""
+msgstr "编辑蒙版"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
