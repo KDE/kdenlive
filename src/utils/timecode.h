@@ -43,12 +43,15 @@ public:
     QString getDisplayTimecode(const GenTime &time, bool frameDisplay) const;
     QString getTimecode(const GenTime &time) const;
     int getFrameCount(const QString &duration) const;
-    static QString getStringTimecode(int frames, const double &fps, bool showFrames = false);
     const QString getDisplayTimecodeFromFrames(int frames, bool frameDisplay) const;
     const QString getTimecodeFromFrames(int frames) const;
     double fps() const;
     const QString mask(const GenTime &t = GenTime()) const;
     QString reformatSeparators(QString duration) const;
+
+    static QString getStringTimecode(int frames, const double &fps, bool showFrames = false);
+    // TODO: The scaleTimecode seems error prone, we should reconsider it and maybe add tests
+    static QString scaleTimecode(QString timecode, double sourceFps, double targetFps);
 
 private:
     Formats m_format;

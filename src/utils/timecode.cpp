@@ -356,3 +356,22 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     }
     return text;
 }
+
+// static
+QString Timecode::scaleTimecode(QString timecode, double sourceFps, double targetFps)
+{
+    if (qFuzzyCompare(sourceFps, targetFps)) {
+        // same fps, nothing todo
+        return timecode;
+    }
+
+    // Producer and project have a different fps
+    bool ok;
+    int frames = timecode.section(QLatin1Char(':'), -1).toInt(&ok);
+    if (ok) {
+        frames = int(frames * (targetFps / sourceFps));
+        timecode.chop(2);
+        timecode.append(QString::number(frames).rightJustified(1, QChar('0')));
+    }
+    return timecode;
+}
