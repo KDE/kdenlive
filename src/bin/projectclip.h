@@ -270,7 +270,10 @@ public:
     static const QByteArray getFolderHash(const QDir &dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
-    int getRecordTime();
+    /** @brief Get the timecode of the first frame (record time)
+     * @return timecode in milliseconds.
+     */
+    int getStartTimecode();
     /** @brief Return maximum audio level for a stream. */
     int16_t getAudioMax(int streamIdx) const;
     /** @brief A timeline clip was modified, reload its other timeline instances. */
@@ -398,6 +401,15 @@ public Q_SLOTS:
     void addMask(MaskInfo mask);
     /** @brief Remove a mask. */
     void removeMask(const QString &maskName);
+
+    /** @brief Get the timecode of the first frame from the ffmpeg/mlt properties
+     * @return timecode in milliseconds or -1 if not found
+     */
+    int getStartTCFromProperties();
+    /** @brief Get the timecode of the first frame (record time) by calling the mediainfo cmd tool
+     * @return timecode in milliseconds or -1 if not found
+     */
+    int getStartTCFromMediainfo();
 
 private:
     QMutex m_producerMutex;

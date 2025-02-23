@@ -1993,7 +1993,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             return;
         }
         if (KdenliveSettings::rectimecode()) {
-            m_timePos->setOffset(m_controller->getRecordTime());
+            m_timePos->setOffset(m_controller->getStartTimecode());
         }
         if (m_controller->statusReady()) {
             double audioScale = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
@@ -2954,8 +2954,8 @@ void Monitor::slotSwitchRecTimecode(bool enable)
         return;
     }
     if (m_controller) {
-        qDebug() << "=== GOT TIMECODE OFFSET: " << m_controller->getRecordTime();
-        m_timePos->setOffset(m_controller->getRecordTime());
+        qDebug() << "=== GOT TIMECODE OFFSET: " << m_controller->getStartTimecode();
+        m_timePos->setOffset(m_controller->getStartTimecode());
     }
 }
 

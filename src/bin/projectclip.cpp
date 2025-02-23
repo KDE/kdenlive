@@ -860,107 +860,132 @@ void ProjectClip::createDisabledMasterProducer()
     }
 }
 
-int ProjectClip::getRecordTime()
+int ProjectClip::getStartTimecode()
 {
-    if (m_masterProducer && (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio)) {
-        int recTime = m_masterProducer->get_int("kdenlive:record_date");
-        if (recTime > 0) {
-            return recTime;
+    bool isAVClip = m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio;
+    if (!m_masterProducer || !isAVClip) {
+        return 0;
+    }
+
+    int recTime = m_masterProducer->get_int("kdenlive:record_date");
+    if (recTime > 0) {
+        // the value was cached, just use it
+        return recTime;
+    }
+
+    recTime = getStartTCFromProperties();
+
+    if (recTime < 0) {
+        recTime = getStartTCFromMediainfo();
+    }
+
+    recTime = qMax(recTime, 0);
+
+    // cache the value in a kdenlive property
+    m_masterProducer->set("kdenlive:record_date", recTime);
+
+    return recTime;
+}
+
+int ProjectClip::getStartTCFromMediainfo()
+{
+    if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
+        // Try to find binary
+        const QStringList mltpath({QFileInfo(KdenliveSettings::meltpath()).canonicalPath(), qApp->applicationDirPath()});
+        QString mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), mltpath);
+        if (mediainfopath.isEmpty()) {
+            mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
         }
-        if (recTime < 0) {
-            // Cannot read record date on this clip, abort
-            return 0;
-        }
-        QString timecode = m_masterProducer->get("meta.attr.timecode.markup");
-        // First try to get timecode from MLT metadata
-        if (!timecode.isEmpty()) {
-            // Timecode Format HH:MM:SS:FF
-            // Check if we have a different fps
-            double producerFps = m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
-            if (!qFuzzyCompare(producerFps, pCore->getCurrentFps())) {
-                // Producer and project have a different fps
-                bool ok;
-                int frames = timecode.section(QLatin1Char(':'), -1).toInt(&ok);
-                if (ok) {
-                    frames *= int(pCore->getCurrentFps() / producerFps);
-                    timecode.chop(2);
-                    timecode.append(QString::number(frames).rightJustified(1, QChar('0')));
-                }
-            }
-            recTime = int(1000 * pCore->timecode().getFrameCount(timecode) / pCore->getCurrentFps());
-            m_masterProducer->set("kdenlive:record_date", recTime);
-            return recTime;
-        } else {
-            if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
-                // Try to find binary
-                const QStringList mltpath({QFileInfo(KdenliveSettings::meltpath()).canonicalPath(), qApp->applicationDirPath()});
-                QString mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), mltpath);
-                if (mediainfopath.isEmpty()) {
-                    mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
-                }
-                if (!mediainfopath.isEmpty()) {
-                    KdenliveSettings::setMediainfopath(mediainfopath);
-                }
-            }
-            if (!KdenliveSettings::mediainfopath().isEmpty()) {
-                // Getting the timecode was not successfull yet,
-                // but mediainfo is available so try to get it with mediainfo
-                QProcess extractInfo;
-                extractInfo.start(KdenliveSettings::mediainfopath(), {url(), QStringLiteral("--output=XML")});
-                extractInfo.waitForFinished();
-                if (extractInfo.exitStatus() != QProcess::NormalExit || extractInfo.exitCode() != 0) {
-                    KMessageBox::error(QApplication::activeWindow(),
-                                       i18n("Cannot extract metadata from %1\n%2", url(), QString(extractInfo.readAllStandardError())));
-                    return 0;
-                }
-                QDomDocument doc;
-                doc.setContent(extractInfo.readAllStandardOutput());
-                bool dateFormat = false;
-                QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
-                if (nodes.isEmpty()) {
-                    nodes = doc.documentElement().elementsByTagName(QStringLiteral("Recorded_Date"));
-                    dateFormat = true;
-                }
-                if (!nodes.isEmpty()) {
-                    // Parse recorded time (HH:MM:SS)
-                    QString recInfo = nodes.at(0).toElement().text();
-                    if (!recInfo.isEmpty()) {
-                        if (dateFormat) {
-                            if (recInfo.contains(QLatin1Char('+'))) {
-                                recInfo = recInfo.section(QLatin1Char('+'), 0, 0);
-                            } else if (recInfo.contains(QLatin1Char('-'))) {
-                                recInfo = recInfo.section(QLatin1Char('-'), 0, 0);
-                            }
-                            QDateTime date = QDateTime::fromString(recInfo, "yyyy-MM-dd hh:mm:ss");
-                            recTime = date.time().msecsSinceStartOfDay();
-                        } else {
-                            // Timecode Format HH:MM:SS:FF
-                            // Check if we have a different fps
-                            double producerFps =
-                                m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
-                            if (!qFuzzyCompare(producerFps, pCore->getCurrentFps())) {
-                                // Producer and project have a different fps
-                                bool ok;
-                                int frames = recInfo.section(QLatin1Char(':'), -1).toInt(&ok);
-                                if (ok) {
-                                    frames *= int(pCore->getCurrentFps() / producerFps);
-                                    recInfo.chop(2);
-                                    recInfo.append(QString::number(frames).rightJustified(1, QChar('0')));
-                                }
-                            }
-                            recTime = int(1000 * pCore->timecode().getFrameCount(recInfo) / pCore->getCurrentFps());
-                        }
-                        m_masterProducer->set("kdenlive:record_date", recTime);
-                        return recTime;
-                    }
-                }
-                // set record date to -1 to avoid trying with mediainfo again and again
-                m_masterProducer->set("kdenlive:record_date", -1);
-                return 0;
-            }
+        if (!mediainfopath.isEmpty()) {
+            KdenliveSettings::setMediainfopath(mediainfopath);
         }
     }
-    return 0;
+
+    if (KdenliveSettings::mediainfopath().isEmpty()) {
+        return -1;
+    }
+
+    QProcess extractInfo;
+    extractInfo.start(KdenliveSettings::mediainfopath(), {url(), QStringLiteral("--output=XML")});
+    extractInfo.waitForFinished();
+    if (extractInfo.exitStatus() != QProcess::NormalExit || extractInfo.exitCode() != 0) {
+        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot extract metadata from %1\n%2", url(), QString(extractInfo.readAllStandardError())));
+        return 0;
+    }
+    QDomDocument doc;
+    doc.setContent(extractInfo.readAllStandardOutput());
+    bool dateFormat = false;
+    QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
+    if (nodes.isEmpty()) {
+        nodes = doc.documentElement().elementsByTagName(QStringLiteral("Recorded_Date"));
+        dateFormat = true;
+    }
+
+    if (nodes.isEmpty()) {
+        return -1;
+    }
+
+    // Parse recorded time (HH:MM:SS)
+    QString recInfo = nodes.at(0).toElement().text();
+
+    if (!recInfo.isEmpty()) {
+        return -1;
+    }
+
+    if (dateFormat) {
+        if (recInfo.contains(QLatin1Char('+'))) {
+            recInfo = recInfo.section(QLatin1Char('+'), 0, 0);
+        } else if (recInfo.contains(QLatin1Char('-'))) {
+            recInfo = recInfo.section(QLatin1Char('-'), 0, 0);
+        }
+        QDateTime date = QDateTime::fromString(recInfo, "yyyy-MM-dd hh:mm:ss");
+        return date.time().msecsSinceStartOfDay();
+    } else {
+        // Timecode Format HH:MM:SS:FF
+        double producerFps = m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
+        recInfo = Timecode::scaleTimecode(recInfo, producerFps, pCore->getCurrentFps());
+
+        return int(1000 * pCore->timecode().getFrameCount(recInfo) / pCore->getCurrentFps());
+    }
+    return -1;
+}
+
+int ProjectClip::getStartTCFromProperties()
+{
+    int64_t timecode_ms = m_masterProducer->get_int64("timecode");
+    if (timecode_ms > 0) {
+        return timecode_ms;
+    }
+
+    // Check for a "time_reference" in the metadata, which is the timecode
+    // counted in audio samples. Convert that to milliseconds.
+    // This is an audio file, so just assume it's the first source.
+    int64_t audio_samples = m_masterProducer->get_int64("meta.attr.time_reference.markup");
+
+    if (audio_samples > 0) {
+        int64_t sample_rate = m_masterProducer->get_int64("meta.media.0.codec.sample_rate");
+
+        if (audio_samples > 0) {
+            return (audio_samples * 1000) / sample_rate;
+        }
+    }
+
+    QString timecode = m_masterProducer->get("meta.attr.timecode.markup");
+
+    if (timecode.isEmpty()) {
+        timecode = m_masterProducer->get("meta.attr.0.stream.timecode.markup");
+    }
+
+    // First try to get timecode from MLT metadata
+    if (!timecode.isEmpty()) {
+        // Timecode Format HH:MM:SS:FF
+        double producerFps = m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
+        timecode = Timecode::scaleTimecode(timecode, producerFps, pCore->getCurrentFps());
+
+        return int(1000 * pCore->timecode().getFrameCount(timecode) / pCore->getCurrentFps());
+    }
+
+    return -1;
 }
 
 std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed,
