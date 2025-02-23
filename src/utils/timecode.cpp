@@ -141,27 +141,34 @@ int Timecode::getFrameCount(const QString &duration) const
     }
     int hours, minutes, seconds, frames;
     int offset = 0;
+    bool negative = false;
     if (duration.at(0) == '-') {
+        negative = true;
         offset = 1;
-        hours = QStringView(duration).mid(1, 2).toInt();
-    } else {
-        hours = QStringView(duration).left(2).toInt();
     }
+    hours = QStringView(duration).mid(offset, 2).toInt();
     minutes = QStringView(duration).mid(3 + offset, 2).toInt();
     seconds = QStringView(duration).mid(6 + offset, 2).toInt();
     frames = QStringView(duration).right(duration.length() - 9 - offset).toInt();
+    int frameNumber = 0;
     if (m_dropFrameTimecode) {
         // CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
         // Code by David Heidelberger, adapted from Andrew Duncan
         // Given ints called hours, minutes, seconds, frames, and a double called framerate
 
         int totalMinutes = (60 * hours) + minutes; // Total number of minutes
-        int frameNumber =
-            ((m_displayedFramesPerSecond * 3600 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames) -
-            (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
-        return frameNumber;
+        frameNumber =
+            (m_displayedFramesPerSecond * 3600 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames;
+        frameNumber -= m_dropFrames * (totalMinutes - floor(totalMinutes / 10));
+
+    } else {
+        frameNumber = qRound((hours * 3600.0 + minutes * 60.0 + seconds) * m_realFps + frames);
     }
-    return qRound((hours * 3600.0 + minutes * 60.0 + seconds) * m_realFps + frames);
+
+    if (negative) {
+        frameNumber *= -1;
+    }
+    return frameNumber;
 }
 
 QString Timecode::getDisplayTimecode(const GenTime &time, bool frameDisplay) const
@@ -209,8 +216,6 @@ const QString Timecode::getTimecodeFromFrames(int frames) const
 // static
 QString Timecode::getStringTimecode(int frames, const double &fps, bool showFrames)
 {
-    // Returns the timecode in an hh:mm:ss format
-
     bool negative = false;
     if (frames < 0) {
         negative = true;
@@ -371,7 +376,7 @@ QString Timecode::scaleTimecode(QString timecode, double sourceFps, double targe
     if (ok) {
         frames = int(frames * (targetFps / sourceFps));
         timecode.chop(2);
-        timecode.append(QString::number(frames).rightJustified(1, QChar('0')));
+        timecode.append(QString::number(frames).rightJustified(2, QChar('0')));
     }
     return timecode;
 }
