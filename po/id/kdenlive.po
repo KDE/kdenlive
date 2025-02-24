@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-19 00:41+0000\n"
+"POT-Creation-Date: 2025-02-24 00:40+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -5858,7 +5858,7 @@ msgid "Edit Tags"
 msgstr "Edit Tag"
 
 #: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2018 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2043 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6484,7 +6484,7 @@ msgstr ""
 "Dimensi citra lebih kecil dari 8 pixel.\n"
 "Ini tidak didukung dengan benar oleh framework video kita."
 
-#: src/bin/projectclip.cpp:913
+#: src/bin/projectclip.cpp:912
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6493,30 +6493,30 @@ msgstr ""
 "Tidak bisa mengekstrak metadata dari %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1169 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Tidak valid"
 
-#: src/bin/projectclip.cpp:1398 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1423 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1495
 #, kde-format
 msgid "File already exists"
 msgstr "File sudah ada"
 
-#: src/bin/projectclip.cpp:2611
+#: src/bin/projectclip.cpp:2636
 #, fuzzy, kde-format
 #| msgid "Paste timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Tempel klip linimasa"
 
-#: src/bin/projectclip.cpp:2800
+#: src/bin/projectclip.cpp:2825
 #, kde-format
 msgid "Add stream effect"
 msgstr "Tambahkan efek stream"
 
-#: src/bin/projectclip.cpp:2825
+#: src/bin/projectclip.cpp:2850
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Singkirkan efek stream"
