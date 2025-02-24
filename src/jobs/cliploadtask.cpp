@@ -626,7 +626,7 @@ void ClipLoadTask::run()
     double fps = -1;
     bool isVariableFrameRate = false;
     bool seekable = true;
-    bool checkProfile = pCore->bin()->shouldCheckProfile;
+    bool checkProfile = pCore->bin() && pCore->bin()->shouldCheckProfile;
     if (mltService == QLatin1String("xml") || mltService == QLatin1String("consumer")) {
         // MLT playlist, create producer with blank profile to get real profile info
         QString tmpPath = resource;
