@@ -182,8 +182,12 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
     if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {
         return false;
     }
-    QMutexLocker locker(&m_switchMutex);
     bool stopCurrent = m_activeMonitor != nullptr;
+    if (stopCurrent) {
+        if (!m_switchMutex.tryLock()) {
+            return false;
+        }
+    }
     for (int i = 0; i < m_monitorsList.count(); ++i) {
         if (m_monitorsList.at(i)->id() == name) {
             m_activeMonitor = m_monitorsList.at(i);
@@ -210,6 +214,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                     pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"),
                                           MessageType::InformationMessage);
                     m_activeMonitor = m_projectMonitor;
+                    if (stopCurrent) {
+                        m_switchMutex.unlock();
+                    }
                     return false;
                 }
                 Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
@@ -239,6 +246,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                     pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"),
                                           MessageType::InformationMessage);
                     m_activeMonitor = m_clipMonitor;
+                    if (stopCurrent) {
+                        m_switchMutex.unlock();
+                    }
                     return false;
                 }
                 Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
@@ -256,6 +266,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
     }
     if (!quickSwitch) {
         Q_EMIT checkColorScopes();
+    }
+    if (stopCurrent) {
+        m_switchMutex.unlock();
     }
     return (m_activeMonitor != nullptr);
 }

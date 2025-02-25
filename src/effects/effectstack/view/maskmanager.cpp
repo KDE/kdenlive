@@ -109,6 +109,7 @@ MaskManager::MaskManager(QWidget *parent)
             samProgress->hide();
             buttonAbort->hide();
             samStatus->hide();
+            Q_EMIT progressUpdate(100);
         } else {
             // Remove existing actions if any
             QList<QAction *> acts = samStatus->actions();
@@ -133,10 +134,14 @@ MaskManager::MaskManager(QWidget *parent)
     connect(m_maskHelper, &AutomaskHelper::updateProgress, this, [this](int progress) {
         samProgress->setValue(progress);
         bool visible = progress < 100;
+        Q_EMIT progressUpdate(progress);
         samProgress->setVisible(visible);
         buttonAbort->setVisible(visible);
     });
-    connect(m_maskHelper, &AutomaskHelper::samJobFinished, this, [this]() {
+    connect(m_maskHelper, &AutomaskHelper::samJobFinished, this, [this](bool failed) {
+        if (failed) {
+            disconnect(this, &MaskManager::maskReady, this, &MaskManager::applyMask);
+        }
         buttonPreview->setChecked(false);
         buttonEdit->setChecked(false);
         maskTools->setCurrentIndex(0);
@@ -509,7 +514,7 @@ void MaskManager::applyMask()
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
     // Switch back to effect stack
-    Q_EMIT pCore->switchMaskPanel();
+    Q_EMIT pCore->switchMaskPanel(false);
 }
 
 void MaskManager::deleteMask()

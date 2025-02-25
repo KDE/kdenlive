@@ -24,6 +24,9 @@ class BuiltStack;
 class EffectStackFilter;
 class AssetPanel;
 class QPushButton;
+class QProgressBar;
+class QToolButton;
+class QLabel;
 
 class WidgetDelegate : public QStyledItemDelegate
 {
@@ -76,6 +79,7 @@ public Q_SLOTS:
     /** @brief Save current effect stack
      */
     void slotSaveStack();
+    void updateSamProgress(int progress);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -101,9 +105,12 @@ private:
     QPoint m_dragStart;
     bool m_dragging;
     QWidget *m_builtStack{nullptr};
+    QLabel *m_flipLabel{nullptr};
     QPushButton *m_flipV{nullptr};
     QPushButton *m_flipH{nullptr};
     QPushButton *m_removeBg{nullptr};
+    QProgressBar *m_samProgressBar{nullptr};
+    QToolButton *m_samAbortButton{nullptr};
 
     /** @brief the frame size of the original clip this effect is applied on
      */
@@ -142,4 +149,5 @@ Q_SIGNALS:
     void checkDragScrolling();
     void updateEffectsGroupesInstances();
     void launchSam();
+    void abortSam();
 };

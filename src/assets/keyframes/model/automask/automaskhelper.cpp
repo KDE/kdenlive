@@ -231,12 +231,14 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset)
             qDebug() << "===== SAM SCRIPT TERMINATED ========";
             pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
             m_jobStatus = QProcess::NotRunning;
+            bool jobFailed = m_killedOnRequest;
             if (m_killedOnRequest) {
                 Q_EMIT showMessage(QStringLiteral(), KMessageWidget::Information);
             } else if (m_samProcess.exitStatus() == QProcess::CrashExit || m_samProcess.exitCode() != 0) {
+                jobFailed = true;
                 Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
             }
-            Q_EMIT samJobFinished();
+            Q_EMIT samJobFinished(jobFailed);
         }
         m_errorLog.clear();
         m_killedOnRequest = false;
@@ -452,7 +454,7 @@ void AutomaskHelper::abortJob()
         m_killedOnRequest = true;
         m_samProcess.kill();
     } else {
-        Q_EMIT samJobFinished();
+        Q_EMIT samJobFinished(false);
     }
 }
 

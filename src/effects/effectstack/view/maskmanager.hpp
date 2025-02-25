@@ -30,6 +30,7 @@ public:
 
 public Q_SLOTS:
     void launchSimpleSam();
+    void abortPreviewByMonitor();
 
 private Q_SLOTS:
     void initMaskMode();
@@ -44,7 +45,6 @@ private Q_SLOTS:
     void applyMask();
     void deleteMask();
     void importMask();
-    void abortPreviewByMonitor();
 
 private:
     ObjectId m_owner{KdenliveObjectType::NoItem, {}};
@@ -59,4 +59,5 @@ private:
 
 Q_SIGNALS:
     void maskReady();
+    void progressUpdate(int progress);
 };

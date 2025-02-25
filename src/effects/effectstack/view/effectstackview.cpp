@@ -30,8 +30,10 @@
 #include <QMimeData>
 #include <QMutexLocker>
 #include <QPainter>
+#include <QProgressBar>
 #include <QPushButton>
 #include <QScrollBar>
+#include <QToolButton>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -297,12 +299,18 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
             while (QLayoutItem *item = lay->takeAt(0)) {
                 delete item;
             }
+            delete m_flipLabel;
             delete m_flipH;
             delete m_flipV;
             delete m_removeBg;
+            delete m_samProgressBar;
+            delete m_samAbortButton;
+            m_flipLabel = nullptr;
             m_flipH = nullptr;
             m_flipV = nullptr;
             m_removeBg = nullptr;
+            m_samProgressBar = nullptr;
+            m_samAbortButton = nullptr;
             delete lay;
         }
         if (newState != PlaylistState::AudioOnly) {
@@ -324,8 +332,17 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
             lay->addStretch(10);
             m_removeBg = new QPushButton(i18n("Remove Background"), this);
             m_removeBg->setToolTip(i18n("Remove background using AI model"));
+            m_samProgressBar = new QProgressBar(this);
+            m_samProgressBar->setVisible(false);
+            m_samAbortButton = new QToolButton(this);
+            m_samAbortButton->setAutoRaise(true);
+            m_samAbortButton->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
+            m_samAbortButton->setVisible(false);
             lay->addWidget(m_removeBg);
-            layout->addRow(new QLabel(i18n("Flip")), lay);
+            lay->addWidget(m_samAbortButton);
+            lay->addWidget(m_samProgressBar);
+            m_flipLabel = new QLabel(i18n("Flip"));
+            layout->addRow(m_flipLabel, lay);
             m_builtStack->setVisible(true);
             connect(m_flipH, &QPushButton::clicked, this, [this](bool checked) {
                 if (checked) {
@@ -355,10 +372,8 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
                     }
                 }
             });
-            connect(m_removeBg, &QPushButton::clicked, this, [this]() {
-                // launch object mask manager
-                Q_EMIT launchSam();
-            });
+            connect(m_removeBg, &QPushButton::clicked, this, &EffectStackView::launchSam);
+            connect(m_samAbortButton, &QToolButton::clicked, this, &EffectStackView::abortSam);
         } else {
             m_builtStack->setVisible(false);
         }
@@ -668,12 +683,18 @@ void EffectStackView::unsetModel(bool reset)
                 while (QLayoutItem *item = lay->takeAt(0)) {
                     delete item;
                 }
+                delete m_flipLabel;
                 delete m_flipH;
                 delete m_flipV;
                 delete m_removeBg;
+                delete m_samProgressBar;
+                delete m_samAbortButton;
+                m_flipLabel = nullptr;
                 m_flipH = nullptr;
                 m_flipV = nullptr;
                 m_removeBg = nullptr;
+                m_samProgressBar = nullptr;
+                m_samAbortButton = nullptr;
                 delete lay;
                 m_builtStack->setVisible(false);
             }
@@ -913,4 +934,22 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
         return true;
     }
     return QWidget::eventFilter(o, e);
+}
+
+void EffectStackView::updateSamProgress(int progress)
+{
+    if (m_removeBg) {
+        if (progress == 100) {
+            m_samAbortButton->setVisible(false);
+            m_samProgressBar->setVisible(false);
+            m_removeBg->setVisible(true);
+            return;
+        }
+        if (!m_samProgressBar->isVisible()) {
+            m_removeBg->setVisible(false);
+            m_samAbortButton->setVisible(true);
+            m_samProgressBar->setVisible(true);
+        }
+        m_samProgressBar->setValue(progress);
+    }
 }

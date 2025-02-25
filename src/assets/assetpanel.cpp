@@ -102,7 +102,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_showMaskPanel = new QAction(QIcon::fromTheme(QStringLiteral("path-mask-edit")), QString(), this);
     m_showMaskPanel->setToolTip(i18n("Create an object mask"));
     m_showMaskPanel->setCheckable(true);
-    connect(pCore.get(), &Core::switchMaskPanel, m_showMaskPanel, &QAction::trigger);
+    connect(pCore.get(), &Core::switchMaskPanel, m_showMaskPanel, &QAction::setChecked);
     m_showMaskPanel->setWhatsThis(
         xi18nc("@info:whatsthis", "This shows the mask creation panel. Masks can be used for example to remove the background in a video."));
     connect(m_showMaskPanel, &QAction::triggered, this, &AssetPanel::slotShowMaskPanel);
@@ -182,6 +182,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_effectStackWidget, &EffectStackView::launchSam, m_maskManager, &MaskManager::launchSimpleSam);
+    connect(m_effectStackWidget, &EffectStackView::abortSam, m_maskManager, &MaskManager::abortPreviewByMonitor);
+    connect(m_maskManager, &MaskManager::progressUpdate, m_effectStackWidget, &EffectStackView::updateSamProgress);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_mixWidget, &MixStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::updateEnabledState, this,

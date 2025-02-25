@@ -504,5 +504,5 @@ Q_SIGNALS:
     /** refresh sam config */
     void samConfigUpdated();
     /** Show / hide the automask panel */
-    void switchMaskPanel();
+    void switchMaskPanel(bool show);
 };
