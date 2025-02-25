@@ -7,7 +7,6 @@
 
 #include <QDoubleSpinBox>
 #include <QLabel>
-#include <QProgressBar>
 #include <QSlider>
 #include <QSpinBox>
 #include <QWidget>

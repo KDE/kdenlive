@@ -54,6 +54,9 @@ private:
     QSize m_iconSize;
     QDir m_maskFolder;
     bool m_connected{false};
+    QString m_requestedMask;
+    /** @brief if true, we add the mask to the clip as soon as created **/
+    bool m_autoAddFilter{false};
     std::shared_ptr<ProjectClip> getOwnerClip();
     void exportFrames();
 

@@ -140,12 +140,13 @@ MaskManager::MaskManager(QWidget *parent)
     });
     connect(m_maskHelper, &AutomaskHelper::samJobFinished, this, [this](bool failed) {
         if (failed) {
-            disconnect(this, &MaskManager::maskReady, this, &MaskManager::applyMask);
+            m_autoAddFilter = false;
         }
         buttonPreview->setChecked(false);
         buttonEdit->setChecked(false);
         maskTools->setCurrentIndex(0);
     });
+    connect(m_maskHelper, &AutomaskHelper::buildingMask, this, [this](QString maskFile) { m_requestedMask = maskFile; });
     connect(buttonStop, &QPushButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
     connect(buttonApply, &QPushButton::clicked, this, &MaskManager::applyMask);
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
@@ -158,14 +159,15 @@ MaskManager::~MaskManager()
 
 void MaskManager::launchSimpleSam()
 {
-    connect(this, &MaskManager::maskReady, this, &MaskManager::applyMask, Qt::UniqueConnection);
     initMaskMode();
+    m_autoAddFilter = true;
 }
 
 void MaskManager::initMaskMode()
 {
     // Focus clip monitor with current clip
     m_ownerForFilter = m_owner;
+    m_autoAddFilter = false;
     Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
     if (!m_connected) {
         Q_ASSERT(clipMon != nullptr);
@@ -410,10 +412,13 @@ void MaskManager::loadMasks()
             item->setData(0, MASKMISSING, 1);
         }
         item->setIcon(0, icon);
-    }
-    if (maskTree->topLevelItemCount() > 0) {
-        maskTree->setCurrentItem(maskTree->topLevelItem(maskTree->topLevelItemCount() - 1));
-        Q_EMIT maskReady();
+        if (maskFile == m_requestedMask) {
+            maskTree->setCurrentItem(item);
+            if (m_autoAddFilter) {
+                m_requestedMask.clear();
+                applyMask();
+            }
+        }
     }
     maskTree->resizeColumnToContents(0);
 }
@@ -494,7 +499,6 @@ void MaskManager::applyMask()
     if (!item) {
         return;
     }
-    disconnect(this, &MaskManager::maskReady, this, &MaskManager::applyMask);
     const QString maskFile = item->data(0, Qt::UserRole).toString();
     int in = item->data(0, Qt::UserRole + 1).toInt();
     int out = item->data(0, Qt::UserRole + 2).toInt();
@@ -514,6 +518,7 @@ void MaskManager::applyMask()
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
     // Switch back to effect stack
+    // Q_EMIT pCore->showEffectStackFromId(m_ownerForFilter);
     Q_EMIT pCore->switchMaskPanel(false);
 }
 

@@ -255,6 +255,7 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset)
             pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
             Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
         } else if (command == QLatin1String("mask ok")) {
+            Q_EMIT buildingMask(m_maskParams.value(MaskTask::OUTPUTFILE));
             m_jobStatus = QProcess::NotRunning;
             auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
             MaskTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), m_maskParams, binClip.get());
@@ -438,7 +439,7 @@ bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
         const QString baseName = QStringLiteral("%1-%2-%3").arg(QStringUtils::getCleanFileName(maskName)).arg(zone.x()).arg(zone.y());
         QString outputFile = maskFolder.absoluteFilePath(baseName + QStringLiteral(".mkv"));
         while (QFile::exists(outputFile)) {
-            QString secondName = QStringLiteral("%1-%2.mkv").arg(baseName).arg(ix, 10, 4);
+            QString secondName = QStringLiteral("%1-%2.mkv").arg(baseName).arg(ix, 4, 10, QLatin1Char('0'));
             outputFile = maskFolder.absoluteFilePath(secondName);
             ix++;
         }
