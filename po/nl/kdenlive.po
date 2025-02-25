@@ -3,28 +3,28 @@
 #
 # Michiel Zandbelt <mmzandbelt@gmail.com>, 2008, 2009.
 # Valenstijn <Valenstyn@gmail.com>, 2010.
-# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Freek de Kruijf <freekdekruijf@kde.nl>
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Freek de Kruijf <freekdekruijf@kde.nl>
 # Ronald Stroethoff <stroet43@zonnet.nl>, 2010, 2011, 2012, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2024-11-07 12:33+0100\n"
+"PO-Revision-Date: 2025-02-24 17:21+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
-"Rinse de Vries,Ronald Stroethoff - 2022 t/m 2023,Freek de Kruijf - t/m 2024"
+"Rinse de Vries,Ronald Stroethoff - 2022 t/m 2023,Freek de Kruijf - t/m 2025"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -1082,16 +1082,14 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: data/effects/gpsgraphic.xml:4
-#, fuzzy, kde-format
-#| msgid "GraphView"
+#, kde-format
 msgid "GPS Graphic"
-msgstr "GraphView"
+msgstr "GPS-grafisch"
 
 #: data/effects/gpsgraphic.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr "Aan GPS gerelateerde tekst over de video leggen."
+msgstr "Aan GPS gerelateerd beeld over de video leggen."
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1104,6 +1102,8 @@ msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
 msgstr ""
+"Het volledige pad van het bestand dat de (GPS) locatiegegevens bevat. "
+"Ondersteunde extensies zijn .gpx en .tcx."
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1120,6 +1120,13 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[Een offset (in seconden) om teo te voegen aan het videobestand om "
+"het overeen te laten komen met de GPS-track.<br>\n"
+"    \tIn de meeste gevallen zal het minstens nodig zijn om het verschil in "
+"tijdzone tussen de 2 bestanden in te stellen plus enige seconden als het "
+"video-opname-apparaat niet precies op de juiste tijd is gezet. GPS-time is "
+"altijd exact en in UTC. Gebruik positieve waarden als GPS verder is dan de "
+"video en negatieve anders.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1135,12 +1142,16 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[Hoeveel GPS-punten om uit te smeren om GPS-fouten te elimineren."
+"<br>\n"
+"   \tEen waarde 1 neemt niet de uitgesmeerde locatie, het berekent alleen de "
+"extra velden (snelheid, afstand, enz.), het probeert ook de tussenliggende "
+"ontbrekende waarden voor **hartritme** en **hoogte** te berekenen.]]>"
 
 #: data/effects/gpsgraphic.xml:22
-#, fuzzy, kde-format
-#| msgid "Add multiple markers"
+#, kde-format
 msgid "Speed multiplier"
-msgstr "Meerdere markeringen toevoegen"
+msgstr "Vermenigvuldiger van snelheid"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1150,21 +1161,25 @@ msgid ""
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[Als het videobestand een timelaps is (of vertraagde beweging), "
+"gebruik deze waarde om de verhouding te versnellen/vertragen.<br>\n"
+"        Sample-waarden: 30 voor 30x timelaps, 0,25 voor 4x opname met "
+"vertraagde beweging.]]>"
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "GPS locatie/track,hoogte,hartritme,snelheid"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "Gegevensbron van grafiek"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "Welke gegevens uit het GPS-bestand gebruikt wordt voor tekenen"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1172,6 +1187,8 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"Basis 2D kaartlijn (voor locatie) of 1D grafiek per tijd (anders), inzoomen "
+"op de kaart/grafiek gecentreerd op de huidige locatie, teken snelheidsmeter"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1191,11 +1208,25 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>Snelheidsmeter</b> is beschikbaar voor alle gegevensbronnen maar "
+"alleen aanbevolen voor snelheid; voor het type kaart representeert het het "
+"\"percentage gedaan\" vanaf ingekort begin - eind).<br>\n"
+"Opmerking: Voor type 1 (zoomen en centreren, aka \"de punt volgen\"):<br>\n"
+"* afsnijwaarden zijn alleen geldig als een percentage en alleen de onderste "
+"(resp. linker) waarden\n"
+"zullen in beschouwing worden genomen als beide waarden (ie: onderste/"
+"bovenste) gelijk moeten zijn\n"
+"om de punt gecentreerd te houden)<br>\n"
+"* als de gegevensbron geen GPS-locatie is, zal het centreren alleen gedaan "
+"worden voor de horizontale as\n"
+"(tijd), verticale as afsnijding zal zich gedragen net als voor de basis 2D "
+"kaartlijn (het zal statisch dezelfde\n"
+"min/max limiet behouden waarmee het Nu-punt omhoog en omlaag kan bewegen).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "Begin inkorten (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1206,11 +1237,16 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Kort gegevens in vanaf het begin van het GPS-bestand (als een "
+"percentage van het totaal). <br>\n"
+"    \tOpmerking: zowel <em>begin inkorten</em> als <em>eind inkorten</em> "
+"worden berekend uit het totale bestand, dus inkorten 50% begin en 50% eind "
+"zal resulteren in inkorten van het gehele bestand.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "Einde inkorten (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1221,17 +1257,21 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Kort gegevens in vanaf het eind van het GPS-bestand (als een "
+"percentage van het totaal). <br>\n"
+"    \tOpmerking: zowel <em>begin inkorten</em> als <em>eind inkorten</em> "
+"worden berekend uit het totale bestand, dus inkorten 50% begin en 50% eind "
+"zal resulteren in inkorten van het gehele bestand.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Percentage van min..max,Absolute waarde"
 
 #: data/effects/gpsgraphic.xml:55
-#, fuzzy, kde-format
-#| msgid "Center horizontally"
+#, kde-format
 msgid "Crop mode horizontal"
-msgstr "Horizontaal middelpunt "
+msgstr "Bijsnijmodus horizontaal"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1243,6 +1283,12 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[Bepaalt hoe de waarden <em>Links bijsnijden</em> en <em>Rechts "
+"bijsnijden</em> geïnterpreteerd moeten worden.<br>\n"
+"    \tOpmerking: voor het horizontale type, absolute waarden zijn de "
+"lengtegraad (voor de locatie\n"
+"brontype) en tijd (in milliseconden sinds epoch) voor de rest van de typen "
+"gegevensbronnen)]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -1262,6 +1308,15 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[Snijdt gegevens bij vanaf de linkerkant van de grafiek (effectief "
+"inzoomen). <br>\n"
+"    \tDe waarde wordt geïnterpreteerd ofwel als een percentage van het "
+"totaal of een absolute waarde afhankelijk van crop_mode_h. In modus "
+"percentage, zijn de waarden niet beperkt tot 0-100 om gedrag \"uitzoomen\" "
+"toe te staan (ie: bijsnijden -50 links zal een extra helft van de totale "
+"horizontale afstand toevoegen). Waarden boven 100 (in modus %) zal effectief "
+"niets tonen. Als <em>Type grafiek</em> is gezet op <b>Snelheidsmeter</b>, "
+"dan zullen alle bijsnij-waarden links/rechts genegeerd worden.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -1275,12 +1330,14 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Hetzelfde als <em>Links bijsnijden</em> maar voor de rechterkant en "
+"type percentage wordt geïnterpreteerd als een omgekeerd percentage (d.w.z.: "
+"100 = niet iets bijsnijden). Waarden onder 0 zullen effectief niets tonen.]]>"
 
 #: data/effects/gpsgraphic.xml:71
-#, fuzzy, kde-format
-#| msgid "Center vertically"
+#, kde-format
 msgid "Crop mode vertical"
-msgstr "Verticaal middelpunt"
+msgstr "Afsnijmodus verticaal"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1298,12 +1355,24 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[Beslist hoe de waarden <em>Onderkant afsnijden</em> en "
+"<em>Bovenkant afsnijden</em> worden geïnterpreteerd.<br/>\n"
+"    \tMet een absolute waarde, het kan inzoomen naar tussen 100 en 150m van "
+"de hoogte\n"
+"om kleine wijzigingen in hoogte tussen deze 2 waarden beter te tonen.<br/>\n"
+"Merk op: voor het verticale type, absolute waarden zijn lengtegraden (voor "
+"de locatie\n"
+"brontype) en hoogte, hartsnelheid, snelheid voor de anderen geïnterpreteerd "
+"als de <em>Legenda-eenheid</em>\n"
+"type waar toepasselijk (dwz: een waarde van 10 voor hoogte zal standaard "
+"beschouwd worden als meters\n"
+"maar indien <em>Legenda-eenheid</em> gewijzigd naar voet zal het 10 voet "
+"betekenen).]]>"
 
 #: data/effects/gpsgraphic.xml:81
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Crop bottom"
-msgstr "Boven naar beneden"
+msgstr "Onderkant afsnijden"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1318,12 +1387,21 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[Snijdt gegevens bij aan de onderkant van de grafiek (effectief "
+"inzoomen). <br>\n"
+"    \tDe waarde wordt geïnterpreteerd ofwel als een percentage van het "
+"totaal of een absolute waarde afhankelijk van crop_mode_v. In modus "
+"percentage zijn de waarden niet beperkt tot 0-100 om gedrag \"uitzoomen\" "
+"toe te staan (d.w.z.: bijsnijden -50 onderaan zal een extra helft van de "
+"totale verticale afstand aan de onderkant toevoegen). Waarden boven 100 (in "
+"modus %) zal effectief niets tonen. Als <em>type grafiek</em> "
+"<b>Snelheidsmeter</b> is, dat zal dat de minimale naaldpositie zetten die "
+"alle waarden afklemt die lager zijn.]]>"
 
 #: data/effects/gpsgraphic.xml:86
-#, fuzzy, kde-format
-#| msgid "Crop left"
+#, kde-format
 msgid "Crop top"
-msgstr "Links inkorten"
+msgstr "Bovenkant bijsnijden"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1333,6 +1411,10 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Same as <em>Onderkant bijsnijden</em> maar voor de bovenkant en "
+"type percentage wordt geïnterpreteerd als een omgekeerd percentage (d.w.z.: "
+"100 = niet iets bijsnijden).<br>\n"
+"    \tWaarden onder 0 zullen effectief niets tonen.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1342,17 +1424,20 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"Eén kleur,Twee kleuren,Geheel gevuld verleden - dun toekomst,Verticaal "
+"kleurverloop,Horizontaal kleurverloop,Kleur door tijdsduur,Kleur door hoogte,"
+"Kleur door hartritme,Kleur door snelheid,Kleur door snelheid (max 100km/h),"
+"Kleur door graad (max 90 graden),Kleur door graad (max 20 graden)"
 
 #: data/effects/gpsgraphic.xml:92
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Graph color style"
-msgstr "Type grafiek"
+msgstr "Stijl van grafiekkleur"
 
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "Zie de documentatie over de verschillende beschikbare stijlen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1363,7 +1448,7 @@ msgstr "Kleur 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "Zet de kleur #1 voor de grafieklijn"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1374,7 +1459,7 @@ msgstr "Kleur 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "Zet de kleur #2 voor de grafieklijn"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -1384,7 +1469,7 @@ msgstr "Kleur 3"
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "Zet de kleur #3 voor de grafieklijn"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -1394,7 +1479,7 @@ msgstr "Kleur 4"
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "Zet de kleur #4 voor de grafieklijn"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -1404,13 +1489,12 @@ msgstr "Kleur 5"
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "Zet de kleur #5 voor de grafieklijn"
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show more options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "Meer opties tonen"
+msgstr "Nu-punt tonen"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1419,24 +1503,25 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[Schakel het tekenen van een schijf in op de huidige locatie/tijd "
+"over de grafieklijn.<br>\n"
+"    \tAls het type grafiek snelheidsmeter is, dan heeft dit invloed op de "
+"naald.]]>"
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "Border color"
+#, kde-format
 msgid "Now dot color"
-msgstr "Kleur omlijning"
+msgstr "Kleur Nu-punt"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
-#| msgid "Set the shape color of the second detected face."
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "De kleur van het tweede gevonden vlak instellen."
+msgstr "Stelt de kleur van het Nu-punt in"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "Spraak naar tekst"
+msgstr "Nu-tekst tonen"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1447,6 +1532,12 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[Schakel het in om de huidige waarde in grote witte vette letters "
+"aan de rechteronderkant van de rechthoek te tekenen.<br>\n"
+"    \tDe waarde van de <em>legenda-eenheid</em> zal toegevoegd worden aan "
+"het eind en het zal gebruikt worden als de huidige eenheid (als er een "
+"geldige eenheid wordt gevonden d.w.z.: kilometer als \"km\" wordt gevonden "
+"ergens in de tekenreeks van de <em>Legenda-eenheid</em>).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1462,24 +1553,23 @@ msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Draai de gehele grafiekrechthoek. Voor het type snelheidsmeter blijft de "
+"tekst horizontaal."
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Lijndikte"
+msgstr "Lijndikte (px)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "De dikte van de balk of segmenten."
+msgstr "Stelt de dikte van de lijngrafiek in in pixels."
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "Raster tekenen"
+msgstr "Legenda tekenen"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1492,11 +1582,18 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[Indien ingeschakeld zal het 5 horizontale (en verticale voor type "
+"kaart)<br>\n"
+"    \tlijnen tekenen met kleine waarden elk overeenkomend met de huidige "
+"gegevensbronwaarde op 0%, 25%, 50%, 75% and 100% van de nu getoonde grafiek, "
+"beïnvloed door het type <em>Legenda-eenheid</em> indien van toepassing en "
+"met de tekenreeks achtergevoegd aan de waarde. Voor type snelheidsmeter "
+"toont dit de opdelingswaarden (maar zonder achtervoegen van een eenheid).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Legenda-eenheid"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1505,6 +1602,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/"
+"h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
+"mmin,m/min,ftmin,ft/min"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1514,12 +1614,15 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Zet de te gebruiken eenheid voor het tonen van waarden van type "
+"hoogte en snelheid.<br>\n"
+"        Standaard is respectievelijk meters en km/h. De eenheid komt ergens "
+"in de tekenreeks voor dus extra spaties kunnen het tonen aanpassen.]]>"
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "Alleen overgangen tonen"
+msgstr "Alleen punten tonen"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1531,12 +1634,17 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[Indien ingeschakeld zal de grafiek getekend worden met individuele "
+"punten in plaats van lijnen.<br>\n"
+"    \tDit zal effectief de individuele gegevenspunten tonen zoals beïnvloed "
+"door uitsmeren (d.w.z.: voor locatiegegevens zal het elke reparatie van GPS "
+"tonen als uitsmeren 1 is) en kan ofwel gebruikt worden als een cool effect "
+"bij genoeg ingezoomd of om onverwachte sprongen in de lijn te onderzoeken.]]>"
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "Rechthoek"
+msgstr "Rechthoek van grafiek"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1545,12 +1653,15 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[Definieert de rechthoek waarbinnen de grafiek getekend moet worden."
+"<br>\n"
+"        Formaat is: \"X Y W H\". Van X, Y, W, H wordt aangenomen dat het "
+"pixeleenheden zijn tenzij ze het achtervoegsel '%' hebben.]]>"
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
-#| msgid "Background Weight"
+#, kde-format
 msgid "Background image"
-msgstr "Gewicht van achtergrond"
+msgstr "Achtergrondafbeelding"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1560,12 +1671,15 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[Als een geldig afbeeldingsbestand is geselecteerd zal het gebruikt "
+"worden als een achtergrond voor het rechthoekige gebied.<br>\n"
+"      \tPaden die beginnen met het teken \"!\" worden genegeerd. TIP: "
+"gebruik een kaartafbeelding om add context aan de GPS-track toe te voegen.]]>"
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "Achtergrond"
+msgstr "Achtergrondschaal"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1575,6 +1689,10 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[Schaal de achtergrondafbeelding (relatief t.o.v. het centrum) om "
+"het overeen te laten komen met de bovenstaande GPS-track.<br>\n"
+"    \tWaarden kleiner dan 100 zoomen in op de afbeelding, waarden groter dan "
+"100 zoomen uit. 0 verbergt het.]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1582,39 +1700,34 @@ msgid "Background opacity"
 msgstr "Transparante achtergrond"
 
 #: data/effects/gpsgraphic.xml:170
-#, fuzzy, kde-format
-#| msgid "Change the opacity of the image"
+#, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr "De transparantie van de afbeelding wijzigen"
+msgstr "<![CDATA[Stelt de dekking van de achtergrondafbeelding in]]>"
 
 #: data/effects/gpsgraphic.xml:173
-#, fuzzy, kde-format
-#| msgid "GPS processing start time"
+#, kde-format
 msgid "GPS start time"
-msgstr "Starttijd van GPS verwerking"
+msgstr "Starttijd van GPS"
 
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "Datum en tijd van het eerste geldige GPS-punt."
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "Video-stream"
+msgstr "Starttijd van video"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "Een timer in een overlay op de video leggen."
+msgstr "Datum en tijd van het videobestand."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Ga naar projectbegin"
+msgstr "Begin automatische offset"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1623,11 +1736,15 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Levert een offset van de hulp om te garanderen dat het begin van het "
+"videobestand synchroniseert met het begin van het GPS-bestand. Zet de offset "
+"op de juiste manier als videobestand en GPS opname is gestart op dezelfde "
+"tijd."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Nu automatische offset"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1636,17 +1753,21 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if you video record "
 "the moment GPS starts."
 msgstr ""
+"Levert een offset van een hulp om het eerste GPS-punt te synchroniseren met "
+"de huidige videotijd (het wordt elke seconde bijgewerkt). Zet de offset op "
+"de juiste manier als uw video-opname doet op het moment dat GPS begint."
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map white to"
+#, kde-format
 msgid "Map hint"
-msgstr "Wit verbinden met"
+msgstr "Suggestie voor kaart"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
 msgstr ""
+"Geeft de middelste breedtegraad en lengtegraad coördinaten van het gps-"
+"bestand terug."
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -7561,10 +7682,9 @@ msgid "Install multilingual translation"
 msgstr "Vertaling van meerdere talen installeren"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
-#, fuzzy, kde-format
-#| msgid "Install a speech model - we recommand <b>turbo</b>"
+#, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr "Een spraakmodel installeren- we bevelen <b>turbo</b> aan"
+msgstr "Installeer een spraakmodel - we bevelen <b>turbo</b> aan"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097
 #: src/dialogs/kdenlivesettingsdialog.cpp:2111
@@ -21176,16 +21296,15 @@ msgstr "Tekst vertalen naar Engels"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:342
-#, fuzzy, kde-format
-#| msgid "Wh&isper"
+#, kde-format
 msgid "Whisper"
-msgstr "Wh&isper"
+msgstr "Fluisteren"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
 #: src/ui/configspeech_ui.ui:373
 #, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Naadloos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428
@@ -21749,13 +21868,13 @@ msgstr "S"
 #: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
-msgstr ""
+msgstr "Linkermarge"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
-msgstr ""
+msgstr "Rechtermarge"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:487
@@ -21765,10 +21884,9 @@ msgstr "Bovengrens"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
-#, fuzzy, kde-format
-#| msgid "Vertical Start"
+#, kde-format
 msgid "Vertical margin"
-msgstr "Verticale start"
+msgstr "Verticale marge"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
@@ -21804,10 +21922,9 @@ msgstr "Bewerker van stijl van ondertitel"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Style name"
-msgstr "Bestandsnaam"
+msgstr "Naam van stijl"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -21822,27 +21939,26 @@ msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
+"De tweede kleur kan gebruikt worden in geval van botsing met ondertitel om "
+"te helpen bij het onderscheiden van beide ondertitels"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
+#, kde-format
 msgid "Character spacing"
-msgstr "Afstand tussen letters:"
+msgstr "Afstand tussen letters"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "ScaleX"
+#, kde-format
 msgid "Scale X"
-msgstr "X-schaal"
+msgstr "X schalen"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Target color"
+#, kde-format
 msgid "Text color"
-msgstr "Doelkleur"
+msgstr "Tekstkleur"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -21895,10 +22011,9 @@ msgstr "Uitlijning"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "ScaleY"
+#, kde-format
 msgid "Scale Y"
-msgstr "Y-schaal"
+msgstr "Y schalen"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
