@@ -18,7 +18,9 @@
 #include "timeline2/model/clipmodel.hpp"
 
 #include <KLocalizedString>
+#include <KMessageBox>
 
+#include <QApplication>
 #include <QFileDialog>
 
 #include <opentimelineio/externalReference.h>
@@ -68,7 +70,16 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
     }
 
     // Write the OTIO timeline to disk.
-    otioTimeline->to_json_file(fileName.toStdString());
+    OTIO_NS::ErrorStatus otioError;
+    bool r = otioTimeline->to_json_file(fileName.toStdString());
+    if (!r || OTIO_NS::is_error(otioError)) {
+        if (pCore->window()) {
+            KMessageBox::error(qApp->activeWindow(), QString::fromStdString(otioError.details), i18n("Error exporting OpenTimelineIO file"));
+        } else {
+            qWarning() << "Error exporting OpenTimelineIO file:" << QString::fromStdString(otioError.details);
+        }
+        return;
+    }
 }
 
 void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, const std::shared_ptr<TrackModel> &track,

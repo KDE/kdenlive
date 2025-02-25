@@ -24,7 +24,9 @@
 #include "timeline2/view/timelinewidget.h"
 
 #include <KLocalizedString>
+#include <KMessageBox>
 
+#include <QApplication>
 #include <QFileDialog>
 
 #include <opentimelineio/clip.h>
@@ -49,7 +51,11 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
     data->otioTimeline = OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline>(
         dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(data->otioFile.filePath().toStdString(), &otioError)));
     if (!data->otioTimeline || OTIO_NS::is_error(otioError)) {
-        // TODO: Error handling?
+        if (pCore->window()) {
+            KMessageBox::error(qApp->activeWindow(), QString::fromStdString(otioError.details), i18n("Error importing OpenTimelineIO file"));
+        } else {
+            qWarning() << "Error importing OpenTimelineIO file:" << QString::fromStdString(otioError.details);
+        }
         return;
     }
 
