@@ -41,7 +41,6 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
     Q_PROPERTY(int maskOpacity READ maskOpacity WRITE setMaskOpacity NOTIFY maskOpacityChanged)
-    Q_PROPERTY(int maskColor READ maskColor WRITE setMaskColor NOTIFY maskColorChanged)
     Q_PROPERTY(bool maskInverted READ maskInverted WRITE setMaskInverted)
     Q_PROPERTY(int maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
     Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
@@ -82,9 +81,6 @@ public:
     void setOverlayType(int ix);
     int maskOpacity() const;
     void setMaskOpacity(int opacity);
-    int maskColor() const;
-    void setMaskColor(int ix);
-    const QColor getMaskColor() const;
     bool maskInverted() const;
     void setMaskInverted(bool);
     void setMaskMode(int ix);
@@ -174,7 +170,6 @@ Q_SIGNALS:
     void triggerAction(const QString &name);
     void overlayTypeChanged();
     void maskOpacityChanged();
-    void maskColorChanged();
     void maskModeChanged();
     void showGridChanged();
     void builtinEffectsEnabledChanged();

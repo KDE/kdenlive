@@ -3044,15 +3044,7 @@ void Monitor::previewMask(const QString &maskFile, int in, int out, int maskMode
         m_maskInvert->set("5", 1); // 5 is the Invert parameter
         m_maskInvert->set("disable", 1);
     }
-    m_maskColor.reset(new Mlt::Filter(pCore->getProjectProfile(), "frei0r.tint0r"));
-    if (m_maskColor != nullptr && m_maskColor->is_valid()) {
-        const QColor color = getControllerProxy()->getMaskColor();
-        m_maskColor->set("0", color.name().toUtf8().constData());
-        m_maskColor->set("1", color.name().toUtf8().constData());
-        m_maskColor->set("2", 1);
-    }
     bg->attach(*m_maskInvert.get());
-    bg->attach(*m_maskColor.get());
     maskPlaylist.insert_at(in, bg.get(), 1);
     trac.set_track(*m_controller->sequenceProducer(m_activeSequence).get(), 0);
     trac.set_track(maskPlaylist, 1);
@@ -3076,15 +3068,9 @@ void Monitor::previewMask(const QString &maskFile, int in, int out, int maskMode
     loadQmlScene(MonitorSceneAutoMask);
 }
 
-void Monitor::requestAbortPreviewMask()
-{
-    QMetaObject::invokeMethod(this, "abortPreviewMask", Qt::QueuedConnection);
-}
-
 void Monitor::abortPreviewMask()
 {
     m_maskOpacity.reset();
-    m_maskColor.reset();
     m_maskInvert.reset();
     buildBackgroundedProducer(position());
     disconnect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
@@ -3098,9 +3084,6 @@ void Monitor::updatePreviewMask()
     int opacity = getControllerProxy()->maskOpacity();
     const QString opacityString = QStringLiteral("0=0 0 100% 100% %1").arg(opacity / 100.);
     m_maskOpacity->set("rect", opacityString.toUtf8().constData());
-    const QColor color = getControllerProxy()->getMaskColor();
-    m_maskColor->set("0", color.name().toUtf8().constData());
-    m_maskColor->set("1", color.name().toUtf8().constData());
     refreshMonitor();
 }
 

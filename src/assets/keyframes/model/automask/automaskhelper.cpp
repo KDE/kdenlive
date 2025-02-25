@@ -211,16 +211,32 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset)
     if (!box.isNull()) {
         args << QStringLiteral("-B") << QStringLiteral("%1=%2,%3,%4,%5").arg(m_lastPos).arg(box.x()).arg(box.y()).arg(box.right()).arg(box.bottom());
     }
+    if (KdenliveSettings::maskBorderWidth() > 0) {
+        args << QStringLiteral("--border") << QString::number(KdenliveSettings::maskBorderWidth()) << QStringLiteral("--bordercolor")
+             << QStringLiteral("%1,%2,%3,%4")
+                    .arg(KdenliveSettings::maskBorderColor().red())
+                    .arg(KdenliveSettings::maskBorderColor().green())
+                    .arg(KdenliveSettings::maskBorderColor().blue())
+                    .arg(KdenliveSettings::maskBorderColor().alpha());
+    }
+    args << QStringLiteral("--color")
+         << QStringLiteral("%1,%2,%3,%4")
+                .arg(KdenliveSettings::maskColor().red())
+                .arg(KdenliveSettings::maskColor().green())
+                .arg(KdenliveSettings::maskColor().blue())
+                .arg(KdenliveSettings::maskColor().alpha());
 
     connect(&m_samProcess, &QProcess::stateChanged, this, [this](QProcess::ProcessState state) {
         if (state == QProcess::NotRunning) {
             qDebug() << "===== SAM SCRIPT TERMINATED ========";
+            pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
             m_jobStatus = QProcess::NotRunning;
             if (m_killedOnRequest) {
                 Q_EMIT showMessage(QStringLiteral(), KMessageWidget::Information);
             } else if (m_samProcess.exitStatus() == QProcess::CrashExit || m_samProcess.exitCode() != 0) {
                 Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
             }
+            Q_EMIT samJobFinished();
         }
         m_errorLog.clear();
         m_killedOnRequest = false;
@@ -316,6 +332,20 @@ void AutomaskHelper::generateImage()
     if (!box.isNull()) {
         args << QStringLiteral("-B") << QStringLiteral("%1=%2,%3,%4,%5").arg(m_lastPos).arg(box.x()).arg(box.y()).arg(box.right()).arg(box.bottom());
     }
+    if (KdenliveSettings::maskBorderWidth() > 0) {
+        args << QStringLiteral("--border") << QString::number(KdenliveSettings::maskBorderWidth()) << QStringLiteral("--bordercolor")
+             << QStringLiteral("%1,%2,%3,%4")
+                    .arg(KdenliveSettings::maskBorderColor().red())
+                    .arg(KdenliveSettings::maskBorderColor().green())
+                    .arg(KdenliveSettings::maskBorderColor().blue())
+                    .arg(KdenliveSettings::maskBorderColor().alpha());
+    }
+    args << QStringLiteral("--color")
+         << QStringLiteral("%1,%2,%3,%4")
+                .arg(KdenliveSettings::maskColor().red())
+                .arg(KdenliveSettings::maskColor().green())
+                .arg(KdenliveSettings::maskColor().blue())
+                .arg(KdenliveSettings::maskColor().alpha());
     const QString samCommand = QStringLiteral("preview=%1\n").arg(args.join(QLatin1Char(' ')));
     qDebug() << "::: SEMNDING SAM COMMAND: " << samCommand;
     if (m_samProcess.state() == QProcess::Running) {
@@ -403,11 +433,11 @@ bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
         }
         int ix = 1;
         // QString baseName = QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(zone.x()).arg(zone.y());
-        QString baseName = QStringLiteral("%1-%2-%3").arg(QStringUtils::getCleanFileName(maskName)).arg(zone.x()).arg(zone.y());
+        const QString baseName = QStringLiteral("%1-%2-%3").arg(QStringUtils::getCleanFileName(maskName)).arg(zone.x()).arg(zone.y());
         QString outputFile = maskFolder.absoluteFilePath(baseName + QStringLiteral(".mkv"));
         while (QFile::exists(outputFile)) {
-            baseName = QStringLiteral("%1-%2.mkv").arg(baseName).arg(ix, 10, 4);
-            outputFile = maskFolder.absoluteFilePath(baseName);
+            QString secondName = QStringLiteral("%1-%2.mkv").arg(baseName).arg(ix, 10, 4);
+            outputFile = maskFolder.absoluteFilePath(secondName);
             ix++;
         }
         m_maskParams.insert(MaskTask::OUTPUTFILE, outputFile);
@@ -417,9 +447,12 @@ bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
 
 void AutomaskHelper::abortJob()
 {
+    qDebug() << "::::: KILLING SAM...";
     if (m_samProcess.state() == QProcess::Running) {
         m_killedOnRequest = true;
         m_samProcess.kill();
+    } else {
+        Q_EMIT samJobFinished();
     }
 }
 
@@ -463,7 +496,11 @@ void AutomaskHelper::monitorSeek(int pos)
 void AutomaskHelper::terminate()
 {
     if (m_samProcess.state() == QProcess::Running) {
-        m_samProcess.write("q\n");
+        m_killedOnRequest = true;
+        m_samProcess.blockSignals(true);
+        m_samProcess.kill();
+        // m_samProcess.write("q\n");
+        // m_samProcess.waitForFinished(1000);
     }
 }
 

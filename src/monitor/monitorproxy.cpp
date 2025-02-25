@@ -20,8 +20,6 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
-static QList<QColor> colorIndex = {QColor(Qt::white), QColor(Qt::red), QColor(Qt::yellow), QColor(Qt::green), QColor(Qt::black)};
-
 MonitorProxy::MonitorProxy(VideoWidget *parent)
     : QObject(parent)
     , q(parent)
@@ -124,18 +122,6 @@ void MonitorProxy::setMaskOpacity(int opacity)
     Q_EMIT refreshMask();
 }
 
-int MonitorProxy::maskColor() const
-{
-    return KdenliveSettings::maskColor();
-}
-
-void MonitorProxy::setMaskColor(int index)
-{
-    KdenliveSettings::setMaskColor(qBound(0, index, 4));
-    Q_EMIT maskColorChanged();
-    Q_EMIT refreshMask();
-}
-
 bool MonitorProxy::maskInverted() const
 {
     return KdenliveSettings::maskInverted();
@@ -153,11 +139,6 @@ void MonitorProxy::setMaskInverted(bool)
         Q_EMIT previewOverlayChanged();
     }
     Q_EMIT refreshMask();
-}
-
-const QColor MonitorProxy::getMaskColor() const
-{
-    return colorIndex.at(KdenliveSettings::maskColor());
 }
 
 void MonitorProxy::setMaskMode(int mode)

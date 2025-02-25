@@ -212,7 +212,6 @@ private:
 
     std::shared_ptr<Mlt::Filter> m_splitEffect;
     std::unique_ptr<Mlt::Transition> m_maskOpacity;
-    std::shared_ptr<Mlt::Filter> m_maskColor;
     std::shared_ptr<Mlt::Filter> m_maskInvert;
     std::shared_ptr<Mlt::Producer> m_splitProducer;
     std::shared_ptr<MarkerListModel> m_markerModel{nullptr};
@@ -386,8 +385,6 @@ public Q_SLOTS:
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
-    /** @brief Stop displaying a  mask as overlay to the clip */
-    void requestAbortPreviewMask();
     /** @brief Stop displaying a  mask as overlay to the clip */
     void abortPreviewMask();
 

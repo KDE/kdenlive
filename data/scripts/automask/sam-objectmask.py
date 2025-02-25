@@ -11,10 +11,12 @@ import sys
 import argparse
 from PIL import Image
 
+def process_list(list_string):
+    array_data = np.fromstring(list_string, dtype=int, sep=',')
+    return array_data
 
 def process_csv(array_data, csv_string, resize):
     # Convert the CSV string back to a NumPy array
-    #resulting_array = {}
     vals_list = csv_string.split(';')
     for vals in vals_list:
         frame, csv_data = vals.split("=")
@@ -39,7 +41,10 @@ if __name__ == "__main__":
     parser.add_argument("-M", "--model", help="path for the model")
     parser.add_argument("-C", "--config", help="config for the model")
     parser.add_argument("-D", "--device", help="enforce a device: cuda, cpu")
-    parser.add_argument('--offload', action='store_true')
+    parser.add_argument("--color", help="mask color", default="255,100,100,180")
+    parser.add_argument("--bordercolor", help="mask border color", default="255,100,100,100")
+    parser.add_argument("--border", help="mask border width", default="0")
+    parser.add_argument('--offload', help="offload memory to CPU", action='store_true')
     args = parser.parse_args()
     #if (args.point_coordinates is None or args.labels is None) and args.box_coordinates is None:
     #    config = vars(args)
@@ -49,6 +54,8 @@ if __name__ == "__main__":
     box = {}
     points = {}
     labels = {}
+    mask_color = {}
+    border_color = {}
     if args.point_coordinates != None:
         process_csv(points, args.point_coordinates, 2)
         process_csv(labels, args.labels, 1)
@@ -65,7 +72,9 @@ if __name__ == "__main__":
         configFile = args.config
     if args.device != None:
         requestedDevice = args.device
-    borders = 1
+    borders = int(args.border)
+    mask_color = process_list(args.color)
+    border_color = process_list(args.bordercolor)
 
 # select the device for computation
 if requestedDevice != None:
@@ -108,23 +117,22 @@ sam2_model = build_sam2(model_cfg, sam2_checkpoint, device=device)
 predictor = SAM2ImagePredictor(sam2_model)
 
 def save_mask(mask, filename, obj_id=None):
-    color = [255, 100, 100, 180]
     h, w = mask.shape[-2:]
-    mask = mask.astype(np.uint8)
-    mask_image = mask.reshape(h, w, 1) * color
-    #print(f"Saving mask: {filename}")
+    mask_image = mask.reshape(h, w, 1) * mask_color.reshape(1, 1, -1)
     if borders > 0:
         import cv2
-        #mask = mask.astype(np.uint8)
-        try:
-            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-            # Try to smooth contours
-            contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
-            color2 = [255, 0, 0, 255]
-            #color2[3] = 255
-            mask_image = cv2.drawContours(mask_image, contours, -1, color2, borders)
-        except:
-            print("skipping contour", file=sys.stdout, flush=True)
+        mask = mask.astype(np.uint8)
+        #contours = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[-2]
+
+        contours = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
+        # Try to smooth contours
+        #contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
+
+        mask_image = cv2.drawContours(mask_image.astype(np.uint8),contours,-1,border_color.tolist(),borders)
+
+        #contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        # Try to smooth contours
+        #contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
 
     pil_img = Image.fromarray(np.uint8(mask_image))
     pil_img.save(filename)
@@ -179,7 +187,7 @@ def render_video():
         #plt.imshow(Image.open(os.path.join(inputFolder, frame_names[out_frame_idx])))
         for out_obj_id, out_mask in video_segments[out_frame_idx].items():
             filename = output_frame + '/{:05d}'.format(out_frame_idx) + '.png'
-            save_mask(out_mask, filename, obj_id=out_obj_id)
+            save_mask(out_mask[0], filename, obj_id=out_obj_id)
         if framesCount > 100:
             percent = int(100 * out_frame_idx / framesCount)
             print(f"Export {percent}%|\n", file=sys.stderr, flush=True)
@@ -209,6 +217,9 @@ while 1:
         if inArgs.box_coordinates != None:
             process_csv(box, inArgs.box_coordinates, 4)
         preview_frame = int(inArgs.preview_frame)
+        borders = int(inArgs.border)
+        mask_color = process_list(inArgs.color)
+        border_color = process_list(inArgs.bordercolor)
         generate_preview(predictor)
 
         # get ready for rendering

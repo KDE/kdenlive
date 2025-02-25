@@ -63,7 +63,6 @@ Item {
     property var keyframes: []
     property int maskStart: -1
     property int maskEnd: -1
-    property var maskColors: ["#ffffff", "#ff0000", "#ffff00", "#0000ff", "#000000"]
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
     property color thumbColor2: controller.thumbColor2
@@ -246,8 +245,10 @@ Item {
                     }
                 }
                 onReleased: mouse => {
+                    console.log("Monitor SCENE RELEASED...")
                     if (maskMode == 2) {
-                        mouse.accepted = false;
+                        mouse.accepted = false
+                        handleEvent = false
                         return;
                     }
                     root.captureRightClick = false
@@ -267,6 +268,7 @@ Item {
                             generateLabel.visible = true
                         }
                     }
+                    handleEvent = false
                 }
                 /*onClicked: mouse => {
                     if (maskMode == 1) {
@@ -296,14 +298,11 @@ Item {
                 visible: maskMode < 2
                 onSourceChanged: {
                     generateLabel.visible = false
+                    if (opacity == 0 && source != '') {
+                        // Update opacity to ensure we see something
+                        controller.maskOpacity = 50
+                    }
                 }
-                /*MultiEffect {
-                    source: maskPreview
-                    anchors.fill: parent
-                    colorization: 1
-                    enabled: controller.maskColor > 0
-                    colorizationColor: maskColors[controller.maskColor]
-                }*/
             }
             Item {
                 anchors.fill: frame
@@ -380,10 +379,10 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: maskMode < 2 ? i18n("Generating image mask") : i18n("Generating video mask")
+        text: keyframes.length == 0 ? i18n("Select an object in the image first") : maskMode < 2 ? i18n("Generating image mask") : i18n("Generating video mask")
         visible: false
         background: Rectangle {
-            color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
+            color: keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
             radius: 5
         }
     }

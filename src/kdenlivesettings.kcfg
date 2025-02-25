@@ -1086,10 +1086,6 @@
       <label>Opacity of object masks on monitor.</label>
       <default>100</default>
     </entry>
-    <entry name="maskColor" type="Int">
-      <label>An index in the 0-4 range indicating an index in a color array.</label>
-      <default>0</default>
-    </entry>
     <entry name="maskInverted" type="Bool">
       <label>Invert alpha mask display.</label>
       <default>false</default>
@@ -1400,6 +1396,18 @@
      <entry name="sam_system_python_path" type="Path">
        <label>Path to python exec for SAM.</label>
        <default></default>
+     </entry>
+     <entry name="maskBorderWidth" type="Int">
+       <label>Default border width for mask.</label>
+       <default>0</default>
+     </entry>
+     <entry name="maskBorderColor" type="Color">
+       <label>Default border color for mask.</label>
+       <default>#64FF6464</default>
+     </entry>
+     <entry name="maskColor" type="Color">
+       <label>Default color for mask.</label>
+       <default>#B4FF6464</default>
      </entry>
    </group>
    <group name="speech">

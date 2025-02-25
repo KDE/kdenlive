@@ -14,6 +14,15 @@ MouseArea {
     acceptedButtons: Qt.NoButton
     width: 2.4 * fontMetrics.font.pixelSize
     height: parent.height
+    Timer {
+        id: hideTimer
+        interval: 3000
+        running: false
+        repeat: false
+        onTriggered: {
+            generateLabel.visible = false
+        }
+    }
 
     Rectangle {
         id: effecttoolbar
@@ -57,7 +66,12 @@ MouseArea {
                 visible: root.maskMode < 2
                 onClicked: {
                     generateLabel.visible = true
-                    root.generateMask()
+                    if (root.keyframes.length > 0) {
+                        root.generateMask()
+                    } else {
+                        // Display the message for 3 seconds
+                        hideTimer.start()
+                    }
                 }
             }
             MonitorToolButton {
@@ -71,18 +85,6 @@ MouseArea {
                         controller.maskOpacity = 0;
                     } else {
                         controller.maskOpacity = controller.maskOpacity * 2;
-                    }
-                }
-            }
-            MonitorToolButton {
-                objectName: "switchColor"
-                iconName: "fill-color"
-                toolTipText: i18n("Change Color")
-                onClicked: {
-                    if (controller.maskColor == 4) {
-                        controller.maskColor = 0;
-                    } else {
-                        controller.maskColor++;
                     }
                 }
             }

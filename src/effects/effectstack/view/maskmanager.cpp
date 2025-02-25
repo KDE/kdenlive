@@ -45,6 +45,18 @@ MaskManager::MaskManager(QWidget *parent)
     : QWidget(parent)
 {
     setupUi(this);
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    maskColor->setColor(KdenliveSettings::maskColor());
+    borderColor->setColor(KdenliveSettings::maskBorderColor());
+    borderWidth->setValue(KdenliveSettings::maskBorderWidth());
+    connect(maskColor, &KColorButton::changed, this, [this](QColor color) { KdenliveSettings::setMaskColor(color); });
+    connect(borderColor, &KColorButton::changed, this, [this](QColor color) { KdenliveSettings::setMaskBorderColor(color); });
+    connect(borderWidth, &QSpinBox::valueChanged, this, [this](int width) { KdenliveSettings::setMaskBorderWidth(width); });
+    connect(resetMask, &QToolButton::clicked, this, [this]() {
+        maskColor->setColor(QColor(255, 100, 100, 180));
+        borderColor->setColor(QColor(255, 100, 100, 100));
+        borderWidth->setValue(0);
+    });
     samProgress->hide();
     buttonAbort->hide();
     samStatus->setCloseButtonVisible(false);
@@ -124,6 +136,12 @@ MaskManager::MaskManager(QWidget *parent)
         samProgress->setVisible(visible);
         buttonAbort->setVisible(visible);
     });
+    connect(m_maskHelper, &AutomaskHelper::samJobFinished, this, [this]() {
+        buttonPreview->setChecked(false);
+        buttonEdit->setChecked(false);
+        maskTools->setCurrentIndex(0);
+    });
+    connect(buttonStop, &QPushButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
     connect(buttonApply, &QPushButton::clicked, this, &MaskManager::applyMask);
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
 }
@@ -155,6 +173,7 @@ void MaskManager::initMaskMode()
         pCore->window()->slotClipInProjectTree();
     }
     clipMon->slotActivateMonitor();
+    maskTools->setCurrentIndex(1);
 
     // Seek to zone start
     bool ok;
@@ -339,7 +358,8 @@ void MaskManager::generateMask()
         samStatus->animatedShow();
     }
     // Exit mask creation mode
-    pCore->getMonitor(Kdenlive::ClipMonitor)->requestAbortPreviewMask();
+    maskTools->setCurrentIndex(0);
+    pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
 }
 
 void MaskManager::loadMasks()
@@ -530,6 +550,5 @@ void MaskManager::importMask()
 
 void MaskManager::abortPreviewByMonitor()
 {
-    buttonPreview->setChecked(false);
-    buttonEdit->setChecked(false);
+    m_maskHelper->abortJob();
 }

@@ -114,7 +114,7 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         QObject::connect(root, SIGNAL(addControlRect(double, double, double, double, bool)), m_monitor,
                          SLOT(addControlRect(double, double, double, double, bool)), Qt::UniqueConnection);
         QObject::connect(root, SIGNAL(generateMask()), m_monitor, SIGNAL(generateMask()), Qt::UniqueConnection);
-        QObject::connect(root, SIGNAL(exitMaskPreview()), m_monitor, SLOT(requestAbortPreviewMask()), Qt::UniqueConnection);
+        QObject::connect(root, SIGNAL(exitMaskPreview()), m_monitor, SIGNAL(disablePreviewMask()), Qt::UniqueConnection);
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("scalex", scalex);
         root->setProperty("scaley", scaley);
