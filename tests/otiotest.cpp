@@ -35,6 +35,9 @@ TEST_CASE("Export/import tracks and clips", "[OTIO]")
         OtioImport otioImport;
         QString inputPath = sourcesPath + "/dataset/test-clips.otio";
         otioImport.importFile(inputPath, false);
+        while (timeline->getClipsCount() < 3) {
+            qApp->processEvents();
+        }
         REQUIRE(timeline->getTracksCount() == 1);
         REQUIRE(timeline->getClipsCount() == 3);
 
