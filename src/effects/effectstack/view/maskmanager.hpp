@@ -28,6 +28,9 @@ public:
     void setOwner(ObjectId owner);
     bool jobRunning() const;
 
+public Q_SLOTS:
+    void launchSimpleSam();
+
 private Q_SLOTS:
     void initMaskMode();
     void addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
@@ -45,6 +48,7 @@ private Q_SLOTS:
 
 private:
     ObjectId m_owner{KdenliveObjectType::NoItem, {}};
+    ObjectId m_ownerForFilter{KdenliveObjectType::NoItem, {}};
     AutomaskHelper *m_maskHelper;
     QPoint m_zone;
     QSize m_iconSize;
@@ -52,4 +56,7 @@ private:
     bool m_connected{false};
     std::shared_ptr<ProjectClip> getOwnerClip();
     void exportFrames();
+
+Q_SIGNALS:
+    void maskReady();
 };

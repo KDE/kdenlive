@@ -151,9 +151,16 @@ MaskManager::~MaskManager()
     m_maskHelper->terminate();
 }
 
+void MaskManager::launchSimpleSam()
+{
+    connect(this, &MaskManager::maskReady, this, &MaskManager::applyMask, Qt::UniqueConnection);
+    initMaskMode();
+}
+
 void MaskManager::initMaskMode()
 {
     // Focus clip monitor with current clip
+    m_ownerForFilter = m_owner;
     Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
     if (!m_connected) {
         Q_ASSERT(clipMon != nullptr);
@@ -396,10 +403,12 @@ void MaskManager::loadMasks()
             KIconEffect::overlay(img, overlay);
             icon = QIcon(QPixmap::fromImage(overlay));
             item->setData(0, MASKMISSING, 1);
-        } else if (masks.size() == 1) {
-            maskTree->setCurrentItem(item);
         }
         item->setIcon(0, icon);
+    }
+    if (maskTree->topLevelItemCount() > 0) {
+        maskTree->setCurrentItem(maskTree->topLevelItem(maskTree->topLevelItemCount() - 1));
+        Q_EMIT maskReady();
     }
     maskTree->resizeColumnToContents(0);
 }
@@ -480,6 +489,7 @@ void MaskManager::applyMask()
     if (!item) {
         return;
     }
+    disconnect(this, &MaskManager::maskReady, this, &MaskManager::applyMask);
     const QString maskFile = item->data(0, Qt::UserRole).toString();
     int in = item->data(0, Qt::UserRole + 1).toInt();
     int out = item->data(0, Qt::UserRole + 2).toInt();
@@ -490,7 +500,7 @@ void MaskManager::applyMask()
     params.insert(QStringLiteral("out"), QString::number(out));
     params.insert(QStringLiteral("softness"), QString::number(0.5));
     params.insert(QStringLiteral("mix"), QString("%1=70").arg(in));
-    std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(m_owner.uuid, int(m_owner.type), m_owner.itemId);
+    std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(m_ownerForFilter.uuid, int(m_ownerForFilter.type), m_ownerForFilter.itemId);
     if (stack) {
         stack->appendEffect(QStringLiteral("shape"), true, params);
     }

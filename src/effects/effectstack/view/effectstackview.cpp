@@ -299,8 +299,10 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
             }
             delete m_flipH;
             delete m_flipV;
+            delete m_removeBg;
             m_flipH = nullptr;
             m_flipV = nullptr;
+            m_removeBg = nullptr;
             delete lay;
         }
         if (newState != PlaylistState::AudioOnly) {
@@ -319,6 +321,10 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
             QHBoxLayout *lay = new QHBoxLayout;
             lay->addWidget(m_flipH);
             lay->addWidget(m_flipV);
+            lay->addStretch(10);
+            m_removeBg = new QPushButton(i18n("Remove Background"), this);
+            m_removeBg->setToolTip(i18n("Remove background using AI model"));
+            lay->addWidget(m_removeBg);
             layout->addRow(new QLabel(i18n("Flip")), lay);
             m_builtStack->setVisible(true);
             connect(m_flipH, &QPushButton::clicked, this, [this](bool checked) {
@@ -348,6 +354,10 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
                         m_model->removeEffect(sourceEffect);
                     }
                 }
+            });
+            connect(m_removeBg, &QPushButton::clicked, this, [this]() {
+                // launch object mask manager
+                Q_EMIT launchSam();
             });
         } else {
             m_builtStack->setVisible(false);
@@ -660,8 +670,10 @@ void EffectStackView::unsetModel(bool reset)
                 }
                 delete m_flipH;
                 delete m_flipV;
+                delete m_removeBg;
                 m_flipH = nullptr;
                 m_flipV = nullptr;
+                m_removeBg = nullptr;
                 delete lay;
                 m_builtStack->setVisible(false);
             }

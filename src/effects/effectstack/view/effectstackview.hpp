@@ -103,6 +103,7 @@ private:
     QWidget *m_builtStack{nullptr};
     QPushButton *m_flipV{nullptr};
     QPushButton *m_flipH{nullptr};
+    QPushButton *m_removeBg{nullptr};
 
     /** @brief the frame size of the original clip this effect is applied on
      */
@@ -140,4 +141,5 @@ Q_SIGNALS:
     void scrollView(QRect);
     void checkDragScrolling();
     void updateEffectsGroupesInstances();
+    void launchSam();
 };
