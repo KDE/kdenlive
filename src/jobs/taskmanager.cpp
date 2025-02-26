@@ -193,7 +193,7 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
         return;
     }
     m_tasksListLock.lockForWrite();
-    if (m_taskList.find(cid) != m_taskList.end()) {
+    if (!m_taskList.empty() && m_taskList.find(cid) != m_taskList.end()) {
         m_taskList[cid].erase(std::remove(m_taskList[cid].begin(), m_taskList[cid].end(), task), m_taskList[cid].end());
         if (m_taskList[cid].size() == 0) {
             m_taskList.erase(cid);
@@ -261,8 +261,6 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
     m_tasksListLock.unlock();
     qDebug() << "====== 1....";
     if (exceptions.isEmpty()) {
-        m_taskList.clear();
-        m_taskPool.clear();
         qDebug() << "====== 2....";
         if (!m_taskPool.waitForDone(5000)) {
             qDebug() << "====== FAILED TO TERMINATE ALL TASKS. Currently alive: " << m_taskPool.activeThreadCount();
@@ -272,6 +270,9 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
             qDebug() << "====== FAILED TO TERMINATE ALL TRANSCODE TASKS. Currently alive: " << m_transcodePool.activeThreadCount();
             Q_ASSERT(false);
         }
+        QWriteLocker lock(&m_tasksListLock);
+        m_taskList.clear();
+        m_taskPool.clear();
         qDebug() << "====== 3....";
     }
     if (!leaveBlocked) {
