@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2025-01-20 11:32+0100\n"
+"PO-Revision-Date: 2025-02-18 09:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -9540,8 +9540,8 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
-"Ja s'està executant una altra tasca de reconeixement. S'interromprà a favor "
-"de la faena nova. Voleu continuar?"
+"Ja s'està executant un altre treball de reconeixement. S'interromprà a favor "
+"del treball nou. Voleu continuar?"
 
 #: src/dialogs/textbasededit.cpp:1018
 #, kde-format
@@ -11076,7 +11076,7 @@ msgstr "No podeu sobreescriure el clip original."
 #: src/jobs/cuttask.cpp:263
 #, kde-format
 msgid "Cut job failed."
-msgstr "La tasca de retallat ha fallat."
+msgstr "El treball de retallat ha fallat."
 
 #: src/jobs/filtertask.cpp:41
 #, kde-format

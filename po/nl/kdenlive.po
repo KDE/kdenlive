@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2025-02-24 17:21+0100\n"
+"PO-Revision-Date: 2025-02-25 11:49+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -1108,7 +1108,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
-msgstr "Tijdoffset in seconden"
+msgstr "Tijdverschuiving in seconden"
 
 #: data/effects/gpsgraphic.xml:14
 #, kde-format
@@ -1120,8 +1120,8 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
-"<![CDATA[Een offset (in seconden) om teo te voegen aan het videobestand om "
-"het overeen te laten komen met de GPS-track.<br>\n"
+"<![CDATA[Een verschuiving (in seconden) om toe te voegen aan het "
+"videobestand om het overeen te laten komen met de GPS-track.<br>\n"
 "    \tIn de meeste gevallen zal het minstens nodig zijn om het verschil in "
 "tijdzone tussen de 2 bestanden in te stellen plus enige seconden als het "
 "video-opname-apparaat niet precies op de juiste tijd is gezet. GPS-time is "
@@ -1727,7 +1727,7 @@ msgstr "Datum en tijd van het videobestand."
 #: data/effects/gpsgraphic.xml:181
 #, kde-format
 msgid "Auto offset start"
-msgstr "Begin automatische offset"
+msgstr "Begin automatische verschuiving"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1736,15 +1736,15 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
-"Levert een offset van de hulp om te garanderen dat het begin van het "
-"videobestand synchroniseert met het begin van het GPS-bestand. Zet de offset "
-"op de juiste manier als videobestand en GPS opname is gestart op dezelfde "
-"tijd."
+"Levert een verschuiving van de hulp om te garanderen dat het begin van het "
+"videobestand synchroniseert met het begin van het GPS-bestand. Zet de "
+"verschuiving op de juiste manier als videobestand en GPS opname is gestart "
+"op dezelfde tijd."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr "Nu automatische offset"
+msgstr "Nu automatische verschuiving"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1753,9 +1753,10 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if you video record "
 "the moment GPS starts."
 msgstr ""
-"Levert een offset van een hulp om het eerste GPS-punt te synchroniseren met "
-"de huidige videotijd (het wordt elke seconde bijgewerkt). Zet de offset op "
-"de juiste manier als uw video-opname doet op het moment dat GPS begint."
+"Levert een verschuiving van een hulp om het eerste GPS-punt te "
+"synchroniseren met de huidige videotijd (het wordt elke seconde bijgewerkt). "
+"Zet de verschuiving op de juiste manier als uw video-opname doet op het "
+"moment dat GPS begint."
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
@@ -2727,12 +2728,12 @@ msgstr "Rotatie (keyframable)"
 #: data/effects/rotation_keyframable.xml:17
 #, kde-format
 msgid "Offset X"
-msgstr "X verschuiving"
+msgstr "X-verschuiving"
 
 #: data/effects/rotation_keyframable.xml:20
 #, kde-format
 msgid "Offset Y"
-msgstr "Y verschuiving"
+msgstr "Y-verschuiving"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2948,7 +2949,7 @@ msgstr ""
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:330
 #, kde-format
 msgid "Offset"
-msgstr "Offset"
+msgstr "Verschuiving"
 
 #: data/effects/timer.xml:63
 #, kde-format
@@ -2959,11 +2960,12 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
-"<![CDATA[Een offset om toegevoegd te worden aan de waarde van de timer.\n"
-"Wanneer de richting \"omlaag\" is, de timer zal omlaag tellen naar \"offset"
-"\" in plaats van 00:00:00.000.\n"
+"<![CDATA[Een verschuiving om toegevoegd te worden aan de waarde van de "
+"timer.\n"
+"Wanneer de richting \"omlaag\" is, de timer zal omlaag tellen naar "
+"\"verschuiving\" in plaats van 00:00:00.000.\n"
 "Wanneer de richting omhoog is, zal de timer omhoog gaan beginnend bij "
-"\"offset\".]]>"
+"\"verschuiving\".]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -4437,7 +4439,7 @@ msgstr "Te importeren gegevens: "
 #: src/assets/view/widgets/keyframeimport.cpp:177
 #, kde-format
 msgid "Time offset:"
-msgstr "Tijdoffset:"
+msgstr "Tijdverschuiving:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:191
 #: src/assets/view/widgets/keyframeimport.cpp:414
@@ -4518,12 +4520,12 @@ msgstr " tot "
 #: src/assets/view/widgets/keyframeimport.cpp:324
 #, kde-format
 msgid "Horizontal offset:"
-msgstr "Horizontale offset:"
+msgstr "Horizontale verschuiving:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
 #, kde-format
 msgid "Vertical offset:"
-msgstr "Verticale offset:"
+msgstr "Verticale verschuiving:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -4569,7 +4571,7 @@ msgstr "Geïnverteerde positie"
 #: src/assets/view/widgets/keyframeimport.cpp:422
 #, kde-format
 msgid "Offset Position"
-msgstr "Offsetpositie"
+msgstr "Positie van verschuiving"
 
 #: src/assets/view/widgets/keyframeimport.cpp:423
 #, kde-format
@@ -10383,7 +10385,7 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 "Het project gebruikt een niet-standaard framesnelheid (%1), dit zal "
-"resulteren in misplaatste clips en frame-offset."
+"resulteren in misplaatste clips en frame-verschuiving."
 
 #: src/doc/kdenlivedoc.cpp:1943
 #, kde-format
@@ -18501,12 +18503,12 @@ msgstr "Uit:%1, positie:%2"
 #: src/timeline2/view/qml/Clip.qml:1062
 #, kde-format
 msgid "Offset: -%1"
-msgstr "Offset: -%1"
+msgstr "Verschuiving: -%1"
 
 #: src/timeline2/view/qml/Clip.qml:1062
 #, kde-format
 msgid "Offset: %1"
-msgstr "Offset: %1"
+msgstr "Verschuiving: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1063
 #, kde-format
@@ -18612,7 +18614,7 @@ msgstr "<b>Dubbelklik</b> om ondertitel toe te voegen"
 #: src/timeline2/view/qml/timeline.qml:2015
 #, kde-format
 msgid "Offset: %1, Position: %2"
-msgstr "Offset: %1, positie: %2"
+msgstr "Verschuiving: %1, positie: %2"
 
 #: src/timeline2/view/qml/timeline.qml:2174
 #: src/timeline2/view/qml/timeline.qml:2183
@@ -22032,7 +22034,7 @@ msgstr "Tekstopties"
 #: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:794
 #, kde-format
 msgid "Offset:"
-msgstr "Offset:"
+msgstr "Verschuiving:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/exportguidesdialog_ui.ui:66
