@@ -18,18 +18,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QImage>
 #include <QString>
 
-MaskTask::MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object)
+MaskTask::MaskTask(const ObjectId &owner, const ObjectId &filterOwner, QMap<int, QString> maskProperties, QObject *object)
     : AbstractTask(owner, AbstractTask::MASKJOB, object)
     , m_properties(maskProperties)
+    , m_filterOwner(filterOwner)
 {
     m_description = i18n("Mask creation");
 }
 
 MaskTask::~MaskTask() {}
 
-void MaskTask::start(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object)
+void MaskTask::start(const ObjectId &owner, const ObjectId &filterOwner, QMap<int, QString> maskProperties, QObject *object)
 {
-    MaskTask *task = new MaskTask(owner, maskProperties, object);
+    MaskTask *task = new MaskTask(owner, filterOwner, maskProperties, object);
     pCore->taskManager.startTask(owner.itemId, task);
 }
 
@@ -66,6 +67,7 @@ void MaskTask::generateMask()
                                   Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         return;
     }
+
     // Save thumbnail
     QDir framesFolder(outFramesFolder);
     const QString firstFrame = QStringLiteral("00000.png");
@@ -87,7 +89,7 @@ void MaskTask::generateMask()
         mask.includepoints = m_properties.value(MaskTask::INCLUDEPOINTS);
         mask.excludepoints = m_properties.value(MaskTask::EXCLUDEPOINTS);
         mask.boxes = m_properties.value(MaskTask::BOXES);
-        QMetaObject::invokeMethod(binClip.get(), "addMask", Qt::QueuedConnection, Q_ARG(MaskInfo, mask));
+        QMetaObject::invokeMethod(binClip.get(), "addMask", Qt::QueuedConnection, Q_ARG(ObjectId, m_filterOwner), Q_ARG(MaskInfo, mask));
     }
 }
 

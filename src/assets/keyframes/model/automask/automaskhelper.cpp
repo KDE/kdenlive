@@ -154,8 +154,9 @@ void AutomaskHelper::addMonitorControlRect(int position, const QSize frameSize, 
     generateImage();
 }
 
-void AutomaskHelper::launchSam(const QDir &previewFolder, int offset)
+void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter)
 {
+    m_ownerForFilter = ownerForFilter;
     QStringList pointsList;
     QStringList labelsList;
     m_previewFolder = previewFolder;
@@ -255,10 +256,9 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset)
             pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
             Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
         } else if (command == QLatin1String("mask ok")) {
-            Q_EMIT buildingMask(m_maskParams.value(MaskTask::OUTPUTFILE));
             m_jobStatus = QProcess::NotRunning;
             auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
-            MaskTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), m_maskParams, binClip.get());
+            MaskTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), m_ownerForFilter, m_maskParams, binClip.get());
             // Ensure we hide the progress bar on completion
             Q_EMIT updateProgress(100);
         } else if (command.startsWith(QLatin1String("INFO:"))) {

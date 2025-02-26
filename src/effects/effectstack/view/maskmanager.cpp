@@ -146,9 +146,8 @@ MaskManager::MaskManager(QWidget *parent)
         buttonEdit->setChecked(false);
         maskTools->setCurrentIndex(0);
     });
-    connect(m_maskHelper, &AutomaskHelper::buildingMask, this, [this](QString maskFile) { m_requestedMask = maskFile; });
     connect(buttonStop, &QPushButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
-    connect(buttonApply, &QPushButton::clicked, this, &MaskManager::applyMask);
+    connect(buttonApply, &QPushButton::clicked, this, [this]() { applyMask(); });
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
 }
 
@@ -248,7 +247,7 @@ void MaskManager::exportFrames()
                 previewFolder.mkpath(QStringLiteral("source-frames"));
             }
             previewFolder.cd(QStringLiteral("source-frames"));
-            m_maskHelper->launchSam(previewFolder, clipMon->getZoneStart());
+            m_maskHelper->launchSam(previewFolder, clipMon->getZoneStart(), m_ownerForFilter);
             return true;
         };
         const QString binId = clip->clipId();
@@ -376,8 +375,12 @@ void MaskManager::generateMask()
     pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
 }
 
-void MaskManager::loadMasks()
+void MaskManager::loadMasks(const ObjectId &filterOwner, MaskInfo mask)
 {
+    if (!mask.maskFile.isEmpty() && m_autoAddFilter && filterOwner == m_ownerForFilter) {
+        applyMask(mask);
+        m_autoAddFilter = false;
+    }
     maskTree->clear();
     if (samStatus->messageType() == KMessageWidget::Information) {
         samStatus->hide();
@@ -412,13 +415,12 @@ void MaskManager::loadMasks()
             item->setData(0, MASKMISSING, 1);
         }
         item->setIcon(0, icon);
-        if (maskFile == m_requestedMask) {
+        if (!mask.maskFile.isEmpty() && maskFile == mask.maskFile) {
             maskTree->setCurrentItem(item);
-            if (m_autoAddFilter) {
-                m_requestedMask.clear();
-                applyMask();
-            }
         }
+    }
+    if (!maskTree->currentItem() && maskTree->topLevelItemCount() > 0) {
+        maskTree->setCurrentItem(maskTree->topLevelItem(maskTree->topLevelItemCount() - 1));
     }
     maskTree->resizeColumnToContents(0);
 }
@@ -493,15 +495,24 @@ void MaskManager::checkModelAvailability()
     }
 }
 
-void MaskManager::applyMask()
+void MaskManager::applyMask(MaskInfo mask)
 {
-    auto item = maskTree->currentItem();
-    if (!item) {
-        return;
+    QString maskFile;
+    int in = 0;
+    int out = 0;
+    if (!mask.maskFile.isEmpty()) {
+        maskFile = mask.maskFile;
+        in = mask.in;
+        out = mask.out;
+    } else {
+        auto item = maskTree->currentItem();
+        if (!item) {
+            return;
+        }
+        maskFile = item->data(0, Qt::UserRole).toString();
+        in = item->data(0, Qt::UserRole + 1).toInt();
+        out = item->data(0, Qt::UserRole + 2).toInt();
     }
-    const QString maskFile = item->data(0, Qt::UserRole).toString();
-    int in = item->data(0, Qt::UserRole + 1).toInt();
-    int out = item->data(0, Qt::UserRole + 2).toInt();
 
     QMap<QString, QString> params;
     params.insert(QStringLiteral("resource"), maskFile);

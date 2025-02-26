@@ -3139,10 +3139,10 @@ bool ProjectClip::hasAlpha()
     return false;
 }
 
-void ProjectClip::addMask(MaskInfo mask)
+void ProjectClip::addMask(const ObjectId &filterOwner, MaskInfo mask)
 {
     m_masks.append(mask);
-    Q_EMIT masksUpdated();
+    Q_EMIT masksUpdated(filterOwner, mask);
     QJsonArray list;
     for (auto &m : m_masks) {
         QJsonObject currentMask;

@@ -7,6 +7,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include "definitions.h"
+
 #include <KMessageWidget>
 
 #include <QDir>
@@ -32,7 +34,7 @@ public:
        @param index is the index of this parameter in its model
      */
     explicit AutomaskHelper(QObject *parent = nullptr);
-    void launchSam(const QDir &previewFolder, int offset);
+    void launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter = ObjectId());
     bool jobRunning() const;
     void terminate();
     /** @brief Remove all masks tmp data */
@@ -62,6 +64,7 @@ private:
     QMap<int, QString> m_maskParams;
     QString m_binId;
     bool m_killedOnRequest{false};
+    ObjectId m_ownerForFilter{KdenliveObjectType::NoItem, {}};
 
 private Q_SLOTS:
     void generateImage();
@@ -70,5 +73,4 @@ Q_SIGNALS:
     void showMessage(const QString &message, KMessageWidget::MessageType type = KMessageWidget::Information);
     void updateProgress(int progress);
     void samJobFinished(bool failed);
-    void buildingMask(const QString &);
 };

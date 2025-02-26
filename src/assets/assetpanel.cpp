@@ -376,8 +376,6 @@ const QString AssetPanel::getStyleSheet()
     QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
     QColor hgh = KColorUtils::mix(QApplication::palette().window().color(), selected_bg, 0.2);
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
-    QColor light_bg = scheme.shade(KColorScheme::LightShade);
-    QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
     // QColor normal_bg = QApplication::palette().window().color();
 
     QString stylesheet;
@@ -405,20 +403,6 @@ const QString AssetPanel::getStyleSheet()
     // group effect title bar
     stylesheet.append(QStringLiteral("QFrame#framegroup {background: palette(dark);}  "
                                      "QFrame#framegroup[target=\"true\"] {background: palette(highlight);} "));
-
-    // draggable effect bar content
-    stylesheet.append(QStringLiteral("QProgressBar::chunk:horizontal {background: palette(button);border-top-left-radius: 4px;border-bottom-left-radius: 4px;} "
-                                     "QProgressBar::chunk:horizontal#dragOnly {background: %1;border-top-left-radius: 4px;border-bottom-left-radius: 4px;} "
-                                     "QProgressBar::chunk:horizontal:hover {background: %2;}")
-                          .arg(alt_bg.name(), selected_bg.name()));
-
-    // draggable effect bar
-    stylesheet.append(QStringLiteral("QProgressBar:horizontal {border: 1px solid palette(dark);border-top-left-radius: 4px;border-bottom-left-radius: "
-                                     "4px;border-right:0px;background:%3;padding: 0px;text-align:left center} QProgressBar:horizontal:disabled {border: 1px "
-                                     "solid palette(button)} QProgressBar:horizontal#dragOnly {background: %3} QProgressBar:horizontal[inTimeline=\"true\"] { "
-                                     "border: 1px solid %1;border-right: 0px;background: %2;padding: 0px;text-align:left center } "
-                                     "QProgressBar::chunk:horizontal[inTimeline=\"true\"] {background: %1;}")
-                          .arg(hover_bg.name(), light_bg.name(), alt_bg.name()));
 
     // spin box for draggable widget
     stylesheet.append(

@@ -40,9 +40,9 @@ private Q_SLOTS:
     void previewMask(bool show);
     void editMask(bool show);
     void generateMask();
-    void loadMasks();
+    void loadMasks(const ObjectId &filterOwner = ObjectId(), MaskInfo mask = MaskInfo());
     void checkModelAvailability();
-    void applyMask();
+    void applyMask(MaskInfo mask = MaskInfo());
     void deleteMask();
     void importMask();
 
@@ -54,7 +54,6 @@ private:
     QSize m_iconSize;
     QDir m_maskFolder;
     bool m_connected{false};
-    QString m_requestedMask;
     /** @brief if true, we add the mask to the clip as soon as created **/
     bool m_autoAddFilter{false};
     std::shared_ptr<ProjectClip> getOwnerClip();

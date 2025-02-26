@@ -23,15 +23,16 @@ class MaskTask : public AbstractTask
 {
 public:
     enum MaskProperty { INPUTFOLDER, OUTPUTFOLDER, INCLUDEPOINTS, EXCLUDEPOINTS, BOXES, NAME, OUTPUTFILE, ZONEIN, ZONEOUT };
-    MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object);
+    MaskTask(const ObjectId &owner, const ObjectId &filterOwner, QMap<int, QString> maskProperties, QObject *object);
     ~MaskTask() override;
-    static void start(const ObjectId &owner, QMap<int, QString> maskProperties, QObject *object = nullptr);
+    static void start(const ObjectId &owner, const ObjectId &filterOwner, QMap<int, QString> maskProperties, QObject *object = nullptr);
 
 protected:
     void run() override;
 
 private:
     QMap<int, QString> m_properties;
+    ObjectId m_filterOwner;
     int m_jobDuration{0};
     std::function<void()> m_readyCallBack;
     QString m_errorMessage;

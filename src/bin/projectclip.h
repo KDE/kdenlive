@@ -398,7 +398,7 @@ public Q_SLOTS:
     /** @brief Check if proxy clip should be build for this clip. */
     void checkProxy(bool rebuildProxy = false);
     /** @brief Add a mask to this clip. */
-    void addMask(MaskInfo mask);
+    void addMask(const ObjectId &filterOwner, MaskInfo mask);
     /** @brief Remove a mask. */
     void removeMask(const QString &maskName);
 
@@ -440,5 +440,5 @@ Q_SIGNALS:
     void boundsChanged(QVector<QPoint> bounds);
     void registeredClipChanged();
     void firstFrameExported();
-    void masksUpdated();
+    void masksUpdated(const ObjectId &filterOwner = ObjectId(), MaskInfo mask = MaskInfo());
 };
