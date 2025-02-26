@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-24 00:40+0000\n"
+"POT-Creation-Date: 2025-02-26 00:41+0000\n"
 "PO-Revision-Date: 2025-02-20 15:43+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4152,38 +4152,38 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "切換時間軸中是否顯示素材的關鍵幀"
 
-#: src/assets/assetpanel.cpp:262
+#: src/assets/assetpanel.cpp:265
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 的效果"
 
-#: src/assets/assetpanel.cpp:267 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:270 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 個參數"
 
-#: src/assets/assetpanel.cpp:271
+#: src/assets/assetpanel.cpp:274
 #, kde-format
 msgid "Track %1 effects"
 msgstr "軌道 %1 的效果"
 
-#: src/assets/assetpanel.cpp:276
+#: src/assets/assetpanel.cpp:279
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "素材庫 %1 的效果"
 
-#: src/assets/assetpanel.cpp:638
+#: src/assets/assetpanel.cpp:641
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:639
+#: src/assets/assetpanel.cpp:642
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
 msgstr ""
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:341
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:374
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -5373,7 +5373,7 @@ msgid "Replace in timeline"
 msgstr "在時間軸中取代"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:525
+#: src/effects/effectstack/view/maskmanager.cpp:565
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5680,14 +5680,14 @@ msgstr ""
 
 #: src/bin/bin.cpp:3816 src/dialogs/speechdialog.cpp:51
 #: src/dialogs/textbasededit.cpp:716
-#: src/effects/effectstack/view/maskmanager.cpp:111
+#: src/effects/effectstack/view/maskmanager.cpp:124
 #: src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "顯示紀錄"
 
 #: src/bin/bin.cpp:3819 src/dialogs/textbasededit.cpp:717
-#: src/effects/effectstack/view/maskmanager.cpp:113
+#: src/effects/effectstack/view/maskmanager.cpp:126
 #, kde-format
 msgid "Detailed log"
 msgstr "詳細紀錄"
@@ -6279,7 +6279,7 @@ msgstr "移動字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:615
-#: src/effects/effectstack/view/effectstackview.cpp:788
+#: src/effects/effectstack/view/effectstackview.cpp:821
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -6428,7 +6428,7 @@ msgid "Add sub clips"
 msgstr "新增子素材"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:30
+#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:49
 #, kde-format
 msgid "Zone"
 msgstr "區段"
@@ -6475,7 +6475,7 @@ msgstr "標籤 %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
 #: src/dialogs/textbasededit.cpp:635
-#: src/effects/effectstack/view/maskmanager.cpp:54
+#: src/effects/effectstack/view/maskmanager.cpp:66
 #, kde-format
 msgid "Configure"
 msgstr "設定"
@@ -7227,7 +7227,7 @@ msgstr "匯出參照線資料"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:691
-#: src/effects/effectstack/view/effectstackview.cpp:826
+#: src/effects/effectstack/view/effectstackview.cpp:859
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -7664,12 +7664,12 @@ msgstr "算繪已中止"
 msgid "Nearest (fast)"
 msgstr "最近鄰 (快)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:627
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "雙線性 (不錯)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:628
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "兩次立方 (較好)"
@@ -7694,17 +7694,17 @@ msgstr "垂直 (9:16)"
 msgid "Square (1:1)"
 msgstr "方形 (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:608
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "一個區段 (快速)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:609
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "線性混合 (快速)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:610
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF-只有時間 (不錯)"
@@ -10562,7 +10562,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 無法加入兩次。"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:236
+#: src/effects/effectstack/view/effectstackview.cpp:238
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -10776,62 +10776,73 @@ msgstr "註解："
 msgid "No name provided, effect not saved."
 msgstr "未提供名稱，因此未儲存效果。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:310
+#: src/effects/effectstack/view/effectstackview.cpp:320
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "水平翻轉"
 
-#: src/effects/effectstack/view/effectstackview.cpp:315
+#: src/effects/effectstack/view/effectstackview.cpp:325
 #, kde-format
 msgid "Vertical Flip"
 msgstr "垂直翻轉"
 
-#: src/effects/effectstack/view/effectstackview.cpp:322
+#: src/effects/effectstack/view/effectstackview.cpp:333
+#, fuzzy, kde-format
+#| msgid "Remove group"
+msgid "Remove Background"
+msgstr "移除群組"
+
+#: src/effects/effectstack/view/effectstackview.cpp:334
+#, kde-format
+msgid "Remove background using AI model"
+msgstr ""
+
+#: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
 msgid "Flip"
 msgstr "翻轉"
 
-#: src/effects/effectstack/view/effectstackview.cpp:706
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "啟用效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:706
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "停用效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:745
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #, kde-format
 msgid "No effect selected."
 msgstr "沒有選擇任何效果。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:751
+#: src/effects/effectstack/view/effectstackview.cpp:784
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "儲存目前效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:756
+#: src/effects/effectstack/view/effectstackview.cpp:789
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "儲存的效果堆疊名稱："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:757
+#: src/effects/effectstack/view/effectstackview.cpp:790
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "描述："
 
-#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/effects/effectstack/view/effectstackview.cpp:802
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "未提供名稱，因此未儲存效果堆疊。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:776
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -10840,45 +10851,45 @@ msgstr ""
 "未提供描述。\n"
 "要儲存沒有描述的效果嗎？"
 
-#: src/effects/effectstack/view/maskmanager.cpp:52
+#: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "請先設定 SAM2 外掛程式"
 
-#: src/effects/effectstack/view/maskmanager.cpp:110
+#: src/effects/effectstack/view/maskmanager.cpp:123
 #, fuzzy, kde-format
 #| msgid "Cut job failed."
 msgid "Job failed"
 msgstr "分割工作已失敗。"
 
-#: src/effects/effectstack/view/maskmanager.cpp:222
+#: src/effects/effectstack/view/maskmanager.cpp:255
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:226
+#: src/effects/effectstack/view/maskmanager.cpp:259
 #, fuzzy, kde-format
 #| msgid "Generating video mask"
 msgid "Exporting video frames"
 msgstr "正在建立影片遮罩"
 
-#: src/effects/effectstack/view/maskmanager.cpp:239
+#: src/effects/effectstack/view/maskmanager.cpp:272
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "缺乏來源素材"
 
-#: src/effects/effectstack/view/maskmanager.cpp:330
+#: src/effects/effectstack/view/maskmanager.cpp:363
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:336
+#: src/effects/effectstack/view/maskmanager.cpp:369
 #, kde-format
 msgid "Generating mask %1"
 msgstr "正在產生遮罩 %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:496
+#: src/effects/effectstack/view/maskmanager.cpp:536
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11096,7 +11107,7 @@ msgstr "遮罩建立"
 msgid "No source frames to process"
 msgstr "沒有要處理的來源影格"
 
-#: src/jobs/masktask.cpp:66
+#: src/jobs/masktask.cpp:65
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "無法繪製遮罩 %1"
@@ -14176,34 +14187,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:669
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:682
 #, kde-format
 msgid "Set Zone In"
 msgstr "設定區段起點"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:673
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:686
 #, kde-format
 msgid "Set Zone Out"
 msgstr "設定區段終點"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:553
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "快退"
 
 #: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
-#: src/monitor/monitormanager.cpp:528
+#: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "播放"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:528
-#: src/monitor/monitormanager.cpp:534
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "暫停"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "快進"
@@ -14381,144 +14392,144 @@ msgid ""
 "frei0r and restart Kdenlive"
 msgstr "該功能需要 cairoblend 轉場特效，請安裝 frei0r 並重新啟動 Kdenlive"
 
-#: src/monitor/monitor.cpp:2547
+#: src/monitor/monitor.cpp:2568
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "在預覽視窗啟用編輯模式來編輯效果"
 
-#: src/monitor/monitormanager.cpp:210
+#: src/monitor/monitormanager.cpp:214
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
 "timeline?"
 msgstr "您要<a href=\"#clipmonitor\">顯示素材預覽視窗</a>來檢視時間軸嗎？"
 
-#: src/monitor/monitormanager.cpp:239
+#: src/monitor/monitormanager.cpp:246
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
 "view timeline?"
 msgstr "您要<a href=\"#clipmonitor\">顯示專案預覽視窗</a>來檢視時間軸嗎？"
 
-#: src/monitor/monitormanager.cpp:538
+#: src/monitor/monitormanager.cpp:551
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "切換預覽視窗全螢幕"
 
-#: src/monitor/monitormanager.cpp:543
+#: src/monitor/monitormanager.cpp:556
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "放大預覽視窗"
 
-#: src/monitor/monitormanager.cpp:548
+#: src/monitor/monitormanager.cpp:561
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "縮小預覽視窗"
 
-#: src/monitor/monitormanager.cpp:557
+#: src/monitor/monitormanager.cpp:570
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "後退 1 幀"
 
-#: src/monitor/monitormanager.cpp:561
+#: src/monitor/monitormanager.cpp:574
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "後退 1 秒"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:583
 #, kde-format
 msgid "Go to Project Start"
 msgstr "跳到專案起點"
 
-#: src/monitor/monitormanager.cpp:574
+#: src/monitor/monitormanager.cpp:587
 #, kde-format
 msgid "Go to Project End"
 msgstr "跳到專案末端"
 
-#: src/monitor/monitormanager.cpp:578
+#: src/monitor/monitormanager.cpp:591
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "前進 1 幀"
 
-#: src/monitor/monitormanager.cpp:582
+#: src/monitor/monitormanager.cpp:595
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "前進 1 秒"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Multitrack View"
 msgstr "多軌檢視"
 
-#: src/monitor/monitormanager.cpp:596
+#: src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "進行多軌道操作"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:613
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "顯示/隱藏編輯模式"
 
-#: src/monitor/monitormanager.cpp:601
+#: src/monitor/monitormanager.cpp:614
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "切換編輯模式（以及物件控制項是否顯示）。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:607 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "去交錯"
 
-#: src/monitor/monitormanager.cpp:611
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF-時間+空間(最好)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:638 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "內插補點法"
 
-#: src/monitor/monitormanager.cpp:626
+#: src/monitor/monitormanager.cpp:639
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "最近鄰(快)"
 
-#: src/monitor/monitormanager.cpp:629
+#: src/monitor/monitormanager.cpp:642
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Hyper/Lanczos演算(最好)"
 
-#: src/monitor/monitormanager.cpp:643
+#: src/monitor/monitormanager.cpp:656
 #, kde-format
 msgid "Progressive playback"
 msgstr "漸進式播放"
 
-#: src/monitor/monitormanager.cpp:649
+#: src/monitor/monitormanager.cpp:662
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "拖動播放頭時播放音訊"
 
-#: src/monitor/monitormanager.cpp:655
+#: src/monitor/monitormanager.cpp:668
 #, kde-format
 msgid "Mute Monitor"
 msgstr "將預覽視窗靜音"
 
-#: src/monitor/monitormanager.cpp:655
+#: src/monitor/monitormanager.cpp:668
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "將預覽視窗解除靜音"
 
-#: src/monitor/monitormanager.cpp:661
+#: src/monitor/monitormanager.cpp:674
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "跳到區段起點"
 
-#: src/monitor/monitormanager.cpp:665
+#: src/monitor/monitormanager.cpp:678
 #, kde-format
 msgid "Go to Zone End"
 msgstr "跳到區段終點"
@@ -14603,7 +14614,7 @@ msgstr ""
 "無法建立影片預覽視窗。\n"
 "您的 Kdenlive 安裝或驅動程式設定有問題，請修正它。"
 
-#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:49
+#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:56
 #: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
@@ -14636,7 +14647,7 @@ msgid "Automatic Keyframes"
 msgstr "自動關鍵幀"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:120
+#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:122
 #: src/monitor/view/MultiScreenToolBar.qml:64
 #: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
@@ -14644,21 +14655,20 @@ msgid "Zoom in"
 msgstr "放大"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:125
+#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:127
 #: src/monitor/view/MultiScreenToolBar.qml:72
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
 msgstr "縮小"
 
-#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:132
+#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:134
 #: src/monitor/view/MultiScreenToolBar.qml:81
 #: src/monitor/view/SceneToolBar.qml:112
 #, kde-format
 msgid "Move Toolbar"
 msgstr "移動工具列"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:169
 #: src/monitor/view/kdenliveclipmonitor.qml:170
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
@@ -14673,34 +14683,29 @@ msgstr ""
 "shortcut>或<shortcut>方向鍵</shortcut>來前後移動，<shortcut>Ctrl+滾輪</"
 "shortcut>來縮放"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:537
 #: src/monitor/view/kdenliveclipmonitor.qml:559
 #: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:570
 #: src/monitor/view/kdenliveclipmonitor.qml:592
 #, kde-format
 msgid "In/Out Point"
 msgstr "起點/終點"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:570
 #: src/monitor/view/kdenliveclipmonitor.qml:592
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr "起點"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:592
 #: src/monitor/view/kdenliveclipmonitor.qml:614
 #: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr "終點"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:759
 #: src/monitor/view/kdenliveclipmonitor.qml:794
 #, kde-format
 msgid "Terminate Job"
@@ -14721,17 +14726,23 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "簡易變形"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:382
+#, fuzzy, kde-format
+#| msgid "Select a clip in project bin to compare effect"
+msgid "Select an object in the image first"
+msgstr "在專案素材庫中選取素材來比對效果"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:382
 #, kde-format
 msgid "Generating image mask"
 msgstr "正在建立影像遮罩"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:382
 #, kde-format
 msgid "Generating video mask"
 msgstr "正在建立影片遮罩"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:393
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -14742,12 +14753,12 @@ msgstr ""
 "Shift+點擊來包含另一個區域。\n"
 "Ctrl+點擊來排除一個區域。"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:393
 #, kde-format
 msgid "Previewing video mask"
 msgstr "正在預覽影片遮罩"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#: src/monitor/view/kdenlivemonitorautomask.qml:404
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -14756,13 +14767,13 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#: src/monitor/view/kdenlivemonitorautomask.qml:414
 #, fuzzy, kde-format
 #| msgid "Go to Clip Start"
 msgid "Go to mask start"
 msgstr "跳到素材起點"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#: src/monitor/view/kdenlivemonitorautomask.qml:427
 #, fuzzy, kde-format
 #| msgid "Go to Clip End"
 msgid "Go to mask end"
@@ -14819,34 +14830,29 @@ msgstr ""
 "點擊以新增控制點，\n"
 "右鍵點擊或按 Enter 來將形狀封起來。"
 
-#: src/monitor/view/MaskToolBar.qml:55
+#: src/monitor/view/MaskToolBar.qml:64
 #, kde-format
 msgid "Generate Mask"
 msgstr "產生遮罩"
 
-#: src/monitor/view/MaskToolBar.qml:66
+#: src/monitor/view/MaskToolBar.qml:80
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr "變更不透明度 (0% - 25% - 50% - 100%)"
 
-#: src/monitor/view/MaskToolBar.qml:80
-#, kde-format
-msgid "Change Color"
-msgstr "變更色彩"
-
 # 這不是效果名稱，這是左邊改成右邊的意思，像是鏡像效果：預設會鏡像右邊，但勾選反轉之後會鏡像左邊。
 # --Kisaragi
-#: src/monitor/view/MaskToolBar.qml:92
+#: src/monitor/view/MaskToolBar.qml:94
 #, kde-format
 msgid "Invert Mask"
 msgstr "反轉遮罩"
 
-#: src/monitor/view/MaskToolBar.qml:100
+#: src/monitor/view/MaskToolBar.qml:102
 #, kde-format
 msgid "Exit Mask Creation"
 msgstr "離開遮罩建立"
 
-#: src/monitor/view/MaskToolBar.qml:100
+#: src/monitor/view/MaskToolBar.qml:102
 #, kde-format
 msgid "Exit Preview Mode"
 msgstr "離開預覽模式"
@@ -19778,6 +19784,7 @@ msgstr "刪除目前的點。"
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, buttonImport)
+#. i18n: ectx: property (text), widget (QToolButton, resetMask)
 #. i18n: ectx: property (text), widget (QToolButton, buttonAbort)
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
@@ -19919,32 +19926,33 @@ msgstr "刪除目前的點。"
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
 #: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
-#: src/ui/maskmanage_ui.ui:56 src/ui/maskmanage_ui.ui:69
-#: src/ui/maskmanage_ui.ui:82 src/ui/maskmanage_ui.ui:109
-#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
-#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
-#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
-#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
-#: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
-#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
-#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
-#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
-#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
-#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
-#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
-#: src/ui/titlewidget_ui.ui:672 src/ui/titlewidget_ui.ui:685
-#: src/ui/titlewidget_ui.ui:698 src/ui/titlewidget_ui.ui:711
-#: src/ui/titlewidget_ui.ui:724 src/ui/titlewidget_ui.ui:737
-#: src/ui/titlewidget_ui.ui:955 src/ui/titlewidget_ui.ui:965
-#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1223
-#: src/ui/titlewidget_ui.ui:1272 src/ui/titlewidget_ui.ui:1294
-#: src/ui/titlewidget_ui.ui:1326 src/ui/titlewidget_ui.ui:1415
-#: src/ui/titlewidget_ui.ui:1733 src/ui/titlewidget_ui.ui:1749
-#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
-#: src/ui/unicodewidget_ui.ui:226 src/ui/urllistparamwidget_ui.ui:117
+#: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
+#: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:421
+#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
+#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
+#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
+#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
+#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
+#: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:163
+#: src/ui/textbasededit_ui.ui:179 src/ui/textbasededit_ui.ui:189
+#: src/ui/textbasededit_ui.ui:199 src/ui/textbasededit_ui.ui:216
+#: src/ui/textbasededit_ui.ui:226 src/ui/textbasededit_ui.ui:255
+#: src/ui/textbasededit_ui.ui:276 src/ui/timeremap_ui.ui:84
+#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
+#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
+#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:672
+#: src/ui/titlewidget_ui.ui:685 src/ui/titlewidget_ui.ui:698
+#: src/ui/titlewidget_ui.ui:711 src/ui/titlewidget_ui.ui:724
+#: src/ui/titlewidget_ui.ui:737 src/ui/titlewidget_ui.ui:955
+#: src/ui/titlewidget_ui.ui:965 src/ui/titlewidget_ui.ui:1169
+#: src/ui/titlewidget_ui.ui:1223 src/ui/titlewidget_ui.ui:1272
+#: src/ui/titlewidget_ui.ui:1294 src/ui/titlewidget_ui.ui:1326
+#: src/ui/titlewidget_ui.ui:1415 src/ui/titlewidget_ui.ui:1733
+#: src/ui/titlewidget_ui.ui:1749 src/ui/titlewidget_ui.ui:1762
+#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -22586,47 +22594,69 @@ msgid "Form"
 msgstr "形式"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/ui/maskmanage_ui.ui:25
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/maskmanage_ui.ui:44 src/ui/maskmanage_ui.ui:179
 #, kde-format
 msgid "Mask"
 msgstr "遮罩"
 
-#. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/ui/maskmanage_ui.ui:41
-#, kde-format
-msgid "Preview Mask"
-msgstr "預覽遮罩"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
-#: src/ui/maskmanage_ui.ui:53
-#, kde-format
-msgid "Create New Mask"
-msgstr "建立新遮罩"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/ui/maskmanage_ui.ui:66
-#, kde-format
-msgid "Delete Mask"
-msgstr "刪除遮罩"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
-#: src/ui/maskmanage_ui.ui:79
-#, kde-format
-msgid "Import Mask in Project"
-msgstr "匯入遮罩到專案"
-
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
-#: src/ui/maskmanage_ui.ui:154
+#: src/ui/maskmanage_ui.ui:60
 #, kde-format
 msgid "Apply Mask"
 msgstr "套用遮罩"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
-#: src/ui/maskmanage_ui.ui:164
+#: src/ui/maskmanage_ui.ui:70
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Mask"
 msgstr "編輯標記"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
+#: src/ui/maskmanage_ui.ui:83
+#, kde-format
+msgid "Preview Mask"
+msgstr "預覽遮罩"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
+#: src/ui/maskmanage_ui.ui:95
+#, kde-format
+msgid "Create New Mask"
+msgstr "建立新遮罩"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
+#: src/ui/maskmanage_ui.ui:108
+#, kde-format
+msgid "Delete Mask"
+msgstr "刪除遮罩"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
+#: src/ui/maskmanage_ui.ui:121
+#, kde-format
+msgid "Import Mask in Project"
+msgstr "匯入遮罩到專案"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/maskmanage_ui.ui:165
+#, fuzzy, kde-format
+#| msgid "Border "
+msgid "Border"
+msgstr "邊框"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonStop)
+#: src/ui/maskmanage_ui.ui:172
+#, fuzzy, kde-format
+#| msgid "Auto Mask"
+msgid "Abort Mask"
+msgstr "自動遮蓋"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/maskmanage_ui.ui:199
+#, fuzzy, kde-format
+#| msgid "Create New Mask"
+msgid "Creating Mask"
+msgstr "建立新遮罩"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24131,6 +24161,9 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小時"
+
+#~ msgid "Change Color"
+#~ msgstr "變更色彩"
 
 #~ msgctxt "@title:window"
 #~ msgid "Enter Mask Name"
@@ -26709,9 +26742,6 @@ msgstr "%1 小時"
 #~| msgid "Automatic scene split"
 #~ msgid "Scene split"
 #~ msgstr "自動場景分割"
-
-#~ msgid "Auto Mask"
-#~ msgstr "自動遮蓋"
 
 #~ msgid "Hide a selected zone and follow its movements"
 #~ msgstr "隱藏所選區段並跟著移動"

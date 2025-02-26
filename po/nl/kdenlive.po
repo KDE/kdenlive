@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-24 00:40+0000\n"
-"PO-Revision-Date: 2025-02-23 13:22+0100\n"
-"Last-Translator: Ronald Stroethoff <stroet43@zonnet.nl>\n"
+"POT-Creation-Date: 2025-02-26 00:41+0000\n"
+"PO-Revision-Date: 2025-02-25 11:49+0100\n"
+"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -1171,7 +1171,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
-msgstr "Tijdoffset in seconden"
+msgstr "Tijdverschuiving in seconden"
 
 #: data/effects/gpsgraphic.xml:14
 #, kde-format
@@ -1183,8 +1183,8 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
-"<![CDATA[Een offset (in seconden) om teo te voegen aan het videobestand om "
-"het overeen te laten komen met de GPS-track.<br>\n"
+"<![CDATA[Een verschuiving (in seconden) om toe te voegen aan het "
+"videobestand om het overeen te laten komen met de GPS-track.<br>\n"
 "    \tIn de meeste gevallen zal het minstens nodig zijn om het verschil in "
 "tijdzone tussen de 2 bestanden in te stellen plus enige seconden als het "
 "video-opname-apparaat niet precies op de juiste tijd is gezet. GPS-time is "
@@ -1790,7 +1790,7 @@ msgstr "Datum en tijd van het videobestand."
 #: data/effects/gpsgraphic.xml:181
 #, kde-format
 msgid "Auto offset start"
-msgstr "Begin automatische offset"
+msgstr "Begin automatische verschuiving"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1799,15 +1799,15 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
-"Levert een offset van de hulp om te garanderen dat het begin van het "
-"videobestand synchroniseert met het begin van het GPS-bestand. Zet de offset "
-"op de juiste manier als videobestand en GPS opname is gestart op dezelfde "
-"tijd."
+"Levert een verschuiving van de hulp om te garanderen dat het begin van het "
+"videobestand synchroniseert met het begin van het GPS-bestand. Zet de "
+"verschuiving op de juiste manier als videobestand en GPS opname is gestart "
+"op dezelfde tijd."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr "Nu automatische offset"
+msgstr "Nu automatische verschuiving"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -2371,7 +2371,7 @@ msgstr ""
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:330
 #, kde-format
 msgid "Offset"
-msgstr "Offset"
+msgstr "Verschuiving"
 
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
@@ -2823,7 +2823,7 @@ msgstr "<![CDATA[Rotatiehoek langs de Z-as]]>"
 #: data/effects/shear.xml:37
 #, kde-format
 msgid "Offset X"
-msgstr "X verschuiving"
+msgstr "X-verschuiving"
 
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
@@ -2834,7 +2834,7 @@ msgstr "<![CDATA[Offset langs de X-as]]>"
 #: data/effects/shear.xml:41
 #, kde-format
 msgid "Offset Y"
-msgstr "Y verschuiving"
+msgstr "Y-verschuiving"
 
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
@@ -3201,11 +3201,12 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
-"<![CDATA[Een offset om toegevoegd te worden aan de waarde van de timer.\n"
-"Wanneer de richting \"omlaag\" is, de timer zal omlaag tellen naar \"offset"
-"\" in plaats van 00:00:00.000.\n"
+"<![CDATA[Een verschuiving om toegevoegd te worden aan de waarde van de "
+"timer.\n"
+"Wanneer de richting \"omlaag\" is, de timer zal omlaag tellen naar "
+"\"verschuiving\" in plaats van 00:00:00.000.\n"
 "Wanneer de richting omhoog is, zal de timer omhoog gaan beginnend bij "
-"\"offset\".]]>"
+"\"verschuiving\".]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -4378,38 +4379,38 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
 
-#: src/assets/assetpanel.cpp:262
+#: src/assets/assetpanel.cpp:265
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 effecten"
 
-#: src/assets/assetpanel.cpp:267 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:270 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parameters"
 
-#: src/assets/assetpanel.cpp:271
+#: src/assets/assetpanel.cpp:274
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 effecten volgen"
 
-#: src/assets/assetpanel.cpp:276
+#: src/assets/assetpanel.cpp:279
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Bin-%1 effecten"
 
-#: src/assets/assetpanel.cpp:638
+#: src/assets/assetpanel.cpp:641
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "U hebt een maskertaak actief. De taak afbreken?"
 
-#: src/assets/assetpanel.cpp:639
+#: src/assets/assetpanel.cpp:642
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
 msgstr "Maskertaak afbreken"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:341
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:374
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -4712,7 +4713,7 @@ msgstr "Te importeren gegevens: "
 #: src/assets/view/widgets/keyframeimport.cpp:178
 #, kde-format
 msgid "Time offset:"
-msgstr "Tijdoffset:"
+msgstr "Tijdverschuiving:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:192
 #: src/assets/view/widgets/keyframeimport.cpp:415
@@ -4793,12 +4794,12 @@ msgstr " tot "
 #: src/assets/view/widgets/keyframeimport.cpp:325
 #, kde-format
 msgid "Horizontal offset:"
-msgstr "Horizontale offset:"
+msgstr "Horizontale verschuiving:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:326
 #, kde-format
 msgid "Vertical offset:"
-msgstr "Verticale offset:"
+msgstr "Verticale verschuiving:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:330
 #: src/assets/view/widgets/keyframeimport.cpp:464
@@ -4844,7 +4845,7 @@ msgstr "Geïnverteerde positie"
 #: src/assets/view/widgets/keyframeimport.cpp:423
 #, kde-format
 msgid "Offset Position"
-msgstr "Offsetpositie"
+msgstr "Positie van verschuiving"
 
 #: src/assets/view/widgets/keyframeimport.cpp:424
 #, kde-format
@@ -5634,7 +5635,7 @@ msgid "Replace in timeline"
 msgstr "In tijdlijn vervangen"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:525
+#: src/effects/effectstack/view/maskmanager.cpp:565
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5946,14 +5947,14 @@ msgstr ""
 
 #: src/bin/bin.cpp:3816 src/dialogs/speechdialog.cpp:51
 #: src/dialogs/textbasededit.cpp:716
-#: src/effects/effectstack/view/maskmanager.cpp:111
+#: src/effects/effectstack/view/maskmanager.cpp:124
 #: src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Log tonen"
 
 #: src/bin/bin.cpp:3819 src/dialogs/textbasededit.cpp:717
-#: src/effects/effectstack/view/maskmanager.cpp:113
+#: src/effects/effectstack/view/maskmanager.cpp:126
 #, kde-format
 msgid "Detailed log"
 msgstr "Gedetailleerde log"
@@ -6556,7 +6557,7 @@ msgstr "Ondertitel verplaatsen"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:615
-#: src/effects/effectstack/view/effectstackview.cpp:788
+#: src/effects/effectstack/view/effectstackview.cpp:821
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -6706,7 +6707,7 @@ msgid "Add sub clips"
 msgstr "Sub-clips toevoegen"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:30
+#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:49
 #, kde-format
 msgid "Zone"
 msgstr "Zone"
@@ -6753,7 +6754,7 @@ msgstr "Tag %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
 #: src/dialogs/textbasededit.cpp:635
-#: src/effects/effectstack/view/maskmanager.cpp:54
+#: src/effects/effectstack/view/maskmanager.cpp:66
 #, kde-format
 msgid "Configure"
 msgstr "Configureren"
@@ -7529,7 +7530,7 @@ msgstr "Hulplijngegevens exporteren"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:691
-#: src/effects/effectstack/view/effectstackview.cpp:826
+#: src/effects/effectstack/view/effectstackview.cpp:859
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -7971,12 +7972,12 @@ msgstr "Renderen afgebroken"
 msgid "Nearest (fast)"
 msgstr "Dichtstbijzijnde (snel)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:627
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bi-lineair (goed)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:628
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bi-kubisch (beter)"
@@ -8001,17 +8002,17 @@ msgstr "Verticaal (9:16)"
 msgid "Square (1:1)"
 msgstr "Vierkant (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:608
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Één veld (snel)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:609
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Lineair mengen (snel)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:610
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - alleen tijdelijk (goed)"
@@ -10763,7 +10764,7 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 "Het project gebruikt een niet-standaard framesnelheid (%1), dit zal "
-"resulteren in misplaatste clips en frame-offset."
+"resulteren in misplaatste clips en frame-verschuiving."
 
 #: src/doc/kdenlivedoc.cpp:1986
 #, kde-format
@@ -10970,7 +10971,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:236
+#: src/effects/effectstack/view/effectstackview.cpp:238
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -11194,62 +11195,74 @@ msgstr "Opmerkingen:"
 msgid "No name provided, effect not saved."
 msgstr "Geen naam gegeven, effect niet opgeslagen."
 
-#: src/effects/effectstack/view/effectstackview.cpp:310
+#: src/effects/effectstack/view/effectstackview.cpp:320
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Horizontaal spiegelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:315
+#: src/effects/effectstack/view/effectstackview.cpp:325
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Verticaal spiegelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:322
+#: src/effects/effectstack/view/effectstackview.cpp:333
+#, fuzzy, kde-format
+#| msgid "Remove group"
+msgid "Remove Background"
+msgstr "Groep verwijderen"
+
+#: src/effects/effectstack/view/effectstackview.cpp:334
+#, fuzzy, kde-format
+#| msgid "Remove the background of a static video"
+msgid "Remove background using AI model"
+msgstr "De acchtergrond van een statische video verwijderen"
+
+#: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
 msgid "Flip"
 msgstr "Spiegelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:706
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Effectenstapel inschakelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:706
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Effectstapel uitschakelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:745
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #, kde-format
 msgid "No effect selected."
 msgstr "Geen effect geselecteerd."
 
-#: src/effects/effectstack/view/effectstackview.cpp:751
+#: src/effects/effectstack/view/effectstackview.cpp:784
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Huidige effectenstapel opslaan"
 
-#: src/effects/effectstack/view/effectstackview.cpp:756
+#: src/effects/effectstack/view/effectstackview.cpp:789
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Naam voor opgeslagen stapel:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:757
+#: src/effects/effectstack/view/effectstackview.cpp:790
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Beschrijving:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/effects/effectstack/view/effectstackview.cpp:802
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Geen naam gegeven, effectstapel niet opgeslagen."
 
-#: src/effects/effectstack/view/effectstackview.cpp:776
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -11258,42 +11271,42 @@ msgstr ""
 "Geen beschrijving geleverd. \n"
 "Effect zonder beschrijving opslaan?"
 
-#: src/effects/effectstack/view/maskmanager.cpp:52
+#: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "De SAM2-plug-in configureren"
 
-#: src/effects/effectstack/view/maskmanager.cpp:110
+#: src/effects/effectstack/view/maskmanager.cpp:123
 #, kde-format
 msgid "Job failed"
 msgstr "Taak is mislukt"
 
-#: src/effects/effectstack/view/maskmanager.cpp:222
+#: src/effects/effectstack/view/maskmanager.cpp:255
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Videoframes worden geëxporteerd voor analyse"
 
-#: src/effects/effectstack/view/maskmanager.cpp:226
+#: src/effects/effectstack/view/maskmanager.cpp:259
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Videoframes worden geëxporteerd"
 
-#: src/effects/effectstack/view/maskmanager.cpp:239
+#: src/effects/effectstack/view/maskmanager.cpp:272
 #, kde-format
 msgid "Missing source frames"
 msgstr "Ontbrekende bronframes"
 
-#: src/effects/effectstack/view/maskmanager.cpp:330
+#: src/effects/effectstack/view/maskmanager.cpp:363
 #, kde-format
 msgid "mask %1"
 msgstr "masker %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:336
+#: src/effects/effectstack/view/maskmanager.cpp:369
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Masker %1 wordt gegenereerd"
 
-#: src/effects/effectstack/view/maskmanager.cpp:496
+#: src/effects/effectstack/view/maskmanager.cpp:536
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11511,7 +11524,7 @@ msgstr "Aanmaken van masker"
 msgid "No source frames to process"
 msgstr "Geen te verwerken bronframes"
 
-#: src/jobs/masktask.cpp:66
+#: src/jobs/masktask.cpp:65
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "Renderen van masker %1 is mislukt"
@@ -14660,34 +14673,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:669
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:682
 #, kde-format
 msgid "Set Zone In"
 msgstr "Zone-begin instellen"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:673
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:686
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Zone-eind instellen"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:553
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "Terugspoelen"
 
 #: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
-#: src/monitor/monitormanager.cpp:528
+#: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "Afspelen"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:528
-#: src/monitor/monitormanager.cpp:534
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "Pauzeren"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "Vooruit"
@@ -14870,12 +14883,12 @@ msgstr ""
 "De transitie cairoblend is vereist voor die functie, installeer frei0r en "
 "start Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2547
+#: src/monitor/monitor.cpp:2568
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Modus Bewerken in monitor inschakelen om effect te bewerken"
 
-#: src/monitor/monitormanager.cpp:210
+#: src/monitor/monitormanager.cpp:214
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
@@ -14884,7 +14897,7 @@ msgstr ""
 "Wilt u <a href=\"#clipmonitor\">de clipmonitor tonen</a> om de tijdlijn te "
 "bekijken?"
 
-#: src/monitor/monitormanager.cpp:239
+#: src/monitor/monitormanager.cpp:246
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
@@ -14893,125 +14906,125 @@ msgstr ""
 "Wilt u <a href=\"#projectmonitor\">de projectmonitor tonen</a> om de "
 "tijdlijn te bekijken?"
 
-#: src/monitor/monitormanager.cpp:538
+#: src/monitor/monitormanager.cpp:551
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "Monitor naar volledig scherm omschakelen"
 
-#: src/monitor/monitormanager.cpp:543
+#: src/monitor/monitormanager.cpp:556
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "Monitor inzoomen"
 
-#: src/monitor/monitormanager.cpp:548
+#: src/monitor/monitormanager.cpp:561
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "Monitor uitzoomen"
 
-#: src/monitor/monitormanager.cpp:557
+#: src/monitor/monitormanager.cpp:570
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "1 frame terug"
 
-#: src/monitor/monitormanager.cpp:561
+#: src/monitor/monitormanager.cpp:574
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "1 seconde terug"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:583
 #, kde-format
 msgid "Go to Project Start"
 msgstr "Ga naar projectbegin"
 
-#: src/monitor/monitormanager.cpp:574
+#: src/monitor/monitormanager.cpp:587
 #, kde-format
 msgid "Go to Project End"
 msgstr "Ga naar het projecteinde"
 
-#: src/monitor/monitormanager.cpp:578
+#: src/monitor/monitormanager.cpp:591
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "1 frame vooruit"
 
-#: src/monitor/monitormanager.cpp:582
+#: src/monitor/monitormanager.cpp:595
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "1 seconde vooruit"
 
-#: src/monitor/monitormanager.cpp:587
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Multitrack View"
 msgstr "Weergave met meerdere tracks"
 
-#: src/monitor/monitormanager.cpp:596
+#: src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "Bewerking op multi-track uitvoeren"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:613
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "Bewerken verbergen/tonen "
 
-#: src/monitor/monitormanager.cpp:601
+#: src/monitor/monitormanager.cpp:614
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "Schakelt modus bewerken om (en het tonen van de objecthendels)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:607 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:620 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "Deinterlacer"
 
-#: src/monitor/monitormanager.cpp:611
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF - tijdelijk + ruimtelijk (beste)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:625 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:638 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "Interpolatie"
 
-#: src/monitor/monitormanager.cpp:626
+#: src/monitor/monitormanager.cpp:639
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "Dichtstbijzijnde buur (snel)"
 
-#: src/monitor/monitormanager.cpp:629
+#: src/monitor/monitormanager.cpp:642
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Hyper/Lanczos (beste)"
 
-#: src/monitor/monitormanager.cpp:643
+#: src/monitor/monitormanager.cpp:656
 #, kde-format
 msgid "Progressive playback"
 msgstr "Progressief afspelen"
 
-#: src/monitor/monitormanager.cpp:649
+#: src/monitor/monitormanager.cpp:662
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "Audioscrubbing"
 
-#: src/monitor/monitormanager.cpp:655
+#: src/monitor/monitormanager.cpp:668
 #, kde-format
 msgid "Mute Monitor"
 msgstr "Monitor dempen"
 
-#: src/monitor/monitormanager.cpp:655
+#: src/monitor/monitormanager.cpp:668
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "Demping van monitor opheffen"
 
-#: src/monitor/monitormanager.cpp:661
+#: src/monitor/monitormanager.cpp:674
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "Ga naar het begin van de zone"
 
-#: src/monitor/monitormanager.cpp:665
+#: src/monitor/monitormanager.cpp:678
 #, kde-format
 msgid "Go to Zone End"
 msgstr "Ga naar het einde van de zone"
@@ -15098,7 +15111,7 @@ msgstr ""
 "Er is iets mis met de installatie van kdenlive of met de instellingen van de "
 "aansturing van het/de appara(a)t(en), herstel dit eerst."
 
-#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:49
+#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:56
 #: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
@@ -15131,7 +15144,7 @@ msgid "Automatic Keyframes"
 msgstr "Automatische keyframes"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:120
+#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:122
 #: src/monitor/view/MultiScreenToolBar.qml:64
 #: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
@@ -15139,21 +15152,20 @@ msgid "Zoom in"
 msgstr "Zoom in"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:125
+#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:127
 #: src/monitor/view/MultiScreenToolBar.qml:72
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
 msgstr "Zoom uit"
 
-#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:132
+#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:134
 #: src/monitor/view/MultiScreenToolBar.qml:81
 #: src/monitor/view/SceneToolBar.qml:112
 #, kde-format
 msgid "Move Toolbar"
 msgstr "Werkbalk verplaatsen"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:169
 #: src/monitor/view/kdenliveclipmonitor.qml:170
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
@@ -15168,34 +15180,29 @@ msgstr ""
 "<shortcut>Wiel</shortcut> of <shortcut>pijltjestoetsen</shortcut> om te "
 "zoeken, <shortcut>Ctrl wiel</shortcut> om te zoomen"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:537
 #: src/monitor/view/kdenliveclipmonitor.qml:559
 #: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr "%1 fps"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:570
 #: src/monitor/view/kdenliveclipmonitor.qml:592
 #, kde-format
 msgid "In/Out Point"
 msgstr "In/uitpunt"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:570
 #: src/monitor/view/kdenliveclipmonitor.qml:592
 #: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr "Beginpunt"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:592
 #: src/monitor/view/kdenliveclipmonitor.qml:614
 #: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr "Eindpunt"
 
-#: src/monitor/view/kdenliveclipmonitor-orig.qml:759
 #: src/monitor/view/kdenliveclipmonitor.qml:794
 #, kde-format
 msgid "Terminate Job"
@@ -15217,17 +15224,23 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformeren"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:382
+#, fuzzy, kde-format
+#| msgid "Select a clip in project bin to compare effect"
+msgid "Select an object in the image first"
+msgstr "Selecteer een clip in de project-bin om effect te vergelijken"
+
+#: src/monitor/view/kdenlivemonitorautomask.qml:382
 #, kde-format
 msgid "Generating image mask"
 msgstr "Afbeeldingsmasker wordt gegenereerd"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:382
 #, kde-format
 msgid "Generating video mask"
 msgstr "Videomasker wordt gegenereerd"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:393
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -15238,12 +15251,12 @@ msgstr ""
 "Shift+klik om een andere zone in te voegen.\n"
 "Ctrl+klik om een zone uit te sluiten."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:393
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Videomasker bekijken"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#: src/monitor/view/kdenlivemonitorautomask.qml:404
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -15256,12 +15269,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#: src/monitor/view/kdenlivemonitorautomask.qml:414
 #, kde-format
 msgid "Go to mask start"
 msgstr "Ga naar het begin van het masker"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#: src/monitor/view/kdenlivemonitorautomask.qml:427
 #, kde-format
 msgid "Go to mask end"
 msgstr "Ga naar het einde van het masker"
@@ -15322,32 +15335,27 @@ msgstr ""
 "Klik om punten toe te voegen,\n"
 "rechts klikken of op Enter drukken om vorm te sluiten."
 
-#: src/monitor/view/MaskToolBar.qml:55
+#: src/monitor/view/MaskToolBar.qml:64
 #, kde-format
 msgid "Generate Mask"
 msgstr "Masker genereren"
 
-#: src/monitor/view/MaskToolBar.qml:66
+#: src/monitor/view/MaskToolBar.qml:80
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr "Dekking wijzigen (0% - 25% - 50% - 100%)"
 
-#: src/monitor/view/MaskToolBar.qml:80
-#, kde-format
-msgid "Change Color"
-msgstr "Kleur wijzigen"
-
-#: src/monitor/view/MaskToolBar.qml:92
+#: src/monitor/view/MaskToolBar.qml:94
 #, kde-format
 msgid "Invert Mask"
 msgstr "Masker inverteren"
 
-#: src/monitor/view/MaskToolBar.qml:100
+#: src/monitor/view/MaskToolBar.qml:102
 #, kde-format
 msgid "Exit Mask Creation"
 msgstr "Aanmaken van masker verlaten"
 
-#: src/monitor/view/MaskToolBar.qml:100
+#: src/monitor/view/MaskToolBar.qml:102
 #, kde-format
 msgid "Exit Preview Mode"
 msgstr "Voorbeeldmodus verlaten"
@@ -19057,12 +19065,12 @@ msgstr "Uit:%1, positie:%2"
 #: src/timeline2/view/qml/Clip.qml:1034
 #, kde-format
 msgid "Offset: -%1"
-msgstr "Offset: -%1"
+msgstr "Verschuiving: -%1"
 
 #: src/timeline2/view/qml/Clip.qml:1034
 #, kde-format
 msgid "Offset: %1"
-msgstr "Offset: %1"
+msgstr "Verschuiving: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1035
 #, kde-format
@@ -19168,7 +19176,7 @@ msgstr "<b>Dubbelklik</b> om ondertitel toe te voegen"
 #: src/timeline2/view/qml/timeline.qml:2017
 #, kde-format
 msgid "Offset: %1, Position: %2"
-msgstr "Offset: %1, positie: %2"
+msgstr "Verschuiving: %1, positie: %2"
 
 #: src/timeline2/view/qml/timeline.qml:2176
 #: src/timeline2/view/qml/timeline.qml:2185
@@ -20396,6 +20404,7 @@ msgstr "Huidige punt verwijderen."
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, buttonImport)
+#. i18n: ectx: property (text), widget (QToolButton, resetMask)
 #. i18n: ectx: property (text), widget (QToolButton, buttonAbort)
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
@@ -20537,32 +20546,33 @@ msgstr "Huidige punt verwijderen."
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
 #: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
 #: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
-#: src/ui/maskmanage_ui.ui:56 src/ui/maskmanage_ui.ui:69
-#: src/ui/maskmanage_ui.ui:82 src/ui/maskmanage_ui.ui:109
-#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
-#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
-#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
-#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
-#: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
-#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
-#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
-#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
-#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
-#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
-#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
-#: src/ui/titlewidget_ui.ui:672 src/ui/titlewidget_ui.ui:685
-#: src/ui/titlewidget_ui.ui:698 src/ui/titlewidget_ui.ui:711
-#: src/ui/titlewidget_ui.ui:724 src/ui/titlewidget_ui.ui:737
-#: src/ui/titlewidget_ui.ui:955 src/ui/titlewidget_ui.ui:965
-#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1223
-#: src/ui/titlewidget_ui.ui:1272 src/ui/titlewidget_ui.ui:1294
-#: src/ui/titlewidget_ui.ui:1326 src/ui/titlewidget_ui.ui:1415
-#: src/ui/titlewidget_ui.ui:1733 src/ui/titlewidget_ui.ui:1749
-#: src/ui/titlewidget_ui.ui:1762 src/ui/unicodewidget_ui.ui:201
-#: src/ui/unicodewidget_ui.ui:226 src/ui/urllistparamwidget_ui.ui:117
+#: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
+#: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:421
+#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
+#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
+#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
+#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
+#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:71
+#: src/ui/textbasededit_ui.ui:140 src/ui/textbasededit_ui.ui:163
+#: src/ui/textbasededit_ui.ui:179 src/ui/textbasededit_ui.ui:189
+#: src/ui/textbasededit_ui.ui:199 src/ui/textbasededit_ui.ui:216
+#: src/ui/textbasededit_ui.ui:226 src/ui/textbasededit_ui.ui:255
+#: src/ui/textbasededit_ui.ui:276 src/ui/timeremap_ui.ui:84
+#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
+#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
+#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:672
+#: src/ui/titlewidget_ui.ui:685 src/ui/titlewidget_ui.ui:698
+#: src/ui/titlewidget_ui.ui:711 src/ui/titlewidget_ui.ui:724
+#: src/ui/titlewidget_ui.ui:737 src/ui/titlewidget_ui.ui:955
+#: src/ui/titlewidget_ui.ui:965 src/ui/titlewidget_ui.ui:1169
+#: src/ui/titlewidget_ui.ui:1223 src/ui/titlewidget_ui.ui:1272
+#: src/ui/titlewidget_ui.ui:1294 src/ui/titlewidget_ui.ui:1326
+#: src/ui/titlewidget_ui.ui:1415 src/ui/titlewidget_ui.ui:1733
+#: src/ui/titlewidget_ui.ui:1749 src/ui/titlewidget_ui.ui:1762
+#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -21861,7 +21871,7 @@ msgstr "Installatie van plug-in ongedaan maken"
 #: src/ui/configspeech_ui.ui:461
 #, kde-format
 msgid "Whisper"
-msgstr "Fluisteren"
+msgstr "Whisper"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config_sam)
@@ -22654,7 +22664,7 @@ msgstr "Tekstopties"
 #: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:919
 #, kde-format
 msgid "Offset:"
-msgstr "Offset:"
+msgstr "Verschuiving:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/exportguidesdialog_ui.ui:66
@@ -23231,46 +23241,69 @@ msgid "Form"
 msgstr "Form"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/ui/maskmanage_ui.ui:25
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/maskmanage_ui.ui:44 src/ui/maskmanage_ui.ui:179
 #, kde-format
 msgid "Mask"
 msgstr "Masker"
 
-#. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/ui/maskmanage_ui.ui:41
-#, kde-format
-msgid "Preview Mask"
-msgstr "Masker bekijken"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
-#: src/ui/maskmanage_ui.ui:53
-#, kde-format
-msgid "Create New Mask"
-msgstr "Nieuw masker aanmaken"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/ui/maskmanage_ui.ui:66
-#, kde-format
-msgid "Delete Mask"
-msgstr "Masker verwijderen"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
-#: src/ui/maskmanage_ui.ui:79
-#, kde-format
-msgid "Import Mask in Project"
-msgstr "Masker importeren in project"
-
 #. i18n: ectx: property (text), widget (QPushButton, buttonApply)
-#: src/ui/maskmanage_ui.ui:154
+#: src/ui/maskmanage_ui.ui:60
 #, kde-format
 msgid "Apply Mask"
 msgstr "Masker toepassen"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
-#: src/ui/maskmanage_ui.ui:164
+#: src/ui/maskmanage_ui.ui:70
 #, kde-format
 msgid "Edit Mask"
 msgstr "Marker bewerken"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
+#: src/ui/maskmanage_ui.ui:83
+#, kde-format
+msgid "Preview Mask"
+msgstr "Masker bekijken"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
+#: src/ui/maskmanage_ui.ui:95
+#, kde-format
+msgid "Create New Mask"
+msgstr "Nieuw masker aanmaken"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
+#: src/ui/maskmanage_ui.ui:108
+#, kde-format
+msgid "Delete Mask"
+msgstr "Masker verwijderen"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonImport)
+#: src/ui/maskmanage_ui.ui:121
+#, kde-format
+msgid "Import Mask in Project"
+msgstr "Masker importeren in project"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/maskmanage_ui.ui:165
+#, fuzzy, kde-format
+#| msgid "Border "
+msgid "Border"
+msgstr "Rand "
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonStop)
+#: src/ui/maskmanage_ui.ui:172
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Abort Mask Task"
+msgid "Abort Mask"
+msgstr "Maskertaak afbreken"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/maskmanage_ui.ui:199
+#, fuzzy, kde-format
+#| msgid "Create New Mask"
+msgid "Creating Mask"
+msgstr "Nieuw masker aanmaken"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24784,6 +24817,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Change Color"
+#~ msgstr "Kleur wijzigen"
 
 #~ msgctxt "@title:window"
 #~ msgid "Enter Mask Name"
@@ -26666,9 +26702,6 @@ msgstr "%1u"
 
 #~ msgid "Background Subtractor"
 #~ msgstr "Achtergrondaftrekprogramma"
-
-#~ msgid "Remove the background of a static video"
-#~ msgstr "De acchtergrond van een statische video verwijderen"
 
 #~ msgid "Analysis Sample Radius"
 #~ msgstr "Analyse van straal van sample"
