@@ -60,6 +60,8 @@ public:
      */
     static std::shared_ptr<PlaylistClip> construct(const QString &id, const QDomElement &description, const QIcon &thumb,
                                                    std::shared_ptr<ProjectItemModel> model);
+    /** @brief returns true if an avformat producer has an alpha channel */
+    bool hasAlpha() override;
 
 protected:
     PlaylistClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> &producer);

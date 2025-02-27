@@ -721,7 +721,11 @@ void ProjectClip::checkProxy(bool rebuildProxy)
             }
         } else if (m_clipType == ClipType::Playlist && pCore->currentDoc()->autoGenerateProxy(pCore->getCurrentFrameDisplaySize().width()) &&
                    getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
-            clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
+            if (!hasAlpha()) {
+                clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
+            } else {
+                qDebug() << ":::::: PLAYLIST WITH ALPHA; SKIP PROXY GENERATION....";
+            }
         }
         if (clipToProxy != nullptr) {
             generateProxy = true;
@@ -3124,7 +3128,7 @@ size_t ProjectClip::sequenceFrameDuration(const QUuid &)
 bool ProjectClip::hasAlpha()
 {
     const QStringList alphaFormats = {QLatin1String("argb"), QLatin1String("abgr"), QLatin1String("bgra"), QLatin1String("rgba"),
-                                      QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya"),   QLatin1String("yuva")};
+                                      QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya")};
     int vindex = m_properties->get_int("video_index");
     const QString codecInfo = QStringLiteral("meta.media.%1.codec.pix_fmt").arg(vindex);
     const QString selected = getProducerProperty(codecInfo);
