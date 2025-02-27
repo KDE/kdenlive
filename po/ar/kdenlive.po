@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-26 00:41+0000\n"
+"POT-Creation-Date: 2025-02-27 00:40+0000\n"
 "PO-Revision-Date: 2025-02-18 22:04+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4318,12 +4318,12 @@ msgstr "تأثيرات مسار %1"
 msgid "Bin %1 effects"
 msgstr "تأثيرات سلة %1"
 
-#: src/assets/assetpanel.cpp:641
+#: src/assets/assetpanel.cpp:625
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "لديك مهمة قناع قيد التشغيل. هل تريد إلغاء المهمة؟"
 
-#: src/assets/assetpanel.cpp:642
+#: src/assets/assetpanel.cpp:626
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -5551,7 +5551,7 @@ msgid "Replace in timeline"
 msgstr "استبدل في الخطّ الزّمني"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:565
+#: src/effects/effectstack/view/maskmanager.cpp:576
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -11171,32 +11171,32 @@ msgstr "رجاء اضبط ملحق SAM2"
 msgid "Job failed"
 msgstr "فشلت المهمّة"
 
-#: src/effects/effectstack/view/maskmanager.cpp:255
+#: src/effects/effectstack/view/maskmanager.cpp:254
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "يصدر إطارات الفيديو للتحليل"
 
-#: src/effects/effectstack/view/maskmanager.cpp:259
+#: src/effects/effectstack/view/maskmanager.cpp:258
 #, kde-format
 msgid "Exporting video frames"
 msgstr "يصدر إطارات الفيديو"
 
-#: src/effects/effectstack/view/maskmanager.cpp:272
+#: src/effects/effectstack/view/maskmanager.cpp:271
 #, kde-format
 msgid "Missing source frames"
 msgstr "الأطر المصدر المفقودة"
 
-#: src/effects/effectstack/view/maskmanager.cpp:363
+#: src/effects/effectstack/view/maskmanager.cpp:362
 #, kde-format
 msgid "mask %1"
 msgstr "قناع %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:369
+#: src/effects/effectstack/view/maskmanager.cpp:368
 #, kde-format
 msgid "Generating mask %1"
 msgstr "يولد قناع %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:536
+#: src/effects/effectstack/view/maskmanager.cpp:547
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11404,17 +11404,17 @@ msgstr "فشل ترشيح المصدر."
 msgid "Effect analysis failed for %1"
 msgstr "فشل تحليل التأثير لـ%1"
 
-#: src/jobs/masktask.cpp:25
+#: src/jobs/masktask.cpp:26
 #, kde-format
 msgid "Mask creation"
 msgstr "إنشاء القناع"
 
-#: src/jobs/masktask.cpp:41
+#: src/jobs/masktask.cpp:42
 #, kde-format
 msgid "No source frames to process"
 msgstr "لا توجد إطارات مصدر للمعالجة"
 
-#: src/jobs/masktask.cpp:65
+#: src/jobs/masktask.cpp:66
 #, kde-format
 msgid "Failed to render mask %1"
 msgstr "فشل تصيير قناع %1"

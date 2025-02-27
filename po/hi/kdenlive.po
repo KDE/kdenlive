@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-26 00:41+0000\n"
+"POT-Creation-Date: 2025-02-27 00:40+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -4306,12 +4306,12 @@ msgstr "%1 प्रभाव ट्रैक करें"
 msgid "Bin %1 effects"
 msgstr "बिन %1 प्रभाव"
 
-#: src/assets/assetpanel.cpp:641
+#: src/assets/assetpanel.cpp:625
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:642
+#: src/assets/assetpanel.cpp:626
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -5537,7 +5537,7 @@ msgid "Replace in timeline"
 msgstr "समयरेखा में प्रतिस्थापित करें"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:565
+#: src/effects/effectstack/view/maskmanager.cpp:576
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -11109,35 +11109,35 @@ msgstr "कृपया भाषण को पाठ में कॉन्फ�
 msgid "Job failed"
 msgstr "काटने का काम विफल हुआ."
 
-#: src/effects/effectstack/view/maskmanager.cpp:255
+#: src/effects/effectstack/view/maskmanager.cpp:254
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:259
+#: src/effects/effectstack/view/maskmanager.cpp:258
 #, fuzzy, kde-format
 #| msgid "Export guides"
 msgid "Exporting video frames"
 msgstr "गाइड निर्यात करें"
 
-#: src/effects/effectstack/view/maskmanager.cpp:272
+#: src/effects/effectstack/view/maskmanager.cpp:271
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "स्रोत क्लिप गायब है"
 
-#: src/effects/effectstack/view/maskmanager.cpp:363
+#: src/effects/effectstack/view/maskmanager.cpp:362
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:369
+#: src/effects/effectstack/view/maskmanager.cpp:368
 #, fuzzy, kde-format
 #| msgid "Generate"
 msgid "Generating mask %1"
 msgstr "उत्पन्न"
 
-#: src/effects/effectstack/view/maskmanager.cpp:536
+#: src/effects/effectstack/view/maskmanager.cpp:547
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11343,18 +11343,18 @@ msgstr "स्रोत फ़िल्टर करने में विफ�
 msgid "Effect analysis failed for %1"
 msgstr ""
 
-#: src/jobs/masktask.cpp:25
+#: src/jobs/masktask.cpp:26
 #, fuzzy, kde-format
 #| msgid "Mask clip"
 msgid "Mask creation"
 msgstr "मास्क क्लिप"
 
-#: src/jobs/masktask.cpp:41
+#: src/jobs/masktask.cpp:42
 #, kde-format
 msgid "No source frames to process"
 msgstr ""
 
-#: src/jobs/masktask.cpp:65
+#: src/jobs/masktask.cpp:66
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"

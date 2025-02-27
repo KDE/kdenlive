@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-26 00:41+0000\n"
+"POT-Creation-Date: 2025-02-27 00:40+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -4267,12 +4267,12 @@ msgstr "Pomakni efekt"
 msgid "Bin %1 effects"
 msgstr "Uredi efekt %1"
 
-#: src/assets/assetpanel.cpp:641
+#: src/assets/assetpanel.cpp:625
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:642
+#: src/assets/assetpanel.cpp:626
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -5547,7 +5547,7 @@ msgid "Replace in timeline"
 msgstr "Učitaj projektne isječke"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:565
+#: src/effects/effectstack/view/maskmanager.cpp:576
 #, fuzzy, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -11285,35 +11285,35 @@ msgstr "Prijelaz"
 msgid "Job failed"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:255
+#: src/effects/effectstack/view/maskmanager.cpp:254
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:259
+#: src/effects/effectstack/view/maskmanager.cpp:258
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Exporting video frames"
 msgstr "Dodaj oznaku"
 
-#: src/effects/effectstack/view/maskmanager.cpp:272
+#: src/effects/effectstack/view/maskmanager.cpp:271
 #, fuzzy, kde-format
 #| msgid "Missing clips"
 msgid "Missing source frames"
 msgstr "Nedostajući isječci"
 
-#: src/effects/effectstack/view/maskmanager.cpp:363
+#: src/effects/effectstack/view/maskmanager.cpp:362
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:369
+#: src/effects/effectstack/view/maskmanager.cpp:368
 #, fuzzy, kde-format
 #| msgid "Creating menu images"
 msgid "Generating mask %1"
 msgstr "Kreiraj slike izbornika"
 
-#: src/effects/effectstack/view/maskmanager.cpp:536
+#: src/effects/effectstack/view/maskmanager.cpp:547
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11538,18 +11538,18 @@ msgstr "Potrebno za hvatanje ekrana"
 msgid "Effect analysis failed for %1"
 msgstr "Uredi efekt %1"
 
-#: src/jobs/masktask.cpp:25
+#: src/jobs/masktask.cpp:26
 #, fuzzy, kde-format
 #| msgid "Playlist clip"
 msgid "Mask creation"
 msgstr "Playlista isječak"
 
-#: src/jobs/masktask.cpp:41
+#: src/jobs/masktask.cpp:42
 #, fuzzy, kde-format
 msgid "No source frames to process"
 msgstr "Frame rate"
 
-#: src/jobs/masktask.cpp:65
+#: src/jobs/masktask.cpp:66
 #, fuzzy, kde-format
 #| msgid "Delete current file"
 msgid "Failed to render mask %1"

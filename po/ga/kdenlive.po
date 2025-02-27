@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-26 00:41+0000\n"
+"POT-Creation-Date: 2025-02-27 00:40+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4353,12 +4353,12 @@ msgstr ""
 msgid "Bin %1 effects"
 msgstr "Cuir maisíocht nua leis"
 
-#: src/assets/assetpanel.cpp:641
+#: src/assets/assetpanel.cpp:625
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:642
+#: src/assets/assetpanel.cpp:626
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -5665,7 +5665,7 @@ msgid "Replace in timeline"
 msgstr "Amlíne"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:565
+#: src/effects/effectstack/view/maskmanager.cpp:576
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgctxt "@action"
@@ -11488,35 +11488,35 @@ msgstr "Roghnú"
 msgid "Job failed"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:255
+#: src/effects/effectstack/view/maskmanager.cpp:254
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:259
+#: src/effects/effectstack/view/maskmanager.cpp:258
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Exporting video frames"
 msgstr "Luchtaigh marcóirí"
 
-#: src/effects/effectstack/view/maskmanager.cpp:272
+#: src/effects/effectstack/view/maskmanager.cpp:271
 #, kde-format
 msgid "Missing source frames"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:363
+#: src/effects/effectstack/view/maskmanager.cpp:362
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:369
+#: src/effects/effectstack/view/maskmanager.cpp:368
 #, fuzzy, kde-format
 #| msgctxt "general keyboard shortcuts"
 #| msgid "General"
 msgid "Generating mask %1"
 msgstr "Ginearálta"
 
-#: src/effects/effectstack/view/maskmanager.cpp:536
+#: src/effects/effectstack/view/maskmanager.cpp:547
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11742,19 +11742,19 @@ msgstr ""
 msgid "Effect analysis failed for %1"
 msgstr ""
 
-#: src/jobs/masktask.cpp:25
+#: src/jobs/masktask.cpp:26
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Mask creation"
 msgstr "Teideal"
 
-#: src/jobs/masktask.cpp:41
+#: src/jobs/masktask.cpp:42
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "No source frames to process"
 msgstr "Ráta fráma"
 
-#: src/jobs/masktask.cpp:65
+#: src/jobs/masktask.cpp:66
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Failed to render mask %1"

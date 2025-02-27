@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-26 00:41+0000\n"
+"POT-Creation-Date: 2025-02-27 00:40+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -4278,12 +4278,12 @@ msgstr "Raja %1 efektid"
 msgid "Bin %1 effects"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:641
+#: src/assets/assetpanel.cpp:625
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:642
+#: src/assets/assetpanel.cpp:626
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -5565,7 +5565,7 @@ msgid "Replace in timeline"
 msgstr "Põhiajatelg"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:565
+#: src/effects/effectstack/view/maskmanager.cpp:576
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -11486,35 +11486,35 @@ msgstr "Vali üleminek"
 msgid "Job failed"
 msgstr "Väljundfail"
 
-#: src/effects/effectstack/view/maskmanager.cpp:255
+#: src/effects/effectstack/view/maskmanager.cpp:254
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:259
+#: src/effects/effectstack/view/maskmanager.cpp:258
 #, fuzzy, kde-format
 #| msgid "Import guides"
 msgid "Exporting video frames"
 msgstr "Impordi abijooned"
 
-#: src/effects/effectstack/view/maskmanager.cpp:272
+#: src/effects/effectstack/view/maskmanager.cpp:271
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "Lähteklipp puudub"
 
-#: src/effects/effectstack/view/maskmanager.cpp:363
+#: src/effects/effectstack/view/maskmanager.cpp:362
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:369
+#: src/effects/effectstack/view/maskmanager.cpp:368
 #, fuzzy, kde-format
 #| msgid "Creating menu images"
 msgid "Generating mask %1"
 msgstr "Menüüpiltide loomine"
 
-#: src/effects/effectstack/view/maskmanager.cpp:536
+#: src/effects/effectstack/view/maskmanager.cpp:547
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11743,19 +11743,19 @@ msgstr "Salvestamise alustamine nurjus"
 msgid "Effect analysis failed for %1"
 msgstr "Klipi \"%1\" efektid"
 
-#: src/jobs/masktask.cpp:25
+#: src/jobs/masktask.cpp:26
 #, fuzzy, kde-format
 #| msgid "X axis rotation"
 msgid "Mask creation"
 msgstr "X-telje pööramine"
 
-#: src/jobs/masktask.cpp:41
+#: src/jobs/masktask.cpp:42
 #, fuzzy, kde-format
 #| msgid "No keyframes to import"
 msgid "No source frames to process"
 msgstr "Pole võtmekaadreid, mida importida"
 
-#: src/jobs/masktask.cpp:65
+#: src/jobs/masktask.cpp:66
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to generate clip:\n"
