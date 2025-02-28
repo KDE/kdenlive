@@ -3571,22 +3571,27 @@ void MainWindow::focusTimeline()
     }
 }
 
-void MainWindow::slotClipInProjectTree()
+void MainWindow::slotClipInProjectTree(ObjectId ownerId)
 {
-    int cid = getCurrentTimeline()->controller()->getMainSelectedClip();
-    if (cid == -1) {
-        return;
+    QString binId;
+    if (ownerId.type != KdenliveObjectType::TimelineClip) {
+        int cid = getCurrentTimeline()->controller()->getMainSelectedClip();
+        if (cid == -1) {
+            return;
+        }
+        ownerId = ObjectId(KdenliveObjectType::TimelineClip, cid, pCore->currentTimelineId());
+        binId = getCurrentTimeline()->controller()->getClipBinId(cid);
+    } else {
+        binId = pCore->currentDoc()->getTimeline(ownerId.uuid)->getClipBinId(ownerId.itemId);
     }
-    const QString binId = getCurrentTimeline()->controller()->getClipBinId(cid);
     // If we have multiple bins, check first if a visible bin contains it
     raiseBin();
-    ObjectId id(KdenliveObjectType::TimelineClip, cid, pCore->currentTimelineId());
-    int start = pCore->getItemIn(id);
-    int duration = pCore->getItemDuration(id);
+    int start = pCore->getItemIn(ownerId);
+    int duration = pCore->getItemDuration(ownerId);
     int pos = m_projectMonitor->position();
-    int itemPos = pCore->getItemPosition(id);
+    int itemPos = pCore->getItemPosition(ownerId);
     bool containsPos = (pos >= itemPos && pos < itemPos + duration);
-    double speed = pCore->getClipSpeed(id);
+    double speed = pCore->getClipSpeed(ownerId);
     if (containsPos) {
         pos -= itemPos - start;
     }
@@ -3599,7 +3604,7 @@ void MainWindow::slotClipInProjectTree()
                 pos = qRound(pos * speed);
             }
         } else if (speed < 0.) {
-            int max = getCurrentTimeline()->controller()->clipMaxDuration(id.itemId);
+            int max = getCurrentTimeline()->controller()->clipMaxDuration(ownerId.itemId);
             if (max > 0) {
                 int invertedPos = itemPos + duration - m_projectMonitor->position();
                 start = qRound((max - (start + duration)) * -speed);

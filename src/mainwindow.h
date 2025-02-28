@@ -412,7 +412,7 @@ public Q_SLOTS:
     /** @brief Display current mouse pos */
     void slotUpdateMousePosition(int pos, int duration = -1);
     /** @brief Focus current timeline clip in bin and display its range */
-    void slotClipInProjectTree();
+    void slotClipInProjectTree(ObjectId ownerId = ObjectId());
     /** @brief Normalize audio channels before displaying them */
     void slotNormalizeAudioChannel(bool normalize);
 

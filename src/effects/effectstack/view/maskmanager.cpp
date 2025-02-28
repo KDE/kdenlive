@@ -182,10 +182,6 @@ void MaskManager::initMaskMode()
     if (!clip) {
         return;
     }
-    if (m_owner.type == KdenliveObjectType::TimelineClip) {
-        pCore->window()->slotClipInProjectTree();
-    }
-    clipMon->slotActivateMonitor();
     maskTools->setCurrentIndex(1);
 
     // Seek to zone start
@@ -240,7 +236,12 @@ void MaskManager::exportFrames()
             QMetaObject::invokeMethod(samStatus, "hide", Qt::QueuedConnection);
             buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
             Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
-            clipMon->slotSeek(m_zone.x());
+            clipMon->slotActivateMonitor();
+            if (m_ownerForFilter.type == KdenliveObjectType::TimelineClip) {
+                pCore->window()->slotClipInProjectTree(m_ownerForFilter);
+            } else {
+                clipMon->slotSeek(m_zone.x());
+            }
             clipMon->loadQmlScene(MonitorSceneAutoMask);
             QDir previewFolder = m_maskFolder;
             if (!previewFolder.exists(QStringLiteral("source-frames"))) {
