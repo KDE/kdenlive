@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-27 00:40+0000\n"
+"POT-Creation-Date: 2025-02-28 00:41+0000\n"
 "PO-Revision-Date: 2025-02-26 08:35+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -5885,7 +5885,7 @@ msgid "Edit Tags"
 msgstr "עריכת תגיות"
 
 #: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2043 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2047 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6503,7 +6503,7 @@ msgstr ""
 "ממדי התמונה קטנים מ־8 פיקסלים.\n"
 "תשתית הווידאו שלנו לא תומכת בזה כראוי."
 
-#: src/bin/projectclip.cpp:912
+#: src/bin/projectclip.cpp:916
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6512,29 +6512,29 @@ msgstr ""
 "לא ניתן לחלץ את נתוני העל מתוך %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "שגוי"
 
-#: src/bin/projectclip.cpp:1423 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1495
 #, kde-format
 msgid "File already exists"
 msgstr "הקובץ כבר קיים"
 
-#: src/bin/projectclip.cpp:2636
+#: src/bin/projectclip.cpp:2640
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "כיוון סרטונים בציר הזמן"
 
-#: src/bin/projectclip.cpp:2825
+#: src/bin/projectclip.cpp:2829
 #, kde-format
 msgid "Add stream effect"
 msgstr "הוספת אפקט תזרים"
 
-#: src/bin/projectclip.cpp:2850
+#: src/bin/projectclip.cpp:2854
 #, kde-format
 msgid "Remove stream effect"
 msgstr "הסרת אפקט תזרים"

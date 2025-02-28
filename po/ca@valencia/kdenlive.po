@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-27 00:40+0000\n"
-"PO-Revision-Date: 2025-02-18 09:44+0100\n"
+"POT-Creation-Date: 2025-02-28 00:41+0000\n"
+"PO-Revision-Date: 2025-02-26 11:37+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6044,7 +6044,7 @@ msgid "Edit Tags"
 msgstr "Editeu les etiquetes"
 
 #: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2043 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2047 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6663,7 +6663,7 @@ msgstr ""
 "La dimensió de la imatge és inferior a 8 píxels.\n"
 "Açò no s'admet en este entorn de treball de vídeo."
 
-#: src/bin/projectclip.cpp:912
+#: src/bin/projectclip.cpp:916
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6672,29 +6672,29 @@ msgstr ""
 "No s'han pogut extraure les metadades des de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "No vàlida"
 
-#: src/bin/projectclip.cpp:1423 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1495
 #, kde-format
 msgid "File already exists"
 msgstr "El fitxer ja existix"
 
-#: src/bin/projectclip.cpp:2636
+#: src/bin/projectclip.cpp:2640
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Ajusta els clips de la línia de temps"
 
-#: src/bin/projectclip.cpp:2825
+#: src/bin/projectclip.cpp:2829
 #, kde-format
 msgid "Add stream effect"
 msgstr "Afig un nou de flux"
 
-#: src/bin/projectclip.cpp:2850
+#: src/bin/projectclip.cpp:2854
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Elimina l'efecte de flux"
@@ -11247,15 +11247,14 @@ msgid "Vertical Flip"
 msgstr "Inversió vertical"
 
 #: src/effects/effectstack/view/effectstackview.cpp:333
-#, fuzzy, kde-format
-#| msgid "Remove group"
+#, kde-format
 msgid "Remove Background"
-msgstr "Elimina un grup"
+msgstr "Elimina el fons"
 
 #: src/effects/effectstack/view/effectstackview.cpp:334
 #, kde-format
 msgid "Remove background using AI model"
-msgstr ""
+msgstr "Elimina el fons utilitzant un model d'IA"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
@@ -15290,10 +15289,9 @@ msgid "Transform"
 msgstr "Transforma"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:382
-#, fuzzy, kde-format
-#| msgid "Select a clip in project bin to compare effect"
+#, kde-format
 msgid "Select an object in the image first"
-msgstr "Seleccioneu un clip en la safata del projecte per a comparar l'efecte"
+msgstr "Seleccioneu primer un objecte de la imatge"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:382
 #, kde-format
@@ -23399,25 +23397,21 @@ msgstr "Importa una màscara en el projecte"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/maskmanage_ui.ui:165
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Border"
-msgstr "Vora "
+msgstr "Vora"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Abort Mask Task"
+#, kde-format
 msgid "Abort Mask"
-msgstr "Interromp un treball de màscara"
+msgstr "Interromp la màscara"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/maskmanage_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Create New Mask"
+#, kde-format
 msgid "Creating Mask"
-msgstr "Crea una màscara nova"
+msgstr "Creació de màscara"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -24934,6 +24928,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Change Color"
-#~ msgstr "Canvia el color"

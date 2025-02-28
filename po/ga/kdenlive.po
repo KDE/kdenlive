@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-27 00:40+0000\n"
+"POT-Creation-Date: 2025-02-28 00:41+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -6084,7 +6084,7 @@ msgid "Edit Tags"
 msgstr "Cuir Fad Ama in Eagar"
 
 #: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2043 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2047 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, fuzzy, kde-format
@@ -6739,20 +6739,20 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:912
+#: src/bin/projectclip.cpp:916
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Invalid"
 msgstr "Cuir eagar ar phróifíl"
 
-#: src/bin/projectclip.cpp:1423 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1495
 #, fuzzy, kde-format
@@ -6760,19 +6760,19 @@ msgstr "Cuir eagar ar phróifíl"
 msgid "File already exists"
 msgstr "Méid an chomhaid"
 
-#: src/bin/projectclip.cpp:2636
+#: src/bin/projectclip.cpp:2640
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Adjust timeline clips"
 msgstr "Teideal"
 
-#: src/bin/projectclip.cpp:2825
+#: src/bin/projectclip.cpp:2829
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Cuir maisíocht nua leis"
 
-#: src/bin/projectclip.cpp:2850
+#: src/bin/projectclip.cpp:2854
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"

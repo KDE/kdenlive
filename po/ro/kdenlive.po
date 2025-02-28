@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-27 00:40+0000\n"
+"POT-Creation-Date: 2025-02-28 00:41+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -6083,7 +6083,7 @@ msgid "Edit Tags"
 msgstr "Modifică durata"
 
 #: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2043 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2047 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, fuzzy, kde-format
@@ -6755,20 +6755,20 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:912
+#: src/bin/projectclip.cpp:916
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "Clip nevalid"
 
-#: src/bin/projectclip.cpp:1423 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1495
 #, fuzzy, kde-format
@@ -6776,19 +6776,19 @@ msgstr "Clip nevalid"
 msgid "File already exists"
 msgstr "Profilul există deja"
 
-#: src/bin/projectclip.cpp:2636
+#: src/bin/projectclip.cpp:2640
 #, fuzzy, kde-format
 #| msgid "Playlist clip"
 msgid "Adjust timeline clips"
 msgstr "Clip cu listă de redare"
 
-#: src/bin/projectclip.cpp:2825
+#: src/bin/projectclip.cpp:2829
 #, fuzzy, kde-format
 #| msgid "Add Effect"
 msgid "Add stream effect"
 msgstr "Adaugă efect"
 
-#: src/bin/projectclip.cpp:2850
+#: src/bin/projectclip.cpp:2854
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
