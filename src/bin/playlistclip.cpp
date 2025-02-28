@@ -431,33 +431,34 @@ const QString PlaylistClip::getPlaylistRoot()
 
 bool PlaylistClip::hasAlpha()
 {
+    if (clipUrl().isEmpty()) {
+        return false;
+    }
     bool hasAlpha = false;
-    if (!clipUrl().isEmpty()) {
-        QFile inputFile(clipUrl());
-        if (inputFile.open(QIODevice::ReadOnly)) {
-            const QString png = QStringLiteral(".png");
-            const QString title = QStringLiteral(".kdenlivetitle");
-            const QString kdenliveAlpha = QStringLiteral("kdenlive:has_alpha");
-            const QString codecInfo = QStringLiteral(".codec.pix_fmt\">");
-            QTextStream in(&inputFile);
-            while (!in.atEnd()) {
-                const QString line = in.readLine();
-                if (line.contains(png) || line.contains(title) || line.contains(kdenliveAlpha)) {
+    QFile inputFile(clipUrl());
+    if (inputFile.open(QIODevice::ReadOnly)) {
+        const QString png = QStringLiteral(".png");
+        const QString title = QStringLiteral(".kdenlivetitle");
+        const QString kdenliveAlpha = QStringLiteral("kdenlive:has_alpha");
+        const QString codecInfo = QStringLiteral(".codec.pix_fmt\">");
+        QTextStream in(&inputFile);
+        while (!in.atEnd()) {
+            const QString line = in.readLine();
+            if (line.contains(png) || line.contains(title) || line.contains(kdenliveAlpha)) {
+                hasAlpha = true;
+                break;
+            }
+            if (line.contains(codecInfo)) {
+                if (line.contains(QStringLiteral("codec.pix_fmt\">argb")) || line.contains(QStringLiteral("codec.pix_fmt\">abgr")) ||
+                    line.contains(QStringLiteral("codec.pix_fmt\">bgra")) || line.contains(QStringLiteral("codec.pix_fmt\">rgba")) ||
+                    line.contains(QStringLiteral("codec.pix_fmt\">argb")) || line.contains(QStringLiteral("codec.pix_fmt\">yuva")) ||
+                    line.contains(QStringLiteral("codec.pix_fmt\">ya"))) {
                     hasAlpha = true;
                     break;
                 }
-                if (line.contains(codecInfo)) {
-                    if (line.contains(QStringLiteral("codec.pix_fmt\">argb")) || line.contains(QStringLiteral("codec.pix_fmt\">abgr")) ||
-                        line.contains(QStringLiteral("codec.pix_fmt\">bgra")) || line.contains(QStringLiteral("codec.pix_fmt\">rgba")) ||
-                        line.contains(QStringLiteral("codec.pix_fmt\">argb")) || line.contains(QStringLiteral("codec.pix_fmt\">yuva")) ||
-                        line.contains(QStringLiteral("codec.pix_fmt\">ya"))) {
-                        hasAlpha = true;
-                        break;
-                    }
-                }
             }
-            inputFile.close();
         }
+        inputFile.close();
     }
     return hasAlpha;
 }
