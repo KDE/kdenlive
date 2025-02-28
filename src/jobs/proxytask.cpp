@@ -97,16 +97,26 @@ void ProxyTask::run()
         mltParameters << source;
         // set destination
         mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:%1").arg(dest) << QStringLiteral("out=%1").arg(binClip->frameDuration());
-        QString parameter = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
-        if (parameter.isEmpty()) {
-            // Automatic setting, decide based on hw support
-            parameter = pCore->currentDoc()->getAutoProxyProfile();
-            bool nvenc = parameter.contains(QStringLiteral("%nvcodec"));
-            if (nvenc) {
-                parameter = parameter.section(QStringLiteral("-i"), 1);
-                parameter.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
-                parameter.replace(QStringLiteral("scale_npp"), QStringLiteral("scale"));
-                parameter.prepend(QStringLiteral("-pix_fmt yuv420p"));
+        QString parameter;
+        if (binClip->hasAlpha()) {
+            // check if this is a VP8/VP9 clip and enforce libvpx codec
+            parameter = KdenliveSettings::proxyalphaparams().simplified();
+            if (parameter.isEmpty()) {
+                // Automatic setting, decide based on hw support
+                parameter = pCore->currentDoc()->getAutoProxyAlphaProfile();
+            }
+        } else {
+            parameter = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+            if (parameter.isEmpty()) {
+                // Automatic setting, decide based on hw support
+                parameter = pCore->currentDoc()->getAutoProxyProfile();
+                bool nvenc = parameter.contains(QStringLiteral("%nvcodec"));
+                if (nvenc) {
+                    parameter = parameter.section(QStringLiteral("-i"), 1);
+                    parameter.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
+                    parameter.replace(QStringLiteral("scale_npp"), QStringLiteral("scale"));
+                    parameter.prepend(QStringLiteral("-pix_fmt yuv420p"));
+                }
             }
         }
         int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
