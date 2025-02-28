@@ -1445,6 +1445,9 @@ void ProjectClip::saveZone(QPoint zone, const QDir &dir)
         std::unique_ptr<Mlt::Producer> prod2(prod.cut(zone.x(), zone.y()));
         Mlt::Playlist list(pCore->getProjectProfile());
         list.insert_at(0, *prod2.get(), 0);
+        if (hasAlpha()) {
+            list.set("kdenlive:has_alpha", 1);
+        }
         // list.set("title", desc.toUtf8().constData());
         xmlConsumer.connect(list);
     } else {

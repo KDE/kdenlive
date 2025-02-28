@@ -255,6 +255,7 @@ public:
     bool updatePreviewSettings(const QString &profile);
     /** @brief Returns the recommended proxy profile parameters */
     QString getAutoProxyProfile();
+    QString getAutoProxyAlphaProfile();
     /** @brief Returns the number of clips in this project (useful to show loading progress) */
     int clipsCount() const;
     int updateClipsCount();
@@ -408,6 +409,7 @@ private:
     void updateProjectProfile(bool reloadProducers = false, bool reloadThumbs = false);
     /** @brief initialize proxy settings based on hw status */
     void initProxySettings();
+    void initProxyAlphaSettings();
 
 public Q_SLOTS:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);

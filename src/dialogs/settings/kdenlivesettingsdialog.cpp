@@ -275,6 +275,8 @@ void KdenliveSettingsDialog::initProxyPage()
     m_configProxy.setupUi(p10);
     m_proxyProfiles = new EncodingProfilesChooser(p10, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
     m_configProxy.proxy_profile_box->addWidget(m_proxyProfiles);
+    m_alphaProxyProfiles = new EncodingProfilesChooser(p10, EncodingProfilesManager::ProxyAlphaClips, true, QStringLiteral("alpha_profile"));
+    m_configProxy.alpha_profile_box->addWidget(m_alphaProxyProfiles);
     addPage(p10, i18n("Proxy Clips"), QStringLiteral("transform-scale"));
     connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
@@ -1166,6 +1168,16 @@ void KdenliveSettingsDialog::updateSettings()
     string = m_proxyProfiles->currentExtension();
     if (string != KdenliveSettings::proxyextension()) {
         KdenliveSettings::setProxyextension(string);
+    }
+
+    // proxies with alpha
+    string = m_alphaProxyProfiles->currentParams();
+    if (string != KdenliveSettings::proxyalphaparams()) {
+        KdenliveSettings::setProxyalphaparams(string);
+    }
+    string = m_alphaProxyProfiles->currentExtension();
+    if (string != KdenliveSettings::proxyalphaextension()) {
+        KdenliveSettings::setProxyalphaextension(string);
     }
 
     // external proxies

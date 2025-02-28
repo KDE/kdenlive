@@ -246,7 +246,11 @@ void ProxyTask::run()
             QString proxyParams;
             if (binClip->hasAlpha()) {
                 // check if this is a VP8/VP9 clip and enforce libvpx codec
-                proxyParams = QStringLiteral("-f mov -vcodec ffv1 -pix_fmt bgra");
+                proxyParams = KdenliveSettings::proxyalphaparams().simplified();
+                if (proxyParams.isEmpty()) {
+                    // Automatic setting, decide based on hw support
+                    proxyParams = pCore->currentDoc()->getAutoProxyAlphaProfile();
+                }
                 if ((binClip->clipType() == ClipType::AV || binClip->clipType() == ClipType::Video)) {
                     const QString codec = binClip->videoCodecProperty(QStringLiteral("name"));
                     if (codec == QLatin1String("libvpx-vp9")) {
@@ -257,10 +261,10 @@ void ProxyTask::run()
                 }
             } else {
                 proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
-            }
-            if (proxyParams.isEmpty()) {
-                // Automatic setting, decide based on hw support
-                proxyParams = pCore->currentDoc()->getAutoProxyProfile();
+                if (proxyParams.isEmpty()) {
+                    // Automatic setting, decide based on hw support
+                    proxyParams = pCore->currentDoc()->getAutoProxyProfile();
+                }
             }
             int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
             if (!proxyParams.contains(QLatin1String("mjpeg")) && !proxyParams.contains(QLatin1String("mpeg2video"))) {

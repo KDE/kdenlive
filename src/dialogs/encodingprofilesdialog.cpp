@@ -26,6 +26,9 @@ QString EncodingProfilesManager::configGroupName(ProfileType type)
     case ProfileType::ProxyClips:
         groupName = QStringLiteral("proxy");
         break;
+    case ProfileType::ProxyAlphaClips:
+        groupName = QStringLiteral("proxy-alpha");
+        break;
     case ProfileType::V4LCapture:
         groupName = QStringLiteral("video4linux");
         break;
@@ -50,13 +53,15 @@ EncodingProfilesDialog::EncodingProfilesDialog(EncodingProfilesManager::ProfileT
     setupUi(this);
     setWindowTitle(i18nc("@title:window", "Manage Encoding Profiles"));
     profile_type->addItem(i18n("Proxy Clips"), EncodingProfilesManager::ProxyClips);
+    profile_type->addItem(i18n("Proxy Clips With Alpha"), EncodingProfilesManager::ProxyAlphaClips);
     profile_type->addItem(i18n("Timeline Preview"), EncodingProfilesManager::TimelinePreview);
     profile_type->addItem(i18n("Video4Linux Capture"), EncodingProfilesManager::V4LCapture);
     profile_type->addItem(i18n("Screen Capture"), EncodingProfilesManager::ScreenCapture);
     profile_type->addItem(i18n("Decklink Capture"), EncodingProfilesManager::DecklinkCapture);
 
     m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    profile_type->setCurrentIndex(profileType);
+    int ix = profile_type->findData(profileType);
+    profile_type->setCurrentIndex(ix);
     connect(profile_type, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &EncodingProfilesDialog::slotLoadProfiles);
     connect(profile_list, &QListWidget::currentRowChanged, this, &EncodingProfilesDialog::slotShowParams);
     connect(button_delete, &QAbstractButton::clicked, this, &EncodingProfilesDialog::slotDeleteProfile);

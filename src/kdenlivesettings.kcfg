@@ -244,14 +244,29 @@
       <default></default>
     </entry>
 
+    <entry name="proxyparams" type="String">
+      <label>Proxy clips transcoding parameters.</label>
+      <default></default>
+    </entry>
+
     <entry name="proxy_profile" type="Int">
       <label>default proxy encoding profile.</label>
       <default>0</default>
     </entry>
 
-    <entry name="proxyparams" type="String">
+    <entry name="proxyalphaextension" type="String">
+      <label>File extension for proxy clips.</label>
+      <default></default>
+    </entry>
+
+    <entry name="proxyalphaparams" type="String">
       <label>Proxy clips transcoding parameters.</label>
       <default></default>
+    </entry>
+
+    <entry name="alpha_profile" type="Int">
+      <label>default proxy encoding profile.</label>
+      <default>0</default>
     </entry>
 
     <entry name="transcodeFriendly" type="String">

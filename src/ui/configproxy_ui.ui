@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>387</width>
-    <height>402</height>
+    <width>445</width>
+    <height>466</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -27,8 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <bool>false</bool>
      </property>
      <property name="icon">
-      <iconset theme="help-hint">
-       <normaloff>.</normaloff>.</iconset>
+      <iconset theme="help-hint"/>
      </property>
     </widget>
    </item>
@@ -60,7 +59,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="0" column="0">
        <widget class="QCheckBox" name="kcfg_generateproxy">
         <property name="text">
-         <string>Generate for videos larger than</string>
+         <string>Generate for videos larger than:</string>
         </property>
        </widget>
       </item>
@@ -117,21 +116,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </layout>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="4" column="0" colspan="2">
        <widget class="Line" name="line_2">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <widget class="QCheckBox" name="kcfg_generateimageproxy">
         <property name="text">
-         <string>Generate for images larger than</string>
+         <string>Generate for images larger than:</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <widget class="QSpinBox" name="kcfg_proxyimageminsize">
         <property name="suffix">
          <string> pixels</string>
@@ -147,17 +146,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="6" column="0">
        <widget class="QLabel" name="image_label">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>Proxy image size</string>
+         <string>Proxy image size:</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="6" column="1">
        <widget class="QSpinBox" name="kcfg_proxyimagesize">
         <property name="enabled">
          <bool>false</bool>
@@ -176,28 +175,28 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="2">
+      <item row="7" column="0" colspan="2">
        <widget class="Line" name="line">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
+      <item row="8" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>External proxy clips:</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="8" column="1">
        <widget class="QCheckBox" name="kcfg_externalproxy">
         <property name="text">
          <string>Enable</string>
         </property>
        </widget>
       </item>
-      <item row="8" column="1">
+      <item row="9" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QComboBox" name="kcfg_external_proxy_profile"/>
@@ -214,13 +213,23 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </item>
        </layout>
       </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Profile for clips with alpha channel:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="alpha_profile_box"/>
+      </item>
      </layout>
     </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -237,6 +246,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

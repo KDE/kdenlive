@@ -17,13 +17,7 @@ class EncodingProfilesManager
 {
 
 public:
-    enum ProfileType {
-        ProxyClips = 0,
-        TimelinePreview = 1,
-        V4LCapture = 2,
-        ScreenCapture = 3,
-        DecklinkCapture = 4
-    };
+    enum ProfileType { ProxyClips = 0, ProxyAlphaClips, TimelinePreview, V4LCapture, ScreenCapture, DecklinkCapture };
 
     static QString configGroupName(ProfileType type);
 };

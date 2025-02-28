@@ -437,11 +437,12 @@ bool PlaylistClip::hasAlpha()
         if (inputFile.open(QIODevice::ReadOnly)) {
             const QString png = QStringLiteral(".png");
             const QString title = QStringLiteral(".kdenlivetitle");
+            const QString kdenliveAlpha = QStringLiteral("kdenlive:has_alpha");
             const QString codecInfo = QStringLiteral(".codec.pix_fmt\">");
             QTextStream in(&inputFile);
             while (!in.atEnd()) {
                 const QString line = in.readLine();
-                if (line.contains(png) || line.contains(title)) {
+                if (line.contains(png) || line.contains(title) || line.contains(kdenliveAlpha)) {
                     hasAlpha = true;
                     break;
                 }

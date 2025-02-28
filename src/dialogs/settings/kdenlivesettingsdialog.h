@@ -123,6 +123,7 @@ private:
     QVector<QComboBox *> m_shuttle_buttons;
     EncodingTimelinePreviewProfilesChooser *m_tlPreviewProfiles;
     EncodingProfilesChooser *m_proxyProfiles;
+    EncodingProfilesChooser *m_alphaProxyProfiles;
     EncodingProfilesChooser *m_decklinkProfiles;
     EncodingProfilesChooser *m_v4lProfiles;
     EncodingProfilesChooser *m_grabProfiles;

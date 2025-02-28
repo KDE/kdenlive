@@ -1673,7 +1673,11 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     if (!doProxy) {
         newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
     }
-
+    if (KdenliveSettings::proxyalphaextension().isEmpty()) {
+        initProxyAlphaSettings();
+    }
+    QString alphaExtension = KdenliveSettings::proxyalphaextension();
+    alphaExtension.prepend(QLatin1Char('.'));
     // Parse clips
     for (int i = 0; i < clipList.count(); ++i) {
         const std::shared_ptr<ProjectClip> &item = clipList.at(i);
@@ -1729,7 +1733,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                 }
                 if (path.isEmpty()) {
                     path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image            ? QStringLiteral(".png")
-                                                                : clipsWithAlpha.contains(item) ? QStringLiteral(".mkv")
+                                                                : clipsWithAlpha.contains(item) ? alphaExtension
                                                                                                 : extension));
                 }
                 newProps.insert(QStringLiteral("kdenlive:proxy"), path);
@@ -2159,6 +2163,14 @@ QString KdenliveDoc::getAutoProxyProfile()
     return m_proxyParams;
 }
 
+QString KdenliveDoc::getAutoProxyAlphaProfile()
+{
+    if (KdenliveSettings::proxyalphaextension().isEmpty() || KdenliveSettings::proxyalphaparams().isEmpty()) {
+        initProxyAlphaSettings();
+    }
+    return KdenliveSettings::proxyalphaparams();
+}
+
 void KdenliveDoc::initProxySettings()
 {
     // Read preview profiles and find the best match
@@ -2179,6 +2191,20 @@ void KdenliveDoc::initProxySettings()
     }
     m_proxyParams = params.section(QLatin1Char(';'), 0, 0);
     m_proxyExtension = params.section(QLatin1Char(';'), 1);
+}
+
+void KdenliveDoc::initProxyAlphaSettings()
+{
+    // Read preview profiles and find the best match
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, "proxy-alpha");
+    QString params;
+    QMap<QString, QString> values = group.entryMap();
+    if (!values.isEmpty()) {
+        params = values.first();
+        KdenliveSettings::setProxyalphaparams(params.section(QLatin1Char(';'), 0, 0));
+        KdenliveSettings::setProxyalphaextension(params.section(QLatin1Char(';'), 1));
+    }
 }
 
 void KdenliveDoc::checkPreviewStack(int ix)
