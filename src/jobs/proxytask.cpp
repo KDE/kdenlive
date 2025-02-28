@@ -245,7 +245,16 @@ void ProxyTask::run()
         } else {
             QString proxyParams;
             if (binClip->hasAlpha()) {
+                // check if this is a VP8/VP9 clip and enforce libvpx codec
                 proxyParams = QStringLiteral("-f mov -vcodec ffv1 -pix_fmt bgra");
+                if ((binClip->clipType() == ClipType::AV || binClip->clipType() == ClipType::Video)) {
+                    const QString codec = binClip->videoCodecProperty(QStringLiteral("name"));
+                    if (codec == QLatin1String("libvpx-vp9")) {
+                        proxyParams.prepend(QStringLiteral("-c:v libvpx-vp9 -i "));
+                    } else if (codec == QLatin1String("libvpx")) {
+                        proxyParams.prepend(QStringLiteral("-c:v libvpx -i "));
+                    }
+                }
             } else {
                 proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
             }
