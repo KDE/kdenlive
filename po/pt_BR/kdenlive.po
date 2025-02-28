@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2025-02-18 02:25-0300\n"
+"PO-Revision-Date: 2025-02-27 20:46-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -16069,7 +16069,7 @@ msgstr ""
 "Exclua todos os dados da pasta de backup:\n"
 "%1\n"
 "Uma cópia de todos os seus arquivos de projeto é mantida nesta pasta para "
-"recuperação em caso  de corrupção."
+"recuperação em caso de corrupção."
 
 #: src/project/dialogs/temporarydata.cpp:393
 #, kde-format
