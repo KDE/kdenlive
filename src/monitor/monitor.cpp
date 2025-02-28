@@ -896,6 +896,11 @@ void Monitor::slotLoadClipZone(const QPoint &zone)
 
 void Monitor::slotSetZoneStart()
 {
+    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+        // Don't allow changing in/out when in mask mode
+        pCore->displayMessage(i18n("Cannot change zone when creating a mask"), InformationMessage);
+        return;
+    }
     QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
     int currentIn = m_glMonitor->getCurrentPos();
     int updatedZoneOut = -1;
@@ -927,6 +932,11 @@ void Monitor::slotSetZoneStart()
 
 void Monitor::slotSetZoneEnd()
 {
+    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+        // Don't allow changing in/out when in mask mode
+        pCore->displayMessage(i18n("Cannot change zone when creating a mask"), InformationMessage);
+        return;
+    }
     QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
     int currentOut = m_glMonitor->getCurrentPos() + 1;
     int updatedZoneIn = -1;
