@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-28 00:41+0000\n"
+"POT-Creation-Date: 2025-03-01 00:45+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4669,7 +4669,7 @@ msgstr "Sábháil an Mhaisíocht"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1426
 #, fuzzy, kde-format
 #| msgid "Profile name"
 msgctxt "@title:window"
@@ -4678,7 +4678,7 @@ msgstr "Ainm na próifíle"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1426
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -5665,7 +5665,7 @@ msgid "Replace in timeline"
 msgstr "Amlíne"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:576
+#: src/effects/effectstack/view/maskmanager.cpp:577
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgctxt "@action"
@@ -6084,7 +6084,7 @@ msgid "Edit Tags"
 msgstr "Cuir Fad Ama in Eagar"
 
 #: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2047 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, fuzzy, kde-format
@@ -6308,7 +6308,7 @@ msgstr "Scrios %1"
 msgid "Project Bin"
 msgstr "Tionscadal"
 
-#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4816
+#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4821
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -6760,19 +6760,19 @@ msgstr "Cuir eagar ar phróifíl"
 msgid "File already exists"
 msgstr "Méid an chomhaid"
 
-#: src/bin/projectclip.cpp:2640
+#: src/bin/projectclip.cpp:2643
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Adjust timeline clips"
 msgstr "Teideal"
 
-#: src/bin/projectclip.cpp:2829
+#: src/bin/projectclip.cpp:2832
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Cuir maisíocht nua leis"
 
-#: src/bin/projectclip.cpp:2854
+#: src/bin/projectclip.cpp:2857
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -7479,119 +7479,125 @@ msgid ""
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:51
+#: src/dialogs/encodingprofilesdialog.cpp:54
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgctxt "@title:window"
 msgid "Manage Encoding Profiles"
 msgstr "Cuir eagar ar phróifíl"
 
-#: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
+#: src/dialogs/encodingprofilesdialog.cpp:55
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:280
 #: src/project/dialogs/archivewidget.cpp:100
 #, fuzzy, kde-format
 #| msgid "Color 1"
 msgid "Proxy Clips"
 msgstr "Dath 1"
 
+#: src/dialogs/encodingprofilesdialog.cpp:56
+#, fuzzy, kde-format
+#| msgid "Color 1"
+msgid "Proxy Clips With Alpha"
+msgstr "Dath 1"
+
 #. i18n: ectx: Menu (timeline_preview)
-#: src/dialogs/encodingprofilesdialog.cpp:53 src/kdenliveui.rc:137
+#: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
 #: src/mainwindow.cpp:549
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Timeline Preview"
 msgstr "Comhad Íomhá"
 
-#: src/dialogs/encodingprofilesdialog.cpp:54
+#: src/dialogs/encodingprofilesdialog.cpp:58
 #, fuzzy, kde-format
 #| msgid "Regionalize"
 msgid "Video4Linux Capture"
 msgstr "Réigiúnaigh"
 
-#: src/dialogs/encodingprofilesdialog.cpp:55
+#: src/dialogs/encodingprofilesdialog.cpp:59
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Screen Capture"
 msgstr "Gabh"
 
-#: src/dialogs/encodingprofilesdialog.cpp:56
+#: src/dialogs/encodingprofilesdialog.cpp:60
 #, fuzzy, kde-format
 #| msgid "Regionalize"
 msgid "Decklink Capture"
 msgstr "Réigiúnaigh"
 
-#: src/dialogs/encodingprofilesdialog.cpp:123
-#: src/dialogs/encodingprofilesdialog.cpp:155
+#: src/dialogs/encodingprofilesdialog.cpp:128
+#: src/dialogs/encodingprofilesdialog.cpp:160
 #, kde-format
 msgid "Profile name:"
 msgstr "Ainm na próifíle:"
 
-#: src/dialogs/encodingprofilesdialog.cpp:126
-#: src/dialogs/encodingprofilesdialog.cpp:158
+#: src/dialogs/encodingprofilesdialog.cpp:131
+#: src/dialogs/encodingprofilesdialog.cpp:163
 #, kde-format
 msgid "Parameters:"
 msgstr "Paraiméadair:"
 
-#: src/dialogs/encodingprofilesdialog.cpp:129
-#: src/dialogs/encodingprofilesdialog.cpp:161
+#: src/dialogs/encodingprofilesdialog.cpp:134
+#: src/dialogs/encodingprofilesdialog.cpp:166
 #, kde-format
 msgid "File extension:"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:200
+#: src/dialogs/encodingprofilesdialog.cpp:205
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Configure profiles"
 msgstr "Cumraigh"
 
-#: src/dialogs/encodingprofilesdialog.cpp:201
+#: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
 msgid "Manage Encoding Profiles"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:202
+#: src/dialogs/encodingprofilesdialog.cpp:207
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:206
+#: src/dialogs/encodingprofilesdialog.cpp:211
 #, fuzzy, kde-format
 #| msgid "Show all profiles"
 msgid "Show Profile Parameters"
 msgstr "Taispeáin gach próifíl"
 
-#: src/dialogs/encodingprofilesdialog.cpp:207
+#: src/dialogs/encodingprofilesdialog.cpp:212
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:258
-#: src/dialogs/encodingprofilesdialog.cpp:347
+#: src/dialogs/encodingprofilesdialog.cpp:263
+#: src/dialogs/encodingprofilesdialog.cpp:352
 #: src/project/dialogs/projectsettings.cpp:909
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic (%1)"
 msgstr "Uathoibríoch"
 
-#: src/dialogs/encodingprofilesdialog.cpp:260
-#: src/dialogs/encodingprofilesdialog.cpp:349
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
+#: src/dialogs/encodingprofilesdialog.cpp:265
+#: src/dialogs/encodingprofilesdialog.cpp:354
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Uathoibríoch"
 
-#: src/dialogs/encodingprofilesdialog.cpp:328
+#: src/dialogs/encodingprofilesdialog.cpp:333
 #: src/project/dialogs/projectsettings.cpp:946
 #: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "Socraithe Reatha"
 
-#: src/dialogs/encodingprofilesdialog.cpp:421
+#: src/dialogs/encodingprofilesdialog.cpp:426
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -7884,8 +7890,8 @@ msgstr "Cóipcheart"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:712
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:713
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -8340,7 +8346,7 @@ msgstr "Cuir rian leis"
 msgid "Rendering <i>%1</i> started"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1303
+#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1313
 #, kde-format
 msgid "untitled"
 msgstr "gan teideal"
@@ -8479,7 +8485,7 @@ msgstr "Tionscadal"
 msgid "Open Containing Folder"
 msgstr "Formáid ghabhála:"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3939
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3944
 #, kde-format
 msgid "Timeline"
 msgstr "Amlíne"
@@ -8512,7 +8518,7 @@ msgid "Misc"
 msgstr "Éagsúil"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:795
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:797
 #: src/doc/documentvalidator.cpp:2521
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
@@ -8539,71 +8545,71 @@ msgstr "Scrios an Phróifíl"
 msgid "Project Defaults"
 msgstr "Réamhshocruithe an Tionscadail"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:313
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:340
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Use default folder: %1"
 msgstr "Scrios Fillteán"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:341
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1055
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1056
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1071
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1072
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1057
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1073
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1074
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Always use project folder: %1"
 msgstr "Comhaid an Tionscadail"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1067
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1068
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:319
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:345
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1069
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Always use active project folder"
 msgstr "Comhaid an Tionscadail"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:356
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:358
 #, kde-format
 msgid "Environment"
 msgstr "Timpeallacht"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:394
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:404
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Mono (1 channel)"
 msgstr "(Dí-)Comhbhrú Fuaime"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:405
 #, fuzzy, kde-format
 #| msgid "Channels"
 msgid "Stereo (2 channels)"
 msgstr "Cainéil"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:410
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:412
 #, kde-format
 msgid "44100 Hz"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:413
 #, kde-format
 msgid "48000 Hz"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:464
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
 #, kde-format
 msgid "JogShuttle"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:468
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -8613,7 +8619,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:490
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
 #: src/mltcontroller/clippropertiescontroller.cpp:1055
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
@@ -8621,104 +8627,104 @@ msgstr ""
 msgid "Transcode"
 msgstr "Traschódaigh"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:524
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:693
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:748
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:696
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:699
 #, kde-format
 msgid "Esound Daemon"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:698
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:700
 #, kde-format
 msgid "ARTS Daemon"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:762
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:764
 #, kde-format
 msgid "SDL"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:774
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:776
 #, fuzzy, kde-format
 #| msgid "Audio"
 msgid "RtAudio"
 msgstr "Fuaim"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:798 src/mainwindow.cpp:275
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:800 src/mainwindow.cpp:275
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor %1"
 msgstr "Monatóir"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:886
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:888
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:894
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:896
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:902
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:904
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:985
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1003
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:987
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1005
 #: src/project/dialogs/projectsettings.cpp:543
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Please select a video profile"
 msgstr "Scrios an Phróifíl"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1293
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1305
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1417
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1429
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1551
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1563
 #, kde-format
 msgid "Current settings"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1589
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1625
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1642
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1601
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1637
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1654
 #: src/mltcontroller/clippropertiescontroller.cpp:573
 #: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -10858,7 +10864,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Earráid agus comhad á oscailt"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2431
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2457
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1722
 #, kde-format
@@ -10939,12 +10945,12 @@ msgid_plural "Remove proxy clips"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/kdenlivedoc.cpp:1692 src/doc/kdenlivedoc.cpp:1752
+#: src/doc/kdenlivedoc.cpp:1696 src/doc/kdenlivedoc.cpp:1756
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1891
+#: src/doc/kdenlivedoc.cpp:1895
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -10952,80 +10958,80 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1986
+#: src/doc/kdenlivedoc.cpp:1990
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2004
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2010
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Change default project profile"
 msgstr "Comhaid an Tionscadail"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2010
 #, kde-format
 msgid "Change default to %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2007
+#: src/doc/kdenlivedoc.cpp:2011
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Keep current default %1"
 msgstr "Scrios an Phróifíl"
 
-#: src/doc/kdenlivedoc.cpp:2007
+#: src/doc/kdenlivedoc.cpp:2011
 #, kde-format
 msgid "Ask me later"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2027
+#: src/doc/kdenlivedoc.cpp:2031
 #, kde-format
 msgid "Switch"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2029 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2033 src/ui/titlewidget_ui.ui:189
 #, fuzzy, kde-format
 #| msgid "Cancel job"
 #| msgid_plural "Cancel jobs"
 msgid "Cancel"
 msgstr "Cealaigh an jab"
 
-#: src/doc/kdenlivedoc.cpp:2031
+#: src/doc/kdenlivedoc.cpp:2035
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Cuir rian leis"
 
-#: src/doc/kdenlivedoc.cpp:2036
+#: src/doc/kdenlivedoc.cpp:2040
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2040
+#: src/doc/kdenlivedoc.cpp:2044
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2470 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2496 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Dearg"
 
-#: src/doc/kdenlivedoc.cpp:2471 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -11033,24 +11039,24 @@ msgstr "Dearg"
 msgid "Green"
 msgstr "Uaine"
 
-#: src/doc/kdenlivedoc.cpp:2472 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2498 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Gorm"
 
-#: src/doc/kdenlivedoc.cpp:2473 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2499 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Buí"
 
-#: src/doc/kdenlivedoc.cpp:2474
+#: src/doc/kdenlivedoc.cpp:2500
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2812 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2838 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11488,35 +11494,35 @@ msgstr "Roghnú"
 msgid "Job failed"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:254
+#: src/effects/effectstack/view/maskmanager.cpp:255
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:258
+#: src/effects/effectstack/view/maskmanager.cpp:259
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Exporting video frames"
 msgstr "Luchtaigh marcóirí"
 
-#: src/effects/effectstack/view/maskmanager.cpp:271
+#: src/effects/effectstack/view/maskmanager.cpp:272
 #, kde-format
 msgid "Missing source frames"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:362
+#: src/effects/effectstack/view/maskmanager.cpp:363
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:368
+#: src/effects/effectstack/view/maskmanager.cpp:369
 #, fuzzy, kde-format
 #| msgctxt "general keyboard shortcuts"
 #| msgid "General"
 msgid "Generating mask %1"
 msgstr "Ginearálta"
 
-#: src/effects/effectstack/view/maskmanager.cpp:547
+#: src/effects/effectstack/view/maskmanager.cpp:548
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11772,23 +11778,23 @@ msgstr "Ní féidir comhad %1 a scríobh"
 msgid "Creating proxy"
 msgstr "Ní féidir an comhad a oscailt"
 
-#: src/jobs/proxytask.cpp:198
+#: src/jobs/proxytask.cpp:208
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Ní féidir íomhá %1 a luchtú."
 
-#: src/jobs/proxytask.cpp:218
+#: src/jobs/proxytask.cpp:228
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr ""
 
-#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 
-#: src/jobs/proxytask.cpp:371 src/jobs/proxytask.cpp:384
+#: src/jobs/proxytask.cpp:394 src/jobs/proxytask.cpp:407
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr ""
@@ -11939,14 +11945,14 @@ msgid "Add Markers by Category"
 msgstr "Catagóir"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3834
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3839
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Audio"
 msgstr "Bain Amach"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3808
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3813
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Clip Jobs"
@@ -14388,147 +14394,147 @@ msgstr ""
 msgid "Insert"
 msgstr "Ionsá"
 
-#: src/mainwindow.cpp:3724 src/mainwindow.cpp:3726
+#: src/mainwindow.cpp:3729 src/mainwindow.cpp:3731
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3731
+#: src/mainwindow.cpp:3736
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bins"
 msgstr "Tionscadal"
 
-#: src/mainwindow.cpp:3827
+#: src/mainwindow.cpp:3832
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Configure Clip Jobs…"
 msgstr "Cumraigh"
 
-#: src/mainwindow.cpp:3833
+#: src/mainwindow.cpp:3838
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Traschódaigh"
 
-#: src/mainwindow.cpp:3893
+#: src/mainwindow.cpp:3898
 #, fuzzy, kde-format
 #| msgid "Merge"
 msgid "-merged"
 msgstr "Cumaisc"
 
-#: src/mainwindow.cpp:3896
+#: src/mainwindow.cpp:3901
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "-stream-%1"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:3938
+#: src/mainwindow.cpp:3943
 #, kde-format
 msgid "Interface"
 msgstr "Comhéadan"
 
-#: src/mainwindow.cpp:3960
+#: src/mainwindow.cpp:3965
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Raise %1"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/mainwindow.cpp:4027
+#: src/mainwindow.cpp:4032
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Traschódaigh"
 
-#: src/mainwindow.cpp:4159
+#: src/mainwindow.cpp:4164
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4167
+#: src/mainwindow.cpp:4172
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgid "Archiving project"
 msgstr "Cuir an Tionscadal i gCartlann"
 
-#: src/mainwindow.cpp:4307
+#: src/mainwindow.cpp:4312
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Icon Size"
 msgstr "Clómhéid"
 
-#: src/mainwindow.cpp:4311
+#: src/mainwindow.cpp:4316
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Réamhshocrú"
 
-#: src/mainwindow.cpp:4332 src/mainwindow.cpp:4360
+#: src/mainwindow.cpp:4337 src/mainwindow.cpp:4365
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4334 src/mainwindow.cpp:4362
+#: src/mainwindow.cpp:4339 src/mainwindow.cpp:4367
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4336 src/mainwindow.cpp:4364
+#: src/mainwindow.cpp:4341 src/mainwindow.cpp:4369
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4338 src/mainwindow.cpp:4366
+#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4422
+#: src/mainwindow.cpp:4427
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4422
+#: src/mainwindow.cpp:4427
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
 
-#: src/mainwindow.cpp:4685 src/timeline2/view/timelinecontroller.cpp:5118
+#: src/mainwindow.cpp:4690 src/timeline2/view/timelinecontroller.cpp:5118
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "No subtitles in current project"
 msgstr "Tionscadal"
 
-#: src/mainwindow.cpp:4972
+#: src/mainwindow.cpp:4977
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:4977
+#: src/mainwindow.cpp:4982
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Never check again"
 msgstr "Cumraigh"
 
-#: src/mainwindow.cpp:4980
+#: src/mainwindow.cpp:4985
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:4988
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5026
+#: src/mainwindow.cpp:5031
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Checking cached data size"
@@ -14741,7 +14747,7 @@ msgid "Audio streams"
 msgstr "Cuir rian leis"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:756
-#: src/monitor/monitor.cpp:1968
+#: src/monitor/monitor.cpp:1978
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -15214,33 +15220,38 @@ msgstr "Monatóir Taifeadta"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr ""
 
-#: src/monitor/monitor.cpp:925 src/monitor/monitor.cpp:956
+#: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
+#, kde-format
+msgid "Cannot change zone when creating a mask"
+msgstr ""
+
+#: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
 #, fuzzy, kde-format
 #| msgid "Save to"
 msgid "Set Zone"
 msgstr "Sábháil go"
 
-#: src/monitor/monitor.cpp:1316
+#: src/monitor/monitor.cpp:1326
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Sábháil marcóirí"
 
-#: src/monitor/monitor.cpp:1316
+#: src/monitor/monitor.cpp:1326
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Sábháil marcóirí"
 
-#: src/monitor/monitor.cpp:1323
+#: src/monitor/monitor.cpp:1333
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1953 src/monitor/monitor.cpp:2083
+#: src/monitor/monitor.cpp:1963 src/monitor/monitor.cpp:2093
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "%1 audio stream"
@@ -15251,37 +15262,37 @@ msgstr[2] "Cuir rian leis"
 msgstr[3] "Cuir rian leis"
 msgstr[4] "Cuir rian leis"
 
-#: src/monitor/monitor.cpp:2391
+#: src/monitor/monitor.cpp:2401
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2433 src/monitor/monitor.cpp:2490
+#: src/monitor/monitor.cpp:2443 src/monitor/monitor.cpp:2500
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2453
+#: src/monitor/monitor.cpp:2463
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Clip has no effects"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/monitor/monitor.cpp:2455
+#: src/monitor/monitor.cpp:2465
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2497
+#: src/monitor/monitor.cpp:2507
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2568
+#: src/monitor/monitor.cpp:2578
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -20969,7 +20980,7 @@ msgstr "Scrios an Phróifíl"
 #: src/ui/collapsiblewidget_ui.ui:159 src/ui/collapsiblewidget_ui.ui:172
 #: src/ui/collapsiblewidget_ui.ui:185 src/ui/collapsiblewidget_ui.ui:198
 #: src/ui/collapsiblewidget_ui.ui:208 src/ui/collapsiblewidget_ui.ui:218
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:208
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
@@ -21452,7 +21463,7 @@ msgstr "Cainéil"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:239 src/ui/configcapture_ui.ui:442
-#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:109
+#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:108
 #: src/ui/projectsettings_ui.ui:277
 #, fuzzy, kde-format
 #| msgid "Edit profile"
@@ -22186,54 +22197,52 @@ msgid "Timeline Preview profile:"
 msgstr "Comhad Íomhá"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:41
+#: src/ui/configproxy_ui.ui:40
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Enable proxy clips"
 msgstr "Scrios an Phróifíl"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
-#: src/ui/configproxy_ui.ui:63 src/ui/projectsettings_ui.ui:222
+#: src/ui/configproxy_ui.ui:62
 #, kde-format
-msgid "Generate for videos larger than"
+msgid "Generate for videos larger than:"
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:70 src/ui/configproxy_ui.ui:90
-#: src/ui/configproxy_ui.ui:137 src/ui/configproxy_ui.ui:166
+#: src/ui/configproxy_ui.ui:69 src/ui/configproxy_ui.ui:89
+#: src/ui/configproxy_ui.ui:136 src/ui/configproxy_ui.ui:165
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid " pixels"
 msgstr "picteilín"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:83
+#: src/ui/configproxy_ui.ui:82
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Proxy video resize (width):"
 msgstr "Méid na híomhá"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
-#. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
-#: src/ui/configproxy_ui.ui:130 src/ui/projectsettings_ui.ui:248
+#: src/ui/configproxy_ui.ui:129
 #, kde-format
-msgid "Generate for images larger than"
+msgid "Generate for images larger than:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:156 src/ui/projectsettings_ui.ui:479
+#: src/ui/configproxy_ui.ui:155
 #, fuzzy, kde-format
 #| msgid "Image size"
-msgid "Proxy image size"
+msgid "Proxy image size:"
 msgstr "Méid na híomhá"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:189 src/ui/projectsettings_ui.ui:409
+#: src/ui/configproxy_ui.ui:188 src/ui/projectsettings_ui.ui:409
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "External proxy clips:"
@@ -22243,13 +22252,19 @@ msgstr "Scrios an Phróifíl"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:196 src/ui/configsdl_ui.ui:28
+#: src/ui/configproxy_ui.ui:195 src/ui/configsdl_ui.ui:28
 #: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable"
 msgstr "Cumasaigh maisíocht"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configproxy_ui.ui:219
+#, kde-format
+msgid "Profile for clips with alpha channel:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -24157,6 +24172,12 @@ msgstr "Dath 1"
 msgid "Proxy clips"
 msgstr "Dath 1"
 
+#. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
+#: src/ui/projectsettings_ui.ui:222
+#, kde-format
+msgid "Generate for videos larger than"
+msgstr ""
+
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imagesize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
@@ -24167,11 +24188,24 @@ msgstr "Dath 1"
 msgid "pixels"
 msgstr "picteilín"
 
+#. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
+#: src/ui/projectsettings_ui.ui:248
+#, kde-format
+msgid "Generate for images larger than"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/projectsettings_ui.ui:433
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Proxy video resize (width)"
+msgstr "Méid na híomhá"
+
+#. i18n: ectx: property (text), widget (QLabel, image_label)
+#: src/ui/projectsettings_ui.ui:479
+#, fuzzy, kde-format
+#| msgid "Image size"
+msgid "Proxy image size"
 msgstr "Méid na híomhá"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)

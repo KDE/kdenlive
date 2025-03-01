@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-28 00:41+0000\n"
+"POT-Creation-Date: 2025-03-01 00:45+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -4584,7 +4584,7 @@ msgstr "प्रभावं रक्षतु"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1426
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -4592,7 +4592,7 @@ msgstr "पूर्वनिर्धारितनाम प्रविष�
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1426
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "अस्य पूर्वनिर्धारितस्य नाम प्रविशतु :"
@@ -5524,7 +5524,7 @@ msgid "Replace in timeline"
 msgstr "समयरेखायां प्रतिस्थापनं कुर्वन्तु"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:576
+#: src/effects/effectstack/view/maskmanager.cpp:577
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5900,7 +5900,7 @@ msgid "Edit Tags"
 msgstr "टैग सम्पादयतु"
 
 #: src/bin/bin.cpp:4584 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2047 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6112,7 +6112,7 @@ msgstr "प्रभावः %1 विलोपयतु"
 msgid "Project Bin"
 msgstr "परियोजना बिन"
 
-#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4816
+#: src/bin/bin.cpp:6439 src/bin/bin.cpp:6442 src/mainwindow.cpp:4821
 #, kde-format
 msgid "Project Bin %1"
 msgstr "परियोजना बिन् %1"
@@ -6538,17 +6538,17 @@ msgstr "अप्रतिषेध"
 msgid "File already exists"
 msgstr "सञ्चिका पूर्वमेव अस्ति"
 
-#: src/bin/projectclip.cpp:2640
+#: src/bin/projectclip.cpp:2643
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "समयरेखाक्लिप्स् समायोजयन्तु"
 
-#: src/bin/projectclip.cpp:2829
+#: src/bin/projectclip.cpp:2832
 #, kde-format
 msgid "Add stream effect"
 msgstr "धारा प्रभावं योजयन्तु"
 
-#: src/bin/projectclip.cpp:2854
+#: src/bin/projectclip.cpp:2857
 #, kde-format
 msgid "Remove stream effect"
 msgstr "धारा प्रभावं निष्कासयन्तु"
@@ -7231,111 +7231,117 @@ msgstr ""
 "भवान् एकस्मिन् प्रोफाइल् मध्ये बहुविधं पूर्वनिर्धारणं उपयुङ्क्ते, प्रत्येकस्मिन् पैरामीटर् मध्ये "
 "अर्धविरामस्य समाना गणना अस्ति इति सुनिश्चितं कुर्वन्तु । एतत् प्रोफाइलं न रक्षितं भविष्यति।"
 
-#: src/dialogs/encodingprofilesdialog.cpp:51
+#: src/dialogs/encodingprofilesdialog.cpp:54
 #, kde-format
 msgctxt "@title:window"
 msgid "Manage Encoding Profiles"
 msgstr "एन्कोडिंग् प्रोफाइल्स् प्रबन्धयन्तु"
 
-#: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
+#: src/dialogs/encodingprofilesdialog.cpp:55
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:280
 #: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
 msgstr "प्रॉक्सी क्लिप्स्"
 
+#: src/dialogs/encodingprofilesdialog.cpp:56
+#, fuzzy, kde-format
+#| msgid "Proxy clips without alpha only"
+msgid "Proxy Clips With Alpha"
+msgstr "केवलं अल्फा विना प्रॉक्सी क्लिप्स्"
+
 #. i18n: ectx: Menu (timeline_preview)
-#: src/dialogs/encodingprofilesdialog.cpp:53 src/kdenliveui.rc:137
+#: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
 #: src/mainwindow.cpp:549
 #, kde-format
 msgid "Timeline Preview"
 msgstr "समयरेखा पूर्वावलोकन"
 
-#: src/dialogs/encodingprofilesdialog.cpp:54
+#: src/dialogs/encodingprofilesdialog.cpp:58
 #, kde-format
 msgid "Video4Linux Capture"
 msgstr "Video4Linux कैप्चर"
 
-#: src/dialogs/encodingprofilesdialog.cpp:55
+#: src/dialogs/encodingprofilesdialog.cpp:59
 #, kde-format
 msgid "Screen Capture"
 msgstr "स्क्रीन कैप्चर"
 
-#: src/dialogs/encodingprofilesdialog.cpp:56
+#: src/dialogs/encodingprofilesdialog.cpp:60
 #, kde-format
 msgid "Decklink Capture"
 msgstr "डेकलिङ्क कैप्चर"
 
-#: src/dialogs/encodingprofilesdialog.cpp:123
-#: src/dialogs/encodingprofilesdialog.cpp:155
+#: src/dialogs/encodingprofilesdialog.cpp:128
+#: src/dialogs/encodingprofilesdialog.cpp:160
 #, kde-format
 msgid "Profile name:"
 msgstr "प्रोफाइल नाम :"
 
-#: src/dialogs/encodingprofilesdialog.cpp:126
-#: src/dialogs/encodingprofilesdialog.cpp:158
+#: src/dialogs/encodingprofilesdialog.cpp:131
+#: src/dialogs/encodingprofilesdialog.cpp:163
 #, kde-format
 msgid "Parameters:"
 msgstr "मापदण्डः :"
 
-#: src/dialogs/encodingprofilesdialog.cpp:129
-#: src/dialogs/encodingprofilesdialog.cpp:161
+#: src/dialogs/encodingprofilesdialog.cpp:134
+#: src/dialogs/encodingprofilesdialog.cpp:166
 #, kde-format
 msgid "File extension:"
 msgstr "सञ्चिकाविस्तारः :"
 
-#: src/dialogs/encodingprofilesdialog.cpp:200
+#: src/dialogs/encodingprofilesdialog.cpp:205
 #, kde-format
 msgid "Configure profiles"
 msgstr "प्रोफाइल विन्यस्तं कुर्वन्तु"
 
-#: src/dialogs/encodingprofilesdialog.cpp:201
+#: src/dialogs/encodingprofilesdialog.cpp:206
 #, kde-format
 msgid "Manage Encoding Profiles"
 msgstr "एन्कोडिंग् प्रोफाइल्स् प्रबन्धयन्तु"
 
-#: src/dialogs/encodingprofilesdialog.cpp:202
+#: src/dialogs/encodingprofilesdialog.cpp:207
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:206
+#: src/dialogs/encodingprofilesdialog.cpp:211
 #, kde-format
 msgid "Show Profile Parameters"
 msgstr "प्रोफाइल पैरामीटर्स् दर्शयतु"
 
-#: src/dialogs/encodingprofilesdialog.cpp:207
+#: src/dialogs/encodingprofilesdialog.cpp:212
 #, fuzzy, kde-kuit-format
 #| msgid "Disable parameters when the effect is disabled"
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
 msgstr "यदा प्रभावः अक्षमः भवति तदा मापदण्डान् अक्षमं कुर्वन्तु"
 
-#: src/dialogs/encodingprofilesdialog.cpp:258
-#: src/dialogs/encodingprofilesdialog.cpp:347
+#: src/dialogs/encodingprofilesdialog.cpp:263
+#: src/dialogs/encodingprofilesdialog.cpp:352
 #: src/project/dialogs/projectsettings.cpp:909
 #, kde-format
 msgid "Automatic (%1)"
 msgstr "स्वचालित (%1)"
 
-#: src/dialogs/encodingprofilesdialog.cpp:260
-#: src/dialogs/encodingprofilesdialog.cpp:349
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
+#: src/dialogs/encodingprofilesdialog.cpp:265
+#: src/dialogs/encodingprofilesdialog.cpp:354
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "स्वतः"
 
-#: src/dialogs/encodingprofilesdialog.cpp:328
+#: src/dialogs/encodingprofilesdialog.cpp:333
 #: src/project/dialogs/projectsettings.cpp:946
 #: src/project/dialogs/projectsettings.cpp:976
 #, kde-format
 msgid "Current Settings"
 msgstr "वर्तमान सेटिंग्स्"
 
-#: src/dialogs/encodingprofilesdialog.cpp:421
+#: src/dialogs/encodingprofilesdialog.cpp:426
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -7612,8 +7618,8 @@ msgstr "उपरि दक्षिणतः"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:712
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:713
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -8061,7 +8067,7 @@ msgstr "विडियो ट्रैक विना ऑडियो"
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> रेण्डरिंग् आरब्धम्"
 
-#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1303
+#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1313
 #, kde-format
 msgid "untitled"
 msgstr "अनामिका"
@@ -8186,7 +8192,7 @@ msgstr "वर्तमान परियोजनायां योजयत�
 msgid "Open Containing Folder"
 msgstr "Containing Folder उद्घाटयन्तु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3939
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3944
 #, kde-format
 msgid "Timeline"
 msgstr "कालरेखा"
@@ -8218,7 +8224,7 @@ msgid "Misc"
 msgstr "विविधाः"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:795
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:797
 #: src/doc/documentvalidator.cpp:2521
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
@@ -8247,66 +8253,66 @@ msgstr "पूर्वनिर्धारितं प्रोफाइल (
 msgid "Project Defaults"
 msgstr "परियोजना पूर्वनिर्धारित"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:313
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:340
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "पूर्वनिर्धारितपुटस्य उपयोगं कुर्वन्तु: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:341
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1055
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1056
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1071
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1072
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1057
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1073
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1074
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "सदैव परियोजनापुटस्य उपयोगं कुर्वन्तु: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1067
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1068
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:319
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:345
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1069
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1070
 #, kde-format
 msgid "Always use active project folder"
 msgstr "सदैव सक्रियप्रकल्पपुटस्य उपयोगं कुर्वन्तु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:356
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:358
 #, kde-format
 msgid "Environment"
 msgstr "पर्यावरणम्‌"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:394
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Mac OS X इत्यत्र अद्यापि Capture उपलब्धं नास्ति ।"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:404
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "मोनो (१ चैनल)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:405
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "स्टीरियो (२ चैनल्स्)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:410
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:412
 #, kde-format
 msgid "44100 Hz"
 msgstr "४४१०० हर्ट्ज"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:413
 #, kde-format
 msgid "48000 Hz"
 msgstr "४८००० हर्ट्ज"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:464
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
 #, kde-format
 msgid "JogShuttle"
 msgstr "जोगशटल"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:468
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -8320,7 +8326,7 @@ msgstr ""
 "a> पश्यन्तु ."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:490
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
 #: src/mltcontroller/clippropertiescontroller.cpp:1055
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
@@ -8328,101 +8334,101 @@ msgstr ""
 msgid "Transcode"
 msgstr "ट्रांसकोड"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:524
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr "GPU प्रसंस्करणाय Movit तथा Rtaudio मॉड्यूल् इत्यनेन सह संकलितं MLT आवश्यकम् अस्ति"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
 #, kde-format
 msgid "ALSA"
 msgstr "अलसा"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:693
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:748
 #, kde-format
 msgid "PulseAudio"
 msgstr "पल्सऑडियो"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:696
 #, kde-format
 msgid "PipeWire"
 msgstr "पाइपवायर"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
 #, kde-format
 msgid "OSS"
 msgstr "वयम्‌"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:699
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound डेमन"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:698
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:700
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "कला दानव"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:762
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:764
 #, kde-format
 msgid "SDL"
 msgstr "एसडीएल"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:774
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:776
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio इति"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:798 src/mainwindow.cpp:275
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:800 src/mainwindow.cpp:275
 #, kde-format
 msgid "Monitor %1"
 msgstr "निरीक्षक %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:886
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:888
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "श्रव्यसम्पादनअनुप्रयोगस्य मार्गं प्रविशन्तु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:894
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:896
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "चित्रसम्पादन-अनुप्रयोगस्य मार्गं प्रविशतु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:902
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:904
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Glaxnimate अनुप्रयोगस्य मार्गं प्रविशन्तु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:985
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1003
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:987
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1005
 #: src/project/dialogs/projectsettings.cpp:543
 #, kde-format
 msgid "Please select a video profile"
 msgstr "कृपया एकं विडियो प्रोफाइलं चिनोतु"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1293
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1305
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "एतत् सेटिङ्ग् परिवर्तयितुं Kdenlive पुनः आरभणीयम्"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1417
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1429
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "तत्नाम्ना प्रोफाइल पूर्वमेव विद्यते"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1551
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1563
 #, kde-format
 msgid "Current settings"
 msgstr "वर्तमान सेटिंग्स्"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1589
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1625
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1642
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1601
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1637
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1654
 #: src/mltcontroller/clippropertiescontroller.cpp:573
 #: src/mltcontroller/clippropertiescontroller.cpp:1440
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -10487,7 +10493,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "परियोजनापुटं स्थानान्तरयितुं त्रुटिः: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2431
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2457
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1722
 #, kde-format
@@ -10562,12 +10568,12 @@ msgid_plural "Remove proxy clips"
 msgstr[0] "प्रॉक्सी क्लिप् निष्कासयन्तु"
 msgstr[1] "प्रॉक्सी क्लिप्स् निष्कासयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:1692 src/doc/kdenlivedoc.cpp:1752
+#: src/doc/kdenlivedoc.cpp:1696 src/doc/kdenlivedoc.cpp:1756
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "क्लिप् प्रकारः प्रॉक्सी समर्थयति न"
 
-#: src/doc/kdenlivedoc.cpp:1891
+#: src/doc/kdenlivedoc.cpp:1895
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -10577,12 +10583,12 @@ msgstr ""
 "परियोजना अमानक फ्रेमरेट् (%1) उपयुज्यते, एतस्य परिणामः भवति यत् दुर्स्थापिताः क्लिप्स् तथा "
 "फ्रेम ऑफसेट् च भविष्यन्ति ।"
 
-#: src/doc/kdenlivedoc.cpp:1986
+#: src/doc/kdenlivedoc.cpp:1990
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "चेतावनी: गैर-मानक fps, निकटतमपूर्णाङ्कं समायोजयति। "
 
-#: src/doc/kdenlivedoc.cpp:2004
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -10591,43 +10597,43 @@ msgstr ""
 "भवतः पूर्वनिर्धारितं परियोजनारूपरेखा %1 अस्ति, परन्तु भवतः क्लिप्-रूपरेखा (%2) %3 अस्ति ।\n"
 "किं भवान् भविष्यस्य परियोजनानां कृते पूर्वनिर्धारितरूपरेखा परिवर्तयितुम् इच्छति?"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2010
 #, kde-format
 msgid "Change default project profile"
 msgstr "पूर्वनिर्धारितं परियोजनारूपरेखां परिवर्तयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2010
 #, kde-format
 msgid "Change default to %1"
 msgstr "पूर्वनिर्धारितं %1 इति परिवर्तयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:2007
+#: src/doc/kdenlivedoc.cpp:2011
 #, kde-format
 msgid "Keep current default %1"
 msgstr "वर्तमानं पूर्वनिर्धारितं %1 स्थापयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:2007
+#: src/doc/kdenlivedoc.cpp:2011
 #, kde-format
 msgid "Ask me later"
 msgstr "पश्चात् मां पृच्छतु"
 
-#: src/doc/kdenlivedoc.cpp:2027
+#: src/doc/kdenlivedoc.cpp:2031
 #, kde-format
 msgid "Switch"
 msgstr "नुदति"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2029 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2033 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "निरसयतु"
 
-#: src/doc/kdenlivedoc.cpp:2031
+#: src/doc/kdenlivedoc.cpp:2035
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "क्लिप् (%1) प्रोफाइल %2 प्रति स्विच् कुर्वन्तु?"
 
-#: src/doc/kdenlivedoc.cpp:2036
+#: src/doc/kdenlivedoc.cpp:2040
 #, kde-format
 msgid ""
 "\n"
@@ -10636,7 +10642,7 @@ msgstr ""
 "\n"
 "मूल %1 तः समायोजितं प्रोफाइल fps"
 
-#: src/doc/kdenlivedoc.cpp:2040
+#: src/doc/kdenlivedoc.cpp:2044
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -10645,13 +10651,13 @@ msgstr ""
 "भवतः क्लिप् %1 कृते कोऽपि प्रोफाइलः न प्राप्तः ।\n"
 "नूतनं प्रोफाइलं रचयन्तु (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2470 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2496 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "रक्त"
 
-#: src/doc/kdenlivedoc.cpp:2471 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10659,24 +10665,24 @@ msgstr "रक्त"
 msgid "Green"
 msgstr "हरित"
 
-#: src/doc/kdenlivedoc.cpp:2472 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2498 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "नील"
 
-#: src/doc/kdenlivedoc.cpp:2473 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2499 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "पीतं"
 
-#: src/doc/kdenlivedoc.cpp:2474
+#: src/doc/kdenlivedoc.cpp:2500
 #, kde-format
 msgid "Cyan"
 msgstr "सियान्"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2812 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2838 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11084,34 +11090,34 @@ msgstr "कृपया SAM2 प्लगिन् विन्यस्यत�
 msgid "Job failed"
 msgstr "कटं कार्यं विफलम् अभवत्।"
 
-#: src/effects/effectstack/view/maskmanager.cpp:254
+#: src/effects/effectstack/view/maskmanager.cpp:255
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:258
+#: src/effects/effectstack/view/maskmanager.cpp:259
 #, fuzzy, kde-format
 #| msgid "Generating video mask"
 msgid "Exporting video frames"
 msgstr "विडियो मास्क जननम्"
 
-#: src/effects/effectstack/view/maskmanager.cpp:271
+#: src/effects/effectstack/view/maskmanager.cpp:272
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "स्रोतक्लिप् अनुपलब्धम्"
 
-#: src/effects/effectstack/view/maskmanager.cpp:362
+#: src/effects/effectstack/view/maskmanager.cpp:363
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:368
+#: src/effects/effectstack/view/maskmanager.cpp:369
 #, kde-format
 msgid "Generating mask %1"
 msgstr "मास्क %1 जनयति"
 
-#: src/effects/effectstack/view/maskmanager.cpp:547
+#: src/effects/effectstack/view/maskmanager.cpp:548
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -11346,24 +11352,24 @@ msgstr "प्रॉक्सी क्लिप् निर्मातुं 
 msgid "Creating proxy"
 msgstr "प्रॉक्सी रचयन्"
 
-#: src/jobs/proxytask.cpp:198
+#: src/jobs/proxytask.cpp:208
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "%1 प्रतिबिम्बं लोड् कर्तुं न शक्यते ।"
 
-#: src/jobs/proxytask.cpp:218
+#: src/jobs/proxytask.cpp:228
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "प्रतिबिम्बं प्रॉक्सी कर्तुं अतिलघु ।"
 
-#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg न प्राप्तम्, कृपया Kdenlive इत्यस्य सेटिंग्स् Environment इत्यत्र मार्गं सेट् कुर्वन्तु"
 
-#: src/jobs/proxytask.cpp:371 src/jobs/proxytask.cpp:384
+#: src/jobs/proxytask.cpp:394 src/jobs/proxytask.cpp:407
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "प्रॉक्सी क्लिप् निर्मातुं असफलम्।"
@@ -11497,13 +11503,13 @@ msgid "Add Markers by Category"
 msgstr "श्रेणीनुसारं मार्करं योजयन्तु"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3834
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3839
 #, kde-format
 msgid "Extract Audio"
 msgstr "ऑडियो निकालें"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3808
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3813
 #, kde-format
 msgid "Clip Jobs"
 msgstr "क्लिप् जॉब्स"
@@ -13820,94 +13826,94 @@ msgstr ""
 msgid "Insert"
 msgstr "युज्"
 
-#: src/mainwindow.cpp:3724 src/mainwindow.cpp:3726
+#: src/mainwindow.cpp:3729 src/mainwindow.cpp:3731
 #, kde-format
 msgid "Scopes"
 msgstr "व्याप्तयः"
 
-#: src/mainwindow.cpp:3731
+#: src/mainwindow.cpp:3736
 #, kde-format
 msgid "Project Bins"
 msgstr "परियोजना बिन"
 
-#: src/mainwindow.cpp:3827
+#: src/mainwindow.cpp:3832
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "क्लिप् कार्याणि विन्यस्तं कुर्वन्तु…"
 
-#: src/mainwindow.cpp:3833
+#: src/mainwindow.cpp:3838
 #, kde-format
 msgid "Transcoders"
 msgstr "ट्रांसकोडर"
 
-#: src/mainwindow.cpp:3893
+#: src/mainwindow.cpp:3898
 #, kde-format
 msgid "-merged"
 msgstr "-विलीनः"
 
-#: src/mainwindow.cpp:3896
+#: src/mainwindow.cpp:3901
 #, kde-format
 msgid "-stream-%1"
 msgstr "-धारा-%1"
 
-#: src/mainwindow.cpp:3938
+#: src/mainwindow.cpp:3943
 #, kde-format
 msgid "Interface"
 msgstr "अन्तरफलकम्"
 
-#: src/mainwindow.cpp:3960
+#: src/mainwindow.cpp:3965
 #, kde-format
 msgid "Raise %1"
 msgstr "%1 उत्थापयन्तु"
 
-#: src/mainwindow.cpp:4027
+#: src/mainwindow.cpp:4032
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "सञ्चिकाः Transcode कर्तुं"
 
-#: src/mainwindow.cpp:4159
+#: src/mainwindow.cpp:4164
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "परियोजनासञ्चिका संग्रहणार्थं रक्षितुं न शक्यते स्म ।"
 
-#: src/mainwindow.cpp:4167
+#: src/mainwindow.cpp:4172
 #, kde-format
 msgid "Archiving project"
 msgstr "संग्रहण परियोजना"
 
-#: src/mainwindow.cpp:4307
+#: src/mainwindow.cpp:4312
 #, kde-format
 msgid "Icon Size"
 msgstr "चिह्न आकार"
 
-#: src/mainwindow.cpp:4311
+#: src/mainwindow.cpp:4316
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "मूलभूतम्‌"
 
-#: src/mainwindow.cpp:4332 src/mainwindow.cpp:4360
+#: src/mainwindow.cpp:4337 src/mainwindow.cpp:4365
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "लघु (%1x%2)"
 
-#: src/mainwindow.cpp:4334 src/mainwindow.cpp:4362
+#: src/mainwindow.cpp:4339 src/mainwindow.cpp:4367
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "मध्यम (%1x%2)"
 
-#: src/mainwindow.cpp:4336 src/mainwindow.cpp:4364
+#: src/mainwindow.cpp:4341 src/mainwindow.cpp:4369
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "बृहत् (%1x%2)"
 
-#: src/mainwindow.cpp:4338 src/mainwindow.cpp:4366
+#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "विशाल (%1x%2)"
 
-#: src/mainwindow.cpp:4422
+#: src/mainwindow.cpp:4427
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -13916,27 +13922,27 @@ msgstr ""
 "एतेन मेनू-पट्टिका पूर्णतया गोपिता भविष्यति । Ctrl+M इति टङ्कयित्वा पुनः दर्शयितुं शक्नुवन्ति "
 "।"
 
-#: src/mainwindow.cpp:4422
+#: src/mainwindow.cpp:4427
 #, kde-format
 msgid "Hide menu bar"
 msgstr "मेनू-पट्टिकां गोपयन्तु"
 
-#: src/mainwindow.cpp:4685 src/timeline2/view/timelinecontroller.cpp:5118
+#: src/mainwindow.cpp:4690 src/timeline2/view/timelinecontroller.cpp:5118
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "वर्तमान परियोजनायां उपशीर्षकाणि नास्ति"
 
-#: src/mainwindow.cpp:4972
+#: src/mainwindow.cpp:4977
 #, kde-format
 msgid "Go to download page"
 msgstr "डाउनलोड् पृष्ठं गच्छन्तु"
 
-#: src/mainwindow.cpp:4977
+#: src/mainwindow.cpp:4982
 #, kde-format
 msgid "Never check again"
 msgstr "पुनः कदापि न परीक्ष्यताम्"
 
-#: src/mainwindow.cpp:4980
+#: src/mainwindow.cpp:4985
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -13944,14 +13950,14 @@ msgid ""
 msgstr ""
 "भवतः Kdenlive संस्करणं 1 वर्षात् प्राचीनम् अस्ति, वयं भवन्तं उन्नयनार्थं दृढतया प्रोत्साहयामः"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:4988
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 "भवतः Kdenlive संस्करणं 6 मासाभ्यः प्राचीनम् अस्ति, वयं भवन्तं उन्नयनार्थं प्रोत्साहयामः"
 
-#: src/mainwindow.cpp:5026
+#: src/mainwindow.cpp:5031
 #, kde-format
 msgid "Checking cached data size"
 msgstr "संग्रहीतदत्तांशस्य आकारस्य जाँचः"
@@ -14145,7 +14151,7 @@ msgid "Audio streams"
 msgstr "श्रव्यधारा"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:756
-#: src/monitor/monitor.cpp:1968
+#: src/monitor/monitor.cpp:1978
 #, kde-format
 msgid "Merge all streams"
 msgstr "सर्वाणि धाराः विलीनयन्तु"
@@ -14591,42 +14597,47 @@ msgstr "स्रोतः समयसङ्केतः दर्शयतु"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "अस्य क्रियायाः कृते भवतः स्क्रीन-संकल्पः पर्याप्तः नास्ति"
 
-#: src/monitor/monitor.cpp:925 src/monitor/monitor.cpp:956
+#: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
+#, kde-format
+msgid "Cannot change zone when creating a mask"
+msgstr ""
+
+#: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
 #, kde-format
 msgid "Set Zone"
 msgstr "क्षेत्रं सेट् कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:1316
+#: src/monitor/monitor.cpp:1326
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "चित्रं Project इत्यत्र रक्षन्तु"
 
-#: src/monitor/monitor.cpp:1316
+#: src/monitor/monitor.cpp:1326
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "चित्रं रक्षतु"
 
-#: src/monitor/monitor.cpp:1323
+#: src/monitor/monitor.cpp:1333
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "स्रोतसंकल्पस्य उपयोगेन चित्रं निर्यातयन्तु"
 
-#: src/monitor/monitor.cpp:1953 src/monitor/monitor.cpp:2083
+#: src/monitor/monitor.cpp:1963 src/monitor/monitor.cpp:2093
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 श्रव्यप्रवाहः"
 msgstr[1] "%1 श्रव्यप्रवाहाः"
 
-#: src/monitor/monitor.cpp:2391
+#: src/monitor/monitor.cpp:2401
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit इत्यस्य GLSL प्रबन्धकं प्रारम्भं कर्तुं न शक्यते, कृपया Movit अक्षमं कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:2433 src/monitor/monitor.cpp:2490
+#: src/monitor/monitor.cpp:2443 src/monitor/monitor.cpp:2500
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14635,17 +14646,17 @@ msgstr ""
 "तस्य विशेषतायाः कृते alphagrad फ़िल्टर आवश्यकम् अस्ति, कृपया frei0r संस्थाप्य Kdenlive "
 "पुनः आरभत"
 
-#: src/monitor/monitor.cpp:2453
+#: src/monitor/monitor.cpp:2463
 #, kde-format
 msgid "Clip has no effects"
 msgstr "क्लिप् इत्यस्य कोऽपि प्रभावः नास्ति"
 
-#: src/monitor/monitor.cpp:2455
+#: src/monitor/monitor.cpp:2465
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "प्रभावस्य तुलनां कर्तुं project bin मध्ये एकं क्लिप् चिनोतु"
 
-#: src/monitor/monitor.cpp:2497
+#: src/monitor/monitor.cpp:2507
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14654,7 +14665,7 @@ msgstr ""
 "तस्य विशेषतायाः कृते cairoblend संक्रमणम् आवश्यकम् अस्ति, कृपया frei0r संस्थाप्य Kdenlive "
 "पुनः आरभत"
 
-#: src/monitor/monitor.cpp:2568
+#: src/monitor/monitor.cpp:2578
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभावं सम्पादयितुं मॉनिटरे सम्पादनविधिं सक्षमं कुर्वन्तु"
@@ -20221,7 +20232,7 @@ msgstr "वर्तमान बिन्दुः विलोपयन्त�
 #: src/ui/collapsiblewidget_ui.ui:159 src/ui/collapsiblewidget_ui.ui:172
 #: src/ui/collapsiblewidget_ui.ui:185 src/ui/collapsiblewidget_ui.ui:198
 #: src/ui/collapsiblewidget_ui.ui:208 src/ui/collapsiblewidget_ui.ui:218
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:208
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
@@ -20685,7 +20696,7 @@ msgstr "चैनल्स् :"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:239 src/ui/configcapture_ui.ui:442
-#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:109
+#: src/ui/configcapture_ui.ui:495 src/ui/configproxy_ui.ui:108
 #: src/ui/projectsettings_ui.ui:277
 #, kde-format
 msgid "Encoding profile:"
@@ -21365,50 +21376,51 @@ msgid "Timeline Preview profile:"
 msgstr "समयरेखा पूर्वावलोकनरूपरेखा :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:41
+#: src/ui/configproxy_ui.ui:40
 #, kde-format
 msgid "Enable proxy clips"
 msgstr "प्रॉक्सी क्लिप्स् सक्षमं कुर्वन्तु"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
-#: src/ui/configproxy_ui.ui:63 src/ui/projectsettings_ui.ui:222
-#, kde-format
-msgid "Generate for videos larger than"
+#: src/ui/configproxy_ui.ui:62
+#, fuzzy, kde-format
+#| msgid "Generate for videos larger than"
+msgid "Generate for videos larger than:"
 msgstr "इत्यस्मात् बृहत्तरेभ्यः विडियोभ्यः जनयन्तु"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/ui/configproxy_ui.ui:70 src/ui/configproxy_ui.ui:90
-#: src/ui/configproxy_ui.ui:137 src/ui/configproxy_ui.ui:166
+#: src/ui/configproxy_ui.ui:69 src/ui/configproxy_ui.ui:89
+#: src/ui/configproxy_ui.ui:136 src/ui/configproxy_ui.ui:165
 #, kde-format
 msgid " pixels"
 msgstr " पिक्सेल्"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:83
+#: src/ui/configproxy_ui.ui:82
 #, kde-format
 msgid "Proxy video resize (width):"
 msgstr "प्रॉक्सी विडियो आकारपरिवर्तनं (विस्तारः):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
-#. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
-#: src/ui/configproxy_ui.ui:130 src/ui/projectsettings_ui.ui:248
-#, kde-format
-msgid "Generate for images larger than"
+#: src/ui/configproxy_ui.ui:129
+#, fuzzy, kde-format
+#| msgid "Generate for images larger than"
+msgid "Generate for images larger than:"
 msgstr "इत्यस्मात् बृहत्तराणां चित्राणां कृते जनयन्तु"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:156 src/ui/projectsettings_ui.ui:479
-#, kde-format
-msgid "Proxy image size"
+#: src/ui/configproxy_ui.ui:155
+#, fuzzy, kde-format
+#| msgid "Proxy image size"
+msgid "Proxy image size:"
 msgstr "प्रॉक्सी इमेज आकार"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:189 src/ui/projectsettings_ui.ui:409
+#: src/ui/configproxy_ui.ui:188 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
 msgstr "बाह्य प्रॉक्सी क्लिप्स् :"
@@ -21417,11 +21429,19 @@ msgstr "बाह्य प्रॉक्सी क्लिप्स् :"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:196 src/ui/configsdl_ui.ui:28
+#: src/ui/configproxy_ui.ui:195 src/ui/configsdl_ui.ui:28
 #: src/ui/configsdl_ui.ui:142 src/ui/projectsettings_ui.ui:440
 #, kde-format
 msgid "Enable"
 msgstr "सक्रियं करोतु"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configproxy_ui.ui:219
+#, fuzzy, kde-format
+#| msgid "You have a clip with an alpha channel. "
+#| msgid_plural "You have %1 clips with an alpha channel. "
+msgid "Profile for clips with alpha channel:"
+msgstr "भवतः समीपे अल्फा-चैनल-युक्तः क्लिप् अस्ति ।"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -23190,6 +23210,12 @@ msgstr "प्रॉक्सी"
 msgid "Proxy clips"
 msgstr "प्रॉक्सी क्लिप्स्"
 
+#. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
+#: src/ui/projectsettings_ui.ui:222
+#, kde-format
+msgid "Generate for videos larger than"
+msgstr "इत्यस्मात् बृहत्तरेभ्यः विडियोभ्यः जनयन्तु"
+
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imagesize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
@@ -23200,11 +23226,23 @@ msgstr "प्रॉक्सी क्लिप्स्"
 msgid "pixels"
 msgstr "पिक्सेल्"
 
+#. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
+#: src/ui/projectsettings_ui.ui:248
+#, kde-format
+msgid "Generate for images larger than"
+msgstr "इत्यस्मात् बृहत्तराणां चित्राणां कृते जनयन्तु"
+
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/projectsettings_ui.ui:433
 #, kde-format
 msgid "Proxy video resize (width)"
 msgstr "प्रॉक्सी विडियो आकारपरिवर्तनं (विस्तारः)"
+
+#. i18n: ectx: property (text), widget (QLabel, image_label)
+#: src/ui/projectsettings_ui.ui:479
+#, kde-format
+msgid "Proxy image size"
+msgstr "प्रॉक्सी इमेज आकार"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/projectsettings_ui.ui:619
