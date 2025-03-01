@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2025-02-27 20:46-0300\n"
+"PO-Revision-Date: 2025-02-28 22:02-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -944,12 +944,12 @@ msgstr ""
 #, kde-format
 msgctxt "Image Fade In Effect Name"
 msgid "Fade in"
-msgstr "Aparecer"
+msgstr "Emergir"
 
 #: data/effects/fade_from_black.xml:5
 #, kde-format
 msgid "Fade video from black"
-msgstr "Desaparecimento do vídeo a partir do preto"
+msgstr "Esmaecer vídeo a partir do escuro"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
@@ -974,18 +974,18 @@ msgstr "Entrada"
 #: data/effects/fade_from_black.xml:14
 #, kde-format
 msgid "Fade from Black"
-msgstr "Desaparecimento do preto"
+msgstr "Esmaecer a partir do escuro"
 
 #: data/effects/fade_to_black.xml:4
 #, kde-format
 msgctxt "Image Fade Out Effect Name"
 msgid "Fade out"
-msgstr "Desaparecer"
+msgstr "Esmaecer"
 
 #: data/effects/fade_to_black.xml:5
 #, kde-format
 msgid "Fade video to black"
-msgstr "Desaparecimento do vídeo para preto"
+msgstr "Esmaecer vídeo para preto"
 
 #: data/effects/fade_to_black.xml:11
 #: src/monitor/view/kdenlivemonitortrimming.qml:143
@@ -996,18 +996,18 @@ msgstr "Saída"
 #: data/effects/fade_to_black.xml:14
 #, kde-format
 msgid "Fade to Black"
-msgstr "Desaparecimento para preto"
+msgstr "Esmaecer para preto"
 
 #: data/effects/fadein.xml:4
 #, kde-format
 msgctxt "Audio Fade In Effect Name"
 msgid "Fade in"
-msgstr "Aparecer"
+msgstr "Emergir"
 
 #: data/effects/fadein.xml:5
 #, kde-format
 msgid "Fade in audio track"
-msgstr "Faixa de áudio do aparecimento"
+msgstr "Emergir faixa de áudio"
 
 #: data/effects/fadein.xml:14 data/effects/fadeout.xml:14
 #, kde-format
@@ -1023,12 +1023,12 @@ msgstr "Ganho final"
 #, kde-format
 msgctxt "Audio Fade Out Effect Name"
 msgid "Fade out"
-msgstr "Desaparecer"
+msgstr "Esmaecer"
 
 #: data/effects/fadeout.xml:5
 #, kde-format
 msgid "Fade out audio track"
-msgstr "Faixa de áudio do desaparecimento"
+msgstr "Esmaecer faixa de áudio"
 
 #: data/effects/freeze.xml:4
 #, kde-format
@@ -3695,7 +3695,7 @@ msgstr "Dissolver"
 #: data/transitions/dissolve.xml:5
 #, kde-format
 msgid "Fade out one video while fading in the other video."
-msgstr "Fade out um vídeo enquanto fading em outro vídeo."
+msgstr "Esmaecer vídeo enquanto esmaece em outro vídeo."
 
 #: data/transitions/dissolve.xml:7
 #, kde-format
@@ -18273,7 +18273,7 @@ msgstr "Não é possível adicionar o efeito %1 ao clipe selecionado"
 #: src/timeline2/model/timelinemodel.cpp:5109
 #, kde-format
 msgid "Adjust Fade"
-msgstr "Ajustar fade"
+msgstr "Ajustar esmaecimento"
 
 #: src/timeline2/model/timelinemodel.cpp:5442
 #, kde-format
@@ -18546,19 +18546,19 @@ msgstr "<b>Clique</b> para adicionar composição"
 #: src/timeline2/view/qml/Clip.qml:1422 src/timeline2/view/qml/Clip.qml:1429
 #, kde-format
 msgid "Fade out: %1"
-msgstr "Desaparecer: %1"
+msgstr "Esmaecer: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1433 src/timeline2/view/qml/Clip.qml:1540
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
-"<b>Arraste</b> para ajustar o fade, <b>clique</b> para adicionar um fade com "
-"duração padrão"
+"<b>Arraste</b> para ajustar o esmaecimento, <b>clique</b> para adicionar um "
+"esmaecimento com duração padrão"
 
 #: src/timeline2/view/qml/Clip.qml:1529 src/timeline2/view/qml/Clip.qml:1536
 #, kde-format
 msgid "Fade in: %1"
-msgstr "Aparecer: %1"
+msgstr "Emergir: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1624
 #, kde-format
@@ -21044,7 +21044,7 @@ msgstr "Clipes de imagem:"
 #: src/ui/configmisc_ui.ui:218
 #, kde-format
 msgid "Fades:"
-msgstr "Fades:"
+msgstr "Esmaecimentos:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configmisc_ui.ui:228
