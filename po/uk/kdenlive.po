@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 00:45+0000\n"
-"PO-Revision-Date: 2025-02-26 09:58+0200\n"
+"PO-Revision-Date: 2025-03-01 12:23+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -7398,10 +7398,9 @@ msgid "Proxy Clips"
 msgstr "Проміжні кліпи"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "Проміжні кліпи лише для кліпів без альфи"
+msgstr "Проміжні кліпи з прозорістю"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -14909,7 +14908,7 @@ msgstr "Роздільна здатність екрана є недостатн
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
 #, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr ""
+msgstr "Не можна змінювати зону при створенні маски"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -21841,8 +21840,7 @@ msgstr "Увімкнути проміжні кліпи"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
 msgstr "Створювати для відео, більших за"
 
@@ -21864,17 +21862,15 @@ msgstr "Зміна розмірів проміжного відео (ширин�
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
 msgstr "Створювати для зображень, більших за"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "Розмір проміжного зображення"
+msgstr "Розмір проміжного зображення:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21895,11 +21891,9 @@ msgstr "Увімкнути"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "У вас є %1 кліп із альфа-каналом. "
+msgstr "Профіль для кліпів із каналом прозорості:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21

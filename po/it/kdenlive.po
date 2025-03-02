@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 00:45+0000\n"
-"PO-Revision-Date: 2025-01-30 09:04+0100\n"
+"PO-Revision-Date: 2025-03-01 19:12+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -791,27 +791,24 @@ msgid "Counter Clockwise"
 msgstr "In senso antiorario"
 
 #: data/effects/dropshadow.xml:4
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Drop Shadow"
 msgstr "Ombra"
 
 #: data/effects/dropshadow.xml:5
-#, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#, kde-format
 msgid "Create a shadow effect from the alpha channel"
-msgstr "Disegna semplici forme nel canale alfa"
+msgstr "Crea un effetto ombra dal canale alfa"
 
 #: data/effects/dropshadow.xml:8
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Blur Radius"
-msgstr "Raggio"
+msgstr "Raggio di sfocatura"
 
 #: data/effects/dropshadow.xml:9
 #, kde-format
 msgid "The amount in pixel to blur the edge of the shadow"
-msgstr ""
+msgstr "La quantità in pixel per sfocare il bordo dell'ombra"
 
 #: data/effects/dropshadow.xml:12
 #, kde-format
@@ -821,7 +818,7 @@ msgstr "Scostamento X"
 #: data/effects/dropshadow.xml:13
 #, kde-format
 msgid "The relative horizontal position of the shadow"
-msgstr ""
+msgstr "La posizione orizzontale relativa dell'ombra"
 
 #: data/effects/dropshadow.xml:16
 #, kde-format
@@ -831,7 +828,7 @@ msgstr "Scostamento Y"
 #: data/effects/dropshadow.xml:17
 #, kde-format
 msgid "The relative vertical position of the shadow"
-msgstr ""
+msgstr "La posizione verticale relativa dell'ombra"
 
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2494
 #: src/layoutmanagement.cpp:36
@@ -841,10 +838,9 @@ msgid "Color"
 msgstr "Colore"
 
 #: data/effects/dropshadow.xml:21
-#, fuzzy, kde-format
-#| msgid "The color of the waveform gradient."
+#, kde-format
 msgid "The color of the shadow including alpha"
-msgstr "Il colore del gradiente della forma d'onda."
+msgstr "Il colore dell'ombra, compreso alfa"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -2362,12 +2358,12 @@ msgstr "Scostamento"
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
 #, kde-format
 msgid "Start position for the mask file."
-msgstr ""
+msgstr "Posizione iniziale del file della maschera."
 
 #: data/effects/mask_start_shape.xml:39 data/effects/shape.xml:36
 #, kde-format
 msgid "End position for the mask file."
-msgstr ""
+msgstr "Posizione finale del file della maschera."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -2720,11 +2716,10 @@ msgstr ""
 "pow (2,0, o). Sostituisce lo scala altezza."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Ruota"
+msgstr "Ruota in 3 modi"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2738,6 +2733,9 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[Quando si animano proprietà con fotogrammi chiave,<br>\n"
+"\t    se ripetere l'animazione dopo che è stato raggiunto l'ultimo "
+"fotogramma chiave.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -2749,10 +2747,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
-#, fuzzy, kde-format
-#| msgid "Insert space"
+#, kde-format
 msgid "Invert scale"
-msgstr "Inserisci spazio"
+msgstr "Inserisci scala"
 
 #: data/effects/rotate-3-way.xml:22 data/effects/shear.xml:22
 #, kde-format
@@ -2770,10 +2767,9 @@ msgid "Rotate X"
 msgstr "Ruota X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
-#| msgid "Rotation around the X axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Rotazione intorno all'asse X"
+msgstr "<![CDATA[Angolo di rotazione intorno all'asse X]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2782,10 +2778,9 @@ msgid "Rotate Y"
 msgstr "Ruota Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
-#| msgid "Rotation around the Y axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Rotazione intorno all'asse Y"
+msgstr "<![CDATA[Angolo di rotazione intorno all'asse Y]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2794,10 +2789,9 @@ msgid "Rotate Z"
 msgstr "Ruota Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
-#| msgid "Rotation around the Z axis"
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Rotazione intorno all'asse Z"
+msgstr "<![CDATA[Angolo di rotazione intorno all'asse Z]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2808,7 +2802,7 @@ msgstr "Scostamento X"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Scostamento lungo l'asse X]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2819,7 +2813,7 @@ msgstr "Scostamento Y"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Scostamento lungo l'asse Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -2831,7 +2825,7 @@ msgstr "Scala X"
 #: data/effects/rotate-3-way.xml:49 data/effects/shear.xml:46
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Fattore di scala applicato all'asse X]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: data/effects/rotate-3-way.xml:52 data/effects/shear.xml:49
@@ -2843,13 +2837,12 @@ msgstr "Scala Y"
 #: data/effects/rotate-3-way.xml:53 data/effects/shear.xml:50
 #, kde-format
 msgid "<![CDATA[Scale factor applied to the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Fattore di scala applicato all'asse Y]]>"
 
 #: data/effects/rotation.xml:4
-#, fuzzy, kde-format
-#| msgid "Rotate and Shear"
+#, kde-format
 msgid "Rotate and Shear (deprecated)"
-msgstr "Ruota e deforma"
+msgstr "Ruota e deforma (obsoleto)"
 
 #: data/effects/rotation.xml:17
 #, kde-format
@@ -2892,10 +2885,9 @@ msgid "Pan and Zoom"
 msgstr "Trasla ed ingrandisci"
 
 #: data/effects/rotation_keyframable.xml:4
-#, fuzzy, kde-format
-#| msgid "Smooth (deprecated)"
+#, kde-format
 msgid "Rotate (deprecated)"
-msgstr "Smussa (obsoleto)"
+msgstr "Ruota (obsoleto)"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2969,43 +2961,40 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Crea un canale alfa (trasparenza) basato su un'altra risorsa"
 
 #: data/effects/shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "Shear"
-msgstr "Deforma X"
+msgstr "Deforma"
 
 #: data/effects/shear.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to apply the mix"
+#, kde-format
 msgid "Shear a clip along the 3 axes"
-msgstr "Seleziona una clip da per applicare il mescolamento"
+msgstr "Deforma una clip lungo i 3 assi"
 
 #: data/effects/shear.xml:26
 #, kde-format
 msgid "<![CDATA[Shear angle around the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Angolo di deformazione intorno all'asse X]]>"
 
 #: data/effects/shear.xml:30
 #, kde-format
 msgid "<![CDATA[Shear angle around the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Angolo di deformazione intorno all'asse Y]]>"
 
 #: data/effects/shear.xml:33
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear Z"
-msgstr "Deforma X"
+msgstr "Deforma Z"
 
 #: data/effects/shear.xml:34
 #, kde-format
 msgid "<![CDATA[Shear angle around the Z axis]]>"
-msgstr ""
+msgstr "<![CDATA[Angolo di deformazione intorno all'asse Z]]>"
 
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Scostamento lungo l'asse Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4294,6 +4283,8 @@ msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
 msgstr ""
+"Mostra il pannello per la creazione delle maschere. Queste possono essere "
+"usate, ad esempio, per rimuovere lo sfondo in un video."
 
 #: src/assets/assetpanel.cpp:113
 #, kde-format
@@ -4393,19 +4384,21 @@ msgstr "Effetti contenitore %1"
 #: src/assets/assetpanel.cpp:625
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
-msgstr ""
+msgstr "Hai un processo di mascheratura in corso. Vuoi annullarlo?"
 
 #: src/assets/assetpanel.cpp:626
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
-msgstr ""
+msgstr "Annulla il processo di mascheratura"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:374
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
+"Devi definire i punti di inclusione nel primo fotogramma del video della "
+"sequenza."
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -5073,10 +5066,9 @@ msgid "Current values copied"
 msgstr "Valori correnti copiati"
 
 #: src/assets/view/widgets/keyframewidget.cpp:980
-#, fuzzy, kde-format
-#| msgid "No valid keyframe data in clipboard"
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "Nessun fotogramma chiave valido negli appunti"
+msgstr "Nessun fotogramma chiave negli appunti"
 
 # , kde-format
 #: src/assets/view/widgets/keyframewidget.cpp:1061
@@ -7374,10 +7366,9 @@ msgid "Proxy Clips"
 msgstr "Clip rappresentative"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "Crea le clip rappresentative solo se non hanno alfa"
+msgstr "Clip rappresentative con alfa"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -7434,6 +7425,7 @@ msgstr "Gestisci profili di codifica"
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog window to create, change, and delete encoding profiles"
 msgstr ""
+"Apre una finestra per creare, modificare o eliminare i profili di codifica"
 
 #: src/dialogs/encodingprofilesdialog.cpp:211
 #, kde-format
@@ -7441,11 +7433,10 @@ msgid "Show Profile Parameters"
 msgstr "Mostra i parametri del profilo"
 
 #: src/dialogs/encodingprofilesdialog.cpp:212
-#, fuzzy, kde-kuit-format
-#| msgid "Disable parameters when the effect is disabled"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays the parameters for the selected profile"
-msgstr "Disabilita i parametri quando l'effetto è disabilitato"
+msgstr "Visualizza i parametri del profilo selezionato"
 
 #: src/dialogs/encodingprofilesdialog.cpp:263
 #: src/dialogs/encodingprofilesdialog.cpp:352
@@ -8652,6 +8643,8 @@ msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
+"<b>Uso dei pacchetti di sistema. Usali solo se sai cosa stai facendo</b>."
+"Devi installare tu stesso nel sistema tutti i pacchetti richiesti:<br>%1"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config_sam)
 #: src/dialogs/settings/pluginssettings.cpp:431 src/ui/configspeech_ui.ui:808
@@ -8873,12 +8866,13 @@ msgid "Speech recognition aborted."
 msgstr "Riconoscimento vocale interrotto"
 
 #: src/dialogs/speechdialog.cpp:439
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed."
+#, kde-format
 msgid ""
 "Speech recognition failed:\n"
 "%1"
-msgstr "Riconoscimento vocale non riuscito."
+msgstr ""
+"Riconoscimento vocale non riuscito:\n"
+"%1"
 
 #: src/dialogs/speechdialog.cpp:446
 #, kde-format
@@ -11235,16 +11229,14 @@ msgid "Vertical Flip"
 msgstr "Ribaltamento verticale"
 
 #: src/effects/effectstack/view/effectstackview.cpp:333
-#, fuzzy, kde-format
-#| msgid "Remove group"
+#, kde-format
 msgid "Remove Background"
-msgstr "Rimuovi gruppo"
+msgstr "Rimuovi sfondo"
 
 #: src/effects/effectstack/view/effectstackview.cpp:334
-#, fuzzy, kde-format
-#| msgid "Remove the background of a static video"
+#, kde-format
 msgid "Remove background using AI model"
-msgstr "Rimuovi lo sfondo di un video statico"
+msgstr "Rimuovi lo sfondo di un modello AI"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
@@ -11306,32 +11298,29 @@ msgid "Please configure the SAM2 plugin"
 msgstr "Configura l'estensione SAM2"
 
 #: src/effects/effectstack/view/maskmanager.cpp:123
-#, fuzzy, kde-format
-#| msgid "Cut job failed."
+#, kde-format
 msgid "Job failed"
-msgstr "Processo di taglio non riuscito."
+msgstr "Processo non riuscito"
 
 #: src/effects/effectstack/view/maskmanager.cpp:255
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "Esportazione dei fotogrammi video dall'analisi"
 
 #: src/effects/effectstack/view/maskmanager.cpp:259
-#, fuzzy, kde-format
-#| msgid "Generating video mask"
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Generazione della maschera video"
+msgstr "Esportazione dei fotogrammi video"
 
 #: src/effects/effectstack/view/maskmanager.cpp:272
-#, fuzzy, kde-format
-#| msgid "Missing source clip"
+#, kde-format
 msgid "Missing source frames"
-msgstr "Clip sorgente mancante"
+msgstr "Fotogrammi sorgente mancanti"
 
 #: src/effects/effectstack/view/maskmanager.cpp:363
 #, kde-format
 msgid "mask %1"
-msgstr ""
+msgstr "maschera %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:369
 #, kde-format
@@ -11344,6 +11333,8 @@ msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
 "undone."
 msgstr ""
+"Questo eliminerà la maschera <b>%1</b> file:<br/>%2<br/>Questa operazione "
+"non può essere annullata."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11541,10 +11532,9 @@ msgid "Failed to filter source."
 msgstr "Impossibile filtrare la sorgente."
 
 #: src/jobs/filtertask.cpp:319
-#, fuzzy, kde-format
-#| msgid "Effects for %1"
+#, kde-format
 msgid "Effect analysis failed for %1"
-msgstr "Effetti per %1"
+msgstr "Analisi dell'effetto non riuscita per %1"
 
 #: src/jobs/masktask.cpp:26
 #, kde-format
@@ -11563,10 +11553,9 @@ msgid "Failed to render mask %1"
 msgstr "Impossibile rendere la maschera %1"
 
 #: src/jobs/melttask.cpp:60
-#, fuzzy, kde-format
-#| msgid "Failed to create proxy clip."
+#, kde-format
 msgid "Failed to process playlist."
-msgstr "Impossibile creare la clip rappresentativa."
+msgstr "Impossibile elaborare la scaletta."
 
 #: src/jobs/proxytask.cpp:30
 #, kde-format
@@ -14829,11 +14818,9 @@ msgid "Pink"
 msgstr "Rosa"
 
 #: src/monitor/monitor.cpp:453
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "Scacchiera piccola"
+msgstr "Scacchiera"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -14887,10 +14874,9 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "La risoluzione dello schermo non è sufficiente per quest'azione"
 
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
-#, fuzzy, kde-format
-#| msgid "Cannot change grouped clips"
+#, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr "Non riesco a modificare clip raggruppate"
+msgstr "Impossibile modificare una zona durante la creazione di una maschera"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -15301,11 +15287,9 @@ msgid "Transform"
 msgstr "Trasforma"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:382
-#, fuzzy, kde-format
-#| msgid "Select a clip in project bin to compare effect"
+#, kde-format
 msgid "Select an object in the image first"
-msgstr ""
-"Seleziona una clip nel contenitore del progetto per confrontare l'effetto"
+msgstr "Seleziona prima un oggetto nell'immagine"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:382
 #, kde-format
@@ -15324,6 +15308,9 @@ msgid ""
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
+"Fai clic su un oggetto o disegna un quadrato per iniziare una maschera.\n"
+"Maiusc+clic per includere un'altra zona.\n"
+"Ctrl+clic per  escludere una zona."
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:393
 #, kde-format
@@ -15340,16 +15327,14 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:414
-#, fuzzy, kde-format
-#| msgid "Go to Clip Start"
+#, kde-format
 msgid "Go to mask start"
-msgstr "Vai all'inizio della clip"
+msgstr "Vai all'inizio della maschera"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:427
-#, fuzzy, kde-format
-#| msgid "Go to Clip End"
+#, kde-format
 msgid "Go to mask end"
-msgstr "Vai alla fine della clip"
+msgstr "Vai alla fine della maschera"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -21823,10 +21808,9 @@ msgstr "Abilita le clip rappresentative"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "Genera per i video più grandi di"
+msgstr "Genera per i video più grandi di:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21846,10 +21830,9 @@ msgstr "Ridimensiona il video della clip rappresentativa (larghezza):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
-msgstr "Genera per le immagini più grandi di"
+msgstr "Genera per le immagini più grandi di:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
@@ -21877,11 +21860,9 @@ msgstr "Abilita"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "Hai una clip con un canale alfa. "
+msgstr "Profilo per le clip con canale alfa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -21956,10 +21937,9 @@ msgstr "Riconoscimento vocale"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
 #: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:750
-#, fuzzy, kde-format
-#| msgid "Use system install"
+#, kde-format
 msgid "Use system packages only"
-msgstr "Usa installazione di sistema"
+msgstr "Usa solo i pacchetti di sistema"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:85
@@ -22241,16 +22221,15 @@ msgstr "Dividi dopo la prima riga"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configtools_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "frames"
+#, kde-format
 msgid "Keyframes"
-msgstr "fotogrammi"
+msgstr "Fotogrammi chiave"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Intervallo minimo di fotogrammi per i fotogrammi chiave automatici:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
@@ -22260,6 +22239,9 @@ msgid ""
 "the monitor is playing, this is the minimum frame interval between 2 "
 "keyframes."
 msgstr ""
+"Quando si aggiungono fotogrammi chiave automatici (ad esempio nell'effetto "
+"Trasforma) durante la riproduzione del controllo, questo è l'intervallo "
+"minimo tra due fotogrammi chiave."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -23410,10 +23392,9 @@ msgstr "Applica maschera"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
 #: src/ui/maskmanage_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Mask"
-msgstr "Modifica marcatore"
+msgstr "Modifica la maschera"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:83
@@ -23448,17 +23429,15 @@ msgstr "Bordo "
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172
-#, fuzzy, kde-format
-#| msgid "Auto Mask"
+#, kde-format
 msgid "Abort Mask"
-msgstr "Maschera automatica"
+msgstr "Interrompi maschera"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/maskmanage_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Create New Mask"
+#, kde-format
 msgid "Creating Mask"
-msgstr "Crea nuova maschera"
+msgstr "Creazione della maschera"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18

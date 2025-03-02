@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 00:45+0000\n"
-"PO-Revision-Date: 2025-02-26 10:51+0300\n"
+"PO-Revision-Date: 2025-03-01 13:11+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7334,10 +7334,9 @@ msgid "Proxy Clips"
 msgstr "Vekil Klipler"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "Yalnızca alfasız klipleri vekille"
+msgstr "Alfalı Vekil Klipler"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -14754,7 +14753,7 @@ msgstr "Ekran çözünürlüğünüz bu işlem için yeterli değil"
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
 #, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr ""
+msgstr "Bir maske oluştururken bölge değiştirilemiyor"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -21600,10 +21599,9 @@ msgstr "Vekil klipleri etkinleştir"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "Şundan büyük videolar için üret"
+msgstr "Şundan büyük videolar için üret:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21623,17 +21621,15 @@ msgstr "Vekil video boyutlandırması (genişlik):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
-msgstr "Şundan büyük görseller için üret"
+msgstr "Şundan büyük görseller için üret:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "Vekil görsel boyutu"
+msgstr "Vekil görsel boyutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21654,11 +21650,9 @@ msgstr "Etkinleştir"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "Alfa kanalı olan bir klibiniz var. "
+msgstr "Alfa kanallı klipler için profil:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21

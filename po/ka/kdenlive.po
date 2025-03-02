@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 00:45+0000\n"
-"PO-Revision-Date: 2025-02-26 08:12+0100\n"
+"PO-Revision-Date: 2025-03-01 03:13+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7313,10 +7313,9 @@ msgid "Proxy Clips"
 msgstr "პროქსი კლიპები"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "მხოლოდ, ალფა არხის არმქონე კლიპების დაპროქსვა"
+msgstr "პროქსი კლიპები ალფათი"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -14723,7 +14722,7 @@ msgstr "ამ ქმედებისთვის თქვენი ეკრ
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
 #, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr ""
+msgstr "ნიღბის შექმნისას ზონის შეცვლა შეუძლებელია"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -21576,10 +21575,9 @@ msgstr "პროქსი კლიპების ჩართვა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "გენერაცია ვიდეოებისთვის, რომლებიც დიდია, ვიდრე"
+msgstr "გენერაცია ვიდეოებისთვის, რომლებიც დიდია, ვიდრე:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21599,17 +21597,15 @@ msgstr "პროქსი ვიდეოების ზომის შეც
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
-msgstr "გენერაცია გამოსახულებებისთვის, რომლებიც დიდია, ვიდრე"
+msgstr "გენერაცია გამოსახულებებისთვის, რომლებიც დიდია, ვიდრე:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "პროქსი გამოსახულების ზომა"
+msgstr "პროქსი გამოსახულების ზომა:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21630,11 +21626,9 @@ msgstr "ჩართვა"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "გაქვთ კლიპი ალფა არხით. "
+msgstr "პროფილი ალფა არხის მქონე კლიპებისთვის:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21

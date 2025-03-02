@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 00:45+0000\n"
-"PO-Revision-Date: 2025-02-26 16:54+0100\n"
+"PO-Revision-Date: 2025-03-01 18:02+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7375,10 +7375,9 @@ msgid "Proxy Clips"
 msgstr "Proxy-clips"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "Alleen proxy gebruiken bij clips zonder alfa"
+msgstr "Proxy-clips met alfa"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -14825,10 +14824,9 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "Uw schermresolutie is niet voldoende voor deze actie"
 
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
-#, fuzzy, kde-format
-#| msgid "Cannot change grouped clips"
+#, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr "Kan geselecteerde clips niet veranderen"
+msgstr "Kan zone niet veranderen bij aanmaken van een masker"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -21693,10 +21691,9 @@ msgstr "Proxyclips inschakelen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "Berekent voor video's groter dan"
+msgstr "Genereren voor video's groter dan:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21716,17 +21713,15 @@ msgstr "Grootte wijzigen van proxy-video (breedte):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
-msgstr "Berekent voor afbeeldingen groter dan"
+msgstr "Genereren voor afbeeldingen groter dan:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "Grootte van proxy-afbeelding"
+msgstr "Grootte van proxy-afbeelding:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21747,11 +21742,9 @@ msgstr "Inschakelen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "U hebt een clip heeft een alfa-kanaal. "
+msgstr "Profiel voor clips met alfa-kanaal:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21

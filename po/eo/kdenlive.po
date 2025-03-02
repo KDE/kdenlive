@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 00:45+0000\n"
-"PO-Revision-Date: 2025-02-22 21:54+0100\n"
+"PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -2978,7 +2978,7 @@ msgstr "<![CDATA[Tond-angulo ĉirkaŭ la Z-akso]]>"
 #: data/effects/shear.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Deŝovo laŭ Y-akso]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4353,13 +4353,13 @@ msgstr "Rubujo %1 efikoj"
 #: src/assets/assetpanel.cpp:625
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
-msgstr ""
+msgstr "Vi havas maskan labortaskon rulanta. Ĉu ĉesigi la taskon?"
 
 #: src/assets/assetpanel.cpp:626
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
-msgstr ""
+msgstr "Ĉesigi Maskan Taskon"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:374
 #, kde-format
@@ -7308,8 +7308,7 @@ msgid "Proxy Clips"
 msgstr "Prokurilaj aŭdvidaĵoj"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
 msgstr "Prokurigi filmerojn sen alfa nur"
 
@@ -11112,15 +11111,14 @@ msgid "Vertical Flip"
 msgstr "Vertikala Inversigo"
 
 #: src/effects/effectstack/view/effectstackview.cpp:333
-#, fuzzy, kde-format
-#| msgid "Remove group"
+#, kde-format
 msgid "Remove Background"
-msgstr "Forigi grupon"
+msgstr "Forigi Fonon"
 
 #: src/effects/effectstack/view/effectstackview.cpp:334
 #, kde-format
 msgid "Remove background using AI model"
-msgstr ""
+msgstr "Forigi fonon uzante AI-modelon"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
@@ -11417,7 +11415,7 @@ msgstr "Malsukcesis filtri fonton."
 #: src/jobs/filtertask.cpp:319
 #, kde-format
 msgid "Effect analysis failed for %1"
-msgstr ""
+msgstr "Efik-analizo malsukcesis por %1"
 
 #: src/jobs/masktask.cpp:26
 #, kde-format
@@ -14719,7 +14717,7 @@ msgstr "Via ekrandistingivo ne sufiĉas por ĉi tiu ago"
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
 #, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr ""
+msgstr "Ne eblas ŝanĝi zonon kreante maskon"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -15126,10 +15124,9 @@ msgid "Transform"
 msgstr "Transformi"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:382
-#, fuzzy, kde-format
-#| msgid "Select a clip in project bin to compare effect"
+#, kde-format
 msgid "Select an object in the image first"
-msgstr "Elekti tondaĵon en projektujo por kompari efekton"
+msgstr "Unue elektu objekton en la bildo"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:382
 #, kde-format
@@ -17046,7 +17043,7 @@ msgstr "La <application>%1</application> python-modulo estas bezonata."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:464
 #, kde-format
 msgid "Using python from %1"
-msgstr ""
+msgstr "Uzante python el %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:487
 #, kde-format
@@ -19149,7 +19146,7 @@ msgstr "Redakti trakonomon"
 #: src/timeline2/view/qml/TrackHead.qml:652
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
-msgstr ""
+msgstr "Klaku por tracikli zomon de aŭdaj ondformoj"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -21557,10 +21554,9 @@ msgstr "Ebligi prokurilajn tondaĵojn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "Generi por filmetoj pli grandaj ol"
+msgstr "Generi por filmetoj pli grandaj ol:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21581,16 +21577,15 @@ msgstr "Regrandigo de prokurila video (larĝo):"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
 #, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#| msgid "Generate for images larger than::"
 msgid "Generate for images larger than:"
 msgstr "Generi por bildoj pli grandaj ol"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "Prokurila bildo grandeco"
+msgstr "Prokurila bildograndeco:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21611,11 +21606,9 @@ msgstr "Ebligi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "Vi havas filmeron kun alfa-kanalo. "
+msgstr "Profilo por filmeroj kun alfa-kanalo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -21692,7 +21685,7 @@ msgstr "Parolado Al Teksto"
 #: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:750
 #, kde-format
 msgid "Use system packages only"
-msgstr ""
+msgstr "Uzi nur sistempakojn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:85
@@ -21812,7 +21805,7 @@ msgstr "Modelo"
 #: src/ui/configspeech_ui.ui:759
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
-msgstr ""
+msgstr "Malŝargi filmeton al CPU por konservi GPU-memoron"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:883
@@ -21978,7 +21971,7 @@ msgstr "Ŝlosilkadroj"
 #: src/ui/configtools_ui.ui:76
 #, kde-format
 msgid "Minimum frame interval for automatic keyframes:"
-msgstr ""
+msgstr "Minimuma kadro-intervalo por aŭtomataj ŝlosilkadroj:"
 
 #. i18n: ectx: property (text), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configtools_ui.ui:103
@@ -23165,30 +23158,27 @@ msgstr "Enporti Maskon en Projekto"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/maskmanage_ui.ui:165
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Border"
-msgstr "Limo"
+msgstr "Bordero"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172
-#, fuzzy, kde-format
-#| msgid "Invert Mask"
+#, kde-format
 msgid "Abort Mask"
-msgstr "Inverti Maskon"
+msgstr "Ĉesigi Maskon"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/maskmanage_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Create New Mask"
+#, kde-format
 msgid "Creating Mask"
-msgstr "Krei Novan Maskon"
+msgstr "Kreante Maskon"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
 #, kde-format
 msgid " Clip Problems"
-msgstr "Problemoj pri aŭdvidaĵo"
+msgstr "Problemoj pri Aŭdvidaĵo"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:92
@@ -24710,6 +24700,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Change Color"
-#~ msgstr "Ŝanĝi Koloron"
