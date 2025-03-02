@@ -252,6 +252,8 @@ private:
      *  @param loop if true, we seek to zone start when reaching end
      */
     bool playZone(int in, int out, bool startFromIn, bool loop, bool zoneMode);
+    bool isPaused() const;
+    void pause(int position = -1);
 
 private Q_SLOTS:
     void resizeVideo(int width, int height);

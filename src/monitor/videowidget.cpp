@@ -590,7 +590,7 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     if (m_consumer) {
         consumerPosition = m_consumer->position();
     }
-    stop();
+    pause();
     if (producer) {
         m_producer = producer;
     } else {
@@ -627,6 +627,24 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
         m_proxy->setPositionAdvanced(position > 0 ? position : m_producer->position(), true);
     }
     return error;
+}
+
+bool VideoWidget::isPaused() const
+{
+    return m_producer && qAbs(m_producer->get_speed()) < 0.1;
+}
+
+void VideoWidget::pause(int position)
+{
+    if (m_producer && !isPaused()) {
+        m_producer->set_speed(0);
+        if (m_consumer && m_consumer->is_valid()) {
+            position = position > -1 ? position : m_consumer->position() + 1;
+            m_producer->seek(position);
+            m_consumer->purge();
+            m_consumer->start();
+        }
+    }
 }
 
 int VideoWidget::droppedFrames() const
@@ -776,11 +794,7 @@ int VideoWidget::reconfigure()
         m_consumer->set("buffer", qMax(25, fps));
         m_consumer->set("prefill", 6);
         m_consumer->set("drop_max", fps / 4);
-        if (KdenliveSettings::audio_scrub()) {
-            m_consumer->set("scrub_audio", 1);
-        } else {
-            m_consumer->set("scrub_audio", 0);
-        }
+        m_consumer->set("scrub_audio", KdenliveSettings::audio_scrub());
         if (KdenliveSettings::monitor_gamma() == 0) {
             m_consumer->set("color_trc", "iec61966_2_1");
         } else {
