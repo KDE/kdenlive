@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2025-02-28 22:02-0300\n"
+"PO-Revision-Date: 2025-03-01 04:20-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -758,13 +758,13 @@ msgstr "Oscilação"
 #: data/effects/dance.xml:20
 #, kde-format
 msgid "Initial Zoom"
-msgstr "Zoom inicial"
+msgstr "Ampliação inicial"
 
 #: data/effects/dance.xml:23 data/effects/vidstab.xml:40
 #: src/project/dialogs/slideshowclip.cpp:72 src/titler/titlewidget.cpp:362
 #, kde-format
 msgid "Zoom"
-msgstr "Zoom"
+msgstr "Ampliação"
 
 #: data/effects/dance.xml:32
 #, kde-format
@@ -944,7 +944,7 @@ msgstr ""
 #, kde-format
 msgctxt "Image Fade In Effect Name"
 msgid "Fade in"
-msgstr "Emergir"
+msgstr "Entrada gradual"
 
 #: data/effects/fade_from_black.xml:5
 #, kde-format
@@ -1002,12 +1002,12 @@ msgstr "Esmaecer para preto"
 #, kde-format
 msgctxt "Audio Fade In Effect Name"
 msgid "Fade in"
-msgstr "Emergir"
+msgstr "Entrada gradual"
 
 #: data/effects/fadein.xml:5
 #, kde-format
 msgid "Fade in audio track"
-msgstr "Emergir faixa de áudio"
+msgstr "Entrada gradual da faixa de áudio"
 
 #: data/effects/fadein.xml:14 data/effects/fadeout.xml:14
 #, kde-format
@@ -1224,7 +1224,7 @@ msgstr ""
 "<![CDATA[O <b>Velocímetro</b> está disponível para todas as fontes de dados, "
 "mas é recomendado apenas para velocidade; para o tipo \"mapa\" ele "
 "representa a \"porcentagem completada\" do (começo - fim) aparados.<br>\n"
-"Nota: para o tipo 1 (dar zoom e centralizar, ou \"siga o ponto\"):<br>\n"
+"Nota: para o tipo 1 (ampliar e centralizar, ou \"siga o ponto\"):<br>\n"
 "* valores de recorte são válidos só como porcentagem e apenas valores\n"
 "inferiores (resp. esquerdo) serão considerados, pois ambos os valores (ex.: "
 "inferior/superior) precisarão ser iguais\n"
@@ -1321,7 +1321,7 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
-"<![CDATA[Recorta dados do lado esquerdo do gráfico (dando zoom, "
+"<![CDATA[Recorta dados do lado esquerdo do gráfico (ampliando, "
 "efetivamente). <br>\n"
 "    \tO valor é interpretado como porcentagem total ou um valor absoluto "
 "dependendo do crop_mode_h. Em modo de porcentagem, os valores não são "
@@ -1370,8 +1370,8 @@ msgid ""
 msgstr ""
 "<![CDATA[Decide como interpretar os valores de <em>Recortar na base</em> e "
 "<em>Recortar no topo</em><br/>\n"
-"    \tCom um valor absoluto, pode aproximar entre 100 e 150m de altitude "
-"para mostrar\n"
+"    \tCom um valor absoluto, pode ampliar entre 100 e 150m de altitude para "
+"mostrar\n"
 "melhor pequenas mudanças de altitude entre esses 2 valores.<br/>\n"
 "Nota: para o tipo vertical, valores absolutos são graus de latitude (para o "
 "tipo de fonte de localização)\n"
@@ -1400,7 +1400,7 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
-"<![CDATA[Recorta dados do lado inferior do gráfico (dando zoom, "
+"<![CDATA[Recorta dados do lado inferior do gráfico (ampliando, "
 "efetivamente). <br>\n"
 "    \tO valor é interpretado como porcentagem total ou um valor absoluto "
 "dependendo do crop_mode_v. Em modo de porcentagem, os valores não são "
@@ -1702,8 +1702,8 @@ msgid ""
 msgstr ""
 "<![CDATA[Dimensiona a imagem de plano de fundo (relativa ao centro) para "
 "coincidir com a trilha de GPS que está acima.<br>\n"
-"    \tValores menores que 100 ampliam a imagem, e valores maiores que 100 "
-"diminuem. 0 a esconde.]]>"
+"    \tValores menores que 100 ampliam a imagem, e valores maiores que 100 a "
+"reduzem. 0 esconde.]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -2454,7 +2454,7 @@ msgstr "Duração da revelação irregular"
 #: data/effects/pan_zoom.xml:4
 #, kde-format
 msgid "Position and Zoom"
-msgstr "Posição e Zoom"
+msgstr "Posição e Ampliação"
 
 #: data/effects/pan_zoom.xml:5
 #, kde-format
@@ -2722,7 +2722,7 @@ msgstr "Animar a inclinação em Y"
 #: data/effects/rotation.xml:38
 #, kde-format
 msgid "Pan and Zoom"
-msgstr "Deslocamento e Zoom"
+msgstr "Deslocamento e Ampliação"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3187,30 +3187,30 @@ msgstr "Desativado = manter borda, ativado = fundo preto"
 #: data/effects/vidstab.xml:41
 #, kde-format
 msgid "Additional zoom during transform"
-msgstr "Zoom adicional durante a transformação"
+msgstr "Ampliação adicional durante a transformação"
 
 #: data/effects/vidstab.xml:44
 #, kde-format
 msgid "Optimal Zoom"
-msgstr "Zoom otimizado"
+msgstr "Ampliação otimizada"
 
 #: data/effects/vidstab.xml:45
 #, kde-format
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
 msgstr ""
-"Determina automaticamente o zoom ideal. 1 - zoom estático, 2 - zoom "
-"adaptativo"
+"Determina automaticamente a ampliação ideal. 1 - ampliação estática, 2 - "
+"ampliação adaptativa"
 
 #: data/effects/vidstab.xml:48
 #, kde-format
 msgid "Optimal Zoom Speed"
-msgstr "Velocidade ideal de zoom"
+msgstr "Velocidade ideal de ampliação"
 
 #: data/effects/vidstab.xml:49
 #, kde-format
 msgid "Zoom per frame (used when optimal zoom = 2)"
-msgstr "Zoom por quadro (usado quando o zoom ideal = 2)"
+msgstr "Ampliar por quadro (usado quando a ampliação ideal = 2)"
 
 #: data/effects/vidstab.xml:52
 #, kde-format
@@ -3734,7 +3734,7 @@ msgstr "Fosco"
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
-msgstr "Substitua o canal alfa da faixa A pelo canal luma da faixa B."
+msgstr "Substitua o canal alfa da trilha A pelo canal luma da trilha B."
 
 #: data/transitions/mix.xml:4
 #, kde-format
@@ -5182,7 +5182,7 @@ msgstr "Isto irá excluir todo o conteúdo da pasta"
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr ""
-"Alguns itens não puderam ser excluídos. Talvez haja instâncias em faixas "
+"Alguns itens não puderam ser excluídos. Talvez haja instâncias em trilhas "
 "bloqueadas?"
 
 #: src/bin/bin.cpp:1805
@@ -5210,8 +5210,8 @@ msgid ""
 "To make sure you do not lose data, a backup copy called %1 was created."
 msgstr ""
 "Seu arquivo de projeto foi modificado pelo Kdenlive.\n"
-"Para garantir que não haverá perdas de dados, uma cópia de backup chamada %1 "
-"foi criada."
+"Para garantir que não haverá perdas de dados, uma cópia de segurança chamada "
+"%1 foi criada."
 
 #: src/bin/bin.cpp:1863
 #, kde-format
@@ -5526,7 +5526,7 @@ msgstr ""
 #: src/bin/bin.cpp:2697 src/bin/bin.cpp:2710 src/bin/bin.cpp:3677
 #, kde-format
 msgid "Proxy Clip"
-msgstr "Clipe de Proxy"
+msgstr "Clipe de proxy"
 
 #: src/bin/bin.cpp:2701
 #, kde-format
@@ -5636,12 +5636,12 @@ msgstr "Duplicar o clipe"
 #: src/bin/bin.cpp:3684 src/bin/bin.cpp:3739
 #, kde-format
 msgid "Clip Properties"
-msgstr "Propriedades do Clipe"
+msgstr "Propriedades do clipe"
 
 #: src/bin/bin.cpp:3689 src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-format
 msgid "Edit Clip"
-msgstr "Editar Clipe"
+msgstr "Editar clipe"
 
 #: src/bin/bin.cpp:3707
 #, kde-format
@@ -5860,7 +5860,7 @@ msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
-"Seu projeto precisa de mais trilhas de áudio para lidar com todos os fluxos. "
+"Seu projeto precisa de mais faixas de áudio para lidar com todos os fluxos. "
 "Adicionar %1 faixas de áudio?"
 
 #: src/bin/bin.cpp:5503 src/mainwindow.cpp:2706
@@ -5946,7 +5946,7 @@ msgstr "Excluir efeito %1"
 #: src/bin/bin.cpp:6406 src/mainwindow.cpp:319
 #, kde-format
 msgid "Project Bin"
-msgstr "Biblioteca Multimídia"
+msgstr "Biblioteca multimídia"
 
 #: src/bin/bin.cpp:6409 src/bin/bin.cpp:6412 src/mainwindow.cpp:4799
 #, kde-format
@@ -5969,7 +5969,7 @@ msgstr "Renomear área"
 #, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
-msgstr "Editar Clipe"
+msgstr "Editar clipe"
 
 #: src/bin/clipcreator.cpp:70
 #, kde-format
@@ -6448,7 +6448,7 @@ msgstr "Renomear pasta"
 #: src/bin/projectitemmodel.cpp:1166 src/mainwindow.cpp:1419
 #, kde-format
 msgid "Clean Project"
-msgstr "Limpar Projeto"
+msgstr "Limpar projeto"
 
 #: src/bin/projectitemmodel.cpp:1394
 #, kde-format
@@ -10043,7 +10043,7 @@ msgstr "Arquivo de recursos"
 #: src/mltcontroller/clippropertiescontroller.cpp:440
 #, kde-format
 msgid "Proxy clip"
-msgstr "Clipe de Proxy"
+msgstr "Clipe de proxy"
 
 #: src/doc/documentchecker.cpp:1861
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
@@ -10313,8 +10313,8 @@ msgid ""
 msgstr ""
 "Seu arquivo de projeto foi atualizado para a última versão de arquivos do "
 "Kdenlive.\n"
-"Para garantir que não haverá perdas de dados, uma cópia de backup chamada %1 "
-"foi criada."
+"Para garantir que não haverá perdas de dados, uma cópia de segurança chamada "
+"%1 foi criada."
 
 #: src/doc/kdenlivedoc.cpp:753
 #, kde-format
@@ -10500,7 +10500,7 @@ msgstr "Categoria"
 #: src/docktitlebarmanager.cpp:20
 #, kde-format
 msgid "Show Title Bars"
-msgstr "Mostrar Barras de título"
+msgstr "Mostrar barras de título"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:47
 #, kde-format
@@ -11305,7 +11305,7 @@ msgstr "Espaço"
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
-msgstr "Faixas"
+msgstr "Trilhas"
 
 #. i18n: ectx: Menu (video_effects_menu)
 #: src/kdenliveui.rc:204 src/mainwindow.cpp:482
@@ -11969,7 +11969,7 @@ msgstr "Biblioteca"
 #: src/mainwindow.cpp:226
 #, kde-format
 msgid "Speech Editor"
-msgstr "Editor de Fala"
+msgstr "Editor de fala"
 
 #: src/mainwindow.cpp:227
 #, kde-format
@@ -12005,7 +12005,7 @@ msgstr "Configurar gravação"
 #: src/monitor/recmanager.cpp:94 src/ui/configcapture_ui.ui:263
 #, kde-format
 msgid "Screen Grab"
-msgstr "Capturar Tela"
+msgstr "Capturar tela"
 
 #: src/mainwindow.cpp:305
 #, kde-format
@@ -12139,12 +12139,12 @@ msgstr "Miniaturas"
 #: src/mainwindow.cpp:641
 #, kde-format
 msgid "In Frame"
-msgstr "Quadro de Entrada"
+msgstr "Quadro de entrada"
 
 #: src/mainwindow.cpp:645
 #, kde-format
 msgid "In/Out Frames"
-msgstr "Quadros de Entrada/Saída"
+msgstr "Quadros de entrada/saída"
 
 #: src/mainwindow.cpp:649
 #, kde-format
@@ -12210,12 +12210,12 @@ msgstr "Modo normal"
 #: src/mainwindow.cpp:1089
 #, kde-format
 msgid "Overwrite Mode"
-msgstr "Modo de Sobrescrita"
+msgstr "Modo de sobrescrita"
 
 #: src/mainwindow.cpp:1096
 #, kde-format
 msgid "Insert Mode"
-msgstr "Modo de Inserção"
+msgstr "Modo de inserção"
 
 #: src/mainwindow.cpp:1100
 #, kde-format
@@ -12254,7 +12254,7 @@ msgstr ""
 #: src/mainwindow.cpp:1119
 #, kde-format
 msgid "Enable Track Compositing"
-msgstr "Habilitar composição de faixas"
+msgstr "Habilitar composição de trilhas"
 
 #: src/mainwindow.cpp:1125
 #, kde-format
@@ -12289,7 +12289,7 @@ msgstr "Quadros"
 #: src/mainwindow.cpp:1181
 #, kde-format
 msgid "Edit Subtitle Tool"
-msgstr "Ferramenta de Edição de Legendas"
+msgstr "Ferramenta de edição de legendas"
 
 #: src/mainwindow.cpp:1182
 #, kde-kuit-format
@@ -12301,17 +12301,17 @@ msgstr "Alterna a trilha de legenda na linha do tempo."
 #: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Selection Tool"
-msgstr "Ferramenta de Seleção"
+msgstr "Ferramenta de seleção"
 
 #: src/mainwindow.cpp:1194
 #, kde-format
 msgid "Razor Tool"
-msgstr "Ferramenta de Navalha"
+msgstr "Ferramenta de navalha"
 
 #: src/mainwindow.cpp:1199
 #, kde-format
 msgid "Spacer Tool"
-msgstr "Ferramenta Espaçador"
+msgstr "Ferramenta espaçador"
 
 #: src/mainwindow.cpp:1202
 #, kde-kuit-format
@@ -12365,7 +12365,7 @@ msgstr "Ferramenta multicâmera"
 #: src/mainwindow.cpp:1246
 #, kde-format
 msgid "Collapse/Expand Item"
-msgstr "Recolher/Expandir item"
+msgstr "Recolher/expandir item"
 
 #: src/mainwindow.cpp:1250
 #, kde-format
@@ -12447,7 +12447,7 @@ msgstr ""
 #: src/mainwindow.cpp:1296
 #, kde-format
 msgid "Fit Zoom to Project"
-msgstr "Ajustar zoom ao projeto"
+msgstr "Ajustar ampliação ao projeto"
 
 #: src/mainwindow.cpp:1297
 #, kde-kuit-format
@@ -12455,8 +12455,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr ""
-"Ajusta o nível de zoom para encaixar o projeto inteiro na janela da linha do "
-"tempo."
+"Ajusta o nível de ampliação para encaixar o projeto inteiro na janela da "
+"linha do tempo."
 
 #: src/mainwindow.cpp:1322
 #, kde-format
@@ -12540,7 +12540,7 @@ msgstr "Repetir clipe selecionado"
 #: src/mainwindow.cpp:1437
 #, kde-format
 msgid "Transcode Clips…"
-msgstr "Transcodificar Clipes…"
+msgstr "Transcodificar clipes…"
 
 #: src/mainwindow.cpp:1438
 #, kde-format
@@ -12560,7 +12560,7 @@ msgstr "Arquivar o projeto…"
 #: src/mainwindow.cpp:1447
 #, kde-format
 msgid "Switch Monitor"
-msgstr "Monitor de Switch"
+msgstr "Monitor de switch"
 
 #: src/mainwindow.cpp:1448
 #, kde-format
@@ -12585,7 +12585,7 @@ msgstr "Código de tempo da sobreposição do monitor"
 #: src/mainwindow.cpp:1461
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
-msgstr "Monitorar sobreposição de reprodução em Fps"
+msgstr "Monitorar sobreposição de reprodução em FPS"
 
 #: src/mainwindow.cpp:1466
 #, kde-format
@@ -12673,12 +12673,12 @@ msgstr "Ir para próximo ponto de alinhamento automático"
 #: src/mainwindow.cpp:1565
 #, kde-format
 msgid "Go to Clip Start"
-msgstr "Ir para Inicio do Clipe"
+msgstr "Ir para inicio do clipe"
 
 #: src/mainwindow.cpp:1567
 #, kde-format
 msgid "Go to Clip End"
-msgstr "Ir para Final do Clipe"
+msgstr "Ir para final do clipe"
 
 #: src/mainwindow.cpp:1569
 #, kde-format
@@ -12698,7 +12698,7 @@ msgstr "Alinhar o início à posição do mouse"
 #: src/mainwindow.cpp:1576
 #, kde-format
 msgid "Grab Current Item"
-msgstr "Pegue o item atual"
+msgstr "Segurar o item atual"
 
 #: src/mainwindow.cpp:1579
 #, kde-format
@@ -12953,7 +12953,7 @@ msgstr "Editar marcador…"
 #: src/mainwindow.cpp:1696 src/timeline2/model/timelinefunctions.cpp:1212
 #, kde-format
 msgid "Restore Audio"
-msgstr "Restaurar Áudio"
+msgstr "Restaurar áudio"
 
 #: src/mainwindow.cpp:1702
 #, kde-format
@@ -13019,17 +13019,17 @@ msgstr "Excluir o item selecionado"
 #: src/mainwindow.cpp:1762
 #, kde-format
 msgid "Resize Item Start"
-msgstr "Início do Redimensionamento do Item"
+msgstr "Início do redimensionamento do item"
 
 #: src/mainwindow.cpp:1766
 #, kde-format
 msgid "Resize Item End"
-msgstr "Fim do Redimensionamento do Item"
+msgstr "Fim do redimensionamento do item"
 
 #: src/mainwindow.cpp:1770
 #, kde-format
 msgid "Paste Effects"
-msgstr "Colar Efeitos"
+msgstr "Colar efeitos"
 
 #: src/mainwindow.cpp:1776
 #, kde-format
@@ -13069,7 +13069,7 @@ msgstr "Quadros-chave de efeitos"
 #: src/mainwindow.cpp:1810 src/monitor/view/EffectToolBar.qml:99
 #, kde-format
 msgid "Add/Remove Keyframe"
-msgstr "Adicionar/Remover quadro-chave"
+msgstr "Adicionar/remover quadro-chave"
 
 #: src/mainwindow.cpp:1819
 #, kde-format
@@ -13079,7 +13079,7 @@ msgstr "Inserir espaço…"
 #: src/mainwindow.cpp:1820
 #, kde-format
 msgid "Remove Space"
-msgstr "Remover Espaço"
+msgstr "Remover espaço"
 
 #: src/mainwindow.cpp:1821
 #, kde-format
@@ -13094,7 +13094,7 @@ msgstr "Remover todos os clipes após o cursor"
 #: src/mainwindow.cpp:1823
 #, kde-format
 msgid "Remove Space in All Tracks"
-msgstr "Remover espaço em todas as faixas"
+msgstr "Remover espaço em todas as trilhas"
 
 #: src/mainwindow.cpp:1826
 #, kde-format
@@ -13105,7 +13105,7 @@ msgstr "Inserir trilha…"
 #: src/mainwindow.cpp:1830
 #, kde-format
 msgid "Fit all Tracks in View"
-msgstr "Encaixar todas as faixas na visualização"
+msgstr "Encaixar todas as trilhas na visualização"
 
 #: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4869
 #, kde-format
@@ -13145,7 +13145,7 @@ msgstr "Desabilitar prévia da linha do tempo"
 #: src/mainwindow.cpp:1883
 #, kde-format
 msgid "Add/Remove Guide"
-msgstr "Adicionar/Remover guia"
+msgstr "Adicionar/remover guia"
 
 #: src/mainwindow.cpp:1884
 #, kde-format
@@ -13256,7 +13256,7 @@ msgstr "Desativar efeitos da linha do tempo"
 #: src/mainwindow.cpp:1955
 #, kde-format
 msgid "Toggle Track Disabled"
-msgstr "Alternar Desativação da Faixa"
+msgstr "Alternar desativação da trilha"
 
 #: src/mainwindow.cpp:1957
 #, kde-format
@@ -13291,7 +13291,7 @@ msgstr "Mudar todas as trilhas ativas"
 #: src/mainwindow.cpp:1969
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
-msgstr "Restaurar faixas de destino do clipe atual"
+msgstr "Restaurar trilhas de destino do clipe atual"
 
 #: src/mainwindow.cpp:1971
 #, kde-format
@@ -13301,17 +13301,17 @@ msgstr "Adicionar nota de projeto"
 #: src/mainwindow.cpp:1977
 #, kde-format
 msgid "Select Audio Track %1"
-msgstr "Seleciona a faixa de áudio %1"
+msgstr "Selecionar a faixa de áudio %1"
 
 #: src/mainwindow.cpp:1981
 #, kde-format
 msgid "Select Video Track %1"
-msgstr "Seleciona a trilha de vídeo %1"
+msgstr "Selecionar a trilha de vídeo %1"
 
 #: src/mainwindow.cpp:1985
 #, kde-format
 msgid "Select Target %1"
-msgstr "Seleciona o destino %1"
+msgstr "Selecionar o destino %1"
 
 #: src/mainwindow.cpp:2003
 #, kde-format
@@ -13384,7 +13384,7 @@ msgstr "Isto irá remover todos os clipes não utilizados do seu projeto."
 #: src/mainwindow.cpp:2366
 #, kde-format
 msgid "Clean up project"
-msgstr "Limpar Projeto"
+msgstr "Limpar projeto"
 
 #: src/mainwindow.cpp:2508
 #, kde-format
@@ -13410,7 +13410,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
-msgstr "Restaura a configuração"
+msgstr "Restaurar configuração"
 
 #: src/mainwindow.cpp:2724 src/mainwindow.cpp:2751
 #, kde-format
@@ -13473,7 +13473,7 @@ msgstr "Não foi possível adicionar efeito ao item ativo"
 #: src/mainwindow.cpp:3257
 #, kde-format
 msgid "Zoom Level: %1/%2"
-msgstr "Nível de zoom: %1/%2"
+msgstr "Nível de ampliação: %1/%2"
 
 #: src/mainwindow.cpp:3406
 #, kde-kuit-format
@@ -13596,7 +13596,7 @@ msgstr "Escopos"
 #: src/mainwindow.cpp:3721
 #, kde-format
 msgid "Project Bins"
-msgstr "Bibliotecas Multimídia"
+msgstr "Bibliotecas multimídia"
 
 #: src/mainwindow.cpp:3817
 #, kde-format
@@ -14045,7 +14045,7 @@ msgstr "Exibe dados da análise."
 #: src/mltcontroller/clippropertiescontroller.cpp:1488
 #, kde-format
 msgid "Tracks:"
-msgstr "Faixas:"
+msgstr "Trilhas:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1379
 #, kde-format
@@ -14455,12 +14455,12 @@ msgstr "Alternar monitor para tela cheia"
 #: src/monitor/monitormanager.cpp:524
 #, kde-format
 msgid "Zoom In Monitor"
-msgstr "Aproximar monitor"
+msgstr "Ampliar monitor"
 
 #: src/monitor/monitormanager.cpp:529
 #, kde-format
 msgid "Zoom Out Monitor"
-msgstr "Afastar monitor"
+msgstr "Reduzir monitor"
 
 #: src/monitor/monitormanager.cpp:538
 #, kde-format
@@ -14495,12 +14495,12 @@ msgstr "Avançar 1 segundo"
 #: src/monitor/monitormanager.cpp:568
 #, kde-format
 msgid "Multitrack View"
-msgstr "Visualização multi-faixas"
+msgstr "Visualização multitrilha"
 
 #: src/monitor/monitormanager.cpp:577
 #, kde-format
 msgid "Perform Multitrack Operation"
-msgstr "Executar operação multifaixa"
+msgstr "Executar operação multitrilha"
 
 #: src/monitor/monitormanager.cpp:581
 #, kde-format
@@ -15509,17 +15509,17 @@ msgstr "Não foi possível abrir o arquivo"
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
-msgstr "Restaurar arquivo de Backup"
+msgstr "Restaurar cópia de segurança"
 
 #: src/project/dialogs/backupwidget.cpp:22
 #, kde-format
 msgid "Showing all backup files in folder"
-msgstr "Mostrando todas os arquivos de backup na pasta"
+msgstr "Mostrando todas as cópias de segurança na pasta"
 
 #: src/project/dialogs/backupwidget.cpp:25
 #, kde-format
 msgid "Showing backup files for %1"
-msgstr "Mostrando arquivos de backup para %1"
+msgstr "Mostrando as cópias de segurança para %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
 #, kde-format
@@ -15707,7 +15707,7 @@ msgstr "Selecione alguns códigos de tempo para criar marcadores"
 #: src/project/dialogs/profilewidget.cpp:32
 #, kde-format
 msgid "Fps:"
-msgstr "Fps:"
+msgstr "FPS:"
 
 #: src/project/dialogs/profilewidget.cpp:48
 #, kde-format
@@ -15999,7 +15999,7 @@ msgstr "Balanço"
 #: src/project/dialogs/slideshowclip.cpp:71
 #, kde-format
 msgid "Pan and zoom"
-msgstr "Pan e Zoom"
+msgstr "Movimento panorâmico e zoom"
 
 #. i18n: ectx: property (text), widget (QLabel, label_info)
 #: src/project/dialogs/slideshowclip.cpp:333 src/ui/slideshowclip_ui.ui:299
@@ -16028,12 +16028,13 @@ msgid ""
 msgstr ""
 "<b>Dados em cache</b> são compostos por miniaturas de clipes e vídeos de "
 "prévia de linha do tempo. A exclusão é segura, todos os dados podem ser "
-"recriados na abertura do projeto.<br/><b>Dados de backup</b> é um arquivo de "
-"versões anteriores de seus arquivos de projeto. Útil se você precisar "
-"recuperar uma versão anterior de um projeto. Esses dados não podem ser "
-"recuperados.<br/><b>Clips proxy</b> são arquivos de vídeo de resolução mais "
-"baixa usados para uma edição mais rápida. A exclusão é segura, os clipes de "
-"proxy podem ser recriados se você tiver os clipes de origem originais."
+"recriados na abertura do projeto.<br/><b>Dados das cópias de segurança</b> é "
+"um arquivo de versões anteriores de seus arquivos de projeto. Útil se você "
+"precisar recuperar uma versão anterior de um projeto. Esses dados não podem "
+"ser recuperados.<br/><b>Clipes proxy</b> são arquivos de vídeo de resolução "
+"mais baixa usados para uma edição mais rápida. A exclusão é segura, os "
+"clipes de proxy podem ser recriados se você tiver os clipes de origem "
+"originais."
 
 #: src/project/dialogs/temporarydata.cpp:185
 #, kde-format
@@ -16043,7 +16044,9 @@ msgstr "Limpeza"
 #: src/project/dialogs/temporarydata.cpp:186
 #, kde-format
 msgid "Your cache and backup data exceeds %1, cleanup is recommended."
-msgstr "Seus dados de cache e backup excedem %1, uma limpeza é recomendada."
+msgstr ""
+"Seus dados de cache e cópias de segurança excedem %1, uma limpeza é "
+"recomendada."
 
 #: src/project/dialogs/temporarydata.cpp:352
 #, kde-format
@@ -16066,7 +16069,7 @@ msgid ""
 "A copy of all your project files is kept in this folder for recovery in case "
 "of corruption."
 msgstr ""
-"Exclua todos os dados da pasta de backup:\n"
+"Exclua todos os dados da pasta de cópias de segurança:\n"
 "%1\n"
 "Uma cópia de todos os seus arquivos de projeto é mantida nesta pasta para "
 "recuperação em caso de corrupção."
@@ -16074,13 +16077,15 @@ msgstr ""
 #: src/project/dialogs/temporarydata.cpp:393
 #, kde-format
 msgid "No backup data older than %1 months was found."
-msgstr "Nenhum dado de backup com mais de %1 meses foi encontrado."
+msgstr ""
+"Nenhum dado de cópias de segurança com mais de %1 meses foi encontrado."
 
 #: src/project/dialogs/temporarydata.cpp:398
 #, kde-format
 msgid "This will delete backup data (%1) for projects older than %2 months."
 msgstr ""
-"Isso excluirá os dados de backup (%1) para projetos com mais de %2 meses."
+"Isso excluirá os dados das cópias de segurança (%1) para projetos com mais "
+"de %2 meses."
 
 #: src/project/dialogs/temporarydata.cpp:440
 #, kde-format
@@ -16270,7 +16275,7 @@ msgstr "Salvar cópia…"
 #: src/project/projectmanager.cpp:154
 #, kde-format
 msgid "Open Backup File…"
-msgstr "Abrir arquivo de backup…"
+msgstr "Abrir cópia de segurança…"
 
 #: src/project/projectmanager.cpp:442
 #, kde-format
@@ -16349,7 +16354,7 @@ msgid ""
 msgstr ""
 "Não foi possível abrir o arquivo do projeto. Erro:\n"
 "%1\n"
-"Deseja abrir um arquivo de backup?"
+"Deseja abrir uma cópia de segurança?"
 
 #: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1073
 #, kde-format
@@ -16359,26 +16364,27 @@ msgstr "Erro abrindo arquivo"
 #: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1074
 #, kde-format
 msgid "Open Backup"
-msgstr "Abrir Backup"
+msgstr "Abrir cópia de segurança"
 
 #: src/project/projectmanager.cpp:855
 #, kde-format
 msgid "Could not open the backup project file."
-msgstr "Não foi possível abrir o arquivo de backup do projeto."
+msgstr "Não foi possível abrir a cópia de segurança do projeto."
 
 #: src/project/projectmanager.cpp:870
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
-"Seu projeto foi atualizado, um backup será criado no próximo salvamento"
+"Seu projeto foi atualizado, uma cópia de segurança será criada no próximo "
+"salvamento"
 
 #: src/project/projectmanager.cpp:872
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
-"Seu projeto foi modificado na abertura, um backup será criado no próximo "
-"salvamento"
+"Seu projeto foi modificado na abertura, uma cópia de segurança será criada "
+"no próximo salvamento"
 
 #: src/project/projectmanager.cpp:943
 #, kde-format
@@ -16419,8 +16425,8 @@ msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
-"O projeto foi corrompido, não é possível fazer backup. Feche e reabra o "
-"arquivo do projeto para recuperar o último backup"
+"O projeto foi corrompido, não é possível fazer uma cópia de segurança. Feche "
+"e reabra o arquivo do projeto para recuperar a última cópia de segurança"
 
 #: src/project/projectmanager.cpp:1431
 #, kde-format
@@ -16444,8 +16450,8 @@ msgstr "Sequência 1"
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
-"O arquivo do projeto está corrompido - erro ao carregar trilhar. Tentar "
-"encontrar um arquivo de backup?"
+"O arquivo do projeto está corrompido - erro ao carregar trilhas. Tentar "
+"encontrar um arquivo de cópia de segurança?"
 
 #: src/project/projectmanager.cpp:1712 src/project/projectmanager.cpp:1717
 #: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1741
@@ -17621,7 +17627,7 @@ msgstr "Problemas encontrados em seu arquivo de projeto"
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
-"%1 Composição (%2) com referência de faixa inválida encontrada e removida."
+"%1 Composição (%2) com referência de trilha inválida encontrada e removida."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:573
 #, kde-format
@@ -17668,7 +17674,7 @@ msgstr "Mistura incorreta encontrada na trilha %1 em %2, clipe %3 removido."
 #: src/timeline2/model/builders/meltBuilder.cpp:716
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
-msgstr "Mixagem incorreta encontrada na faixa %1 em %2, clipe %3 removido."
+msgstr "Mixagem incorreta encontrada na trilha %1 em %2, clipe %3 removido."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:787
 #: src/timeline2/model/builders/meltBuilder.cpp:808
@@ -18242,7 +18248,7 @@ msgstr "Excluir trilha"
 #: src/timeline2/model/timelinemodel.cpp:4782
 #, kde-format
 msgid "Cannot delete last track in timeline"
-msgstr "Não é possível excluir a última faixa na linha do tempo"
+msgstr "Não é possível excluir a última trilha na linha do tempo"
 
 #: src/timeline2/model/timelinemodel.cpp:5007
 #, kde-format
@@ -18558,7 +18564,7 @@ msgstr ""
 #: src/timeline2/view/qml/Clip.qml:1529 src/timeline2/view/qml/Clip.qml:1536
 #, kde-format
 msgid "Fade in: %1"
-msgstr "Emergir: %1"
+msgstr "Entrada gradual: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1624
 #, kde-format
@@ -18693,7 +18699,7 @@ msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
-"Clique para tornar a trilha ativa/inativa. Faixas ativas irão reagir às "
+"Clique para tornar a trilha ativa/inativa. Trilhas ativas irão reagir às "
 "operações de edição"
 
 #: src/timeline2/view/qml/TrackHead.qml:441
@@ -18724,7 +18730,7 @@ msgstr "Silenciar"
 #: src/timeline2/view/qml/TrackHead.qml:577
 #, kde-format
 msgid "Edit track name"
-msgstr "Editar nome da faixa"
+msgstr "Editar nome da trilha"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -18845,7 +18851,7 @@ msgstr "Nenhum item para editar"
 #: src/timeline2/view/timelinecontroller.cpp:5295
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
-msgstr "Ative uma faixa para esta operação clicando em seu rótulo"
+msgstr "Ative uma trilha para esta operação clicando em seu rótulo"
 
 #: src/timeline2/view/timelinecontroller.cpp:3201
 #, kde-format
@@ -18946,7 +18952,7 @@ msgid ""
 "clips after the current position or choose a different track"
 msgstr ""
 "Impossível capturar aqui: a captura pode substituir os clipes. Remova os "
-"clipes após a posição atual ou escolha uma faixa diferente"
+"clipes após a posição atual ou escolha uma trilha diferente"
 
 #: src/timeline2/view/timelinecontroller.cpp:4828
 #, kde-format
@@ -18989,7 +18995,7 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
-"A faixa de legendas atual contém várias camadas, o que significa que, se "
+"A trilha de legendas atual contém várias camadas, o que significa que, se "
 "legendas em diferentes camadas compartilharem a mesma posição de início, "
 "apenas a legenda da camada mais baixa será mantida. Isso pode resultar na "
 "perda de algumas legendas no arquivo exportado. Deseja continuar?"
@@ -19265,7 +19271,7 @@ msgstr "Tamanho original (1:1)"
 #: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Fit zoom"
-msgstr "Ajustar zoom"
+msgstr "Ajustar ampliação"
 
 #: src/titler/titlewidget.cpp:365
 #, kde-format
@@ -19767,7 +19773,7 @@ msgstr "Abaixo"
 #: src/ui/addtrack_ui.ui:50
 #, kde-format
 msgid "Track name:"
-msgstr "Nome da faixa:"
+msgstr "Nome da trilha:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
 #: src/ui/addtrack_ui.ui:62
@@ -20324,7 +20330,7 @@ msgstr "Variação"
 #: src/ui/colorplaneexport_ui.ui:85
 #, kde-format
 msgid "How much to zoom in."
-msgstr "Quanto para aumentar o zoom."
+msgstr "Quanto ampliar."
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
 #: src/ui/colorplaneexport_ui.ui:105
@@ -20348,7 +20354,7 @@ msgstr "Dispositivo de captura padrão"
 #: src/ui/configcapture_ui.ui:43
 #, kde-format
 msgid "Screen grab"
-msgstr "Capturar Tela"
+msgstr "Capturar tela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_v4l_capturevideo)
 #: src/ui/configcapture_ui.ui:67
@@ -21475,7 +21481,7 @@ msgstr "Na importação, habilite:"
 #: src/ui/configtimeline_ui.ui:230
 #, kde-format
 msgid "Check if project contains enough tracks"
-msgstr "Verifique se o projeto contém faixas suficientes"
+msgstr "Verifique se o projeto contém trilhas suficientes"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27
@@ -22379,7 +22385,7 @@ msgstr "Excluir o cache selecionado."
 #: src/ui/managecache_ui.ui:485
 #, kde-format
 msgid "Backup data"
-msgstr "Dados de backup"
+msgstr "Dados das cópias de segurança"
 
 #. i18n: ectx: property (text), widget (QLabel, gBackupLabel)
 #. i18n: ectx: property (text), widget (QLabel, gProxyLabel)
@@ -22392,7 +22398,7 @@ msgstr "Tamanho total:"
 #: src/ui/managecache_ui.ui:523
 #, kde-format
 msgid "Click to open backup folder."
-msgstr "Clique para abrir a pasta de backup."
+msgstr "Clique para abrir a pasta de cópias de segurança."
 
 #. i18n: ectx: property (text), widget (QLabel, gBackupPath)
 #: src/ui/managecache_ui.ui:526
@@ -22404,13 +22410,13 @@ msgstr "<a href='#'>/home/user/.local/share/kdenlive/.backup</a>"
 #: src/ui/managecache_ui.ui:546
 #, kde-format
 msgid "Cleanup old backups."
-msgstr "Limpar backups antigos."
+msgstr "Limpar cópias de segurança antigas."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gBackupDelete)
 #: src/ui/managecache_ui.ui:557
 #, kde-format
 msgid "Delete all backup data."
-msgstr "Excluir todos os dados de backup."
+msgstr "Excluir todos os dados das cópias de segurança."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/managecache_ui.ui:582
@@ -23714,7 +23720,7 @@ msgstr "Z:"
 #: src/ui/titlewidget_ui.ui:637
 #, kde-format
 msgid "Zoom:"
-msgstr "Zoom:"
+msgstr "Ampliação:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shadowBox)
 #: src/ui/titlewidget_ui.ui:733

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-11 02:39+0000\n"
-"PO-Revision-Date: 2024-12-29 19:42+0100\n"
+"PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -756,7 +756,7 @@ msgstr "Supren"
 #: data/effects/dance.xml:35
 #, kde-format
 msgid "Down"
-msgstr ""
+msgstr "Malsupren"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -1076,7 +1076,7 @@ msgstr "Gamma"
 #: data/effects/gpsgraphic.xml:4
 #, kde-format
 msgid "GPS Graphic"
-msgstr ""
+msgstr "GPS-Grafiko"
 
 #: data/effects/gpsgraphic.xml:5
 #, kde-format
@@ -1094,6 +1094,8 @@ msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
 msgstr ""
+"La plena vojo de dosiero enhavanta lokdatenojn (GPS). Subtenataj finaĵoj: ."
+"gpx, .tcx."
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1110,6 +1112,12 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[Aldonota deŝovo (en sekundoj) al la videodosiero por kongrui ĝin al "
+"la GPS-trako.<br>\n"
+"    \tPlej ofte ĉi tio almenaŭ devos esti agordita al la horzona diferenco "
+"inter la 2 dosieroj plus kelkaj sekundoj se la videoregistra aparato ne "
+"estas precize agordita al ĝusta tempo. GPS-tempo ĉiam estas preciza kaj en "
+"UTC. Uzu pozitivajn valorojn se GPS estas antaŭ video kaj negativa alie.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1125,6 +1133,10 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[Kiom da GPS indikas glatigi por forigi GPS-erarojn.<br>\n"
+" \tValoro de 1 ne glatigas lokojn, ĝi nur kalkulas la kromajn kampojn "
+"(rapido, distanco, ktp), ĝi ankaŭ interpolas mankas valoroj por korfrekvenco "
+"kaj alteco.]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -1139,21 +1151,24 @@ msgid ""
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[Se la videodosiero estas timelapse (aŭ malrapida movo), uzu ĉi tiun "
+"valoron por agordi la rapidon/malrapidan rilatumon.<br>\n"
+" Ekzemplaj valoroj: 30 por 30x timelapse, 0,25 por 4x malrapida filmaĵo.]]>"
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "GPS-loko/spuro,Alteco,Kortakto,Rapideco"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "Grafea datumfonto"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "Kiaj datumoj de la GPS-dosiero estas uzataj por desegnado"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1161,6 +1176,8 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"Baza 2D-maplinio (por loko) aŭ 1D-grafo po tempo (aliaj),Zomu al la mapo/"
+"grafo centrita sur nuna loko,Desegnu rapidometron"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1180,11 +1197,26 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>Rapidometro</b> disponeblas por ĉiuj datumfontoj sed rekomendita "
+"nur por rapideco; por la mapo-tipo ĝi reprezentas la \"procenton farita\" de "
+"tajlita komenco - fino).<br>\n"
+"Noto: por tipo 1 (zomu kaj centro, alinome \"sekvu la punkton\"):<br>\n"
+"* tondaj valoroj validas nur kiel procento kaj nur la malsupraj (resp "
+"maldekstre) valoroj\n"
+"estos konsiderataj ĉar ambaŭ valoroj (t.e.: malsupro/supro) devos esti "
+"egalaj al\n"
+"konservi la punkton centrita)<br>\n"
+"* se datumfonto ne estas GPS-loko, la centrado estos farita nur por "
+"horizontala akso\n"
+"(tempo), vertikala akso-tondado kondutos same kiel por la baza 2D maplinio "
+"(ĝi konservos statike\n"
+"la saman min/maksimuman limon permesante al la Nun-punkto moviĝi supren kaj "
+"malsupren).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "Komenco de tondo (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1195,11 +1227,16 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Trimu datumojn de la komenco de la GPS-dosiero (kiel procento de "
+"totalo). <br>\n"
+"    \tNoto: kaj <em>Tondi komencon</em> kaj <em>Tondi finon</em> estas "
+"kalkulitaj el la tuta dosiero, do tondado de 50% komenco kaj 50% fino "
+"rezultos en tondado de la tuta dosiero.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "Fino de tondo (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1210,11 +1247,16 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Trimu datumojn de la fino de la gps-dosiero (kiel procento de "
+"totalo). <br>\n"
+" \tNoto: kaj <em>Tondi komencon</em> kaj <em>Tondi finon</em> estas "
+"kalkulitaj el la tuta dosiero, do tondado de 50% komenco kaj 50% fino "
+"rezultos en tondado de la tuta dosiero.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Procento el min..maks,Absoluta  valoro"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1231,6 +1273,12 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[Decidas kiel interpreti la valorojn <em>Tanĉu maldekstren</em> kaj "
+"<em>Tondu dekstren</em>.<br>\n"
+"    \tNoto: por la horizontala tipo, absolutaj valoroj estas la longitudo "
+"( por la loko\n"
+"fontotipo) kaj tempo (en milisekundoj ekde epoko) por la ceteraj "
+"datumfontotipoj)]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -1250,6 +1298,15 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[Tondas datumojn de la maldekstra flanko de la grafikaĵo (efike "
+"zomi). <br>\n"
+"    \tLa valoro estas interpretita aŭ kiel procento de totala aŭ absoluta "
+"valoro depende de crop_mode_h. En procenta reĝimo, la valoroj ne estas "
+"limigitaj al 0-100 por permesi konduton \"malgrandigi\" (t.e.: detondi -50 "
+"maldekstre aldonos plian duonon de la tuta horizontala distanco). Valoroj "
+"super 100 (en %-reĝimo) efektive nenion montros. Se <em>Grafeo-Tipo</em> "
+"estas agordita al <b>Rapidometro</b>, ĉiuj maldekstre/dekstraj valoroj estas "
+"ignoritaj.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -1263,6 +1320,9 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Same kiel <em>Tondu maldekstren</em> sed por la dekstra flanko, kaj "
+"elcenta tipo estas interpretata kiel inversa procento (t.e.: 100 = ne tondi "
+"ion ajn). Valoroj sub 0 efektive montros nenion.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
@@ -1285,6 +1345,18 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[Decidas kiel interpreti la valorojn <em>Tanĉi fundon</em> kaj "
+"<em>Tanĉi supro</em>.<br/>\n"
+"    \tKun absoluta valoro, ĝi povas zomi inter 100 kaj 150m da alteco por "
+"montri\n"
+"malgrandajn ŝanĝojn en alteco inter tiuj 2 valoroj pli bone.<br/>\n"
+"Noto: por la vertikala tipo, absolutaj valoroj estas latitudaj gradoj (por "
+"la loko\n"
+"fontotipo) kaj alteco, korfrekvenco, rapideco por la aliaj interpretitaj "
+"kiel la tipo <em>Helplinia unuo</em>\n"
+"kie aplikeblas (t.e.: valoro de 10 por alteco estos konsiderata metroj "
+"defaŭlte\n"
+"sed se ŝanĝiĝas <em>Helplinia unuo</em> al piedoj ĝi signifos 10 futojn).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
@@ -1304,6 +1376,15 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[Tondas datumojn de la malsupra flanko de la grafikaĵo (efike zomi). "
+"<br>\n"
+"    \tLa valoro estas interpretita aŭ kiel procento de totala aŭ absoluta "
+"valoro depende de crop_mode_v. En procenta reĝimo la valoroj ne estas "
+"limigitaj al 0-100 por permesi konduton \"malgrandigi\" (t.e.: tranĉi -50 "
+"bot aldonos plian duonon de la tuta vertikala distanco al la fundo). Valoroj "
+"super 100 (en %-reĝimo) efektive nenion montros. Se <em>Grafika tipo</em> "
+"estas <b>Rapidometro</b>, ĉi tio fiksos la minimuman pinglopozicion kiu "
+"fiksos ĉiujn valorojn kiuj estas pli malaltaj.]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
@@ -1318,6 +1399,10 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Same kiel <em>Tanĉi fundon</em> sed por la supra flanko, kaj "
+"elcenta tipo estas interpretita kiel inversa procento (t.e.: 100 = tondi "
+"nenion).<br>\n"
+" \tValoroj sub 0 efektive montros nenion.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1327,6 +1412,11 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"Unu koloro,Du koloroj,Solida pasinteco - maldika estonteco,Solida estonteco "
+"- maldika pasinteco,Vertikala gradiento,Horizontala gradiento,Koloro laŭ "
+"daŭro, Koloro laŭ alteco, Koloro laŭ korfrekvenco, Koloro laŭ Rapido,Koloro "
+"laŭ Rapido (maksimume 100 km/h),Koloro laŭ grado (maksimume 90 gradoj),"
+"Koloro laŭ grado (maksimume 20 gradoj)"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -1336,7 +1426,7 @@ msgstr "Grafika kolora stilo"
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "Vido la dokumentaron pri la diversaj stiloj disponeblaj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1347,7 +1437,7 @@ msgstr "Koloro 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "Fiksas la koloron #1 por la grafea linio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1358,7 +1448,7 @@ msgstr "Koloro 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "Fiksas la koloron #2 por la grafea linio"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -1368,7 +1458,7 @@ msgstr "Koloro 3"
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "Fiksas la koloron #3 por la grafea linio"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -1378,7 +1468,7 @@ msgstr "Koloro 4"
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "Fiksas la koloron #4 por la grafea linio"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -1388,7 +1478,7 @@ msgstr "Koloro 5"
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "Fiksas la koloron #5 por la grafea linio"
 
 #: data/effects/gpsgraphic.xml:116
 #, kde-format
@@ -1402,6 +1492,9 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[Ebligu ĝin desegni diskon ĉe la nuna loko/tempo super la grafika "
+"linio.<br>\n"
+"     \tSe grafika tipo estas rapidometro, tio influas la kudrilon.]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, kde-format
@@ -1427,6 +1520,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[Ebligu ĝin por desegni la nunan valoron per grandaj blankaj grasaj "
+"literoj sur la malsupra dekstra flanko de la rekta.<br>\n"
+"     \tLa valoro de <em>Legenda unuo</em> estos almetita fine kaj ĝi estos "
+"uzata kiel la nuna unuo (se valida unuo estas trovita t.e.: kilometroj se "
+"\"km\" troviĝas ie en la ĉeno <em>Legenda unuo</em>).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1442,6 +1540,8 @@ msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Rotacii la tutan grafikan rektangulon. Por rapidometrotajpo la teksto restas "
+"horizontala."
 
 #: data/effects/gpsgraphic.xml:134
 #, kde-format
@@ -1469,11 +1569,18 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[Se ebligita ĝi desegnos 5 horizontalajn (kaj vertikalajn por mapo-"
+"tipo) <br>\n"
+"    \tlinioj kun malgrandaj valoroj ĉiu responda al la nuna datumfonta "
+"valoro je 0%, 25%, 50%, 75% kaj 100% de la nuna grafikaĵo montrita, tuŝita "
+"de la tipo <em>Legenda unuo</em> se aplikebla, kaj kun la ĉeno aldonita al "
+"la valoro. Por rapidometro-tipo tio montras dividajn valorojn (sed sen "
+"aldoni unuon).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Unuo de klarigeto"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1482,6 +1589,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,metro,km,kilometro,mi,mejlo,ft,piedoj,nm,naŭtika,ms,m/s,metro por sekundo,"
+"km,km/h,kilometro por horo,mi,mi/h,mejlo por horo, ft,ft/s,piedoj por sek,kn,"
+"nm/h,nodoj,mmin,m/min,ftmin,ft/min"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1491,6 +1601,10 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Fiktas la unuon uzotan por montri valorojn de tipo alteco kaj "
+"rapideco.<br>\n"
+" Defaŭlte estas metroj kaj km/h respektive. La unuo kongruas ie ajn en la "
+"ĉeno do kromaj spacoj povas esti uzataj por ĝustigi montradon.]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -1507,6 +1621,12 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[Se enŝaltite, la grafikaĵo estos desegnita uzante individuajn "
+"punktojn anstataŭ liniojn.<br>\n"
+" \tTio efike montros la individuajn datumpunktojn kiel tuŝitajn de glatigo "
+"(t.e.: por lokdatumoj ĝi montros ĉiun GPS-riparon). se glatigo estas 1) kaj "
+"povas aŭ esti uzata kiel malvarmeta efiko kiam sufiĉe zomite aŭ por "
+"senarmigi neatenditajn liniosaltojn.]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
@@ -1520,6 +1640,9 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[Difinas la rektangulon en kiu la grafeo devas esti desegnita.<br>\n"
+" Formato estas: \"X Y W H\". X, Y, W, H estas supozitaj kiel pikselaj unuoj "
+"krom se ili havas la sufikson '%'.]]>"
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
@@ -1534,6 +1657,10 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[Se valida bilddosiero estas elektita, ĝi estos uzata kiel fono por "
+"la rektangula areo.<br>\n"
+" \tPadoj komencantaj per la signo \"!\" estas ignorataj. KONSILETO: uzu "
+"mapan bildon por aldoni kuntekston al la GPS-trako.]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
@@ -1548,6 +1675,10 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[Skali la fonbildon (relative al centro) por kongrui ĝin kun la "
+"supra GPS-trako.<br>\n"
+" \tValoroj pli malgrandaj ol 100 zomi en la bildon, valoroj pli grandaj ol "
+"100 zomi malproksimigi. 0 ĝin kaŝas.]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1557,7 +1688,7 @@ msgstr "Fona opakeco"
 #: data/effects/gpsgraphic.xml:170
 #, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr ""
+msgstr "<![CDATA[Fiktas la opakecon por la fonbildo]]>"
 
 #: data/effects/gpsgraphic.xml:173
 #, kde-format
@@ -1567,7 +1698,7 @@ msgstr "GPS-komenctempo"
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "Dato kaj horo de la unua valida GPS-punkto."
 
 #: data/effects/gpsgraphic.xml:177
 #, kde-format
@@ -1591,11 +1722,14 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Provizas helpan kompenson por garantii komencon de sinkronigado de "
+"videodosieroj kun la komenco de GPS-dosiero. Ĝuste fiksas la deŝovon se "
+"videodosiero kaj GPS-registrado estis komencitaj samtempe."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Aŭtomate deŝovi nun"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1614,6 +1748,7 @@ msgstr "Map-sugesto"
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
 msgstr ""
+"Liveras la mezan latitudan kaj longitudan koordinaton de la gps-dosiero."
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -7393,6 +7528,8 @@ msgstr "Progresema"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"CPU-pretigo estas tre malrapida, GPU estas rekomendita por pli rapida "
+"prilaborado"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1787
 #, kde-format
@@ -7401,6 +7538,9 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"Teksta tradukado estas farita de la modelo SeamlessM4T. Ĉi tio postulas "
+"elŝuti ĉirkaŭ 10 Gb da datumoj. Unufoje instalita, ĉiu pretigo okazos "
+"eksterrete."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1806
 #, kde-format
@@ -7410,7 +7550,7 @@ msgstr "Elŝuti (1.4Gb)"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1828
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Instalante plurlingvajn datumojn…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7484,14 +7624,14 @@ msgstr "Instali plurlingvan tradukon"
 #: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
-msgstr ""
+msgstr "Intali parolmodelon - ni rekomendas <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2097
 #: src/dialogs/kdenlivesettingsdialog.cpp:2111
 #: src/dialogs/kdenlivesettingsdialog.cpp:2120
 #, kde-format
 msgid "Install a model"
-msgstr ""
+msgstr "Instali modelon"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2113
@@ -7708,6 +7848,9 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
+"Ĉi tio forigos la stilon <b>%1</b> kaj ĉiujn ĝiajn ecojn.\n"
+"Subtitoloj uzantaj ĉi tiun stilon estos restarigitaj al stilo <b>Defaŭlta</"
+"b>."
 
 #: src/dialogs/profilesdialog.cpp:123
 #, kde-format
@@ -8891,7 +9034,7 @@ msgstr "Redakti subtitolan stilon"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "Malfermas dialogon por redakti la nunan subtitolon."
 
 #: src/dialogs/subtitleedit.cpp:279
 #, kde-format
@@ -8989,6 +9132,8 @@ msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Ŝaltas la grasan tekststilon aŭ por la elektita teksto aŭ por la teksto "
+"sekvante la pozicion de la kursoro."
 
 #: src/dialogs/subtitleedit.cpp:301
 #, kde-format
@@ -9002,6 +9147,8 @@ msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Ŝaltas la kursivan tekstostilon aŭ por la elektita teksto aŭ por la teksto "
+"sekvante la kursoran pozicion."
 
 #: src/dialogs/subtitleedit.cpp:306
 #, kde-format
@@ -9015,6 +9162,8 @@ msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Ŝaltas la substrekan tekstostilon aŭ por la elektita teksto aŭ por la teksto "
+"sekvante la kursoran pozicion."
 
 #: src/dialogs/subtitleedit.cpp:311
 #, kde-format
@@ -9028,6 +9177,8 @@ msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Ŝaltas la forstrekitan tekstostilon aŭ por la elektita teksto aŭ por la "
+"teksto sekvante la pozicion de la kursoro."
 
 #: src/dialogs/subtitleedit.cpp:318
 #, kde-format
@@ -9041,6 +9192,8 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
+"Malfermu tipan dialogon por elekti tiparon kaj agordi ĝiajn ecojn aŭ por la "
+"elektita teksto aŭ por la teksto sekvante la kursoran pozicion."
 
 #: src/dialogs/subtitleedit.cpp:324
 #, kde-format
@@ -9054,6 +9207,8 @@ msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
 msgstr ""
+"Restarigas la stilon aŭ de la elektita teksto aŭ de la teksto sekvante la "
+"pozicion de la kursoro."
 
 #: src/dialogs/subtitleedit.cpp:327
 #, kde-format
@@ -9069,7 +9224,7 @@ msgstr "Pli da etikedoj"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
-msgstr ""
+msgstr "Malfermas menuon por montri pliajn etikedojn"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
@@ -9104,7 +9259,7 @@ msgstr "Malpliigi la Tipargrandon de Redaktilo"
 #: src/dialogs/subtitleedit.cpp:400
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Forigi Ĉian Propra Formatado"
 
 #: src/dialogs/subtitleedit.cpp:412
 #, kde-format
@@ -9155,7 +9310,7 @@ msgstr "Elekti tiparon"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
-msgstr ""
+msgstr "Malfermu tipan dialogon por elekti tiparon kaj agordi ĝiajn ecojn."
 
 #: src/dialogs/subtitlestyleedit.cpp:101
 #, kde-format
@@ -10431,7 +10586,7 @@ msgstr "Montri Ŝlosilkadrojn"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
-msgstr "Enŝaltas la ekranon de la ŝlosilframa reganto."
+msgstr "Enŝaltas la ekranon de la ŝlosilframa mezurilo."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-format
@@ -16304,7 +16459,7 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:218
 #, kde-format
 msgid "Using python from %1"
-msgstr "Uzante python de %1"
+msgstr "Uzante python el %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:226
 #, kde-format
@@ -16431,12 +16586,12 @@ msgstr "Elektu novajn modelojn por elŝuti"
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
 msgid "Installing model %1"
-msgstr ""
+msgstr "Instalante modelon %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Kontrolante disponeblajn modelojn"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
 #, kde-format
@@ -16461,7 +16616,7 @@ msgstr "Malinstali modelon"
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
 msgid "Install model"
-msgstr ""
+msgstr "Instali modelon"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
 #, kde-format
@@ -18680,6 +18835,7 @@ msgstr "Eksporti subtitolan dosieron"
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
+"Sub Station Alpha v4.00+ Dosiero (*.ass);;SubRip Subtitola Dosiero (*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5122
 #, kde-format
@@ -18689,6 +18845,11 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
+"La nuna subtitola trako enhavas plurajn tavolojn, signifante ke se "
+"subtekstoj sur malsamaj tavoloj dividas la saman komencan pozicion, nur la "
+"subtitolo de la plej malsupra tavolo estos konservita. Ĉi tio povas "
+"rezultigi la perdon de iuj subtekstoj en la eksportita dosiero. Ĉu vi volas "
+"daŭrigi?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5127
 #, kde-format
@@ -19778,7 +19939,7 @@ msgstr "Tonda fino:"
 #: src/ui/clipdurationdialog_ui.ui:101
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Apliki daŭron al ĉiuj eroj"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20647,7 +20808,7 @@ msgstr ""
 #: src/ui/configmisc_ui.ui:63
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "Konservu la originalan kadrograndecon dum importado"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_automultistreams)
 #: src/ui/configmisc_ui.ui:70
@@ -20963,7 +21124,7 @@ msgstr "Parolmotoro"
 #: src/ui/configspeech_ui.ui:52
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:59
@@ -21023,7 +21184,7 @@ msgstr "Flustri"
 #: src/ui/configspeech_ui.ui:373
 #, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Senjunta"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428
@@ -21588,13 +21749,13 @@ msgstr "S"
 #: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
-msgstr ""
+msgstr "Maldekstra marĝeno"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
-msgstr ""
+msgstr "Dekstra marĝeno"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:487
@@ -21659,6 +21820,8 @@ msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
+"La malĉefa koloro povus esti uzata en kazo de subtitoloj por helpi distingi "
+"ambaŭ subtekstojn"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
@@ -21670,7 +21833,7 @@ msgstr "Signa interspaco"
 #: src/ui/editsubstyle_ui.ui:279
 #, kde-format
 msgid "Scale X"
-msgstr "Skalo X"
+msgstr "Skali X"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
@@ -22180,7 +22343,7 @@ msgstr "Forigi"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "Tavoloj kaj Enhavo"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: src/ui/managesubtitles_ui.ui:211
@@ -22330,7 +22493,7 @@ msgstr "Antaŭrigardo de bildo"
 #: src/ui/missingclips_ui.ui:18
 #, kde-format
 msgid " Clip Problems"
-msgstr "Problemoj pri aŭdvidaĵo"
+msgstr "Problemoj pri Aŭdvidaĵo"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:92
