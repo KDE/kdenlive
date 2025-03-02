@@ -141,10 +141,15 @@ void MonitorProxy::setMaskInverted(bool)
     Q_EMIT refreshMask();
 }
 
-void MonitorProxy::setMaskMode(int mode)
+void MonitorProxy::setMaskMode(MaskModeType::MaskCreationMode mode)
 {
     m_maskMode = mode;
     Q_EMIT maskModeChanged();
+}
+
+MaskModeType::MaskCreationMode MonitorProxy::maskMode() const
+{
+    return m_maskMode;
 }
 
 int MonitorProxy::overlayType() const

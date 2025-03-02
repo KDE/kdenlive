@@ -363,7 +363,7 @@ public Q_SLOTS:
     /** @brief Delete the proxy file */
     void deleteProxy(bool reloadClip = true);
     /** @brief A clip job progressed, update display */
-    void updateJobProgress();
+    void updateJobProgress(ObjectId ownerId = ObjectId(), int jobProgress = -1);
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &, int in, int out, bool inCache = false);

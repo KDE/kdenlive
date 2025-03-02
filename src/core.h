@@ -505,4 +505,5 @@ Q_SIGNALS:
     void samConfigUpdated();
     /** Show / hide the automask panel */
     void switchMaskPanel(bool show);
+    void transcodeProgress(ObjectId id, int progress);
 };

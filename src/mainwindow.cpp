@@ -3571,7 +3571,7 @@ void MainWindow::focusTimeline()
     }
 }
 
-void MainWindow::slotClipInProjectTree(ObjectId ownerId)
+void MainWindow::slotClipInProjectTree(ObjectId ownerId, bool seekToStart)
 {
     QString binId;
     if (ownerId.type != KdenliveObjectType::TimelineClip) {
@@ -3616,7 +3616,7 @@ void MainWindow::slotClipInProjectTree(ObjectId ownerId)
         }
     }
     QPoint zone(start, start + duration - 1);
-    if (!containsPos) {
+    if (!containsPos || seekToStart) {
         pos = start;
     }
     activeBin()->selectClipById(binId, pos, zone, true);

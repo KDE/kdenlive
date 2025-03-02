@@ -72,6 +72,8 @@ public:
     void addRemoveKeyframe();
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
+    /** @brief WHen in mask mode, don't allow switching */
+    bool isLocked() const;
     /** @brief The drag pos, null if not dragging */
     QPoint dragPos;
 
@@ -79,7 +81,7 @@ public Q_SLOTS:
     /** @brief Save current effect stack
      */
     void slotSaveStack();
-    void updateSamProgress(int progress);
+    void updateSamProgress(int progress, bool exportStep = false);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -136,6 +138,9 @@ private Q_SLOTS:
     /** @brief Mark an effect as drop target (draw bottom highlight bar)
      */
     void setDropTargetEffect(const QModelIndex &ix, bool active);
+    /** @brief Display progress of frames export task
+     */
+    void transcodeProgress(ObjectId owner, int progress);
 
 Q_SIGNALS:
     void switchCollapsedView(int row);

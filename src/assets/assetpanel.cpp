@@ -241,6 +241,9 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
 
 void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
 {
+    if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
+        return;
+    }
     if (effectsModel == nullptr) {
         // Item is not ready
         clear();
@@ -313,6 +316,9 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
 
 void AssetPanel::clearAssetPanel(int itemId)
 {
+    if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
+        return;
+    }
     if (itemId == -1) {
         // reset panel
         clear();
@@ -336,6 +342,9 @@ void AssetPanel::clearAssetPanel(int itemId)
 
 void AssetPanel::clear()
 {
+    if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
+        return;
+    }
     if (m_splitButton->isActive()) {
         m_splitButton->setActive(false);
         processSplitEffect(false);

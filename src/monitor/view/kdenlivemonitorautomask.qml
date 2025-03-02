@@ -82,7 +82,7 @@ Item {
     }
 
     onMaskModeChanged: {
-        if (maskMode == 2) {
+        if (maskMode == MaskModeType.MaskPreview) {
             generateLabel.visible = false
         }
     }
@@ -151,6 +151,7 @@ Item {
     }
 
     Item {
+        id: monitorframe
         height: root.height - controller.rulerHeight
         width: root.width
         Item {
@@ -197,7 +198,7 @@ Item {
                 property real xPos: 0
                 property real yPos: 0
                 onPressed: mouse => {
-                    if (maskMode < 2) {
+                    if (maskMode != MaskModeType.MaskPreview) {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
                         root.captureRightClick
@@ -292,10 +293,10 @@ Item {
             Image {
                 id: maskPreview
                 anchors.fill: frame
-                source: maskMode < 2 ? controller.previewOverlay : ''
+                source: maskMode != MaskModeType.MaskPreview ? controller.previewOverlay : ''
                 asynchronous: true
                 opacity: controller.maskOpacity / 100
-                visible: maskMode < 2
+                visible: maskMode != MaskModeType.MaskPreview
                 onSourceChanged: {
                     generateLabel.visible = false
                     if (opacity == 0 && source != '') {
@@ -379,7 +380,7 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: keyframes.length == 0 ? i18n("Select an object in the image first") : maskMode < 2 ? i18n("Generating image mask") : i18n("Generating video mask")
+        text: keyframes.length == 0 ? i18n("Select an object in the image first") : maskMode != MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
         visible: false
         background: Rectangle {
             color: keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -390,7 +391,7 @@ Item {
         id: infoLabel
         anchors.centerIn: parent
         padding: 5
-        text: maskMode < 2 ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
+        text: maskMode != MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
         visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -443,6 +444,26 @@ Item {
             topMargin: 4
             rightMargin: 4
             leftMargin: 4
+        }
+    }
+    Timer {
+        id: firstTimer
+        interval: 3000; running: true; repeat: false
+    }
+    Rectangle {
+        id: monitoredge
+        anchors.fill: monitorframe
+        color: 'transparent'
+        border.width: firstTimer.running ? 4 : 1
+        border.color: 'darkred'
+        Label {
+            anchors.horizontalCenter: monitoredge.horizontalCenter
+            text: i18n('Mask Mode')
+            padding: 5
+            background: Rectangle {
+                color: 'darkred'
+            }
+            visible: firstTimer.running
         }
     }
     MonitorRuler {

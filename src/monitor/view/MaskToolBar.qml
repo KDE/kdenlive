@@ -5,6 +5,7 @@
 
 import QtQuick.Controls
 import QtQuick
+import com.enums 1.0
 
 MouseArea {
     id: barZone
@@ -63,7 +64,7 @@ MouseArea {
                 iconName: "media-record"
                 toolTipText: i18n("Generate Mask")
                 checkable: false
-                visible: root.maskMode < 2
+                visible: root.maskMode != MaskModeType.MaskPreview
                 onClicked: {
                     generateLabel.visible = true
                     if (root.keyframes.length > 0) {
@@ -99,7 +100,7 @@ MouseArea {
             MonitorToolButton {
                 objectName: "abortMask"
                 iconName: "dialog-close"
-                toolTipText: root.maskMode < 2 ? i18n("Exit Mask Creation") : i18n("Exit Preview Mode")
+                toolTipText: root.maskMode != MaskModeType.MaskPreview ? i18n("Exit Mask Creation") : i18n("Exit Preview Mode")
                 checkable: false
                 onClicked: {
                     root.exitMaskPreview()

@@ -23,6 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class SnapModel;
 class ProjectClip;
 class MonitorManager;
+class MonitorProxy;
 class QSlider;
 class QToolButton;
 class KActionMenu;
@@ -35,7 +36,6 @@ class QmlManager;
 class QLabel;
 class VideoWidget;
 class MonitorAudioLevel;
-class MonitorProxy;
 class MarkerSortModel;
 
 namespace Mlt {
@@ -173,7 +173,9 @@ public:
      *  @param in the zone in for the mask
      *  @param out the zone out for the mask
      *  @param maskMode set to 1 for edit, 2 for preview only */
-    void previewMask(const QString &maskFile, int in, int out, int maskMode);
+    void previewMask(const QString &maskFile, int in, int out, MaskModeType::MaskCreationMode maskMode);
+    /** @brief Get current mask mode */
+    MaskModeType::MaskCreationMode maskMode();
     /** @brief Update the preview mask properties */
     void updatePreviewMask();
     /** @brief Monitor active property changed, update timecode color */

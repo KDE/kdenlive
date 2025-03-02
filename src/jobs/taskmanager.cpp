@@ -259,9 +259,7 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
         }
     }
     m_tasksListLock.unlock();
-    qDebug() << "====== 1....";
     if (exceptions.isEmpty()) {
-        qDebug() << "====== 2....";
         if (!m_taskPool.waitForDone(5000)) {
             qDebug() << "====== FAILED TO TERMINATE ALL TASKS. Currently alive: " << m_taskPool.activeThreadCount();
             Q_ASSERT(false);
@@ -273,7 +271,6 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
         QWriteLocker lock(&m_tasksListLock);
         m_taskList.clear();
         m_taskPool.clear();
-        qDebug() << "====== 3....";
     }
     if (!leaveBlocked) {
         // Set jobs count

@@ -2995,9 +2995,17 @@ void ProjectClip::updateTimelineOnReload()
     }
 }
 
-void ProjectClip::updateJobProgress()
+void ProjectClip::updateJobProgress(ObjectId ownerId, int jobProgress)
 {
-    uint progress = pCore->taskManager.getJobProgressForClip(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()));
+    if (ownerId.type == KdenliveObjectType::NoItem) {
+        ownerId = ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
+    } else {
+        if (jobProgress > -1 && ownerId.type == KdenliveObjectType::TimelineClip) {
+            // Used for inline progress like in mask manager
+            Q_EMIT pCore->transcodeProgress(ownerId, jobProgress);
+        }
+    }
+    uint progress = pCore->taskManager.getJobProgressForClip(ownerId);
     if (progress != m_jobsProgress) {
         m_jobsProgress = progress;
         if (auto ptr = m_model.lock()) {

@@ -54,7 +54,7 @@ void MeltTask::run()
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     m_progress = 100;
-    QMetaObject::invokeMethod(m_object, "updateJobProgress");
+    QMetaObject::invokeMethod(m_object, "updateJobProgress", Q_ARG(ObjectId, m_owner), Q_ARG(int, m_progress));
     if (m_isCanceled || !result) {
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to process playlist.")),
@@ -76,7 +76,7 @@ void MeltTask::processLogInfo()
         int progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
         if (progress != m_progress) {
             m_progress = progress;
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            QMetaObject::invokeMethod(m_object, "updateJobProgress", Q_ARG(ObjectId, m_owner), Q_ARG(int, m_progress));
         }
     }
 }

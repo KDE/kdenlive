@@ -56,7 +56,7 @@ GroupType groupTypeFromStr(const QString &s);
 
 // We can not use just ObjectType as name because that causes conflicts with Xcode on macOS
 enum class KdenliveObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
-// using ObjectId = std::pair<ObjectType, std::pair<int, QUuid>>;
+
 struct ObjectId
 {
     KdenliveObjectType type;
@@ -215,6 +215,12 @@ enum KeyframeEnum {
 };
 Q_ENUM_NS(KeyframeEnum)
 } // namespace KeyframeType
+
+namespace MaskModeType {
+Q_NAMESPACE
+enum MaskCreationMode { MaskNone, MaskInput, MaskEdit, MaskPreview };
+Q_ENUM_NS(MaskCreationMode)
+} // namespace MaskModeType
 
 namespace ToolType {
 Q_NAMESPACE

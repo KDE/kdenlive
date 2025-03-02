@@ -489,6 +489,11 @@ int main(int argc, char *argv[])
                                      1, 0,                           // major and minor version of the import
                                      "KeyframeType",                 // name in QML
                                      "Error: only enums");
+    qmlRegisterUncreatableMetaObject(MaskModeType::staticMetaObject, // static meta object
+                                     "com.enums",                    // import statement
+                                     1, 0,                           // major and minor version of the import
+                                     "MaskModeType",                 // name in QML
+                                     "Error: only enums");
     if (parser.value(mltLogLevelOption) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);
     } else if (parser.value(mltLogLevelOption) == QStringLiteral("debug")) {

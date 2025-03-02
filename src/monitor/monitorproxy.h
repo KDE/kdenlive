@@ -24,6 +24,7 @@ class MonitorProxy : public QObject
     friend class AutomaskHelper;
 
     Q_OBJECT
+
     // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
     Q_PROPERTY(int position MEMBER m_position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QPoint profile READ profile NOTIFY profileChanged)
@@ -42,7 +43,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
     Q_PROPERTY(int maskOpacity READ maskOpacity WRITE setMaskOpacity NOTIFY maskOpacityChanged)
     Q_PROPERTY(bool maskInverted READ maskInverted WRITE setMaskInverted)
-    Q_PROPERTY(int maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
+    Q_PROPERTY(MaskModeType::MaskCreationMode maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
     Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
     Q_PROPERTY(bool builtinEffectsEnabled MEMBER m_builtinEffectsEnabled NOTIFY builtinEffectsEnabledChanged)
     Q_PROPERTY(int gridH READ gridH NOTIFY gridChanged)
@@ -83,7 +84,8 @@ public:
     void setMaskOpacity(int opacity);
     bool maskInverted() const;
     void setMaskInverted(bool);
-    void setMaskMode(int ix);
+    void setMaskMode(MaskModeType::MaskCreationMode ix);
+    MaskModeType::MaskCreationMode maskMode() const;
     const QString trimmingTC1() const;
     const QString trimmingTC2() const;
     const QString timecode() const;
@@ -242,7 +244,7 @@ private:
 protected:
     QUrl m_previewOverlay;
     /** @brief Mode for mask overlay. 0 = preview keyframe image, 1 = preview video mask*/
-    int m_maskMode{0};
+    MaskModeType::MaskCreationMode m_maskMode{MaskModeType::MaskNone};
 
 public Q_SLOTS:
     void updateClipBounds(const QVector <QPoint>&bounds);

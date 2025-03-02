@@ -27,6 +27,8 @@ public:
     virtual ~MaskManager() override;
     void setOwner(ObjectId owner);
     bool jobRunning() const;
+    /** @brief return true if a mask job is running */
+    bool isLocked() const;
 
 public Q_SLOTS:
     void launchSimpleSam();
@@ -45,10 +47,11 @@ private Q_SLOTS:
     void applyMask(MaskInfo mask = MaskInfo());
     void deleteMask();
     void importMask();
+    void applyMaskToOwner(ObjectId owner, MaskInfo mask);
 
 private:
     ObjectId m_owner{KdenliveObjectType::NoItem, {}};
-    ObjectId m_ownerForFilter{KdenliveObjectType::NoItem, {}};
+    ObjectId m_filterOwner{KdenliveObjectType::NoItem, {}};
     AutomaskHelper *m_maskHelper;
     QPoint m_zone;
     QSize m_iconSize;
@@ -58,8 +61,10 @@ private:
     bool m_autoAddFilter{false};
     std::shared_ptr<ProjectClip> getOwnerClip();
     void exportFrames();
+    void disconnectMonitor();
 
 Q_SIGNALS:
     void maskReady();
-    void progressUpdate(int progress);
+    void progressUpdate(int progress, bool exportStep = false);
+    void maskReadyToApply(ObjectId owner, MaskInfo mask);
 };

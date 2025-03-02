@@ -3060,7 +3060,12 @@ void Monitor::addControlRect(double x, double y, double width, double height, bo
     Q_EMIT addMonitorControlRect(pos, fSize, rect, extend);
 }
 
-void Monitor::previewMask(const QString &maskFile, int in, int out, int maskMode)
+MaskModeType::MaskCreationMode Monitor::maskMode()
+{
+    return getControllerProxy()->maskMode();
+}
+
+void Monitor::previewMask(const QString &maskFile, int in, int out, MaskModeType::MaskCreationMode maskMode)
 {
     Mlt::Tractor trac(pCore->getProjectProfile());
     Mlt::Playlist maskPlaylist(pCore->getProjectProfile());
@@ -3097,11 +3102,15 @@ void Monitor::previewMask(const QString &maskFile, int in, int out, int maskMode
 
 void Monitor::abortPreviewMask()
 {
+    if (maskMode() == MaskModeType::MaskNone) {
+        // We are not in mask mode, ignore
+        return;
+    }
     m_maskOpacity.reset();
     m_maskInvert.reset();
     buildBackgroundedProducer(position());
     disconnect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
-    getControllerProxy()->setMaskMode(0);
+    getControllerProxy()->setMaskMode(MaskModeType::MaskNone);
     loadQmlScene(MonitorSceneDefault);
 }
 

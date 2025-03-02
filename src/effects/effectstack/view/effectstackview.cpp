@@ -272,8 +272,17 @@ void EffectStackView::paintEvent(QPaintEvent *event)
     }
 }
 
+bool EffectStackView::isLocked() const
+{
+    return pCore->getMonitor(Kdenlive::ClipMonitor)->maskMode() == MaskModeType::MaskInput;
+}
+
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QSize frameSize)
 {
+    if (isLocked()) {
+        // Don't switch while building a mask
+        return;
+    }
     m_mutex.lock();
     QItemSelectionModel *m = m_effectsTree->selectionModel();
     PlaylistState::ClipState currentState = PlaylistState::Unknown;
@@ -332,6 +341,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
             lay->addStretch(10);
             m_removeBg = new QPushButton(i18n("Remove Background"), this);
             m_removeBg->setToolTip(i18n("Remove background using AI model"));
+            m_removeBg->setCheckable(true);
             m_samProgressBar = new QProgressBar(this);
             m_samProgressBar->setVisible(false);
             m_samAbortButton = new QToolButton(this);
@@ -372,7 +382,18 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
                     }
                 }
             });
-            connect(m_removeBg, &QPushButton::clicked, this, &EffectStackView::launchSam);
+            connect(m_removeBg, &QPushButton::clicked, this, [this]() {
+                if (pCore->getMonitor(Kdenlive::ClipMonitor)->maskMode() != MaskModeType::MaskNone) {
+                    // Abort
+                    m_removeBg->setText(i18n("Remove Background"));
+                    m_removeBg->setChecked(false);
+                    Q_EMIT abortSam();
+                    return;
+                }
+                m_removeBg->setText(i18n("Exporting…"));
+                connect(pCore.get(), &Core::transcodeProgress, this, &EffectStackView::transcodeProgress, Qt::UniqueConnection);
+                Q_EMIT launchSam();
+            });
             connect(m_samAbortButton, &QToolButton::clicked, this, &EffectStackView::abortSam);
         } else {
             m_builtStack->setVisible(false);
@@ -660,6 +681,10 @@ void EffectStackView::refresh(const QModelIndex &topL, const QModelIndex &bottom
 
 void EffectStackView::unsetModel(bool reset)
 {
+    if (isLocked()) {
+        // Don't switch while building a mask
+        return;
+    }
     // Release ownership of smart pointer
     Kdenlive::MonitorId id = Kdenlive::NoMonitor;
     if (m_model) {
@@ -936,10 +961,17 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
     return QWidget::eventFilter(o, e);
 }
 
-void EffectStackView::updateSamProgress(int progress)
+void EffectStackView::updateSamProgress(int progress, bool exportStep)
 {
     if (m_removeBg) {
         if (progress == 100) {
+            if (pCore->getMonitor(Kdenlive::ClipMonitor)->maskMode() == MaskModeType::MaskInput) {
+                m_removeBg->setText(i18n("Abort Mask Creation"));
+            } else if (!exportStep) {
+                // The mask process finished
+                m_removeBg->setText(i18n("Remove Background"));
+                m_removeBg->setChecked(false);
+            }
             m_samAbortButton->setVisible(false);
             m_samProgressBar->setVisible(false);
             m_removeBg->setVisible(true);
@@ -951,5 +983,16 @@ void EffectStackView::updateSamProgress(int progress)
             m_samProgressBar->setVisible(true);
         }
         m_samProgressBar->setValue(progress);
+    }
+}
+
+void EffectStackView::transcodeProgress(ObjectId owner, int progress)
+{
+    if (owner == m_model->getOwnerId()) {
+        updateSamProgress(progress, true);
+        if (progress == 100) {
+            disconnect(pCore.get(), &Core::transcodeProgress, this, &EffectStackView::transcodeProgress);
+            m_removeBg->setText(i18n("Abort Mask Creation"));
+        }
     }
 }
