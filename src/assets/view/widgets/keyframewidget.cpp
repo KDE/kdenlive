@@ -416,7 +416,6 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
 
 void KeyframeWidget::slotRefreshParams()
 {
-    qDebug() << "===============0\nKFRWIDGET REFRESH!!!!!!!!!!!!!!!!";
     int pos = getPosition();
     KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     int i = 0;
@@ -434,7 +433,6 @@ void KeyframeWidget::slotRefreshParams()
             (static_cast<DoubleWidget *>(w.second))->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
         } else if (type == ParamType::AnimatedRect) {
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
-            qDebug() << "=== QUERY REFRESH FOR: " << val;
             const QStringList vals = val.split(QLatin1Char(' '));
             QRect rect;
             double opacity = -1;
@@ -445,7 +443,6 @@ void KeyframeWidget::slotRefreshParams()
                 }
             }
             if (m_geom) {
-                qDebug() << "=== QUERY REFRESH DONE FOR: " << val;
                 m_geom->setValue(rect, opacity, getPosition());
             } else {
                 qDebug() << "=== QUERY REFRESH FAILED!!!: " << val;
