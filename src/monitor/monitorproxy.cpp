@@ -130,7 +130,7 @@ bool MonitorProxy::maskInverted() const
 void MonitorProxy::setMaskInverted(bool)
 {
     KdenliveSettings::setMaskInverted(!KdenliveSettings::maskInverted());
-    if (m_maskMode == 0) {
+    if (m_maskMode == MaskModeType::MaskInput) {
         // We are in preview mode, update url
         QImage img(m_previewOverlay.toLocalFile());
         img.invertPixels(QImage::InvertRgba);
