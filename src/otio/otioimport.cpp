@@ -43,14 +43,14 @@ OtioImport::OtioImport(QObject *parent)
 void OtioImport::importFile(const QString &fileName, bool newDocument)
 {
     // Create the temporary data for importing.
-    std::shared_ptr<OtioImportData> data = std::make_shared<OtioImportData>();
-    data->otioFile = QFileInfo(fileName);
+    std::shared_ptr<OtioImportData> importData = std::make_shared<OtioImportData>();
+    importData->otioFile = QFileInfo(fileName);
 
     // Open the OTIO timeline.
     OTIO_NS::ErrorStatus otioError;
-    data->otioTimeline = OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline>(
-        dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(data->otioFile.filePath().toStdString(), &otioError)));
-    if (!data->otioTimeline || OTIO_NS::is_error(otioError)) {
+    importData->otioTimeline = OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline>(
+        dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(importData->otioFile.filePath().toStdString(), &otioError)));
+    if (!importData->otioTimeline || OTIO_NS::is_error(otioError)) {
         if (pCore->window()) {
             KMessageBox::error(qApp->activeWindow(), QString::fromStdString(otioError.details), i18n("Error importing OpenTimelineIO file"));
         } else {
@@ -64,7 +64,7 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
     //
     // Note that OTIO files do not contain information about rendering,
     // so we get the resolution from the first video clip.
-    const double otioFps = data->otioTimeline->duration().rate();
+    const double otioFps = importData->otioTimeline->duration().rate();
     QVector<QString> profileCandidates;
     auto &profileRepository = ProfileRepository::get();
     auto profiles = profileRepository->getAllProfiles();
@@ -75,12 +75,12 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
         }
     }
     QSize videoSize(1920, 1080);
-    for (const auto &otioItem : data->otioTimeline->tracks()->children()) {
+    for (const auto &otioItem : importData->otioTimeline->tracks()->children()) {
         if (auto otioTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(otioItem)) {
             if (OTIO_NS::Track::Kind::video == otioTrack->kind()) {
                 for (const auto &otioClip : otioTrack->find_clips()) {
                     if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
-                        const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
+                        const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), importData->otioFile);
                         QSize fileVideoSize = getVideoSize(file);
                         if (fileVideoSize.isValid()) {
                             videoSize = fileVideoSize;
@@ -132,35 +132,35 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
 
     // Get the timeline model. We save the default tracks so we can delete
     // them after the import is finished.
-    data->timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
-    data->defaultTracks = data->timeline->getAllTracksIds();
+    importData->timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
+    importData->defaultTracks = importData->timeline->getAllTracksIds();
 
     // Find all of the OTIO media references and add them to the bin. When
     // the bin clips are ready, import the timeline.
     //
     // TODO: Add a progress dialog?
-    for (const auto &otioClip : data->otioTimeline->find_clips()) {
+    for (const auto &otioClip : importData->otioTimeline->find_clips()) {
         if (const auto &otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
-            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
-            const auto i = data->otioExternalRefToBinId.find(file);
-            if (i == data->otioExternalRefToBinId.end()) {
+            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), importData->otioFile);
+            const auto i = importData->otioExternalRefToBinId.find(file);
+            if (i == importData->otioExternalRefToBinId.end()) {
                 Fun undo = []() { return true; };
                 Fun redo = []() { return true; };
-                ++data->waitingBinIds;
-                std::function<void(const QString &)> callback = [this, data](const QString &) {
-                    --data->waitingBinIds;
-                    if (0 == data->waitingBinIds) {
-                        importTimeline(data);
+                ++importData->waitingBinIds;
+                std::function<void(const QString &)> callback = [this, importData](const QString &) {
+                    --importData->waitingBinIds;
+                    if (0 == importData->waitingBinIds) {
+                        importTimeline(importData);
                     }
                 };
                 const QString binId = ClipCreator::createClipFromFile(file, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(),
                                                                       undo, redo, callback);
-                data->otioExternalRefToBinId[file] = binId;
+                importData->otioExternalRefToBinId[file] = binId;
 
                 // Get the start timecode from the media.
                 const QString timecode = getTimecode(file);
                 if (!timecode.isEmpty()) {
-                    data->binIdToTimecode[binId] = timecode;
+                    importData->binIdToTimecode[binId] = timecode;
                 }
             }
         }
@@ -177,45 +177,46 @@ void OtioImport::slotImport()
     importFile(fileName);
 }
 
-void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &data)
+void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &importData)
 {
     // Import the tracks.
-    auto otioChildren = data->otioTimeline->tracks()->children();
+    auto otioChildren = importData->otioTimeline->tracks()->children();
     for (auto i = otioChildren.rbegin(); i != otioChildren.rend(); ++i) {
         if (const auto &otioTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*i)) {
             int trackId = 0;
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            data->timeline->requestTrackInsertion(-1, trackId, QString::fromStdString(otioTrack->name()), OTIO_NS::Track::Kind::audio == otioTrack->kind(),
-                                                  undo, redo);
-            importTrack(data, otioTrack, trackId);
+            importData->timeline->requestTrackInsertion(-1, trackId, QString::fromStdString(otioTrack->name()),
+                                                        OTIO_NS::Track::Kind::audio == otioTrack->kind(), undo, redo);
+            importTrack(importData, otioTrack, trackId);
         }
     }
-    data->timeline->updateDuration();
+    importData->timeline->updateDuration();
 
     // Import the OTIO markers as guides.
-    for (const auto &otioMarker : data->otioTimeline->tracks()->markers()) {
-        const GenTime pos(otioMarker->marked_range().start_time().value(), data->otioTimeline->duration().rate());
-        importMarker(otioMarker, pos, data->timeline->getGuideModel());
+    for (const auto &otioMarker : importData->otioTimeline->tracks()->markers()) {
+        const GenTime pos(otioMarker->marked_range().start_time().value(), importData->otioTimeline->duration().rate());
+        importMarker(otioMarker, pos, importData->timeline->getGuideModel());
     }
 
     // Delete the default tracks.
-    for (int id : data->defaultTracks) {
+    for (int id : importData->defaultTracks) {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        data->timeline->requestTrackDeletion(id, undo, redo);
+        importData->timeline->requestTrackDeletion(id, undo, redo);
     }
 }
 
-void OtioImport::importTrack(const std::shared_ptr<OtioImportData> &data, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &otioTrack, int trackId)
+void OtioImport::importTrack(const std::shared_ptr<OtioImportData> &importData, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &otioTrack,
+                             int trackId)
 {
     // Import the clips and transitions.
     int clipIdPrev = -1;
-    const OTIO_NS::RationalTime otioTimelineDuration = data->otioTimeline->duration();
+    const OTIO_NS::RationalTime otioTimelineDuration = importData->otioTimeline->duration();
     const auto otioChildren = otioTrack->children();
     for (size_t i = 0; i < otioChildren.size(); ++i) {
         if (const auto &otioClip = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Clip>(otioChildren[i])) {
-            const int clipId = importClip(data, otioClip, trackId);
+            const int clipId = importClip(importData, otioClip, trackId);
 
             // Check if there is a transition before this clip, and convert
             // it to a mix.
@@ -225,8 +226,8 @@ void OtioImport::importTrack(const std::shared_ptr<OtioImportData> &data, const 
                     Fun redo = []() { return true; };
                     const int in = otioTransition->in_offset().rescaled_to(otioTimelineDuration).round().value();
                     const int out = otioTransition->out_offset().rescaled_to(otioTimelineDuration).round().value();
-                    const int pos = data->timeline->getClipPosition(clipId);
-                    data->timeline->requestClipMix(QString("luma"), {clipIdPrev, clipId}, {in, out}, trackId, pos, true, true, true, undo, redo, false);
+                    const int pos = importData->timeline->getClipPosition(clipId);
+                    importData->timeline->requestClipMix(QString("luma"), {clipIdPrev, clipId}, {in, out}, trackId, pos, true, true, true, undo, redo, false);
                 }
             }
 
@@ -235,7 +236,7 @@ void OtioImport::importTrack(const std::shared_ptr<OtioImportData> &data, const 
     }
 }
 
-int OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &otioClip, int trackId)
+int OtioImport::importClip(const std::shared_ptr<OtioImportData> &importData, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &otioClip, int trackId)
 {
     int clipId = -1;
     const auto otioTrimmedRange = otioClip->trimmed_range_in_parent();
@@ -244,9 +245,9 @@ int OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const OT
         // Find the bin clip that corresponds to the OTIO media reference.
         QString binId;
         if (const auto &otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
-            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
-            const auto i = data->otioExternalRefToBinId.find(file);
-            if (i != data->otioExternalRefToBinId.end()) {
+            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), importData->otioFile);
+            const auto i = importData->otioExternalRefToBinId.find(file);
+            if (i != importData->otioExternalRefToBinId.end()) {
                 binId = i.value();
             }
         } else if (const auto &otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
@@ -257,31 +258,31 @@ int OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const OT
 
         // Insert the clip into the track.
         if (!binId.isEmpty()) {
-            const OTIO_NS::RationalTime otioTimelineDuration = data->otioTimeline->duration();
+            const OTIO_NS::RationalTime otioTimelineDuration = importData->otioTimeline->duration();
             const int position = otioTrimmedRange.value().start_time().rescaled_to(otioTimelineDuration).round().value();
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            data->timeline->requestClipInsertion(binId, trackId, position, clipId, false, true, true, undo, redo);
+            importData->timeline->requestClipInsertion(binId, trackId, position, clipId, false, true, true, undo, redo);
             if (clipId != -1) {
 
                 // Resize the clip.
                 const int duration = otioTrimmedRange.value().duration().rescaled_to(otioTimelineDuration).round().value();
-                data->timeline->requestItemResize(clipId, duration, true, false, -1, true);
+                importData->timeline->requestItemResize(clipId, duration, true, false, -1, true);
 
                 // Slip the clip.
                 const int start = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
                 int slip = start;
-                const auto i = data->binIdToTimecode.find(binId);
-                if (i != data->binIdToTimecode.end()) {
+                const auto i = importData->binIdToTimecode.find(binId);
+                if (i != importData->binIdToTimecode.end()) {
                     const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(i->toStdString(), otioTimelineDuration.rate());
                     slip -= otioTimecode.value();
                 }
                 if (slip != 0) {
-                    data->timeline->requestClipSlip(clipId, -slip, false, true);
+                    importData->timeline->requestClipSlip(clipId, -slip, false, true);
                 }
 
                 // Add markers.
-                if (std::shared_ptr<ClipModel> clipModel = data->timeline->getClipPtr(clipId)) {
+                if (std::shared_ptr<ClipModel> clipModel = importData->timeline->getClipPtr(clipId)) {
                     for (const auto &otioMarker : otioClip->markers()) {
                         const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
                         const GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
