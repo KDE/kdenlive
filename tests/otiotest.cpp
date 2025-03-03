@@ -15,11 +15,14 @@
 #include <QDir>
 #include <QTemporaryDir>
 
+#include <opentimelineio/externalReference.h>
+#include <opentimelineio/gap.h>
+
 using namespace fakeit;
 
-TEST_CASE("Export/import tracks and clips", "[OTIO]")
+TEST_CASE("Export/import", "[OTIO]")
 {
-    SECTION("Single clip")
+    SECTION("Multiple clips and tracks")
     {
         // Create the test document and timeline.
         auto binModel = pCore->projectItemModel();
@@ -31,22 +34,65 @@ TEST_CASE("Export/import tracks and clips", "[OTIO]")
         auto timeline = document.getTimeline(document.uuid());
         pCore->projectManager()->testSetActiveTimeline(timeline);
 
-        // Import the OTIO timeline.
-        OtioImport otioImport;
+        // Read the OTIO test timeline.
         QString inputPath = sourcesPath + "/dataset/test-clips.otio";
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
+        const int otioClipCount = otioTestTimeline->find_clips().size();
+
+        // Import the OTIO test timeline.
+        OtioImport otioImport;
         otioImport.importFile(inputPath, false);
-        while (timeline->getClipsCount() < 3) {
+        while (timeline->getClipsCount() < otioClipCount) {
             qApp->processEvents();
         }
-        REQUIRE(timeline->getTracksCount() == 1);
-        REQUIRE(timeline->getClipsCount() == 3);
 
-        // Export to an OTIO timeline.
+        // Export a new OTIO timeline.
         OtioExport otioExport;
         // TODO: Replace with QTemporaryDir.
         QDir dir = QDir::temp();
-        QString outputPath = dir.filePath("test-clips.otio");
+        QString outputPath = dir.filePath("test-clips-export.otio");
         otioExport.exportFile(outputPath);
+
+        // Compare the original test OTIO timeline with the new one.
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioNewTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(outputPath.toStdString())));
+        REQUIRE(otioTestTimeline->video_tracks().size() == otioNewTimeline->video_tracks().size());
+        REQUIRE(otioTestTimeline->audio_tracks().size() == otioNewTimeline->audio_tracks().size());
+        REQUIRE(otioClipCount == static_cast<int>(otioNewTimeline->find_clips().size()));
+
+        // Compare the tracks.
+        for (auto otioTestTrackIt = otioTestTimeline->tracks()->children().begin(), otioNewTrackIt = otioNewTimeline->tracks()->children().begin();
+             otioTestTrackIt != otioTestTimeline->tracks()->children().end(); ++otioTestTrackIt, ++otioNewTrackIt) {
+            auto otioTestTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*otioTestTrackIt);
+            auto otioNewTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*otioNewTrackIt);
+            REQUIRE(otioTestTrack != nullptr);
+            REQUIRE(otioNewTrack != nullptr);
+            REQUIRE(otioTestTrack->name() == otioNewTrack->name());
+            REQUIRE(otioTestTrack->kind() == otioNewTrack->kind());
+            REQUIRE(otioTestTrack->children().size() == otioNewTrack->children().size());
+
+            // Compare the items, clips, and gaps.
+            for (auto otioTestItemIt = otioTestTrack->children().begin(), otioNewItemIt = otioNewTrack->children().begin();
+                 otioTestItemIt != otioTestTrack->children().end(); ++otioTestItemIt, ++otioNewItemIt) {
+                REQUIRE((*otioTestItemIt)->duration() == (*otioNewItemIt)->duration());
+                if (auto otioTestClip = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Clip>(*otioTestItemIt)) {
+                    auto otioNewClip = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Clip>(*otioNewItemIt);
+                    REQUIRE(otioNewClip != nullptr);
+                    REQUIRE(otioTestClip->available_range() == otioNewClip->available_range());
+                    auto otioTestRef = dynamic_cast<OTIO_NS::ExternalReference *>(otioTestClip->media_reference());
+                    auto otioNewRef = dynamic_cast<OTIO_NS::ExternalReference *>(otioNewClip->media_reference());
+                    REQUIRE(otioTestRef != nullptr);
+                    REQUIRE(otioNewRef != nullptr);
+                    REQUIRE(QFileInfo(QString::fromStdString(otioTestRef->target_url())).fileName() ==
+                            QFileInfo(QString::fromStdString(otioNewRef->target_url())).fileName());
+                } else if (auto otioTestGap = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Gap>(*otioTestItemIt)) {
+                    auto otioNewGap = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Gap>(*otioNewItemIt);
+                    REQUIRE(otioNewGap != nullptr);
+                    REQUIRE(otioTestGap->available_range() == otioNewGap->available_range());
+                }
+            }
+        }
 
         pCore->projectManager()->closeCurrentDocument(false, false);
     }

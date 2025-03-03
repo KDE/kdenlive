@@ -93,9 +93,9 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
     } else if (timeline->isSubtitleTrack(trackId)) {
         trackKind = "Subtitle";
     }
-    OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> otioTrack(
-        new OTIO_NS::Track(timeline->getTrackFullName(trackId).toStdString(),
-                           OTIO_NS::TimeRange(OTIO_NS::RationalTime(0.0, fps), OTIO_NS::RationalTime(track->trackDuration(), fps)), trackKind));
+    const QString trackName = track->getProperty(QStringLiteral("kdenlive:track_name")).toString();
+    OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> otioTrack(new OTIO_NS::Track(
+        trackName.toStdString(), OTIO_NS::TimeRange(OTIO_NS::RationalTime(0.0, fps), OTIO_NS::RationalTime(track->trackDuration(), fps)), trackKind));
     otioTimeline->tracks()->append_child(otioTrack);
 
     // Order clips by their position. If there are any mixes, we adjust the
