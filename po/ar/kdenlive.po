@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-01 00:45+0000\n"
-"PO-Revision-Date: 2025-02-18 22:04+0400\n"
+"POT-Creation-Date: 2025-03-03 00:40+0000\n"
+"PO-Revision-Date: 2025-03-02 11:22+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -4298,32 +4298,32 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "تعرض/تخفي  الأطر الرئيسة للمقطع في الخطّ الزمني"
 
-#: src/assets/assetpanel.cpp:265
+#: src/assets/assetpanel.cpp:268
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 تأثيرات"
 
-#: src/assets/assetpanel.cpp:270 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:273 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 معاملات"
 
-#: src/assets/assetpanel.cpp:274
+#: src/assets/assetpanel.cpp:277
 #, kde-format
 msgid "Track %1 effects"
 msgstr "تأثيرات مسار %1"
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:282
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "تأثيرات سلة %1"
 
-#: src/assets/assetpanel.cpp:625
+#: src/assets/assetpanel.cpp:634
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "لديك مهمة قناع قيد التشغيل. هل تريد إلغاء المهمة؟"
 
-#: src/assets/assetpanel.cpp:626
+#: src/assets/assetpanel.cpp:635
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -4784,7 +4784,7 @@ msgstr "ص"
 #: src/assets/view/widgets/keyframeimport.cpp:814
 #: src/assets/view/widgets/keyframewidget.cpp:276
 #: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "Width"
 msgstr "العرض"
@@ -4793,7 +4793,7 @@ msgstr "العرض"
 #: src/assets/view/widgets/keyframeimport.cpp:822
 #: src/assets/view/widgets/keyframewidget.cpp:275
 #: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "Height"
 msgstr "الارتفاع"
@@ -4866,7 +4866,7 @@ msgstr ""
 "لم يكن هناك إطار رئيس محدد."
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:944
+#: src/assets/view/widgets/keyframewidget.cpp:941
 #, kde-format
 msgid "Paste keyframe"
 msgstr "ألصق الإطار الرئيس"
@@ -4952,7 +4952,7 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:273
 #: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:589
+#: src/assets/view/widgets/keyframewidget.cpp:586
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -4960,14 +4960,14 @@ msgstr "العُتَمَة"
 
 #: src/assets/view/widgets/keyframewidget.cpp:277
 #: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "Y position"
 msgstr "موضع ص"
 
 #: src/assets/view/widgets/keyframewidget.cpp:278
 #: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "X position"
 msgstr "موضع س"
@@ -4977,40 +4977,40 @@ msgstr "موضع س"
 msgid "Select parameters to copy"
 msgstr "حدد المعاملات لنسخها"
 
-#: src/assets/view/widgets/keyframewidget.cpp:849
+#: src/assets/view/widgets/keyframewidget.cpp:846
 #, kde-format
 msgid "Keyframes copied"
 msgstr "نسخت الأطر الرئيسة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:860
-#: src/assets/view/widgets/keyframewidget.cpp:901
-#: src/assets/view/widgets/keyframewidget.cpp:908
+#: src/assets/view/widgets/keyframewidget.cpp:857
+#: src/assets/view/widgets/keyframewidget.cpp:898
+#: src/assets/view/widgets/keyframewidget.cpp:905
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "لا يوجد إطار رئيس صالح في الحافظة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:952
+#: src/assets/view/widgets/keyframewidget.cpp:949
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "تعذّر نسخ قيم المعامل الحالي"
 
-#: src/assets/view/widgets/keyframewidget.cpp:957
-#: src/assets/view/widgets/keyframewidget.cpp:968
+#: src/assets/view/widgets/keyframewidget.cpp:954
+#: src/assets/view/widgets/keyframewidget.cpp:965
 #, kde-format
 msgid "Current values copied"
 msgstr "نُسخت القيم الحالية"
 
-#: src/assets/view/widgets/keyframewidget.cpp:980
+#: src/assets/view/widgets/keyframewidget.cpp:977
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "لا يوجد بيانات إطار رئيس في الحافظة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1061
+#: src/assets/view/widgets/keyframewidget.cpp:1058
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "لا يمكن إزالة الإطار الرئيس الأخير"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1073
+#: src/assets/view/widgets/keyframewidget.cpp:1070
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -5551,7 +5551,7 @@ msgid "Replace in timeline"
 msgstr "استبدل في الخطّ الزّمني"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:577
+#: src/effects/effectstack/view/maskmanager.cpp:591
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -6479,7 +6479,7 @@ msgstr "حرك الترجمة"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:615
-#: src/effects/effectstack/view/effectstackview.cpp:821
+#: src/effects/effectstack/view/effectstackview.cpp:846
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -7288,10 +7288,9 @@ msgid "Proxy Clips"
 msgstr "المقاطع وسيطة"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "أنشئ وسيط للمقاطع دون ألفا فقط"
+msgstr "مقاطع وسيطة تحوي مقاطع ألفا"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -7445,7 +7444,7 @@ msgstr "صدر بيانات الأدلة"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:691
-#: src/effects/effectstack/view/effectstackview.cpp:859
+#: src/effects/effectstack/view/effectstackview.cpp:884
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -11092,73 +11091,80 @@ msgstr "التعليقات:"
 msgid "No name provided, effect not saved."
 msgstr "الاسم لم يعطَ، لذا لم يحفظ التأثير."
 
-#: src/effects/effectstack/view/effectstackview.cpp:320
+#: src/effects/effectstack/view/effectstackview.cpp:329
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "اعكس أفقيا"
 
-#: src/effects/effectstack/view/effectstackview.cpp:325
+#: src/effects/effectstack/view/effectstackview.cpp:334
 #, kde-format
 msgid "Vertical Flip"
 msgstr "اعكس عموديا"
 
-#: src/effects/effectstack/view/effectstackview.cpp:333
-#, fuzzy, kde-format
-#| msgid "Remove group"
+#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:388
+#: src/effects/effectstack/view/effectstackview.cpp:972
+#, kde-format
 msgid "Remove Background"
-msgstr "أزل المجموعة"
+msgstr "أزل الخلفية"
 
-#: src/effects/effectstack/view/effectstackview.cpp:334
+#: src/effects/effectstack/view/effectstackview.cpp:343
 #, kde-format
 msgid "Remove background using AI model"
-msgstr ""
+msgstr "أزل الخلفية باستخدام نموذج الذكاء الاصطناعي"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:354
 #, kde-format
 msgid "Flip"
 msgstr "اعكس"
 
-#: src/effects/effectstack/view/effectstackview.cpp:739
+#: src/effects/effectstack/view/effectstackview.cpp:393
+#, fuzzy, kde-format
+#| msgid "Extracting…"
+msgid "Exporting…"
+msgstr "يستخرج…"
+
+#: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "فعّل كومة التّأثيرات"
 
-#: src/effects/effectstack/view/effectstackview.cpp:739
+#: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "عطّل كومة التّأثيرات"
 
-#: src/effects/effectstack/view/effectstackview.cpp:778
+#: src/effects/effectstack/view/effectstackview.cpp:803
 #, kde-format
 msgid "No effect selected."
 msgstr "لم يحدد تأثير"
 
-#: src/effects/effectstack/view/effectstackview.cpp:784
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "احفظ كومة التّأثير الحالي"
 
-#: src/effects/effectstack/view/effectstackview.cpp:789
+#: src/effects/effectstack/view/effectstackview.cpp:814
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "اسم الكومة المحفوظة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:790
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "الوصف:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:802
+#: src/effects/effectstack/view/effectstackview.cpp:827
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "الاسم لم يعطَ، لذا لم تحفظ كومة التأثيرات."
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:834
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -11166,6 +11172,13 @@ msgid ""
 msgstr ""
 "لم يعطَ وصف.\n"
 "هل أحفظ التأثير بدون وصف؟"
+
+#: src/effects/effectstack/view/effectstackview.cpp:969
+#: src/effects/effectstack/view/effectstackview.cpp:995
+#, fuzzy, kde-format
+#| msgid "Exit Mask Creation"
+msgid "Abort Mask Creation"
+msgstr "اخرج من إنشاء القناع"
 
 #: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format
@@ -11177,32 +11190,32 @@ msgstr "رجاء اضبط ملحق SAM2"
 msgid "Job failed"
 msgstr "فشلت المهمّة"
 
-#: src/effects/effectstack/view/maskmanager.cpp:255
+#: src/effects/effectstack/view/maskmanager.cpp:264
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "يصدر إطارات الفيديو للتحليل"
 
-#: src/effects/effectstack/view/maskmanager.cpp:259
+#: src/effects/effectstack/view/maskmanager.cpp:268
 #, kde-format
 msgid "Exporting video frames"
 msgstr "يصدر إطارات الفيديو"
 
-#: src/effects/effectstack/view/maskmanager.cpp:272
+#: src/effects/effectstack/view/maskmanager.cpp:281
 #, kde-format
 msgid "Missing source frames"
 msgstr "الأطر المصدر المفقودة"
 
-#: src/effects/effectstack/view/maskmanager.cpp:363
+#: src/effects/effectstack/view/maskmanager.cpp:373
 #, kde-format
 msgid "mask %1"
 msgstr "قناع %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:369
+#: src/effects/effectstack/view/maskmanager.cpp:379
 #, kde-format
 msgid "Generating mask %1"
 msgstr "يولد قناع %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:548
+#: src/effects/effectstack/view/maskmanager.cpp:562
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -14679,10 +14692,9 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "ميز الشّاشة لديك ليس كافيًا لهذا الإجراء"
 
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
-#, fuzzy, kde-format
-#| msgid "Cannot change grouped clips"
+#, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr "لا يمكن تغيير قصاصات مجمّعة"
+msgstr "لا يمكن تغيير المنطقة عند إنشاء قناع"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -14954,17 +14966,17 @@ msgstr "يجب أن يكون MLT مصرّفًا بدعم libfftw3 لتفعيل �
 msgid "Enable Audio Spectrum"
 msgstr "فعّل طيف الصّوت"
 
-#: src/monitor/videowidget.cpp:1067
+#: src/monitor/videowidget.cpp:1081
 #, kde-format
 msgid "Select a zone to play"
 msgstr "حدد منطقة لتشغيلها"
 
-#: src/monitor/videowidget.cpp:1076
+#: src/monitor/videowidget.cpp:1090
 #, kde-format
 msgid "Select a clip to play"
 msgstr "حدد مقطع لتشغيله"
 
-#: src/monitor/videowidget.cpp:1181
+#: src/monitor/videowidget.cpp:1195
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -14975,7 +14987,7 @@ msgstr ""
 "هناك شيء خاطئ في تثبيت كدنلايف الخاص بك أو إعدادات برنامج التشغيل الثابتة "
 "الخاص بك، يرجى إصلاحه."
 
-#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:58
+#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:59
 #: src/monitor/view/MultiScreenToolBar.qml:56
 #: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
@@ -15008,7 +15020,7 @@ msgid "Automatic Keyframes"
 msgstr "أطر رئيسة آليّة"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:122
+#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:123
 #: src/monitor/view/MultiScreenToolBar.qml:64
 #: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
@@ -15016,14 +15028,14 @@ msgid "Zoom in"
 msgstr "قرّب"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:127
+#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:128
 #: src/monitor/view/MultiScreenToolBar.qml:72
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
 msgstr "بعّد"
 
-#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:134
+#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:135
 #: src/monitor/view/MultiScreenToolBar.qml:81
 #: src/monitor/view/SceneToolBar.qml:112
 #, kde-format
@@ -15087,23 +15099,22 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "التّحويل"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:382
-#, fuzzy, kde-format
-#| msgid "Select a clip in project bin to compare effect"
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#, kde-format
 msgid "Select an object in the image first"
-msgstr "اختر مقطع في سلة المشروع لتقاران التأثير"
+msgstr "اختر كائن في الصورة أولًا"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:382
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr "يولد قناع الصورة"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:382
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr "يولد قناع الفيديو"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:393
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -15114,12 +15125,12 @@ msgstr ""
 "اضغط على Shift مع النقر لتضمين منطقة أخرى.\n"
 "اضغط على Ctrl مع النقر لاستبعاد منطقة."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:393
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid "Previewing video mask"
 msgstr "معاينة قناع الفيديو"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:404
+#: src/monitor/view/kdenlivemonitorautomask.qml:405
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -15132,12 +15143,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:414
+#: src/monitor/view/kdenlivemonitorautomask.qml:415
 #, kde-format
 msgid "Go to mask start"
 msgstr "انتقل إلى بداية القناع"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:427
+#: src/monitor/view/kdenlivemonitorautomask.qml:428
 #, kde-format
 msgid "Go to mask end"
 msgstr "انتقل إلى نهاية القناع"
@@ -15196,27 +15207,27 @@ msgstr ""
 "انقر لإضافة نقاط،\n"
 "النقر باليمين أو اضغط enter لغلق الشكل."
 
-#: src/monitor/view/MaskToolBar.qml:64
+#: src/monitor/view/MaskToolBar.qml:65
 #, kde-format
 msgid "Generate Mask"
 msgstr "ولّد القناع"
 
-#: src/monitor/view/MaskToolBar.qml:80
+#: src/monitor/view/MaskToolBar.qml:81
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr "غيّر العتمة (0% - 25% - 50% - 100%)"
 
-#: src/monitor/view/MaskToolBar.qml:94
+#: src/monitor/view/MaskToolBar.qml:95
 #, kde-format
 msgid "Invert Mask"
 msgstr "اعكس القناع"
 
-#: src/monitor/view/MaskToolBar.qml:102
+#: src/monitor/view/MaskToolBar.qml:103
 #, kde-format
 msgid "Exit Mask Creation"
 msgstr "اخرج من إنشاء القناع"
 
-#: src/monitor/view/MaskToolBar.qml:102
+#: src/monitor/view/MaskToolBar.qml:103
 #, kde-format
 msgid "Exit Preview Mode"
 msgstr "اخرج من وضع المعاينة"
@@ -21503,10 +21514,9 @@ msgstr "تفعيل المقاطع الوسيطة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "ولّد للفيديوهات الأكبر من"
+msgstr "ولّد للفيديوهات الأكبر من:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21526,17 +21536,15 @@ msgstr "تغيير حجم الفيديو الوسيط (العرض):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
-msgstr "ولّد للصّور الأكبر من"
+msgstr "ولّد للصّور الأكبر من:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "مقاس الصّورة الوسيطة"
+msgstr "مقاس الصّورة الوسيطة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21557,11 +21565,9 @@ msgstr "مكّن"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "ليس لديك مقطع يحوي قناة ألفا. "
+msgstr "تشكيلة المقاطع التي تحوي قناة ألفا:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -23110,25 +23116,21 @@ msgstr "استورد القناع في المشروع"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/maskmanage_ui.ui:165
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Border"
-msgstr "الحدّ "
+msgstr "الحد"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Abort Mask Task"
+#, kde-format
 msgid "Abort Mask"
-msgstr "أجهض مهمة القناع"
+msgstr "أجهض القناع"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/maskmanage_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Create New Mask"
+#, kde-format
 msgid "Creating Mask"
-msgstr "أنشئ قناعًا جديدًا"
+msgstr "ينشئ قناعًا"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18

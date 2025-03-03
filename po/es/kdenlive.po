@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-01 00:45+0000\n"
+"POT-Creation-Date: 2025-03-03 00:40+0000\n"
 "PO-Revision-Date: 2025-02-14 16:28-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -4409,32 +4409,32 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Mostrar claves del clip en la línea de tiempo"
 
-#: src/assets/assetpanel.cpp:265
+#: src/assets/assetpanel.cpp:268
 #, kde-format
 msgid "%1 effects"
 msgstr "Efectos de %1"
 
-#: src/assets/assetpanel.cpp:270 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:273 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "Parámetros de %1"
 
-#: src/assets/assetpanel.cpp:274
+#: src/assets/assetpanel.cpp:277
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Efectos de pista %1"
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:282
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Efectos en bandeja de %1"
 
-#: src/assets/assetpanel.cpp:625
+#: src/assets/assetpanel.cpp:634
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:626
+#: src/assets/assetpanel.cpp:635
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -4894,7 +4894,7 @@ msgstr "Y"
 #: src/assets/view/widgets/keyframeimport.cpp:814
 #: src/assets/view/widgets/keyframewidget.cpp:276
 #: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "Width"
 msgstr "Ancho"
@@ -4903,7 +4903,7 @@ msgstr "Ancho"
 #: src/assets/view/widgets/keyframeimport.cpp:822
 #: src/assets/view/widgets/keyframewidget.cpp:275
 #: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "Height"
 msgstr "Altura"
@@ -4976,7 +4976,7 @@ msgstr ""
 "actuales de los parámetros, en caso de que no haya claves seleccionados."
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:944
+#: src/assets/view/widgets/keyframewidget.cpp:941
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Pegar clave"
@@ -5064,7 +5064,7 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:273
 #: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:589
+#: src/assets/view/widgets/keyframewidget.cpp:586
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -5072,14 +5072,14 @@ msgstr "Opacidad"
 
 #: src/assets/view/widgets/keyframewidget.cpp:277
 #: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "Y position"
 msgstr "Posición Y"
 
 #: src/assets/view/widgets/keyframewidget.cpp:278
 #: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "X position"
 msgstr "Posición X"
@@ -5089,40 +5089,40 @@ msgstr "Posición X"
 msgid "Select parameters to copy"
 msgstr "Seleccionar parámetros a copiar"
 
-#: src/assets/view/widgets/keyframewidget.cpp:849
+#: src/assets/view/widgets/keyframewidget.cpp:846
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Claves copiados"
 
-#: src/assets/view/widgets/keyframewidget.cpp:860
-#: src/assets/view/widgets/keyframewidget.cpp:901
-#: src/assets/view/widgets/keyframewidget.cpp:908
+#: src/assets/view/widgets/keyframewidget.cpp:857
+#: src/assets/view/widgets/keyframewidget.cpp:898
+#: src/assets/view/widgets/keyframewidget.cpp:905
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "No hay datos válidos de claves en el portapapeles"
 
-#: src/assets/view/widgets/keyframewidget.cpp:952
+#: src/assets/view/widgets/keyframewidget.cpp:949
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "No es posible copiar los valores actuales de los parámetros"
 
-#: src/assets/view/widgets/keyframewidget.cpp:957
-#: src/assets/view/widgets/keyframewidget.cpp:968
+#: src/assets/view/widgets/keyframewidget.cpp:954
+#: src/assets/view/widgets/keyframewidget.cpp:965
 #, kde-format
 msgid "Current values copied"
 msgstr "Valores actuales copiados"
 
-#: src/assets/view/widgets/keyframewidget.cpp:980
+#: src/assets/view/widgets/keyframewidget.cpp:977
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "No hay datos de claves en el portapapeles"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1061
+#: src/assets/view/widgets/keyframewidget.cpp:1058
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "No es posible eliminar el último clave"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1073
+#: src/assets/view/widgets/keyframewidget.cpp:1070
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -5668,7 +5668,7 @@ msgid "Replace in timeline"
 msgstr "Sustituir en línea de tiempo"
 
 #: src/bin/bin.cpp:2133 src/bin/bin.cpp:5865 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:577
+#: src/effects/effectstack/view/maskmanager.cpp:591
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -6593,7 +6593,7 @@ msgstr "Mover subtítulo"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:615
-#: src/effects/effectstack/view/effectstackview.cpp:821
+#: src/effects/effectstack/view/effectstackview.cpp:846
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -7573,7 +7573,7 @@ msgstr "Exportar datos de guías"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:691
-#: src/effects/effectstack/view/effectstackview.cpp:859
+#: src/effects/effectstack/view/effectstackview.cpp:884
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -11247,74 +11247,82 @@ msgstr "Comentarios:"
 msgid "No name provided, effect not saved."
 msgstr "No se proporcionó ningún nombre. No se guardó el efecto."
 
-#: src/effects/effectstack/view/effectstackview.cpp:320
+#: src/effects/effectstack/view/effectstackview.cpp:329
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Invertir horizontal"
 
-#: src/effects/effectstack/view/effectstackview.cpp:325
+#: src/effects/effectstack/view/effectstackview.cpp:334
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Invertir vertical"
 
-#: src/effects/effectstack/view/effectstackview.cpp:333
+#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:388
+#: src/effects/effectstack/view/effectstackview.cpp:972
 #, fuzzy, kde-format
 #| msgid "Remove group"
 msgid "Remove Background"
 msgstr "Eliminar grupo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:334
+#: src/effects/effectstack/view/effectstackview.cpp:343
 #, fuzzy, kde-format
 #| msgid "Remove the background of a static video"
 msgid "Remove background using AI model"
 msgstr "Elimina el fondo de un video estático"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:354
 #, kde-format
 msgid "Flip"
 msgstr "Invertir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:739
+#: src/effects/effectstack/view/effectstackview.cpp:393
+#, fuzzy, kde-format
+#| msgid "Extracting…"
+msgid "Exporting…"
+msgstr "Extrayendo…"
+
+#: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Habilitar pila de efectos"
 
-#: src/effects/effectstack/view/effectstackview.cpp:739
+#: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Deshabilitar pila de efectos"
 
-#: src/effects/effectstack/view/effectstackview.cpp:778
+#: src/effects/effectstack/view/effectstackview.cpp:803
 #, kde-format
 msgid "No effect selected."
 msgstr "Ningún efecto seleccionado."
 
-#: src/effects/effectstack/view/effectstackview.cpp:784
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Guardar pila de efectos actual"
 
-#: src/effects/effectstack/view/effectstackview.cpp:789
+#: src/effects/effectstack/view/effectstackview.cpp:814
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nombre para la pila de efectos guardada:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:790
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Descripción:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:802
+#: src/effects/effectstack/view/effectstackview.cpp:827
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "No se proporcionó ningún nombre. No se guardó la pila de efectos."
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:834
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -11322,6 +11330,13 @@ msgid ""
 msgstr ""
 "No se proporcionó ninguna descripción. \n"
 "¿Guardar el efecto sin descripción?"
+
+#: src/effects/effectstack/view/effectstackview.cpp:969
+#: src/effects/effectstack/view/effectstackview.cpp:995
+#, fuzzy, kde-format
+#| msgid "Exit Mask Creation"
+msgid "Abort Mask Creation"
+msgstr "Salir de creación de máscara"
 
 #: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format
@@ -11334,32 +11349,32 @@ msgstr "El complemento SAM2 debe ser configurado"
 msgid "Job failed"
 msgstr "Falla al cortar."
 
-#: src/effects/effectstack/view/maskmanager.cpp:255
+#: src/effects/effectstack/view/maskmanager.cpp:264
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Exportando fotogramas del video para su análisis"
 
-#: src/effects/effectstack/view/maskmanager.cpp:259
+#: src/effects/effectstack/view/maskmanager.cpp:268
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Exportando fotogramas del video"
 
-#: src/effects/effectstack/view/maskmanager.cpp:272
+#: src/effects/effectstack/view/maskmanager.cpp:281
 #, kde-format
 msgid "Missing source frames"
 msgstr "Fotogramas de origen faltantes"
 
-#: src/effects/effectstack/view/maskmanager.cpp:363
+#: src/effects/effectstack/view/maskmanager.cpp:373
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:369
+#: src/effects/effectstack/view/maskmanager.cpp:379
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Generando máscara %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:548
+#: src/effects/effectstack/view/maskmanager.cpp:562
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
@@ -15168,17 +15183,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Habilitar espectro de audio"
 
-#: src/monitor/videowidget.cpp:1067
+#: src/monitor/videowidget.cpp:1081
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Seleccionar una zona de reproducción"
 
-#: src/monitor/videowidget.cpp:1076
+#: src/monitor/videowidget.cpp:1090
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Seleccionar un clip para reproducir"
 
-#: src/monitor/videowidget.cpp:1181
+#: src/monitor/videowidget.cpp:1195
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -15189,7 +15204,7 @@ msgstr ""
 "Algo falló en la instalación de Kdenlive o en las preferencias del "
 "controlador. Por favor, solucionarlo."
 
-#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:58
+#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:59
 #: src/monitor/view/MultiScreenToolBar.qml:56
 #: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
@@ -15222,7 +15237,7 @@ msgid "Automatic Keyframes"
 msgstr "Claves automáticos"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:122
+#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:123
 #: src/monitor/view/MultiScreenToolBar.qml:64
 #: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
@@ -15230,14 +15245,14 @@ msgid "Zoom in"
 msgstr "Ampliar"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:127
+#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:128
 #: src/monitor/view/MultiScreenToolBar.qml:72
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
 msgstr "Reducir"
 
-#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:134
+#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:135
 #: src/monitor/view/MultiScreenToolBar.qml:81
 #: src/monitor/view/SceneToolBar.qml:112
 #, kde-format
@@ -15302,23 +15317,23 @@ msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformar"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:382
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "Seleccionar un clip de la bandeja del proyecto para comparar el efecto"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:382
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating image mask"
 msgstr "Generando la máscara de la imagen"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:382
+#: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating video mask"
 msgstr "Generando la máscara del video"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:393
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -15329,12 +15344,12 @@ msgstr ""
 "Mayús+clic para incluir una nueva zona.\n"
 "Ctrl+clic para excluir una zona."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:393
+#: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Previsualizando máscara de video"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:404
+#: src/monitor/view/kdenlivemonitorautomask.qml:405
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -15343,13 +15358,13 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:414
+#: src/monitor/view/kdenlivemonitorautomask.qml:415
 #, fuzzy, kde-format
 #| msgid "Go to Clip Start"
 msgid "Go to mask start"
 msgstr "Ir al inicio del clip"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:427
+#: src/monitor/view/kdenlivemonitorautomask.qml:428
 #, fuzzy, kde-format
 #| msgid "Go to Clip End"
 msgid "Go to mask end"
@@ -15408,27 +15423,27 @@ msgstr ""
 "Clic para agregar puntos,\n"
 "clic derecho o presionar Intro para cerrar la forma."
 
-#: src/monitor/view/MaskToolBar.qml:64
+#: src/monitor/view/MaskToolBar.qml:65
 #, kde-format
 msgid "Generate Mask"
 msgstr "Generar máscara"
 
-#: src/monitor/view/MaskToolBar.qml:80
+#: src/monitor/view/MaskToolBar.qml:81
 #, kde-format
 msgid "Change Opacity (0% - 25% - 50% - 100%)"
 msgstr "Cambiar opacidad (0% - 25% - 50% - 100%)"
 
-#: src/monitor/view/MaskToolBar.qml:94
+#: src/monitor/view/MaskToolBar.qml:95
 #, kde-format
 msgid "Invert Mask"
 msgstr "Invertir máscara"
 
-#: src/monitor/view/MaskToolBar.qml:102
+#: src/monitor/view/MaskToolBar.qml:103
 #, kde-format
 msgid "Exit Mask Creation"
 msgstr "Salir de creación de máscara"
 
-#: src/monitor/view/MaskToolBar.qml:102
+#: src/monitor/view/MaskToolBar.qml:103
 #, kde-format
 msgid "Exit Preview Mode"
 msgstr "Salir de modo de previsualización"
