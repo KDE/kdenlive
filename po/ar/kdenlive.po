@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-11 02:39+0000\n"
+"POT-Creation-Date: 2025-03-03 02:36+0000\n"
 "PO-Revision-Date: 2025-02-06 09:29+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -14461,17 +14461,17 @@ msgstr "يجب أن يكون MLT مصرّفًا بدعم libfftw3 لتفعيل �
 msgid "Enable Audio Spectrum"
 msgstr "فعّل طيف الصّوت"
 
-#: src/monitor/videowidget.cpp:1077
+#: src/monitor/videowidget.cpp:1091
 #, kde-format
 msgid "Select a zone to play"
 msgstr "حدد منطقة لتشغيلها"
 
-#: src/monitor/videowidget.cpp:1086
+#: src/monitor/videowidget.cpp:1100
 #, kde-format
 msgid "Select a clip to play"
 msgstr "حدد مقطع لتشغيله"
 
-#: src/monitor/videowidget.cpp:1191
+#: src/monitor/videowidget.cpp:1205
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

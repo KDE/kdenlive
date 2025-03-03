@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-11 02:39+0000\n"
+"POT-Creation-Date: 2025-03-03 02:36+0000\n"
 "PO-Revision-Date: 2024-10-28 10:20+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -14583,17 +14583,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Включить спектр звуковых частот"
 
-#: src/monitor/videowidget.cpp:1077
+#: src/monitor/videowidget.cpp:1091
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Выберите участок для воспроизведения"
 
-#: src/monitor/videowidget.cpp:1086
+#: src/monitor/videowidget.cpp:1100
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Выберите клип для воспроизведения"
 
-#: src/monitor/videowidget.cpp:1191
+#: src/monitor/videowidget.cpp:1205
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

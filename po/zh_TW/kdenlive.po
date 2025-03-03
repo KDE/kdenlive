@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-11 02:39+0000\n"
+"POT-Creation-Date: 2025-03-03 02:36+0000\n"
 "PO-Revision-Date: 2025-02-20 15:43+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -14116,17 +14116,17 @@ msgstr "MLT 編譯時必須有 libfftw3 才能使用音訊頻譜"
 msgid "Enable Audio Spectrum"
 msgstr "啟用音訊頻譜"
 
-#: src/monitor/videowidget.cpp:1077
+#: src/monitor/videowidget.cpp:1091
 #, kde-format
 msgid "Select a zone to play"
 msgstr "選取要播放的區段"
 
-#: src/monitor/videowidget.cpp:1086
+#: src/monitor/videowidget.cpp:1100
 #, kde-format
 msgid "Select a clip to play"
 msgstr "選擇要播放的素材"
 
-#: src/monitor/videowidget.cpp:1191
+#: src/monitor/videowidget.cpp:1205
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

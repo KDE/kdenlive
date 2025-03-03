@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-11 02:39+0000\n"
+"POT-Creation-Date: 2025-03-03 02:36+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -14438,17 +14438,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Fungsikan Spektrum Audio"
 
-#: src/monitor/videowidget.cpp:1077
+#: src/monitor/videowidget.cpp:1091
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Pilih zona untuk diputar"
 
-#: src/monitor/videowidget.cpp:1086
+#: src/monitor/videowidget.cpp:1100
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Pilih sebuah klip untuk diputar"
 
-#: src/monitor/videowidget.cpp:1191
+#: src/monitor/videowidget.cpp:1205
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-11 02:39+0000\n"
+"POT-Creation-Date: 2025-03-03 02:36+0000\n"
 "PO-Revision-Date: 2025-01-06 13:33+0200\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -14397,17 +14397,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Ota ääniasteikko käyttöön"
 
-#: src/monitor/videowidget.cpp:1077
+#: src/monitor/videowidget.cpp:1091
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Valitse toistettava vyöhyke"
 
-#: src/monitor/videowidget.cpp:1086
+#: src/monitor/videowidget.cpp:1100
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Valitse toistettava leike"
 
-#: src/monitor/videowidget.cpp:1191
+#: src/monitor/videowidget.cpp:1205
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
