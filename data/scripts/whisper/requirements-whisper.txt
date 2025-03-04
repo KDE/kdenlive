@@ -1,3 +1,4 @@
+#python3.9,python3.10,python3.11,python3.12
 numba==0.60
 numpy==2.0.*
 torch==2.5.1

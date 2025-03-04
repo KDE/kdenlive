@@ -63,7 +63,6 @@ private Q_SLOTS:
     void doShowSpeechMessage(const QString &message, int messageType);
     /** @brief Check required python dependencies for speech engine */
     void slotCheckSttConfig();
-    void slotCheckSamConfig();
     /** @brief Display the python job output */
     void showSpeechLog(const QString &jobData);
     void showSamLog(const QString &jobData);

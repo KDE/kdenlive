@@ -25,6 +25,7 @@ public:
         QString python;
         QString pip;
     };
+    enum InstallStatus { Unknown, NotInstalled, Installed, InProgress, MissingDependencies, Broken };
 
     explicit AbstractPythonInterface(QObject *parent = nullptr);
     /** @brief Check if python and pip are installed, as well as all required scripts.
@@ -74,6 +75,8 @@ public:
     void deleteVenv();
     /** @brief User readable list of dependencies. */
     const QStringList listDependencies();
+    void setStatus(InstallStatus status);
+    InstallStatus status() const;
 
     friend class PythonDependencyMessage;
 
@@ -95,7 +98,7 @@ private:
     QStringList m_missing;
     QStringList m_optionalMissing;
     QMap<QString, QString> m_versions;
-    bool m_dependenciesChecked;
+    bool m_dependenciesChecked{false};
     QMutex m_versionsMutex;
     const QString locateScript(const QString &script);
     QString runPackageScript(QString mode, bool concurrent = false, bool displayFeedback = true, bool forceInstall = false);
@@ -112,11 +115,10 @@ protected:
     QMap<QString, QString> m_scripts;
     void addScript(const QString &script);
     virtual QString featureName() { return {}; };
-    bool m_installInProgress{false};
+    InstallStatus m_installStatus{Unknown};
 
 Q_SIGNALS:
     void setupError(const QString &message);
-    void setupOk();
     void setupMessage(const QString &message, int messageType);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);
@@ -130,6 +132,7 @@ Q_SIGNALS:
     void scriptStarted();
     void abortScript();
     void venvSetupChanged();
+    void installStatusChanged();
 };
 
 class PythonDependencyMessage : public KMessageWidget {

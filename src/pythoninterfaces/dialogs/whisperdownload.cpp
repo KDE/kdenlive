@@ -147,7 +147,7 @@ void WhisperDownload::downloadModel()
         const QString modelName = item->data(WPModelNameRole).toString();
         const QString url = item->data(WPUrlRole).toString();
         QStringList args = {QStringLiteral("task=download"), QStringLiteral("model=%1").arg(modelName),
-                            QStringLiteral("download_root=%1").arg(m_engine->modelFolder()), QStringLiteral("url=%1").arg(url)};
+                            QStringLiteral("download_root=%1").arg(m_engine->modelFolder(true, true)), QStringLiteral("url=%1").arg(url)};
         m_downloadProgress = 0;
         item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-1")));
         m_engine->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args, true);

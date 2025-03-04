@@ -28,16 +28,37 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
 {
     setWordWrap(true);
     setCloseButtonVisible(false);
-    hide();
-    m_installAction = new QAction(i18n("Install missing dependencies"), this);
+    if (m_interface->status() == AbstractPythonInterface::Installed) {
+        hide();
+    }
+    setText(i18n("Check configuration"));
+    m_installAction = new QAction(QIcon::fromTheme(QStringLiteral("download")), i18n("Install"), this);
     m_abortAction = new QAction(i18n("Abort installation"), this);
+    addAction(m_installAction);
     connect(m_abortAction, &QAction::triggered, m_interface, &AbstractPythonInterface::abortScript);
-    connect(m_interface, &AbstractPythonInterface::setupError, this, [&](const QString &message) {
-        removeAction(m_installAction);
-        removeAction(m_abortAction);
-        doShowMessage(message, KMessageWidget::Warning);
+    connect(m_interface, &AbstractPythonInterface::setupError, this, [&](const QString &message) { doShowMessage(message, KMessageWidget::Warning); });
+    connect(m_interface, &AbstractPythonInterface::installStatusChanged, this, [&]() {
+        switch (m_interface->status()) {
+        case AbstractPythonInterface::Installed:
+            hide();
+            break;
+        case AbstractPythonInterface::InProgress:
+            setMessageType(KMessageWidget::Information);
+            setText(i18n("Installing… please be patient, this can take several minutes"));
+            m_installAction->setEnabled(false);
+            addAction(m_abortAction);
+            show();
+            break;
+        default:
+            setMessageType(KMessageWidget::Warning);
+            setText(i18n("Install plugin to use"));
+            m_installAction->setEnabled(true);
+            removeAction(m_abortAction);
+            show();
+            break;
+        }
     });
-    connect(m_interface, &AbstractPythonInterface::setupOk, this, [&]() { hide(); });
+
     connect(m_interface, &AbstractPythonInterface::setupMessage, this,
             [&](const QString &message, int messageType) { doShowMessage(message, KMessageWidget::MessageType(messageType)); });
 
@@ -57,6 +78,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
                     doShowMessage(i18n("%1 is configured:<br>%2", m_interface->featureName(), list.join(QStringLiteral(", "))), KMessageWidget::Positive);
                 }
             }
+            m_installAction->setEnabled(false);
             Q_EMIT m_interface->venvSetupChanged();
         });
 
@@ -64,7 +86,6 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
             m_installAction->setEnabled(true);
             removeAction(m_abortAction);
             m_installAction->setText(m_interface->installMessage());
-            addAction(m_installAction);
             doShowMessage(messages.join(QStringLiteral("\n")), KMessageWidget::Warning);
         });
 
@@ -73,43 +94,42 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
             m_installAction->setText(i18n("Check for update"));
             m_installAction->setEnabled(true);
             removeAction(m_abortAction);
-            addAction(m_installAction);
             doShowMessage(message, KMessageWidget::Warning);
         });
 
         connect(m_interface, &AbstractPythonInterface::dependenciesAvailable, this, [&]() {
             if (!m_updated) {
                 // only allow upgrading python modules once
-                m_installAction->setText(i18n("Check for update"));
-                m_installAction->setEnabled(true);
+                m_installAction->setEnabled(false);
                 removeAction(m_abortAction);
-                addAction(m_installAction);
             }
-            if (text().isEmpty()) {
+            if (text().isEmpty() && m_interface->status() == AbstractPythonInterface::Installed) {
                 hide();
             }
         });
 
         connect(m_installAction, &QAction::triggered, this, [&]() {
-            if (!m_interface->missingDependencies().isEmpty()) {
-                m_installAction->setEnabled(false);
-                if (m_interface->installMissingDependencies()) {
-                    doShowMessage(i18n("Installing modules… this can take a while"), KMessageWidget::Information);
-                    addAction(m_abortAction);
-                    removeAction(m_installAction);
-                    qApp->processEvents();
-                } else {
-                    m_installAction->setEnabled(true);
-                }
-            } else {
+            switch (m_interface->status()) {
+            case AbstractPythonInterface::Unknown:
+                m_interface->checkVenv(false, false);
+                break;
+            case AbstractPythonInterface::NotInstalled:
+            case AbstractPythonInterface::Broken:
+                m_interface->checkVenv(false, true);
+                break;
+            case AbstractPythonInterface::MissingDependencies:
+                m_interface->installMissingDependencies();
+                break;
+            case AbstractPythonInterface::InProgress:
+                return;
+            default:
                 // upgrade
+                if (m_updated) {
+                    return;
+                }
                 m_updated = true;
-                m_installAction->setEnabled(false);
-                addAction(m_abortAction);
-                doShowMessage(i18n("Updating modules…"), KMessageWidget::Information);
-                qApp->processEvents();
                 m_interface->updateDependencies();
-                removeAction(m_installAction);
+                break;
             }
         });
     }
@@ -117,7 +137,7 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
 
 void PythonDependencyMessage::doShowMessage(const QString &message, KMessageWidget::MessageType messageType)
 {
-    if (message.isEmpty()) {
+    if (message.isEmpty() && m_interface->status() == AbstractPythonInterface::Installed) {
         hide();
     } else {
         setMessageType(messageType);
@@ -134,7 +154,6 @@ void PythonDependencyMessage::checkAfterInstall()
 
 AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     : QObject{parent}
-    , m_dependenciesChecked(false)
     , m_dependencies()
 {
     addScript(QStringLiteral("checkpackages.py"));
@@ -166,6 +185,7 @@ void AbstractPythonInterface::deleteVenv()
         if (pluginDir.dirName().contains(QLatin1String("venv")) && pluginDir.absolutePath().contains(QLatin1String("kdenlive"))) {
             pluginDir.removeRecursively();
         }
+        setStatus(NotInstalled);
         calculateVenvSize();
         Q_EMIT venvSetupChanged();
     }
@@ -205,9 +225,41 @@ QString AbstractPythonInterface::systemPythonExec()
 #ifdef Q_OS_WIN
     const QString pythonName = QStringLiteral("python");
 #else
-    const QString pythonName = QStringLiteral("python3");
+    QString pythonName = QStringLiteral("python3");
+    for (auto i = m_dependencies.cbegin(), end = m_dependencies.cend(); i != end; ++i) {
+        QFile deps(i.key());
+        if (deps.open(QIODevice::ReadOnly)) {
+            QTextStream in(&deps);
+            if (!in.atEnd()) {
+                const QString line = in.readLine();
+                if (line.startsWith(QStringLiteral("#python"))) {
+                    QStringList compatiblePython = line.section(QLatin1Char('#'), 1).split(QLatin1Char(','), Qt::SkipEmptyParts);
+                    for (auto &p : compatiblePython) {
+                        QString compatPath = QStandardPaths::findExecutable(p);
+                        if (!compatPath.isEmpty()) {
+                            return compatPath;
+                        }
+                    }
+                    setStatus(Broken);
+                    Q_EMIT setupError(
+                        i18n("Cannot find a compatible python version:\n%1\nPlease install it on your system.\n", line.section(QLatin1Char('#'), 1)));
+                    return QString();
+                    break;
+                }
+            }
+        }
+        deps.close();
+    }
 #endif
-    return QStandardPaths::findExecutable(pythonName);
+    const QString path = QStandardPaths::findExecutable(pythonName);
+    if (path.isEmpty()) {
+        setStatus(Broken);
+        Q_EMIT setupError(i18n("Cannot find %1, please install it on your system.\n"
+                               "If already installed, check it is installed in a directory "
+                               "listed in PATH environment variable",
+                               pythonName));
+    }
+    return path;
 }
 
 bool AbstractPythonInterface::useSystemPython()
@@ -227,8 +279,6 @@ bool AbstractPythonInterface::checkVenv(bool calculateSize, bool forceInstall)
 
     QMutexLocker bk(&mutex);
 
-    Q_EMIT setupMessage(i18nc("@label:textbox", "Checking setup…"), int(KMessageWidget::Information));
-
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QString binPath = getVenvBinPath();
 
@@ -236,8 +286,8 @@ bool AbstractPythonInterface::checkVenv(bool calculateSize, bool forceInstall)
 
     if (pluginDir.exists(binPath)) {
         PythonExec execs = venvPythonExecs(true);
-
         if (execs.python.isEmpty() || !QFile::exists(execs.python)) {
+            setStatus(Broken);
             Q_EMIT setupError(i18n("Cannot find python3 in the kdenlive venv.\n"
                                    "Try to uninstall and then reinstall the plugin."));
             if (calculateSize) {
@@ -251,30 +301,39 @@ bool AbstractPythonInterface::checkVenv(bool calculateSize, bool forceInstall)
             if (calculateSize) {
                 Q_EMIT gotPythonSize(QString());
             }
+            setStatus(Broken);
             return false;
         }
 
         // Everything ok: calculate the size if requested and quit
-        Q_EMIT setupOk();
         if (calculateSize) {
             calculateVenvSize();
         }
-        return true;
+        if (!forceInstall) {
+            setStatus(Installed);
+            return true;
+        }
+    } else {
+        // Venv folder not found
+        setStatus(NotInstalled);
+        if (calculateSize) {
+            Q_EMIT gotPythonSize(QString());
+        }
     }
 
     if (!forceInstall) {
-        Q_EMIT setupOk();
         return false;
     }
 
     // Setup venv
     if (!setupVenv()) {
         // setup failed
+        setStatus(Broken);
         return false;
     }
-
+    setStatus(InProgress);
     bk.unlock();
-    return checkVenv(calculateSize, false);
+    return installMissingDependencies();
 }
 
 void AbstractPythonInterface::calculateVenvSize()
@@ -329,14 +388,12 @@ bool AbstractPythonInterface::setupVenv()
     QString pythonExec = systemPythonExec();
 
     // Check that the system python is found
-    if (pythonExec.isEmpty()) {
-        Q_EMIT setupError(i18n("Cannot find python3, please install it on your system.\n"
-                               "If already installed, check it is installed in a directory "
-                               "listed in PATH environment variable"));
+    if (pythonExec.isEmpty() || installInProgress) {
         return false;
     }
     // Use system python to check for venv
     installInProgress = true;
+    setStatus(InProgress);
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     pluginDir.mkpath(QStringLiteral("."));
 
@@ -365,6 +422,7 @@ bool AbstractPythonInterface::setupVenv()
             pluginDir.removeRecursively();
         }
     }
+    setStatus(NotInstalled);
     installInProgress = false;
     Q_EMIT venvSetupChanged();
     return false;
@@ -412,7 +470,7 @@ void AbstractPythonInterface::checkVersionsConcurrently()
 
 bool AbstractPythonInterface::checkDependencies(bool force, bool async)
 {
-    if (!force && m_dependenciesChecked) {
+    if (m_installStatus == InProgress || (!force && m_dependenciesChecked)) {
         // Don't check twice if dependecies are satisfied
         return true;
     }
@@ -422,12 +480,15 @@ bool AbstractPythonInterface::checkDependencies(bool force, bool async)
     // Check if venv is correctly installed
     PythonExec exes = venvPythonExecs(true);
     if (exes.python.isEmpty() || exes.pip.isEmpty()) {
-        bool newInstall = false;
-        if (checkSetup(true, &newInstall) && newInstall) {
-            // Venv was just built, install requirements
-            installMissingDependencies();
+        // Check if venv folder exists
+        QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+        const QString binaryPath = getVenvPath();
+        if (!pluginDir.exists(binaryPath)) {
+            setStatus(NotInstalled);
             return false;
         }
+        setStatus(Broken);
+        return false;
     }
     const QString output = runPackageScript(QStringLiteral("--check"), false, false, force);
     QStringList missingDeps = output.split(QStringLiteral("Missing: "), Qt::SkipEmptyParts);
@@ -435,9 +496,7 @@ bool AbstractPythonInterface::checkDependencies(bool force, bool async)
     for (auto &m : missingDeps) {
         outputMissing << m.simplified();
     }
-    qDebug() << "----------------------\nFOUND MISSING DEPS:\n" << outputMissing << "\n---------------------------------------------";
     const QStringList deps = parseDependencies(m_dependencies.keys(), true);
-    qDebug() << "----------------------\nREQUESTED_DEPS:\n" << deps << "\n---------------------------------------------";
     QStringList messages;
     if (!output.isEmpty()) {
         // We have missing dependencies
@@ -486,11 +545,10 @@ bool AbstractPythonInterface::installMissingDependencies()
     if (KMessageBox::warningContinueCancel(pCore->window(),
                                            i18n("This requires an internet connection and will take several minutes\nto download all necessary "
                                                 "dependencies. After that all processing will happen offline.")) != KMessageBox::Continue) {
+        setStatus(NotInstalled);
         return false;
     }
-    if (!checkVenv(true, true)) {
-        return false;
-    }
+    setStatus(InProgress);
     runPackageScript(QStringLiteral("--install"), true);
     return true;
 }
@@ -673,6 +731,9 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     args.prepend(scriptpath);
     QProcess scriptJob;
     connect(this, &AbstractPythonInterface::abortScript, &scriptJob, &QProcess::kill, Qt::DirectConnection);
+    if (installAction) {
+        setStatus(InProgress);
+    }
 
     if (packageFeedback) {
         if (concurrent) {
@@ -694,6 +755,9 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
         const QString errorMessage = scriptJob.readAllStandardError();
         Q_EMIT setupError(i18n("Error while running python3 script:\n %1\n%2", scriptpath, errorMessage));
+        if (installAction) {
+            setStatus(Broken);
+        }
         return {};
     }
 
@@ -702,9 +766,12 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
         Q_EMIT scriptFeedback(script, args, processData.split(QLatin1Char('\n'), Qt::SkipEmptyParts));
     }
     qDebug() << "// RAN CONCURRENT SCRIPT: " << concurrent << ", SCRIPT: " << script << ", firstARG: " << firstarg;
+    if (installAction) {
+        setStatus(Installed);
+    }
     if (script.contains(QLatin1String("checkgpu.py")) || script.contains(QLatin1String("whisperquery")) || script.contains(QLatin1String("seamlessquery"))) {
         Q_EMIT concurrentScriptFinished(script, args);
-    } else if (concurrent && (firstarg == QLatin1String("--install") || firstarg == QLatin1String("--upgrade"))) {
+    } else if (concurrent && installAction) {
         Q_EMIT scriptFinished(args);
     }
     return scriptJob.readAllStandardOutput();
@@ -723,4 +790,17 @@ bool AbstractPythonInterface::optionalDependencyAvailable(const QString &depende
 const QString AbstractPythonInterface::installMessage() const
 {
     return i18n("Install missing dependencies");
+}
+
+void AbstractPythonInterface::setStatus(AbstractPythonInterface::InstallStatus status)
+{
+    if (m_installStatus != status) {
+        m_installStatus = status;
+        Q_EMIT installStatusChanged();
+    }
+}
+
+AbstractPythonInterface::InstallStatus AbstractPythonInterface::status() const
+{
+    return m_installStatus;
 }

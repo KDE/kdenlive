@@ -170,7 +170,6 @@ SpeechDialog::~SpeechDialog() {}
 
 void SpeechDialog::checkDeps()
 {
-    connect(m_stt, &AbstractPythonInterface::dependenciesAvailable, this, [this]() { buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true); });
     if (m_stt->checkDependencies(false, true)) {
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     }

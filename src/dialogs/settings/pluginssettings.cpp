@@ -64,7 +64,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
                                                      "around 10Gb of data. Once installed, all processing will happen offline."));
 
     noModelMessage->hide();
-    m_sttWhisper->checkVenv(true);
     m_downloadModelAction = new QAction(i18n("Download (1.4Gb)"), this);
     connect(m_downloadModelAction, &QAction::triggered, this, [this]() {
         disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &PluginsSettings::showSpeechLog);
@@ -145,6 +144,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         wr_venv_size->setText(label);
         deleteWrVenv->setEnabled(!label.isEmpty());
     });
+    m_sttWhisper->checkVenv(true);
 
     // Whisper
     if (KdenliveSettings::whisperInstalledModels().isEmpty()) {
@@ -251,7 +251,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     l->addWidget(m_speechListWidget);
     speech_info->setWordWrap(true);
     connect(check_config, &QPushButton::clicked, this, &PluginsSettings::slotCheckSttConfig);
-    connect(check_config_sam, &QPushButton::clicked, this, &PluginsSettings::slotCheckSamConfig);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(custom_vosk_folder, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
@@ -348,10 +347,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(m_samInterface, &AbstractPythonInterface::venvSetupChanged, this,
             [this]() { QMetaObject::invokeMethod(this, "checkSamEnvironement", Qt::QueuedConnection); });
     connect(m_samInterface, &AbstractPythonInterface::dependenciesAvailable, this, &PluginsSettings::samDependenciesChecked);
-    connect(m_samInterface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &) {
-        modelBox->setEnabled(false);
-        check_config_sam->setEnabled(true);
-    });
+    connect(m_samInterface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &) { modelBox->setEnabled(false); });
     connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, this,
             [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
                 Q_UNUSED(args);
@@ -416,7 +412,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
 
 void PluginsSettings::samDependenciesChecked()
 {
-    check_config_sam->setEnabled(true);
     if (combo_sam_model->count() > 0) {
         Q_EMIT pCore->samConfigUpdated();
     }
@@ -428,13 +423,11 @@ void PluginsSettings::checkSamEnvironement(bool afterInstall)
     if (exes.python.isEmpty() || exes.pip.isEmpty()) {
         // Venv not setup
         modelBox->setEnabled(false);
-        check_config_sam->setText(i18n("Install"));
         // Update env folder size
         m_samInterface->checkVenv(true);
     } else {
         // Venv ready
         modelBox->setEnabled(true);
-        check_config_sam->setText(i18n("Check config"));
         // Fill models list
         if (afterInstall) {
             m_samInterface->checkVenv(true);
@@ -442,6 +435,7 @@ void PluginsSettings::checkSamEnvironement(bool afterInstall)
         } else {
             reloadSamModels();
         }
+        m_samInterface->checkDependencies(false);
         QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
         if (pluginDir.cd(m_samInterface->getVenvPath())) {
             sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Plugin size")));
@@ -770,13 +764,6 @@ void PluginsSettings::slotCheckSttConfig()
     }
     // Leave button disabled for 3 seconds so that the user doesn't trigger it again while it is processing
     QTimer::singleShot(3000, this, [&]() { check_config->setEnabled(true); });
-}
-
-void PluginsSettings::slotCheckSamConfig()
-{
-    check_config_sam->setEnabled(false);
-    qApp->processEvents();
-    m_samInterface->checkDependencies(true);
 }
 
 void PluginsSettings::doShowSpeechMessage(const QString &message, int messageType)
