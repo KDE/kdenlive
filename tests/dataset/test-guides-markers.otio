@@ -154,7 +154,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "/home/darby/Desktop/blue.mp4"
+                                "target_url": "blue.mp4"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -240,7 +240,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "/home/darby/Desktop/yellow.mp4"
+                                "target_url": "yellow.mp4"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -370,7 +370,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "/home/darby/Desktop/red.mp4"
+                                "target_url": "red.mp4"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -500,7 +500,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "/home/darby/Desktop/red.mp4"
+                                "target_url": "red.mp4"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -609,7 +609,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "/home/darby/Desktop/blue.mp4"
+                                "target_url": "blue.mp4"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
@@ -695,7 +695,7 @@
                                     }
                                 },
                                 "available_image_bounds": null,
-                                "target_url": "/home/darby/Desktop/yellow.mp4"
+                                "target_url": "yellow.mp4"
                             }
                         },
                         "active_media_reference_key": "DEFAULT_MEDIA"
