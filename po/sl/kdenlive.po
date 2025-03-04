@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-03 00:40+0000\n"
-"PO-Revision-Date: 2025-02-26 08:10+0100\n"
+"PO-Revision-Date: 2025-03-03 08:03+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7351,10 +7351,9 @@ msgid "Proxy Clips"
 msgstr "Posredni posnetki"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "Samo posredni posnetki brez alfe"
+msgstr "Posredni posnetki z alfo"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -11207,10 +11206,9 @@ msgid "Flip"
 msgstr "Prezrcali"
 
 #: src/effects/effectstack/view/effectstackview.cpp:393
-#, fuzzy, kde-format
-#| msgid "Extracting…"
+#, kde-format
 msgid "Exporting…"
-msgstr "Razširjanje…"
+msgstr "Izvažanje …"
 
 #: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
@@ -11263,10 +11261,9 @@ msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:969
 #: src/effects/effectstack/view/effectstackview.cpp:995
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Abort Mask Creation"
-msgstr "Izhod iz ustvarjanja maske"
+msgstr "Prekini ustvarjanje maske"
 
 #: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format
@@ -14811,7 +14808,7 @@ msgstr "Za to dejanje ne zadostuje ločljivost vašega zaslona"
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
 #, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr ""
+msgstr "Območja ni mogoče spremeniti pri ustvarjanju maske"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -21693,10 +21690,9 @@ msgstr "Omogoči posredne posnetke"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "Ustvari za videe, širše od"
+msgstr "Ustvari za videe, širše od:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21716,17 +21712,15 @@ msgstr "Spremenjena širina sličic nadomestnega posnetka:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
-msgstr "Ustvari za slike, širše od"
+msgstr "Ustvari za slike, širše od:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "Velikost slike posrednega posnetka"
+msgstr "Velikost slike posrednega posnetka:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21747,11 +21741,9 @@ msgstr "Omogoči"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "Imate %1 posnetkov s kanalom alfa. "
+msgstr "Profil posnetkov s kanalom alfa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21

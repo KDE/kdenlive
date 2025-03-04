@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-03 00:40+0000\n"
-"PO-Revision-Date: 2025-03-01 12:23+0200\n"
+"PO-Revision-Date: 2025-03-03 08:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -11285,10 +11285,9 @@ msgid "Flip"
 msgstr "Віддзеркалити"
 
 #: src/effects/effectstack/view/effectstackview.cpp:393
-#, fuzzy, kde-format
-#| msgid "Extracting…"
+#, kde-format
 msgid "Exporting…"
-msgstr "Видобування…"
+msgstr "Експортування…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
@@ -11341,10 +11340,9 @@ msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:969
 #: src/effects/effectstack/view/effectstackview.cpp:995
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Abort Mask Creation"
-msgstr "Вийти зі створення маски"
+msgstr "Перервати створення маски"
 
 #: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format

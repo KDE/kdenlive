@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-03 00:40+0000\n"
-"PO-Revision-Date: 2025-03-02 11:22+0400\n"
+"PO-Revision-Date: 2025-03-03 22:34+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -11119,10 +11119,9 @@ msgid "Flip"
 msgstr "اعكس"
 
 #: src/effects/effectstack/view/effectstackview.cpp:393
-#, fuzzy, kde-format
-#| msgid "Extracting…"
+#, kde-format
 msgid "Exporting…"
-msgstr "يستخرج…"
+msgstr "يصدر…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
@@ -11175,10 +11174,9 @@ msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:969
 #: src/effects/effectstack/view/effectstackview.cpp:995
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Abort Mask Creation"
-msgstr "اخرج من إنشاء القناع"
+msgstr "أجهض إنشاء القناع"
 
 #: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format

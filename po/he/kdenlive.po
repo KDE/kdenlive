@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-03 00:40+0000\n"
-"PO-Revision-Date: 2025-02-26 08:35+0200\n"
+"PO-Revision-Date: 2025-03-03 09:25+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -7230,10 +7230,9 @@ msgid "Proxy Clips"
 msgstr "סרטוני תיווך"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "סרטוני תיווך בלי שקיפות בלבד"
+msgstr "סרטוני תיווך עם שקיפות"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -11033,10 +11032,9 @@ msgid "Flip"
 msgstr "היפוך"
 
 #: src/effects/effectstack/view/effectstackview.cpp:393
-#, fuzzy, kde-format
-#| msgid "Extracting…"
+#, kde-format
 msgid "Exporting…"
-msgstr "מתבצע חילוץ…"
+msgstr "מתבצע ייצוא…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
@@ -11089,10 +11087,9 @@ msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:969
 #: src/effects/effectstack/view/effectstackview.cpp:995
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Abort Mask Creation"
-msgstr "יציאה מיצירת מסכה"
+msgstr "ביטול יצירת מסכה"
 
 #: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format
@@ -14596,10 +14593,9 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "רזולוציית המסך שלך לא מספיקה לפעולה הזאת"
 
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
-#, fuzzy, kde-format
-#| msgid "Cannot change grouped clips"
+#, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr "לא ניתן לשנות סרטונים שקובצו"
+msgstr "לא ניתן לשנות את אזור בעת יצירת מסכה"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -21391,10 +21387,9 @@ msgstr "הפעלת סרטוני תיווך"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "יצירה לסרטונים שגדולים מ־"
+msgstr "יצירה לסרטונים שגדולים מ־:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21414,17 +21409,15 @@ msgstr "שינוי גודל וידאו תיווך (רוחב):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
-msgstr "יצירה לתמונות שגדולות מ־"
+msgstr "יצירה לתמונות שגדולות מ־:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "גודל תמונת תיווך"
+msgstr "גודל תמונת תיווך:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21445,11 +21438,9 @@ msgstr "הפעלה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "יש לך סרטון עם ערוץ שקיפות. "
+msgstr "פרופיל לסרטונים עם ערוץ שקיפות:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
