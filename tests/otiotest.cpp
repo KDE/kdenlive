@@ -22,7 +22,7 @@ using namespace fakeit;
 
 TEST_CASE("Export/import", "[OTIO]")
 {
-    SECTION("Multiple clips and tracks")
+    SECTION("Multiple tracks and clips")
     {
         // Create the test document and timeline.
         auto binModel = pCore->projectItemModel();
@@ -35,7 +35,7 @@ TEST_CASE("Export/import", "[OTIO]")
         pCore->projectManager()->testSetActiveTimeline(timeline);
 
         // Read the OTIO test timeline.
-        QString inputPath = sourcesPath + "/dataset/test-clips.otio";
+        QString inputPath = sourcesPath + "/dataset/test-tracks-clips.otio";
         OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
             dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
         const int otioClipCount = otioTestTimeline->find_clips().size();
@@ -51,7 +51,7 @@ TEST_CASE("Export/import", "[OTIO]")
         OtioExport otioExport;
         // TODO: Replace with QTemporaryDir.
         QDir dir = QDir::temp();
-        QString outputPath = dir.filePath("test-clips-export.otio");
+        QString outputPath = dir.filePath("test-tracks-clips-export.otio");
         otioExport.exportFile(outputPath);
 
         // Compare the original test OTIO timeline with the new one.
@@ -60,10 +60,12 @@ TEST_CASE("Export/import", "[OTIO]")
         REQUIRE(otioTestTimeline->video_tracks().size() == otioNewTimeline->video_tracks().size());
         REQUIRE(otioTestTimeline->audio_tracks().size() == otioNewTimeline->audio_tracks().size());
         REQUIRE(otioClipCount == static_cast<int>(otioNewTimeline->find_clips().size()));
+        REQUIRE(otioTestTimeline->find_children<OTIO_NS::Gap>().size() == otioNewTimeline->find_children<OTIO_NS::Gap>().size());
 
         // Compare the tracks.
         for (auto otioTestTrackIt = otioTestTimeline->tracks()->children().begin(), otioNewTrackIt = otioNewTimeline->tracks()->children().begin();
              otioTestTrackIt != otioTestTimeline->tracks()->children().end(); ++otioTestTrackIt, ++otioNewTrackIt) {
+
             auto otioTestTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*otioTestTrackIt);
             auto otioNewTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*otioNewTrackIt);
             REQUIRE(otioTestTrack != nullptr);
@@ -75,8 +77,11 @@ TEST_CASE("Export/import", "[OTIO]")
             // Compare the items, clips, and gaps.
             for (auto otioTestItemIt = otioTestTrack->children().begin(), otioNewItemIt = otioNewTrack->children().begin();
                  otioTestItemIt != otioTestTrack->children().end(); ++otioTestItemIt, ++otioNewItemIt) {
+
                 REQUIRE((*otioTestItemIt)->duration() == (*otioNewItemIt)->duration());
+
                 if (auto otioTestClip = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Clip>(*otioTestItemIt)) {
+
                     auto otioNewClip = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Clip>(*otioNewItemIt);
                     REQUIRE(otioNewClip != nullptr);
                     REQUIRE(otioTestClip->available_range() == otioNewClip->available_range());
@@ -86,10 +91,91 @@ TEST_CASE("Export/import", "[OTIO]")
                     REQUIRE(otioNewRef != nullptr);
                     REQUIRE(QFileInfo(QString::fromStdString(otioTestRef->target_url())).fileName() ==
                             QFileInfo(QString::fromStdString(otioNewRef->target_url())).fileName());
+
                 } else if (auto otioTestGap = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Gap>(*otioTestItemIt)) {
+
                     auto otioNewGap = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Gap>(*otioNewItemIt);
                     REQUIRE(otioNewGap != nullptr);
                     REQUIRE(otioTestGap->available_range() == otioNewGap->available_range());
+                }
+            }
+        }
+
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("Guides and markers")
+    {
+        // Create the test document and timeline.
+        auto binModel = pCore->projectItemModel();
+        std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+        KdenliveDoc document(undoStack);
+        pCore->projectManager()->testSetDocument(&document);
+        QDateTime documentDate = QDateTime::currentDateTime();
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+        auto timeline = document.getTimeline(document.uuid());
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+
+        // Read the OTIO test timeline.
+        QString inputPath = sourcesPath + "/dataset/test-guides-markers.otio";
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
+        const int otioClipCount = otioTestTimeline->find_clips().size();
+
+        // Import the OTIO test timeline.
+        OtioImport otioImport;
+        otioImport.importFile(inputPath, false);
+        while (timeline->getClipsCount() < otioClipCount) {
+            qApp->processEvents();
+        }
+
+        // Export a new OTIO timeline.
+        OtioExport otioExport;
+        // TODO: Replace with QTemporaryDir.
+        QDir dir = QDir::temp();
+        QString outputPath = dir.filePath("test-guides-markers-export.otio");
+        otioExport.exportFile(outputPath);
+
+        // Compare the original test OTIO timeline with the new one.
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioNewTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(outputPath.toStdString())));
+
+        // Compare the OTIO stack markers (kdenlive guides).
+        auto otioTestMarkers = otioTestTimeline->tracks()->markers();
+        auto otioNewMarkers = otioNewTimeline->tracks()->markers();
+        REQUIRE(otioTestMarkers.size() == otioNewMarkers.size());
+
+        for (auto otioTestMarkerIt = otioTestMarkers.begin(), otioNewMarkerIt = otioNewMarkers.begin(); otioTestMarkerIt != otioTestMarkers.end();
+             ++otioTestMarkerIt, ++otioNewMarkerIt) {
+            REQUIRE((*otioTestMarkerIt)->name() == (*otioNewMarkerIt)->name());
+            REQUIRE((*otioTestMarkerIt)->color() == (*otioNewMarkerIt)->color());
+            REQUIRE((*otioTestMarkerIt)->marked_range() == (*otioNewMarkerIt)->marked_range());
+            REQUIRE((*otioTestMarkerIt)->comment() == (*otioNewMarkerIt)->comment());
+        }
+
+        // Compare the OTIO clip markers.
+        for (auto otioTestTrackIt = otioTestTimeline->tracks()->children().begin(), otioNewTrackIt = otioNewTimeline->tracks()->children().begin();
+             otioTestTrackIt != otioTestTimeline->tracks()->children().end(); ++otioTestTrackIt, ++otioNewTrackIt) {
+
+            auto otioTestTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*otioTestTrackIt);
+            auto otioNewTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*otioNewTrackIt);
+            for (auto otioTestItemIt = otioTestTrack->children().begin(), otioNewItemIt = otioNewTrack->children().begin();
+                 otioTestItemIt != otioTestTrack->children().end(); ++otioTestItemIt, ++otioNewItemIt) {
+
+                if (auto otioTestClip = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Clip>(*otioTestItemIt)) {
+
+                    auto otioNewClip = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Clip>(*otioNewItemIt);
+                    auto otioTestMarkers = otioTestClip->markers();
+                    auto otioNewMarkers = otioNewClip->markers();
+                    REQUIRE(otioTestMarkers.size() == otioNewMarkers.size());
+
+                    for (auto otioTestMarkerIt = otioTestMarkers.begin(), otioNewMarkerIt = otioNewMarkers.begin(); otioTestMarkerIt != otioTestMarkers.end();
+                         ++otioTestMarkerIt, ++otioNewMarkerIt) {
+                        REQUIRE((*otioTestMarkerIt)->name() == (*otioNewMarkerIt)->name());
+                        REQUIRE((*otioTestMarkerIt)->color() == (*otioNewMarkerIt)->color());
+                        REQUIRE((*otioTestMarkerIt)->marked_range() == (*otioNewMarkerIt)->marked_range());
+                        REQUIRE((*otioTestMarkerIt)->comment() == (*otioNewMarkerIt)->comment());
+                    }
                 }
             }
         }
