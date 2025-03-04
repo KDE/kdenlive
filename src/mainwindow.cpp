@@ -189,22 +189,26 @@ void MainWindow::init(const QString &mltPath)
     ctnLay->setSpacing(0);
     ctnLay->setContentsMargins(0, 0, 0, 0);
     m_timelineToolBarContainer->setLayout(ctnLay);
-    QFrame *topFrame = new QFrame(this);
-    topFrame->setFrameShape(QFrame::HLine);
-    topFrame->setFixedHeight(1);
-    topFrame->setLineWidth(1);
-    connect(this, &MainWindow::showTimelineFocus, this, [topFrame](bool focus, bool highlight) {
+    QWidget *topFrame = new QWidget(this);
+    topFrame->setAutoFillBackground(true);
+    topFrame->setFixedHeight(2);
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
+    QPalette palette = topFrame->palette();
+    QColor color1 = scheme.decoration(KColorScheme::HoverColor).color();
+    QColor color2 = color1;
+    color2.setAlpha(100);
+    connect(this, &MainWindow::showTimelineFocus, this, [topFrame, color1, color2](bool focus, bool highlight) {
+        QPalette palette = topFrame->palette();
         if (focus) {
-            KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
             if (highlight) {
-                QColor col = scheme.decoration(KColorScheme::HoverColor).color();
-                topFrame->setStyleSheet(QStringLiteral("QFrame {border: 1px solid rgba(%1,%2,%3,70)}").arg(col.red()).arg(col.green()).arg(col.blue()));
+                palette.setColor(QPalette::Active, QPalette::Window, color2);
             } else {
-                QColor col = scheme.decoration(KColorScheme::FocusColor).color();
-                topFrame->setStyleSheet(QStringLiteral("QFrame {border: 1px solid rgba(%1,%2,%3,100)}").arg(col.red()).arg(col.green()).arg(col.blue()));
+                palette.setColor(QPalette::Active, QPalette::Window, color1);
             }
+            topFrame->setPalette(palette);
         } else {
-            topFrame->setStyleSheet(QString());
+            palette.setColor(QPalette::Active, QPalette::Window, QApplication::palette().color(QPalette::Active, QPalette::Window));
+            topFrame->setPalette(palette);
         }
     });
     ctnLay->addWidget(topFrame);
