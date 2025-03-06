@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 00:42+0000\n"
-"PO-Revision-Date: 2025-03-03 08:34+0200\n"
+"PO-Revision-Date: 2025-03-05 08:45+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17188,16 +17188,14 @@ msgid "Abort installation"
 msgstr "Скасувати встановлення"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:47
-#, fuzzy, kde-format
-#| msgid "Installing modules… this can take a while"
+#, kde-format
 msgid "Installing… please be patient, this can take several minutes"
-msgstr "Встановлюємо модулі… Потрібен певний час"
+msgstr "Встановлення… Будь ласка, зачекайте, потрібен певний час"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:54
-#, fuzzy, kde-format
-#| msgid "Uninstall plugin"
+#, kde-format
 msgid "Install plugin to use"
-msgstr "Вилучити додаток"
+msgstr "Встановити додаток для використання"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:70
 #, kde-format
@@ -17230,32 +17228,24 @@ msgid "Checking configuration…"
 msgstr "Перевіряємо налаштування…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:245
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find python virtualenv, please install it on your system. "
-#| "Defaulting to system python."
+#, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
 "%1\n"
 "Please install it on your system.\n"
 msgstr ""
-"Не вдалося знайти віртуальне середовище python. Будь ласка, встановіть його "
-"у вашій системі. Використовуємо резервний загальносистемний компілятор "
-"python."
+"Не вдалося знайти сумісної версії python:\n"
+"%1\n"
+"Будь ласка, встановіть її у вашій системі.\n"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find pip3, please install it on your system.\n"
-#| "If already installed, check it is installed in a directory listed in PATH "
-#| "environment variable"
+#, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Не вдалося знайти pip3. Будь ласка, встановіть відповідні пакунки у "
-"системі.\n"
+"Не вдалося знайти %1. Будь ласка, встановіть відповідні пакунки у системі.\n"
 "Якщо пакунки вже встановлено, перевірте, чи встановлено програми у каталог "
 "зі списку у змінній середовища PATH"
 

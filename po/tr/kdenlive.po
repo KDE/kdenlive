@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 00:42+0000\n"
-"PO-Revision-Date: 2025-03-03 13:42+0300\n"
+"PO-Revision-Date: 2025-03-05 12:16+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16989,16 +16989,14 @@ msgid "Abort installation"
 msgstr "Kurulumu iptal et"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:47
-#, fuzzy, kde-format
-#| msgid "Installing modules… this can take a while"
+#, kde-format
 msgid "Installing… please be patient, this can take several minutes"
-msgstr "Modüller kuruluyor… Bu biraz vakit alabilir"
+msgstr "Kuruluyor… Lütfen sabırlı olun, bu biraz vakit alabilir."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:54
-#, fuzzy, kde-format
-#| msgid "Uninstall plugin"
+#, kde-format
 msgid "Install plugin to use"
-msgstr "Eklentiyi Kaldır"
+msgstr "Kullanılacak eklentiyi kurun"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:70
 #, kde-format
@@ -17037,20 +17035,19 @@ msgid ""
 "%1\n"
 "Please install it on your system.\n"
 msgstr ""
+"Uyumlu bir Python sürümü bulunamıyor:\n"
+"%1\n"
+"Lütfen bir tanesini sisteminize kurun.\n"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find pip3, please install it on your system.\n"
-#| "If already installed, check it is installed in a directory listed in PATH "
-#| "environment variable"
+#, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"pip3 bulunamıyor, lütfen sisteminize kurun.\n"
-"Kuruluysa kurulum dizininin PATH çevre değişkeninde olduğundan emin olun"
+"%1 bulunamıyor, lütfen sisteminize kurun.\n"
+"Kuruluysa kurulum dizininin PATH çevre değişkeninde olduğundan emin olun."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:291
 #, kde-format

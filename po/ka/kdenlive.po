@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 00:42+0000\n"
-"PO-Revision-Date: 2025-03-03 04:24+0100\n"
+"PO-Revision-Date: 2025-03-05 06:19+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16963,16 +16963,14 @@ msgid "Abort installation"
 msgstr "დაყენების გაუქმება"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:47
-#, fuzzy, kde-format
-#| msgid "Installing modules… this can take a while"
+#, kde-format
 msgid "Installing… please be patient, this can take several minutes"
-msgstr "მოდულების დაყენება… ამას კარგა ხანი შეიძლება, დასჭირდეს"
+msgstr "მიმდინარეობს დაყენება… ამას რამდენიმე წუთი შეიძლება, დასჭირდეს"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:54
-#, fuzzy, kde-format
-#| msgid "Uninstall plugin"
+#, kde-format
 msgid "Install plugin to use"
-msgstr "დამატების წაშლა"
+msgstr "დააყენეთ დამატება გამოსაყენებლად"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:70
 #, kde-format
@@ -17005,30 +17003,24 @@ msgid "Checking configuration…"
 msgstr "კონფიგურაციის შემოწმება…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:245
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find python virtualenv, please install it on your system. "
-#| "Defaulting to system python."
+#, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
 "%1\n"
 "Please install it on your system.\n"
 msgstr ""
-"Python-ის ბრძანება virtualenv ვერ ვიპოვე. დააყენეთ ის. გადავერთვები სისტემურ "
-"python-ზე."
+"ვერ ვიპოვე თავსებადი python-ის ვერსია:\n"
+"%1\n"
+"გთხოვთ, დააყენეთ ის თქვენს სისტემაზე\n"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find pip3, please install it on your system.\n"
-#| "If already installed, check it is installed in a directory listed in PATH "
-#| "environment variable"
+#, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Pip3 ვერ ვიპოვე. დააყენეთ ის თქვენს სისტემაზე.\n"
+"%1 ვერ ვიპოვე. დააყენეთ ის თქვენს სისტემაზე.\n"
 "თუ ის უკვე დაყენებულია, შეამოწმეთ, არის თუ არა საქაღალდე, სადაც ის დააყენეთ "
 "გარემოს ცვლადში PATH"
 

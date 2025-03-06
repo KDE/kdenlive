@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 00:42+0000\n"
-"PO-Revision-Date: 2025-02-09 19:25+0100\n"
+"PO-Revision-Date: 2025-03-05 21:05+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4400,13 +4400,13 @@ msgstr "Ontziko %1 efektuak"
 #: src/assets/assetpanel.cpp:634
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
-msgstr ""
+msgstr "Maskara-lan bat martxan duzu. Ataza bertan behera utzi nahi duzu?"
 
 #: src/assets/assetpanel.cpp:635
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
-msgstr ""
+msgstr "Maskara-ataza bertan behera utzi"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:374
 #, kde-format
@@ -4697,7 +4697,7 @@ msgstr "Sartu aurrezarpen honen izena:"
 #: src/project/dialogs/archivewidget.cpp:404
 #, kde-format
 msgid "Abort processing"
-msgstr "Przesatzea bertan behera"
+msgstr "Prozesatzea bertan behera"
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:443
 #, kde-format
@@ -5275,15 +5275,15 @@ msgstr "<b>F2</b> hautatutako elementua berrizendatzeko"
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
-msgstr[0] "ataza %1"
-msgstr[1] "%1 ataza"
+msgstr[0] "lan %1"
+msgstr[1] "%1 lan"
 
 #: src/bin/bin.cpp:1073
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
-msgstr[0] "ataza %1 egiteke"
-msgstr[1] "%1 ataza egiteke"
+msgstr[0] "lan %1 egiteke"
+msgstr[1] "%1 lan egiteke"
 
 #: src/bin/bin.cpp:1195
 #, kde-format
@@ -5420,17 +5420,17 @@ msgstr "Itxi uneko ontzia"
 #: src/bin/bin.cpp:1444
 #, kde-format
 msgid "Cancel All Jobs"
-msgstr "Utzi ataza guztiak bertan behera"
+msgstr "Utzi lan guztiak bertan behera"
 
 #: src/bin/bin.cpp:1446
 #, kde-format
 msgid "Cancel Current Clip Jobs"
-msgstr "Utzi uneko kliparen atazak bertan behera"
+msgstr "Utzi uneko kliparen lanak bertan behera"
 
 #: src/bin/bin.cpp:1448
 #, kde-format
 msgid "Cancel Pending Jobs"
-msgstr "Utzi egiteke dauden atazak bertan behera"
+msgstr "Utzi egiteke dauden lanak bertan behera"
 
 #: src/bin/bin.cpp:1489
 #, kde-format
@@ -7257,7 +7257,7 @@ msgid ""
 "When the parameter is set to <b>Request Option from List</b> the user will "
 "be asked to choose a value in this list when the job is started."
 msgstr ""
-"Parametroa <b>Eskatu zerrendako aukera</b> gisa ezarrita dagoenean, ataza "
+"Parametroa <b>Eskatu zerrendako aukera</b> gisa ezarrita dagoenean, lana "
 "hasten denean, erabiltzaileari, zerrenda horretako balio bat hautatzea "
 "eskatuko zaio."
 
@@ -7294,17 +7294,17 @@ msgstr "Eszena zatitze automatikoa…"
 #: src/dialogs/clipjobmanager.cpp:319
 #, kde-format
 msgid "Job description"
-msgstr "Atazaren deskribapena"
+msgstr "Lanaren deskribapena"
 
 #: src/dialogs/clipjobmanager.cpp:413
 #, kde-format
 msgid "My Clip Job"
-msgstr "Nire klipa ataza"
+msgstr "Nire klip-lana"
 
 #: src/dialogs/clipjobmanager.cpp:421
 #, kde-format
 msgid "My Clip Job %1"
-msgstr "Nire klipa ataza %1"
+msgstr "Nire klip-lana %1"
 
 #: src/dialogs/clipjobmanager.cpp:447
 #, kde-format
@@ -7366,10 +7366,9 @@ msgid "Proxy Clips"
 msgstr "Klip-ordezkariak"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
-#| msgid "Proxy clips without alpha only"
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "Alfarik ez duten klip-ordezkariak bakarrik"
+msgstr "Alfa duten klip-ordezkariak"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -7964,7 +7963,7 @@ msgstr "Errendatzeak huts egin du"
 #: src/dialogs/renderwidget.cpp:122
 #, kde-format
 msgid "Rendering aborted"
-msgstr "Errendatzea eten egin da"
+msgstr "Errendatzea bertan behera utzi da"
 
 #: src/dialogs/renderwidget.cpp:209
 #, kde-format
@@ -8173,8 +8172,8 @@ msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr ""
-"Dagoeneko ataza bat ari da fitxategia idazten: <br /><b>%1</b><br /"
-">Utziataza bertan behera hura gainidatzi nahi baduzu…"
+"Jada, lan bat fitxategi idazten ari da: <br /><b>%1</b><br />Hura gainidatzi "
+"nahi baduzu, lana bertan behera utzi…"
 
 #: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1546
 #, kde-format
@@ -8266,12 +8265,12 @@ msgstr "<strong>%1 renderra kraskatu egin da</strong><br />"
 #: src/dialogs/renderwidget.cpp:1417 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
-msgstr "Utzi ataza bertan behera"
+msgstr "Lana bertan behera utzi"
 
 #: src/dialogs/renderwidget.cpp:1420
 #, kde-format
 msgid "Remove Job"
-msgstr "Kendu ataza"
+msgstr "Kendu lana"
 
 #: src/dialogs/renderwidget.cpp:1813
 #, kde-format
@@ -9847,7 +9846,7 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
-"Beste errekonozimendu ataza bat martxan dago. Ataza berriaren alde bertan "
+"Antzemateko beste lan bat martxan dago jada. Lan berria egiteko bertan "
 "behera utziko da. Jarraitu nahi duzu?"
 
 #: src/dialogs/textbasededit.cpp:1018
@@ -10196,7 +10195,7 @@ msgstr ""
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
 msgstr ""
-"<li>Aplikazioa falta da: <b>ffplay</b><br/> aurreikuspegu ataza batzuetarako "
+"<li>Aplikazioa falta da: <b>ffplay</b><br/> aurreikuspegi lan batzuetarako "
 "gomendatua</li>"
 
 #: src/dialogs/wizard.cpp:471
@@ -11197,16 +11196,14 @@ msgstr "Iraultze bertikala"
 #: src/effects/effectstack/view/effectstackview.cpp:342
 #: src/effects/effectstack/view/effectstackview.cpp:388
 #: src/effects/effectstack/view/effectstackview.cpp:972
-#, fuzzy, kde-format
-#| msgid "Remove group"
+#, kde-format
 msgid "Remove Background"
-msgstr "Ezabatu taldea"
+msgstr "Kendu atzeko planokoa"
 
 #: src/effects/effectstack/view/effectstackview.cpp:343
-#, fuzzy, kde-format
-#| msgid "Remove the background of a static video"
+#, kde-format
 msgid "Remove background using AI model"
-msgstr "Kendu bideo estatiko baten atzeko-planoa "
+msgstr "Kendu atzeko planoa AA eredua erabiliz"
 
 #: src/effects/effectstack/view/effectstackview.cpp:354
 #, kde-format
@@ -11214,10 +11211,9 @@ msgid "Flip"
 msgstr "Irauli"
 
 #: src/effects/effectstack/view/effectstackview.cpp:393
-#, fuzzy, kde-format
-#| msgid "Extracting…"
+#, kde-format
 msgid "Exporting…"
-msgstr "Erauzten…"
+msgstr "Esportatzen…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
@@ -11268,10 +11264,9 @@ msgstr "Ez da deskribapenik eman. Gorde efektua deskribapenik gabe?"
 
 #: src/effects/effectstack/view/effectstackview.cpp:969
 #: src/effects/effectstack/view/effectstackview.cpp:995
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Abort Mask Creation"
-msgstr "Irten maskara sorreratik"
+msgstr "Maskara sorrera bertan behera utzi"
 
 #: src/effects/effectstack/view/maskmanager.cpp:64
 #, kde-format
@@ -11279,10 +11274,9 @@ msgid "Please configure the SAM2 plugin"
 msgstr "Mesedez, konfiguratu SAM2 plugina."
 
 #: src/effects/effectstack/view/maskmanager.cpp:123
-#, fuzzy, kde-format
-#| msgid "Cut job failed."
+#, kde-format
 msgid "Job failed"
-msgstr "Mozteko atazak huts egin du."
+msgstr "Lanak huts egin du"
 
 #: src/effects/effectstack/view/maskmanager.cpp:264
 #, kde-format
@@ -11302,7 +11296,7 @@ msgstr "Sorburu-fotogramak falta dira"
 #: src/effects/effectstack/view/maskmanager.cpp:373
 #, kde-format
 msgid "mask %1"
-msgstr ""
+msgstr "%1 maskara"
 
 #: src/effects/effectstack/view/maskmanager.cpp:379
 #, kde-format
@@ -11310,15 +11304,13 @@ msgid "Generating mask %1"
 msgstr "%1 maskara sortzen"
 
 #: src/effects/effectstack/view/maskmanager.cpp:562
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
+#, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
 "undone."
 msgstr ""
-"Honek <b>%1</b> maskaratuko du, fitxategia:<br/>%2<br/>Eragiketa hau ezin da "
-"desegin."
+"Honek <b>%1</b> maskara ezabatuko du, fitxategia:<br/>%2<br/>Eragiketa hau "
+"ezin da desegin."
 
 #: src/filefilter.cpp:122
 #, kde-format
@@ -11409,7 +11401,7 @@ msgstr "<b>%1</b> fitxategiak fotograma-emari aldakorra darabil."
 #: src/jobs/customjobtask.cpp:173
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
-msgstr "Eza du aurkitu %1 aplikazioa, mesedez, eguneratu atazaren ezarpenak"
+msgstr "Ez du aurkitu %1 aplikazioa, mesedez, eguneratu lanaren ezarpenak"
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:232
@@ -11483,7 +11475,7 @@ msgstr "Ezin duzu jatorrizko klipa gainidatzi."
 #: src/jobs/cuttask.cpp:263
 #, kde-format
 msgid "Cut job failed."
-msgstr "Mozteko atazak huts egin du."
+msgstr "Mozteko lanak huts egin du."
 
 #: src/jobs/filtertask.cpp:40
 #, kde-format
@@ -11516,10 +11508,9 @@ msgid "Failed to filter source."
 msgstr "Sorburua iragaztea huts egin du."
 
 #: src/jobs/filtertask.cpp:319
-#, fuzzy, kde-format
-#| msgid "Effects for %1"
+#, kde-format
 msgid "Effect analysis failed for %1"
-msgstr "Efektuak %1-erako"
+msgstr "%1(e)ren efektu-analisiak huts egin du"
 
 #: src/jobs/masktask.cpp:26
 #, kde-format
@@ -14827,7 +14818,7 @@ msgstr "Zure monitorearen bereizmena ez da nahikoa ekintza hau burutzeko"
 #: src/monitor/monitor.cpp:901 src/monitor/monitor.cpp:937
 #, kde-format
 msgid "Cannot change zone when creating a mask"
-msgstr ""
+msgstr "Maskara sortzean ezin da eremua aldatu"
 
 #: src/monitor/monitor.cpp:930 src/monitor/monitor.cpp:966
 #: src/timeline2/view/timelinecontroller.cpp:1814
@@ -15215,7 +15206,7 @@ msgstr "Irteera puntua"
 #: src/monitor/view/kdenliveclipmonitor.qml:794
 #, kde-format
 msgid "Terminate Job"
-msgstr "Amaitu ataza"
+msgstr "Amaitu lana"
 
 #: src/monitor/view/kdenlivemonitor.qml:97
 #, kde-format
@@ -15234,10 +15225,9 @@ msgid "Transform"
 msgstr "Eraldatu"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:383
-#, fuzzy, kde-format
-#| msgid "Select a clip in project bin to compare effect"
+#, kde-format
 msgid "Select an object in the image first"
-msgstr "Hautatu proiektu-ontziko klip bat efektuak konparatzeko"
+msgstr "Aurrena, irudiko objektu bat hautatu"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
@@ -15273,18 +15263,21 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"Maskararako definitutako denbora-eremutik\n"
+"kanpo zaude eta ezin duzu gako-fotogramarik\n"
+"gehitu.\n"
+"\n"
+"\n"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:415
-#, fuzzy, kde-format
-#| msgid "Go to Clip Start"
+#, kde-format
 msgid "Go to mask start"
-msgstr "Joan kliparen hasierara"
+msgstr "Joan maskararen hasierara"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:428
-#, fuzzy, kde-format
-#| msgid "Go to Clip End"
+#, kde-format
 msgid "Go to mask end"
-msgstr "Joan kliparen amaierara"
+msgstr "Joan maskararen amaierara"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -15969,7 +15962,7 @@ msgstr "Ez dago nahikoa toki librerik diskoan, toki librea: %1"
 #: src/project/dialogs/archivewidget.cpp:607
 #, kde-format
 msgid "Starting archive job"
-msgstr "Artxibatze ataza abiatzen"
+msgstr "Artxibatze-lana abiatzen"
 
 #: src/project/dialogs/archivewidget.cpp:628
 #, kde-format
@@ -17072,16 +17065,14 @@ msgid "Abort installation"
 msgstr "Instalazioa bertan behera utzi"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:47
-#, fuzzy, kde-format
-#| msgid "Installing modules… this can take a while"
+#, kde-format
 msgid "Installing… please be patient, this can take several minutes"
-msgstr "Moduluak instalatzen… denboratxo bat beharko du"
+msgstr "Instalatzen... mesedez, pazientzia izan, minutu batzuk iraun dezake"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:54
-#, fuzzy, kde-format
-#| msgid "Uninstall plugin"
+#, kde-format
 msgid "Install plugin to use"
-msgstr "Desinstalatu plugina"
+msgstr "Instalatu erabili beharreko plugina"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:70
 #, kde-format
@@ -17114,31 +17105,25 @@ msgid "Checking configuration…"
 msgstr "Konfigurazioa egiaztatzen…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:245
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find python virtualenv, please install it on your system. "
-#| "Defaulting to system python."
+#, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
 "%1\n"
 "Please install it on your system.\n"
 msgstr ""
-"Ezin du aurkitu python «virtualenv», mesedez, zure sisteman instala ezazu. "
-"Sistemako python lehenetsiko da."
+"Ezin du python-en bertsio bateragarri bat aurkitu:\n"
+"%1\n"
+"Mesedez, instalatu zure sisteman.\n"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find pip3, please install it on your system.\n"
-#| "If already installed, check it is installed in a directory listed in PATH "
-#| "environment variable"
+#, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Ezin izan da pip3 topatu, mesedez, instalatu zure sisteman.\n"
-"Instalatua baldin badago, egiaztatu ea PATH testuinguru-aldagaian "
+"Ezin du %1 aurkitu, mesedez, instalatu zure sisteman.\n"
+"Instalatua baldin badago, egiaztatu PATH testuinguru-aldagaian "
 "zerrendatutako karpetaren batean dagoen"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:291
@@ -17714,7 +17699,7 @@ msgstr "hasi"
 #: src/render/renderserver.cpp:23 src/render/renderserver.cpp:87
 #, kde-format
 msgid "Can't open communication with render job %1"
-msgstr "Ezin da komunikazioa ireki errendatze lanarekin %1"
+msgstr "Ezin da %1 errendatze-lanarekin komunikazioa ireki"
 
 #: src/render/renderserver.cpp:50
 #, kde-format
@@ -20687,7 +20672,7 @@ msgstr "Izurduran neurri-aldatu"
 #: src/ui/clipjobmanager_ui.ui:24
 #, kde-format
 msgid "Job parameters"
-msgstr "Atazaren parametroak"
+msgstr "Lanaren parametroak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/clipjobmanager_ui.ui:30
@@ -20779,7 +20764,7 @@ msgstr "Hautazko deskribapena, parametro bat eskatuz gero erakutsiko dena"
 #: src/ui/clipjobmanager_ui.ui:236
 #, kde-format
 msgid "Job Description"
-msgstr "Atazaren deskribapena"
+msgstr "Lanaren deskribapena"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:292
@@ -20827,7 +20812,7 @@ msgstr "Karpetaren izena"
 #: src/ui/clipjobmanager_ui.ui:368
 #, kde-format
 msgid "Custom clip jobs"
-msgstr "Neurrira egindako klipen atazak"
+msgstr "Neurrira egindako klip-lanak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
 #: src/ui/clipjobmanager_ui.ui:375
@@ -20857,7 +20842,7 @@ msgstr "FFmpeg parametroak"
 #: src/ui/cliptranscode_ui.ui:80
 #, kde-format
 msgid "Job status"
-msgstr "Atazaren egoera"
+msgstr "Lanaren egoera"
 
 #. i18n: ectx: property (text), widget (QLabel, label_source)
 #: src/ui/cliptranscode_ui.ui:110
@@ -21725,10 +21710,9 @@ msgstr "Gaitu klip-ordezkariak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Generate for videos larger than"
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "Sortu hau baino handiagoak diren bideoentzat,"
+msgstr "Sortu hau baino bideo handiagoetarako:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21748,17 +21732,15 @@ msgstr "Bideo-ordezkariaren tamaina aldatzea (zabalera):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #: src/ui/configproxy_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Generate for images larger than"
+#, kde-format
 msgid "Generate for images larger than:"
-msgstr "Sortu hau baino handiagoak diren irudientzat,"
+msgstr "Sortu hau baino irudi handiagoetarako:"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:155
-#, fuzzy, kde-format
-#| msgid "Proxy image size"
+#, kde-format
 msgid "Proxy image size:"
-msgstr "Ordezkari-irudiaren tamaina"
+msgstr "Ordezkari-irudiaren tamaina:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -21779,11 +21761,9 @@ msgstr "Gaitu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
-#| msgid "You have a clip with an alpha channel. "
-#| msgid_plural "You have %1 clips with an alpha channel. "
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "Alfa kanal bat duen klip bat duzu. "
+msgstr "Alfa kanala duten klipetarako profila:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -21973,7 +21953,7 @@ msgstr "Eredua"
 #: src/ui/configspeech_ui.ui:759
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
-msgstr ""
+msgstr "Bideoaren zama PUZera pasa GPUaren memoria aurrezteko"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
 #: src/ui/configspeech_ui.ui:807
@@ -22262,7 +22242,7 @@ msgstr "Testu-etiketa"
 #: src/ui/cutjobdialog_ui.ui:81
 #, kde-format
 msgid "Configure the job."
-msgstr "Konfiguratu ataza."
+msgstr "Konfiguratu lana."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EditRenderPreset_UI)
 #: src/ui/editrenderpreset_ui.ui:18
@@ -23300,10 +23280,9 @@ msgstr "Aplikatu maskara"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEdit)
 #: src/ui/maskmanage_ui.ui:70
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Mask"
-msgstr "Editatu markatzailea"
+msgstr "Editatu maskara"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/ui/maskmanage_ui.ui:83
@@ -23331,24 +23310,21 @@ msgstr "Inportatu maskara proiektuan"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/maskmanage_ui.ui:165
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Border"
-msgstr "Ertza "
+msgstr "Ertza"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172
-#, fuzzy, kde-format
-#| msgid "Auto Mask"
+#, kde-format
 msgid "Abort Mask"
-msgstr "Maskara automatikoa"
+msgstr "Maskara bertan behera utzi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/maskmanage_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Create New Mask"
+#, kde-format
 msgid "Creating Mask"
-msgstr "Sortu maskara berria"
+msgstr "Maskara sortzea"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
@@ -23968,13 +23944,13 @@ msgstr "Jo errendatu ondoren"
 #: src/ui/renderwidget_ui.ui:895
 #, kde-format
 msgid "Job Queue"
-msgstr "Ataza-ilara"
+msgstr "Lan-ilara"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
 #: src/ui/renderwidget_ui.ui:930
 #, kde-format
 msgid "Start Job"
-msgstr "Abiarazi ataza"
+msgstr "Abiarazi lana"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
 #: src/ui/renderwidget_ui.ui:940
