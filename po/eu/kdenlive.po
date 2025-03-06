@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-03 02:36+0000\n"
-"PO-Revision-Date: 2025-01-29 22:10+0100\n"
+"PO-Revision-Date: 2025-03-05 20:56+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4421,7 +4421,7 @@ msgstr "Sartu aurrezarpen honen izena:"
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
-msgstr "Przesatzea bertan behera"
+msgstr "Prozesatzea bertan behera"
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:443
 #, kde-format
@@ -4984,15 +4984,15 @@ msgstr "<b>F2</b> hautatutako elementua berrizendatzeko"
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
-msgstr[0] "ataza %1"
-msgstr[1] "%1 ataza"
+msgstr[0] "lan %1"
+msgstr[1] "%1 lan"
 
 #: src/bin/bin.cpp:1053
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
-msgstr[0] "ataza %1 egiteke"
-msgstr[1] "%1 ataza egiteke"
+msgstr[0] "lan %1 egiteke"
+msgstr[1] "%1 lan egiteke"
 
 #: src/bin/bin.cpp:1175
 #, kde-format
@@ -5129,17 +5129,17 @@ msgstr "Itxi uneko ontzia"
 #: src/bin/bin.cpp:1424
 #, kde-format
 msgid "Cancel All Jobs"
-msgstr "Utzi ataza guztiak bertan behera"
+msgstr "Utzi lan guztiak bertan behera"
 
 #: src/bin/bin.cpp:1426
 #, kde-format
 msgid "Cancel Current Clip Jobs"
-msgstr "Utzi uneko kliparen atazak bertan behera"
+msgstr "Utzi uneko kliparen lanak bertan behera"
 
 #: src/bin/bin.cpp:1428
 #, kde-format
 msgid "Cancel Pending Jobs"
-msgstr "Utzi egiteke dauden atazak bertan behera"
+msgstr "Utzi egiteke dauden lanak bertan behera"
 
 #: src/bin/bin.cpp:1469
 #, kde-format
@@ -6966,7 +6966,7 @@ msgid ""
 "When the parameter is set to <b>Request Option from List</b> the user will "
 "be asked to choose a value in this list when the job is started."
 msgstr ""
-"Parametroa <b>Eskatu zerrendako aukera</b> gisa ezarrita dagoenean, ataza "
+"Parametroa <b>Eskatu zerrendako aukera</b> gisa ezarrita dagoenean, lana "
 "hasten denean, erabiltzaileari, zerrenda horretako balio bat hautatzea "
 "eskatuko zaio."
 
@@ -7003,17 +7003,17 @@ msgstr "Eszena zatitze automatikoa…"
 #: src/dialogs/clipjobmanager.cpp:319
 #, kde-format
 msgid "Job description"
-msgstr "Atazaren deskribapena"
+msgstr "Lanaren deskribapena"
 
 #: src/dialogs/clipjobmanager.cpp:413
 #, kde-format
 msgid "My Clip Job"
-msgstr "Nire klipa ataza"
+msgstr "Nire klip-lana"
 
 #: src/dialogs/clipjobmanager.cpp:421
 #, kde-format
 msgid "My Clip Job %1"
-msgstr "Nire klipa ataza %1"
+msgstr "Nire klip-lana %1"
 
 #: src/dialogs/clipjobmanager.cpp:447
 #, kde-format
@@ -8076,7 +8076,7 @@ msgstr "Errendatzeak huts egin du"
 #: src/dialogs/renderwidget.cpp:122
 #, kde-format
 msgid "Rendering aborted"
-msgstr "Errendatzea eten egin da"
+msgstr "Errendatzea bertan behera utzi da"
 
 #: src/dialogs/renderwidget.cpp:209
 #, kde-format
@@ -8285,8 +8285,8 @@ msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr ""
-"Dagoeneko ataza bat ari da fitxategia idazten: <br /><b>%1</b><br /"
-">Utziataza bertan behera hura gainidatzi nahi baduzu…"
+"Jada, lan bat fitxategi idazten ari da: <br /><b>%1</b><br />Hura gainidatzi "
+"nahi baduzu, lana bertan behera utzi…"
 
 #: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1547
 #, kde-format
@@ -8378,12 +8378,12 @@ msgstr "<strong>%1 renderra kraskatu egin da</strong><br />"
 #: src/dialogs/renderwidget.cpp:1418 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
-msgstr "Utzi ataza bertan behera"
+msgstr "Lana bertan behera utzi"
 
 #: src/dialogs/renderwidget.cpp:1421
 #, kde-format
 msgid "Remove Job"
-msgstr "Kendu ataza"
+msgstr "Kendu lana"
 
 #: src/dialogs/renderwidget.cpp:1814
 #, kde-format
@@ -9502,7 +9502,7 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
-"Beste errekonozimendu ataza bat martxan dago. Ataza berriaren alde bertan "
+"Antzemateko beste lan bat martxan dago jada. Lan berria egiteko bertan "
 "behera utziko da. Jarraitu nahi duzu?"
 
 #: src/dialogs/textbasededit.cpp:1018
@@ -9851,7 +9851,7 @@ msgstr ""
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
 msgstr ""
-"<li>Aplikazioa falta da: <b>ffplay</b><br/> aurreikuspegu ataza batzuetarako "
+"<li>Aplikazioa falta da: <b>ffplay</b><br/> aurreikuspegi lan batzuetarako "
 "gomendatua</li>"
 
 #: src/dialogs/wizard.cpp:471
@@ -10955,7 +10955,7 @@ msgstr "<b>%1</b> fitxategiak fotograma-emari aldakorra darabil."
 #: src/jobs/customjobtask.cpp:173
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
-msgstr "Eza du aurkitu %1 aplikazioa, mesedez, eguneratu atazaren ezarpenak"
+msgstr "Ez du aurkitu %1 aplikazioa, mesedez, eguneratu lanaren ezarpenak"
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:230
@@ -11029,7 +11029,7 @@ msgstr "Ezin duzu jatorrizko klipa gainidatzi."
 #: src/jobs/cuttask.cpp:263
 #, kde-format
 msgid "Cut job failed."
-msgstr "Mozteko atazak huts egin du."
+msgstr "Mozteko lanak huts egin du."
 
 #: src/jobs/filtertask.cpp:41
 #, kde-format
@@ -14715,7 +14715,7 @@ msgstr "Irteera puntua"
 #: src/monitor/view/kdenliveclipmonitor.qml:759
 #, kde-format
 msgid "Terminate Job"
-msgstr "Amaitu ataza"
+msgstr "Amaitu lana"
 
 #: src/monitor/view/kdenlivemonitor.qml:97
 #, kde-format
@@ -15385,7 +15385,7 @@ msgstr "Ez dago nahikoa toki librerik diskoan, toki librea: %1"
 #: src/project/dialogs/archivewidget.cpp:605
 #, kde-format
 msgid "Starting archive job"
-msgstr "Artxibatze ataza abiatzen"
+msgstr "Artxibatze-lana abiatzen"
 
 #: src/project/dialogs/archivewidget.cpp:626
 #, kde-format
@@ -17111,7 +17111,7 @@ msgstr "hasi"
 #: src/render/renderserver.cpp:23 src/render/renderserver.cpp:87
 #, kde-format
 msgid "Can't open communication with render job %1"
-msgstr "Ezin da komunikazioa ireki errendatze lanarekin %1"
+msgstr "Ezin da %1 errendatze-lanarekin komunikazioa ireki"
 
 #: src/render/renderserver.cpp:50
 #, kde-format
@@ -20062,7 +20062,7 @@ msgstr "Aplikatu iraupena elementu guztiei"
 #: src/ui/clipjobmanager_ui.ui:24
 #, kde-format
 msgid "Job parameters"
-msgstr "Atazaren parametroak"
+msgstr "Lanaren parametroak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/clipjobmanager_ui.ui:30
@@ -20154,7 +20154,7 @@ msgstr "Hautazko deskribapena, parametro bat eskatuz gero erakutsiko dena"
 #: src/ui/clipjobmanager_ui.ui:236
 #, kde-format
 msgid "Job Description"
-msgstr "Atazaren deskribapena"
+msgstr "Lanaren deskribapena"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:292
@@ -20202,7 +20202,7 @@ msgstr "Karpetaren izena"
 #: src/ui/clipjobmanager_ui.ui:368
 #, kde-format
 msgid "Custom clip jobs"
-msgstr "Neurrira egindako klipen atazak"
+msgstr "Neurrira egindako klip-lanak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
 #: src/ui/clipjobmanager_ui.ui:375
@@ -20232,7 +20232,7 @@ msgstr "FFmpeg parametroak"
 #: src/ui/cliptranscode_ui.ui:80
 #, kde-format
 msgid "Job status"
-msgstr "Atazaren egoera"
+msgstr "Lanaren egoera"
 
 #. i18n: ectx: property (text), widget (QLabel, label_source)
 #: src/ui/cliptranscode_ui.ui:110
@@ -21574,7 +21574,7 @@ msgstr "Testu-etiketa"
 #: src/ui/cutjobdialog_ui.ui:81
 #, kde-format
 msgid "Configure the job."
-msgstr "Konfiguratu ataza."
+msgstr "Konfiguratu lana."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EditRenderPreset_UI)
 #: src/ui/editrenderpreset_ui.ui:18
@@ -23209,13 +23209,13 @@ msgstr "Jo errendatu ondoren"
 #: src/ui/renderwidget_ui.ui:895
 #, kde-format
 msgid "Job Queue"
-msgstr "Ataza-ilara"
+msgstr "Lan-ilara"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
 #: src/ui/renderwidget_ui.ui:930
 #, kde-format
 msgid "Start Job"
-msgstr "Abiarazi ataza"
+msgstr "Abiarazi lana"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
 #: src/ui/renderwidget_ui.ui:940
