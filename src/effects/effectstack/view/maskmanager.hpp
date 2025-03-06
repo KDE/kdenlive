@@ -35,19 +35,18 @@ public Q_SLOTS:
     void abortPreviewByMonitor();
 
 private Q_SLOTS:
-    void initMaskMode();
+    void initMaskMode(bool autoAdd = false);
     void addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
     void moveControlPoint(int ix, int position, QSize frameSize, int xPos, int yPos);
     void addControlRect(int position, QSize frameSize, const QRect rect, bool extend);
     void previewMask(bool show);
     void editMask(bool show);
     void generateMask();
-    void loadMasks(const ObjectId &filterOwner = ObjectId(), MaskInfo mask = MaskInfo());
+    void loadMasks(const ObjectId &filterOwner = ObjectId());
     void checkModelAvailability();
-    void applyMask(MaskInfo mask = MaskInfo());
+    void applyMask();
     void deleteMask();
     void importMask();
-    void applyMaskToOwner(ObjectId owner, MaskInfo mask);
 
 private:
     ObjectId m_owner{KdenliveObjectType::NoItem, {}};
@@ -57,14 +56,11 @@ private:
     QSize m_iconSize;
     QDir m_maskFolder;
     bool m_connected{false};
-    /** @brief if true, we add the mask to the clip as soon as created **/
-    bool m_autoAddFilter{false};
     std::shared_ptr<ProjectClip> getOwnerClip();
-    void exportFrames();
+    void exportFrames(bool autoAdd);
     void disconnectMonitor();
 
 Q_SIGNALS:
     void maskReady();
     void progressUpdate(int progress, bool exportStep = false);
-    void maskReadyToApply(ObjectId owner, MaskInfo mask);
 };

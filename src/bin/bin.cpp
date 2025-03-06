@@ -1495,6 +1495,9 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_infoMessage = new KMessageWidget(this);
     m_layout->addWidget(m_infoMessage);
     m_infoMessage->setCloseButtonVisible(false);
+    m_messageTimer.setSingleShot(true);
+    m_messageTimer.setInterval(3000);
+    connect(&m_messageTimer, &QTimer::timeout, m_infoMessage, &KMessageWidget::animatedHide);
     connect(m_infoMessage, &KMessageWidget::hideAnimationFinished, this, &Bin::slotResetInfoMessage);
     // m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
@@ -3632,9 +3635,9 @@ void Bin::setupGeneratorMenu()
         connect(m_itemModel.get(), &ProjectItemModel::resetPlayOrLoopZone, monitor, &Monitor::resetPlayOrLoopZone, Qt::DirectConnection);
     }
     connect(this, &Bin::openClip, monitor, [&, monitor](std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid) {
-        monitor->slotOpenClip(clip, in, out, uuid);
-        if (clip && clip->hasLimitedDuration()) {
+        if (monitor->slotOpenClip(clip, in, out, uuid) && clip && clip->hasLimitedDuration()) {
             clip->refreshBounds();
+            Q_EMIT pCore->requestShowBinEffectStack(clip->clipName(), clip->m_effectStack, clip->getFrameSize(), false);
         }
         pCore->textEditWidget()->openClip(clip);
     });
@@ -3790,6 +3793,11 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
         delete a;
     }
     m_currentMessage = messageCategory;
+    if (m_currentMessage == BinMessage::TimedMessage) {
+        m_messageTimer.start();
+    } else {
+        m_messageTimer.stop();
+    }
     m_infoMessage->setText(text);
     m_infoMessage->setWordWrap(text.length() > 35);
     for (QAction *action : actions) {
@@ -5277,7 +5285,6 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
         std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(item);
         if (clp && clp->statusReady()) {
             openProducer(clp);
-            Q_EMIT pCore->requestShowBinEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
         }
         break;
     }

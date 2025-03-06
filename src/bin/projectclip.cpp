@@ -3000,7 +3000,7 @@ void ProjectClip::updateJobProgress(ObjectId ownerId, int jobProgress)
     if (ownerId.type == KdenliveObjectType::NoItem) {
         ownerId = ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
     } else {
-        if (jobProgress > -1 && ownerId.type == KdenliveObjectType::TimelineClip) {
+        if (jobProgress > -1) {
             // Used for inline progress like in mask manager
             Q_EMIT pCore->transcodeProgress(ownerId, jobProgress);
         }
@@ -3154,10 +3154,27 @@ bool ProjectClip::hasAlpha()
     return false;
 }
 
-void ProjectClip::addMask(const ObjectId &filterOwner, MaskInfo mask)
+void ProjectClip::addMask(const ObjectId &filterOwner, MaskInfo mask, bool autoAdd)
 {
     m_masks.append(mask);
-    Q_EMIT masksUpdated(filterOwner, mask);
+    if (autoAdd) {
+        QMap<QString, QString> params;
+        params.insert(QStringLiteral("resource"), mask.maskFile);
+        params.insert(QStringLiteral("in"), QString::number(mask.in));
+        params.insert(QStringLiteral("out"), QString::number(mask.out));
+        params.insert(QStringLiteral("softness"), QString::number(0.5));
+        params.insert(QStringLiteral("mix"), QString("%1=70").arg(mask.in));
+        std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(filterOwner.uuid, int(filterOwner.type), filterOwner.itemId);
+        if (stack) {
+            stack->appendEffect(QStringLiteral("shape"), true, params);
+            pCore->displayBinMessage(i18n("Mask added to clip"), KMessageWidget::Positive, {}, false, BinMessage::TimedMessage);
+        } else {
+            // Warning, something is not normal..
+            qDebug() << "//// ERROR NO EFFECT STACK\n";
+            pCore->displayBinMessage(i18n("Missing clip for mask"), KMessageWidget::Information);
+        }
+    }
+    Q_EMIT masksUpdated(filterOwner);
     QJsonArray list;
     for (auto &m : m_masks) {
         QJsonObject currentMask;

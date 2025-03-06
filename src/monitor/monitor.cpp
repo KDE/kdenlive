@@ -1862,12 +1862,19 @@ void Monitor::updateClipProducer(const QString &playlist)
     m_glMonitor->switchPlay(true);
 }
 
-void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out, const QUuid &sequenceUuid)
+bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out, const QUuid &sequenceUuid)
 {
     m_activeSequence = QUuid();
     if (controller != nullptr && pCore->currentDoc() && pCore->currentDoc()->closing) {
         // Don't display a clip if we are closing
-        return;
+        return false;
+    }
+    if (m_qmlManager->sceneType() == MonitorSceneAutoMask && maskMode() != MaskModeType::MaskNone) {
+        if (KMessageBox::warningContinueCancel(this, i18n("Exit Mask Mode ?")) != KMessageBox::Continue) {
+            return false;
+        }
+        abortPreviewMask();
+        Q_EMIT disablePreviewMask();
     }
     if (m_controller) {
         m_glMonitor->resetZoneMode();
@@ -1896,7 +1903,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         pCore->taskManager.displayedClip = -1;
         m_displayedUuid = QUuid();
         m_dirty = false;
-        return;
+        return true;
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
@@ -1923,12 +1930,12 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_streamAction->setVisible(false);
         checkOverlay();
         if (pCore->currentDoc()->closing) {
-            return;
+            return false;
         }
         if (monitorVisible()) {
             slotActivateMonitor();
         }
-        return;
+        return true;
     } else {
         pCore->taskManager.displayedClip = m_controller->clipId().toInt();
         if (m_controller->clipType() == ClipType::Timeline) {
@@ -2000,7 +2007,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
 
         if (m_recManager->toolbar()->isVisible()) {
             // we are in record mode, don't display clip
-            return;
+            return false;
         }
         if (KdenliveSettings::rectimecode()) {
             m_timePos->setOffset(m_controller->getStartTimecode());
@@ -2074,6 +2081,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         start();
     }
     checkOverlay();
+    return true;
 }
 
 void Monitor::loadZone(int in, int out)
@@ -2551,14 +2559,21 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
     } else {
         QQuickItem *root = m_glMonitor->rootObject();
         if (root) {
-            connect(root, &QObject::destroyed, this, [this, type, sceneData]() {
+            if (m_nextSceneType != MonitorSceneNone) {
+                // Another scene change is already running
+                m_nextSceneType = type;
+                return;
+            }
+            m_nextSceneType = type;
+            connect(root, &QObject::destroyed, this, [this, sceneData]() {
                 m_qmlManager->blockSceneChange(false);
-                if (m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
+                if (m_qmlManager->setScene(m_id, m_nextSceneType, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
                                            double(m_glMonitor->zoom()), m_timePos->maximum())) {
                     // Perform scene change
-                    loadQmlScene(type, sceneData);
-                    Q_EMIT sceneChanged(type);
+                    loadQmlScene(m_nextSceneType, sceneData);
+                    Q_EMIT sceneChanged(m_nextSceneType);
                 }
+                m_nextSceneType = MonitorSceneNone;
             });
             m_qmlManager->blockSceneChange(true);
             root->deleteLater();
@@ -3067,6 +3082,10 @@ MaskModeType::MaskCreationMode Monitor::maskMode()
 
 void Monitor::previewMask(const QString &maskFile, int in, int out, MaskModeType::MaskCreationMode maskMode)
 {
+    if (!m_controller) {
+        pCore->displayMessage(i18n("No clip selected in Clip Monitor"), InformationMessage);
+        return;
+    }
     Mlt::Tractor trac(pCore->getProjectProfile());
     Mlt::Playlist maskPlaylist(pCore->getProjectProfile());
     QString color = QStringLiteral("avformat:%1").arg(maskFile);
@@ -3078,7 +3097,12 @@ void Monitor::previewMask(const QString &maskFile, int in, int out, MaskModeType
     }
     bg->attach(*m_maskInvert.get());
     maskPlaylist.insert_at(in, bg.get(), 1);
-    trac.set_track(*m_controller->sequenceProducer(m_activeSequence).get(), 0);
+    std::shared_ptr<Mlt::Producer> producer = m_controller->sequenceProducer(m_activeSequence);
+    if (!producer) {
+        pCore->displayMessage(i18n("Cannot get producer for Clip Monitor"), InformationMessage);
+        return;
+    }
+    trac.set_track(*producer.get(), 0);
     trac.set_track(maskPlaylist, 1);
     QString composite = TransitionsRepository::get()->getCompositingTransition();
     m_maskOpacity = TransitionsRepository::get()->getTransition(composite);

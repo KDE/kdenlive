@@ -154,9 +154,10 @@ void AutomaskHelper::addMonitorControlRect(int position, const QSize frameSize, 
     generateImage();
 }
 
-void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter)
+void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter, bool autoAdd)
 {
     m_ownerForFilter = ownerForFilter;
+    m_maskCreationMode = true;
     QStringList pointsList;
     QStringList labelsList;
     m_previewFolder = previewFolder;
@@ -239,12 +240,13 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
                 jobFailed = true;
                 Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
             }
+            m_maskCreationMode = false;
             Q_EMIT samJobFinished(jobFailed);
         }
         m_errorLog.clear();
         m_killedOnRequest = false;
     });
-    connect(&m_samProcess, &QProcess::readyReadStandardOutput, this, [this]() {
+    connect(&m_samProcess, &QProcess::readyReadStandardOutput, this, [this, autoAdd]() {
         const QString command = m_samProcess.readAllStandardOutput().simplified();
         if (command.startsWith(QLatin1String("preview ok"))) {
             // Load preview image
@@ -258,7 +260,8 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
         } else if (command == QLatin1String("mask ok")) {
             m_jobStatus = QProcess::NotRunning;
             auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
-            MaskTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), m_ownerForFilter, m_maskParams, binClip.get());
+            Q_ASSERT(binClip);
+            MaskTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), m_ownerForFilter, m_maskParams, binClip.get(), autoAdd);
             // Ensure we hide the progress bar on completion
             Q_EMIT updateProgress(100);
         } else if (command.startsWith(QLatin1String("INFO:"))) {
@@ -461,7 +464,7 @@ void AutomaskHelper::abortJob()
 
 bool AutomaskHelper::jobRunning() const
 {
-    return m_jobStatus == QProcess::Running;
+    return m_maskCreationMode || m_jobStatus == QProcess::Running;
 }
 
 void AutomaskHelper::monitorSeek(int pos)

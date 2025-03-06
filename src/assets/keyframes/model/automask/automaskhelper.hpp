@@ -34,7 +34,7 @@ public:
        @param index is the index of this parameter in its model
      */
     explicit AutomaskHelper(QObject *parent = nullptr);
-    void launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter = ObjectId());
+    void launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter = ObjectId(), bool autoAdd = false);
     bool jobRunning() const;
     void terminate();
     /** @brief Remove all masks tmp data */
@@ -64,6 +64,7 @@ private:
     QMap<int, QString> m_maskParams;
     QString m_binId;
     bool m_killedOnRequest{false};
+    bool m_maskCreationMode{false};
     ObjectId m_ownerForFilter{KdenliveObjectType::NoItem, {}};
 
 private Q_SLOTS:

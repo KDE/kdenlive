@@ -13,18 +13,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KMessageWidget>
 
+#include <QActionGroup>
 #include <QDir>
 #include <QDomElement>
 #include <QFuture>
 #include <QLineEdit>
 #include <QListView>
+#include <QListWidget>
 #include <QMutex>
 #include <QPushButton>
+#include <QTimer>
 #include <QTreeView>
-#include <QListWidget>
 #include <QUrl>
 #include <QWidget>
-#include <QActionGroup>
 
 #include <KRecentDirs>
 
@@ -588,6 +589,7 @@ private:
     QToolButton *m_filterButton;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
+    QTimer m_messageTimer;
     BinMessage::BinCategory m_currentMessage;
     QStringList m_errorLog;
     /** @brief Dialog listing invalid clips on load. */

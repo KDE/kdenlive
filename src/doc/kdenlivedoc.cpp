@@ -334,7 +334,7 @@ KdenliveDoc::~KdenliveDoc()
     if (ok) {
         if (!srcMaskFolder.isEmpty()) {
             if (srcMaskFolder.dirName() == QLatin1String("source-frames")) {
-                // srcMaskFolder.removeRecursively();
+                srcMaskFolder.removeRecursively();
             }
         }
     }

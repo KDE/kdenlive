@@ -398,7 +398,7 @@ public Q_SLOTS:
     /** @brief Check if proxy clip should be build for this clip. */
     void checkProxy(bool rebuildProxy = false);
     /** @brief Add a mask to this clip. */
-    void addMask(const ObjectId &filterOwner, MaskInfo mask);
+    void addMask(const ObjectId &filterOwner, MaskInfo mask, bool autoAdd = false);
     /** @brief Remove a mask. */
     void removeMask(const QString &maskName);
 

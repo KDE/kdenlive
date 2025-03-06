@@ -23,9 +23,10 @@ class MaskTask : public AbstractTask
 {
 public:
     enum MaskProperty { INPUTFOLDER, OUTPUTFOLDER, INCLUDEPOINTS, EXCLUDEPOINTS, BOXES, NAME, OUTPUTFILE, ZONEIN, ZONEOUT };
-    MaskTask(const ObjectId &owner, const ObjectId &filterOwner, QMap<int, QString> maskProperties, QObject *object);
+    MaskTask(const ObjectId &owner, const ObjectId &filterOwner, QMap<int, QString> maskProperties, QObject *object, bool autoAddFilter);
     ~MaskTask() override;
-    static void start(const ObjectId &owner, const ObjectId &filterOwner, QMap<int, QString> maskProperties, QObject *object = nullptr);
+    static void start(const ObjectId &owner, const ObjectId &filterOwner, QMap<int, QString> maskProperties, QObject *object = nullptr,
+                      bool autoAddFilter = false);
 
 protected:
     void run() override;
@@ -39,6 +40,7 @@ private:
     QString m_logDetails;
     QProcess m_scriptJob;
     bool m_isFfmpegJob{false};
+    bool m_autoAddFilter{false};
     void generateMask();
 
 private Q_SLOTS:
