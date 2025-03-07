@@ -233,11 +233,9 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
             qDebug() << "===== SAM SCRIPT TERMINATED ========";
             pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
             m_jobStatus = QProcess::NotRunning;
-            bool jobFailed = m_killedOnRequest;
             if (m_killedOnRequest) {
                 Q_EMIT showMessage(QStringLiteral(), KMessageWidget::Information);
             } else if (m_samProcess.exitStatus() == QProcess::CrashExit || m_samProcess.exitCode() != 0) {
-                jobFailed = true;
                 Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
             }
             m_maskCreationMode = false;

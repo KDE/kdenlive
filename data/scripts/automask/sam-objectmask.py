@@ -212,6 +212,7 @@ while 1:
         borders = int(args.border)
         mask_color = process_list(args.color)
         border_color = process_list(args.bordercolor)
+        continue
 
     if line.startswith("preview="):
         # Generate image preview
@@ -226,17 +227,17 @@ while 1:
         mask_color = process_list(inArgs.color)
         border_color = process_list(inArgs.bordercolor)
         generate_preview(predictor)
-
         # get ready for rendering
         if videoPredictor_initialized == False:
             if args.offload:
                 print("Offloading video to CPU\n", file=sys.stdout, flush=True)
             inference_state = videoPredictor.init_state(video_path=inputFolder, async_loading_frames=True, offload_video_to_cpu=args.offload)
             videoPredictor_initialized = True
+        continue
 
     if line.startswith("render="):
         if videoPredictor_initialized == False:
-            print("STILL LOADING FRAMES...\n", file=sys.stdout, flush=True)
+            print("INFO:Still loading frames\n", file=sys.stdout, flush=True)
             continue
         # Destroy image predictor
         del predictor

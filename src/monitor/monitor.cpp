@@ -2563,10 +2563,6 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
             return;
         }
     } else {
-        if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
-            // Disable preview / editing in mask manager
-            Q_EMIT disablePreviewMask();
-        }
         QQuickItem *root = m_glMonitor->rootObject();
         if (root) {
             if (m_nextSceneType != MonitorSceneNone) {
