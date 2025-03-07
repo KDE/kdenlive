@@ -18,7 +18,7 @@ class KeyframeView : public QWidget
     Q_OBJECT
 
 public:
-    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent = nullptr);
+    explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, bool isRelative = false, QWidget *parent = nullptr);
     ~KeyframeView() override;
     void setDuration(int duration);
     const QString getAssetId();
@@ -71,6 +71,7 @@ private:
     bool m_keyframeZonePress;
     int m_clickPoint;
     int m_clickEnd;
+    bool m_relative{false};
     /** @brief The zoom factor (start, end - between 0 and 1) */
     QPointF m_zoomHandle;
     QPointF m_lastZoomHandle;

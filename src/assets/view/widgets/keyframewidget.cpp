@@ -62,13 +62,14 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_editorviewcontainer = new QStackedWidget(this);
     m_curveeditorcontainer = new QTabWidget(this);
     m_curveeditorcontainer->setTabBarAutoHide(true);
+    m_isRelative = m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool();
 
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
     m_model->prepareKeyframes();
     m_keyframes = m_model->getKeyframeModel();
-    m_keyframeview = new KeyframeView(m_keyframes, duration, this);
+    m_keyframeview = new KeyframeView(m_keyframes, duration, m_isRelative, this);
     m_toggleViewAction = new KDualAction(this);
     m_toggleViewAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("measure")));
     m_toggleViewAction->setActiveText(i18n("Switch to timeline view"));
@@ -474,7 +475,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
     for (auto &i : std::as_const(m_curveeditorview)) {
         i->slotSetPosition(pos, true);
     }
-    slotAtKeyframe(m_keyframes->hasKeyframe(pos + pCore->getItemIn(m_keyframes->getOwnerId())), m_keyframes->singleKeyframe());
+    slotAtKeyframe(m_keyframes->hasKeyframe(pos + (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId()))), m_keyframes->singleKeyframe());
     m_addDeleteAction->setEnabled(pos > 0);
     slotRefreshParams();
 
@@ -485,7 +486,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
 
 int KeyframeWidget::getPosition() const
 {
-    return m_time->getValue() + pCore->getItemIn(m_model->getOwnerId());
+    return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
 }
 
 void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
@@ -538,7 +539,7 @@ void KeyframeWidget::setDuration(int duration)
     // Unselect keyframes that are outside range if any
     QVector<int> toDelete;
     int kfrIx = 0;
-    int offset = pCore->getItemIn(m_keyframes->getOwnerId());
+    int offset = m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId());
     for (auto &p : m_keyframes->selectedKeyframes()) {
         int kfPos = m_keyframes->getPosAtIndex(p).frames(pCore->getCurrentFps());
         if (kfPos < offset || kfPos >= offset + duration) {
@@ -773,10 +774,10 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
 {
     Q_EMIT activateEffect();
     if (m_keyframes->isEmpty()) {
-        GenTime pos(pCore->getItemIn(m_model->getOwnerId()) + m_time->getValue(), pCore->getCurrentFps());
+        GenTime pos(((m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()))) + m_time->getValue(), pCore->getCurrentFps());
         if (m_time->getValue() > 0) {
             // First add keyframe at start of the clip
-            GenTime pos0(pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
+            GenTime pos0(m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
             m_keyframes->addKeyframe(pos0, KeyframeType::Linear);
             m_keyframes->updateKeyframe(pos0, res, -1, index);
             // For rotoscoping, don't add a second keyframe at cursor pos
@@ -1080,7 +1081,7 @@ void KeyframeWidget::slotGoToPrev()
         return;
     }
 
-    int offset = pCore->getItemIn(m_keyframes->getOwnerId());
+    int offset = m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId());
     auto prev = m_keyframes->getPrevKeyframe(GenTime(position, pCore->getCurrentFps()), &ok);
 
     if (ok) {
@@ -1101,7 +1102,7 @@ void KeyframeWidget::slotGoToNext()
     }
 
     int position = getPosition();
-    int offset = pCore->getItemIn(m_keyframes->getOwnerId());
+    int offset = m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId());
     auto next = m_keyframes->getNextKeyframe(GenTime(position, pCore->getCurrentFps()), &ok);
 
     if (ok) {
@@ -1145,7 +1146,7 @@ void KeyframeWidget::slotSeekToPos(int pos)
             i->slotSetPosition(pos, true);
         }
     }
-    slotAtKeyframe(m_keyframes->hasKeyframe(pos + pCore->getItemIn(m_keyframes->getOwnerId())), m_keyframes->singleKeyframe());
+    slotAtKeyframe(m_keyframes->hasKeyframe(pos + (m_isRelative ? 0 : pCore->getItemIn(m_keyframes->getOwnerId()))), m_keyframes->singleKeyframe());
     m_addDeleteAction->setEnabled(pos > 0);
     slotRefreshParams();
 

@@ -957,7 +957,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
     Mlt::Properties mlt_prop;
     if (auto ptr = m_model.lock()) {
         if (out <= in) {
-            in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+            in = ptr->data(m_index, AssetParameterModel::RelativePosRole).toBool() ? 0 : ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
             out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         }
         ptr->passProperties(mlt_prop);

@@ -18,7 +18,7 @@
 #include <QFontDatabase>
 #include <utility>
 
-KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent)
+KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, bool isRelative, QWidget *parent)
     : QWidget(parent)
     , m_model(std::move(model))
     , m_duration(duration)
@@ -32,6 +32,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     , m_keyframeZonePress(false)
     , m_clickPoint(-1)
     , m_clickEnd(-1)
+    , m_relative(isRelative)
     , m_zoomHandle(0, 1)
     , m_hoverZoomIn(false)
     , m_hoverZoomOut(false)
@@ -77,7 +78,7 @@ void KeyframeView::slotLoseFocus()
 
 void KeyframeView::slotModelChanged()
 {
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     Q_EMIT modified();
     update();
@@ -85,7 +86,7 @@ void KeyframeView::slotModelChanged()
 
 void KeyframeView::slotModelDisplayChanged()
 {
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     update();
 }
@@ -117,7 +118,7 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
 
 void KeyframeView::initKeyframePos()
 {
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
 }
 
@@ -128,7 +129,7 @@ const QVector<int> KeyframeView::selectedKeyframesIndexes()
 
 void KeyframeView::slotDuplicateKeyframe()
 {
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     if (m_model->activeKeyframe() > -1 && !m_model->hasKeyframe(m_position + offset)) {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
@@ -148,7 +149,7 @@ const QString KeyframeView::getAssetId()
 
 void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
 {
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     if (m_model->hasKeyframe(m_position + offset)) {
         m_model->updateKeyframeType(GenTime(m_position + offset, pCore->getCurrentFps()), type, index);
     }
@@ -165,7 +166,7 @@ void KeyframeView::slotCenterKeyframe()
     if (m_currentKeyframeOriginal == -1 || m_currentKeyframeOriginal == m_position || m_currentKeyframeOriginal == 0) {
         return;
     }
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     if (!m_model->hasKeyframe(m_currentKeyframeOriginal)) {
         return;
     }
@@ -203,7 +204,7 @@ void KeyframeView::slotCenterKeyframe()
 void KeyframeView::mousePressEvent(QMouseEvent *event)
 {
     Q_EMIT activateEffect();
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
     double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
@@ -289,7 +290,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
 
 void KeyframeView::mouseMoveEvent(QMouseEvent *event)
 {
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
     double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
@@ -501,7 +502,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
 void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton && event->position().y() < m_lineHeight) {
-        int offset = pCore->getItemIn(m_model->getOwnerId());
+        int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
         double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
         double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
         double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
@@ -585,7 +586,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
         m_scale = maxWidth;
     }
     int headOffset = m_lineHeight / 2;
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     m_zoomStart = m_zoomHandle.x() * maxWidth;
     m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
     int zoomEnd = qCeil(m_zoomHandle.y() * maxWidth);
@@ -727,7 +728,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
 
 void KeyframeView::copyCurrentValue(const QModelIndex &ix, const QString &paramName)
 {
-    int offset = pCore->getItemIn(m_model->getOwnerId());
+    int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
     const QString val = m_model->getInterpolatedValue(m_position + offset, ix).toString();
     QString newVal;
     const QStringList vals = val.split(QLatin1Char(' '));

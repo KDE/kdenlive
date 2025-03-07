@@ -117,6 +117,7 @@ private:
     TimecodeDisplay *m_time;
     MonitorSceneType m_neededScene;
     bool m_monitorActive{false};
+    bool m_isRelative{false};
     QSize m_sourceFrameSize;
     void connectMonitor(bool active);
     void setDuration(int duration);
