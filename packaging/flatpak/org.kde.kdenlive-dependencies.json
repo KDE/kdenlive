@@ -1,7 +1,6 @@
 {
     "name": "org.kde.kdenlive-dependencies",
     "modules": [
-        "python-modules.json",
         {
             "name": "eigen",
             "buildsystem": "cmake-ninja",
@@ -779,6 +778,38 @@
                     "type": "git",
                     "url": "https://github.com/mltframework/mlt.git",
                     "branch": "master"
+                }
+            ]
+        },
+        {
+            "name": "Imath",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DBUILD_TESTING=OFF",
+                "-DPYTHON=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v3.1.12.tar.gz",
+                    "sha256": "8a1bc258f3149b5729c2f4f8ffd337c0e57f09096e4ba9784329f40c4a9035da"
+                }
+            ]
+        },
+        {
+            "name": "opentimelineio",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "config-opts":[
+                "-DOTIO_FIND_IMATH=ON",
+                "-DOTIO_DEPENDENCIES_INSTALL=OFF",
+                "-DBUILD_TESTING=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git/",
+                    "tag": "v0.17.0"
                 }
             ]
         }
