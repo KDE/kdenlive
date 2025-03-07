@@ -102,7 +102,10 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_showMaskPanel = new QAction(QIcon::fromTheme(QStringLiteral("path-mask-edit")), QString(), this);
     m_showMaskPanel->setToolTip(i18n("Create an object mask"));
     m_showMaskPanel->setCheckable(true);
-    connect(pCore.get(), &Core::switchMaskPanel, m_showMaskPanel, &QAction::setChecked);
+    connect(pCore.get(), &Core::switchMaskPanel, this, [this](bool show) {
+        m_showMaskPanel->setChecked(show);
+        slotShowMaskPanel();
+    });
     m_showMaskPanel->setWhatsThis(
         xi18nc("@info:whatsthis", "This shows the mask creation panel. Masks can be used for example to remove the background in a video."));
     connect(m_showMaskPanel, &QAction::triggered, this, &AssetPanel::slotShowMaskPanel);

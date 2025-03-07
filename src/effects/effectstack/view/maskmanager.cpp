@@ -52,7 +52,6 @@ MaskManager::MaskManager(QWidget *parent)
     borderWidth->setValue(KdenliveSettings::maskBorderWidth());
     m_paramsTimer.setSingleShot(true);
     m_paramsTimer.setInterval(500);
-    connect(&m_paramsTimer, &QTimer::timeout, m_maskHelper, &AutomaskHelper::updateMaskParams);
     connect(maskColor, &KColorButton::changed, this, [this](QColor color) {
         KdenliveSettings::setMaskColor(color);
         m_paramsTimer.start();
@@ -88,6 +87,7 @@ MaskManager::MaskManager(QWidget *parent)
     connect(maskTree, &QTreeWidget::currentItemChanged, this, [this]() { updateMasksButtons(); });
     m_iconSize = QSize(80, 60);
     m_maskHelper = new AutomaskHelper(this);
+    connect(&m_paramsTimer, &QTimer::timeout, m_maskHelper, &AutomaskHelper::updateMaskParams);
     maskTree->setRootIsDecorated(false);
     maskTree->setAlternatingRowColors(true);
     maskTree->setAllColumnsShowFocus(true);
@@ -569,6 +569,7 @@ void MaskManager::applyMask()
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
     // Switch back to effect stack
+    maskTools->setCurrentIndex(0);
     Q_EMIT pCore->switchMaskPanel(false);
 }
 
