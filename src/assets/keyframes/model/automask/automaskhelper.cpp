@@ -241,7 +241,7 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
                 Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
             }
             m_maskCreationMode = false;
-            Q_EMIT samJobFinished(jobFailed);
+            Q_EMIT samJobFinished();
         }
         m_errorLog.clear();
         m_killedOnRequest = false;
@@ -494,7 +494,7 @@ void AutomaskHelper::abortJob()
         m_killedOnRequest = true;
         m_samProcess.kill();
     } else {
-        Q_EMIT samJobFinished(false);
+        Q_EMIT samJobFinished();
     }
 }
 

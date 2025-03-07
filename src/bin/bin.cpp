@@ -3636,9 +3636,11 @@ void Bin::setupGeneratorMenu()
         connect(m_itemModel.get(), &ProjectItemModel::resetPlayOrLoopZone, monitor, &Monitor::resetPlayOrLoopZone, Qt::DirectConnection);
     }
     connect(this, &Bin::openClip, monitor, [&, monitor](std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid) {
-        if (monitor->slotOpenClip(clip, in, out, uuid) && clip && clip->hasLimitedDuration()) {
-            clip->refreshBounds();
+        if (monitor->slotOpenClip(clip, in, out, uuid) && clip) {
             Q_EMIT pCore->requestShowBinEffectStack(clip->clipName(), clip->m_effectStack, clip->getFrameSize(), false);
+            if (clip->hasLimitedDuration()) {
+                clip->refreshBounds();
+            }
         }
         pCore->textEditWidget()->openClip(clip);
     });

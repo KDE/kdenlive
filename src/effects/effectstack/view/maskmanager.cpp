@@ -133,14 +133,7 @@ MaskManager::MaskManager(QWidget *parent)
         samProgress->setVisible(visible);
         buttonAbort->setVisible(visible);
     });
-    connect(m_maskHelper, &AutomaskHelper::samJobFinished, this, [this](bool failed) {
-        if (m_owner != m_filterOwner) {
-            return;
-        }
-        if (failed) {
-            samStatus->setText(i18n("Mask creation failed."));
-            samStatus->show();
-        }
+    connect(m_maskHelper, &AutomaskHelper::samJobFinished, this, [this]() {
         buttonPreview->setChecked(false);
         buttonEdit->setChecked(false);
         maskTools->setCurrentIndex(0);

@@ -76,5 +76,5 @@ private Q_SLOTS:
 Q_SIGNALS:
     void showMessage(const QString &message, KMessageWidget::MessageType type = KMessageWidget::Information);
     void updateProgress(int progress);
-    void samJobFinished(bool failed);
+    void samJobFinished();
 };
