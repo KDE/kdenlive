@@ -340,6 +340,9 @@ void VideoWidget::refresh()
 
 bool VideoWidget::checkFrameNumber(int pos, bool isPlaying)
 {
+    if (!m_producer) {
+        return false;
+    }
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
     if (m_isLoopMode || m_isZoneMode) {
@@ -591,8 +594,9 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
         consumerPosition = m_consumer->position();
     }
     pause();
+    m_producer.reset();
     if (producer) {
-        m_producer = producer;
+        m_producer = std::move(producer);
     } else {
         if (currentId == QLatin1String("black")) {
             return 0;

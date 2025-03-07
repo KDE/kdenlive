@@ -45,8 +45,9 @@ void MaskTask::generateMask()
     }
     const QString outFile = m_properties.value(MaskTask::OUTPUTFILE);
     const QString outFramesFolder = m_properties.value(MaskTask::OUTPUTFOLDER);
-    QObject::connect(this, &AbstractTask::jobCanceled, &m_scriptJob, &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(&m_scriptJob, &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);
+    m_scriptJob.reset(new QProcess);
+    QObject::connect(this, &AbstractTask::jobCanceled, m_scriptJob.get(), &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_scriptJob.get(), &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);
     m_isFfmpegJob = true;
     // Now convert frames to video
     // ffmpeg -framerate 25 -pattern_type glob -i '*.png' -c:v ffv1 -pix_fmt yuva420p output.mkv
@@ -60,8 +61,8 @@ void MaskTask::generateMask()
                               QStringLiteral("-pix_fmt"),
                               QStringLiteral("yuva420p"),
                               outFile};
-    m_scriptJob.start(KdenliveSettings::ffmpegpath(), args);
-    m_scriptJob.waitForFinished(-1);
+    m_scriptJob->start(KdenliveSettings::ffmpegpath(), args);
+    m_scriptJob->waitForFinished(-1);
     if (!QFile::exists(outFile)) {
         QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Failed to render mask %1", outFile) : m_errorMessage),
@@ -109,7 +110,7 @@ void MaskTask::run()
 
 void MaskTask::processLogInfo()
 {
-    const QString buffer = QString::fromUtf8(m_scriptJob.readAllStandardError());
+    const QString buffer = QString::fromUtf8(m_scriptJob->readAllStandardError());
     m_logDetails.append(buffer);
     qDebug() << "=== GOT BUFFER OUTPUT: " << buffer << "\n________________";
     if (m_isFfmpegJob) {

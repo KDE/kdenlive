@@ -33,9 +33,11 @@ public:
 public Q_SLOTS:
     void launchSimpleSam();
     void abortPreviewByMonitor();
+    void prepareMenu(const QPoint &pos);
+    void slotOpenFolder();
 
 private Q_SLOTS:
-    void initMaskMode(bool autoAdd = false);
+    void initMaskMode(bool autoAdd = false, bool editMode = false);
     void addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
     void moveControlPoint(int ix, int position, QSize frameSize, int xPos, int yPos);
     void addControlRect(int position, QSize frameSize, const QRect rect, bool extend);
@@ -56,9 +58,11 @@ private:
     QSize m_iconSize;
     QDir m_maskFolder;
     bool m_connected{false};
+    QTimer m_paramsTimer;
     std::shared_ptr<ProjectClip> getOwnerClip();
-    void exportFrames(bool autoAdd);
+    void exportFrames(bool autoAdd, bool editMode = false);
     void disconnectMonitor();
+    void updateMasksButtons();
 
 Q_SIGNALS:
     void maskReady();

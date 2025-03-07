@@ -3156,6 +3156,8 @@ bool ProjectClip::hasAlpha()
 
 void ProjectClip::addMask(const ObjectId &filterOwner, MaskInfo mask, bool autoAdd)
 {
+    // Check if the mask already existed in case we are editing an existing
+    m_masks.removeAll(mask);
     m_masks.append(mask);
     if (autoAdd) {
         QMap<QString, QString> params;

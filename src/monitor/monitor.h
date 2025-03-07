@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "scopes/sharedframe.h"
 #include "widgets/timecodedisplay.h"
 
+#include <QMutex>
 #include <QTimer>
 #include <QToolBar>
 #include <QWidgetAction>
@@ -173,7 +174,7 @@ public:
      *  @param in the zone in for the mask
      *  @param out the zone out for the mask
      *  @param maskMode set to 1 for edit, 2 for preview only */
-    void previewMask(const QString &maskFile, int in, int out, MaskModeType::MaskCreationMode maskMode);
+    void previewMask(const QString &binId, const QString &maskFile, int in, int out, MaskModeType::MaskCreationMode maskMode);
     /** @brief Get current mask mode */
     MaskModeType::MaskCreationMode maskMode();
     /** @brief Update the preview mask properties */
@@ -269,6 +270,8 @@ private:
     QAction *m_markOut;
     QUuid m_displayedUuid;
     bool m_dirty{false};
+    QMutex m_openMutex;
+    QString m_activeControllerId;
 
 protected:
     void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());

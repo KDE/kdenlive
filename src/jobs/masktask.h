@@ -38,7 +38,7 @@ private:
     std::function<void()> m_readyCallBack;
     QString m_errorMessage;
     QString m_logDetails;
-    QProcess m_scriptJob;
+    std::unique_ptr<QProcess> m_scriptJob;
     bool m_isFfmpegJob{false};
     bool m_autoAddFilter{false};
     void generateMask();

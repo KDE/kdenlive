@@ -2662,6 +2662,7 @@ void Bin::selectAll()
 
 void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, bool activateMonitor)
 {
+    qDebug() << "CHECKING FOR BIN CLIP: " << clipId;
     if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == clipId) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(clipId);
         if (clip) {

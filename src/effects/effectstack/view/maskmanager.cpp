@@ -29,6 +29,7 @@
 #include <QHBoxLayout>
 #include <QInputDialog>
 #include <QLabel>
+#include <QMenu>
 #include <QMimeData>
 #include <QMutexLocker>
 #include <QPainter>
@@ -49,9 +50,21 @@ MaskManager::MaskManager(QWidget *parent)
     maskColor->setColor(KdenliveSettings::maskColor());
     borderColor->setColor(KdenliveSettings::maskBorderColor());
     borderWidth->setValue(KdenliveSettings::maskBorderWidth());
-    connect(maskColor, &KColorButton::changed, this, [this](QColor color) { KdenliveSettings::setMaskColor(color); });
-    connect(borderColor, &KColorButton::changed, this, [this](QColor color) { KdenliveSettings::setMaskBorderColor(color); });
-    connect(borderWidth, &QSpinBox::valueChanged, this, [this](int width) { KdenliveSettings::setMaskBorderWidth(width); });
+    m_paramsTimer.setSingleShot(true);
+    m_paramsTimer.setInterval(500);
+    connect(&m_paramsTimer, &QTimer::timeout, m_maskHelper, &AutomaskHelper::updateMaskParams);
+    connect(maskColor, &KColorButton::changed, this, [this](QColor color) {
+        KdenliveSettings::setMaskColor(color);
+        m_paramsTimer.start();
+    });
+    connect(borderColor, &KColorButton::changed, this, [this](QColor color) {
+        KdenliveSettings::setMaskBorderColor(color);
+        m_paramsTimer.start();
+    });
+    connect(borderWidth, &QSpinBox::valueChanged, this, [this](int width) {
+        KdenliveSettings::setMaskBorderWidth(width);
+        m_paramsTimer.start();
+    });
     connect(resetMask, &QToolButton::clicked, this, [this]() {
         maskColor->setColor(QColor(255, 100, 100, 180));
         borderColor->setColor(QColor(255, 100, 100, 100));
@@ -66,42 +79,21 @@ MaskManager::MaskManager(QWidget *parent)
     QAction *ac = new QAction(i18n("Configure"), this);
     connect(ac, &QAction::triggered, this, []() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech, 1); });
     samStatus->addAction(ac);
-    connect(buttonAdd, &QToolButton::clicked, this, &MaskManager::initMaskMode);
+    connect(buttonAdd, &QToolButton::clicked, this, [this]() { initMaskMode(); });
     connect(buttonDelete, &QToolButton::clicked, this, &MaskManager::deleteMask);
     connect(buttonImport, &QToolButton::clicked, this, &MaskManager::importMask);
     connect(buttonEdit, &QPushButton::toggled, this, &MaskManager::editMask);
     connect(buttonPreview, &QPushButton::toggled, this, &MaskManager::previewMask);
     connect(maskTree, &QTreeWidget::itemDoubleClicked, this, [this]() { previewMask(true); });
-    connect(maskTree, &QTreeWidget::currentItemChanged, this, [this]() {
-        QTreeWidgetItem *item = maskTree->currentItem();
-        if (item) {
-            buttonDelete->setEnabled(true);
-            if (!item->data(0, MASKMISSING).isNull()) {
-                // Invalid mask
-                buttonPreview->setEnabled(false);
-                buttonApply->setEnabled(false);
-                buttonEdit->setEnabled(false);
-                buttonImport->setEnabled(false);
-            } else {
-                buttonPreview->setEnabled(true);
-                buttonApply->setEnabled(true);
-                buttonEdit->setEnabled(true);
-                buttonImport->setEnabled(true);
-            }
-        } else {
-            buttonPreview->setEnabled(false);
-            buttonApply->setEnabled(false);
-            buttonEdit->setEnabled(false);
-            buttonImport->setEnabled(false);
-            buttonDelete->setEnabled(false);
-        }
-    });
+    connect(maskTree, &QTreeWidget::currentItemChanged, this, [this]() { updateMasksButtons(); });
     m_iconSize = QSize(80, 60);
     m_maskHelper = new AutomaskHelper(this);
     maskTree->setRootIsDecorated(false);
     maskTree->setAlternatingRowColors(true);
     maskTree->setAllColumnsShowFocus(true);
     maskTree->setIconSize(m_iconSize);
+    maskTree->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(maskTree, &QTreeWidget::customContextMenuRequested, this, &MaskManager::prepareMenu);
     checkModelAvailability();
     connect(buttonAbort, &QToolButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
     connect(m_maskHelper, &AutomaskHelper::showMessage, this, [this](QString message, KMessageWidget::MessageType type) {
@@ -164,12 +156,39 @@ MaskManager::~MaskManager()
     m_maskHelper->terminate();
 }
 
-void MaskManager::launchSimpleSam()
+void MaskManager::updateMasksButtons()
 {
-    initMaskMode(true);
+    QTreeWidgetItem *item = maskTree->currentItem();
+    if (item) {
+        buttonDelete->setEnabled(true);
+        if (!item->data(0, MASKMISSING).isNull()) {
+            // Invalid mask
+            buttonPreview->setEnabled(false);
+            buttonApply->setEnabled(false);
+            buttonEdit->setEnabled(true);
+            buttonImport->setEnabled(false);
+        } else {
+            buttonPreview->setEnabled(true);
+            buttonApply->setEnabled(true);
+            buttonEdit->setEnabled(true);
+            buttonImport->setEnabled(true);
+        }
+    } else {
+        buttonPreview->setEnabled(false);
+        buttonApply->setEnabled(false);
+        buttonEdit->setEnabled(false);
+        buttonImport->setEnabled(false);
+        buttonDelete->setEnabled(false);
+    }
 }
 
-void MaskManager::initMaskMode(bool autoAdd)
+void MaskManager::launchSimpleSam()
+{
+    m_zone = QPoint();
+    initMaskMode(true, false);
+}
+
+void MaskManager::initMaskMode(bool autoAdd, bool editMode)
 {
     // Focus clip monitor with current clip
     m_filterOwner = m_owner;
@@ -188,26 +207,30 @@ void MaskManager::initMaskMode(bool autoAdd)
     clipMon->abortPreviewMask();
     maskTools->setCurrentIndex(1);
 
-    // Seek to zone start
+    // Define operating zone if needed
     bool ok;
-    if (m_owner.type == KdenliveObjectType::TimelineClip) {
-        int in = pCore->getItemIn(m_owner);
-        m_zone = QPoint(in, in + pCore->getItemDuration(m_owner) - 1);
-    } else {
-        m_zone = QPoint(clipMon->getZoneStart(), clipMon->getZoneEnd());
+    if (m_zone.isNull()) {
+        if (m_owner.type == KdenliveObjectType::TimelineClip) {
+            int in = pCore->getItemIn(m_owner);
+            m_zone = QPoint(in, in + pCore->getItemDuration(m_owner) - 1);
+        } else {
+            m_zone = QPoint(clipMon->getZoneStart(), clipMon->getZoneEnd());
+        }
     }
     m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
-    exportFrames(autoAdd);
+    exportFrames(autoAdd, editMode);
 }
 
-void MaskManager::exportFrames(bool autoAdd)
+void MaskManager::exportFrames(bool autoAdd, bool editMode)
 {
     if (pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB)) {
         // Export task is running
+        samStatus->setText(i18n("Another transcode task is running, try later."));
+        samStatus->show();
         return;
     }
     if (m_maskHelper->jobRunning()) {
-        samStatus->setText(i18n("Another mask task is running, please wait."));
+        samStatus->setText(i18n("Another mask task is running, try later."));
         samStatus->show();
         return;
     }
@@ -216,16 +239,20 @@ void MaskManager::exportFrames(bool autoAdd)
     QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
     src.setAutoRemove(false);
     if (!src.open()) {
+        pCore->displayMessage(i18n("Cannot open temporary file"), ErrorMessage);
         return;
     }
     src.close();
     std::shared_ptr<ProjectClip> clip = getOwnerClip();
     if (!clip) {
+        samStatus->setText(i18n("Missing source clip"));
+        samStatus->show();
         return;
     }
     bool ok;
     QDir srcMaskFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
     if (!ok) {
+        pCore->displayMessage(i18n("Cannot access project folder"), ErrorMessage);
         return;
     }
     if (!srcMaskFolder.isEmpty()) {
@@ -247,33 +274,40 @@ void MaskManager::exportFrames(bool autoAdd)
         const QSize fullSize = pCore->getCurrentFrameSize() / 2;
         args << QStringLiteral("width=%1").arg(fullSize.width()) << QStringLiteral("height=%1").arg(fullSize.height());
     }
-        args << QStringLiteral("-preset") << QStringLiteral("stills/JPEG");
-        std::function<void(const QString &)> callBack = [this, autoAdd](const QString &) {
-            QMetaObject::invokeMethod(samStatus, "hide", Qt::QueuedConnection);
-            buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
-            Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
-            clipMon->slotActivateMonitor();
-            if (m_owner.type == KdenliveObjectType::TimelineClip) {
-                pCore->window()->slotClipInProjectTree(m_owner, true);
-            } else {
-                clipMon->slotSeek(m_zone.x());
-            }
+    args << QStringLiteral("-preset") << QStringLiteral("stills/JPEG");
+    std::function<void(const QString &)> callBack = [this, autoAdd, zone = m_zone, editMode, binId = clip->binId()](const QString &) {
+        QMetaObject::invokeMethod(samStatus, "hide", Qt::QueuedConnection);
+        buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
+        Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
+        clipMon->slotActivateMonitor();
+        if (editMode) {
+            pCore->bin()->selectClipById(binId, zone.x(), zone, true);
+        } else if (m_owner.type == KdenliveObjectType::TimelineClip) {
+            pCore->window()->slotClipInProjectTree(m_owner, true);
+        } else {
+            clipMon->slotSeek(zone.x());
+        }
+        QDir previewFolder = m_maskFolder;
+        if (!previewFolder.exists(QStringLiteral("source-frames"))) {
+            previewFolder.mkpath(QStringLiteral("source-frames"));
+        }
+        previewFolder.cd(QStringLiteral("source-frames"));
+        if (editMode) {
+            const QString maskFile = maskTree->currentItem()->data(0, MASKFILE).toString();
+            clipMon->previewMask(binId, maskFile, zone.x(), zone.y(), MaskModeType::MaskInput);
+        } else {
             clipMon->loadQmlScene(MonitorSceneAutoMask);
             clipMon->getControllerProxy()->setMaskMode(MaskModeType::MaskInput);
-            QDir previewFolder = m_maskFolder;
-            if (!previewFolder.exists(QStringLiteral("source-frames"))) {
-                previewFolder.mkpath(QStringLiteral("source-frames"));
-            }
-            previewFolder.cd(QStringLiteral("source-frames"));
-            m_maskHelper->launchSam(previewFolder, clipMon->getZoneStart(), m_owner, autoAdd);
-            return true;
-        };
-        const QString binId = clip->clipId();
-        samStatus->setText(i18n("Exporting video frames for analysis"));
-        samStatus->clearActions();
-        samStatus->setMessageType(KMessageWidget::Information);
-        samStatus->animatedShow();
-        MeltTask::start(m_owner, binId, src.fileName(), args, i18n("Exporting video frames"), clip.get(), std::bind(callBack, binId));
+        }
+        m_maskHelper->launchSam(previewFolder, clipMon->getZoneStart(), m_owner, autoAdd, zone.x());
+        return true;
+    };
+    const QString binId = clip->clipId();
+    samStatus->setText(i18n("Exporting video frames for analysis"));
+    samStatus->clearActions();
+    samStatus->setMessageType(KMessageWidget::Information);
+    samStatus->animatedShow();
+    MeltTask::start(m_owner, binId, src.fileName(), args, i18n("Exporting video frames"), clip.get(), std::bind(callBack, binId));
 }
 
 void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
@@ -363,6 +397,7 @@ void MaskManager::setOwner(ObjectId owner)
         }
     }
     m_owner = owner;
+    m_zone = QPoint();
     // Enable new mask if no job running
     buttonAdd->setEnabled(!pCore->taskManager.hasPendingJob(m_owner, AbstractTask::MELTJOB));
     buttonPreview->setChecked(false);
@@ -379,12 +414,19 @@ void MaskManager::setOwner(ObjectId owner)
 void MaskManager::generateMask()
 {
     pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
-    const QString maskName = i18n("mask %1", 1 + maskTree->topLevelItemCount());
     std::shared_ptr<ProjectClip> clip = getOwnerClip();
     if (!clip) {
         return;
     }
-    if (m_maskHelper->generateMask(clip->clipId(), maskName, m_zone)) {
+    QString maskFile;
+    QString maskName;
+    if (buttonEdit->isChecked() && maskTree->currentItem()) {
+        maskName = maskTree->currentItem()->text(0);
+        maskFile = maskTree->currentItem()->data(0, MASKFILE).toString();
+    } else {
+        maskName = i18n("mask %1", 1 + maskTree->topLevelItemCount());
+    }
+    if (m_maskHelper->generateMask(clip->clipId(), maskName, maskFile, m_zone)) {
         samStatus->setText(i18n("Generating mask %1", maskName));
         samStatus->clearActions();
         samStatus->setMessageType(KMessageWidget::Information);
@@ -437,6 +479,7 @@ void MaskManager::loadMasks(const ObjectId &filterOwner)
     }
     if (!maskTree->currentItem() && maskTree->topLevelItemCount() > 0) {
         maskTree->setCurrentItem(maskTree->topLevelItem(maskTree->topLevelItemCount() - 1));
+        updateMasksButtons();
     }
     maskTree->resizeColumnToContents(0);
 }
@@ -454,6 +497,8 @@ void MaskManager::previewMask(bool show)
         m_connected = true;
     }
     if (show && maskTree->currentItem()) {
+        auto clip = getOwnerClip();
+        QString binId = clip->binId();
         const QString maskIncludePoints = maskTree->currentItem()->data(0, MASKINCLUDEPOINTS).toString();
         const QString maskExcludePoints = maskTree->currentItem()->data(0, MASKEXCLUDEPOINTS).toString();
         const QString maskBoxes = maskTree->currentItem()->data(0, MASKBOXES).toString();
@@ -461,7 +506,7 @@ void MaskManager::previewMask(bool show)
         int out = maskTree->currentItem()->data(0, MASKOUT).toInt();
         buttonPreview->setChecked(true);
         const QString maskFile = maskTree->currentItem()->data(0, MASKFILE).toString();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out, MaskModeType::MaskPreview);
+        pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(binId, maskFile, in, out, MaskModeType::MaskPreview);
     } else {
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
@@ -469,18 +514,6 @@ void MaskManager::previewMask(bool show)
 
 void MaskManager::editMask(bool show)
 {
-    if (!m_connected) {
-        Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
-        Q_ASSERT(clipMon != nullptr);
-        connect(clipMon, &Monitor::generateMask, this, &MaskManager::generateMask, Qt::QueuedConnection);
-        connect(clipMon, &Monitor::moveMonitorControlPoint, this, &MaskManager::moveControlPoint, Qt::UniqueConnection);
-        connect(clipMon, &Monitor::addMonitorControlPoint, this, &MaskManager::addControlPoint, Qt::UniqueConnection);
-        connect(clipMon, &Monitor::addMonitorControlRect, this, &MaskManager::addControlRect, Qt::UniqueConnection);
-        connect(clipMon, &Monitor::disablePreviewMask, this, &MaskManager::abortPreviewByMonitor, Qt::UniqueConnection);
-        connect(pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy(), &MonitorProxy::positionChanged, m_maskHelper, &AutomaskHelper::monitorSeek,
-                Qt::UniqueConnection);
-        m_connected = true;
-    }
     if (show && maskTree->currentItem()) {
         bool ok;
         m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
@@ -489,16 +522,8 @@ void MaskManager::editMask(bool show)
         const QString maskBoxes = maskTree->currentItem()->data(0, MASKBOXES).toString();
         m_zone.setX(maskTree->currentItem()->data(0, MASKIN).toInt());
         m_zone.setY(maskTree->currentItem()->data(0, MASKOUT).toInt());
-        QDir previewFolder = m_maskFolder;
-        if (!previewFolder.exists(QStringLiteral("source-frames"))) {
-            previewFolder.mkpath(QStringLiteral("source-frames"));
-        }
-        previewFolder.cd(QStringLiteral("source-frames"));
-        m_maskHelper->loadData(maskIncludePoints, maskExcludePoints, maskBoxes, m_zone.x(), previewFolder);
-        exportFrames(false);
-        buttonEdit->setChecked(true);
-        const QString maskFile = maskTree->currentItem()->data(0, MASKFILE).toString();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, m_zone.x(), m_zone.y(), MaskModeType::MaskInput);
+        initMaskMode(false, true);
+        m_maskHelper->loadData(maskIncludePoints, maskExcludePoints, maskBoxes, m_zone.x(), m_maskFolder);
     } else {
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
@@ -623,4 +648,28 @@ void MaskManager::disconnectMonitor()
 bool MaskManager::isLocked() const
 {
     return m_connected;
+}
+
+void MaskManager::prepareMenu(const QPoint &pos)
+{
+    QTreeWidgetItem *item = maskTree->itemAt(pos);
+    if (!item) {
+        return;
+    }
+    QAction *openFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
+    connect(openFolder, &QAction::triggered, this, &MaskManager::slotOpenFolder);
+
+    QMenu menu(this);
+    menu.addAction(openFolder);
+    menu.exec(maskTree->mapToGlobal(pos));
+}
+
+void MaskManager::slotOpenFolder()
+{
+    QTreeWidgetItem *current = maskTree->currentItem();
+    if (!current) {
+        return;
+    }
+    const QString filePath = current->data(0, Qt::UserRole).toString();
+    pCore->highlightFileInExplorer({QUrl::fromLocalFile(filePath)});
 }

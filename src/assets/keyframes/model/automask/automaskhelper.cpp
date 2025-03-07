@@ -154,7 +154,7 @@ void AutomaskHelper::addMonitorControlRect(int position, const QSize frameSize, 
     generateImage();
 }
 
-void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter, bool autoAdd)
+void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter, bool autoAdd, int previewPos)
 {
     m_ownerForFilter = ownerForFilter;
     m_maskCreationMode = true;
@@ -292,12 +292,14 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
     m_samProcess.setArguments(args);
     m_samProcess.start(QIODevice::ReadWrite | QIODevice::Text);
     m_samProcess.waitForStarted();
-    // scriptJob.waitForFinished(-1);
+    if (previewPos > -1 && (!m_includePoints.isEmpty() || !m_boxes.isEmpty())) {
+        m_lastPos = previewPos - m_offset;
+        generateImage();
+    }
 }
 
 void AutomaskHelper::generateImage()
 {
-    QProcess scriptJob;
     QStringList pointsList;
     QStringList labelsList;
     if (m_includePoints.contains(m_lastPos)) {
@@ -345,6 +347,8 @@ void AutomaskHelper::generateImage()
                     .arg(KdenliveSettings::maskBorderColor().green())
                     .arg(KdenliveSettings::maskBorderColor().blue())
                     .arg(KdenliveSettings::maskBorderColor().alpha());
+    } else {
+        args << QStringLiteral("--border") << QString::number(0);
     }
     args << QStringLiteral("--color")
          << QStringLiteral("%1,%2,%3,%4")
@@ -362,7 +366,36 @@ void AutomaskHelper::generateImage()
     }
 }
 
-bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName, const QPoint &zone)
+void AutomaskHelper::updateMaskParams()
+{
+    QStringList args;
+    if (KdenliveSettings::maskBorderWidth() > 0) {
+        args << QStringLiteral("--border") << QString::number(KdenliveSettings::maskBorderWidth()) << QStringLiteral("--bordercolor")
+             << QStringLiteral("%1,%2,%3,%4")
+                    .arg(KdenliveSettings::maskBorderColor().red())
+                    .arg(KdenliveSettings::maskBorderColor().green())
+                    .arg(KdenliveSettings::maskBorderColor().blue())
+                    .arg(KdenliveSettings::maskBorderColor().alpha());
+    } else {
+        args << QStringLiteral("--border") << QString::number(0);
+    }
+    args << QStringLiteral("--color")
+         << QStringLiteral("%1,%2,%3,%4")
+                .arg(KdenliveSettings::maskColor().red())
+                .arg(KdenliveSettings::maskColor().green())
+                .arg(KdenliveSettings::maskColor().blue())
+                .arg(KdenliveSettings::maskColor().alpha());
+    const QString samCommand = QStringLiteral("edit=%1\n").arg(args.join(QLatin1Char(' ')));
+    qDebug() << "::: SEMNDING SAM COMMAND: " << samCommand;
+    if (m_samProcess.state() == QProcess::Running) {
+        m_jobStatus = QProcess::Running;
+        m_samProcess.write(samCommand.toUtf8());
+    } else {
+        qDebug() << ":::: CANNOT COMMUNICATE WITH SAM PROCESS";
+    }
+}
+
+bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName, const QString &maskFile, const QPoint &zone)
 {
     // Generate params
     m_binId = binId;
@@ -438,13 +471,17 @@ bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
             return false;
         }
         int ix = 1;
-        // QString baseName = QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(zone.x()).arg(zone.y());
-        const QString baseName = QStringLiteral("%1-%2-%3").arg(QStringUtils::getCleanFileName(maskName)).arg(zone.x()).arg(zone.y());
-        QString outputFile = maskFolder.absoluteFilePath(baseName + QStringLiteral(".mkv"));
-        while (QFile::exists(outputFile)) {
-            QString secondName = QStringLiteral("%1-%2.mkv").arg(baseName).arg(ix, 4, 10, QLatin1Char('0'));
-            outputFile = maskFolder.absoluteFilePath(secondName);
-            ix++;
+        QString outputFile;
+        if (!maskFile.isEmpty()) {
+            outputFile = maskFile;
+        } else {
+            const QString baseName = QStringLiteral("%1-%2-%3").arg(QStringUtils::getCleanFileName(maskName)).arg(zone.x()).arg(zone.y());
+            outputFile = maskFolder.absoluteFilePath(baseName + QStringLiteral(".mkv"));
+            while (QFile::exists(outputFile)) {
+                QString secondName = QStringLiteral("%1-%2.mkv").arg(baseName).arg(ix, 4, 10, QLatin1Char('0'));
+                outputFile = maskFolder.absoluteFilePath(secondName);
+                ix++;
+            }
         }
         m_maskParams.insert(MaskTask::OUTPUTFILE, outputFile);
     }
@@ -453,7 +490,6 @@ bool AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
 
 void AutomaskHelper::abortJob()
 {
-    qDebug() << "::::: KILLING SAM...";
     if (m_samProcess.state() == QProcess::Running) {
         m_killedOnRequest = true;
         m_samProcess.kill();
@@ -467,12 +503,28 @@ bool AutomaskHelper::jobRunning() const
     return m_maskCreationMode || m_jobStatus == QProcess::Running;
 }
 
+void AutomaskHelper::sceneUpdated(MonitorSceneType sceneType)
+{
+    if (sceneType == MonitorSceneAutoMask) {
+        monitorSeek(m_seekPos);
+    }
+    disconnect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::sceneChanged, this, &AutomaskHelper::sceneUpdated);
+}
+
 void AutomaskHelper::monitorSeek(int pos)
 {
+    Monitor *mon = pCore->getMonitor(Kdenlive::ClipMonitor);
+    if (!mon->effectSceneDisplayed(MonitorSceneAutoMask)) {
+        qDebug() << "::::: SEEKING WHILE MONITOR NOT READY!!!";
+        // Monitor mask scene is not yet loaded
+        m_seekPos = pos;
+        connect(mon, &Monitor::sceneChanged, this, &AutomaskHelper::sceneUpdated, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+        return;
+    }
     pos -= m_offset;
     QUrl url = QUrl::fromLocalFile(m_previewFolder.absoluteFilePath(QStringLiteral("preview-%1.png").arg(pos, 5, 10, QLatin1Char('0'))));
-    pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
-    Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
+    mon->getControllerProxy()->m_previewOverlay = url;
+    Q_EMIT mon->getControllerProxy()->previewOverlayChanged();
     // Update keyframe points
     QList<QPoint> pointsList;
     QVariantList points;
@@ -496,7 +548,7 @@ void AutomaskHelper::monitorSeek(int pos)
     if (m_boxes.contains(pos)) {
         box = m_boxes.value(pos);
     }
-    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, box);
+    mon->setUpEffectGeometry(QRect(), points, pointsTypes, keyframes, box);
 }
 
 void AutomaskHelper::terminate()

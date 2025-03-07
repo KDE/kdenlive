@@ -34,7 +34,7 @@ public:
        @param index is the index of this parameter in its model
      */
     explicit AutomaskHelper(QObject *parent = nullptr);
-    void launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter = ObjectId(), bool autoAdd = false);
+    void launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter = ObjectId(), bool autoAdd = false, int previewPos = -1);
     bool jobRunning() const;
     void terminate();
     /** @brief Remove all masks tmp data */
@@ -42,18 +42,20 @@ public:
     void loadData(const QString points, const QString labels, const QString boxes, int in, const QDir &previewFolder);
 
 public Q_SLOTS:
-    bool generateMask(const QString &binId, const QString &maskName, const QPoint &zone);
+    bool generateMask(const QString &binId, const QString &maskName, const QString &maskFile, const QPoint &zone);
     void monitorSeek(int pos);
     void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
     void moveMonitorControlPoint(int ix, int position, const QSize frameSize, int xPos, int yPos);
     void addMonitorControlRect(int position, const QSize frameSize, const QRect rect, bool extend);
     void abortJob();
+    void updateMaskParams();
 
 private:
     Monitor *m_monitor;
     std::shared_ptr<ProjectClip> m_clip;
     int m_lastPos{0};
     int m_offset{0};
+    int m_seekPos{0};
     QMap<int, QList<QPoint>> m_includePoints;
     QMap<int, QList<QPoint>> m_excludePoints;
     QMap<int, QRect> m_boxes;
@@ -69,6 +71,7 @@ private:
 
 private Q_SLOTS:
     void generateImage();
+    void sceneUpdated(MonitorSceneType sceneType);
 
 Q_SIGNALS:
     void showMessage(const QString &message, KMessageWidget::MessageType type = KMessageWidget::Information);

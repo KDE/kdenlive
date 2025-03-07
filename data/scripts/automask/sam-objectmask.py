@@ -207,6 +207,11 @@ else:
 
 while 1:
     line = sys.stdin.readline().rstrip()
+    if line.startswith("edit="):
+        inArgs = parser.parse_args(line[5:].split())
+        borders = int(args.border)
+        mask_color = process_list(args.color)
+        border_color = process_list(args.bordercolor)
 
     if line.startswith("preview="):
         # Generate image preview

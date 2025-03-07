@@ -813,6 +813,9 @@ void Monitor::buildBackgroundedProducer(int pos)
         m_glMonitor->getControllerProxy()->setZone(oldZone.x(), maxDuration + 1, true);
         Q_EMIT zoneDurationChanged();
     }
+    if (!m_openMutex.tryLock()) {
+        return;
+    }
     if (KdenliveSettings::monitor_background() != "black") {
         Mlt::Tractor trac(pCore->getProjectProfile());
         QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
@@ -831,6 +834,7 @@ void Monitor::buildBackgroundedProducer(int pos)
     } else {
         m_glMonitor->setProducer(producer, isActive(), pos);
     }
+    m_openMutex.unlock();
 }
 
 void Monitor::updateMarkers()
@@ -1848,6 +1852,7 @@ void Monitor::slotLoopClip(std::pair<int, int> inOut)
 
 void Monitor::updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod)
 {
+    QMutexLocker lock(&m_openMutex);
     if (m_glMonitor->setProducer(prod, isActive(), -1)) {
         prod->set_speed(1.0);
     }
@@ -1876,6 +1881,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         abortPreviewMask();
         Q_EMIT disablePreviewMask();
     }
+    m_activeControllerId.clear();
     if (m_controller) {
         m_glMonitor->resetZoneMode();
         // store last audiothumb zoom / position
@@ -2069,6 +2075,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 }
             }
             buildBackgroundedProducer(in);
+            m_activeControllerId = m_controller->binId();
             if (monitorVisible() && !m_monitorManager->projectMonitor()->isPlaying()) {
                 slotActivateMonitor();
             }
@@ -2264,7 +2271,6 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
                       << double(box.height()) / frameSize.height();
         }
         QMetaObject::invokeMethod(root, "updateRect", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, boxPoints));
-        qDebug() << ":: UPDATING POINTS WITH: " << list;
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, keyframes), Q_ARG(QVariant, types), Q_ARG(QVariant, list));
     } else if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
         QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(QVariant, list));
@@ -2557,6 +2563,10 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
             return;
         }
     } else {
+        if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
+            // Disable preview / editing in mask manager
+            Q_EMIT disablePreviewMask();
+        }
         QQuickItem *root = m_glMonitor->rootObject();
         if (root) {
             if (m_nextSceneType != MonitorSceneNone) {
@@ -2583,10 +2593,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
             return;
         }
     }
-    if (m_qmlManager->sceneType() == MonitorSceneAutoMask) {
-        // Disable preview / editing in mask manager
-        Q_EMIT disablePreviewMask();
-    }
+
     bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;
     if (!m_monitorManager->getAction(QStringLiteral("monitor_editmode"))->isChecked() && sceneWithEdit) {
         // User doesn't want effect scenes
@@ -3080,45 +3087,53 @@ MaskModeType::MaskCreationMode Monitor::maskMode()
     return getControllerProxy()->maskMode();
 }
 
-void Monitor::previewMask(const QString &maskFile, int in, int out, MaskModeType::MaskCreationMode maskMode)
+void Monitor::previewMask(const QString &binId, const QString &maskFile, int in, int out, MaskModeType::MaskCreationMode maskMode)
 {
+    if (m_activeControllerId != binId) {
+        return;
+    }
     if (!m_controller) {
         pCore->displayMessage(i18n("No clip selected in Clip Monitor"), InformationMessage);
         return;
     }
-    Mlt::Tractor trac(pCore->getProjectProfile());
-    Mlt::Playlist maskPlaylist(pCore->getProjectProfile());
-    QString color = QStringLiteral("avformat:%1").arg(maskFile);
-    std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), color.toUtf8().constData()));
-    m_maskInvert.reset(new Mlt::Filter(pCore->getProjectProfile(), "frei0r.alpha0ps"));
-    if (m_maskInvert != nullptr && m_maskInvert->is_valid()) {
-        m_maskInvert->set("5", 1); // 5 is the Invert parameter
-        m_maskInvert->set("disable", 1);
-    }
-    bg->attach(*m_maskInvert.get());
-    maskPlaylist.insert_at(in, bg.get(), 1);
-    std::shared_ptr<Mlt::Producer> producer = m_controller->sequenceProducer(m_activeSequence);
-    if (!producer) {
-        pCore->displayMessage(i18n("Cannot get producer for Clip Monitor"), InformationMessage);
-        return;
-    }
-    trac.set_track(*producer.get(), 0);
-    trac.set_track(maskPlaylist, 1);
-    QString composite = TransitionsRepository::get()->getCompositingTransition();
-    m_maskOpacity = TransitionsRepository::get()->getTransition(composite);
-    m_maskOpacity->set_in_and_out(in, out);
-    m_maskOpacity->set_tracks(0, 1);
-    int opacity = getControllerProxy()->maskOpacity();
-    const QString opacityString = QStringLiteral("0=0 0 100% 100% %1").arg(opacity / 100.);
-    m_maskOpacity->set("rect", opacityString.toUtf8().constData());
-    trac.plant_transition(*m_maskOpacity.get(), 0, 1);
     int pos = position();
     if (pos < in || (out > 0 && pos > out)) {
         pos = in;
     }
+    if (QFile::exists(maskFile) && m_openMutex.tryLock()) {
+        Mlt::Tractor trac(pCore->getProjectProfile());
+        Mlt::Playlist maskPlaylist(pCore->getProjectProfile());
+        const QString resource = QStringLiteral("avformat:%1").arg(maskFile);
+        std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), resource.toUtf8().constData()));
+        m_maskInvert.reset(new Mlt::Filter(pCore->getProjectProfile(), "frei0r.alpha0ps"));
+        if (m_maskInvert != nullptr && m_maskInvert->is_valid()) {
+            m_maskInvert->set("5", 1); // 5 is the Invert parameter
+            m_maskInvert->set("disable", 1);
+        }
+        bg->attach(*m_maskInvert.get());
+        maskPlaylist.insert_at(in, bg.get(), 1);
+        std::shared_ptr<Mlt::Producer> producer = m_controller->sequenceProducer(m_activeSequence);
+        if (!producer) {
+            pCore->displayMessage(i18n("Cannot get producer for Clip Monitor"), InformationMessage);
+            m_openMutex.unlock();
+            return;
+        }
+        trac.set_track(*producer.get(), 0);
+        trac.set_track(maskPlaylist, 1);
+        QString composite = TransitionsRepository::get()->getCompositingTransition();
+        m_maskOpacity = TransitionsRepository::get()->getTransition(composite);
+        m_maskOpacity->set_in_and_out(in, out);
+        m_maskOpacity->set_tracks(0, 1);
+        int opacity = getControllerProxy()->maskOpacity();
+        const QString opacityString = QStringLiteral("0=0 0 100% 100% %1").arg(opacity / 100.);
+        m_maskOpacity->set("rect", opacityString.toUtf8().constData());
+        trac.plant_transition(*m_maskOpacity.get(), 0, 1);
+        std::shared_ptr<Mlt::Producer> maskProducer = std::make_shared<Mlt::Producer>(trac);
+        m_glMonitor->setProducer(maskProducer, isActive(), pos);
+        m_openMutex.unlock();
+    }
     // Set zone
     slotLoadClipZone(QPoint(in, out));
-    m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
     getControllerProxy()->setMaskMode(maskMode);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
     loadQmlScene(MonitorSceneAutoMask);
@@ -3130,9 +3145,9 @@ void Monitor::abortPreviewMask()
         // We are not in mask mode, ignore
         return;
     }
+    buildBackgroundedProducer(position());
     m_maskOpacity.reset();
     m_maskInvert.reset();
-    buildBackgroundedProducer(position());
     disconnect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
     getControllerProxy()->setMaskMode(MaskModeType::MaskNone);
     loadQmlScene(MonitorSceneDefault);
@@ -3140,6 +3155,9 @@ void Monitor::abortPreviewMask()
 
 void Monitor::updatePreviewMask()
 {
+    if (!m_maskOpacity) {
+        return;
+    }
     m_maskInvert->set("disable", !getControllerProxy()->maskInverted());
     int opacity = getControllerProxy()->maskOpacity();
     const QString opacityString = QStringLiteral("0=0 0 100% 100% %1").arg(opacity / 100.);
