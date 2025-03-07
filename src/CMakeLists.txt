@@ -170,7 +170,7 @@ target_link_libraries(kdenliveLib
     ${OPENGLES_LIBRARIES}
     ${MLT_LIBRARIES}
     ${MLTPP_LIBRARIES}
-    opentimelineio
+    OTIO::opentimelineio
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft

@@ -161,7 +161,12 @@ if(FETCH_OTIO)
     kde_target_enable_exceptions(opentimelineio PUBLIC)
     kde_target_enable_exceptions(Imath PUBLIC)
 else()
-    find_package(OTIO REQUIRED)
+    find_package(OpenTimelineIO REQUIRED)
+
+    set_package_properties(OpenTimelineIO PROPERTIES
+        DESCRIPTION "API and interchange format for editorial timeline information"
+        URL "http://opentimeline.io/"
+        PURPOSE "Required for OpenTimielineIO import and export")
 endif()
 
 # Windows
