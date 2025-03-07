@@ -14,13 +14,13 @@
 # Olga Mironova <omiro@basealt.ru>, 2018.
 # Mikhail Novosyolov <m.novosyolov@rosalinux.ru>, 2018.
 # Alexander Yavorsky <kekcuha@gmail.com>, 2020, 2021, 2022.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Sergey Kazorin <translation-team@basealt.ru>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Sergey Kazorin <translation-team@basealt.ru>
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-03 02:36+0000\n"
-"PO-Revision-Date: 2024-10-28 10:20+0300\n"
+"PO-Revision-Date: 2025-03-06 17:10+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1104,16 +1104,14 @@ msgid "Gamma"
 msgstr "Гамма"
 
 #: data/effects/gpsgraphic.xml:4
-#, fuzzy, kde-format
-#| msgid "GraphView"
+#, kde-format
 msgid "GPS Graphic"
-msgstr "Графический просмотр"
+msgstr "GPS-графика"
 
 #: data/effects/gpsgraphic.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr "Наложение текста с GPS-информацией на видеоизображение."
+msgstr "Наложение GPS-графики на видеоизображение."
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1172,6 +1170,11 @@ msgid ""
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[Воспользуйтесь этим значением для настройки коэффициента ускорения "
+"или замедления видео (чтобы получить, соответственно, «таймлапс»- или «слоу-"
+"мо»-видеофайл).<br>\n"
+"        Примеры значений: 30 для ускорения в 30 раз, 0.25 для замедления в 4 "
+"раза.]]>"
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
@@ -1181,12 +1184,12 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "Источник данных графика"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "Какие данные из файла GPS используются для отрисовки"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1217,7 +1220,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "Обрезка с начала (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1232,7 +1235,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "Обрезка с конца (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1384,7 +1387,7 @@ msgstr "Цвет 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "Устанавливает цвет 1 линии графика"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1395,7 +1398,7 @@ msgstr "Цвет 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "Устанавливает цвет 2 линии графика"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -1405,7 +1408,7 @@ msgstr "Цвет 3"
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "Устанавливает цвет 3 линии графика"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -1415,7 +1418,7 @@ msgstr "Цвет 4"
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "Устанавливает цвет 4 линии графика"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -1425,7 +1428,7 @@ msgstr "Цвет 5"
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "Устанавливает цвет 5 линии графика"
 
 #: data/effects/gpsgraphic.xml:116
 #, fuzzy, kde-format
@@ -1615,7 +1618,7 @@ msgstr "Время начала обработки GPS"
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "Дата и время создания первой корректной точки GPS."
 
 #: data/effects/gpsgraphic.xml:177
 #, fuzzy, kde-format
@@ -1624,10 +1627,9 @@ msgid "Video start time"
 msgstr "Видеопоток"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "Наложение таймера на видеоизображение"
+msgstr "Дата и время создания видеофайла."
 
 #: data/effects/gpsgraphic.xml:181
 #, fuzzy, kde-format
@@ -22455,9 +22457,9 @@ msgstr "Настройка профиля под:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
+#, kde-format
 msgid "Files"
-msgstr "Файл"
+msgstr "Файлы"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #: src/ui/managesubtitles_ui.ui:71
