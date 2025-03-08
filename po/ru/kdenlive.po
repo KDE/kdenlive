@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-03 02:36+0000\n"
-"PO-Revision-Date: 2025-03-06 17:10+0300\n"
+"PO-Revision-Date: 2025-03-07 15:51+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -568,7 +568,7 @@ msgstr "Стерео в моно"
 #: data/effects/channelcopy.xml:5
 #, kde-format
 msgid "Copy one channel to another"
-msgstr "Скопировать один канал в другой"
+msgstr "Копировать один канал в другой"
 
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
@@ -1124,6 +1124,8 @@ msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
 msgstr ""
+"Полный путь к файлу, содержащему данные о местоположении (GPS). "
+"Поддерживаемые расширения: .gpx, .tcx."
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -2371,13 +2373,13 @@ msgstr "Нормализация"
 #: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
-msgstr "Выключить повтор"
+msgstr "Отключить повтор"
 
 #: data/effects/pan_zoom.xml:23 data/effects/rotation.xml:47
 #: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
 #, kde-format
 msgid "Disable mirror"
-msgstr "Выключить отражение"
+msgstr "Отключить отражение"
 
 #: data/effects/pillar_echo.xml:4
 #, kde-format
@@ -3989,13 +3991,13 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
-"Включает или выключает разделённое видеоизображение в мониторе проекта и/или "
+"Включает или отключает разделённое видеоизображение в мониторе проекта и/или "
 "клипа: слева отображается клип с эффектом, справа — клип без эффекта."
 
 #: src/assets/assetpanel.cpp:116
 #, kde-format
 msgid "Effects disabled"
-msgstr "Эффекты выключены"
+msgstr "Эффекты отключены"
 
 #: src/assets/assetpanel.cpp:116
 #, kde-format
@@ -4033,7 +4035,7 @@ msgstr "Скрыть ключевые кадры на монтажном сто�
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Переключает отображение ключевых кадров на монтажном столе"
+msgstr "Переключает отображение ключевых кадров на монтажном столе."
 
 #: src/assets/assetpanel.cpp:246
 #, kde-format
@@ -4816,7 +4818,7 @@ msgstr "П"
 #: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
-msgstr "Выключить дорожку"
+msgstr "Отключить дорожку"
 
 #: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
@@ -4827,7 +4829,7 @@ msgstr "Включить дорожку"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
-msgstr "Выключает/включает звуковую дорожку."
+msgstr "Отключает/включает звуковую дорожку."
 
 #: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
@@ -4838,7 +4840,7 @@ msgstr "Режим соло"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr "Выключает все выбранные звуковые дорожки."
+msgstr "Отключает все выбранные звуковые дорожки."
 
 #: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
@@ -5743,7 +5745,7 @@ msgstr "Включить прокси"
 #: src/bin/bin.cpp:5045
 #, kde-format
 msgid "Disable proxies"
-msgstr "Выключить прокси"
+msgstr "Отключить прокси"
 
 #: src/bin/bin.cpp:5219
 #, kde-format
@@ -6227,14 +6229,14 @@ msgid "Delete subtitle"
 msgstr "Удалить субтитр"
 
 #: src/bin/model/subtitlemodel.cpp:1786
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delete subtitle layer"
-msgstr "Удалить субтитр"
+msgstr "Удалить слой субтитров"
 
 #: src/bin/model/subtitlemodel.cpp:1813
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create subtitle layer"
-msgstr "Создать шаблон титров"
+msgstr "Создать слой субтитров"
 
 #: src/bin/model/subtitlemodel.cpp:1919 src/bin/model/subtitlemodel.cpp:1922
 #, kde-format
@@ -6444,13 +6446,13 @@ msgid ""
 "Do you want to disable experimental GPU processing (Movit) ?"
 msgstr ""
 "Во время последнего запуска Kdenlive произошёл сбой.\n"
-"Выключить экспериментальную функцию обработки с применением графического "
+"Отключить экспериментальную функцию обработки с применением графического "
 "процессора (Movit)?"
 
 #: src/core.cpp:117
 #, kde-format
 msgid "Disable GPU processing"
-msgstr "Выключить обработку с применением графического процессора"
+msgstr "Отключить обработку с применением графического процессора"
 
 #: src/core.cpp:123
 #, kde-format
@@ -7691,27 +7693,27 @@ msgstr "Управление субтитрами"
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "Слой"
 
 #: src/dialogs/managesubtitles.cpp:100
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move Layer"
-msgstr "Переместить панель инструментов"
+msgstr "Переместить слой"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "Файл с субтитрами, в который будет перемещён слой:"
 
 #: src/dialogs/managesubtitles.cpp:102
-#, fuzzy, kde-format
+#, kde-format
 msgid "Copy Layer"
-msgstr "Скопировать канал:"
+msgstr "Копировать слой"
 
 #: src/dialogs/managesubtitles.cpp:102
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "Файл с субтитрами, в который будет скопирован слой:"
 
 #: src/dialogs/managesubtitles.cpp:132 src/dialogs/managesubtitles.cpp:213
 #, fuzzy, kde-format
@@ -7721,7 +7723,7 @@ msgstr "Переместить панель инструментов"
 #: src/dialogs/managesubtitles.cpp:135 src/dialogs/managesubtitles.cpp:216
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "Копировать в..."
 
 #: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:585
 #, kde-format
@@ -7736,17 +7738,17 @@ msgstr "Переместить элемент"
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "Файл с субтитрами, в который будет перемещён стиль:"
 
 #: src/dialogs/managesubtitles.cpp:182
-#, fuzzy, kde-format
+#, kde-format
 msgid "Copy Style"
-msgstr "Стиль шрифта"
+msgstr "Копировать стиль"
 
 #: src/dialogs/managesubtitles.cpp:182
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "Файл с субтитрами, в который будет скопирован стиль:"
 
 #: src/dialogs/managesubtitles.cpp:385
 #, kde-format
@@ -7763,7 +7765,7 @@ msgstr "Экспорт субтитров"
 #: src/dialogs/managesubtitles.cpp:440
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "Слой "
 
 #: src/dialogs/managesubtitles.cpp:440
 #, kde-format
@@ -7811,13 +7813,13 @@ msgid "Box as Shadow"
 msgstr "Тень"
 
 #: src/dialogs/managesubtitles.cpp:685
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr ""
 "Будут удалены все записи субтитров в <b>%1</b>,<br/>а также файл с "
-"субтитрами: %2 "
+"субтитрами: %2"
 
 #: src/dialogs/managesubtitles.cpp:707
 #, fuzzy, kde-format
@@ -8202,7 +8204,7 @@ msgstr "Перекодировать"
 #: src/project/dialogs/archivewidget.cpp:893
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
-msgstr "Выходной файл уже существует. Перезаписать?"
+msgstr "Выходной файл уже существует. Перезаписать его?"
 
 #: src/dialogs/renderwidget.cpp:706 src/monitor/recmanager.cpp:191
 #, kde-format
@@ -9325,19 +9327,19 @@ msgid "Error"
 msgstr "Ошибка"
 
 #: src/dialogs/subtitlestyleedit.cpp:170
-#, fuzzy, kde-format
+#, kde-format
 msgid "Style name already exists."
-msgstr "Файл уже существует"
+msgstr "Имя стиля уже существует."
 
 #: src/dialogs/subtitlestyleedit.cpp:175
-#, fuzzy, kde-format
+#, kde-format
 msgid "Style name cannot be empty."
-msgstr "Имя предустановки не может быть пустым"
+msgstr "Имя стиля не может быть пустым."
 
 #: src/dialogs/subtitlestyleedit.cpp:180
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "Имя стиля не может содержать «,»."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -10130,10 +10132,10 @@ msgid "extra audio"
 msgstr "дополнительный звук"
 
 #: src/doc/documentvalidator.cpp:2211
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "Выходной файл уже существует. Перезаписать?"
+msgstr "Файл с субтитрами уже существует:<br/>%1<br/>. Перезаписать его?"
 
 #: src/doc/documentvalidator.cpp:2212 src/mainwindow.cpp:3452
 #, kde-format
@@ -10608,12 +10610,12 @@ msgstr "Показать ключевые кадры"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
-msgstr "Показать ключевые кадры на монтажном столе"
+msgstr "Показать ключевые кадры на монтажном столе."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-format
 msgid "Disable Effect"
-msgstr "Выключить эффект"
+msgstr "Отключить эффект"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-format
@@ -10626,7 +10628,7 @@ msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 "Отключает эффект. Позволяет сравнить результаты до и после применения "
-"настроек."
+"параметров настройки."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-kuit-format
@@ -10634,7 +10636,7 @@ msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 "Включает эффект. Позволяет сравнить результаты до и после применения "
-"настроек."
+"параметров настройки."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:148
 #, kde-format
@@ -12207,7 +12209,7 @@ msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
 "Переключение между использованием участка монтажного стола для вставки "
-"(вкл.) или нет (выкл.)."
+"(вкл.) или нет (откл.)."
 
 #: src/mainwindow.cpp:1119
 #, kde-format
@@ -12253,7 +12255,7 @@ msgstr "Правка субтитров"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
-msgstr "Переключение дорожки субтитров на монтажном столе"
+msgstr "Переключение дорожки субтитров на монтажном столе."
 
 #: src/mainwindow.cpp:1189 src/titler/titlewidget.cpp:386
 #: src/titler/titlewidget.cpp:389
@@ -12354,7 +12356,7 @@ msgid ""
 "(default is On)."
 msgstr ""
 "Переключает отображение миниатюр видео для клипов на монтажном столе (по "
-"умолчанию включено)"
+"умолчанию включено)."
 
 #: src/mainwindow.cpp:1269
 #, kde-format
@@ -12369,7 +12371,7 @@ msgid ""
 "(default is On)."
 msgstr ""
 "Переключает отображение миниатюр звука для клипов на монтажном столе (по "
-"умолчанию включено)"
+"умолчанию включено)."
 
 #: src/mainwindow.cpp:1276
 #, kde-format
@@ -12402,7 +12404,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr ""
 "Переключает отображение тегов клипа на монтажном столе (по умолчанию "
-"включено)"
+"включено)."
 
 #: src/mainwindow.cpp:1296
 #, kde-format
@@ -12739,7 +12741,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
-"Добавляет заданный участок монтажного стола/выделение в состав предпросмотра"
+"Добавляет заданный участок монтажного стола/выделение в состав предпросмотра."
 
 #: src/mainwindow.cpp:1603
 #, kde-format
@@ -12924,7 +12926,7 @@ msgstr "Сохранить участок клипа в корзину"
 #: src/mainwindow.cpp:1713
 #, kde-format
 msgid "Disable Clip"
-msgstr "Выключить клип"
+msgstr "Отключить клип"
 
 #: src/mainwindow.cpp:1718
 #, kde-format
@@ -13158,7 +13160,7 @@ msgstr "Добавить субтитр"
 #: src/mainwindow.cpp:1901
 #, kde-format
 msgid "Disable Subtitle"
-msgstr "Выключить субтитры"
+msgstr "Отключить субтитры"
 
 #: src/mainwindow.cpp:1902
 #, kde-format
@@ -13208,7 +13210,7 @@ msgstr "Копировать отладочную информацию"
 #: src/mainwindow.cpp:1949
 #, kde-format
 msgid "Disable Timeline Effects"
-msgstr "Выключить эффекты на монтажном столе"
+msgstr "Отключить эффекты на монтажном столе"
 
 #: src/mainwindow.cpp:1955
 #, kde-format
@@ -13444,7 +13446,7 @@ msgstr ""
 "<shortcut>Shift + перемещение</shortcut>: создание прямоугольной области "
 "выделения, <shortcut>Shift + щелчок</shortcut>: множественный выбор, "
 "<shortcut>Meta + перемещение</shortcut>: перемещение сгруппированного клипа "
-"на другую дорожку, <shortcut>Ctrl + перемещение</shortcut>: сдвиг"
+"на другую дорожку, <shortcut>Ctrl + перемещение</shortcut>: сдвиг."
 
 #: src/mainwindow.cpp:3410
 #, kde-kuit-format
@@ -13458,7 +13460,7 @@ msgstr ""
 "<shortcut>Shift + перемещение</shortcut>: создание прямоугольной области "
 "выделения, <shortcut>Shift + щелчок</shortcut>: множественный выбор, "
 "<shortcut>Meta + Alt + перемещение</shortcut>: перемещение сгруппированного "
-"клипа на другую дорожку, <shortcut>Ctrl + перемещение</shortcut>: сдвиг"
+"клипа на другую дорожку, <shortcut>Ctrl + перемещение</shortcut>: сдвиг."
 
 #: src/mainwindow.cpp:3413
 #, kde-format
@@ -13469,7 +13471,7 @@ msgstr "Инструмент выбора"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
-msgstr "<shortcut>Shift</shortcut>: предпросмотр разрезаемого кадра"
+msgstr "<shortcut>Shift</shortcut>: предпросмотр разрезаемого кадра."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: src/mainwindow.cpp:3416 src/ui/configtools_ui.ui:21
@@ -13501,7 +13503,7 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 "<shortcut>Щелчок</shortcut> по элементу: прокрутка со скольжением, "
-"<shortcut> Shift + щелчок</shortcut>: множественное выделение"
+"<shortcut> Shift + щелчок</shortcut>: множественное выделение."
 
 #: src/mainwindow.cpp:3424
 #, kde-format
@@ -13520,7 +13522,7 @@ msgstr ""
 "<shortcut>Shift + перемещение</shortcut>: создание прямоугольной области "
 "выделения, <shortcut>Shift + щелчок</shortcut>: множественный выбор, "
 "<shortcut>Alt + щелчок</shortcut>: выбор элемента в группе, <shortcut>Ctrl + "
-"перемещение</shortcut>: сдвиг"
+"перемещение</shortcut>: сдвиг."
 
 #: src/mainwindow.cpp:3431
 #, kde-format
@@ -13536,7 +13538,7 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 "<shortcut>Щелчок</shortcut> по отображению дорожки на мониторе проекта: "
-"удаление всех дорожек за исключением активной"
+"удаление всех дорожек за исключением активной."
 
 #: src/mainwindow.cpp:3449
 #, kde-format
@@ -13741,7 +13743,7 @@ msgstr "Открывает диалоговое окно для импорта/�
 #: src/mltcontroller/clippropertiescontroller.cpp:616
 #, kde-format
 msgid "Disable autorotate"
-msgstr "Выключить автоповорот"
+msgstr "Отключить автоповорот"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:342
 #, kde-format
@@ -13841,7 +13843,7 @@ msgstr "%1 (по умолчанию)"
 #: src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Disable video"
-msgstr "Выключить видео"
+msgstr "Отключить видео"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
@@ -13856,7 +13858,7 @@ msgstr "Видеопоток"
 #: src/mltcontroller/clippropertiescontroller.cpp:726
 #, kde-format
 msgid "Disable audio"
-msgstr "Выключить звук"
+msgstr "Отключить звук"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:726
 #, kde-format
@@ -13883,7 +13885,7 @@ msgstr "Нормализация"
 #: src/mltcontroller/clippropertiescontroller.cpp:911
 #, kde-format
 msgid "Copy channel:"
-msgstr "Скопировать канал:"
+msgstr "Копировать канал:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
@@ -14506,7 +14508,7 @@ msgstr "Прокрутка звука"
 #: src/monitor/monitormanager.cpp:636
 #, kde-format
 msgid "Mute Monitor"
-msgstr "Выключить монитор"
+msgstr "Отключить монитор"
 
 #: src/monitor/monitormanager.cpp:636
 #, kde-format
@@ -14674,7 +14676,7 @@ msgstr ""
 "shortcut>: полноэкранный режим, <shortcut>перемещение указателя мыши вправо</"
 "shortcut>: панель инструментов, <shortcut>колесо мыши</shortcut> или "
 "<shortcut>стрелки</shortcut>: переход, <shortcut>Ctrl + колесо мыши</"
-"shortcut>: масштаб"
+"shortcut>: масштаб."
 
 #: src/monitor/view/kdenliveclipmonitor.qml:537
 #: src/monitor/view/kdenlivemonitor.qml:199
@@ -14728,7 +14730,7 @@ msgstr ""
 "+ перемещение</shortcut>: пропорциональное изменение размеров, <shortcut> "
 "Ctrl + перемещение</shortcut>: изменение размеров от центра, <shortcut> "
 "перемещение указателя мыши вправо</shortcut>: панель инструментов, "
-"<shortcut>щелчок</shortcut> по центру: переход к своему ключевому кадру"
+"<shortcut>щелчок</shortcut> по центру: переход к своему ключевому кадру."
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
@@ -14754,13 +14756,14 @@ msgstr ""
 "точки, <shortcut>двойной щелчок</shortcut> по точке: удаление точки, "
 "<shortcut>двойной щелчок</shortcut> по фону: создание нового ключевого "
 "кадра, <shortcut>перемещение указателя мыши вправо</shortcut>: панель "
-"инструментов"
+"инструментов."
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
-msgstr "<shortcut>Shift + перемещение</shortcut>: изменение размеров от центра"
+msgstr ""
+"<shortcut>Shift + перемещение</shortcut>: изменение размеров от центра."
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:431
 #, kde-format
@@ -14783,7 +14786,7 @@ msgstr ""
 "<shortcut>Колесо мыши</shortcut> или <shortcut>стрелки</shortcut>: переход "
 "на 1 кадр, <shortcut>Shift</shortcut>: переход на 1 секунду, <shortcut>Alt</"
 "shortcut>: переход к маркеру, <shortcut>Home</shortcut> / <shortcut>End</"
-"shortcut>: переход к первому / последнему кадру"
+"shortcut>: переход к первому / последнему кадру."
 
 #: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
@@ -14793,7 +14796,7 @@ msgid ""
 "shortcut> to seek while adjusting zone in"
 msgstr ""
 "<shortcut>Перемещение</shortcut>: установка точки входа в участок, "
-"<shortcut> Shift + перемещение</shortcut>: переход при выборе точки входа"
+"<shortcut> Shift + перемещение</shortcut>: переход при выборе точки входа."
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -14803,7 +14806,7 @@ msgid ""
 "shortcut> to seek while adjusting zone out"
 msgstr ""
 "<shortcut>Перемещение</shortcut>: установка точки выхода из участка, "
-"<shortcut> Shift + перемещение</shortcut>: переход при выборе точки выхода"
+"<shortcut> Shift + перемещение</shortcut>: переход при выборе точки выхода."
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -17847,7 +17850,7 @@ msgstr "Включить клип"
 #: src/timeline2/view/timelinecontroller.cpp:4019
 #, kde-format
 msgid "Disable clip"
-msgstr "Выключить клип"
+msgstr "Отключить клип"
 
 #: src/timeline2/model/timelinefunctions.cpp:1167
 #, kde-format
@@ -18338,10 +18341,9 @@ msgid "Editing duration for %1 clips."
 msgstr "Извлечение звука для %1."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Редактирование в режиме со сдвигом"
+msgstr "Редактирование в режиме со сдвигом."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -18701,7 +18703,7 @@ msgstr "Включить звук"
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Mute"
-msgstr "Выключить звук"
+msgstr "Отключить звук"
 
 #: src/timeline2/view/qml/TrackHead.qml:577
 #, kde-format
@@ -18961,6 +18963,7 @@ msgstr "Экспорт файла с субтитрами"
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
+"Файл Sub Station Alpha v4.00+ (*.ass);;Файл с субтитрами SubRip (*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5122
 #, kde-format
@@ -18972,9 +18975,9 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:5127
-#, fuzzy, kde-format
+#, kde-format
 msgid "Warning"
-msgstr "Предупреждение о вставке"
+msgstr "Предупреждение"
 
 #: src/timeline2/view/timelinecontroller.cpp:5165
 #, kde-format
@@ -21935,7 +21938,7 @@ msgstr "крен"
 #: src/ui/editsub_ui.ui:581
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Имя</p></body></html>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:18
@@ -21945,10 +21948,9 @@ msgstr "Файл с субтитрами:"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Style name"
-msgstr "Имя файла"
+msgstr "Имя стиля"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -22469,9 +22471,9 @@ msgstr "Путь"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
+#, kde-format
 msgid "New File"
-msgstr "Текстовый файл"
+msgstr "Новый файл"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
@@ -22486,7 +22488,7 @@ msgstr "Удалить"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "Слои и содержимое"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: src/ui/managesubtitles_ui.ui:211
@@ -22496,9 +22498,9 @@ msgstr "Стиль"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
+#, kde-format
 msgid "New Layer"
-msgstr "Новая метка"
+msgstr "Новый слой"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
@@ -22586,9 +22588,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
+#, kde-format
 msgid "New Style"
-msgstr "Стиль"
+msgstr "Новый стиль"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
