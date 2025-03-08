@@ -8,6 +8,7 @@
 #pragma once
 
 #include <QObject>
+#include <QProgressDialog>
 
 #include <opentimelineio/clip.h>
 #include <opentimelineio/timeline.h>
@@ -63,4 +64,7 @@ private:
     void exportMarker(const CommentedTime &, const OTIO_NS::TimeRange &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Item> &);
 
     double projectFps() const;
+
+    int m_exportingProgress = 0;
+    QProgressDialog *m_exportingDialog = nullptr;
 };

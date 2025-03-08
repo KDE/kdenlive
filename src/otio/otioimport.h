@@ -10,6 +10,7 @@
 #include <QFileInfo>
 #include <QMap>
 #include <QObject>
+#include <QProgressDialog>
 
 #include <opentimelineio/clip.h>
 #include <opentimelineio/marker.h>
@@ -29,11 +30,12 @@ struct OtioImportData
 {
     QFileInfo otioFile;
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline;
+    QSet<QString> otioExternalRefs;
     std::shared_ptr<TimelineItemModel> timeline;
     std::unordered_set<int> defaultTracks;
     QMap<QString, QString> otioExternalRefToBinId;
     QMap<QString, QString> binIdToTimecode;
-    int waitingBinIds = 0;
+    int completedBinClips = 0;
 };
 
 /** @brief This class provides support for importing OpenTimelineIO files.
@@ -75,4 +77,6 @@ private:
     void importMarker(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Marker> &, const GenTime &, const std::shared_ptr<MarkerListModel> &);
 
     static QString resolveFile(const QString &, const QFileInfo &timelineFileInfo);
+
+    QProgressDialog *m_importingDialog = nullptr;
 };

@@ -38,10 +38,28 @@
 OtioImport::OtioImport(QObject *parent)
     : QObject(parent)
 {
+    // Create importing dialog, unless the tests are running.
+    if (auto window = pCore->window()) {
+        m_importingDialog = new QProgressDialog(window);
+        m_importingDialog->setWindowFlags((m_importingDialog->windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint &
+                                          ~Qt::WindowSystemMenuHint);
+        m_importingDialog->setMinimumDuration(0);
+        m_importingDialog->setMaximum(0);
+        m_importingDialog->setWindowTitle(i18nc("@title:window", "Importing OpenTimelineIO"));
+        m_importingDialog->setCancelButton(nullptr);
+        m_importingDialog->setModal(true);
+        m_importingDialog->close();
+    }
 }
 
 void OtioImport::importFile(const QString &fileName, bool newDocument)
 {
+    // Show the importing dialog.
+    if (m_importingDialog) {
+        m_importingDialog->reset();
+        m_importingDialog->show();
+    }
+
     // Create the temporary data for importing.
     std::shared_ptr<OtioImportData> importData = std::make_shared<OtioImportData>();
     importData->otioFile = QFileInfo(fileName);
@@ -51,12 +69,27 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
     importData->otioTimeline = OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline>(
         dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(importData->otioFile.filePath().toStdString(), &otioError)));
     if (!importData->otioTimeline || OTIO_NS::is_error(otioError)) {
+        if (m_importingDialog) {
+            m_importingDialog->close();
+        }
         if (pCore->window()) {
             KMessageBox::error(qApp->activeWindow(), QString::fromStdString(otioError.details), i18n("Error importing OpenTimelineIO file"));
         } else {
             qWarning() << "Error importing OpenTimelineIO file:" << QString::fromStdString(otioError.details);
         }
         return;
+    }
+
+    // Find the OTIO external references that will be added to the bin. Loading the
+    // bin clips will drive the progress dialog.
+    for (const auto &otioClip : importData->otioTimeline->find_clips()) {
+        if (const auto &otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
+            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), importData->otioFile);
+            importData->otioExternalRefs.insert(file);
+        }
+    }
+    if (m_importingDialog) {
+        m_importingDialog->setMaximum(importData->otioExternalRefs.size());
     }
 
     // Try to find an existing profile that matches the frame rate
@@ -135,34 +168,29 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
     importData->timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
     importData->defaultTracks = importData->timeline->getAllTracksIds();
 
-    // Find all of the OTIO media references and add them to the bin. When
-    // the bin clips are ready, import the timeline.
-    //
-    // TODO: Add a progress dialog?
-    for (const auto &otioClip : importData->otioTimeline->find_clips()) {
-        if (const auto &otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
-            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), importData->otioFile);
-            const auto i = importData->otioExternalRefToBinId.find(file);
-            if (i == importData->otioExternalRefToBinId.end()) {
-                Fun undo = []() { return true; };
-                Fun redo = []() { return true; };
-                ++importData->waitingBinIds;
-                std::function<void(const QString &)> callback = [this, importData](const QString &) {
-                    --importData->waitingBinIds;
-                    if (0 == importData->waitingBinIds) {
-                        importTimeline(importData);
-                    }
-                };
-                const QString binId = ClipCreator::createClipFromFile(file, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(),
-                                                                      undo, redo, callback);
-                importData->otioExternalRefToBinId[file] = binId;
-
-                // Get the start timecode from the media.
-                const QString timecode = getTimecode(file);
-                if (!timecode.isEmpty()) {
-                    importData->binIdToTimecode[binId] = timecode;
-                }
+    // Add the OTIO media references to the bin. When the bin clips have
+    // completed loading, import the timeline.
+    importData->completedBinClips = 0;
+    for (const auto &file : importData->otioExternalRefs) {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        std::function<void(const QString &)> callback = [this, importData](const QString &) {
+            ++importData->completedBinClips;
+            if (importData->completedBinClips == importData->otioExternalRefs.size()) {
+                importTimeline(importData);
             }
+            if (m_importingDialog) {
+                m_importingDialog->setValue(importData->completedBinClips);
+            }
+        };
+        const QString binId =
+            ClipCreator::createClipFromFile(file, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callback);
+        importData->otioExternalRefToBinId[file] = binId;
+
+        // Get the start timecode from the media.
+        const QString timecode = getTimecode(file);
+        if (!timecode.isEmpty()) {
+            importData->binIdToTimecode[binId] = timecode;
         }
     }
 }

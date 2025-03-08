@@ -32,6 +32,18 @@
 OtioExport::OtioExport(QObject *parent)
     : QObject(parent)
 {
+    // Create exporting dialog, unless the tests are running.
+    if (auto window = pCore->window()) {
+        m_exportingDialog = new QProgressDialog(window);
+        m_exportingDialog->setWindowFlags((m_exportingDialog->windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint &
+                                          ~Qt::WindowSystemMenuHint);
+        m_exportingDialog->setMinimumDuration(0);
+        m_exportingDialog->setMaximum(0);
+        m_exportingDialog->setWindowTitle(i18nc("@title:window", "Exporting OpenTimelineIO"));
+        m_exportingDialog->setCancelButton(nullptr);
+        m_exportingDialog->setModal(true);
+        m_exportingDialog->close();
+    }
 }
 
 void OtioExport::exportFile(const QString &fileName)
@@ -51,6 +63,14 @@ void OtioExport::slotExport()
 
 void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeline, const QString &fileName)
 {
+    // Show the exporting dialog.
+    m_exportingProgress = 0;
+    if (m_exportingDialog) {
+        m_exportingDialog->reset();
+        m_exportingDialog->show();
+        m_exportingDialog->setMaximum(timeline->getClipsCount());
+    }
+
     // Create the OTIO timeline.
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline(new OTIO_NS::Timeline);
 
@@ -72,6 +92,9 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
     // Write the OTIO timeline to disk.
     OTIO_NS::ErrorStatus otioError;
     bool r = otioTimeline->to_json_file(fileName.toStdString());
+    if (m_exportingDialog) {
+        m_exportingDialog->setValue(timeline->getClipsCount());
+    }
     if (!r || OTIO_NS::is_error(otioError)) {
         if (pCore->window()) {
             KMessageBox::error(qApp->activeWindow(), QString::fromStdString(otioError.details), i18n("Error exporting OpenTimelineIO file"));
@@ -178,6 +201,12 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
                              OTIO_NS::dynamic_retainer_cast<OTIO_NS::Item>(otioClip));
             }
         }
+    }
+
+    // Update the progress.
+    ++m_exportingProgress;
+    if (m_exportingDialog) {
+        m_exportingDialog->setValue(m_exportingProgress);
     }
 }
 
