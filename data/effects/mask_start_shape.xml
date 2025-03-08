@@ -10,7 +10,7 @@
     <parameter type="urllist" paramlist="%maskPaths" name="filter.resource" filter="Video files (*)">
         <name>Image or video resource</name>
     </parameter>
-    <parameter type="keyframe" name="filter.mix" max="100" min="0" default="70" suffix="%">
+    <parameter type="keyframe" name="filter.mix" max="100" min="0" default="70" suffix="%" relative="true">
         <name>Threshold</name>
         <comment>Convert alpha or luma values below this level as opaque and above this level as transparent. This is mostly useful for luma wipe images.</comment>
     </parameter>
@@ -20,7 +20,7 @@
     </parameter>
     <parameter type="bool" name="filter.invert" default="0" min="0" max="1">
         <name>Invert</name>
-        <comment>Use the inverse of the alpha or luma value.</comment>
+        <comment>Use the inverse of the alpha channel.</comment>
     </parameter>
     <parameter type="bool" name="filter.use_luminance" default="0" min="0" max="1">
         <name>Use Luma</name>

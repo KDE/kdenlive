@@ -115,8 +115,13 @@ void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
             if (effName == m_assetId && filt->get_int("_kdenlive_processed") == 0) {
                 if (auto ptr2 = m_model.lock()) {
                     effect = EffectItemModel::construct(std::move(filt), ptr2, QString());
-                    if (filter().get_int("disable") == 1) {
+                    if (m_asset->get_int("disable") == 1) {
                         effect->filter().set("disable", 1);
+                    }
+                    int out = m_asset->get_int("out");
+                    int in = m_asset->get_int("in");
+                    if (out > in) {
+                        effect->filter().set_in_and_out(in, out);
                     }
                     int childId = ptr->get_int("_childid");
                     if (childId == 0) {
@@ -157,10 +162,18 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int
             if (disable || m_asset->get_int("disable") == 1) {
                 effect->filter().set("disable", 1);
             }
+            int out = m_asset->get_int("out");
+            int in = m_asset->get_int("in");
+            if (out > in) {
+                effect->filter().set_in_and_out(in, out);
+            }
             int childId = ptr->get_int("_childid");
             if (childId == 0) {
                 childId = ++m_childId;
                 ptr->set("_childid", childId);
+            }
+            if (out > in) {
+                effect->filter().set_in_and_out(in, out);
             }
             m_childEffects.insert(childId, effect);
             int ret = ptr->attach(effect->filter());

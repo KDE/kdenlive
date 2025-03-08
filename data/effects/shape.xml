@@ -17,7 +17,7 @@
     </parameter>
     <parameter type="bool" name="invert" default="0" min="0" max="1">
         <name>Invert</name>
-        <comment>Use the inverse of the alpha or luma value.</comment>
+        <comment>Use the inverse of the alpha channel.</comment>
     </parameter>
     <parameter type="bool" name="use_luminance" default="0" min="0" max="1">
         <name>Use Luma</name>
