@@ -162,7 +162,10 @@ if(FETCH_OTIO)
     kde_target_enable_exceptions(Imath PUBLIC)
 else()
     find_package(OpenTimelineIO REQUIRED)
-
+    # Work around for header oddity with OTIO and Imath
+    find_package(Imath REQUIRED)
+    get_target_property(IMATH_INCLUDE_DIRS Imath::Imath INTERFACE_INCLUDE_DIRECTORIES)
+    include_directories("${IMATH_INCLUDE_DIRS}/Imath")
     set_package_properties(OpenTimelineIO PROPERTIES
         DESCRIPTION "API and interchange format for editorial timeline information"
         URL "http://opentimeline.io/"
