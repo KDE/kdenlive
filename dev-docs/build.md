@@ -4,27 +4,22 @@
 
 Kdenlive is primarily developed on GNU/Linux, but it is also possible to [build Kdenlive on Microsoft Windows and macOS using Craft](#build-craft). For Windows also [other possibilities exist](https://community.kde.org/Kdenlive/Development/WindowsBuild).
 
-Currently supported distributions are:
+Currently supported GNU/Linux distributions are:
 
-* Ubuntu 24.10 Oracular Oriolea and derivatives
+* Ubuntu 24.10 Oracular Oriolea and derivatives, or later.
 * Arch Linux
-* All platforms fulfilling the requirements described below
 
-The minimum required dependencies are: Qt >= 6.6.0, KF6 >= 6.0, MLT >= 7.22.0.
+But it should work no any platforms fulfilling the requirements described below
 
-Kdenlive droped Qt5 support with version 24.12
+The minimum required dependencies are:
+- [Qt](https://doc.qt.io/) >= 6.6.0 (Kdenlive droped Qt5 support with version 24.12)
+- [KDE frameworks 6 (KF6)](https://develop.kde.org/products/frameworks/) >= 6.0,
+- [MLT](https://www.mltframework.org/) >= 7.28.0.
 
-## Build on Linux
-
-### Base procedure
+## Building on Linux
 
 Kdenlive usually requires the latest version of MLT, in which go several API updates, bugfixes and optimizations.
-On Ubuntu, the easiest way is to add [Kdenlive's ppa](https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master)
-
-```bash
-sudo add-apt-repository ppa:kdenlive/kdenlive-master
-sudo apt update
-```
+So, except if your distribution ships a very recent version of MLT, you'll have to build MLT alongside kdenlive.
 
 It is recommended to uninstall the official kdenlive packages to avoid potential conflicts.
 
@@ -32,15 +27,13 @@ It is recommended to uninstall the official kdenlive packages to avoid potential
 sudo apt remove kdenlive kdenlive-data
 ```
 
-
-#### Get the build dependencies
-
+### Get the build dependencies
 
 First, make sure you have the required tooling installed:
 
 ```bash
 sudo apt install build-essential git cmake extra-cmake-modules libsm-dev clang-format
-# Optional for faster builds install Ninja
+# For faster builds install Ninja
 sudo apt install ninja-build
 ```
 
@@ -59,7 +52,7 @@ Or install the dependencies explicitly:
 ```bash
 # Qt6 modules
 sudo apt install qt6-base-dev qt6-svg-dev qt6-multimedia-dev qt6-networkauth-dev \
-qml6-module-qtqml-workerscript qml6-module-qtquick-window qml6-module-org-kde-desktop
+qml6-module-qtqml-workerscript qml6-module-qtquick-window qml6-module-org-kde-desktop libqt6core5compat6-dev
 
 # KDE Frameworks 6, based on Qt6
 sudo apt install kf6-breeze-icon-theme libkf6archive-dev libkf6bookmarks-dev \
@@ -75,88 +68,90 @@ sudo apt install frei0r-plugins ffmpeg mediainfo
 # Additional multimedia libraries
 sudo apt install libavformat-dev libavcodec-dev libswresample-dev libavutil-dev
 
-# MLT, except if you want to build it manually
-sudo apt install libmlt++-dev libmlt-dev melt
-
 # Dependencies for localization
 sudo apt install ruby subversion gnupg2 gettext
 ```
+### Define your environment variables
 
-#### Clone the repositories
+- If you have specific needs and know what you're doing, you can define where you want to install your builds, like `=$HOME/.local`, as `INSTALL_PREFIX` variable:
+
+```bash
+INSTALL_PREFIX=$HOME/.local # or any other choice, the easiest would be to leave it empty ("")
+```
+Please note that even if you specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
+going be installed in non-user-writable system paths to make them work. If you really do not want to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
+
+- You can also you can set the `JOBS` variable to the number of threads your CPU can offer for builds.
+
+```bash
+JOBS=8
+```
+
+### Building MLT
+
+If your distribution ships a recent enough version of MLT, you could install the following packages:
+
+```bash
+sudo apt install libmlt++-dev libmlt-dev melt
+```
+
+And start building Kdenlive itself.
+
+Otherwise, you should make sure these packages are not installed:
+
+```bash
+sudo apt remove libmlt++-dev libmlt-dev melt
+```
+
+And build MLT:
+
+```bash
+# Install MLT dependencies
+sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev \
+libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev \
+libsamplerate0-dev librubberband-dev libebur128-dev libarchive-dev frei0r-plugins-dev
+
+# Get MLT's source code
+# You will need --recurse-submodules to get the Glaxnimate code
+#
+git clone --recurse-submodules https://github.com/mltframework/mlt.git
+cd mlt
+mkdir build && cd build
+# To build with Qt6, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
+cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE=OFF -DMOD_GLAXNIMATE_QT6=ON
+
+#install (use make instead of ninja if ninja is not used)
+ninja -j$JOBS
+sudo ninja install
+```
+If you want to uninstall it later, you can try
+
+```bash
+sudo xargs -d '\n' rm < install_manifest.txt
+```
+
+### Build Kdenlive itself
 
 In your development directory, run:
 
 ```bash
 git clone https://invent.kde.org/multimedia/kdenlive.git
-```
-
-#### Building MLT (necessary only to get latest git or if your distro's MLT is compiled with a different Qt major version than Kdenlive)
-It is recommended to use your distro packages unless you have a reason to use MLT's git.
-To build manually:
-
-```bash
-# Install MLT dependencies
-sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev libsamplerate0-dev librubberband-dev libebur128-dev libarchive-dev
-
-# Get MLT's source code
-git clone https://github.com/mltframework/mlt.git
-cd mlt
-mkdir build
-cd build
-# To build with Qt6, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
-cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE=OFF -DMOD_GLAXNIMATE_QT6=ON
-
-#install (use make instead of ninja if ninja is not used)
-sudo ninja install
-
-```
-
-#### Build and install the projects
-
-You should decide where you want to install your builds:
-
-- by default it goes to `/usr/local` (good option if you are admin of the machine, normally programs there are automatically detected);
-- you may use `$HOME/.local` user-writable directory (good option if you don't want to play with admin rights, programs there are also usually found)
-- you may want to override the distribution files in `/usr` (then you have to remove MLT & Kdenlive binary & data packages first)
-- you can pick any destination you like (eg in `/opt` or anywhere in `$HOME`, then you will have to set several environment variables for programs, libs and data to be found)
-
-Let's define that destination as `INSTALL_PREFIX` variable; also you can set `JOBS` variable to the number of threads your CPU can offer for builds.
-
-And build the dependencies (MLT) before the project (Kdenlive):
-
-```bash
-INSTALL_PREFIX=$HOME/.local # or any other choice, the easiest would be to leave it empty ("")
-JOBS=4
-
-# Only if you want to compile MLT manually
-cd mlt
+cd kdenlive
 mkdir build && cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
-make -j$JOBS
-make install
-# 'sudo make install' if INSTALL_PREFIX is not user-writable
-
-# Kdenlive
-cd ../../kdenlive
-mkdir build && cd build
-
-# Even if you specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
-# going be installed in non-user-writable system paths to make them work. If you really do not want
-# to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
-# -GNinja is optional
-
 cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF -DQT_MAJOR_VERSION=6
-```
-
-```bash
 ninja -j$JOBS
 sudo ninja install
-# 'sudo make install' if INSTALL_PREFIX is not user-writable or if KDE_INSTALL_USE_QT_SYS_PATHS=ON
 ```
 
-Note that `make install` is required for Kdenlive, otherwise the effects will not be installed and cannot be used.
+Please note that `ninja install` is required for Kdenlive, otherwise the effects will not be installed and cannot be used.
 
-#### Run Kdenlive
+To uninstall Kdenlive:
+
+```bash
+sudo ninja uninstall
+```
+
+### Runnig Kdenlive
 
 If you didn't build in a system path in which all libs and data are automatically found, you will need to set environment variables to point to them.
 This is done by the auto-generated script in `kdenlive/build` that must be sourced (to keep variables set in current shell, unlike just executing the script):
@@ -263,26 +258,5 @@ cmake .. -GNinja -DWITHOUT_OPENCV=true -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
 
 Note: as of 20.04, frei0r doesn't support recent OpenCV (and effects using it seemed not very stable)
 
-### Building in Docker
-
-It is possible to run the above commands inside a container, with a fresh Ubuntu for example.
-Note that Kdenlive cannot be easily run from inside the Docker container as it is a GUI application.
-
-```bash
-# Spin up a Docker container
-# The --rm flag removes the container after it is stopped.
-docker run -it --rm ubuntu:22.04
-
-# Now install the dependencies etc.
-# Note that you are root in the container, and sudo neither exists nor works.
-apt install …
-
-# When you are done, exit
-exit
-```
-
-## Translating Kdenlive
-
-TODO
 
 [fuzzer-blog]: https://kdenlive.org/en/2019/03/inside-kdenlive-how-to-fuzz-a-complex-gui-application/
