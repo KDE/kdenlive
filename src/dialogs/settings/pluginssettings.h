@@ -53,6 +53,8 @@ private:
     void reloadWhisperModels();
     /** @brief Check folder size */
     void checkSamFolderSize();
+    /** @brief Allow installing specific cuda version */
+    void checkCuda(bool isSam);
 
 private Q_SLOTS:
     void slotParseVoskDictionaries();

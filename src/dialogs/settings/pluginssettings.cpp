@@ -203,6 +203,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
                     combo_wr_device->addItem(s.simplified(), s.simplified());
                 }
             }
+            install_nvidia_wr->setVisible(combo_wr_device->count() == 1);
         }
     });
 
@@ -392,6 +393,10 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         sam_system_params->setVisible(false);
         checkSamEnvironement(false);
     }
+    install_nvidia_wr->setVisible(false);
+    connect(install_nvidia_wr, &QPushButton::clicked, this, [this]() { checkCuda(false); });
+    install_nvidia_sam->setVisible(false);
+    connect(install_nvidia_sam, &QPushButton::clicked, this, [this]() { checkCuda(true); });
     connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this, pythonSamLabel](bool systemPackages) {
         pythonSamLabel->setVisible(false);
         KdenliveSettings::setSam_system_python(systemPackages);
@@ -969,4 +974,53 @@ void PluginsSettings::applySettings()
     if (combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
         KdenliveSettings::setWhisperDevice(combo_wr_device->currentData().toString());
     }
+}
+
+void PluginsSettings::checkCuda(bool isSam)
+{
+    // Determine CUDA version
+    QString detectedCuda;
+    const QString nvcc = QStandardPaths::findExecutable(QStringLiteral("nvcc"));
+    if (!nvcc.isEmpty()) {
+        QProcess extractInfo;
+        extractInfo.start(nvcc, {QStringLiteral("--version")});
+        extractInfo.waitForFinished();
+        if (extractInfo.exitStatus() == QProcess::NormalExit) {
+            const QString output = extractInfo.readAllStandardOutput();
+            if (output.contains(QLatin1String("11.8"))) {
+                detectedCuda = QStringLiteral("cu118");
+            } else if (output.contains(QLatin1String("12.4"))) {
+                detectedCuda = QStringLiteral("cu124");
+            } else if (output.contains(QLatin1String("12.6"))) {
+                detectedCuda = QStringLiteral("cu126");
+            }
+        }
+    }
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    l->addWidget(new QLabel(i18n("Select your CUDA version"), &d));
+    QRadioButton b118(i18n("CUDA 11.8"), &d);
+    if (detectedCuda == QStringLiteral("cu118")) {
+        b118.setChecked(true);
+    }
+    QRadioButton b124(i18n("CUDA 12.4"), &d);
+    if (detectedCuda == QStringLiteral("cu124")) {
+        b124.setChecked(true);
+    }
+    QRadioButton b126(i18n("CUDA 12.6"), &d);
+    if (detectedCuda == QStringLiteral("cu126")) {
+        b126.setChecked(true);
+    }
+    l->addWidget(&b118);
+    l->addWidget(&b124);
+    l->addWidget(&b126);
+    l->addWidget(buttonBox);
+    if (d.exec() != QDialog::Accepted) {
+        return;
+    }
+    // handle installation
 }
