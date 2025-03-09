@@ -10,21 +10,18 @@ Currently supported distributions are:
 * Arch Linux
 * All platforms fulfilling the requirements described below
 
-The minimum required dependencies are: Qt >= 6.6.0, KF6 >= 6.0, MLT >= 7.22.0.
+The minimum required dependencies are:
+- [Qt](https://doc.qt.io/) >= 6.6.0 (Kdenlive droped Qt5 support with version 24.12)
+- [KDE frameworks 6 (KF6)](https://develop.kde.org/products/frameworks/) >= 6.0,
+- [MLT](https://www.mltframework.org/) >= 7.28.0.
 
-Kdenlive droped Qt5 support with version 24.12
 
 ## Build on Linux
 
 ### Base procedure
 
 Kdenlive usually requires the latest version of MLT, in which go several API updates, bugfixes and optimizations.
-On Ubuntu, the easiest way is to add [Kdenlive's ppa](https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master)
-
-```bash
-sudo add-apt-repository ppa:kdenlive/kdenlive-master
-sudo apt update
-```
+So, except if your distribution ships a very recent version of MLT, you'll have to build MLT alongside kdenlive.
 
 It is recommended to uninstall the official kdenlive packages to avoid potential conflicts.
 
