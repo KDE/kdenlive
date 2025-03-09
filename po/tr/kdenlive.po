@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
-"PO-Revision-Date: 2025-03-07 23:32+0300\n"
+"POT-Creation-Date: 2025-03-09 02:30+0000\n"
+"PO-Revision-Date: 2025-03-08 14:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2321,8 +2321,9 @@ msgstr ""
 "yapılacağı.0,0 = yumuşaklık yok, 1,0 = çok yumuşak."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, kde-format
-msgid "Use the inverse of the alpha or luma value."
+#, fuzzy, kde-format
+#| msgid "Use the inverse of the alpha or luma value."
+msgid "Use the inverse of the alpha channel."
 msgstr "Alfa veya luma değerinin tersini kullanın."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
@@ -10875,17 +10876,17 @@ msgstr "Özel Efekti Dışa Aktar"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Sık kullanılan efektlerden bazıları geçersiz ve kaldırıldı: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Anahtar Kareleri Gizle"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Show keyframes"
 msgstr "Anahtar Kareleri Göster"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, kde-format
 msgid "Update zone for %1"
 msgstr "%1 için bölgeyi güncelle"
@@ -11230,28 +11231,24 @@ msgid "Job failed"
 msgstr "İşi başarısız oldu"
 
 #: src/effects/effectstack/view/maskmanager.cpp:221
-#, fuzzy, kde-format
-#| msgid "Another mask task is running, please wait."
+#, kde-format
 msgid "Another transcode task is running, try later."
-msgstr "Başka bir maske görevi çalışıyor, lütfen bekleyin."
+msgstr "Başka bir arakodlama görevi çalışıyor, daha sonra deneyin."
 
 #: src/effects/effectstack/view/maskmanager.cpp:226
-#, fuzzy, kde-format
-#| msgid "Another mask task is running, please wait."
+#, kde-format
 msgid "Another mask task is running, try later."
-msgstr "Başka bir maske görevi çalışıyor, lütfen bekleyin."
+msgstr "Başka bir maske görevi çalışıyor, daha sonra deneyin."
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "Geçici dosya oluşturulamadı"
+msgstr "Geçici dosya açılamıyor"
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "Sözlük klasörüne erişilemiyor."
+msgstr "Proje klasörüne erişilemiyor"
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format

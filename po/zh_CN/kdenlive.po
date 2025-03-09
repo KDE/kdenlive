@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 02:30+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2237,8 +2237,9 @@ msgstr ""
 "当使用混合 (阈值)，如何柔化阈值附近的边缘：0.0 = 无柔化，1.0 = 过柔化。"
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, kde-format
-msgid "Use the inverse of the alpha or luma value."
+#, fuzzy, kde-format
+#| msgid "Use the inverse of the alpha or luma value."
+msgid "Use the inverse of the alpha channel."
 msgstr "使用透明度或亮度通道的反相值。"
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
@@ -6476,16 +6477,14 @@ msgid "Remove stream effect"
 msgstr "移除流效果"
 
 #: src/bin/projectclip.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask added to clip"
-msgstr "蒙版剪辑"
+msgstr ""
 
 #: src/bin/projectclip.cpp:3176
-#, fuzzy, kde-format
-#| msgid "Missing source frames"
+#, kde-format
 msgid "Missing clip for mask"
-msgstr "缺少来源帧"
+msgstr ""
 
 #: src/bin/projectfolder.cpp:111
 #, kde-format
@@ -10629,17 +10628,17 @@ msgstr "导出自定义效果"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "部分常用效果无效，它们已被移除：%1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Hide keyframes"
 msgstr "隐藏关键帧"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Show keyframes"
 msgstr "显示关键帧"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, kde-format
 msgid "Update zone for %1"
 msgstr "更新 %1 的区段"
@@ -10986,16 +10985,14 @@ msgid "Another mask task is running, try later."
 msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "无法创建临时文件"
+msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "无法访问词典文件夹。"
+msgstr ""
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format
@@ -14498,10 +14495,9 @@ msgid "Export image using source resolution"
 msgstr "按来源分辨率导出图像"
 
 #: src/monitor/monitor.cpp:1878
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Exit Mask Mode ?"
-msgstr "退出蒙板创建"
+msgstr ""
 
 #: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
 #, kde-format
@@ -14546,10 +14542,9 @@ msgid "Enable edit mode in monitor to edit effect"
 msgstr "启用监视器编辑模式以编辑效果"
 
 #: src/monitor/monitor.cpp:3092
-#, fuzzy, kde-format
-#| msgid "No clip selected in project bin"
+#, kde-format
 msgid "No clip selected in Clip Monitor"
-msgstr "项目素材箱中没有选中剪辑"
+msgstr ""
 
 #: src/monitor/monitor.cpp:3113
 #, kde-format
@@ -15349,34 +15344,29 @@ msgid "Error Getting Access Token from %1."
 msgstr "从 %1 获取访问令牌时出错。"
 
 #: src/otio/otioexport.cpp:44
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Export"
-msgstr "OpenTimelineIO 导出(&X)…"
+msgstr ""
 
 #: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Project"
-msgstr "OpenTimelineIO 导出(&X)…"
+msgstr ""
 
 #: src/otio/otioexport.cpp:77
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error exporting OpenTimelineIO file"
-msgstr "打开文件时出错"
+msgstr ""
 
 #: src/otio/otioimport.cpp:55
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr "打开文件时出错"
+msgstr ""
 
 #: src/otio/otioimport.cpp:172
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO &Import…"
+#, kde-format
 msgid "OpenTimelineIO Import"
-msgstr "OpenTimelineIO 导入(&I)…"
+msgstr ""
 
 #: src/profiles/profileinfo.cpp:103
 #, kde-format
@@ -24380,8 +24370,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#, fuzzy
-#~| msgid "Mask creation"
-#~ msgid "Mask creation failed."
-#~ msgstr "蒙版创建"

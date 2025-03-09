@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
-"PO-Revision-Date: 2025-03-07 06:02+0100\n"
+"POT-Creation-Date: 2025-03-09 02:30+0000\n"
+"PO-Revision-Date: 2025-03-08 06:09+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2310,8 +2310,9 @@ msgstr ""
 "0.0 = სირბილის გარეშე. 1.0 = ძალიან რბილი."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, kde-format
-msgid "Use the inverse of the alpha or luma value."
+#, fuzzy, kde-format
+#| msgid "Use the inverse of the alpha or luma value."
+msgid "Use the inverse of the alpha channel."
 msgstr "ალფას ან კაშეს ინვერსიული მნიშვნელობის გამოყენება."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
@@ -10865,17 +10866,17 @@ msgstr "მომხმარებლის ეფექტის გატა�
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "ზოგიერთ თქვენი რჩეული ეფექტი არასწორია და წაიშალა: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Hide keyframes"
 msgstr "კადრების დამალვა"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Show keyframes"
 msgstr "კადრების ჩვენება"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, kde-format
 msgid "Update zone for %1"
 msgstr "%1-სთვის ზონის განახლება"
@@ -11215,28 +11216,24 @@ msgid "Job failed"
 msgstr "დავალების შეცდომა"
 
 #: src/effects/effectstack/view/maskmanager.cpp:221
-#, fuzzy, kde-format
-#| msgid "Another mask task is running, please wait."
+#, kde-format
 msgid "Another transcode task is running, try later."
-msgstr "გაშვებულია სხვა ამოცანა. მოითმინეთ."
+msgstr "გაშვებულია სხვა ტრანსკოდირების ამოცანა. მოგვიანებით სცადეთ."
 
 #: src/effects/effectstack/view/maskmanager.cpp:226
-#, fuzzy, kde-format
-#| msgid "Another mask task is running, please wait."
+#, kde-format
 msgid "Another mask task is running, try later."
-msgstr "გაშვებულია სხვა ამოცანა. მოითმინეთ."
+msgstr "გაშვებულია სხვა ამოცანა. მოგვიანებით სცადეთ."
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "დროებითი ფაილის შექმნა შეუძლებელია"
+msgstr "დროებითი ფაილის გახსნა შეუძლებელია"
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "ლექსიკონის საქაღალდესთან წვდომა შეუძლებელია."
+msgstr "პროექტის საქაღალდესთან წვდომა შეუძლებელია"
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format
