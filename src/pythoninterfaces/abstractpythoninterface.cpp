@@ -36,7 +36,13 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
     m_abortAction = new QAction(i18n("Abort installation"), this);
     addAction(m_installAction);
     connect(m_abortAction, &QAction::triggered, m_interface, &AbstractPythonInterface::abortScript);
-    connect(m_interface, &AbstractPythonInterface::setupError, this, [&](const QString &message) { doShowMessage(message, KMessageWidget::Warning); });
+    connect(m_interface, &AbstractPythonInterface::setupError, this, [&](const QString &message) {
+        if (m_interface->m_installStatus == AbstractPythonInterface::NotInstalled) {
+            removeAction(m_abortAction);
+            m_installAction->setEnabled(true);
+        }
+        doShowMessage(message, KMessageWidget::Warning);
+    });
     connect(m_interface, &AbstractPythonInterface::installStatusChanged, this, [&]() {
         switch (m_interface->status()) {
         case AbstractPythonInterface::Installed:
@@ -328,7 +334,6 @@ bool AbstractPythonInterface::checkVenv(bool calculateSize, bool forceInstall)
     // Setup venv
     if (!setupVenv()) {
         // setup failed
-        setStatus(Broken);
         return false;
     }
     setStatus(InProgress);
@@ -389,6 +394,7 @@ bool AbstractPythonInterface::setupVenv()
 
     // Check that the system python is found
     if (pythonExec.isEmpty() || installInProgress) {
+        Q_EMIT setupError(i18n("Cannot find system python"));
         return false;
     }
     // Use system python to check for venv
@@ -411,18 +417,20 @@ bool AbstractPythonInterface::setupVenv()
             installInProgress = false;
             return true;
         }
-        // ERROR READ JOB OUTPUT
-        Q_EMIT setupError(i18n("Cannot create the python virtual environment:\n%1", envProcess.readAllStandardOutput()));
-    } else {
-        Q_EMIT setupError(i18n("Cannot create the python virtual environment:\n%1", envProcess.readAllStandardError()));
     }
+    m_installStatus = NotInstalled;
+    // ERROR READ JOB OUTPUT
+    QString errorLog = envProcess.readAllStandardOutput();
+    errorLog.append(QStringLiteral("\n%1").arg(envProcess.readAllStandardError()));
+    Q_EMIT setupError(i18n("Cannot create the python virtual environment:\n%1", errorLog));
+
     // Install failed, remove venv
-    if (pluginDir.cd(QStringLiteral("venv"))) {
-        if (pluginDir.dirName() == QLatin1String("venv")) {
+    const QString venvPath = getVenvPath();
+    if (pluginDir.cd(venvPath)) {
+        if (pluginDir.dirName() == venvPath) {
             pluginDir.removeRecursively();
         }
     }
-    setStatus(NotInstalled);
     installInProgress = false;
     Q_EMIT venvSetupChanged();
     return false;
