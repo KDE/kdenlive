@@ -997,7 +997,7 @@ void PluginsSettings::checkCuda(bool isSam)
         }
     }
     QDialog d(this);
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Cancel);
     connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     auto *l = new QVBoxLayout;
@@ -1015,12 +1015,34 @@ void PluginsSettings::checkCuda(bool isSam)
     if (detectedCuda == QStringLiteral("cu126")) {
         b126.setChecked(true);
     }
+    QButtonGroup bg;
+    bg.addButton(&b118);
+    bg.addButton(&b124);
+    bg.addButton(&b126);
     l->addWidget(&b118);
     l->addWidget(&b124);
     l->addWidget(&b126);
     l->addWidget(buttonBox);
+    KMessageWidget km;
+    if (!detectedCuda.isEmpty()) {
+        km.setText(i18n("Detected version: %1", bg.checkedButton()->text()));
+        km.setMessageType(KMessageWidget::Positive);
+    } else {
+        km.setText(i18n("CUDA version not, please select the version installed on your system."));
+        km.setMessageType(KMessageWidget::Information);
+    }
+    if (detectedCuda.isEmpty()) {
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        connect(&bg, &QButtonGroup::buttonClicked, &d, [&buttonBox]() { buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true); });
+    }
     if (d.exec() != QDialog::Accepted) {
         return;
     }
     // handle installation
+    QString requirementsFile;
+    if (isSam) {
+        requirementsFile = QStringLiteral("requirements-%1.txt").arg(detectedCuda);
+    } else {
+        requirementsFile = QStringLiteral("requirements-%1.txt").arg(detectedCuda);
+    }
 }
