@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:40+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2173,9 +2173,10 @@ msgid ""
 msgstr ""
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, kde-format
-msgid "Use the inverse of the alpha or luma value."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Draws simple shapes into the alpha channel"
+msgid "Use the inverse of the alpha channel."
+msgstr "アルファチャンネルにシンプルな形 (シェイプ) を描画する"
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, fuzzy, kde-format
@@ -11020,19 +11021,19 @@ msgstr "効果の削除"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "効果の一部が無効であったため削除されました: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide keyframes"
 msgstr "フレームの隠蔽"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show keyframes"
 msgstr "キーフレームの削除"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update zone for %1"

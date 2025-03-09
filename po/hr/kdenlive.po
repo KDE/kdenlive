@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:40+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -2205,7 +2205,7 @@ msgstr ""
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
 #, kde-format
-msgid "Use the inverse of the alpha or luma value."
+msgid "Use the inverse of the alpha channel."
 msgstr ""
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
@@ -10939,19 +10939,19 @@ msgstr "Obriši efekt"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide keyframes"
 msgstr "Sakrij okvir"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show keyframes"
 msgstr "Obriši ključni okvir (keyframe)"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, fuzzy, kde-format
 #| msgid "Save Profile"
 msgid "Update zone for %1"

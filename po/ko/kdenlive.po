@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:40+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -2204,8 +2204,9 @@ msgstr ""
 "법입니다. 0.0 = 부드러움 없음, 1.0 = 아주 부드러움."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, kde-format
-msgid "Use the inverse of the alpha or luma value."
+#, fuzzy, kde-format
+#| msgid "Use the inverse of the alpha or luma value."
+msgid "Use the inverse of the alpha channel."
 msgstr "알파 또는 광도 값의 역수를 사용하십시오."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
@@ -10923,19 +10924,19 @@ msgstr "사용자 정의 효과 내보내기"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "책갈피에 등록된 효과 중 일부가 잘못되어 삭제됨: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Hide keyframes"
 msgstr "키프레임 숨기기"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Move keyframes"
 msgid "Show keyframes"
 msgstr "키프레임 이동"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, kde-format
 msgid "Update zone for %1"
 msgstr "%1의 영역 업데이트"

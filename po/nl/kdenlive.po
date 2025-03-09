@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
-"PO-Revision-Date: 2025-03-07 13:05+0100\n"
+"POT-Creation-Date: 2025-03-09 00:40+0000\n"
+"PO-Revision-Date: 2025-03-08 10:50+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2337,8 +2337,9 @@ msgstr ""
 "0.0 = geen zachtheid, 1.0 = erg zacht."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, kde-format
-msgid "Use the inverse of the alpha or luma value."
+#, fuzzy, kde-format
+#| msgid "Use the inverse of the alpha or luma value."
+msgid "Use the inverse of the alpha channel."
 msgstr "De inverse van de waarde van alfa of luma gebruiken."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
@@ -10945,17 +10946,17 @@ msgstr "Aangepast effect exporteren"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Sommige van uw favoriete effecten zijn ongeldig en zijn verwijderd: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Keyframe verbergen"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Show keyframes"
 msgstr "Keyframes tonen"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Zone voor %1 bijwerken"
@@ -11298,28 +11299,24 @@ msgid "Job failed"
 msgstr "Taak is mislukt"
 
 #: src/effects/effectstack/view/maskmanager.cpp:221
-#, fuzzy, kde-format
-#| msgid "Another mask task is running, please wait."
+#, kde-format
 msgid "Another transcode task is running, try later."
-msgstr "Een andere maskertaak is actief, even geduld."
+msgstr "Een andere transcoderingstaak is actief, probeer het later."
 
 #: src/effects/effectstack/view/maskmanager.cpp:226
-#, fuzzy, kde-format
-#| msgid "Another mask task is running, please wait."
+#, kde-format
 msgid "Another mask task is running, try later."
-msgstr "Een andere maskertaak is actief, even geduld."
+msgstr "Een andere maskertaak is actief, probeer het later."
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "Kan geen tijdelijk bestand maken"
+msgstr "Kan geen tijdelijk bestand openen"
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "Geen toegang tot woordenboekmap."
+msgstr "Geen toegang tot projectmap"
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format

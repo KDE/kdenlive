@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
+"POT-Creation-Date: 2025-03-09 00:40+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -2220,8 +2220,9 @@ msgstr ""
 "sekitar tepi ambang batas. 0.0 = tanpa kelembutan, 1.0 = terlalu lembut."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, kde-format
-msgid "Use the inverse of the alpha or luma value."
+#, fuzzy, kde-format
+#| msgid "Use the inverse of the alpha or luma value."
+msgid "Use the inverse of the alpha channel."
 msgstr "Gunakan kebalikan alfa atau nilai luma."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
@@ -10801,17 +10802,17 @@ msgstr "Ekspor Efek Kustom"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Beberapa efek favorit Anda tidaklah valid dan telah disingkirkan: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Sembunyikan keyframe"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Show keyframes"
 msgstr "Tampilkan keyframe"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Perbarui zona %1"

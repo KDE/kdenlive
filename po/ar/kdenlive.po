@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 00:43+0000\n"
-"PO-Revision-Date: 2025-03-06 09:01+0400\n"
+"POT-Creation-Date: 2025-03-09 00:40+0000\n"
+"PO-Revision-Date: 2025-03-08 23:00+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -2285,8 +2285,9 @@ msgstr ""
 "1.0 = لينة جدا."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, kde-format
-msgid "Use the inverse of the alpha or luma value."
+#, fuzzy, kde-format
+#| msgid "Use the inverse of the alpha or luma value."
+msgid "Use the inverse of the alpha channel."
 msgstr "استخدم عكس قيمة ألفا أو لوما."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
@@ -6594,16 +6595,14 @@ msgid "Remove stream effect"
 msgstr "أزل  تّأثير دفق"
 
 #: src/bin/projectclip.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask added to clip"
-msgstr "مقطع قناع"
+msgstr "أُضيف قناع إلى مقطع"
 
 #: src/bin/projectclip.cpp:3176
-#, fuzzy, kde-format
-#| msgid "Missing source frames"
+#, kde-format
 msgid "Missing clip for mask"
-msgstr "الأطر المصدر المفقودة"
+msgstr "مقطع مفقود للقناع"
 
 #: src/bin/projectfolder.cpp:111
 #, kde-format
@@ -10844,17 +10843,17 @@ msgstr "احذف التّأثير"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "بعض تأثيراتك المفضلة غير صالحة وأزيلت: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Hide keyframes"
 msgstr "أخفِ الأطر الرئيسة"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:273
+#: src/effects/effectstack/model/effectitemmodel.cpp:286
 #, kde-format
 msgid "Show keyframes"
 msgstr "أظهر الأطر الرئيسة"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:354
+#: src/effects/effectstack/model/effectitemmodel.cpp:367
 #, kde-format
 msgid "Update zone for %1"
 msgstr "حدّث منطقة لـ%1"
@@ -11191,28 +11190,24 @@ msgid "Job failed"
 msgstr "فشلت المهمّة"
 
 #: src/effects/effectstack/view/maskmanager.cpp:221
-#, fuzzy, kde-format
-#| msgid "Processing audio, please wait."
+#, kde-format
 msgid "Another transcode task is running, try later."
-msgstr "يعالج الصّوت، رجاء انتظر."
+msgstr "مهمة تحويل ترميز أخرى قيد التشغيل، حاول لاحقًا."
 
 #: src/effects/effectstack/view/maskmanager.cpp:226
-#, fuzzy, kde-format
-#| msgid "Processing audio, please wait."
+#, kde-format
 msgid "Another mask task is running, try later."
-msgstr "يعالج الصّوت، رجاء انتظر."
+msgstr "مهمة قناع آخر قيد التشغيل، حاول لاحقًا."
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "تعذّر إنشاء الملفّ المؤّقت"
+msgstr "تعذّر فتح الملفّ المؤّقت"
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "لا يمكن الوصول إلى مجلد المعجم."
+msgstr "لا يمكن الوصول إلى مجلد المشروع."
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format
@@ -14744,10 +14739,9 @@ msgid "Export image using source resolution"
 msgstr "صدر الصورة باستعمال دقة المصدر"
 
 #: src/monitor/monitor.cpp:1878
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Exit Mask Mode ?"
-msgstr "اخرج من إنشاء القناع"
+msgstr "هل اخرج من نمط القناع؟"
 
 #: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
 #, kde-format
@@ -14797,15 +14791,14 @@ msgid "Enable edit mode in monitor to edit effect"
 msgstr "مكّن نمط التحرير في الشاشة لتحرر التأثير"
 
 #: src/monitor/monitor.cpp:3092
-#, fuzzy, kde-format
-#| msgid "No clip selected in project bin"
+#, kde-format
 msgid "No clip selected in Clip Monitor"
-msgstr "لم تحدد مقطع في سلة المشروع"
+msgstr "لا يوجد مقطع محدد في شاشة المقاطع"
 
 #: src/monitor/monitor.cpp:3113
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot get producer for Clip Monitor"
-msgstr "تعذّرت الكتابة إلى الملفّ %1"
+msgstr "لا يمكن الحصول على منتج لشاشة المقاطع"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -15609,34 +15602,29 @@ msgid "Error Getting Access Token from %1."
 msgstr "خطأ في الحصول على رمز الوصول من %1"
 
 #: src/otio/otioexport.cpp:44
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Export"
-msgstr "&صدر ‏OpenTimelineIO‏…"
+msgstr "تصدير ‏OpenTimelineIO‏"
 
 #: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Project"
-msgstr "&صدر ‏OpenTimelineIO‏…"
+msgstr "مشروع ‏OpenTimelineIO‏"
 
 #: src/otio/otioexport.cpp:77
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error exporting OpenTimelineIO file"
-msgstr "خطأ في فتح الملفّ"
+msgstr "خطأ في تصدير ملف OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:55
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr "خطأ في فتح الملفّ"
+msgstr "خطأ في استيراد ملف OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:172
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO &Import…"
+#, kde-format
 msgid "OpenTimelineIO Import"
-msgstr "ا&ستورد OpenTimelineIO…"
+msgstr "استيراد OpenTimelineIO"
 
 #: src/profiles/profileinfo.cpp:103
 #, kde-format
