@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-09 00:40+0000\n"
-"PO-Revision-Date: 2025-03-08 06:09+0100\n"
+"PO-Revision-Date: 2025-03-09 05:08+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1578,8 +1578,8 @@ msgid ""
 "<![CDATA[Enable it to draw the current value in big white bold letters on "
 "the bottom right side of the rect.<br>\n"
 "    \tThe <em>Legend unit</em> value will be appended at the end and it will "
-"be used as the current unit (if a valid unit is found ie: kilometers if \"km"
-"\" is found anywhere in the <em>Legend unit</em> string).]]>"
+"be used as the current unit (if a valid unit is found ie: kilometers if "
+"\"km\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
 "<![CDATA[Enable it to draw the current value in big white bold letters on "
 "the bottom right side of the rect.<br><em>ლეგენდის ერთეულის</em> მნიშვნელობა "
@@ -2310,10 +2310,9 @@ msgstr ""
 "0.0 = სირბილის გარეშე. 1.0 = ძალიან რბილი."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha or luma value."
+#, kde-format
 msgid "Use the inverse of the alpha channel."
-msgstr "ალფას ან კაშეს ინვერსიული მნიშვნელობის გამოყენება."
+msgstr "ალფას არხის ინვერსიული მნიშვნელობის გამოყენება."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
@@ -3164,12 +3163,12 @@ msgid ""
 "<![CDATA[An offset to be added to the timer value.\n"
 "When the direction is \"down\", the timer will count down to \"offset\" "
 "instead of 00:00:00.000.\n"
-"When the direction is up, the timer will count up starting from \"offset"
-"\".]]>"
+"When the direction is up, the timer will count up starting from "
+"\"offset\".]]>"
 msgstr ""
 "<![CDATA[წანაცვლება ტაიმერის მნიშვნელობაზე მისამამატებლად.\n"
-"როცა მიმართულებაა \"ქვემოთ\", ტაიმერი 00:00:00.000-ის მაგიერ \"წანაცვლებამდე"
-"\" ათვლას დაწყებს.\n"
+"როცა მიმართულებაა \"ქვემოთ\", ტაიმერი 00:00:00.000-ის მაგიერ "
+"\"წანაცვლებამდე\" ათვლას დაწყებს.\n"
 "როცა მიმართულებაა \"მაღლა\", ტაიმერი \"წანაცვლებიდან\" ზემოთ ათვლას "
 "დაიწყებს.]]>"
 
@@ -8578,8 +8577,8 @@ msgstr "დაამატეთ საუბრის მოდელი."
 #: src/dialogs/settings/pluginssettings.cpp:272
 #, kde-format
 msgid ""
-"Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
-"\">https://alphacephei.com/vosk/models</a>"
+"Download speech models from: <a href=\"https://alphacephei.com/vosk/"
+"models\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 "გადმოწერეთ მეტყველების მოდელები: <a href=\"https://alphacephei.com/vosk/"
 "models\">https://alphacephei.com/vosk/models</a>"
@@ -13762,8 +13761,8 @@ msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"ეს ყველა დროებით ფაილს გადაიტანს საქაღალდიდან<br/><b>%1</b>საქაღალდეში <b>"
-"%2</b>,<br/>შემდეგ კი პროექტის ფაილი თავიდან ჩაიტვირთება"
+"ეს ყველა დროებით ფაილს გადაიტანს საქაღალდიდან<br/><b>%1</b>საქაღალდეში "
+"<b>%2</b>,<br/>შემდეგ კი პროექტის ფაილი თავიდან ჩაიტვირთება"
 
 #: src/mainwindow.cpp:2225 src/project/projectmanager.cpp:619
 #, kde-format
@@ -13883,9 +13882,9 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Shift+გადათრევა</shortcut> rubber-band მონიშნულისთვის, "
-"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მონიშვნისთვის, <shortcut>Meta"
-"+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე გადასათრევად, "
-"<shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
+"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მონიშვნისთვის, "
+"<shortcut>Meta+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე "
+"გადასათრევად, <shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
 
 #: src/mainwindow.cpp:3426
 #, kde-kuit-format
@@ -13897,9 +13896,9 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 "<shortcut>Shift+გადათრევა</shortcut> rubber-band მონიშნულისთვის, "
-"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მონიშვნისთვის, <shortcut>Meta"
-"+Alt+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე გადასათრევად, "
-"<shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
+"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მონიშვნისთვის, "
+"<shortcut>Meta+Alt+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე "
+"გადასათრევად, <shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
 
 #: src/mainwindow.cpp:3429
 #, kde-format
@@ -13941,8 +13940,8 @@ msgid ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 msgstr ""
-"<shortcut>წკაპი</shortcut> ელემენტზე მის გადასათრევად, <shortcut>Shift"
-"+წკაპი</shortcut> ერთზე მეტი ელემენტის მოსანიშნად"
+"<shortcut>წკაპი</shortcut> ელემენტზე მის გადასათრევად, "
+"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტი ელემენტის მოსანიშნად"
 
 #: src/mainwindow.cpp:3440
 #, kde-format
@@ -13959,9 +13958,9 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Shift+გადათრევა</shortcut> rubber-band მონიშვნისთვის, "
-"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მოსანიშნად, <shortcut>Alt"
-"+წკაპი</shortcut> ჯგუფის ელემენტის მოსანიშნად, <shortcut>Ctrl+გადათრევა</"
-"shortcut> პანორამირებისთვის"
+"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მოსანიშნად, "
+"<shortcut>Alt+წკაპი</shortcut> ჯგუფის ელემენტის მოსანიშნად, "
+"<shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
 
 #: src/mainwindow.cpp:3447
 #, kde-format
@@ -14074,8 +14073,8 @@ msgstr "ვეება (%1x%2)"
 #: src/mainwindow.cpp:4433
 #, kde-format
 msgid ""
-"This will hide the menu bar completely. You can show it again by typing Ctrl"
-"+M."
+"This will hide the menu bar completely. You can show it again by typing "
+"Ctrl+M."
 msgstr ""
 "ეს მენიუს ზოლს მთლიანად დამალავს. მისი ჩვენება Ctrl+M ღილაკებით შეგიძლიათ."
 
@@ -15334,8 +15333,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>გადაათრიეთ</shortcut> წერტილში ზონის დასაყენებლად, <shortcut>Shift"
-"+Drag</shortcut> გადასახვევად ზონის გასწორებისას"
+"<shortcut>გადაათრიეთ</shortcut> წერტილში ზონის დასაყენებლად, "
+"<shortcut>Shift+Drag</shortcut> გადასახვევად ზონის გასწორებისას"
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -19110,8 +19109,8 @@ msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
 "all keyframes after this one."
 msgstr ""
-"<b>გადაათრიეთ</b> მონიშნული საკვანძო კადრის მდებარეობის შესაცვლელად. <b>Shift"
-"+გადათრევა</b> ყველა საკვანძო კადრის ამის შემდეგ გადასატანად."
+"<b>გადაათრიეთ</b> მონიშნული საკვანძო კადრის მდებარეობის შესაცვლელად. "
+"<b>Shift+გადათრევა</b> ყველა საკვანძო კადრის ამის შემდეგ გადასატანად."
 
 #: src/timeline2/view/qml/KeyframeView.qml:282
 #, kde-format
@@ -19984,11 +19983,11 @@ msgstr "გრადაცია"
 #: src/titler/unicodedialog.cpp:77
 #, kde-format
 msgid ""
-"Information about unicode characters: <a href=\"https://decodeunicode.org"
-"\">https://decodeunicode.org</a>"
+"Information about unicode characters: <a href=\"https://decodeunicode."
+"org\">https://decodeunicode.org</a>"
 msgstr ""
-"ინფორმაცია უნიკოდის სიმბოლოების შესახებ: <a href=\"https://decodeunicode.org"
-"\">https://decodeunicode.org</a>"
+"ინფორმაცია უნიკოდის სიმბოლოების შესახებ: <a href=\"https://decodeunicode."
+"org\">https://decodeunicode.org</a>"
 
 #: src/titler/unicodedialog.cpp:78
 #, kde-format
@@ -20017,8 +20016,8 @@ msgid ""
 "Control character. Cannot be inserted/printed. See <a href=\"https://en."
 "wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr ""
-"სპეციალური სიმბოლო. მისი ჩასმა/დაბეჭდვა შეუძლებელია. იხილეთ <a href="
-"\"https://en.wikipedia.org/wiki/Control_character\">Wikipedia:"
+"სპეციალური სიმბოლო. მისი ჩასმა/დაბეჭდვა შეუძლებელია. იხილეთ <a "
+"href=\"https://en.wikipedia.org/wiki/Control_character\">Wikipedia:"
 "Control_character</a>"
 
 #: src/titler/unicodedialog.cpp:147
@@ -20029,11 +20028,11 @@ msgstr "ხაზის დასრულების სიმბოლო (�
 #: src/titler/unicodedialog.cpp:149
 #, kde-format
 msgid ""
-"Standard space character. (Other space characters: U+00a0, U"
-"+2000&#x2013;200b, U+202f)"
+"Standard space character. (Other space characters: U+00a0, "
+"U+2000&#x2013;200b, U+202f)"
 msgstr ""
-"სტანდარტული გამოტოვების სიმბოლო. (სხვა გამოტოვების სიმბოლოებია: U+00a0, U"
-"+2000&#x2013;200b, U+202f)"
+"სტანდარტული გამოტოვების სიმბოლო. (სხვა გამოტოვების სიმბოლოებია: U+00a0, "
+"U+2000&#x2013;200b, U+202f)"
 
 #: src/titler/unicodedialog.cpp:151
 #, kde-format
@@ -20056,8 +20055,8 @@ msgstr ""
 "<strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> HTML-ში) ჰქვიათ "
 "Guillemets ან კუთხოვანი ბრჭყალები. გამოიყენება სხვადასხვა ქვეყნებში: "
 "საფრანგეთში (არაგადატანადი ჰარეთი 0x00a0), შვეიცარიაში, გერმანიაში, ფინეთში "
-"და შვედეთში.</p><p><strong>&lsaquo;</strong> და <strong>&rsaquo;</strong> (U"
-"+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) მათი ერთბრჭყალიანი "
+"და შვედეთში.</p><p><strong>&lsaquo;</strong> და <strong>&rsaquo;</strong> "
+"(U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) მათი ერთბრჭყალიანი "
 "ეკვივალენტურებია.</p><p>იხილეთ <a href=\"https://en.wikipedia.org/wiki/"
 "Guillemets\">Wikipedia:Guillemets</a></p>"
 
@@ -20122,8 +20121,8 @@ msgstr "თმის შპაცია. U+2009-ზე თხელი."
 #: src/titler/unicodedialog.cpp:179
 #, kde-format
 msgid ""
-"Punctuation Apostrophe. Should be used instead of U+0027. See <a href="
-"\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
+"Punctuation Apostrophe. Should be used instead of U+0027. See <a "
+"href=\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
 msgstr ""
 "პუნქტუაციის აპოსტროფი. გამოიყენეთ U+0027-ის მაგიერ. იხილეთ <a href=\"https://"
 "en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
@@ -20207,9 +20206,9 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:202
 #, kde-format
 msgid ""
-"Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U"
-"+2669). See <a href=\"https://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:"
-"Eighth_note</a>"
+"Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note "
+"(U+2669). See <a href=\"https://en.wikipedia.org/wiki/"
+"Eighth_note\">Wikipedia:Eighth_note</a>"
 msgstr ""
 "მერვედი ნოტა. მეოთხედი ნოტის (U+2669) ნახევარი. მეტი ინფორმაციისთვის იხილეთ "
 "<a href=\"https://en.wikipedia.org/wiki/Eighth_note\">სტატია ვიკიზე</a>"
@@ -20217,9 +20216,9 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:205
 #, kde-format
 msgid ""
-"Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U"
-"+266a). See <a href=\"https://en.wikipedia.org/wiki/Sixteenth_note"
-"\">Wikipedia:Sixteenth_note</a>"
+"Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note "
+"(U+266a). See <a href=\"https://en.wikipedia.org/wiki/"
+"Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
 msgstr ""
 "მეთექვსმეტედი ნოტა. მერვედი ნოტის (U+266a) ნახევარი. მეტი ინფორმაციისთვის "
 "იხილეთ <a href=\"https://en.wikipedia.org/wiki/Sixteenth_note\">სტატია "

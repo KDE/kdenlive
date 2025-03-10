@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-09 00:40+0000\n"
+"POT-Creation-Date: 2025-03-10 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2237,10 +2237,9 @@ msgstr ""
 "当使用混合 (阈值)，如何柔化阈值附近的边缘：0.0 = 无柔化，1.0 = 过柔化。"
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha or luma value."
+#, kde-format
 msgid "Use the inverse of the alpha channel."
-msgstr "使用透明度或亮度通道的反相值。"
+msgstr ""
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
@@ -6479,12 +6478,12 @@ msgstr "移除流效果"
 #: src/bin/projectclip.cpp:3172
 #, kde-format
 msgid "Mask added to clip"
-msgstr ""
+msgstr "蒙版已添加到剪辑"
 
 #: src/bin/projectclip.cpp:3176
 #, kde-format
 msgid "Missing clip for mask"
-msgstr ""
+msgstr "缺少蒙版的剪辑"
 
 #: src/bin/projectfolder.cpp:111
 #, kde-format
@@ -10977,22 +10976,22 @@ msgstr "任务失败"
 #: src/effects/effectstack/view/maskmanager.cpp:221
 #, kde-format
 msgid "Another transcode task is running, try later."
-msgstr ""
+msgstr "另一个转码任务正在运行，请稍后重试。"
 
 #: src/effects/effectstack/view/maskmanager.cpp:226
 #, kde-format
 msgid "Another mask task is running, try later."
-msgstr ""
+msgstr "另一个蒙版任务正在运行，请稍后重试。"
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
 #, kde-format
 msgid "Cannot open temporary file"
-msgstr ""
+msgstr "无法打开临时文件"
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
 #, kde-format
 msgid "Cannot access project folder"
-msgstr ""
+msgstr "无法访问项目文件夹"
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format
@@ -14497,7 +14496,7 @@ msgstr "按来源分辨率导出图像"
 #: src/monitor/monitor.cpp:1878
 #, kde-format
 msgid "Exit Mask Mode ?"
-msgstr ""
+msgstr "退出蒙版模式 ?"
 
 #: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
 #, kde-format
@@ -14544,12 +14543,12 @@ msgstr "启用监视器编辑模式以编辑效果"
 #: src/monitor/monitor.cpp:3092
 #, kde-format
 msgid "No clip selected in Clip Monitor"
-msgstr ""
+msgstr "剪辑监视器中没有选中剪辑"
 
 #: src/monitor/monitor.cpp:3113
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
-msgstr ""
+msgstr "无法获取剪辑监视器的生产来源"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -15346,27 +15345,27 @@ msgstr "从 %1 获取访问令牌时出错。"
 #: src/otio/otioexport.cpp:44
 #, kde-format
 msgid "OpenTimelineIO Export"
-msgstr ""
+msgstr "OpenTimelineIO 导出"
 
 #: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
 #, kde-format
 msgid "OpenTimelineIO Project"
-msgstr ""
+msgstr "OpenTimelineIO 项目"
 
 #: src/otio/otioexport.cpp:77
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
-msgstr ""
+msgstr "导出 OpenTimelineIO 文件出错"
 
 #: src/otio/otioimport.cpp:55
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr ""
+msgstr "导入 OpenTimelineIO 文件出错"
 
 #: src/otio/otioimport.cpp:172
 #, kde-format
 msgid "OpenTimelineIO Import"
-msgstr ""
+msgstr "OpenTimelineIO 导入"
 
 #: src/profiles/profileinfo.cpp:103
 #, kde-format
@@ -16692,47 +16691,47 @@ msgstr "安装"
 msgid "Abort installation"
 msgstr "中止安装"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:53
 #, kde-format
 msgid "Installing… please be patient, this can take several minutes"
 msgstr "正在安装… 这可能需要几分钟，请耐心等待"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:60
 #, kde-format
 msgid "Install plugin to use"
 msgstr "安装插件以使用"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:70
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "所有功能已经正确配置。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:72
+#: src/pythoninterfaces/abstractpythoninterface.cpp:78
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 已经正确配置。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:82
 #, kde-format
 msgid "Everything is configured:<br>%1"
 msgstr "所有功能均已完成配置：<br>%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:78
+#: src/pythoninterfaces/abstractpythoninterface.cpp:84
 #, kde-format
 msgid "%1 is configured:<br>%2"
 msgstr "%1 已经完成配置：<br>%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:94
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Check for update"
 msgstr "检查更新"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:151
+#: src/pythoninterfaces/abstractpythoninterface.cpp:157
 #, kde-format
 msgid "Checking configuration…"
 msgstr "正在检查配置…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:245
+#: src/pythoninterfaces/abstractpythoninterface.cpp:251
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -16743,7 +16742,7 @@ msgstr ""
 "%1\n"
 "请在系统中安装该版本的 Python。\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:257
+#: src/pythoninterfaces/abstractpythoninterface.cpp:263
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -16753,7 +16752,7 @@ msgstr ""
 "无法找到 %1 程序，请在本机系统上安装该软件包。\n"
 "如果已经安装，请检查它是否已经安装到了 PATH 环境变量中包含的目录"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:291
+#: src/pythoninterfaces/abstractpythoninterface.cpp:297
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -16762,7 +16761,7 @@ msgstr ""
 "无法在 kdenlive venv 中找到 python3。\n"
 "请尝试卸载该插件并重新安装它。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:299
+#: src/pythoninterfaces/abstractpythoninterface.cpp:305
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -16771,8 +16770,13 @@ msgstr ""
 "无法在 kdenlive venv 中找到 pip3。\n"
 "请尝试卸载该插件并重新安装它。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:415
-#: src/pythoninterfaces/abstractpythoninterface.cpp:417
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#, fuzzy, kde-format
+#| msgid "Cannot find layout %1"
+msgid "Cannot find system python"
+msgstr "无法找到布局 %1"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -16781,22 +16785,22 @@ msgstr ""
 "无法创建 Python 虚拟环境：\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "无法找到 %1 脚本，请检查软件的安装状态是否正常。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:510
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python 模块是必需的。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:523
+#: src/pythoninterfaces/abstractpythoninterface.cpp:531
 #, kde-format
 msgid "Using python from %1"
 msgstr "正在使用来自 %1 的 Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:546
+#: src/pythoninterfaces/abstractpythoninterface.cpp:554
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -16806,51 +16810,51 @@ msgstr ""
 "此操作需要连接到互联网，下载必要的依赖程序包将需要几分钟。\n"
 "下载完成后的剩余操作将离线进行。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:565
-#: src/pythoninterfaces/abstractpythoninterface.cpp:674
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "内部错误：无法找到依赖关系列表"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:588
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "检查模块 %1 版本时出错"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:584
+#: src/pythoninterfaces/abstractpythoninterface.cpp:592
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "模块 %2 所需的最低版本为 %1，而本机安装的版本是 %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:596
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "请考虑升级本机系统的相关软件。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:610
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "缺少的依赖 (可选)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:626
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "没有可用的版本信息。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:714
+#: src/pythoninterfaces/abstractpythoninterface.cpp:722
 #, kde-format
 msgid "Python exec not found"
 msgstr "无法找到 Python exec"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:718
+#: src/pythoninterfaces/abstractpythoninterface.cpp:726
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "无法找到脚本文件 %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:757
+#: src/pythoninterfaces/abstractpythoninterface.cpp:765
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -16861,7 +16865,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:792
+#: src/pythoninterfaces/abstractpythoninterface.cpp:800
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "安装缺失依赖程序"

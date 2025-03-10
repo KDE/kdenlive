@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-09 00:40+0000\n"
-"PO-Revision-Date: 2025-03-06 15:22+0100\n"
+"POT-Creation-Date: 2025-03-10 00:41+0000\n"
+"PO-Revision-Date: 2025-03-09 10:24+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2323,10 +2323,9 @@ msgstr ""
 "mehkobe, 1,0 = premehko."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha or luma value."
+#, kde-format
 msgid "Use the inverse of the alpha channel."
-msgstr "Uporabite obratno vrednost alfe ali lume."
+msgstr "Uporabite obratno vrednost kanala alfa."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
@@ -3627,7 +3626,7 @@ msgstr "Beli šum"
 #: data/generators/noise.xml:4
 #, kde-format
 msgid "White noise producer"
-msgstr "Producent belega šuma"
+msgstr "Ustvarjalnik belega šuma"
 
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
@@ -6656,16 +6655,14 @@ msgid "Remove stream effect"
 msgstr "Odstrani tokovni učinek"
 
 #: src/bin/projectclip.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask added to clip"
-msgstr "Posnetek za masko"
+msgstr "Maska dodana posnetku"
 
 #: src/bin/projectclip.cpp:3176
-#, fuzzy, kde-format
-#| msgid "Missing source frames"
+#, kde-format
 msgid "Missing clip for mask"
-msgstr "Manjkajoče izvorne sličice"
+msgstr "Manjkajoči posnetek za masko"
 
 #: src/bin/projectfolder.cpp:111
 #, kde-format
@@ -11281,24 +11278,22 @@ msgstr "Posel je spodletel"
 #: src/effects/effectstack/view/maskmanager.cpp:221
 #, kde-format
 msgid "Another transcode task is running, try later."
-msgstr ""
+msgstr "Izvaja se še ena opravilo prekodiranja, poskusite kasneje."
 
 #: src/effects/effectstack/view/maskmanager.cpp:226
 #, kde-format
 msgid "Another mask task is running, try later."
-msgstr ""
+msgstr "Izvaja se še eno opravilo maske, poskusite kasneje."
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "Ni možno ustvariti začasne datoteke"
+msgstr "Ni možno odpreti začasne datoteke"
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "Ni možno dostopati do mape slovarja."
+msgstr "Ni možno dostopati do mape projekta"
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format
@@ -14859,10 +14854,9 @@ msgid "Export image using source resolution"
 msgstr "Izvozi sliko v izvorni ločljivosti"
 
 #: src/monitor/monitor.cpp:1878
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Exit Mask Mode ?"
-msgstr "Izhod iz ustvarjanja maske"
+msgstr "Ali želite izstopiti iz načina maske?"
 
 #: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
 #, kde-format
@@ -14912,15 +14906,14 @@ msgid "Enable edit mode in monitor to edit effect"
 msgstr "Omogoči urejanje in nadzoruj učinke urejanja"
 
 #: src/monitor/monitor.cpp:3092
-#, fuzzy, kde-format
-#| msgid "No clip selected in project bin"
+#, kde-format
 msgid "No clip selected in Clip Monitor"
-msgstr "V projektni posodi ni nobenega posnetka"
+msgstr "V ogledu posnetka ni izbran noben posnetek"
 
 #: src/monitor/monitor.cpp:3113
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
-msgstr ""
+msgstr "Ni mogoče pridobiti ustvarjalnika za ogled posnetka"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -15734,34 +15727,29 @@ msgid "Error Getting Access Token from %1."
 msgstr "Napaka pri pridobivanju žetona za dostop iz %1."
 
 #: src/otio/otioexport.cpp:44
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Export"
-msgstr "I&zvoz OpenTimelineIO …"
+msgstr "Izvoz OpenTimelineIO"
 
 #: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Project"
-msgstr "I&zvoz OpenTimelineIO …"
+msgstr "Projekt OpenTimelineIO"
 
 #: src/otio/otioexport.cpp:77
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error exporting OpenTimelineIO file"
-msgstr "Napaka med odpiranjem datoteke"
+msgstr "Napaka pri izvažanju datoteke OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:55
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr "Napaka med odpiranjem datoteke"
+msgstr "Napaka pri odpiranju datoteke OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:172
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO &Import…"
+#, kde-format
 msgid "OpenTimelineIO Import"
-msgstr "&Uvoz OpenTimelineIO …"
+msgstr "Uvoz OpenTimelineIO"
 
 #: src/profiles/profileinfo.cpp:103
 #, kde-format
@@ -17145,48 +17133,48 @@ msgstr "Namesti"
 msgid "Abort installation"
 msgstr "Prekini namestitev"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:53
 #, kde-format
 msgid "Installing… please be patient, this can take several minutes"
 msgstr ""
 "Namestitev je v teku … Ostanite potrpežljivi, to lahko traja nekaj minut"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:60
 #, kde-format
 msgid "Install plugin to use"
 msgstr "Namesti vstavek za uporabo"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:70
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Vse je pravilno nastavljeno."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:72
+#: src/pythoninterfaces/abstractpythoninterface.cpp:78
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 je pravilno nastavljen."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:82
 #, kde-format
 msgid "Everything is configured:<br>%1"
 msgstr "Vse je nastavljeno:<br>%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:78
+#: src/pythoninterfaces/abstractpythoninterface.cpp:84
 #, kde-format
 msgid "%1 is configured:<br>%2"
 msgstr "%1 je nastavljen:<br>%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:94
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Check for update"
 msgstr "Preverjanje za posodobitvami"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:151
+#: src/pythoninterfaces/abstractpythoninterface.cpp:157
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Preverjanje nastavitve…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:245
+#: src/pythoninterfaces/abstractpythoninterface.cpp:251
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -17197,7 +17185,7 @@ msgstr ""
 "%1\n"
 "Namestite ga v svoj sistem.\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:257
+#: src/pythoninterfaces/abstractpythoninterface.cpp:263
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -17208,7 +17196,7 @@ msgstr ""
 "Če je že nameščen, preverite, ali je nameščen v mapi, ki se nahaja na "
 "seznamu spremenljivke okolja PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:291
+#: src/pythoninterfaces/abstractpythoninterface.cpp:297
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -17217,7 +17205,7 @@ msgstr ""
 "V kdenlive venv ni mogoče najti python3.\n"
 "Poskusite odstraniti vstavek in ga nato znova namestiti."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:299
+#: src/pythoninterfaces/abstractpythoninterface.cpp:305
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -17226,8 +17214,13 @@ msgstr ""
 "V kdenlive venv ni mogoče najti pip3.\n"
 "Poskusite odstraniti vstavek in ga nato znova namestiti."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:415
-#: src/pythoninterfaces/abstractpythoninterface.cpp:417
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#, fuzzy, kde-format
+#| msgid "Cannot find layout %1"
+msgid "Cannot find system python"
+msgstr "Ni možno najti postavitve %1"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -17236,22 +17229,22 @@ msgstr ""
 "Navideznega okolja python ni možno ustvariti:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Skripta %1 ni možno najti, preverite svojo namestitev."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:510
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Potreben je modul python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:523
+#: src/pythoninterfaces/abstractpythoninterface.cpp:531
 #, kde-format
 msgid "Using python from %1"
 msgstr "Uporaba pythona iz %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:546
+#: src/pythoninterfaces/abstractpythoninterface.cpp:554
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -17262,52 +17255,52 @@ msgstr ""
 "potrebne pakete,\n"
 "od katerih je paket odvisen. Po tem bo vsa obdelava potekala brez povezave."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:565
-#: src/pythoninterfaces/abstractpythoninterface.cpp:674
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Notranja napaka: seznama odvisnosti ni možno najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:588
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Napaka pri preverjanju različice modula %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:584
+#: src/pythoninterfaces/abstractpythoninterface.cpp:592
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Potrebna je vsaj različica %1 modula %2, vendar je trenutna različica %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:596
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Razmislite o posodobitvi svoje namestitve."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:610
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "manjka (neobvezno)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:626
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Ni podatkov o različici."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:714
+#: src/pythoninterfaces/abstractpythoninterface.cpp:722
 #, kde-format
 msgid "Python exec not found"
 msgstr "Izvršilne datoteke Python ni mogoče najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:718
+#: src/pythoninterfaces/abstractpythoninterface.cpp:726
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Ni bilo mogoče najti skriptne datoteke %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:757
+#: src/pythoninterfaces/abstractpythoninterface.cpp:765
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -17318,7 +17311,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:792
+#: src/pythoninterfaces/abstractpythoninterface.cpp:800
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Namesti manjkajoče odvisne dele programja"
