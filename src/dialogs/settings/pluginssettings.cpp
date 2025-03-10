@@ -361,6 +361,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
                             combo_sam_device->addItem(s.simplified(), s.simplified());
                         }
                     }
+                    install_nvidia_sam->setVisible(combo_sam_device->count() == 1);
                 }
             });
     connect(m_samInterface, &AbstractPythonInterface::concurrentScriptFinished, this, [this](const QString &scriptName, const QStringList &args) {
@@ -988,31 +989,34 @@ void PluginsSettings::checkCuda(bool isSam)
         if (extractInfo.exitStatus() == QProcess::NormalExit) {
             const QString output = extractInfo.readAllStandardOutput();
             if (output.contains(QLatin1String("11.8"))) {
-                detectedCuda = QStringLiteral("cu118");
+                detectedCuda = QStringLiteral("cuda118");
             } else if (output.contains(QLatin1String("12.4"))) {
-                detectedCuda = QStringLiteral("cu124");
+                detectedCuda = QStringLiteral("cuda124");
             } else if (output.contains(QLatin1String("12.6"))) {
-                detectedCuda = QStringLiteral("cu126");
+                detectedCuda = QStringLiteral("cuda126");
             }
         }
     }
     QDialog d(this);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Cancel);
-    connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, &d, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     auto *l = new QVBoxLayout;
     d.setLayout(l);
-    l->addWidget(new QLabel(i18n("Select your CUDA version"), &d));
+    l->addWidget(new QLabel(i18n("Select the CUDA version to install for this plugin"), &d));
     QRadioButton b118(i18n("CUDA 11.8"), &d);
-    if (detectedCuda == QStringLiteral("cu118")) {
+    b118.setObjectName(QStringLiteral("cuda118"));
+    if (detectedCuda == QStringLiteral("cuda118")) {
         b118.setChecked(true);
     }
     QRadioButton b124(i18n("CUDA 12.4"), &d);
-    if (detectedCuda == QStringLiteral("cu124")) {
+    b124.setObjectName(QStringLiteral("cuda124"));
+    if (detectedCuda == QStringLiteral("cuda124")) {
         b124.setChecked(true);
     }
     QRadioButton b126(i18n("CUDA 12.6"), &d);
-    if (detectedCuda == QStringLiteral("cu126")) {
+    b126.setObjectName(QStringLiteral("cuda126"));
+    if (detectedCuda == QStringLiteral("cuda126")) {
         b126.setChecked(true);
     }
     QButtonGroup bg;
@@ -1039,10 +1043,13 @@ void PluginsSettings::checkCuda(bool isSam)
         return;
     }
     // handle installation
-    QString requirementsFile;
+    auto checkedB = bg.checkedButton();
+    detectedCuda = checkedB->objectName();
+    const QString requirementsFile = QStringLiteral("requirements-%1.txt").arg(detectedCuda);
+    qDebug() << ":::: READY TO PROCESS REQ FILE: " << requirementsFile;
     if (isSam) {
-        requirementsFile = QStringLiteral("requirements-%1.txt").arg(detectedCuda);
+        m_samInterface->installRequirements(requirementsFile);
     } else {
-        requirementsFile = QStringLiteral("requirements-%1.txt").arg(detectedCuda);
+        m_sttWhisper->installRequirements(requirementsFile);
     }
 }

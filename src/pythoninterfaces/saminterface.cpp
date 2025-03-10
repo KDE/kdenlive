@@ -126,3 +126,13 @@ bool SamInterface::useSystemPython()
 {
     return KdenliveSettings::sam_system_python();
 }
+
+bool SamInterface::installRequirements(QString reqFile)
+{
+    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/automask/%1").arg(reqFile));
+    qDebug() << "::: FOUND REQPATH: " << scriptPath;
+    if (!scriptPath.isEmpty()) {
+        return AbstractPythonInterface::installRequirements(scriptPath);
+    }
+    return false;
+}

@@ -27,6 +27,7 @@ public:
     static const QString configForModel();
     AbstractPythonInterface::PythonExec venvPythonExecs(bool checkPip = false) override;
     bool useSystemPython() override;
+    bool installRequirements(QString reqFile) override;
 
 protected:
     QString featureName() override;

@@ -77,6 +77,24 @@ elif '--install' in sys.argv and len(sys.argv) > 1:
                     subprocess.check_call([python, '-m', 'pip', 'install', m, '--no-cache-dir'], env=my_env)
             except:
                 print("failed installing ", m)
+elif '--force-install' in sys.argv and len(sys.argv) > 1:
+    # install missing modules
+    python = sys.executable
+    if len(missing) > 0:
+        print("Installing missing packages: ", missing)
+        tmpFolder = os.path.join(Path.home(), ".cache/pip-kdenlive-tmp-folder")
+        print("Using tmp folder: ", tmpFolder)
+        os.makedirs(tmpFolder, exist_ok=True)
+        my_env = os.environ.copy()
+        my_env["TMPDIR"] = tmpFolder
+        for m in missing:
+            try:
+                if m.endswith(".txt"):
+                    subprocess.check_call([python, '-m', 'pip', 'install', '--force-reinstall', '-r', m, '--no-cache-dir'], env=my_env)
+                else:
+                    subprocess.check_call([python, '-m', 'pip', 'install', '--force-reinstall', m, '--no-cache-dir'], env=my_env)
+            except:
+                print("failed installing ", m)
 elif '--upgrade' in sys.argv:
     # update modules
     # print("Updating packages: ", required)

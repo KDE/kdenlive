@@ -51,6 +51,8 @@ public:
      *         otherwise only those of the filter (in case they are missing).
      */
     QStringList missingDependencies(const QStringList &filter = {});
+    /** @brief Install an additional requirements file. */
+    virtual bool installRequirements(const QString reqFile);
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false, bool packageFeedback = false);
     virtual PythonExec venvPythonExecs(bool checkPip = false);
     virtual bool useSystemPython();

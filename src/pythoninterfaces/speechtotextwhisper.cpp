@@ -253,3 +253,12 @@ const QString SpeechToTextWhisper::installMessage() const
 {
     return i18n("Install Whisper");
 }
+
+bool SpeechToTextWhisper::installRequirements(QString reqFile)
+{
+    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/%1").arg(reqFile));
+    if (!scriptPath.isEmpty()) {
+        return AbstractPythonInterface::installRequirements(scriptPath);
+    }
+    return false;
+}

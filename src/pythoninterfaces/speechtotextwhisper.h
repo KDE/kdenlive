@@ -26,4 +26,5 @@ public:
     bool installNewModel(const QString &modelName = QString()) override;
     QMap<QString, QString> speechLanguages() override;
     const QString installMessage() const override;
+    bool installRequirements(QString reqFile) override;
 };
