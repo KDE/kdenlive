@@ -1004,28 +1004,19 @@ void PluginsSettings::checkCuda(bool isSam)
     auto *l = new QVBoxLayout;
     d.setLayout(l);
     l->addWidget(new QLabel(i18n("Select the CUDA version to install for this plugin"), &d));
-    QRadioButton b118(i18n("CUDA 11.8"), &d);
-    b118.setObjectName(QStringLiteral("cuda118"));
-    if (detectedCuda == QStringLiteral("cuda118")) {
-        b118.setChecked(true);
-    }
-    QRadioButton b124(i18n("CUDA 12.4"), &d);
-    b124.setObjectName(QStringLiteral("cuda124"));
-    if (detectedCuda == QStringLiteral("cuda124")) {
-        b124.setChecked(true);
-    }
-    QRadioButton b126(i18n("CUDA 12.6"), &d);
-    b126.setObjectName(QStringLiteral("cuda126"));
-    if (detectedCuda == QStringLiteral("cuda126")) {
-        b126.setChecked(true);
-    }
+    const QStringList versions = {QStringLiteral("11.8"), QStringLiteral("12.4"), QStringLiteral("12.6")};
     QButtonGroup bg;
-    bg.addButton(&b118);
-    bg.addButton(&b124);
-    bg.addButton(&b126);
-    l->addWidget(&b118);
-    l->addWidget(&b124);
-    l->addWidget(&b126);
+    for (auto &v : versions) {
+        QRadioButton *button = new QRadioButton(i18n("CUDA %1", v), &d);
+        QString versionName = QStringLiteral("cuda%1").arg(v);
+        versionName.remove(QLatin1Char('.'));
+        button->setObjectName(versionName);
+        if (detectedCuda == versionName) {
+            button->setChecked(true);
+        }
+        bg.addButton(button);
+        l->addWidget(button);
+    }
     l->addWidget(buttonBox);
     KMessageWidget km;
     if (!detectedCuda.isEmpty()) {
