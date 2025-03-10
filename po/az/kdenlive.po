@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-09 02:30+0000\n"
+"POT-Creation-Date: 2025-03-10 02:52+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -17184,51 +17184,51 @@ msgstr "Quraşdırılmış modullar"
 msgid "Abort installation"
 msgstr "VOSK quraşdırılmasını yoxlayın"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:53
 #, fuzzy, kde-format
 #| msgid "Installing modules…"
 msgid "Installing… please be patient, this can take several minutes"
 msgstr "Modullar quraşdırılır…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:60
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install plugin to use"
 msgstr "Quraşdırılmış modullar"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:70
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Hər şey düzgün tənzimlənib."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:72
+#: src/pythoninterfaces/abstractpythoninterface.cpp:78
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 düzgün tənzimlənib."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:82
 #, fuzzy, kde-format
 #| msgid "Everything is configured: %1"
 msgid "Everything is configured:<br>%1"
 msgstr "Hər şey tənzimləndi: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:78
+#: src/pythoninterfaces/abstractpythoninterface.cpp:84
 #, fuzzy, kde-format
 #| msgid "%1 is configured: %2"
 msgid "%1 is configured:<br>%2"
 msgstr "%1 tənzimləndi: %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:94
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Check for update"
 msgstr "Yenilənməni yoxlayın"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:151
+#: src/pythoninterfaces/abstractpythoninterface.cpp:157
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Ayarlar yoxlanılır…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:245
+#: src/pythoninterfaces/abstractpythoninterface.cpp:251
 #, fuzzy, kde-format
 #| msgid "Cannot find python3, please install it on your system."
 msgid ""
@@ -17237,7 +17237,7 @@ msgid ""
 "Please install it on your system.\n"
 msgstr "python3 tapılmadı, lütfən onu sisteminizə quraşdırın."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:257
+#: src/pythoninterfaces/abstractpythoninterface.cpp:263
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot find pip3, please install it on your system.\n"
@@ -17252,22 +17252,27 @@ msgstr ""
 "Əgər quraşdırılıbsa PATH mühit dəyişənində siyahıda göstərilən qovluqda "
 "quraşdırıldığını yoxlayın"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:291
+#: src/pythoninterfaces/abstractpythoninterface.cpp:297
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:299
+#: src/pythoninterfaces/abstractpythoninterface.cpp:305
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:415
-#: src/pythoninterfaces/abstractpythoninterface.cpp:417
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#, fuzzy, kde-format
+#| msgid "Cannot find layout %1"
+msgid "Cannot find system python"
+msgstr "%1 maketi tapılmadı"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary directory %1"
 msgid ""
@@ -17275,22 +17280,22 @@ msgid ""
 "%1"
 msgstr "Müvəqqəti %1 qovluğu yaradıla bilmədi"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "%1 skripti tapılmadı, quraşdırıldığına əmin olun."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:510
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python modulu tələb olunur."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:523
+#: src/pythoninterfaces/abstractpythoninterface.cpp:531
 #, kde-format
 msgid "Using python from %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:546
+#: src/pythoninterfaces/abstractpythoninterface.cpp:554
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -17298,55 +17303,55 @@ msgid ""
 "happen offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:565
-#: src/pythoninterfaces/abstractpythoninterface.cpp:674
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Daxili xəta: Asılılıqlar siyahısı tapılmadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:588
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "%1 modulunun yoxlanılması zamanı xəta baş verdi"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:584
+#: src/pythoninterfaces/abstractpythoninterface.cpp:592
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "%2 modulunun ən az %1 versiyası tələb olunur, lakin sizin versiyanız %3-d'r"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:596
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Quraşdırmanızı yenikləməyi gözdən keçirin."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:610
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Rəam seçimləri"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:626
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Mübadilə yaddaşında məlumat yoxdur"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:714
+#: src/pythoninterfaces/abstractpythoninterface.cpp:722
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:718
+#: src/pythoninterfaces/abstractpythoninterface.cpp:726
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Fayl yaradıla bilmədi."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:757
+#: src/pythoninterfaces/abstractpythoninterface.cpp:765
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error while running python3 script:\n"
@@ -17359,7 +17364,7 @@ msgstr ""
 "Python3 skripti işə salındıqda xəta baş verdi:\n"
 " %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:792
+#: src/pythoninterfaces/abstractpythoninterface.cpp:800
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Çatışmayan asılılıqları quraşdırın"

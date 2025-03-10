@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-09 02:30+0000\n"
+"POT-Creation-Date: 2025-03-10 02:52+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -16938,49 +16938,49 @@ msgstr "मॉडल स्थापित करें"
 msgid "Abort installation"
 msgstr "स्थापना निरस्त करें"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:53
 #, fuzzy, kde-format
 #| msgid "Installing modules… this can take a while"
 msgid "Installing… please be patient, this can take several minutes"
 msgstr "मॉड्यूल स्थापित करना… इसमें कुछ समय लग सकता है"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:60
 #, fuzzy, kde-format
 #| msgid "Uninstall model"
 msgid "Install plugin to use"
 msgstr "मॉडल अनइंस्टॉल करें"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:70
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "सब कुछ ठीक से कॉन्फ़िगर किया गया है।"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:72
+#: src/pythoninterfaces/abstractpythoninterface.cpp:78
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 उचित रूप से कॉन्फ़िगर किया गया है."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:82
 #, kde-format
 msgid "Everything is configured:<br>%1"
 msgstr "सब कुछ कॉन्फ़िगर किया गया है:<br> %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:78
+#: src/pythoninterfaces/abstractpythoninterface.cpp:84
 #, kde-format
 msgid "%1 is configured:<br>%2"
 msgstr "%1 कॉन्फ़िगर किया गया है:<br> %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:94
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Check for update"
 msgstr "अपडेट के लिये जांचें"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:151
+#: src/pythoninterfaces/abstractpythoninterface.cpp:157
 #, kde-format
 msgid "Checking configuration…"
 msgstr "कॉन्फ़िगरेशन जाँच रहा है…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:245
+#: src/pythoninterfaces/abstractpythoninterface.cpp:251
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -16988,7 +16988,7 @@ msgid ""
 "Please install it on your system.\n"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:257
+#: src/pythoninterfaces/abstractpythoninterface.cpp:263
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot find pip3, please install it on your system.\n"
@@ -17003,22 +17003,27 @@ msgstr ""
 "यदि यह पहले से इंस्टॉल है, तो जाँच लें कि यह PATH एनवायरनमेंट वैरिएबल में सूचीबद्ध किसी "
 "डायरेक्टरी में इंस्टॉल है या नहीं"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:291
+#: src/pythoninterfaces/abstractpythoninterface.cpp:297
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:299
+#: src/pythoninterfaces/abstractpythoninterface.cpp:305
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:415
-#: src/pythoninterfaces/abstractpythoninterface.cpp:417
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#, fuzzy, kde-format
+#| msgid "Cannot find layout %1"
+msgid "Cannot find system python"
+msgstr "लेआउट %1 नहीं मिल सका"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -17027,22 +17032,22 @@ msgstr ""
 "python वर्चुअल वातावरण नहीं बनाया जा सकता:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "%1 स्क्रिप्ट नहीं मिली, अपनी स्थापना की जाँच करें."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:510
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python मॉड्यूल आवश्यक है."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:523
+#: src/pythoninterfaces/abstractpythoninterface.cpp:531
 #, kde-format
 msgid "Using python from %1"
 msgstr "%1 से python का उपयोग करना"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:546
+#: src/pythoninterfaces/abstractpythoninterface.cpp:554
 #, fuzzy, kde-format
 #| msgid ""
 #| "This requires an internet connection and will take several minutes to "
@@ -17056,51 +17061,51 @@ msgstr ""
 "इसके लिए इंटरनेट कनेक्शन की आवश्यकता होगी और सभी आवश्यक निर्भरताओं को डाउनलोड करने में "
 "कई मिनट लगेंगे। उसके बाद सभी प्रोसेसिंग ऑफ़लाइन होगी।"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:565
-#: src/pythoninterfaces/abstractpythoninterface.cpp:674
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "आंतरिक त्रुटि: निर्भरता सूची नहीं मिल सकी"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:588
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "मॉड्यूल %1 का संस्करण जाँचते समय त्रुटि हुई"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:584
+#: src/pythoninterfaces/abstractpythoninterface.cpp:592
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "मॉड्यूल %2 का कम से कम संस्करण %1 आवश्यक है, लेकिन आपका वर्तमान संस्करण %3 है"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:596
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "कृपया अपना सेटअप अपडेट करने पर विचार करें।"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:610
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "अनुपस्थित (वैकल्पिक)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:626
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "कोई संस्करण जानकारी उपलब्ध नहीं है."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:714
+#: src/pythoninterfaces/abstractpythoninterface.cpp:722
 #, kde-format
 msgid "Python exec not found"
 msgstr "पायथन निष्पादन नहीं मिला"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:718
+#: src/pythoninterfaces/abstractpythoninterface.cpp:726
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "स्क्रिप्ट फ़ाइल %1 ढूँढने में विफल"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:757
+#: src/pythoninterfaces/abstractpythoninterface.cpp:765
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -17111,7 +17116,7 @@ msgstr ""
 "%1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:792
+#: src/pythoninterfaces/abstractpythoninterface.cpp:800
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "अनुपलब्ध निर्भरताएँ स्थापित करें"

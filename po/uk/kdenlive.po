@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-09 02:30+0000\n"
+"POT-Creation-Date: 2025-03-10 02:52+0000\n"
 "PO-Revision-Date: 2025-03-08 08:59+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -17260,47 +17260,47 @@ msgstr "Встановити"
 msgid "Abort installation"
 msgstr "Скасувати встановлення"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:53
 #, kde-format
 msgid "Installing… please be patient, this can take several minutes"
 msgstr "Встановлення… Будь ласка, зачекайте, потрібен певний час"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:60
 #, kde-format
 msgid "Install plugin to use"
 msgstr "Встановити додаток для використання"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:70
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Усе налаштовано належним чином."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:72
+#: src/pythoninterfaces/abstractpythoninterface.cpp:78
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 налаштовано належним чином."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:82
 #, kde-format
 msgid "Everything is configured:<br>%1"
 msgstr "Усе налаштовано:<br>%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:78
+#: src/pythoninterfaces/abstractpythoninterface.cpp:84
 #, kde-format
 msgid "%1 is configured:<br>%2"
 msgstr "Налаштовано %1:<br>%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:94
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Check for update"
 msgstr "Перевірити оновлення"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:151
+#: src/pythoninterfaces/abstractpythoninterface.cpp:157
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Перевіряємо налаштування…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:245
+#: src/pythoninterfaces/abstractpythoninterface.cpp:251
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -17311,7 +17311,7 @@ msgstr ""
 "%1\n"
 "Будь ласка, встановіть її у вашій системі.\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:257
+#: src/pythoninterfaces/abstractpythoninterface.cpp:263
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -17322,7 +17322,7 @@ msgstr ""
 "Якщо пакунки вже встановлено, перевірте, чи встановлено програми у каталог "
 "зі списку у змінній середовища PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:291
+#: src/pythoninterfaces/abstractpythoninterface.cpp:297
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -17331,7 +17331,7 @@ msgstr ""
 "Не вдалося знайти python3 у venv kdenlive.\n"
 "Спробуйте вилучити, а потім знову встановити додаток."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:299
+#: src/pythoninterfaces/abstractpythoninterface.cpp:305
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -17340,8 +17340,13 @@ msgstr ""
 "Не вдалося знайти pip3 у venv kdenlive.\n"
 "Спробуйте вилучити, а потім знову встановити додаток."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:415
-#: src/pythoninterfaces/abstractpythoninterface.cpp:417
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#, fuzzy, kde-format
+#| msgid "Cannot find layout %1"
+msgid "Cannot find system python"
+msgstr "Не вдалося знайти компонування %1"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -17350,23 +17355,23 @@ msgstr ""
 "Не вдалося створити віртуальне середовище python:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 "Не знайдено скрипту %1. Перевірте, чи належними чином встановлено програми."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:510
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Потрібен модуль Python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:523
+#: src/pythoninterfaces/abstractpythoninterface.cpp:531
 #, kde-format
 msgid "Using python from %1"
 msgstr "Використовуємо python з %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:546
+#: src/pythoninterfaces/abstractpythoninterface.cpp:554
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -17377,18 +17382,18 @@ msgstr ""
 "необхідних залежностей. Після цього обробка відбуватиметься без потреби в "
 "інтернет-з'єднанні."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:565
-#: src/pythoninterfaces/abstractpythoninterface.cpp:674
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Внутрішня помилка: не вдалося знайти список залежностей"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:588
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Помилка під час спроби перевірити версію модуля %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:584
+#: src/pythoninterfaces/abstractpythoninterface.cpp:592
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -17396,34 +17401,34 @@ msgstr ""
 "Слід встановити принаймні версію %1 модуля %2. Поточною встановленою версією "
 "є %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:596
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Вам варто оновити вашу конфігурацію пакунків."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:610
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "не встановлено (не є обов'язковою)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:626
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Немає даних щодо версії."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:714
+#: src/pythoninterfaces/abstractpythoninterface.cpp:722
 #, kde-format
 msgid "Python exec not found"
 msgstr "Не знайдено виконуваного файла Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:718
+#: src/pythoninterfaces/abstractpythoninterface.cpp:726
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Не вдалося знайти файл скрипту %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:757
+#: src/pythoninterfaces/abstractpythoninterface.cpp:765
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -17434,7 +17439,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:792
+#: src/pythoninterfaces/abstractpythoninterface.cpp:800
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Встановити потрібні залежності"

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-09 02:30+0000\n"
-"PO-Revision-Date: 2025-03-06 09:34+0100\n"
+"POT-Creation-Date: 2025-03-10 02:52+0000\n"
+"PO-Revision-Date: 2025-03-08 11:49+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -6739,16 +6739,14 @@ msgid "Remove stream effect"
 msgstr "Supprimer un effet de flux"
 
 #: src/bin/projectclip.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask added to clip"
-msgstr "Clip masque"
+msgstr "Masque ajouté à la séquence"
 
 #: src/bin/projectclip.cpp:3176
-#, fuzzy, kde-format
-#| msgid "Missing source frames"
+#, kde-format
 msgid "Missing clip for mask"
-msgstr "Trames sources manquantes"
+msgstr "Séquence manquante pour le masque"
 
 #: src/bin/projectfolder.cpp:111
 #, kde-format
@@ -15055,10 +15053,9 @@ msgid "Export image using source resolution"
 msgstr "Exporter l'image en utilisant la résolution d'origine"
 
 #: src/monitor/monitor.cpp:1878
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Exit Mask Mode ?"
-msgstr "Sortie de la création de masques"
+msgstr "Sortir du mode « Masque » ?"
 
 #: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
 #, kde-format
@@ -15108,16 +15105,16 @@ msgid "Enable edit mode in monitor to edit effect"
 msgstr "Activer le mode d'édition dans le moniteur pour ajuster l'effet"
 
 #: src/monitor/monitor.cpp:3092
-#, fuzzy, kde-format
-#| msgid "No clip selected in project bin"
+#, kde-format
 msgid "No clip selected in Clip Monitor"
-msgstr "Aucun clip sélectionné dans les sources du projet"
+msgstr "Aucun séquence sélectionnée dans le projet des séquences"
 
 #: src/monitor/monitor.cpp:3113
-#, fuzzy, kde-format
-#| msgid "Cannot get duration for file %1"
+#, kde-format
 msgid "Cannot get producer for Clip Monitor"
-msgstr "Impossible d'obtenir une durée pour le fichier %1"
+msgstr ""
+"Impossible d'obtenir la personne en charge de la production dans l'écran de "
+"séquences"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -15936,34 +15933,29 @@ msgid "Error Getting Access Token from %1."
 msgstr "Erreur à l'obtention du jeton d'accès à %1."
 
 #: src/otio/otioexport.cpp:44
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Export"
-msgstr "E&xportation « OpenTimelineIO »..."
+msgstr "Exportation « OpenTimelineIO »"
 
 #: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Project"
-msgstr "E&xportation « OpenTimelineIO »..."
+msgstr "Projet « OpenTimelineIO »"
 
 #: src/otio/otioexport.cpp:77
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error exporting OpenTimelineIO file"
-msgstr "Erreur à l'ouverture du fichier"
+msgstr "Erreur lors de l'exportation du fichier « OpenTimelineIO »"
 
 #: src/otio/otioimport.cpp:55
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr "Erreur à l'ouverture du fichier"
+msgstr "Erreur lors de l'importation du fichier « OpenTimelineIO »"
 
 #: src/otio/otioimport.cpp:172
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO &Import…"
+#, kde-format
 msgid "OpenTimelineIO Import"
-msgstr "Importation « OpenTimelineIO »..."
+msgstr "Importation « OpenTimelineIO »"
 
 #: src/profiles/profileinfo.cpp:103
 #, kde-format
@@ -17348,49 +17340,49 @@ msgstr "Installer"
 msgid "Abort installation"
 msgstr "Annuler l'installation"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:53
 #, kde-format
 msgid "Installing… please be patient, this can take several minutes"
 msgstr ""
 "Installation en cours... Veuillez patienter. Ceci peut prendre quelques "
 "minutes."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:60
 #, kde-format
 msgid "Install plugin to use"
 msgstr "Installer un module externe à utiliser"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:70
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Tout est correctement configuré."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:72
+#: src/pythoninterfaces/abstractpythoninterface.cpp:78
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 est correctement configuré."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:82
 #, kde-format
 msgid "Everything is configured:<br>%1"
 msgstr "Tout est configuré : <br>%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:78
+#: src/pythoninterfaces/abstractpythoninterface.cpp:84
 #, kde-format
 msgid "%1 is configured:<br>%2"
 msgstr "%1 est configuré : <br>%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:94
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Check for update"
 msgstr "Vérifier la présence de mises à jour"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:151
+#: src/pythoninterfaces/abstractpythoninterface.cpp:157
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Vérification de configuration…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:245
+#: src/pythoninterfaces/abstractpythoninterface.cpp:251
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -17401,7 +17393,7 @@ msgstr ""
 "%1\n"
 "Veuillez l'installer sur votre système.\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:257
+#: src/pythoninterfaces/abstractpythoninterface.cpp:263
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -17413,7 +17405,7 @@ msgstr ""
 "faisant partie de la liste des dossiers de la variable d'environnement "
 "« PATH »."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:291
+#: src/pythoninterfaces/abstractpythoninterface.cpp:297
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -17424,7 +17416,7 @@ msgstr ""
 "Veuillez essayer une désinstallation puis une ré-installation du module "
 "externe."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:299
+#: src/pythoninterfaces/abstractpythoninterface.cpp:305
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -17435,8 +17427,13 @@ msgstr ""
 "Veuillez essayer une désinstallation puis une ré-installation du module "
 "externe."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:415
-#: src/pythoninterfaces/abstractpythoninterface.cpp:417
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#, fuzzy, kde-format
+#| msgid "Cannot find layout %1"
+msgid "Cannot find system python"
+msgstr "Impossible de trouver la mise en page %1"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -17445,24 +17442,24 @@ msgstr ""
 "Impossible de créer l'environnement virtuel sous Python : \n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 "Il a été impossible de trouver le script %1. Veuillez vérifier votre "
 "installation."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:510
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Le module python <application>%1</application> est nécessaire."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:523
+#: src/pythoninterfaces/abstractpythoninterface.cpp:531
 #, kde-format
 msgid "Using python from %1"
 msgstr "Utilisation de Python à partir de %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:546
+#: src/pythoninterfaces/abstractpythoninterface.cpp:554
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -17473,18 +17470,18 @@ msgstr ""
 "télécharger toutes les dépendances nécessaires. Après cela, tout le "
 "traitement se fera hors ligne."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:565
-#: src/pythoninterfaces/abstractpythoninterface.cpp:674
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Erreur interne : impossible de trouver la liste des dépendances"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:588
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Erreur lors de la vérification de la version du module %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:584
+#: src/pythoninterfaces/abstractpythoninterface.cpp:592
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -17492,34 +17489,34 @@ msgstr ""
 "La version minimale requise pour le module %2 est %1. Cependant, votre "
 "version actuelle est %3."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:596
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Veuillez envisager de mettre à jour votre installation."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:610
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Manquant (Optionnel)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:626
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Aucune information de version disponible."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:714
+#: src/pythoninterfaces/abstractpythoninterface.cpp:722
 #, kde-format
 msgid "Python exec not found"
 msgstr "Impossible de trouver l'exécutable pour Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:718
+#: src/pythoninterfaces/abstractpythoninterface.cpp:726
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Impossible de trouver le fichier de script %1."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:757
+#: src/pythoninterfaces/abstractpythoninterface.cpp:765
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -17530,7 +17527,7 @@ msgstr ""
 "%1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:792
+#: src/pythoninterfaces/abstractpythoninterface.cpp:800
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Installer les dépendances manquantes"
