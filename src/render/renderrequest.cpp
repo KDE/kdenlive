@@ -443,8 +443,8 @@ std::vector<RenderRequest::RenderSection> RenderRequest::getGuideSections()
         double fps = pCore->getCurrentFps();
 
         // keep only markers that are within our bounds
-        for (const auto &marker : ptr->getAllMarkers(m_guideCategory)) {
-
+        const QList<CommentedTime> existingMarkers = ptr->getAllMarkers(m_guideCategory);
+        for (const auto &marker : existingMarkers) {
             int pos = marker.time().frames(fps);
             if (pos < m_boundingIn || (m_boundingOut > 0 && pos > m_boundingOut)) continue;
             markers << marker;

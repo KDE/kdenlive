@@ -282,10 +282,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     if (KdenliveSettings::speech_system_python_path().isEmpty() || KdenliveSettings::sam_system_python_path().isEmpty()) {
 #ifdef Q_OS_WIN
         const QString pythonName = QStringLiteral("python");
-        const QString pipName = QStringLiteral("pip");
 #else
         const QString pythonName = QStringLiteral("python3");
-        const QString pipName = QStringLiteral("pip3");
 #endif
         const QString pythonExe = QStandardPaths::findExecutable(pythonName);
         if (!pythonExe.isEmpty()) {

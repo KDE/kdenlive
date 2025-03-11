@@ -131,7 +131,7 @@ private:
 
 Q_SIGNALS:
     void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);
-    void modified(const QColor &);
+    void colorModified(const QColor &);
     void modified(int);
     void updateTimeCodeFormat();
     /** @brief Seek clip monitor to a frame. */

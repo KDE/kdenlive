@@ -98,13 +98,10 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
                 const auto &otioParameters = otioGeneratorReference->parameters();
                 auto i = otioParameters.find("kdenlive");
                 if (i != otioParameters.end() && i->second.has_value()) {
-                    try {
-                        auto j = std::any_cast<OTIO_NS::AnyDictionary>(i->second);
-                        auto k = j.find("color");
-                        if (k != j.end() && k->second.has_value()) {
-                            color = QString::fromStdString(std::any_cast<std::string>(k->second));
-                        }
-                    } catch (const std::exception &) {
+                    auto j = std::any_cast<OTIO_NS::AnyDictionary>(i->second);
+                    auto k = j.find("color");
+                    if (k != j.end() && k->second.has_value()) {
+                        color = QString::fromStdString(std::any_cast<std::string>(k->second));
                     }
                 }
                 OTIO_NS::TimeRange timeRange(OTIO_NS::RationalTime(0.0, otioFps), OTIO_NS::RationalTime(1.0, otioFps));

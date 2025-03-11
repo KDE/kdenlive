@@ -313,7 +313,7 @@ void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int y
         // Frame has not been extracted
         qDebug() << "/// FILE FOR FRAME: " << position
                  << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/%1.jpg").arg(position, 5, 10, QLatin1Char('0')));
-        m_maskHelper->showMessage(i18n("Missing source frames"));
+        Q_EMIT m_maskHelper->showMessage(i18n("Missing source frames"));
         return;
     }
     m_maskHelper->addMonitorControlPoint(position, frameSize, xPos, yPos, extend, exclude);

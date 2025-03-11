@@ -530,11 +530,13 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     connect(cChannels, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
     connect(cSampleR, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
 
-    for (QSpinBox *sp : findChildren<QSpinBox *>()) {
+    const QList<QSpinBox *> spins = findChildren<QSpinBox *>();
+    for (QSpinBox *sp : spins) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QComboBox *sp : findChildren<QComboBox *>()) {
+    const QList<QComboBox *> combos = findChildren<QComboBox *>();
+    for (QComboBox *sp : combos) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(Qt::StrongFocus);
     }

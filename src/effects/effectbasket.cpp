@@ -24,7 +24,8 @@ EffectBasket::EffectBasket(QWidget *parent)
 void EffectBasket::slotReloadBasket()
 {
     clear();
-    for (const QString &effectId : KdenliveSettings::favorite_effects()) {
+    const QStringList effNames = KdenliveSettings::favorite_effects();
+    for (const QString &effectId : effNames) {
         if (EffectsRepository::get()->exists(effectId)) {
             QListWidgetItem *it = new QListWidgetItem(EffectsRepository::get()->getName(effectId));
             it->setData(Qt::UserRole, effectId);

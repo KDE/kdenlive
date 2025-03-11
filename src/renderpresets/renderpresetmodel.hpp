@@ -51,7 +51,7 @@ public:
     QString name() const { return m_name; };
     QString note() const { return m_note; }
     QString standard() const { return m_standard; };
-    RenderPresetParams params(QStringList removeParams = {}) const;
+    RenderPresetParams params(const QStringList removeParams = {}) const;
     QString extension() const;
     QString groupName() const { return m_groupName; };
     QString renderer() const { return m_renderer; };

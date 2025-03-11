@@ -15,7 +15,7 @@ ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     : AbstractParamWidget(std::move(model), index, parent)
 {
     // Get data from model
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
+    const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
 
     QHBoxLayout *lay = new QHBoxLayout(this);
     lay->setContentsMargins(0, 0, 0, 0);
