@@ -72,7 +72,7 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
 }
 
 QString ClipCreator::createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder,
-                                     const std::shared_ptr<ProjectItemModel> &model)
+                                     const std::shared_ptr<ProjectItemModel> &model, const std::function<void(const QString &)> &readyCallBack)
 {
     QDomDocument xml;
 
@@ -80,7 +80,7 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
 
     QString id;
     std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), callBack);
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), readyCallBack ? readyCallBack : callBack);
     return res ? id : QStringLiteral("-1");
 }
 

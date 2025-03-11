@@ -31,10 +31,13 @@ struct OtioImportData
     QFileInfo otioFile;
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline;
     QSet<QString> otioExternalRefs;
+    QMap<QString, QPair<QString, int>> otioColorGeneratorRefs;
     std::shared_ptr<TimelineItemModel> timeline;
     std::unordered_set<int> defaultTracks;
     QMap<QString, QString> otioExternalRefToBinId;
     QMap<QString, QString> binIdToTimecode;
+    QMap<QString, QString> otioColorGeneratorRefToBinId;
+    int binClipCount = 0;
     int completedBinClips = 0;
 };
 

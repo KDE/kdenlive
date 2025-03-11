@@ -25,9 +25,11 @@ namespace ClipCreator {
    @param name: name of the clip
    @param parentFolder: the binId of the containing folder
    @param model: a shared pointer to the bin item model
+   @param readyCallBack: optional callback for when the clip is ready
    @return the binId of the created clip
 */
-QString createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
+QString createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
+                        const std::function<void(const QString &)> &readyCallBack = nullptr);
 
 /** @brief Create a title clip
    @param properties : title properties (xmldata, etc)

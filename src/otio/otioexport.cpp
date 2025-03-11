@@ -25,6 +25,7 @@
 
 #include <opentimelineio/externalReference.h>
 #include <opentimelineio/gap.h>
+#include <opentimelineio/generatorReference.h>
 #include <opentimelineio/marker.h>
 #include <opentimelineio/stack.h>
 #include <opentimelineio/transition.h>
@@ -175,11 +176,25 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::MediaReference> otioMediaReference;
     const QString clipBinId = timeline->getClipBinId(clip.id);
     if (std::shared_ptr<ProjectClip> projectClip = pCore->projectItemModel()->getClipByBinID(clipBinId)) {
+        const double mediaFps = projectClip->getOriginalFps();
+        const OTIO_NS::TimeRange otioAvailableRange(OTIO_NS::RationalTime(0, mediaFps), OTIO_NS::RationalTime(projectClip->frameDuration(), mediaFps));
+
         if (projectClip->hasUrl()) {
-            const double mediaFps = projectClip->getOriginalFps();
-            otioMediaReference = new OTIO_NS::ExternalReference(
-                projectClip->url().toStdString(),
-                OTIO_NS::TimeRange(OTIO_NS::RationalTime(0, mediaFps), OTIO_NS::RationalTime(projectClip->frameDuration(), mediaFps)));
+
+            // Create an OTIO external reference.
+            otioMediaReference = new OTIO_NS::ExternalReference(projectClip->url().toStdString(), otioAvailableRange);
+        } else if (ClipType::ProducerType::Color == projectClip->clipType()) {
+
+            // Create an OTIO generator reference.
+            //
+            // Note that the OTIO generator "kind" and "parameters" are not
+            // standardized, so we use the "kdenlive" namespace/prefix to
+            // indicate these values are specific to kdenlive.
+            OTIO_NS::AnyDictionary parameters;
+            parameters["color"] = QFileInfo(projectClip->getProducerProperty("resource")).fileName().toStdString();
+            OTIO_NS::AnyDictionary otioParameters;
+            otioParameters["kdenlive"] = parameters;
+            otioMediaReference = new OTIO_NS::GeneratorReference(projectClip->name().toStdString(), "kdenlive:SolidColor", otioAvailableRange, otioParameters);
         }
     }
 

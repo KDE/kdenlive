@@ -17,6 +17,7 @@
 
 #include <opentimelineio/externalReference.h>
 #include <opentimelineio/gap.h>
+#include <opentimelineio/generatorReference.h>
 
 using namespace fakeit;
 
@@ -180,6 +181,58 @@ TEST_CASE("Export/import", "[OTIO]")
             }
         }
 
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("Color Clips")
+    {
+        // Create the test document and timeline.
+        auto binModel = pCore->projectItemModel();
+        std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+        KdenliveDoc document(undoStack);
+        pCore->projectManager()->testSetDocument(&document);
+        QDateTime documentDate = QDateTime::currentDateTime();
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+        auto timeline = document.getTimeline(document.uuid());
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+
+        // Read the OTIO test timeline.
+        QString inputPath = sourcesPath + "/dataset/test-color-clips.otio";
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
+        const auto otioClips = otioTestTimeline->find_clips();
+        const int otioClipCount = otioClips.size();
+
+        // Import the OTIO test timeline.
+        OtioImport otioImport;
+        otioImport.importFile(inputPath, false);
+        while (timeline->getClipsCount() < otioClipCount) {
+            qApp->processEvents();
+        }
+
+        // Export a new OTIO timeline.
+        OtioExport otioExport;
+        // TODO: Replace with QTemporaryDir.
+        QDir dir = QDir::temp();
+        QString outputPath = dir.filePath("test-color-clips-export.otio");
+        otioExport.exportFile(outputPath);
+
+        // Compare the original test OTIO timeline with the new one.
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioNewTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(outputPath.toStdString())));
+        const auto otioNewClips = otioNewTimeline->find_clips();
+        REQUIRE(otioNewClips.size() == otioClips.size());
+        for (const auto &otioClip : otioClips) {
+            auto otioRef = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference());
+            REQUIRE(otioRef != nullptr);
+            const std::string name = otioRef->name();
+            auto i = std::find_if(otioNewClips.begin(), otioNewClips.end(), [name](const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &otioClip) {
+                auto otioRef = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference());
+                REQUIRE(otioRef != nullptr);
+                return name == otioRef->name();
+            });
+            REQUIRE(i != otioNewClips.end());
+        }
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
 }
