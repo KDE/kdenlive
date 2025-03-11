@@ -20,7 +20,7 @@ class ChooseColorWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY modified USER true)
-    Q_PROPERTY(bool alphaChannelEnabled READ isAlphaChannelEnabled WRITE setAlphaChannelEnabled CONSTANT)
+    Q_PROPERTY(bool alphaChannelEnabled READ isAlphaChannelEnabled WRITE setAlphaChannelEnabled)
 
 public:
     /** @brief Sets up the widget.
