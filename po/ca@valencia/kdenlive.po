@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 00:41+0000\n"
-"PO-Revision-Date: 2025-03-08 10:28+0100\n"
+"POT-Creation-Date: 2025-03-11 00:41+0000\n"
+"PO-Revision-Date: 2025-03-10 08:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2349,10 +2349,9 @@ msgstr ""
 "voltant del llindar. 0,0 = sense suavitat, 1,0 = massa suau."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha or luma value."
+#, kde-format
 msgid "Use the inverse of the alpha channel."
-msgstr "Utilitza l'invers del valor de l'alfa o la luma."
+msgstr "Utilitza l'invers del valor del canal alfa."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
@@ -15827,27 +15826,41 @@ msgstr "Torna a intentar la importació per a obtindre una connexió nova"
 msgid "Error Getting Access Token from %1."
 msgstr "S'ha produït un error en obtindre el testimoni d'accés des de %1."
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error exporting OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "S'ha produït un error en exportar un fitxer OpenTimelineIO"
+
+#: src/otio/otioexport.cpp:56
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "Exporteu cap a OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "Projecte OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "S'ha produït un error en exportar un fitxer OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error importing OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "S'ha produït un error en importar un fitxer OpenTimelineIO"
+
+#: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "S'ha produït un error en importar un fitxer OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "Importeu OpenTimelineIO"
@@ -17309,10 +17322,9 @@ msgstr ""
 "Intenteu desinstal·lar i després tornar a instal·lar el connector."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:397
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find system python"
-msgstr "No s'ha pogut trobar la disposició %1"
+msgstr "No s'ha pogut trobar «python» del sistema"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format

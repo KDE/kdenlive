@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-09 00:40+0000\n"
+"POT-Creation-Date: 2025-03-11 00:41+0000\n"
 "PO-Revision-Date: 2025-03-09 05:08+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -1578,8 +1578,8 @@ msgid ""
 "<![CDATA[Enable it to draw the current value in big white bold letters on "
 "the bottom right side of the rect.<br>\n"
 "    \tThe <em>Legend unit</em> value will be appended at the end and it will "
-"be used as the current unit (if a valid unit is found ie: kilometers if "
-"\"km\" is found anywhere in the <em>Legend unit</em> string).]]>"
+"be used as the current unit (if a valid unit is found ie: kilometers if \"km"
+"\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
 "<![CDATA[Enable it to draw the current value in big white bold letters on "
 "the bottom right side of the rect.<br><em>ლეგენდის ერთეულის</em> მნიშვნელობა "
@@ -3163,12 +3163,12 @@ msgid ""
 "<![CDATA[An offset to be added to the timer value.\n"
 "When the direction is \"down\", the timer will count down to \"offset\" "
 "instead of 00:00:00.000.\n"
-"When the direction is up, the timer will count up starting from "
-"\"offset\".]]>"
+"When the direction is up, the timer will count up starting from \"offset"
+"\".]]>"
 msgstr ""
 "<![CDATA[წანაცვლება ტაიმერის მნიშვნელობაზე მისამამატებლად.\n"
-"როცა მიმართულებაა \"ქვემოთ\", ტაიმერი 00:00:00.000-ის მაგიერ "
-"\"წანაცვლებამდე\" ათვლას დაწყებს.\n"
+"როცა მიმართულებაა \"ქვემოთ\", ტაიმერი 00:00:00.000-ის მაგიერ \"წანაცვლებამდე"
+"\" ათვლას დაწყებს.\n"
 "როცა მიმართულებაა \"მაღლა\", ტაიმერი \"წანაცვლებიდან\" ზემოთ ათვლას "
 "დაიწყებს.]]>"
 
@@ -8577,8 +8577,8 @@ msgstr "დაამატეთ საუბრის მოდელი."
 #: src/dialogs/settings/pluginssettings.cpp:272
 #, kde-format
 msgid ""
-"Download speech models from: <a href=\"https://alphacephei.com/vosk/"
-"models\">https://alphacephei.com/vosk/models</a>"
+"Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
+"\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 "გადმოწერეთ მეტყველების მოდელები: <a href=\"https://alphacephei.com/vosk/"
 "models\">https://alphacephei.com/vosk/models</a>"
@@ -13761,8 +13761,8 @@ msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"ეს ყველა დროებით ფაილს გადაიტანს საქაღალდიდან<br/><b>%1</b>საქაღალდეში "
-"<b>%2</b>,<br/>შემდეგ კი პროექტის ფაილი თავიდან ჩაიტვირთება"
+"ეს ყველა დროებით ფაილს გადაიტანს საქაღალდიდან<br/><b>%1</b>საქაღალდეში <b>"
+"%2</b>,<br/>შემდეგ კი პროექტის ფაილი თავიდან ჩაიტვირთება"
 
 #: src/mainwindow.cpp:2225 src/project/projectmanager.cpp:619
 #, kde-format
@@ -13882,9 +13882,9 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Shift+გადათრევა</shortcut> rubber-band მონიშნულისთვის, "
-"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მონიშვნისთვის, "
-"<shortcut>Meta+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე "
-"გადასათრევად, <shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
+"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მონიშვნისთვის, <shortcut>Meta"
+"+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე გადასათრევად, "
+"<shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
 
 #: src/mainwindow.cpp:3426
 #, kde-kuit-format
@@ -13896,9 +13896,9 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 "<shortcut>Shift+გადათრევა</shortcut> rubber-band მონიშნულისთვის, "
-"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მონიშვნისთვის, "
-"<shortcut>Meta+Alt+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე "
-"გადასათრევად, <shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
+"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მონიშვნისთვის, <shortcut>Meta"
+"+Alt+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე გადასათრევად, "
+"<shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
 
 #: src/mainwindow.cpp:3429
 #, kde-format
@@ -13940,8 +13940,8 @@ msgid ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 msgstr ""
-"<shortcut>წკაპი</shortcut> ელემენტზე მის გადასათრევად, "
-"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტი ელემენტის მოსანიშნად"
+"<shortcut>წკაპი</shortcut> ელემენტზე მის გადასათრევად, <shortcut>Shift"
+"+წკაპი</shortcut> ერთზე მეტი ელემენტის მოსანიშნად"
 
 #: src/mainwindow.cpp:3440
 #, kde-format
@@ -13958,9 +13958,9 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Shift+გადათრევა</shortcut> rubber-band მონიშვნისთვის, "
-"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მოსანიშნად, "
-"<shortcut>Alt+წკაპი</shortcut> ჯგუფის ელემენტის მოსანიშნად, "
-"<shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
+"<shortcut>Shift+წკაპი</shortcut> ერთზე მეტის მოსანიშნად, <shortcut>Alt"
+"+წკაპი</shortcut> ჯგუფის ელემენტის მოსანიშნად, <shortcut>Ctrl+გადათრევა</"
+"shortcut> პანორამირებისთვის"
 
 #: src/mainwindow.cpp:3447
 #, kde-format
@@ -14073,8 +14073,8 @@ msgstr "ვეება (%1x%2)"
 #: src/mainwindow.cpp:4433
 #, kde-format
 msgid ""
-"This will hide the menu bar completely. You can show it again by typing "
-"Ctrl+M."
+"This will hide the menu bar completely. You can show it again by typing Ctrl"
+"+M."
 msgstr ""
 "ეს მენიუს ზოლს მთლიანად დამალავს. მისი ჩვენება Ctrl+M ღილაკებით შეგიძლიათ."
 
@@ -15333,8 +15333,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>გადაათრიეთ</shortcut> წერტილში ზონის დასაყენებლად, "
-"<shortcut>Shift+Drag</shortcut> გადასახვევად ზონის გასწორებისას"
+"<shortcut>გადაათრიეთ</shortcut> წერტილში ზონის დასაყენებლად, <shortcut>Shift"
+"+Drag</shortcut> გადასახვევად ზონის გასწორებისას"
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -15648,27 +15648,41 @@ msgstr "სცადეთ შემოტანა თავიდან ახ
 msgid "Error Getting Access Token from %1."
 msgstr "%1-დან წვდომის კოდის მიღების შეცდომა."
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error exporting OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "OpenTimelineIO ფაილის გატანის შეცდომა"
+
+#: src/otio/otioexport.cpp:56
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "გატანა OpenTimelineIO-ში"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO-ის პროექტი"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "OpenTimelineIO ფაილის გატანის შეცდომა"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error importing OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "OpenTimelineIO ფაილის შემოტანის შეცდომა"
+
+#: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "OpenTimelineIO ფაილის შემოტანის შეცდომა"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "OpenTimelineIO-ის შემოტანა"
@@ -17034,47 +17048,47 @@ msgstr "დაყენება"
 msgid "Abort installation"
 msgstr "დაყენების გაუქმება"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:47
+#: src/pythoninterfaces/abstractpythoninterface.cpp:53
 #, kde-format
 msgid "Installing… please be patient, this can take several minutes"
 msgstr "მიმდინარეობს დაყენება… ამას რამდენიმე წუთი შეიძლება, დასჭირდეს"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:54
+#: src/pythoninterfaces/abstractpythoninterface.cpp:60
 #, kde-format
 msgid "Install plugin to use"
 msgstr "დააყენეთ დამატება გამოსაყენებლად"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:70
+#: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "ყველაფრი სწორადაა მორგებული."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:72
+#: src/pythoninterfaces/abstractpythoninterface.cpp:78
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 სწორადაა მორგებული."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:82
 #, kde-format
 msgid "Everything is configured:<br>%1"
 msgstr "ყველაფერი მორგებულია:<br>%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:78
+#: src/pythoninterfaces/abstractpythoninterface.cpp:84
 #, kde-format
 msgid "%1 is configured:<br>%2"
 msgstr "%1 მორგებულია: <br>%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:94
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Check for update"
 msgstr "განახლების შემოწმება"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:151
+#: src/pythoninterfaces/abstractpythoninterface.cpp:157
 #, kde-format
 msgid "Checking configuration…"
 msgstr "კონფიგურაციის შემოწმება…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:245
+#: src/pythoninterfaces/abstractpythoninterface.cpp:251
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -17085,7 +17099,7 @@ msgstr ""
 "%1\n"
 "გთხოვთ, დააყენეთ ის თქვენს სისტემაზე\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:257
+#: src/pythoninterfaces/abstractpythoninterface.cpp:263
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -17096,7 +17110,7 @@ msgstr ""
 "თუ ის უკვე დაყენებულია, შეამოწმეთ, არის თუ არა საქაღალდე, სადაც ის დააყენეთ "
 "გარემოს ცვლადში PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:291
+#: src/pythoninterfaces/abstractpythoninterface.cpp:297
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -17105,7 +17119,7 @@ msgstr ""
 "შეცდომა kdenlive-ის ვირტუალურ გარემოში (venv) python3 ვერ ვიპოვე.\n"
 "სცადეთ, წაშალოთ და თავიდან დააყენოთ დამატება."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:299
+#: src/pythoninterfaces/abstractpythoninterface.cpp:305
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -17115,8 +17129,13 @@ msgstr ""
 "მცდელობისას.\n"
 "სცადეთ, წაშალოთ და თავიდან დააყენოთ დამატება."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:415
-#: src/pythoninterfaces/abstractpythoninterface.cpp:417
+#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#, fuzzy, kde-format
+#| msgid "Cannot find layout %1"
+msgid "Cannot find system python"
+msgstr "ვერ ვიპოვე განლაგება %1"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -17125,22 +17144,22 @@ msgstr ""
 "ვერ შევქმენი python-ის ვირტუალური გარემო:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:435
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "სკრიპტი %1 ვერ ვიპოვე. შეამოწმეთ პროგრამის ფაილები."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:510
+#: src/pythoninterfaces/abstractpythoninterface.cpp:518
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "აუცილებელია python-ის მოდული <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:523
+#: src/pythoninterfaces/abstractpythoninterface.cpp:531
 #, kde-format
 msgid "Using python from %1"
 msgstr "ვიყენებ python-ს %1-დან"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:546
+#: src/pythoninterfaces/abstractpythoninterface.cpp:554
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -17151,18 +17170,18 @@ msgstr ""
 "შეიძლება, რამდენიმე წუთი დასჭირდეს.\n"
 "ამის შემდეგ, მუშაობა, ინტერნეტის გარეშეც, შეიძლება, გაგრძელდეს."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:565
-#: src/pythoninterfaces/abstractpythoninterface.cpp:674
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
+#: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "შიდა შეცდომა: დამოკიდებულებების სია ვერ ვიპოვე"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:588
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "შეცდომა ვერსიის შემოწმებისას მოდულისთვის %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:584
+#: src/pythoninterfaces/abstractpythoninterface.cpp:592
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -17170,34 +17189,34 @@ msgstr ""
 "აუცილებელია მოდულის %2 მინიმალური ვერსია %1, მაგრამ თქვენი მიმდინარე ვერსიაა "
 "%3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:596
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "განაახლეთ თქვენი პროგრამა უახლოეს მომავალში."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:610
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "აკლია (არასავალდებულო)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:626
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "ვერსიის ინფორმაცია ხელმისაწვდომი არაა."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:714
+#: src/pythoninterfaces/abstractpythoninterface.cpp:722
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python-ის გამშვები ფაილი აღმოჩენილი არაა"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:718
+#: src/pythoninterfaces/abstractpythoninterface.cpp:726
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "შეცდომა სკრიპტის ფაილის ('%1') აღმოჩენისას"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:757
+#: src/pythoninterfaces/abstractpythoninterface.cpp:765
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -17208,7 +17227,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:792
+#: src/pythoninterfaces/abstractpythoninterface.cpp:800
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "ნაკლული დამოკიდებულებების დაყენება"
@@ -19109,8 +19128,8 @@ msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
 "all keyframes after this one."
 msgstr ""
-"<b>გადაათრიეთ</b> მონიშნული საკვანძო კადრის მდებარეობის შესაცვლელად. "
-"<b>Shift+გადათრევა</b> ყველა საკვანძო კადრის ამის შემდეგ გადასატანად."
+"<b>გადაათრიეთ</b> მონიშნული საკვანძო კადრის მდებარეობის შესაცვლელად. <b>Shift"
+"+გადათრევა</b> ყველა საკვანძო კადრის ამის შემდეგ გადასატანად."
 
 #: src/timeline2/view/qml/KeyframeView.qml:282
 #, kde-format
@@ -19983,11 +20002,11 @@ msgstr "გრადაცია"
 #: src/titler/unicodedialog.cpp:77
 #, kde-format
 msgid ""
-"Information about unicode characters: <a href=\"https://decodeunicode."
-"org\">https://decodeunicode.org</a>"
+"Information about unicode characters: <a href=\"https://decodeunicode.org"
+"\">https://decodeunicode.org</a>"
 msgstr ""
-"ინფორმაცია უნიკოდის სიმბოლოების შესახებ: <a href=\"https://decodeunicode."
-"org\">https://decodeunicode.org</a>"
+"ინფორმაცია უნიკოდის სიმბოლოების შესახებ: <a href=\"https://decodeunicode.org"
+"\">https://decodeunicode.org</a>"
 
 #: src/titler/unicodedialog.cpp:78
 #, kde-format
@@ -20016,8 +20035,8 @@ msgid ""
 "Control character. Cannot be inserted/printed. See <a href=\"https://en."
 "wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr ""
-"სპეციალური სიმბოლო. მისი ჩასმა/დაბეჭდვა შეუძლებელია. იხილეთ <a "
-"href=\"https://en.wikipedia.org/wiki/Control_character\">Wikipedia:"
+"სპეციალური სიმბოლო. მისი ჩასმა/დაბეჭდვა შეუძლებელია. იხილეთ <a href="
+"\"https://en.wikipedia.org/wiki/Control_character\">Wikipedia:"
 "Control_character</a>"
 
 #: src/titler/unicodedialog.cpp:147
@@ -20028,11 +20047,11 @@ msgstr "ხაზის დასრულების სიმბოლო (�
 #: src/titler/unicodedialog.cpp:149
 #, kde-format
 msgid ""
-"Standard space character. (Other space characters: U+00a0, "
-"U+2000&#x2013;200b, U+202f)"
+"Standard space character. (Other space characters: U+00a0, U"
+"+2000&#x2013;200b, U+202f)"
 msgstr ""
-"სტანდარტული გამოტოვების სიმბოლო. (სხვა გამოტოვების სიმბოლოებია: U+00a0, "
-"U+2000&#x2013;200b, U+202f)"
+"სტანდარტული გამოტოვების სიმბოლო. (სხვა გამოტოვების სიმბოლოებია: U+00a0, U"
+"+2000&#x2013;200b, U+202f)"
 
 #: src/titler/unicodedialog.cpp:151
 #, kde-format
@@ -20055,8 +20074,8 @@ msgstr ""
 "<strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> HTML-ში) ჰქვიათ "
 "Guillemets ან კუთხოვანი ბრჭყალები. გამოიყენება სხვადასხვა ქვეყნებში: "
 "საფრანგეთში (არაგადატანადი ჰარეთი 0x00a0), შვეიცარიაში, გერმანიაში, ფინეთში "
-"და შვედეთში.</p><p><strong>&lsaquo;</strong> და <strong>&rsaquo;</strong> "
-"(U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) მათი ერთბრჭყალიანი "
+"და შვედეთში.</p><p><strong>&lsaquo;</strong> და <strong>&rsaquo;</strong> (U"
+"+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) მათი ერთბრჭყალიანი "
 "ეკვივალენტურებია.</p><p>იხილეთ <a href=\"https://en.wikipedia.org/wiki/"
 "Guillemets\">Wikipedia:Guillemets</a></p>"
 
@@ -20121,8 +20140,8 @@ msgstr "თმის შპაცია. U+2009-ზე თხელი."
 #: src/titler/unicodedialog.cpp:179
 #, kde-format
 msgid ""
-"Punctuation Apostrophe. Should be used instead of U+0027. See <a "
-"href=\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
+"Punctuation Apostrophe. Should be used instead of U+0027. See <a href="
+"\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
 msgstr ""
 "პუნქტუაციის აპოსტროფი. გამოიყენეთ U+0027-ის მაგიერ. იხილეთ <a href=\"https://"
 "en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
@@ -20206,9 +20225,9 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:202
 #, kde-format
 msgid ""
-"Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note "
-"(U+2669). See <a href=\"https://en.wikipedia.org/wiki/"
-"Eighth_note\">Wikipedia:Eighth_note</a>"
+"Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U"
+"+2669). See <a href=\"https://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:"
+"Eighth_note</a>"
 msgstr ""
 "მერვედი ნოტა. მეოთხედი ნოტის (U+2669) ნახევარი. მეტი ინფორმაციისთვის იხილეთ "
 "<a href=\"https://en.wikipedia.org/wiki/Eighth_note\">სტატია ვიკიზე</a>"
@@ -20216,9 +20235,9 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:205
 #, kde-format
 msgid ""
-"Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note "
-"(U+266a). See <a href=\"https://en.wikipedia.org/wiki/"
-"Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
+"Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U"
+"+266a). See <a href=\"https://en.wikipedia.org/wiki/Sixteenth_note"
+"\">Wikipedia:Sixteenth_note</a>"
 msgstr ""
 "მეთექვსმეტედი ნოტა. მერვედი ნოტის (U+266a) ნახევარი. მეტი ინფორმაციისთვის "
 "იხილეთ <a href=\"https://en.wikipedia.org/wiki/Sixteenth_note\">სტატია "

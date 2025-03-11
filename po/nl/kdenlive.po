@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 00:41+0000\n"
-"PO-Revision-Date: 2025-03-09 23:19+0100\n"
+"POT-Creation-Date: 2025-03-11 00:41+0000\n"
+"PO-Revision-Date: 2025-03-10 12:18+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15751,27 +15751,41 @@ msgstr "Opnieuw proberen te importeren om een nieuwe verbinding te krijgen"
 msgid "Error Getting Access Token from %1."
 msgstr "Ophalen van toegangstoken uit %1 gaf fout."
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error exporting OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "Exporteren van OpenTimelineIO-bestand gaat fout"
+
+#: src/otio/otioexport.cpp:56
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "Exporteren van OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "Project van OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Exporteren van OpenTimelineIO-bestand gaat fout"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error importing OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "Importeren van OpenTimelineIO-bestand gaat fout"
+
+#: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "Importeren van OpenTimelineIO-bestand gaat fout"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "Importeren van OpenTimelineIO"
@@ -17226,10 +17240,9 @@ msgstr ""
 "opnieuw te installeren."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:397
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find system python"
-msgstr "Kan indeling %1 niet vinden"
+msgstr "Kan systeem-python niet vinden"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format

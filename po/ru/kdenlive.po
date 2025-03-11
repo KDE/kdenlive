@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 00:41+0000\n"
-"PO-Revision-Date: 2025-03-07 15:51+0300\n"
+"POT-Creation-Date: 2025-03-11 00:41+0000\n"
+"PO-Revision-Date: 2025-03-10 17:19+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -672,6 +672,9 @@ msgid ""
 "        Lower values keep the colors closer to the selected one; higher "
 "values include more colors.]]>"
 msgstr ""
+"<![CDATA[Процент отклонения от значения выбранного цвета.<br>\n"
+"        Более низкие значения сохраняют цвета, близкие к выбранному; более "
+"высокие значения включают более широкий диапазон цветов.]]>"
 
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
@@ -825,9 +828,9 @@ msgid "The amount in pixel to blur the edge of the shadow"
 msgstr ""
 
 #: data/effects/dropshadow.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "X Offset"
-msgstr "Смещение"
+msgstr "Смещение по X"
 
 #: data/effects/dropshadow.xml:13
 #, kde-format
@@ -835,9 +838,9 @@ msgid "The relative horizontal position of the shadow"
 msgstr ""
 
 #: data/effects/dropshadow.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "Y Offset"
-msgstr "Смещение"
+msgstr "Смещение по Y"
 
 #: data/effects/dropshadow.xml:17
 #, kde-format
@@ -1240,7 +1243,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "Местоположение/маршрут GPS,Высота,Частота сердцебиения,Скорость"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
@@ -1314,9 +1317,9 @@ msgid "Percentage from min..max,Absolute value"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Crop mode horizontal"
-msgstr "Центрировать по горизонтали"
+msgstr "Режим кадрирования по горизонтали"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1362,9 +1365,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:71
-#, fuzzy, kde-format
+#, kde-format
 msgid "Crop mode vertical"
-msgstr "Центрировать по вертикали"
+msgstr "Режим кадрирования по вертикали"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1384,7 +1387,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:81
-#, fuzzy, kde-format
+#, kde-format
 msgid "Crop bottom"
 msgstr "Кадрирование снизу"
 
@@ -1403,9 +1406,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:86
-#, fuzzy, kde-format
+#, kde-format
 msgid "Crop top"
-msgstr "Кадрирование слева"
+msgstr "Кадрирование сверху"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1488,9 +1491,9 @@ msgid "Sets the color #5 for the graph line"
 msgstr "Устанавливает цвет 5 линии графика"
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show Now dot"
-msgstr "Показать параметры стиля"
+msgstr "Показывать текущую точку"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1501,19 +1504,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
+#, kde-format
 msgid "Now dot color"
-msgstr "Спло&шной цвет:"
+msgstr "Цвет текущей точки"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "Установить цвет фигуры второго найденного лица."
+msgstr "Устанавливает цвет текущей точки"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show Now text"
-msgstr "Распознавание речи"
+msgstr "Показывать текущее значение"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1539,21 +1542,23 @@ msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Повернуть весь прямоугольник графика. Для типа «спидометр» текст останется "
+"горизонтальным."
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Толщина линий"
+msgstr "Толщина линий (пкс)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "Толщина столбцов или сегментов."
+msgstr "Устанавливает толщину линий в пикселах"
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
+#, kde-format
 msgid "Draw legend"
-msgstr "Показывать сетку"
+msgstr "Показывать легенду"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1570,7 +1575,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Единица легенды"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1606,9 +1611,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
+#, kde-format
 msgid "Graph rectangle"
-msgstr "Прямоугольник"
+msgstr "Прямоугольник графика"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1619,9 +1624,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
+#, kde-format
 msgid "Background image"
-msgstr "Непрозрачность фона"
+msgstr "Фоновое изображение"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1677,9 +1682,9 @@ msgid "Date and time of the video file."
 msgstr "Дата и время создания видеофайла."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
+#, kde-format
 msgid "Auto offset start"
-msgstr "В начало проекта"
+msgstr "Автоматическое смещение для начала"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1692,7 +1697,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Автоматическое смещение для текущего времени"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -2216,7 +2221,6 @@ msgstr ""
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
 #, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha or luma value."
 msgid "Use the inverse of the alpha channel."
 msgstr "Использовать значение, обратное значению альфа или каше."
 
@@ -2665,9 +2669,9 @@ msgid "Rotate X"
 msgstr "Вращение по X"
 
 #: data/effects/rotate-3-way.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the X axis]]>"
-msgstr "Вращение вокруг оси X"
+msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
 
 #: data/effects/rotate-3-way.xml:29 data/effects/rotation.xml:11
 #: data/effects/rotation_keyframable.xml:11 data/transitions/affine.xml:14
@@ -2676,9 +2680,9 @@ msgid "Rotate Y"
 msgstr "Вращение по Y"
 
 #: data/effects/rotate-3-way.xml:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Y axis]]>"
-msgstr "Вращение вокруг оси Y"
+msgstr "<![CDATA[Угол вращения вдоль оси Y]]>"
 
 #: data/effects/rotate-3-way.xml:33 data/effects/rotation.xml:14
 #: data/effects/rotation_keyframable.xml:14 data/transitions/affine.xml:17
@@ -2687,9 +2691,9 @@ msgid "Rotate Z"
 msgstr "Вращение по Z"
 
 #: data/effects/rotate-3-way.xml:34
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Angle of rotation along the Z axis]]>"
-msgstr "Вращение вокруг оси Z"
+msgstr "<![CDATA[Угол вращение вдоль оси Z]]>"
 
 #: data/effects/rotate-3-way.xml:37 data/effects/rotation_keyframable.xml:17
 #: data/effects/shear.xml:37
@@ -2700,7 +2704,7 @@ msgstr "Смещение по X"
 #: data/effects/rotate-3-way.xml:38 data/effects/shear.xml:38
 #, kde-format
 msgid "<![CDATA[Offset along the X axis]]>"
-msgstr ""
+msgstr "<![CDATA[Смещение вдоль оси X]]>"
 
 #: data/effects/rotate-3-way.xml:41 data/effects/rotation_keyframable.xml:20
 #: data/effects/shear.xml:41
@@ -2711,7 +2715,7 @@ msgstr "Смещение по Y"
 #: data/effects/rotate-3-way.xml:42
 #, kde-format
 msgid "<![CDATA[Offset along the Y axis]]>"
-msgstr ""
+msgstr "<![CDATA[Смещение вдоль оси Y]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: data/effects/rotate-3-way.xml:48 data/effects/shear.xml:45
@@ -4170,9 +4174,9 @@ msgstr ""
 "эффектом. Удаление эффекта приведёт к его удалению для всех клипов в группе."
 
 #: src/assets/assetpanel.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create an object mask"
-msgstr "Создать новые точки"
+msgstr "Создать маску объекта"
 
 #: src/assets/assetpanel.cpp:110
 #, kde-kuit-format
@@ -4293,6 +4297,7 @@ msgstr ""
 msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr ""
+"Необходимо определить точки включения в первом видеокадре последовательности."
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
 #: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
@@ -6502,9 +6507,9 @@ msgid "Assign a new style to a subtitle."
 msgstr ""
 
 #: src/bin/playlistclip.cpp:139
-#, fuzzy, kde-format
+#, kde-format
 msgid "version"
-msgstr "Персидский"
+msgstr "версия"
 
 #: src/bin/playlistclip.cpp:168
 #, fuzzy, kde-format
@@ -7017,6 +7022,9 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"В окне браузера будет показана онлайн-документация Kdenlive, расположенная "
+"по следующему адресу:\n"
+" %1"
 
 #: src/core.cpp:1783
 #, fuzzy, kde-format
@@ -7278,9 +7286,9 @@ msgid "Proxy Clips"
 msgstr "Прокси-клипы"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "Proxy Clips With Alpha"
-msgstr "Прокси-клипы"
+msgstr "Прокси-клипы с альфа-каналом"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
@@ -7564,9 +7572,9 @@ msgid "Select the subtitle file to copy the layer to:"
 msgstr "Файл с субтитрами, в который будет скопирован слой:"
 
 #: src/dialogs/managesubtitles.cpp:132 src/dialogs/managesubtitles.cpp:213
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move To..."
-msgstr "Переместить панель инструментов"
+msgstr "Переместить в…"
 
 #: src/dialogs/managesubtitles.cpp:135 src/dialogs/managesubtitles.cpp:216
 #, kde-format
@@ -7579,9 +7587,9 @@ msgid "Global"
 msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:180
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move Style"
-msgstr "Переместить элемент"
+msgstr "Переместить стиль"
 
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
@@ -7618,17 +7626,17 @@ msgstr "Слой "
 #: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "с "
 
 #: src/dialogs/managesubtitles.cpp:439 src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr " событием"
 
 #: src/dialogs/managesubtitles.cpp:445
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr " событиями"
 
 #: src/dialogs/managesubtitles.cpp:498 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
@@ -8501,7 +8509,7 @@ msgstr "Ошибка загрузки %1"
 #: src/dialogs/settings/pluginssettings.cpp:89
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Установка мультилингвальных данных…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -8521,9 +8529,9 @@ msgid "Probing..."
 msgstr "Выполнение проверки…"
 
 #: src/dialogs/settings/pluginssettings.cpp:181
-#, fuzzy, kde-format
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Загрузка модели…"
+msgstr "Загрузка мультилингвальной модели…"
 
 #: src/dialogs/settings/pluginssettings.cpp:239
 #: src/dialogs/settings/pluginssettings.cpp:895
@@ -8577,9 +8585,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/settings/pluginssettings.cpp:499 src/ui/configspeech_ui.ui:304
-#, fuzzy, kde-format
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Инициализация модели перевода"
+msgstr "Установить мультилингвальный перевод"
 
 #: src/dialogs/settings/pluginssettings.cpp:508
 #, kde-format
@@ -8587,9 +8595,9 @@ msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:563
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select model to download"
-msgstr "Выберите участок для воспроизведения"
+msgstr "Выберите модель для загрузки"
 
 #: src/dialogs/settings/pluginssettings.cpp:579
 #, kde-format
@@ -8597,20 +8605,20 @@ msgid "All models are already installed"
 msgstr ""
 
 #: src/dialogs/settings/pluginssettings.cpp:599
-#, fuzzy, kde-format
+#, kde-format
 msgid "Downloading…"
-msgstr "Загрузка модели…"
+msgstr "Загрузка…"
 
 #: src/dialogs/settings/pluginssettings.cpp:609
-#, fuzzy, kde-format
+#, kde-format
 msgid "Downloading smallest model…"
-msgstr "Загрузка модели…"
+msgstr "Загрузка наименьшей модели…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
 #: src/dialogs/settings/pluginssettings.cpp:628 src/ui/configspeech_ui.ui:701
-#, fuzzy, kde-format
+#, kde-format
 msgid "Download models"
-msgstr "Загрузка модели…"
+msgstr "Загрузить модели"
 
 #: src/dialogs/settings/pluginssettings.cpp:686
 #: src/dialogs/settings/pluginssettings.cpp:700
@@ -9406,9 +9414,9 @@ msgid "Updates the subtitle display in the timeline."
 msgstr "Обновляет отображение субтитра на монтажном столе."
 
 #: src/dialogs/subtitleedit.cpp:291
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show more options"
-msgstr "Показать параметры стиля"
+msgstr "Показать дополнительные параметры"
 
 #: src/dialogs/subtitleedit.cpp:292
 #, kde-kuit-format
@@ -9424,9 +9432,9 @@ msgid ""
 msgstr "Удаляет выделенный субтитр (не работает с несколькими субтитрами)."
 
 #: src/dialogs/subtitleedit.cpp:297
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toggle bold"
-msgstr "Включить или отключить отключение дорожки"
+msgstr "Включить или отключить полужирный текст"
 
 #: src/dialogs/subtitleedit.cpp:298
 #, kde-kuit-format
@@ -9434,12 +9442,12 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
-msgstr ""
+msgstr "Делает полужирным выделенный текст или текст после позиции курсора."
 
 #: src/dialogs/subtitleedit.cpp:301
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toggle italic"
-msgstr "Переключить выбранное"
+msgstr "Включить или отключить курсивный текст"
 
 #: src/dialogs/subtitleedit.cpp:303
 #, kde-kuit-format
@@ -9447,12 +9455,12 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
-msgstr ""
+msgstr "Делает курсивным выделенный текст или текст после позиции курсора."
 
 #: src/dialogs/subtitleedit.cpp:306
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toggle underline"
-msgstr "Переключить выбранное"
+msgstr "Включить или отключить подчёркнутый текст"
 
 #: src/dialogs/subtitleedit.cpp:308
 #, kde-kuit-format
@@ -9460,12 +9468,12 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
-msgstr ""
+msgstr "Делает подчёркнутым выделенный текст или текст после позиции курсора."
 
 #: src/dialogs/subtitleedit.cpp:311
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toggle strikeout"
-msgstr "Переключить выбранное"
+msgstr "Включить или отключить зачёркнутый текст"
 
 #: src/dialogs/subtitleedit.cpp:313
 #, kde-kuit-format
@@ -9473,7 +9481,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
-msgstr ""
+msgstr "Делает зачёркнутым выделенный текст или текст после позиции курсора."
 
 #: src/dialogs/subtitleedit.cpp:318
 #, fuzzy, kde-format
@@ -9502,14 +9510,14 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:327
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set Position"
-msgstr "Начальная позиция"
+msgstr "Установить позицию"
 
 #: src/dialogs/subtitleedit.cpp:331
-#, fuzzy, kde-format
+#, kde-format
 msgid "More tags"
-msgstr "Дополнительно"
+msgstr "Другие метки"
 
 #: src/dialogs/subtitleedit.cpp:332
 #, kde-kuit-format
@@ -9569,9 +9577,9 @@ msgid "Cursor: %1, total: <b>%2</b>"
 msgstr "Символ: %1, всего: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1681 src/dialogs/subtitleedit.cpp:1695
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set Position X"
-msgstr "Позиция по X"
+msgstr "Установить позицию по X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1681 src/dialogs/subtitleedit.cpp:1695
@@ -9581,9 +9589,9 @@ msgid "X:"
 msgstr "X:"
 
 #: src/dialogs/subtitleedit.cpp:1683 src/dialogs/subtitleedit.cpp:1697
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set Position Y"
-msgstr "Позиция по Y"
+msgstr "Установить позицию по Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1683 src/dialogs/subtitleedit.cpp:1697
@@ -9593,9 +9601,9 @@ msgid "Y:"
 msgstr "Y:"
 
 #: src/dialogs/subtitlestyleedit.cpp:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select font"
-msgstr "Выбрать"
+msgstr "Выберите шрифт"
 
 #: src/dialogs/subtitlestyleedit.cpp:49
 #, kde-kuit-format
@@ -10597,35 +10605,35 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
-msgstr ""
+msgstr "Прокси-клипы не предназначены для композитинга или грейдинга."
 
 #: src/doc/kdenlivedoc.cpp:1621
-#, fuzzy, kde-format
+#, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
-msgstr[0] "скопировано в альфа-канал."
-msgstr[1] "скопировано в альфа-канал."
-msgstr[2] "скопировано в альфа-канал."
-msgstr[3] "скопировано в альфа-канал."
+msgstr[0] "У клипов есть альфа-канал."
+msgstr[1] "У клипов есть альфа-канал."
+msgstr[2] "У клипов есть альфа-канал."
+msgstr[3] "У клипа есть альфа-канал."
 
 #: src/doc/kdenlivedoc.cpp:1627
-#, fuzzy, kde-format
+#, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] "скопировано в альфа-канал."
-msgstr[1] "скопировано в альфа-канал."
-msgstr[2] "скопировано в альфа-канал."
-msgstr[3] "скопировано в альфа-канал."
+msgstr[0] "Имеется %1 клип с альфа-каналом."
+msgstr[1] "Имеется %1 клипа с альфа-каналом."
+msgstr[2] "Имеется %1 клипов с альфа-каналом."
+msgstr[3] "Имеется клип с альфа-каналом."
 
 #: src/doc/kdenlivedoc.cpp:1629
-#, fuzzy, kde-format
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Прокси-клипы"
+msgstr "Преобразовать все клипы в прокси-клипы"
 
 #: src/doc/kdenlivedoc.cpp:1630
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Преобразовать в прокси-клипы только клипы без альфа-канала"
 
 #: src/doc/kdenlivedoc.cpp:1646
 #, kde-format
@@ -10917,7 +10925,7 @@ msgstr ""
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Collapse Effect"
-msgstr "Свернуть Эффект"
+msgstr "Свернуть эффект"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
@@ -11125,9 +11133,9 @@ msgid "Flip"
 msgstr "Флиппо"
 
 #: src/effects/effectstack/view/effectstackview.cpp:393
-#, fuzzy, kde-format
+#, kde-format
 msgid "Exporting…"
-msgstr "Извлечение…"
+msgstr "Экспорт…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:764
 #: src/timeline2/view/timelinecontroller.cpp:3283
@@ -11190,9 +11198,9 @@ msgid "Please configure the SAM2 plugin"
 msgstr "Настройте параметры распознавания речи."
 
 #: src/effects/effectstack/view/maskmanager.cpp:115
-#, fuzzy, kde-format
+#, kde-format
 msgid "Job failed"
-msgstr "Сбой задания нарезки."
+msgstr "Сбой задания"
 
 #: src/effects/effectstack/view/maskmanager.cpp:221
 #, fuzzy, kde-format
@@ -11206,25 +11214,23 @@ msgstr "Идёт обработка звука, подождите."
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
 #, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
 msgid "Cannot open temporary file"
 msgstr "Не удалось создать временный файл"
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
 #, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
 msgid "Cannot access project folder"
 msgstr "Не удалось получить доступ к папке со словарями."
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format
 msgid "Exporting video frames for analysis"
-msgstr ""
+msgstr "Экспорт видеокадров для анализа"
 
 #: src/effects/effectstack/view/maskmanager.cpp:303
-#, fuzzy, kde-format
+#, kde-format
 msgid "Exporting video frames"
-msgstr "Экспорт направляющих"
+msgstr "Экспорт видеокадров"
 
 #: src/effects/effectstack/view/maskmanager.cpp:316
 #, fuzzy, kde-format
@@ -11234,11 +11240,10 @@ msgstr "Отсутствует исходный клип"
 #: src/effects/effectstack/view/maskmanager.cpp:420
 #, kde-format
 msgid "mask %1"
-msgstr ""
+msgstr "маска %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:423
 #, fuzzy, kde-format
-#| msgid "Creating menu images"
 msgid "Generating mask %1"
 msgstr "Создание изображений для меню"
 
@@ -12708,7 +12713,7 @@ msgstr "Правка субтитров"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
-msgstr "Переключение дорожки субтитров на монтажном столе."
+msgstr "Включает или отключает дорожку субтитров на монтажном столе."
 
 #: src/mainwindow.cpp:1194 src/titler/titlewidget.cpp:386
 #: src/titler/titlewidget.cpp:389
@@ -12848,8 +12853,8 @@ msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 msgstr ""
-"Переключает функцию привязки (выполняется привязка клипа к указателю "
-"воспроизведения, краям, маркерам, направляющим и другим элементам)."
+"Включает или отключает функцию привязки (выполняется привязка клипа к "
+"указателю воспроизведения, краям, маркерам, направляющим и другим элементам)."
 
 #: src/mainwindow.cpp:1298
 #, kde-format
@@ -15212,9 +15217,9 @@ msgid "Transform"
 msgstr "Трансформация"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:383
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select an object in the image first"
-msgstr "Для сравнения эффектов выберите клип в корзине проекта"
+msgstr "Сначала выберите объект на изображении"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, fuzzy, kde-format
@@ -15233,6 +15238,10 @@ msgid ""
 "Shift+click to include another zone.\n"
 "Ctrl+click to exclude a zone."
 msgstr ""
+"Щёлкните по объекту или нарисуйте прямоугольник, чтобы начать создание "
+"маски.\n"
+"Shift + щелчок для включения другой зоны.\n"
+"Ctrl + щелчок для исключения зоны."
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, fuzzy, kde-format
@@ -15676,27 +15685,39 @@ msgstr "Попробуйте повторить импорт для получе
 msgid "Error Getting Access Token from %1."
 msgstr "Ошибка при получении ключа доступа от %1."
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "Ошибка при открытии файла"
+
+#: src/otio/otioexport.cpp:56
 #, fuzzy, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "Э&кспорт OpenTimelineIO…"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, fuzzy, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "Э&кспорт OpenTimelineIO…"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, fuzzy, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Ошибка при открытии файла"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "Ошибка при открытии файла"
+
+#: src/otio/otioimport.cpp:76
 #, fuzzy, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "Ошибка при открытии файла"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, fuzzy, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "&Импорт OpenTimelineIO…"
@@ -17118,14 +17139,15 @@ msgid "Checking configuration…"
 msgstr "Проверка конфигурации…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:251
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
 "%1\n"
 "Please install it on your system.\n"
 msgstr ""
-"Не удалось найти виртуальную среду python, установите её в своей системе. "
-"Используется резервный общесистемный компилятор python."
+"Не удалось найти совместимую версию python:\n"
+"%1\n"
+"Установите её в системе.\n"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:263
 #, fuzzy, kde-format
@@ -17154,7 +17176,6 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:397
 #, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
 msgid "Cannot find system python"
 msgstr "Невозможно найти макет «%1»"
 
@@ -17258,9 +17279,9 @@ msgid ""
 msgstr "Ошибка при загрузке файла. Код ошибки: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select new models to download"
-msgstr "Выберите участок для воспроизведения"
+msgstr "Выберите новые модели для загрузки"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, fuzzy, kde-format
@@ -17273,9 +17294,9 @@ msgid "Checking available models"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Downloading"
-msgstr "Загрузка модели…"
+msgstr "Загрузка"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
 #, fuzzy, kde-format
@@ -18608,14 +18629,14 @@ msgid "Rename Track"
 msgstr "Переименовать дорожку"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Включить стек эффектов"
+msgstr "Включить стек эффектов дорожки"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Отключить стек эффектов"
+msgstr "Отключить стек эффектов дорожки"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -20664,7 +20685,7 @@ msgstr ""
 #: src/ui/clipdurationdialog_ui.ui:34
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Применить длительность ко всем элементам"
 
 #. i18n: ectx: property (text), widget (QLabel, crop_label)
 #: src/ui/clipdurationdialog_ui.ui:41
@@ -21535,7 +21556,7 @@ msgstr "Проверять соответствие первого добавл�
 #: src/ui/configmisc_ui.ui:63
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "Сохранять исходный размер кадра клипа при импорте"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_automultistreams)
 #: src/ui/configmisc_ui.ui:70
@@ -21563,17 +21584,15 @@ msgstr "Получать метаданные клипа от Magic Lantern"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Игнорировать структуру подпапок"
+msgstr "Игнорировать структуру подпапок при импорте"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"При импорте игнорировать структуру подпапки (импортировать все файлы в папку "
-"верхнего уровня)"
+msgstr "Все файлы будет импортированы в папку верхнего уровня"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -21779,9 +21798,9 @@ msgstr "Включить"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:219
-#, fuzzy, kde-format
+#, kde-format
 msgid "Profile for clips with alpha channel:"
-msgstr "скопировано в альфа-канал."
+msgstr "Профиль для клипов с альфа-каналом:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -21938,7 +21957,7 @@ msgstr "Система распознавания речи"
 #: src/ui/configspeech_ui.ui:516
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:523
@@ -22626,15 +22645,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
+#, kde-format
 msgid "Character spacing"
-msgstr "Межбуквенный интервал:"
+msgstr "Межсимвольный интервал"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
+#, kde-format
 msgid "Text color"
-msgstr "Целевой цвет"
+msgstr "Цвет текста"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -22676,14 +22695,14 @@ msgstr "Подчёркивание"
 #: src/ui/editsubstyle_ui.ui:423 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "Зачёркивание"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:455 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alignment"
-msgstr "Коррекция рыскания"
+msgstr "Выравнивание"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
