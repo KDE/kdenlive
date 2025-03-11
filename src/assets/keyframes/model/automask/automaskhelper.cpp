@@ -234,7 +234,7 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
             pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
             m_jobStatus = QProcess::NotRunning;
             if (m_killedOnRequest) {
-                Q_EMIT showMessage(QStringLiteral(), KMessageWidget::Information);
+                Q_EMIT showMessage(QString(), KMessageWidget::Information);
             } else if (m_samProcess.exitStatus() == QProcess::CrashExit || m_samProcess.exitCode() != 0) {
                 Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
             }
@@ -321,12 +321,11 @@ void AutomaskHelper::generateImage()
         box = m_boxes.value(m_lastPos);
     }
     bool ok;
-    QDir maskSrcFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
+    // Ensure the source cache dir exists
+    pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
     if (!ok) {
         return;
     }
-    /*SamInterface sam;
-    std::pair<QString, QString> maskScript = {sam.venvPythonExecs().python, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};*/
     QStringList args = {QStringLiteral("-F"), QString::number(m_lastPos)};
     if (!pointsList.isEmpty()) {
         args << QStringLiteral("-P") << QStringLiteral("%1=%2").arg(m_lastPos).arg(pointsList.join(QLatin1Char(','))) << QStringLiteral("-L")

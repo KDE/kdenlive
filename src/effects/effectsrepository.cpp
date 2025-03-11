@@ -30,7 +30,8 @@ EffectsRepository::EffectsRepository()
     init();
     // Check that our favorite effects are valid
     QStringList invalidEffect;
-    for (const QString &effect : KdenliveSettings::favorite_effects()) {
+    const QStringList effects = KdenliveSettings::favorite_effects();
+    for (const QString &effect : effects) {
         if (!exists(effect)) {
             invalidEffect << effect;
         }

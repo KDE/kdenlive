@@ -796,7 +796,8 @@ void KdenliveSettingsDialog::fillMonitorData()
     m_configSdl.fullscreen_monitor->clear();
     m_configSdl.fullscreen_monitor->addItem(i18n("auto"));
     int ix = 0;
-    for (const QScreen *screen : qApp->screens()) {
+    const QList<QScreen *> screens = qApp->screens();
+    for (const QScreen *screen : screens) {
         QString screenName = screen->name().isEmpty() ? i18n("Monitor %1", ix + 1) : QStringLiteral("%1: %2").arg(ix + 1).arg(screen->name());
         if (!screen->model().isEmpty()) {
             screenName.append(QStringLiteral(" - %1").arg(screen->model()));

@@ -438,7 +438,7 @@ void RenderPresetModel::setParams(const QString &params)
     }
 }
 
-RenderPresetParams RenderPresetModel::params(QStringList removeParams) const
+RenderPresetParams RenderPresetModel::params(const QStringList removeParams) const
 {
     RenderPresetParams newParams = m_params;
     for (const QString &toRemove : removeParams) {

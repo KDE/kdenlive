@@ -1705,7 +1705,8 @@ void Bin::updateSortingAction(int ix)
         return;
     }
     int index = ix % 100;
-    for (QAction *ac : m_sortGroup->actions()) {
+    const QList<QAction *> acts = m_sortGroup->actions();
+    for (QAction *ac : acts) {
         if (ac->data().toInt() == index) {
             ac->setChecked(true);
             ac->trigger();

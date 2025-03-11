@@ -361,8 +361,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
 
         fpBox->addLayout(colorLay);
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
-        connect(this, static_cast<void (ClipPropertiesController::*)(const QColor &)>(&ClipPropertiesController::modified), choosecolor,
-                &ChooseColorWidget::slotColorModified);
+        connect(this, &ClipPropertiesController::colorModified, choosecolor, &ChooseColorWidget::slotColorModified);
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image) {
         // Aspect ratio
@@ -1143,7 +1142,7 @@ void ClipPropertiesController::slotReloadProperties()
         m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
         Q_EMIT modified(m_properties->get_int("length"));
         color = m_properties->get_color("resource");
-        Q_EMIT modified(QColor::fromRgb(color.r, color.g, color.b));
+        Q_EMIT colorModified(QColor::fromRgb(color.r, color.g, color.b));
         break;
     case ClipType::TextTemplate:
         m_textEdit->setPlainText(m_properties->get("templatetext"));

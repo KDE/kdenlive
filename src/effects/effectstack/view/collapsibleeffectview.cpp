@@ -304,23 +304,28 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
     }
 
-    for (QSpinBox *sp : findChildren<QSpinBox *>()) {
+    const QList<QSpinBox *> spins = findChildren<QSpinBox *>();
+    for (QSpinBox *sp : spins) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QComboBox *cb : findChildren<QComboBox *>()) {
+    const QList<QComboBox *> combos = findChildren<QComboBox *>();
+    for (QComboBox *cb : combos) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QProgressBar *cb : findChildren<QProgressBar *>()) {
+    const QList<QProgressBar *> progs = findChildren<QProgressBar *>();
+    for (QProgressBar *cb : progs) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (WheelContainer *cb : findChildren<WheelContainer *>()) {
+    const QList<WheelContainer *> wheels = findChildren<WheelContainer *>();
+    for (WheelContainer *cb : wheels) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    for (QDoubleSpinBox *cb : findChildren<QDoubleSpinBox *>()) {
+    const QList<QDoubleSpinBox *> dspins = findChildren<QDoubleSpinBox *>();
+    for (QDoubleSpinBox *cb : dspins) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
@@ -975,32 +980,39 @@ void CollapsibleEffectView::blockWheelEvent(bool block)
 {
     m_blockWheel = block;
     Qt::FocusPolicy policy = block ? Qt::StrongFocus : Qt::WheelFocus;
-    for (QSpinBox *sp : findChildren<QSpinBox *>()) {
+    const QList<QSpinBox *> spins = findChildren<QSpinBox *>();
+    for (QSpinBox *sp : spins) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(policy);
     }
-    for (QComboBox *cb : findChildren<QComboBox *>()) {
+    const QList<QComboBox *> combos = findChildren<QComboBox *>();
+    for (QComboBox *cb : combos) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    for (QProgressBar *cb : findChildren<QProgressBar *>()) {
+    const QList<QProgressBar *> progs = findChildren<QProgressBar *>();
+    for (QProgressBar *cb : progs) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    for (WheelContainer *cb : findChildren<WheelContainer *>()) {
+    const QList<WheelContainer *> wheels = findChildren<WheelContainer *>();
+    for (WheelContainer *cb : wheels) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    for (QDoubleSpinBox *cb : findChildren<QDoubleSpinBox *>()) {
+    const QList<QDoubleSpinBox *> dspins = findChildren<QDoubleSpinBox *>();
+    for (QDoubleSpinBox *cb : dspins) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    for (DragValue *cb : m_view->findChildren<DragValue *>()) {
+    const QList<DragValue *> drags = m_view->findChildren<DragValue *>();
+    for (DragValue *cb : drags) {
         cb->blockWheel(m_blockWheel);
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    for (KeyframeView *cb : findChildren<KeyframeView *>()) {
+    const QList<KeyframeView *> kfs = findChildren<KeyframeView *>();
+    for (KeyframeView *cb : kfs) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
