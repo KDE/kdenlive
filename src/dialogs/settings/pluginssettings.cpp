@@ -392,6 +392,8 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         sam_system_params->setVisible(false);
         checkSamEnvironement(false);
     }
+    connect(install_nvidia_wr, &QPushButton::clicked, this, [this]() { checkCuda(false); });
+    connect(install_nvidia_sam, &QPushButton::clicked, this, [this]() { checkCuda(true); });
     connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this, pythonSamLabel](bool systemPackages) {
         pythonSamLabel->setVisible(false);
         KdenliveSettings::setSam_system_python(systemPackages);
@@ -968,5 +970,81 @@ void PluginsSettings::applySettings()
     }
     if (combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
         KdenliveSettings::setWhisperDevice(combo_wr_device->currentData().toString());
+    }
+}
+
+void PluginsSettings::checkCuda(bool isSam)
+{
+    // Determine CUDA version
+    QString detectedCuda;
+    const QString nvcc = QStandardPaths::findExecutable(QStringLiteral("nvcc"));
+    if (!nvcc.isEmpty()) {
+        QProcess extractInfo;
+        extractInfo.start(nvcc, {QStringLiteral("--version")});
+        extractInfo.waitForFinished();
+        if (extractInfo.exitStatus() == QProcess::NormalExit) {
+            const QString output = extractInfo.readAllStandardOutput();
+            if (output.contains(QLatin1String("11.8"))) {
+                detectedCuda = QStringLiteral("cuda118");
+            } else if (output.contains(QLatin1String("12.4"))) {
+                detectedCuda = QStringLiteral("cuda124");
+            } else if (output.contains(QLatin1String("12.6"))) {
+                detectedCuda = QStringLiteral("cuda126");
+            }
+        }
+    }
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Cancel);
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, &d, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    const QString featureName = isSam ? m_samInterface->featureName() : m_sttWhisper->featureName();
+    l->addWidget(new QLabel(i18n("Nvidia GPU support for %1\nSelect the CUDA version to install.", featureName), &d));
+    const QStringList versions = {QStringLiteral("11.8"), QStringLiteral("12.4"), QStringLiteral("12.6")};
+    QButtonGroup bg;
+    for (auto &v : versions) {
+        QRadioButton *button = new QRadioButton(i18n("CUDA %1", v), &d);
+        QString versionName = QStringLiteral("cuda%1").arg(v);
+        versionName.remove(QLatin1Char('.'));
+        button->setObjectName(versionName);
+        if (detectedCuda == versionName) {
+            button->setChecked(true);
+        }
+        bg.addButton(button);
+        l->addWidget(button);
+    }
+    KMessageWidget km;
+    km.setCloseButtonVisible(false);
+    if (!detectedCuda.isEmpty()) {
+        km.setText(i18n("Detected version: %1", bg.checkedButton()->text()));
+        km.setMessageType(KMessageWidget::Positive);
+    } else {
+        km.setText(i18n("Cannot determine CUDA version,\nplease select the version available on your system."));
+        km.setMessageType(KMessageWidget::Information);
+    }
+    l->addWidget(&km);
+    l->addWidget(buttonBox);
+
+    if (detectedCuda.isEmpty()) {
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        connect(&bg, &QButtonGroup::buttonClicked, &d, [&buttonBox]() { buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true); });
+    }
+    if (d.exec() != QDialog::Accepted) {
+        return;
+    }
+    if (KMessageBox::warningContinueCancel(
+            this, i18n("Only use this install option if your GPU\nis not correctly detected or not working with this plugin.")) != KMessageBox::Continue) {
+        return;
+    }
+    // handle installation
+    auto checkedB = bg.checkedButton();
+    detectedCuda = checkedB->objectName();
+    const QString requirementsFile = QStringLiteral("requirements-%1.txt").arg(detectedCuda);
+    qDebug() << ":::: READY TO PROCESS REQ FILE: " << requirementsFile;
+    if (isSam) {
+        m_samInterface->installRequirements(requirementsFile);
+    } else {
+        m_sttWhisper->installRequirements(requirementsFile);
     }
 }

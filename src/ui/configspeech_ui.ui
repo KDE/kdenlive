@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>467</width>
-    <height>773</height>
+    <width>449</width>
+    <height>775</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -440,7 +440,31 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  </widget>
                 </item>
                 <item>
-                 <widget class="KContextualHelpButton" name="whisper_device_info"/>
+                 <widget class="KContextualHelpButton" name="whisper_device_info">
+                  <property name="contextualHelpText">
+                   <string>If your Nvidia GPU is not listed, try installing an alternative with the Nvidia GPU Support button</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_8">
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="install_nvidia_wr">
+                  <property name="text">
+                   <string>GPU Support</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -632,12 +656,40 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item row="0" column="3">
-           <widget class="KContextualHelpButton" name="kcontextualhelpbutton">
-            <property name="contextualHelpText">
-             <string>Object Detection relies on SAM2 - &lt;a href=&quot;https://github.com/facebookresearch/sam2&quot;&gt;https://github.com/facebookresearch/sam2&lt;/a&gt;</string>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Model</string>
             </property>
            </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QComboBox" name="combo_sam_model">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="downloadSamButton">
+              <property name="text">
+               <string>Download models</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KContextualHelpButton" name="kcontextualhelpbutton">
+              <property name="contextualHelpText">
+               <string>Object Detection relies on SAM2 - &lt;a href=&quot;https://github.com/facebookresearch/sam2&quot;&gt;https://github.com/facebookresearch/sam2&lt;/a&gt;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_6">
@@ -646,7 +698,62 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="4">
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QComboBox" name="combo_sam_device">
+              <property name="sizeAdjustPolicy">
+               <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KContextualHelpButton" name="sam_device_info">
+              <property name="contextualHelpText">
+               <string>If your Nvidia GPU is not listed, try installing an alternative with the Nvidia GPU Support button</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="install_nvidia_sam">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>GPU Support</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QCheckBox" name="kcfg_sam_offload_video">
+            <property name="text">
+             <string>Offload video to CPU to save GPU Memory</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QCheckBox" name="kcfg_sam_system_python">
+            <property name="text">
+             <string>Use system packages only</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="2">
            <widget class="QGroupBox" name="sam_system_params">
             <property name="minimumSize">
              <size>
@@ -693,71 +800,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <widget class="KUrlRequester" name="sam_system_python_path"/>
              </item>
             </layout>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QPushButton" name="downloadSamButton">
-            <property name="text">
-             <string>Download models</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="combo_sam_model">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Model</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="3">
-           <layout class="QHBoxLayout" name="horizontalLayout_10">
-            <item>
-             <widget class="QComboBox" name="combo_sam_device">
-              <property name="sizeAdjustPolicy">
-               <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="KContextualHelpButton" name="sam_device_info"/>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="kcfg_sam_system_python">
-              <property name="text">
-               <string>Use system packages only</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="0" colspan="4">
-           <widget class="QCheckBox" name="kcfg_sam_offload_video">
-            <property name="text">
-             <string>Offload video to CPU to save GPU Memory</string>
-            </property>
            </widget>
           </item>
          </layout>

@@ -28,9 +28,9 @@ public:
     virtual bool installNewModel(const QString &modelName = QString()) = 0;
     AbstractPythonInterface::PythonExec venvPythonExecs(bool checkPip = false) override;
     bool useSystemPython() override;
+    QString featureName() override;
 
 protected:
-    QString featureName() override;
     SpeechToTextEngine::EngineType m_engineType;
 
 public Q_SLOTS:

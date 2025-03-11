@@ -570,7 +570,7 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
 {
     if (m_dependencies.keys().isEmpty()) {
         qWarning() << "No dependencies specified";
-        Q_EMIT setupError(i18n("Internal Error: Cannot find dependency list"));
+        Q_EMIT setupError(i18n("Installation Issue: Cannot find dependency list for %1", featureName()));
         return;
     }
     if (!checkSetup()) {
@@ -679,7 +679,7 @@ QString AbstractPythonInterface::runPackageScript(QString mode, bool concurrent,
 {
     if (m_dependencies.keys().isEmpty()) {
         qWarning() << "No dependencies specified";
-        Q_EMIT setupError(i18n("Internal Error: Cannot find dependency list"));
+        Q_EMIT setupError(i18n("Installation Issue: Cannot find dependency list for %1", featureName()));
         return {};
     }
     qDebug() << "=== CHECKING SETUP...";
@@ -689,7 +689,7 @@ QString AbstractPythonInterface::runPackageScript(QString mode, bool concurrent,
         return {};
     }
     qDebug() << "=== CHECKING SETUP...OK";
-    bool installAction = mode == QLatin1String("--install") || mode == QLatin1String("--upgrade");
+    bool installAction = mode.contains(QLatin1String("install")) || mode == QLatin1String("--upgrade");
     QStringList deps = parseDependencies(m_dependencies.keys(), !installAction);
 
     if (concurrent) {
@@ -698,6 +698,25 @@ QString AbstractPythonInterface::runPackageScript(QString mode, bool concurrent,
     } else {
         return runScript(QStringLiteral("checkpackages.py"), deps, mode, concurrent, displayFeedback);
     }
+}
+
+bool AbstractPythonInterface::installRequirements(QString reqFile)
+{
+    if (!QFile::exists(reqFile)) {
+        Q_EMIT setupError(i18n("Installation issue: Cannot find %1 for %2", reqFile, featureName()));
+        return false;
+    }
+
+    bool newInstall = false;
+    if (!checkSetup(false, &newInstall)) {
+        qDebug() << "=== CHECKING SETUP...NO!!!";
+        return {};
+    }
+    qDebug() << "=== CHECKING SETUP...OK";
+
+    const QStringList deps = {reqFile};
+    (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, QStringLiteral("checkpackages.py"), deps, QStringLiteral("--force-install"), true, true);
+    return true;
 }
 
 QString AbstractPythonInterface::installPackage(const QStringList packageNames)
@@ -727,7 +746,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
         return {};
     }
 
-    bool installAction = firstarg == QLatin1String("--install") || firstarg == QLatin1String("--upgrade");
+    bool installAction = firstarg.contains(QLatin1String("install")) || firstarg == QLatin1String("--upgrade");
 
     if (concurrent && installAction) {
         Q_EMIT scriptStarted();
