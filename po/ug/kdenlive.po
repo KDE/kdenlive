@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -15970,31 +15970,45 @@ msgstr ""
 msgid "Error Getting Access Token from %1."
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error opening file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "ھۆججەت ئېچىش خاتالىقى"
+
+#: src/otio/otioexport.cpp:56
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO Export"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO Project"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error opening file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "ھۆججەت ئېچىش خاتالىقى"
+
+#: src/otio/otioimport.cpp:76
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error importing OpenTimelineIO file"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO Import"

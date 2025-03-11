@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -16197,31 +16197,45 @@ msgstr ""
 msgid "Error Getting Access Token from %1."
 msgstr "Greška pri otvaranju datoteke"
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error opening file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "Greška pri otvaranju datoteke"
+
+#: src/otio/otioexport.cpp:56
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO Export"
 msgstr "Vremenska osa"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO Project"
 msgstr "Vremenska osa"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Greška pri otvaranju datoteke"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error opening file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "Greška pri otvaranju datoteke"
+
+#: src/otio/otioimport.cpp:76
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error importing OpenTimelineIO file"
 msgstr "Greška pri otvaranju datoteke"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO Import"

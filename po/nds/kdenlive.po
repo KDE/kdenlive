@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -16033,31 +16033,45 @@ msgstr ""
 msgid "Error Getting Access Token from %1."
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error opening file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "Fehler bi't Opmaken vun en Datei"
+
+#: src/otio/otioexport.cpp:56
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "OpenTimelineIO Export"
 msgstr "Utsöök-Warktüüch"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "OpenTimelineIO Project"
 msgstr "Utsöök-Warktüüch"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error opening file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "Fehler bi't Opmaken vun en Datei"
+
+#: src/otio/otioimport.cpp:76
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error importing OpenTimelineIO file"
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "OpenTimelineIO Import"

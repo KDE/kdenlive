@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
-"PO-Revision-Date: 2025-03-09 13:43+0300\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
+"PO-Revision-Date: 2025-03-10 12:33+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.03.70\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -15681,27 +15681,41 @@ msgstr "Yeni bir bağlantı sağlamak için yeniden içe aktarmayı dene"
 msgid "Error Getting Access Token from %1."
 msgstr "%1 Konumundan Erişim Jetonu Alırken Hata"
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error exporting OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "OpenTimelineIO dosyası dışa aktarılırken hata"
+
+#: src/otio/otioexport.cpp:56
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "OpenTimelineIO Olarak Dışa Aktar"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO Projesi"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "OpenTimelineIO dosyası dışa aktarılırken hata"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error importing OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "OpenTimelineIO dosyası içe aktarılırken hata"
+
+#: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "OpenTimelineIO dosyası içe aktarılırken hata"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "OpenTimelineIO İçe Aktar"
@@ -17140,10 +17154,9 @@ msgstr ""
 "Eklentiyi kaldırıp yeniden kurmayı deneyin."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:397
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find system python"
-msgstr "%1 yerleşimi bulunamıyor"
+msgstr "Sistem Python’u bulunamıyor"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format

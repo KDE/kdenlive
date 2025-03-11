@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -15879,31 +15879,45 @@ msgstr "새 연결을 얻으려면 다시 가져오기 시도"
 msgid "Error Getting Access Token from %1."
 msgstr "%1에서 접근 토큰을 가져오는 중 오류가 발생했습니다."
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error opening file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "파일 열기 오류"
+
+#: src/otio/otioexport.cpp:56
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport…"
 msgid "OpenTimelineIO Export"
 msgstr "OpenTimelineIO 내보내기(&X)…"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport…"
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO 내보내기(&X)…"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"
 msgstr "파일 열기 오류"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error opening file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "파일 열기 오류"
+
+#: src/otio/otioimport.cpp:76
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error importing OpenTimelineIO file"
 msgstr "파일 열기 오류"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO &Import…"
 msgid "OpenTimelineIO Import"

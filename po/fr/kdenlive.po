@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
-"PO-Revision-Date: 2025-03-08 11:49+0100\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
+"PO-Revision-Date: 2025-03-09 09:30+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -11418,28 +11418,28 @@ msgid "Job failed"
 msgstr "Échec de la tâche"
 
 #: src/effects/effectstack/view/maskmanager.cpp:221
-#, fuzzy, kde-format
-#| msgid "Processing audio, please wait."
+#, kde-format
 msgid "Another transcode task is running, try later."
-msgstr "Traitement de l'audio, veuillez patienter."
+msgstr ""
+"Une autre tâche de transcodage est en cours d'exécution. Veuillez essayer "
+"plus tard."
 
 #: src/effects/effectstack/view/maskmanager.cpp:226
-#, fuzzy, kde-format
-#| msgid "Processing audio, please wait."
+#, kde-format
 msgid "Another mask task is running, try later."
-msgstr "Traitement de l'audio, veuillez patienter."
+msgstr ""
+"Une autre tâche de masque est en cours d'exécution. Veuillez essayer plus "
+"tard."
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "Impossible de créer le fichier temporaire"
+msgstr "Impossible d'ouvrir le fichier temporaire"
 
 #: src/effects/effectstack/view/maskmanager.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "Impossible d'accéder au dossier des dictionnaires."
+msgstr "Impossible d'accéder au dossier du projet."
 
 #: src/effects/effectstack/view/maskmanager.cpp:299
 #, kde-format
@@ -15932,27 +15932,41 @@ msgstr "Essayez un nouvel import pour obtenir une nouvelle connexion"
 msgid "Error Getting Access Token from %1."
 msgstr "Erreur à l'obtention du jeton d'accès à %1."
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error exporting OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "Erreur lors de l'exportation du fichier « OpenTimelineIO »"
+
+#: src/otio/otioexport.cpp:56
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "Exportation « OpenTimelineIO »"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "Projet « OpenTimelineIO »"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Erreur lors de l'exportation du fichier « OpenTimelineIO »"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error importing OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "Erreur lors de l'importation du fichier « OpenTimelineIO »"
+
+#: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "Erreur lors de l'importation du fichier « OpenTimelineIO »"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "Importation « OpenTimelineIO »"

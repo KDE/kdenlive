@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
-"PO-Revision-Date: 2025-03-09 11:10+0100\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
+"PO-Revision-Date: 2025-03-10 08:44+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -15826,27 +15826,41 @@ msgstr "Torna a intentar la importació per a obtenir una connexió nova"
 msgid "Error Getting Access Token from %1."
 msgstr "Error en obtenir el testimoni d'accés des de %1."
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error exporting OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "Error en exportar un fitxer OpenTimelineIO"
+
+#: src/otio/otioexport.cpp:56
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "Exportació a OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "Projecte OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Error en exportar un fitxer OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error importing OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "Error en importar un fitxer OpenTimelineIO"
+
+#: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "Error en importar un fitxer OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "Importació d'OpenTimelineIO"
@@ -17308,10 +17322,9 @@ msgstr ""
 "Intenteu desinstal·lar i després tornar a instal·lar el connector."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:397
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find system python"
-msgstr "No s'ha pogut trobar la disposició %1"
+msgstr "No s'ha pogut trobar el «python» del sistema"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format

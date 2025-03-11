@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
 "PO-Revision-Date: 2025-03-08 23:00+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -15601,27 +15601,41 @@ msgstr "حاول الاستيراد مرة أخرى للحصول على اتصا
 msgid "Error Getting Access Token from %1."
 msgstr "خطأ في الحصول على رمز الوصول من %1"
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error exporting OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "خطأ في تصدير ملف OpenTimelineIO"
+
+#: src/otio/otioexport.cpp:56
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "تصدير ‏OpenTimelineIO‏"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "مشروع ‏OpenTimelineIO‏"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "خطأ في تصدير ملف OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error importing OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "خطأ في استيراد ملف OpenTimelineIO"
+
+#: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "خطأ في استيراد ملف OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "استيراد OpenTimelineIO"

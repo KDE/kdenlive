@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:52+0000\n"
-"PO-Revision-Date: 2025-03-08 08:59+0200\n"
+"POT-Creation-Date: 2025-03-11 02:34+0000\n"
+"PO-Revision-Date: 2025-03-10 16:38+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2341,10 +2341,9 @@ msgstr ""
 "максимальне пом'якшення."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha or luma value."
+#, kde-format
 msgid "Use the inverse of the alpha channel."
-msgstr "Використовувати обернене значення прозорості або яскравості."
+msgstr "Використовувати обернене значення каналу прозорості."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
@@ -15845,27 +15844,41 @@ msgstr "Спробувати повторити імпортування для 
 msgid "Error Getting Access Token from %1."
 msgstr "Помилка під час отримання ключа доступу з %1."
 
-#: src/otio/otioexport.cpp:44
+#: src/otio/otioexport.cpp:42
+#, fuzzy, kde-format
+#| msgid "Error exporting OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Exporting OpenTimelineIO"
+msgstr "Помилка під час спроби експортувати файл OpenTimelineIO"
+
+#: src/otio/otioexport.cpp:56
 #, kde-format
 msgid "OpenTimelineIO Export"
 msgstr "Експортування до OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:45 src/otio/otioimport.cpp:173
+#: src/otio/otioexport.cpp:57 src/otio/otioimport.cpp:201
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "проєкт OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:77
+#: src/otio/otioexport.cpp:100
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Помилка під час спроби експортувати файл OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:55
+#: src/otio/otioimport.cpp:48
+#, fuzzy, kde-format
+#| msgid "Error importing OpenTimelineIO file"
+msgctxt "@title:window"
+msgid "Importing OpenTimelineIO"
+msgstr "Помилка під час спроби імпортувати файл OpenTimelineIO"
+
+#: src/otio/otioimport.cpp:76
 #, kde-format
 msgid "Error importing OpenTimelineIO file"
 msgstr "Помилка під час спроби імпортувати файл OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:172
+#: src/otio/otioimport.cpp:200
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "Імпортувати OpenTimelineIO"
@@ -17341,10 +17354,9 @@ msgstr ""
 "Спробуйте вилучити, а потім знову встановити додаток."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:397
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find system python"
-msgstr "Не вдалося знайти компонування %1"
+msgstr "Не вдалося знайти у системі python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
