@@ -79,17 +79,45 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
         }
         return;
     }
+    const double otioFps = importData->otioTimeline->duration().rate();
 
-    // Find the OTIO external references that will be added to the bin. Loading the
-    // bin clips will drive the progress dialog.
+    // Find the OTIO media references that will be added to the bin. This count
+    // will be used to drive the progress dialog.
     for (const auto &otioClip : importData->otioTimeline->find_clips()) {
         if (const auto &otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
+
+            // Found an external reference.
             const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), importData->otioFile);
             importData->otioExternalRefs.insert(file);
+        } else if (const auto &otioGeneratorReference = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference())) {
+            if (otioGeneratorReference->generator_kind() == "kdenlive:SolidColor") {
+
+                // Found a solid color generator.
+                const QString name = QString::fromStdString(otioGeneratorReference->name());
+                QString color;
+                const auto &otioParameters = otioGeneratorReference->parameters();
+                auto i = otioParameters.find("kdenlive");
+                if (i != otioParameters.end() && i->second.has_value()) {
+                    try {
+                        auto j = std::any_cast<OTIO_NS::AnyDictionary>(i->second);
+                        auto k = j.find("color");
+                        if (k != j.end() && k->second.has_value()) {
+                            color = QString::fromStdString(std::any_cast<std::string>(k->second));
+                        }
+                    } catch (const std::exception &) {
+                    }
+                }
+                OTIO_NS::TimeRange timeRange(OTIO_NS::RationalTime(0.0, otioFps), OTIO_NS::RationalTime(1.0, otioFps));
+                if (otioGeneratorReference->available_range().has_value()) {
+                    timeRange = otioGeneratorReference->available_range().value();
+                }
+                importData->otioColorGeneratorRefs[name] = QPair<QString, int>(color, timeRange.duration().value());
+            }
         }
     }
+    importData->binClipCount = importData->otioExternalRefs.size() + importData->otioColorGeneratorRefs.size();
     if (m_importingDialog) {
-        m_importingDialog->setMaximum(importData->otioExternalRefs.size());
+        m_importingDialog->setMaximum(importData->binClipCount);
     }
 
     // Try to find an existing profile that matches the frame rate
@@ -97,7 +125,6 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
     //
     // Note that OTIO files do not contain information about rendering,
     // so we get the resolution from the first video clip.
-    const double otioFps = importData->otioTimeline->duration().rate();
     QVector<QString> profileCandidates;
     auto &profileRepository = ProfileRepository::get();
     auto profiles = profileRepository->getAllProfiles();
@@ -170,19 +197,18 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
 
     // Add the OTIO media references to the bin. When the bin clips have
     // completed loading, import the timeline.
-    importData->completedBinClips = 0;
+    std::function<void(const QString &)> callback = [this, importData](const QString &) {
+        ++importData->completedBinClips;
+        if (importData->completedBinClips == importData->binClipCount) {
+            importTimeline(importData);
+        }
+        if (m_importingDialog) {
+            m_importingDialog->setValue(importData->completedBinClips);
+        }
+    };
     for (const auto &file : importData->otioExternalRefs) {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        std::function<void(const QString &)> callback = [this, importData](const QString &) {
-            ++importData->completedBinClips;
-            if (importData->completedBinClips == importData->otioExternalRefs.size()) {
-                importTimeline(importData);
-            }
-            if (m_importingDialog) {
-                m_importingDialog->setValue(importData->completedBinClips);
-            }
-        };
         const QString binId =
             ClipCreator::createClipFromFile(file, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callback);
         importData->otioExternalRefToBinId[file] = binId;
@@ -192,6 +218,12 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
         if (!timecode.isEmpty()) {
             importData->binIdToTimecode[binId] = timecode;
         }
+    }
+    for (const auto &key : importData->otioColorGeneratorRefs.keys()) {
+        const auto &value = importData->otioColorGeneratorRefs[key];
+        const QString binId = ClipCreator::createColorClip(value.first, value.second, key, pCore->projectItemModel()->getRootFolder()->clipId(),
+                                                           pCore->projectItemModel(), callback);
+        importData->otioColorGeneratorRefToBinId[key] = binId;
     }
 }
 
@@ -281,7 +313,10 @@ int OtioImport::importClip(const std::shared_ptr<OtioImportData> &importData, co
         } else if (const auto &otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
             // TODO: Image sequence references.
         } else if (const auto &otioGeneratorReference = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference())) {
-            // TODO: Generator references.
+            const auto i = importData->otioColorGeneratorRefToBinId.find(QString::fromStdString(otioGeneratorReference->name()));
+            if (i != importData->otioColorGeneratorRefToBinId.end()) {
+                binId = i.value();
+            }
         }
 
         // Insert the clip into the track.
