@@ -326,9 +326,9 @@ public:
     */
     QPoint getClipInDuration(int clipId) const;
 
-    /** @brief Returns the clip state (audio/video only)
+    /** @brief Returns the clip state (audio/video only) and type (Video, Color, Title...)
      */
-    PlaylistState::ClipState getClipState(int clipId) const;
+    std::pair<PlaylistState::ClipState, ClipType::ProducerType> getClipState(int clipId) const;
 
     /** @brief Returns the bin id of the clip master
        @param clipId Id of the clip to test

@@ -440,5 +440,5 @@ Q_SIGNALS:
     void boundsChanged(QVector<QPoint> bounds);
     void registeredClipChanged();
     void firstFrameExported();
-    void masksUpdated(const ObjectId &filterOwner = ObjectId(), MaskInfo mask = MaskInfo());
+    void masksUpdated();
 };

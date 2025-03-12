@@ -763,7 +763,7 @@ int Core::getItemIn(const ObjectId &id)
     return 0;
 }
 
-PlaylistState::ClipState Core::getItemState(const ObjectId &id)
+std::pair<PlaylistState::ClipState, ClipType::ProducerType> Core::getItemState(const ObjectId &id)
 {
     switch (id.type) {
     case KdenliveObjectType::TimelineClip:
@@ -774,19 +774,21 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
         }
         break;
     case KdenliveObjectType::TimelineComposition:
-        return PlaylistState::VideoOnly;
+        return {PlaylistState::VideoOnly, ClipType::Unknown};
     case KdenliveObjectType::BinClip:
-        if (!m_guiConstructed) return PlaylistState::Disabled;
+        if (!m_guiConstructed) {
+            return {PlaylistState::Disabled, ClipType::Unknown};
+        }
         return m_mainWindow->getBin()->getClipState(id.itemId);
     case KdenliveObjectType::TimelineTrack:
-        return currentDoc()->getTimeline(id.uuid)->isAudioTrack(id.itemId) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
+        return {currentDoc()->getTimeline(id.uuid)->isAudioTrack(id.itemId) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, ClipType::Unknown};
     case KdenliveObjectType::Master:
-        return PlaylistState::Disabled;
+        return {PlaylistState::Disabled, ClipType::Unknown};
     default:
         qWarning() << "unhandled object type";
         break;
     }
-    return PlaylistState::Disabled;
+    return {PlaylistState::Disabled, ClipType::Unknown};
 }
 
 int Core::getItemDuration(const ObjectId &id)
@@ -1735,7 +1737,7 @@ std::pair<bool, bool> Core::assetHasAV(ObjectId id)
         return {false, true};
     }
     case KdenliveObjectType::BinClip: {
-        PlaylistState::ClipState state = bin()->getClipState(id.itemId);
+        PlaylistState::ClipState state = bin()->getClipState(id.itemId).first;
         if (state == PlaylistState::Disabled) {
             return {true, true};
         } else if (state == PlaylistState::AudioOnly) {

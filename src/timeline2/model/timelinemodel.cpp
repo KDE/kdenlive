@@ -384,12 +384,12 @@ QPoint TimelineModel::getClipInDuration(int clipId) const
     return {clip->getIn(), clip->getPlaytime()};
 }
 
-PlaylistState::ClipState TimelineModel::getClipState(int clipId) const
+std::pair<PlaylistState::ClipState, ClipType::ProducerType> TimelineModel::getClipState(int clipId) const
 {
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     const auto clip = m_allClips.at(clipId);
-    return clip->clipState();
+    return {clip->clipState(), clip->clipType()};
 }
 
 const QString TimelineModel::getClipBinId(int clipId) const
@@ -4547,11 +4547,11 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
         int secondId = *it;
         bool isAVGroup = false;
         if (getClipBinId(firstId) == getClipBinId(secondId)) {
-            if (getClipState(firstId) == PlaylistState::AudioOnly) {
-                if (getClipState(secondId) == PlaylistState::VideoOnly) {
+            if (getClipState(firstId).first == PlaylistState::AudioOnly) {
+                if (getClipState(secondId).first == PlaylistState::VideoOnly) {
                     isAVGroup = true;
                 }
-            } else if (getClipState(secondId) == PlaylistState::AudioOnly) {
+            } else if (getClipState(secondId).first == PlaylistState::AudioOnly) {
                 isAVGroup = true;
             }
         }
