@@ -183,9 +183,28 @@ void MaskManager::launchSimpleSam()
 
 void MaskManager::initMaskMode(bool autoAdd, bool editMode)
 {
+    // Define operating zone
+    Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
+    bool ok;
+    if (m_zone.isNull()) {
+        if (m_owner.type == KdenliveObjectType::TimelineClip) {
+            int in = pCore->getItemIn(m_owner);
+            m_zone = QPoint(in, in + pCore->getItemDuration(m_owner) - 1);
+        } else {
+            m_zone = QPoint(clipMon->getZoneStart(), clipMon->getZoneEnd());
+        }
+    }
+    if (m_zone.y() - m_zone.x() > 300) {
+        if (KMessageBox::warningContinueCancel(
+                this,
+                i18n("Creating masks for clips more than a few seconds long can fail due to memory shortage. You can try to enable the <i>Offload video to "
+                     "CPU</i> option in the settings, or create several masks for shorter durations."),
+                QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QStringLiteral("sam2limit")) != KMessageBox::Continue) {
+            return;
+        }
+    }
     // Focus clip monitor with current clip
     m_filterOwner = m_owner;
-    Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
     if (!m_connected) {
         Q_ASSERT(clipMon != nullptr);
         connect(clipMon, &Monitor::generateMask, this, &MaskManager::generateMask, Qt::QueuedConnection);
@@ -200,16 +219,6 @@ void MaskManager::initMaskMode(bool autoAdd, bool editMode)
     clipMon->abortPreviewMask();
     maskTools->setCurrentIndex(1);
 
-    // Define operating zone if needed
-    bool ok;
-    if (m_zone.isNull()) {
-        if (m_owner.type == KdenliveObjectType::TimelineClip) {
-            int in = pCore->getItemIn(m_owner);
-            m_zone = QPoint(in, in + pCore->getItemDuration(m_owner) - 1);
-        } else {
-            m_zone = QPoint(clipMon->getZoneStart(), clipMon->getZoneEnd());
-        }
-    }
     m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
     exportFrames(autoAdd, editMode);
 }
