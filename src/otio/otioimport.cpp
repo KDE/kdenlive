@@ -284,7 +284,7 @@ void OtioImport::importTrack(const std::shared_ptr<OtioImportData> &importData, 
                     const int in = otioTransition->in_offset().rescaled_to(otioTimelineDuration).round().value();
                     const int out = otioTransition->out_offset().rescaled_to(otioTimelineDuration).round().value();
                     const int pos = importData->timeline->getClipPosition(clipId);
-                    importData->timeline->requestClipMix(QString("luma"), {clipIdPrev, clipId}, {in, out}, trackId, pos, true, true, true, undo, redo, false);
+                    importData->timeline->requestClipMix(QString("luma"), {clipIdPrev, clipId}, {out, in}, trackId, pos, true, true, true, undo, redo, false);
                 }
             }
 
@@ -307,7 +307,7 @@ int OtioImport::importClip(const std::shared_ptr<OtioImportData> &importData, co
             if (i != importData->otioExternalRefToBinId.end()) {
                 binId = i.value();
             }
-        } else if (const auto &otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
+            //} else if (const auto &otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
             // TODO: Image sequence references.
         } else if (const auto &otioGeneratorReference = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference())) {
             const auto i = importData->otioColorGeneratorRefToBinId.find(QString::fromStdString(otioGeneratorReference->name()));
