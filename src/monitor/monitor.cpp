@@ -1616,7 +1616,7 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel>
     } else {
         m_glMonitor->setRulerInfo(length, markerModel);
     }
-    m_timePos->setRange(0, length);
+    m_timePos->setRange(0, INT_MAX);
 
     if (markerModel) {
         QAbstractItemModel *sourceModel = markerModel->sourceModel();
