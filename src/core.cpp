@@ -1016,7 +1016,9 @@ void Core::loadingClips(int count, bool allowInterrupt)
 
 void Core::displayBinMessagePrivate(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
-    m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
+    if (m_mainWindow) {
+        m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
+    }
 }
 
 void Core::displayBinLogMessagePrivate(const QString &text, int type, const QString logInfo)
