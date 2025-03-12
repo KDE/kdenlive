@@ -98,7 +98,7 @@ void TranscodeTask::run()
         dir = QDir(pCore->currentDoc()->url().isValid() ? pCore->currentDoc()->url().adjusted(QUrl::RemoveFilename).toLocalFile()
                                                         : KdenliveSettings::defaultprojectfolder());
     } else {
-        fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
+        fileName = finfo.completeBaseName();
         dir = finfo.absoluteDir();
     }
     int fileCount = 1;
@@ -201,7 +201,9 @@ void TranscodeTask::run()
         // Make sure we keep the stream order
         parameters << QStringLiteral("-sn") << QStringLiteral("-dn");
         if (!m_transcodeParams.contains(QStringLiteral("-map ")) && !m_transcodeParams.contains(QStringLiteral(" amerge="))) {
-            parameters << QStringLiteral("-map") << QStringLiteral("0");
+            // Use 0:V to drop cover art streams
+            parameters << QStringLiteral("-map") << QStringLiteral("0:V");
+            parameters << QStringLiteral("-map") << QStringLiteral("0:a");
         }
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
         for (const QString &s : std::as_const(params)) {
