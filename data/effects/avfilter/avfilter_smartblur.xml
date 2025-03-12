@@ -6,20 +6,47 @@
     <author>libavfilter</author>
     <parameter type="constant" name="av.lr" default="1.0" min="0.1" max="5.0" decimals="1">
         <name>Luma radius</name>
+        <comment><![CDATA[Set the luma radius.<br>
+            The value specifies the variance of the gaussian filter used to blur the image (slower if larger).]]></comment>
     </parameter>
     <parameter type="constant" name="av.ls" default="1.0" min="-1.0" max="1.0" decimals="1">
         <name>Luma strength</name>
+        <comment><![CDATA[Set the luma strength.<br>
+            The value configures the blurring. A positive value will blur the image, whereas a negative value will sharpen the image.]]></comment>
     </parameter>
     <parameter type="constant" name="av.lt" default="0" min="-30" max="+30" factor="1">
-        <name>Luma Threshold</name>
+        <name>Luma threshold</name>
+        <comment><![CDATA[Set the luma threshold used as a coefficient<br>
+            to determine whether a pixel should be blurred or not. A value of 0 will filter all the image, positive values will filter flat areas, negative values will filter edges.]]></comment>
     </parameter>
     <parameter type="constant" name="av.cr" default="1.0" min="0.1" max="5.0" decimals="1">
         <name>Chroma radius</name>
+        <comment><![CDATA[Set the chroma radius.<br>
+            The value specifies the variance of the gaussian filter used to blur the image (slower if larger). If not specified ,it defaults to the value set for <em>Luma radius</em>]]></comment>
     </parameter>
     <parameter type="constant" name="av.cs" default="1.0" min="-1.0" max="1.0" decimals="1">
         <name>Chroma strength</name>
+        <comment><![CDATA[Set the chroma strength.<br>
+            The value configures the blurring. A positive value will blur the image, whereas a negative value will sharpen the image. If not specified, it defaults to the value set for <em>Luma strength</em>.]]></comment>
     </parameter>
     <parameter type="constant" name="av.ct" default="0" min="-30" max="+30" factor="1">
-        <name>Chroma Threshold</name>
+        <name>Chroma threshold</name>
+        <comment><![CDATA[Set the chroma threshold used as a coefficient<br>
+            to determine whether a pixel should be blurred or not. A value of 0 will filter all the image, positive values will filter flat areas, negative values will filter edges. If not specified, it defaults to the value set for <em>Luma threshold</em>]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.ar" default="1.0" min="0.1" max="5.0" decimals="1">
+        <name>Alpha radius</name>
+        <comment><![CDATA[Set the alpha radius.<br>
+            The value specifies the variance of the gaussian filter used to blur the image (slower if larger). If not specified, it defaults to the value set for <em>Luma radius</em>]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.as" default="1.0" min="-1.0" max="1.0" decimals="1">
+        <name>Alpha strength</name>
+        <comment><![CDATA[Set the alpha strength.<br>
+            The value configures the blurring. A positive value will blur the image, whereas a negative value will sharpen the image. If not specified, it defaults to the value set for <em>Luma strength</em>.]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.at" default="0" min="-30" max="+30" factor="1">
+        <name>Alpha threshold</name>
+        <comment><![CDATA[Set the alpha threshold used as a coefficient<br>
+            to determine whether a pixel should be blurred or not. A value of 0 will filter all the image, positive values will filter flat areas, negative values will filter edges. If not specified, it defaults to the value set for <em>Luma threshold</em>]]></comment>
     </parameter>
 </effect>

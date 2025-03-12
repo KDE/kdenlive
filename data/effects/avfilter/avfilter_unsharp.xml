@@ -1,25 +1,47 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.unsharp">
+<!-- ffmpeg documentation says range for matrix settings is 3-23 but the max value can only be 13 -->
     <name>Sharp/Unsharp</name>
-    <description>Sharpen or blur your video</description>
+    <description>Sharpen or unsharpen/blur your video</description>
     <author>libavfilter</author>
     <parameter type="constant" name="av.lx" max="13" min="3" default="5" odd="1">
         <name>Luma horizontal matrix</name>
+        <comment><![CDATA[Set the luma matrix horizontal size]]></comment>
     </parameter>
     <parameter type="constant" name="av.ly" max="13" min="3" default="5" odd="1">
         <name>Luma vertical matrix</name>
+        <comment><![CDATA[Set the luma matrix vertical size]]></comment>
     </parameter>
     <parameter type="constant" name="av.la" max="5" min="-2" default="0" decimals="2">
         <name>Luma strength</name>
+        <comment><![CDATA[Set the luma effect strength.<br>
+            Reasonable values are between -1.5 and 1.5. Negative values will blur the input video, while positive values will sharpen it, a value of 0 will disable the effect. ]]></comment>
     </parameter>
     <parameter type="constant" name="av.cx" max="13" min="3" default="5" odd="1">
         <name>Chroma horizontal matrix</name>
+        <comment><![CDATA[Set the chroma matrix horizontal size]]></comment>
     </parameter>
     <parameter type="constant" name="av.cy" max="13" min="3" default="5" odd="1">
         <name>Chroma vertical matrix</name>
+        <comment><![CDATA[Set the chroma matrix vertical size]]></comment>
     </parameter>
     <parameter type="constant" name="av.ca" max="5" min="-2" default="0" decimals="2">
         <name>Chroma strength</name>
+        <comment><![CDATA[Set the chroma effect strength.<br>
+            Reasonable values are between -1.5 and 1.5. Negative values will blur the input video, while positive values will sharpen it, a value of zero will disable the effect. ]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.ax" max="13" min="3" default="5" odd="1">
+        <name>Alpha horizontal matrix</name>
+        <comment><![CDATA[Set the alpha matrix horizontal size]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.ay" max="13" min="3" default="5" odd="1">
+        <name>Alpha vertical matrix</name>
+        <comment><![CDATA[Set the alpha matrix vertical size]]></comment>
+    </parameter>
+    <parameter type="constant" name="av.aa" max="5" min="-2" default="0" decimals="2">
+        <name>Alpha strength</name>
+        <comment><![CDATA[Set the alpha effect strength.<br>
+            Reasonable values are between -1.5 and 1.5. Negative values will blur the input video, while positive values will sharpen it, a value of zero will disable the effect. ]]></comment>
     </parameter>
 </effect>

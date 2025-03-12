@@ -1,16 +1,20 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.dblur" id="avfilter.dblur">
-    <name>DBlur</name>
-    <description>Apply Directional Blur filter</description>
+    <name>Directional Blur</name>
+    <description>Apply directional blur filter</description>
     <author>libavfilter</author>
-    <parameter type="animated" name="av.angle" max="360" min="0" default="45">
+    <parameter type="animated" name="av.angle" max="360" min="0" decimals="1" default="45" suffix="°">
         <name>Angle</name>
+        <comment><![CDATA[Sets the angle for the direction]]></comment>
     </parameter>
-    <parameter type="animated" name="av.radius" max="400" min="0" default="5">
+    <parameter type="animated" name="av.radius" max="8192" min="0" default="5">
         <name>Radius</name>
+        <comment><![CDATA[Sets the radius for the direction]]></comment>
     </parameter>
-    <parameter type="animated" name="av.planes" max="15" min="0" default="15">
+    <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7">
+        <paramlistdisplay>Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,All</paramlistdisplay>
         <name>Planes to filter</name>
+        <comment><![CDATA[Sets the color space plane the effect is applied to]]></comment>
     </parameter>
 </effect>
