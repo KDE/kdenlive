@@ -372,7 +372,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("effect"));
     int parentIn = effectsXml.attribute(QStringLiteral("parentIn")).toInt();
     int currentIn = pCore->getItemIn(m_ownerId);
-    PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
+    PlaylistState::ClipState state = pCore->getItemState(m_ownerId).first;
     bool effectAdded = false;
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement node = nodeList.item(i).toElement();
@@ -685,7 +685,7 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
         return {copyXmlEffect(doc), false};
     }
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
-    PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
+    PlaylistState::ClipState state = pCore->getItemState(m_ownerId).first;
     if (state == PlaylistState::VideoOnly) {
         if (effect->isAudio()) {
             // Cannot add effect to this clip

@@ -44,7 +44,7 @@ private Q_SLOTS:
     void previewMask(bool show);
     void editMask(bool show);
     void generateMask();
-    void loadMasks(const ObjectId &filterOwner = ObjectId());
+    void loadMasks();
     void checkModelAvailability();
     void applyMask();
     void deleteMask();

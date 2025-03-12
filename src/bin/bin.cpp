@@ -5330,13 +5330,13 @@ QSize Bin::getFrameSize(int itemId) const
     return clip->frameSize();
 }
 
-PlaylistState::ClipState Bin::getClipState(int itemId) const
+std::pair<PlaylistState::ClipState, ClipType::ProducerType> Bin::getClipState(int itemId) const
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
     Q_ASSERT(clip != nullptr);
     bool audio = clip->hasAudio();
     bool video = clip->hasVideo();
-    return audio ? (video ? PlaylistState::Disabled : PlaylistState::AudioOnly) : PlaylistState::VideoOnly;
+    return {audio ? (video ? PlaylistState::Disabled : PlaylistState::AudioOnly) : PlaylistState::VideoOnly, clip->clipType()};
 }
 
 const QString Bin::getCurrentFolder()

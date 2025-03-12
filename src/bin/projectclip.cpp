@@ -2292,7 +2292,7 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
     uint currentCount = 0;
     if (auto ptr = timeline.lock()) {
         if (m_hasAudio) {
-            if (ptr->getClipState(clipId) == PlaylistState::AudioOnly) {
+            if (ptr->getClipState(clipId).first == PlaylistState::AudioOnly) {
                 m_AudioUsage++;
             }
         }
@@ -2437,7 +2437,7 @@ void ProjectClip::purgeReferences(const QUuid &activeUuid, bool deleteClip)
         while (!toDelete.isEmpty()) {
             int id = toDelete.takeFirst();
             if (m_hasAudio) {
-                if (timeline->getClipState(id) == PlaylistState::AudioOnly) {
+                if (timeline->getClipState(id).first == PlaylistState::AudioOnly) {
                     m_AudioUsage--;
                 }
             }
@@ -3176,7 +3176,7 @@ void ProjectClip::addMask(const ObjectId &filterOwner, MaskInfo mask, bool autoA
             pCore->displayBinMessage(i18n("Missing clip for mask"), KMessageWidget::Information);
         }
     }
-    Q_EMIT masksUpdated(filterOwner);
+    Q_EMIT masksUpdated();
     QJsonArray list;
     for (auto &m : m_masks) {
         QJsonObject currentMask;

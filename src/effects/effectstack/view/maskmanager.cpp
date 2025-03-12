@@ -430,7 +430,7 @@ void MaskManager::generateMask()
     maskTools->setCurrentIndex(0);
 }
 
-void MaskManager::loadMasks(const ObjectId &filterOwner)
+void MaskManager::loadMasks()
 {
     maskTree->clear();
     if (samStatus->messageType() == KMessageWidget::Information) {

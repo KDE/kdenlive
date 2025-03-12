@@ -285,7 +285,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     }
     m_mutex.lock();
     QItemSelectionModel *m = m_effectsTree->selectionModel();
-    PlaylistState::ClipState currentState = PlaylistState::Unknown;
+    std::pair<PlaylistState::ClipState, ClipType::ProducerType> currentState = {PlaylistState::Unknown, ClipType::Unknown};
     if (m_model) {
         currentState = pCore->getItemState(m_model->getOwnerId());
     }
@@ -295,7 +295,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     if (m) {
         delete m;
     }
-    PlaylistState::ClipState newState = PlaylistState::Unknown;
+    std::pair<PlaylistState::ClipState, ClipType::ProducerType> newState = {PlaylistState::Unknown, ClipType::Unknown};
     if (model) {
         newState = pCore->getItemState(model->getOwnerId());
     }
@@ -322,7 +322,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
             m_samAbortButton = nullptr;
             delete lay;
         }
-        if (newState != PlaylistState::AudioOnly) {
+        if (newState.first != PlaylistState::AudioOnly && newState.second != ClipType::Color) {
             // Add Flip widget
             QFormLayout *layout = new QFormLayout(m_builtStack);
             m_flipH = new QPushButton(this);
@@ -338,6 +338,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
             QHBoxLayout *lay = new QHBoxLayout;
             lay->addWidget(m_flipH);
             lay->addWidget(m_flipV);
+            // Add background remover
             lay->addStretch(10);
             m_removeBg = new QPushButton(i18n("Remove Background"), this);
             m_removeBg->setToolTip(i18n("Remove background using AI model"));
