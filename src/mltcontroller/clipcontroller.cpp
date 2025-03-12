@@ -141,6 +141,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
                     if (codec_name == QLatin1String("png")) {
                         // This is a cover image, skip
                         qDebug() << "=== FOUND PNG COVER ART STREAM: " << ix;
+                        setProducerProperty(QStringLiteral("kdenlive:coverartstream"), ix);
                         continue;
                     }
                     if (codec_name == QLatin1String("mjpeg")) {
@@ -153,6 +154,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
                         if (fps == QLatin1String("90000")) {
                             // This is a cover image, skip
                             qDebug() << "=== FOUND MJPEG COVER ART STREAM: " << ix;
+                            setProducerProperty(QStringLiteral("kdenlive:coverartstream"), ix);
                             continue;
                         }
                     }
