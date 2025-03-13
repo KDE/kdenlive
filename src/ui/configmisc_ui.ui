@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>798</width>
-    <height>661</height>
+    <height>707</height>
    </rect>
   </property>
   <layout class="QFormLayout" name="formLayout">
@@ -124,14 +124,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="13" column="0">
+   <item row="15" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Tab position:</string>
      </property>
     </widget>
    </item>
-   <item row="13" column="1">
+   <item row="15" column="1">
     <widget class="QComboBox" name="kcfg_tabposition">
      <item>
       <property name="text">
@@ -155,24 +155,24 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </item>
     </widget>
    </item>
-   <item row="14" column="0" colspan="2">
+   <item row="16" column="0" colspan="2">
     <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="15" column="0">
+   <item row="17" column="0">
     <widget class="QLabel" name="label_10">
      <property name="text">
       <string>Preferred track compositing composition:</string>
      </property>
     </widget>
    </item>
-   <item row="15" column="1">
+   <item row="17" column="1">
     <widget class="QComboBox" name="preferredcomposite"/>
    </item>
-   <item row="16" column="0" colspan="2">
+   <item row="18" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Default Durations</string>
@@ -261,7 +261,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </layout>
     </widget>
    </item>
-   <item row="17" column="0">
+   <item row="19" column="0">
     <spacer>
      <property name="orientation">
       <enum>Qt::Orientation::Vertical</enum>
@@ -274,12 +274,32 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
-   <item row="12" column="1">
-    <widget class="QCheckBox" name="kcfg_enableBuiltInEffects">
-     <property name="text">
-      <string>Enable Built-in Effects</string>
+   <item row="13" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>0</number>
      </property>
-    </widget>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QCheckBox" name="kcfg_enableBuiltInEffects">
+       <property name="text">
+        <string>Enable Built-in Effects</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KContextualHelpButton" name="kcontextualhelpbutton_2">
+       <property name="contextualHelpText">
+        <string>Enabling built-in effects will add basic effects like volume and transform to all clips for easy access</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
