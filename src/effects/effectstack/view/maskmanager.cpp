@@ -175,13 +175,13 @@ void MaskManager::updateMasksButtons()
     }
 }
 
-void MaskManager::launchSimpleSam()
+bool MaskManager::launchSimpleSam()
 {
     m_zone = QPoint();
-    initMaskMode(true, false);
+    return initMaskMode(true, false);
 }
 
-void MaskManager::initMaskMode(bool autoAdd, bool editMode)
+bool MaskManager::initMaskMode(bool autoAdd, bool editMode)
 {
     // Define operating zone
     Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
@@ -200,7 +200,7 @@ void MaskManager::initMaskMode(bool autoAdd, bool editMode)
                 i18n("Creating masks for clips more than a few seconds long can fail due to memory shortage. You can try to enable the <i>Offload video to "
                      "CPU</i> option in the settings, or create several masks for shorter durations."),
                 QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QStringLiteral("sam2limit")) != KMessageBox::Continue) {
-            return;
+            return false;
         }
     }
     // Focus clip monitor with current clip
@@ -221,6 +221,7 @@ void MaskManager::initMaskMode(bool autoAdd, bool editMode)
 
     m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
     exportFrames(autoAdd, editMode);
+    return true;
 }
 
 void MaskManager::exportFrames(bool autoAdd, bool editMode)

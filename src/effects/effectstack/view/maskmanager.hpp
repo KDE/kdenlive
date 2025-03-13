@@ -31,13 +31,13 @@ public:
     bool isLocked() const;
 
 public Q_SLOTS:
-    void launchSimpleSam();
+    bool launchSimpleSam();
     void abortPreviewByMonitor();
     void prepareMenu(const QPoint &pos);
     void slotOpenFolder();
 
 private Q_SLOTS:
-    void initMaskMode(bool autoAdd = false, bool editMode = false);
+    bool initMaskMode(bool autoAdd = false, bool editMode = false);
     void addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
     void moveControlPoint(int ix, int position, QSize frameSize, int xPos, int yPos);
     void addControlRect(int position, QSize frameSize, const QRect rect, bool extend);

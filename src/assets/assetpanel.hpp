@@ -60,6 +60,8 @@ public:
     void sendStandardCommand(int command);
     /** @brief Project is closing, check if we have a running task */
     bool hasRunningTask() const;
+    /** @brief Start mask creation mode */
+    bool launchObjectMask();
 
 public Q_SLOTS:
     /** @brief Clear panel if displaying itemId */
@@ -81,10 +83,10 @@ protected:
     QVBoxLayout *m_lay;
     KSqueezedTextLabel *m_assetTitle;
     QWidget *m_container;
-    TransitionStackView *m_transitionWidget;
-    MixStackView *m_mixWidget;
-    EffectStackView *m_effectStackWidget;
-    MaskManager *m_maskManager;
+    TransitionStackView *m_transitionWidget{nullptr};
+    MixStackView *m_mixWidget{nullptr};
+    EffectStackView *m_effectStackWidget{nullptr};
+    MaskManager *m_maskManager{nullptr};
 
 private:
     QAction *m_compositionHelpLink;

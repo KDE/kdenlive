@@ -400,6 +400,8 @@ bool AbstractPythonInterface::setupVenv()
     // Use system python to check for venv
     installInProgress = true;
     setStatus(InProgress);
+    // Ensure the message is displayed before starting the busy work
+    qApp->processEvents();
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     pluginDir.mkpath(QStringLiteral("."));
 
