@@ -63,11 +63,12 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     layout->addWidget(m_progress);
     m_progress->setVisible(false);
     setMinimumHeight(m_button->sizeHint().height());
+    const QString mltService = m_model->getParam(QStringLiteral("mlt_service"));
 
     // Q_EMIT the signal of the base class when appropriate
-    connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams, defaultValue]() {
+    connect(this->m_button, &QPushButton::clicked, this, [&, filterData, filterAddedParams, consumerParams, defaultValue, mltService]() {
         // Trigger job
-        bool isTracker = m_model->getAssetId() == QLatin1String("opencv.tracker");
+        bool isTracker = mltService == QLatin1String("opencv.tracker");
         if (!m_displayConditional) {
             QVector<QPair<QString, QVariant>> values;
             if (isTracker) {
@@ -112,7 +113,6 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         }
         QVector<QPair<QString, QVariant>> filterLastParams = m_model->getAllParameters();
         ObjectId owner = m_model->getOwnerId();
-        const QString assetId = m_model->getAssetId();
         QString binId;
         int in = -1;
         int out = -1;
@@ -159,7 +159,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
             pCore->taskManager.discardJobs(owner, AbstractTask::FILTERCLIPJOB);
             setToolTip(m_conditionalText);
         } else {
-            FilterTask::start(owner, binId, m_model, assetId, in, out, fParams, fData, consumerParams, this);
+            FilterTask::start(owner, binId, m_model, mltService, in, out, fParams, fData, consumerParams, this);
             setToolTip(QString());
             m_button->setEnabled(false);
         }

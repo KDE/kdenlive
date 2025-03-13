@@ -1535,7 +1535,7 @@ void TimelineController::addAsset(const QVariantMap &data)
 {
     const auto selection = m_model->getCurrentSelection();
     if (!selection.empty()) {
-        QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
+        const QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
         QVariantList effectSelection = m_model->addClipEffect(*selection.begin(), effect, false);
         if (KdenliveSettings::seekonaddeffect() && effectSelection.count() == 1) {
             // Move timeline cursor inside clip if it is not
