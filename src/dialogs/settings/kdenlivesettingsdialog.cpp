@@ -208,8 +208,6 @@ void KdenliveSettingsDialog::initMiscPage()
     m_configMisc.preferredcomposite->clear();
     m_configMisc.preferredcomposite->addItem(i18n("auto"));
     m_configMisc.preferredcomposite->addItems(KdenliveSettings::compositingList());
-    // Hide keep original size feature as it's currently broken
-    m_configMisc.kcfg_keep_original_frame_size->setVisible(false);
 
     if (!KdenliveSettings::preferredcomposite().isEmpty()) {
         int ix = m_configMisc.preferredcomposite->findText(KdenliveSettings::preferredcomposite());
