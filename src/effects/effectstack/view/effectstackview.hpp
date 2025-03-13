@@ -113,6 +113,7 @@ private:
     QPushButton *m_removeBg{nullptr};
     QProgressBar *m_samProgressBar{nullptr};
     QToolButton *m_samAbortButton{nullptr};
+    AssetPanel *m_assetPanel{nullptr};
 
     /** @brief the frame size of the original clip this effect is applied on
      */
@@ -141,6 +142,9 @@ private Q_SLOTS:
     /** @brief Display progress of frames export task
      */
     void transcodeProgress(ObjectId owner, int progress);
+    /** @brief Start mask creation mode
+     */
+    void launchObjectMask();
 
 Q_SIGNALS:
     void switchCollapsedView(int row);
@@ -153,6 +157,5 @@ Q_SIGNALS:
     void scrollView(QRect);
     void checkDragScrolling();
     void updateEffectsGroupesInstances();
-    void launchSam();
     void abortSam();
 };

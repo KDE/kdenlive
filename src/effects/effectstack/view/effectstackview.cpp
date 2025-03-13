@@ -82,6 +82,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     : QWidget(parent)
     , m_model(nullptr)
     , m_thumbnailer(new AssetIconProvider(true, this))
+    , m_assetPanel(parent)
 {
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 0);
@@ -383,18 +384,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
                     }
                 }
             });
-            connect(m_removeBg, &QPushButton::clicked, this, [this]() {
-                if (pCore->getMonitor(Kdenlive::ClipMonitor)->maskMode() != MaskModeType::MaskNone) {
-                    // Abort
-                    m_removeBg->setText(i18n("Remove Background"));
-                    m_removeBg->setChecked(false);
-                    Q_EMIT abortSam();
-                    return;
-                }
-                m_removeBg->setText(i18n("Exporting…"));
-                connect(pCore.get(), &Core::transcodeProgress, this, &EffectStackView::transcodeProgress, Qt::UniqueConnection);
-                Q_EMIT launchSam();
-            });
+            connect(m_removeBg, &QPushButton::clicked, this, &EffectStackView::launchObjectMask);
             connect(m_samAbortButton, &QToolButton::clicked, this, &EffectStackView::abortSam);
         } else {
             m_builtStack->setVisible(false);
@@ -426,6 +416,23 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     connect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
     m_scrollTimer.start();
     // m_builtStack->setModel(model, stackOwner());
+}
+
+void EffectStackView::launchObjectMask()
+{
+    if (pCore->getMonitor(Kdenlive::ClipMonitor)->maskMode() != MaskModeType::MaskNone) {
+        // Abort
+        m_removeBg->setText(i18n("Remove Background"));
+        m_removeBg->setChecked(false);
+        Q_EMIT abortSam();
+        return;
+    }
+    if (m_assetPanel->launchObjectMask()) {
+        m_removeBg->setText(i18n("Exporting…"));
+        connect(pCore.get(), &Core::transcodeProgress, this, &EffectStackView::transcodeProgress, Qt::UniqueConnection);
+    } else {
+        m_removeBg->setChecked(false);
+    }
 }
 
 void EffectStackView::activateEffect(const QModelIndex &ix, bool active)

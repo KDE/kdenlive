@@ -184,7 +184,6 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::checkDragScrolling, this, &AssetPanel::checkDragScroll);
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
-    connect(m_effectStackWidget, &EffectStackView::launchSam, m_maskManager, &MaskManager::launchSimpleSam);
     connect(m_effectStackWidget, &EffectStackView::abortSam, m_maskManager, &MaskManager::abortPreviewByMonitor);
     connect(m_maskManager, &MaskManager::progressUpdate, m_effectStackWidget, &EffectStackView::updateSamProgress);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
@@ -638,6 +637,13 @@ bool AssetPanel::hasRunningTask() const
                                             KGuiItem(i18nc("@action:button", "Abort Mask Task")), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return true;
         }
+        // Abort mask mode
+        m_maskManager->abortPreviewByMonitor();
     }
     return false;
+}
+
+bool AssetPanel::launchObjectMask()
+{
+    return m_maskManager->launchSimpleSam();
 }
