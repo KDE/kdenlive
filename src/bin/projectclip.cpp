@@ -3169,11 +3169,11 @@ void ProjectClip::addMask(const ObjectId &filterOwner, MaskInfo mask, bool autoA
         std::shared_ptr<EffectStackModel> stack = pCore->getItemEffectStack(filterOwner.uuid, int(filterOwner.type), filterOwner.itemId);
         if (stack) {
             stack->appendEffect(QStringLiteral("shape"), true, params);
-            pCore->displayBinMessage(i18n("Mask added to clip"), KMessageWidget::Positive, {}, false, BinMessage::TimedMessage);
+            Q_EMIT pCore->displayBinMessage(i18n("Mask added to clip"), KMessageWidget::Positive, {}, false, BinMessage::TimedMessage);
         } else {
             // Warning, something is not normal..
             qDebug() << "//// ERROR NO EFFECT STACK\n";
-            pCore->displayBinMessage(i18n("Missing clip for mask"), KMessageWidget::Information);
+            Q_EMIT pCore->displayBinMessage(i18n("Missing clip for mask"), KMessageWidget::Information);
         }
     }
     Q_EMIT masksUpdated();

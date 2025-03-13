@@ -1724,12 +1724,12 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         case KMessageBox::PrimaryAction:
             // save document here. If saving fails, return false;
             if (!saveFile()) {
-                pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+                Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
                 return;
             }
             break;
         case KMessageBox::Cancel:
-            pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+            Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
             return;
             break;
         default:
@@ -1739,7 +1739,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     }
 
     if (!m_project) {
-        pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+        Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
         return;
     }
     QString currentFile = m_project->url().toLocalFile();
@@ -1753,7 +1753,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         // Save current playlist in tmp file
         if (!tmpFile.open()) {
             // Something went wrong
-            pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+            Q_EMIT pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
             return;
         }
         prepareSave();
@@ -1898,7 +1898,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         QFile(currentFile + QStringLiteral(".ass")).copy(convertedFile + QStringLiteral(".ass"));
     }
     openFile(QUrl::fromLocalFile(convertedFile));
-    pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);
+    Q_EMIT pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);
 }
 
 QPair<int, int> ProjectManager::avTracksCount()
@@ -1962,7 +1962,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         xmlProd.reset(new Mlt::Producer(clip->originalProducer().get()));
         if (xmlProd == nullptr || !xmlProd->is_valid()) {
             qDebug() << "::: LOADING EXTRA TIMELINE ERROR\n\nXXXXXXXXXXXXXXXXXXXXXXX";
-            pCore->displayBinMessage(i18n("Cannot create a timeline from this clip:\n%1", clip->url()), KMessageWidget::Information);
+            Q_EMIT pCore->displayBinMessage(i18n("Cannot create a timeline from this clip:\n%1", clip->url()), KMessageWidget::Information);
             if (m_project->isModified()) {
                 m_autoSaveTimer.start();
             }

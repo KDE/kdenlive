@@ -146,6 +146,9 @@ void Core::initHeadless(const QUrl &url)
     MltConnection::construct(QString());
     m_projectManager = new ProjectManager(this);
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
+    connect(this, &Core::displayBinMessage, this,
+            [](QString text, int, QList<QAction *>, bool, BinMessage::BinCategory) { qInfo() << QStringLiteral("Bin message: ") << text; });
+    connect(this, &Core::displayBinLogMessage, this, [](QString text, int, QString) { qInfo() << QStringLiteral("Bin message: ") << text; });
 }
 
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
@@ -254,6 +257,9 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     if (!Url.isEmpty()) {
         Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
+    connect(this, &Core::displayBinMessage, this, &Core::displayBinMessagePrivate);
+    connect(this, &Core::displayBinLogMessage, this, &Core::displayBinLogMessagePrivate);
+
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
 }
 
@@ -641,9 +647,7 @@ void Core::checkProfileValidity()
     int offset = (getProjectProfile().width() % 2) + (getProjectProfile().height() % 2);
     if (offset > 0) {
         // Profile is broken, warn user
-        if (m_mainWindow->getBin()) {
-            Q_EMIT m_mainWindow->getBin()->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
-        }
+        Q_EMIT displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
     }
 }
 
@@ -1010,12 +1014,12 @@ void Core::loadingClips(int count, bool allowInterrupt)
     Q_EMIT m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count, allowInterrupt);
 }
 
-void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
+void Core::displayBinMessagePrivate(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
     m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
 }
 
-void Core::displayBinLogMessage(const QString &text, int type, const QString logInfo)
+void Core::displayBinLogMessagePrivate(const QString &text, int type, const QString logInfo)
 {
     m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), logInfo);
 }

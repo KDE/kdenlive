@@ -399,10 +399,6 @@ public Q_SLOTS:
     void addActionToCollection(const QString &name, QAction *action);
     /** @brief display a user info/warning message in statusbar */
     void displayMessage(const QString &message, MessageType type, int timeout = -1);
-    /** @brief display a user info/warning message in the project bin */
-    void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
-                           BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
-    void displayBinLogMessage(const QString &text, int type, const QString logInfo);
     /** @brief Create small thumbnails for luma used in compositions */
     void buildLumaThumbs(const QStringList &values);
     /** @brief Try to find a display name for the given filename.
@@ -434,6 +430,12 @@ public Q_SLOTS:
     void monitorAudio(int tid, bool monitor);
     /** @brief Open a documentation link, showing a warning box first */
     void openDocumentationLink(const QUrl &link);
+
+private Q_SLOTS:
+    /** @brief display a user info/warning message in the project bin */
+    void displayBinMessagePrivate(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
+                                  BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
+    void displayBinLogMessagePrivate(const QString &text, int type, const QString logInfo);
 
 Q_SIGNALS:
     void coreIsReady();
@@ -506,4 +508,8 @@ Q_SIGNALS:
     /** Show / hide the automask panel */
     void switchMaskPanel(bool show);
     void transcodeProgress(ObjectId id, int progress);
+    /** @brief display a user info/warning message in the project bin */
+    void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
+                           BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
+    void displayBinLogMessage(const QString &text, int type, const QString logInfo);
 };
