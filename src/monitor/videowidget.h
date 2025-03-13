@@ -199,7 +199,8 @@ protected:
     float m_zoom;
     QSize m_profileSize;
     QMutex m_mutex;
-    bool m_isInitialized;
+    bool m_isInitialized{false};
+    int m_maxProducerPosition{0};
     bool m_nearestNeighborInterpolation{false};
 
     /** @brief adjust monitor ruler size (for example if we want to display audio thumbs permanently) */
@@ -213,7 +214,6 @@ private:
     QSemaphore m_initSem;
     bool m_qmlEvent;
     bool m_swallowDrop{false};
-    int m_maxProducerPosition;
     int m_bckpMax;
     std::unique_ptr<Mlt::Filter> m_glslManager;
     std::unique_ptr<Mlt::Event> m_threadStartEvent;
