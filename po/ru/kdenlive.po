@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-12 00:41+0000\n"
-"PO-Revision-Date: 2025-03-11 17:19+0300\n"
+"POT-Creation-Date: 2025-03-13 00:41+0000\n"
+"PO-Revision-Date: 2025-03-12 17:31+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1127,7 +1127,7 @@ msgstr "Остановить до"
 #: data/effects/freeze.xml:14
 #, kde-format
 msgid "Freeze After"
-msgstr "Остановить за"
+msgstr "Остановить после"
 
 #: data/effects/gain.xml:4
 #, kde-format
@@ -1205,6 +1205,13 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[Смещение (в секундах), которое будет добавлено в видеофайл для "
+"обеспечения его соотвествия маршруту GPS.<br>\n"
+"    \tЧаще всего бывает нужно установить как минимум значение разницы "
+"часовых поясов между двумя файлами, а также несколько секунд, если для "
+"устройства записи видео неточно настроено время. Время GPS всегда является "
+"точным и имеет формат UTC. Если GPS опережает видео, используйте "
+"положительные значения, в ином случае — отрицательные.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1222,9 +1229,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Speed multiplier"
-msgstr "Добавить несколько маркеров"
+msgstr "Коэффициент скорости"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1261,6 +1268,9 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"Базовая двухмерная линия на карте (для места) или одномерный график по "
+"времени (прочее),Увеличить масштаб карты/графика с центром в текущем месте,"
+"Показывать спидометр"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1314,7 +1324,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Процент от мин…макс,Абсолютное значение"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1436,7 +1446,7 @@ msgstr "Тип графика"
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "Сведения о различных доступных стилях приводятся в документации"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1593,11 +1603,16 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Устанавливает единицу для отображения значений высоты и скорости."
+"<br>\n"
+"        По умолчанию это, соответственно, метры и км/ч. Соответствие единицы "
+"устанавливается во всех местах строки, поэтому для корректировки отображения "
+"можно использовать дополнительные пробелы.]]>"
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show dots only"
-msgstr "Показать только переходы"
+msgstr "Показать только точки"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -2630,10 +2645,10 @@ msgstr ""
 "«Транспонирование на октаву»."
 
 #: data/effects/rotate-3-way.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Affine Transform Effect Name"
 msgid "3-way Rotate"
-msgstr "Вращение"
+msgstr "Трёхстороннее вращение"
 
 #: data/effects/rotate-3-way.xml:5 data/effects/rotation.xml:5
 #: data/effects/rotation_keyframable.xml:5
@@ -2647,6 +2662,9 @@ msgid ""
 "<![CDATA[When animating properties with keyframes,<br>\n"
 "\t    whether to repeat the animation after it reaches the last key frame.]]>"
 msgstr ""
+"<![CDATA[Когда свойства анимируются с использованием ключевых кадров,<br>\n"
+"\t    определяет, следует ли повторять анимацию по достижению последнего "
+"ключевого кадра.]]>"
 
 #: data/effects/rotate-3-way.xml:17 data/effects/shear.xml:17
 #, kde-format
@@ -2656,6 +2674,10 @@ msgid ""
 "\t    whether the animation alternates between reverses and forwards for "
 "each repetition.]]>"
 msgstr ""
+"<![CDATA[Когда свойства анимируются с использованием ключевых кадров и снят "
+"флажок <em>Отключить повтор</em>,<br>\n"
+"\t    определяет, будет ли направление анимации («назад» и «вперёд») "
+"меняться при каждом повторе.]]>"
 
 #: data/effects/rotate-3-way.xml:20 data/effects/shear.xml:20
 #, kde-format
@@ -2670,6 +2692,10 @@ msgid ""
 "        This is helpful to make animation interpolation sane because "
 "otherwise the scale values do not animate linearly.]]>"
 msgstr ""
+"<![CDATA[Следует ли инвертировать значения <em>Масштабирование по X</em> и "
+"<em>Масштабирование по Y</em>.<br>\n"
+"        Полезно для создания адекватной интерполяции анимации, поскольку в "
+"ином случае значения масштаба не будут анимироваться линейно.]]>"
 
 #: data/effects/rotate-3-way.xml:25 data/effects/rotation.xml:8
 #: data/effects/rotation_keyframable.xml:8 data/transitions/affine.xml:11
@@ -4194,6 +4220,8 @@ msgid ""
 "This shows the mask creation panel. Masks can be used for example to remove "
 "the background in a video."
 msgstr ""
+"Показывает панель создания маски. Маски можно использовать, например, для "
+"удаления фона в видео."
 
 #: src/assets/assetpanel.cpp:116
 #, kde-format
@@ -4250,9 +4278,9 @@ msgstr ""
 "воспроизведения."
 
 #: src/assets/assetpanel.cpp:144
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Открываемый документ Kdenlive."
+msgstr "Открыть документацию по композиции в браузере"
 
 #: src/assets/assetpanel.cpp:148
 #, kde-format
@@ -4975,9 +5003,9 @@ msgid "Current values copied"
 msgstr "Текущие значения параметров скопированы"
 
 #: src/assets/view/widgets/keyframewidget.cpp:978
-#, fuzzy, kde-format
+#, kde-format
 msgid "No keyframe data in clipboard"
-msgstr "В буфере обмена отсутствуют допустимые ключевые кадры"
+msgstr "В буфере обмена отсутствуют ключевые кадры"
 
 #: src/assets/view/widgets/keyframewidget.cpp:1059
 #, kde-format
@@ -5374,7 +5402,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Удалить клипы из корзины"
 
-#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:241
+#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:250
 #, kde-format
 msgid "Missing source clip"
 msgstr "Отсутствует исходный клип"
@@ -5537,7 +5565,7 @@ msgid "Replace in timeline"
 msgstr "Заменить на монтажном столе"
 
 #: src/bin/bin.cpp:2137 src/bin/bin.cpp:5876 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:616
+#: src/effects/effectstack/view/maskmanager.cpp:625
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -6434,9 +6462,9 @@ msgid "Subtitles"
 msgstr "Субтитры"
 
 #: src/bin/model/subtitlemodel.cpp:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edit global subtitle style"
-msgstr "Изменить стиль субтитров"
+msgstr "Изменить глобальный стиль субтитров"
 
 #: src/bin/model/subtitlemodel.cpp:438 src/bin/model/subtitlemodel.cpp:653
 #: src/bin/model/subtitlemodel.cpp:1604 src/bin/model/subtitlemodel.cpp:2179
@@ -6467,7 +6495,7 @@ msgstr "Переместить субтитр"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:846
+#: src/effects/effectstack/view/effectstackview.cpp:847
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -6617,7 +6645,7 @@ msgstr "Использование"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
-#: src/mltcontroller/clipcontroller.cpp:514 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -7019,12 +7047,12 @@ msgstr "Часы"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Недопустимый профиль проекта, возможен сбой во время сборки."
 
-#: src/core.cpp:1008
+#: src/core.cpp:1010
 #, kde-format
 msgid "Loading clips"
 msgstr "Загрузка клипов"
 
-#: src/core.cpp:1782
+#: src/core.cpp:1784
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -7035,7 +7063,7 @@ msgstr ""
 "по следующему адресу:\n"
 " %1"
 
-#: src/core.cpp:1783
+#: src/core.cpp:1785
 #, fuzzy, kde-format
 msgid "Open Browser"
 msgstr "Диспетчер"
@@ -7454,7 +7482,7 @@ msgstr "Экспорт данных направляющих"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:884
+#: src/effects/effectstack/view/effectstackview.cpp:885
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -7595,7 +7623,7 @@ msgstr "Копировать в..."
 #: src/dialogs/managesubtitles.cpp:170 src/dialogs/managesubtitles.cpp:584
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "Глобальный"
 
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
@@ -8252,7 +8280,7 @@ msgid "Add to Current Project"
 msgstr "Добавить в текущий проект"
 
 #: src/dialogs/renderwidget.cpp:1931
-#: src/effects/effectstack/view/maskmanager.cpp:653
+#: src/effects/effectstack/view/maskmanager.cpp:662
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -8376,7 +8404,7 @@ msgid "JogShuttle"
 msgstr "Поворотный регулятор"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:468
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
@@ -8385,7 +8413,8 @@ msgid ""
 msgstr ""
 "Сведения о конфигурации устройства доступны в <a href=\"https://docs."
 "kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive."
-"html#windows\">документации</a>."
+"html#windows?mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings"
+"\">документации</a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:490
@@ -8530,8 +8559,8 @@ msgstr "Установка мультилингвальных данных…"
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:98
-#: src/dialogs/settings/pluginssettings.cpp:898 src/ui/configspeech_ui.ui:107
-#: src/ui/configspeech_ui.ui:321 src/ui/configspeech_ui.ui:918
+#: src/dialogs/settings/pluginssettings.cpp:898 src/ui/configspeech_ui.ui:116
+#: src/ui/configspeech_ui.ui:336 src/ui/configspeech_ui.ui:791
 #, kde-format
 msgid "Models folder"
 msgstr "Папка моделей"
@@ -8576,8 +8605,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:441 src/ui/configspeech_ui.ui:263
-#: src/ui/configspeech_ui.ui:832
+#: src/dialogs/settings/pluginssettings.cpp:441 src/ui/configspeech_ui.ui:278
+#: src/ui/configspeech_ui.ui:705
 #, fuzzy, kde-format
 msgid "Plugin size"
 msgstr "Модули расширения TAP"
@@ -8602,7 +8631,7 @@ msgstr ""
 "пересоздание этого окружения и загрузка модулей."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:499 src/ui/configspeech_ui.ui:304
+#: src/dialogs/settings/pluginssettings.cpp:499 src/ui/configspeech_ui.ui:319
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Установить мультилингвальный перевод"
@@ -8633,7 +8662,7 @@ msgid "Downloading smallest model…"
 msgstr "Загрузка наименьшей модели…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:628 src/ui/configspeech_ui.ui:681
+#: src/dialogs/settings/pluginssettings.cpp:628 src/ui/configspeech_ui.ui:854
 #, kde-format
 msgid "Download models"
 msgstr "Загрузить модели"
@@ -8647,7 +8676,7 @@ msgstr "Установить модель"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/settings/pluginssettings.cpp:702
-#: src/dialogs/settings/pluginssettings.cpp:711 src/ui/configspeech_ui.ui:390
+#: src/dialogs/settings/pluginssettings.cpp:711 src/ui/configspeech_ui.ui:405
 #, fuzzy, kde-format
 msgid "Manage models"
 msgstr "Режим края"
@@ -8710,31 +8739,27 @@ msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
+"Поддержка ГП NVIDIA для %1\n"
+"Выберите версию CUDA для установки."
 
 #: src/dialogs/settings/pluginssettings.cpp:1005
 #, kde-format
 msgid "CUDA %1"
-msgstr ""
+msgstr "CUDA %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1018
 #, fuzzy, kde-format
-#| msgid "Detected devices:"
 msgid "Detected version: %1"
 msgstr "Обнаруженные устройства:"
 
 #: src/dialogs/settings/pluginssettings.cpp:1021
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find a compatible python version:\n"
-#| "%1\n"
-#| "Please install it on your system.\n"
+#, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
-"Не удалось найти совместимую версию python:\n"
-"%1\n"
-"Установите её в системе.\n"
+"Не удалось определить версию CUDA.\n"
+"Выберите версию, доступную в системе."
 
 #: src/dialogs/settings/pluginssettings.cpp:1035
 #, kde-format
@@ -9593,14 +9618,14 @@ msgid "Left To Right"
 msgstr "Левый,Правый"
 
 #: src/dialogs/subtitleedit.cpp:393
-#, fuzzy, kde-format
+#, kde-format
 msgid "Top To Bottom"
-msgstr "Кадрирование снизу"
+msgstr "Сверху вниз"
 
 #: src/dialogs/subtitleedit.cpp:394
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom To Top"
-msgstr "Снизу"
+msgstr "Снизу вверх"
 
 #: src/dialogs/subtitleedit.cpp:396
 #, fuzzy, kde-format
@@ -10938,9 +10963,9 @@ msgid "Add effect %1"
 msgstr "Добавить эффект %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:674
-#, fuzzy, kde-format
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "Эффект %1 нельзя добавить дважды."
+msgstr "Эффект %1 можно добавить только в мастер"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1229
 #, kde-format
@@ -10959,7 +10984,7 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
-"Перемещает эффект на уровень выше следующего перед ним. Эффекты "
+"Перемещает эффект на уровень выше находящегося перед ним. Эффекты "
 "обрабатываются последовательно от верхнего к нижнему, поэтому "
 "последовательность расположения имеет значение."
 
@@ -10975,9 +11000,9 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
-"Перемещает эффект на уровень ниже следующего за ним. Эффекты обрабатываются "
-"последовательно от верхнего к нижнему, поэтому последовательность "
-"расположения имеет значение."
+"Перемещает эффект на уровень ниже находящегося за ним. Эффекты "
+"обрабатываются последовательно от верхнего к нижнему, поэтому "
+"последовательность расположения имеет значение."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
@@ -10990,9 +11015,9 @@ msgid "Expand Effect"
 msgstr "Развернуть эффект"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:80
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open effect documentation in browser"
-msgstr "Документация в Интернете"
+msgstr "Открыть документацию по эффекту в браузере"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
@@ -11172,69 +11197,69 @@ msgstr "Горизонтальные жалюзи"
 msgid "Vertical Flip"
 msgstr "По вертикали"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
-#: src/effects/effectstack/view/effectstackview.cpp:388
-#: src/effects/effectstack/view/effectstackview.cpp:972
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:389
+#: src/effects/effectstack/view/effectstackview.cpp:973
 #, fuzzy, kde-format
 msgid "Remove Background"
 msgstr "Удалить группу"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:344
 #, fuzzy, kde-format
 msgid "Remove background using AI model"
 msgstr "Удаление статического фона из видео"
 
-#: src/effects/effectstack/view/effectstackview.cpp:354
+#: src/effects/effectstack/view/effectstackview.cpp:355
 #, fuzzy, kde-format
 msgid "Flip"
 msgstr "Флиппо"
 
-#: src/effects/effectstack/view/effectstackview.cpp:393
+#: src/effects/effectstack/view/effectstackview.cpp:394
 #, kde-format
 msgid "Exporting…"
 msgstr "Экспорт…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:765
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Включить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:765
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Отключить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:803
+#: src/effects/effectstack/view/effectstackview.cpp:804
 #, kde-format
 msgid "No effect selected."
 msgstr "Эффект не выбран."
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:810
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Сохранение текущего стека эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:814
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Имя сохраняемого стека:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:816
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Описание:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:827
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Имя не было указано, стек эффектов не сохранён."
 
-#: src/effects/effectstack/view/effectstackview.cpp:834
+#: src/effects/effectstack/view/effectstackview.cpp:835
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -11243,8 +11268,8 @@ msgstr ""
 "Описание отсутствует. \n"
 "Сохранить эффект без описания?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:969
-#: src/effects/effectstack/view/effectstackview.cpp:995
+#: src/effects/effectstack/view/effectstackview.cpp:970
+#: src/effects/effectstack/view/effectstackview.cpp:996
 #, fuzzy, kde-format
 msgid "Abort Mask Creation"
 msgstr "Прервать установку"
@@ -11259,52 +11284,60 @@ msgstr "Настройте параметры распознавания реч�
 msgid "Job failed"
 msgstr "Сбой задания"
 
-#: src/effects/effectstack/view/maskmanager.cpp:221
+#: src/effects/effectstack/view/maskmanager.cpp:200
+#, kde-format
+msgid ""
+"Creating masks for clips more than a few seconds long can fail due to memory "
+"shortage. You can try to enable the <i>Offload video to CPU</i> option in "
+"the settings, or create several masks for shorter durations."
+msgstr ""
+
+#: src/effects/effectstack/view/maskmanager.cpp:230
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr "Выполняется другая операция перекодирования, попробуйте позже."
 
-#: src/effects/effectstack/view/maskmanager.cpp:226
+#: src/effects/effectstack/view/maskmanager.cpp:235
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr "Выполняется другая операция маски, попробуйте позже."
 
-#: src/effects/effectstack/view/maskmanager.cpp:235
+#: src/effects/effectstack/view/maskmanager.cpp:244
 #, fuzzy, kde-format
 msgid "Cannot open temporary file"
 msgstr "Не удалось создать временный файл"
 
-#: src/effects/effectstack/view/maskmanager.cpp:248
+#: src/effects/effectstack/view/maskmanager.cpp:257
 #, fuzzy, kde-format
 msgid "Cannot access project folder"
 msgstr "Не удалось получить доступ к папке со словарями."
 
-#: src/effects/effectstack/view/maskmanager.cpp:299
+#: src/effects/effectstack/view/maskmanager.cpp:308
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Экспорт видеокадров для анализа"
 
-#: src/effects/effectstack/view/maskmanager.cpp:303
+#: src/effects/effectstack/view/maskmanager.cpp:312
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Экспорт видеокадров"
 
-#: src/effects/effectstack/view/maskmanager.cpp:316
+#: src/effects/effectstack/view/maskmanager.cpp:325
 #, fuzzy, kde-format
 msgid "Missing source frames"
 msgstr "Отсутствует исходный клип"
 
-#: src/effects/effectstack/view/maskmanager.cpp:420
+#: src/effects/effectstack/view/maskmanager.cpp:429
 #, kde-format
 msgid "mask %1"
 msgstr "маска %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:423
+#: src/effects/effectstack/view/maskmanager.cpp:432
 #, fuzzy, kde-format
 msgid "Generating mask %1"
 msgstr "Создание изображений для меню"
 
-#: src/effects/effectstack/view/maskmanager.cpp:587
+#: src/effects/effectstack/view/maskmanager.cpp:596
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11406,8 +11439,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "Приложение %1 не найдено, обновите параметры задачи"
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:232
-#: src/jobs/transcodetask.cpp:268
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
+#: src/jobs/transcodetask.cpp:270
 #, kde-format
 msgid "Failed to create file."
 msgstr "Не удалось создать файл."
@@ -11560,7 +11593,7 @@ msgstr ""
 "Не удалось найти FFmpeg, укажите правильный путь в разделе «Окружение» "
 "настройки параметров приложения Kdenlive"
 
-#: src/jobs/proxytask.cpp:394 src/jobs/proxytask.cpp:407
+#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Не удалось создать прокси-клип."
@@ -14790,9 +14823,9 @@ msgid "Pink"
 msgstr "Розовый"
 
 #: src/monitor/monitor.cpp:453
-#, fuzzy, kde-format
+#, kde-format
 msgid "Checkerboard"
-msgstr "В мелкую клетку"
+msgstr "В клетку"
 
 #: src/monitor/monitor.cpp:526
 #, kde-format
@@ -15270,7 +15303,7 @@ msgstr ""
 "масштабирование"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Трансформация"
@@ -15281,14 +15314,14 @@ msgid "Select an object in the image first"
 msgstr "Сначала выберите объект на изображении"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:383
-#, fuzzy, kde-format
+#, kde-format
 msgid "Generating image mask"
-msgstr "Создание изображений для меню"
+msgstr "Создание маски изображения"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:383
 #, kde-format
 msgid "Generating video mask"
-msgstr ""
+msgstr "Создание маски видео"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:394
 #, kde-format
@@ -15303,9 +15336,9 @@ msgstr ""
 "Ctrl + щелчок для исключения зоны."
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:394
-#, fuzzy, kde-format
+#, kde-format
 msgid "Previewing video mask"
-msgstr "Громкость при предпросмотре:"
+msgstr "Предпросмотр маски видео"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:405
 #, kde-format
@@ -15315,16 +15348,20 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"Текущее положение — вне пределов зоны времени\n"
+"для маски, добавлять ключевые кадры нельзя.\n"
+"\n"
+"\n"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:415
-#, fuzzy, kde-format
+#, kde-format
 msgid "Go to mask start"
-msgstr "В начало клипа"
+msgstr "В начало маски"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:428
-#, fuzzy, kde-format
+#, kde-format
 msgid "Go to mask end"
-msgstr "В конец клипа"
+msgstr "В конец маски"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:309
 #, kde-kuit-format
@@ -17142,7 +17179,7 @@ msgstr "Перекодировать видео"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/pythoninterfaces/abstractpythoninterface.cpp:34
-#: src/ui/configspeech_ui.ui:521
+#: src/ui/configspeech_ui.ui:613
 #, kde-format
 msgid "Check configuration"
 msgstr "Проверить конфигурацию"
@@ -17281,7 +17318,6 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:573
 #: src/pythoninterfaces/abstractpythoninterface.cpp:682
 #, fuzzy, kde-format
-#| msgid "Internal Error: Cannot find dependency list"
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr "Внутренняя ошибка: Не удалось найти список зависимостей"
 
@@ -21200,7 +21236,7 @@ msgstr "Имя захваченного файла:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:429 src/ui/configspeech_ui.ui:697
+#: src/ui/configspeech_ui.ui:444 src/ui/configspeech_ui.ui:870
 #, kde-format
 msgid "Device:"
 msgstr "Устройство:"
@@ -21822,9 +21858,9 @@ msgstr "Включить прокси-клипы"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #: src/ui/configproxy_ui.ui:62
-#, fuzzy, kde-format
+#, kde-format
 msgid "Generate for videos larger than:"
-msgstr "Создавать для видеоклипов размером больше"
+msgstr "Создавать для видеоклипов размером больше:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -21943,133 +21979,150 @@ msgid "Output device:"
 msgstr "Устройство вывода:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/configspeech_ui.ui:43
+#: src/ui/configspeech_ui.ui:31
 #, kde-format
 msgid "Speech To Text"
 msgstr "Распознавание речи"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
-#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:752
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configspeech_ui.ui:39
 #, kde-format
-msgid "Use system packages only"
-msgstr "Использовать только системные пакеты"
+msgid "Speech engine"
+msgstr "Система распознавания речи"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
+#: src/ui/configspeech_ui.ui:46
+#, kde-format
+msgid "VOS&K"
+msgstr "VOS&K"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:53
+#, kde-format
+msgid "Wh&isper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:85
+#: src/ui/configspeech_ui.ui:94
 #, kde-format
 msgid "Custom models folder"
 msgstr "Папка моделей пользователя"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:143
+#: src/ui/configspeech_ui.ui:152
 #, kde-format
 msgid "Remove Model"
 msgstr "Удалить модель"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:153
+#: src/ui/configspeech_ui.ui:162
 #, kde-format
 msgid "Add Model"
 msgstr "Добавить модель"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
-#: src/ui/configspeech_ui.ui:224
+#: src/ui/configspeech_ui.ui:239
 #, kde-format
 msgid "Seamless"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:277 src/ui/configspeech_ui.ui:885
+#: src/ui/configspeech_ui.ui:292 src/ui/configspeech_ui.ui:758
 #, kde-format
 msgid "Uninstall plugin"
 msgstr "Удалить модуль расширения"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
-#: src/ui/configspeech_ui.ui:341
+#: src/ui/configspeech_ui.ui:356
 #, kde-format
 msgid "Whisper"
 msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:378
+#: src/ui/configspeech_ui.ui:393
 #, kde-format
 msgid "Model:"
 msgstr "Модель:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:419
+#: src/ui/configspeech_ui.ui:434
 #, kde-format
 msgid "Language:"
 msgstr "Язык:"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, whisper_device_info)
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, sam_device_info)
-#: src/ui/configspeech_ui.ui:445 src/ui/configspeech_ui.ui:713
+#: src/ui/configspeech_ui.ui:460 src/ui/configspeech_ui.ui:886
 #, kde-format
 msgid ""
 "If your Nvidia GPU is not listed, try installing an alternative with the "
 "Nvidia GPU Support button"
 msgstr ""
+"Если нужного ГП NVIDIA нет в списке, попробуйте установить альтернативный "
+"вариант с помощью кнопки  поддержки ГП NVIDIA"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
-#: src/ui/configspeech_ui.ui:465 src/ui/configspeech_ui.ui:736
+#: src/ui/configspeech_ui.ui:480 src/ui/configspeech_ui.ui:909
 #, kde-format
 msgid "GPU Support"
-msgstr ""
+msgstr "Поддержка ГП"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:474
+#: src/ui/configspeech_ui.ui:489
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr "Отключить половинную точность (FP16 )"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:481
+#: src/ui/configspeech_ui.ui:496
 #, kde-format
 msgid "Translate text to English"
 msgstr "Перевести текст на английский"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
+#: src/ui/configspeech_ui.ui:522 src/ui/configspeech_ui.ui:951
+#, kde-format
+msgid "Use system packages only"
+msgstr "Использовать только системные пакеты"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_4)
+#: src/ui/configspeech_ui.ui:529
+#, kde-format
+msgid ""
+"When enabled, Kdenlive will use the speech to text packages installed on "
+"your system. For advanced users only, as you will have to properly setup "
+"everything by yourself."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:518
+#: src/ui/configspeech_ui.ui:610
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "Проверьте установку системы распознавания речи"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:533
-#, kde-format
-msgid "Speech engine"
-msgstr "Система распознавания речи"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:540
-#, kde-format
-msgid "VOS&K"
-msgstr "VOS&K"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:547
-#, kde-format
-msgid "Wh&isper"
-msgstr "Wh&isper"
-
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configspeech_ui.ui:635
+#: src/ui/configspeech_ui.ui:656
 #, kde-format
 msgid "Object Detection"
 msgstr "Обнаружение объектов"
 
+#. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
+#: src/ui/configspeech_ui.ui:722
+#, kde-format
+msgid "Delete all models"
+msgstr "Удалить все модели"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:662 src/ui/speechdialog_ui.ui:94
+#: src/ui/configspeech_ui.ui:835 src/ui/speechdialog_ui.ui:94
 #, kde-format
 msgid "Model"
 msgstr "Модель"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:688
+#: src/ui/configspeech_ui.ui:861
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -22079,18 +22132,29 @@ msgstr ""
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_offload_video)
-#: src/ui/configspeech_ui.ui:745
+#: src/ui/configspeech_ui.ui:920
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
 msgstr ""
 "Передать видео на центральный процессор для экономии памяти графического "
 "процессора"
 
-#. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:849
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_3)
+#: src/ui/configspeech_ui.ui:927
 #, kde-format
-msgid "Delete all models"
-msgstr "Удалить все модели"
+msgid ""
+"This offloads some of the memory used to the RAM instead of the GPU memory, "
+"allowing to process longer sequences."
+msgstr ""
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
+#: src/ui/configspeech_ui.ui:958
+#, kde-format
+msgid ""
+"When enabled, Kdenlive will use the SAM2 version installed on your system. "
+"For advanced users only, as you will have to properly setup everything by "
+"yourself."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22726,9 +22790,9 @@ msgstr "Имя стиля"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
-#, fuzzy, kde-format
+#, kde-format
 msgid "Secondary"
-msgstr " секунда"
+msgstr "Дополнительный"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/editsubstyle_ui.ui:131
@@ -22737,6 +22801,8 @@ msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
+"Дополнительный цвет может использоваться, чтобы помочь различить "
+"пересекающиеся субтитры"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
@@ -23268,39 +23334,39 @@ msgstr "Стили"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
-#, fuzzy, kde-format
+#, kde-format
 msgid "FontName"
-msgstr "Шрифт"
+msgstr "Имя шрифта"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
-#, fuzzy, kde-format
+#, kde-format
 msgid "FontSize"
 msgstr "Размер шрифта"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
-#, fuzzy, kde-format
+#, kde-format
 msgid "PrimaryColor"
-msgstr "Серый цвет"
+msgstr "Основной цвет"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
-#, fuzzy, kde-format
+#, kde-format
 msgid "SecondaryColor"
-msgstr "Первый цвет"
+msgstr "Дополнительный цвет"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
-#, fuzzy, kde-format
+#, kde-format
 msgid "OutlineColor"
 msgstr "Цвет контура"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
-#, fuzzy, kde-format
+#, kde-format
 msgid "BackColor"
-msgstr "Чёрный цвет"
+msgstr "Цвет фона"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:419
@@ -23316,33 +23382,33 @@ msgstr "Масштабирование по Y"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:429
-#, fuzzy, kde-format
+#, kde-format
 msgid "Spacing"
-msgstr "Пробел"
+msgstr "Интервал"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
-#, fuzzy, kde-format
+#, kde-format
 msgid "BoardStyle"
-msgstr "Стиль"
+msgstr "Стиль доски"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
 #, kde-format
 msgid "MarginL"
-msgstr ""
+msgstr "Поле слева"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
 #, kde-format
 msgid "MarginR"
-msgstr ""
+msgstr "Поле справа"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
 #, kde-format
 msgid "MarginV"
-msgstr ""
+msgstr "Поле по вертикали"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
@@ -23354,7 +23420,7 @@ msgstr "Новый стиль"
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "Информация"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539

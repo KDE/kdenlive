@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-12 00:41+0000\n"
-"PO-Revision-Date: 2025-03-01 04:20-0300\n"
+"POT-Creation-Date: 2025-03-13 00:41+0000\n"
+"PO-Revision-Date: 2025-03-12 17:27-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2346,10 +2346,9 @@ msgstr ""
 "sem suavidade, 1.0 = muito macio."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha or luma value."
+#, kde-format
 msgid "Use the inverse of the alpha channel."
-msgstr "Use o inverso do valor alfa ou luminância."
+msgstr "Use o inverso do canal alfa"
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
@@ -5482,7 +5481,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Excluir clipes"
 
-#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:241
+#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:250
 #, kde-format
 msgid "Missing source clip"
 msgstr "Falta o clipe de origem"
@@ -5645,7 +5644,7 @@ msgid "Replace in timeline"
 msgstr "Substituir na linha do tempo"
 
 #: src/bin/bin.cpp:2137 src/bin/bin.cpp:5876 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:616
+#: src/effects/effectstack/view/maskmanager.cpp:625
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -6566,7 +6565,7 @@ msgstr "Mover legenda"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:846
+#: src/effects/effectstack/view/effectstackview.cpp:847
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -6681,16 +6680,14 @@ msgid "Remove stream effect"
 msgstr "Remover efeito de fluxo"
 
 #: src/bin/projectclip.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask added to clip"
-msgstr "Máscara de Clipe"
+msgstr "Máscara adicionada ao clipe"
 
 #: src/bin/projectclip.cpp:3176
-#, fuzzy, kde-format
-#| msgid "Missing source frames"
+#, kde-format
 msgid "Missing clip for mask"
-msgstr "Quadros de origem faltando"
+msgstr "O clipe para a máscara está faltando"
 
 #: src/bin/projectfolder.cpp:111
 #, kde-format
@@ -6716,7 +6713,7 @@ msgstr "Utilização"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
-#: src/mltcontroller/clipcontroller.cpp:514 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -7117,12 +7114,12 @@ msgstr "Topo do relógio"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "O perfil do seu projeto é inválido, a renderização pode falhar."
 
-#: src/core.cpp:1008
+#: src/core.cpp:1010
 #, kde-format
 msgid "Loading clips"
 msgstr "Carregando clipes"
 
-#: src/core.cpp:1782
+#: src/core.cpp:1784
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -7133,7 +7130,7 @@ msgstr ""
 "seguinte URL:\n"
 " %1"
 
-#: src/core.cpp:1783
+#: src/core.cpp:1785
 #, kde-format
 msgid "Open Browser"
 msgstr "Abrir navegador"
@@ -7553,7 +7550,7 @@ msgstr "Exportar dados das guias"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:884
+#: src/effects/effectstack/view/effectstackview.cpp:885
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -8343,7 +8340,7 @@ msgid "Add to Current Project"
 msgstr "Adicionar ao projeto atual"
 
 #: src/dialogs/renderwidget.cpp:1931
-#: src/effects/effectstack/view/maskmanager.cpp:653
+#: src/effects/effectstack/view/maskmanager.cpp:662
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -8626,8 +8623,8 @@ msgstr "Instalando dados multilíngua…"
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:98
-#: src/dialogs/settings/pluginssettings.cpp:898 src/ui/configspeech_ui.ui:107
-#: src/ui/configspeech_ui.ui:321 src/ui/configspeech_ui.ui:918
+#: src/dialogs/settings/pluginssettings.cpp:898 src/ui/configspeech_ui.ui:116
+#: src/ui/configspeech_ui.ui:336 src/ui/configspeech_ui.ui:791
 #, kde-format
 msgid "Models folder"
 msgstr "Pasta de modelos"
@@ -8672,8 +8669,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:441 src/ui/configspeech_ui.ui:263
-#: src/ui/configspeech_ui.ui:832
+#: src/dialogs/settings/pluginssettings.cpp:441 src/ui/configspeech_ui.ui:278
+#: src/ui/configspeech_ui.ui:705
 #, kde-format
 msgid "Plugin size"
 msgstr "Tamanho da extensão"
@@ -8699,7 +8696,7 @@ msgstr ""
 "será recriado e os módulos serão baixados sempre que você reativar o plugin."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:499 src/ui/configspeech_ui.ui:304
+#: src/dialogs/settings/pluginssettings.cpp:499 src/ui/configspeech_ui.ui:319
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Instalar tradução multilínguas"
@@ -8730,7 +8727,7 @@ msgid "Downloading smallest model…"
 msgstr "Baixando o menor modelo…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:628 src/ui/configspeech_ui.ui:681
+#: src/dialogs/settings/pluginssettings.cpp:628 src/ui/configspeech_ui.ui:854
 #, kde-format
 msgid "Download models"
 msgstr "Baixar modelos"
@@ -8744,7 +8741,7 @@ msgstr "Instalar um módulo"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/settings/pluginssettings.cpp:702
-#: src/dialogs/settings/pluginssettings.cpp:711 src/ui/configspeech_ui.ui:390
+#: src/dialogs/settings/pluginssettings.cpp:711 src/ui/configspeech_ui.ui:405
 #, kde-format
 msgid "Manage models"
 msgstr "Gerenciar Modelos"
@@ -8807,26 +8804,27 @@ msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
+"Suporte de GPU Nvidia para %1\n"
+"Selecione uma versão CUDA a ser instalada."
 
 #: src/dialogs/settings/pluginssettings.cpp:1005
 #, kde-format
 msgid "CUDA %1"
-msgstr ""
+msgstr "CUDA %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Detected devices:"
+#, kde-format
 msgid "Detected version: %1"
-msgstr "Dispositivos detectados:"
+msgstr "Versão detectada: %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1021
-#, fuzzy, kde-format
-#| msgid "Cannot find python3, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
-"Não foi possível encontrar python3, por favor, instale-o em seu sistema."
+"Não foi possível determinar a versão do CUDA,\n"
+"selecione a versão disponível em seu sistema."
 
 #: src/dialogs/settings/pluginssettings.cpp:1035
 #, kde-format
@@ -8834,6 +8832,8 @@ msgid ""
 "Only use this install option if your GPU\n"
 "is not correctly detected or not working with this plugin."
 msgstr ""
+"Use esta opção apenas se sua GPU\n"
+"não foi detectada corretamente ou não está funcionando com esta extensão."
 
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
@@ -11249,70 +11249,69 @@ msgstr "Inverter na horizontal"
 msgid "Vertical Flip"
 msgstr "Inverter na vertical"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
-#: src/effects/effectstack/view/effectstackview.cpp:388
-#: src/effects/effectstack/view/effectstackview.cpp:972
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:389
+#: src/effects/effectstack/view/effectstackview.cpp:973
 #, kde-format
 msgid "Remove Background"
 msgstr "Remover o plano de fundo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Remove o plano de fundo usando um modelo de IA"
 
-#: src/effects/effectstack/view/effectstackview.cpp:354
+#: src/effects/effectstack/view/effectstackview.cpp:355
 #, kde-format
 msgid "Flip"
 msgstr "Inverter"
 
-#: src/effects/effectstack/view/effectstackview.cpp:393
-#, fuzzy, kde-format
-#| msgid "Extracting…"
+#: src/effects/effectstack/view/effectstackview.cpp:394
+#, kde-format
 msgid "Exporting…"
-msgstr "Extraindo…"
+msgstr "Exportando…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:765
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Ativar pilha de efeitos"
 
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:765
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Desativar pilha de efeitos"
 
-#: src/effects/effectstack/view/effectstackview.cpp:803
+#: src/effects/effectstack/view/effectstackview.cpp:804
 #, kde-format
 msgid "No effect selected."
 msgstr "Nenhum efeito selecionado."
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:810
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Salvar conjunto de efeitos atual"
 
-#: src/effects/effectstack/view/effectstackview.cpp:814
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nome do conjunto de efeitos:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:816
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Descrição:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:827
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Nenhum nome fornecido, pilha de efeitos não foi salva."
 
-#: src/effects/effectstack/view/effectstackview.cpp:834
+#: src/effects/effectstack/view/effectstackview.cpp:835
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -11321,12 +11320,11 @@ msgstr ""
 "Nenhuma descrição fornecida.\n"
 "Salvar efeito sem descrição?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:969
-#: src/effects/effectstack/view/effectstackview.cpp:995
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#: src/effects/effectstack/view/effectstackview.cpp:970
+#: src/effects/effectstack/view/effectstackview.cpp:996
+#, kde-format
 msgid "Abort Mask Creation"
-msgstr "Sair da criação da máscara"
+msgstr "Cancelar a criação da máscara"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
 #, kde-format
@@ -11338,56 +11336,62 @@ msgstr "Por favor, configure a extensão SAM2"
 msgid "Job failed"
 msgstr "A tarefa falhou"
 
-#: src/effects/effectstack/view/maskmanager.cpp:221
-#, fuzzy, kde-format
-#| msgid "Processing audio, please wait."
-msgid "Another transcode task is running, try later."
-msgstr "Processando o áudio, aguarde."
+#: src/effects/effectstack/view/maskmanager.cpp:200
+#, kde-format
+msgid ""
+"Creating masks for clips more than a few seconds long can fail due to memory "
+"shortage. You can try to enable the <i>Offload video to CPU</i> option in "
+"the settings, or create several masks for shorter durations."
+msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:226
-#, fuzzy, kde-format
-#| msgid "Processing audio, please wait."
-msgid "Another mask task is running, try later."
-msgstr "Processando o áudio, aguarde."
+#: src/effects/effectstack/view/maskmanager.cpp:230
+#, kde-format
+msgid "Another transcode task is running, try later."
+msgstr ""
+"Outra tarefa de transcodificação está em execução, tente novamente mais "
+"tarde."
 
 #: src/effects/effectstack/view/maskmanager.cpp:235
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
+msgid "Another mask task is running, try later."
+msgstr "Outra tarefa de máscara está em execução, tente novamente mais tarde."
+
+#: src/effects/effectstack/view/maskmanager.cpp:244
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "Não foi possível criar o arquivo temporário"
+msgstr "Não foi possível abrir o arquivo temporário"
 
-#: src/effects/effectstack/view/maskmanager.cpp:248
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#: src/effects/effectstack/view/maskmanager.cpp:257
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "Não é possível acessar a pasta do dicionário."
+msgstr "Não é possível acessar a pasta do projeto"
 
-#: src/effects/effectstack/view/maskmanager.cpp:299
+#: src/effects/effectstack/view/maskmanager.cpp:308
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Exportando quadros do vídeo para análise"
 
-#: src/effects/effectstack/view/maskmanager.cpp:303
+#: src/effects/effectstack/view/maskmanager.cpp:312
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Exportando quadros do vídeo"
 
-#: src/effects/effectstack/view/maskmanager.cpp:316
+#: src/effects/effectstack/view/maskmanager.cpp:325
 #, kde-format
 msgid "Missing source frames"
 msgstr "Quadros de origem faltando"
 
-#: src/effects/effectstack/view/maskmanager.cpp:420
+#: src/effects/effectstack/view/maskmanager.cpp:429
 #, kde-format
 msgid "mask %1"
 msgstr "máscara %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:423
+#: src/effects/effectstack/view/maskmanager.cpp:432
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Gerando máscara %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:587
+#: src/effects/effectstack/view/maskmanager.cpp:596
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11489,8 +11493,8 @@ msgstr ""
 "O aplicativo %1 não foi encontrado. Atualize as configurações de tarefa"
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:232
-#: src/jobs/transcodetask.cpp:268
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
+#: src/jobs/transcodetask.cpp:270
 #, kde-format
 msgid "Failed to create file."
 msgstr "Falha ao criar o arquivo."
@@ -11642,7 +11646,7 @@ msgstr ""
 "FFmpeg não encontrado, defina o caminho nas configurações de Ambiente do "
 "Kdenlive"
 
-#: src/jobs/proxytask.cpp:394 src/jobs/proxytask.cpp:407
+#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Não foi possível criar o clipe indireto."
@@ -14946,10 +14950,9 @@ msgid "Export image using source resolution"
 msgstr "Exportar imagem usando resolução de origem"
 
 #: src/monitor/monitor.cpp:1878
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Exit Mask Mode ?"
-msgstr "Sair da criação da máscara"
+msgstr "Sair da criação da máscara ?"
 
 #: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
 #, kde-format
@@ -14999,16 +15002,14 @@ msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ative o modo de edição no monitor para editar o efeito"
 
 #: src/monitor/monitor.cpp:3092
-#, fuzzy, kde-format
-#| msgid "No clip selected in project bin"
+#, kde-format
 msgid "No clip selected in Clip Monitor"
-msgstr "Nenhum clipe selecionado na biblioteca multimídia"
+msgstr "Nenhum clipe selecionado no monitor de clipe"
 
 #: src/monitor/monitor.cpp:3113
-#, fuzzy, kde-format
-#| msgid "Cannot get duration for file %1"
+#, kde-format
 msgid "Cannot get producer for Clip Monitor"
-msgstr "Não foi possível obter a duração do arquivo %1"
+msgstr "Não foi possível obter o produtor para o monitor de clipe"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -15823,48 +15824,41 @@ msgid "Error Getting Access Token from %1."
 msgstr "Ocorreu um erro ao obter o token de acesso de %1."
 
 #: src/otio/otioexport.cpp:43
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
-msgstr "Erro abrindo arquivo"
+msgstr "Exportando OpenTimelineIO"
 
 #: src/otio/otioexport.cpp:57
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Export"
-msgstr "&Exportar OpenTimelineIO…"
+msgstr "Exportação OpenTimelineIO"
 
 #: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:230
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Project"
-msgstr "&Exportar OpenTimelineIO…"
+msgstr "Projeto OpenTimelineIO"
 
 #: src/otio/otioexport.cpp:101
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error exporting OpenTimelineIO file"
-msgstr "Erro abrindo arquivo"
+msgstr "Erro ao exportar arquivo OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:48
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgctxt "@title:window"
 msgid "Importing OpenTimelineIO"
-msgstr "Erro abrindo arquivo"
+msgstr "Importando OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:76
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr "Erro abrindo arquivo"
+msgstr "Erro ao importar arquivo OpenTimelineIO"
 
 #: src/otio/otioimport.cpp:229
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO &Import…"
+#, kde-format
 msgid "OpenTimelineIO Import"
-msgstr "&Importar OpenTimelineIO…"
+msgstr "Importação OpenTimelineIO"
 
 #: src/profiles/profileinfo.cpp:103
 #, kde-format
@@ -17219,7 +17213,7 @@ msgstr "Transcodificação de vídeo"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/pythoninterfaces/abstractpythoninterface.cpp:34
-#: src/ui/configspeech_ui.ui:521
+#: src/ui/configspeech_ui.ui:613
 #, kde-format
 msgid "Check configuration"
 msgstr "Checar a configuração"
@@ -17235,16 +17229,14 @@ msgid "Abort installation"
 msgstr "Cancelar instalação"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:53
-#, fuzzy, kde-format
-#| msgid "Installing modules… this can take a while"
+#, kde-format
 msgid "Installing… please be patient, this can take several minutes"
-msgstr "Instalando módulos… isto pode demorar um tempo"
+msgstr "Instalando… seja paciente, pois isto pode demorar vários minutos"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:60
-#, fuzzy, kde-format
-#| msgid "Uninstall plugin"
+#, kde-format
 msgid "Install plugin to use"
-msgstr "Desinstalar extensão"
+msgstr "Instalar extensão a ser utilizada"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #, kde-format
@@ -17277,35 +17269,26 @@ msgid "Checking configuration…"
 msgstr "Verificando configuração…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:251
-#, fuzzy, kde-format
-#| msgid "Cannot find python3, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
 "%1\n"
 "Please install it on your system.\n"
 msgstr ""
-"Não foi possível encontrar python3, por favor, instale-o em seu sistema."
+"Não foi possível encontrar uma versão compatível do python:\n"
+"%1\n"
+"Instale-o em seu sistema.\n"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:263
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not find \"otioconvert\" script.\n"
-#| "You need to install OpenTimelineIO,\n"
-#| "through your package manager if available,\n"
-#| "or by \"pip3 install opentimelineio\",\n"
-#| "and check the scripts are installed in a directory listed in PATH "
-#| "environment variable"
+#, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Não foi possível encontrar o script \"otioconvert\".\n"
-"Você precisa instalar o OpenTimelineIO,\n"
-"através do seu gerenciador de pacotes se disponível,\n"
-"ou usando \"pip3 install opentimelineio\",\n"
-"e verificar se os scripts estão instalados em uma pasta listada na sua "
-"variável do ambiente PATH"
+"Não foi possível encontrar %1, por favor, instale-o em seu sistema.\n"
+"Caso já esteja instalado, certifique-se que ele está instalado em uma pasta "
+"listada na sua variável do ambiente PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:297
 #, kde-format
@@ -17326,10 +17309,9 @@ msgstr ""
 "Tente desinstalar e reinstalar a extensão."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:397
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find system python"
-msgstr "Não foi possível encontrar o layout %1"
+msgstr "Não foi possível encontrar o python do sistema"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
@@ -17368,10 +17350,10 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:573
 #: src/pythoninterfaces/abstractpythoninterface.cpp:682
-#, fuzzy, kde-format
-#| msgid "Internal Error: Cannot find dependency list"
+#, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
-msgstr "Erro interno: não é possível encontrar a lista de dependências"
+msgstr ""
+"Erro de instalação: não é possível encontrar a lista de dependências para %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:588
 #, kde-format
@@ -17405,7 +17387,7 @@ msgstr "Não há informações disponíveis sobre a versão."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:706
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
-msgstr ""
+msgstr "Erro de instalação: não foi possível encontrar %1 para %2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:741
 #, kde-format
@@ -21278,7 +21260,7 @@ msgstr "Nome dos arquivos capturados:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:429 src/ui/configspeech_ui.ui:697
+#: src/ui/configspeech_ui.ui:444 src/ui/configspeech_ui.ui:870
 #, kde-format
 msgid "Device:"
 msgstr "Dispositivo:"
@@ -22019,133 +22001,150 @@ msgid "Output device:"
 msgstr "Dispositivo de saída:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/configspeech_ui.ui:43
+#: src/ui/configspeech_ui.ui:31
 #, kde-format
 msgid "Speech To Text"
 msgstr "Fala para texto"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
-#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:752
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configspeech_ui.ui:39
 #, kde-format
-msgid "Use system packages only"
-msgstr "Usar apenas pacotes do sistema"
+msgid "Speech engine"
+msgstr "Motor de fala"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
+#: src/ui/configspeech_ui.ui:46
+#, kde-format
+msgid "VOS&K"
+msgstr "VOS&K"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:53
+#, kde-format
+msgid "Wh&isper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:85
+#: src/ui/configspeech_ui.ui:94
 #, kde-format
 msgid "Custom models folder"
 msgstr "Pasta de modelos personalizados"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:143
+#: src/ui/configspeech_ui.ui:152
 #, kde-format
 msgid "Remove Model"
 msgstr "Remover modelo"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:153
+#: src/ui/configspeech_ui.ui:162
 #, kde-format
 msgid "Add Model"
 msgstr "Adicionar modelo"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
-#: src/ui/configspeech_ui.ui:224
+#: src/ui/configspeech_ui.ui:239
 #, kde-format
 msgid "Seamless"
 msgstr "Sem bordas"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:277 src/ui/configspeech_ui.ui:885
+#: src/ui/configspeech_ui.ui:292 src/ui/configspeech_ui.ui:758
 #, kde-format
 msgid "Uninstall plugin"
 msgstr "Desinstalar extensão"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
-#: src/ui/configspeech_ui.ui:341
+#: src/ui/configspeech_ui.ui:356
 #, kde-format
 msgid "Whisper"
 msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:378
+#: src/ui/configspeech_ui.ui:393
 #, kde-format
 msgid "Model:"
 msgstr "Modelo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:419
+#: src/ui/configspeech_ui.ui:434
 #, kde-format
 msgid "Language:"
 msgstr "Idioma:"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, whisper_device_info)
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, sam_device_info)
-#: src/ui/configspeech_ui.ui:445 src/ui/configspeech_ui.ui:713
+#: src/ui/configspeech_ui.ui:460 src/ui/configspeech_ui.ui:886
 #, kde-format
 msgid ""
 "If your Nvidia GPU is not listed, try installing an alternative with the "
 "Nvidia GPU Support button"
 msgstr ""
+"Se a sua GPU Nvidia não estiver listada, tente instalar uma alternativa com "
+"o botão de Suporte de GPU Nvidia"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
-#: src/ui/configspeech_ui.ui:465 src/ui/configspeech_ui.ui:736
+#: src/ui/configspeech_ui.ui:480 src/ui/configspeech_ui.ui:909
 #, kde-format
 msgid "GPU Support"
-msgstr ""
+msgstr "Suporte à GPU"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:474
+#: src/ui/configspeech_ui.ui:489
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr "Desabilitar precisão reduzida (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:481
+#: src/ui/configspeech_ui.ui:496
 #, kde-format
 msgid "Translate text to English"
 msgstr "Traduzir texto para a inglês"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
+#: src/ui/configspeech_ui.ui:522 src/ui/configspeech_ui.ui:951
+#, kde-format
+msgid "Use system packages only"
+msgstr "Usar apenas pacotes do sistema"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_4)
+#: src/ui/configspeech_ui.ui:529
+#, kde-format
+msgid ""
+"When enabled, Kdenlive will use the speech to text packages installed on "
+"your system. For advanced users only, as you will have to properly setup "
+"everything by yourself."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:518
+#: src/ui/configspeech_ui.ui:610
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "Verificar instalação do motor de fala"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:533
-#, kde-format
-msgid "Speech engine"
-msgstr "Motor de fala"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:540
-#, kde-format
-msgid "VOS&K"
-msgstr "VOS&K"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:547
-#, kde-format
-msgid "Wh&isper"
-msgstr "Wh&isper"
-
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configspeech_ui.ui:635
+#: src/ui/configspeech_ui.ui:656
 #, kde-format
 msgid "Object Detection"
 msgstr "Detecção de Objetos"
 
+#. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
+#: src/ui/configspeech_ui.ui:722
+#, kde-format
+msgid "Delete all models"
+msgstr "Excluir todos os modelos"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:662 src/ui/speechdialog_ui.ui:94
+#: src/ui/configspeech_ui.ui:835 src/ui/speechdialog_ui.ui:94
 #, kde-format
 msgid "Model"
 msgstr "Modelo"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:688
+#: src/ui/configspeech_ui.ui:861
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -22155,16 +22154,27 @@ msgstr ""
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_offload_video)
-#: src/ui/configspeech_ui.ui:745
+#: src/ui/configspeech_ui.ui:920
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
 msgstr "Descarregar vídeo para a CPU para economizar memória da GPU"
 
-#. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:849
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_3)
+#: src/ui/configspeech_ui.ui:927
 #, kde-format
-msgid "Delete all models"
-msgstr "Excluir todos os modelos"
+msgid ""
+"This offloads some of the memory used to the RAM instead of the GPU memory, "
+"allowing to process longer sequences."
+msgstr ""
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
+#: src/ui/configspeech_ui.ui:958
+#, kde-format
+msgid ""
+"When enabled, Kdenlive will use the SAM2 version installed on your system. "
+"For advanced users only, as you will have to properly setup everything by "
+"yourself."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
