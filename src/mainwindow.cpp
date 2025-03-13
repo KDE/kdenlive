@@ -4988,12 +4988,13 @@ void MainWindow::checkMaxCacheSize()
                             QAction *abortAction = new QAction(i18n("Never check again"), this);
                             connect(abortAction, &QAction::triggered, this, []() { KdenliveSettings::setCheckForUpdate(false); });
                             if (days > 360) {
-                                pCore->displayBinMessage(i18n("Your Kdenlive version is older than 1 year, we strongly encourage you to upgrade"),
-                                                         KMessageWidget::Warning, {updateAction, abortAction}, true, BinMessage::BinCategory::UpdateMessage);
+                                Q_EMIT pCore->displayBinMessage(i18n("Your Kdenlive version is older than 1 year, we strongly encourage you to upgrade"),
+                                                                KMessageWidget::Warning, {updateAction, abortAction}, true,
+                                                                BinMessage::BinCategory::UpdateMessage);
                             } else {
-                                pCore->displayBinMessage(i18n("Your Kdenlive version is older than 6 months, we encourage you to upgrade"),
-                                                         KMessageWidget::Information, {updateAction, abortAction}, true,
-                                                         BinMessage::BinCategory::UpdateMessage);
+                                Q_EMIT pCore->displayBinMessage(i18n("Your Kdenlive version is older than 6 months, we encourage you to upgrade"),
+                                                                KMessageWidget::Information, {updateAction, abortAction}, true,
+                                                                BinMessage::BinCategory::UpdateMessage);
                             }
                         }
                     }

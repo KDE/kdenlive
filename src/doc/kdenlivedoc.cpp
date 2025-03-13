@@ -2033,7 +2033,7 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         QList<QAction *> list = {ac, ac2};
         adjustMessage.append(i18n("Switch to clip (%1) profile %2?", clipName, profile->descriptiveString()));
-        pCore->displayBinMessage(adjustMessage, KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
+        Q_EMIT pCore->displayBinMessage(adjustMessage, KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
         if (qFuzzyCompare(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, fps)) {
