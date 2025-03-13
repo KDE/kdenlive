@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-12 02:35+0000\n"
+"POT-Creation-Date: 2025-03-13 02:33+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -5356,7 +5356,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "ビンクリップの削除"
 
-#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:241
+#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:250
 #, kde-format
 msgid "Missing source clip"
 msgstr "存在しないソースクリップ"
@@ -5511,7 +5511,7 @@ msgid "Replace in timeline"
 msgstr "タイムライン上で置き換え"
 
 #: src/bin/bin.cpp:2137 src/bin/bin.cpp:5876 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:616
+#: src/effects/effectstack/view/maskmanager.cpp:625
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -6455,7 +6455,7 @@ msgstr "サブタイトルの移動"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:846
+#: src/effects/effectstack/view/effectstackview.cpp:847
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -6616,7 +6616,7 @@ msgstr ""
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
-#: src/mltcontroller/clipcontroller.cpp:514 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -7050,12 +7050,12 @@ msgstr ""
 "ドキュメントプロジェクトのフォルダが正しくありません。既定値に設定しました: "
 "%1"
 
-#: src/core.cpp:1008
+#: src/core.cpp:1010
 #, kde-format
 msgid "Loading clips"
 msgstr "クリップを読み込んでいます"
 
-#: src/core.cpp:1782
+#: src/core.cpp:1784
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -7063,7 +7063,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1783
+#: src/core.cpp:1785
 #, fuzzy, kde-format
 #| msgid "Media Browser"
 msgid "Open Browser"
@@ -7484,7 +7484,7 @@ msgstr "マーカーの編集(E)"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:884
+#: src/effects/effectstack/view/effectstackview.cpp:885
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -8312,7 +8312,7 @@ msgid "Add to Current Project"
 msgstr "現在のプロジェクトに追加"
 
 #: src/dialogs/renderwidget.cpp:1931
-#: src/effects/effectstack/view/maskmanager.cpp:653
+#: src/effects/effectstack/view/maskmanager.cpp:662
 #: src/library/librarywidget.cpp:248
 #, fuzzy, kde-format
 #| msgid "Destination folder"
@@ -8590,8 +8590,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
 #: src/dialogs/settings/pluginssettings.cpp:98
-#: src/dialogs/settings/pluginssettings.cpp:898 src/ui/configspeech_ui.ui:107
-#: src/ui/configspeech_ui.ui:321 src/ui/configspeech_ui.ui:918
+#: src/dialogs/settings/pluginssettings.cpp:898 src/ui/configspeech_ui.ui:116
+#: src/ui/configspeech_ui.ui:336 src/ui/configspeech_ui.ui:791
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Models folder"
@@ -8634,8 +8634,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
 #. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:441 src/ui/configspeech_ui.ui:263
-#: src/ui/configspeech_ui.ui:832
+#: src/dialogs/settings/pluginssettings.cpp:441 src/ui/configspeech_ui.ui:278
+#: src/ui/configspeech_ui.ui:705
 #, fuzzy, kde-format
 #| msgid "TAP Plugins"
 msgid "Plugin size"
@@ -8658,7 +8658,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:499 src/ui/configspeech_ui.ui:304
+#: src/dialogs/settings/pluginssettings.cpp:499 src/ui/configspeech_ui.ui:319
 #, kde-format
 msgid "Install multilingual translation"
 msgstr ""
@@ -8692,7 +8692,7 @@ msgid "Downloading smallest model…"
 msgstr "新しいワイプのダウンロード(D)..."
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:628 src/ui/configspeech_ui.ui:681
+#: src/dialogs/settings/pluginssettings.cpp:628 src/ui/configspeech_ui.ui:854
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download models"
@@ -8707,7 +8707,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/settings/pluginssettings.cpp:702
-#: src/dialogs/settings/pluginssettings.cpp:711 src/ui/configspeech_ui.ui:390
+#: src/dialogs/settings/pluginssettings.cpp:711 src/ui/configspeech_ui.ui:405
 #, fuzzy, kde-format
 #| msgid "Edge mode"
 msgid "Manage models"
@@ -11325,84 +11325,84 @@ msgstr "水平方向"
 msgid "Vertical Flip"
 msgstr "垂直方向"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
-#: src/effects/effectstack/view/effectstackview.cpp:388
-#: src/effects/effectstack/view/effectstackview.cpp:972
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:389
+#: src/effects/effectstack/view/effectstackview.cpp:973
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove Background"
 msgstr "グループの移動"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
 msgid "Remove background using AI model"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:354
+#: src/effects/effectstack/view/effectstackview.cpp:355
 #, kde-format
 msgid "Flip"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:393
+#: src/effects/effectstack/view/effectstackview.cpp:394
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Exporting…"
 msgstr "出力しています..."
 
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:765
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "効果の有効化"
 
-#: src/effects/effectstack/view/effectstackview.cpp:764
+#: src/effects/effectstack/view/effectstackview.cpp:765
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Disable Effect Stack"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/effectstackview.cpp:803
+#: src/effects/effectstack/view/effectstackview.cpp:804
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No effect selected."
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:810
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/effectstackview.cpp:814
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "保存したスタックの名前: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:816
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Description:"
 msgstr "説明"
 
-#: src/effects/effectstack/view/effectstackview.cpp:827
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "名前がありません、効果は保存されませんでした。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:834
+#: src/effects/effectstack/view/effectstackview.cpp:835
 #, kde-format
 msgid ""
 "No description provided. \n"
 "Save effect with no description?"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:969
-#: src/effects/effectstack/view/effectstackview.cpp:995
+#: src/effects/effectstack/view/effectstackview.cpp:970
+#: src/effects/effectstack/view/effectstackview.cpp:996
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Abort Mask Creation"
@@ -11419,57 +11419,65 @@ msgstr "遷移効果の選択(E)"
 msgid "Job failed"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:221
+#: src/effects/effectstack/view/maskmanager.cpp:200
+#, kde-format
+msgid ""
+"Creating masks for clips more than a few seconds long can fail due to memory "
+"shortage. You can try to enable the <i>Offload video to CPU</i> option in "
+"the settings, or create several masks for shorter durations."
+msgstr ""
+
+#: src/effects/effectstack/view/maskmanager.cpp:230
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:226
+#: src/effects/effectstack/view/maskmanager.cpp:235
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:235
+#: src/effects/effectstack/view/maskmanager.cpp:244
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot open temporary file"
 msgstr "一時ファイルを作成できません"
 
-#: src/effects/effectstack/view/maskmanager.cpp:248
+#: src/effects/effectstack/view/maskmanager.cpp:257
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access project folder"
 msgstr "このクリップにはビデオ効果を追加できません"
 
-#: src/effects/effectstack/view/maskmanager.cpp:299
+#: src/effects/effectstack/view/maskmanager.cpp:308
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:303
+#: src/effects/effectstack/view/maskmanager.cpp:312
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Exporting video frames"
 msgstr "マーカーの編集(E)"
 
-#: src/effects/effectstack/view/maskmanager.cpp:316
+#: src/effects/effectstack/view/maskmanager.cpp:325
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "存在しないソースクリップ"
 
-#: src/effects/effectstack/view/maskmanager.cpp:420
+#: src/effects/effectstack/view/maskmanager.cpp:429
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:423
+#: src/effects/effectstack/view/maskmanager.cpp:432
 #, fuzzy, kde-format
 #| msgid "Generate"
 msgid "Generating mask %1"
 msgstr "生成"
 
-#: src/effects/effectstack/view/maskmanager.cpp:587
+#: src/effects/effectstack/view/maskmanager.cpp:596
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -11577,8 +11585,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:232
-#: src/jobs/transcodetask.cpp:268
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
+#: src/jobs/transcodetask.cpp:270
 #, kde-format
 msgid "Failed to create file."
 msgstr "ファイルの作成に失敗しました。"
@@ -11740,7 +11748,7 @@ msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg が見つかりません、Kdenlive の環境設定からパスを設定してください。"
 
-#: src/jobs/proxytask.cpp:394 src/jobs/proxytask.cpp:407
+#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "代用クリップの作成に失敗しました。"
@@ -17493,7 +17501,7 @@ msgstr "ビデオトラック"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/pythoninterfaces/abstractpythoninterface.cpp:34
-#: src/ui/configspeech_ui.ui:521
+#: src/ui/configspeech_ui.ui:613
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Check configuration"
@@ -21693,7 +21701,7 @@ msgstr "キャプチャファイル名:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:429 src/ui/configspeech_ui.ui:697
+#: src/ui/configspeech_ui.ui:444 src/ui/configspeech_ui.ui:870
 #, kde-format
 msgid "Device:"
 msgstr "デバイス:"
@@ -22460,72 +22468,84 @@ msgid "Output device:"
 msgstr "出力デバイス:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/configspeech_ui.ui:43
+#: src/ui/configspeech_ui.ui:31
 #, kde-format
 msgid "Speech To Text"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
-#: src/ui/configspeech_ui.ui:62 src/ui/configspeech_ui.ui:752
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configspeech_ui.ui:39
+#, fuzzy, kde-format
+#| msgid "Select Transition"
+msgid "Speech engine"
+msgstr "遷移効果の選択(E)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
+#: src/ui/configspeech_ui.ui:46
 #, kde-format
-msgid "Use system packages only"
+msgid "VOS&K"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:53
+#, kde-format
+msgid "Wh&isper"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:85
+#: src/ui/configspeech_ui.ui:94
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Custom models folder"
 msgstr "プロジェクトフォルダの使用"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:143
+#: src/ui/configspeech_ui.ui:152
 #, kde-format
 msgid "Remove Model"
 msgstr "モデルを削除"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:153
+#: src/ui/configspeech_ui.ui:162
 #, kde-format
 msgid "Add Model"
 msgstr "モデルを追加"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
-#: src/ui/configspeech_ui.ui:224
+#: src/ui/configspeech_ui.ui:239
 #, kde-format
 msgid "Seamless"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:277 src/ui/configspeech_ui.ui:885
+#: src/ui/configspeech_ui.ui:292 src/ui/configspeech_ui.ui:758
 #, fuzzy, kde-format
 #| msgid "Paint mode:"
 msgid "Uninstall plugin"
 msgstr "ペイントモード:"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
-#: src/ui/configspeech_ui.ui:341
+#: src/ui/configspeech_ui.ui:356
 #, kde-format
 msgid "Whisper"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:378
+#: src/ui/configspeech_ui.ui:393
 #, kde-format
 msgid "Model:"
 msgstr "モデル:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:419
+#: src/ui/configspeech_ui.ui:434
 #, kde-format
 msgid "Language:"
 msgstr "言語:"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, whisper_device_info)
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, sam_device_info)
-#: src/ui/configspeech_ui.ui:445 src/ui/configspeech_ui.ui:713
+#: src/ui/configspeech_ui.ui:460 src/ui/configspeech_ui.ui:886
 #, kde-format
 msgid ""
 "If your Nvidia GPU is not listed, try installing an alternative with the "
@@ -22534,63 +22554,67 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
-#: src/ui/configspeech_ui.ui:465 src/ui/configspeech_ui.ui:736
+#: src/ui/configspeech_ui.ui:480 src/ui/configspeech_ui.ui:909
 #, kde-format
 msgid "GPU Support"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:474
+#: src/ui/configspeech_ui.ui:489
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:481
+#: src/ui/configspeech_ui.ui:496
 #, kde-format
 msgid "Translate text to English"
 msgstr "文章を英語に翻訳する"
 
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
+#: src/ui/configspeech_ui.ui:522 src/ui/configspeech_ui.ui:951
+#, kde-format
+msgid "Use system packages only"
+msgstr ""
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_4)
+#: src/ui/configspeech_ui.ui:529
+#, kde-format
+msgid ""
+"When enabled, Kdenlive will use the speech to text packages installed on "
+"your system. For advanced users only, as you will have to properly setup "
+"everything by yourself."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:518
+#: src/ui/configspeech_ui.ui:610
 #, kde-format
 msgid "Check speech engine installation"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:533
-#, fuzzy, kde-format
-#| msgid "Select Transition"
-msgid "Speech engine"
-msgstr "遷移効果の選択(E)"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:540
-#, kde-format
-msgid "VOS&K"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:547
-#, kde-format
-msgid "Wh&isper"
-msgstr ""
-
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configspeech_ui.ui:635
+#: src/ui/configspeech_ui.ui:656
 #, fuzzy, kde-format
 #| msgid "Face detect"
 msgid "Object Detection"
 msgstr "顔検出"
 
+#. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
+#: src/ui/configspeech_ui.ui:722
+#, fuzzy, kde-format
+#| msgid "Delete All Markers"
+msgid "Delete all models"
+msgstr "すべてのマーカーの削除(M)"
+
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:662 src/ui/speechdialog_ui.ui:94
+#: src/ui/configspeech_ui.ui:835 src/ui/speechdialog_ui.ui:94
 #, kde-format
 msgid "Model"
 msgstr "モデル"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:688
+#: src/ui/configspeech_ui.ui:861
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -22598,17 +22622,27 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_offload_video)
-#: src/ui/configspeech_ui.ui:745
+#: src/ui/configspeech_ui.ui:920
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:849
-#, fuzzy, kde-format
-#| msgid "Delete All Markers"
-msgid "Delete all models"
-msgstr "すべてのマーカーの削除(M)"
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_3)
+#: src/ui/configspeech_ui.ui:927
+#, kde-format
+msgid ""
+"This offloads some of the memory used to the RAM instead of the GPU memory, "
+"allowing to process longer sequences."
+msgstr ""
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
+#: src/ui/configspeech_ui.ui:958
+#, kde-format
+msgid ""
+"When enabled, Kdenlive will use the SAM2 version installed on your system. "
+"For advanced users only, as you will have to properly setup everything by "
+"yourself."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
