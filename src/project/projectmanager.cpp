@@ -1672,7 +1672,7 @@ void ProjectManager::updateSequenceDuration(const QUuid &uuid)
         properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(newDuration)));
         properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(durations.first));
         properties.insert(QStringLiteral("length"), QString::number(newDuration));
-        properties.insert(QStringLiteral("out"), QString::number(newDuration - 1));
+        properties.insert(QStringLiteral("out"), QString::number(newDuration));
         mainClip->setProperties(properties, true);
     } else {
         qDebug() << ":::: MAIN CLIP PRODUCER NOT FOUND!!!";
