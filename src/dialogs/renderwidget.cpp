@@ -1767,7 +1767,11 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     if (renderItem->status() != FINISHEDJOB) {
         return;
     }
-    auto *job = new KIO::OpenUrlJob(QUrl::fromLocalFile(item->text(1)));
+    QString fileName = item->text(1);
+    if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
+        fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
+    }
+    auto *job = new KIO::OpenUrlJob(QUrl::fromLocalFile(fileName));
     job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
     job->start();
 }
@@ -1926,12 +1930,23 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     }
     QMenu menu(this);
     QAction *newAct = new QAction(i18n("Add to Current Project"), this);
-    connect(newAct, &QAction::triggered, [&, renderItem]() { pCore->activeBin()->slotAddClipToProject(QUrl::fromLocalFile(renderItem->text(1))); });
+    connect(newAct, &QAction::triggered, [&, renderItem]() {
+        QString fileName = renderItem->text(1);
+        if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
+            fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
+        }
+        pCore->activeBin()->slotAddClipToProject(QUrl::fromLocalFile(fileName));
+    });
     menu.addAction(newAct);
     QAction *openContainingFolder = new QAction(i18n("Open Containing Folder"), this);
-    connect(openContainingFolder, &QAction::triggered, [&, renderItem]() { pCore->highlightFileInExplorer({QUrl::fromLocalFile(renderItem->text(1))}); });
+    connect(openContainingFolder, &QAction::triggered, [&, renderItem]() {
+        QString fileName = renderItem->text(1);
+        if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
+            fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
+        }
+        pCore->highlightFileInExplorer({QUrl::fromLocalFile(fileName)});
+    });
     menu.addAction(openContainingFolder);
-
     menu.exec(m_view.running_jobs->mapToGlobal(pos));
 }
 
