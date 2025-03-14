@@ -318,6 +318,9 @@ void FilterTask::run()
     if (resultData.isEmpty()) {
         QMetaObject::invokeMethod(pCore.get(), "displayMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Effect analysis failed for %1", m_assetId)),
                                   Q_ARG(MessageType, MessageType::ErrorMessage));
+    } else {
+        // Replace deprecated smooth keyframes ~= with $=
+        resultData.replace(QStringLiteral("~="), QStringLiteral("$="));
     }
     params.append({key, QVariant(resultData)});
     if (m_filterData.find(QStringLiteral("storedata")) != m_filterData.end()) {
