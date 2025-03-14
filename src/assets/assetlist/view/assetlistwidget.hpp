@@ -18,10 +18,13 @@ class QVBoxLayout;
 class QMenu;
 class QTextDocument;
 class QLineEdit;
+class QListView;
+class QStackedWidget;
 
 /** @class AssetListWidget
-    @brief This class is a generic widget that display the list of available assets
- */
+    @brief This class is the widget that display the list of available assets (effects or compositions)
+    @author Nicolas Carion
+*/
 class AssetListWidget : public QWidget
 {
     Q_OBJECT
@@ -30,81 +33,84 @@ class AssetListWidget : public QWidget
     Q_PROPERTY(bool showDescription READ showDescription WRITE setShowDescription NOTIFY showDescriptionChanged)
 
 public:
-    AssetListWidget(bool isEffect, QWidget *parent = Q_NULLPTR);
+    AssetListWidget(bool isEffect, QWidget *parent = nullptr);
     ~AssetListWidget() override;
 
-    virtual bool isEffect() const = 0;
-
-    /** @brief Returns the name of the asset given its model index */
-    QString getName(const QModelIndex &index) const;
-
-    /** @brief Returns true if this effect belongs to favorites */
+    /** @brief Returns true if the asset is a favorite */
     bool isFavorite(const QModelIndex &index) const;
-
-    /** @brief Sets whether this effect belongs to favorites */
-    void setFavorite(const QModelIndex &index, bool favorite = true);
-
+    /** @brief Set the asset as favorite or not */
+    void setFavorite(const QModelIndex &index, bool favorite);
     /** @brief Delete a custom effect */
     void deleteCustomEffect(const QModelIndex &index);
-    virtual void reloadCustomEffectIx(const QModelIndex &index) = 0;
-    virtual void reloadTemplates() = 0;
-    virtual void editCustomAsset(const QModelIndex &index) = 0;
-    /** @brief Returns the description of the asset given its model index */
+    /** @brief Returns the name of the asset */
+    QString getName(const QModelIndex &index) const;
+    /** @brief Returns the description of the asset */
     QString getDescription(const QModelIndex &index) const;
-
-    /** @brief Sets the pattern against which the assets' names are filtered */
-    void setFilterName(const QString &pattern);
-
+    /** @brief Returns true if we should show the description panel */
+    bool showDescription() const;
+    /** @brief Set whether we should show the description panel */
+    void setShowDescription(bool show);
+    /** @brief Returns true if the asset is an audio asset */
+    virtual bool isAudio(const QString &assetId) const = 0;
+    /** @brief Returns the mime type for this asset */
+    virtual QString getMimeType(const QString &assetId) const = 0;
+    /** @brief Returns the mime data for this asset */
+    QVariantMap getMimeData(const QString &assetId) const;
+    /** @brief Returns true if the asset is a custom one */
+    static bool isCustomType(AssetListType::AssetType itemType);
+    /** @brief Returns true if the asset is an audio one */
+    static bool isAudioType(AssetListType::AssetType type);
+    /** @brief Build a link to the online documentation for this asset */
+    static const QString buildLink(const QString &id, AssetListType::AssetType type);
+    /** @brief Returns true if we are displaying effects */
+    virtual bool isEffect() const { return m_isEffect; }
+    /** @brief Reload a custom effect */
+    virtual void reloadCustomEffect(const QString &path) = 0;
+    /** @brief Reload a custom effect */
+    virtual void reloadCustomEffectIx(const QModelIndex &index) = 0;
+    /** @brief Reload all templates */
+    virtual void reloadTemplates() = 0;
+    /** @brief Edit a custom asset */
+    virtual void editCustomAsset(const QModelIndex &index) = 0;
+    /** @brief Export a custom effect */
+    virtual void exportCustomEffect(const QModelIndex &index) = 0;
+    /** @brief Set the filter type */
     virtual void setFilterType(const QString &type) = 0;
 
-    /** @brief Return mime type used for drag and drop. It can be kdenlive/effect,
-     *  kdenlive/composition or kdenlive/transition
-     */
-    virtual QString getMimeType(const QString &assetId) const = 0;
-    virtual bool isAudio(const QString &assetId) const = 0;
+    /** @brief Toggle between tree view and icon view */
+    void toggleViewMode();
 
-    QVariantMap getMimeData(const QString &assetId) const;
-
-    void activate(const QModelIndex &ix);
-    virtual void exportCustomEffect(const QModelIndex &index) = 0;
-
-    /** @brief Should the descriptive info box be displayed
-     */
-    bool showDescription() const;
-    void setShowDescription(bool show);
-    /** @brief Return true if the effect type is a custom effect (not built in)
-     */
-    static bool isCustomType(AssetListType::AssetType itemType);
-    /** @brief Return true if the effect type is audio
-     */
-    static bool isAudioType(AssetListType::AssetType type);
-    /** @brief Return the https link to our documentation
-     */
-    static const QString buildLink(const QString &id, AssetListType::AssetType type);
-
-private:
-    QToolBar *m_toolbar;
-    QVBoxLayout *m_lay;
-    QTextDocument *m_infoDocument;
+    /** @brief Returns true if we are in icon view mode */
+    bool isIconView() const;
 
 protected:
-    bool m_isEffect;
-    std::shared_ptr<AssetTreeModel> m_model;
-    std::unique_ptr<AssetFilter> m_proxyModel;
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
+    QVBoxLayout *m_lay;
+    QToolBar *m_toolbar;
+    QTreeView *m_effectsTree;
+    QListView *m_effectsIcon;
+    QStackedWidget *m_effectsView;
     QMenu *m_contextMenu;
     QLineEdit *m_searchLine;
-    QTreeView *m_effectsTree;
-    bool eventFilter(QObject *obj, QEvent *event) override;
-
-private Q_SLOTS:
-    void onCustomContextMenu(const QPoint &pos);
+    QTextDocument *m_infoDocument;
+    std::shared_ptr<AssetTreeModel> m_model;
+    std::unique_ptr<AssetFilter> m_proxyModel;
+    bool m_isEffect;
+    AssetIconProvider *m_assetIconProvider;
 
 public Q_SLOTS:
-    void updateAssetInfo(const QModelIndex &current, const QModelIndex &);
-    virtual void reloadCustomEffect(const QString &path) = 0;
+    /** @brief Set the filter name */
+    void setFilterName(const QString &pattern);
+    /** @brief Activate an asset */
+    void activate(const QModelIndex &ix);
+    /** @brief Update the info panel */
+    void updateAssetInfo(const QModelIndex &current, const QModelIndex &previous);
+    /** @brief Display the context menu */
+    void onCustomContextMenu(const QPoint &pos);
 
 Q_SIGNALS:
-    void activateAsset(const QVariantMap data);
-    void showDescriptionChanged();
+    void activateAsset(const QVariantMap &);
     void reloadFavorites();
+    void showDescriptionChanged();
 };

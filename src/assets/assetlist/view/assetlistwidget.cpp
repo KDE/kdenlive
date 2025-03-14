@@ -15,8 +15,10 @@
 #include <QFontDatabase>
 #include <QKeyEvent>
 #include <QLineEdit>
+#include <QListView>
 #include <QMenu>
 #include <QSplitter>
+#include <QStackedWidget>
 #include <QStandardPaths>
 #include <QStyledItemDelegate>
 #include <QTextBrowser>
@@ -116,6 +118,15 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     favEffects->setToolTip(i18n("Show favorite items"));
     connect(favEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("favorites")); });
     m_toolbar->addAction(favEffects);
+
+    // Add view mode toggle button
+    QAction *toggleView = new QAction(this);
+    toggleView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-icons")));
+    toggleView->setToolTip(i18n("Toggle between list and icon view"));
+    toggleView->setCheckable(true);
+    connect(toggleView, &QAction::triggered, this, &AssetListWidget::toggleViewMode);
+    m_toolbar->addAction(toggleView);
+
     m_lay->addWidget(m_toolbar);
     if (m_isEffect) {
         KNSWidgets::Action *downloadAction = new KNSWidgets::Action(i18n("Download New Effects..."), QStringLiteral(":data/kdenlive_effects.knsrc"), this);
@@ -179,6 +190,11 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     m_lay->addWidget(m_searchLine);
 
     setAcceptDrops(true);
+
+    // Create stacked widget to hold both views
+    m_effectsView = new QStackedWidget(this);
+
+    // Tree view
     m_effectsTree = new QTreeView(this);
     m_effectsTree->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_effectsTree->setHeaderHidden(true);
@@ -191,8 +207,28 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     m_effectsTree->installEventFilter(this);
     m_effectsTree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_effectsTree, &QTreeView::customContextMenuRequested, this, &AssetListWidget::onCustomContextMenu);
+
+    // Icon view
+    m_effectsIcon = new QListView(this);
+    m_effectsIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    m_effectsIcon->setViewMode(QListView::IconMode);
+    m_effectsIcon->setResizeMode(QListView::Adjust);
+    m_effectsIcon->setUniformItemSizes(true);
+    m_effectsIcon->setDragEnabled(true);
+    m_effectsIcon->setDragDropMode(QAbstractItemView::DragDrop);
+    m_effectsIcon->setSpacing(10);
+    m_effectsIcon->setWordWrap(true);
+    connect(m_effectsIcon, &QListView::doubleClicked, this, &AssetListWidget::activate);
+    m_effectsIcon->installEventFilter(this);
+    m_effectsIcon->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_effectsIcon, &QListView::customContextMenuRequested, this, &AssetListWidget::onCustomContextMenu);
+
+    // Add views to stacked widget
+    m_effectsView->addWidget(m_effectsTree);
+    m_effectsView->addWidget(m_effectsIcon);
+
     auto *viewSplitter = new QSplitter(Qt::Vertical, this);
-    viewSplitter->addWidget(m_effectsTree);
+    viewSplitter->addWidget(m_effectsView);
     QTextBrowser *textEdit = new QTextBrowser(this);
     textEdit->setReadOnly(true);
     textEdit->setAcceptRichText(true);
@@ -212,6 +248,9 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
             viewSplitter->setSizes({50, 0});
         }
     });
+
+    // Initialize icon provider for the list view
+    m_assetIconProvider = new AssetIconProvider(m_isEffect, this);
 }
 
 AssetListWidget::~AssetListWidget() {}
@@ -279,12 +318,12 @@ QString AssetListWidget::getName(const QModelIndex &index) const
 
 bool AssetListWidget::isFavorite(const QModelIndex &index) const
 {
-    return m_model->isFavorite(m_proxyModel->mapToSource(index), isEffect());
+    return m_model->isFavorite(m_proxyModel->mapToSource(index), m_isEffect);
 }
 
 void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite)
 {
-    m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, isEffect());
+    m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, m_isEffect);
     Q_EMIT m_proxyModel->dataChanged(index, index, QVector<int>());
     m_proxyModel->reloadFilterOnFavorite();
     Q_EMIT reloadFavorites();
@@ -297,7 +336,7 @@ void AssetListWidget::deleteCustomEffect(const QModelIndex &index)
 
 QString AssetListWidget::getDescription(const QModelIndex &index) const
 {
-    return m_model->getDescription(isEffect(), m_proxyModel->mapToSource(index));
+    return m_model->getDescription(m_isEffect, m_proxyModel->mapToSource(index));
 }
 
 void AssetListWidget::setFilterName(const QString &pattern)
@@ -330,7 +369,6 @@ QVariantMap AssetListWidget::getMimeData(const QString &assetId) const
 
 void AssetListWidget::activate(const QModelIndex &ix)
 {
-
     if (!ix.isValid()) {
         return;
     }
@@ -416,6 +454,7 @@ void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIn
     }
 }
 
+// static
 const QString AssetListWidget::buildLink(const QString &id, AssetListType::AssetType type)
 {
     QString prefix;
@@ -432,4 +471,31 @@ const QString AssetListWidget::buildLink(const QString &id, AssetListType::Asset
         prefix = QStringLiteral("other");
     }
     return QStringLiteral("https://docs.kdenlive.org/%1/%2?mtm_campaign=inapp_asset_link&mtm_kwd=%3").arg(prefix, id, id);
+}
+
+void AssetListWidget::toggleViewMode()
+{
+    // Switch between tree view (index 0) and icon view (index 1)
+    int newIndex = (m_effectsView->currentIndex() == 0) ? 1 : 0;
+    m_effectsView->setCurrentIndex(newIndex);
+
+    // Sync selection between views
+    if (newIndex == 0) {
+        // Switching to tree view
+        if (m_effectsIcon->selectionModel()->hasSelection()) {
+            QModelIndex iconIndex = m_effectsIcon->selectionModel()->currentIndex();
+            m_effectsTree->selectionModel()->setCurrentIndex(iconIndex, QItemSelectionModel::ClearAndSelect);
+        }
+    } else {
+        // Switching to icon view
+        if (m_effectsTree->selectionModel()->hasSelection()) {
+            QModelIndex treeIndex = m_effectsTree->selectionModel()->currentIndex();
+            m_effectsIcon->selectionModel()->setCurrentIndex(treeIndex, QItemSelectionModel::ClearAndSelect);
+        }
+    }
+}
+
+bool AssetListWidget::isIconView() const
+{
+    return m_effectsView->currentIndex() == 1;
 }
