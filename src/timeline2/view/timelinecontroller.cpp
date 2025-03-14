@@ -2727,7 +2727,8 @@ void TimelineController::insertSpace(int trackId, int frame)
         return;
     }
     int start = m_model->getItemPosition(cid);
-    requestSpacerEndOperation(cid, start, start + spaceDuration, affectAllTracks ? -1 : trackId);
+    requestSpacerEndOperation(cid, start, start + spaceDuration, affectAllTracks ? -1 : trackId, {},
+                              KdenliveSettings::lockedGuides() || !affectAllTracks ? -1 : start);
 }
 
 void TimelineController::removeSpace(int trackId, int frame, bool affectAllTracks)

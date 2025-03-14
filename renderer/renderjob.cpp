@@ -252,11 +252,26 @@ void RenderJob::slotIsOver(int exitCode, QProcess::ExitStatus status)
         } else {
             int error = -1;
             QString errorMessage;
+            bool fileFound = false;
             if (QFile::exists(m_dest)) {
                 if (!m_debugMode) {
                     m_logfile.remove();
                 }
+                fileFound = true;
             } else {
+                // Special case, on Linux file names with an ampersand are saved using the html entity &#38;
+                if (m_dest.contains(QLatin1Char('&'))) {
+                    QString fixedDest = m_dest;
+                    fixedDest.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
+                    if (QFile::exists(fixedDest)) {
+                        if (!m_debugMode) {
+                            m_logfile.remove();
+                        }
+                        fileFound = true;
+                    }
+                }
+            }
+            if (!fileFound) {
                 // Rendering finished but missing file
                 error = -2;
                 errorMessage = m_errorMessage;
