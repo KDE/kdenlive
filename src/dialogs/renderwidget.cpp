@@ -334,6 +334,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.buttonClose2, &QAbstractButton::clicked, this, &QWidget::hide);
     connect(m_view.buttonClose3, &QAbstractButton::clicked, this, &QWidget::hide);
 
+    m_view.outfileLabel->setBuddy(m_view.out_file);
+
     m_jobsDelegate = new RenderViewDelegate(this);
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
     m_view.running_jobs->setItemDelegate(m_jobsDelegate);
