@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-13 02:33+0000\n"
+"POT-Creation-Date: 2025-03-14 02:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4234,32 +4234,32 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "显示/隐藏时间轴上剪辑中的关键帧"
 
-#: src/assets/assetpanel.cpp:271
+#: src/assets/assetpanel.cpp:270
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 效果"
 
-#: src/assets/assetpanel.cpp:276 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:275 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 参数"
 
-#: src/assets/assetpanel.cpp:280
+#: src/assets/assetpanel.cpp:279
 #, kde-format
 msgid "Track %1 effects"
 msgstr "轨道 %1 效果"
 
-#: src/assets/assetpanel.cpp:285
+#: src/assets/assetpanel.cpp:284
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "项目素材箱 %1 效果"
 
-#: src/assets/assetpanel.cpp:637
+#: src/assets/assetpanel.cpp:636
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "您有一个蒙版任务正在运行。您想要终止该任务吗？"
 
-#: src/assets/assetpanel.cpp:638
+#: src/assets/assetpanel.cpp:637
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -4534,7 +4534,7 @@ msgstr "保存效果"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1427
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -4542,7 +4542,7 @@ msgstr "输入预设名称"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1427
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "输入此预设的名称："
@@ -5305,7 +5305,7 @@ msgstr "某些项目无法删除。请检查在已锁定的轨道上是否存在
 msgid "Delete bin Clips"
 msgstr "删除项目素材箱剪辑"
 
-#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:250
+#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:251
 #, kde-format
 msgid "Missing source clip"
 msgstr "缺少来源素材"
@@ -5454,7 +5454,7 @@ msgid "Replace in timeline"
 msgstr "替换时间轴中的剪辑"
 
 #: src/bin/bin.cpp:2137 src/bin/bin.cpp:5876 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:625
+#: src/effects/effectstack/view/maskmanager.cpp:626
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5855,7 +5855,7 @@ msgstr "输入音频编辑应用程序的路径"
 msgid "Please set a default application to open audio files"
 msgstr "请设置用于打开音频文件的默认程序"
 
-#: src/bin/bin.cpp:4699 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4699 src/core.cpp:327 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:92
 #: src/jobs/filtertask.cpp:129 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -6320,7 +6320,7 @@ msgid "Add markers"
 msgstr "添加标记"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:700 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:704 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:230 src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
@@ -6361,7 +6361,7 @@ msgstr "移动字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:847
+#: src/effects/effectstack/view/effectstackview.cpp:854
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -6628,7 +6628,7 @@ msgstr ""
 "Kdenlive 在上次启动时崩溃。\n"
 "您想要重置配置文件吗？"
 
-#: src/core.cpp:210
+#: src/core.cpp:213
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -6636,19 +6636,19 @@ msgid ""
 msgstr ""
 "Kdenlive 的默认编码方案尚未设定或者无效，请点击确定将其设置为正确的值。"
 
-#: src/core.cpp:222
+#: src/core.cpp:225
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "选择默认编码方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:222 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:225 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "编码方案："
 
-#: src/core.cpp:235
+#: src/core.cpp:238
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -6657,262 +6657,262 @@ msgstr ""
 "指定的编码方案无效。默认的编码方案为“dv_pal”，您也可以在 Kdenlive 的设置对话"
 "框对此进行更改。"
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:828
+#: src/core.cpp:258 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Loading project…"
 msgstr "正在加载项目…"
 
-#: src/core.cpp:374
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Square 2 Bars - 正方形 2 条纹"
 
-#: src/core.cpp:375
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Checkerboard Small - 棋盘 (小)"
 
-#: src/core.cpp:376
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontal Blinds - 百叶窗 (水平)"
 
-#: src/core.cpp:377
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial - 径向"
 
-#: src/core.cpp:378
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear X - 线性 (X 轴)"
 
-#: src/core.cpp:379
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-Linear X - 对称线性 (X 轴)"
 
-#: src/core.cpp:380
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear Y - 线性 (Y 轴)"
 
-#: src/core.cpp:381
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-Linear Y - 对称线性 (Y 轴)"
 
-#: src/core.cpp:382
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Square - 正方形"
 
-#: src/core.cpp:383
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Square 2 - 正方形 2"
 
-#: src/core.cpp:384
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Cloud - 云朵"
 
-#: src/core.cpp:385
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symmetric Clock - 时钟扫描 (对称)"
 
-#: src/core.cpp:386
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radial Bars - 径向条纹"
 
-#: src/core.cpp:387
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiral - 螺旋"
 
-#: src/core.cpp:388
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiral 2 - 螺旋 2"
 
-#: src/core.cpp:389
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Curtain - 窗帘"
 
-#: src/core.cpp:390
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Burst - 爆炸"
 
-#: src/core.cpp:391
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Clock - 时钟扫描"
 
-#: src/core.cpp:393
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Bar Horizontal - 条纹 (水平)"
 
-#: src/core.cpp:394
+#: src/core.cpp:400
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Bar Vertical - 条纹 (垂直)"
 
-#: src/core.cpp:395
+#: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Barn Door Horizontal - 挡光板 (水平)"
 
-#: src/core.cpp:396
+#: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Barn Door Vertical - 挡光板 (垂直)"
 
-#: src/core.cpp:397
+#: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Barn Door Diagonal SW-NE 挡光板 (对角线-西南-东北)"
 
-#: src/core.cpp:398
+#: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Barn Door Diagonal NW-SE - 挡光板 (对角线-东北-西南)"
 
-#: src/core.cpp:399
+#: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal Top Left - 对角线左上"
 
-#: src/core.cpp:400
+#: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal Top Right - 对角线右上"
 
-#: src/core.cpp:401
+#: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrix Waterfall Horizontal - 黑客帝国瀑布 (水平)"
 
-#: src/core.cpp:402
+#: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrix Waterfall Vertical - 黑客帝国瀑布 (垂直)"
 
-#: src/core.cpp:403
+#: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrix Snake Horizontal - 黑客帝国蛇形 (水平)"
 
-#: src/core.cpp:404
+#: src/core.cpp:410
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrix Snake Parallel Horizontal - 黑客帝国蛇形 (水平平行)"
 
-#: src/core.cpp:405
+#: src/core.cpp:411
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrix Snake Vertical - 黑客帝国蛇形 (垂直)"
 
-#: src/core.cpp:406
+#: src/core.cpp:412
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrix Snake Parallel Vertical - 黑客帝国蛇形 (垂直平行)"
 
-#: src/core.cpp:407
+#: src/core.cpp:413
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Barn V Up - 挡光板 V 字打开"
 
-#: src/core.cpp:408
+#: src/core.cpp:414
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris Circle - 瞳孔圆圈"
 
-#: src/core.cpp:409
+#: src/core.cpp:415
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Double Iris - 双重瞳孔"
 
-#: src/core.cpp:410
+#: src/core.cpp:416
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris Box 瞳孔边框"
 
-#: src/core.cpp:411
+#: src/core.cpp:417
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Box Bottom Right -边框 (右)"
 
-#: src/core.cpp:412
+#: src/core.cpp:418
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Box Bottom Left - 边框 (左)"
 
-#: src/core.cpp:413
+#: src/core.cpp:419
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Box Right Center - 边框 (中心)"
 
-#: src/core.cpp:414
+#: src/core.cpp:420
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Clock Top - 时钟扫描 (顶部)"
 
-#: src/core.cpp:645
+#: src/core.cpp:650
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的项目编码方案无效，导出可能失败。"
 
-#: src/core.cpp:1010
+#: src/core.cpp:1014
 #, kde-format
 msgid "Loading clips"
 msgstr "加载剪辑"
 
-#: src/core.cpp:1784
+#: src/core.cpp:1790
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -6922,7 +6922,7 @@ msgstr ""
 "这将打开浏览器以显示 Kdenlive 的在线文档，网址如下：\n"
 " %1"
 
-#: src/core.cpp:1785
+#: src/core.cpp:1791
 #, kde-format
 msgid "Open Browser"
 msgstr "打开浏览器"
@@ -7162,7 +7162,7 @@ msgid "Manage Encoding Profiles"
 msgstr "管理编码方案"
 
 #: src/dialogs/encodingprofilesdialog.cpp:55
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:280
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
 #: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
@@ -7249,7 +7249,7 @@ msgstr "自动 (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -7325,7 +7325,7 @@ msgstr "导出辅助线数据…"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:885
+#: src/effects/effectstack/view/effectstackview.cpp:892
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -7540,8 +7540,8 @@ msgstr "右上"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:712
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:713
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -8101,7 +8101,7 @@ msgid "Add to Current Project"
 msgstr "添加到当前项目"
 
 #: src/dialogs/renderwidget.cpp:1931
-#: src/effects/effectstack/view/maskmanager.cpp:662
+#: src/effects/effectstack/view/maskmanager.cpp:663
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -8139,14 +8139,14 @@ msgid "Misc"
 msgstr "常规"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:797
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:795
 #: src/doc/documentvalidator.cpp:2521
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
 msgstr "自动"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:221
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8157,76 +8157,76 @@ msgstr ""
 "启用此选项后将为所有剪辑添加基本效果 (翻转、变形、音量) 以便于后期制作。这些"
 "效果默认禁用，只有在您更改了它们的任意参数后才会被应用。"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:248
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:246
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "选择默认编码方案 (预设)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:269
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:267
 #, kde-format
 msgid "Project Defaults"
 msgstr "项目默认值"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:340
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:313
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "使用默认文件夹：%1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1059
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1074
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1075
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:341
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1056
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1057
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1072
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1073
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "总是使用项目文件夹：%1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:319
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:345
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1070
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1071
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1068
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1069
 #, kde-format
 msgid "Always use active project folder"
 msgstr "总是使用活动项目文件夹"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:358
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:356
 #, kde-format
 msgid "Environment"
 msgstr "系统环境"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:394
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "捕获功能暂不支持 macOS。"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:404
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "单声道 (1 声道)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:405
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "立体声 (2 声道)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:412
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:410
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 赫兹"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:413
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 赫兹"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:464
 #, kde-format
 msgid "JogShuttle"
 msgstr "飞梭旋钮"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:468
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -8239,7 +8239,7 @@ msgstr ""
 "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">Kdenlive 文档</a>。"
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:490
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
 #: src/mltcontroller/clippropertiescontroller.cpp:1054
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
@@ -8247,101 +8247,101 @@ msgstr ""
 msgid "Transcode"
 msgstr "转码"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:524
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr "GPU 处理功能要求 MLT 在构建时带有 Movit 和 Rtaudio 模块。"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:748
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:693
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:696
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:699
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound 守护进程"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:700
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:698
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "ARTS 守护进程"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:764
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:762
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:776
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:774
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:801 src/mainwindow.cpp:279
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:799 src/mainwindow.cpp:279
 #, kde-format
 msgid "Monitor %1"
 msgstr "监视器 %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:889
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:887
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "输入音频编辑应用程序的路径"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:897
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:895
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "输入图像编辑应用程序的路径"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:905
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "输入 Glaxnimate 应用程序的路径"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:988
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1006
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:986
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1004
 #: src/project/dialogs/projectsettings.cpp:543
 #, kde-format
 msgid "Please select a video profile"
 msgstr "请选择视频编码方案"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1306
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1304
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive 必须重启才能更改此设置"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1428
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "同名编码方案已经存在"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1564
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
 #, kde-format
 msgid "Current settings"
 msgstr "当前设置"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1602
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1638
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1655
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1600
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1636
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1653
 #: src/mltcontroller/clippropertiescontroller.cpp:572
 #: src/mltcontroller/clippropertiescontroller.cpp:1439
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -8557,16 +8557,18 @@ msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
+"%1 的 Nvidia GPU 支持\n"
+"选择要安装的 CUDA 版本。"
 
 #: src/dialogs/settings/pluginssettings.cpp:1005
 #, kde-format
 msgid "CUDA %1"
-msgstr ""
+msgstr "CUDA %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1018
 #, kde-format
 msgid "Detected version: %1"
-msgstr ""
+msgstr "检测到的版本：%1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1021
 #, kde-format
@@ -8574,6 +8576,8 @@ msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
+"无法确定 CUDA 版本，\n"
+"请选择本机系统中可用的版本。"
 
 #: src/dialogs/settings/pluginssettings.cpp:1035
 #, kde-format
@@ -8581,6 +8585,8 @@ msgid ""
 "Only use this install option if your GPU\n"
 "is not correctly detected or not working with this plugin."
 msgstr ""
+"仅在 GPU 无法被正确经检测或不支持此插件时\n"
+"才应使用此安装选项。"
 
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
@@ -10689,7 +10695,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 不能被添加两次。"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:238
+#: src/effects/effectstack/view/effectstackview.cpp:239
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -10907,79 +10913,79 @@ msgstr "备注："
 msgid "No name provided, effect not saved."
 msgstr "未提供名称，效果未保存。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:329
+#: src/effects/effectstack/view/effectstackview.cpp:330
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "水平翻转"
 
-#: src/effects/effectstack/view/effectstackview.cpp:334
+#: src/effects/effectstack/view/effectstackview.cpp:335
 #, kde-format
 msgid "Vertical Flip"
 msgstr "垂直翻转"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
-#: src/effects/effectstack/view/effectstackview.cpp:389
-#: src/effects/effectstack/view/effectstackview.cpp:973
+#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:425
+#: src/effects/effectstack/view/effectstackview.cpp:980
 #, kde-format
 msgid "Remove Background"
 msgstr "移除背景"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:345
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "使用 AI 模型移除背景"
 
-#: src/effects/effectstack/view/effectstackview.cpp:355
+#: src/effects/effectstack/view/effectstackview.cpp:356
 #, kde-format
 msgid "Flip"
 msgstr "翻转"
 
-#: src/effects/effectstack/view/effectstackview.cpp:394
+#: src/effects/effectstack/view/effectstackview.cpp:431
 #, kde-format
 msgid "Exporting…"
 msgstr "正在导出…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "启用效果堆栈"
 
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "禁用效果堆栈"
 
-#: src/effects/effectstack/view/effectstackview.cpp:804
+#: src/effects/effectstack/view/effectstackview.cpp:811
 #, kde-format
 msgid "No effect selected."
 msgstr "未选择效果。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:810
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "保存当前效果堆栈"
 
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:822
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "保存效果堆栈名称："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:816
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "描述："
 
-#: src/effects/effectstack/view/effectstackview.cpp:828
+#: src/effects/effectstack/view/effectstackview.cpp:835
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "未提供名称，效果堆栈未保存。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:835
+#: src/effects/effectstack/view/effectstackview.cpp:842
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -10988,8 +10994,8 @@ msgstr ""
 "没有提供描述。\n"
 "您想要保存不含描述的效果吗？"
 
-#: src/effects/effectstack/view/effectstackview.cpp:970
-#: src/effects/effectstack/view/effectstackview.cpp:996
+#: src/effects/effectstack/view/effectstackview.cpp:977
+#: src/effects/effectstack/view/effectstackview.cpp:1003
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "中止蒙板创建"
@@ -11012,52 +11018,52 @@ msgid ""
 "the settings, or create several masks for shorter durations."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:230
+#: src/effects/effectstack/view/maskmanager.cpp:231
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr "另一个转码任务正在运行，请稍后重试。"
 
-#: src/effects/effectstack/view/maskmanager.cpp:235
+#: src/effects/effectstack/view/maskmanager.cpp:236
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr "另一个蒙版任务正在运行，请稍后重试。"
 
-#: src/effects/effectstack/view/maskmanager.cpp:244
+#: src/effects/effectstack/view/maskmanager.cpp:245
 #, kde-format
 msgid "Cannot open temporary file"
 msgstr "无法打开临时文件"
 
-#: src/effects/effectstack/view/maskmanager.cpp:257
+#: src/effects/effectstack/view/maskmanager.cpp:258
 #, kde-format
 msgid "Cannot access project folder"
 msgstr "无法访问项目文件夹"
 
-#: src/effects/effectstack/view/maskmanager.cpp:308
+#: src/effects/effectstack/view/maskmanager.cpp:309
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "导出视频帧供分析"
 
-#: src/effects/effectstack/view/maskmanager.cpp:312
+#: src/effects/effectstack/view/maskmanager.cpp:313
 #, kde-format
 msgid "Exporting video frames"
 msgstr "导出视频帧"
 
-#: src/effects/effectstack/view/maskmanager.cpp:325
+#: src/effects/effectstack/view/maskmanager.cpp:326
 #, kde-format
 msgid "Missing source frames"
 msgstr "缺少来源帧"
 
-#: src/effects/effectstack/view/maskmanager.cpp:429
+#: src/effects/effectstack/view/maskmanager.cpp:430
 #, kde-format
 msgid "mask %1"
 msgstr "蒙版 %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:432
+#: src/effects/effectstack/view/maskmanager.cpp:433
 #, kde-format
 msgid "Generating mask %1"
 msgstr "正在生成蒙版 %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:596
+#: src/effects/effectstack/view/maskmanager.cpp:597
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -13862,13 +13868,13 @@ msgid ""
 "upgrade"
 msgstr "此 Kdenlive 已经是 1 年前的版本了，我们强烈建议您升级为最新版本。"
 
-#: src/mainwindow.cpp:4994
+#: src/mainwindow.cpp:4995
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "此 Kdenlive 已经是 6 个月前的版本了，我们建议您升级为最新版本。"
 
-#: src/mainwindow.cpp:5037
+#: src/mainwindow.cpp:5038
 #, kde-format
 msgid "Checking cached data size"
 msgstr "检查缓存的数据大小"
@@ -14786,17 +14792,17 @@ msgstr "MLT 必须使用 libfftw3 构建才能启用音频频谱图"
 msgid "Enable Audio Spectrum"
 msgstr "启用音频频谱图"
 
-#: src/monitor/videowidget.cpp:1085
+#: src/monitor/videowidget.cpp:1083
 #, kde-format
 msgid "Select a zone to play"
 msgstr "选择要播放的区段"
 
-#: src/monitor/videowidget.cpp:1094
+#: src/monitor/videowidget.cpp:1092
 #, kde-format
 msgid "Select a clip to play"
 msgstr "选择要播放的剪辑"
 
-#: src/monitor/videowidget.cpp:1199
+#: src/monitor/videowidget.cpp:1197
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -16826,7 +16832,7 @@ msgstr ""
 msgid "Cannot find system python"
 msgstr "无法找到系统的 Python 环境"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:425
+#: src/pythoninterfaces/abstractpythoninterface.cpp:427
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -16835,22 +16841,22 @@ msgstr ""
 "无法创建 Python 虚拟环境：\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:443
+#: src/pythoninterfaces/abstractpythoninterface.cpp:445
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "无法找到 %1 脚本，请检查软件的安装状态是否正常。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:518
+#: src/pythoninterfaces/abstractpythoninterface.cpp:520
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python 模块是必需的。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:531
+#: src/pythoninterfaces/abstractpythoninterface.cpp:533
 #, kde-format
 msgid "Using python from %1"
 msgstr "正在使用来自 %1 的 Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:554
+#: src/pythoninterfaces/abstractpythoninterface.cpp:556
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -16860,56 +16866,56 @@ msgstr ""
 "此操作需要连接到互联网，下载必要的依赖程序包将需要几分钟。\n"
 "下载完成后的剩余操作将离线进行。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:573
-#: src/pythoninterfaces/abstractpythoninterface.cpp:682
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
+#: src/pythoninterfaces/abstractpythoninterface.cpp:684
 #, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
-msgstr ""
+msgstr "安装问题：无法找到 %1 的依赖程序列表"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:590
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "检查模块 %1 版本时出错"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:592
+#: src/pythoninterfaces/abstractpythoninterface.cpp:594
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "模块 %2 所需的最低版本为 %1，而本机安装的版本是 %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:596
+#: src/pythoninterfaces/abstractpythoninterface.cpp:598
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "请考虑升级本机系统的相关软件。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:620
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "缺少的依赖 (可选)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:626
+#: src/pythoninterfaces/abstractpythoninterface.cpp:628
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "没有可用的版本信息。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:706
+#: src/pythoninterfaces/abstractpythoninterface.cpp:708
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
-msgstr ""
+msgstr "安装问题：无法为 %2 找到 %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:741
+#: src/pythoninterfaces/abstractpythoninterface.cpp:743
 #, kde-format
 msgid "Python exec not found"
 msgstr "无法找到 Python exec"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:745
+#: src/pythoninterfaces/abstractpythoninterface.cpp:747
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "无法找到脚本文件 %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:784
+#: src/pythoninterfaces/abstractpythoninterface.cpp:786
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -16920,7 +16926,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:819
+#: src/pythoninterfaces/abstractpythoninterface.cpp:821
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "安装缺失依赖程序"
@@ -21227,10 +21233,18 @@ msgid "Subtitles:"
 msgstr "字幕："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
-#: src/ui/configmisc_ui.ui:280
+#: src/ui/configmisc_ui.ui:291
 #, kde-format
 msgid "Enable Built-in Effects"
 msgstr "启用内置效果"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
+#: src/ui/configmisc_ui.ui:298
+#, kde-format
+msgid ""
+"Enabling built-in effects will add basic effects like volume and transform "
+"to all clips for easy access"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -21505,13 +21519,15 @@ msgid ""
 "If your Nvidia GPU is not listed, try installing an alternative with the "
 "Nvidia GPU Support button"
 msgstr ""
+"如果本机的 Nvidia GPU 没有列出，请尝试使用 Nvidia GPU 支持按钮安装一个备选支"
+"持方案"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
 #: src/ui/configspeech_ui.ui:480 src/ui/configspeech_ui.ui:909
 #, kde-format
 msgid "GPU Support"
-msgstr ""
+msgstr "GPU 支持"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
 #: src/ui/configspeech_ui.ui:489

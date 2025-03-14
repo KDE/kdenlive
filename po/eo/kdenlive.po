@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-13 02:33+0000\n"
+"POT-Creation-Date: 2025-03-14 02:42+0000\n"
 "PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -4331,32 +4331,32 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Ŝaltas la montradon de ŝlosilkadroj en la aŭdvidaĵo sur la templinio"
 
-#: src/assets/assetpanel.cpp:271
+#: src/assets/assetpanel.cpp:270
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efikoj"
 
-#: src/assets/assetpanel.cpp:276 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:275 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parametroj"
 
-#: src/assets/assetpanel.cpp:280
+#: src/assets/assetpanel.cpp:279
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Spuri %1 efikojn"
 
-#: src/assets/assetpanel.cpp:285
+#: src/assets/assetpanel.cpp:284
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Rubujo %1 efikoj"
 
-#: src/assets/assetpanel.cpp:637
+#: src/assets/assetpanel.cpp:636
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Vi havas maskan labortaskon rulanta. Ĉu ĉesigi la taskon?"
 
-#: src/assets/assetpanel.cpp:638
+#: src/assets/assetpanel.cpp:637
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -4633,7 +4633,7 @@ msgstr "Konservi efekton"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1427
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -4641,7 +4641,7 @@ msgstr "Enigi Antaŭdifinitan Nomon"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1427
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Enigu la nomon de ĉi tiu antaŭmeto:"
@@ -5419,7 +5419,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Forigi bin-tondaĵojn"
 
-#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:250
+#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:251
 #, kde-format
 msgid "Missing source clip"
 msgstr "Mankas fonta tondaĵo"
@@ -5581,7 +5581,7 @@ msgid "Replace in timeline"
 msgstr "Anstataŭigi en templinio"
 
 #: src/bin/bin.cpp:2137 src/bin/bin.cpp:5876 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:625
+#: src/effects/effectstack/view/maskmanager.cpp:626
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5987,7 +5987,7 @@ msgstr "Enigu vojon por via sona redakta aplikaĵo"
 msgid "Please set a default application to open audio files"
 msgstr "Bonvolu agordi defaŭltan aplikaĵon por malfermi sondosierojn"
 
-#: src/bin/bin.cpp:4699 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4699 src/core.cpp:327 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:92
 #: src/jobs/filtertask.cpp:129 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -6459,7 +6459,7 @@ msgid "Add markers"
 msgstr "Aldoni markilojn"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:700 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:704 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:230 src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
@@ -6500,7 +6500,7 @@ msgstr "Movi subtitolon"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:847
+#: src/effects/effectstack/view/effectstackview.cpp:854
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -6771,7 +6771,7 @@ msgstr ""
 "Kdenlive paneis dum lasta ekfunkciigo.\n"
 "Ĉu vi volas restarigi la agordajn dosierojn?"
 
-#: src/core.cpp:210
+#: src/core.cpp:213
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -6780,19 +6780,19 @@ msgstr ""
 "La defaŭlta profilo de Kdenlive ne estas agordita aŭ nevalida, premu OK por "
 "agordi ĝin al ĝusta valoro."
 
-#: src/core.cpp:222
+#: src/core.cpp:225
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Elekti Defaŭltan Profilon"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:222 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:225 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Profilo:"
 
-#: src/core.cpp:235
+#: src/core.cpp:238
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -6801,262 +6801,262 @@ msgstr ""
 "La donita profilo estas nevalida. Ni defaŭlte al la profilo \"dv_pal\", sed "
 "vi povas ŝanĝi ĉi tion el la agorda panelo de Kdenlive"
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:828
+#: src/core.cpp:258 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Loading project…"
 msgstr "Ŝargante projekton…"
 
-#: src/core.cpp:374
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Kvadrato 2 stangoj"
 
-#: src/core.cpp:375
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Damtabulo Malgranda"
 
-#: src/core.cpp:376
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontala Kurtenoj"
 
-#: src/core.cpp:377
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radiala"
 
-#: src/core.cpp:378
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineara X"
 
-#: src/core.cpp:379
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Du-linia X"
 
-#: src/core.cpp:380
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineara Y"
 
-#: src/core.cpp:381
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Du-linia Y"
 
-#: src/core.cpp:382
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Kvadrato"
 
-#: src/core.cpp:383
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Kvadrato 2"
 
-#: src/core.cpp:384
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Nubo"
 
-#: src/core.cpp:385
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Simetria Horloĝo"
 
-#: src/core.cpp:386
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Radialaj Stangoj"
 
-#: src/core.cpp:387
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiralo"
 
-#: src/core.cpp:388
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiralo 2"
 
-#: src/core.cpp:389
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Kurteno"
 
-#: src/core.cpp:390
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Eksplodo"
 
-#: src/core.cpp:391
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Horloĝo"
 
-#: src/core.cpp:393
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Stango horizontala"
 
-#: src/core.cpp:394
+#: src/core.cpp:400
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Stango vertikala"
 
-#: src/core.cpp:395
+#: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Garbeja Pordo Horizontala"
 
-#: src/core.cpp:396
+#: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Garbeja Pordo Vertikala"
 
-#: src/core.cpp:397
+#: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Garbeja Pordo Diagonala SW-NE"
 
-#: src/core.cpp:398
+#: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Garbeja Pordo Diagonala NW-SE"
 
-#: src/core.cpp:399
+#: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonala Supre Maldekstre"
 
-#: src/core.cpp:400
+#: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal Supre Dekstre"
 
-#: src/core.cpp:401
+#: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Matrico Akvofalo Horizontala"
 
-#: src/core.cpp:402
+#: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Matrico Akvofalo Vertikala"
 
-#: src/core.cpp:403
+#: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Matrico Serpento Horizontala"
 
-#: src/core.cpp:404
+#: src/core.cpp:410
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Matrico Serpento Paralela Horizontala"
 
-#: src/core.cpp:405
+#: src/core.cpp:411
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Matrico Serpento Vertikala"
 
-#: src/core.cpp:406
+#: src/core.cpp:412
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Matrico Serpento Paralela Vertikalo"
 
-#: src/core.cpp:407
+#: src/core.cpp:413
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Garbejo V Supre"
 
-#: src/core.cpp:408
+#: src/core.cpp:414
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Irisa Rondo"
 
-#: src/core.cpp:409
+#: src/core.cpp:415
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Duobla iriso"
 
-#: src/core.cpp:410
+#: src/core.cpp:416
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Irisa Skatolo"
 
-#: src/core.cpp:411
+#: src/core.cpp:417
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Skatolo Malsupre Dekstre"
 
-#: src/core.cpp:412
+#: src/core.cpp:418
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Skatolo Malsupre Maldekstre"
 
-#: src/core.cpp:413
+#: src/core.cpp:419
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Skatolo Dekstra Centro"
 
-#: src/core.cpp:414
+#: src/core.cpp:420
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Horloĝo Supre"
 
-#: src/core.cpp:645
+#: src/core.cpp:650
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Via projektoprofilo estas nevalida, bildigo eble malsukcesas."
 
-#: src/core.cpp:1010
+#: src/core.cpp:1014
 #, kde-format
 msgid "Loading clips"
 msgstr "Ŝargante aŭdvidaĵoj"
 
-#: src/core.cpp:1784
+#: src/core.cpp:1790
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -7067,7 +7067,7 @@ msgstr ""
 "la sekva URL:\n"
 " %1"
 
-#: src/core.cpp:1785
+#: src/core.cpp:1791
 #, kde-format
 msgid "Open Browser"
 msgstr "Malfermi Foliumilon"
@@ -7314,7 +7314,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Administri Kodigajn Profilojn"
 
 #: src/dialogs/encodingprofilesdialog.cpp:55
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:280
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
 #: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
@@ -7401,7 +7401,7 @@ msgstr "Aŭtomata (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -7478,7 +7478,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:885
+#: src/effects/effectstack/view/effectstackview.cpp:892
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -7693,8 +7693,8 @@ msgstr "Supre Dekstre"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:712
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:713
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -8266,7 +8266,7 @@ msgid "Add to Current Project"
 msgstr "Aldoni al Aktuala Projekto"
 
 #: src/dialogs/renderwidget.cpp:1931
-#: src/effects/effectstack/view/maskmanager.cpp:662
+#: src/effects/effectstack/view/maskmanager.cpp:663
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -8304,14 +8304,14 @@ msgid "Misc"
 msgstr "Misc"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:797
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:795
 #: src/doc/documentvalidator.cpp:2521
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
 msgstr "aŭtomate"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:221
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8322,76 +8322,76 @@ msgstr ""
 "Ebligite, ĉi tio aldonos bazajn efikojn (Inversigo, Transformo, Laŭteco) al "
 "ĉiuj tondaĵoj por konveno."
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:248
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:246
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "Elekti la Defaŭltan Profilon (malpostagordita)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:269
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:267
 #, kde-format
 msgid "Project Defaults"
 msgstr "Defaŭltoj de projekto"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:340
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:313
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Uzi defaŭltan dosierujon: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1059
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1074
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1075
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:341
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1056
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1057
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1072
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1073
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Ĉiam uzi projektan dosierujon: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:319
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:345
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1070
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1071
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1068
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1069
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Ĉiam uzi aktivan projektan dosierujon"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:358
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:356
 #, kde-format
 msgid "Environment"
 msgstr "Medio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:394
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Kaptado ankoraŭ ne haveblas ĉe Mac OS X."
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:404
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 kanalo)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:405
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Stereo (2 kanaloj)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:412
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:410
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:413
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:464
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:468
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -8405,7 +8405,7 @@ msgstr ""
 "a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:490
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
 #: src/mltcontroller/clippropertiescontroller.cpp:1054
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
@@ -8413,101 +8413,101 @@ msgstr ""
 msgid "Transcode"
 msgstr "Transkodigo"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:524
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr "GPU-pretigo bezonas MLT kompilitan kun Movit kaj Rtaudio-moduloj"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:748
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:693
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:696
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:699
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound Daemon"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:700
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:698
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "ARTS-Demono"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:764
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:762
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:776
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:774
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:801 src/mainwindow.cpp:279
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:799 src/mainwindow.cpp:279
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitoro %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:889
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:887
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Enigu vojon al la aŭda redakta aplikaĵo"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:897
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:895
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Enigu vojon al la aplikaĵo por redaktado de bildoj"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:905
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Enigu vojon al la aplikaĵo Glaxnimate"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:988
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1006
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:986
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1004
 #: src/project/dialogs/projectsettings.cpp:543
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Bonvolu elekti videoprofilon"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1306
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1304
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive devas esti rekomencita por ŝanĝi ĉi tiun agordon"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1428
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profilo kun tiu nomo jam ekzistas"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1564
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
 #, kde-format
 msgid "Current settings"
 msgstr "Nunaj agordoj"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1602
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1638
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1655
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1600
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1636
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1653
 #: src/mltcontroller/clippropertiescontroller.cpp:572
 #: src/mltcontroller/clippropertiescontroller.cpp:1439
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -10915,7 +10915,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Efiko %1 ne povas esti aldonita dufoje."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:238
+#: src/effects/effectstack/view/effectstackview.cpp:239
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -11135,80 +11135,80 @@ msgstr "Komentoj:"
 msgid "No name provided, effect not saved."
 msgstr "Neniu nomo provizita, efiko ne konservita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:329
+#: src/effects/effectstack/view/effectstackview.cpp:330
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Horizontala Inversigo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:334
+#: src/effects/effectstack/view/effectstackview.cpp:335
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Vertikala Inversigo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
-#: src/effects/effectstack/view/effectstackview.cpp:389
-#: src/effects/effectstack/view/effectstackview.cpp:973
+#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:425
+#: src/effects/effectstack/view/effectstackview.cpp:980
 #, kde-format
 msgid "Remove Background"
 msgstr "Forigi Fonon"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:345
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Forigi fonon uzante AI-modelon"
 
-#: src/effects/effectstack/view/effectstackview.cpp:355
+#: src/effects/effectstack/view/effectstackview.cpp:356
 #, kde-format
 msgid "Flip"
 msgstr "Inversigo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:394
+#: src/effects/effectstack/view/effectstackview.cpp:431
 #, fuzzy, kde-format
 #| msgid "Extracting…"
 msgid "Exporting…"
 msgstr "Ekstraktante…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Ebligi Efektostakon"
 
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Malebligi Efektostakon"
 
-#: src/effects/effectstack/view/effectstackview.cpp:804
+#: src/effects/effectstack/view/effectstackview.cpp:811
 #, kde-format
 msgid "No effect selected."
 msgstr "Neniu efiko elektita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:810
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Konservi aktualan Efektan Stakon"
 
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:822
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nomo por konservita stako:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:816
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Priskribo:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:828
+#: src/effects/effectstack/view/effectstackview.cpp:835
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Neniu nomo provizita, efekta stako ne konservita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:835
+#: src/effects/effectstack/view/effectstackview.cpp:842
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -11217,8 +11217,8 @@ msgstr ""
 "Neniu priskribo disponigita. \n"
 "Konservi efekton sen priskribo?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:970
-#: src/effects/effectstack/view/effectstackview.cpp:996
+#: src/effects/effectstack/view/effectstackview.cpp:977
+#: src/effects/effectstack/view/effectstackview.cpp:1003
 #, fuzzy, kde-format
 #| msgid "Exit Mask Creation"
 msgid "Abort Mask Creation"
@@ -11242,54 +11242,54 @@ msgid ""
 "the settings, or create several masks for shorter durations."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:230
+#: src/effects/effectstack/view/maskmanager.cpp:231
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:235
+#: src/effects/effectstack/view/maskmanager.cpp:236
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:244
+#: src/effects/effectstack/view/maskmanager.cpp:245
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot open temporary file"
 msgstr "Ne povas krei provizoran dosieron"
 
-#: src/effects/effectstack/view/maskmanager.cpp:257
+#: src/effects/effectstack/view/maskmanager.cpp:258
 #, fuzzy, kde-format
 #| msgid "Cannot access dictionary folder."
 msgid "Cannot access project folder"
 msgstr "Ne povas aliri vortaran dosierujon."
 
-#: src/effects/effectstack/view/maskmanager.cpp:308
+#: src/effects/effectstack/view/maskmanager.cpp:309
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Elportante filmetkadrojn por analizo"
 
-#: src/effects/effectstack/view/maskmanager.cpp:312
+#: src/effects/effectstack/view/maskmanager.cpp:313
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Elportante filmetajn kadrojn"
 
-#: src/effects/effectstack/view/maskmanager.cpp:325
+#: src/effects/effectstack/view/maskmanager.cpp:326
 #, kde-format
 msgid "Missing source frames"
 msgstr "Mankas fontaj kadroj"
 
-#: src/effects/effectstack/view/maskmanager.cpp:429
+#: src/effects/effectstack/view/maskmanager.cpp:430
 #, kde-format
 msgid "mask %1"
 msgstr "masko %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:432
+#: src/effects/effectstack/view/maskmanager.cpp:433
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Generante maskon %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:596
+#: src/effects/effectstack/view/maskmanager.cpp:597
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -14142,7 +14142,7 @@ msgstr ""
 "Via Kdenlive-versio estas pli malnova ol 1 jaro, ni forte kuraĝigas vin "
 "ĝisdatigi"
 
-#: src/mainwindow.cpp:4994
+#: src/mainwindow.cpp:4995
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -14150,7 +14150,7 @@ msgstr ""
 "Via Kdenlive-versio estas pli malnova ol 6 monatoj, ni forte kuraĝigas vin "
 "ĝisdatigi"
 
-#: src/mainwindow.cpp:5037
+#: src/mainwindow.cpp:5038
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Kontrolante konservitajn datumojn grandeco"
@@ -15086,17 +15086,17 @@ msgstr "MLT devas esti kompilita kun libfftw3 por ebligi Audio Spectrum"
 msgid "Enable Audio Spectrum"
 msgstr "Ebligi Sonan Spektron"
 
-#: src/monitor/videowidget.cpp:1085
+#: src/monitor/videowidget.cpp:1083
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Elekti zonon por ludi"
 
-#: src/monitor/videowidget.cpp:1094
+#: src/monitor/videowidget.cpp:1092
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Elekti tondaĵon por ludi"
 
-#: src/monitor/videowidget.cpp:1199
+#: src/monitor/videowidget.cpp:1197
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -17186,7 +17186,7 @@ msgstr ""
 msgid "Cannot find system python"
 msgstr "Ne povas trovi aranĝon %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:425
+#: src/pythoninterfaces/abstractpythoninterface.cpp:427
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -17195,22 +17195,22 @@ msgstr ""
 "Ne eblas krei la virtualan medion Python:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:443
+#: src/pythoninterfaces/abstractpythoninterface.cpp:445
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "La %1 skripto ne estis trovita, kontrolu vian instalon."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:518
+#: src/pythoninterfaces/abstractpythoninterface.cpp:520
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "La <application>%1</application> python-modulo estas bezonata."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:531
+#: src/pythoninterfaces/abstractpythoninterface.cpp:533
 #, kde-format
 msgid "Using python from %1"
 msgstr "Uzante python el %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:554
+#: src/pythoninterfaces/abstractpythoninterface.cpp:556
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -17220,19 +17220,19 @@ msgstr ""
 "Ĉi tio postulas interretan konekton kaj daŭros plurajn minutojn\\por elŝuti "
 "ĉiujn necesajn dependecojn. Post tio ĉia prilaborado okazos eksterrete."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:573
-#: src/pythoninterfaces/abstractpythoninterface.cpp:682
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
+#: src/pythoninterfaces/abstractpythoninterface.cpp:684
 #, fuzzy, kde-format
 #| msgid "Internal Error: Cannot find dependency list"
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr "Interna Eraro: Ne povas trovi dependecan liston"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:590
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Eraro dum kontrolado de versio de modulo %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:592
+#: src/pythoninterfaces/abstractpythoninterface.cpp:594
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -17240,39 +17240,39 @@ msgstr ""
 "Almenaŭ la versio %1 de la modulo %2 estas bezonata, sed via nuna versio "
 "estas %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:596
+#: src/pythoninterfaces/abstractpythoninterface.cpp:598
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Bonvolu konsideri ĝisdatigi vian aranĝon."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:620
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "mankanta (laŭvola)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:626
+#: src/pythoninterfaces/abstractpythoninterface.cpp:628
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Neniu versio-informo disponebla."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:706
+#: src/pythoninterfaces/abstractpythoninterface.cpp:708
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:741
+#: src/pythoninterfaces/abstractpythoninterface.cpp:743
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python-binarprogramo ne troviĝis"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:745
+#: src/pythoninterfaces/abstractpythoninterface.cpp:747
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Malsukcesis trovi skriptdosieron %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:784
+#: src/pythoninterfaces/abstractpythoninterface.cpp:786
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -17283,7 +17283,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:819
+#: src/pythoninterfaces/abstractpythoninterface.cpp:821
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Instali mankantajn dependecojn"
@@ -21650,10 +21650,18 @@ msgid "Subtitles:"
 msgstr "Subtekstoj:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
-#: src/ui/configmisc_ui.ui:280
+#: src/ui/configmisc_ui.ui:291
 #, kde-format
 msgid "Enable Built-in Effects"
 msgstr "Ebligi Enkonstruitajn Efektojn"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
+#: src/ui/configmisc_ui.ui:298
+#, kde-format
+msgid ""
+"Enabling built-in effects will add basic effects like volume and transform "
+"to all clips for easy access"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21

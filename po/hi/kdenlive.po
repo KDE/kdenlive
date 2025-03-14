@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-13 02:33+0000\n"
+"POT-Creation-Date: 2025-03-14 02:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -4287,32 +4287,32 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "टाइमलाइन पर क्लिप में मुख्य फ़्रेमों के प्रदर्शन को टॉगल करता है"
 
-#: src/assets/assetpanel.cpp:271
+#: src/assets/assetpanel.cpp:270
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 प्रभाव"
 
-#: src/assets/assetpanel.cpp:276 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:275 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 पैरामीटर"
 
-#: src/assets/assetpanel.cpp:280
+#: src/assets/assetpanel.cpp:279
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 प्रभाव ट्रैक करें"
 
-#: src/assets/assetpanel.cpp:285
+#: src/assets/assetpanel.cpp:284
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "बिन %1 प्रभाव"
 
-#: src/assets/assetpanel.cpp:637
+#: src/assets/assetpanel.cpp:636
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:638
+#: src/assets/assetpanel.cpp:637
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -4588,7 +4588,7 @@ msgstr "प्रभाव सहेजें"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1427
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -4596,7 +4596,7 @@ msgstr "प्रीसेट नाम दर्ज करें"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1427
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "इस प्रीसेट का नाम दर्ज करें:"
@@ -5377,7 +5377,7 @@ msgstr "कुछ आइटम हटाए नहीं जा सके। ह
 msgid "Delete bin Clips"
 msgstr "बिन क्लिप्स हटाएँ"
 
-#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:250
+#: src/bin/bin.cpp:1856 src/effects/effectstack/view/maskmanager.cpp:251
 #, kde-format
 msgid "Missing source clip"
 msgstr "स्रोत क्लिप गायब है"
@@ -5538,7 +5538,7 @@ msgid "Replace in timeline"
 msgstr "समयरेखा में प्रतिस्थापित करें"
 
 #: src/bin/bin.cpp:2137 src/bin/bin.cpp:5876 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:625
+#: src/effects/effectstack/view/maskmanager.cpp:626
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5942,7 +5942,7 @@ msgstr "अपने ऑडियो संपादन अनुप्रयो
 msgid "Please set a default application to open audio files"
 msgstr "कृपया ऑडियो फ़ाइलें खोलने के लिए एक डिफ़ॉल्ट एप्लिकेशन सेट करें"
 
-#: src/bin/bin.cpp:4699 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4699 src/core.cpp:327 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:92
 #: src/jobs/filtertask.cpp:129 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -6412,7 +6412,7 @@ msgid "Add markers"
 msgstr "मार्कर जोड़ें"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:700 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:704 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:230 src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
@@ -6453,7 +6453,7 @@ msgstr "उपशीर्षक ले जाएँ"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:847
+#: src/effects/effectstack/view/effectstackview.cpp:854
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -6722,7 +6722,7 @@ msgstr ""
 "Kdenlive पिछले स्टार्टअप पर क्रैश हो गया। क्या आप कॉन्फ़िगरेशन फ़ाइलों को रीसेट करना "
 "चाहते हैं?"
 
-#: src/core.cpp:210
+#: src/core.cpp:213
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -6731,19 +6731,19 @@ msgstr ""
 "Kdenlive का डिफ़ॉल्ट प्रोफ़ाइल सेट नहीं है या अमान्य है, इसे सही मान पर सेट करने के लिए "
 "OK दबाएँ।"
 
-#: src/core.cpp:222
+#: src/core.cpp:225
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "डिफ़ॉल्ट प्रोफ़ाइल चुनें"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:222 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:225 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "प्रोफ़ाइल:"
 
-#: src/core.cpp:235
+#: src/core.cpp:238
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -6752,262 +6752,262 @@ msgstr ""
 "दी गई प्रोफ़ाइल अमान्य है। हम डिफ़ॉल्ट रूप से \"dv_pal\" प्रोफ़ाइल का उपयोग करते हैं, "
 "लेकिन आप इसे Kdenlive के सेटिंग पैनल से बदल सकते हैं"
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:828
+#: src/core.cpp:258 src/project/projectmanager.cpp:828
 #, kde-format
 msgid "Loading project…"
 msgstr "प्रोजेक्ट लोड हो रहा है…"
 
-#: src/core.cpp:374
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "स्क्वायर 2 बार"
 
-#: src/core.cpp:375
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "चेकरबोर्ड छोटा"
 
-#: src/core.cpp:376
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "क्षैतिज अंधा"
 
-#: src/core.cpp:377
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "रेडियल"
 
-#: src/core.cpp:378
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "रैखिक एक्स"
 
-#: src/core.cpp:379
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "द्वि-रैखिक एक्स"
 
-#: src/core.cpp:380
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "रैखिक वाई"
 
-#: src/core.cpp:381
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "द्वि-रैखिक Y"
 
-#: src/core.cpp:382
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "वर्ग"
 
-#: src/core.cpp:383
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "वर्ग 2"
 
-#: src/core.cpp:384
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "बादल"
 
-#: src/core.cpp:385
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "सममित घड़ी"
 
-#: src/core.cpp:386
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "रेडियल बार्स"
 
-#: src/core.cpp:387
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "कुंडली"
 
-#: src/core.cpp:388
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "सर्पिल 2"
 
-#: src/core.cpp:389
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "परदा"
 
-#: src/core.cpp:390
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "फोड़ना"
 
-#: src/core.cpp:391
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "घड़ी"
 
-#: src/core.cpp:393
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "बार क्षैतिज"
 
-#: src/core.cpp:394
+#: src/core.cpp:400
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "बार वर्टिकल"
 
-#: src/core.cpp:395
+#: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "खलिहान दरवाजा क्षैतिज"
 
-#: src/core.cpp:396
+#: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "खलिहान दरवाजा ऊर्ध्वाधर"
 
-#: src/core.cpp:397
+#: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "खलिहान दरवाजा विकर्ण SW-NE"
 
-#: src/core.cpp:398
+#: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "खलिहान दरवाजा विकर्ण NW-SE"
 
-#: src/core.cpp:399
+#: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "विकर्ण ऊपर बाएँ"
 
-#: src/core.cpp:400
+#: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "विकर्ण शीर्ष दायाँ"
 
-#: src/core.cpp:401
+#: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "मैट्रिक्स झरना क्षैतिज"
 
-#: src/core.cpp:402
+#: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "मैट्रिक्स वाटरफॉल वर्टिकल"
 
-#: src/core.cpp:403
+#: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "मैट्रिक्स साँप क्षैतिज"
 
-#: src/core.cpp:404
+#: src/core.cpp:410
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "मैट्रिक्स साँप समानांतर क्षैतिज"
 
-#: src/core.cpp:405
+#: src/core.cpp:411
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "मैट्रिक्स स्नेक वर्टिकल"
 
-#: src/core.cpp:406
+#: src/core.cpp:412
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "मैट्रिक्स साँप समानांतर लंबवत"
 
-#: src/core.cpp:407
+#: src/core.cpp:413
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "बार्न वी अप"
 
-#: src/core.cpp:408
+#: src/core.cpp:414
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "आइरिस सर्किल"
 
-#: src/core.cpp:409
+#: src/core.cpp:415
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "डबल आइरिस"
 
-#: src/core.cpp:410
+#: src/core.cpp:416
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "आइरिस बॉक्स"
 
-#: src/core.cpp:411
+#: src/core.cpp:417
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "बॉक्स नीचे दाएँ"
 
-#: src/core.cpp:412
+#: src/core.cpp:418
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "बॉक्स नीचे बाएँ"
 
-#: src/core.cpp:413
+#: src/core.cpp:419
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "बॉक्स दायाँ मध्य"
 
-#: src/core.cpp:414
+#: src/core.cpp:420
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "घड़ी का शीर्ष"
 
-#: src/core.cpp:645
+#: src/core.cpp:650
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "आपकी प्रोजेक्ट प्रोफ़ाइल अमान्य है, रेंडरिंग विफल हो सकती है."
 
-#: src/core.cpp:1010
+#: src/core.cpp:1014
 #, kde-format
 msgid "Loading clips"
 msgstr "क्लिप लोड हो रहा है"
 
-#: src/core.cpp:1784
+#: src/core.cpp:1790
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -7017,7 +7017,7 @@ msgstr ""
 "इससे एक ब्राउज़र खुलेगा जिसमें Kdenlive का ऑनलाइन दस्तावेज़ निम्न URL पर प्रदर्शित होगा:\n"
 "%1"
 
-#: src/core.cpp:1785
+#: src/core.cpp:1791
 #, kde-format
 msgid "Open Browser"
 msgstr "खुला ब्राउज़र"
@@ -7261,7 +7261,7 @@ msgid "Manage Encoding Profiles"
 msgstr "एनकोडिंग प्रोफाइल प्रबंधित करें"
 
 #: src/dialogs/encodingprofilesdialog.cpp:55
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:280
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:278
 #: src/project/dialogs/archivewidget.cpp:100
 #, kde-format
 msgid "Proxy Clips"
@@ -7350,7 +7350,7 @@ msgstr "स्वचालित (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:685
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -7427,7 +7427,7 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:885
+#: src/effects/effectstack/view/effectstackview.cpp:892
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -7642,8 +7642,8 @@ msgstr "ठीक तरह से ऊपर"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:712
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:713
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -8212,7 +8212,7 @@ msgid "Add to Current Project"
 msgstr "वर्तमान परियोजना में जोड़ें"
 
 #: src/dialogs/renderwidget.cpp:1931
-#: src/effects/effectstack/view/maskmanager.cpp:662
+#: src/effects/effectstack/view/maskmanager.cpp:663
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -8251,14 +8251,14 @@ msgid "Misc"
 msgstr "विविध"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:797
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:795
 #: src/doc/documentvalidator.cpp:2521
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
 msgstr "ऑटो"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:221
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8269,76 +8269,76 @@ msgstr ""
 "सक्षम होने पर, यह सुविधा के लिए सभी क्लिप में बुनियादी प्रभाव (फ़्लिप, ट्रांसफ़ॉर्म, वॉल्यूम) "
 "जोड़ देगा। ये प्रभाव अक्षम हैं और केवल तभी लागू होंगे जब आप कोई पैरामीटर बदलेंगे।"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:248
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:246
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "डिफ़ॉल्ट प्रोफ़ाइल (प्रीसेट) का चयन करें"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:269
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:267
 #, kde-format
 msgid "Project Defaults"
 msgstr "प्रोजेक्ट डिफ़ॉल्ट"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:340
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:313
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "डिफ़ॉल्ट फ़ोल्डर का उपयोग करें: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1059
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1074
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1075
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:341
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1056
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1057
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1072
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1073
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "हमेशा प्रोजेक्ट फ़ोल्डर का उपयोग करें: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:319
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:345
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1070
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1071
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1068
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1069
 #, kde-format
 msgid "Always use active project folder"
 msgstr "हमेशा सक्रिय प्रोजेक्ट फ़ोल्डर का उपयोग करें"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:358
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:356
 #, kde-format
 msgid "Environment"
 msgstr "पर्यावरण"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:394
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "कैप्चर अभी तक मैक ओएस एक्स पर उपलब्ध नहीं है।"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:404
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "मोनो (1 चैनल)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:405
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "स्टीरियो (2 चैनल)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:412
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:410
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 हर्ट्ज"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:413
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 हर्ट्ज"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:464
 #, kde-format
 msgid "JogShuttle"
 msgstr "जॉगशटल"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:468
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -8352,7 +8352,7 @@ msgstr ""
 "देखें."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:490
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
 #: src/mltcontroller/clippropertiescontroller.cpp:1054
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
@@ -8360,102 +8360,102 @@ msgstr ""
 msgid "Transcode"
 msgstr "ट्रांसकोड"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:524
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "GPU प्रोसेसिंग के लिए Movit और Rtaudio मॉड्यूल के साथ संकलित MLT की आवश्यकता होती है"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
 #, kde-format
 msgid "ALSA"
 msgstr "एएलएसए"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:748
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:693
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:746
 #, kde-format
 msgid "PulseAudio"
 msgstr "पल्सऑडियो"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:696
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:694
 #, kde-format
 msgid "PipeWire"
 msgstr "पाइपवायर"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:695
 #, kde-format
 msgid "OSS"
 msgstr "हम"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:699
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:697
 #, kde-format
 msgid "Esound Daemon"
 msgstr "ईसाउंड डेमन"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:700
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:698
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "कला डेमन"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:764
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:762
 #, kde-format
 msgid "SDL"
 msgstr "एसडीएल"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:776
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:774
 #, kde-format
 msgid "RtAudio"
 msgstr "आरटीऑडियो"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:801 src/mainwindow.cpp:279
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:799 src/mainwindow.cpp:279
 #, kde-format
 msgid "Monitor %1"
 msgstr "मॉनिटर%1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:889
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:887
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "ऑडियो संपादन अनुप्रयोग का पथ दर्ज करें"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:897
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:895
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "छवि संपादन अनुप्रयोग का पथ दर्ज करें"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:905
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:903
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "ग्लैक्सनिमेट एप्लिकेशन का पथ दर्ज करें"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:988
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1006
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:986
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1004
 #: src/project/dialogs/projectsettings.cpp:543
 #, kde-format
 msgid "Please select a video profile"
 msgstr "कृपया एक वीडियो प्रोफ़ाइल चुनें"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1306
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1304
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "इस सेटिंग को बदलने के लिए Kdenlive को पुनः प्रारंभ करना होगा"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1428
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "उस नाम से एक प्रोफ़ाइल पहले से मौजूद है"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1564
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
 #, kde-format
 msgid "Current settings"
 msgstr "वर्तमान सेटिंग्स"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1602
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1638
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1655
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1600
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1636
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1653
 #: src/mltcontroller/clippropertiescontroller.cpp:572
 #: src/mltcontroller/clippropertiescontroller.cpp:1439
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -10843,7 +10843,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "प्रभाव %1 को दो बार नहीं जोड़ा जा सकता."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:238
+#: src/effects/effectstack/view/effectstackview.cpp:239
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -11061,81 +11061,81 @@ msgstr "टिप्पणियाँ:"
 msgid "No name provided, effect not saved."
 msgstr "कोई नाम नहीं दिया गया, प्रभाव सहेजा नहीं गया."
 
-#: src/effects/effectstack/view/effectstackview.cpp:329
+#: src/effects/effectstack/view/effectstackview.cpp:330
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "क्षैतिज फ्लिप"
 
-#: src/effects/effectstack/view/effectstackview.cpp:334
+#: src/effects/effectstack/view/effectstackview.cpp:335
 #, kde-format
 msgid "Vertical Flip"
 msgstr "वर्टिकल फ्लिप"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
-#: src/effects/effectstack/view/effectstackview.cpp:389
-#: src/effects/effectstack/view/effectstackview.cpp:973
+#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:425
+#: src/effects/effectstack/view/effectstackview.cpp:980
 #, fuzzy, kde-format
 #| msgid "Remove group"
 msgid "Remove Background"
 msgstr "समूह हटाएँ"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:345
 #, kde-format
 msgid "Remove background using AI model"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:355
+#: src/effects/effectstack/view/effectstackview.cpp:356
 #, kde-format
 msgid "Flip"
 msgstr "पलटना"
 
-#: src/effects/effectstack/view/effectstackview.cpp:394
+#: src/effects/effectstack/view/effectstackview.cpp:431
 #, fuzzy, kde-format
 #| msgid "Extracting…"
 msgid "Exporting…"
 msgstr "निकाला जा रहा है…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "प्रभाव स्टैक सक्षम करें"
 
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/timeline2/view/timelinecontroller.cpp:3283
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "प्रभाव स्टैक अक्षम करें"
 
-#: src/effects/effectstack/view/effectstackview.cpp:804
+#: src/effects/effectstack/view/effectstackview.cpp:811
 #, kde-format
 msgid "No effect selected."
 msgstr "कोई प्रभाव चयनित नहीं."
 
-#: src/effects/effectstack/view/effectstackview.cpp:810
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "वर्तमान प्रभाव स्टैक सहेजें"
 
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:822
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "सहेजे गए स्टैक का नाम:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:816
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "विवरण:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:828
+#: src/effects/effectstack/view/effectstackview.cpp:835
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "कोई नाम नहीं दिया गया, प्रभाव स्टैक सहेजा नहीं गया."
 
-#: src/effects/effectstack/view/effectstackview.cpp:835
+#: src/effects/effectstack/view/effectstackview.cpp:842
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -11144,8 +11144,8 @@ msgstr ""
 "कोई विवरण नहीं दिया गया है।\n"
 "बिना विवरण के प्रभाव सहेजें?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:970
-#: src/effects/effectstack/view/effectstackview.cpp:996
+#: src/effects/effectstack/view/effectstackview.cpp:977
+#: src/effects/effectstack/view/effectstackview.cpp:1003
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Abort Mask Creation"
@@ -11171,57 +11171,57 @@ msgid ""
 "the settings, or create several masks for shorter durations."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:230
+#: src/effects/effectstack/view/maskmanager.cpp:231
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:235
+#: src/effects/effectstack/view/maskmanager.cpp:236
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:244
+#: src/effects/effectstack/view/maskmanager.cpp:245
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot open temporary file"
 msgstr "अस्थायी फ़ाइल नहीं बनाई जा सकती"
 
-#: src/effects/effectstack/view/maskmanager.cpp:257
+#: src/effects/effectstack/view/maskmanager.cpp:258
 #, fuzzy, kde-format
 #| msgid "Cannot access dictionary folder."
 msgid "Cannot access project folder"
 msgstr "शब्दकोश फ़ोल्डर तक पहुँच नहीं हो सकती."
 
-#: src/effects/effectstack/view/maskmanager.cpp:308
+#: src/effects/effectstack/view/maskmanager.cpp:309
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:312
+#: src/effects/effectstack/view/maskmanager.cpp:313
 #, fuzzy, kde-format
 #| msgid "Export guides"
 msgid "Exporting video frames"
 msgstr "गाइड निर्यात करें"
 
-#: src/effects/effectstack/view/maskmanager.cpp:325
+#: src/effects/effectstack/view/maskmanager.cpp:326
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "स्रोत क्लिप गायब है"
 
-#: src/effects/effectstack/view/maskmanager.cpp:429
+#: src/effects/effectstack/view/maskmanager.cpp:430
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:432
+#: src/effects/effectstack/view/maskmanager.cpp:433
 #, fuzzy, kde-format
 #| msgid "Generate"
 msgid "Generating mask %1"
 msgstr "उत्पन्न"
 
-#: src/effects/effectstack/view/maskmanager.cpp:596
+#: src/effects/effectstack/view/maskmanager.cpp:597
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -14063,7 +14063,7 @@ msgstr ""
 "आपका Kdenlive संस्करण 1 वर्ष से अधिक पुराना है, हम आपको अपग्रेड करने के लिए दृढ़ता से "
 "प्रोत्साहित करते हैं"
 
-#: src/mainwindow.cpp:4994
+#: src/mainwindow.cpp:4995
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -14071,7 +14071,7 @@ msgstr ""
 "आपका Kdenlive संस्करण 6 महीने से अधिक पुराना है, हम आपको अपग्रेड करने के लिए प्रोत्साहित "
 "करते हैं"
 
-#: src/mainwindow.cpp:5037
+#: src/mainwindow.cpp:5038
 #, kde-format
 msgid "Checking cached data size"
 msgstr "कैश्ड डेटा आकार की जाँच करना"
@@ -15003,17 +15003,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "ऑडियो स्पेक्ट्रम सक्षम करें"
 
-#: src/monitor/videowidget.cpp:1085
+#: src/monitor/videowidget.cpp:1083
 #, kde-format
 msgid "Select a zone to play"
 msgstr "खेलने के लिए एक क्षेत्र का चयन करें"
 
-#: src/monitor/videowidget.cpp:1094
+#: src/monitor/videowidget.cpp:1092
 #, kde-format
 msgid "Select a clip to play"
 msgstr "चलाने के लिए कोई क्लिप चुनें"
 
-#: src/monitor/videowidget.cpp:1199
+#: src/monitor/videowidget.cpp:1197
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -17077,7 +17077,7 @@ msgstr ""
 msgid "Cannot find system python"
 msgstr "लेआउट %1 नहीं मिल सका"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:425
+#: src/pythoninterfaces/abstractpythoninterface.cpp:427
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -17086,22 +17086,22 @@ msgstr ""
 "python वर्चुअल वातावरण नहीं बनाया जा सकता:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:443
+#: src/pythoninterfaces/abstractpythoninterface.cpp:445
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "%1 स्क्रिप्ट नहीं मिली, अपनी स्थापना की जाँच करें."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:518
+#: src/pythoninterfaces/abstractpythoninterface.cpp:520
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python मॉड्यूल आवश्यक है."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:531
+#: src/pythoninterfaces/abstractpythoninterface.cpp:533
 #, kde-format
 msgid "Using python from %1"
 msgstr "%1 से python का उपयोग करना"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:554
+#: src/pythoninterfaces/abstractpythoninterface.cpp:556
 #, fuzzy, kde-format
 #| msgid ""
 #| "This requires an internet connection and will take several minutes to "
@@ -17115,57 +17115,57 @@ msgstr ""
 "इसके लिए इंटरनेट कनेक्शन की आवश्यकता होगी और सभी आवश्यक निर्भरताओं को डाउनलोड करने में "
 "कई मिनट लगेंगे। उसके बाद सभी प्रोसेसिंग ऑफ़लाइन होगी।"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:573
-#: src/pythoninterfaces/abstractpythoninterface.cpp:682
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
+#: src/pythoninterfaces/abstractpythoninterface.cpp:684
 #, fuzzy, kde-format
 #| msgid "Internal Error: Cannot find dependency list"
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr "आंतरिक त्रुटि: निर्भरता सूची नहीं मिल सकी"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:588
+#: src/pythoninterfaces/abstractpythoninterface.cpp:590
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "मॉड्यूल %1 का संस्करण जाँचते समय त्रुटि हुई"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:592
+#: src/pythoninterfaces/abstractpythoninterface.cpp:594
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "मॉड्यूल %2 का कम से कम संस्करण %1 आवश्यक है, लेकिन आपका वर्तमान संस्करण %3 है"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:596
+#: src/pythoninterfaces/abstractpythoninterface.cpp:598
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "कृपया अपना सेटअप अपडेट करने पर विचार करें।"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:620
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "अनुपस्थित (वैकल्पिक)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:626
+#: src/pythoninterfaces/abstractpythoninterface.cpp:628
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "कोई संस्करण जानकारी उपलब्ध नहीं है."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:706
+#: src/pythoninterfaces/abstractpythoninterface.cpp:708
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:741
+#: src/pythoninterfaces/abstractpythoninterface.cpp:743
 #, kde-format
 msgid "Python exec not found"
 msgstr "पायथन निष्पादन नहीं मिला"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:745
+#: src/pythoninterfaces/abstractpythoninterface.cpp:747
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "स्क्रिप्ट फ़ाइल %1 ढूँढने में विफल"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:784
+#: src/pythoninterfaces/abstractpythoninterface.cpp:786
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -17176,7 +17176,7 @@ msgstr ""
 "%1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:819
+#: src/pythoninterfaces/abstractpythoninterface.cpp:821
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "अनुपलब्ध निर्भरताएँ स्थापित करें"
@@ -21522,11 +21522,19 @@ msgid "Subtitles:"
 msgstr "उपशीर्षक:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
-#: src/ui/configmisc_ui.ui:280
+#: src/ui/configmisc_ui.ui:291
 #, fuzzy, kde-format
 #| msgid "Enable Builtin Effects"
 msgid "Enable Built-in Effects"
 msgstr "अंतर्निहित प्रभाव सक्षम करें"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
+#: src/ui/configmisc_ui.ui:298
+#, kde-format
+msgid ""
+"Enabling built-in effects will add basic effects like volume and transform "
+"to all clips for easy access"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
