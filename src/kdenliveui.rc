@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="233" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="234" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -310,8 +310,8 @@
     <text>Timeline Toolbar</text>
     <Action name="timeline_settings" />
     <Action name="timeline_mode" />
-    <Separator />
     <Action name="use_timeline_zone_in_edit" />
+    <Separator />
     <Action name="select_tool" />
     <Action name="razor_tool" />
     <Action name="spacer_tool" />
@@ -329,8 +329,8 @@
     <Action name="favorite_effects" />
     <Separator />
     <Action name="timeline_preview_button" />
-    <Action name="audiomixer_button" />
     <Separator />
+    <Action name="audiomixer_button" />
     <Action name="subtitle_tool" />
   </ToolBar>
   <ToolBar name="extraToolBar" >

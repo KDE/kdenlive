@@ -264,7 +264,7 @@ QMap<QString, std::pair<ParamType, bool>> AssetParameterModel::getKeyframablePar
 const QString AssetParameterModel::getParam(const QString &paramName)
 {
     Q_ASSERT(m_asset->is_valid());
-    return m_asset->get(paramName.toUtf8().constData());
+    return qstrdup(m_asset->get(paramName.toUtf8().constData()));
 }
 
 void AssetParameterModel::setParameter(const QString &name, int value, bool update)

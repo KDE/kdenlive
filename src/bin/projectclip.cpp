@@ -1797,10 +1797,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         reload = true;
         ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
         resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
-        if (m_clipType == ClipType::Color) {
-            refreshOnly = true;
-            updateRoles << TimelineModel::ResourceRole;
-        } else if (properties.contains("_fullreload")) {
+        if (properties.contains("_fullreload")) {
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
             // Enforce reloading clip type in case of clip replacement
@@ -1818,6 +1815,9 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             }
             clearBackupProperties();
             updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
+        } else if (m_clipType == ClipType::Color) {
+            refreshOnly = true;
+            updateRoles << TimelineModel::ResourceRole;
         }
     }
     if (properties.contains(QStringLiteral("kdenlive:proxy")) && !properties.contains("_fullreload")) {
