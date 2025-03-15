@@ -11,7 +11,7 @@
     <parameter type="animated" name="av.radiusV" min="0" max="127" default="0">
         <name>Vertical radius</name>
        	<comment><![CDATA[Set median vertical radius.<br>
-       	If it is 0, value will be picked from <em>Horizontal radius<em> parameter.]]></comment>
+       	If it is 0, value will be picked from <em>Horizontal radius</em> parameter.]]></comment>
     </parameter>
     <parameter type="animated" name="av.percentile" min="0" max="100" default="0.5" factor="100">
         <name>Median percentile</name>
