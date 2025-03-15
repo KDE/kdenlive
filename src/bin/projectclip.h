@@ -251,7 +251,6 @@ public:
     /** @brief Return FFmpeg's audio stream index for an MLT audio stream index
      */
     int getAudioStreamFfmpegIndex(int mltStream);
-    void setClipStatus(FileStatus::ClipStatus status) override;
     /** @brief Rename an audio stream for this clip
      */
     void renameAudioStream(int id, const QString &name) override;
@@ -377,6 +376,8 @@ public Q_SLOTS:
 
     /** @brief If a clip is invalid on load, mark it as such so we don't try to re-insert it on undo/redo. */
     void setInvalid();
+
+    void setClipStatus(FileStatus::ClipStatus status) override;
 
     /**
      * Imports effect from a given producer
