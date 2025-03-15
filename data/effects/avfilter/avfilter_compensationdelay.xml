@@ -8,7 +8,7 @@ For example, you have recorded guitar with two microphones placed in different l
 The best result can be reached when you take one track as base and synchronize other tracks one by one with it. Remember that synchronization/delay tolerance depends on sample rate, too. Higher sample rates will give more tolerance. </description>
     <author>libavfilter</author>
     <parameter type="constant" name="av.mm" default="0" min="0" max="10" suffix="mm">
-        <name>Millimiter distance</name>
+        <name>Millimeter distance</name>
         <comment>Set millimeters distance. This is compensation distance for fine tuning.</comment>
     </parameter>
     <parameter type="constant" name="av.cm" default="0" min="0" max="100" suffix="cm">

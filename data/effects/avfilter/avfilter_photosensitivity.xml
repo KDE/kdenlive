@@ -9,7 +9,7 @@
         <comment>Set how many frames to use.</comment>
     </parameter>
     <parameter type="animated" name="av.t" min="0.1" max="10" default="1" decimals="3">
-        <name>Theshold</name>
+        <name>Threshold</name>
         <comment>Set detection threshold factor, lower is stricter</comment>
     </parameter>
     <parameter type="animated" name="av.skip" min="1" max="1024" default="1" decimals="0">

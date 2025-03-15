@@ -12,7 +12,7 @@
        	In column mode, the top side represents color component value = 0 and bottom side represents value = 255.]]></comment>
     </parameter>
     <parameter type="constant" name="av.i" default="0.04" min="0" max="1" decimals="2">
-        <name>Intenstiy</name>
+        <name>Intensity</name>
        	<comment><![CDATA[Smaller values are useful to find out how many values<br>
        	of the same luminance are distributed across input rows/columns]]></comment>
     </parameter>

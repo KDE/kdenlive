@@ -22,6 +22,6 @@
     </parameter>
     <parameter type="constant" name="av.volume" default="0" min="-90" max="0" decimals="2" suffix="dB">
         <name>Initial volume</name>
-        <comment>et an initial volume, in dB, to be assumed for each channel when filtering starts. This permits the user to supply a nominal level initially, so that, for example, a very large gain is not applied to initial signal levels before the companding has begun to operate. A typical value for audio which is initially quiet is -90 dB.</comment>
+        <comment>Set an initial volume, in dB, to be assumed for each channel when filtering starts. This permits the user to supply a nominal level initially, so that, for example, a very large gain is not applied to initial signal levels before the companding has begun to operate. A typical value for audio which is initially quiet is -90 dB.</comment>
     </parameter>
 </effect>
