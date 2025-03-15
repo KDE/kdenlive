@@ -320,7 +320,7 @@ TEST_CASE("Export/import", "[OTIO]")
             dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(outputPath.toStdString())));
         REQUIRE(otioClipCount > 0);
         const auto otioNewClips = otioNewTimeline->find_clips();
-        REQUIRE(static_cast<int>(otioNewClips.size()) < otioClipCount);
+        REQUIRE(static_cast<int>(otioNewClips.size()) == otioClipCount);
 
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
