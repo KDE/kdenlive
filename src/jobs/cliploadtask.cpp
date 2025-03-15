@@ -504,12 +504,14 @@ void ClipLoadTask::run()
             }
             producer.reset();
         }
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
-                                  Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, pCore->bin()->shouldCheckProfile),
-                                  Q_ARG(QString, QString()),
-                                  Q_ARG(QString, i18n("Duration of file <b>%1</b> cannot be determined.", QFileInfo(resource).fileName())));
-        if (pCore->bin()->shouldCheckProfile) {
-            pCore->bin()->shouldCheckProfile = false;
+        if (pCore->bin()) {
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
+                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, pCore->bin()->shouldCheckProfile),
+                                      Q_ARG(QString, QString()),
+                                      Q_ARG(QString, i18n("Duration of file <b>%1</b> cannot be determined.", QFileInfo(resource).fileName())));
+            if (pCore->bin()->shouldCheckProfile) {
+                pCore->bin()->shouldCheckProfile = false;
+            }
         }
         Q_EMIT taskDone();
         abort();
@@ -682,7 +684,7 @@ void ClipLoadTask::run()
         if (vindex <= -1) {
             checkProfile = false;
         }
-        if (!seekable) {
+        if (!seekable && pCore->bin()) {
             if (checkProfile) {
                 pCore->bin()->shouldCheckProfile = false;
             }
@@ -725,10 +727,12 @@ void ClipLoadTask::run()
                 }
             }
             producer->set("_wait_for_transcode", 1);
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
-                                      Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, checkProfile),
-                                      Q_ARG(QString, adjustedFpsString),
-                                      Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));
+            if (pCore->bin()) {
+                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
+                                          Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, checkProfile),
+                                          Q_ARG(QString, adjustedFpsString),
+                                          Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));
+            }
         }
 
         if (fps <= 0 && !m_isCanceled.loadAcquire()) {
@@ -767,7 +771,7 @@ void ClipLoadTask::run()
             }
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
                                       Q_ARG(bool, true));
-            if (checkProfile && !isVariableFrameRate && seekable) {
+            if (checkProfile && !isVariableFrameRate && seekable && pCore->bin()) {
                 pCore->bin()->shouldCheckProfile = false;
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)));
             }

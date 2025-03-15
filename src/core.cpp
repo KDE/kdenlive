@@ -257,8 +257,8 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     if (!Url.isEmpty()) {
         Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
-    connect(this, &Core::displayBinMessage, this, &Core::displayBinMessagePrivate);
-    connect(this, &Core::displayBinLogMessage, this, &Core::displayBinLogMessagePrivate);
+    connect(this, &Core::displayBinMessage, this, &Core::displayBinMessagePrivate, Qt::QueuedConnection);
+    connect(this, &Core::displayBinLogMessage, this, &Core::displayBinLogMessagePrivate, Qt::QueuedConnection);
 
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
 }
@@ -1016,9 +1016,7 @@ void Core::loadingClips(int count, bool allowInterrupt)
 
 void Core::displayBinMessagePrivate(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
-    if (m_mainWindow) {
-        m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
-    }
+    m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
 }
 
 void Core::displayBinLogMessagePrivate(const QString &text, int type, const QString logInfo)
