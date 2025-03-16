@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-15 00:41+0000\n"
+"POT-Creation-Date: 2025-03-16 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -511,6 +511,7 @@ msgstr "ئۆزگەرت"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
+#: data/effects/avfilter/avfilter_photosensitivity.xml:12
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps.xml:45
@@ -2027,7 +2028,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
-msgid "Output transfer characteristicse"
+msgid "Output transfer characteristics"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
@@ -2207,7 +2208,7 @@ msgstr "ئورنى"
 #: data/effects/avfilter/avfilter_compand.xml:25
 #, kde-format
 msgid ""
-"et an initial volume, in dB, to be assumed for each channel when filtering "
+"Set an initial volume, in dB, to be assumed for each channel when filtering "
 "starts. This permits the user to supply a nominal level initially, so that, "
 "for example, a very large gain is not applied to initial signal levels "
 "before the companding has begun to operate. A typical value for audio which "
@@ -2244,7 +2245,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, fuzzy, kde-format
 #| msgid "Vertical"
-msgid "Millimiter distance"
+msgid "Millimeter distance"
 msgstr "تىك"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:12
@@ -2350,14 +2351,16 @@ msgstr "تەڭشىگۈچ"
 #, kde-format
 msgid ""
 "Simple algorithm for audio noise sharpening.\n"
-"This filter linearly increases differences betweeen each audio sample."
+"This filter linearly increases differences between each audio sample."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
 #: data/effects/avfilter/avfilter_deesser.xml:8
 #: data/effects/avfilter/avfilter_extrastereo.xml:8
 #: data/effects/avfilter/avfilter_histeq.xml:11
-#: data/effects/avfilter/avfilter_vibrance.xml:8 data/effects/brightness.xml:8
+#: data/effects/avfilter/avfilter_vectorscope.xml:18
+#: data/effects/avfilter/avfilter_vibrance.xml:8
+#: data/effects/avfilter/avfilter_waveform.xml:15 data/effects/brightness.xml:8
 #, kde-format
 msgid "Intensity"
 msgstr "كۈچلۈكلۈك"
@@ -4266,7 +4269,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_inflate.xml:5
 #, kde-format
 msgid ""
-"Rreplaces the pixel by the local(3x3) average by taking into account only "
+"Replaces the pixel by the local(3x3) average by taking into account only "
 "values higher than the pixel. "
 msgstr ""
 
@@ -4391,12 +4394,12 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, kde-format
-msgid "Focal point relative-X cord"
+msgid "Focal point relative-X coord"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:11
 #, kde-format
-msgid "Focal point relative-Y cord"
+msgid "Focal point relative-Y coord"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:14
@@ -4613,7 +4616,7 @@ msgstr "تىك"
 #, kde-format
 msgid ""
 "<![CDATA[Set median vertical radius.<br>\n"
-"       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
+"       \tIf it is 0, value will be picked from <em>Horizontal radius</em> "
 "parameter.]]>"
 msgstr ""
 
@@ -4996,12 +4999,6 @@ msgstr "كاندۇك تېزلىكى"
 #, kde-format
 msgid "Set how many frames to use."
 msgstr ""
-
-#: data/effects/avfilter/avfilter_photosensitivity.xml:12
-#, fuzzy, kde-format
-#| msgid "Threshold"
-msgid "Theshold"
-msgstr "بوسۇغا قىممىتى"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
@@ -6217,13 +6214,6 @@ msgstr "X"
 #, kde-format
 msgid "Y"
 msgstr "Y"
-
-#: data/effects/avfilter/avfilter_vectorscope.xml:18
-#: data/effects/avfilter/avfilter_waveform.xml:15
-#, fuzzy, kde-format
-#| msgid "Intensity"
-msgid "Intenstiy"
-msgstr "كۈچلۈكلۈك"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:21
 #: data/effects/avfilter/avfilter_waveform.xml:35
@@ -35955,6 +35945,16 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Threshold"
+#~ msgid "Theshold"
+#~ msgstr "بوسۇغا قىممىتى"
+
+#, fuzzy
+#~| msgid "Intensity"
+#~ msgid "Intenstiy"
+#~ msgstr "كۈچلۈكلۈك"
 
 #, fuzzy
 #~| msgid "Mute"
