@@ -13,7 +13,7 @@
     </parameter>
     <parameter type="constant" name="av.i" default="0.04" min="0" max="1" decimals="2">
         <name>Intensity</name>
-       	<comment><![CDATA[Smaller values are useful to find out how many values<br>
+       	<comment><![CDATA[Smaller values are useful for finding out how many values<br>
        	of the same luminance are distributed across input rows/columns]]></comment>
     </parameter>
     <parameter type="bool" name="av.r" default="0                ">
@@ -37,12 +37,12 @@
        	<comment><![CDATA[Set the envelope mode]]></comment>
     </parameter>
     <parameter type="list" name="av.f" default="lowpass" paramlist="lowpass;flat;aflat;xflat;yflat;chroma;color;acolor">
-        <paramlistdisplay>lowpass,flat,aflat,xflat,yflat,chroma,color,acolor</paramlistdisplay>
+        <paramlistdisplay>Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor</paramlistdisplay>
         <name>Filter</name>
        	<comment><![CDATA[Set the filter mode]]></comment>
     </parameter>
     <parameter type="list" name="av.g" default="green" paramlist="none;green;orange;invert">
-        <paramlistdisplay>none,green,orange,invert</paramlistdisplay>
+        <paramlistdisplay>None,Green,Orange,Invert</paramlistdisplay>
         <name>Graticule</name>
        	<comment><![CDATA[Set which graticule to display]]></comment>
     </parameter>
@@ -51,12 +51,12 @@
        	<comment><![CDATA[Set the opacity of the graticule]]></comment>
     </parameter>
     <parameter type="list" name="av.fl" default="numbers" paramlist="numbers;dots">
-        <paramlistdisplay>numbers,dots</paramlistdisplay>
+        <paramlistdisplay>Numbers,Dots</paramlistdisplay>
        	<comment><![CDATA[Set graticule flags]]></comment>
         <name>Flags</name>
     </parameter>
     <parameter type="list" name="av.s" default="digital" paramlist="digital;millivolts;ire">
-        <paramlistdisplay>digital,millivolts,ire</paramlistdisplay>
+        <paramlistdisplay>Digital,Millivolts,Ire</paramlistdisplay>
         <name>Scale</name>
        	<comment><![CDATA[Set scale used for displaying graticule]]></comment>
     </parameter>
@@ -66,16 +66,16 @@
     </parameter>
     <parameter type="constant" name="av.t0" default="0" min="-1" max="1" decimals="2">
         <name>Tint 0</name>
-       	<comment><![CDATA[Only used with lowpass filter and when display<br>
-       	is not overlay and input pixel formats are not RGB]]></comment>
+       	<comment><![CDATA[Only used with <em>lowpass</em> filter and when display<br>
+       	is not <em>overlay</em> and input pixel formats are not <em>RGB</em>]]></comment>
     </parameter>
     <parameter type="constant" name="av.t1" default="0" min="-1" max="1" decimals="2">
         <name>Tint 1</name>
-       	<comment><![CDATA[Only used with lowpass filter and when display<br>
-       	is not overlay and input pixel formats are not RGB]]></comment>
+       	<comment><![CDATA[Only used with <em>lowpass</em> filter and when display<br>
+       	is not <em>overlay</em> and input pixel formats are not <em>RGB</em>]]></comment>
     </parameter>
     <parameter type="list" name="av.fm" default="none" paramlist="none;size">
-        <paramlistdisplay>none,size</paramlistdisplay>
+        <paramlistdisplay>None,Size</paramlistdisplay>
         <name>Fit mode</name>
        	<comment><![CDATA[Set the fit mode]]></comment>
     </parameter>
