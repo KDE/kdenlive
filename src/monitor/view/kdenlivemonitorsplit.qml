@@ -33,6 +33,10 @@ Item {
     property double zoomFactor: 1
     property int zoomOffset: 0
     property bool showZoomBar: false
+    Component.onCompleted: {
+        // adjust monitor image size if audio thumb is displayed
+        controller.rulerHeight = root.zoomOffset
+    }
 
     signal qmlMoveSplit()
 

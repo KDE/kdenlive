@@ -560,6 +560,11 @@ bool MonitorProxy::audioThumbNormalize() const
     return KdenliveSettings::normalizechannels();
 }
 
+bool MonitorProxy::permanentAudioThumb() const
+{
+    return KdenliveSettings::alwaysShowMonitorAudio();
+}
+
 void MonitorProxy::switchAutoKeyframe()
 {
     KdenliveSettings::setAutoKeyframe(!KdenliveSettings::autoKeyframe());

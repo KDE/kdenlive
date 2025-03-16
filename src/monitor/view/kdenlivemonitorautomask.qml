@@ -72,6 +72,9 @@ Item {
     property string baseThumbPath
     property int overlayMargin: 0
     property int maskMode: controller.maskMode
+    Component.onCompleted: {
+        controller.rulerHeight = root.zoomOffset
+    }
 
     onDisplayFrameChanged: {
         if (root.maskStart > -1 && (root.displayFrame < root.maskStart || root.displayFrame > root.maskEnd)) {
@@ -198,6 +201,7 @@ Item {
                 property real xPos: 0
                 property real yPos: 0
                 onPressed: mouse => {
+                    console.log('GOT FRAME HEIGHT: ', frame.height)
                     if (maskMode != MaskModeType.MaskPreview) {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
