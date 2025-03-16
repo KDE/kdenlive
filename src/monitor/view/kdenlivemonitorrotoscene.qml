@@ -82,6 +82,10 @@ Item {
             event.accepted = false;
         }
     }
+    Component.onCompleted: {
+        // adjust monitor image size if audio thumb is displayed
+        controller.rulerHeight = root.zoomOffset
+    }
 
     function updateClickCapture() {
         if (root.isDefined) {

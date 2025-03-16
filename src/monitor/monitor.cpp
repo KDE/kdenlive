@@ -166,7 +166,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 }
                 if (m_glMonitor->rootObject()) {
                     updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
-                    m_glMonitor->rootObject()->setProperty("permanentAudiothumb", KdenliveSettings::alwaysShowMonitorAudio());
                 }
             } else if (pCore->window()) {
                 if (pCore->window()->getCurrentTimeline() && pCore->window()->getCurrentTimeline()->model()) {
@@ -711,7 +710,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         alwaysShowAudio->setCheckable(true);
         connect(alwaysShowAudio, &QAction::triggered, this, [this](bool checked) {
             KdenliveSettings::setAlwaysShowMonitorAudio(checked);
-            m_glMonitor->rootObject()->setProperty("permanentAudiothumb", checked);
+            Q_EMIT m_glMonitor->getControllerProxy()->permanentAudioThumbChanged();
         });
         alwaysShowAudio->setChecked(KdenliveSettings::alwaysShowMonitorAudio());
         m_contextMenu->addAction(alwaysShowAudio);
@@ -1878,7 +1877,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         if (KMessageBox::warningContinueCancel(this, i18n("Exit Mask Mode ?")) != KMessageBox::Continue) {
             return false;
         }
-        abortPreviewMask();
+        abortPreviewMask(false);
         Q_EMIT disablePreviewMask();
     }
     m_activeControllerId.clear();
@@ -2556,10 +2555,10 @@ QSize Monitor::profileSize() const
     return m_glMonitor->profileSize();
 }
 
-void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
+void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, bool resetProperties)
 {
     if (type == m_qmlManager->sceneType()) {
-        if (sceneData.isNull()) {
+        if (sceneData.isNull() && !resetProperties) {
             return;
         }
     } else {
@@ -2576,7 +2575,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
                 if (m_qmlManager->setScene(m_id, m_nextSceneType, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
                                            double(m_glMonitor->zoom()), m_glMonitor->m_maxProducerPosition)) {
                     // Perform scene change
-                    loadQmlScene(m_nextSceneType, sceneData);
+                    loadQmlScene(m_nextSceneType, sceneData, true);
                     Q_EMIT sceneChanged(m_nextSceneType);
                 }
                 m_nextSceneType = MonitorSceneNone;
@@ -2590,6 +2589,8 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         }
     }
 
+    // Ensure scalex, scaley and center are correctly updated
+    m_glMonitor->refreshRect();
     bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;
     if (!m_monitorManager->getAction(QStringLiteral("monitor_editmode"))->isChecked() && sceneWithEdit) {
         // User doesn't want effect scenes
@@ -2614,6 +2615,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
         m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
         if (m_id == Kdenlive::ClipMonitor) {
+            qDebug() << ":::: UPDATING MONITOR DISPLAY INFO!!!!!!!!!!!!!!\nXXXXXXXXXXXXXXXXXXX\n";
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
@@ -3135,18 +3137,20 @@ void Monitor::previewMask(const QString &binId, const QString &maskFile, int in,
     loadQmlScene(MonitorSceneAutoMask);
 }
 
-void Monitor::abortPreviewMask()
+void Monitor::abortPreviewMask(bool rebuildProducer)
 {
     if (maskMode() == MaskModeType::MaskNone) {
         // We are not in mask mode, ignore
         return;
     }
-    buildBackgroundedProducer(position());
-    m_maskOpacity.reset();
-    m_maskInvert.reset();
     disconnect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
     getControllerProxy()->setMaskMode(MaskModeType::MaskNone);
-    loadQmlScene(MonitorSceneDefault);
+    if (rebuildProducer) {
+        buildBackgroundedProducer(position());
+        loadQmlScene(MonitorSceneDefault);
+    }
+    m_maskOpacity.reset();
+    m_maskInvert.reset();
 }
 
 void Monitor::updatePreviewMask()

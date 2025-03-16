@@ -25,8 +25,8 @@ Item {
     property point profile: controller.profile
     property double zoom
     property point center
-    property double scalex
-    property double scaley
+    property double scalex: 1.
+    property double scaley: 1.
     property bool captureRightClick: false
     // Zoombar properties
     // The start position of the zoomed area, between 0 and 1
@@ -48,7 +48,6 @@ Item {
     property bool showAudiothumb: false
     property bool showClipJobs: false
     // Always display audio thumbs under video
-    property bool permanentAudiothumb: false
     property bool showToolbar: false
     property string clipName: controller.clipName
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
@@ -61,9 +60,18 @@ Item {
     property color thumbColor2: controller.thumbColor2
     property color overlayColor: controller.overlayColor
     property bool isClipMonitor: true
+    property bool permanentAudioThumb: controller.permanentAudioThumb
     property int dragType: 0
     property string baseThumbPath
     property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
+    Component.onCompleted: {
+        // adjust monitor image size if audio thumb is displayed
+        if (audioThumb.stateVisible && audioThumb.visible) {
+            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        } else {
+            controller.rulerHeight = root.zoomOffset
+        }
+    }
 
     function updateClickCapture() {
         root.captureRightClick = false
@@ -106,7 +114,7 @@ Item {
         }
 
         // adjust monitor image size if audio thumb is displayed
-        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+        if (audioThumb.stateVisible && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -114,7 +122,7 @@ Item {
     }
 
     onZoomOffsetChanged: {
-        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+        if (audioThumb.stateVisible && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -122,7 +130,8 @@ Item {
     }
 
     onHeightChanged: {
-        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+        console.log("MONITOR HEIGHT CHANGED; PERMANENT THUMB: ", root.permanentAudioThumb)
+        if (audioThumb.stateVisible && audioThumb.visible) {
             controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -239,7 +248,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (root.permanentAudiothumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
+                property bool stateVisible: (root.permanentAudioThumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
                 property bool isAudioClip: controller.clipType == ProducerType.Audio
                 anchors {
                     left: parent.left
@@ -249,7 +258,8 @@ Item {
                 height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: (root.permanentAudiothumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipHasAV)
+                visible: (root.permanentAudioThumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipHasAV)
+
                 Label {
                     id: clipStreamLabel
                     font: fixedFont
@@ -267,7 +277,7 @@ Item {
                 }
                 onStateVisibleChanged: {
                     // adjust monitor image size
-                    if (stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+                    if (stateVisible && audioThumb.visible) {
                         controller.rulerHeight = audioThumb.height + root.zoomOffset
                     } else {
                         controller.rulerHeight = root.zoomOffset
@@ -296,7 +306,7 @@ Item {
                 }]
                 Rectangle {
                     color: "black"
-                    opacity: audioThumb.isAudioClip || root.permanentAudiothumb ? 1 : 0.6
+                    opacity: audioThumb.isAudioClip || root.permanentAudioThumb ? 1 : 0.6
                     anchors.fill: parent
                 }
                 Rectangle {

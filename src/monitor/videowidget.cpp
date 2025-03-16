@@ -281,8 +281,14 @@ void VideoWidget::slotZoom(bool zoomIn)
     }
 }
 
+void VideoWidget::refreshRect()
+{
+    resizeVideo(width(), height());
+}
+
 void VideoWidget::updateRulerHeight(int addedHeight)
 {
+    qDebug() << "::: ADJUSTED RULER HEHGIT: " << addedHeight << "\n9999999999999999999999999999999999\n";
     m_displayRulerHeight =
         m_rulerHeight > 0 ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) + addedHeight : 0;
     resizeVideo(width(), height());
@@ -1232,7 +1238,6 @@ double VideoWidget::playSpeed() const
 
 void VideoWidget::restart()
 {
-    // why this lock?
     if (m_consumer) {
         // Make sure to delete and rebuild consumer to match profile
         m_consumer->purge();

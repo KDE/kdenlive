@@ -55,6 +55,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
+    Q_PROPERTY(bool permanentAudioThumb READ permanentAudioThumb NOTIFY permanentAudioThumbChanged)
     Q_PROPERTY(QStringList lastClips MEMBER m_lastClips NOTIFY lastClipsChanged)
     /** @brief Returns true if current clip in monitor has Audio and Video
      * */
@@ -104,6 +105,7 @@ public:
     Q_INVOKABLE const QPoint clipBoundary(int ix);
     bool audioThumbFormat() const;
     bool audioThumbNormalize() const;
+    bool permanentAudioThumb() const;
     void positionFromConsumer(int pos, bool playing);
     void setMarker(const QString &comment, const QColor &color);
     int zoneIn() const;
@@ -191,6 +193,7 @@ Q_SIGNALS:
     void colorsChanged();
     void audioThumbFormatChanged();
     void audioThumbNormalizeChanged();
+    void permanentAudioThumbChanged();
     void profileChanged();
     void autoKeyframeChanged();
     void timecodeChanged();

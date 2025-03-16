@@ -45,6 +45,10 @@ Item {
     property int overlayType: controller.overlayType
     property color overlayColor: controller.overlayColor
     property bool isClipMonitor: false
+    Component.onCompleted: {
+        // adjust monitor image size if audio thumb is displayed
+        controller.rulerHeight = root.zoomOffset
+    }
 
     function updateClickCapture() {
         root.captureRightClick = false

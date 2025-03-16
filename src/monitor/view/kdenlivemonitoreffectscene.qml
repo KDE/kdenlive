@@ -50,6 +50,10 @@ Item {
     property var centerPointsTypes: []
     signal effectChanged(rect frame)
     signal centersChanged()
+    Component.onCompleted: {
+      // adjust monitor image size if audio thumb is displayed
+        controller.rulerHeight = root.zoomOffset
+    }
 
     function updateEffectRect(rect) {
       if (moveArea.pressed) {

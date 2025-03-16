@@ -46,6 +46,10 @@ Item {
     property double timeScale: 1
     property var centerPoints: []
     signal effectPolygonChanged()
+    Component.onCompleted: {
+        // adjust monitor image size if audio thumb is displayed
+        controller.rulerHeight = root.zoomOffset
+    }
 
     function updatePoints(types, points) {
         if (global.pressed) {

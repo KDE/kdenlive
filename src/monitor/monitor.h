@@ -274,7 +274,7 @@ private:
     QString m_activeControllerId;
 
 protected:
-    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());
+    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant(), bool resetProperties = false);
 
 private Q_SLOTS:
     void slotSetThumbFrame();
@@ -392,7 +392,7 @@ public Q_SLOTS:
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
     /** @brief Stop displaying a  mask as overlay to the clip */
-    void abortPreviewMask();
+    void abortPreviewMask(bool rebuildProducer = true);
 
 Q_SIGNALS:
     void screenChanged(int screenIndex);
