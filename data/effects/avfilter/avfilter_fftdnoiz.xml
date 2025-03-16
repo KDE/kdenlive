@@ -12,7 +12,7 @@
     <parameter type="constant" name="av.amount" default="1" min="0" max="100" factor="100" decimals="1" suffix="%">
         <name>Amount</name>
        	<comment><![CDATA[Set the amount of denoising.<br>
-       	By default all detected noise is reduced..]]></comment>
+       	By default all detected noise is reduced.]]></comment>
     </parameter>
     <parameter type="constant" name="av.block" default="32" min="8" max="256" factor="1">
         <name>Block</name>

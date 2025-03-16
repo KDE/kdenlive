@@ -8,7 +8,7 @@
         <name>Central frequency</name>
     </parameter>
     <parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
-        <paramlistdisplay>Hz,Q-FActor,Octave,Slope,KHz</paramlistdisplay>
+        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,KHz</paramlistdisplay>
         <name>Type</name>
     </parameter>
     <parameter type="constant" name="av.w" default="0.707" min="0.001" max="9999" decimals="3">
