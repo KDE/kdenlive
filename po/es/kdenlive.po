@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-16 00:41+0000\n"
+"POT-Creation-Date: 2025-03-17 00:40+0000\n"
 "PO-Revision-Date: 2025-03-03 19:38-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -88,7 +88,7 @@ msgstr "Tipo de gráfica para visualizar los niveles."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
 #: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
+#: data/effects/timer.xml:26 src/monitor/monitor.cpp:444
 #, kde-format
 msgid "Background Color"
 msgstr "Color de fondo"
@@ -847,7 +847,7 @@ msgstr "Frecuencia central"
 #: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
 #, kde-format
-msgid "Hz,Q-FActor,Octave,Slope,KHz"
+msgid "Hz,Q-Factor,Octave,Slope,KHz"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:12
@@ -1402,7 +1402,6 @@ msgid "Send frame,Send field"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
-#: data/effects/avfilter/avfilter_yadif.xml:12
 #, fuzzy, kde-format
 #| msgid "Bottom field first"
 msgid "Top field first,Bottomfield first,Auto"
@@ -3156,7 +3155,7 @@ msgstr "Color"
 #, kde-format
 msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
-"    \tUse the <em>Alpha<em> value to make the line semi-transparent.]]>"
+"    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
@@ -3257,7 +3256,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
-"    \tUse the <em>Alpha<em> value to make the grid semi-transparent.]]>"
+"    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
@@ -3518,7 +3517,7 @@ msgstr "Cantidad"
 #, kde-format
 msgid ""
 "<![CDATA[Set the amount of denoising.<br>\n"
-"       \tBy default all detected noise is reduced..]]>"
+"       \tBy default all detected noise is reduced.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
@@ -6750,8 +6749,14 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_yadif.xml:8
 #, kde-format
-msgid "Send frame,Send field,Send frame nospatial,Send field nospatil"
+msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_yadif.xml:12
+#, fuzzy, kde-format
+#| msgid "Bottom field first"
+msgid "Top field first,Bottom field first,Auto"
+msgstr "Inferior primero"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
 #, fuzzy, kde-format
@@ -6778,7 +6783,7 @@ msgstr "Ampliación"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1294 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:55
+#: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
@@ -13028,7 +13033,7 @@ msgid "Analysis,Apply"
 msgstr "Análisis"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
-#: src/monitor/view/kdenlivemonitorsplit.qml:98
+#: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
 msgstr "Efecto"
@@ -18910,7 +18915,7 @@ msgstr "Audio sin pista de video"
 msgid "Rendering <i>%1</i> started"
 msgstr "Procesamiento de <i>%1</i> iniciado"
 
-#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1317
+#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "sin nombre"
@@ -22757,7 +22762,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:321
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:320
 #, kde-format
 msgid "Merged streams"
 msgstr "Fuentes mezcladas"
@@ -23348,7 +23353,7 @@ msgstr "Botón de procesamiento"
 msgid "Rendering preview"
 msgstr "Procesando previsualización"
 
-#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:429
+#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:428
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Ir a guía"
@@ -23844,22 +23849,22 @@ msgstr "Tareas de clips"
 msgid "Full Resolution (1:1)"
 msgstr "Resolución original (1:1)"
 
-#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -25149,13 +25154,13 @@ msgid "Enable audio"
 msgstr "Habilitar audio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:733
-#: src/monitor/monitor.cpp:304
+#: src/monitor/monitor.cpp:303
 #, kde-format
 msgid "Audio streams"
 msgstr "Fuentes de audio"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:755
-#: src/monitor/monitor.cpp:1991
+#: src/monitor/monitor.cpp:1990
 #, kde-format
 msgid "Merge all streams"
 msgstr "Mezclar todas las fuentes"
@@ -25428,12 +25433,12 @@ msgstr "Volumen del audio"
 msgid "%1%"
 msgstr "%1%"
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:231
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr "Resolución de previsualización - una menor resolución será más ágil"
 
-#: src/monitor/monitor.cpp:233
+#: src/monitor/monitor.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25445,49 +25450,49 @@ msgstr ""
 "clips. Es posible escoger entre Original, 720p, 540p, 360p, 270p (cuanto más "
 "baja sea la resolución, más rápida será la previsualización)."
 
-#: src/monitor/monitor.cpp:236
+#: src/monitor/monitor.cpp:235
 #, kde-format
 msgid "1:1"
 msgstr "Original"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:682
 #, kde-format
 msgid "Set Zone In"
 msgstr "Marcar inicio de zona"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:686
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Marcar fin de zona"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "Retroceder"
 
-#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
+#: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
 #: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "Reproducir"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:541
 #: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "Pausar"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "Avanzar"
 
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:418
 #, kde-format
 msgid "More Options…"
 msgstr "Más opciones…"
 
-#: src/monitor/monitor.cpp:420
+#: src/monitor/monitor.cpp:419
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25497,155 +25502,155 @@ msgstr ""
 "Abre la lista de opciones del monitor de proyecto/clip (como volumen del "
 "audio, tamaño del monitor)."
 
-#: src/monitor/monitor.cpp:429
+#: src/monitor/monitor.cpp:428
 #, kde-format
 msgid "Go to Marker…"
 msgstr "Ir a marcador"
 
-#: src/monitor/monitor.cpp:433
+#: src/monitor/monitor.cpp:432
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Tamaño del monitor"
 
-#: src/monitor/monitor.cpp:434
+#: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Force 100%"
 msgstr "Forzar al 100%"
 
-#: src/monitor/monitor.cpp:436
+#: src/monitor/monitor.cpp:435
 #, kde-format
 msgid "Force 50%"
 msgstr "Forzar al 50%"
 
-#: src/monitor/monitor.cpp:438
+#: src/monitor/monitor.cpp:437
 #, kde-format
 msgid "Free Resize"
 msgstr "Redimensionar libremente"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:445 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "Negro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:447 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "Blanco"
 
-#: src/monitor/monitor.cpp:450
+#: src/monitor/monitor.cpp:449
 #, kde-format
 msgid "Pink"
 msgstr "Rosa"
 
-#: src/monitor/monitor.cpp:453
+#: src/monitor/monitor.cpp:452
 #, kde-format
 msgid "Checkerboard"
 msgstr "Damero"
 
-#: src/monitor/monitor.cpp:526
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:690
+#: src/monitor/monitor.cpp:689
 #, kde-format
 msgid "Extract Zone"
 msgstr "Extraer zona…"
 
-#: src/monitor/monitor.cpp:703
+#: src/monitor/monitor.cpp:702
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Definir imagen actual como miniatura"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Siempre mostrar gráfica de audio"
 
-#: src/monitor/monitor.cpp:727
+#: src/monitor/monitor.cpp:726
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Mostrar niveles de audio"
 
-#: src/monitor/monitor.cpp:734
+#: src/monitor/monitor.cpp:733
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Mostrar código de tiempo original"
 
-#: src/monitor/monitor.cpp:771
+#: src/monitor/monitor.cpp:770
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "La resolución de pantalla no es suficiente para esta acción"
 
-#: src/monitor/monitor.cpp:905 src/monitor/monitor.cpp:941
+#: src/monitor/monitor.cpp:904 src/monitor/monitor.cpp:940
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "No es posible cambiar la zona al crear una máscara"
 
-#: src/monitor/monitor.cpp:934 src/monitor/monitor.cpp:970
+#: src/monitor/monitor.cpp:933 src/monitor/monitor.cpp:969
 #: src/timeline2/view/timelinecontroller.cpp:1814
 #, kde-format
 msgid "Set Zone"
 msgstr "Marcar zona"
 
-#: src/monitor/monitor.cpp:1330
+#: src/monitor/monitor.cpp:1329
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Guardar imagen a proyecto"
 
-#: src/monitor/monitor.cpp:1330
+#: src/monitor/monitor.cpp:1329
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: src/monitor/monitor.cpp:1337
+#: src/monitor/monitor.cpp:1336
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Exportar imagen usando la resolución original"
 
-#: src/monitor/monitor.cpp:1878
+#: src/monitor/monitor.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Exit Mask Creation"
 msgid "Exit Mask Mode ?"
 msgstr "Salir de creación de máscara"
 
-#: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
+#: src/monitor/monitor.cpp:1975 src/monitor/monitor.cpp:2107
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 fuente de audio"
 msgstr[1] "%1 fuentes de audio"
 
-#: src/monitor/monitor.cpp:2415
+#: src/monitor/monitor.cpp:2414
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "No es posible inicializar el administrador de GLSL de Movit, por favor "
 "deshabilitar Movit"
 
-#: src/monitor/monitor.cpp:2457 src/monitor/monitor.cpp:2514
+#: src/monitor/monitor.cpp:2456 src/monitor/monitor.cpp:2513
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -25654,17 +25659,17 @@ msgstr ""
 "Se necesita el filtro alphagrad para esa función, por favor instalar frei0r "
 "y reiniciar Kdenlive"
 
-#: src/monitor/monitor.cpp:2477
+#: src/monitor/monitor.cpp:2476
 #, kde-format
 msgid "Clip has no effects"
 msgstr "El clip no tiene efectos"
 
-#: src/monitor/monitor.cpp:2479
+#: src/monitor/monitor.cpp:2478
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Seleccionar un clip de la bandeja del proyecto para comparar el efecto"
 
-#: src/monitor/monitor.cpp:2521
+#: src/monitor/monitor.cpp:2520
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -25673,18 +25678,18 @@ msgstr ""
 "Se necesita la transición cairoblend para esa función, por favor instalar "
 "frei0r y reiniciar Kdenlive"
 
-#: src/monitor/monitor.cpp:2596
+#: src/monitor/monitor.cpp:2597
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Habilitar el modo edición en el monitor para editar efectos"
 
-#: src/monitor/monitor.cpp:3092
+#: src/monitor/monitor.cpp:3094
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "Ningún clip seleccionado en la bandeja del proyecto"
 
-#: src/monitor/monitor.cpp:3113
+#: src/monitor/monitor.cpp:3115
 #, fuzzy, kde-format
 #| msgid "Cannot get duration for file %1"
 msgid "Cannot get producer for Clip Monitor"
@@ -25889,17 +25894,17 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "Habilitar espectro de audio"
 
-#: src/monitor/videowidget.cpp:1083
+#: src/monitor/videowidget.cpp:1089
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Seleccionar una zona de reproducción"
 
-#: src/monitor/videowidget.cpp:1092
+#: src/monitor/videowidget.cpp:1098
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Seleccionar un clip para reproducir"
 
-#: src/monitor/videowidget.cpp:1197
+#: src/monitor/videowidget.cpp:1203
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -25965,7 +25970,7 @@ msgstr "Reducir"
 msgid "Move Toolbar"
 msgstr "Mover barra de herramientas"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:170
+#: src/monitor/view/kdenliveclipmonitor.qml:179
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25979,35 +25984,35 @@ msgstr ""
 "herramientas, <shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> "
 "saltar, <shortcut>Ctrl+rueda</shortcut> ampliar"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:559
-#: src/monitor/view/kdenlivemonitor.qml:200
+#: src/monitor/view/kdenliveclipmonitor.qml:569
+#: src/monitor/view/kdenlivemonitor.qml:204
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:592
+#: src/monitor/view/kdenliveclipmonitor.qml:602
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punto de entrada/salida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:592
-#: src/monitor/view/kdenlivemonitor.qml:233
+#: src/monitor/view/kdenliveclipmonitor.qml:602
+#: src/monitor/view/kdenlivemonitor.qml:237
 #, kde-format
 msgid "In Point"
 msgstr "Punto de entrada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:614
-#: src/monitor/view/kdenlivemonitor.qml:250
+#: src/monitor/view/kdenliveclipmonitor.qml:624
+#: src/monitor/view/kdenlivemonitor.qml:254
 #, kde-format
 msgid "Out Point"
 msgstr "Punto de salida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:794
+#: src/monitor/view/kdenliveclipmonitor.qml:804
 #, kde-format
 msgid "Terminate Job"
 msgstr "Terminar tarea"
 
-#: src/monitor/view/kdenlivemonitor.qml:97
+#: src/monitor/view/kdenlivemonitor.qml:101
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -26017,28 +26022,28 @@ msgstr ""
 "<b>Posar a la derecha</b> para barra de herramientas, <b>Rueda</b> o "
 "<b>flechas</b> para saltar, <b>Ctrl+rueda</b> para ampliar"
 
-#: src/monitor/view/kdenlivemonitor.qml:296
+#: src/monitor/view/kdenlivemonitor.qml:300
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformar"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Seleccionar un objeto en la imagen primero"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Generating image mask"
 msgstr "Generando la máscara de la imagen"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Generating video mask"
 msgstr "Generando la máscara del video"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:398
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -26049,12 +26054,12 @@ msgstr ""
 "Mayús+clic para incluir una nueva zona.\n"
 "Ctrl+clic para excluir una zona."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:398
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Previsualizando máscara de video"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#: src/monitor/view/kdenlivemonitorautomask.qml:409
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -26067,17 +26072,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#: src/monitor/view/kdenlivemonitorautomask.qml:419
 #, kde-format
 msgid "Go to mask start"
 msgstr "Ir al inicio de la máscara"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#: src/monitor/view/kdenlivemonitorautomask.qml:432
 #, kde-format
 msgid "Go to mask end"
 msgstr "Ir al fin de la máscara"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:309
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -26121,7 +26126,7 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Mayús+arrastrar</shortcut> escalar desde el centro"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:438
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:442
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -29788,26 +29793,26 @@ msgstr "Editar elemento"
 msgid "Clip Speed"
 msgstr "Velocidad del clip"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:39
+#: src/timeline2/view/dialogs/speeddialog.cpp:41
 #, kde-format
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr ""
 "MLT debe estar compilado incluyendo la biblioteca Rubberband para que pueda "
 "ser habilitada la corrección de tono"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:44
+#: src/timeline2/view/dialogs/speeddialog.cpp:46
 #, kde-format
 msgid "Speed effect will render better when used on single high fps clips"
 msgstr ""
 "El efecto de velocidad se procesará mejor al ser usado en clips individuales "
 "con altos valores de fps"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:103
+#: src/timeline2/view/dialogs/speeddialog.cpp:108
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "La velocidad mínima es %1\\"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:104
+#: src/timeline2/view/dialogs/speeddialog.cpp:109
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "La velocidad máxima es %1\\"

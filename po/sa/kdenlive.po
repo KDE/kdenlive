@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-16 00:41+0000\n"
+"POT-Creation-Date: 2025-03-17 00:40+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -86,7 +86,7 @@ msgstr "स्तरं प्रदर्शयितुं आलेखस्�
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
 #: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
+#: data/effects/timer.xml:26 src/monitor/monitor.cpp:444
 #, kde-format
 msgid "Background Color"
 msgstr "पृष्ठभूमि रंग"
@@ -825,7 +825,7 @@ msgstr "निम्न आवृत्ति"
 #: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
 #, kde-format
-msgid "Hz,Q-FActor,Octave,Slope,KHz"
+msgid "Hz,Q-Factor,Octave,Slope,KHz"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:12
@@ -1373,7 +1373,6 @@ msgid "Send frame,Send field"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
-#: data/effects/avfilter/avfilter_yadif.xml:12
 #, fuzzy, kde-format
 #| msgid "Bottom field first"
 msgid "Top field first,Bottomfield first,Auto"
@@ -3109,7 +3108,7 @@ msgstr "वर्ण"
 #, kde-format
 msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
-"    \tUse the <em>Alpha<em> value to make the line semi-transparent.]]>"
+"    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
@@ -3212,7 +3211,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
-"    \tUse the <em>Alpha<em> value to make the grid semi-transparent.]]>"
+"    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
@@ -3473,7 +3472,7 @@ msgstr "गणनां कारोतु"
 #, kde-format
 msgid ""
 "<![CDATA[Set the amount of denoising.<br>\n"
-"       \tBy default all detected noise is reduced..]]>"
+"       \tBy default all detected noise is reduced.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
@@ -6652,8 +6651,14 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_yadif.xml:8
 #, kde-format
-msgid "Send frame,Send field,Send frame nospatial,Send field nospatil"
+msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
+
+#: data/effects/avfilter/avfilter_yadif.xml:12
+#, fuzzy, kde-format
+#| msgid "Bottom field first"
+msgid "Top field first,Bottom field first,Auto"
+msgstr "प्रथमं तलक्षेत्रम्"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
 #, fuzzy, kde-format
@@ -6679,7 +6684,7 @@ msgstr "जूम"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1294 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:55
+#: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
@@ -12887,7 +12892,7 @@ msgid "Analysis,Apply"
 msgstr "आँकलन"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
-#: src/monitor/view/kdenlivemonitorsplit.qml:98
+#: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
 msgstr "परिणाम"
@@ -18717,7 +18722,7 @@ msgstr "विडियो ट्रैक विना ऑडियो"
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> रेण्डरिंग् आरब्धम्"
 
-#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1317
+#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "अनामिका"
@@ -22494,7 +22499,7 @@ msgstr "किलोहर्ट्ज "
 msgid "Hz "
 msgstr "हर्ट्ज "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:321
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:320
 #, kde-format
 msgid "Merged streams"
 msgstr "विलीनाः धाराः"
@@ -23071,7 +23076,7 @@ msgstr "रेण्डर बटन"
 msgid "Rendering preview"
 msgstr "पूर्वावलोकनं प्रतिपादनम्"
 
-#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:429
+#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:428
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Guide इत्यत्र गच्छन्तु…"
@@ -23554,22 +23559,22 @@ msgstr "मॉनिटर ओवरले क्लिप जॉब्स"
 msgid "Full Resolution (1:1)"
 msgstr "पूर्ण संकल्प (१:१)"
 
-#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "720p"
 msgstr "७२०पृष्ठम्"
 
-#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "540p"
 msgstr "५४०पृष्ठम्"
 
-#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "360p"
 msgstr "३६०पृष्ठम्"
 
-#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "270p"
 msgstr "२७०पृष्ठम्"
@@ -24845,13 +24850,13 @@ msgid "Enable audio"
 msgstr "श्रव्यं सक्षमं कुर्वन्तु"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:733
-#: src/monitor/monitor.cpp:304
+#: src/monitor/monitor.cpp:303
 #, kde-format
 msgid "Audio streams"
 msgstr "श्रव्यधारा"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:755
-#: src/monitor/monitor.cpp:1991
+#: src/monitor/monitor.cpp:1990
 #, kde-format
 msgid "Merge all streams"
 msgstr "सर्वाणि धाराः विलीनयन्तु"
@@ -25122,12 +25127,12 @@ msgstr "श्रव्य मात्रा"
 msgid "%1%"
 msgstr "%1%"
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:231
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr "पूर्वावलोकनसंकल्पः - न्यूनसंकल्पस्य अर्थः द्रुततरं पूर्वावलोकनम्"
 
-#: src/monitor/monitor.cpp:233
+#: src/monitor/monitor.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25138,49 +25143,49 @@ msgstr ""
 "परियोजना/क्लिप् मॉनिटरस्य पूर्वावलोकनसंकल्पं सेट् करोति । 1:1, 720p, 540p, 360p, 270p "
 "(यथा न्यूनं रिजोल्यूशनं तावत् शीघ्रं पूर्वावलोकनं) मध्ये चयनं कर्तुं शक्यते ।"
 
-#: src/monitor/monitor.cpp:236
+#: src/monitor/monitor.cpp:235
 #, kde-format
 msgid "1:1"
 msgstr "१:१"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:682
 #, kde-format
 msgid "Set Zone In"
 msgstr "Set Zone In इति"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:686
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Zone Out सेट् कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "पश्चात्तापं कुरुत"
 
-#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
+#: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
 #: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "क्रीडतु"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:541
 #: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "विराम"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "अग्रतः"
 
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:418
 #, kde-format
 msgid "More Options…"
 msgstr "अधिकविकल्पाः…"
 
-#: src/monitor/monitor.cpp:420
+#: src/monitor/monitor.cpp:419
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25190,155 +25195,155 @@ msgstr ""
 "परियोजना/क्लिप् निरीक्षकविकल्पानां सूचीं उद्घाटयति (उदा. श्रव्यमात्रा, निरीक्षकस्य आकारः) "
 "।"
 
-#: src/monitor/monitor.cpp:429
+#: src/monitor/monitor.cpp:428
 #, kde-format
 msgid "Go to Marker…"
 msgstr "मार्कर इत्यत्र गच्छन्तु…"
 
-#: src/monitor/monitor.cpp:433
+#: src/monitor/monitor.cpp:432
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "बल निरीक्षक आकार"
 
-#: src/monitor/monitor.cpp:434
+#: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Force 100%"
 msgstr "बलं १००%"
 
-#: src/monitor/monitor.cpp:436
+#: src/monitor/monitor.cpp:435
 #, kde-format
 msgid "Force 50%"
 msgstr "बलम् ५०%"
 
-#: src/monitor/monitor.cpp:438
+#: src/monitor/monitor.cpp:437
 #, kde-format
 msgid "Free Resize"
 msgstr "निःशुल्क आकार परिवर्तन"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:445 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "कृष्णः"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:447 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "श्वेतः"
 
-#: src/monitor/monitor.cpp:450
+#: src/monitor/monitor.cpp:449
 #, kde-format
 msgid "Pink"
 msgstr "पाटल"
 
-#: src/monitor/monitor.cpp:453
+#: src/monitor/monitor.cpp:452
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Checkerboard Small"
 msgid "Checkerboard"
 msgstr "चेकरबोर्ड लघु"
 
-#: src/monitor/monitor.cpp:526
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:690
+#: src/monitor/monitor.cpp:689
 #, kde-format
 msgid "Extract Zone"
 msgstr "क्षेत्र निकालें"
 
-#: src/monitor/monitor.cpp:703
+#: src/monitor/monitor.cpp:702
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "वर्तमानप्रतिबिम्बं लघुचित्ररूपेण सेट् कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "सर्वदा श्रव्यलघुचित्रं दर्शयतु"
 
-#: src/monitor/monitor.cpp:727
+#: src/monitor/monitor.cpp:726
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "श्रव्यस्तरं दर्शयतु"
 
-#: src/monitor/monitor.cpp:734
+#: src/monitor/monitor.cpp:733
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "स्रोतः समयसङ्केतः दर्शयतु"
 
-#: src/monitor/monitor.cpp:771
+#: src/monitor/monitor.cpp:770
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "अस्य क्रियायाः कृते भवतः स्क्रीन-संकल्पः पर्याप्तः नास्ति"
 
-#: src/monitor/monitor.cpp:905 src/monitor/monitor.cpp:941
+#: src/monitor/monitor.cpp:904 src/monitor/monitor.cpp:940
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr ""
 
-#: src/monitor/monitor.cpp:934 src/monitor/monitor.cpp:970
+#: src/monitor/monitor.cpp:933 src/monitor/monitor.cpp:969
 #: src/timeline2/view/timelinecontroller.cpp:1814
 #, kde-format
 msgid "Set Zone"
 msgstr "क्षेत्रं सेट् कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:1330
+#: src/monitor/monitor.cpp:1329
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "चित्रं Project इत्यत्र रक्षन्तु"
 
-#: src/monitor/monitor.cpp:1330
+#: src/monitor/monitor.cpp:1329
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "चित्रं रक्षतु"
 
-#: src/monitor/monitor.cpp:1337
+#: src/monitor/monitor.cpp:1336
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "स्रोतसंकल्पस्य उपयोगेन चित्रं निर्यातयन्तु"
 
-#: src/monitor/monitor.cpp:1878
+#: src/monitor/monitor.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Exit Mask Creation"
 msgid "Exit Mask Mode ?"
 msgstr "मास्क निर्माणात् निर्गच्छन्तु"
 
-#: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
+#: src/monitor/monitor.cpp:1975 src/monitor/monitor.cpp:2107
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 श्रव्यप्रवाहः"
 msgstr[1] "%1 श्रव्यप्रवाहाः"
 
-#: src/monitor/monitor.cpp:2415
+#: src/monitor/monitor.cpp:2414
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit इत्यस्य GLSL प्रबन्धकं प्रारम्भं कर्तुं न शक्यते, कृपया Movit अक्षमं कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:2457 src/monitor/monitor.cpp:2514
+#: src/monitor/monitor.cpp:2456 src/monitor/monitor.cpp:2513
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -25347,17 +25352,17 @@ msgstr ""
 "तस्य विशेषतायाः कृते alphagrad फ़िल्टर आवश्यकम् अस्ति, कृपया frei0r संस्थाप्य Kdenlive "
 "पुनः आरभत"
 
-#: src/monitor/monitor.cpp:2477
+#: src/monitor/monitor.cpp:2476
 #, kde-format
 msgid "Clip has no effects"
 msgstr "क्लिप् इत्यस्य कोऽपि प्रभावः नास्ति"
 
-#: src/monitor/monitor.cpp:2479
+#: src/monitor/monitor.cpp:2478
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "प्रभावस्य तुलनां कर्तुं project bin मध्ये एकं क्लिप् चिनोतु"
 
-#: src/monitor/monitor.cpp:2521
+#: src/monitor/monitor.cpp:2520
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -25366,18 +25371,18 @@ msgstr ""
 "तस्य विशेषतायाः कृते cairoblend संक्रमणम् आवश्यकम् अस्ति, कृपया frei0r संस्थाप्य Kdenlive "
 "पुनः आरभत"
 
-#: src/monitor/monitor.cpp:2596
+#: src/monitor/monitor.cpp:2597
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "प्रभावं सम्पादयितुं मॉनिटरे सम्पादनविधिं सक्षमं कुर्वन्तु"
 
-#: src/monitor/monitor.cpp:3092
+#: src/monitor/monitor.cpp:3094
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "प्रोजेक्ट् बिन् मध्ये कोऽपि क्लिप् चयनितः नास्ति"
 
-#: src/monitor/monitor.cpp:3113
+#: src/monitor/monitor.cpp:3115
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
@@ -25576,17 +25581,17 @@ msgstr "Audio Spectrum सक्षमीकरणाय MLT libfftw3 इत्�
 msgid "Enable Audio Spectrum"
 msgstr "ऑडियो स्पेक्ट्रम् सक्षमं कुर्वन्तु"
 
-#: src/monitor/videowidget.cpp:1083
+#: src/monitor/videowidget.cpp:1089
 #, kde-format
 msgid "Select a zone to play"
 msgstr "क्रीडितुं क्षेत्रं चिनोतु"
 
-#: src/monitor/videowidget.cpp:1092
+#: src/monitor/videowidget.cpp:1098
 #, kde-format
 msgid "Select a clip to play"
 msgstr "वादयितुं क्लिप् चिनोतु"
 
-#: src/monitor/videowidget.cpp:1197
+#: src/monitor/videowidget.cpp:1203
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -25652,7 +25657,7 @@ msgstr "जूम आउट् कुर्वन्तु"
 msgid "Move Toolbar"
 msgstr "Toolbar चालयन्तु"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:170
+#: src/monitor/view/kdenliveclipmonitor.qml:179
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25666,35 +25671,35 @@ msgstr ""
 "shortcut> अथवा <shortcut>बाण</shortcut> नुदन्तु । shortcut> अन्वेष्टुं, "
 "<shortcut>Ctrl चक्रं</shortcut>ं जूम कर्तुं"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:559
-#: src/monitor/view/kdenlivemonitor.qml:200
+#: src/monitor/view/kdenliveclipmonitor.qml:569
+#: src/monitor/view/kdenlivemonitor.qml:204
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:592
+#: src/monitor/view/kdenliveclipmonitor.qml:602
 #, kde-format
 msgid "In/Out Point"
 msgstr "अन्तः/बहिः बिन्दुः"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:592
-#: src/monitor/view/kdenlivemonitor.qml:233
+#: src/monitor/view/kdenliveclipmonitor.qml:602
+#: src/monitor/view/kdenlivemonitor.qml:237
 #, kde-format
 msgid "In Point"
 msgstr "In Point इति"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:614
-#: src/monitor/view/kdenlivemonitor.qml:250
+#: src/monitor/view/kdenliveclipmonitor.qml:624
+#: src/monitor/view/kdenlivemonitor.qml:254
 #, kde-format
 msgid "Out Point"
 msgstr "आउट प्वाइण्ट्"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:794
+#: src/monitor/view/kdenliveclipmonitor.qml:804
 #, kde-format
 msgid "Terminate Job"
 msgstr "कार्य समाप्त करें"
 
-#: src/monitor/view/kdenlivemonitor.qml:97
+#: src/monitor/view/kdenlivemonitor.qml:101
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -25704,29 +25709,29 @@ msgstr ""
 "<b>दक्षिणतः Hover कुर्वन्तु</b> , अन्वेष्टुं <b>चक्रं</b> वा <b>बाणं</b> , जूम कर्तुं <b>Ctrl "
 "चक्रं</b> कुर्वन्तु"
 
-#: src/monitor/view/kdenlivemonitor.qml:296
+#: src/monitor/view/kdenlivemonitor.qml:300
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "परिवर्तनं कुरुत"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an object in the image first"
 msgstr "प्रभावस्य तुलनां कर्तुं project bin मध्ये एकं क्लिप् चिनोतु"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Generating image mask"
 msgstr "इमेज मास्क जननम्"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Generating video mask"
 msgstr "विडियो मास्क जननम्"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:398
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click on an object to start a mask.\n"
@@ -25741,12 +25746,12 @@ msgstr ""
 "अन्यं क्षेत्रं समावेशयितुं Shift+क्लिक् कुर्वन्तु।\n"
 "क्षेत्रं बहिष्कृत्य Ctrl+क्लिक् कुर्वन्तु ।"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:398
 #, kde-format
 msgid "Previewing video mask"
 msgstr "विडियो मास्क पूर्वावलोकनम्v"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#: src/monitor/view/kdenlivemonitorautomask.qml:409
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -25755,19 +25760,19 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#: src/monitor/view/kdenlivemonitorautomask.qml:419
 #, fuzzy, kde-format
 #| msgid "Go to Clip Start"
 msgid "Go to mask start"
 msgstr "Clip Start इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#: src/monitor/view/kdenlivemonitorautomask.qml:432
 #, fuzzy, kde-format
 #| msgid "Go to Clip End"
 msgid "Go to mask end"
 msgstr "Clip End इत्यत्र गच्छन्तु"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:309
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25812,7 +25817,7 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 "<shortcut>केन्द्र-आधारित-आकार-परिवर्तनार्थं drag handle</shortcut> शिफ्ट् कुर्वन्तु"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:438
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:442
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -29402,22 +29407,22 @@ msgstr "मदं सम्पादयतु"
 msgid "Clip Speed"
 msgstr "क्लिप् स्पीड्"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:39
+#: src/timeline2/view/dialogs/speeddialog.cpp:41
 #, kde-format
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr "पिच् सुधारणं सक्षमं कर्तुं MLT रबरबैण्ड् पुस्तकालयेन सह संकलितं भवितुमर्हति"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:44
+#: src/timeline2/view/dialogs/speeddialog.cpp:46
 #, kde-format
 msgid "Speed effect will render better when used on single high fps clips"
 msgstr "एकल उच्च fps क्लिप्स् मध्ये उपयुज्यते सति स्पीड् इफेक्ट् उत्तमं रेण्डर् भविष्यति"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:103
+#: src/timeline2/view/dialogs/speeddialog.cpp:108
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "न्यूनतमवेगः %1 अस्ति"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:104
+#: src/timeline2/view/dialogs/speeddialog.cpp:109
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "अधिकतमः वेगः %1 अस्ति"
