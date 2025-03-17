@@ -5,7 +5,7 @@
     <description><![CDATA[Debands video quickly using gradients.<br>
     Fix the banding artifacts that are sometimes introduced into nearly flat regions by truncation to 8-bit color depth.<br>
     Interpolate the gradients that should go where the bands are, and dither them.<br>
-    <b>It is designed for playback only. Do not use it prior to lossy compression, because compression tends to lose the dither and bring back the bands<b>.]]></description>
+    <b>It is designed for playback only. Do not use it prior to lossy compression, because compression tends to lose the dither and bring back the bands</b>.]]></description>
     <author>libavfilter</author>
     <parameter type="animated" name="av.strength" min="0.51" max="64" default="1.2" decimals="2">
         <name>Strength</name>

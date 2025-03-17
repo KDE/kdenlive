@@ -19,7 +19,7 @@
     <parameter type="bool" name="av.r" default="0                ">
         <name>Mirror</name>
        	<comment><![CDATA[In mirrored mode, higher values will be represented<br>
-       	on the left side for <em>row<em> mode and at the top for <em>column<em> mode.]]></comment>
+       	on the left side for <em>row</em> mode and at the top for <em>column</em> mode.]]></comment>
     </parameter>
     <parameter type="list" name="av.d" default="stack" paramlist="overlay;stack;parade">
         <paramlistdisplay>Overlay,Stack,Parade</paramlistdisplay>
