@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-15 02:35+0000\n"
-"PO-Revision-Date: 2025-03-14 16:08+0300\n"
+"POT-Creation-Date: 2025-03-17 02:29+0000\n"
+"PO-Revision-Date: 2025-03-16 22:19+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -89,7 +89,7 @@ msgstr "Düzeyleri görüntüleyecek grafik türü."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
 #: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
+#: data/effects/timer.xml:26 src/monitor/monitor.cpp:444
 #, kde-format
 msgid "Background Color"
 msgstr "Arka Plan Rengi"
@@ -490,23 +490,20 @@ msgid "Channel to draw"
 msgstr "Çekilecek kanal"
 
 #: data/effects/avfilter/acompressor.xml:4
-#, fuzzy, kde-format
-#| msgid "Compressed archive:"
+#, kde-format
 msgid "Compressor (avfilter)"
-msgstr "Sıkıştırılmış arşiv:"
+msgstr "Kompresör (Avfilter)"
 
 #: data/effects/avfilter/acompressor.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Properties"
+#, kde-format
 msgid "Audio Compressor"
-msgstr "Ses Özellikleri"
+msgstr "Ses Kompresörü"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
-#, fuzzy, kde-format
-#| msgid "Input language"
+#, kde-format
 msgid "Input Gain"
-msgstr "Girdi dili"
+msgstr "Giriş Kazancı"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
@@ -522,61 +519,58 @@ msgid "Threshold"
 msgstr "Eşik"
 
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Ratio"
-msgstr "Döndürme"
+msgstr "Oran"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
 #: data/effects/avfilter/avfilter_aphaser.xml:17
 #, kde-format
 msgid "Attack"
-msgstr ""
+msgstr "Saldır"
 
 #: data/effects/avfilter/acompressor.xml:20 data/effects/avfilter/agate.xml:23
 #: data/effects/avfilter/avfilter_alimiter.xml:20
 #: data/effects/avfilter/avfilter_aphaser.xml:20
 #, kde-format
 msgid "Release"
-msgstr ""
+msgstr "Bırak"
 
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
 msgid "Make Up Gain"
-msgstr ""
+msgstr "Barışma Kazancı"
 
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
 msgid "Knee"
-msgstr ""
+msgstr "Diz"
 
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
 msgid "Average,Maximum"
-msgstr ""
+msgstr "Ortalama, En Yüksek"
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Link Type"
-msgstr "Tür"
+msgstr "Bağlantı Türü"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
 msgid "Peak,Rms"
-msgstr ""
+msgstr "Tavan, RMS"
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Detection"
-msgstr "Yön"
+msgstr "Algılama"
 
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
 msgid "Sidechain Gain"
-msgstr ""
+msgstr "Yan Zincir Kazancı"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -596,22 +590,19 @@ msgid "Mix"
 msgstr "Karıştır"
 
 #: data/effects/avfilter/aecho.xml:4
-#, fuzzy, kde-format
-#| msgid "EQ and filters"
+#, kde-format
 msgid "Echo (avfilter)"
-msgstr "Ekolayzer ve Süzgeçler"
+msgstr "Yankı (Avfilter)"
 
 #: data/effects/avfilter/aecho.xml:5
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Echo"
-msgstr "Efekt Ekle"
+msgstr "Yankı Ekle"
 
 #: data/effects/avfilter/aecho.xml:11
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output Gain"
-msgstr "Çıktı dosyası"
+msgstr "Çıkış Kazancı"
 
 #: data/effects/avfilter/aecho.xml:14
 #: data/effects/avfilter/avfilter_flanger.xml:8
@@ -621,25 +612,24 @@ msgstr "Çıktı dosyası"
 #: data/effects/sox/sox_phaser.xml:14
 #, kde-format
 msgid "Delay"
-msgstr ""
+msgstr "Gecikme"
 
 #: data/effects/avfilter/aecho.xml:17
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #: data/effects/sox/sox_echo.xml:17 data/effects/sox/sox_phaser.xml:17
 #, kde-format
 msgid "Decay"
-msgstr ""
+msgstr "Bozulma"
 
 #: data/effects/avfilter/agate.xml:4
 #, kde-format
 msgid "Gate (avfilter)"
-msgstr ""
+msgstr "Kapı (Avfilter)"
 
 #: data/effects/avfilter/agate.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Wave"
+#, kde-format
 msgid "Audio Gate"
-msgstr "Ses Dalgası"
+msgstr "Ses Kapısı"
 
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
@@ -647,17 +637,17 @@ msgstr "Ses Dalgası"
 #: data/effects/avfilter/avfilter_setrange.xml:9
 #, kde-format
 msgid "Range"
-msgstr ""
+msgstr "Erim"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:4
 #, kde-format
 msgid "Simple Compressor/Expander"
-msgstr ""
+msgstr "Basit Kompresör/Genişletici"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
 msgid "Simple audio dynamic range compression/expansion filter."
-msgstr ""
+msgstr "Basit ses devingen erim sıkıştırma/genişletme süzgeci."
 
 #: data/effects/avfilter/avfilter_acontrast.xml:8
 #: data/effects/avfilter/avfilter_eq.xml:8
@@ -669,52 +659,47 @@ msgstr "Karşıtlık"
 #: data/effects/avfilter/avfilter_acrusher.xml:4
 #, kde-format
 msgid "Crusher"
-msgstr ""
+msgstr "Ezici"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:5
-#, fuzzy, kde-format
-#| msgid "Render at Preview Resolution"
+#, kde-format
 msgid "Reduce audio bit resolution."
-msgstr "Önizleme Çözünürlüğünde Sun"
+msgstr "Ses bit çözünürlüğünü azaltın."
 
 #: data/effects/avfilter/avfilter_acrusher.xml:8
 #: data/effects/avfilter/avfilter_alimiter.xml:8
 #: data/effects/avfilter/avfilter_aphaser.xml:8
 #: data/effects/avfilter/avfilter_apulsator.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:22
-#, fuzzy, kde-format
-#| msgid "Input language"
+#, kde-format
 msgid "Input gain"
-msgstr "Girdi dili"
+msgstr "Giriş kazancı"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:11
 #: data/effects/avfilter/avfilter_alimiter.xml:11
 #: data/effects/avfilter/avfilter_aphaser.xml:11
 #: data/effects/avfilter/avfilter_apulsator.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:25
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output gain"
-msgstr "Çıktı dosyası"
+msgstr "Çıkış kazancı"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:14
 #: data/effects/avfilter/avfilter_alimiter.xml:14
 #, kde-format
 msgid "Limit"
-msgstr ""
+msgstr "Sınır"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:17
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Bit reduction"
-msgstr "Yön"
+msgstr "Bit azaltması"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:23
 #: data/effects/avfilter/avfilter_histogram.xml:18
-#, fuzzy, kde-format
-#| msgid "Logarithmic"
+#, kde-format
 msgid "Linear,Logarithmic"
-msgstr "Logaritmik"
+msgstr "Doğrusal, Logaritmik"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:24
 #: data/effects/avfilter/avfilter_apulsator.xml:15
@@ -734,75 +719,66 @@ msgid "Mode"
 msgstr "Kip"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:27
-#, fuzzy, kde-format
-#| msgid "C"
+#, kde-format
 msgid "DC"
-msgstr "C"
+msgstr "DC"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:30
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Anti-aliasing"
-msgstr "İtalyanca"
+msgstr "Kenar yumuşatma"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
-#, fuzzy, kde-format
-#| msgid "Speech recognition"
+#, kde-format
 msgid "Sample reduction"
-msgstr "Konuşma tanıma"
+msgstr "Örneklem azaltımı"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable LFO"
-msgstr "Etkinleştir"
+msgstr "LFO’yu Etkinleştir"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
 msgid "LFO depth"
-msgstr ""
+msgstr "LFO derinliği"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
-#, fuzzy, kde-format
-#| msgid "Frame rate:"
+#, kde-format
 msgid "LFO rate"
-msgstr "Kare hızı:"
+msgstr "LFO oranı"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
 #, kde-format
 msgid "Limiter"
-msgstr ""
+msgstr "Sınırlayıcı"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:5
 #: data/effects/avfilter/avfilter_aphaser.xml:5
 #, kde-format
 msgid "Audio lookahead limiter."
-msgstr ""
+msgstr "Ses ileriye dönük sınırlayıcısı."
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable ASC"
-msgstr "Etkinleştir"
+msgstr "ASC’yi Etkinleştir"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "ASC level"
-msgstr "Ses düzeyleri"
+msgstr "Ses düzeyi"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Normalize to 0dB"
-msgstr "Normalleştir"
+msgstr "0 dB’ye normalleştir"
 
 #: data/effects/avfilter/avfilter_allpass.xml:4
-#, fuzzy, kde-format
-#| msgid "2 pass"
+#, kde-format
 msgid "Allpass"
-msgstr "2 geçiş"
+msgstr "Tüm geçiş"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
 #, kde-format
@@ -811,6 +787,9 @@ msgid ""
 "and filter-width width. An all-pass filter changes the audio’s frequency to "
 "phase relationship without changing its frequency to amplitude relationship."
 msgstr ""
+"Merkezi frekans (Hz türünden) frekansı ve süzgeç genişliği genişliğine sahip "
+"iki kutuplu bir tüm geçiş süzgeci uygulayın. Tüm geçiş süzgeci, sesin "
+"frekansını genlik ilişkisini değiştirmeden frekans–faz ilişkisini değiştirir."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandreject.xml:8
@@ -819,10 +798,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:8
 #: data/effects/avfilter/avfilter_lowpass.xml:8
 #: data/effects/avfilter/avfilter_lowshelf.xml:8
-#, fuzzy, kde-format
-#| msgid "Low frequency"
+#, kde-format
 msgid "Central frequency"
-msgstr "Düşük frekans"
+msgstr "Merkezi frekans"
 
 #: data/effects/avfilter/avfilter_allpass.xml:11
 #: data/effects/avfilter/avfilter_bandpass.xml:14
@@ -834,7 +812,7 @@ msgstr "Düşük frekans"
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
 #, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,KHz"
-msgstr ""
+msgstr "Hz, Q-FActor, Oktav, Eğim, KHz"
 
 #: data/effects/avfilter/avfilter_allpass.xml:12
 #: data/effects/avfilter/avfilter_bandpass.xml:15
@@ -842,10 +820,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bass.xml:15
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
-#, fuzzy, kde-format
-#| msgid "Wipe Method"
+#, kde-format
 msgid "Method"
-msgstr "Sıfırlama methodu"
+msgstr "Yöntem"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -855,10 +832,9 @@ msgstr "Sıfırlama methodu"
 #: data/effects/avfilter/avfilter_highshelf.xml:15
 #: data/effects/avfilter/avfilter_lowpass.xml:15
 #: data/effects/avfilter/avfilter_lowshelf.xml:15
-#, fuzzy, kde-format
-#| msgid "Feather width"
+#, kde-format
 msgid "Filter-width"
-msgstr "Tüy genişliği"
+msgstr "Süzgeç Genişliği"
 
 #: data/effects/avfilter/avfilter_allpass.xml:21
 #: data/effects/avfilter/avfilter_bandpass.xml:24
@@ -883,13 +859,12 @@ msgstr "Normalleştir"
 #: data/effects/avfilter/avfilter_lowshelf.xml:21
 #, kde-format
 msgid "1,2"
-msgstr ""
+msgstr "1,2"
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
-#, fuzzy, kde-format
-#| msgid "Border"
+#, kde-format
 msgid "Order"
-msgstr "Kenar"
+msgstr "Sıra"
 
 #: data/effects/avfilter/avfilter_allpass.xml:28
 #: data/effects/avfilter/avfilter_bandpass.xml:27
@@ -901,7 +876,7 @@ msgstr "Kenar"
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
 #, kde-format
 msgid "di,dii,tdii,latt"
-msgstr ""
+msgstr "di,dii,tdii,latt"
 
 #: data/effects/avfilter/avfilter_allpass.xml:29
 #: data/effects/avfilter/avfilter_bandpass.xml:28
@@ -911,10 +886,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:32
 #: data/effects/avfilter/avfilter_lowpass.xml:29
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgid "Transform type"
-msgstr "Dönüştür"
+msgstr "Dönüşüm türü"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -926,7 +900,7 @@ msgstr "Dönüştür"
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
 #, kde-format
 msgid "Auto,s16,s32,f32,f64"
-msgstr ""
+msgstr "Kendiliğinden,s16,s32,f32,f64"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -936,22 +910,20 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:36
 #: data/effects/avfilter/avfilter_lowpass.xml:33
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
-#, fuzzy, kde-format
-#| msgid "File Extension"
+#, kde-format
 msgid "Filter precision"
-msgstr "Dosya Uzantısı"
+msgstr "Süzgeç kesinliği"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
 #, kde-format
 msgid "Phaser"
-msgstr ""
+msgstr "Evreleyici"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:14
-#, fuzzy, kde-format
-#| msgid "Duration (seconds)"
+#, kde-format
 msgid "Delay in milliseconds"
-msgstr "Süre (saniye)"
+msgstr "Milisaniye türünden gecikme"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
 #: data/effects/avfilter/avfilter_flanger.xml:28
@@ -2158,10 +2130,9 @@ msgid "Temperature"
 msgstr "Şablonlar"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
-#, fuzzy, kde-format
-#| msgid "Collapse/Expand Item"
+#, kde-format
 msgid "Compressor/Expander"
-msgstr "Ögeyi Genişlet/Daralt"
+msgstr "Kompresör/Genişletici"
 
 #: data/effects/avfilter/avfilter_compand.xml:5
 #, kde-format
@@ -2893,6 +2864,8 @@ msgid ""
 "Remove the rain in the input image/video by applying the derain methods "
 "based on convolutional neural networks"
 msgstr ""
+"Giriş görselindeki/videosundaki yağmuru, evrişimli sinir ağlarına dayalı "
+"Derain yöntemlerini uygulayarak kaldırın."
 
 #: data/effects/avfilter/avfilter_derain.xml:8
 #: data/effects/avfilter/avfilter_sr.xml:8
@@ -3504,10 +3477,9 @@ msgid "wiener,hard"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set denoising method]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Gürültü kaldırma yöntemi ayarla]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
@@ -5336,10 +5308,9 @@ msgid "Absolute,Relative"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Image Selection Method"
+#, kde-format
 msgid "Correction Method"
-msgstr "Görsel Seçim Yöntemi"
+msgstr "Düzeltme Yöntemi"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:12
 #, kde-format
@@ -5750,6 +5721,8 @@ msgid ""
 "Scale the input by applying one of the super-resolution methods based on "
 "convolutional neural networks. "
 msgstr ""
+"Girişi, evrişimli sinir ağlarına dayalı süper çözünürlük yöntemlerinden "
+"birini uygulayarak ölçeklendirin."
 
 #: data/effects/avfilter/avfilter_sr.xml:15
 #, kde-format
@@ -6705,7 +6678,7 @@ msgstr "Ölçekle"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1294 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:55
+#: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
@@ -7351,7 +7324,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
 msgid "Create an analog video echo"
-msgstr ""
+msgstr "Analog video yankısı oluştur"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
 #, fuzzy, kde-format
@@ -7360,15 +7333,14 @@ msgid "Fade factor"
 msgstr "Bulanıklık faktörü"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Disappearance Rate of the echo]]>"
-msgstr "<![CDATA[X eksenindeki çarpıtma açısı]]>"
+msgstr "<![CDATA[Yankının kaybolma oranı]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
 msgid "<![CDATA[Darker or Brighter echo]]>"
-msgstr ""
+msgstr "<![CDATA[Daha koyu veya daha parlak yankı]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
 #, kde-format
@@ -12529,7 +12501,7 @@ msgstr "Yansıyı devre dışı bırak"
 #: data/effects/pillar_echo.xml:4
 #, kde-format
 msgid "Pillar Echo"
-msgstr "Sütun yankı"
+msgstr "Sütun Yankısı"
 
 #: data/effects/pillar_echo.xml:5
 #, kde-format
@@ -12976,7 +12948,7 @@ msgid "Analysis,Apply"
 msgstr "Çözümleme"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
-#: src/monitor/view/kdenlivemonitorsplit.qml:98
+#: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
@@ -13042,25 +13014,22 @@ msgstr "Tüm ses efektlerini göster"
 #: data/effects/sox/sox_echo.xml:4
 #, kde-format
 msgid "Sox Echo"
-msgstr ""
+msgstr "Çorap Yankısı"
 
 #: data/effects/sox/sox_echo.xml:5
-#, fuzzy, kde-format
-#| msgid "Show all audio effects"
+#, kde-format
 msgid "Sox echo audio effect"
-msgstr "Tüm ses efektlerini göster"
+msgstr "Çorap yankısı ses efekti"
 
 #: data/effects/sox/sox_echo.xml:8 data/effects/sox/sox_phaser.xml:8
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Gain In"
-msgstr "Kazanç"
+msgstr "İçe Kazanç"
 
 #: data/effects/sox/sox_echo.xml:11 data/effects/sox/sox_phaser.xml:11
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Gain Out"
-msgstr "Kazanç"
+msgstr "Dışa Kazanç"
 
 #: data/effects/sox/sox_flanger.xml:4
 #, kde-format
@@ -14671,7 +14640,7 @@ msgstr "Şİmdiki ve sonraki kareler arassında sabit bir geçiş uygular."
 #: data/transitions/wipe.xml:8
 #, kde-format
 msgid "Wipe Method"
-msgstr "Sıfırlama methodu"
+msgstr "Toptan Silme Yöntemi"
 
 #: data/transitions/matte.xml:4
 #, kde-format
@@ -18832,7 +18801,7 @@ msgstr "Video izi olmayan ses"
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> sunumu başladı"
 
-#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1317
+#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "başlıksız"
@@ -22646,7 +22615,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:321
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:320
 #, kde-format
 msgid "Merged streams"
 msgstr "Birleşik akışlar"
@@ -23229,7 +23198,7 @@ msgstr "Sunum Düğmesi"
 msgid "Rendering preview"
 msgstr "Sunum önizlemesi"
 
-#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:429
+#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:428
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Kılavuza Git…"
@@ -23727,22 +23696,22 @@ msgstr "Monitör Üzerindeki Klip İşleri"
 msgid "Full Resolution (1:1)"
 msgstr "Tam Çözünürlük (1:1)"
 
-#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -25027,13 +24996,13 @@ msgid "Enable audio"
 msgstr "Sesi etkinleştir"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:733
-#: src/monitor/monitor.cpp:304
+#: src/monitor/monitor.cpp:303
 #, kde-format
 msgid "Audio streams"
 msgstr "Ses akışları"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:755
-#: src/monitor/monitor.cpp:1991
+#: src/monitor/monitor.cpp:1990
 #, kde-format
 msgid "Merge all streams"
 msgstr "Tüm akışları Birleştir"
@@ -25304,14 +25273,14 @@ msgstr "Ses düzeyi"
 msgid "%1%"
 msgstr "%​%1"
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:231
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 "Önizleme çözünürlüğü — daha düşük çözünürlük daha hızlı önizleme anlamına "
 "gelir"
 
-#: src/monitor/monitor.cpp:233
+#: src/monitor/monitor.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25323,49 +25292,49 @@ msgstr ""
 "360p, 270p arasından seçim yapılabilir (çözünürlük ne kadar düşükse önizleme "
 "o kadar hızlıdır)."
 
-#: src/monitor/monitor.cpp:236
+#: src/monitor/monitor.cpp:235
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:682
 #, kde-format
 msgid "Set Zone In"
 msgstr "Bölge Girişini Ayarla"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:686
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Bölge Çıkışını Ayarla"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "Geri Sar"
 
-#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
+#: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
 #: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "Oynat"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:541
 #: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "Duraklat"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "İleri Sar"
 
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:418
 #, kde-format
 msgid "More Options…"
 msgstr "Daha Fazla Seçenek…"
 
-#: src/monitor/monitor.cpp:420
+#: src/monitor/monitor.cpp:419
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25375,153 +25344,153 @@ msgstr ""
 "Proje/Klip monitörü seçeneklerinin bir listesini açar (örn. ses düzeyi, "
 "monitör boyutu)."
 
-#: src/monitor/monitor.cpp:429
+#: src/monitor/monitor.cpp:428
 #, kde-format
 msgid "Go to Marker…"
 msgstr "İmleyiciye Git…"
 
-#: src/monitor/monitor.cpp:433
+#: src/monitor/monitor.cpp:432
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Monitör Boyutunu Zorla"
 
-#: src/monitor/monitor.cpp:434
+#: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Force 100%"
 msgstr "%​100’e Zorla"
 
-#: src/monitor/monitor.cpp:436
+#: src/monitor/monitor.cpp:435
 #, kde-format
 msgid "Force 50%"
 msgstr "%​50’ye Zorla"
 
-#: src/monitor/monitor.cpp:438
+#: src/monitor/monitor.cpp:437
 #, kde-format
 msgid "Free Resize"
 msgstr "Serbest Yeniden Boyutlandır"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:445 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "Siyah"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:447 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "Beyaz"
 
-#: src/monitor/monitor.cpp:450
+#: src/monitor/monitor.cpp:449
 #, kde-format
 msgid "Pink"
 msgstr "Pembe"
 
-#: src/monitor/monitor.cpp:453
+#: src/monitor/monitor.cpp:452
 #, kde-format
 msgid "Checkerboard"
 msgstr "Dama Tahtası"
 
-#: src/monitor/monitor.cpp:526
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "-5"
 msgstr "−5"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-1"
 msgstr "−1"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:690
+#: src/monitor/monitor.cpp:689
 #, kde-format
 msgid "Extract Zone"
 msgstr "Bölgeyi Çıkar"
 
-#: src/monitor/monitor.cpp:703
+#: src/monitor/monitor.cpp:702
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Geçerli Görseli Küçük Görsel Yap"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Ses Önizlemelerini Her Zaman Göster"
 
-#: src/monitor/monitor.cpp:727
+#: src/monitor/monitor.cpp:726
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Ses Düzeylerini Göster"
 
-#: src/monitor/monitor.cpp:734
+#: src/monitor/monitor.cpp:733
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Kaynak Zaman Kodunu Göster"
 
-#: src/monitor/monitor.cpp:771
+#: src/monitor/monitor.cpp:770
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Ekran çözünürlüğünüz bu işlem için yeterli değil"
 
-#: src/monitor/monitor.cpp:905 src/monitor/monitor.cpp:941
+#: src/monitor/monitor.cpp:904 src/monitor/monitor.cpp:940
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "Bir maske oluştururken bölge değiştirilemiyor"
 
-#: src/monitor/monitor.cpp:934 src/monitor/monitor.cpp:970
+#: src/monitor/monitor.cpp:933 src/monitor/monitor.cpp:969
 #: src/timeline2/view/timelinecontroller.cpp:1814
 #, kde-format
 msgid "Set Zone"
 msgstr "Bölge Ayarla"
 
-#: src/monitor/monitor.cpp:1330
+#: src/monitor/monitor.cpp:1329
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Görseli Projeye Kaydet"
 
-#: src/monitor/monitor.cpp:1330
+#: src/monitor/monitor.cpp:1329
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Görseli Kaydet"
 
-#: src/monitor/monitor.cpp:1337
+#: src/monitor/monitor.cpp:1336
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Kaynak çözünürlüğünü kullanarak görüntüyü dışa aktar"
 
-#: src/monitor/monitor.cpp:1878
+#: src/monitor/monitor.cpp:1877
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Maske Kipinden Çık?"
 
-#: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
+#: src/monitor/monitor.cpp:1975 src/monitor/monitor.cpp:2107
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 ses akışı"
 msgstr[1] "%1 ses akışı"
 
-#: src/monitor/monitor.cpp:2415
+#: src/monitor/monitor.cpp:2414
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit’in GLSL yöneticisi başlatılamıyor, lütfen Movit’i devre dışı bırakın"
 
-#: src/monitor/monitor.cpp:2457 src/monitor/monitor.cpp:2514
+#: src/monitor/monitor.cpp:2456 src/monitor/monitor.cpp:2513
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -25530,17 +25499,17 @@ msgstr ""
 "Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2477
+#: src/monitor/monitor.cpp:2476
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip bir efekt içermiyor"
 
-#: src/monitor/monitor.cpp:2479
+#: src/monitor/monitor.cpp:2478
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Efekti uygulamak için proje kovasından bir klip seçin"
 
-#: src/monitor/monitor.cpp:2521
+#: src/monitor/monitor.cpp:2520
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -25549,17 +25518,17 @@ msgstr ""
 "Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2596
+#: src/monitor/monitor.cpp:2597
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Efekti düzenlemek için monitörde düzenleme modunu etkinleştir"
 
-#: src/monitor/monitor.cpp:3092
+#: src/monitor/monitor.cpp:3094
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "Klip monitöründe seçili klip yok"
 
-#: src/monitor/monitor.cpp:3113
+#: src/monitor/monitor.cpp:3115
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Klip monitörü için olan üreteç alınamıyor"
@@ -25760,17 +25729,17 @@ msgstr "Ses tayfını etkinleştirmek için MLT libfftw3 ile derlenmesi zorunlud
 msgid "Enable Audio Spectrum"
 msgstr "Ses Tayfını Etkinleştir"
 
-#: src/monitor/videowidget.cpp:1083
+#: src/monitor/videowidget.cpp:1089
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Oynanacak bir bölge seçin"
 
-#: src/monitor/videowidget.cpp:1092
+#: src/monitor/videowidget.cpp:1098
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Oynatılacak bir klip seçin"
 
-#: src/monitor/videowidget.cpp:1197
+#: src/monitor/videowidget.cpp:1203
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -25836,7 +25805,7 @@ msgstr "Uzaklaştır"
 msgid "Move Toolbar"
 msgstr "Araç Çubuğunu Taşı"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:170
+#: src/monitor/view/kdenliveclipmonitor.qml:179
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25851,35 +25820,35 @@ msgstr ""
 "<shortcut>ok düğmelerini</shortcut> kullanın, yakınlaştırmak için "
 "<shortcut>Kontrol+fare tekerleği</shortcut> kullanın"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:559
-#: src/monitor/view/kdenlivemonitor.qml:200
+#: src/monitor/view/kdenliveclipmonitor.qml:569
+#: src/monitor/view/kdenlivemonitor.qml:204
 #, kde-format
 msgid "%1fps"
 msgstr "%1 FPS"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:592
+#: src/monitor/view/kdenliveclipmonitor.qml:602
 #, kde-format
 msgid "In/Out Point"
 msgstr "Giriş/Çıkış noktası"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:592
-#: src/monitor/view/kdenlivemonitor.qml:233
+#: src/monitor/view/kdenliveclipmonitor.qml:602
+#: src/monitor/view/kdenlivemonitor.qml:237
 #, kde-format
 msgid "In Point"
 msgstr "Giriş noktası"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:614
-#: src/monitor/view/kdenlivemonitor.qml:250
+#: src/monitor/view/kdenliveclipmonitor.qml:624
+#: src/monitor/view/kdenlivemonitor.qml:254
 #, kde-format
 msgid "Out Point"
 msgstr "Çıkış noktası"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:794
+#: src/monitor/view/kdenliveclipmonitor.qml:804
 #, kde-format
 msgid "Terminate Job"
 msgstr "İşi Sonlandır"
 
-#: src/monitor/view/kdenlivemonitor.qml:97
+#: src/monitor/view/kdenlivemonitor.qml:101
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -25889,28 +25858,28 @@ msgstr ""
 "Sağa gelin </b>araç çubuğu için, aramak için <b> Tekerlek </b> veya <b> "
 "oklar </b>, yakınlaştırmak için <b> Kontrol tekerleği </b>"
 
-#: src/monitor/view/kdenlivemonitor.qml:296
+#: src/monitor/view/kdenlivemonitor.qml:300
 #, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Dönüşüm"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Önce görseldeki bir nesneyi seçin"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Generating image mask"
 msgstr "Görsel maskesi üretiliyor"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Generating video mask"
 msgstr "Video maskesi üretiliyor"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:398
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -25921,12 +25890,12 @@ msgstr ""
 "Başka bir bölgeyi içermek için Üst Karakter düğmesi ile tıklayın.\n"
 "Bir bölgeyi dışlamak için Kontrol düğmesi ile tıklayın."
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:398
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Video maskesi önizleniyor"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#: src/monitor/view/kdenlivemonitorautomask.qml:409
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -25939,17 +25908,17 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#: src/monitor/view/kdenlivemonitorautomask.qml:419
 #, kde-format
 msgid "Go to mask start"
 msgstr "Maske Başlangıcına Git"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#: src/monitor/view/kdenlivemonitorautomask.qml:432
 #, kde-format
 msgid "Go to mask end"
 msgstr "Maske Sonuna Git"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:309
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25997,7 +25966,7 @@ msgstr ""
 "Merkez tabanlı yeniden boyutlandırma için tutacı <shortcut>Üst Karakter ile "
 "sürükle</shortcut>"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:438
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:442
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -29603,26 +29572,26 @@ msgstr "Ögeyi düzenle"
 msgid "Clip Speed"
 msgstr "Klip Hızı"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:39
+#: src/timeline2/view/dialogs/speeddialog.cpp:41
 #, kde-format
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr ""
 "Perde gamı düzeltmesini etkinleştirmek için MLT, rubberband kitaplığı ile "
 "birlikte derlenmelidir"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:44
+#: src/timeline2/view/dialogs/speeddialog.cpp:46
 #, kde-format
 msgid "Speed effect will render better when used on single high fps clips"
 msgstr ""
 "Hız efekti, tek yüksek fps’li klipler üzerinde kullanıldığında daha iyi "
 "sunulur"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:103
+#: src/timeline2/view/dialogs/speeddialog.cpp:108
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "en düşük  hız %1"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:104
+#: src/timeline2/view/dialogs/speeddialog.cpp:109
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "Azami hız %1"

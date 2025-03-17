@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-15 02:35+0000\n"
+"POT-Creation-Date: 2025-03-17 02:29+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -89,7 +89,7 @@ msgstr "レベルを表示するグラフです。"
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
 #: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
+#: data/effects/timer.xml:26 src/monitor/monitor.cpp:444
 #, kde-format
 msgid "Background Color"
 msgstr "背景色"
@@ -6645,7 +6645,7 @@ msgstr "ズーム"
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1294 src/bin/projectitemmodel.cpp:340
-#: src/timeline2/view/dialogs/speeddialog.cpp:55
+#: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
@@ -12735,7 +12735,7 @@ msgid "Analysis,Apply"
 msgstr "解析"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
-#: src/monitor/view/kdenlivemonitorsplit.qml:98
+#: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
 msgstr "効果"
@@ -18754,7 +18754,7 @@ msgstr "オーディオトラックなしのビデオ"
 msgid "Rendering <i>%1</i> started"
 msgstr "レンダリング <i>%1</i> を開始しました"
 
-#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1317
+#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "タイトル未定"
@@ -22753,7 +22753,7 @@ msgstr "kHz"
 msgid "Hz "
 msgstr "H"
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:321
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:320
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Merged streams"
@@ -23348,7 +23348,7 @@ msgstr "レンダリングボタン"
 msgid "Rendering preview"
 msgstr "レンダリングプレビュー"
 
-#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:429
+#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:428
 #, kde-format
 msgid "Go to Guide…"
 msgstr "ガイドに移動..."
@@ -23850,22 +23850,22 @@ msgstr "モニターのオーバーレイ情報"
 msgid "Full Resolution (1:1)"
 msgstr "解像度"
 
-#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -25214,14 +25214,14 @@ msgid "Enable audio"
 msgstr "オーディオを有効化"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:733
-#: src/monitor/monitor.cpp:304
+#: src/monitor/monitor.cpp:303
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio streams"
 msgstr "オーディオトラック"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:755
-#: src/monitor/monitor.cpp:1991
+#: src/monitor/monitor.cpp:1990
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -25509,12 +25509,12 @@ msgstr "オーディオの音量"
 msgid "%1%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:231
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr "プレビュー解像度 - 低い解像度であれば素早くプレビューします"
 
-#: src/monitor/monitor.cpp:233
+#: src/monitor/monitor.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25523,50 +25523,50 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:236
+#: src/monitor/monitor.cpp:235
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:682
 #, kde-format
 msgid "Set Zone In"
 msgstr "ゾーン・インの設定(S)"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:686
 #, kde-format
 msgid "Set Zone Out"
 msgstr "ゾーン・アウトの設定(Z)"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "巻き戻し(R)"
 
-#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
+#: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
 #: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "再生(P)"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:541
 #: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr "一時停止(P)"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "早送り(D)"
 
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:418
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "More Options…"
 msgstr "オプションの表示/非表示"
 
-#: src/monitor/monitor.cpp:420
+#: src/monitor/monitor.cpp:419
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25574,163 +25574,163 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:429
+#: src/monitor/monitor.cpp:428
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Marker…"
 msgstr "マーカーに移動(G)..."
 
-#: src/monitor/monitor.cpp:433
+#: src/monitor/monitor.cpp:432
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Force Monitor Size"
 msgstr "フォントサイズ"
 
-#: src/monitor/monitor.cpp:434
+#: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Force 100%"
 msgstr "強制 100%"
 
-#: src/monitor/monitor.cpp:436
+#: src/monitor/monitor.cpp:435
 #, kde-format
 msgid "Force 50%"
 msgstr "強制 50%"
 
-#: src/monitor/monitor.cpp:438
+#: src/monitor/monitor.cpp:437
 #, fuzzy, kde-format
 #| msgid "Frame size"
 msgid "Free Resize"
 msgstr "フレームサイズ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:445 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "黒"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:447 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "白"
 
-#: src/monitor/monitor.cpp:450
+#: src/monitor/monitor.cpp:449
 #, kde-format
 msgid "Pink"
 msgstr "ピンク"
 
-#: src/monitor/monitor.cpp:453
+#: src/monitor/monitor.cpp:452
 #, fuzzy, kde-format
 #| msgid "Checkered"
 msgid "Checkerboard"
 msgstr "チェックする"
 
-#: src/monitor/monitor.cpp:526
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:532
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:538
+#: src/monitor/monitor.cpp:537
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:544
+#: src/monitor/monitor.cpp:543
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:690
+#: src/monitor/monitor.cpp:689
 #, kde-format
 msgid "Extract Zone"
 msgstr "ゾーンの取り出し"
 
-#: src/monitor/monitor.cpp:703
+#: src/monitor/monitor.cpp:702
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "現在の画像をサムネイルとして設定"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:709
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "常にオーディオのサムネイルを表示する(T)"
 
-#: src/monitor/monitor.cpp:727
+#: src/monitor/monitor.cpp:726
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "オーディオレベルを表示"
 
-#: src/monitor/monitor.cpp:734
+#: src/monitor/monitor.cpp:733
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Source Timecode"
 msgstr "録画モニタ(R)"
 
-#: src/monitor/monitor.cpp:771
+#: src/monitor/monitor.cpp:770
 #, fuzzy, kde-format
 #| msgid "You must select one transition for this action"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "この操作を実行するには、1 つの遷移効果を選択しなければなりません"
 
-#: src/monitor/monitor.cpp:905 src/monitor/monitor.cpp:941
+#: src/monitor/monitor.cpp:904 src/monitor/monitor.cpp:940
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr ""
 
-#: src/monitor/monitor.cpp:934 src/monitor/monitor.cpp:970
+#: src/monitor/monitor.cpp:933 src/monitor/monitor.cpp:969
 #: src/timeline2/view/timelinecontroller.cpp:1814
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set Zone"
 msgstr "ゾーン・インの設定(S)"
 
-#: src/monitor/monitor.cpp:1330
+#: src/monitor/monitor.cpp:1329
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "DVD プロジェクトの保存"
 
-#: src/monitor/monitor.cpp:1330
+#: src/monitor/monitor.cpp:1329
 #, fuzzy, kde-format
 #| msgid "Save Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "画像を保存"
 
-#: src/monitor/monitor.cpp:1337
+#: src/monitor/monitor.cpp:1336
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "ソース解像度を使用して画像をエクスポート"
 
-#: src/monitor/monitor.cpp:1878
+#: src/monitor/monitor.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Exit Mask Mode ?"
 msgstr "長さの編集(E)"
 
-#: src/monitor/monitor.cpp:1976 src/monitor/monitor.cpp:2108
+#: src/monitor/monitor.cpp:1975 src/monitor/monitor.cpp:2107
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "オーディオトラック"
 
-#: src/monitor/monitor.cpp:2415
+#: src/monitor/monitor.cpp:2414
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit の GLSL マネージャーを初期化できません、Movit を無効にしてください"
 
-#: src/monitor/monitor.cpp:2457 src/monitor/monitor.cpp:2514
+#: src/monitor/monitor.cpp:2456 src/monitor/monitor.cpp:2513
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -25739,19 +25739,19 @@ msgstr ""
 "その機能には alphagrad フィルタが必要です、frei0r をインストールして "
 "Kdenlive を再起動してください"
 
-#: src/monitor/monitor.cpp:2477
+#: src/monitor/monitor.cpp:2476
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "クリップにはマーカーがありません"
 
-#: src/monitor/monitor.cpp:2479
+#: src/monitor/monitor.cpp:2478
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "効果を適用したい場合は、クリップを選択してください"
 
-#: src/monitor/monitor.cpp:2521
+#: src/monitor/monitor.cpp:2520
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -25760,18 +25760,18 @@ msgstr ""
 "その機能には cairoblend transition が必要です、frei0r をインストールして "
 "Kdenlive を再起動してください"
 
-#: src/monitor/monitor.cpp:2596
+#: src/monitor/monitor.cpp:2597
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3092
+#: src/monitor/monitor.cpp:3094
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected in Clip Monitor"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/monitor/monitor.cpp:3113
+#: src/monitor/monitor.cpp:3115
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr ""
@@ -25978,19 +25978,19 @@ msgstr ""
 msgid "Enable Audio Spectrum"
 msgstr "オーディオスペクトラム(I)"
 
-#: src/monitor/videowidget.cpp:1083
+#: src/monitor/videowidget.cpp:1089
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "選択ツール(S)"
 
-#: src/monitor/videowidget.cpp:1092
+#: src/monitor/videowidget.cpp:1098
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "選択ツール(S)"
 
-#: src/monitor/videowidget.cpp:1197
+#: src/monitor/videowidget.cpp:1203
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -26062,7 +26062,7 @@ msgstr "縮小"
 msgid "Move Toolbar"
 msgstr "タイムライン(I)"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:170
+#: src/monitor/view/kdenliveclipmonitor.qml:179
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
@@ -26079,36 +26079,36 @@ msgstr ""
 "バー</b>でツールバー、<b>ホイール</b>または<b>矢印</b>でシーク、<b>Ctrl + ホ"
 "イール</b>でズーム"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:559
-#: src/monitor/view/kdenlivemonitor.qml:200
+#: src/monitor/view/kdenliveclipmonitor.qml:569
+#: src/monitor/view/kdenlivemonitor.qml:204
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:592
+#: src/monitor/view/kdenliveclipmonitor.qml:602
 #, kde-format
 msgid "In/Out Point"
 msgstr "イン/アウト・ポイント"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:592
-#: src/monitor/view/kdenlivemonitor.qml:233
+#: src/monitor/view/kdenliveclipmonitor.qml:602
+#: src/monitor/view/kdenlivemonitor.qml:237
 #, kde-format
 msgid "In Point"
 msgstr "イン・ポイント"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:614
-#: src/monitor/view/kdenlivemonitor.qml:250
+#: src/monitor/view/kdenliveclipmonitor.qml:624
+#: src/monitor/view/kdenlivemonitor.qml:254
 #, kde-format
 msgid "Out Point"
 msgstr "アウト・ポイント"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:794
+#: src/monitor/view/kdenliveclipmonitor.qml:804
 #, fuzzy, kde-format
 #| msgid "Remove Job"
 msgid "Terminate Job"
 msgstr "ジョブの削除"
 
-#: src/monitor/view/kdenlivemonitor.qml:97
+#: src/monitor/view/kdenlivemonitor.qml:101
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -26118,30 +26118,30 @@ msgstr ""
 "バー</b>でツールバー、<b>ホイール</b>または<b>矢印</b>でシーク、<b>Ctrl + ホ"
 "イール</b>でズーム"
 
-#: src/monitor/view/kdenlivemonitor.qml:296
+#: src/monitor/view/kdenlivemonitor.qml:300
 #, fuzzy, kde-format
 #| msgid "Transform"
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "トランスフォーム"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select an object in the image first"
 msgstr "効果を適用したい場合は、クリップを選択してください"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:383
+#: src/monitor/view/kdenlivemonitorautomask.qml:387
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:398
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -26149,13 +26149,13 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:394
+#: src/monitor/view/kdenlivemonitorautomask.qml:398
 #, fuzzy, kde-format
 #| msgid "Render using proxy clips"
 msgid "Previewing video mask"
 msgstr "代用クリップを利用してレンダリング"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:405
+#: src/monitor/view/kdenlivemonitorautomask.qml:409
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -26164,19 +26164,19 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:415
+#: src/monitor/view/kdenlivemonitorautomask.qml:419
 #, fuzzy, kde-format
 #| msgid "Go to Clip Start"
 msgid "Go to mask start"
 msgstr "クリップの開始点に移動(C)"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:428
+#: src/monitor/view/kdenlivemonitorautomask.qml:432
 #, fuzzy, kde-format
 #| msgid "Go to Clip End"
 msgid "Go to mask end"
 msgstr "クリップの終了点に移動(E)"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:309
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -26220,7 +26220,7 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:438
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:442
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click to add points,\n"
@@ -29956,24 +29956,24 @@ msgstr "ガイドの編集"
 msgid "Clip Speed"
 msgstr "クリップの速度"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:39
+#: src/timeline2/view/dialogs/speeddialog.cpp:41
 #, kde-format
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr ""
 "ピッチ修正を有効化するには MLT を rubberband ライブラリと一緒にコンパイルする"
 "必要があります。"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:44
+#: src/timeline2/view/dialogs/speeddialog.cpp:46
 #, kde-format
 msgid "Speed effect will render better when used on single high fps clips"
 msgstr ""
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:103
+#: src/timeline2/view/dialogs/speeddialog.cpp:108
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr "最低速度は %1"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:104
+#: src/timeline2/view/dialogs/speeddialog.cpp:109
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr "最高速度は %1"
