@@ -56,6 +56,7 @@ if __name__ == "__main__":
     labels = {}
     mask_color = {}
     border_color = {}
+    requestedDevice = "cpu"
     if args.point_coordinates != None:
         process_csv(points, args.point_coordinates, 2)
         process_csv(labels, args.labels, 1)

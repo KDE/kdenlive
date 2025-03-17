@@ -1115,10 +1115,13 @@ void TextBasedEdit::startRecognition()
                             m_stt->speechScript(),
                             QStringLiteral("--src=\"%1\"").arg(m_playlistWav.fileName()),
                             QStringLiteral("--model=%1").arg(modelName),
-                            QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice()),
                             QStringLiteral("--task=%1").arg(KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
                             QStringLiteral("--ffmpeg=%1").arg(KdenliveSettings::ffmpegpath()),
                             QStringLiteral("--language=%1").arg(language)};
+
+                        if (!KdenliveSettings::whisperDevice().isEmpty()) {
+                            args << QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice());
+                        }
 
                         if (speech_zone->isChecked()) {
                             m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
@@ -1171,10 +1174,12 @@ void TextBasedEdit::startRecognition()
             args = {m_stt->speechScript(),
                     QStringLiteral("--src=\"%1\"").arg(m_sourceUrl),
                     QStringLiteral("--model=%1").arg(modelName),
-                    QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice()),
                     QStringLiteral("--task=%1").arg(KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
                     QStringLiteral("--language=%1").arg(language),
                     QStringLiteral("--ffmpeg_path=%1").arg(KdenliveSettings::ffmpegpath())};
+            if (!KdenliveSettings::whisperDevice().isEmpty()) {
+                args << QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice());
+            }
             connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
             if (speech_zone->isChecked()) {
                 m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
