@@ -633,6 +633,7 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
+    void abortAllRenderJobs();
     void configurationChanged();
     void GUISetupDone();
     void setPreviewProgress(int);

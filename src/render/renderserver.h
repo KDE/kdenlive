@@ -29,6 +29,7 @@ private Q_SLOTS:
     void jobConnected();
     void handleJson(const QJsonObject &json, QLocalSocket *socket);
     void jobSent();
+    void abortAllJobs();
 
 private:
     QLocalServer m_server;

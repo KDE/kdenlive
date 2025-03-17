@@ -931,9 +931,33 @@ MainWindow::~MainWindow()
 // virtual
 bool MainWindow::queryClose()
 {
+    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
+    if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
+        return false;
+    }
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
-        if (waitingJobs > 0) {
+        int runningJobs = m_renderWidget->runningJobsCount();
+        if (runningJobs > 0) {
+            switch (KMessageBox::warningTwoActionsCancel(this,
+                                                         i18np("You have 1 rendering job running.\nWhat do you want to do with this job?",
+                                                               "You have %1 rendering jobs running.\nWhat do you want to do with these jobs?", runningJobs),
+                                                         QString(), KGuiItem(i18n("Continue rendering in the background")), KGuiItem(i18n("Abort rendering")),
+                                                         KStandardGuiItem::cancel(), QStringLiteral("warnOnRenderExit"))) {
+            case KMessageBox::PrimaryAction:
+                // create script with waiting jobs and start it
+                if (waitingJobs > 0 && !m_renderWidget->startWaitingRenderJobs()) {
+                    return false;
+                }
+                break;
+            case KMessageBox::SecondaryAction:
+                // Abort the jobs
+                Q_EMIT abortAllRenderJobs();
+                break;
+            default:
+                return false;
+            }
+        } else if (waitingJobs > 0) {
             switch (KMessageBox::warningTwoActionsCancel(this,
                                                          i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?",
                                                                "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?",
@@ -954,12 +978,8 @@ bool MainWindow::queryClose()
         }
     }
     saveOptions();
-    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    bool successfullClose = pCore->projectManager()->closeCurrentDocument(true, true);
-    if (successfullClose) {
-        m_windowClosing = true;
-    }
-    return successfullClose;
+    m_windowClosing = true;
+    return true;
 }
 
 void MainWindow::buildGenerator(QAction *action)
