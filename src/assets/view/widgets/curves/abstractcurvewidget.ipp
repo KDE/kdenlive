@@ -17,8 +17,8 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
     setMouseTracking(true);
     setAutoFillBackground(false);
     setAttribute(Qt::WA_OpaquePaintEvent);
-    setMinimumSize(150, QFontInfo(font()).pixelSize() * 12);
-    QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    setMinimumSize(QFontInfo(font()).pixelSize() * 10, QFontInfo(font()).pixelSize() * 10);
+    QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Preferred);
     sp.setHeightForWidth(true); // force widget to have a height dependent on width;
     setSizePolicy(sp);
     setFocusPolicy(Qt::StrongFocus);

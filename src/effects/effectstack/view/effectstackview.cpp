@@ -100,9 +100,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_effectsTree->setHeaderHidden(true);
     m_effectsTree->setRootIsDecorated(false);
     m_effectsTree->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    QString style = QStringLiteral("QTreeView {border: none;}");
     m_effectsTree->viewport()->setAutoFillBackground(false);
-    m_effectsTree->setStyleSheet(style);
     m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
     m_lay->addWidget(m_effectsTree);
     m_lay->addStretch(10);
