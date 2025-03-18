@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 00:40+0000\n"
-"PO-Revision-Date: 2025-03-16 23:35+0200\n"
+"POT-Creation-Date: 2025-03-18 00:41+0000\n"
+"PO-Revision-Date: 2025-03-17 20:33+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -814,8 +814,7 @@ msgstr "Центральна частота"
 #: data/effects/avfilter/avfilter_highshelf.xml:11
 #: data/effects/avfilter/avfilter_lowpass.xml:11
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
-#, fuzzy, kde-format
-#| msgid "Hz,Q-FActor,Octave,Slope,KHz"
+#, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,KHz"
 msgstr "Гц,Q-коефіцієнт,Октава,Нахил,кГц"
 
@@ -3081,10 +3080,7 @@ msgid "Color"
 msgstr "Колір"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Select a color for the line.<br>\n"
-#| "    \tUse the <em>Alpha<em> value to make the line semi-transparent.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
@@ -3188,10 +3184,7 @@ msgid "<![CDATA[Distance between horizontal lines in pixel]]>"
 msgstr "<![CDATA[Відстань між горизонтальними лініями у пікселях]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Select a color for the grid lines.<br>\n"
-#| "    \tUse the <em>Alpha<em> value to make the grid semi-transparent.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
@@ -3451,10 +3444,7 @@ msgid "Amount"
 msgstr "Потужність"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:15
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Set the amount of denoising.<br>\n"
-#| "       \tBy default all detected noise is reduced..]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Set the amount of denoising.<br>\n"
 "       \tBy default all detected noise is reduced.]]>"
@@ -3744,6 +3734,8 @@ msgstr "Фаза"
 msgid ""
 "Set swept wave percentage-shift for multi channel. Range from 0 to 100. "
 msgstr ""
+"Встановити зсув у відсотках для зметеної хвилі для декількох каналів. "
+"Діапазон — від 0 до 100. "
 
 #: data/effects/avfilter/avfilter_flanger.xml:37
 #, kde-format
@@ -3846,7 +3838,16 @@ msgid "gradfun"
 msgstr "gradfun"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Debands video quickly using gradients.<br>\n"
+#| "    Fix the banding artifacts that are sometimes introduced into nearly "
+#| "flat regions by truncation to 8-bit color depth.<br>\n"
+#| "    Interpolate the gradients that should go where the bands are, and "
+#| "dither them.<br>\n"
+#| "    <b>It is designed for playback only. Do not use it prior to lossy "
+#| "compression, because compression tends to lose the dither and bring back "
+#| "the bands<b>.]]>"
 msgid ""
 "<![CDATA[Debands video quickly using gradients.<br>\n"
 "    Fix the banding artifacts that are sometimes introduced into nearly flat "
@@ -3855,8 +3856,15 @@ msgid ""
 "them.<br>\n"
 "    <b>It is designed for playback only. Do not use it prior to lossy "
 "compression, because compression tends to lose the dither and bring back the "
-"bands<b>.]]>"
+"bands</b>.]]>"
 msgstr ""
+"<![CDATA[Швидко усуває смуги на відео за допомогою градієнтів.<br>\n"
+" Виправлення смугових дефектів, які іноді з'являються в майже плоских "
+"областях шляхом обрізання до 8-бітової глибини кольору.<br>\n"
+" Виконує інтерполяцію градієнтами на місці смуг і розмазує їх.<br>\n"
+" <b>Фільтр призначено лише для відтворення. Не використовуйте його перед "
+"стисненням із втратами, оскільки стиснення має тенденцію втрачати "
+"розмазування і повертати смуги</b>.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -3865,6 +3873,9 @@ msgid ""
 "<br>\n"
 "       \tThis is also the threshold for detecting nearly flat regions.]]>"
 msgstr ""
+"<![CDATA[Максимальна величина, на яку фільтр може змінити будь-який піксель."
+"<br>\n"
+"       \tЦе також порогове значення для виявлення майже плоских ділянок.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:18
 #, kde-format
@@ -3873,6 +3884,9 @@ msgid ""
 "       \tA larger radius makes for smoother gradients, but also prevents the "
 "filter from modifying the pixels near detailed regions.]]>"
 msgstr ""
+"<![CDATA[Сусідня область для апроксимації градієнтом.<br>\n"
+"       \tБільший радіус дає плавніші градієнти, але також заважає дії "
+"фільтра при зміні пікселів поряд із ділянками з багатьма деталями.]]>"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
 #, kde-format
@@ -3893,6 +3907,8 @@ msgstr "Компактний,Повний"
 #, kde-format
 msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
+"Черга,Кількість вхідних кадрів,Кількість вихідних кадрів,Пункти,Час,Часова "
+"основа,Формат,Розмір,Швидкість"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #: data/effects/avfilter/avfilter_vectorscope.xml:33
@@ -3919,6 +3935,10 @@ msgid ""
 "applied to mono signals it give some directionality and stretches its stereo "
 "image."
 msgstr ""
+"Застосувати до звукових даних ефект Хааса.\n"
+"Зауважте, що найдоцільніше застосовувати це до монофонічних сигналів. За "
+"допомогою цього фільтра, застосованого до моносигналів, можна надати певної "
+"спрямованості і видовженості стереозображення."
 
 #: data/effects/avfilter/avfilter_haas.xml:9
 #, kde-format
@@ -4246,6 +4266,8 @@ msgid ""
 "Replaces the pixel by the local(3x3) average by taking into account only "
 "values higher than the pixel. "
 msgstr ""
+"Замінює піксель локальним (3x3) середнім, з врахуванням лише значень, вищих "
+"за значення пікселя."
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, kde-format
@@ -4344,7 +4366,7 @@ msgstr "Встановлює значення, яке буде додано до
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
 msgid "Lag Fun"
-msgstr ""
+msgstr "Веселощі з затримкою"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:5
 #, kde-format
@@ -4507,6 +4529,10 @@ msgid ""
 "Supported formats: .3dl (AfterEffects), .cube (Iridas), .dat(DaVinci), .m3d "
 "(Pandora)]]></full>"
 msgstr ""
+"Застосувати таблицю пошуку (LUT) до відео.\n"
+"  <full><![CDATA[LUT є простим способом виправлення кольорів відео. "
+"Підтримувані формати: .3dl (AfterEffects), .cube (Iridas), .dat(DaVinci), ."
+"m3d (Pandora)]]></full>"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:9
 #, kde-format
@@ -4720,6 +4746,7 @@ msgstr "Потужність компонента 3"
 #, kde-format
 msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
 msgstr ""
+"Усереднити часовий шум,Мікшувати випадковий шум,Часовий шум,Однорідний шум"
 
 #: data/effects/avfilter/avfilter_noise.xml:39
 #, kde-format
@@ -4907,7 +4934,7 @@ msgstr "Показати статистичні дані"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, kde-format
 msgid "<![CDATA[switch statistics on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Увімкнути або вимкнути статистику]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
@@ -4917,7 +4944,7 @@ msgstr "Малювати лінію профілю трасування"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
 msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Увімкнути або вимкнути малювання лінії трасування профілю]]>"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
@@ -4937,6 +4964,12 @@ msgid ""
 "field flags and transfer unknown or varying,Both capture and transfer "
 "unknown or varying"
 msgstr ""
+"Затримати нижнє поле,Затримати верхнє поле,Зберегти порядок полів,"
+"Автоматично захопити порядок полів і передати протилежні,Захопити невідомі "
+"або змінні і передати протилежні,Захопити спочатку верхні і передати "
+"невідомі або змінні,Захопити спочатку нижні і передати невідомі або змінні,"
+"Захопити визначені прапорцями полів і передати невідомі або змінні,Захопити "
+"і передати невідомі або змінні"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
@@ -5279,6 +5312,9 @@ msgid ""
 "fields, producing a new half height clip with twice the frame rate and twice "
 "the frame count. "
 msgstr ""
+"Приймає відеовхід на основі кадрів і розділяє кожен кадр на поля "
+"компонентів, створюючи новий кліп половинної висоти з подвійною частотою "
+"кадрів і подвійною кількістю кадрів."
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
 #, kde-format
@@ -5293,7 +5329,7 @@ msgstr "Примусове застосування діапазону до ви
 #: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
 msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
-msgstr ""
+msgstr "авто,не вказано,невідоме,обмежене,ТБ,mpeg,повне,ПК,jpeg"
 
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, kde-format
@@ -5382,6 +5418,9 @@ msgid ""
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger).]]>"
 msgstr ""
+"<![CDATA[Встановити радіус освітленості.<br>\n"
+"            Значення визначає розсіювання використовуваного фільтра Гауса "
+"для розмивання зображення (повільніше, якщо більше).]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
@@ -5396,6 +5435,10 @@ msgid ""
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image.]]>"
 msgstr ""
+"<![CDATA[Встановити потужність освітлення.<br>\n"
+"            Значення визначає розмивання. Використання додатних значень "
+"призводить до розмивання зображення, а від'ємних — до збільшення різкості "
+"зображення.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
 #, kde-format
@@ -5410,6 +5453,11 @@ msgid ""
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges.]]>"
 msgstr ""
+"<![CDATA[Встановити поріг яскравості, який використовується як коефіцієнт,"
+"<br>\n"
+"         щоб визначити, чи слід розмивати піксель. Значення 0 фільтрує все "
+"зображення, додатні значення призведуть до фільтрування плоских ділянок, "
+"від'ємні значення призведуть до фільтрування країв.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
 #, kde-format
@@ -5417,13 +5465,22 @@ msgid "Chroma radius"
 msgstr "Радіус колірності"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:25
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set the chroma radius.<br>\n"
+#| "            The value specifies the variance of the gaussian filter used "
+#| "to blur the image (slower if larger). If not specified ,it defaults to "
+#| "the value set for <em>Luma radius</em>]]>"
 msgid ""
 "<![CDATA[Set the chroma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
-"blur the image (slower if larger). If not specified ,it defaults to the "
+"blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Встановити радіус колірності.<br>\n"
+"            Значення визначає розсіювання використовуваного фільтра Гауса "
+"для розмивання зображення (повільніше, якщо більше). Якщо не вказано, типове "
+"значення буде взято з параметра <em>Радіус освітленості</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -5439,6 +5496,11 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Встановити потужність колірності.<br>\n"
+"            Значення визначає розмивання. Використання додатних значень "
+"призводить до розмивання зображення, а від'ємних — до збільшення різкості "
+"зображення. Якщо не вказано, типове значення буде взято з параметра "
+"<em>Потужність освітленості</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -5454,6 +5516,13 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Встановити поріг колірності, який використовується як коефіцієнт,"
+"<br>\n"
+"         щоб визначити, чи слід розмивати піксель. Значення 0 фільтрує все "
+"зображення, додатні значення призведуть до фільтрування плоских ділянок, "
+"від'ємні значення призведуть до фільтрування країв. Якщо не вказано, типове "
+"значення буде взято за значенням, яке встановлено для параметра <em>Поріг "
+"освітленості</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -5468,6 +5537,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Встановити радіус альфи.<br>\n"
+"            Значення визначає розсіювання використовуваного фільтра Гауса "
+"для розмивання зображення (повільніше, якщо більше). Якщо не вказано, типове "
+"значення буде взято з параметра <em>Радіус освітленості</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -5483,6 +5556,11 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Встановити потужність альфи.<br>\n"
+"            Значення визначає розмивання. Використання додатних значень "
+"призводить до розмивання зображення, а від'ємних — до збільшення різкості "
+"зображення. Якщо не вказано, типове значення буде взято з параметра "
+"<em>Потужність освітленості</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5493,6 +5571,12 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Встановити поріг альфи, який використовується як коефіцієнт,<br>\n"
+"         щоб визначити, чи слід розмивати піксель. Значення 0 фільтрує все "
+"зображення, додатні значення призведуть до фільтрування плоских ділянок, "
+"від'ємні значення призведуть до фільтрування країв. Якщо не вказано, типове "
+"значення буде взято за значенням, яке встановлено для параметра <em>Поріг "
+"освітленості</em>]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -5564,7 +5648,7 @@ msgstr "Розмір кадру"
 #: data/effects/avfilter/avfilter_sofalizer.xml:31
 #, kde-format
 msgid "Use if option ‘type’ is set to freq."
-msgstr ""
+msgstr "Скористайтеся, якщо для типу встановлено частоту."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
 #, kde-format
@@ -5603,6 +5687,8 @@ msgid ""
 "Scale the input by applying one of the super-resolution methods based on "
 "convolutional neural networks. "
 msgstr ""
+"Масштабувати вхідні дані застосуванням одного з методів суперроздільності на "
+"основі згорткових нейронних мереж. "
 
 #: data/effects/avfilter/avfilter_sr.xml:15
 #, kde-format
@@ -5626,6 +5712,10 @@ msgid ""
 "below (right above),interleaved rows (left top),interleaved rows (right top),"
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
+"обабіч паралельно,обабіч навхрест,згори-внизу (ліворуч угорі),згори-внизу "
+"(праворуч угорі),перемежовані рядки (ліворуч угорі),перемежовані рядки "
+"(праворуч угорі),перемежовані стовпці спочатку ліве око,перемежовані стовпці "
+"спочатку праве око"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, kde-format
@@ -5633,10 +5723,21 @@ msgid "Input format"
 msgstr "Вхідний формат"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:12
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "side by side parallel,side by side crosseye,above-below left top,above-"
+#| "below right top,interleaved rows (letf top),interleaved rows (right top),"
+#| "anaglyph red/blue gray,anaglyph red/green gray,anaglyph red/cyan gray,"
+#| "anaglyph red/cyan half colored,anaglyph red/cyan color,anaglyph red/cyan "
+#| "dubois,anaglyph green/magenta gray,anaglyph green/magenta half colored,"
+#| "anaglyph green/magenta colored,anaglyph green/magenta dubois,anaglyph "
+#| "yellow/blue gray,anaglyph yellow/blue half colored,anaglyph yellow/blue "
+#| "colored,anaglyph yellow/blue dubois,mono output left,mono output right,"
+#| "checkerboard left eye first,checkerboard right eye first,interleaved "
+#| "columns left eye first,interleaved columns right eye first,HDMI frame pack"
 msgid ""
 "side by side parallel,side by side crosseye,above-below left top,above-below "
-"right top,interleaved rows (letf top),interleaved rows (right top),anaglyph "
+"right top,interleaved rows (left top),interleaved rows (right top),anaglyph "
 "red/blue gray,anaglyph red/green gray,anaglyph red/cyan gray,anaglyph red/"
 "cyan half colored,anaglyph red/cyan color,anaglyph red/cyan dubois,anaglyph "
 "green/magenta gray,anaglyph green/magenta half colored,anaglyph green/"
@@ -5646,6 +5747,18 @@ msgid ""
 "first,checkerboard right eye first,interleaved columns left eye first,"
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
+"обабіч паралельно,обабіч перехресне око,згори-знизу зліва вгорі,згори-знизу "
+"справа вгорі,рядки з чергуванням (лівий згори), рядки з чергуванням (правий "
+"згори),анагліф червоний/синьо-сірий,анагліф червоний/зелений сірий,анагліф "
+"червоний/блакитний сірий,анагліф червоний/блакитний напівкольоровий,анагліф "
+"червоний/блакитний кольоровий,анагліф червоний/блакитний Дюбуа,анагліф "
+"зелений/пурпуровий сірий,анагліф зелений/пурпуровий напівкольоровий,анагліф "
+"зелений/пурпурний кольоровий,анагліф зелений/пурпуровий Дюбуа,анагліф жовтий/"
+"синьо-сірий,анагліф жовтий/синій напівкольоровий,анагліф жовтий/синій "
+"кольоровий,анагліф жовтий/синій Дюбуа,моно вихід ліворуч,моно вихід праворуч,"
+"шахівниця ліворуч спочатку око, спочатку праве око в шаховому порядку, "
+"стовпці з чергуванням спочатку ліве око, стовпці з чергуванням спочатку "
+"праве око, пакет кадрів HDMI"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
 #, kde-format
@@ -5762,6 +5875,11 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
+"Лівий/Правий на Лівий/Правий,Лівий/Правий на Середній/Бічний,Середній/Бічний "
+"на Лівий/Правий,Лівий/Правий на Лівий/Лівий,Лівий/Правий на Правий/Правий,"
+"Лівий/Правий на Лівий + Правий,Лівий/Правий на Правий/Лівий,Середній/Бічний "
+"на Лівий/Лівий,Середній/Бічний на Правий/Правий,Середній/Бічний на Правий/"
+"Лівий,Лівий/Правий на Лівий - Правий"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
 #, kde-format
@@ -5840,6 +5958,8 @@ msgid ""
 "Set delay in milliseconds how much to delay left from right channel and vice "
 "versa. Default is 0. Allowed range is from -20 to 20."
 msgstr ""
+"Встановити затримку у мілісекундах для відставання лівого каналу від правого "
+"і навпаки. Типовим є значення 0. Можливий діапазон — від -20 до 20."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
 #, kde-format
@@ -5874,6 +5994,13 @@ msgid ""
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
 msgstr ""
+"«баланс»\n"
+"Класичний режим балансування. Одночасно послаблювати лише один канал. "
+"Підсилення буде піднято до 1.\n"
+"«амплітуда»\n"
+"Подібний до класичного режиму вище, але підсилення буде піднято до 2.\n"
+"«потужність»\n"
+"Рівномірний розподіл потужності у діапазоні від -6дБ до +6дБ."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
 #, kde-format
@@ -5909,6 +6036,9 @@ msgid ""
 "Gives a delay effect of left signal in right output and vice versa which "
 "gives widening effect."
 msgstr ""
+"Величина підсилення затриманого сигналу вправо і навпаки.\n"
+"Дає ефект затримки лівого сигналу на правому виході і навпаки, що дає ефект "
+"розширення."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:17
 #, kde-format
@@ -5922,6 +6052,10 @@ msgid ""
 "the mono.\n"
 "If the value is 1 it will cancel all the signal common to both channels. "
 msgstr ""
+"Перехресне передавання зліва направо з інвертованою фазою. Це допомагає "
+"придушити моно.\n"
+"Якщо значення дорівнює 1, буде скасовано весь сигнал, спільний для обох "
+"каналів."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:22
 #, kde-format
@@ -5964,6 +6098,8 @@ msgstr ""
 #, kde-format
 msgid "Clock,Clock flip,Counter clock,Counter clock flip"
 msgstr ""
+"За годинниковою стрілкою,Віддзеркалити за годинниковою стрілкою,Проти "
+"годинникової стрілки,Віддзеркалити проти годинникової стрілки"
 
 #: data/effects/avfilter/avfilter_transpose.xml:12
 #, kde-format
@@ -6013,6 +6149,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Встановити потужність ефекту яскравості.<br>\n"
+" Притомні значення – від -1,5 до 1,5. Від'ємні значення призведуть до "
+"розмивання вхідного відео, тоді як додатні значення збільшать його різкість, "
+"значення 0 вимкне ефект. ]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
 #, kde-format
@@ -6042,6 +6182,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Встановити потужність ефекту колірності.<br>\n"
+" Притомні значення – від -1,5 до 1,5. Від'ємні значення призведуть до "
+"розмивання вхідного відео, тоді як додатні значення збільшать його різкість, "
+"значення  вимкне ефект. ]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
 #, kde-format
@@ -6071,6 +6215,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Встановити потужність ефекту альфи.<br>\n"
+" Притомні значення – від -1,5 до 1,5. Від'ємні значення призведуть до "
+"розмивання вхідного відео, тоді як додатні значення збільшать його різкість, "
+"значення  вимкне ефект. ]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
@@ -6085,7 +6233,7 @@ msgstr "Засіб усування шуму на основі вейвлеті�
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:8
 #, kde-format
 msgid "Hard,Soft,Garrote"
-msgstr ""
+msgstr "Жорстко,М'яко,Гаррота"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:18
 #: src/jobs/speedtask.cpp:72
@@ -6104,11 +6252,13 @@ msgid ""
 "Display 2 color component values in the two dimensional graph (which is "
 "called a vectorscope)"
 msgstr ""
+"Показати 2 значення компонентів кольорів у форматі двовимірного графіка "
+"(який називається векторскопом)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #, kde-format
 msgid "gray,color,color2,color3,color4,color5"
-msgstr ""
+msgstr "сірий,кольоровий,кольоровий2,кольоровий3,кольоровий4,кольоровий5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
 #: data/effects/avfilter/avfilter_zoompan.xml:11
@@ -6133,7 +6283,7 @@ msgstr "Y"
 #: data/effects/avfilter/avfilter_waveform.xml:35
 #, kde-format
 msgid "None,Instant,Peak,Peak+Instant"
-msgstr ""
+msgstr "Немає,Миттєвий,Пік,Пік+Миттєвий"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:22
 #: data/effects/avfilter/avfilter_waveform.xml:36
@@ -6259,6 +6409,8 @@ msgid ""
 "Deinterlace the input video \"w3fdif\" stands for Weston 3 Field "
 "Deinterlacing Filter"
 msgstr ""
+"Усування черезрядковості вхідного відео. «w3fdif» — скорочення від Weston 3 "
+"Field Deinterlacing Filter"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
 #, kde-format
@@ -6310,21 +6462,40 @@ msgid ""
 "       \tIn column mode, the top side represents color component value = 0 "
 "and bottom side represents value = 255.]]>"
 msgstr ""
+"<![CDATA[У режимі рядка, графік ліворуч відповідає<br>\n"
+"       \tзначенню компоненти кольору 0, а значення на правому краю — "
+"значенню = 255.<br>\n"
+"       \tУ режимі стовпчика верхній край відповідає значенню компонента "
+"кольору = 0, а на нижньому краю — значенню = 255.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Smaller values are useful to find out how many values<br>\n"
+#| "       \tof the same luminance are distributed across input rows/"
+#| "columns]]>"
 msgid ""
-"<![CDATA[Smaller values are useful to find out how many values<br>\n"
+"<![CDATA[Smaller values are useful for finding out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
+"<![CDATA[Менші значення корисні для визначення того, скільки значень<br>\n"
+"    \tіз однаковою освітленістю розподілено між вхідними рядками або "
+"стовпчиками.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[In mirrored mode, higher values will be represented<br>\n"
+#| "       \ton the left side for <em>row<em> mode and at the top for "
+#| "<em>column<em> mode.]]>"
 msgid ""
 "<![CDATA[In mirrored mode, higher values will be represented<br>\n"
-"       \ton the left side for <em>row<em> mode and at the top for "
-"<em>column<em> mode.]]>"
+"       \ton the left side for <em>row</em> mode and at the top for "
+"<em>column</em> mode.]]>"
 msgstr ""
+"<![CDATA[У віддзеркаленому режимі вищі значення буде представлено<br>\n"
+"    \tна лівому краю для режиму <em>рядків</em> і нагорі у режимі "
+"<em>стовпчиків</em>.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
 #, kde-format
@@ -6342,9 +6513,10 @@ msgid "<![CDATA[Set the envelope mode]]>"
 msgstr "<![CDATA[Встановити режим обгортки]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
-#, kde-format
-msgid "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
+msgid "Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor"
+msgstr "нижні частоти,плоский,aflat,xflat,yflat,колірність,колір,acolor"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -6361,8 +6533,9 @@ msgid "<![CDATA[Set the filter mode]]>"
 msgstr "<![CDATA[Встановити режим фільтрування]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
-#, kde-format
-msgid "none,green,orange,invert"
+#, fuzzy, kde-format
+#| msgid "none,green,orange,invert"
+msgid "None,Green,Orange,Invert"
 msgstr "немає,зелений,помаранчевий,інверсний"
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
@@ -6376,8 +6549,9 @@ msgid "<![CDATA[Set the opacity of the graticule]]>"
 msgstr "<![CDATA[Встановити непрозорість градуювання]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
-#, kde-format
-msgid "numbers,dots"
+#, fuzzy, kde-format
+#| msgid "numbers,dots"
+msgid "Numbers,Dots"
 msgstr "числа,крапки"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
@@ -6386,8 +6560,9 @@ msgid "<![CDATA[Set graticule flags]]>"
 msgstr "<![CDATA[Встановити прапорці гранулювання]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
-#, kde-format
-msgid "digital,millivolts,ire"
+#, fuzzy, kde-format
+#| msgid "digital,millivolts,ire"
+msgid "Digital,Millivolts,Ire"
 msgstr "цифровий,мілівольти,ire"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
@@ -6407,11 +6582,18 @@ msgstr "Відтінок 0"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Only used with lowpass filter and when display<br>\n"
+#| "       \tis not overlay and input pixel formats are not RGB]]>"
 msgid ""
-"<![CDATA[Only used with lowpass filter and when display<br>\n"
-"       \tis not overlay and input pixel formats are not RGB]]>"
+"<![CDATA[Only used with <em>lowpass</em> filter and when display<br>\n"
+"       \tis not <em>overlay</em> and input pixel formats are not <em>RGB</"
+"em>]]>"
 msgstr ""
+"<![CDATA[Використовується лише фільтром нижніх частот, і коли панель "
+"показу<br>\n"
+"       \tне перекривається, і форматом вхідних пікселів не є RGB]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:73
 #, kde-format
@@ -6419,8 +6601,9 @@ msgid "Tint 1"
 msgstr "Відтінок 1"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
-#, kde-format
-msgid "none,size"
+#, fuzzy, kde-format
+#| msgid "none,size"
+msgid "None,Size"
 msgstr "немає,розмір"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
@@ -6445,6 +6628,9 @@ msgid ""
 "fields into single frame, producing a new double height clip with half the "
 "frame rate and half the frame count."
 msgstr ""
+"Переплетення використовує вхідне відео на основі поля та об'єднує кожні два "
+"послідовних поля в один кадр, створюючи новий кліп подвійної висоти з "
+"половиною частоти кадрів і половиною кількості кадрів."
 
 #: data/effects/avfilter/avfilter_weave.xml:8
 #, kde-format
@@ -6483,15 +6669,18 @@ msgid ""
 "Deinterlace the input video (\"yadif\" means \"yet another deinterlacing "
 "filter\")"
 msgstr ""
+"Усування черезрядковості вхідного відео («yadif» означає «ще один фільтр "
+"усування черезрядковості»)"
 
 #: data/effects/avfilter/avfilter_yadif.xml:8
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
+"Надіслати кадр,Надіслати поле,Надіслати кадр без простору,Надіслати поле без "
+"простору"
 
 #: data/effects/avfilter/avfilter_yadif.xml:12
-#, fuzzy, kde-format
-#| msgid "Top field first,Bottomfield first,Auto"
+#, kde-format
 msgid "Top field first,Bottom field first,Auto"
 msgstr "Верхнє поле перше,Нижнє поле перше,Авто"
 
@@ -8982,6 +9171,9 @@ msgid ""
 "<![CDATA[Kaleidoscope segmentation / 128; <br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
+"<![CDATA[Сегментація калейдоскопа / 128; <br>\n"
+"        сегментації 1, 2 або кратні до 4 є найкращими. Типовим є значення "
+"16]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
 #, kde-format
@@ -8995,6 +9187,9 @@ msgid ""
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
+"<![CDATA[Якщо позначено, початковий кут <br>\n"
+"       буде прочитано з <em>source_segment</em>, якщо не вказано, буде "
+"обчислено автоматично]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
 #, kde-format
@@ -9008,6 +9203,9 @@ msgid ""
 "Segment</em> is checked. <br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Центр початкового сегмента. Буде використано, лише якщо позначено "
+"пункт <em>Вказати початковий сегмент</em>. <br>\n"
+"        0 у +x і повертає проти годинникової стрілки.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, kde-format
@@ -9036,6 +9234,9 @@ msgid ""
 "into it. <br>\n"
 "        Otherwise the specified background color is used.]]>"
 msgstr ""
+"<![CDATA[Якщо позначено, відбитки, які потрапляють за мержі джерела, "
+"відбиваються в його середину. <br>\n"
+"        Якщо не позначено, буде використано вказаний колір тла.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
 #, kde-format
@@ -9067,6 +9268,8 @@ msgid ""
 "<![CDATA[If <em>Reflect Edges</em> is not checked, <br>\n"
 "        this parameter defines the preferred corner.]]>"
 msgstr ""
+"<![CDATA[Якщо не позначено пункт <em>Віддзеркалити краї</em>, <br>\n"
+"        цей параметр визначає бажаний кут.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
 #, kde-format
@@ -9079,6 +9282,10 @@ msgid ""
 "<![CDATA[If checked, search clockwise for furthest corner.<br>\n"
 "        Otherwise search counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Якщо позначено, пошук найдальшого кута відбуватиметься за "
+"годинниковою стрілкою.<br>\n"
+"        Якщо не позначено, пошук відбуватиметься проти годинникової "
+"стрілки.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
 #, kde-format
@@ -9091,6 +9298,8 @@ msgid ""
 "<![CDATA[Color to use if reflection lies <br>outside of the source image and "
 "not reflecting back in.]]>"
 msgstr ""
+"<![CDATA[Використаний колір, якщо віддзеркалення лежить <br>поза початковим "
+"зображенням і не відбивається всередину.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
 #, kde-format
@@ -9104,6 +9313,9 @@ msgid ""
 "        if reflection lies outside of the source image and not reflecting "
 "back in.]]>"
 msgstr ""
+"<![CDATA[Якщо позначено, буде використано прозорість, <br>\n"
+"        якщо віддзеркалення лежить поза початковим зображенням і не "
+"відбивається всередину.]]>"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
@@ -11536,12 +11748,12 @@ msgstr "Поріг VAD (%)"
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
 msgid "VAD Grace Period (ms)"
-msgstr ""
+msgstr "Період толерантності VAD (мс)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
 msgid "Retroactive VAD Grace Period (ms)"
-msgstr ""
+msgstr "Ретроактивний період толерантності VAD (мс)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:4
 #, kde-format
@@ -13519,7 +13731,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "Вилучення шумів та відновлення звуку"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1374
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1394
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -15205,13 +15417,13 @@ msgid "Switch to curve editor view"
 msgstr "Перемкнутися на панель перегляду редактора кривої"
 
 #: src/assets/view/widgets/keyframewidget.cpp:98 src/dialogs/timeremap.cpp:1621
-#: src/mainwindow.cpp:1826
+#: src/mainwindow.cpp:1846
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Перейти до попереднього ключового кадру"
 
 #: src/assets/view/widgets/keyframewidget.cpp:102
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1824
+#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1844
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Перейти до наступного ключового кадру"
@@ -16420,7 +16632,7 @@ msgstr ""
 "Вашому проєкту потрібно більше звукових доріжок, щоб можна було обробляти "
 "усі потоки звукових даних. Додати %1 звукові доріжки?"
 
-#: src/bin/bin.cpp:5543 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5543 src/mainwindow.cpp:2737
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Не вдалося знайти кліп для додавання позначки"
@@ -16508,7 +16720,7 @@ msgstr "Вилучити ефект %1"
 msgid "Project Bin"
 msgstr "Контейнер проєкту"
 
-#: src/bin/bin.cpp:6450 src/bin/bin.cpp:6453 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6450 src/bin/bin.cpp:6453 src/mainwindow.cpp:4847
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Контейнер проєкту %1"
@@ -17012,7 +17224,7 @@ msgstr "Додати підкліп"
 msgid "Rename Folder"
 msgstr "Перейменувати теку"
 
-#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1428
+#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1448
 #, kde-format
 msgid "Clean Project"
 msgstr "Очистити проєкт"
@@ -18624,7 +18836,7 @@ msgstr "Додати до поточного проєкту"
 msgid "Open Containing Folder"
 msgstr "Відкрити теку з даними"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3950
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3970
 #, kde-format
 msgid "Timeline"
 msgstr "Монтажний стіл"
@@ -20889,7 +21101,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Файл субтитрів:<br/>%1<br/>вже існує. Хочете перезаписати його?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3468
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3488
 #, kde-format
 msgid "Overwrite"
 msgstr "Перезаписати"
@@ -22078,13 +22290,13 @@ msgid "Add Markers by Category"
 msgstr "Додати позначки за категорією"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3845
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3865
 #, kde-format
 msgid "Extract Audio"
 msgstr "Видобути звук"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3819
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3839
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Обробка кліпів"
@@ -22145,7 +22357,7 @@ msgstr "Пробіл"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:184 src/mainwindow.cpp:1837
+#: src/kdenliveui.rc:184 src/mainwindow.cpp:1857
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
@@ -22182,7 +22394,7 @@ msgid "Current Monitor Overlay"
 msgstr "Накладка поточного монітора"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:263 src/mainwindow.cpp:1501
+#: src/kdenliveui.rc:263 src/mainwindow.cpp:1521
 #, kde-format
 msgid "Preview Resolution"
 msgstr "Роздільна здатність перегляду"
@@ -22914,7 +23126,7 @@ msgid "Add Transition"
 msgstr "Додати перехід"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:492 src/mainwindow.cpp:2004
+#: src/mainwindow.cpp:492 src/mainwindow.cpp:2024
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -22937,7 +23149,7 @@ msgstr ""
 "Натисніть, щоб відкрити список улюблених ефектів. Двічі клацніть на пункті "
 "ефекту, щоб додати його до позначеного кліпу."
 
-#: src/mainwindow.cpp:537 src/mainwindow.cpp:1422
+#: src/mainwindow.cpp:537 src/mainwindow.cpp:1442
 #, kde-format
 msgid "Render…"
 msgstr "Обробити…"
@@ -23011,7 +23223,46 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Завантаження проєкту"
 
-#: src/mainwindow.cpp:938
+#: src/mainwindow.cpp:943
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have 1 rendering job waiting in the queue.\n"
+#| "What do you want to do with this job?"
+#| msgid_plural ""
+#| "You have %1 rendering jobs waiting in the queue.\n"
+#| "What do you want to do with these jobs?"
+msgid ""
+"You have 1 rendering job running.\n"
+"What do you want to do with this job?"
+msgid_plural ""
+"You have %1 rendering jobs running.\n"
+"What do you want to do with these jobs?"
+msgstr[0] ""
+"У черзі перебуває %1 завдання з обробки.\n"
+"Що роботи з цими завданнями?"
+msgstr[1] ""
+"У черзі перебуває %1 завдання з обробки.\n"
+"Що роботи з цими завданнями?"
+msgstr[2] ""
+"У черзі перебуває %1 завдань з обробки.\n"
+"Що роботи з цими завданнями?"
+msgstr[3] ""
+"У черзі перебуває одне завдання з обробки.\n"
+"Що роботи з цим завданням?"
+
+#: src/mainwindow.cpp:945
+#, fuzzy, kde-format
+#| msgid "Creating menu background"
+msgid "Continue rendering in the background"
+msgstr "Створення тла меню"
+
+#: src/mainwindow.cpp:945
+#, fuzzy, kde-format
+#| msgid "Abort processing"
+msgid "Abort rendering"
+msgstr "Перервати обробку"
+
+#: src/mainwindow.cpp:962
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23032,42 +23283,42 @@ msgstr[3] ""
 "У черзі перебуває одне завдання з обробки.\n"
 "Що роботи з цим завданням?"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:965
 #, kde-format
 msgid "Start them now"
 msgstr "Розпочати зараз"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:965
 #, kde-format
 msgid "Delete them"
 msgstr "Вилучити їх"
 
-#: src/mainwindow.cpp:1037 src/timeline2/view/timelinecontroller.cpp:2155
+#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2155
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Позначте кліп для порівняння ефектів"
 
-#: src/mainwindow.cpp:1087
+#: src/mainwindow.cpp:1107
 #, kde-format
 msgid "Normal Mode"
 msgstr "Звичайний режим"
 
-#: src/mainwindow.cpp:1094
+#: src/mainwindow.cpp:1114
 #, kde-format
 msgid "Overwrite Mode"
 msgstr "Режим перезапису"
 
-#: src/mainwindow.cpp:1101
+#: src/mainwindow.cpp:1121
 #, kde-format
 msgid "Insert Mode"
 msgstr "Режим вставки"
 
-#: src/mainwindow.cpp:1105
+#: src/mainwindow.cpp:1125
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "Режим редагування на монтажному столі"
 
-#: src/mainwindow.cpp:1107
+#: src/mainwindow.cpp:1127
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23077,17 +23328,17 @@ msgstr ""
 "Перемикає режими між звичайним режимом, режимом перезапису та режимом "
 "вставлення. Визначає типову дію при обробці кліпів на монтажному столі."
 
-#: src/mainwindow.cpp:1116
+#: src/mainwindow.cpp:1136
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "Не використовувати ділянку даних монтажного столу для вставлення"
 
-#: src/mainwindow.cpp:1116
+#: src/mainwindow.cpp:1136
 #, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "Скористатися ділянкою даних монтажного столу для вставлення"
 
-#: src/mainwindow.cpp:1117
+#: src/mainwindow.cpp:1137
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23096,69 +23347,69 @@ msgstr ""
 "Перемикає програму між режимом вставлення (увімкнено) і режимом без "
 "вставлення (вимкнено) для зони монтажного столу."
 
-#: src/mainwindow.cpp:1124
+#: src/mainwindow.cpp:1144
 #, kde-format
 msgid "Enable Track Compositing"
 msgstr "Увімкнути компонування доріжок"
 
-#: src/mainwindow.cpp:1130
+#: src/mainwindow.cpp:1150
 #, kde-format
 msgid "Split Audio Tracks"
 msgstr "Відділити звукові доріжки"
 
-#: src/mainwindow.cpp:1136
+#: src/mainwindow.cpp:1156
 #, kde-format
 msgid "Split Audio Tracks (reverse)"
 msgstr "Відділити звукові доріжки (з оберненням)"
 
-#: src/mainwindow.cpp:1142
+#: src/mainwindow.cpp:1162
 #, kde-format
 msgid "Mixed Audio tracks"
 msgstr "Мікшовані звукові доріжки"
 
-#: src/mainwindow.cpp:1168
+#: src/mainwindow.cpp:1188
 #, kde-format
 msgid "Track menu"
 msgstr "Меню доріжки"
 
-#: src/mainwindow.cpp:1173 src/project/dialogs/slideshowclip.cpp:91
+#: src/mainwindow.cpp:1193 src/project/dialogs/slideshowclip.cpp:91
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "гг:хх:сс:дд"
 
-#: src/mainwindow.cpp:1174 src/project/dialogs/slideshowclip.cpp:92
+#: src/mainwindow.cpp:1194 src/project/dialogs/slideshowclip.cpp:92
 #, kde-format
 msgid "Frames"
 msgstr "Кадри"
 
-#: src/mainwindow.cpp:1186
+#: src/mainwindow.cpp:1206
 #, kde-format
 msgid "Edit Subtitle Tool"
 msgstr "Інструмент редагування субтитрів"
 
-#: src/mainwindow.cpp:1187
+#: src/mainwindow.cpp:1207
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Перемикає доріжку субтитрів на монтажному столі."
 
-#: src/mainwindow.cpp:1194 src/titler/titlewidget.cpp:386
+#: src/mainwindow.cpp:1214 src/titler/titlewidget.cpp:386
 #: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Selection Tool"
 msgstr "Інструмент вибору"
 
-#: src/mainwindow.cpp:1199
+#: src/mainwindow.cpp:1219
 #, kde-format
 msgid "Razor Tool"
 msgstr "Інструмент підрізання"
 
-#: src/mainwindow.cpp:1204
+#: src/mainwindow.cpp:1224
 #, kde-format
 msgid "Spacer Tool"
 msgstr "Інструмент-розпірка"
 
-#: src/mainwindow.cpp:1207
+#: src/mainwindow.cpp:1227
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23168,12 +23419,12 @@ msgstr ""
 "Якщо позначено, натискання і перетягування курсора на монтажному столі "
 "тимчасово групує окремі кліпи і створює або вилучає проміжки між кліпами."
 
-#: src/mainwindow.cpp:1212
+#: src/mainwindow.cpp:1232
 #, kde-format
 msgid "Ripple Tool"
 msgstr "Інструмент «Брижі»"
 
-#: src/mainwindow.cpp:1215
+#: src/mainwindow.cpp:1235
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23187,12 +23438,12 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1225
+#: src/mainwindow.cpp:1245
 #, kde-format
 msgid "Slip Tool"
 msgstr "Інструмент-ковзання"
 
-#: src/mainwindow.cpp:1226
+#: src/mainwindow.cpp:1246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23202,27 +23453,27 @@ msgstr ""
 "Якщо позначено, перетягування кліпу призводить до ковзання кліпу вказаним "
 "вікном у відповідному напрямку."
 
-#: src/mainwindow.cpp:1230
+#: src/mainwindow.cpp:1250
 #, kde-format
 msgid "Multicam Tool"
 msgstr "Інструмент-мультикам"
 
-#: src/mainwindow.cpp:1251
+#: src/mainwindow.cpp:1271
 #, kde-format
 msgid "Zoom Audio Waveforms"
 msgstr "Масштаб форм звукової хвилі"
 
-#: src/mainwindow.cpp:1255
+#: src/mainwindow.cpp:1275
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "Згорнути/Розгорнути пункт"
 
-#: src/mainwindow.cpp:1259
+#: src/mainwindow.cpp:1279
 #, kde-format
 msgid "Mix Clips"
 msgstr "Мікшувати кліпи"
 
-#: src/mainwindow.cpp:1261
+#: src/mainwindow.cpp:1281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23232,12 +23483,12 @@ msgstr ""
 "Створює перехід на одній доріжці між позначеним кліпом і сусіднім найближчим "
 "до позиції відтворення кліпом."
 
-#: src/mainwindow.cpp:1269
+#: src/mainwindow.cpp:1289
 #, kde-format
 msgid "Show Video Thumbnails"
 msgstr "Показувати мініатюри відео"
 
-#: src/mainwindow.cpp:1270
+#: src/mainwindow.cpp:1290
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23247,12 +23498,12 @@ msgstr ""
 "Вмикає або вимикає показ мініатюр відео для кліпів на монтажному столі "
 "(типово увімкнено)."
 
-#: src/mainwindow.cpp:1278
+#: src/mainwindow.cpp:1298
 #, kde-format
 msgid "Show Audio Thumbnails"
 msgstr "Показувати мініатюри звуку"
 
-#: src/mainwindow.cpp:1279
+#: src/mainwindow.cpp:1299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23262,17 +23513,17 @@ msgstr ""
 "Вмикає або вимикає показ мініатюр звукових даних для кліпів на монтажному "
 "столі (типово увімкнено)"
 
-#: src/mainwindow.cpp:1285
+#: src/mainwindow.cpp:1305
 #, kde-format
 msgid "Show Markers Comments"
 msgstr "Показувати коментарі до позначок"
 
-#: src/mainwindow.cpp:1291
+#: src/mainwindow.cpp:1311
 #, kde-format
 msgid "Snap"
 msgstr "Прив’язати"
 
-#: src/mainwindow.cpp:1292
+#: src/mainwindow.cpp:1312
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23282,24 +23533,24 @@ msgstr ""
 "Вмикає або вимикає функцію прилипання (кліпи, позиція відтворення прилипає "
 "до країв, позначок, напрямних та інших об'єктів)."
 
-#: src/mainwindow.cpp:1298
+#: src/mainwindow.cpp:1318
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "Показувати кольорові мітки на монтажному столі"
 
-#: src/mainwindow.cpp:1299
+#: src/mainwindow.cpp:1319
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr ""
 "Вмикає або вимикає показ міток кліпів на монтажному столі (типово увімкнено)."
 
-#: src/mainwindow.cpp:1305
+#: src/mainwindow.cpp:1325
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "Масштабування за проєктом"
 
-#: src/mainwindow.cpp:1306
+#: src/mainwindow.cpp:1326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23308,19 +23559,19 @@ msgstr ""
 "Коригує рівень масштабування так, щоб увесь проєкт вмістився до вікна "
 "монтажного столу."
 
-#: src/mainwindow.cpp:1331
+#: src/mainwindow.cpp:1351
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 "Увімкнено експериментальну обробку на графічному процесорі — не для "
 "промислового використання"
 
-#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3454
+#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3474
 #, kde-format
 msgid "Multicam"
 msgstr "Мультикам"
 
-#: src/mainwindow.cpp:1342
+#: src/mainwindow.cpp:1362
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr "Активний інструмент і режим редагування"
@@ -23328,239 +23579,239 @@ msgstr "Активний інструмент і режим редагуванн
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1393 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1413 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "Авто"
 
-#: src/mainwindow.cpp:1398
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1403
+#: src/mainwindow.cpp:1423
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "DirectX (ANGLE)"
 
-#: src/mainwindow.cpp:1408
+#: src/mainwindow.cpp:1428
 #, kde-format
 msgid "Software OpenGL"
 msgstr "Програмний OpenGL"
 
-#: src/mainwindow.cpp:1418
+#: src/mainwindow.cpp:1438
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "Запустити майстер налаштування…"
 
-#: src/mainwindow.cpp:1419
+#: src/mainwindow.cpp:1439
 #, kde-format
 msgid "Project Settings…"
 msgstr "Параметри проєкту…"
 
-#: src/mainwindow.cpp:1425
+#: src/mainwindow.cpp:1445
 #, kde-format
 msgid "Stop Render"
 msgstr "Припинити обробку"
 
-#: src/mainwindow.cpp:1430
+#: src/mainwindow.cpp:1450
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "Скинути налаштування…"
 
-#: src/mainwindow.cpp:1435
+#: src/mainwindow.cpp:1455
 #, kde-format
 msgid "Play Zone From Cursor"
 msgstr "Відтворити ділянку від курсора"
 
-#: src/mainwindow.cpp:1438
+#: src/mainwindow.cpp:1458
 #, kde-format
 msgid "Play Zone"
 msgstr "Відтворити ділянку"
 
-#: src/mainwindow.cpp:1440
+#: src/mainwindow.cpp:1460
 #, kde-format
 msgid "Loop Zone"
 msgstr "Циклічне відтворення ділянки"
 
-#: src/mainwindow.cpp:1442
+#: src/mainwindow.cpp:1462
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "Зациклити позначений кліп"
 
-#: src/mainwindow.cpp:1446
+#: src/mainwindow.cpp:1466
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "Перекодувати кліпи…"
 
-#: src/mainwindow.cpp:1447
+#: src/mainwindow.cpp:1467
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "&Експортувати OpenTimelineIO…"
 
-#: src/mainwindow.cpp:1451
+#: src/mainwindow.cpp:1471
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "&Імпортувати OpenTimelineIO…"
 
-#: src/mainwindow.cpp:1456
+#: src/mainwindow.cpp:1476
 #, kde-format
 msgid "Archive Project…"
 msgstr "Архівування проєкту…"
 
-#: src/mainwindow.cpp:1458
+#: src/mainwindow.cpp:1478
 #, kde-format
 msgid "Switch Monitor"
 msgstr "Перемкнути монітор"
 
-#: src/mainwindow.cpp:1459
+#: src/mainwindow.cpp:1479
 #, kde-format
 msgid "Focus Timecode"
 msgstr "Фокусувати часову позначку"
 
-#: src/mainwindow.cpp:1460
+#: src/mainwindow.cpp:1480
 #, kde-format
 msgid "Expand Clip"
 msgstr "Розгорнути кліп"
 
-#: src/mainwindow.cpp:1462
+#: src/mainwindow.cpp:1482
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "Накладка з інформацією монітора"
 
-#: src/mainwindow.cpp:1467
+#: src/mainwindow.cpp:1487
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "Часовий код-накладка монітора"
 
-#: src/mainwindow.cpp:1472
+#: src/mainwindow.cpp:1492
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "Частота кадрів відтворення на накладці монітора"
 
-#: src/mainwindow.cpp:1477
+#: src/mainwindow.cpp:1497
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "Позначки-накладки монітора"
 
-#: src/mainwindow.cpp:1482
+#: src/mainwindow.cpp:1502
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "Накладка форми звукової хвилі монітора"
 
-#: src/mainwindow.cpp:1487
+#: src/mainwindow.cpp:1507
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
 msgstr "Накладка-монітор завдань кліпів"
 
-#: src/mainwindow.cpp:1505
+#: src/mainwindow.cpp:1525
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "Повна роздільність (1:1)"
 
-#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1529 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1533 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1537 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1541 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "270p"
 msgstr "270p"
 
-#: src/mainwindow.cpp:1552
+#: src/mainwindow.cpp:1572
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "Режим реального часу (викидати кадри)"
 
-#: src/mainwindow.cpp:1558
+#: src/mainwindow.cpp:1578
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "Гама монітора"
 
-#: src/mainwindow.cpp:1559
+#: src/mainwindow.cpp:1579
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB (комп’ютер)"
 
-#: src/mainwindow.cpp:1560
+#: src/mainwindow.cpp:1580
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709 (ТБ)"
 
-#: src/mainwindow.cpp:1566
+#: src/mainwindow.cpp:1586
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "Вставити ділянку до пункту проєкту"
 
-#: src/mainwindow.cpp:1568
+#: src/mainwindow.cpp:1588
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "Створює кліп у контейнері проєкту на основі визначеної зони."
 
-#: src/mainwindow.cpp:1571
+#: src/mainwindow.cpp:1591
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "Перейти до попередньої точки прив’язки"
 
-#: src/mainwindow.cpp:1573
+#: src/mainwindow.cpp:1593
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "Перейти до наступної точки прив’язки"
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1596
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "Перейти до початку кліпу"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1598
 #, kde-format
 msgid "Go to Clip End"
 msgstr "Перейти до кінця кліпу"
 
-#: src/mainwindow.cpp:1580
+#: src/mainwindow.cpp:1600
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "Перейти до попередньої напрямної"
 
-#: src/mainwindow.cpp:1582
+#: src/mainwindow.cpp:1602
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "Перейти до наступної напрямної"
 
-#: src/mainwindow.cpp:1584
+#: src/mainwindow.cpp:1604
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "Вирівнювати позицію відтворення за розташуванням вказівника"
 
-#: src/mainwindow.cpp:1587
+#: src/mainwindow.cpp:1607
 #, kde-format
 msgid "Grab Current Item"
 msgstr "Захопити поточний пункт"
 
-#: src/mainwindow.cpp:1590
+#: src/mainwindow.cpp:1610
 #, kde-format
 msgid "Automatic Transition"
 msgstr "Автоматичний перехід"
 
-#: src/mainwindow.cpp:1597
+#: src/mainwindow.cpp:1617
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Перезаписати ділянку кліпу на монтажному столі"
 
-#: src/mainwindow.cpp:1599
+#: src/mainwindow.cpp:1619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23572,12 +23823,12 @@ msgstr ""
 "вставлено у позиції відтворення активного монтажного столу. Кліпи у позиції "
 "вставлення буде обрізано і перезаписано."
 
-#: src/mainwindow.cpp:1601
+#: src/mainwindow.cpp:1621
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "Вставити ділянку кліпу на монтажний стіл"
 
-#: src/mainwindow.cpp:1603
+#: src/mainwindow.cpp:1623
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23589,12 +23840,12 @@ msgstr ""
 "вставлено у позиції відтворення активного монтажного столу. Кліпи у позиції "
 "вставлення буде посунуто праворуч."
 
-#: src/mainwindow.cpp:1605
+#: src/mainwindow.cpp:1625
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "Видобути ділянку даних монтажного столу"
 
-#: src/mainwindow.cpp:1607
+#: src/mainwindow.cpp:1627
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23604,12 +23855,12 @@ msgstr ""
 "Клацніть, щоб вилучити зону монтажного столу зі столу. Усі кліпи праворуч "
 "буде посунуто ліворуч."
 
-#: src/mainwindow.cpp:1608
+#: src/mainwindow.cpp:1628
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "Підняти ділянку даних монтажного столу"
 
-#: src/mainwindow.cpp:1610
+#: src/mainwindow.cpp:1630
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23619,12 +23870,12 @@ msgstr ""
 "Клацніть, щоб вилучити зону монтажного столу зі столу. Усі кліпи праворуч "
 "лишаться на своїх місцях."
 
-#: src/mainwindow.cpp:1611
+#: src/mainwindow.cpp:1631
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "Додати зону перегляду"
 
-#: src/mainwindow.cpp:1613
+#: src/mainwindow.cpp:1633
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23633,12 +23884,12 @@ msgstr ""
 "Додати поточну визначену на монтажному столі або позначену зону як зону "
 "обробки попереднього перегляду"
 
-#: src/mainwindow.cpp:1614
+#: src/mainwindow.cpp:1634
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Вилучити зону перегляду"
 
-#: src/mainwindow.cpp:1618
+#: src/mainwindow.cpp:1638
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23649,23 +23900,23 @@ msgstr ""
 "обробки попереднього перегляду. Зауважте, що це може призвести до появи "
 "прогалин у зонах обробки попереднього перегляду."
 
-#: src/mainwindow.cpp:1619
+#: src/mainwindow.cpp:1639
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Вилучити усі зони перегляду"
 
-#: src/mainwindow.cpp:1621
+#: src/mainwindow.cpp:1641
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "Вилучити усі зони обробки попереднього перегляду."
 
-#: src/mainwindow.cpp:1622
+#: src/mainwindow.cpp:1642
 #, kde-format
 msgid "Start Preview Render"
 msgstr "Почати обробку перегляду"
 
-#: src/mainwindow.cpp:1625
+#: src/mainwindow.cpp:1645
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23679,233 +23930,233 @@ msgstr ""
 "варіантів (наприклад, додати зону обробки попереднього перегляду, вилучити "
 "усі зони)."
 
-#: src/mainwindow.cpp:1627
+#: src/mainwindow.cpp:1647
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "Припинити обробку перегляду"
 
-#: src/mainwindow.cpp:1630
+#: src/mainwindow.cpp:1650
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
 msgstr "Скоригувати зону монтажного столу до позначеного"
 
-#: src/mainwindow.cpp:1632
+#: src/mainwindow.cpp:1652
 #, kde-format
 msgid "Select Clip"
 msgstr "Позначити кліп"
 
-#: src/mainwindow.cpp:1634
+#: src/mainwindow.cpp:1654
 #, kde-format
 msgid "Deselect Clip"
 msgstr "Зняти позначення з кліпу"
 
-#: src/mainwindow.cpp:1636
+#: src/mainwindow.cpp:1656
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "Додати до позначеного кліп"
 
-#: src/mainwindow.cpp:1638
+#: src/mainwindow.cpp:1658
 #, kde-format
 msgid "Select Transition"
 msgstr "Позначити перехід"
 
-#: src/mainwindow.cpp:1640
+#: src/mainwindow.cpp:1660
 #, kde-format
 msgid "Deselect Transition"
 msgstr "Зняти позначення з переходу"
 
-#: src/mainwindow.cpp:1642
+#: src/mainwindow.cpp:1662
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "Додати до позначеного перехід"
 
-#: src/mainwindow.cpp:1645
+#: src/mainwindow.cpp:1665
 #, kde-format
 msgid "Delete All Markers"
 msgstr "Вилучити всі позначки"
 
-#: src/mainwindow.cpp:1647
+#: src/mainwindow.cpp:1667
 #, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Додати позначку/напрямну нашвидкуруч"
 
-#: src/mainwindow.cpp:1651
+#: src/mainwindow.cpp:1671
 #, kde-format
 msgid "Add Marker/Guide 1"
 msgstr "Додати позначку/напрямну 1"
 
-#: src/mainwindow.cpp:1655
+#: src/mainwindow.cpp:1675
 #, kde-format
 msgid "Add Marker/Guide 2"
 msgstr "Додати позначку/напрямну 2"
 
-#: src/mainwindow.cpp:1659
+#: src/mainwindow.cpp:1679
 #, kde-format
 msgid "Add Marker/Guide 3"
 msgstr "Додати позначку/напрямну 3"
 
-#: src/mainwindow.cpp:1663
+#: src/mainwindow.cpp:1683
 #, kde-format
 msgid "Add Marker/Guide 4"
 msgstr "Додати позначку/напрямну 4"
 
-#: src/mainwindow.cpp:1667
+#: src/mainwindow.cpp:1687
 #, kde-format
 msgid "Add Marker/Guide 5"
 msgstr "Додати позначку/напрямну 5"
 
-#: src/mainwindow.cpp:1671
+#: src/mainwindow.cpp:1691
 #, kde-format
 msgid "Add Marker/Guide 6"
 msgstr "Додати позначку/напрямну 6"
 
-#: src/mainwindow.cpp:1675
+#: src/mainwindow.cpp:1695
 #, kde-format
 msgid "Add Marker/Guide 7"
 msgstr "Додати позначку/напрямну 7"
 
-#: src/mainwindow.cpp:1679
+#: src/mainwindow.cpp:1699
 #, kde-format
 msgid "Add Marker/Guide 8"
 msgstr "Додати позначку/напрямну 8"
 
-#: src/mainwindow.cpp:1683
+#: src/mainwindow.cpp:1703
 #, kde-format
 msgid "Add Marker/Guide 9"
 msgstr "Додати позначку/напрямну 9"
 
-#: src/mainwindow.cpp:1687
+#: src/mainwindow.cpp:1707
 #, kde-format
 msgid "Add Marker/Guide 10"
 msgstr "Додати позначку/напрямну 10"
 
-#: src/mainwindow.cpp:1692
+#: src/mainwindow.cpp:1712
 #, kde-format
 msgid "Current Selection"
 msgstr "Поточне позначене"
 
-#: src/mainwindow.cpp:1694 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1714 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "Додати позначку"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1718
 #, kde-format
 msgid "Delete Marker"
 msgstr "Вилучити позначку"
 
-#: src/mainwindow.cpp:1702
+#: src/mainwindow.cpp:1722
 #, kde-format
 msgid "Edit Marker…"
 msgstr "Змінити позначку…"
 
-#: src/mainwindow.cpp:1707 src/timeline2/model/timelinefunctions.cpp:1212
+#: src/mainwindow.cpp:1727 src/timeline2/model/timelinefunctions.cpp:1212
 #, kde-format
 msgid "Restore Audio"
 msgstr "Відновити звук"
 
-#: src/mainwindow.cpp:1713
+#: src/mainwindow.cpp:1733
 #, kde-format
 msgid "Extract Clip"
 msgstr "Видобути кліп"
 
-#: src/mainwindow.cpp:1719
+#: src/mainwindow.cpp:1739
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "Зберегти ділянку кліпу на панелі контейнера"
 
-#: src/mainwindow.cpp:1724
+#: src/mainwindow.cpp:1744
 #, kde-format
 msgid "Disable Clip"
 msgstr "Вимкнути кліп"
 
-#: src/mainwindow.cpp:1729
+#: src/mainwindow.cpp:1749
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "Встановити еталон звукових даних"
 
-#: src/mainwindow.cpp:1736
+#: src/mainwindow.cpp:1756
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "Вирівнювання звукових даних за еталоном"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1761
 #, kde-format
 msgid "Edit Duration"
 msgstr "Змінити тривалість"
 
-#: src/mainwindow.cpp:1745
+#: src/mainwindow.cpp:1765
 #, kde-format
 msgid "Change Speed"
 msgstr "Зміна швидкості"
 
-#: src/mainwindow.cpp:1751
+#: src/mainwindow.cpp:1771
 #, kde-format
 msgid "Time Remap"
 msgstr "Переприв'язування за часом"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1778
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "Кліп у ієрархії проєкту"
 
-#: src/mainwindow.cpp:1763
+#: src/mainwindow.cpp:1783
 #, kde-format
 msgid "Search Bin Clip…"
 msgstr "Шукати кліп у контейнері…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1765 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1785 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "Розрізати кліп"
 
-#: src/mainwindow.cpp:1768
+#: src/mainwindow.cpp:1788
 #, kde-format
 msgid "Cut All Clips"
 msgstr "Розрізати усі кліпи"
 
-#: src/mainwindow.cpp:1771
+#: src/mainwindow.cpp:1791
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Вилучити позначений елемент"
 
-#: src/mainwindow.cpp:1774
+#: src/mainwindow.cpp:1794
 #, kde-format
 msgid "Resize Item Start"
 msgstr "Змінити позицію початку елемента"
 
-#: src/mainwindow.cpp:1778
+#: src/mainwindow.cpp:1798
 #, kde-format
 msgid "Resize Item End"
 msgstr "Змінити позицію кінця елемента"
 
-#: src/mainwindow.cpp:1782
+#: src/mainwindow.cpp:1802
 #, kde-format
 msgid "Paste Effects"
 msgstr "Вставити ефекти"
 
-#: src/mainwindow.cpp:1788
+#: src/mainwindow.cpp:1808
 #, kde-format
 msgid "Delete Effects"
 msgstr "Вилучити ефекти"
 
-#: src/mainwindow.cpp:1795
+#: src/mainwindow.cpp:1815
 #, kde-format
 msgid "Group Clips"
 msgstr "Згрупувати кліпи"
 
-#: src/mainwindow.cpp:1801
+#: src/mainwindow.cpp:1821
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "Розгрупувати кліпи"
 
-#: src/mainwindow.cpp:1807
+#: src/mainwindow.cpp:1827
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "Створити послідовність з позначеного"
 
-#: src/mainwindow.cpp:1810
+#: src/mainwindow.cpp:1830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23915,123 +24166,123 @@ msgstr ""
 "Додає поточні позначені на монтажному столі кліпи до нового кліпу "
 "послідовності, який можна буде відкрити у іншій вкладці монтажного столу."
 
-#: src/mainwindow.cpp:1821
+#: src/mainwindow.cpp:1841
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "Ключові кадри ефекту"
 
-#: src/mainwindow.cpp:1822 src/monitor/view/EffectToolBar.qml:99
+#: src/mainwindow.cpp:1842 src/monitor/view/EffectToolBar.qml:99
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Додати/Вилучити ключовий кадр"
 
-#: src/mainwindow.cpp:1831
+#: src/mainwindow.cpp:1851
 #, kde-format
 msgid "Insert Space…"
 msgstr "Вставити розпірку…"
 
-#: src/mainwindow.cpp:1832
+#: src/mainwindow.cpp:1852
 #, kde-format
 msgid "Remove Space"
 msgstr "Вилучити розпірку"
 
-#: src/mainwindow.cpp:1833
+#: src/mainwindow.cpp:1853
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "Вилучити усі розпірки після курсора"
 
-#: src/mainwindow.cpp:1834
+#: src/mainwindow.cpp:1854
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "Вилучити усі кліпи після курсора"
 
-#: src/mainwindow.cpp:1835
+#: src/mainwindow.cpp:1855
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "Вилучити розпірки в усіх доріжках"
 
-#: src/mainwindow.cpp:1838
+#: src/mainwindow.cpp:1858
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Вставити доріжку…"
 
-#: src/mainwindow.cpp:1842
+#: src/mainwindow.cpp:1862
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "Підібрати розміри для усіх доріжок перегляду"
 
-#: src/mainwindow.cpp:1848 src/timeline2/view/timelinecontroller.cpp:4888
+#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4888
 #, kde-format
 msgid "Master effects"
 msgstr "Основні ефекти"
 
-#: src/mainwindow.cpp:1855
+#: src/mainwindow.cpp:1875
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "Перемкнути звуковий потік призначення доріжки"
 
-#: src/mainwindow.cpp:1860
+#: src/mainwindow.cpp:1880
 #, kde-format
 msgid "Delete Track…"
 msgstr "Вилучити доріжку…"
 
-#: src/mainwindow.cpp:1865
+#: src/mainwindow.cpp:1885
 #, kde-format
 msgid "Show Record Controls"
 msgstr "Показати керування записом"
 
-#: src/mainwindow.cpp:1871
+#: src/mainwindow.cpp:1891
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "Позначити все на поточній доріжці"
 
-#: src/mainwindow.cpp:1888
+#: src/mainwindow.cpp:1908
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "Керування кешованими даними…"
 
-#: src/mainwindow.cpp:1891
+#: src/mainwindow.cpp:1911
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "Вимкнути перегляд на монтажному столі"
 
-#: src/mainwindow.cpp:1895
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "Додати/Вилучити напрямну"
 
-#: src/mainwindow.cpp:1896
+#: src/mainwindow.cpp:1916
 #, kde-format
 msgid "Delete Guide"
 msgstr "Вилучити напрямну"
 
-#: src/mainwindow.cpp:1897
+#: src/mainwindow.cpp:1917
 #, kde-format
 msgid "Edit Guide…"
 msgstr "Змінити напрямну…"
 
-#: src/mainwindow.cpp:1898
+#: src/mainwindow.cpp:1918
 #, kde-format
 msgid "Search Guide…"
 msgstr "Шукати напрямну…"
 
-#: src/mainwindow.cpp:1899
+#: src/mainwindow.cpp:1919
 #, kde-format
 msgid "Export Guides…"
 msgstr "Експортувати напрямні…"
 
-#: src/mainwindow.cpp:1902
+#: src/mainwindow.cpp:1922
 #, kde-format
 msgid "Guides Locked"
 msgstr "Напрямні заблоковано"
 
-#: src/mainwindow.cpp:1905
+#: src/mainwindow.cpp:1925
 #, kde-format
 msgid "Lock guides"
 msgstr "Заблокувати напрямні"
 
-#: src/mainwindow.cpp:1907
+#: src/mainwindow.cpp:1927
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24042,52 +24293,52 @@ msgstr ""
 "при використанні інструмента інтервалів або вставлянні чи вилучанні розпірок "
 "на доріжках."
 
-#: src/mainwindow.cpp:1909
+#: src/mainwindow.cpp:1929
 #, kde-format
 msgid "Delete All Guides"
 msgstr "Вилучити всі напрямні"
 
-#: src/mainwindow.cpp:1911
+#: src/mainwindow.cpp:1931
 #, kde-format
 msgid "Add Subtitle"
 msgstr "Додати субтитри"
 
-#: src/mainwindow.cpp:1913
+#: src/mainwindow.cpp:1933
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "Вимкнути субтитри"
 
-#: src/mainwindow.cpp:1914
+#: src/mainwindow.cpp:1934
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "Заблокувати субтитри"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1936
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "Керування субтитрами"
 
-#: src/mainwindow.cpp:1918
+#: src/mainwindow.cpp:1938
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "Імпортування файла субтитрів…"
 
-#: src/mainwindow.cpp:1920
+#: src/mainwindow.cpp:1940
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "Експортування файла субтитрів…"
 
-#: src/mainwindow.cpp:1922 src/timeline2/model/timelinemodel.cpp:2167
+#: src/mainwindow.cpp:1942 src/timeline2/model/timelinemodel.cpp:2167
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Вилучення субтитрів"
 
-#: src/mainwindow.cpp:1923
+#: src/mainwindow.cpp:1943
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "Розпізнавання мовлення…"
 
-#: src/mainwindow.cpp:1930
+#: src/mainwindow.cpp:1950
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24098,87 +24349,87 @@ msgstr ""
 "режимом використання кнопки <interface>меню-гамбургера</interface> на "
 "головній панелі інструментів."
 
-#: src/mainwindow.cpp:1959
+#: src/mainwindow.cpp:1979
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "Копіювати діагностичні дані"
 
-#: src/mainwindow.cpp:1961
+#: src/mainwindow.cpp:1981
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "Вимкнути ефекти монтажного столу"
 
-#: src/mainwindow.cpp:1967
+#: src/mainwindow.cpp:1987
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "Перемкнути стан вимикання доріжки"
 
-#: src/mainwindow.cpp:1969
+#: src/mainwindow.cpp:1989
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "Перемкнути блокування доріжки"
 
-#: src/mainwindow.cpp:1971
+#: src/mainwindow.cpp:1991
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "Перемкнути блокування усіх доріжок"
 
-#: src/mainwindow.cpp:1973
+#: src/mainwindow.cpp:1993
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "Перемкнути призначення доріжки"
 
-#: src/mainwindow.cpp:1975
+#: src/mainwindow.cpp:1995
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "Перемкнути активацію доріжки"
 
-#: src/mainwindow.cpp:1977
+#: src/mainwindow.cpp:1997
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "Перемкнути активацію усіх доріжок"
 
-#: src/mainwindow.cpp:1979
+#: src/mainwindow.cpp:1999
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "Зробити усі доріжки активними"
 
-#: src/mainwindow.cpp:1981
+#: src/mainwindow.cpp:2001
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "Відновити доріжки призначення поточного кліпу"
 
-#: src/mainwindow.cpp:1983
+#: src/mainwindow.cpp:2003
 #, kde-format
 msgid "Add Project Note"
 msgstr "Додати нотатку щодо проєкту"
 
-#: src/mainwindow.cpp:1989
+#: src/mainwindow.cpp:2009
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "Вибір звукової доріжки %1"
 
-#: src/mainwindow.cpp:1993
+#: src/mainwindow.cpp:2013
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "Вибір відеодоріжки %1"
 
-#: src/mainwindow.cpp:1997
+#: src/mainwindow.cpp:2017
 #, kde-format
 msgid "Select Target %1"
 msgstr "Вибір цілі %1"
 
-#: src/mainwindow.cpp:2014
+#: src/mainwindow.cpp:2034
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Видобути кадр…"
 
-#: src/mainwindow.cpp:2017
+#: src/mainwindow.cpp:2037
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Видобути кадр до проєкту…"
 
-#: src/mainwindow.cpp:2150
+#: src/mainwindow.cpp:2170
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -24187,13 +24438,13 @@ msgstr ""
 "Вами було змінено параметри створення проміжних кліпів. Бажаєте повторно "
 "створити всі проміжні кліпи цього проєкту?"
 
-#: src/mainwindow.cpp:2151
+#: src/mainwindow.cpp:2171
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Створити заново"
 
-#: src/mainwindow.cpp:2152 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2172 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2255
 #, kde-format
@@ -24201,7 +24452,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Продовжити без нього"
 
-#: src/mainwindow.cpp:2208
+#: src/mainwindow.cpp:2228
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -24212,7 +24463,7 @@ msgstr ""
 "буде збережено проєкт, а потім усі тимчасові файли буде пересунуто з<br/><b>"
 "%1</b> до <b>%2</b>.<br>Після цього файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2216
+#: src/mainwindow.cpp:2236
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -24221,38 +24472,38 @@ msgstr ""
 "У результаті усі тимчасові файли буде пересунуто з<br/><b>%1</b> до <b>%2</"
 "b>,<br/>потім файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2225 src/project/projectmanager.cpp:619
+#: src/mainwindow.cpp:2245 src/project/projectmanager.cpp:619
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Не вдалося виконати дію, некоректний ідентифікатор документа: %1"
 
-#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2250 src/project/projectmanager.cpp:625
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не вдалося виконати дію, каталог призначення вже існує: %1"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2397
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Буде вилучено всі невикористані у вашому проєкті кліпи."
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2397
 #, kde-format
 msgid "Clean up project"
 msgstr "Очистити проєкт"
 
-#: src/mainwindow.cpp:2519
+#: src/mainwindow.cpp:2539
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Отримати нові схеми клавіатурних скорочень…"
 
-#: src/mainwindow.cpp:2528
+#: src/mainwindow.cpp:2548
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Загальні"
 
-#: src/mainwindow.cpp:2602
+#: src/mainwindow.cpp:2622
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -24261,28 +24512,28 @@ msgstr ""
 "Це призведе до вилучення файла налаштувань Kdenlive і перезапуску програми. "
 "Хочете виконати цю дію?"
 
-#: src/mainwindow.cpp:2603
+#: src/mainwindow.cpp:2623
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Скидання налаштувань"
 
-#: src/mainwindow.cpp:2735 src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2755 src/mainwindow.cpp:2782
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Не вдалося знайти кліп для вилучення позначки"
 
-#: src/mainwindow.cpp:2745 src/mainwindow.cpp:2791
+#: src/mainwindow.cpp:2765 src/mainwindow.cpp:2811
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Позначки у часовій позиції курсора не знайдено"
 
-#: src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2787
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Під час вилучення позначок сталася помилка"
 
-#: src/mainwindow.cpp:2784 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2804 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -24291,46 +24542,46 @@ msgstr "Під час вилучення позначок сталася пом�
 msgid "Cannot find clip to edit marker"
 msgstr "Не вдалося знайти кліп для зміни позначки"
 
-#: src/mainwindow.cpp:2835
+#: src/mainwindow.cpp:2855
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "Категорії позначок не існує"
 
-#: src/mainwindow.cpp:3025 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Перезаписати ділянку"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3046
+#: src/mainwindow.cpp:3047 src/mainwindow.cpp:3066
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3146
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Не вдалося вставити ділянку"
 
-#: src/mainwindow.cpp:3037
+#: src/mainwindow.cpp:3057
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "У ієрархії проєкту не вибрано жодного кліпу"
 
-#: src/mainwindow.cpp:3044 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3064 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Insert zone"
 msgstr "Вставити ділянку"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3231
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Неможливо додати ефект до активного запису"
 
-#: src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:3293
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Масштаб: %1/%2"
 
-#: src/mainwindow.cpp:3422
+#: src/mainwindow.cpp:3442
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24343,7 +24594,7 @@ msgstr ""
 "<shortcut>Meta + перетягування</shortcut> — пересування згрупованого кліпу "
 "на іншу доріжку,<shortcut>Ctrl + перетягування</shortcut> — панорамування"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3446
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24358,24 +24609,24 @@ msgstr ""
 "кліпу на іншу доріжку,<shortcut>Ctrl + перетягування</shortcut> — "
 "панорамування"
 
-#: src/mainwindow.cpp:3429
+#: src/mainwindow.cpp:3449
 #, kde-format
 msgid "Select"
 msgstr "Вибрати"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3451
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> для перегляду кадру розрізу"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3432 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3452 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Лезо"
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3456
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24386,12 +24637,12 @@ msgstr ""
 "<shortcut>Shift</shortcut>, щоб також посунути напрямні. Ви можете "
 "поєднувати клавіші-модифікатори."
 
-#: src/mainwindow.cpp:3437
+#: src/mainwindow.cpp:3457
 #, kde-format
 msgid "Spacer"
 msgstr "Розпірка"
 
-#: src/mainwindow.cpp:3439
+#: src/mainwindow.cpp:3459
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24401,13 +24652,13 @@ msgstr ""
 "<shortcut>Клацніть</shortcut> на пункті для зсування, <shortcut>Shift + "
 "клацання</shortcut> — позначення декількох пунктів"
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3460
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Зсув"
 
-#: src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3465
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24420,13 +24671,13 @@ msgstr ""
 "<shortcut>Alt + перетягування</shortcut> — позначення елемента у групі,"
 "<shortcut>Ctrl + перетягування</shortcut> — панорамування"
 
-#: src/mainwindow.cpp:3447
+#: src/mainwindow.cpp:3467
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Брижі"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3473
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24436,99 +24687,99 @@ msgstr ""
 "<shortcut>Клацніть</shortcut> на панелі доріжок монітора проєкту для "
 "виконання підняття усіх доріжок, окрім активної"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3485
 #, kde-format
 msgid "Insert"
 msgstr "Вставити"
 
-#: src/mainwindow.cpp:3735 src/mainwindow.cpp:3737
+#: src/mainwindow.cpp:3755 src/mainwindow.cpp:3757
 #, kde-format
 msgid "Scopes"
 msgstr "Області"
 
-#: src/mainwindow.cpp:3742
+#: src/mainwindow.cpp:3762
 #, kde-format
 msgid "Project Bins"
 msgstr "Контейнери проєктів"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3858
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Налаштувати завдання кліпів…"
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3864
 #, kde-format
 msgid "Transcoders"
 msgstr "Перекодувальники"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3924
 #, kde-format
 msgid "-merged"
 msgstr "-об'єднано"
 
-#: src/mainwindow.cpp:3907
+#: src/mainwindow.cpp:3927
 #, kde-format
 msgid "-stream-%1"
 msgstr "-потік-%1"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3969
 #, kde-format
 msgid "Interface"
 msgstr "Інтерфейс"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3991
 #, kde-format
 msgid "Raise %1"
 msgstr "Підняти %1"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4058
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Файли для перекодування"
 
-#: src/mainwindow.cpp:4170
+#: src/mainwindow.cpp:4190
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Не вдалося зберегти файл проєкту для архівування."
 
-#: src/mainwindow.cpp:4178
+#: src/mainwindow.cpp:4198
 #, kde-format
 msgid "Archiving project"
 msgstr "Архівування проєкту"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4338
 #, kde-format
 msgid "Icon Size"
 msgstr "Розмір піктограм"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4342
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Типовий"
 
-#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4363 src/mainwindow.cpp:4391
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Малий (%1⨯%2)"
 
-#: src/mainwindow.cpp:4345 src/mainwindow.cpp:4373
+#: src/mainwindow.cpp:4365 src/mainwindow.cpp:4393
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Середній (%1⨯%2)"
 
-#: src/mainwindow.cpp:4347 src/mainwindow.cpp:4375
+#: src/mainwindow.cpp:4367 src/mainwindow.cpp:4395
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Великий (%1⨯%2)"
 
-#: src/mainwindow.cpp:4349 src/mainwindow.cpp:4377
+#: src/mainwindow.cpp:4369 src/mainwindow.cpp:4397
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Величезний (%1⨯%2)"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4453
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -24537,27 +24788,27 @@ msgstr ""
 "За допомогою цього пункту можна повністю сховати смужку меню. Наказати "
 "програмі знову показувати цю смужку можна клавіатурним скороченням Ctrl+M."
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4453
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Приховати смужку меню"
 
-#: src/mainwindow.cpp:4696 src/timeline2/view/timelinecontroller.cpp:5119
+#: src/mainwindow.cpp:4716 src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "У поточному проєкті немає субтитрів"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:5003
 #, kde-format
 msgid "Go to download page"
 msgstr "Перейти до сторінки отримання"
 
-#: src/mainwindow.cpp:4988
+#: src/mainwindow.cpp:5008
 #, kde-format
 msgid "Never check again"
 msgstr "Більше не перевіряти"
 
-#: src/mainwindow.cpp:4991
+#: src/mainwindow.cpp:5011
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -24566,7 +24817,7 @@ msgstr ""
 "Ваша версія Kdenlive застаріла на понад 1 рік. Ми наполегливо рекомендуємо "
 "її оновити."
 
-#: src/mainwindow.cpp:4995
+#: src/mainwindow.cpp:5015
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -24574,7 +24825,7 @@ msgstr ""
 "Ваша версія Kdenlive застаріла на понад 6 місяців. Ми рекомендуємо її "
 "оновити."
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5058
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Визначаємо розмір кешованих даних"
@@ -28186,12 +28437,12 @@ msgstr "Виберіть назву для цієї обробки."
 msgid "begin"
 msgstr "початок"
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:87
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "Не вдалося відкрити обмін даними із завданням з обробки %1"
 
-#: src/render/renderserver.cpp:50
+#: src/render/renderserver.cpp:51
 #, kde-format
 msgid "Communication error with render job"
 msgstr "Помилка обміну даними із завданням з обробки"
@@ -37010,9 +37261,6 @@ msgstr "%1 год."
 
 #~ msgid "DVD ISO image"
 #~ msgstr "Образ ISO DVD"
-
-#~ msgid "Creating menu background"
-#~ msgstr "Створення тла меню"
 
 #~ msgid "Creating menu movie"
 #~ msgstr "Створення відео меню"

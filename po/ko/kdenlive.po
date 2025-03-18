@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 00:40+0000\n"
+"POT-Creation-Date: 2025-03-18 00:41+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3922,7 +3922,7 @@ msgid ""
 "them.<br>\n"
 "    <b>It is designed for playback only. Do not use it prior to lossy "
 "compression, because compression tends to lose the dither and bring back the "
-"bands<b>.]]>"
+"bands</b>.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
@@ -5609,7 +5609,7 @@ msgstr "원 반지름"
 msgid ""
 "<![CDATA[Set the chroma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
-"blur the image (slower if larger). If not specified ,it defaults to the "
+"blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
 
@@ -5835,7 +5835,7 @@ msgstr "캡처 형식"
 #, kde-format
 msgid ""
 "side by side parallel,side by side crosseye,above-below left top,above-below "
-"right top,interleaved rows (letf top),interleaved rows (right top),anaglyph "
+"right top,interleaved rows (left top),interleaved rows (right top),anaglyph "
 "red/blue gray,anaglyph red/green gray,anaglyph red/cyan gray,anaglyph red/"
 "cyan half colored,anaglyph red/cyan color,anaglyph red/cyan dubois,anaglyph "
 "green/magenta gray,anaglyph green/magenta half colored,anaglyph green/"
@@ -6542,7 +6542,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
 msgid ""
-"<![CDATA[Smaller values are useful to find out how many values<br>\n"
+"<![CDATA[Smaller values are useful for finding out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
 
@@ -6550,8 +6550,8 @@ msgstr ""
 #, kde-format
 msgid ""
 "<![CDATA[In mirrored mode, higher values will be represented<br>\n"
-"       \ton the left side for <em>row<em> mode and at the top for "
-"<em>column<em> mode.]]>"
+"       \ton the left side for <em>row</em> mode and at the top for "
+"<em>column</em> mode.]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
@@ -6571,7 +6571,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
-msgid "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
+msgid "Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
@@ -6590,7 +6590,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
-msgid "none,green,orange,invert"
+msgid "None,Green,Orange,Invert"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
@@ -6606,7 +6606,7 @@ msgstr "X축 회전"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
-msgid "numbers,dots"
+msgid "Numbers,Dots"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
@@ -6616,7 +6616,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
-msgid "digital,millivolts,ire"
+msgid "Digital,Millivolts,Ire"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
@@ -6641,8 +6641,9 @@ msgstr "색조"
 #: data/effects/avfilter/avfilter_waveform.xml:75
 #, kde-format
 msgid ""
-"<![CDATA[Only used with lowpass filter and when display<br>\n"
-"       \tis not overlay and input pixel formats are not RGB]]>"
+"<![CDATA[Only used with <em>lowpass</em> filter and when display<br>\n"
+"       \tis not <em>overlay</em> and input pixel formats are not <em>RGB</"
+"em>]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:73
@@ -6655,7 +6656,7 @@ msgstr "색조"
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, fuzzy, kde-format
 #| msgid "Resize"
-msgid "none,size"
+msgid "None,Size"
 msgstr "크기 조정"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
@@ -13648,7 +13649,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "잡음 감소와 오디오 복원"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1374
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1394
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -15373,13 +15374,13 @@ msgid "Switch to curve editor view"
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:98 src/dialogs/timeremap.cpp:1621
-#: src/mainwindow.cpp:1826
+#: src/mainwindow.cpp:1846
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "이전 키프레임으로 이동"
 
 #: src/assets/view/widgets/keyframewidget.cpp:102
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1824
+#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1844
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "다음 키프레임으로 이동"
@@ -16599,7 +16600,7 @@ msgstr ""
 "프로젝트의 모든 스트림을 처리하려면 더 많은 오디오 트랙이 필요합니다. 오디오 "
 "트랙 %1개를 추가하시겠습니까?"
 
-#: src/bin/bin.cpp:5543 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5543 src/mainwindow.cpp:2737
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "마커를 추가할 클립을 찾을 수 없음"
@@ -16687,7 +16688,7 @@ msgstr "%1 효과 삭제"
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:6450 src/bin/bin.cpp:6453 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6450 src/bin/bin.cpp:6453 src/mainwindow.cpp:4847
 #, kde-format
 msgid "Project Bin %1"
 msgstr "프로젝트 보관함 %1"
@@ -17210,7 +17211,7 @@ msgstr "하위 클립 추가"
 msgid "Rename Folder"
 msgstr "폴더 이름 바꾸기"
 
-#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1428
+#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1448
 #, kde-format
 msgid "Clean Project"
 msgstr "프로젝트 정리"
@@ -18849,7 +18850,7 @@ msgstr "현재 프로젝트에 추가"
 msgid "Open Containing Folder"
 msgstr "대상 폴더"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3950
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3970
 #, kde-format
 msgid "Timeline"
 msgstr "타임라인"
@@ -21139,7 +21140,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "출력 파일이 이미 있습니다. 덮어쓰시겠습니까?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3468
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3488
 #, kde-format
 msgid "Overwrite"
 msgstr "덮어쓰기"
@@ -22352,13 +22353,13 @@ msgid "Add Markers by Category"
 msgstr "분류"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3845
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3865
 #, kde-format
 msgid "Extract Audio"
 msgstr "오디오 추출"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3819
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3839
 #, kde-format
 msgid "Clip Jobs"
 msgstr "클립 작업"
@@ -22420,7 +22421,7 @@ msgstr "공백"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:184 src/mainwindow.cpp:1837
+#: src/kdenliveui.rc:184 src/mainwindow.cpp:1857
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
@@ -22457,7 +22458,7 @@ msgid "Current Monitor Overlay"
 msgstr "현재 모니터 오버레이"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:263 src/mainwindow.cpp:1501
+#: src/kdenliveui.rc:263 src/mainwindow.cpp:1521
 #, kde-format
 msgid "Preview Resolution"
 msgstr "미리 보기 해상도"
@@ -23196,7 +23197,7 @@ msgid "Add Transition"
 msgstr "전환 추가"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:492 src/mainwindow.cpp:2004
+#: src/mainwindow.cpp:492 src/mainwindow.cpp:2024
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -23217,7 +23218,7 @@ msgid ""
 "it to the selected clip."
 msgstr ""
 
-#: src/mainwindow.cpp:537 src/mainwindow.cpp:1422
+#: src/mainwindow.cpp:537 src/mainwindow.cpp:1442
 #, fuzzy, kde-format
 #| msgid "Render"
 msgid "Render…"
@@ -23295,7 +23296,37 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "프로젝트 불러오는 중"
 
-#: src/mainwindow.cpp:938
+#: src/mainwindow.cpp:943
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have 1 rendering job waiting in the queue.\n"
+#| "What do you want to do with this job?"
+#| msgid_plural ""
+#| "You have %1 rendering jobs waiting in the queue.\n"
+#| "What do you want to do with these jobs?"
+msgid ""
+"You have 1 rendering job running.\n"
+"What do you want to do with this job?"
+msgid_plural ""
+"You have %1 rendering jobs running.\n"
+"What do you want to do with these jobs?"
+msgstr[0] ""
+"대기열에 렌더링 작업 %1개가 대기 중입니다.\n"
+"해당 작업을 어떻게 하시겠습니까?"
+
+#: src/mainwindow.cpp:945
+#, fuzzy, kde-format
+#| msgid "Creating menu background"
+msgid "Continue rendering in the background"
+msgstr "메뉴 배경 만드는 중"
+
+#: src/mainwindow.cpp:945
+#, fuzzy, kde-format
+#| msgid "Abort processing"
+msgid "Abort rendering"
+msgstr "처리 중단"
+
+#: src/mainwindow.cpp:962
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23307,43 +23338,43 @@ msgstr[0] ""
 "대기열에 렌더링 작업 %1개가 대기 중입니다.\n"
 "해당 작업을 어떻게 하시겠습니까?"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:965
 #, kde-format
 msgid "Start them now"
 msgstr "지금 시작"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:965
 #, kde-format
 msgid "Delete them"
 msgstr "삭제"
 
-#: src/mainwindow.cpp:1037 src/timeline2/view/timelinecontroller.cpp:2155
+#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2155
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "효과를 비교할 클립을 선택하십시오"
 
-#: src/mainwindow.cpp:1087
+#: src/mainwindow.cpp:1107
 #, kde-format
 msgid "Normal Mode"
 msgstr "일반 모드"
 
-#: src/mainwindow.cpp:1094
+#: src/mainwindow.cpp:1114
 #, kde-format
 msgid "Overwrite Mode"
 msgstr "덮어쓰기 모드"
 
-#: src/mainwindow.cpp:1101
+#: src/mainwindow.cpp:1121
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert Mode"
 msgstr "삽입 모드"
 
-#: src/mainwindow.cpp:1105
+#: src/mainwindow.cpp:1125
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "타임라인 편집 모드"
 
-#: src/mainwindow.cpp:1107
+#: src/mainwindow.cpp:1127
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23351,91 +23382,91 @@ msgid ""
 "action when handling clips in the timeline."
 msgstr ""
 
-#: src/mainwindow.cpp:1116
+#: src/mainwindow.cpp:1136
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "삽입 시 타임라인 영역 사용 안 함"
 
-#: src/mainwindow.cpp:1116
+#: src/mainwindow.cpp:1136
 #, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "삽입 시 타임라인 영역 사용"
 
-#: src/mainwindow.cpp:1117
+#: src/mainwindow.cpp:1137
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
 
-#: src/mainwindow.cpp:1124
+#: src/mainwindow.cpp:1144
 #, fuzzy, kde-format
 #| msgid "Track compositing"
 msgid "Enable Track Compositing"
 msgstr "트랙 합성"
 
-#: src/mainwindow.cpp:1130
+#: src/mainwindow.cpp:1150
 #, kde-format
 msgid "Split Audio Tracks"
 msgstr "오디오 트랙 분할"
 
-#: src/mainwindow.cpp:1136
+#: src/mainwindow.cpp:1156
 #, kde-format
 msgid "Split Audio Tracks (reverse)"
 msgstr "오디오 트랙 분할(역순)"
 
-#: src/mainwindow.cpp:1142
+#: src/mainwindow.cpp:1162
 #, kde-format
 msgid "Mixed Audio tracks"
 msgstr "혼합된 오디오 트랙"
 
-#: src/mainwindow.cpp:1168
+#: src/mainwindow.cpp:1188
 #, kde-format
 msgid "Track menu"
 msgstr "트랙 메뉴"
 
-#: src/mainwindow.cpp:1173 src/project/dialogs/slideshowclip.cpp:91
+#: src/mainwindow.cpp:1193 src/project/dialogs/slideshowclip.cpp:91
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "hh:mm:ss:ff"
 
-#: src/mainwindow.cpp:1174 src/project/dialogs/slideshowclip.cpp:92
+#: src/mainwindow.cpp:1194 src/project/dialogs/slideshowclip.cpp:92
 #, kde-format
 msgid "Frames"
 msgstr "프레임"
 
-#: src/mainwindow.cpp:1186
+#: src/mainwindow.cpp:1206
 #, fuzzy, kde-format
 #| msgid "Edit Subtitle tool"
 msgid "Edit Subtitle Tool"
 msgstr "자막 편집 도구"
 
-#: src/mainwindow.cpp:1187
+#: src/mainwindow.cpp:1207
 #, fuzzy, kde-kuit-format
 #| msgid "Cannot delete last track in timeline"
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "타임라인의 마지막 트랙을 삭제할 수 없음"
 
-#: src/mainwindow.cpp:1194 src/titler/titlewidget.cpp:386
+#: src/mainwindow.cpp:1214 src/titler/titlewidget.cpp:386
 #: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Selection Tool"
 msgstr "선택 도구"
 
-#: src/mainwindow.cpp:1199
+#: src/mainwindow.cpp:1219
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor Tool"
 msgstr "자르기 도구"
 
-#: src/mainwindow.cpp:1204
+#: src/mainwindow.cpp:1224
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgid "Spacer Tool"
 msgstr "간격 띄우기 도구"
 
-#: src/mainwindow.cpp:1207
+#: src/mainwindow.cpp:1227
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23443,13 +23474,13 @@ msgid ""
 "groups separate clips and creates or removes space between clips."
 msgstr ""
 
-#: src/mainwindow.cpp:1212
+#: src/mainwindow.cpp:1232
 #, fuzzy, kde-format
 #| msgid "Ripple"
 msgid "Ripple Tool"
 msgstr "리플"
 
-#: src/mainwindow.cpp:1215
+#: src/mainwindow.cpp:1235
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23461,13 +23492,13 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1225
+#: src/mainwindow.cpp:1245
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgid "Slip Tool"
 msgstr "간격 띄우기 도구"
 
-#: src/mainwindow.cpp:1226
+#: src/mainwindow.cpp:1246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23475,29 +23506,29 @@ msgid ""
 "and forth."
 msgstr ""
 
-#: src/mainwindow.cpp:1230
+#: src/mainwindow.cpp:1250
 #, fuzzy, kde-format
 #| msgid "Multicam tool"
 msgid "Multicam Tool"
 msgstr "멀티캠 도구"
 
-#: src/mainwindow.cpp:1251
+#: src/mainwindow.cpp:1271
 #, fuzzy, kde-format
 #| msgid "Audio Waveform Filter"
 msgid "Zoom Audio Waveforms"
 msgstr "오디오 파형 필터"
 
-#: src/mainwindow.cpp:1255
+#: src/mainwindow.cpp:1275
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "항목 접기/펴기"
 
-#: src/mainwindow.cpp:1259
+#: src/mainwindow.cpp:1279
 #, kde-format
 msgid "Mix Clips"
 msgstr "클립 믹스"
 
-#: src/mainwindow.cpp:1261
+#: src/mainwindow.cpp:1281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23505,13 +23536,13 @@ msgid ""
 "one closest to the playhead."
 msgstr ""
 
-#: src/mainwindow.cpp:1269
+#: src/mainwindow.cpp:1289
 #, fuzzy, kde-format
 #| msgid "Show video thumbnails"
 msgid "Show Video Thumbnails"
 msgstr "동영상 축소판 표시"
 
-#: src/mainwindow.cpp:1270
+#: src/mainwindow.cpp:1290
 #, fuzzy, kde-kuit-format
 #| msgid "Display keyframes in timeline"
 msgctxt "@info:whatsthis"
@@ -23520,13 +23551,13 @@ msgid ""
 "(default is On)."
 msgstr "타임라인에 키프레임 표시"
 
-#: src/mainwindow.cpp:1278
+#: src/mainwindow.cpp:1298
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Show Audio Thumbnails"
 msgstr "오디오 미리 듣기 표시"
 
-#: src/mainwindow.cpp:1279
+#: src/mainwindow.cpp:1299
 #, fuzzy, kde-kuit-format
 #| msgid "Display keyframes in timeline"
 msgctxt "@info:whatsthis"
@@ -23535,18 +23566,18 @@ msgid ""
 "(default is On)."
 msgstr "타임라인에 키프레임 표시"
 
-#: src/mainwindow.cpp:1285
+#: src/mainwindow.cpp:1305
 #, fuzzy, kde-format
 #| msgid "Show markers comments"
 msgid "Show Markers Comments"
 msgstr "마커 주석 표시"
 
-#: src/mainwindow.cpp:1291
+#: src/mainwindow.cpp:1311
 #, kde-format
 msgid "Snap"
 msgstr "스냅"
 
-#: src/mainwindow.cpp:1292
+#: src/mainwindow.cpp:1312
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23554,41 +23585,41 @@ msgid ""
 "and others)."
 msgstr ""
 
-#: src/mainwindow.cpp:1298
+#: src/mainwindow.cpp:1318
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "타임라인에 색상 태그 표시"
 
-#: src/mainwindow.cpp:1299
+#: src/mainwindow.cpp:1319
 #, fuzzy, kde-kuit-format
 #| msgid "Display keyframes in timeline"
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "타임라인에 키프레임 표시"
 
-#: src/mainwindow.cpp:1305
+#: src/mainwindow.cpp:1325
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "프로젝트에 맞게 크기 조정"
 
-#: src/mainwindow.cpp:1306
+#: src/mainwindow.cpp:1326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr ""
 
-#: src/mainwindow.cpp:1331
+#: src/mainwindow.cpp:1351
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "실험적 GPU 처리 활성화됨 - 프로덕션 목적이 아님"
 
-#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3454
+#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3474
 #, kde-format
 msgid "Multicam"
 msgstr "멀티캠"
 
-#: src/mainwindow.cpp:1342
+#: src/mainwindow.cpp:1362
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr ""
@@ -23596,242 +23627,242 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1393 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1413 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "자동"
 
-#: src/mainwindow.cpp:1398
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1403
+#: src/mainwindow.cpp:1423
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "DirectX(ANGLE)"
 
-#: src/mainwindow.cpp:1408
+#: src/mainwindow.cpp:1428
 #, kde-format
 msgid "Software OpenGL"
 msgstr "소프트웨어 OpenGL"
 
-#: src/mainwindow.cpp:1418
+#: src/mainwindow.cpp:1438
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "설정 마법사 실행…"
 
-#: src/mainwindow.cpp:1419
+#: src/mainwindow.cpp:1439
 #, kde-format
 msgid "Project Settings…"
 msgstr "프로젝트 설정…"
 
-#: src/mainwindow.cpp:1425
+#: src/mainwindow.cpp:1445
 #, kde-format
 msgid "Stop Render"
 msgstr "렌더링 중지"
 
-#: src/mainwindow.cpp:1430
+#: src/mainwindow.cpp:1450
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "설정 초기화…"
 
-#: src/mainwindow.cpp:1435
+#: src/mainwindow.cpp:1455
 #, fuzzy, kde-format
 #| msgid "Play Zone"
 msgid "Play Zone From Cursor"
 msgstr "영역 재생"
 
-#: src/mainwindow.cpp:1438
+#: src/mainwindow.cpp:1458
 #, kde-format
 msgid "Play Zone"
 msgstr "영역 재생"
 
-#: src/mainwindow.cpp:1440
+#: src/mainwindow.cpp:1460
 #, kde-format
 msgid "Loop Zone"
 msgstr "영역 반복"
 
-#: src/mainwindow.cpp:1442
+#: src/mainwindow.cpp:1462
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "선택한 클립 반복"
 
-#: src/mainwindow.cpp:1446
+#: src/mainwindow.cpp:1466
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "클립 트랜스코드…"
 
-#: src/mainwindow.cpp:1447
+#: src/mainwindow.cpp:1467
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "OpenTimelineIO 내보내기(&X)…"
 
-#: src/mainwindow.cpp:1451
+#: src/mainwindow.cpp:1471
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "OpenTimelineIO 가져오기(&I)…"
 
-#: src/mainwindow.cpp:1456
+#: src/mainwindow.cpp:1476
 #, kde-format
 msgid "Archive Project…"
 msgstr "프로젝트 압축…"
 
-#: src/mainwindow.cpp:1458
+#: src/mainwindow.cpp:1478
 #, kde-format
 msgid "Switch Monitor"
 msgstr "모니터 전환"
 
-#: src/mainwindow.cpp:1459
+#: src/mainwindow.cpp:1479
 #, kde-format
 msgid "Focus Timecode"
 msgstr "타임코드 포커스 맞추기"
 
-#: src/mainwindow.cpp:1460
+#: src/mainwindow.cpp:1480
 #, kde-format
 msgid "Expand Clip"
 msgstr "클립 펼치기"
 
-#: src/mainwindow.cpp:1462
+#: src/mainwindow.cpp:1482
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "모니터 정보 오버레이"
 
-#: src/mainwindow.cpp:1467
+#: src/mainwindow.cpp:1487
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "시간 코드 모니터 오버레이"
 
-#: src/mainwindow.cpp:1472
+#: src/mainwindow.cpp:1492
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "재생 fps 모니터 오버레이"
 
-#: src/mainwindow.cpp:1477
+#: src/mainwindow.cpp:1497
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "마커 모니터 오버레이"
 
-#: src/mainwindow.cpp:1482
+#: src/mainwindow.cpp:1502
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "오디오 파형 모니터 오버레이"
 
-#: src/mainwindow.cpp:1487
+#: src/mainwindow.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Monitor Overlay Timecode"
 msgid "Monitor Overlay Clip Jobs"
 msgstr "시간 코드 모니터 오버레이"
 
-#: src/mainwindow.cpp:1505
+#: src/mainwindow.cpp:1525
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "전체 해상도(1:1)"
 
-#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1529 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1533 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1537 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1541 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "270p"
 msgstr "270p"
 
-#: src/mainwindow.cpp:1552
+#: src/mainwindow.cpp:1572
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "실시간(프레임 손실)"
 
-#: src/mainwindow.cpp:1558
+#: src/mainwindow.cpp:1578
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "모니터 감마"
 
-#: src/mainwindow.cpp:1559
+#: src/mainwindow.cpp:1579
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB(컴퓨터)"
 
-#: src/mainwindow.cpp:1560
+#: src/mainwindow.cpp:1580
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709(TV)"
 
-#: src/mainwindow.cpp:1566
+#: src/mainwindow.cpp:1586
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "프로젝트 보관함에 영역 삽입"
 
-#: src/mainwindow.cpp:1568
+#: src/mainwindow.cpp:1588
 #, fuzzy, kde-kuit-format
 #| msgid "Select a clip in project bin to compare effect"
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "효과를 비교하려면 프로젝트 보관함에서 클립을 선택하십시오"
 
-#: src/mainwindow.cpp:1571
+#: src/mainwindow.cpp:1591
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "이전 스냅 지점으로 이동"
 
-#: src/mainwindow.cpp:1573
+#: src/mainwindow.cpp:1593
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "다음 스냅 지점으로 이동"
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1596
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "클립 시작으로 이동"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1598
 #, kde-format
 msgid "Go to Clip End"
 msgstr "클립 끝으로 이동"
 
-#: src/mainwindow.cpp:1580
+#: src/mainwindow.cpp:1600
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "이전 안내선으로 이동"
 
-#: src/mainwindow.cpp:1582
+#: src/mainwindow.cpp:1602
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "다음 안내선으로 이동"
 
-#: src/mainwindow.cpp:1584
+#: src/mainwindow.cpp:1604
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "마우스 위치에 재생 헤드 맞추기"
 
-#: src/mainwindow.cpp:1587
+#: src/mainwindow.cpp:1607
 #, kde-format
 msgid "Grab Current Item"
 msgstr "현재 항목 가져오기"
 
-#: src/mainwindow.cpp:1590
+#: src/mainwindow.cpp:1610
 #, kde-format
 msgid "Automatic Transition"
 msgstr "자동 전환"
 
-#: src/mainwindow.cpp:1597
+#: src/mainwindow.cpp:1617
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "타임라인에 클립 영역 덮어쓰기"
 
-#: src/mainwindow.cpp:1599
+#: src/mainwindow.cpp:1619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23840,12 +23871,12 @@ msgid ""
 "insert position are cut and overwritten."
 msgstr ""
 
-#: src/mainwindow.cpp:1601
+#: src/mainwindow.cpp:1621
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "타임라인에 클립 영역 삽입"
 
-#: src/mainwindow.cpp:1603
+#: src/mainwindow.cpp:1623
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23854,12 +23885,12 @@ msgid ""
 "insert position are cut and shifted to the right."
 msgstr ""
 
-#: src/mainwindow.cpp:1605
+#: src/mainwindow.cpp:1625
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "타임라인 영역 추출"
 
-#: src/mainwindow.cpp:1607
+#: src/mainwindow.cpp:1627
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23867,12 +23898,12 @@ msgid ""
 "are shifted left."
 msgstr ""
 
-#: src/mainwindow.cpp:1608
+#: src/mainwindow.cpp:1628
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "타임라인 영역 들어 올리기"
 
-#: src/mainwindow.cpp:1610
+#: src/mainwindow.cpp:1630
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23880,24 +23911,24 @@ msgid ""
 "stay in position."
 msgstr ""
 
-#: src/mainwindow.cpp:1611
+#: src/mainwindow.cpp:1631
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "미리 보기 영역 추가"
 
-#: src/mainwindow.cpp:1613
+#: src/mainwindow.cpp:1633
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1614
+#: src/mainwindow.cpp:1634
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "미리 보기 영역 삭제"
 
-#: src/mainwindow.cpp:1618
+#: src/mainwindow.cpp:1638
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23905,24 +23936,24 @@ msgid ""
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 
-#: src/mainwindow.cpp:1619
+#: src/mainwindow.cpp:1639
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "모든 미리 보기 영역 삭제"
 
-#: src/mainwindow.cpp:1621
+#: src/mainwindow.cpp:1641
 #, fuzzy, kde-kuit-format
 #| msgid "Remove All Preview Zones"
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "모든 미리 보기 영역 삭제"
 
-#: src/mainwindow.cpp:1622
+#: src/mainwindow.cpp:1642
 #, kde-format
 msgid "Start Preview Render"
 msgstr "미리 보기 렌더링 시작"
 
-#: src/mainwindow.cpp:1625
+#: src/mainwindow.cpp:1645
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23931,193 +23962,193 @@ msgid ""
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
 
-#: src/mainwindow.cpp:1627
+#: src/mainwindow.cpp:1647
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "미리 보기 렌더링 중지"
 
-#: src/mainwindow.cpp:1630
+#: src/mainwindow.cpp:1650
 #, fuzzy, kde-format
 #| msgid "Add Transition To Selection"
 msgid "Adjust Timeline Zone to Selection"
 msgstr "선택 항목에 전환 추가"
 
-#: src/mainwindow.cpp:1632
+#: src/mainwindow.cpp:1652
 #, kde-format
 msgid "Select Clip"
 msgstr "클립 선택"
 
-#: src/mainwindow.cpp:1634
+#: src/mainwindow.cpp:1654
 #, kde-format
 msgid "Deselect Clip"
 msgstr "클립 선택 취소"
 
-#: src/mainwindow.cpp:1636
+#: src/mainwindow.cpp:1656
 #, fuzzy, kde-format
 #| msgid "Add Clip To Selection"
 msgid "Add Clip to Selection"
 msgstr "선택 항목에 클립 추가"
 
-#: src/mainwindow.cpp:1638
+#: src/mainwindow.cpp:1658
 #, kde-format
 msgid "Select Transition"
 msgstr "전환 선택"
 
-#: src/mainwindow.cpp:1640
+#: src/mainwindow.cpp:1660
 #, kde-format
 msgid "Deselect Transition"
 msgstr "전환 선택 취소"
 
-#: src/mainwindow.cpp:1642
+#: src/mainwindow.cpp:1662
 #, fuzzy, kde-format
 #| msgid "Add Transition To Selection"
 msgid "Add Transition to Selection"
 msgstr "선택 항목에 전환 추가"
 
-#: src/mainwindow.cpp:1645
+#: src/mainwindow.cpp:1665
 #, kde-format
 msgid "Delete All Markers"
 msgstr "모든 마커 삭제"
 
-#: src/mainwindow.cpp:1647
+#: src/mainwindow.cpp:1667
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide Quickly"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1651
+#: src/mainwindow.cpp:1671
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 1"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1655
+#: src/mainwindow.cpp:1675
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 2"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1659
+#: src/mainwindow.cpp:1679
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 3"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1663
+#: src/mainwindow.cpp:1683
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 4"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1667
+#: src/mainwindow.cpp:1687
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 5"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1671
+#: src/mainwindow.cpp:1691
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 6"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1675
+#: src/mainwindow.cpp:1695
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 7"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1679
+#: src/mainwindow.cpp:1699
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 8"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1683
+#: src/mainwindow.cpp:1703
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 9"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1687
+#: src/mainwindow.cpp:1707
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 10"
 msgstr "마커/안내선 빠른 추가"
 
-#: src/mainwindow.cpp:1692
+#: src/mainwindow.cpp:1712
 #, kde-format
 msgid "Current Selection"
 msgstr "현재 선택"
 
-#: src/mainwindow.cpp:1694 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1714 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "마커 추가"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1718
 #, kde-format
 msgid "Delete Marker"
 msgstr "마커 삭제"
 
-#: src/mainwindow.cpp:1702
+#: src/mainwindow.cpp:1722
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Marker…"
 msgstr "마커 편집"
 
-#: src/mainwindow.cpp:1707 src/timeline2/model/timelinefunctions.cpp:1212
+#: src/mainwindow.cpp:1727 src/timeline2/model/timelinefunctions.cpp:1212
 #, kde-format
 msgid "Restore Audio"
 msgstr "오디오 복원"
 
-#: src/mainwindow.cpp:1713
+#: src/mainwindow.cpp:1733
 #, kde-format
 msgid "Extract Clip"
 msgstr "클립 추출"
 
-#: src/mainwindow.cpp:1719
+#: src/mainwindow.cpp:1739
 #, fuzzy, kde-format
 #| msgid "Save Timeline Zone to Bin"
 msgid "Save Clip Part to Bin"
 msgstr "타임라인 구역을 보관함에 저장"
 
-#: src/mainwindow.cpp:1724
+#: src/mainwindow.cpp:1744
 #, kde-format
 msgid "Disable Clip"
 msgstr "클립 비활성화"
 
-#: src/mainwindow.cpp:1729
+#: src/mainwindow.cpp:1749
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "오디오 참조 설정"
 
-#: src/mainwindow.cpp:1736
+#: src/mainwindow.cpp:1756
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "오디오를 참조에 정렬"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1761
 #, kde-format
 msgid "Edit Duration"
 msgstr "지속 시간 편집"
 
-#: src/mainwindow.cpp:1745
+#: src/mainwindow.cpp:1765
 #, kde-format
 msgid "Change Speed"
 msgstr "클립 속도 변경"
 
-#: src/mainwindow.cpp:1751
+#: src/mainwindow.cpp:1771
 #, kde-format
 msgid "Time Remap"
 msgstr "시간 리매핑"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1778
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "프로젝트 보관함의 클립"
 
-#: src/mainwindow.cpp:1763
+#: src/mainwindow.cpp:1783
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Search pending..."
@@ -24125,58 +24156,58 @@ msgid "Search Bin Clip…"
 msgstr "검색 보류 중..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1765 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1785 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "클립 잘라내기"
 
-#: src/mainwindow.cpp:1768
+#: src/mainwindow.cpp:1788
 #, kde-format
 msgid "Cut All Clips"
 msgstr "모든 클립 잘라내기"
 
-#: src/mainwindow.cpp:1771
+#: src/mainwindow.cpp:1791
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "선택한 항목 삭제"
 
-#: src/mainwindow.cpp:1774
+#: src/mainwindow.cpp:1794
 #, kde-format
 msgid "Resize Item Start"
 msgstr "항목 크기 조정 시작"
 
-#: src/mainwindow.cpp:1778
+#: src/mainwindow.cpp:1798
 #, kde-format
 msgid "Resize Item End"
 msgstr "항목 크기 조정 끝"
 
-#: src/mainwindow.cpp:1782
+#: src/mainwindow.cpp:1802
 #, kde-format
 msgid "Paste Effects"
 msgstr "효과 붙여넣기"
 
-#: src/mainwindow.cpp:1788
+#: src/mainwindow.cpp:1808
 #, kde-format
 msgid "Delete Effects"
 msgstr "효과 삭제"
 
-#: src/mainwindow.cpp:1795
+#: src/mainwindow.cpp:1815
 #, kde-format
 msgid "Group Clips"
 msgstr "클립 그룹"
 
-#: src/mainwindow.cpp:1801
+#: src/mainwindow.cpp:1821
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "클립 그룹 해제"
 
-#: src/mainwindow.cpp:1807
+#: src/mainwindow.cpp:1827
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence from Selection"
 msgstr "이미지 시퀀스"
 
-#: src/mainwindow.cpp:1810
+#: src/mainwindow.cpp:1830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24184,46 +24215,46 @@ msgid ""
 "that can be opened in another timeline tab."
 msgstr ""
 
-#: src/mainwindow.cpp:1821
+#: src/mainwindow.cpp:1841
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "효과 키프레임"
 
-#: src/mainwindow.cpp:1822 src/monitor/view/EffectToolBar.qml:99
+#: src/mainwindow.cpp:1842 src/monitor/view/EffectToolBar.qml:99
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "키프레임 추가/삭제"
 
-#: src/mainwindow.cpp:1831
+#: src/mainwindow.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Insert Space"
 msgid "Insert Space…"
 msgstr "공백 삽입"
 
-#: src/mainwindow.cpp:1832
+#: src/mainwindow.cpp:1852
 #, kde-format
 msgid "Remove Space"
 msgstr "공백 삭제"
 
-#: src/mainwindow.cpp:1833
+#: src/mainwindow.cpp:1853
 #, fuzzy, kde-format
 #| msgid "Remove all keyframes after cursor"
 msgid "Remove All Spaces After Cursor"
 msgstr "커서 뒤의 모든 키프레임 삭제"
 
-#: src/mainwindow.cpp:1834
+#: src/mainwindow.cpp:1854
 #, fuzzy, kde-format
 #| msgid "Remove all keyframes after cursor"
 msgid "Remove All Clips After Cursor"
 msgstr "커서 뒤의 모든 키프레임 삭제"
 
-#: src/mainwindow.cpp:1835
+#: src/mainwindow.cpp:1855
 #, fuzzy, kde-format
 #| msgid "Remove Space In All Tracks"
 msgid "Remove Space in All Tracks"
 msgstr "모든 트랙에서 공백 삭제"
 
-#: src/mainwindow.cpp:1838
+#: src/mainwindow.cpp:1858
 #, fuzzy, kde-format
 #| msgctxt "@action"
 #| msgid "Insert Track"
@@ -24231,89 +24262,89 @@ msgctxt "@action"
 msgid "Insert Track…"
 msgstr "트랙 삽입"
 
-#: src/mainwindow.cpp:1842
+#: src/mainwindow.cpp:1862
 #, fuzzy, kde-format
 #| msgid "Switch All Tracks Active"
 msgid "Fit all Tracks in View"
 msgstr "모든 트랙 활성 변경"
 
-#: src/mainwindow.cpp:1848 src/timeline2/view/timelinecontroller.cpp:4888
+#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4888
 #, kde-format
 msgid "Master effects"
 msgstr "마스터 효과"
 
-#: src/mainwindow.cpp:1855
+#: src/mainwindow.cpp:1875
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "트랙 대상 오디오 스트림 전환"
 
-#: src/mainwindow.cpp:1860
+#: src/mainwindow.cpp:1880
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete Track…"
 msgstr "트랙 삭제"
 
-#: src/mainwindow.cpp:1865
+#: src/mainwindow.cpp:1885
 #, kde-format
 msgid "Show Record Controls"
 msgstr "녹화 제어 표시"
 
-#: src/mainwindow.cpp:1871
+#: src/mainwindow.cpp:1891
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "현재 트랙에서 모두 선택"
 
-#: src/mainwindow.cpp:1888
+#: src/mainwindow.cpp:1908
 #, fuzzy, kde-format
 #| msgid "Manage Cached Data"
 msgid "Manage Cached Data…"
 msgstr "캐시된 데이터 관리"
 
-#: src/mainwindow.cpp:1891
+#: src/mainwindow.cpp:1911
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "타임라인 미리 보기 사용 안 함"
 
-#: src/mainwindow.cpp:1895
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "안내선 추가/삭제"
 
-#: src/mainwindow.cpp:1896
+#: src/mainwindow.cpp:1916
 #, kde-format
 msgid "Delete Guide"
 msgstr "안내선 삭제"
 
-#: src/mainwindow.cpp:1897
+#: src/mainwindow.cpp:1917
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Guide…"
 msgstr "안내선 편집"
 
-#: src/mainwindow.cpp:1898
+#: src/mainwindow.cpp:1918
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search Guide…"
 msgstr "검색"
 
-#: src/mainwindow.cpp:1899
+#: src/mainwindow.cpp:1919
 #, fuzzy, kde-format
 #| msgid "Import guides"
 msgid "Export Guides…"
 msgstr "안내선 가져오기"
 
-#: src/mainwindow.cpp:1902
+#: src/mainwindow.cpp:1922
 #, kde-format
 msgid "Guides Locked"
 msgstr "안내선 잠김"
 
-#: src/mainwindow.cpp:1905
+#: src/mainwindow.cpp:1925
 #, fuzzy, kde-format
 #| msgid "Show guides"
 msgid "Lock guides"
 msgstr "안내선 표시"
 
-#: src/mainwindow.cpp:1907
+#: src/mainwindow.cpp:1927
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24321,56 +24352,56 @@ msgid ""
 "or inserting/removing blank in tracks."
 msgstr ""
 
-#: src/mainwindow.cpp:1909
+#: src/mainwindow.cpp:1929
 #, kde-format
 msgid "Delete All Guides"
 msgstr "모든 안내선 삭제"
 
-#: src/mainwindow.cpp:1911
+#: src/mainwindow.cpp:1931
 #, kde-format
 msgid "Add Subtitle"
 msgstr "자막 추가"
 
-#: src/mainwindow.cpp:1913
+#: src/mainwindow.cpp:1933
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "자막 사용 안 함"
 
-#: src/mainwindow.cpp:1914
+#: src/mainwindow.cpp:1934
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "자막 잠금"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1936
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgid "Manage Subtitles"
 msgstr "자막"
 
-#: src/mainwindow.cpp:1918
+#: src/mainwindow.cpp:1938
 #, fuzzy, kde-format
 #| msgid "Import Subtitle File"
 msgid "Import Subtitle File…"
 msgstr "자막 파일 가져오기"
 
-#: src/mainwindow.cpp:1920
+#: src/mainwindow.cpp:1940
 #, fuzzy, kde-format
 #| msgid "Export Subtitle File"
 msgid "Export Subtitle File…"
 msgstr "자막 파일 내보내기"
 
-#: src/mainwindow.cpp:1922 src/timeline2/model/timelinemodel.cpp:2167
+#: src/mainwindow.cpp:1942 src/timeline2/model/timelinemodel.cpp:2167
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "자막 삭제"
 
-#: src/mainwindow.cpp:1923
+#: src/mainwindow.cpp:1943
 #, fuzzy, kde-format
 #| msgid "Speech Recognition"
 msgid "Speech Recognition…"
 msgstr "음성 인식"
 
-#: src/mainwindow.cpp:1930
+#: src/mainwindow.cpp:1950
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24378,89 +24409,89 @@ msgid ""
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
 
-#: src/mainwindow.cpp:1959
+#: src/mainwindow.cpp:1979
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "디버그 정보 복사"
 
-#: src/mainwindow.cpp:1961
+#: src/mainwindow.cpp:1981
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "타임라인 효과 사용 중지"
 
-#: src/mainwindow.cpp:1967
+#: src/mainwindow.cpp:1987
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "트랙 전환 비활성화됨"
 
-#: src/mainwindow.cpp:1969
+#: src/mainwindow.cpp:1989
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "트랙 잠금 전환"
 
-#: src/mainwindow.cpp:1971
+#: src/mainwindow.cpp:1991
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "모든 트랙 잠금 전환"
 
-#: src/mainwindow.cpp:1973
+#: src/mainwindow.cpp:1993
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "트랙 대상 전환"
 
-#: src/mainwindow.cpp:1975
+#: src/mainwindow.cpp:1995
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "트랙 활성 전환"
 
-#: src/mainwindow.cpp:1977
+#: src/mainwindow.cpp:1997
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "모든 트랙 활성 전환"
 
-#: src/mainwindow.cpp:1979
+#: src/mainwindow.cpp:1999
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "모든 트랙 활성 변경"
 
-#: src/mainwindow.cpp:1981
+#: src/mainwindow.cpp:2001
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "현재 클립 대상 트랙 복원"
 
-#: src/mainwindow.cpp:1983
+#: src/mainwindow.cpp:2003
 #, kde-format
 msgid "Add Project Note"
 msgstr "프로젝트 노트 추가"
 
-#: src/mainwindow.cpp:1989
+#: src/mainwindow.cpp:2009
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "오디오 트랙 %1 선택"
 
-#: src/mainwindow.cpp:1993
+#: src/mainwindow.cpp:2013
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "동영상 트랙 %1 선택"
 
-#: src/mainwindow.cpp:1997
+#: src/mainwindow.cpp:2017
 #, kde-format
 msgid "Select Target %1"
 msgstr "대상 %1 선택"
 
-#: src/mainwindow.cpp:2014
+#: src/mainwindow.cpp:2034
 #, fuzzy, kde-format
 #| msgid "Extract frame..."
 msgid "Extract Frame…"
 msgstr "프레임 추출..."
 
-#: src/mainwindow.cpp:2017
+#: src/mainwindow.cpp:2037
 #, fuzzy, kde-format
 #| msgid "Extract frame to project..."
 msgid "Extract Frame to Project…"
 msgstr "프로젝트로 프레임 추출..."
 
-#: src/mainwindow.cpp:2150
+#: src/mainwindow.cpp:2170
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -24469,14 +24500,14 @@ msgstr ""
 "프록시 인자를 변경했습니다. 이 프로젝트의 모든 프록시 클립을 다시 만드시겠습"
 "니까?"
 
-#: src/mainwindow.cpp:2151
+#: src/mainwindow.cpp:2171
 #, fuzzy, kde-format
 #| msgid "Create"
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "만들기"
 
-#: src/mainwindow.cpp:2152 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2172 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2255
 #, fuzzy, kde-format
@@ -24485,7 +24516,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "외곽선 폭"
 
-#: src/mainwindow.cpp:2208
+#: src/mainwindow.cpp:2228
 #, fuzzy, kde-format
 #| msgid ""
 #| "The current project has not been saved. This will first save the project, "
@@ -24499,7 +24530,7 @@ msgstr ""
 "현재 프로젝트가 저장되지 않았습니다. 프로젝트를 먼저 저장한 다음 모든 임시 파"
 "일을 <b>%1</b>에서 <b>%2</b>(으)로 이동하고 프로젝트 파일을 다시 불러옵니다"
 
-#: src/mainwindow.cpp:2216
+#: src/mainwindow.cpp:2236
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
@@ -24511,39 +24542,39 @@ msgstr ""
 "모든 임시 파일을 <b>%1</b>에서 <b>%2</b>(으)로 이동한 다음 프로젝트 파일을 다"
 "시 불러옵니다"
 
-#: src/mainwindow.cpp:2225 src/project/projectmanager.cpp:619
+#: src/mainwindow.cpp:2245 src/project/projectmanager.cpp:619
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "작업을 수행할 수 없습니다. 유효하지 않은 문서 ID: %1"
 
-#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2250 src/project/projectmanager.cpp:625
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "작업을 수행할 수 없습니다. 대상 디렉터리가 이미 존재합니다: %1"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2397
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "프로젝트에서 사용하지 않은 모든 클립을 삭제합니다."
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2397
 #, kde-format
 msgid "Clean up project"
 msgstr "프로젝트 정리"
 
-#: src/mainwindow.cpp:2519
+#: src/mainwindow.cpp:2539
 #, fuzzy, kde-format
 #| msgid "Download New Keyboard Schemes..."
 msgid "Download New Keyboard Schemes…"
 msgstr "새로운 키보드 배열 다운로드..."
 
-#: src/mainwindow.cpp:2528
+#: src/mainwindow.cpp:2548
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "일반"
 
-#: src/mainwindow.cpp:2602
+#: src/mainwindow.cpp:2622
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -24551,29 +24582,29 @@ msgid ""
 msgstr ""
 "Kdenlive의 설정 파일을 삭제하고 앱을 다시 시작합니다. 계속 진행하시겠습니까?"
 
-#: src/mainwindow.cpp:2603
+#: src/mainwindow.cpp:2623
 #, fuzzy, kde-format
 #| msgid "Reset configuration"
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "환경설정 초기화"
 
-#: src/mainwindow.cpp:2735 src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2755 src/mainwindow.cpp:2782
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "마커를 삭제할 클립을 찾을 수 없음"
 
-#: src/mainwindow.cpp:2745 src/mainwindow.cpp:2791
+#: src/mainwindow.cpp:2765 src/mainwindow.cpp:2811
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "커서 시간에 마커 없음"
 
-#: src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2787
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "마커 삭제 중 오류"
 
-#: src/mainwindow.cpp:2784 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2804 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -24582,48 +24613,48 @@ msgstr "마커 삭제 중 오류"
 msgid "Cannot find clip to edit marker"
 msgstr "마커를 편집할 클립을 찾을 수 없음"
 
-#: src/mainwindow.cpp:2835
+#: src/mainwindow.cpp:2855
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Marker category does not exist"
 msgstr "분류"
 
-#: src/mainwindow.cpp:3025 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Overwrite zone"
 msgstr "영역 덮어 쓰기"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3046
+#: src/mainwindow.cpp:3047 src/mainwindow.cpp:3066
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3146
 #, kde-format
 msgid "Could not insert zone"
 msgstr "영역을 삽입할 수 없음"
 
-#: src/mainwindow.cpp:3037
+#: src/mainwindow.cpp:3057
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "프로젝트 보관함에서 선택한 클립이 없음"
 
-#: src/mainwindow.cpp:3044 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3064 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Insert zone"
 msgstr "영역 삽입"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3231
 #, fuzzy, kde-format
 #| msgid "Cannot add effect to clip"
 msgid "Cannot add effect to active item"
 msgstr "클립에 효과를 추가할 수 없음"
 
-#: src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:3293
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "확대/축소 수준: %1/%2"
 
-#: src/mainwindow.cpp:3422
+#: src/mainwindow.cpp:3442
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -24641,7 +24672,7 @@ msgstr ""
 "초점 이동을 하려면 <shortcut>Ctrl 키를 누른 상태에서 드래그</shortcut>하십시"
 "오"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3446
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -24660,24 +24691,24 @@ msgstr ""
 "초점 이동을 하려면 <shortcut>Ctrl 키를 누른 상태에서 드래그</shortcut>하십시"
 "오"
 
-#: src/mainwindow.cpp:3429
+#: src/mainwindow.cpp:3449
 #, kde-format
 msgid "Select"
 msgstr "선택"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3451
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<b>Shift</b> 키를 누르면 잘라낸 프레임 미리 보기"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3432 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3452 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "자르기"
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3456
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24688,13 +24719,13 @@ msgstr ""
 "<shortcut>Shift</shortcut> 키를 누르면 안내선을 같이 이동합니다. 두 키를 같"
 "이 눌러도 됩니다."
 
-#: src/mainwindow.cpp:3437
+#: src/mainwindow.cpp:3457
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "공백"
 
-#: src/mainwindow.cpp:3439
+#: src/mainwindow.cpp:3459
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -24708,13 +24739,13 @@ msgstr ""
 "<shortcut>클릭</shortcut>하여 지점을 추가하고, <shortcut>마우스 오른쪽 단추"
 "를 클릭</shortcut>하여 도형을 닫습니다."
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3460
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "슬립"
 
-#: src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3465
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -24732,13 +24763,13 @@ msgstr ""
 "초점 이동을 하려면 <shortcut>Ctrl 키를 누른 상태에서 드래그</shortcut>하십시"
 "오"
 
-#: src/mainwindow.cpp:3447
+#: src/mainwindow.cpp:3467
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "리플"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3473
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24748,145 +24779,145 @@ msgstr ""
 "프로젝트 모니터의 트랙 보기에서 <shortcut>클릭</shortcut>하여 활성 트랙을 제"
 "외한 모든 트랙 들어올리기"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3485
 #, kde-format
 msgid "Insert"
 msgstr "삽입"
 
-#: src/mainwindow.cpp:3735 src/mainwindow.cpp:3737
+#: src/mainwindow.cpp:3755 src/mainwindow.cpp:3757
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3742
+#: src/mainwindow.cpp:3762
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bins"
 msgstr "프로젝트 보관함"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3858
 #, fuzzy, kde-format
 #| msgid "Cancel Current Clip Jobs"
 msgid "Configure Clip Jobs…"
 msgstr "현재 클립 작업 취소"
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3864
 #, kde-format
 msgid "Transcoders"
 msgstr "트랜스코더"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3924
 #, fuzzy, kde-format
 #| msgid "Merge"
 msgid "-merged"
 msgstr "병합"
 
-#: src/mainwindow.cpp:3907
+#: src/mainwindow.cpp:3927
 #, fuzzy, kde-format
 #| msgid "Video stream %1"
 msgid "-stream-%1"
 msgstr "동영상 스트림 %1"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3969
 #, kde-format
 msgid "Interface"
 msgstr "인터페이스"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3991
 #, kde-format
 msgid "Raise %1"
 msgstr "%1 올리기"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4058
 #, fuzzy, kde-format
 #| msgid "Files to transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "트랜스코드할 파일"
 
-#: src/mainwindow.cpp:4170
+#: src/mainwindow.cpp:4190
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "프로젝트 파일을 압축용으로 저장할 수 없습니다."
 
-#: src/mainwindow.cpp:4178
+#: src/mainwindow.cpp:4198
 #, kde-format
 msgid "Archiving project"
 msgstr "프로젝트 압축 중"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4338
 #, kde-format
 msgid "Icon Size"
 msgstr "아이콘 크기"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4342
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "기본값"
 
-#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4363 src/mainwindow.cpp:4391
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "작게(%1x%2)"
 
-#: src/mainwindow.cpp:4345 src/mainwindow.cpp:4373
+#: src/mainwindow.cpp:4365 src/mainwindow.cpp:4393
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "중간(%1x%2)"
 
-#: src/mainwindow.cpp:4347 src/mainwindow.cpp:4375
+#: src/mainwindow.cpp:4367 src/mainwindow.cpp:4395
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "크게(%1x%2)"
 
-#: src/mainwindow.cpp:4349 src/mainwindow.cpp:4377
+#: src/mainwindow.cpp:4369 src/mainwindow.cpp:4397
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "매우 크게(%1x%2)"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4453
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "메뉴 표시줄을 완전히 숨깁니다. Ctrl+M 키를 눌러서 다시 볼 수 있습니다."
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4453
 #, kde-format
 msgid "Hide menu bar"
 msgstr "메뉴 표시줄 숨기기"
 
-#: src/mainwindow.cpp:4696 src/timeline2/view/timelinecontroller.cpp:5119
+#: src/mainwindow.cpp:4716 src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "현재 프로젝트에 자막 없음"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:5003
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:4988
+#: src/mainwindow.cpp:5008
 #, fuzzy, kde-format
 #| msgid "Check again"
 msgid "Never check again"
 msgstr "다시 확인"
 
-#: src/mainwindow.cpp:4991
+#: src/mainwindow.cpp:5011
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:4995
+#: src/mainwindow.cpp:5015
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5058
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -28578,12 +28609,12 @@ msgstr "이 렌더링의 이름을 지정하십시오."
 msgid "begin"
 msgstr ""
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:87
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "렌더 작업 %1와(과) 통신할 수 없음"
 
-#: src/render/renderserver.cpp:50
+#: src/render/renderserver.cpp:51
 #, kde-format
 msgid "Communication error with render job"
 msgstr "렌더 작업과 통신 오류"
@@ -37585,9 +37616,6 @@ msgstr "%1시간"
 
 #~ msgid "DVD ISO image"
 #~ msgstr "DVD ISO 이미지"
-
-#~ msgid "Creating menu background"
-#~ msgstr "메뉴 배경 만드는 중"
 
 #~ msgid "Creating menu movie"
 #~ msgstr "메뉴 동영상 만드는 중"

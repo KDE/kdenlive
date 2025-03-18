@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 00:40+0000\n"
+"POT-Creation-Date: 2025-03-18 00:41+0000\n"
 "PO-Revision-Date: 2025-03-16 21:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -3824,7 +3824,16 @@ msgid "gradfun"
 msgstr "gradfun"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Debands video quickly using gradients.<br>\n"
+#| "    Fix the banding artifacts that are sometimes introduced into nearly "
+#| "flat regions by truncation to 8-bit color depth.<br>\n"
+#| "    Interpolate the gradients that should go where the bands are, and "
+#| "dither them.<br>\n"
+#| "    <b>It is designed for playback only. Do not use it prior to lossy "
+#| "compression, because compression tends to lose the dither and bring back "
+#| "the bands<b>.]]>"
 msgid ""
 "<![CDATA[Debands video quickly using gradients.<br>\n"
 "    Fix the banding artifacts that are sometimes introduced into nearly flat "
@@ -3833,7 +3842,7 @@ msgid ""
 "them.<br>\n"
 "    <b>It is designed for playback only. Do not use it prior to lossy "
 "compression, because compression tends to lose the dither and bring back the "
-"bands<b>.]]>"
+"bands</b>.]]>"
 msgstr ""
 "<![CDATA[Vidbendo de debatoj rapide uzante gradientojn.<br>\n"
 "    Ripari la bandajn artefaktojn, kiuj estas foje enkondukitaj en preskaŭ "
@@ -5428,11 +5437,16 @@ msgid "Chroma radius"
 msgstr "Chroma Radius"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:25
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Set the chroma radius.<br>\n"
+#| "            The value specifies the variance of the gaussian filter used "
+#| "to blur the image (slower if larger). If not specified ,it defaults to "
+#| "the value set for <em>Luma radius</em>]]>"
 msgid ""
 "<![CDATA[Set the chroma radius.<br>\n"
 "            The value specifies the variance of the gaussian filter used to "
-"blur the image (slower if larger). If not specified ,it defaults to the "
+"blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
 "<![CDATA[Agordi la ĥroman radiuson.<br>\n"
@@ -5677,10 +5691,21 @@ msgid "Input format"
 msgstr "Enira formato"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:12
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "side by side parallel,side by side crosseye,above-below left top,above-"
+#| "below right top,interleaved rows (letf top),interleaved rows (right top),"
+#| "anaglyph red/blue gray,anaglyph red/green gray,anaglyph red/cyan gray,"
+#| "anaglyph red/cyan half colored,anaglyph red/cyan color,anaglyph red/cyan "
+#| "dubois,anaglyph green/magenta gray,anaglyph green/magenta half colored,"
+#| "anaglyph green/magenta colored,anaglyph green/magenta dubois,anaglyph "
+#| "yellow/blue gray,anaglyph yellow/blue half colored,anaglyph yellow/blue "
+#| "colored,anaglyph yellow/blue dubois,mono output left,mono output right,"
+#| "checkerboard left eye first,checkerboard right eye first,interleaved "
+#| "columns left eye first,interleaved columns right eye first,HDMI frame pack"
 msgid ""
 "side by side parallel,side by side crosseye,above-below left top,above-below "
-"right top,interleaved rows (letf top),interleaved rows (right top),anaglyph "
+"right top,interleaved rows (left top),interleaved rows (right top),anaglyph "
 "red/blue gray,anaglyph red/green gray,anaglyph red/cyan gray,anaglyph red/"
 "cyan half colored,anaglyph red/cyan color,anaglyph red/cyan dubois,anaglyph "
 "green/magenta gray,anaglyph green/magenta half colored,anaglyph green/"
@@ -6415,20 +6440,28 @@ msgstr ""
 "valoron = 0 kaj malsupra flanko reprezentas valoron = 255.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Smaller values are useful to find out how many values<br>\n"
+#| "       \tof the same luminance are distributed across input rows/"
+#| "columns]]>"
 msgid ""
-"<![CDATA[Smaller values are useful to find out how many values<br>\n"
+"<![CDATA[Smaller values are useful for finding out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
 "<![CDATA[Pli malgrandaj valoroj utilas por ekscii kiom da valoroj<br>\n"
 "       \tde la sama lumeco estas distribuita tra enaj vicoj/kolumnoj]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[In mirrored mode, higher values will be represented<br>\n"
+#| "       \ton the left side for <em>row<em> mode and at the top for "
+#| "<em>column<em> mode.]]>"
 msgid ""
 "<![CDATA[In mirrored mode, higher values will be represented<br>\n"
-"       \ton the left side for <em>row<em> mode and at the top for "
-"<em>column<em> mode.]]>"
+"       \ton the left side for <em>row</em> mode and at the top for "
+"<em>column</em> mode.]]>"
 msgstr ""
 "<![CDATA[En spegulita reĝimo, pli altaj valoroj estos reprezentitaj<br>\n"
 "       \tje la maldekstra flanko por <em>vico</em> reĝimo kaj ĉe la supro "
@@ -6450,8 +6483,9 @@ msgid "<![CDATA[Set the envelope mode]]>"
 msgstr "<! [CData [Agordi la kovertan reĝimon]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
-#, kde-format
-msgid "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
+#, fuzzy, kde-format
+#| msgid "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
+msgid "Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor"
 msgstr "malalt-paso, plata, afla, plata, plata, kromo, koloro, koloro"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
@@ -6469,8 +6503,9 @@ msgid "<![CDATA[Set the filter mode]]>"
 msgstr "<! [CData [Agordi la Filtran reĝimon]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
-#, kde-format
-msgid "none,green,orange,invert"
+#, fuzzy, kde-format
+#| msgid "none,green,orange,invert"
+msgid "None,Green,Orange,Invert"
 msgstr "neniu,verda,oranĝa,inversigita"
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
@@ -6484,8 +6519,9 @@ msgid "<![CDATA[Set the opacity of the graticule]]>"
 msgstr "<! [Cata [Agordi la opakecon de la gratule]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
-#, kde-format
-msgid "numbers,dots"
+#, fuzzy, kde-format
+#| msgid "numbers,dots"
+msgid "Numbers,Dots"
 msgstr "nombroj,punktoj"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
@@ -6494,8 +6530,9 @@ msgid "<![CDATA[Set graticule flags]]>"
 msgstr "<! [CData [Fiksi graciulajn flagojn]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
-#, kde-format
-msgid "digital,millivolts,ire"
+#, fuzzy, kde-format
+#| msgid "digital,millivolts,ire"
+msgid "Digital,Millivolts,Ire"
 msgstr "Cifereca, Millivolts, Ire"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
@@ -6515,10 +6552,14 @@ msgstr "Tint 0"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Only used with lowpass filter and when display<br>\n"
+#| "       \tis not overlay and input pixel formats are not RGB]]>"
 msgid ""
-"<![CDATA[Only used with lowpass filter and when display<br>\n"
-"       \tis not overlay and input pixel formats are not RGB]]>"
+"<![CDATA[Only used with <em>lowpass</em> filter and when display<br>\n"
+"       \tis not <em>overlay</em> and input pixel formats are not <em>RGB</"
+"em>]]>"
 msgstr ""
 "<![CDATA[Uzita nur kun malaltpasa filtrilo kaj kiam ekrano <br>\n"
 "       \tne estas superkovro kaj enigaj rastrumer-formatoj ne estas RGB]]>"
@@ -6529,8 +6570,9 @@ msgid "Tint 1"
 msgstr "Tint 1"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
-#, kde-format
-msgid "none,size"
+#, fuzzy, kde-format
+#| msgid "none,size"
+msgid "None,Size"
 msgstr "Neniu, grandeco"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
@@ -13590,7 +13632,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "Bruoredukto kaj audio-restarigo"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1374
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1394
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -15271,13 +15313,13 @@ msgid "Switch to curve editor view"
 msgstr "Ŝanĝi al kurboredaktila vido"
 
 #: src/assets/view/widgets/keyframewidget.cpp:98 src/dialogs/timeremap.cpp:1621
-#: src/mainwindow.cpp:1826
+#: src/mainwindow.cpp:1846
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Iri al antaŭa ŝlosilkadro"
 
 #: src/assets/view/widgets/keyframewidget.cpp:102
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1824
+#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1844
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Iri al la sekva ŝlosilkadro"
@@ -16469,7 +16511,7 @@ msgstr ""
 "Via projekto bezonas pli da sonspuroj por trakti ĉiujn fluojn. Ĉu aldoni %1 "
 "sonspurojn?"
 
-#: src/bin/bin.cpp:5543 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5543 src/mainwindow.cpp:2737
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Ne povas trovi aŭdvidaĵon por aldoni markilon"
@@ -16554,7 +16596,7 @@ msgstr "Forigi efekton %1"
 msgid "Project Bin"
 msgstr "Projekta Rubujo"
 
-#: src/bin/bin.cpp:6450 src/bin/bin.cpp:6453 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6450 src/bin/bin.cpp:6453 src/mainwindow.cpp:4847
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektujo %1"
@@ -17054,7 +17096,7 @@ msgstr "Aldoni subtondaĵon"
 msgid "Rename Folder"
 msgstr "Renomi dosierujon"
 
-#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1428
+#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1448
 #, kde-format
 msgid "Clean Project"
 msgstr "Pura Projekto"
@@ -18645,7 +18687,7 @@ msgstr "Aldoni al Aktuala Projekto"
 msgid "Open Containing Folder"
 msgstr "Malfermi Enhavantan Dosierujon"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3950
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3970
 #, kde-format
 msgid "Timeline"
 msgstr "Templinio"
@@ -20869,7 +20911,7 @@ msgid ""
 msgstr ""
 "La subtekstodosiero:<br/>%1<br/> jam ekzistas. Ĉu vi volas anstataŭigi ĝin?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3468
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3488
 #, kde-format
 msgid "Overwrite"
 msgstr "Anstataŭigi"
@@ -22041,13 +22083,13 @@ msgid "Add Markers by Category"
 msgstr "Aldoni Markilojn laŭ Kategorio"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3845
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3865
 #, kde-format
 msgid "Extract Audio"
 msgstr "Ekstrakti Aŭdio"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3819
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3839
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Aŭdvidaĵaj prilaboroj"
@@ -22108,7 +22150,7 @@ msgstr "Spaco"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:184 src/mainwindow.cpp:1837
+#: src/kdenliveui.rc:184 src/mainwindow.cpp:1857
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
@@ -22145,7 +22187,7 @@ msgid "Current Monitor Overlay"
 msgstr "Nuna Monitoro Overlay"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:263 src/mainwindow.cpp:1501
+#: src/kdenliveui.rc:263 src/mainwindow.cpp:1521
 #, kde-format
 msgid "Preview Resolution"
 msgstr "Antaŭrigarda Distingivo"
@@ -22868,7 +22910,7 @@ msgid "Add Transition"
 msgstr "Aldoni Transiron"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:492 src/mainwindow.cpp:2004
+#: src/mainwindow.cpp:492 src/mainwindow.cpp:2024
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -22891,7 +22933,7 @@ msgstr ""
 "Klaku por montri liston de plej ŝatataj efikoj. Duoble alklaku efekton por "
 "aldoni ĝin al la elektita tondaĵo."
 
-#: src/mainwindow.cpp:537 src/mainwindow.cpp:1422
+#: src/mainwindow.cpp:537 src/mainwindow.cpp:1442
 #, kde-format
 msgid "Render…"
 msgstr "Bildigi…"
@@ -22965,7 +23007,39 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Ŝargante Projekton"
 
-#: src/mainwindow.cpp:938
+#: src/mainwindow.cpp:943
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have 1 rendering job waiting in the queue.\n"
+#| "What do you want to do with this job?"
+#| msgid_plural ""
+#| "You have %1 rendering jobs waiting in the queue.\n"
+#| "What do you want to do with these jobs?"
+msgid ""
+"You have 1 rendering job running.\n"
+"What do you want to do with this job?"
+msgid_plural ""
+"You have %1 rendering jobs running.\n"
+"What do you want to do with these jobs?"
+msgstr[0] ""
+"Vi havas 1 bildigotaskon atendante en la vico.\n"
+"Kion vi volas fari kun tiu tasko?"
+msgstr[1] ""
+"Vi havas %1 bildigotaskojn atendante en la vico.\n"
+"Kion vi volas fari kun tiuj taskoj?"
+
+#: src/mainwindow.cpp:945
+#, kde-format
+msgid "Continue rendering in the background"
+msgstr ""
+
+#: src/mainwindow.cpp:945
+#, fuzzy, kde-format
+#| msgid "Abort processing"
+msgid "Abort rendering"
+msgstr "Ĉesigi prilaboradon"
+
+#: src/mainwindow.cpp:962
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -22980,42 +23054,42 @@ msgstr[1] ""
 "Vi havas %1 bildigotaskojn atendante en la vico.\n"
 "Kion vi volas fari kun tiuj taskoj?"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:965
 #, kde-format
 msgid "Start them now"
 msgstr "Komenci ilin nun"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:965
 #, kde-format
 msgid "Delete them"
 msgstr "Forigi ilin"
 
-#: src/mainwindow.cpp:1037 src/timeline2/view/timelinecontroller.cpp:2155
+#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2155
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Elekti tondaĵon por kompari efekton"
 
-#: src/mainwindow.cpp:1087
+#: src/mainwindow.cpp:1107
 #, kde-format
 msgid "Normal Mode"
 msgstr "Normala Reĝimo"
 
-#: src/mainwindow.cpp:1094
+#: src/mainwindow.cpp:1114
 #, kde-format
 msgid "Overwrite Mode"
 msgstr "Anstataŭigi Reĝimon"
 
-#: src/mainwindow.cpp:1101
+#: src/mainwindow.cpp:1121
 #, kde-format
 msgid "Insert Mode"
 msgstr "Enmeti Reĝimon"
 
-#: src/mainwindow.cpp:1105
+#: src/mainwindow.cpp:1125
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "Templinia Redakta Reĝimo"
 
-#: src/mainwindow.cpp:1107
+#: src/mainwindow.cpp:1127
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23025,17 +23099,17 @@ msgstr ""
 "Ŝanĝas inter Normala, Anstataŭigi kaj Enmeti Reĝimon. Determinas la "
 "defaŭltan agon dum traktado de tondaĵoj en la templinio."
 
-#: src/mainwindow.cpp:1116
+#: src/mainwindow.cpp:1136
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "Ne uzi Templinian Zonon por Enmeti"
 
-#: src/mainwindow.cpp:1116
+#: src/mainwindow.cpp:1136
 #, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "Uzi Templinian Zonon por Enmeti"
 
-#: src/mainwindow.cpp:1117
+#: src/mainwindow.cpp:1137
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23043,69 +23117,69 @@ msgid ""
 msgstr ""
 "Ŝaltas inter uzi la templinian zonon por enmeti (ŝalti) aŭ ne (malŝalti)."
 
-#: src/mainwindow.cpp:1124
+#: src/mainwindow.cpp:1144
 #, kde-format
 msgid "Enable Track Compositing"
 msgstr "Ebligi Trakkomponadon"
 
-#: src/mainwindow.cpp:1130
+#: src/mainwindow.cpp:1150
 #, kde-format
 msgid "Split Audio Tracks"
 msgstr "Dividi Aŭdiajn Trakojn"
 
-#: src/mainwindow.cpp:1136
+#: src/mainwindow.cpp:1156
 #, kde-format
 msgid "Split Audio Tracks (reverse)"
 msgstr "Dividi sontrakojn (inversa)"
 
-#: src/mainwindow.cpp:1142
+#: src/mainwindow.cpp:1162
 #, kde-format
 msgid "Mixed Audio tracks"
 msgstr "Miksitaj Aŭdio-trakoj"
 
-#: src/mainwindow.cpp:1168
+#: src/mainwindow.cpp:1188
 #, kde-format
 msgid "Track menu"
 msgstr "Voja menuo"
 
-#: src/mainwindow.cpp:1173 src/project/dialogs/slideshowclip.cpp:91
+#: src/mainwindow.cpp:1193 src/project/dialogs/slideshowclip.cpp:91
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "hh:mm:ss:ff"
 
-#: src/mainwindow.cpp:1174 src/project/dialogs/slideshowclip.cpp:92
+#: src/mainwindow.cpp:1194 src/project/dialogs/slideshowclip.cpp:92
 #, kde-format
 msgid "Frames"
 msgstr "Kadroj"
 
-#: src/mainwindow.cpp:1186
+#: src/mainwindow.cpp:1206
 #, kde-format
 msgid "Edit Subtitle Tool"
 msgstr "Redakti Subtitolan Ilon"
 
-#: src/mainwindow.cpp:1187
+#: src/mainwindow.cpp:1207
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Ŝaltas la subtitolan trakon en la templinio."
 
-#: src/mainwindow.cpp:1194 src/titler/titlewidget.cpp:386
+#: src/mainwindow.cpp:1214 src/titler/titlewidget.cpp:386
 #: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Selection Tool"
 msgstr "Elekta Ilo"
 
-#: src/mainwindow.cpp:1199
+#: src/mainwindow.cpp:1219
 #, kde-format
 msgid "Razor Tool"
 msgstr "Razilo Ilo"
 
-#: src/mainwindow.cpp:1204
+#: src/mainwindow.cpp:1224
 #, kde-format
 msgid "Spacer Tool"
 msgstr "Spaciga Ilo"
 
-#: src/mainwindow.cpp:1207
+#: src/mainwindow.cpp:1227
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23115,12 +23189,12 @@ msgstr ""
 "Kiam oni elektas, klaki kaj treni la muson en la templinio provizore "
 "grupigas apartajn tondaĵojn kaj kreas aŭ forigas spacon inter tondaĵoj."
 
-#: src/mainwindow.cpp:1212
+#: src/mainwindow.cpp:1232
 #, kde-format
 msgid "Ripple Tool"
 msgstr "Ripple Ilo"
 
-#: src/mainwindow.cpp:1215
+#: src/mainwindow.cpp:1235
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23134,12 +23208,12 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1225
+#: src/mainwindow.cpp:1245
 #, kde-format
 msgid "Slip Tool"
 msgstr "Glita Ilo"
 
-#: src/mainwindow.cpp:1226
+#: src/mainwindow.cpp:1246
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23149,27 +23223,27 @@ msgstr ""
 "Kiam oni elektas, treni tranĉeton glitas la tranĉeton sub la donitan "
 "fenestron tien kaj reen."
 
-#: src/mainwindow.cpp:1230
+#: src/mainwindow.cpp:1250
 #, kde-format
 msgid "Multicam Tool"
 msgstr "Multikamera Ilo"
 
-#: src/mainwindow.cpp:1251
+#: src/mainwindow.cpp:1271
 #, kde-format
 msgid "Zoom Audio Waveforms"
 msgstr "Zomi Aŭd-Ondoformojn"
 
-#: src/mainwindow.cpp:1255
+#: src/mainwindow.cpp:1275
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "Kolapsi/Venigi Eron"
 
-#: src/mainwindow.cpp:1259
+#: src/mainwindow.cpp:1279
 #, kde-format
 msgid "Mix Clips"
 msgstr "Miksi aŭdvidaĵojn"
 
-#: src/mainwindow.cpp:1261
+#: src/mainwindow.cpp:1281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23179,12 +23253,12 @@ msgstr ""
 "Kreas samtrakan transiron inter la elektita tondaĵo kaj la apuda plej "
 "proksima al la ludkapo."
 
-#: src/mainwindow.cpp:1269
+#: src/mainwindow.cpp:1289
 #, kde-format
 msgid "Show Video Thumbnails"
 msgstr "Montri Videobildetojn"
 
-#: src/mainwindow.cpp:1270
+#: src/mainwindow.cpp:1290
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23194,12 +23268,12 @@ msgstr ""
 "Ŝaltas la montradon de videobildetoj por la tondaĵoj en la templinio "
 "(defaŭlte estas Enŝaltita)."
 
-#: src/mainwindow.cpp:1278
+#: src/mainwindow.cpp:1298
 #, kde-format
 msgid "Show Audio Thumbnails"
 msgstr "Montri Audiobildetojn"
 
-#: src/mainwindow.cpp:1279
+#: src/mainwindow.cpp:1299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23209,17 +23283,17 @@ msgstr ""
 "Ŝaltas la montradon de sonbildetoj por la tondaĵoj en la templinio (defaŭlte "
 "estas Enŝaltita)."
 
-#: src/mainwindow.cpp:1285
+#: src/mainwindow.cpp:1305
 #, kde-format
 msgid "Show Markers Comments"
 msgstr "Montri Markilojn Komentojn"
 
-#: src/mainwindow.cpp:1291
+#: src/mainwindow.cpp:1311
 #, kde-format
 msgid "Snap"
 msgstr "Klaki"
 
-#: src/mainwindow.cpp:1292
+#: src/mainwindow.cpp:1312
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23229,12 +23303,12 @@ msgstr ""
 "Ŝaltas la klakfunkcion (tondaĵoj alklakas al ludkapo, randoj, markiloj, "
 "gvidiloj kaj aliaj)."
 
-#: src/mainwindow.cpp:1298
+#: src/mainwindow.cpp:1318
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "Montri Kolorajn Etikedojn en Templinio"
 
-#: src/mainwindow.cpp:1299
+#: src/mainwindow.cpp:1319
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
@@ -23242,12 +23316,12 @@ msgstr ""
 "Ŝaltas la montradon de tondaĵaj etikedoj en la templinio (defaŭlte estas "
 "Enŝaltita)."
 
-#: src/mainwindow.cpp:1305
+#: src/mainwindow.cpp:1325
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "Adapti Zomi al Projekto"
 
-#: src/mainwindow.cpp:1306
+#: src/mainwindow.cpp:1326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23256,17 +23330,17 @@ msgstr ""
 "Alĝustigas la zomnivelon por konveni la tutan projekton en la templiniajn "
 "fenestrojn."
 
-#: src/mainwindow.cpp:1331
+#: src/mainwindow.cpp:1351
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Eksperimenta GPU-pretigo ebligita - ne por produktado"
 
-#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3454
+#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3474
 #, kde-format
 msgid "Multicam"
 msgstr "Multikamerao"
 
-#: src/mainwindow.cpp:1342
+#: src/mainwindow.cpp:1362
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr "Aktiva ilo kaj redakta reĝimo"
@@ -23274,239 +23348,239 @@ msgstr "Aktiva ilo kaj redakta reĝimo"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1393 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1413 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "Aŭtomate"
 
-#: src/mainwindow.cpp:1398
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1403
+#: src/mainwindow.cpp:1423
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "DirectX (ANGLE)"
 
-#: src/mainwindow.cpp:1408
+#: src/mainwindow.cpp:1428
 #, kde-format
 msgid "Software OpenGL"
 msgstr "Programaro OpenGL"
 
-#: src/mainwindow.cpp:1418
+#: src/mainwindow.cpp:1438
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "Ruli Agordan Sorĉiston…"
 
-#: src/mainwindow.cpp:1419
+#: src/mainwindow.cpp:1439
 #, kde-format
 msgid "Project Settings…"
 msgstr "Projektaj agordoj…"
 
-#: src/mainwindow.cpp:1425
+#: src/mainwindow.cpp:1445
 #, kde-format
 msgid "Stop Render"
 msgstr "Ĉesigi bildigon"
 
-#: src/mainwindow.cpp:1430
+#: src/mainwindow.cpp:1450
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "Restarigi agordon…"
 
-#: src/mainwindow.cpp:1435
+#: src/mainwindow.cpp:1455
 #, kde-format
 msgid "Play Zone From Cursor"
 msgstr "Luda Zono El Kursoro"
 
-#: src/mainwindow.cpp:1438
+#: src/mainwindow.cpp:1458
 #, kde-format
 msgid "Play Zone"
 msgstr "Luda Zono"
 
-#: src/mainwindow.cpp:1440
+#: src/mainwindow.cpp:1460
 #, kde-format
 msgid "Loop Zone"
 msgstr "Buklo Zono"
 
-#: src/mainwindow.cpp:1442
+#: src/mainwindow.cpp:1462
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "Bukli Elektitan aŭdvidaĵon"
 
-#: src/mainwindow.cpp:1446
+#: src/mainwindow.cpp:1466
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "Transkodi aŭdvidaĵojn…"
 
-#: src/mainwindow.cpp:1447
+#: src/mainwindow.cpp:1467
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "OpenTimelineIO E&ksporto…"
 
-#: src/mainwindow.cpp:1451
+#: src/mainwindow.cpp:1471
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "OpenTimelineIO &Importo…"
 
-#: src/mainwindow.cpp:1456
+#: src/mainwindow.cpp:1476
 #, kde-format
 msgid "Archive Project…"
 msgstr "Arkiva Projekto…"
 
-#: src/mainwindow.cpp:1458
+#: src/mainwindow.cpp:1478
 #, kde-format
 msgid "Switch Monitor"
 msgstr "Ŝaltilo Monitoro"
 
-#: src/mainwindow.cpp:1459
+#: src/mainwindow.cpp:1479
 #, kde-format
 msgid "Focus Timecode"
 msgstr "Fokuso Tempokodo"
 
-#: src/mainwindow.cpp:1460
+#: src/mainwindow.cpp:1480
 #, kde-format
 msgid "Expand Clip"
 msgstr "Pligrandigi aŭdvidaĵon"
 
-#: src/mainwindow.cpp:1462
+#: src/mainwindow.cpp:1482
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "Monitoro Info Overlay"
 
-#: src/mainwindow.cpp:1467
+#: src/mainwindow.cpp:1487
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "Monitoro Overlay Timecode"
 
-#: src/mainwindow.cpp:1472
+#: src/mainwindow.cpp:1492
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "Monitoro Overlay Playback Fps"
 
-#: src/mainwindow.cpp:1477
+#: src/mainwindow.cpp:1497
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "Monitoro Overlay Markiloj"
 
-#: src/mainwindow.cpp:1482
+#: src/mainwindow.cpp:1502
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "Monitoro Overlay Audio Ondform"
 
-#: src/mainwindow.cpp:1487
+#: src/mainwindow.cpp:1507
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
 msgstr "Monitori supermetitajn aŭdvidaĵ-prilaborojn"
 
-#: src/mainwindow.cpp:1505
+#: src/mainwindow.cpp:1525
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "Plena Distingivo (1:1)"
 
-#: src/mainwindow.cpp:1509 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1529 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1513 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1533 src/monitor/monitor.cpp:235
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1517 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1537 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1521 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1541 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "270p"
 msgstr "270p"
 
-#: src/mainwindow.cpp:1552
+#: src/mainwindow.cpp:1572
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "Reala Tempo (faligi kadrojn)"
 
-#: src/mainwindow.cpp:1558
+#: src/mainwindow.cpp:1578
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "Monitor Gamma"
 
-#: src/mainwindow.cpp:1559
+#: src/mainwindow.cpp:1579
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB (komputilo)"
 
-#: src/mainwindow.cpp:1560
+#: src/mainwindow.cpp:1580
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709 (televido)"
 
-#: src/mainwindow.cpp:1566
+#: src/mainwindow.cpp:1586
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "Enigi Zonon en Projektujo"
 
-#: src/mainwindow.cpp:1568
+#: src/mainwindow.cpp:1588
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "Kreas novan tondaĵon en la projektujo el la difinita zono."
 
-#: src/mainwindow.cpp:1571
+#: src/mainwindow.cpp:1591
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "Iri al Antaŭa Snap Point"
 
-#: src/mainwindow.cpp:1573
+#: src/mainwindow.cpp:1593
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "Iri al Sekva Snap Point"
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1596
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "Iri al komenco de aŭdvidaĵo"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1598
 #, kde-format
 msgid "Go to Clip End"
 msgstr "Iri al fino de aŭdvidaĵo"
 
-#: src/mainwindow.cpp:1580
+#: src/mainwindow.cpp:1600
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "Iri al Antaŭa Gvidilo"
 
-#: src/mainwindow.cpp:1582
+#: src/mainwindow.cpp:1602
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "Iri al Sekva Gvidilo"
 
-#: src/mainwindow.cpp:1584
+#: src/mainwindow.cpp:1604
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "Vicigi Ludkapon al Musa Pozicio"
 
-#: src/mainwindow.cpp:1587
+#: src/mainwindow.cpp:1607
 #, kde-format
 msgid "Grab Current Item"
 msgstr "Ekpreni Nunan Eron"
 
-#: src/mainwindow.cpp:1590
+#: src/mainwindow.cpp:1610
 #, kde-format
 msgid "Automatic Transition"
 msgstr "Aŭtomata Transiro"
 
-#: src/mainwindow.cpp:1597
+#: src/mainwindow.cpp:1617
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Anstataŭigi Tondzonon en Templinio"
 
-#: src/mainwindow.cpp:1599
+#: src/mainwindow.cpp:1619
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23518,12 +23592,12 @@ msgstr ""
 "estas enmetita ĉe la ludkapa pozicio en la aktiva templinio. Tondaĵoj ĉe la "
 "enmeta pozicio estas tranĉitaj kaj anstataŭitaj."
 
-#: src/mainwindow.cpp:1601
+#: src/mainwindow.cpp:1621
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "Enmeti Tondan Zonon en Templinio"
 
-#: src/mainwindow.cpp:1603
+#: src/mainwindow.cpp:1623
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23535,12 +23609,12 @@ msgstr ""
 "estas enmetita ĉe la ludkapa pozicio en la aktiva templinio. Tondaĵoj ĉe la "
 "enmeta pozicio estas tranĉitaj kaj movitaj dekstren."
 
-#: src/mainwindow.cpp:1605
+#: src/mainwindow.cpp:1625
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "Ekstrakti Timeline Zone"
 
-#: src/mainwindow.cpp:1607
+#: src/mainwindow.cpp:1627
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23550,12 +23624,12 @@ msgstr ""
 "Klaku por forigi la templinian zonon de la templinio. Ĉiuj tondaĵoj dekstren "
 "estas movitaj maldekstren."
 
-#: src/mainwindow.cpp:1608
+#: src/mainwindow.cpp:1628
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "Levi Timeline Zone"
 
-#: src/mainwindow.cpp:1610
+#: src/mainwindow.cpp:1630
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23565,12 +23639,12 @@ msgstr ""
 "Klaku por forigi la templinian zonon de la templinio. Ĉiuj tondaĵoj dekstre "
 "restas en pozicio."
 
-#: src/mainwindow.cpp:1611
+#: src/mainwindow.cpp:1631
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "Aldoni Antaŭrigardan Zonon"
 
-#: src/mainwindow.cpp:1613
+#: src/mainwindow.cpp:1633
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23579,12 +23653,12 @@ msgstr ""
 "Aldonu la nuntempe difinitan templinion/elektan zonon kiel antaŭrigardan "
 "bildzonon"
 
-#: src/mainwindow.cpp:1614
+#: src/mainwindow.cpp:1634
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Forigi Antaŭrigardan Zonon"
 
-#: src/mainwindow.cpp:1618
+#: src/mainwindow.cpp:1638
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23594,23 +23668,23 @@ msgstr ""
 "Forigas la nuntempe difinitan templinion/elektan zonon el la antaŭrigarda "
 "bildzono. Notu, ke ĉi tio povas lasi breĉojn en la antaŭrigardaj bildzonoj."
 
-#: src/mainwindow.cpp:1619
+#: src/mainwindow.cpp:1639
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Forigi Ĉiuj Antaŭrigardaj Zonoj"
 
-#: src/mainwindow.cpp:1621
+#: src/mainwindow.cpp:1641
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "Forigi ĉiujn antaŭrigardajn bildzonojn."
 
-#: src/mainwindow.cpp:1622
+#: src/mainwindow.cpp:1642
 #, kde-format
 msgid "Start Preview Render"
 msgstr "Komenci Antaŭrigardon Render"
 
-#: src/mainwindow.cpp:1625
+#: src/mainwindow.cpp:1645
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23623,233 +23697,233 @@ msgstr ""
 "piktogramon por akiri liston de elektebloj (ekzemple: aldoni antaŭrigardan "
 "bildigan zonon, forigi ĉiujn zonojn) ."
 
-#: src/mainwindow.cpp:1627
+#: src/mainwindow.cpp:1647
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "Haltigi Antaŭrigardan bildigon"
 
-#: src/mainwindow.cpp:1630
+#: src/mainwindow.cpp:1650
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
 msgstr "Alĝustigi Templinian Zonon al Elekto"
 
-#: src/mainwindow.cpp:1632
+#: src/mainwindow.cpp:1652
 #, kde-format
 msgid "Select Clip"
 msgstr "Elekti aŭdvidaĵon"
 
-#: src/mainwindow.cpp:1634
+#: src/mainwindow.cpp:1654
 #, kde-format
 msgid "Deselect Clip"
 msgstr "Malelekti aŭdvidaĵon"
 
-#: src/mainwindow.cpp:1636
+#: src/mainwindow.cpp:1656
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "Aldoni aŭdvidaĵon al elekto"
 
-#: src/mainwindow.cpp:1638
+#: src/mainwindow.cpp:1658
 #, kde-format
 msgid "Select Transition"
 msgstr "Elekti Transiron"
 
-#: src/mainwindow.cpp:1640
+#: src/mainwindow.cpp:1660
 #, kde-format
 msgid "Deselect Transition"
 msgstr "Malelekti Transiron"
 
-#: src/mainwindow.cpp:1642
+#: src/mainwindow.cpp:1662
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "Aldoni Transiron al Elekto"
 
-#: src/mainwindow.cpp:1645
+#: src/mainwindow.cpp:1665
 #, kde-format
 msgid "Delete All Markers"
 msgstr "Forigi ĉiujn markilojn"
 
-#: src/mainwindow.cpp:1647
+#: src/mainwindow.cpp:1667
 #, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Aldoni Markilon/Gvidilon Rapide"
 
-#: src/mainwindow.cpp:1651
+#: src/mainwindow.cpp:1671
 #, kde-format
 msgid "Add Marker/Guide 1"
 msgstr "Aldoni Markilon/Gvidilon 1"
 
-#: src/mainwindow.cpp:1655
+#: src/mainwindow.cpp:1675
 #, kde-format
 msgid "Add Marker/Guide 2"
 msgstr "Aldoni Markilon/Gvidilon 2"
 
-#: src/mainwindow.cpp:1659
+#: src/mainwindow.cpp:1679
 #, kde-format
 msgid "Add Marker/Guide 3"
 msgstr "Aldoni Markilon/Gvidilon 3"
 
-#: src/mainwindow.cpp:1663
+#: src/mainwindow.cpp:1683
 #, kde-format
 msgid "Add Marker/Guide 4"
 msgstr "Aldoni Markilon/Gvidilon 4"
 
-#: src/mainwindow.cpp:1667
+#: src/mainwindow.cpp:1687
 #, kde-format
 msgid "Add Marker/Guide 5"
 msgstr "Aldoni Markilon/Gvidilon 5"
 
-#: src/mainwindow.cpp:1671
+#: src/mainwindow.cpp:1691
 #, kde-format
 msgid "Add Marker/Guide 6"
 msgstr "Aldoni Markilon/Gvidilon 6"
 
-#: src/mainwindow.cpp:1675
+#: src/mainwindow.cpp:1695
 #, kde-format
 msgid "Add Marker/Guide 7"
 msgstr "Aldoni Markilon/Gvidilon 7"
 
-#: src/mainwindow.cpp:1679
+#: src/mainwindow.cpp:1699
 #, kde-format
 msgid "Add Marker/Guide 8"
 msgstr "Aldoni Markilon/Gvidilon 8"
 
-#: src/mainwindow.cpp:1683
+#: src/mainwindow.cpp:1703
 #, kde-format
 msgid "Add Marker/Guide 9"
 msgstr "Aldoni Markilon/Gvidilon 9"
 
-#: src/mainwindow.cpp:1687
+#: src/mainwindow.cpp:1707
 #, kde-format
 msgid "Add Marker/Guide 10"
 msgstr "Aldoni Markilon/Gvidilon 10"
 
-#: src/mainwindow.cpp:1692
+#: src/mainwindow.cpp:1712
 #, kde-format
 msgid "Current Selection"
 msgstr "Nuna Elekto"
 
-#: src/mainwindow.cpp:1694 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1714 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "Aldoni Markilon"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1718
 #, kde-format
 msgid "Delete Marker"
 msgstr "Forigi Markilon"
 
-#: src/mainwindow.cpp:1702
+#: src/mainwindow.cpp:1722
 #, kde-format
 msgid "Edit Marker…"
 msgstr "Redakti markilon…"
 
-#: src/mainwindow.cpp:1707 src/timeline2/model/timelinefunctions.cpp:1212
+#: src/mainwindow.cpp:1727 src/timeline2/model/timelinefunctions.cpp:1212
 #, kde-format
 msgid "Restore Audio"
 msgstr "Restarigi Audion"
 
-#: src/mainwindow.cpp:1713
+#: src/mainwindow.cpp:1733
 #, kde-format
 msgid "Extract Clip"
 msgstr "Ekstrakti aŭdvidaĵon"
 
-#: src/mainwindow.cpp:1719
+#: src/mainwindow.cpp:1739
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "Konservi Tondan Parton al Rubujo"
 
-#: src/mainwindow.cpp:1724
+#: src/mainwindow.cpp:1744
 #, kde-format
 msgid "Disable Clip"
 msgstr "Malebligi aŭdvidaĵon"
 
-#: src/mainwindow.cpp:1729
+#: src/mainwindow.cpp:1749
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "Agordi Aŭdan Referencon"
 
-#: src/mainwindow.cpp:1736
+#: src/mainwindow.cpp:1756
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "Vicigi Aŭdio al Referenco"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1761
 #, kde-format
 msgid "Edit Duration"
 msgstr "Redakti Daŭron"
 
-#: src/mainwindow.cpp:1745
+#: src/mainwindow.cpp:1765
 #, kde-format
 msgid "Change Speed"
 msgstr "Ŝanĝi Rapidon"
 
-#: src/mainwindow.cpp:1751
+#: src/mainwindow.cpp:1771
 #, kde-format
 msgid "Time Remap"
 msgstr "Tempo Remapo"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1778
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "Aŭdvidaĵo en projektujo"
 
-#: src/mainwindow.cpp:1763
+#: src/mainwindow.cpp:1783
 #, kde-format
 msgid "Search Bin Clip…"
 msgstr "Serĉi Bin-Tondaĵon…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1765 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1785 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "Tranĉi aŭdvidaĵon"
 
-#: src/mainwindow.cpp:1768
+#: src/mainwindow.cpp:1788
 #, kde-format
 msgid "Cut All Clips"
 msgstr "Tranĉi ĉiujn aŭdvidaĵojn"
 
-#: src/mainwindow.cpp:1771
+#: src/mainwindow.cpp:1791
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Forigi Elektitan Eron"
 
-#: src/mainwindow.cpp:1774
+#: src/mainwindow.cpp:1794
 #, kde-format
 msgid "Resize Item Start"
 msgstr "Regrandigi Item Komenco"
 
-#: src/mainwindow.cpp:1778
+#: src/mainwindow.cpp:1798
 #, kde-format
 msgid "Resize Item End"
 msgstr "Regrandigi Item Finon"
 
-#: src/mainwindow.cpp:1782
+#: src/mainwindow.cpp:1802
 #, kde-format
 msgid "Paste Effects"
 msgstr "Alglui Efikojn"
 
-#: src/mainwindow.cpp:1788
+#: src/mainwindow.cpp:1808
 #, kde-format
 msgid "Delete Effects"
 msgstr "Forigi Efektojn"
 
-#: src/mainwindow.cpp:1795
+#: src/mainwindow.cpp:1815
 #, kde-format
 msgid "Group Clips"
 msgstr "Grupigi aŭdvidaĵojn"
 
-#: src/mainwindow.cpp:1801
+#: src/mainwindow.cpp:1821
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "Malgrupigi aŭdvidaĵojn"
 
-#: src/mainwindow.cpp:1807
+#: src/mainwindow.cpp:1827
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "Krei Sekvencon el Elekto"
 
-#: src/mainwindow.cpp:1810
+#: src/mainwindow.cpp:1830
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23859,123 +23933,123 @@ msgstr ""
 "Aldonas la tondaĵo(j)n nuntempe elektita(j) en la templinio al nova "
 "sinsekvotondaĵo kiu povas esti malfermita en alia templinio langeto."
 
-#: src/mainwindow.cpp:1821
+#: src/mainwindow.cpp:1841
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "Efekto Ŝlosilkadroj"
 
-#: src/mainwindow.cpp:1822 src/monitor/view/EffectToolBar.qml:99
+#: src/mainwindow.cpp:1842 src/monitor/view/EffectToolBar.qml:99
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Aldoni/Forigi Ŝlosilkadron"
 
-#: src/mainwindow.cpp:1831
+#: src/mainwindow.cpp:1851
 #, kde-format
 msgid "Insert Space…"
 msgstr "Enigi spacon…"
 
-#: src/mainwindow.cpp:1832
+#: src/mainwindow.cpp:1852
 #, kde-format
 msgid "Remove Space"
 msgstr "Forigi Spacon"
 
-#: src/mainwindow.cpp:1833
+#: src/mainwindow.cpp:1853
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "Forigi Ĉiuj Spacoj Post Kursoro"
 
-#: src/mainwindow.cpp:1834
+#: src/mainwindow.cpp:1854
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "Forigi ĉiujn tondaĵojn malantaŭ kursoro"
 
-#: src/mainwindow.cpp:1835
+#: src/mainwindow.cpp:1855
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "Forigi Spacon en Ĉiuj Trakoj"
 
-#: src/mainwindow.cpp:1838
+#: src/mainwindow.cpp:1858
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Enigi trakon…"
 
-#: src/mainwindow.cpp:1842
+#: src/mainwindow.cpp:1862
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "Ŝtopi ĉiujn trakojn en vidon"
 
-#: src/mainwindow.cpp:1848 src/timeline2/view/timelinecontroller.cpp:4888
+#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4888
 #, kde-format
 msgid "Master effects"
 msgstr "Majstraj efikoj"
 
-#: src/mainwindow.cpp:1855
+#: src/mainwindow.cpp:1875
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "Ŝanĝi trakan cel-aŭdfluon"
 
-#: src/mainwindow.cpp:1860
+#: src/mainwindow.cpp:1880
 #, kde-format
 msgid "Delete Track…"
 msgstr "Forigi Trakon…"
 
-#: src/mainwindow.cpp:1865
+#: src/mainwindow.cpp:1885
 #, kde-format
 msgid "Show Record Controls"
 msgstr "Montri Rikordajn regilojn"
 
-#: src/mainwindow.cpp:1871
+#: src/mainwindow.cpp:1891
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "Elekti Ĉion en Nuna Trako"
 
-#: src/mainwindow.cpp:1888
+#: src/mainwindow.cpp:1908
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "Administri kaŝmemoritajn datumojn…"
 
-#: src/mainwindow.cpp:1891
+#: src/mainwindow.cpp:1911
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "Malebligi Templinian Antaŭrigardon"
 
-#: src/mainwindow.cpp:1895
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "Aldoni/Forigi Gvidilon"
 
-#: src/mainwindow.cpp:1896
+#: src/mainwindow.cpp:1916
 #, kde-format
 msgid "Delete Guide"
 msgstr "Forigi Gvidilon"
 
-#: src/mainwindow.cpp:1897
+#: src/mainwindow.cpp:1917
 #, kde-format
 msgid "Edit Guide…"
 msgstr "Redakti Gvidilon…"
 
-#: src/mainwindow.cpp:1898
+#: src/mainwindow.cpp:1918
 #, kde-format
 msgid "Search Guide…"
 msgstr "Serĉi Gvidilon…"
 
-#: src/mainwindow.cpp:1899
+#: src/mainwindow.cpp:1919
 #, kde-format
 msgid "Export Guides…"
 msgstr "Eksporti Gvidilojn…"
 
-#: src/mainwindow.cpp:1902
+#: src/mainwindow.cpp:1922
 #, kde-format
 msgid "Guides Locked"
 msgstr "Gvidiloj Ŝlositaj"
 
-#: src/mainwindow.cpp:1905
+#: src/mainwindow.cpp:1925
 #, kde-format
 msgid "Lock guides"
 msgstr "Ŝlosi gvidojn"
 
-#: src/mainwindow.cpp:1907
+#: src/mainwindow.cpp:1927
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23985,52 +24059,52 @@ msgstr ""
 "Ŝlosu gvidojn. Kiam ŝlositaj, la gvidiloj ne moviĝos kiam oni uzas la "
 "interspacan ilon aŭ enigas/forigas malplenajn spurojn."
 
-#: src/mainwindow.cpp:1909
+#: src/mainwindow.cpp:1929
 #, kde-format
 msgid "Delete All Guides"
 msgstr "Forigi Ĉiuj Gvidiloj"
 
-#: src/mainwindow.cpp:1911
+#: src/mainwindow.cpp:1931
 #, kde-format
 msgid "Add Subtitle"
 msgstr "Aldoni Subtitolon"
 
-#: src/mainwindow.cpp:1913
+#: src/mainwindow.cpp:1933
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "Malebligi Subtitolon"
 
-#: src/mainwindow.cpp:1914
+#: src/mainwindow.cpp:1934
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "Ŝlosi Subtitolon"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1936
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "Mastrumi Subtitolojn"
 
-#: src/mainwindow.cpp:1918
+#: src/mainwindow.cpp:1938
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "Importi Subtitolan Dosieron…"
 
-#: src/mainwindow.cpp:1920
+#: src/mainwindow.cpp:1940
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "Eksporti Subtitolan Dosieron…"
 
-#: src/mainwindow.cpp:1922 src/timeline2/model/timelinemodel.cpp:2167
+#: src/mainwindow.cpp:1942 src/timeline2/model/timelinemodel.cpp:2167
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Forigi Subtitolon"
 
-#: src/mainwindow.cpp:1923
+#: src/mainwindow.cpp:1943
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "Parola rekono…"
 
-#: src/mainwindow.cpp:1930
+#: src/mainwindow.cpp:1950
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24040,87 +24114,87 @@ msgstr ""
 "Ĉi tio ŝanĝas inter havi <emphasis>Menubaron</emphasis> kaj havi butonon "
 "<interface>Hamburgera Menuo</interface> en la ĉefa Ilobreto."
 
-#: src/mainwindow.cpp:1959
+#: src/mainwindow.cpp:1979
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "Kopii Sencimigan Informon"
 
-#: src/mainwindow.cpp:1961
+#: src/mainwindow.cpp:1981
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "Malebligi Templiniajn Efikojn"
 
-#: src/mainwindow.cpp:1967
+#: src/mainwindow.cpp:1987
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "Baskuligi Trakon Malŝaltita"
 
-#: src/mainwindow.cpp:1969
+#: src/mainwindow.cpp:1989
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "Baskuligi trakan ŝlosilon"
 
-#: src/mainwindow.cpp:1971
+#: src/mainwindow.cpp:1991
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "Baskuligi ĉiujn trakŝlosilon"
 
-#: src/mainwindow.cpp:1973
+#: src/mainwindow.cpp:1993
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "Baskuligi trak-celon"
 
-#: src/mainwindow.cpp:1975
+#: src/mainwindow.cpp:1995
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "Baskuligi Aktivan Trakon"
 
-#: src/mainwindow.cpp:1977
+#: src/mainwindow.cpp:1997
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "Ŝalti Ĉiuj Trakoj Aktivaj"
 
-#: src/mainwindow.cpp:1979
+#: src/mainwindow.cpp:1999
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "Ŝalti Ĉiuj Trakoj Aktivaj"
 
-#: src/mainwindow.cpp:1981
+#: src/mainwindow.cpp:2001
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "Restarigi aktualajn aŭdvidaĵajn celspurojn"
 
-#: src/mainwindow.cpp:1983
+#: src/mainwindow.cpp:2003
 #, kde-format
 msgid "Add Project Note"
 msgstr "Aldoni Projektan Noton"
 
-#: src/mainwindow.cpp:1989
+#: src/mainwindow.cpp:2009
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "Elekti Sontrakon %1"
 
-#: src/mainwindow.cpp:1993
+#: src/mainwindow.cpp:2013
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "Elekti VideoTrakon %1"
 
-#: src/mainwindow.cpp:1997
+#: src/mainwindow.cpp:2017
 #, kde-format
 msgid "Select Target %1"
 msgstr "Elekti Celon %1"
 
-#: src/mainwindow.cpp:2014
+#: src/mainwindow.cpp:2034
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Ekstrakti Kadron…"
 
-#: src/mainwindow.cpp:2017
+#: src/mainwindow.cpp:2037
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Ĉerpi kadron al Projekto…"
 
-#: src/mainwindow.cpp:2150
+#: src/mainwindow.cpp:2170
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -24129,13 +24203,13 @@ msgstr ""
 "Vi ŝanĝis la prokurilajn parametrojn. Ĉu vi volas rekrei ĉiujn prokurilajn "
 "tondaĵoj por ĉi tiu projekto?"
 
-#: src/mainwindow.cpp:2151
+#: src/mainwindow.cpp:2171
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Rekrei"
 
-#: src/mainwindow.cpp:2152 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2172 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2255
 #, kde-format
@@ -24143,7 +24217,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Daŭrigi sen"
 
-#: src/mainwindow.cpp:2208
+#: src/mainwindow.cpp:2228
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -24154,7 +24228,7 @@ msgstr ""
 "projekton, poste movos ĉiujn provizorajn dosierojn de <br/><b>%1</b> al <b>"
 "%2</b>,<br>kaj la projektdosiero estos reŝargita"
 
-#: src/mainwindow.cpp:2216
+#: src/mainwindow.cpp:2236
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -24163,38 +24237,38 @@ msgstr ""
 "Ĉi tio movos ĉiujn provizorajn dosierojn de<br/><b>%1</b> al <b>%2</b>,<br/"
 ">la projektdosiero tiam estos reŝargita"
 
-#: src/mainwindow.cpp:2225 src/project/projectmanager.cpp:619
+#: src/mainwindow.cpp:2245 src/project/projectmanager.cpp:619
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Ne povas fari operacion, nevalida dokumentid: %1"
 
-#: src/mainwindow.cpp:2230 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2250 src/project/projectmanager.cpp:625
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Ne povas fari operacion, cela dosierujo jam ekzistas: %1"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2397
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Ĉi tio forigos ĉiujn neuzatajn tondaĵojn de via projekto."
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2397
 #, kde-format
 msgid "Clean up project"
 msgstr "Purigi projekton"
 
-#: src/mainwindow.cpp:2519
+#: src/mainwindow.cpp:2539
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Elŝuti Novajn Klavarajn Skemojn…"
 
-#: src/mainwindow.cpp:2528
+#: src/mainwindow.cpp:2548
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Ĝenerala"
 
-#: src/mainwindow.cpp:2602
+#: src/mainwindow.cpp:2622
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -24203,28 +24277,28 @@ msgstr ""
 "Ĉi tio forigos la agordan dosieron de Kdenlive kaj rekomencos la aplikaĵon. "
 "Ĉu vi volas daŭrigi?"
 
-#: src/mainwindow.cpp:2603
+#: src/mainwindow.cpp:2623
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Restarigi Agordon"
 
-#: src/mainwindow.cpp:2735 src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2755 src/mainwindow.cpp:2782
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Ne povas trovi tondaĵon por forigi markilon"
 
-#: src/mainwindow.cpp:2745 src/mainwindow.cpp:2791
+#: src/mainwindow.cpp:2765 src/mainwindow.cpp:2811
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Neniu markilo trovita ĉe kursora tempo"
 
-#: src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2787
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Okazis eraro dum forigo de markiloj"
 
-#: src/mainwindow.cpp:2784 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2804 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -24233,46 +24307,46 @@ msgstr "Okazis eraro dum forigo de markiloj"
 msgid "Cannot find clip to edit marker"
 msgstr "Ne povas trovi tondaĵon por redakti markilon"
 
-#: src/mainwindow.cpp:2835
+#: src/mainwindow.cpp:2855
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "Markila kategorio ne elzistas"
 
-#: src/mainwindow.cpp:3025 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Anstataŭigi zonon"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3046
+#: src/mainwindow.cpp:3047 src/mainwindow.cpp:3066
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3146
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Ne eblis enmeti zonon"
 
-#: src/mainwindow.cpp:3037
+#: src/mainwindow.cpp:3057
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Neniu tondaĵo elektita en projektujo"
 
-#: src/mainwindow.cpp:3044 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3064 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Insert zone"
 msgstr "Enmeti zonon"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3231
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Ne povas aldoni efekton al aktiva ero"
 
-#: src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:3293
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Zoma Nivelo: %1/%2"
 
-#: src/mainwindow.cpp:3422
+#: src/mainwindow.cpp:3442
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24285,7 +24359,7 @@ msgstr ""
 "grupigitan tranĉeton al alia trako, <shortcut>Ctrl treni</shortcut> al "
 "panoramo"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3446
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24299,24 +24373,24 @@ msgstr ""
 "movi grupigitan tranĉeton al alia trako, <shortcut>Ctrl trenu</shortcut> al "
 "panoramo"
 
-#: src/mainwindow.cpp:3429
+#: src/mainwindow.cpp:3449
 #, kde-format
 msgid "Select"
 msgstr "Elekti"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3451
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> por antaŭrigardi tranĉan kadron"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3432 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3452 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Razilo"
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3456
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24326,12 +24400,12 @@ msgstr ""
 "<shortcut>Ktrl</shortcut> por apliki nur ĉe nuna trako, <shortcut>Shift</"
 "shortcut> por ankaŭ movi gvidojn. Vi povas kombini ambaŭ modifilojn."
 
-#: src/mainwindow.cpp:3437
+#: src/mainwindow.cpp:3457
 #, kde-format
 msgid "Spacer"
 msgstr "Spacer"
 
-#: src/mainwindow.cpp:3439
+#: src/mainwindow.cpp:3459
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24341,13 +24415,13 @@ msgstr ""
 "<shortcut>Alklaku</shortcut> sur eron por gliti, <shortcut>Shift klako</"
 "shortcut> por multobla elekto"
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3460
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Gliti"
 
-#: src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3465
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24359,13 +24433,13 @@ msgstr ""
 "shortcut> por multobla elekto, <shortcut>Alt-klako</shortcut> por elekti "
 "eron en grupo, <shortcut>Ctrl treni</shortcut> por ŝovumi"
 
-#: src/mainwindow.cpp:3447
+#: src/mainwindow.cpp:3467
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Ondeto"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3473
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24375,99 +24449,99 @@ msgstr ""
 "<shortcut>Alklaku</shortcut> sur trakovido en la projekta monitoro por fari "
 "lifton de ĉiuj trakoj krom aktiva."
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3485
 #, kde-format
 msgid "Insert"
 msgstr "Enmeti"
 
-#: src/mainwindow.cpp:3735 src/mainwindow.cpp:3737
+#: src/mainwindow.cpp:3755 src/mainwindow.cpp:3757
 #, kde-format
 msgid "Scopes"
 msgstr "Ampleksoj"
 
-#: src/mainwindow.cpp:3742
+#: src/mainwindow.cpp:3762
 #, kde-format
 msgid "Project Bins"
 msgstr "Projektaj Rubujoj"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3858
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Agordi aŭdvidaĵajn prilaborojn…"
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3864
 #, kde-format
 msgid "Transcoders"
 msgstr "Transkodiloj"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3924
 #, kde-format
 msgid "-merged"
 msgstr "-kunfandita"
 
-#: src/mainwindow.cpp:3907
+#: src/mainwindow.cpp:3927
 #, kde-format
 msgid "-stream-%1"
 msgstr "-fluo-%1"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3969
 #, kde-format
 msgid "Interface"
 msgstr "Interfaco"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3991
 #, kde-format
 msgid "Raise %1"
 msgstr "Levi %1"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4058
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Dosieroj al Transkodigo"
 
-#: src/mainwindow.cpp:4170
+#: src/mainwindow.cpp:4190
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektdosiero ne povis esti konservita por arkivado."
 
-#: src/mainwindow.cpp:4178
+#: src/mainwindow.cpp:4198
 #, kde-format
 msgid "Archiving project"
 msgstr "Arkiva projekto"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4338
 #, kde-format
 msgid "Icon Size"
 msgstr "Piktograma grandeco"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4342
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Defaŭlte"
 
-#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4363 src/mainwindow.cpp:4391
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Malgranda (%1x%2)"
 
-#: src/mainwindow.cpp:4345 src/mainwindow.cpp:4373
+#: src/mainwindow.cpp:4365 src/mainwindow.cpp:4393
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Meza (%1x%2)"
 
-#: src/mainwindow.cpp:4347 src/mainwindow.cpp:4375
+#: src/mainwindow.cpp:4367 src/mainwindow.cpp:4395
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Granda (%1x%2)"
 
-#: src/mainwindow.cpp:4349 src/mainwindow.cpp:4377
+#: src/mainwindow.cpp:4369 src/mainwindow.cpp:4397
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Grandega (%1x%2)"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4453
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -24475,27 +24549,27 @@ msgid ""
 msgstr ""
 "Ĉi tio tute kaŝos la menubreton. Vi povas montri ĝin denove tajpante Ctrl+M."
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4453
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Kaŝi menubreton"
 
-#: src/mainwindow.cpp:4696 src/timeline2/view/timelinecontroller.cpp:5119
+#: src/mainwindow.cpp:4716 src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Neniuj subtekstoj en nuna projekto"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:5003
 #, kde-format
 msgid "Go to download page"
 msgstr "Iri al elŝuta paĝo"
 
-#: src/mainwindow.cpp:4988
+#: src/mainwindow.cpp:5008
 #, kde-format
 msgid "Never check again"
 msgstr "Neniam plu kontroli"
 
-#: src/mainwindow.cpp:4991
+#: src/mainwindow.cpp:5011
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -24504,7 +24578,7 @@ msgstr ""
 "Via Kdenlive-versio estas pli malnova ol 1 jaro, ni forte kuraĝigas vin "
 "ĝisdatigi"
 
-#: src/mainwindow.cpp:4995
+#: src/mainwindow.cpp:5015
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -24512,7 +24586,7 @@ msgstr ""
 "Via Kdenlive-versio estas pli malnova ol 6 monatoj, ni forte kuraĝigas vin "
 "ĝisdatigi"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5058
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Kontrolante konservitajn datumojn grandeco"
@@ -28078,12 +28152,12 @@ msgstr "Elektu nomon por ĉi tiu bildigo."
 msgid "begin"
 msgstr "komenci"
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:87
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "Ne povas malfermi komunikadon kun renderlaboro %1"
 
-#: src/render/renderserver.cpp:50
+#: src/render/renderserver.cpp:51
 #, kde-format
 msgid "Communication error with render job"
 msgstr "Eraro pri komunikado kun bildigo"
