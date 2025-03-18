@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 02:29+0000\n"
+"POT-Creation-Date: 2025-03-18 02:36+0000\n"
 "PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -19482,7 +19482,7 @@ msgstr "Son-eksporto malsukcesis"
 msgid "Starting speech recognition"
 msgstr "Komencante parolrekonon"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Parolrekono ĉesigita."
@@ -20395,8 +20395,8 @@ msgid "Delete selection"
 msgstr "Forigi elekton"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, kde-format
 msgid "No speech"
 msgstr "Neniu parolado"
@@ -20497,8 +20497,8 @@ msgstr "Elekti tondaĵon kun aŭdaĵo en Project Bin."
 msgid "Select a clip with audio for speech recognition."
 msgstr "Elekti tondaĵon kun aŭdaĵo por parolrekono."
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Ne povas krei provizoran dosieron."
@@ -20513,49 +20513,49 @@ msgstr "Eltiro de audio por %1."
 msgid "Audio extract failed."
 msgstr "Soneltiraĵo malsukcesis."
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Komencante parolrekonon ĉe %1."
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Eraro, bonvolu kontroli la agordon de parolado al teksto."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "No speech detected."
 msgstr "Neniu parolado detektita."
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Parola rekono finiĝis."
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Redakti aŭdvidaĵan tekston"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Krei sekvencan aŭdvidaĵon"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, kde-format
 msgid "No text to export"
 msgstr "Neniu teksto por eksporti"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Enigu novan vojon de ludlisto"
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Neniu tempokodo trovita en elekto"

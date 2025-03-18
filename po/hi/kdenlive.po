@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 02:29+0000\n"
+"POT-Creation-Date: 2025-03-18 02:36+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -19418,7 +19418,7 @@ msgstr "ऑडियो निर्यात विफल"
 msgid "Starting speech recognition"
 msgstr "वाक् पहचान प्रारंभ करना"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "वाक् पहचान निरस्त कर दी गई।"
@@ -20320,8 +20320,8 @@ msgid "Delete selection"
 msgstr "चयन हटाएं"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, kde-format
 msgid "No speech"
 msgstr "कोई भाषण नहीं"
@@ -20422,8 +20422,8 @@ msgstr "प्रोजेक्ट बिन में ऑडियो के �
 msgid "Select a clip with audio for speech recognition."
 msgstr "वाक् पहचान के लिए ऑडियो वाली क्लिप का चयन करें."
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "अस्थायी फ़ाइल नहीं बनाई जा सकती."
@@ -20438,49 +20438,49 @@ msgstr "%1 के लिए ऑडियो निकाला जा रहा 
 msgid "Audio extract failed."
 msgstr "ऑडियो निष्कर्षण विफल."
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "%1 पर वाक् पहचान प्रारंभ हो रही है।"
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "त्रुटि, कृपया वाक् से पाठ कॉन्फ़िगरेशन की जाँच करें."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "No speech detected."
 msgstr "कोई भाषण नहीं मिला."
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "वाक् पहचान समाप्त."
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "क्लिप पाठ संपादित करें"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "अनुक्रम क्लिप बनाएँ"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, kde-format
 msgid "No text to export"
 msgstr "निर्यात करने के लिए कोई पाठ नहीं"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "नया प्लेलिस्ट पथ दर्ज करें"
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "चयन में कोई टाइमकोड नहीं मिला"

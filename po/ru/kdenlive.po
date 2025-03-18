@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 02:29+0000\n"
+"POT-Creation-Date: 2025-03-18 02:36+0000\n"
 "PO-Revision-Date: 2025-03-14 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -19556,7 +19556,7 @@ msgstr "Не удалось экспортировать звук"
 msgid "Starting speech recognition"
 msgstr "Запуск распознавания речи"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Распознавание речи прервано."
@@ -20463,8 +20463,8 @@ msgid "Delete selection"
 msgstr "Удалить выбор"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, kde-format
 msgid "No speech"
 msgstr "Речь отсутствует"
@@ -20565,8 +20565,8 @@ msgstr "Выберите клип со звуком в корзине проек
 msgid "Select a clip with audio for speech recognition."
 msgstr "Выберите клип со звуком для распознавания речи."
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Не удалось создать временный файл."
@@ -20581,49 +20581,49 @@ msgstr "Извлечение звука для %1."
 msgid "Audio extract failed."
 msgstr "Сбой извлечения звука."
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Запуск распознавания речи на %1."
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Ошибка, проверьте конфигурацию распознавания речи."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "No speech detected."
 msgstr "Речь не обнаружена."
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Распознавание речи завершено."
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Редактировать текст клипа"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Создать клип последовательности"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, kde-format
 msgid "No text to export"
 msgstr "Текст для экспорта отсутствует"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Введите новый путь для списка воспроизведения"
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Не удалось найти тайм-код в выборе"

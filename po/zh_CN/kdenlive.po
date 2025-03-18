@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 02:29+0000\n"
+"POT-Creation-Date: 2025-03-18 02:36+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -482,18 +482,18 @@ msgstr "要绘制的声道"
 #: data/effects/avfilter/acompressor.xml:4
 #, kde-format
 msgid "Compressor (avfilter)"
-msgstr ""
+msgstr "压缩器 (avfilter)"
 
 #: data/effects/avfilter/acompressor.xml:5
 #, kde-format
 msgid "Audio Compressor"
-msgstr ""
+msgstr "音频压缩器"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
 #, kde-format
 msgid "Input Gain"
-msgstr ""
+msgstr "Input gain/输入增益"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
@@ -511,21 +511,21 @@ msgstr "阈值"
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
 #, kde-format
 msgid "Ratio"
-msgstr ""
+msgstr "比例"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
 #: data/effects/avfilter/avfilter_aphaser.xml:17
 #, kde-format
 msgid "Attack"
-msgstr ""
+msgstr "抑制"
 
 #: data/effects/avfilter/acompressor.xml:20 data/effects/avfilter/agate.xml:23
 #: data/effects/avfilter/avfilter_alimiter.xml:20
 #: data/effects/avfilter/avfilter_aphaser.xml:20
 #, kde-format
 msgid "Release"
-msgstr ""
+msgstr "释放"
 
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
@@ -18465,7 +18465,7 @@ msgstr "音频导出失败"
 msgid "Starting speech recognition"
 msgstr "开始语音识别"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "语音识别已中止。"
@@ -19364,8 +19364,8 @@ msgid "Delete selection"
 msgstr "删除所选内容"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, kde-format
 msgid "No speech"
 msgstr "无语音"
@@ -19464,8 +19464,8 @@ msgstr "选择项目素材箱中的带音频剪辑。"
 msgid "Select a clip with audio for speech recognition."
 msgstr "选择一段带有音频的剪辑以进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "无法创建临时文件。"
@@ -19480,49 +19480,49 @@ msgstr "正在为 %1 提取音频。"
 msgid "Audio extract failed."
 msgstr "音频提取失败。"
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "正在开始对 %1 进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "发生错误，请检查语音转文字功能配置。"
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "No speech detected."
 msgstr "未检测到语音。"
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "语音识别已完成。"
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "编辑剪辑文字"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "创建序列剪辑"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, kde-format
 msgid "No text to export"
 msgstr "没有可供导出的文字"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "输入新播放列表路径"
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "未找到所选内容中的时间码"

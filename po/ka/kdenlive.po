@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 02:29+0000\n"
+"POT-Creation-Date: 2025-03-18 02:36+0000\n"
 "PO-Revision-Date: 2025-03-08 06:09+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -19502,7 +19502,7 @@ msgstr "აუდიოს გატანის შეცდომა"
 msgid "Starting speech recognition"
 msgstr "საუბრის ამოცნობის დაწყება"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "საუბრის ამოცნობა გაუქმდა."
@@ -20418,8 +20418,8 @@ msgid "Delete selection"
 msgstr "მონიშნულის წაშლა"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, kde-format
 msgid "No speech"
 msgstr "საუბრის გარეშე"
@@ -20520,8 +20520,8 @@ msgstr "აირჩიეთ ხმიანი კლიპი პროექ
 msgid "Select a clip with audio for speech recognition."
 msgstr "აირჩიეთ ხმიანი კლიპი საუბრის ამოსაცნობად."
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "დროებითი ფაილის შექმნა შეუძლებელია."
@@ -20536,49 +20536,49 @@ msgstr "აუდიოს გაშლა %1-სთვის."
 msgid "Audio extract failed."
 msgstr "აუდიოს გაშლა ჩავარდა."
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "საუბრის ამოცნობის დაწყება %1-ზე."
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "შეცდომა. გადაამოწმეთ ტექსტის ამოცნობის კონფიგურაცია."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "No speech detected."
 msgstr "საუბარი ვერ ვიპოვე."
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "საუბრის ამოცნობა დასრულდა."
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "კლიპის ტექსტის ჩასწორება"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, kde-format
 msgid "No text to export"
 msgstr "გასატანი ტექსტის გარეშე"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "შეიყვანეთ ახალი დასაკრავი სიის ბილიკი"
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "მონიშნულში დროის კოდი ვერ ვიპოვე"

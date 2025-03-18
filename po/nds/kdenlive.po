@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 02:29+0000\n"
+"POT-Creation-Date: 2025-03-18 02:36+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -19495,7 +19495,7 @@ msgstr "Klangkanaals"
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Speech recognition aborted."
@@ -20424,8 +20424,8 @@ msgid "Delete selection"
 msgstr "Klören richten"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "No speech"
@@ -20538,8 +20538,8 @@ msgstr "Projekt"
 msgid "Select a clip with audio for speech recognition."
 msgstr "Utsöök-Warktüüch"
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot create temporary file."
@@ -20557,55 +20557,55 @@ msgstr "Vöransichten warrt laadt"
 msgid "Audio extract failed."
 msgstr "Klangkanaals"
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Starting speech recognition on %1."
 msgstr "Utsöök-Warktüüch"
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "No speech detected."
 msgstr "Projekt warrt laadt"
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Speech recognition finished."
 msgstr "Utsöök-Warktüüch"
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Profil bewerken"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Bildfolg importeren"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, fuzzy, kde-format
 #| msgid "Fit to height"
 msgid "No text to export"
 msgstr "Op Hööchd topassen"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr ""

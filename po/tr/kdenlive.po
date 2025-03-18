@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-17 02:29+0000\n"
-"PO-Revision-Date: 2025-03-16 22:19+0300\n"
+"POT-Creation-Date: 2025-03-18 02:36+0000\n"
+"PO-Revision-Date: 2025-03-17 14:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -482,7 +482,7 @@ msgstr "Ön Alan Rengi"
 #: data/effects/audiowaveform.xml:26
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
-msgstr "Birleştir, Hepsi,1,2,3,4,5,6,7,8,9,10"
+msgstr "Birleştir,Hepsi,1,2,3,4,5,6,7,8,9,10"
 
 #: data/effects/audiowaveform.xml:27
 #, kde-format
@@ -550,7 +550,7 @@ msgstr "Diz"
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
 msgid "Average,Maximum"
-msgstr "Ortalama, En Yüksek"
+msgstr "Ortalama,En Yüksek"
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
 #, kde-format
@@ -927,164 +927,153 @@ msgstr "Milisaniye türünden gecikme"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
 #: data/effects/avfilter/avfilter_flanger.xml:28
-#, fuzzy, kde-format
-#| msgid "Triangular window"
+#, kde-format
 msgid "Triangular,Sinusoidal"
-msgstr "Üçgen pencere"
+msgstr "Üçgensel, Sinüzoidal"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:24
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Modulation type"
-msgstr "Modülatörler"
+msgstr "Modülasyon türü"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:4
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Pulsator"
-msgstr "Modülatörler"
+msgstr "Pulsatör"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio streams"
+#, kde-format
 msgid " Audio pulsator."
-msgstr "Ses akışları"
+msgstr "Ses pulsatörü."
 
 #: data/effects/avfilter/avfilter_apulsator.xml:14
 #, kde-format
 msgid "sine,triangle,square,sawup,sawdown"
-msgstr ""
+msgstr "sinüs,üçgen,kare,sawup,sawdown"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:18
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Modulation"
-msgstr "Modülatörler"
+msgstr "Modülasyon"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:21
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset L"
-msgstr "X ofseti"
+msgstr "Sol ofset"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:24
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset R"
-msgstr "X ofseti"
+msgstr "Sağ ofset"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:27
-#, fuzzy, kde-format
-#| msgid "Outline width"
+#, kde-format
 msgid "Pulse width"
-msgstr "Dış hat genişliği"
+msgstr "Nabız genişliği"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
 msgid "bpm,ms,Hz"
-msgstr ""
+msgstr "bpm,ms,Hz"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, kde-format
 msgid "Timing"
-msgstr ""
+msgstr "Zamanlama"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
 #, kde-format
 msgid "BPM"
-msgstr ""
+msgstr "BPM"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:37
 #, kde-format
 msgid "Milliseconds"
-msgstr ""
+msgstr "Milisaniye"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:40
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Frequency in Hz"
-msgstr "Düşük Frekans"
+msgstr "Hz olarak frekans"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:41
 #, kde-format
 msgid "Only used if timing is set to hz."
-msgstr ""
+msgstr "Zamanlama yalnızca Hz olarak ayarlanmışsa kullanılır."
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
 msgid "Adaptive Temporal Averaging Denoiser"
-msgstr ""
+msgstr "Uyarlanır Zamansal Ortalayan Gürültü Kaldırıcısı"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:5
 #, kde-format
 msgid "Apply an Adaptive Temporal Averaging Denoiser to the video input. "
 msgstr ""
+"Video girişine bir Uyarlanır Zamansal Ortalayan Gürültü Kaldırıcısı "
+"uygulayın."
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
 #, kde-format
 msgid "A threshold for 1st plane"
-msgstr ""
+msgstr "1. düzlem için A eşiği"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:11
 #, kde-format
 msgid "B threshold for 1st plane"
-msgstr ""
+msgstr "1. düzlem için B eşiği"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:14
 #, kde-format
 msgid "A threshold for 2nd plane"
-msgstr ""
+msgstr "2. düzlem için A eşiği"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:17
 #, kde-format
 msgid "B threshold for 2nd plane"
-msgstr ""
+msgstr "2. düzlem için B eşiği"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:20
 #, kde-format
 msgid "A threshold for 3rd plane"
-msgstr ""
+msgstr "3. düzlem için A eşiği"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:23
 #, kde-format
 msgid "B threshold for 3rd plane"
-msgstr ""
+msgstr "3. düzlem için B eşiği"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
-#, fuzzy, kde-format
-#| msgid "Number of frames for lowpass filtering"
+#, kde-format
 msgid "Number of frames for averaging"
-msgstr "Düşük geçiş süzgeci için kare sayısı"
+msgstr "Ortalama için kare sayısı"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Average Bitrate"
+#, kde-format
 msgid "Average Blur"
-msgstr "Ortalama Bit Hızı"
+msgstr "Ortalama Bulanıklık"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:5
 #, kde-format
 msgid "Apply average blur filter. "
-msgstr ""
+msgstr "Ortalama bulanıklık süzgecini uygulayın."
 
 #: data/effects/avfilter/avfilter_avgblur.xml:8
 #: data/effects/frei0r/frei0r_pr0be.xml:18
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgid "X size"
-msgstr "Yeniden Boyutlandır"
+msgstr "X boyutu"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:11
 #: data/effects/frei0r/frei0r_pr0be.xml:21
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgid "Y size"
-msgstr "Yeniden Boyutlandır"
+msgstr "Y boyutu"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All"
-msgstr ""
+msgstr "Alfa,Y,U,V,Kırmızı,Yeşil,Mavi,Tümü"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:15
 #: data/effects/avfilter/avfilter_bilateral.xml:17
@@ -1104,12 +1093,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:22
 #, kde-format
 msgid "Planes"
-msgstr ""
+msgstr "Düzlemler"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, kde-format
 msgid "Band-pass"
-msgstr ""
+msgstr "Bant Geçişi"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
 #, kde-format
@@ -1119,24 +1108,26 @@ msgid ""
 "(peak gain = Q) instead of the default: constant 0dB peak gain. The filter "
 "roll off at 6dB per octave (20dB per decade). "
 msgstr ""
+"Merkezi frekans ve (3 dB noktalı) bant genişliği genişliğine sahip iki "
+"kutuplu bir Butterworth bant geçişli süzgeç uygulayın. csg seçeneği, "
+"öntanımlı sabit 0 dB tepe kazancı yerine sabit bir etek kazancı (tepe "
+"kazancı = Q) seçer. Süzgeç, oktav başına 6dB (on yıl başına 20 dB) düşer."
 
 #: data/effects/avfilter/avfilter_bandpass.xml:8
 #: data/effects/avfilter/avfilter_equalizer.xml:8
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Central Frequency"
-msgstr "Düşük Frekans"
+msgstr "Merkezi Frekans"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
-#, fuzzy, kde-format
-#| msgid "Don't ask again"
+#, kde-format
 msgid "Constant skirt gain"
-msgstr "Bir daha sorma"
+msgstr "Sabit etek kazancı"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:4
 #, kde-format
 msgid "Band-Reject"
-msgstr ""
+msgstr "Bant Reddi"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
 #, kde-format
@@ -1145,11 +1136,14 @@ msgid ""
 "frequency, and (3dB-point) band-width width. The filter roll off at 6dB per "
 "octave (20dB per decade)."
 msgstr ""
+"Merkezi frekans frekansına ve (3 dB noktalı) bant genişliği genişliğine "
+"sahip iki kutuplu bir Butterworth bant reddetme süzgeci uygulayın. Süzgeç "
+"oktav başına 6 dB (on yıl başına 20 dB) düşer."
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
 msgid "Bass"
-msgstr ""
+msgstr "Bas"
 
 #: data/effects/avfilter/avfilter_bass.xml:5
 #, kde-format
@@ -1157,6 +1151,8 @@ msgid ""
 "Apply a two-pole all-pass filter with central frequency (in Hz) frequency, "
 "and filter-width width. Boost or cut lower frequencies."
 msgstr ""
+"Merkezi frekans (Hz türünden) frekansı ve süzgeç genişliği olan iki kutuplu "
+"bir tam geçişli süzgeç uygulayın. Düşük frekansları artırın veya kesin."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -1180,22 +1176,22 @@ msgstr "Kazanç"
 #: data/effects/avfilter/avfilter_lowshelf.xml:22
 #, kde-format
 msgid "Poles"
-msgstr ""
+msgstr "Kutuplar"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:4
 #, kde-format
 msgid "Bilateral"
-msgstr ""
+msgstr "Çift Yönlü"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
-msgstr ""
+msgstr "Kenarları korurken iki taraflı süzgeç, uzamsal yumuşatma uygulayın."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
 msgid "Spatial sigma"
-msgstr ""
+msgstr "Uzamsal Sigma"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:9
 #, kde-format
@@ -19484,7 +19480,7 @@ msgstr "Ses dışa aktarımı başarısız"
 msgid "Starting speech recognition"
 msgstr "Konuşma tanıma başlatılıyor"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Konuşma tanıma iptal edildi."
@@ -20397,8 +20393,8 @@ msgid "Delete selection"
 msgstr "Seçimi Sil"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, kde-format
 msgid "No speech"
 msgstr "Konuşma yok"
@@ -20499,8 +20495,8 @@ msgstr "Proje Kovasında sesli bir klip seçin."
 msgid "Select a clip with audio for speech recognition."
 msgstr "Konuşma tanıma için ses içeren bir klip seçin."
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Geçici dosya oluşturulamadı."
@@ -20515,49 +20511,49 @@ msgstr "%1 için ses çıkarılıyor."
 msgid "Audio extract failed."
 msgstr "Ses çıkarımı başarısız."
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "%1 üzerinde konuşma tanıma başlatılıyor."
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Hata, lütfen konuşmadan metne yapılandırmasını denetleyin."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "No speech detected."
 msgstr "Konuşma algılanamadı."
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Konuşma tanıma bitti."
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Klip Metnini Düzenle"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Sekans Klibi Oluştur"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, kde-format
 msgid "No text to export"
 msgstr "Dışa aktarılacak metin yok"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Yeni oynatma listesi yolunu girin"
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Seçimde zaman kodu bulunamadı"
