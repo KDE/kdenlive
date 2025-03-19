@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-18 02:36+0000\n"
+"POT-Creation-Date: 2025-03-19 02:32+0000\n"
 "PO-Revision-Date: 2012-01-01 20:29+0100\n"
 "Last-Translator: Kjetil Kilhavn <kjetil@kilhavn.no>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -8114,7 +8114,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:19
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Scaling"
 msgstr ""
@@ -14009,32 +14009,32 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:270
+#: src/assets/assetpanel.cpp:269
 #, kde-format
 msgid "%1 effects"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:275 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:278
 #, kde-format
 msgid "Track %1 effects"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:284
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "Bin %1 effects"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:636
+#: src/assets/assetpanel.cpp:572
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:637
+#: src/assets/assetpanel.cpp:573
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -14276,7 +14276,7 @@ msgid "Failed to load preset %1"
 msgstr ""
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:284
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:310
 #, kde-format
 msgid "Reset Effect"
 msgstr ""
@@ -15870,7 +15870,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:593
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -16039,8 +16039,8 @@ msgid "Move subtitle"
 msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:854
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/effectstackview.cpp:852
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -16969,8 +16969,8 @@ msgstr ""
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:892
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:746
+#: src/effects/effectstack/view/effectstackview.cpp:890
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -20258,7 +20258,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:239
+#: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -20274,12 +20274,12 @@ msgstr ""
 msgid "Move effect %1"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
 msgid "Move effect up"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20287,12 +20287,12 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-format
 msgid "Move effect down"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -20300,107 +20300,107 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Collapse Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Expand Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:80
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:103
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
 #, kde-format
 msgid "Enable Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "Hide Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "Show Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Disable Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Enable Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:144
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:149
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-format
 msgid "Create Group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:156
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:180
 #, kde-format
 msgid "In:"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:162
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
 #, kde-format
 msgid "Set zone in"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:168
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
 #, kde-format
 msgid "Out:"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-format
 msgid "Set zone out"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:211
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
 #, kde-format
 msgid "Use effect zone"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -20408,35 +20408,35 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Forhåndsinnstillinger"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "Delete effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:329
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:356
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -20444,114 +20444,114 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
 #, kde-format
 msgid "Disable %1"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
 #, kde-format
 msgid "Enable %1"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:589
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:639
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:594
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:644
 #, kde-format
 msgid "Comments:"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:330
+#: src/effects/effectstack/view/effectstackview.cpp:328
 #, fuzzy, kde-format
 msgid "Horizontal Flip"
 msgstr "Horisontal multiplikator"
 
-#: src/effects/effectstack/view/effectstackview.cpp:335
+#: src/effects/effectstack/view/effectstackview.cpp:333
 #, fuzzy, kde-format
 msgid "Vertical Flip"
 msgstr "Vertikal multiplikator"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
-#: src/effects/effectstack/view/effectstackview.cpp:425
-#: src/effects/effectstack/view/effectstackview.cpp:980
+#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:423
+#: src/effects/effectstack/view/effectstackview.cpp:978
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove Background"
 msgstr "Fjerning"
 
-#: src/effects/effectstack/view/effectstackview.cpp:345
+#: src/effects/effectstack/view/effectstackview.cpp:343
 #, kde-format
 msgid "Remove background using AI model"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:356
+#: src/effects/effectstack/view/effectstackview.cpp:354
 #, kde-format
 msgid "Flip"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:431
+#: src/effects/effectstack/view/effectstackview.cpp:429
 #, kde-format
 msgid "Exporting…"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:811
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #, kde-format
 msgid "No effect selected."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:817
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:822
+#: src/effects/effectstack/view/effectstackview.cpp:820
 #, kde-format
 msgid "Name for saved stack:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:823
+#: src/effects/effectstack/view/effectstackview.cpp:821
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:835
+#: src/effects/effectstack/view/effectstackview.cpp:833
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:842
+#: src/effects/effectstack/view/effectstackview.cpp:840
 #, kde-format
 msgid ""
 "No description provided. \n"
 "Save effect with no description?"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:977
-#: src/effects/effectstack/view/effectstackview.cpp:1003
+#: src/effects/effectstack/view/effectstackview.cpp:975
+#: src/effects/effectstack/view/effectstackview.cpp:1001
 #, fuzzy, kde-format
 msgid "Abort Mask Creation"
 msgstr "Bruk"
@@ -29422,11 +29422,11 @@ msgstr ""
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
 #: src/ui/clipjobmanager_ui.ui:50 src/ui/clipjobmanager_ui.ui:245
 #: src/ui/clipjobmanager_ui.ui:256 src/ui/clipstabilize_ui.ui:57
-#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:113
-#: src/ui/collapsiblewidget_ui.ui:139 src/ui/collapsiblewidget_ui.ui:149
-#: src/ui/collapsiblewidget_ui.ui:159 src/ui/collapsiblewidget_ui.ui:172
-#: src/ui/collapsiblewidget_ui.ui:185 src/ui/collapsiblewidget_ui.ui:198
-#: src/ui/collapsiblewidget_ui.ui:208 src/ui/collapsiblewidget_ui.ui:218
+#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:130
+#: src/ui/collapsiblewidget_ui.ui:156 src/ui/collapsiblewidget_ui.ui:166
+#: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
+#: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
+#: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
@@ -33546,37 +33546,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:400
+#: src/widgets/dragvalue.cpp:410
 #, kde-format
 msgid "Normal scale"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:401
+#: src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Pixel scale"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:402
+#: src/widgets/dragvalue.cpp:412
 #, kde-format
 msgid "Nonlinear scale"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:406
+#: src/widgets/dragvalue.cpp:416
 #, kde-format
 msgid "Direct update"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:411
+#: src/widgets/dragvalue.cpp:421
 #, kde-format
 msgid "Reset value"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:416
+#: src/widgets/dragvalue.cpp:426
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:745
+#: src/widgets/dragvalue.cpp:755
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""

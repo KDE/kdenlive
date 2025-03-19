@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-18 02:36+0000\n"
-"PO-Revision-Date: 2025-03-17 14:58+0300\n"
+"POT-Creation-Date: 2025-03-19 02:32+0000\n"
+"PO-Revision-Date: 2025-03-18 13:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1197,28 +1197,30 @@ msgstr "Uzamsal Sigma"
 #, kde-format
 msgid "Set sigma of gaussian function to calculate spatial weight."
 msgstr ""
+"Uzamsal ağırlığı hesaplamak için Gauss işlevinin sigma değerini ayarlayın."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:12
 #, kde-format
 msgid "Range sigma"
-msgstr ""
+msgstr "Erim Sigması"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:13
 #, kde-format
 msgid "Set sigma of gaussian function to calculate range weight."
 msgstr ""
+"Erim ağırlığını hesaplamak için Gauss işlevinin sigma değerini ayarlayın."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_cas.xml:12
 #: data/effects/avfilter/avfilter_kirsch.xml:16
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
-msgstr ""
+msgstr "Alfa,Y,U,V,Kırmızı,Yeşil,Mavi,Tümü"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, kde-format
 msgid "Planes Blur"
-msgstr ""
+msgstr "Düzlemler Bulanıklaştırması"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:5
 #, kde-format
@@ -1226,29 +1228,29 @@ msgid ""
 "Set an expression for the box radius in pixels used for blurring the "
 "corresponding input plane."
 msgstr ""
+"İlgili giriş düzlemini bulanıklaştırmak için kullanılan piksel türünden kutu "
+"yarıçapı için bir ifade ayarlayın."
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Luma Radius"
-msgstr "Bulanıklaştırma Yarıçapı"
+msgstr "Luma Yarıçapı"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
 msgid "Radius of the luma blurring box"
-msgstr ""
+msgstr "Luma bulanıklaştırma kutusunun yarıçapı"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Power"
-msgstr "Luma kipi"
+msgstr "Luma Gücü"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
-msgstr ""
+msgstr "Lumaya kaç kez kutu bulanıklığının uygulanması gerektiği"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
@@ -1987,6 +1989,7 @@ msgstr "Klip Özellikleri"
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
+"BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 sabit olmayan luma"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #, fuzzy, kde-format
@@ -2693,13 +2696,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dedot.xml:12
 #, kde-format
 msgid "Spatial Luma threshold"
-msgstr ""
+msgstr "Uzamsal luma eşiği"
 
 #: data/effects/avfilter/avfilter_dedot.xml:15
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Temporal Luma Threshold"
-msgstr "Düzey Eşiği"
+msgstr "Zamansal Luma Eşiği"
 
 #: data/effects/avfilter/avfilter_dedot.xml:18
 #, kde-format
@@ -4140,7 +4142,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
 msgid "Spatial Luma Strength"
-msgstr ""
+msgstr "Uzamsal Luma Gücü"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:11
 #, kde-format
@@ -4150,7 +4152,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqdn3d.xml:14
 #, kde-format
 msgid "Temporal Luma Strength"
-msgstr ""
+msgstr "Zamansal Luma Gücü"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:17
 #, kde-format
@@ -4219,10 +4221,9 @@ msgid "None,Deinterleave,Interleave"
 msgstr "Üzerine Görüntü Çözmeyi Zorla"
 
 #: data/effects/avfilter/avfilter_il.xml:9
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Mode"
-msgstr "Luma kipi"
+msgstr "Luma Kipi"
 
 #: data/effects/avfilter/avfilter_il.xml:13
 #, fuzzy, kde-format
@@ -4237,10 +4238,9 @@ msgid "Alpha Mode"
 msgstr "Konuşma Modeli"
 
 #: data/effects/avfilter/avfilter_il.xml:20
-#, fuzzy, kde-format
-#| msgid "Luma Files"
+#, kde-format
 msgid "Swap Luma Fields"
-msgstr "Luma Dosyaları"
+msgstr "Luma Alanlarını Değiştir"
 
 #: data/effects/avfilter/avfilter_il.xml:23
 #, fuzzy, kde-format
@@ -5238,13 +5238,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:11
 #, kde-format
 msgid "Luma pre-filter radius"
-msgstr ""
+msgstr "Süzgeç öncesi luma yarıçapı"
 
 #: data/effects/avfilter/avfilter_sab.xml:14
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Luma Strength"
-msgstr "Esneme"
+msgstr "Luma Gücü"
 
 #: data/effects/avfilter/avfilter_sab.xml:20
 #, kde-format
@@ -5475,10 +5474,9 @@ msgid "Blur the input video without impacting the outlines. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:8
-#, fuzzy, kde-format
-#| msgid "radius"
+#, kde-format
 msgid "Luma radius"
-msgstr "yarıçap"
+msgstr "Luma yarıçapı"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:10
 #, kde-format
@@ -5487,12 +5485,15 @@ msgid ""
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger).]]>"
 msgstr ""
+"<![CDATA[Luma yarıçapını ayarlayın.<br>\n"
+"            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
+"varyansını belirtir (daha büyükse daha yavaş).]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
 #, kde-format
 msgid "Luma strength"
-msgstr ""
+msgstr "Luma gücü"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:15
 #, kde-format
@@ -5501,12 +5502,14 @@ msgid ""
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image.]]>"
 msgstr ""
+"<![CDATA[Set the luma strength.<br>\n"
+"            The value configures the blurring. A positive value will blur "
+"the image, whereas a negative value will sharpen the image.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Luma threshold"
-msgstr "Değişiklik eşiği"
+msgstr "Luma eşiği"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:20
 #, kde-format
@@ -5516,6 +5519,10 @@ msgid ""
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges.]]>"
 msgstr ""
+"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"            belirlemek için katsayı olarak kullanılan luma eşiğini "
+"ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
+"değerler kenarları süzecektir.]]> "
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
 #, fuzzy, kde-format
@@ -5547,6 +5554,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Renk yarıçapını ayarlayın.<br>\n"
+"            Değer bulanıklaştırmayı yapılandırır. Pozitif bir değer görseli "
+"bulanıklaştırırken, negatif bir değer görseli keskinleştirir. Belirtilmezse "
+"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, fuzzy, kde-format
@@ -5563,6 +5574,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"            belirlemek için katsayı olarak kullanılan renk eşiğini "
+"ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
+"değerler kenarları süzecektir. Belirtilmezse öntanımlı olarak <em>Luma "
+"eşiği</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, fuzzy, kde-format
@@ -5578,6 +5594,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Alfa yarıçapını ayarlayın.<br>\n"
+"            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
+"varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse öntanımlı "
+"olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -5594,6 +5614,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Alfa gücünü ayarlayın.<br>\n"
+"            Değer bulanıklaştırmayı yapılandırır. Pozitif bir değer görseli "
+"bulanıklaştırırken, negatif bir değer görseli keskinleştirir. Belirtilmezse "
+"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5604,6 +5628,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"            belirlemek için katsayı olarak kullanılan alfa eşiğini "
+"ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
+"değerler kenarları süzecektir. Belirtilmezse öntanımlı olarak <em>Luma "
+"eşiği</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -6103,28 +6132,24 @@ msgid "Sharpen or unsharpen/blur your video"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Luma horizontal matrix"
-msgstr "Yatay yayılım"
+msgstr "Luma yatay matrisi"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the luma matrix horizontal size]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Luma matrisinin yatay boyutunu ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Luma vertical matrix"
-msgstr "Dikey kenar boşluğu"
+msgstr "Luma yatay matrisi"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set the luma matrix vertical size]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Luma matrisinin dikey boyutunu ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
 #, kde-format
@@ -6134,6 +6159,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Luma efektinin şiddetini ayarlayın.<br>\n"
+"            Makul değerler −1,5 ile 1,5 arasındadır. Negatif değerler giriş "
+"videosunu bulanıklaştırırken, pozitif değerler keskinleştirir, 0 değeri ise "
+"efekti devre dışı bırakır.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
 #, fuzzy, kde-format
@@ -6367,19 +6396,17 @@ msgstr "Denge"
 #: data/effects/avfilter/avfilter_vibrance.xml:20
 #, kde-format
 msgid "Red luma"
-msgstr ""
+msgstr "Kırmızı luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
-#, fuzzy, kde-format
-#| msgid "Green 2"
+#, kde-format
 msgid "Green luma"
-msgstr "Yeşil 2"
+msgstr "Yeşil luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue luma"
-msgstr "Mavi"
+msgstr "Mavi luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:29
 #, kde-format
@@ -7660,7 +7687,7 @@ msgstr "Görsel İnce Ayarı"
 #: data/effects/frei0r/frei0r_curves.xml:64
 #, kde-format
 msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
-msgstr ""
+msgstr "RGB,Kırmızı,Yeşil,Mavi,Alfa,Luma,Ton,Doygunluk"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:12
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:27
@@ -7675,10 +7702,9 @@ msgstr "Rec. 601"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:14
 #: data/effects/frei0r/frei0r_curves.xml:69
-#, fuzzy, kde-format
-#| msgid "Luma file"
+#, kde-format
 msgid "Luma formula"
-msgstr "Luma dosyası"
+msgstr "Luma formülü"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:4
 #, fuzzy, kde-format
@@ -8394,7 +8420,7 @@ msgstr "Yön"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
 msgid "Keep luma"
-msgstr ""
+msgstr "Lumayı tut"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:24
 #, fuzzy, kde-format
@@ -8490,7 +8516,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_levels.xml:40
 #, kde-format
 msgid "Red,Green,Blue,Luma"
-msgstr ""
+msgstr "Kırmızı,Yeşil,Mavi,Luma"
 
 #: data/effects/frei0r/frei0r_curves.xml:19
 #: data/effects/frei0r/frei0r_curves.xml:74
@@ -8629,7 +8655,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:19
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Scaling"
 msgstr "Ölçeklendirme"
@@ -9420,7 +9446,7 @@ msgstr "Değişiklik eşiği"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
 #, kde-format
 msgid "None, De-Key, Target, Desaturate, Luma adjust"
-msgstr ""
+msgstr "Yok,Anahtarsızlaştır,Hedefle,Doygunluğu Al,Luma Ayarı"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
 #, fuzzy, kde-format
@@ -10110,7 +10136,7 @@ msgstr " iz"
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
 msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Kapsamda Y izini (luma) göster.]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:53
 #, fuzzy, kde-format
@@ -12114,7 +12140,7 @@ msgstr "Efekti Etkinleştirmek için Çözümle"
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
 msgid "LumaLiftGainGamma"
-msgstr "GörüntüParlaklığıYukarıKaldırmaKazanımGamma"
+msgstr "LumaKaldırmaKazanımıGaması"
 
 #: data/effects/lumaliftgaingamma.xml:5
 #, kde-format
@@ -12122,8 +12148,8 @@ msgid ""
 "Filter can be used to apply lift, gain and gamma correction to luma values "
 "of image."
 msgstr ""
-"Süzgeç, görselin görüntü parlaklığı değerlerine yukarı kaldırma, kazanım ve "
-"gama düzeltmesi eklemek için kullanılabilir."
+"Süzgeç, görselin luma değerlerine yukarı kaldırma, kazanım ve gama "
+"düzeltmesi eklemek için kullanılabilir."
 
 #: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
@@ -12263,8 +12289,8 @@ msgid ""
 "Convert alpha or luma values below this level as opaque and above this level "
 "as transparent. This is mostly useful for luma wipe images."
 msgstr ""
-"Bu düzeyin altındaki alfa veya parlaklık deeğerlerini mat ve bu düzeyin "
-"üzerindekini saydam olarak dönüştür. bu genelde parlaklık silinecek "
+"Bu düzeyin altındaki alfa veya luma değerlerini mat ve bu düzeyin "
+"üzerindekini saydam olarak dönüştürün. Bu, genelde luması silinecek "
 "görseller için yararlıdır."
 
 #: data/effects/mask_start_shape.xml:19 data/effects/shape.xml:16
@@ -12284,12 +12310,12 @@ msgstr "Alfa kanalının tersini kullanın."
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
 msgid "Use Luma"
-msgstr "Görüntü Parlaklaştırma Kullan"
+msgstr "Luma Kullan"
 
 #: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
 #, kde-format
 msgid "Use the image luma instead of the alpha channel."
-msgstr "Alfa kanalı yerine görsel görüntü parlaklığını kullan."
+msgstr "Alfa kanalı yerine görsel lumasını kullanın."
 
 #: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
 #, kde-format
@@ -12303,7 +12329,7 @@ msgid ""
 "luma or alpha value of the resource (File) is copied to the alpha channel."
 msgstr ""
 "Parlaklık veya alfa için bir eşik süzgecinin uygulanıp uygulanmayacağı. "
-"Uygulanmazsa özkaynağın (dosyanın) parlaklık veya alfa değeri alfa değerine "
+"Uygulanmazsa özkaynağın (dosyanın) luma veya alfa değeri alfa değerine "
 "kopyalanır."
 
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
@@ -14010,7 +14036,7 @@ msgstr "Diğer videoya giriş yaparken önceki videodan solarak çık."
 #: data/transitions/dissolve.xml:7
 #, kde-format
 msgid "Luma Map"
-msgstr "Görüntü Parlaklığı Eşlemle"
+msgstr "Luma Eşlemle"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
 #, kde-format
@@ -14624,7 +14650,7 @@ msgstr "Nesneyi yukarı yükselt"
 #, kde-format
 msgctxt "Luma Transition Name"
 msgid "Luma"
-msgstr "Görüntü Parlaklığı"
+msgstr "Luma"
 
 #: data/transitions/luma.xml:5 data/transitions/mix.xml:5
 #: data/transitions/wipe.xml:5
@@ -14647,7 +14673,7 @@ msgstr "Mat"
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
-msgstr "A izinin alfa kanalını B izinin parlaklık kanalıyla değiştirin."
+msgstr "A izinin alfa kanalını B izinin luma kanalıyla değiştirin."
 
 #: data/transitions/mix.xml:4
 #, kde-format
@@ -15059,32 +15085,32 @@ msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 "Zaman akışındaki klipte anahtar karelerin görüntülenmesini açar/kapatır"
 
-#: src/assets/assetpanel.cpp:270
+#: src/assets/assetpanel.cpp:269
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efektleri"
 
-#: src/assets/assetpanel.cpp:275 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 Parametreleri"
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:278
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 efekti izle"
 
-#: src/assets/assetpanel.cpp:284
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "%1 efekti kovaya at"
 
-#: src/assets/assetpanel.cpp:636
+#: src/assets/assetpanel.cpp:572
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Çalışan bir maske işi var. İş durdurulsun mu?"
 
-#: src/assets/assetpanel.cpp:637
+#: src/assets/assetpanel.cpp:573
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -15327,7 +15353,7 @@ msgid "Failed to load preset %1"
 msgstr "%1 önayarı yüklenemedi"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:284
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:310
 #, kde-format
 msgid "Reset Effect"
 msgstr "Efekti Sıfırla"
@@ -16982,7 +17008,7 @@ msgstr "Çift Tıklamada Dosya İçe Aktar"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:593
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -17155,8 +17181,8 @@ msgid "Move subtitle"
 msgstr "Altyazıyı taşı"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:854
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/effectstackview.cpp:852
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -18131,8 +18157,8 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:892
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:746
+#: src/effects/effectstack/view/effectstackview.cpp:890
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -21567,7 +21593,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "%1 efekti iki kez eklenemez."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:239
+#: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -21583,12 +21609,12 @@ msgstr "%1 efekti yalnızca ana ize eklenebilir."
 msgid "Move effect %1"
 msgstr "%1 Efektini Taşı"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
 msgid "Move effect up"
 msgstr "Efekti yukarı taşı"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21598,12 +21624,12 @@ msgstr ""
 "Efekti hemen üstündekinin üzerine taşır. Efektler yukarıdan aşağıya sırayla "
 "işlenir, bu nedenle sıra önemlidir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-format
 msgid "Move effect down"
 msgstr "Efekti aşağı taşı"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21613,53 +21639,53 @@ msgstr ""
 "Efekti hemen altındakinin altına taşır. Efektler yukarıdan aşağıya sırayla "
 "işlenir, bu nedenle sıra önemlidir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Efekti Daralt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Expand Effect"
 msgstr "Efekti Genişlet"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:80
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:103
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Efektler belgelendirmesini tarayıcıda aç"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Anahtar Kareleri Etkinleştir"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Anahtar Kareleri Gizle"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Anahtar Kareleri Göster"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Anahtar kare cetvelinin görüntülenmesini açar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Disable Effect"
 msgstr "Efekti devre dışı bırak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Enable Effect"
 msgstr "Efekti etkinleştir"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
@@ -21667,7 +21693,7 @@ msgstr ""
 "Efekti devre dışı bırakır. Öncesi ve sonrası ayarlarını karşılaştırırken "
 "yararlıdır."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:144
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
@@ -21675,50 +21701,50 @@ msgstr ""
 "Efekti etkinleştirir. Öncesi ve sonrası ayarlarını karşılaştırırken "
 "yararlıdır."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:149
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-format
 msgid "Create Group"
 msgstr "Grup Oluştur"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:156
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:180
 #, kde-format
 msgid "In:"
 msgstr "Şurada:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:162
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
 #, kde-format
 msgid "Set zone in"
 msgstr "Bölge girişini ayarla"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 "Geçerli kare/oynatma kafası konumunu bölgenin başlangıcı olarak ayarlar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:168
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
 #, kde-format
 msgid "Out:"
 msgstr "Çıkış:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-format
 msgid "Set zone out"
 msgstr "Bölge çıkışını ayarla"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Geçerli kare/oynatma kafası konumunu bölgenin bitişi olarak ayarlar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:211
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
 #, kde-format
 msgid "Use effect zone"
 msgstr "Efekt bölgesini kullan"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -21726,13 +21752,13 @@ msgstr "Efekt bölgelerinin görüntülenmesini açar/kapatır."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Önayarlar"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -21740,23 +21766,23 @@ msgstr ""
 "Efekt için olan önayarları yönetmek için bir gelişmiş seçenekler listesi "
 "açar."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "Delete effect"
 msgstr "Efekti sil"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:329
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Efekti, efekt yığınından siler."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:356
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "Grupta bu efektin %1 örneği var"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -21767,105 +21793,105 @@ msgstr ""
 "proje klibine <b>sürükleyin</b>. Onu gruptaki tek bir ögeye kopyalamak için "
 "<b>Seçenek</b> düğmesini basılıp tutup sürükleyin."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 Devre Dışı Bırak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 Etkinleştir"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:589
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:639
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Efekti Kaydet"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:594
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:644
 #, kde-format
 msgid "Comments:"
 msgstr "Açıklamalar:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Ad verilmediğinden efekt kaydedilmedi."
 
-#: src/effects/effectstack/view/effectstackview.cpp:330
+#: src/effects/effectstack/view/effectstackview.cpp:328
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Yatay Ters Çevir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:335
+#: src/effects/effectstack/view/effectstackview.cpp:333
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Dikey Ters Çevir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
-#: src/effects/effectstack/view/effectstackview.cpp:425
-#: src/effects/effectstack/view/effectstackview.cpp:980
+#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:423
+#: src/effects/effectstack/view/effectstackview.cpp:978
 #, kde-format
 msgid "Remove Background"
 msgstr "Arka Planı Kaldır"
 
-#: src/effects/effectstack/view/effectstackview.cpp:345
+#: src/effects/effectstack/view/effectstackview.cpp:343
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "AI modeli kullanarak arka planı kaldır"
 
-#: src/effects/effectstack/view/effectstackview.cpp:356
+#: src/effects/effectstack/view/effectstackview.cpp:354
 #, kde-format
 msgid "Flip"
 msgstr "Ters Çevir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:431
+#: src/effects/effectstack/view/effectstackview.cpp:429
 #, kde-format
 msgid "Exporting…"
 msgstr "Dışa aktarılıyor…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Efekt Yığınını Etkinleştir"
 
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Efekt Yığınını Devre Dışı Bırak"
 
-#: src/effects/effectstack/view/effectstackview.cpp:811
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #, kde-format
 msgid "No effect selected."
 msgstr "Bir efekt seçilmedi."
 
-#: src/effects/effectstack/view/effectstackview.cpp:817
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Geçerli Efekt Yığınını Kaydet"
 
-#: src/effects/effectstack/view/effectstackview.cpp:822
+#: src/effects/effectstack/view/effectstackview.cpp:820
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Kaydedilen yığın için ad:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:823
+#: src/effects/effectstack/view/effectstackview.cpp:821
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Açıklama:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:835
+#: src/effects/effectstack/view/effectstackview.cpp:833
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Ad verilmediğinden efekt yığını kaydedilmedi."
 
-#: src/effects/effectstack/view/effectstackview.cpp:842
+#: src/effects/effectstack/view/effectstackview.cpp:840
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21874,8 +21900,8 @@ msgstr ""
 "Bir açıklama verilmedi. \n"
 "Efekt, açıklama olmadan kaydedilsin mi?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:977
-#: src/effects/effectstack/view/effectstackview.cpp:1003
+#: src/effects/effectstack/view/effectstackview.cpp:975
+#: src/effects/effectstack/view/effectstackview.cpp:1001
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Maske Oluşturmayı Durdur"
@@ -26520,7 +26546,7 @@ msgstr "Diğer Klipler"
 #: src/project/dialogs/archivewidget.cpp:95
 #, kde-format
 msgid "Luma Files"
-msgstr "Luma Dosyaları"
+msgstr "Luma dosyaları"
 
 #: src/project/dialogs/archivewidget.cpp:219
 #, kde-format
@@ -31182,11 +31208,11 @@ msgstr "Geçerli noktayı silin."
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
 #: src/ui/clipjobmanager_ui.ui:50 src/ui/clipjobmanager_ui.ui:245
 #: src/ui/clipjobmanager_ui.ui:256 src/ui/clipstabilize_ui.ui:57
-#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:113
-#: src/ui/collapsiblewidget_ui.ui:139 src/ui/collapsiblewidget_ui.ui:149
-#: src/ui/collapsiblewidget_ui.ui:159 src/ui/collapsiblewidget_ui.ui:172
-#: src/ui/collapsiblewidget_ui.ui:185 src/ui/collapsiblewidget_ui.ui:198
-#: src/ui/collapsiblewidget_ui.ui:208 src/ui/collapsiblewidget_ui.ui:218
+#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:130
+#: src/ui/collapsiblewidget_ui.ui:156 src/ui/collapsiblewidget_ui.ui:166
+#: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
+#: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
+#: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
@@ -33471,7 +33497,7 @@ msgstr "Topla"
 #: src/ui/histogram_ui.ui:48
 #, kde-format
 msgid "Luma value."
-msgstr "Parlaklık değeri."
+msgstr "Luma değeri."
 
 #. i18n: ectx: property (text), widget (QLabel, lblScale)
 #: src/ui/histogram_ui.ui:105
@@ -35370,37 +35396,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "90° adımlarla döndür"
 
-#: src/widgets/dragvalue.cpp:400
+#: src/widgets/dragvalue.cpp:410
 #, kde-format
 msgid "Normal scale"
 msgstr "Normal ölçek"
 
-#: src/widgets/dragvalue.cpp:401
+#: src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Pixel scale"
 msgstr "Piksel ölçeği"
 
-#: src/widgets/dragvalue.cpp:402
+#: src/widgets/dragvalue.cpp:412
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Doğrusal olmayan ölçek"
 
-#: src/widgets/dragvalue.cpp:406
+#: src/widgets/dragvalue.cpp:416
 #, kde-format
 msgid "Direct update"
 msgstr "Doğrudan güncelleme"
 
-#: src/widgets/dragvalue.cpp:411
+#: src/widgets/dragvalue.cpp:421
 #, kde-format
 msgid "Reset value"
 msgstr "Değeri sıfırla"
 
-#: src/widgets/dragvalue.cpp:416
+#: src/widgets/dragvalue.cpp:426
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "%1 ögesini zaman akışında göster"
 
-#: src/widgets/dragvalue.cpp:745
+#: src/widgets/dragvalue.cpp:755
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
