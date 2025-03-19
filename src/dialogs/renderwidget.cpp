@@ -889,7 +889,7 @@ void RenderWidget::startRendering(RenderJobItem *item)
     if (!QProcess::startDetached(KdenliveSettings::kdenliverendererpath(), rendererArgs)) {
         item->setStatus(FAILEDJOB);
     } else {
-        KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap());
+        KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering %1 started", item->text(1)), QPixmap());
     }
 }
 
