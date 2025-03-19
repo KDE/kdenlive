@@ -507,7 +507,7 @@ Comment[x-test]=xxAn error occurred in Kdenlivexx
 Comment[zh_CN]=Kdenlive 发生错误
 Comment[zh_TW]=Kdenlive 中發生錯誤
 Sound=dialog-error
-Action=Sound
+Action=Sound|Popup
 
 [Event/SaveSuccess]
 Name=Saving successful

@@ -199,9 +199,11 @@ private Q_SLOTS:
     void prepareJobContextMenu(const QPoint &pos);
     /** @brief Prepare the render request. */
     void slotPrepareExport2(bool scriptExport = false);
+    void slotCheckFreeMemory();
 
 private:
     enum Tabs { RenderTab = 0, JobsTab, ScriptsTab };
+    enum MemCheckStatus { NoWarning = 0, LowMemory, VeryLowMemory };
 
     Ui::RenderWidget_UI m_view;
     QString m_projectFolder;
@@ -216,6 +218,10 @@ private:
     int m_renderDuration{0};
     int m_missingClips{0};
     int m_missingUsedClips{0};
+    int m_lowMemThreshold{1000};
+    int m_veryLowMemThreshold{500};
+    MemCheckStatus m_lowMemStatus{NoWarning};
+    QTimer m_memCheckTimer;
 
     Purpose::Menu *m_shareMenu;
     void parseProfiles(const QString &selectedProfile = QString());
