@@ -68,8 +68,6 @@
 #include <xlocale.h>
 #endif
 
-#define LOW_MEMORY_THRESHOLD 128 // MB
-
 // Render job roles
 enum {
     ParametersRole = Qt::UserRole + 1,
@@ -150,6 +148,17 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.setupUi(this);
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
+    KMemoryInfo memInfo;
+    if (!memInfo.isNull()) {
+        // Low memory is considered when less than 10% of the physical memory is available
+        int totalMemory = memInfo.totalPhysical() / 1024 / 1024;
+        m_lowMemThreshold = qMax(1000, totalMemory / 10);
+        // Very Low memory is considered when less than 5% of the physical memory is available
+        m_veryLowMemThreshold = qMax(500, totalMemory / 20);
+    } else {
+        m_lowMemThreshold = 1000;
+        m_veryLowMemThreshold = 1000;
+    }
 
     // ===== "Render Project" tab =====
     m_view.buttonDelete->setIconSize(iconSize);
@@ -377,6 +386,12 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.shareButton->setMenu(m_shareMenu);
     m_view.shareButton->setIcon(QIcon::fromTheme(QStringLiteral("document-share")));
     connect(m_shareMenu, &Purpose::Menu::finished, this, &RenderWidget::slotShareActionFinished);
+
+    // Memory check timer
+    connect(&m_memCheckTimer, &QTimer::timeout, this, &RenderWidget::slotCheckFreeMemory);
+    // Devault interval check is 10 seconds
+    m_memCheckTimer.setInterval(10000);
+    m_memCheckTimer.setSingleShot(false);
 
     loadConfig();
     refreshView();
@@ -1304,19 +1319,46 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
         item->setData(1, LastTimeRole, elapsedTime);
         item->setData(1, LastFrameRole, frame);
     }
+    if (!m_memCheckTimer.isActive()) {
+        m_memCheckTimer.start();
+    }
+}
 
+void RenderWidget::slotCheckFreeMemory()
+{
     KMemoryInfo memInfo;
     // if system doesn't have much available memory, warn user
     if (!memInfo.isNull()) {
         int availableMemory = memInfo.availablePhysical() / 1024 / 1024;
-        if (availableMemory < LOW_MEMORY_THRESHOLD) {
+        if (availableMemory < m_lowMemThreshold) {
             int totalMemory = memInfo.totalPhysical() / 1024 / 1024;
             qDebug() << "Low memory:" << availableMemory << "MB free, " << totalMemory << "MB total";
             m_view.jobInfo->show();
-            m_view.jobInfo->setMessageType(KMessageWidget::Warning);
-            m_view.jobInfo->setText(i18n("Less than %1MB of available memory remaining.", availableMemory));
-        } else {
+            bool veryLow = availableMemory < m_veryLowMemThreshold;
+            m_view.jobInfo->setMessageType(veryLow ? KMessageWidget::Error : KMessageWidget::Warning);
+            const QString errorMessage = i18n("Less than %1MB of available memory remaining.", availableMemory);
+            m_view.jobInfo->setText(errorMessage);
+            m_view.infoMessage->setMessageType(veryLow ? KMessageWidget::Error : KMessageWidget::Warning);
+            m_view.infoMessage->setText(errorMessage);
+            if ((m_lowMemStatus == LowMemory && !veryLow) || (m_lowMemStatus == VeryLowMemory && veryLow)) {
+                // No status change
+                return;
+            }
+            m_lowMemStatus = veryLow ? VeryLowMemory : LowMemory;
+            KNotification *notify = new KNotification(QStringLiteral("ErrorMessage"));
+            notify->setText(errorMessage);
+            notify->sendEvent();
+            // Increase the memory check frequence
+            m_memCheckTimer.setInterval(5000);
+        } else if (m_lowMemStatus != NoWarning) {
+            m_lowMemStatus = NoWarning;
             m_view.jobInfo->hide();
+            updateRenderInfoMessage();
+            // Get back to the default timeout
+            m_memCheckTimer.setInterval(10000);
+            if (runningJobsCount() == 0) {
+                m_memCheckTimer.stop();
+            }
         }
     }
 }
@@ -1432,6 +1474,9 @@ void RenderWidget::slotCheckJob()
         } else {
             m_view.shareButton->setEnabled(false);
         }
+    }
+    if (runningJobsCount() == 0 && m_lowMemStatus == NoWarning) {
+        m_memCheckTimer.stop();
     }
     m_view.abort_job->setEnabled(activate);
 }

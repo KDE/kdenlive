@@ -137,6 +137,13 @@ private:
     QPixmap m_iconPix;
     TimecodeDisplay *m_inPos;
     TimecodeDisplay *m_outPos;
+    QColor m_hoverColor;
+    QColor m_hoverColorTitle;
+    QColor m_bgColor;
+    QColor m_bgColorTitle;
+    QColor m_activeColor;
+    QColor m_activeColorTitle;
+    bool m_isActive{false};
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;

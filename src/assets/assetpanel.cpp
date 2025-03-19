@@ -178,7 +178,6 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_mixWidget->setVisible(false);
     m_effectStackWidget->setVisible(false);
     m_maskManager->setVisible(false);
-    updatePalette();
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
     connect(m_effectStackWidget, &EffectStackView::scrollView, this, &AssetPanel::scrollTo);
     connect(m_effectStackWidget, &EffectStackView::checkDragScrolling, this, &AssetPanel::checkDragScroll);
@@ -369,69 +368,6 @@ void AssetPanel::clear()
     m_effectStackWidget->unsetModel();
     m_maskManager->setOwner(ObjectId(KdenliveObjectType::NoItem, {}));
     m_assetTitle->clear();
-}
-
-void AssetPanel::updatePalette()
-{
-    QString styleSheet = getStyleSheet();
-    setStyleSheet(styleSheet);
-    m_transitionWidget->setStyleSheet(styleSheet);
-    m_effectStackWidget->setStyleSheet(styleSheet);
-    m_mixWidget->setStyleSheet(styleSheet);
-}
-
-// static
-const QString AssetPanel::getStyleSheet()
-{
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
-    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
-    QColor hgh = KColorUtils::mix(QApplication::palette().window().color(), selected_bg, 0.2);
-    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
-    // QColor normal_bg = QApplication::palette().window().color();
-
-    QString stylesheet;
-
-    // effect background
-    stylesheet.append(QStringLiteral("QFrame#decoframe {border-top:2px solid "
-                                     "palette(shadow);background: transparent} QFrame#decoframe.builtin {border-top:0px solid "
-                                     "palette(shadow);border-bottom:2px solid "
-                                     "#33FF0000 ;background: transparent} QFrame#decoframe[target=\"true\"] {border-top:2px solid %2;"
-                                     "background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;} "
-                                     "QFrame#decoframe.builtin[active=\"true\"] {background: %1;}")
-                          .arg(hgh.name(), hover_bg.name()));
-
-    // effect in group background
-    stylesheet.append(
-        QStringLiteral("QFrame#decoframesub {border-top:1px solid palette(light);}  QFrame#decoframesub[active=\"true\"] {background: %1;}").arg(hgh.name()));
-
-    // group background
-    stylesheet.append(QStringLiteral("QFrame#decoframegroup {border:2px solid palette(dark);margin:0px;margin-top:2px;} "));
-
-    // effect title bar
-    stylesheet.append(QStringLiteral("QFrame#frame {margin-bottom:2px;}  QFrame#frame[target=\"true\"] "
-                                     "{background: palette(highlight);}"));
-
-    // group effect title bar
-    stylesheet.append(QStringLiteral("QFrame#framegroup {background: palette(dark);}  "
-                                     "QFrame#framegroup[target=\"true\"] {background: palette(highlight);} "));
-
-    // spin box for draggable widget
-    stylesheet.append(
-        QStringLiteral("QAbstractSpinBox#dragBox {border-width: 2px; border-style: solid; border-radius: 4px; border-color: transparent }"
-                       "QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px} "
-                       "solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { "
-                       "border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;border-radius: 4px} ")
-            .arg(hover_bg.name(), selected_bg.name()));
-
-    // minimal double edit
-    stylesheet.append(QStringLiteral("QAbstractSpinBox#dragMinimal {border: 0px "
-                                     ";padding-right:0px; background-color:transparent} QAbstractSpinBox::down-button#dragMinimal {width:0px;padding:0px;} "
-                                     "QAbstractSpinBox:disabled#dragMinimal {border: 0px;; background-color:transparent "
-                                     ";} QAbstractSpinBox::up-button#dragMinimal {width:0px;padding:0px;}"));
-    // group editable labels
-    stylesheet.append(QStringLiteral("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid "
-                                     "transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
-    return stylesheet;
 }
 
 void AssetPanel::processSplitEffect(bool enable)

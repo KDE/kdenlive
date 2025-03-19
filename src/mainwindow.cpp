@@ -887,7 +887,7 @@ void MainWindow::slotThemeChanged(const QString &name)
     // bool useDarkIcons = background.value() < 100;
 
     if (m_assetPanel) {
-        m_assetPanel->updatePalette();
+        m_assetPanel->clear();
     }
     if (m_clipMonitor) {
         m_clipMonitor->setPalette(plt);
