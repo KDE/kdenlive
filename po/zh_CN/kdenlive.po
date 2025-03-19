@@ -800,7 +800,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
 #, kde-format
 msgid "Hz,Q-Factor,Octave,Slope,KHz"
-msgstr ""
+msgstr "Hz,Q值,倍频程,斜率,KHz"
 
 #: data/effects/avfilter/avfilter_allpass.xml:12
 #: data/effects/avfilter/avfilter_bandpass.xml:15
@@ -1919,7 +1919,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
 msgid "Output transfer characteristics"
-msgstr ""
+msgstr "输出阶调响应曲线特性"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
@@ -2097,6 +2097,9 @@ msgid ""
 "before the companding has begun to operate. A typical value for audio which "
 "is initially quiet is -90 dB."
 msgstr ""
+"以dB为单位设置滤波启动时各通道的初始音量值。此参数允许用户在初始阶段设定基准"
+"电平，从而避免压扩处理开始前对初始信号施加过大增益。对于初始静音音频，典型值"
+"为-90分贝。"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, kde-format
@@ -2127,7 +2130,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, kde-format
 msgid "Millimeter distance"
-msgstr ""
+msgstr "毫米距离"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:12
 #, kde-format
@@ -2229,6 +2232,8 @@ msgid ""
 "Simple algorithm for audio noise sharpening.\n"
 "This filter linearly increases differences between each audio sample."
 msgstr ""
+"音频噪音锐化的简单算法。\n"
+"此过滤规则会线性增加每个音频采样之间的差异。"
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
 #: data/effects/avfilter/avfilter_deesser.xml:8
@@ -2923,6 +2928,8 @@ msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
 msgstr ""
+"<![CDATA[选择线条颜色<br>\n"
+"    \t使用<em>Alpha</em>通道值实现线条半透明效果]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
@@ -3020,6 +3027,8 @@ msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
 msgstr ""
+"<![CDATA[选择网格线颜色<br>\n"
+"    \t通过调整<em>Alpha</em>通道值实现网格半透明效果]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, kde-format
@@ -3260,6 +3269,8 @@ msgid ""
 "<![CDATA[Set the amount of denoising.<br>\n"
 "       \tBy default all detected noise is reduced.]]>"
 msgstr ""
+"<![CDATA[设置降噪强度<br>\n"
+"       默认消除所有检测到的噪点]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
 #, kde-format
@@ -4026,7 +4037,7 @@ msgstr ""
 msgid ""
 "Replaces the pixel by the local(3x3) average by taking into account only "
 "values higher than the pixel. "
-msgstr ""
+msgstr "使用3x3邻域内高于当前像素值的平均数进行替换 "
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, kde-format
@@ -4142,12 +4153,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, kde-format
 msgid "Focal point relative-X coord"
-msgstr ""
+msgstr "焦点相对X坐标"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:11
 #, kde-format
 msgid "Focal point relative-Y coord"
-msgstr ""
+msgstr "焦点相对Y坐标"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:14
 #, kde-format
@@ -4359,6 +4370,8 @@ msgid ""
 "       \tIf it is 0, value will be picked from <em>Horizontal radius</em> "
 "parameter.]]>"
 msgstr ""
+"<![CDATA[设置中值垂直半径<br>\n"
+"       假如该值为0,则使用<em>水平半径</em>的值]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:17
 #, kde-format
@@ -5055,7 +5068,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, kde-format
 msgid "Shear"
-msgstr ""
+msgstr "斜切"
 
 #: data/effects/avfilter/avfilter_shear.xml:5
 #, kde-format
@@ -6144,10 +6157,9 @@ msgid "Tint 1"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
-#, fuzzy, kde-format
-#| msgid "FontSize"
+#, kde-format
 msgid "None,Size"
-msgstr "字体大小"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
 #, kde-format
@@ -6211,11 +6223,12 @@ msgstr ""
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
+"发送帧,发送场,发送帧但不进行空间域交错检查,发送场但不进行空间域交错检查"
 
 #: data/effects/avfilter/avfilter_yadif.xml:12
 #, kde-format
 msgid "Top field first,Bottom field first,Auto"
-msgstr ""
+msgstr "顶部场优先,底部场优先,自动"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
 #, kde-format
@@ -22160,13 +22173,7 @@ msgid "Loading Project"
 msgstr "正在加载项目"
 
 #: src/mainwindow.cpp:943
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have 1 rendering job waiting in the queue.\n"
-#| "What do you want to do with this job?"
-#| msgid_plural ""
-#| "You have %1 rendering jobs waiting in the queue.\n"
-#| "What do you want to do with these jobs?"
+#, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
 "What do you want to do with this job?"
@@ -22174,8 +22181,6 @@ msgid_plural ""
 "You have %1 rendering jobs running.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"您有 %1 个导出任务在队列中等待。\n"
-"您想要如何处理这些任务？"
 
 #: src/mainwindow.cpp:945
 #, kde-format
@@ -22183,10 +22188,9 @@ msgid "Continue rendering in the background"
 msgstr ""
 
 #: src/mainwindow.cpp:945
-#, fuzzy, kde-format
-#| msgid "Abort processing"
+#, kde-format
 msgid "Abort rendering"
-msgstr "中止处理"
+msgstr ""
 
 #: src/mainwindow.cpp:962
 #, kde-format

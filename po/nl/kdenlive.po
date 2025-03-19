@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-18 00:41+0000\n"
-"PO-Revision-Date: 2025-03-17 11:34+0100\n"
+"PO-Revision-Date: 2025-03-18 23:37+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1208,6 +1208,8 @@ msgstr "Range sigma"
 #, kde-format
 msgid "Set sigma of gaussian function to calculate range weight."
 msgstr ""
+"Stel hier de sigma in van de Gaussiaanse functie om het gewicht van de reeks "
+"te berekenen."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_cas.xml:12
@@ -1227,6 +1229,8 @@ msgid ""
 "Set an expression for the box radius in pixels used for blurring the "
 "corresponding input plane."
 msgstr ""
+"Een expressie voor de vakstraal in pixels gebruikt voor vervagen van het "
+"bijbehorende invoervlak."
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
@@ -1944,10 +1948,9 @@ msgstr ""
 "bits inhoud, BT.2020 for 12-bits inhoud"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
-#, fuzzy, kde-format
-#| msgid "Override input transfer characteristics"
+#, kde-format
 msgid "Output transfer characteristics"
-msgstr "Overschrijf invoer overdrachtskarakteristieken"
+msgstr "Uitvoer overdrachtskarakteristieken"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
@@ -2102,10 +2105,9 @@ msgid "Decays"
 msgstr "Verval"
 
 #: data/effects/avfilter/avfilter_compand.xml:16
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Soft-Knee"
-msgstr "**Soft-Knee**"
+msgstr "Soft-Knee"
 
 #: data/effects/avfilter/avfilter_compand.xml:17
 #, kde-format
@@ -2120,10 +2122,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compand.xml:24
-#, fuzzy, kde-format
-#| msgid "Initial Zoom"
+#, kde-format
 msgid "Initial volume"
-msgstr "**Beginvolume**"
+msgstr "Beginvolume"
 
 #: data/effects/avfilter/avfilter_compand.xml:25
 #, kde-format
@@ -4197,25 +4198,25 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Threshold0r"
 msgid "threshold0"
-msgstr "Drempel:"
+msgstr "Drempel"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "threshold1"
-msgstr "Drempel:"
+msgstr "Drempel"
 
 #: data/effects/avfilter/avfilter_inflate.xml:14
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "threshold2"
-msgstr "Drempel:"
+msgstr "Drempel"
 
 #: data/effects/avfilter/avfilter_inflate.xml:17
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "threshold3"
-msgstr "Drempel:"
+msgstr "Drempel"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
 #, kde-format
@@ -4313,12 +4314,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, kde-format
 msgid "Focal point relative-X coord"
-msgstr ""
+msgstr "Relatieve-X-coördinaat van brandpunt"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:11
 #, kde-format
 msgid "Focal point relative-Y coord"
-msgstr ""
+msgstr "Relatieve-Y-coördinaat van brandpunt"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:14
 #, kde-format
@@ -4427,7 +4428,7 @@ msgstr "Invoerbestanden met mono behandelen als \"dual-mono\""
 #, fuzzy, kde-format
 #| msgid "Low pass"
 msgid "Low-pass"
-msgstr "Laag doorlaatfilter"
+msgstr "Laag doorlaat"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
 #, kde-format
@@ -6182,7 +6183,7 @@ msgstr "Hoge drempel"
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, fuzzy, kde-format
 msgid "Auto,601,709"
-msgstr "Auto"
+msgstr "Automatisch"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
 #, kde-format
@@ -14075,7 +14076,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Overlay:"
 msgid "Overlay"
-msgstr "overlay"
+msgstr "Overlay:"
 
 #: data/transitions/frei0r/frei0r_overlay.xml:5
 #, kde-format

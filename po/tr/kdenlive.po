@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-18 00:41+0000\n"
-"PO-Revision-Date: 2025-03-17 14:58+0300\n"
+"PO-Revision-Date: 2025-03-18 13:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1198,28 +1198,30 @@ msgstr "Uzamsal Sigma"
 #, kde-format
 msgid "Set sigma of gaussian function to calculate spatial weight."
 msgstr ""
+"Uzamsal ağırlığı hesaplamak için Gauss işlevinin sigma değerini ayarlayın."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:12
 #, kde-format
 msgid "Range sigma"
-msgstr ""
+msgstr "Erim Sigması"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:13
 #, kde-format
 msgid "Set sigma of gaussian function to calculate range weight."
 msgstr ""
+"Erim ağırlığını hesaplamak için Gauss işlevinin sigma değerini ayarlayın."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_cas.xml:12
 #: data/effects/avfilter/avfilter_kirsch.xml:16
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
-msgstr ""
+msgstr "Alfa,Y,U,V,Kırmızı,Yeşil,Mavi,Tümü"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, kde-format
 msgid "Planes Blur"
-msgstr ""
+msgstr "Düzlemler Bulanıklaştırması"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:5
 #, kde-format
@@ -1227,29 +1229,29 @@ msgid ""
 "Set an expression for the box radius in pixels used for blurring the "
 "corresponding input plane."
 msgstr ""
+"İlgili giriş düzlemini bulanıklaştırmak için kullanılan piksel türünden kutu "
+"yarıçapı için bir ifade ayarlayın."
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Luma Radius"
-msgstr "Bulanıklaştırma Yarıçapı"
+msgstr "Luma Yarıçapı"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
 msgid "Radius of the luma blurring box"
-msgstr ""
+msgstr "Luma bulanıklaştırma kutusunun yarıçapı"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Power"
-msgstr "Luma kipi"
+msgstr "Luma Gücü"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
-msgstr ""
+msgstr "Lumaya kaç kez kutu bulanıklığının uygulanması gerektiği"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
@@ -1987,6 +1989,7 @@ msgstr "Klip Özellikleri"
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
+"BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 sabit olmayan luma"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #, fuzzy, kde-format
@@ -2696,13 +2699,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dedot.xml:12
 #, kde-format
 msgid "Spatial Luma threshold"
-msgstr ""
+msgstr "Uzamsal luma eşiği"
 
 #: data/effects/avfilter/avfilter_dedot.xml:15
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Temporal Luma Threshold"
-msgstr "Düzey Eşiği"
+msgstr "Zamansal Luma Eşiği"
 
 #: data/effects/avfilter/avfilter_dedot.xml:18
 #, kde-format
@@ -4143,7 +4145,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
 msgid "Spatial Luma Strength"
-msgstr ""
+msgstr "Uzamsal Luma Gücü"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:11
 #, kde-format
@@ -4153,7 +4155,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqdn3d.xml:14
 #, kde-format
 msgid "Temporal Luma Strength"
-msgstr ""
+msgstr "Zamansal Luma Gücü"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:17
 #, kde-format
@@ -4222,10 +4224,9 @@ msgid "None,Deinterleave,Interleave"
 msgstr "Üzerine Görüntü Çözmeyi Zorla"
 
 #: data/effects/avfilter/avfilter_il.xml:9
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Mode"
-msgstr "Luma kipi"
+msgstr "Luma Kipi"
 
 #: data/effects/avfilter/avfilter_il.xml:13
 #, fuzzy, kde-format
@@ -4240,10 +4241,9 @@ msgid "Alpha Mode"
 msgstr "Konuşma Modeli"
 
 #: data/effects/avfilter/avfilter_il.xml:20
-#, fuzzy, kde-format
-#| msgid "Luma Files"
+#, kde-format
 msgid "Swap Luma Fields"
-msgstr "Luma Dosyaları"
+msgstr "Luma Alanlarını Değiştir"
 
 #: data/effects/avfilter/avfilter_il.xml:23
 #, fuzzy, kde-format
@@ -5235,13 +5235,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:11
 #, kde-format
 msgid "Luma pre-filter radius"
-msgstr ""
+msgstr "Süzgeç öncesi luma yarıçapı"
 
 #: data/effects/avfilter/avfilter_sab.xml:14
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Luma Strength"
-msgstr "Esneme"
+msgstr "Luma Gücü"
 
 #: data/effects/avfilter/avfilter_sab.xml:20
 #, kde-format
@@ -5472,10 +5471,9 @@ msgid "Blur the input video without impacting the outlines. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:8
-#, fuzzy, kde-format
-#| msgid "radius"
+#, kde-format
 msgid "Luma radius"
-msgstr "yarıçap"
+msgstr "Luma yarıçapı"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:10
 #, kde-format
@@ -5484,12 +5482,15 @@ msgid ""
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger).]]>"
 msgstr ""
+"<![CDATA[Luma yarıçapını ayarlayın.<br>\n"
+"            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
+"varyansını belirtir (daha büyükse daha yavaş).]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
 #, kde-format
 msgid "Luma strength"
-msgstr ""
+msgstr "Luma gücü"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:15
 #, kde-format
@@ -5498,12 +5499,14 @@ msgid ""
 "            The value configures the blurring. A positive value will blur "
 "the image, whereas a negative value will sharpen the image.]]>"
 msgstr ""
+"<![CDATA[Set the luma strength.<br>\n"
+"            The value configures the blurring. A positive value will blur "
+"the image, whereas a negative value will sharpen the image.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Luma threshold"
-msgstr "Değişiklik eşiği"
+msgstr "Luma eşiği"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:20
 #, kde-format
@@ -5513,6 +5516,10 @@ msgid ""
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges.]]>"
 msgstr ""
+"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"            belirlemek için katsayı olarak kullanılan luma eşiğini "
+"ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
+"değerler kenarları süzecektir.]]> "
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
 #, fuzzy, kde-format
@@ -5528,6 +5535,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Renk yarıçapını ayarlayın.<br>\n"
+"            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
+"varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse öntanımlı "
+"olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -5544,6 +5555,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Renk yarıçapını ayarlayın.<br>\n"
+"            Değer bulanıklaştırmayı yapılandırır. Pozitif bir değer görseli "
+"bulanıklaştırırken, negatif bir değer görseli keskinleştirir. Belirtilmezse "
+"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, fuzzy, kde-format
@@ -5560,6 +5575,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"            belirlemek için katsayı olarak kullanılan renk eşiğini "
+"ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
+"değerler kenarları süzecektir. Belirtilmezse öntanımlı olarak <em>Luma "
+"eşiği</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, fuzzy, kde-format
@@ -5575,6 +5595,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Alfa yarıçapını ayarlayın.<br>\n"
+"            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
+"varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse öntanımlı "
+"olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -5591,6 +5615,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Alfa gücünü ayarlayın.<br>\n"
+"            Değer bulanıklaştırmayı yapılandırır. Pozitif bir değer görseli "
+"bulanıklaştırırken, negatif bir değer görseli keskinleştirir. Belirtilmezse "
+"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5601,6 +5629,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
+"            belirlemek için katsayı olarak kullanılan alfa eşiğini "
+"ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
+"değerler kenarları süzecektir. Belirtilmezse öntanımlı olarak <em>Luma "
+"eşiği</em> için ayarlanan değere ayarlanır.]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -6100,28 +6133,24 @@ msgid "Sharpen or unsharpen/blur your video"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Luma horizontal matrix"
-msgstr "Yatay yayılım"
+msgstr "Luma yatay matrisi"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the luma matrix horizontal size]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Luma matrisinin yatay boyutunu ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Luma vertical matrix"
-msgstr "Dikey kenar boşluğu"
+msgstr "Luma yatay matrisi"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set the luma matrix vertical size]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Luma matrisinin dikey boyutunu ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
 #, kde-format
@@ -6131,6 +6160,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Luma efektinin şiddetini ayarlayın.<br>\n"
+"            Makul değerler −1,5 ile 1,5 arasındadır. Negatif değerler giriş "
+"videosunu bulanıklaştırırken, pozitif değerler keskinleştirir, 0 değeri ise "
+"efekti devre dışı bırakır.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
 #, fuzzy, kde-format
@@ -6357,19 +6390,17 @@ msgstr "Denge"
 #: data/effects/avfilter/avfilter_vibrance.xml:20
 #, kde-format
 msgid "Red luma"
-msgstr ""
+msgstr "Kırmızı luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
-#, fuzzy, kde-format
-#| msgid "Green 2"
+#, kde-format
 msgid "Green luma"
-msgstr "Yeşil 2"
+msgstr "Yeşil luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue luma"
-msgstr "Mavi"
+msgstr "Mavi luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:29
 #, kde-format
@@ -7657,7 +7688,7 @@ msgstr "Görsel İnce Ayarı"
 #: data/effects/frei0r/frei0r_curves.xml:64
 #, kde-format
 msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
-msgstr ""
+msgstr "RGB,Kırmızı,Yeşil,Mavi,Alfa,Luma,Ton,Doygunluk"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:12
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:27
@@ -7672,10 +7703,9 @@ msgstr "Rec. 601"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:14
 #: data/effects/frei0r/frei0r_curves.xml:69
-#, fuzzy, kde-format
-#| msgid "Luma file"
+#, kde-format
 msgid "Luma formula"
-msgstr "Luma dosyası"
+msgstr "Luma formülü"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:4
 #, fuzzy, kde-format
@@ -8391,7 +8421,7 @@ msgstr "Yön"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
 msgid "Keep luma"
-msgstr ""
+msgstr "Lumayı tut"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:24
 #, fuzzy, kde-format
@@ -8487,7 +8517,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_levels.xml:40
 #, kde-format
 msgid "Red,Green,Blue,Luma"
-msgstr ""
+msgstr "Kırmızı,Yeşil,Mavi,Luma"
 
 #: data/effects/frei0r/frei0r_curves.xml:19
 #: data/effects/frei0r/frei0r_curves.xml:74
@@ -9417,7 +9447,7 @@ msgstr "Değişiklik eşiği"
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
 #, kde-format
 msgid "None, De-Key, Target, Desaturate, Luma adjust"
-msgstr ""
+msgstr "Yok,Anahtarsızlaştır,Hedefle,Doygunluğu Al,Luma Ayarı"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
 #, fuzzy, kde-format
@@ -10107,7 +10137,7 @@ msgstr " iz"
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
 msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Kapsamda Y izini (luma) göster.]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:53
 #, fuzzy, kde-format
@@ -12111,7 +12141,7 @@ msgstr "Efekti Etkinleştirmek için Çözümle"
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
 msgid "LumaLiftGainGamma"
-msgstr "GörüntüParlaklığıYukarıKaldırmaKazanımGamma"
+msgstr "LumaKaldırmaKazanımıGaması"
 
 #: data/effects/lumaliftgaingamma.xml:5
 #, kde-format
@@ -12119,8 +12149,8 @@ msgid ""
 "Filter can be used to apply lift, gain and gamma correction to luma values "
 "of image."
 msgstr ""
-"Süzgeç, görselin görüntü parlaklığı değerlerine yukarı kaldırma, kazanım ve "
-"gama düzeltmesi eklemek için kullanılabilir."
+"Süzgeç, görselin luma değerlerine yukarı kaldırma, kazanım ve gama "
+"düzeltmesi eklemek için kullanılabilir."
 
 #: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
@@ -12260,8 +12290,8 @@ msgid ""
 "Convert alpha or luma values below this level as opaque and above this level "
 "as transparent. This is mostly useful for luma wipe images."
 msgstr ""
-"Bu düzeyin altındaki alfa veya parlaklık deeğerlerini mat ve bu düzeyin "
-"üzerindekini saydam olarak dönüştür. bu genelde parlaklık silinecek "
+"Bu düzeyin altındaki alfa veya luma değerlerini mat ve bu düzeyin "
+"üzerindekini saydam olarak dönüştürün. Bu, genelde luması silinecek "
 "görseller için yararlıdır."
 
 #: data/effects/mask_start_shape.xml:19 data/effects/shape.xml:16
@@ -12281,12 +12311,12 @@ msgstr "Alfa kanalının tersini kullanın."
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
 msgid "Use Luma"
-msgstr "Görüntü Parlaklaştırma Kullan"
+msgstr "Luma Kullan"
 
 #: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
 #, kde-format
 msgid "Use the image luma instead of the alpha channel."
-msgstr "Alfa kanalı yerine görsel görüntü parlaklığını kullan."
+msgstr "Alfa kanalı yerine görsel lumasını kullanın."
 
 #: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
 #, kde-format
@@ -12300,7 +12330,7 @@ msgid ""
 "luma or alpha value of the resource (File) is copied to the alpha channel."
 msgstr ""
 "Parlaklık veya alfa için bir eşik süzgecinin uygulanıp uygulanmayacağı. "
-"Uygulanmazsa özkaynağın (dosyanın) parlaklık veya alfa değeri alfa değerine "
+"Uygulanmazsa özkaynağın (dosyanın) luma veya alfa değeri alfa değerine "
 "kopyalanır."
 
 #: data/effects/mask_start_shape.xml:35 data/effects/shape.xml:32
@@ -14007,7 +14037,7 @@ msgstr "Diğer videoya giriş yaparken önceki videodan solarak çık."
 #: data/transitions/dissolve.xml:7
 #, kde-format
 msgid "Luma Map"
-msgstr "Görüntü Parlaklığı Eşlemle"
+msgstr "Luma Eşlemle"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
 #, kde-format
@@ -14621,7 +14651,7 @@ msgstr "Nesneyi yukarı yükselt"
 #, kde-format
 msgctxt "Luma Transition Name"
 msgid "Luma"
-msgstr "Görüntü Parlaklığı"
+msgstr "Luma"
 
 #: data/transitions/luma.xml:5 data/transitions/mix.xml:5
 #: data/transitions/wipe.xml:5
@@ -14644,7 +14674,7 @@ msgstr "Mat"
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
-msgstr "A izinin alfa kanalını B izinin parlaklık kanalıyla değiştirin."
+msgstr "A izinin alfa kanalını B izinin luma kanalıyla değiştirin."
 
 #: data/transitions/mix.xml:4
 #, kde-format
@@ -26549,7 +26579,7 @@ msgstr "Diğer Klipler"
 #: src/project/dialogs/archivewidget.cpp:95
 #, kde-format
 msgid "Luma Files"
-msgstr "Luma Dosyaları"
+msgstr "Luma dosyaları"
 
 #: src/project/dialogs/archivewidget.cpp:219
 #, kde-format
@@ -33500,7 +33530,7 @@ msgstr "Topla"
 #: src/ui/histogram_ui.ui:48
 #, kde-format
 msgid "Luma value."
-msgstr "Parlaklık değeri."
+msgstr "Luma değeri."
 
 #. i18n: ectx: property (text), widget (QLabel, lblScale)
 #: src/ui/histogram_ui.ui:105

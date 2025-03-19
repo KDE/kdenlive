@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-18 00:41+0000\n"
-"PO-Revision-Date: 2025-03-17 21:53+0100\n"
+"PO-Revision-Date: 2025-03-18 20:46+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -97,7 +97,7 @@ msgstr "Color de fons"
 #: data/effects/audiolevelgraph.xml:14
 #, kde-format
 msgid "The background color to be applied to the entire frame."
-msgstr "El color de fons que s'aplicarà a tot el marc."
+msgstr "El color de fons que s'aplicarà a tot el fotograma."
 
 #: data/effects/audiolevelgraph.xml:17
 #, kde-format
@@ -333,8 +333,8 @@ msgid ""
 "The background color to be applied to the entire frame. The default color is "
 "transparent."
 msgstr ""
-"El color de fons que s'aplicarà a tot el marc. El color predeterminat és "
-"transparent."
+"El color de fons que s'aplicarà a tot el fotograma. El color predeterminat "
+"és transparent."
 
 #: data/effects/audiospectrum.xml:18
 #, kde-format
@@ -457,10 +457,10 @@ msgid ""
 "transformed."
 msgstr ""
 "El nombre de mostres que portarà a terme la FFT. Si la mida de la finestra "
-"és inferior al nombre de freqüències en un marc, les mostres extres "
+"és inferior al nombre de freqüències en un fotograma, les mostres extres "
 "s'ignoraran. Si la mida de la finestra és superior al nombre de freqüències "
-"en un marc, les mostres es desaran a la memòria intermèdia per a omplir la "
-"finestra. L'emplenament de la memòria intermèdia es porta a terme com una "
+"en un fotograma, les mostres es desaran a la memòria intermèdia per a omplir "
+"la finestra. L'emplenament de la memòria intermèdia es porta a terme com una "
 "finestra mòbil de manera que les mostres més recents sempre es transformen."
 
 #: data/effects/audiowave.xml:4
@@ -1341,7 +1341,7 @@ msgstr "Nivell d'alimentació"
 #: data/effects/avfilter/avfilter_bwdif.xml:4
 #, kde-format
 msgid "Bob Weaver Deinterlacer"
-msgstr "Desentrellaçador de Bob Weaver"
+msgstr "Desentrellaçador de teixit de Bob"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:5
 #, kde-format
@@ -3011,8 +3011,7 @@ msgstr "Doubleweave"
 #: data/effects/avfilter/avfilter_doubleweave.xml:5
 #, kde-format
 msgid "Weave input video fields into double number of frames"
-msgstr ""
-"Entrellaça els camps de vídeo d'entrada en un nombre doble de fotogrames"
+msgstr "Teixeix els camps de vídeo d'entrada en un nombre doble de fotogrames"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:8
 #: data/effects/avfilter/avfilter_field.xml:8
@@ -5856,14 +5855,12 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
 #: data/effects/avfilter/avfilter_stereotools.xml:96
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Balance OUT"
 msgstr "Balanç de sortida"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:26
-#, fuzzy, kde-format
-#| msgid "Source clip"
+#, kde-format
 msgid "Softclip"
 msgstr "Softclip"
 
@@ -5877,37 +5874,32 @@ msgstr ""
 "de retallats digitals durs de 0dB."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:30
-#, fuzzy, kde-format
-#| msgid "Mute track"
+#, kde-format
 msgid "Mute Left"
 msgstr "Silencia l'esquerre"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:33
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Mute Right"
 msgstr "Silencia el dret"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:36
 #, kde-format
 msgid "Phase Left"
-msgstr "Fase esquerra"
+msgstr "Fase de l'esquerre"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:37
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Change the phase of the left channel."
 msgstr "Canvia la fase del canal esquerre."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:40
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Phase Right"
-msgstr "Fase dreta"
+msgstr "Fase del dret"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:41
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Change the phase of the right channel."
 msgstr "Canvia la fase del canal dret."
 
@@ -5919,18 +5911,22 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
+"Esquerre/Dret a Esquerre/Dret,Esquerre/Dret a Mig/Lateral,Mig/Lateral a "
+"Esquerre/Dret,Esquerre/Dret a Esquerre/Esquerre,Esquerre/Dret a Dret/Dret,"
+"Esquerre/Dret a Esquerre + Dret,Esquerre/Dret a Dret/Esquerre,Mig/Lateral a "
+"Esquerre/Esquerre,Mig/Lateral a Dret/Dret,Mig/Lateral a Dret/Dret,Mig/"
+"Lateral a Dret/Dret,Mig/Lateral a Dret/Esquerre,Esquerre/Dret a Esquerre - "
+"Dret"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo Mode"
-msgstr "Estèreo "
+msgstr "Mode estèreo"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Side Level"
-msgstr "Nivell del micròfon"
+msgstr "Nivell del lateral"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:49
 #, kde-format
@@ -5941,10 +5937,9 @@ msgstr ""
 "L'interval permès és de 0,015625 a 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:52
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Side Balance"
-msgstr "Balanç"
+msgstr "Balanç del lateral"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:53
 #, kde-format
@@ -5955,10 +5950,9 @@ msgstr ""
 "L'interval permès és de -1 a 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Mid Level"
-msgstr "Nivell del micròfon"
+msgstr "Nivell del mig"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:57
 #, kde-format
@@ -5972,18 +5966,19 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereotools.xml:60
 #, kde-format
 msgid "Mid Pan"
-msgstr ""
+msgstr "Panorama del mig"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:61
 #, kde-format
 msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Estableix el panorama del senyal del mig El valor predeterminat és 0. "
+"L'interval permès és de -1 a 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo base"
-msgstr "Estèreo "
+msgstr "Base de l'estèreo"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:65
 #, kde-format
@@ -5991,6 +5986,8 @@ msgid ""
 "Set stereo base between mono and inverted channels. Default is 0. Allowed "
 "range is from -1 to 1."
 msgstr ""
+"Estableix la base de l'estèreo entre mono i canals invertits. El valor "
+"predeterminat és 0. L'interval permès és de -1 a 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:69
 #, kde-format
@@ -5998,18 +5995,19 @@ msgid ""
 "Set delay in milliseconds how much to delay left from right channel and vice "
 "versa. Default is 0. Allowed range is from -20 to 20."
 msgstr ""
+"Estableix el retard en mil·lisegons quant s'ha de retardar l'esquerra del "
+"canal dret i viceversa. El valor predeterminat és 0. L'interval permès és de "
+"-20 a 20."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "S/C level"
-msgstr "Nivell del micròfon"
+msgstr "Nivell S/C"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:75
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo phase"
-msgstr "Estèreo "
+msgstr "Fase de l'estèreo"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:76
 #, kde-format
@@ -6022,6 +6020,7 @@ msgstr "Estableix la fase de l'estèreo en graus."
 msgid "balance,amplitude,power"
 msgstr "balanç,amplitud,potència"
 
+# skip-rule: t-apo_ini,t-apo_fin
 #: data/effects/avfilter/avfilter_stereotools.xml:85
 #: data/effects/avfilter/avfilter_stereotools.xml:95
 #, kde-format
@@ -6034,12 +6033,18 @@ msgid ""
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
 msgstr ""
+"'balanç'\n"
+"Mode de balanç clàssic. Atenua un canal a la vegada. El guany s'eleva fins a "
+"1.\n"
+"'amplitud'\n"
+"Similar al mode clàssic anterior però el guany s'eleva fins a 2.\n"
+"'potència'\n"
+"Distribució igual de potència, interval des de -6dB fins a +6dB."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo widener"
-msgstr "Estèreo "
+msgstr "Ampliador d'estèreo"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:5
 #, kde-format
@@ -6048,17 +6053,21 @@ msgid ""
 "channels and by delaying the signal of left into right and vice versa, "
 "thereby widening the stereo effect."
 msgstr ""
+"Aquest filtre millora l'efecte estèreo suprimint el senyal comú als dos "
+"canals i retardant el senyal d'esquerra a dreta i viceversa, ampliant així "
+"l'efecte estèreo."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:9
 #, kde-format
 msgid ""
 "Time in milliseconds of the delay of left signal into right and vice versa."
 msgstr ""
+"Temps en mil·lisegons del retard del senyal esquerre al dret i viceversa."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
 #, kde-format
 msgid "Feedback Gain"
-msgstr ""
+msgstr "Guany de retroalimentació"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:14
 #, kde-format
@@ -6067,11 +6076,14 @@ msgid ""
 "Gives a delay effect of left signal in right output and vice versa which "
 "gives widening effect."
 msgstr ""
+"Quantitat de guany en el senyal retardat a la dreta i viceversa.\n"
+"Dona un efecte de retard del senyal esquerre a la sortida dreta i viceversa "
+"que dona un efecte d'ampliació."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:17
 #, kde-format
 msgid "Cross feed"
-msgstr ""
+msgstr "Mescla creuada"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:19
 #, kde-format
@@ -6080,95 +6092,92 @@ msgid ""
 "the mono.\n"
 "If the value is 1 it will cancel all the signal common to both channels. "
 msgstr ""
+"Mescla creuada de l'esquerre al dret amb fase invertida. Això ajuda a "
+"suprimir el mono.\n"
+"Si el valor és 1 es cancel·larà tot el senyal comú als dos canals."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:22
 #, kde-format
 msgid "Drymix"
-msgstr ""
+msgstr "Drymix"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:23
 #, kde-format
 msgid "Set level of input signal of original channel."
-msgstr ""
+msgstr "Estableix el nivell del senyal d'entrada del canal original."
 
 #: data/effects/avfilter/avfilter_tmix.xml:4
 #, kde-format
 msgid "Temporal frames Mixer"
-msgstr ""
+msgstr "Mesclador temporal de fotogrames"
 
 #: data/effects/avfilter/avfilter_tmix.xml:5
-#, fuzzy, kde-format
-#| msgid "Exporting video frames"
+#, kde-format
 msgid "Mix successive video frames"
-msgstr "Exportació de fotogrames de vídeo"
+msgstr "Mescla fotogrames successius de vídeo"
 
 #: data/effects/avfilter/avfilter_tmix.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames step"
+#, kde-format
 msgid "Frames to mix"
-msgstr "Pas de fotogrames"
+msgstr "Fotogrames a mesclar"
 
 #: data/effects/avfilter/avfilter_transpose.xml:4
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transpose"
-msgstr "Transcodifica"
+msgstr "Transposa"
 
 #: data/effects/avfilter/avfilter_transpose.xml:5
 #, kde-format
 msgid "Transpose rows with columns in the input video and optionally flip it"
 msgstr ""
+"Transposa files amb columnes en el vídeo d'entrada i, de manera opcional, el "
+"gira"
 
 #: data/effects/avfilter/avfilter_transpose.xml:8
 #, kde-format
 msgid "Clock,Clock flip,Counter clock,Counter clock flip"
 msgstr ""
+"Rellotge,Rellotge invertit,Rellotge al revés,Rellotge al revés invertit"
 
 #: data/effects/avfilter/avfilter_transpose.xml:12
 #, kde-format
 msgid "None,Portrait,Landscape"
-msgstr ""
+msgstr "Cap,Retrat,Apaïsat"
 
 #: data/effects/avfilter/avfilter_transpose.xml:13
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "Override if"
-msgstr "Sobreescriu"
+msgstr "Substitueix si"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:5
-#, fuzzy, kde-format
-#| msgid "Sharpen"
+#, kde-format
 msgid "Sharp/Unsharp"
-msgstr "Agudització"
+msgstr "Agudització/Desenfocament"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:6
 #, kde-format
 msgid "Sharpen or unsharpen/blur your video"
-msgstr ""
+msgstr "Aguditza o desenfoca/difumina el vídeo"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Luma horizontal matrix"
-msgstr "Dispersió horitzontal"
+msgstr "Matriu horitzontal de luma"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the luma matrix horizontal size]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix la mida horitzontal de la matriu de luma]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Luma vertical matrix"
-msgstr "Marge vertical"
+msgstr "Matriu vertical de luma"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set the luma matrix vertical size]]>"
-msgstr "<![CDATA[Desplaçament al llarg de l'eix X]]>"
+msgstr "<![CDATA[Estableix la mida vertical de la matriu de luma]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
 #, kde-format
@@ -6178,30 +6187,30 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Estableix la intensitat de l'efecte de la luma.<br>\n"
+"            Els valors raonables estan entre -1,5 i 1,5. Els valors negatius "
+"difuminaran el vídeo d'entrada, mentre que els valors positius "
+"l'aguditzaran, un valor de 0 desactivarà l'efecte. ]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
-#, fuzzy, kde-format
-#| msgid "Crop mode horizontal"
+#, kde-format
 msgid "Chroma horizontal matrix"
-msgstr "Mode d'escapçat horitzontal"
+msgstr "Matriu horitzontal de croma"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix la mida horitzontal de la matriu de croma]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
-#, fuzzy, kde-format
-#| msgid "Crop mode vertical"
+#, kde-format
 msgid "Chroma vertical matrix"
-msgstr "Mode d'escapçat vertical"
+msgstr "Matriu vertical de croma"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the chroma matrix vertical size]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix la mida vertical de la matriu de croma]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:32
 #, kde-format
@@ -6211,30 +6220,30 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Estableix la intensitat de l'efecte del croma.<br>\n"
+"            Els valors raonables estan entre -1,5 i 1,5. Els valors negatius "
+"difuminaran el vídeo d'entrada, mentre que els valors positius "
+"l'aguditzaran, un valor de zero desactivarà l'efecte. ]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Alpha horizontal matrix"
-msgstr "Dispersió horitzontal"
+msgstr "Matriu horitzontal d'alfa"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix la mida horitzontal de la matriu d'alfa]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:39
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Alpha vertical matrix"
-msgstr "Marge vertical"
+msgstr "Matriu vertical d'alfa"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:40
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the alpha matrix vertical size]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix la mida vertical de la matriu d'alfa]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:45
 #, kde-format
@@ -6244,21 +6253,25 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Estableix la intensitat de l'efecte de l'alfa.<br>\n"
+"            Els valors raonables estan entre -1,5 i 1,5. Els valors negatius "
+"difuminaran el vídeo d'entrada, mentre que els valors positius "
+"l'aguditzaran, un valor de zero desactivarà l'efecte. ]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
 msgid "Wavelet Denoiser"
-msgstr ""
+msgstr "Reductor de soroll d'ondetes"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:5
 #, kde-format
 msgid "Wavelet based Denoiser"
-msgstr ""
+msgstr "Reductor de soroll basat en ondetes"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:8
 #, kde-format
 msgid "Hard,Soft,Garrote"
-msgstr ""
+msgstr "Dur,Suau,Garrote"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:18
 #: src/jobs/speedtask.cpp:72
@@ -6267,10 +6280,9 @@ msgid "Percentage"
 msgstr "Percentatge"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgid "Vectorscope (Advanced)"
-msgstr "Vectoscopi"
+msgstr "Vectoscopi (avançat)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:5
 #, kde-format
@@ -6278,11 +6290,13 @@ msgid ""
 "Display 2 color component values in the two dimensional graph (which is "
 "called a vectorscope)"
 msgstr ""
+"Mostra 2 valors de component de color en el gràfic bidimensional (que "
+"s'anomena un vectoscopi)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #, kde-format
 msgid "gray,color,color2,color3,color4,color5"
-msgstr ""
+msgstr "gris,color,color2,color3,color4,color5"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:12
 #: data/effects/avfilter/avfilter_zoompan.xml:11
@@ -6307,138 +6321,125 @@ msgstr "Y"
 #: data/effects/avfilter/avfilter_waveform.xml:35
 #, kde-format
 msgid "None,Instant,Peak,Peak+Instant"
-msgstr ""
+msgstr "Cap,Instantània,Pic,Pic+Instantània"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:22
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, kde-format
 msgid "Envelope"
-msgstr ""
+msgstr "Envolupant"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:25
-#, fuzzy, kde-format
-#| msgid "Foreground color"
+#, kde-format
 msgid "none,green,color"
-msgstr "Color de primer pla"
+msgstr "cap,verd,color"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:26
 #: data/effects/avfilter/avfilter_waveform.xml:46
 #, kde-format
 msgid "Graticule"
-msgstr ""
+msgstr "Reticle"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:29
 #: data/effects/avfilter/avfilter_waveform.xml:50
 #, kde-format
 msgid "Graticule Opacity"
-msgstr ""
+msgstr "Opacitat del reticle"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:32
 #, kde-format
 msgid "White,Black,Name"
-msgstr ""
+msgstr "Blanc,Negre,Nom"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Low Threshold"
-msgstr "Llindar"
+msgstr "Llindar inferior"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:42
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "High Threshold"
-msgstr "Llindar"
+msgstr "Llindar superior"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
 msgid "Auto,601,709"
-msgstr ""
+msgstr "Auto,601,709"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
-#, fuzzy, kde-format
-#| msgid "Colorspace:"
+#, kde-format
 msgid "Colorspace"
-msgstr "Espai de color:"
+msgstr "Espai de color"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Flip Vertically"
-msgstr "Vertical"
+msgstr "Inverteix verticalment"
 
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
 msgid "Vertically flip the input video."
-msgstr ""
+msgstr "Inverteix verticalment el vídeo d'entrada."
 
 #: data/effects/avfilter/avfilter_vibrance.xml:4
-#, fuzzy, kde-format
-#| msgid "Variance"
+#, kde-format
 msgid "Vibrance"
-msgstr "Variància"
+msgstr "Vivesa"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:5
 #, kde-format
 msgid "Boost or alter saturation. "
-msgstr ""
+msgstr "Augment o altera la saturació. "
 
 #: data/effects/avfilter/avfilter_vibrance.xml:11
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "Red balance"
-msgstr "Balanç al centre"
+msgstr "Balanç del vermell"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:14
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "Green balance"
-msgstr "Balanç al centre"
+msgstr "Balanç del verd"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:17
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Blue balance"
-msgstr "Balanç"
+msgstr "Balanç del blau"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:20
 #, kde-format
 msgid "Red luma"
-msgstr ""
+msgstr "Luma del vermell"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
-#, fuzzy, kde-format
-#| msgid "Green 2"
+#, kde-format
 msgid "Green luma"
-msgstr "Verd 2"
+msgstr "Luma del verd"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue luma"
-msgstr "Blau"
+msgstr "Luma del blau"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:29
 #, kde-format
 msgid "Alternate"
-msgstr ""
+msgstr "Alternativa"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:4
 #, kde-format
 msgid "Vibrato"
-msgstr ""
+msgstr "Vibrato"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:5
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Vibrato effect."
-msgstr "Enganxa l'efecte"
+msgstr "Efecte de vibrato."
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "w3fdif Deinterlacer"
-msgstr "Desentrellaçador"
+msgstr "Desentrellaçador w3fdif"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:5
 #, kde-format
@@ -6446,34 +6447,33 @@ msgid ""
 "Deinterlace the input video \"w3fdif\" stands for Weston 3 Field "
 "Deinterlacing Filter"
 msgstr ""
+"Desentrellaça el vídeo d'entrada. «w3fdid» vol dir «Weston 3 Field "
+"Deinterlacing Filter» (Filtre de desentrellaçament de 3 camps de Weston)"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
 #, kde-format
 msgid "Simple,Complex"
-msgstr ""
+msgstr "Simple,Complex"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:9
-#, fuzzy, kde-format
-#| msgid "Master effects"
+#, kde-format
 msgid "Filter coefficients"
-msgstr "Efectes mestres"
+msgstr "Coeficients del filtre"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:12
 #, kde-format
 msgid "Deinterlace all frames,Marked as interlaced only"
-msgstr ""
+msgstr "Desentrellaça tots els fotogrames,Només els marcats com a entrellaçats"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
-#, fuzzy, kde-format
-#| msgid " interlaced"
+#, kde-format
 msgid "Frames to deinterlace"
-msgstr " entrellaçat"
+msgstr "Fotogrames a desentrellaçar"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Video waveform monitor"
-msgstr "Filtre de forma d'ona d'àudio"
+msgstr "Monitor de forma d'ona del vídeo"
 
 #: data/effects/avfilter/avfilter_waveform.xml:5
 #, kde-format
@@ -6482,11 +6482,14 @@ msgid ""
 "only. Each column of the waveform corresponds to a column of pixels in the "
 "source video. "
 msgstr ""
+"El monitor de forma d'ona traça la intensitat del component de color. De "
+"manera predeterminada, només la luminància. Cada columna de la forma d'ona "
+"correspon a una columna de píxels en el vídeo d'origen. "
 
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #, kde-format
 msgid "Row,Column"
-msgstr ""
+msgstr "Fila,Columna"
 
 #: data/effects/avfilter/avfilter_waveform.xml:12
 #, kde-format
@@ -6497,6 +6500,11 @@ msgid ""
 "       \tIn column mode, the top side represents color component value = 0 "
 "and bottom side represents value = 255.]]>"
 msgstr ""
+"<![CDATA[En el mode columna, el gràfic a la banda esquerra representa<br>\n"
+"       \tel valor 0 de la component de color i la banda dreta represents el "
+"valor = 255.<br>\n"
+"       \tEn el mode columna, la banda superior representa el valor 0 de la "
+"component de color i la banda inferior representa el valor = 255.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
@@ -6514,22 +6522,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the display mode]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix el model de visualització]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Selecciona els compornents a visualitzar]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the envelope mode]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix el mode de l'envolupant]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
@@ -6546,10 +6551,9 @@ msgid "Filter"
 msgstr "Filtre"
 
 #: data/effects/avfilter/avfilter_waveform.xml:42
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the filter mode]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix el mode del filtre]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
@@ -6559,13 +6563,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
 msgid "<![CDATA[Set which graticule to display]]>"
-msgstr ""
+msgstr "<![CDATA[Estableix el reticle a visualitzar]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the opacity of the graticule]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix l'opacitat del reticle]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
@@ -6573,10 +6576,9 @@ msgid "Numbers,Dots"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Set graticule flags]]>"
-msgstr "<![CDATA[Desplaçament al llarg de l'eix Y]]>"
+msgstr "<![CDATA[Estableix els indicadors del reticle]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
@@ -6586,18 +6588,17 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
 msgid "<![CDATA[Set scale used for displaying graticule]]>"
-msgstr ""
+msgstr "<![CDATA[Estableix l'escala utilitzada per a visualitzar el reticle]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the background opacity]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix l'opacitat del fons]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
 #, kde-format
 msgid "Tint 0"
-msgstr ""
+msgstr "Tint 0"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
@@ -6611,7 +6612,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:73
 #, kde-format
 msgid "Tint 1"
-msgstr ""
+msgstr "Tint 1"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, fuzzy, kde-format
@@ -6620,22 +6621,19 @@ msgid "None,Size"
 msgstr "Redimensiona"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Fit mode"
-msgstr "Mode de pintat:"
+msgstr "Mode d'ajust"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the fit mode]]>"
-msgstr "<![CDATA[Estableix l'opacitat de la imatge de fons]]>"
+msgstr "<![CDATA[Estableix el mode d'ajust]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Weave interlacer"
-msgstr "Desentrellaçador"
+msgstr "Entrellaçador de teixit"
 
 #: data/effects/avfilter/avfilter_weave.xml:5
 #, kde-format
@@ -6644,18 +6642,19 @@ msgid ""
 "fields into single frame, producing a new double height clip with half the "
 "frame rate and half the frame count."
 msgstr ""
+"El teixit pren una entrada de vídeo basada en el camp i uneix cada dos camps "
+"seqüencials en un fotograma únic, produint un clip nou de doble alçada amb "
+"la meitat de la velocitat del fotograma i la meitat del nombre de fotogrames."
 
 #: data/effects/avfilter/avfilter_weave.xml:8
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Top,Bottom"
-msgstr "De dalt a baix"
+msgstr "Superior,Inferior"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "xBR Interpolator"
-msgstr "Interpolació"
+msgstr "Interpolador xBR"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -6664,17 +6663,19 @@ msgid ""
 "art. It follows a set of edge-detection rules, see https://forums.libretro."
 "com/t/xbr-algorithm-tutorial/123"
 msgstr ""
+"Aplica el filtre d'ampliació d'alta qualitat xBR dissenyat per a art de "
+"píxels Segueix un conjunt de regles de detecció de vores, vegeu https://"
+"forums.libretro.com/t/xbr-algorithm-tutorial/123"
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
 #, kde-format
 msgid "2xBR,3xBR,4xBR"
-msgstr ""
+msgstr "2xBR,3xBR,4xBR"
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Yadif Deinterlacer"
-msgstr "Desentrellaçador"
+msgstr "Desentrellaçador «yadif»"
 
 #: data/effects/avfilter/avfilter_yadif.xml:5
 #, kde-format
@@ -6682,6 +6683,8 @@ msgid ""
 "Deinterlace the input video (\"yadif\" means \"yet another deinterlacing "
 "filter\")"
 msgstr ""
+"Desentrellaça el vídeo d'entrada («yadif» vol dir «yet another deinterlacing "
+"filter», Encara un altre filtre de desentrellaçament)"
 
 #: data/effects/avfilter/avfilter_yadif.xml:8
 #, kde-format
@@ -6695,15 +6698,14 @@ msgid "Top field first,Bottom field first,Auto"
 msgstr "Primer el camp de dalt,Primer el camp de baix,auto"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
-#, fuzzy, kde-format
-#| msgid "Zoom In"
+#, kde-format
 msgid "Zoom Pan"
-msgstr "Apropa"
+msgstr "Zoom i panoràmica"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:5
 #, kde-format
 msgid "Apply Zoom and Pan effect"
-msgstr ""
+msgstr "Aplica un efecte de zoom i de panoràmica"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
@@ -6735,21 +6737,19 @@ msgid "Subtitles"
 msgstr "Subtítols"
 
 #: data/effects/avfilter/subtitles.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Render subtitles onto the video"
-msgstr "Superposa un temporitzador en el vídeo"
+msgstr "Renderitza subtítols en el vídeo"
 
 #: data/effects/avfilter/subtitles.xml:8
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle file to apply"
-msgstr "Fitxer de subtítols:"
+msgstr "Fitxer de subtítols a aplicar"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
 msgid "BoxBlur"
-msgstr "Difuminat en quadre («BoxBlur»)"
+msgstr "Difuminat en quadre"
 
 #: data/effects/box_blur.xml:6 data/effects/box_blur.xml:20
 #: data/effects/boxblur.xml:5
@@ -7292,156 +7292,146 @@ msgstr "Congela després"
 #: data/effects/frei0r/frei0r_3dflippo.xml:4
 #, kde-format
 msgid "3dflippo"
-msgstr ""
+msgstr "3dflippo"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:5
 #, kde-format
 msgid "Frame rotation in 3D space"
-msgstr ""
+msgstr "Gir de fotogrames en un espai 3D"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:8
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "X axis rotation"
-msgstr "Creació de màscara"
+msgstr "Gir de l'eix X"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:11
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Y axis rotation"
-msgstr "Creació de màscara"
+msgstr "Gir de l'eix Y"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:14
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Z axis rotation"
-msgstr "Creació de màscara"
+msgstr "Gir de l'eix Z"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:17
 #, kde-format
 msgid "X axis rotation rate"
-msgstr ""
+msgstr "Velocitat de gir de l'eix X"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:20
 #, kde-format
 msgid "Y axis rotation rate"
-msgstr ""
+msgstr "Velocitat de gir de l'eix Y"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:23
 #, kde-format
 msgid "Z axis rotation rate"
-msgstr ""
+msgstr "Velocitat de gir de l'eix Z"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:26
-#, fuzzy, kde-format
-#| msgid "Set Position X"
+#, kde-format
 msgid "Center position (X)"
-msgstr "Estableix la posició X"
+msgstr "Posició del centre (X)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:29
-#, fuzzy, kde-format
-#| msgid "Set Position Y"
+#, kde-format
 msgid "Center position (Y)"
-msgstr "Estableix la posició Y"
+msgstr "Posició del centre (Y)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:32
 #, kde-format
 msgid "Invert rotation assignment"
-msgstr ""
+msgstr "Inverteix l'assignació de gir"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:35
-#, fuzzy, kde-format
-#| msgid "Don't ask again"
+#, kde-format
 msgid "Don't blank mask"
-msgstr "No ho tornis a preguntar"
+msgstr "No blanquegis la màscara"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:38
 #, kde-format
 msgid "Fill with image or black"
-msgstr ""
+msgstr "Omple amb una imatge o negre"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
 msgid "Aech0r"
-msgstr ""
+msgstr "Aech0r"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
 msgid "Create an analog video echo"
-msgstr ""
+msgstr "Crea un eco de vídeo analògic"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Blur factor"
+#, kde-format
 msgid "Fade factor"
-msgstr "Factor de difuminat"
+msgstr "Factor d'esvaïment"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Disappearance Rate of the echo]]>"
-msgstr "<![CDATA[Angle d'inclinació al voltant de l'eix X]]>"
+msgstr "<![CDATA[Velocitat de desaparició de l'eco]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
 msgid "<![CDATA[Darker or Brighter echo]]>"
-msgstr ""
+msgstr "<![CDATA[Eco més fosc o més lluminós]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
 #, kde-format
 msgid "Keep RED"
-msgstr ""
+msgstr "Mantén el vermell"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:17
 #, kde-format
 msgid "<![CDATA[Influence on Red channel]]>"
-msgstr ""
+msgstr "<![CDATA[Influència en el canal vermell]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:20
 #, kde-format
 msgid "Keep GREEN"
-msgstr ""
+msgstr "Mantén el verd"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:21
 #, kde-format
 msgid "<![CDATA[Influence on Green channel]]>"
-msgstr ""
+msgstr "<![CDATA[Influència en el canal verd]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:24
 #, kde-format
 msgid "Keep BLUE"
-msgstr ""
+msgstr "Mantén el blau"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:25
 #, kde-format
 msgid "<![CDATA[Influence on Blue channel]]>"
-msgstr ""
+msgstr "<![CDATA[Influència en el canal blau]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
 #, kde-format
 msgid "Strobe period"
-msgstr ""
+msgstr "Període d'estroboscopi"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
 msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
-msgstr ""
+msgstr "<![CDATA[Velocitat de l'estroboscopi (de 0 a 8 fotogrames)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:30
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha operations"
-msgstr "Operació d'alfa"
+msgstr "Operacions d'alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:6
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
+#, kde-format
 msgid "Display and manipulation of the alpha channel"
-msgstr "Usa la luma de la imatge en lloc del canal alfa."
+msgstr "Visualització i manipulació del canal alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:9
 #: data/effects/frei0r/frei0r_alpha0ps.xml:34
@@ -7451,19 +7441,21 @@ msgid ""
 "Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,"
 "Selection on white,Selection on checkers"
 msgstr ""
+"Imatge,Alfa com a gris,Gris + vermell,Selecció del negre,Selecció del gris,"
+"Selecció del blanc,Selecció dels escacs"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:13
 #: data/effects/frei0r/frei0r_alpha0ps.xml:38
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:12
-#, fuzzy, kde-format
-#| msgid "Display aspect ratio:"
+#, kde-format
 msgid "Display input alpha"
-msgstr "Relació d'aspecte de la pantalla:"
+msgstr "Visualitza l'alfa d'entrada"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:16
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
 msgstr ""
+"NO OP,Esquila,Reducció forta,Reducció suau,Augment dur,Augment suau,Llindar"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:17
 #: data/effects/frei0r/frei0r_alpha0ps.xml:42
@@ -7483,32 +7475,33 @@ msgstr "Operació"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:23
 #, kde-format
 msgid "Shrink/grow amount"
-msgstr ""
+msgstr "Quantitat de reducció/augment"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:41
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
 msgstr ""
+"NO OP,Esquila,Reducció forta,Reducció suau,Augment dur,Augment suau,Llindar,"
+"Difuminat"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:48
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
 #, kde-format
 msgid "Shrink/Grow/Blur amount"
-msgstr ""
+msgstr "Quantitat de reducció/augment/difuminat"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha gradient"
-msgstr "Operació d'alfa"
+msgstr "Degradat d'alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
 #: data/effects/frei0r/frei0r_alphagrad.xml:5
 #, kde-format
 msgid "Fill the alpha channel with a specified gradient"
-msgstr ""
+msgstr "Omple el canal alfa amb el degradat especificat"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
@@ -7523,7 +7516,7 @@ msgstr "Posició"
 #: data/effects/frei0r/frei0r_alphagrad.xml:9
 #, kde-format
 msgid "<![CDATA[Define where the gradient starts.]]>"
-msgstr ""
+msgstr "<![CDATA[Defineix a on comença el degradat.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
@@ -7538,14 +7531,13 @@ msgstr "Amplada de la transició"
 #: data/effects/frei0r/frei0r_alphagrad.xml:13
 #, kde-format
 msgid "<![CDATA[Define the width of the transition between the densities.]]>"
-msgstr ""
+msgstr "<![CDATA[Defineix l'amplada de la transició entre les densitats.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Angle for the gradient.]]>"
-msgstr "<![CDATA[Angle de gir de l'eix X]]>"
+msgstr "<![CDATA[Angle del degradat]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
@@ -7579,10 +7571,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha shapes (Mask)"
+#, kde-format
 msgid "Alpha shapes"
-msgstr "Formes d'alfa (màscara)"
+msgstr "Formes d'alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
 #: data/effects/frei0r/frei0r_alphaspot.xml:5
@@ -7690,7 +7681,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_baltan.xml:5
 #, kde-format
 msgid "Delayed alpha smoothed blit of time"
-msgstr ""
+msgstr "«blit» de temps retardat de suavitzat de l'alfa"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
@@ -7724,40 +7715,35 @@ msgstr "Rec. 601"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:14
 #: data/effects/frei0r/frei0r_curves.xml:69
-#, fuzzy, kde-format
-#| msgid "Luma file"
+#, kde-format
 msgid "Luma formula"
-msgstr "Fitxer de luma"
+msgstr "Fórmula de la luma"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Background opacity"
+#, kde-format
 msgid "Background Subtractor"
-msgstr "Opacitat del fons"
+msgstr "Subtracció del fons"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Remove background using AI model"
+#, kde-format
 msgid "Remove the background of a static video"
-msgstr "Elimina el fons utilitzant un model d'IA"
+msgstr "Elimina el fons d'un vídeo estàtic"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
-#, fuzzy, kde-format
-#| msgid "Analysis data"
+#, kde-format
 msgid "Analysis Sample Radius"
-msgstr "Anàlisi de dades"
+msgstr "Radi de mostra de l'anàlisi"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Noise"
+#, kde-format
 msgid "Denoise"
-msgstr "Soroll"
+msgstr "Reducció del soroll"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
 msgid "VR360 Equirectangular Mask"
-msgstr ""
+msgstr "Màscara equirectangular VR360"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:5
 #, kde-format
@@ -7766,33 +7752,31 @@ msgid ""
 "but only want to use part of the 360 image - for example if you and the film "
 "crew occupy the 90 degrees behind the camera."
 msgstr ""
+"Afegeix un mat negre al fotograma. Useu-lo si filmeu amb una càmera de 360 "
+"però només voleu usar part de la imatge de 360. Per exemple, si vós i "
+"l'equip de filmació ocupeu els 90 graus al darrere de la càmera."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Vertical Start"
-msgstr "Marge vertical"
+msgstr "Inici vertical"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:11
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical End"
-msgstr "Vertical"
+msgstr "Final vertical"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal Start"
-msgstr "Horitzontal"
+msgstr "Inici horitzontal"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:17
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal End"
-msgstr "Persianes horitzontals"
+msgstr "Final horitzontal"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
@@ -7800,15 +7784,14 @@ msgstr "Persianes horitzontals"
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest-Neighbor,Bilinear"
-msgstr "Veí més pròxim (ràpid)"
+msgstr "Veí més pròxim,Bilineal"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:4
 #, kde-format
 msgid "VR360 Equirectangular to Rectilinear"
-msgstr ""
+msgstr "VR360 equirectangular a rectilini"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:5
 #, kde-format
@@ -7817,41 +7800,43 @@ msgid ""
 "you're used to seeing). Can be used to preview what will be shown in a 360 "
 "video viewer. Delayed frame blitting mapped on a time bitmap"
 msgstr ""
+"Converteix un fotograma equirectangular (panoràmic) en un fotograma "
+"rectilini (el que esteu acostumat a veure). Pot usar-se per a obtenir una "
+"vista prèvia del que es mostrarà en un visualitzador de vídeo de 360. «blit» "
+"amb retard de fotogrames mapats en un mapa de bits de temps"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:8
 #, kde-format
 msgid "yaw"
-msgstr ""
+msgstr "guinyada"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:11
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:11
-#, fuzzy, kde-format
-#| msgid "Switch"
+#, kde-format
 msgid "pitch"
-msgstr "Canvia"
+msgstr "capcineig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:14
-#, fuzzy, kde-format
-#| msgid "Scroll"
+#, kde-format
 msgid "roll"
-msgstr "Desplaçament"
+msgstr "balanceig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:17
 #, kde-format
 msgid "fov"
-msgstr ""
+msgstr "cdv"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:20
 #, kde-format
 msgid "fisheye"
-msgstr ""
+msgstr "ull de peix"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
 msgid "VR360 Equirectangular to Stereo"
-msgstr ""
+msgstr "VR360 equirectangular a estèreo"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:5
 #, kde-format
@@ -7859,38 +7844,38 @@ msgid ""
 "Projects a stereographic image from an equirectangular. Use this to create "
 "the little planet effect from a VR360 footage."
 msgstr ""
+"Projecta una imatge estereogràfica a partir d'una equirectangular. Useu això "
+"per a crear l'efecte «Planeta petit» a partir del metratge VR360."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
 #, kde-format
 msgid "Yaw"
-msgstr ""
+msgstr "Guinyada"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
-#, fuzzy, kde-format
-#| msgid "Switch"
+#, kde-format
 msgid "Pitch"
-msgstr "Canvia"
+msgstr "Capcineig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
 #, kde-format
 msgid "Roll"
-msgstr ""
+msgstr "Balanceig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
 #, kde-format
 msgid "FOV"
-msgstr ""
+msgstr "CDV"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest-neighbor,Bilinear"
-msgstr "Veí més pròxim (ràpid)"
+msgstr "Veí més pròxim,Bilineal"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
 #, kde-format
 msgid "VR360 Hemispherical to Equirectangular"
-msgstr ""
+msgstr "VR360 hemisfèric a equirectangular"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:5
 #, kde-format
@@ -7899,95 +7884,89 @@ msgid ""
 "equirectangular frame. The plugin assumes that both hemispheres are in the "
 "frame"
 msgstr ""
+"Converteix un fotograma de vídeo amb dues imatges hemisfèriques a un "
+"fotograma equirectangular únic. El connector assumeix que els dos hemisferis "
+"estan en el fotograma"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:8
-#, fuzzy, kde-format
-#| msgid "Alignment"
+#, kde-format
 msgid "Alignment Yaw"
-msgstr "Alineació"
+msgstr "Alineació guinyada"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:11
-#, fuzzy, kde-format
-#| msgid "Alignment"
+#, kde-format
 msgid "Alignment Pitch"
-msgstr "Alineació"
+msgstr "Alineació capcineig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:14
-#, fuzzy, kde-format
-#| msgid "Alignment"
+#, kde-format
 msgid "Alignment Roll"
-msgstr "Alineació"
+msgstr "Alineació balanceig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:17
 #, kde-format
 msgid "Equidistant Fisheye"
-msgstr ""
+msgstr "Ull de peix equidistant"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Projection"
-msgstr "Safata del projecte"
+msgstr "Projecció"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:21
 #, kde-format
 msgid "Lens FOV"
-msgstr ""
+msgstr "CDV de la lent"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Lens Radius"
-msgstr "Radi"
+msgstr "Radi de la lent"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:27
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Front X"
-msgstr "Mida de la lletra"
+msgstr "Frontal X"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:30
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Front Y"
-msgstr "Mida de la lletra"
+msgstr "Frontal Y"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:33
 #, kde-format
 msgid "Front UP"
-msgstr ""
+msgstr "Frontal amunt"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
 #, kde-format
 msgid "Back X"
-msgstr ""
+msgstr "Posterior X"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:39
 #, kde-format
 msgid "Back Y"
-msgstr ""
+msgstr "Posterior Y"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:42
 #, kde-format
 msgid "Back UP"
-msgstr ""
+msgstr "Posterior amunt"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:45
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Nadir Radius"
-msgstr "Radi de difuminat"
+msgstr "Radi del nadir"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:48
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Nadir Start"
-msgstr "Inici"
+msgstr "Inici del nadir"
 
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:4
 #, kde-format
 msgid "VR360 Rectilinear to Equirectangular"
-msgstr ""
+msgstr "VR360 rectilini a equirectangular"
 
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:5
 #, kde-format
@@ -7996,12 +7975,14 @@ msgid ""
 "Use this together with Transform 360 to place \"normal\" footage in a 360 "
 "movie."
 msgstr ""
+"Converteix una imatge rectilínia (d'aspecte normal) en una imatge "
+"equirectangular. Useu-lo juntament amb Transforma 360 per a col·locar "
+"metratge «normal» en una pel·lícula de 360."
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:4
-#, fuzzy, kde-format
-#| msgid "Stabilize"
+#, kde-format
 msgid "VR360 Stabilize"
-msgstr "Estabilitza"
+msgstr "Estabilització VR360"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:5
 #, kde-format
@@ -8010,177 +7991,158 @@ msgid ""
 "stabilization. When analyzing footage, it detects frame-to-frame rotation, "
 "and when stabilizing it tries to correct high-frequency motion (shake)."
 msgstr ""
+"Estabilitza el metratge de 360. El connector funcionarà en dos passos: "
+"anàlisi i estabilització. En analitzar el metratge, detectarà el gir "
+"fotograma a fotograma i, en estabilitzar, intentarà corregir el moviment "
+"d'alta freqüència (sacseig)."
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:8
-#, fuzzy, kde-format
-#| msgid "Analysis"
+#, kde-format
 msgid "Analyze"
-msgstr "Anàlisi"
+msgstr "Analitza"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:11
-#, fuzzy, kde-format
-#| msgid "Audio analysis finished"
+#, kde-format
 msgid "Motion Analysis File"
-msgstr "Ha finalitzat l'anàlisi de l'àudio"
+msgstr "Fitxer d'anàlisi de moviments"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
-#, fuzzy, kde-format
-#| msgid "Analysis data"
+#, kde-format
 msgid "Analysis Search Radius"
-msgstr "Anàlisi de dades"
+msgstr "Radi de cerca de l'anàlisi"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:20
-#, fuzzy, kde-format
-#| msgid "Analysis data"
+#, kde-format
 msgid "Analysis Offset"
-msgstr "Anàlisi de dades"
+msgstr "Decalatge de l'anàlisi"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
-#, fuzzy, kde-format
-#| msgid "Track mouse"
+#, kde-format
 msgid "Track Points"
-msgstr "Seguiment del ratolí"
+msgstr "Punts de seguiment"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:35
 #, kde-format
 msgid "Yaw Amount"
-msgstr ""
+msgstr "Quantitat de guinyada"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:29
-#, fuzzy, kde-format
-#| msgid "Smoothing"
+#, kde-format
 msgid "Yaw Smoothing"
-msgstr "Suavitzat"
+msgstr "Suavitzat de guinyada"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:32
-#, fuzzy, kde-format
-#| msgid "Show Title Bars"
+#, kde-format
 msgid "Yaw Time Bias"
-msgstr "Mostra les barres de títol"
+msgstr "Biaix del temps de guinyada"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:38
-#, fuzzy, kde-format
-#| msgid "Smoothing"
+#, kde-format
 msgid "Pitch Smoothing"
-msgstr "Suavitzat"
+msgstr "Suavitzat de capcineig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:41
-#, fuzzy, kde-format
-#| msgid "Pitch and Time"
+#, kde-format
 msgid "Pitch Time Bias"
-msgstr "To i temps"
+msgstr "Biaix del temps de capcineig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
 #, kde-format
 msgid "Roll Amount"
-msgstr ""
+msgstr "Quantitat de balanceig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:47
-#, fuzzy, kde-format
-#| msgid "Smoothing"
+#, kde-format
 msgid "Roll Smoothing"
-msgstr "Suavitzat"
+msgstr "Suavitzat de balanceig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:50
 #, kde-format
 msgid "Roll Time Bias"
-msgstr ""
+msgstr "Biaix del temps de balanceig"
 
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:4
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgid "VR360 Transform"
-msgstr "Transforma"
+msgstr "Transformació VR360"
 
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:5
 #, kde-format
 msgid "Rotates a panoramic image."
-msgstr ""
+msgstr "Gira una imatge panoràmica."
 
 #: data/effects/frei0r/frei0r_brightness.xml:4
-#, fuzzy, kde-format
-#| msgid "Brightness"
+#, kde-format
 msgctxt "Brightness Effect Name"
 msgid "Brightness"
 msgstr "Lluminositat"
 
 #: data/effects/frei0r/frei0r_brightness.xml:5
-#, fuzzy, kde-format
-#| msgid "Adjust the left/right spread of a channel"
+#, kde-format
 msgid "Adjusts the brightness of a source image"
-msgstr "Ajusta la difusió esquerra/dreta d'un canal"
+msgstr "Ajusta la lluminositat de la imatge original"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:4
 #, kde-format
 msgctxt "Corners Effect Name"
 msgid "Corners"
-msgstr ""
+msgstr "Cantonades"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:5
 #, kde-format
 msgid "Four corners geometry engine"
-msgstr ""
+msgstr "Motor de geometria de quatre cantonades"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Top-right X"
-msgstr "Superior dreta"
+msgstr "Superior dret X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:17
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Top-right Y"
-msgstr "Superior dreta"
+msgstr "Superior dret Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:20
-#, fuzzy, kde-format
-#| msgid "Bottom right"
+#, kde-format
 msgid "Bottom-right X"
-msgstr "Inferior dreta"
+msgstr "Inferior dret X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:23
-#, fuzzy, kde-format
-#| msgid "Bottom right"
+#, kde-format
 msgid "Bottom-right Y"
-msgstr "Inferior dreta"
+msgstr "Inferior dret Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:26
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Bottom-left X"
-msgstr "Inferior esquerra"
+msgstr "Inferior esquerre X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:29
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Bottom-left Y"
-msgstr "Inferior esquerra"
+msgstr "Inferior esquerre Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:32
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Stretch X"
-msgstr "Estira"
+msgstr "Estira X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:35
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Stretch Y"
-msgstr "Estira"
+msgstr "Estira Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:38
-#, fuzzy, kde-format
-#| msgid "Feather width"
+#, kde-format
 msgid "Feather Alpha"
-msgstr "Amplada de difuminació"
+msgstr "Alfa del difuminat"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:41
-#, fuzzy, kde-format
-#| msgid "Enable Track"
+#, kde-format
 msgid "Enable Stretch"
-msgstr "Activa la pista"
+msgstr "Activa l'estirat"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:44
 #: data/effects/frei0r/frei0r_defish0r.xml:34
@@ -8189,6 +8151,8 @@ msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
 "Lanczos"
 msgstr ""
+"Veí més pròxim,Bilineal,Suavitzat bicúbic,Agudització bicúbica,Spline 4x4,"
+"Spline 6x6,Lanczos"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:45
 #: data/effects/frei0r/frei0r_defish0r.xml:35
@@ -8229,66 +8193,68 @@ msgid ""
 "Draws a gradient on top of image. Filter is given gradient start and end "
 "points, colors and opacities."
 msgstr ""
+"Dibuixa un degradat a la part superior de la imatge. El filtre rep els punts "
+"d'inici i final, els colors i les opacitats del degradat."
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:8
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgid "Linear,Radial"
-msgstr "Lineal"
+msgstr "Lineal,Radial"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:9
 #, fuzzy, kde-format
 #| msgid "Patterns"
 msgid "Pattern"
-msgstr "Patrons"
+msgstr "Patró"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:12
 #, fuzzy, kde-format
 #| msgid "1st Color"
 msgid "Start Color"
-msgstr "1r color"
+msgstr "Color d'inici"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:15
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgid "Start Opacity"
-msgstr "Iniciar script"
+msgstr "Opacitat inicial"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:18
 #, fuzzy, kde-format
 #| msgid "2nd Color"
 msgid "End Color"
-msgstr "2n color"
+msgstr "Color final"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:21
 #, fuzzy, kde-format
 #| msgid "Opacity"
 msgid "End Opacity"
-msgstr "Opacitat"
+msgstr "Opacitat final"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:24
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "Start X"
-msgstr "Inici"
+msgstr "X inici"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:27
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "Start Y"
-msgstr "Inici"
+msgstr "Y inici"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:30
 #, fuzzy, kde-format
 #| msgid "End Gain"
 msgid "End X"
-msgstr "Guany final"
+msgstr "X final"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:33
 #, fuzzy, kde-format
 #| msgid "End Gain"
 msgid "End Y"
-msgstr "Guany final"
+msgstr "Y final"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/frei0r/frei0r_cairogradient.xml:36
@@ -8312,102 +8278,101 @@ msgid ""
 "burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
 "color,HSL luminosity"
 msgstr ""
-"Barreja alfa,Xor,Més,Múltiple,Pantalla,Superposició,Enfosquit,Aclarit,"
+"Normal,Afegeix,Satura,Múltiple,Pantalla,Superposició,Enfosquit,Aclarit,"
 "Subexposició del color,Sobreexposició del color,Llum forta,Llum suau,"
-"Diferència,Exclusió,Bit a bit OR,Bit a bit AND,Bit a bit XOR,Bit a bit NOR,"
-"Bit a bit NAND,Bit a bit NOT XOR,Destinació d'entrada,Destinació de sortida"
+"Diferència,Exclusió,To HSL,Saturació HSL,Color HSL,Lluminositat HSL"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:40
 #, fuzzy, kde-format
 #| msgid "Add Model"
 msgid "Blend Mode"
-msgstr "Afegeix un model"
+msgstr "Mode de barreja"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:4
 #, fuzzy, kde-format
 #| msgid "Video clip"
 msgid "Video grid"
-msgstr "Clip de vídeo"
+msgstr "Quadrícula de vídeo"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:5
 #, fuzzy, kde-format
 #| msgid "Create slideshow clip"
 msgid "Create a video Grid"
-msgstr "Crea un clip de presentació de diapositives"
+msgstr "Crea una quadrícula de vídeo"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:8
 #, kde-format
 msgid "Rows"
-msgstr ""
+msgstr "Files"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:11
 #, fuzzy, kde-format
 #| msgid "Volume"
 msgid "Columns"
-msgstr "Volum"
+msgstr "Columnes"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
 msgid "Cartoon"
-msgstr ""
+msgstr "Còmic"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:5
 #, kde-format
 msgid "Cartoonify video, do a form of edge detect"
-msgstr ""
+msgstr "Dona aspecte de còmic, fa una espècie de detecció de vores"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:8
 #, kde-format
 msgid "Level of trip"
-msgstr ""
+msgstr "Nivell de variació"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:11
 #, fuzzy, kde-format
 #| msgid "Reference frame"
 msgid "Difference space"
-msgstr "Fotograma de referència"
+msgstr "Espai de diferència"
 
 #: data/effects/frei0r/frei0r_cluster.xml:4
 #, kde-format
 msgid "K-Means Clustering"
-msgstr ""
+msgstr "Grups de K-Means"
 
 #: data/effects/frei0r/frei0r_cluster.xml:5
 #, kde-format
 msgid "Clusters of a source image by color and spatial distance"
-msgstr ""
+msgstr "Grups d'una imatge font per color i distància espacial"
 
 #: data/effects/frei0r/frei0r_cluster.xml:8
 #, kde-format
 msgid "Amount of clusters"
-msgstr ""
+msgstr "Quantitat de clústers"
 
 #: data/effects/frei0r/frei0r_cluster.xml:11
 #, kde-format
 msgid "Weight on distance"
-msgstr ""
+msgstr "Ponderació de la distància"
 
 #: data/effects/frei0r/frei0r_colgate.xml:4
 #, kde-format
 msgid "White Balance (LMS space)"
-msgstr ""
+msgstr "Balanç de blancs (espai LMS)"
 
 #: data/effects/frei0r/frei0r_colgate.xml:5
 #, kde-format
 msgid "Do simple color correction, in a physically meaningful way"
-msgstr ""
+msgstr "Fa una correcció senzilla de color, de forma física significativa"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:4
 #, fuzzy, kde-format
 #| msgid "Image adjustment"
 msgid "RGB adjustment"
-msgstr "Ajustament de la imatge"
+msgstr "Ajust RGB"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:5
 #, fuzzy, kde-format
 #| msgid "Image adjustment"
 msgid "Simple color adjustment"
-msgstr "Ajustament de la imatge"
+msgstr "Ajust de color senzill"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbR)
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
@@ -8432,30 +8397,30 @@ msgstr "B"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:17
 #, kde-format
 msgid "Add constant,Change gamma,Multiply"
-msgstr ""
+msgstr "Afegeix constant,Canvia la gamma,Multiplica"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
 #, fuzzy, kde-format
 #| msgid "Direction"
 msgid "Action"
-msgstr "Direcció"
+msgstr "Acció"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
 msgid "Keep luma"
-msgstr ""
+msgstr "Mantén la luma"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:24
 #, fuzzy, kde-format
 #| msgid "Alpha strobing"
 msgid "Alpha controlled"
-msgstr "Estroboscopi d'alfa"
+msgstr "Alfa controlada"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:4
 #, fuzzy, kde-format
 #| msgid "Color space"
 msgid "Color Distance"
-msgstr "Espai de color"
+msgstr "Distància de color"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:5
 #, kde-format
@@ -8463,6 +8428,8 @@ msgid ""
 "Calculates the distance between the selected color and the current pixel and "
 "uses that value as new pixel value"
 msgstr ""
+"Calcula la distància entre el color seleccionat i el píxel actual i usa "
+"aquest valor com a valor nou del píxel"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:8
 #, fuzzy, kde-format
@@ -10093,10 +10060,9 @@ msgid "<![CDATA[Channel to numerically display]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Marker 1"
-msgstr "Marcador"
+msgstr "Marcador 1"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
 #, fuzzy, kde-format
@@ -10105,10 +10071,9 @@ msgid "<![CDATA[Position of marker 1]]>"
 msgstr "<![CDATA[Desplaçament al llarg de l'eix Y]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:33
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Marker 2"
-msgstr "Marcador"
+msgstr "Marcador 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:34
 #, fuzzy, kde-format
@@ -14272,10 +14237,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Darken"
-msgstr "Marcador"
+msgstr "Enfosquit"
 
 #: data/transitions/frei0r/frei0r_darken.xml:5
 #, kde-format

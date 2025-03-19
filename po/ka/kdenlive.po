@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-18 00:41+0000\n"
-"PO-Revision-Date: 2025-03-17 06:38+0100\n"
+"PO-Revision-Date: 2025-03-18 11:03+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1184,7 +1184,7 @@ msgstr "სივრცითი სიგმა"
 #: data/effects/avfilter/avfilter_bilateral.xml:9
 #, kde-format
 msgid "Set sigma of gaussian function to calculate spatial weight."
-msgstr ""
+msgstr "დააყენეთ გაუსის ფუნქციის სიგმა სივრცითი წონის გამოსათვლელად."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:12
 #, kde-format
@@ -1194,7 +1194,7 @@ msgstr "დიაპაზონის სიგმა"
 #: data/effects/avfilter/avfilter_bilateral.xml:13
 #, kde-format
 msgid "Set sigma of gaussian function to calculate range weight."
-msgstr ""
+msgstr "დააყენეთ გაუსის ფუნქციის სიგმა შუალედის წონის გამოსათვლელად."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_cas.xml:12
@@ -1234,7 +1234,7 @@ msgstr "კაშეს სიმძლავრე"
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
-msgstr ""
+msgstr "რამდენჯერ უნდა იყოს გადატარებული ჩარჩოს გაბუნდოვნება განათებულობაზე"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
@@ -1255,7 +1255,7 @@ msgstr "ბუნდოვნების ძალა"
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
 msgid "How many times should the boxblur be applied to chroma"
-msgstr ""
+msgstr "რამდენჯერ უნდა იყოს გადატარებული ჩარჩოს გაბუნდოვნება ბუნდოვნებაზე"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
 #, kde-format
@@ -1275,7 +1275,7 @@ msgstr "ალფას სიძლიერე"
 #: data/effects/avfilter/avfilter_boxblur.xml:29
 #, kde-format
 msgid "How many times should the boxblur be applied to alpha"
-msgstr ""
+msgstr "რამდენჯერ უნდა იყოს გადატარებული ჩარჩოს გაბუნდოვნება ალფაზე"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:4
 #, kde-format
@@ -1434,7 +1434,7 @@ msgstr "YUV ფერი"
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
-msgstr ""
+msgstr "<![CDATA[მონიშნეთ ეს, თუ კლიპს აქვს YUV მონაცემები RGB-ის გარეშე.]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -1545,7 +1545,7 @@ msgstr "ფერების ბალანსი"
 #, kde-format
 msgid ""
 "Modify intensity of primary colors (red, green and blue) of input frames. "
-msgstr ""
+msgstr "შეყვანილი კადრების ძირითადი ფერების (წითელი, მწვანე და ლურჯი) შეცვლა. "
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
 #, kde-format
@@ -1764,7 +1764,7 @@ msgstr "ფერის დაყოვნება"
 #, kde-format
 msgid ""
 "Remove all color information for all RGB colors except for certain one. "
-msgstr ""
+msgstr "წაშლის ყველა ფერის ინფორმაციას ყველა RGB ფერისთვის ერთის გარდა. "
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, kde-format
@@ -1795,7 +1795,7 @@ msgstr "ფერის დონეები"
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
 msgid "Adjust video input frames using levels. "
-msgstr ""
+msgstr "ვიდეოს შეყვანის კადრების გასწორება დონეების გამოყენებით. "
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:8
 #, kde-format
@@ -1932,6 +1932,9 @@ msgid ""
 "SMPTE-170M,SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 for 10-"
 "bits content, BT.2020 for 12-bits content"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,2.2-ის მუდმივი გამა,2.8-ის მუდმივი გამა,SMPTE-170M,"
+"SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 10-ბიტიანი "
+"შემცველობისთვის, BT.2020 12-ბიტიანი შემცველობისთვის"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
@@ -1945,6 +1948,8 @@ msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phsphors"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,ლენტა,Smpte-431,SMPTE-432,"
+"BT.2020,JEDEC P22 phsphors"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
@@ -2041,6 +2046,8 @@ msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
 msgstr ""
+"ფერის ტემპერატურის გასწორება ვიდეოში გარემოს ფერის ტემპერატურის "
+"სიმულაციისთვის. "
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
@@ -2151,6 +2158,7 @@ msgstr "მანძილი მილიმეტრებში"
 msgid ""
 "Set millimeters distance. This is compensation distance for fine tuning."
 msgstr ""
+"დააყენეთ მანძილი მილიმეტრებში. ეს კომპენსაციის მანძილია ზუსტი მორგებისთვის."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:15
 #, kde-format
@@ -2162,6 +2170,8 @@ msgstr "მანძილი სანტიმეტრებში"
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
 msgstr ""
+"დააყენეთ მანძილი სანტიმეტრებში. ეს კომპენსაციის მანძილია მკაცრი მანძილის "
+"მოსარგებად."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
 #, kde-format
@@ -2173,6 +2183,8 @@ msgstr "მანძილი მეტრებში"
 msgid ""
 "Set meters distance. This is compensation distance for hard distance setup."
 msgstr ""
+"დააყენეთ მანძილი მეტრებში. ეს კომპენსაციის მანძილია მაგარი მანძილის "
+"მოსარგებად."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
 #, kde-format
@@ -2182,7 +2194,7 @@ msgstr "მშრალი რაოდენობა"
 #: data/effects/avfilter/avfilter_compensationdelay.xml:24
 #, kde-format
 msgid "Set dry amount. Amount of unprocessed (dry) signal."
-msgstr ""
+msgstr "დააყენეთ მშრალი რაოდენობა. დაუმუშავებელი (მშრალი) სიგნალის რაოდენობა."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
 #, kde-format
@@ -2192,14 +2204,14 @@ msgstr "სველი რაოდენობა"
 #: data/effects/avfilter/avfilter_compensationdelay.xml:28
 #, kde-format
 msgid "Set wet amount. Amount of processed (wet) signal."
-msgstr ""
+msgstr "დააყენეთ სველი რაოდენობა. დამუშავებული (სველი}) სიგნალის რაოდენობა."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:32
 #, kde-format
 msgid ""
 "Set temperature in degrees Celsius. This is the temperature of the "
 "environment."
-msgstr ""
+msgstr "დააყენეთ ტემპერატურა ცელსიუსში. ეს გარემოს ტემპერატურაა."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:4
 #, kde-format
@@ -2287,7 +2299,7 @@ msgstr "ვიდეომონაცემების ანალიზი"
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
-msgstr ""
+msgstr "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -2386,6 +2398,8 @@ msgid ""
 "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
 "All"
 msgstr ""
+"ალფა,განათებულობა (Y სიბრტყე),ბუნდოვნება (U სიბრტყე),ბუნდოვნება (V სიბრტყე),"
+"წითელი,მწვანე,ლურჯი,ყველა"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #, kde-format
@@ -2442,7 +2456,7 @@ msgstr "DCT ხმაურის მოცილება"
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:5
 #, kde-format
 msgid "Denoise frames using 2D DCT frequency domain filtering"
-msgstr ""
+msgstr "კადრებიდან ხმაურის მოცილება 2D DCT სიხშირული დომენის ფილტრით"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
@@ -2525,7 +2539,7 @@ msgstr "დებლოკირება"
 #: data/effects/avfilter/avfilter_deblock.xml:5
 #, kde-format
 msgid "Remove blocking artifacts from input video."
-msgstr ""
+msgstr "მბლოკავი არტეფაქტების მოცილება შეყვანილი ვიდეოდან."
 
 #: data/effects/avfilter/avfilter_deblock.xml:8
 #, kde-format
@@ -3255,7 +3269,7 @@ msgstr "3D FFT ხმაურის მოცილება"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:5
 #, kde-format
 msgid "Denoise frames using 3D FFT (frequency domain filtering)"
-msgstr ""
+msgstr "კადრებიდან ხმაურის 3D FFT (სიხშირული დომენის ფილტრით) მოცილება"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:10
 #, kde-format
@@ -3471,7 +3485,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:9
 #, kde-format
 msgid "Set base delay in milliseconds. Range from 0 to 30."
-msgstr ""
+msgstr "საბაზისო დაყოვნების დაყენება მილიწამებში. შუალედი 0-30."
 
 #: data/effects/avfilter/avfilter_flanger.xml:12
 #: data/effects/avfilter/avfilter_vibrato.xml:11
@@ -3496,12 +3510,16 @@ msgstr "თავიდან გენერაცია"
 msgid ""
 "Set percentage regeneration (delayed signal feedback). Range from -95 to 95."
 msgstr ""
+"დააყენეთ რეგენერაციის (დაყოვნებული სიგნალის უკუკავშირი) პროცენტულობა. "
+"შუალედი -95-95."
 
 #: data/effects/avfilter/avfilter_flanger.xml:21
 #, kde-format
 msgid ""
 "Set percentage of delayed signal mixed with original. Range from 0 to 100."
 msgstr ""
+"დააყენეთ დაყოვნებული სიგნალის შერევის პროცენტულობა ორიგინალთან. შუალედი "
+"0-100."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -4143,7 +4161,7 @@ msgstr "დააყენეთ მნიშვნელობა, რომე
 #: data/effects/avfilter/avfilter_lagfun.xml:4
 #, kde-format
 msgid "Lag Fun"
-msgstr ""
+msgstr "სასაცილო დაყოვნება"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:5
 #, kde-format
@@ -4197,7 +4215,7 @@ msgstr "მინ"
 #: data/effects/avfilter/avfilter_limiter.xml:9
 #, kde-format
 msgid "The Min value has not to be higher than the Max value"
-msgstr ""
+msgstr "მინიმალური მნიშვნელობა, არ შეიძლება, მაქსიმალურზე დიდი იყოს"
 
 #: data/effects/avfilter/avfilter_limiter.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
@@ -4211,7 +4229,7 @@ msgstr "მაქს"
 #: data/effects/avfilter/avfilter_limiter.xml:13
 #, kde-format
 msgid "The Max value has not to be lower than the Min value"
-msgstr ""
+msgstr "მაქსიმალური მნიშვნელობა, არ შეიძლება, მინიმალურზე მცირე იყოს"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:4
 #, kde-format
@@ -4357,6 +4375,7 @@ msgstr "მედიანი"
 #, kde-format
 msgid "Pick median pixel from certain rectangle defined by radius."
 msgstr ""
+"აირჩიეთ მედიანი პიქსელი რომელიმე მართკუთხედიდან, რომელსაც რადიუსი აღწერს."
 
 #: data/effects/avfilter/avfilter_median.xml:8
 #, kde-format
@@ -4619,7 +4638,7 @@ msgstr "მოხრა"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:21
 #, kde-format
 msgid "<![CDATA[Tilting of the trace profile]]>"
-msgstr ""
+msgstr "<![CDATA[ტრეისის პროფილის დახრა]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
 #, kde-format
@@ -4705,7 +4724,7 @@ msgstr "ტრეისის პროფილის ხაზის დახ
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
 msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
-msgstr ""
+msgstr "<![CDATA[ტრეისის პროფილსი ხაზის დახატვის ჩართვა ან გამორთვა]]>"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
@@ -4873,7 +4892,7 @@ msgstr "RGBA წანაცვლება"
 #: data/effects/avfilter/avfilter_rgbashift.xml:5
 #, kde-format
 msgid "Shift R/G/B/A pixels horizontally and/or vertically"
-msgstr ""
+msgstr "R/G/B/A პიქსელების ჰორიზონტალური ან/და ვერტიკალური წანაცვლება"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
 #, kde-format
@@ -4928,7 +4947,7 @@ msgstr "რობერტსი"
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
 msgid "Apply roberts cross operator to input video stream"
-msgstr ""
+msgstr "რობერტსის ჯვარედინი ოპერატორის გადატარება შეყვანილ ვიდეონაკადზე"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5068,12 +5087,12 @@ msgstr "დიაპაზონის მორგება"
 #: data/effects/avfilter/avfilter_setrange.xml:5
 #, kde-format
 msgid "Force color range for the output video frame"
-msgstr ""
+msgstr "ფერების შუალედის ხელით მითითება გამოტანილი ვიდეოს კადრისთვის"
 
 #: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
 msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
-msgstr ""
+msgstr "ავტო,uმიუთითებელი,უცნობი,შეზღუდული,tv,mpeg,full,pc,jpeg"
 
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, kde-format
@@ -5148,7 +5167,7 @@ msgstr "ჭკვიანი ბუნდოვნება"
 #: data/effects/avfilter/avfilter_smartblur.xml:5
 #, kde-format
 msgid "Blur the input video without impacting the outlines. "
-msgstr ""
+msgstr "შეყვანილი ვიდეოს გაბუნდოვნება კონტურის შეხების გარეშე. "
 
 #: data/effects/avfilter/avfilter_smartblur.xml:8
 #, kde-format
@@ -5543,6 +5562,8 @@ msgstr "გვერდის დონე"
 msgid ""
 "Set level of side signal. Default is 1. Allowed range is from 0.015625 to 64."
 msgstr ""
+"გვერდითი სიგნალის დონის დაყენება. ნაგულისხმევია 1. დაშვებული შუალედია "
+"0.015625-64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:52
 #, kde-format
@@ -5554,6 +5575,8 @@ msgstr "გვერდითი ბალანსი"
 msgid ""
 "Set balance of side signal. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"გვერდითი სიგნალის ბალანსის დაყენება. ნაგულისხმევია 0. დაშვებული შუალედია "
+"-1-1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
 #, kde-format
@@ -5566,6 +5589,7 @@ msgid ""
 "Set level of the middle signal. Default is 1. Allowed range is from 0.015625 "
 "to 64."
 msgstr ""
+"შუა სიგნალის დონის დაყენება. ნაგულისხმევია 1. დაშვებული შუალედია 0.015625-64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
 #, kde-format
@@ -5576,6 +5600,8 @@ msgstr "შუა დაპანორამება"
 #, kde-format
 msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"შუა სიგნალის პანორამირების დაყენება. ნაგულისხმევია 0. დაშვებული მნიშვნელობაა "
+"-1-1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
 #, kde-format
@@ -5717,6 +5743,8 @@ msgstr ""
 #, kde-format
 msgid "Clock,Clock flip,Counter clock,Counter clock flip"
 msgstr ""
+"საათი,საათისგადაბრუნება,საათის ისრის საწინააღმდეგო, საათის ისრის "
+"საწინააღმდეგო გადაბრუნება"
 
 #: data/effects/avfilter/avfilter_transpose.xml:12
 #, kde-format
@@ -5838,7 +5866,7 @@ msgstr "ვეივლეტებზე დაფუძნებული ხ�
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:8
 #, kde-format
 msgid "Hard,Soft,Garrote"
-msgstr ""
+msgstr "მაგარი,რბილი, გაროტა"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:18
 #: src/jobs/speedtask.cpp:72
@@ -6094,8 +6122,7 @@ msgid "<![CDATA[Set the envelope mode]]>"
 msgstr "<![CDATA[კონვერტის რეჟიმის დაყენება]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
-#, fuzzy, kde-format
-#| msgid "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
+#, kde-format
 msgid "Lowpass,Flat,A-flat,X-flat,Y-flat,Chroma,Color,acolor"
 msgstr ""
 "დაბალსიხშირეული,ბრტყელი,aბრტყელი,xბრტყელი,yბრტყელი,განათებულობა,ფერი,aფერი"
@@ -6115,8 +6142,7 @@ msgid "<![CDATA[Set the filter mode]]>"
 msgstr "<![CDATA[ფილტრის რეჟიმის დაყენება]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
-#, fuzzy, kde-format
-#| msgid "none,green,orange,invert"
+#, kde-format
 msgid "None,Green,Orange,Invert"
 msgstr "არცერთი,მწვანე,ნარინჯისფერი,ინვერსია"
 
@@ -6131,8 +6157,7 @@ msgid "<![CDATA[Set the opacity of the graticule]]>"
 msgstr "<![CDATA[გრადუირებული ბადის გაუმჭირვალობის დაყენება]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
-#, fuzzy, kde-format
-#| msgid "numbers,dots"
+#, kde-format
 msgid "Numbers,Dots"
 msgstr "რიცხვები,წერტილები"
 
@@ -6142,8 +6167,7 @@ msgid "<![CDATA[Set graticule flags]]>"
 msgstr "<![CDATA[გრადუირებული ბადის ალმების დაყენება]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
-#, fuzzy, kde-format
-#| msgid "digital,millivolts,ire"
+#, kde-format
 msgid "Digital,Millivolts,Ire"
 msgstr "ციფრული,მილივოლტი,ire"
 
@@ -6177,8 +6201,7 @@ msgid "Tint 1"
 msgstr "ელფერი 2"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
-#, fuzzy, kde-format
-#| msgid "none,size"
+#, kde-format
 msgid "None,Size"
 msgstr "არაფერი,ზომა"
 
@@ -6927,7 +6950,7 @@ msgstr "<![CDATA[ექოს ჩაქრობის სიჩქარე]]>"
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
 msgid "<![CDATA[Darker or Brighter echo]]>"
-msgstr ""
+msgstr "<![CDATA[ბნელი ან ნათელი ექო]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
 #, kde-format
@@ -8135,7 +8158,7 @@ msgstr "ვიდეოკადრის ყველა წიბოს გა
 #: data/effects/frei0r/frei0r_defish0r.xml:25
 #, kde-format
 msgid "Fix camera scaling between 4:3 and 16:9"
-msgstr ""
+msgstr "კამერის მასშტაბის დაფიქსირება 4:3-სა და 16:9-ს შორის"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:28
 #, kde-format
@@ -8613,7 +8636,7 @@ msgstr "ბუნდოვნება"
 #: data/effects/frei0r/frei0r_iirblur.xml:5
 #, kde-format
 msgid "Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)"
-msgstr ""
+msgstr "ბუნდოვნება 2D IIR ფილტრებით (ექსპონენტური, დაბალსიხშირული, გაუსის)"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:9
 #, kde-format
@@ -8658,7 +8681,7 @@ msgstr "საწყისი X"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:9
 #, kde-format
 msgid "Move the origin of the kaleidoscope along the X axis"
-msgstr ""
+msgstr "კალეიდოსკოპის წყაროს გადაადგილება X ღერძის გასწვრივ"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:12
 #, kde-format
@@ -8668,7 +8691,7 @@ msgstr "საწყისი Y"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:13
 #, kde-format
 msgid "Move the origin of the kaleidoscope along the Y axis"
-msgstr ""
+msgstr "კალეიდოსკოპის წყაროს გადაადგილება Y ღერძის გასწვრივ"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:16
 #, kde-format
@@ -9357,6 +9380,8 @@ msgstr "პოსტერიზაცია"
 #, kde-format
 msgid "Posterizes image by reducing the number of colors used in image"
 msgstr ""
+"გამოსახულების პოსტერიზაცია გამოსახულებაში გამოყენებული ფერების შემცირების "
+"ხარჯზე"
 
 #: data/effects/frei0r/frei0r_posterize.xml:9
 #, kde-format
@@ -9437,7 +9462,7 @@ msgstr "R,G,B,Y',Pr,Pb,ალფა"
 #: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
 msgid "<![CDATA[Channel to numerically display]]>"
-msgstr ""
+msgstr "<![CDATA[არხი რიცხვითი ჩვენებისთვის]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
 #, kde-format
@@ -9467,7 +9492,7 @@ msgstr "R ტრეისი"
 #: data/effects/frei0r/frei0r_pr0file.xml:38
 #, kde-format
 msgid "<![CDATA[Show R trace (red) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[R ტრეისის (წითლის) ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:41
 #, kde-format
@@ -9477,7 +9502,7 @@ msgstr "G ტრეისი"
 #: data/effects/frei0r/frei0r_pr0file.xml:42
 #, kde-format
 msgid "<![CDATA[Show G trace (green) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[G ტრეისის (მწვანის) ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:45
 #, kde-format
@@ -9487,7 +9512,7 @@ msgstr "B ტრეისი"
 #: data/effects/frei0r/frei0r_pr0file.xml:46
 #, kde-format
 msgid "<![CDATA[Show B trace (blue) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[B ტრეისის (ლურჯის) ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:49
 #, kde-format
@@ -9497,7 +9522,7 @@ msgstr "Y ტრეისი"
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
 msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Y ტრეისის (განათებულობის) ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:53
 #, kde-format
@@ -9507,7 +9532,7 @@ msgstr "Pr ტრეისი"
 #: data/effects/frei0r/frei0r_pr0file.xml:54
 #, kde-format
 msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Pr ტრეისის (წითლის სხვაობის) ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:57
 #, kde-format
@@ -9517,7 +9542,7 @@ msgstr "Pb ტრეისი"
 #: data/effects/frei0r/frei0r_pr0file.xml:58
 #, kde-format
 msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Pb ტრეისის (ლურჯის სხვაობის) ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:61
 #, kde-format
@@ -9527,7 +9552,7 @@ msgstr "ალფას ტრეისი"
 #: data/effects/frei0r/frei0r_pr0file.xml:62
 #, kde-format
 msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr ""
+msgstr "<![CDATA[ალფას ტრეისის ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:65
 #, kde-format
@@ -9557,7 +9582,7 @@ msgstr "მინიმუმის ჩვენება"
 #: data/effects/frei0r/frei0r_pr0file.xml:74
 #, kde-format
 msgid "<![CDATA[Show minimum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[მინიმუმის ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:77
 #, kde-format
@@ -9567,12 +9592,12 @@ msgstr "მაქსიმუმის ჩვენება"
 #: data/effects/frei0r/frei0r_pr0file.xml:78
 #, kde-format
 msgid "<![CDATA[Show maximum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[მაქსიმუმის ჩვენება პანელზე]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:82
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
+msgstr "<![CDATA[0-255 მასშტაბის გამოყენება 0.0-1.0-ის მაგიერ]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:85
 #, kde-format
@@ -9888,7 +9913,7 @@ msgstr "სიმკვეთრე"
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:14
 #, kde-format
 msgid "Sharpness of transfer."
-msgstr "გადასვლის სიმკვეთრე"
+msgstr "გადასვლის სიმკვეთრე."
 
 #: data/effects/frei0r/frei0r_sobel.xml:4
 #, kde-format
@@ -10236,7 +10261,7 @@ msgstr "თავბრუსხვევა"
 #: data/effects/frei0r/frei0r_vertigo.xml:17
 #, kde-format
 msgid "Alpha blending with zoomed and rotated images"
-msgstr ""
+msgstr "ალფას შერევა გადიდებულ და შებრუნებულ გამოსახულებებთან"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:9
 #: data/effects/frei0r/frei0r_vertigo.xml:20
@@ -11183,7 +11208,7 @@ msgstr "ტონის წანაცვლება"
 #: data/effects/ladspa/ladspa_pitch.xml:5
 #, kde-format
 msgid "LADSPA change pitch audio effect"
-msgstr ""
+msgstr "LADSPA-ის ტონის ცვლილების აუდიოეფექტი"
 
 #: data/effects/ladspa/ladspa_pitch.xml:8 data/effects/sox/sox_pitch.xml:8
 #, kde-format
@@ -12218,7 +12243,7 @@ msgstr "SoX"
 #: data/effects/sox/sox.xml:5
 #, kde-format
 msgid "Process audio using a SoX effect"
-msgstr ""
+msgstr "დამუშავება SoX-ის ეფექტით"
 
 #: data/effects/sox/sox.xml:8
 #, kde-format
@@ -22445,13 +22470,7 @@ msgid "Loading Project"
 msgstr "პროექტის ჩატვირთვა"
 
 #: src/mainwindow.cpp:943
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have 1 rendering job waiting in the queue.\n"
-#| "What do you want to do with this job?"
-#| msgid_plural ""
-#| "You have %1 rendering jobs waiting in the queue.\n"
-#| "What do you want to do with these jobs?"
+#, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
 "What do you want to do with this job?"
@@ -22468,13 +22487,12 @@ msgstr[1] ""
 #: src/mainwindow.cpp:945
 #, kde-format
 msgid "Continue rendering in the background"
-msgstr ""
+msgstr "რენდერის გაგრძელება ფონურ რეჟიმში"
 
 #: src/mainwindow.cpp:945
-#, fuzzy, kde-format
-#| msgid "Abort processing"
+#, kde-format
 msgid "Abort rendering"
-msgstr "დამუშავების შეწყვეტა"
+msgstr "რენდერის შეწყვეტა"
 
 #: src/mainwindow.cpp:962
 #, kde-format
