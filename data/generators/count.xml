@@ -13,7 +13,7 @@
 		  <paramlistdisplay>Seconds to 0,Seconds to 1,Frames,Timecode,Clock</paramlistdisplay>
 		  <name>Counter Style</name>
         </parameter>
-        <parameter type="list" name="sound" default="silent" paramlist="silent;2pop;frame0">
+        <parameter type="list" name="sound" default="silent" paramlist="silent;2pop;frame0" audio="2pop;frame0">
 		  <paramlistdisplay>Silent,1kHz beep before end,1kHz beep each second</paramlistdisplay>
 		  <name>Sound</name>
         </parameter>
