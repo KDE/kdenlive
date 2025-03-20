@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-19 02:32+0000\n"
+"POT-Creation-Date: 2025-03-20 02:39+0000\n"
 "PO-Revision-Date: 2025-01-15 22:27+0100\n"
 "Last-Translator: Jan Papez (honyczek) <honyczek@centrum.cz>\n"
 "Language-Team: Czech <kde-i18n-cs@kde.org>\n"
@@ -479,10 +479,9 @@ msgid "Compressor (avfilter)"
 msgstr "Komprimovaný archiv:"
 
 #: data/effects/avfilter/acompressor.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Properties"
+#, kde-format
 msgid "Audio Compressor"
-msgstr "Vlastnosti zvuku"
+msgstr "Komprese zvuku"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
@@ -505,10 +504,9 @@ msgid "Threshold"
 msgstr "Práh"
 
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Ratio"
-msgstr "Rotace"
+msgstr "Poměr"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
@@ -522,7 +520,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_aphaser.xml:20
 #, kde-format
 msgid "Release"
-msgstr ""
+msgstr "Vydání"
 
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
@@ -603,14 +601,14 @@ msgstr "Výstupní soubor"
 #: data/effects/sox/sox_phaser.xml:14
 #, kde-format
 msgid "Delay"
-msgstr ""
+msgstr "Prodleva"
 
 #: data/effects/avfilter/aecho.xml:17
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #: data/effects/sox/sox_echo.xml:17 data/effects/sox/sox_phaser.xml:17
 #, kde-format
 msgid "Decay"
-msgstr ""
+msgstr "Zchátrání"
 
 #: data/effects/avfilter/agate.xml:4
 #, kde-format
@@ -629,7 +627,7 @@ msgstr "Zvukový signál"
 #: data/effects/avfilter/avfilter_setrange.xml:9
 #, kde-format
 msgid "Range"
-msgstr ""
+msgstr "Rozsah"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:4
 #, kde-format
@@ -682,7 +680,7 @@ msgstr "Výstupní soubor"
 #: data/effects/avfilter/avfilter_alimiter.xml:14
 #, kde-format
 msgid "Limit"
-msgstr ""
+msgstr "Omezení"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:17
 #, fuzzy, kde-format
@@ -721,10 +719,9 @@ msgid "DC"
 msgstr "C"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:30
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Anti-aliasing"
-msgstr "Italština"
+msgstr "Vyhlazování"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
 #, fuzzy, kde-format
@@ -753,7 +750,7 @@ msgstr "Vzorkovací frekvence:"
 #: data/effects/avfilter/avfilter_limiter.xml:4
 #, kde-format
 msgid "Limiter"
-msgstr ""
+msgstr "Omezovač"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:5
 #: data/effects/avfilter/avfilter_aphaser.xml:5
@@ -823,10 +820,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bass.xml:15
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
-#, fuzzy, kde-format
-#| msgid "Wipe Method"
+#, kde-format
 msgid "Method"
-msgstr "Metoda setření"
+msgstr "Metoda"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -867,10 +863,9 @@ msgid "1,2"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Order"
-msgstr "Okraj "
+msgstr "Pořadí"
 
 #: data/effects/avfilter/avfilter_allpass.xml:28
 #: data/effects/avfilter/avfilter_bandpass.xml:27
@@ -926,7 +921,7 @@ msgstr "Typ souboru"
 #: data/effects/ladspa/ladspa_phaser.xml:4
 #, kde-format
 msgid "Phaser"
-msgstr ""
+msgstr "Rozkolísání"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:14
 #, fuzzy, kde-format
@@ -994,17 +989,17 @@ msgstr ""
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, kde-format
 msgid "Timing"
-msgstr ""
+msgstr "Časování"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
 #, kde-format
 msgid "BPM"
-msgstr ""
+msgstr "BPM"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:37
 #, kde-format
 msgid "Milliseconds"
-msgstr ""
+msgstr "Milisekundy"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:40
 #, fuzzy, kde-format
@@ -1075,17 +1070,15 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_avgblur.xml:8
 #: data/effects/frei0r/frei0r_pr0be.xml:18
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgid "X size"
-msgstr "Změnit velikost"
+msgstr "Velikost X"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:11
 #: data/effects/frei0r/frei0r_pr0be.xml:21
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgid "Y size"
-msgstr "Změnit velikost"
+msgstr "Velikost Y"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
 #, kde-format
@@ -1155,7 +1148,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
 msgid "Bass"
-msgstr ""
+msgstr "Basy"
 
 #: data/effects/avfilter/avfilter_bass.xml:5
 #, kde-format
@@ -1367,7 +1360,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_yadif.xml:13
 #, kde-format
 msgid "Parity"
-msgstr ""
+msgstr "Parita"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:16
 #: data/effects/avfilter/avfilter_yadif.xml:16
@@ -1398,10 +1391,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gradfun.xml:11
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_normalize.xml:20
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Strength"
-msgstr "Roztáhnout"
+msgstr "Síla"
 
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
@@ -1411,7 +1403,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
 msgid "Chroma Hold"
-msgstr ""
+msgstr "Podržení Chromy"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
@@ -1434,7 +1426,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorhold.xml:11
 #, kde-format
 msgid "Similarity"
-msgstr ""
+msgstr "Podobnost"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:14
 #, kde-format
@@ -1448,7 +1440,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorhold.xml:14
 #, kde-format
 msgid "Blend"
-msgstr ""
+msgstr "Mísení"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:19
 #, kde-format
@@ -1527,10 +1519,9 @@ msgid "Manhattan,Euclidean"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
-#, fuzzy, kde-format
-#| msgid "Dance"
+#, kde-format
 msgid "Distance"
-msgstr "Dance"
+msgstr "Vzdálenost"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, fuzzy, kde-format
@@ -1667,58 +1658,49 @@ msgid "Red-Red"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:11
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Red-Green"
-msgstr "Zelená"
+msgstr "Červená-Zelená"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:14
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Red-Blue"
-msgstr "Modrá"
+msgstr "Červená-Modrá"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:17
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Red"
-msgstr "Zelená"
+msgstr "Zelená-Červená"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:20
-#, fuzzy, kde-format
-#| msgid "Gain: Green"
+#, kde-format
 msgid "Green-Green"
-msgstr "Zesílení: zelená"
+msgstr "Zelená-Zelená"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:23
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Blue"
-msgstr "Zelená"
+msgstr "Zelená-Modrá"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:26
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue-Red"
-msgstr "Modrá"
+msgstr "Modrá-Červená"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:29
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Blue-Green"
-msgstr "Zelená"
+msgstr "Modrá-Zelená"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:32
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue-Blue"
-msgstr "Modrá"
+msgstr "Modrá-Modrá"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Color Contrast"
-msgstr "Kontrast"
+msgstr "Barevný kontrast"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
@@ -1810,10 +1792,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:121
 #: data/effects/frei0r/frei0r_saturat0r.xml:8
 #: data/transitions/frei0r/frei0r_saturation.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgid "Saturation"
-msgstr "HSV saturace"
+msgstr "Nasycení"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
 #, kde-format
@@ -1856,8 +1837,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
-#, fuzzy, kde-format
-#| msgid "Brightness"
+#, kde-format
 msgid "Lightness"
 msgstr "Jas"
 
@@ -1933,10 +1913,9 @@ msgid "Blue white output"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Matrix"
-msgstr "Klip barvy"
+msgstr "Matice barev"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
 #, fuzzy, kde-format
@@ -2113,10 +2092,9 @@ msgstr "Vykreslit plný barevný rozsah"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:4
 #: data/effects/frei0r/frei0r_colgate.xml:11
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color Temperature"
-msgstr "Barevný prostor"
+msgstr "Teplota barvy"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:5
 #, kde-format
@@ -2127,10 +2105,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
-#, fuzzy, kde-format
-#| msgid "Templates"
+#, kde-format
 msgid "Temperature"
-msgstr "Šablony"
+msgstr "Teplota"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
 #, fuzzy, kde-format
@@ -2397,14 +2374,12 @@ msgid "Size"
 msgstr "Velikost"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
-#, fuzzy, kde-format
-#| msgid "X Offset"
+#, kde-format
 msgid "X offset"
 msgstr "Posun X"
 
 #: data/effects/avfilter/avfilter_datascope.xml:15
-#, fuzzy, kde-format
-#| msgid "Y Offset"
+#, kde-format
 msgid "Y offset"
 msgstr "Posun Y"
 
@@ -2420,10 +2395,9 @@ msgid "Off,On"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_datascope.xml:23
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Axis"
-msgstr "Zobrazit pole"
+msgstr "Zobrazit osy"
 
 #: data/effects/avfilter/avfilter_datascope.xml:26
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
@@ -2748,10 +2722,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
 #: data/effects/frei0r/frei0r_distort0r.xml:11 data/effects/sox/sox_bass.xml:11
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Frequency"
-msgstr "Nízká frekvence"
+msgstr "Frekvence"
 
 #: data/effects/avfilter/avfilter_deesser.xml:17
 #, kde-format
@@ -2848,10 +2821,9 @@ msgid "Logo Height"
 msgstr "Výška"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
-#, fuzzy, kde-format
-#| msgid "Show Grid"
+#, kde-format
 msgid "Show borders"
-msgstr "Zobrazit mřížku"
+msgstr "Zobrazovat hranice"
 
 #: data/effects/avfilter/avfilter_derain.xml:4
 #, fuzzy, kde-format
@@ -2983,7 +2955,7 @@ msgstr "Změnit práh"
 #: data/effects/avfilter/avfilter_erosion.xml:20
 #, kde-format
 msgid "Coordinates"
-msgstr ""
+msgstr "Souřadnice"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
@@ -3119,10 +3091,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw Grid"
-msgstr "Zobrazit mřížku"
+msgstr "Kreslit mřížku"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:5
 #, kde-format
@@ -3206,10 +3177,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
-#, fuzzy, kde-format
-#| msgid "Object Detection"
+#, kde-format
 msgid "Edge detection"
-msgstr "Objektová detekce"
+msgstr "Detekce hran"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:5
 #, kde-format
@@ -3235,10 +3205,9 @@ msgid "Wires,Colormix,Canny"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:15
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Modes"
-msgstr "Režim"
+msgstr "Režimy"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:18
 #: data/effects/avfilter/avfilter_gblur.xml:15
@@ -3269,10 +3238,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
-#, fuzzy, kde-format
-#| msgid "Stepsize"
+#, kde-format
 msgid "Steps"
-msgstr "Velikost kroku"
+msgstr "Kroky"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
 #, fuzzy, kde-format
@@ -3291,10 +3259,9 @@ msgid "2x,3x"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_epx.xml:9
-#, fuzzy, kde-format
-#| msgid "Blur factor"
+#, kde-format
 msgid "Scale factor"
-msgstr "Faktor rozostření"
+msgstr "Faktor měřítka"
 
 #: data/effects/avfilter/avfilter_eq.xml:4
 #, fuzzy, kde-format
@@ -3382,10 +3349,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Exposure"
-msgstr "Exportováno:"
+msgstr "Expozice"
 
 #: data/effects/avfilter/avfilter_exposure.xml:5
 #, kde-format
@@ -3437,10 +3403,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_defish0r.xml:8
 #: data/effects/frei0r/frei0r_iirblur.xml:8
 #: data/effects/frei0r/frei0r_sharpness.xml:8
-#, fuzzy, kde-format
-#| msgid "Count"
+#, kde-format
 msgid "Amount"
-msgstr "Počet"
+msgstr "Částka"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:15
 #, kde-format
@@ -3450,11 +3415,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Clock"
+#, kde-format
 msgid "Block"
-msgstr "Hodiny"
+msgstr "Blokovat"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
 #, fuzzy, kde-format
@@ -3549,10 +3512,9 @@ msgid "init,frame"
 msgstr "První snímek"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
-#, fuzzy, kde-format
-#| msgid "Y value"
+#, kde-format
 msgid "Evaluate"
-msgstr "Hodnota Y"
+msgstr "Vyhodnotit"
 
 #: data/effects/avfilter/avfilter_field.xml:4
 #, fuzzy, kde-format
@@ -3658,7 +3620,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_phaser.xml:11 data/effects/sox/sox_flanger.xml:11
 #, kde-format
 msgid "Depth"
-msgstr ""
+msgstr "Hloubka"
 
 #: data/effects/avfilter/avfilter_flanger.xml:13
 #, kde-format
@@ -3667,10 +3629,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_flanger.xml:16
 #: data/effects/sox/sox_flanger.xml:14
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Regeneration"
-msgstr "Operace"
+msgstr "Obnovení"
 
 #: data/effects/avfilter/avfilter_flanger.xml:17
 #, kde-format
@@ -3724,7 +3685,7 @@ msgstr ""
 #: data/effects/sox/sox_flanger.xml:26
 #, kde-format
 msgid "Phase"
-msgstr ""
+msgstr "Fáze"
 
 #: data/effects/avfilter/avfilter_flanger.xml:34
 #, kde-format
@@ -3789,10 +3750,9 @@ msgid "4,5"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:9
-#, fuzzy, kde-format
-#| msgid "Quality:"
+#, kde-format
 msgid "Quality"
-msgstr "Kvalita:"
+msgstr "Kvalita"
 
 #: data/effects/avfilter/avfilter_fspp.xml:12
 #, kde-format
@@ -3806,10 +3766,9 @@ msgid "QP on B-Frames"
 msgstr "V rámci"
 
 #: data/effects/avfilter/avfilter_gblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Gain: Blue"
+#, kde-format
 msgid "Gaussian Blur"
-msgstr "Zeslabení: modrá"
+msgstr "Gaussovo rozostření"
 
 #: data/effects/avfilter/avfilter_gblur.xml:5
 #, kde-format
@@ -3893,7 +3852,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
 msgid "Flags"
-msgstr ""
+msgstr "Příznaky"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
 #, fuzzy, kde-format
@@ -3994,10 +3953,9 @@ msgid "Right phase"
 msgstr "Vpravo"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Flip Horizontally"
-msgstr "Vodorovně"
+msgstr "Převrátit vodorovně"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
 #, fuzzy, kde-format
@@ -4041,10 +3999,9 @@ msgid "Apply a high shelf filter."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:4
-#, fuzzy, kde-format
-#| msgid "Histogram"
+#, kde-format
 msgid "Histogram Equalizer"
-msgstr "Histogram"
+msgstr "Ekvalizér histogramu"
 
 #: data/effects/avfilter/avfilter_histeq.xml:5
 #, kde-format
@@ -4099,7 +4056,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
 #, kde-format
 msgid "Display"
-msgstr ""
+msgstr "Zobrazení"
 
 #: data/effects/avfilter/avfilter_histogram.xml:22
 #, kde-format
@@ -4121,8 +4078,7 @@ msgstr "Krytí pozadí"
 #: data/effects/avfilter/avfilter_histogram.xml:29
 #: data/effects/avfilter/avfilter_vectorscope.xml:36
 #: data/effects/avfilter/avfilter_waveform.xml:64
-#, fuzzy, kde-format
-#| msgid "Background opacity"
+#, kde-format
 msgid "Background Opacity"
 msgstr "Krytí pozadí"
 
@@ -4181,10 +4137,9 @@ msgstr "Interpolace"
 
 #: data/effects/avfilter/avfilter_hqx.xml:12
 #: data/effects/avfilter/avfilter_xbr.xml:12
-#, fuzzy, kde-format
-#| msgid "Maximal number of dust"
+#, kde-format
 msgid "Maximum number of threads"
-msgstr "Maximální počet prachových částic"
+msgstr "Maximální počet vláken"
 
 #: data/effects/avfilter/avfilter_hqx.xml:15
 #: data/effects/avfilter/avfilter_xbr.xml:15
@@ -4328,7 +4283,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:4
 #, kde-format
 msgid "Kirsch"
-msgstr ""
+msgstr "Kirsch"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:5
 #, kde-format
@@ -4354,10 +4309,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_prewitt.xml:15
 #: data/effects/avfilter/avfilter_roberts.xml:15
 #: data/effects/avfilter/avfilter_sobel.xml:15
-#, fuzzy, kde-format
-#| msgid "Y-Delta"
+#, kde-format
 msgid "Delta"
-msgstr "Y-Delta"
+msgstr "Rozdíl"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:13
 #, kde-format
@@ -4523,10 +4477,9 @@ msgid "Apply a low shelf filter."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Apply"
+#, kde-format
 msgid "Apply LUT"
-msgstr "Použít"
+msgstr "Použít LUT"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:6
 #, kde-format
@@ -4581,10 +4534,9 @@ msgid "QP"
 msgstr "P"
 
 #: data/effects/avfilter/avfilter_median.xml:4
-#, fuzzy, kde-format
-#| msgid "MediaInfo:"
+#, kde-format
 msgid "Median"
-msgstr "Informace o médiu:"
+msgstr "Medián"
 
 #: data/effects/avfilter/avfilter_median.xml:5
 #: data/effects/avfilter/avfilter_scroll.xml:5
@@ -4635,10 +4587,9 @@ msgid "<![CDATA[Select which planes to process]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
-#, fuzzy, kde-format
-#| msgid "Make monochrome clip"
+#, kde-format
 msgid "Monochrome"
-msgstr "Zobrazit klip černobíle (pouze černá nebo bílá)."
+msgstr "Monochromatický"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:5
 #, kde-format
@@ -4826,7 +4777,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:5
 #, kde-format
 msgid "2D video oscilloscope"
-msgstr ""
+msgstr "2D video osciloskop"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:8
 #, fuzzy, kde-format
@@ -4926,10 +4877,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Components"
-msgstr "Komponenty:"
+msgstr "Složky"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, fuzzy, kde-format
@@ -5020,7 +4970,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_photosensitivity.xml:16
 #, kde-format
 msgid "Skip"
-msgstr ""
+msgstr "Přeskočit"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
 #, fuzzy, kde-format
@@ -5060,10 +5010,9 @@ msgstr "Šířka čáry"
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Fit to height"
+#, kde-format
 msgid "Block height"
-msgstr "Přizpůsobit výšce"
+msgstr "Výška bloku"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
 #, kde-format
@@ -5078,7 +5027,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
 msgid "Prewitt"
-msgstr ""
+msgstr "Prewitt"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:5
 #, kde-format
@@ -5088,7 +5037,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
 msgid "Random"
-msgstr ""
+msgstr "Náhodné"
 
 #: data/effects/avfilter/avfilter_random.xml:5
 #, kde-format
@@ -5103,10 +5052,9 @@ msgid "Number of frames in cache"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_random.xml:11
-#, fuzzy, kde-format
-#| msgid "Seed:"
+#, kde-format
 msgid "Seed"
-msgstr "Semínko:"
+msgstr "Semínko"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:4
 #, fuzzy, kde-format
@@ -5206,7 +5154,7 @@ msgstr "Operace"
 #: data/effects/avfilter/avfilter_roberts.xml:4
 #, kde-format
 msgid "Roberts"
-msgstr ""
+msgstr "Roberts"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
@@ -5293,36 +5241,32 @@ msgstr "Metoda výběru obrázku"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:12
 #, kde-format
 msgid "Reds"
-msgstr ""
+msgstr "Červené"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:15
-#, fuzzy, kde-format
-#| msgid "Yellow"
+#, kde-format
 msgid "Yellows"
-msgstr "Žlutá"
+msgstr "Žluté"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:18
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Greens"
-msgstr "Zelená"
+msgstr "Zelené"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:21
-#, fuzzy, kde-format
-#| msgid "Cyan"
+#, kde-format
 msgid "Cyans"
-msgstr "Azurová"
+msgstr "Azurové"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:24
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blues"
-msgstr "Modrá"
+msgstr "Blues"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
 #, kde-format
 msgid "Magentas"
-msgstr ""
+msgstr "Purpurové"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:30
 #, fuzzy, kde-format
@@ -5333,7 +5277,7 @@ msgstr "Bílá"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:33
 #, kde-format
 msgid "Neutrals"
-msgstr ""
+msgstr "Neutrální"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:36
 #, fuzzy, kde-format
@@ -5372,10 +5316,9 @@ msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shear.xml:4
-#, fuzzy, kde-format
-#| msgid "Shear X"
+#, kde-format
 msgid "Shear"
-msgstr "Zkosit podle X"
+msgstr "Zkosit"
 
 #: data/effects/avfilter/avfilter_shear.xml:5
 #, kde-format
@@ -5629,10 +5572,9 @@ msgid "Rotation"
 msgstr "Rotace"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:17
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Elevation"
-msgstr "Operace"
+msgstr "Výška"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
 #, fuzzy, kde-format
@@ -5658,10 +5600,9 @@ msgid "Use if option ‘type’ is set to freq."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolate"
-msgstr "Interpolace"
+msgstr "Interpolovat"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
 #, kde-format
@@ -5744,10 +5685,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output format"
-msgstr "Výstupní soubor"
+msgstr "Formát výstupu"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, fuzzy, kde-format
@@ -5861,10 +5801,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo Mode"
-msgstr "Stereo "
+msgstr "Stereo režim"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
 #, kde-format
@@ -6039,10 +5978,9 @@ msgid "Frames to mix"
 msgstr "Snímky"
 
 #: data/effects/avfilter/avfilter_transpose.xml:4
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transpose"
-msgstr "Překódovat"
+msgstr "Transponovat"
 
 #: data/effects/avfilter/avfilter_transpose.xml:5
 #, kde-format
@@ -6249,7 +6187,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, kde-format
 msgid "Envelope"
-msgstr ""
+msgstr "Obálka"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:25
 #, fuzzy, kde-format
@@ -6292,16 +6230,14 @@ msgid "Auto,601,709"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
-#, fuzzy, kde-format
-#| msgid "Colorspace:"
+#, kde-format
 msgid "Colorspace"
-msgstr "Barevný prostor:"
+msgstr "Barevný prostor"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Flip Vertically"
-msgstr "Svisle"
+msgstr "Převrátit svisle"
 
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
@@ -6309,10 +6245,9 @@ msgid "Vertically flip the input video."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vibrance.xml:4
-#, fuzzy, kde-format
-#| msgid "Variance"
+#, kde-format
 msgid "Vibrance"
-msgstr "Rozptyl"
+msgstr "Živost (vibrance)"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:5
 #, kde-format
@@ -6357,7 +6292,7 @@ msgstr "Modrá"
 #: data/effects/avfilter/avfilter_vibrance.xml:29
 #, kde-format
 msgid "Alternate"
-msgstr ""
+msgstr "Alternativní"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:4
 #, kde-format
@@ -7207,78 +7142,72 @@ msgstr "Zmrazit po"
 #: data/effects/frei0r/frei0r_3dflippo.xml:4
 #, kde-format
 msgid "3dflippo"
-msgstr ""
+msgstr "3D otočení"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:5
 #, kde-format
 msgid "Frame rotation in 3D space"
-msgstr ""
+msgstr "Rotace snímku ve 3D prostoru"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:8
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "X axis rotation"
-msgstr "Vytvoření masky"
+msgstr "Rotace v ose X"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:11
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Y axis rotation"
-msgstr "Vytvoření masky"
+msgstr "Rotace v ose Y"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:14
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Z axis rotation"
-msgstr "Vytvoření masky"
+msgstr "Rotace v ose Z"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:17
 #, kde-format
 msgid "X axis rotation rate"
-msgstr ""
+msgstr "Faktor rotace v ose X"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:20
 #, kde-format
 msgid "Y axis rotation rate"
-msgstr ""
+msgstr "Faktor rotace v ose Y"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:23
 #, kde-format
 msgid "Z axis rotation rate"
-msgstr ""
+msgstr "Faktor rotace v ose Z"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:26
-#, fuzzy, kde-format
-#| msgid "Set Position X"
+#, kde-format
 msgid "Center position (X)"
-msgstr "Nastavit umístění X"
+msgstr "Vystředit pozici (X)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:29
-#, fuzzy, kde-format
-#| msgid "Set Position Y"
+#, kde-format
 msgid "Center position (Y)"
-msgstr "Nastavit umístění Y"
+msgstr "Vystředit pozici (Y)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:32
 #, kde-format
 msgid "Invert rotation assignment"
-msgstr ""
+msgstr "Obrátit rotační dosazení"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:35
-#, fuzzy, kde-format
-#| msgid "Don't ask again"
+#, kde-format
 msgid "Don't blank mask"
-msgstr "Příště se již nedotazovat"
+msgstr "Nevyprazdňovat masku"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:38
 #, kde-format
 msgid "Fill with image or black"
-msgstr ""
+msgstr "Vyplnit obrázkem nebo černou barvou"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
 msgid "Aech0r"
-msgstr ""
+msgstr "Aech0r"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
@@ -7344,19 +7273,18 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:30
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha operations"
 msgstr "Operace s alfa kanálem"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:6
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
+#, kde-format
 msgid "Display and manipulation of the alpha channel"
-msgstr "Použít luma obrázku namísto kanálu alfa."
+msgstr "Zobrazení a manipulace s alfa kanálem"
 
+# Nedávat mezery za čárky, aplikace to rozděluje podle čárek a pak vznikají na začátku zbytečné mezery.
 #: data/effects/frei0r/frei0r_alpha0ps.xml:9
 #: data/effects/frei0r/frei0r_alpha0ps.xml:34
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:8
@@ -7365,19 +7293,22 @@ msgid ""
 "Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,"
 "Selection on white,Selection on checkers"
 msgstr ""
+"Obrázek,Alfa jako šedá,Šedá + červená,Výběr na černé,Výběr na šedé,Výběr na "
+"bílé, Výběr"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:13
 #: data/effects/frei0r/frei0r_alpha0ps.xml:38
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:12
-#, fuzzy, kde-format
-#| msgid "Display aspect ratio:"
+#, kde-format
 msgid "Display input alpha"
-msgstr "Poměr stran obrazovky:"
+msgstr "Zobrazit vstupní alfa kanál"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:16
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
 msgstr ""
+"Žádná operace,Okrájet,Zmenšit tvrdě, Zmenšit měkce, Zvětšit tvrdě, Zvětšit "
+"měkce,Práh"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:17
 #: data/effects/frei0r/frei0r_alpha0ps.xml:42
@@ -7397,32 +7328,33 @@ msgstr "Operace"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:23
 #, kde-format
 msgid "Shrink/grow amount"
-msgstr ""
+msgstr "Množstevní nárůst/zmenšení"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:41
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
 msgstr ""
+"Žádná operace,Okrájet,Zmenšit tvrdě, Zmenšit měkce, Zvětšit tvrdě, Zvětšit "
+"měkce,Práh,Rozostření"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:48
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
 #, kde-format
 msgid "Shrink/Grow/Blur amount"
-msgstr ""
+msgstr "Množstevní nárůst/zmenšení/rozostření"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha gradient"
-msgstr "Operace s alfa kanálem"
+msgstr "Přechod v alfa kanálu"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
 #: data/effects/frei0r/frei0r_alphagrad.xml:5
 #, kde-format
 msgid "Fill the alpha channel with a specified gradient"
-msgstr ""
+msgstr "Vyplnit alfa kanál zadaným přechodem"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
@@ -7493,17 +7425,15 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha shapes (Mask)"
+#, kde-format
 msgid "Alpha shapes"
-msgstr "Tvary v alfa kanálu (maska)"
+msgstr "Tvary v alfa kanálu"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
 #: data/effects/frei0r/frei0r_alphaspot.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the image luma instead of the alpha channel."
+#, kde-format
 msgid "Draws simple shapes into the alpha channel"
-msgstr "Použít luma obrázku namísto kanálu alfa."
+msgstr "Vykresluje jednoduché tvary do alfa kanálu"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
 #: data/effects/frei0r/frei0r_alphaspot.xml:8
@@ -7563,43 +7493,39 @@ msgid "Extracts Blue from Image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgctxt "White Balance Effect Name"
 msgid "White Balance"
-msgstr "Zůstatek"
+msgstr "Vyvážení bílé"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:6
 #: data/effects/frei0r/frei0r_balanc0r.xml:17
 #, kde-format
 msgid "Adjust the white balance / color temperature"
-msgstr ""
+msgstr "Nastavit vyvážení bílé / teploty barev"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:9
 #: data/effects/frei0r/frei0r_balanc0r.xml:20
 #: data/effects/frei0r/frei0r_colgate.xml:8
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "Neutral Color"
-msgstr "Barva ohraničení"
+msgstr "Neutrální barva"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:12
 #: data/effects/frei0r/frei0r_balanc0r.xml:23
-#, fuzzy, kde-format
-#| msgid "Green 2"
+#, kde-format
 msgid "Green Tint"
-msgstr "Zelená 2"
+msgstr "Zelený odstín"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "White Balance"
-msgstr "Zůstatek"
+msgstr "Vyvážení bílé"
 
 #: data/effects/frei0r/frei0r_baltan.xml:4
 #, kde-format
 msgid "Baltan"
-msgstr ""
+msgstr "Baltan"
 
 #: data/effects/frei0r/frei0r_baltan.xml:5
 #, kde-format
@@ -7609,38 +7535,36 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
 msgid "Bézier Curves"
-msgstr ""
+msgstr "Beziérovy křivky"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:5
 #: data/effects/frei0r/frei0r_curves.xml:6
 #: data/effects/frei0r/frei0r_curves.xml:61
 #, kde-format
 msgid "Color curves adjustment"
-msgstr ""
+msgstr "Nastavení barevných křivek"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:8
 #: data/effects/frei0r/frei0r_curves.xml:64
 #, kde-format
 msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
-msgstr ""
+msgstr "RGB,Červená,Zelená,Modrá,Alfa,Luma,Tón,Saturace"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:12
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:27
 #: data/effects/frei0r/frei0r_curves.xml:13
 #: data/effects/frei0r/frei0r_curves.xml:68
-#, fuzzy, kde-format
-#| msgid "Rec. 601"
+#, kde-format
 msgid "Rec. 601,Rec. 709"
-msgstr "Rec. 601"
+msgstr "Rec. 601,Rec. 709"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:13
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:14
 #: data/effects/frei0r/frei0r_curves.xml:69
-#, fuzzy, kde-format
-#| msgid "Luma file"
+#, kde-format
 msgid "Luma formula"
-msgstr "Soubor Luma"
+msgstr "Vzorec luma"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:4
 #, fuzzy, kde-format
@@ -7661,10 +7585,9 @@ msgid "Analysis Sample Radius"
 msgstr "Analýza dat"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Noise"
+#, kde-format
 msgid "Denoise"
-msgstr "Šum"
+msgstr "Zrušit šum"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
@@ -7711,10 +7634,9 @@ msgstr "Vodorovně"
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest-Neighbor,Bilinear"
-msgstr "Nejbližší soused (rychlý)"
+msgstr "Nejbližší soused,bilineární"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:4
 #, kde-format
@@ -7752,12 +7674,12 @@ msgstr "Rolovat"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:17
 #, kde-format
 msgid "fov"
-msgstr ""
+msgstr "zorný úhel"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:20
 #, kde-format
 msgid "fisheye"
-msgstr ""
+msgstr "rybí oko"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
@@ -7777,20 +7699,19 @@ msgid "Yaw"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
-#, fuzzy, kde-format
-#| msgid "Switch"
+#, kde-format
 msgid "Pitch"
-msgstr "Přepnout"
+msgstr "Výška tónu"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
 #, kde-format
 msgid "Roll"
-msgstr ""
+msgstr "Natočení"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
 #, kde-format
 msgid "FOV"
-msgstr ""
+msgstr "Zorný úhel"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
 #, fuzzy, kde-format
@@ -7835,10 +7756,9 @@ msgid "Equidistant Fisheye"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Projection"
-msgstr "Zásobník projektu"
+msgstr "Projekce"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:21
 #, kde-format
@@ -7846,10 +7766,9 @@ msgid "Lens FOV"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Lens Radius"
-msgstr "Poloměr"
+msgstr "Poloměr čočky"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:27
 #, fuzzy, kde-format
@@ -7923,10 +7842,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:8
-#, fuzzy, kde-format
-#| msgid "Analysis"
+#, kde-format
 msgid "Analyze"
-msgstr "Analýza"
+msgstr "Analyzovat"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:11
 #, fuzzy, kde-format
@@ -8009,28 +7927,26 @@ msgid "Rotates a panoramic image."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_brightness.xml:4
-#, fuzzy, kde-format
-#| msgid "Brightness"
+#, kde-format
 msgctxt "Brightness Effect Name"
 msgid "Brightness"
 msgstr "Jas"
 
 #: data/effects/frei0r/frei0r_brightness.xml:5
-#, fuzzy, kde-format
-#| msgid "Adjust the left/right spread of a channel"
+#, kde-format
 msgid "Adjusts the brightness of a source image"
-msgstr "Rozprostření zvuku levého/pravého kanálu"
+msgstr "Přizpůsobit jas zdrojového obrázku"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:4
 #, kde-format
 msgctxt "Corners Effect Name"
 msgid "Corners"
-msgstr ""
+msgstr "Rohy"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:5
 #, kde-format
 msgid "Four corners geometry engine"
-msgstr ""
+msgstr "Geometrický engine se čtyřmi rohy"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
 #, fuzzy, kde-format
@@ -8069,28 +7985,24 @@ msgid "Bottom-left Y"
 msgstr "Vlevo dole"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:32
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Stretch X"
-msgstr "Roztáhnout"
+msgstr "Natažení X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:35
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Stretch Y"
-msgstr "Roztáhnout"
+msgstr "Natažení Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:38
-#, fuzzy, kde-format
-#| msgid "Feather width"
+#, kde-format
 msgid "Feather Alpha"
-msgstr "Šířka rozptýlení"
+msgstr "Alfa rozptýlení"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:41
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Enable Stretch"
-msgstr "Roztáhnout"
+msgstr "Povolit natažení"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:44
 #: data/effects/frei0r/frei0r_defish0r.xml:34
@@ -8099,21 +8011,21 @@ msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
 "Lanczos"
 msgstr ""
+"Nejbližší soused,Bilineární,Bikubický vyhlazený,Bikubický ostrý,Splajn 4x4,"
+"Splajn 6x6,Lanczos"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:45
 #: data/effects/frei0r/frei0r_defish0r.xml:35
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolator"
-msgstr "Interpolace"
+msgstr "Interpolátor"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:136
-#, fuzzy, kde-format
-#| msgid "Export background"
+#, kde-format
 msgid "Transparent Background"
-msgstr "Uložit pozadí"
+msgstr "Průhledné pozadí"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:51
 #: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
@@ -8122,16 +8034,14 @@ msgid "Write on clear,Maximum,Minimum,Add,Subtract"
 msgstr "Zápis při vyčištění,Maximum,Minimum,Součet,Rozdíl"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:52
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha operation"
 msgstr "Operace s alfa kanálem"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:4
-#, fuzzy, kde-format
-#| msgid "Gradient"
+#, kde-format
 msgid "Cairogradient"
-msgstr "Přechod"
+msgstr "Cairogradient"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:5
 #, kde-format
@@ -8147,16 +8057,14 @@ msgid "Linear,Radial"
 msgstr "Lineární"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:9
-#, fuzzy, kde-format
-#| msgid "Patterns"
+#, kde-format
 msgid "Pattern"
-msgstr "Vzorky"
+msgstr "Vzorek"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:12
-#, fuzzy, kde-format
-#| msgid "1st Color"
+#, kde-format
 msgid "Start Color"
-msgstr "1. barva"
+msgstr "Počáteční barva"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:15
 #, fuzzy, kde-format
@@ -8165,10 +8073,9 @@ msgid "Start Opacity"
 msgstr "Spustit skript"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:18
-#, fuzzy, kde-format
-#| msgid "2nd Color"
+#, kde-format
 msgid "End Color"
-msgstr "2. barva"
+msgstr "Konečná barva:"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:21
 #, fuzzy, kde-format
@@ -8228,10 +8135,9 @@ msgstr ""
 "Destination out"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:40
-#, fuzzy, kde-format
-#| msgid "View Mode"
+#, kde-format
 msgid "Blend Mode"
-msgstr "Režim zobrazení"
+msgstr "Režim mísení"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:4
 #, fuzzy, kde-format
@@ -8248,58 +8154,57 @@ msgstr "Vytvořit nový profil"
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:8
 #, kde-format
 msgid "Rows"
-msgstr ""
+msgstr "Řádky"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:11
-#, fuzzy, kde-format
-#| msgid "Volume"
+#, kde-format
 msgid "Columns"
-msgstr "Hlasitost"
+msgstr "Sloupce"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
 msgid "Cartoon"
-msgstr ""
+msgstr "Kresba"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:5
 #, kde-format
 msgid "Cartoonify video, do a form of edge detect"
-msgstr ""
+msgstr "Převede video na kresbu provedením jisté formy rozpoznání hran"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:8
 #, kde-format
 msgid "Level of trip"
-msgstr ""
+msgstr "Úroveň cesty"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:11
 #, kde-format
 msgid "Difference space"
-msgstr ""
+msgstr "Místo odlišnosti"
 
 #: data/effects/frei0r/frei0r_cluster.xml:4
 #, kde-format
 msgid "K-Means Clustering"
-msgstr ""
+msgstr "Klastrování K-Means"
 
 #: data/effects/frei0r/frei0r_cluster.xml:5
 #, kde-format
 msgid "Clusters of a source image by color and spatial distance"
-msgstr ""
+msgstr "Sdružení vstupních obrázků podle barvy a prostorové vzdálenosti"
 
 #: data/effects/frei0r/frei0r_cluster.xml:8
 #, kde-format
 msgid "Amount of clusters"
-msgstr ""
+msgstr "Množství sdružení (shluků)"
 
 #: data/effects/frei0r/frei0r_cluster.xml:11
 #, kde-format
 msgid "Weight on distance"
-msgstr ""
+msgstr "Váha vzdálenosti"
 
 #: data/effects/frei0r/frei0r_colgate.xml:4
 #, kde-format
 msgid "White Balance (LMS space)"
-msgstr ""
+msgstr "Vyvážení bílé (prostor LMS)"
 
 #: data/effects/frei0r/frei0r_colgate.xml:5
 #, kde-format
@@ -8309,12 +8214,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:4
 #, kde-format
 msgid "RGB adjustment"
-msgstr ""
+msgstr "Přizpůsobení RGB"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:5
 #, kde-format
 msgid "Simple color adjustment"
-msgstr ""
+msgstr "Jednoduché přizpůsobení barev"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbR)
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
@@ -8339,18 +8244,17 @@ msgstr "Modrá"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:17
 #, kde-format
 msgid "Add constant,Change gamma,Multiply"
-msgstr ""
+msgstr "Přidat napevno,Měnit gamu,Násobit"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Action"
-msgstr "Směr"
+msgstr "Činnost"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
 msgid "Keep luma"
-msgstr ""
+msgstr "Držet lumu"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:24
 #, fuzzy, kde-format
@@ -8359,10 +8263,9 @@ msgid "Alpha controlled"
 msgstr "Výběrová alfa"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color space"
+#, kde-format
 msgid "Color Distance"
-msgstr "Barevný prostor"
+msgstr "Barevná odchylka"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:5
 #, kde-format
@@ -8370,19 +8273,19 @@ msgid ""
 "Calculates the distance between the selected color and the current pixel and "
 "uses that value as new pixel value"
 msgstr ""
+"Vypočítává vzdálenost mezi vybranou barvou a a barvou pixelu, tuto hodnotu "
+"použije jako novou hodnotu pixelu"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:8
-#, fuzzy, kde-format
-#| msgid "Source clip"
+#, kde-format
 msgid "Source Color"
-msgstr "Zdrojový klip"
+msgstr "Původní barva"
 
 #: data/effects/frei0r/frei0r_colorize.xml:5
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgctxt "Colorize Effect Name"
 msgid "Colorize"
-msgstr "Barva"
+msgstr "Vybarvit"
 
 #: data/effects/frei0r/frei0r_colorize.xml:6
 #, kde-format
@@ -8394,7 +8297,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_hue.xml:4
 #, kde-format
 msgid "Hue"
-msgstr ""
+msgstr "Tón"
 
 #: data/effects/frei0r/frei0r_colorize.xml:10
 #, kde-format
@@ -8412,19 +8315,17 @@ msgid "Lightness of the colorized image."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_colortap.xml:4
-#, fuzzy, kde-format
-#| msgid "Copy effect"
+#, kde-format
 msgid "Color Effect"
-msgstr "Kopírovat efekt"
+msgstr "Barevný efekt"
 
 #: data/effects/frei0r/frei0r_colortap.xml:5
 #, kde-format
 msgid "Applies a pre-made color effect to image"
-msgstr ""
+msgstr "Aplikuje předem připravený barevný efekt na obrázek"
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgctxt "Contrast Effect Name"
 msgid "Contrast"
 msgstr "Kontrast"
@@ -8432,92 +8333,93 @@ msgstr "Kontrast"
 #: data/effects/frei0r/frei0r_contrast0r.xml:5
 #, kde-format
 msgid "Adjusts the contrast of a source image"
-msgstr ""
+msgstr "Přizpůsobit kontrast zdrojového obrázku"
 
 #: data/effects/frei0r/frei0r_curves.xml:5
 #, kde-format
 msgctxt "Curves Effect Name"
 msgid "Curves"
-msgstr ""
+msgstr "Křivky"
 
+# Nedávat čárky, rozděluje se to podle nich do rozbalovacího seznamu.
 #: data/effects/frei0r/frei0r_curves.xml:9
 #: data/effects/frei0r/frei0r_levels.xml:9
 #: data/effects/frei0r/frei0r_levels.xml:40
 #, kde-format
 msgid "Red,Green,Blue,Luma"
-msgstr ""
+msgstr "Červená,Zelená,Modrá,Luma"
 
 #: data/effects/frei0r/frei0r_curves.xml:19
 #: data/effects/frei0r/frei0r_curves.xml:74
 #, kde-format
 msgid "Number of curve points"
-msgstr ""
+msgstr "Počet bodů křivky"
 
 #: data/effects/frei0r/frei0r_curves.xml:22
 #: data/effects/frei0r/frei0r_curves.xml:77
 #, kde-format
 msgid "Point 1 input value"
-msgstr ""
+msgstr "Bod 1 vstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:25
 #: data/effects/frei0r/frei0r_curves.xml:80
 #, kde-format
 msgid "Point 1 output value"
-msgstr ""
+msgstr "Bod 1 výstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:83
 #, kde-format
 msgid "Point 2 input value"
-msgstr ""
+msgstr "Bod 2 vstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:31
 #: data/effects/frei0r/frei0r_curves.xml:86
 #, kde-format
 msgid "Point 2 output value"
-msgstr ""
+msgstr "Bod 2 výstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:34
 #: data/effects/frei0r/frei0r_curves.xml:89
 #, kde-format
 msgid "Point 3 input value"
-msgstr ""
+msgstr "Bod 3 vstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:37
 #: data/effects/frei0r/frei0r_curves.xml:92
 #, kde-format
 msgid "Point 3 output value"
-msgstr ""
+msgstr "Bod 3 výstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:40
 #: data/effects/frei0r/frei0r_curves.xml:95
 #, kde-format
 msgid "Point 4 input value"
-msgstr ""
+msgstr "Bod 4 vstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:43
 #: data/effects/frei0r/frei0r_curves.xml:98
 #, kde-format
 msgid "Point 4 output value"
-msgstr ""
+msgstr "Bod 4 výstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:46
 #: data/effects/frei0r/frei0r_curves.xml:101
 #, kde-format
 msgid "Point 5 input value"
-msgstr ""
+msgstr "Bod 5 vstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:49
 #: data/effects/frei0r/frei0r_curves.xml:104
 #, kde-format
 msgid "Point 5 output value"
-msgstr ""
+msgstr "Bod 5 výstupní hodnota"
 
 #: data/effects/frei0r/frei0r_curves.xml:52
 #: data/effects/frei0r/frei0r_curves.xml:107
 #, kde-format
 msgid "Show graph in picture"
-msgstr ""
+msgstr "Zobrazit graf v obrázku"
 
 #: data/effects/frei0r/frei0r_curves.xml:55
 #: data/effects/frei0r/frei0r_curves.xml:110
@@ -8525,24 +8427,23 @@ msgstr ""
 #: data/effects/frei0r/frei0r_levels.xml:62
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
-msgstr ""
+msgstr "Vlevo nahoře,Vpravo nahoře,Vlevo dole, Vpravo dole"
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
-#, fuzzy, kde-format
-#| msgid "Tab position:"
+#, kde-format
 msgid "Graph position"
-msgstr "Umístění karet:"
+msgstr "Umístění grafu"
 
 #: data/effects/frei0r/frei0r_curves.xml:60
 #, kde-format
 msgid "Curves"
-msgstr ""
+msgstr "Křivky"
 
 #: data/effects/frei0r/frei0r_d90stairsteppingfix.xml:4
 #, kde-format
 msgid "Nikon D90 Stairstepping fix"
-msgstr ""
+msgstr "Oprava videa z Nikonu D90"
 
 #: data/effects/frei0r/frei0r_d90stairsteppingfix.xml:8
 #, kde-format
@@ -8554,32 +8455,38 @@ msgid ""
 "if they become too annoying.]]></full>\n"
 "        "
 msgstr ""
+"Odstraní schodové poskakování z 720p videí natočených Nikonem D90.\n"
+"        <full><![CDATA[Ostré linky ve videa objevující se každých osmou až "
+"devátou linkou kvůli\n"
+"        špatnému přeškálování mohou být vyhlazeny tímto filtrem.]]></full>\n"
+"        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
 #, kde-format
 msgctxt "Defish Effect Name"
 msgid "Defish"
-msgstr ""
+msgstr "Odstranění rybího oka"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:5
 #, kde-format
 msgid "Non rectilinear lens mappings"
 msgstr ""
+"Úprava zobrazení jiných než rektilineárních objektivů, například rybího oka."
 
 #: data/effects/frei0r/frei0r_defish0r.xml:11
 #, kde-format
 msgid "DeFish"
-msgstr ""
+msgstr "Odstranění rybího oka"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #, kde-format
 msgid "Equidistant,Orthographic,Equiarea,Stereographic"
-msgstr ""
+msgstr "Stejně vzdálený,Ortografický, Stejně plochý, Stereografický"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #, kde-format
 msgid "Fill,Center,Fit,Manual"
-msgstr ""
+msgstr "Vyplnit,Vycentrovat,Přizpůsobit,Ručně"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:19
@@ -8608,53 +8515,50 @@ msgstr "Zachovat poměr stran"
 #: data/effects/frei0r/frei0r_defish0r.xml:31
 #, kde-format
 msgid "Manual Scale"
-msgstr ""
+msgstr "Ruční měřítko"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:38
 #, kde-format
 msgid "Square,PAL DV,NTSC DV,HDV,Manual"
-msgstr ""
+msgstr "Čtverec, PAL DV, NTSC DV, HDV, Ručně"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:39
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect type"
-msgstr "Poměr stran:"
+msgstr "Poměr stran"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:42
 #, kde-format
 msgid "Manual Aspect"
-msgstr ""
+msgstr "Ruční poměr stran"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:4
 #, kde-format
 msgid "delay0r"
-msgstr ""
+msgstr "Zpoždění (delay0r)"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video delay"
-msgstr "Video proud "
+msgstr "Zpoždění videa"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:8
 #, kde-format
 msgid "Delay time"
-msgstr ""
+msgstr "Čas zpoždění"
 
 #: data/effects/frei0r/frei0r_delaygrab.xml:4
 #, kde-format
 msgid "Delay grab"
-msgstr ""
+msgstr "Zpoždění chycení"
 
 #: data/effects/frei0r/frei0r_delaygrab.xml:5
 #, kde-format
 msgid "Delayed frame blitting mapped on a time bitmap"
-msgstr ""
+msgstr "Zpožděné slučování snímků namapované na časové bitmapě"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Distort"
+#, kde-format
 msgctxt "Distort Effect Name"
 msgid "Distort"
 msgstr "Deformovat"
@@ -8662,7 +8566,7 @@ msgstr "Deformovat"
 #: data/effects/frei0r/frei0r_distort0r.xml:5
 #, kde-format
 msgid "Plasma"
-msgstr ""
+msgstr "Plasma"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:8 data/effects/wave.xml:8
 #, kde-format
@@ -8686,7 +8590,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_posterize.xml:8
 #, kde-format
 msgid "Levels"
-msgstr ""
+msgstr "Úrovně"
 
 #: data/effects/frei0r/frei0r_dither.xml:10
 #, kde-format
@@ -8704,37 +8608,35 @@ msgid "Id of matrix used for dithering."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:4
-#, fuzzy, kde-format
-#| msgid "Edge Crop"
+#, kde-format
 msgid "Edge glow"
-msgstr "Ořez hran"
+msgstr "Záře hran"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:5
 #, kde-format
 msgid "Edge glow filter"
-msgstr ""
+msgstr "Filtr záře hran"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:8
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Edge lightening threshold"
-msgstr "Změnit práh"
+msgstr "Práh pro osvětlení hran"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:11
 #, kde-format
 msgid "Edge brightness upscaling multiplier"
-msgstr ""
+msgstr "Násobitel zvětšení jasu hran"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:14
 #, kde-format
 msgid "Non-edge brightness downscaling multiplier"
-msgstr ""
+msgstr "Nehranový zmenšovací násobitel jasu"
 
 #: data/effects/frei0r/frei0r_emboss.xml:5
 #, kde-format
 msgctxt "Emboss Effect Name"
 msgid "Emboss"
-msgstr ""
+msgstr "Reliéf"
 
 #: data/effects/frei0r/frei0r_emboss.xml:6
 #, kde-format
@@ -8777,29 +8679,28 @@ msgstr ""
 #: data/effects/frei0r/frei0r_equaliz0r.xml:4
 #, kde-format
 msgid "Equaliz0r"
-msgstr ""
+msgstr "Ekvalizace (freior)"
 
 #: data/effects/frei0r/frei0r_equaliz0r.xml:5
 #, kde-format
 msgid "Equalizes the intensity histograms"
-msgstr ""
+msgstr "Ekvalizuje intenzitu histogramu"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:4
 #, kde-format
 msgid "Face blur"
-msgstr ""
+msgstr "Rozostření tváří"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:5
 #, kde-format
 msgid "Automatically detect and blur a face using OpenCV"
-msgstr ""
+msgstr "Automaticky rozpoznat a rozmazat tváře pomocí OpenCV"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:8
 #: data/effects/frei0r/frei0r_facedetect.xml:8
-#, fuzzy, kde-format
-#| msgid "Search failed! %1"
+#, kde-format
 msgid "Search scale"
-msgstr "Vyhledávání selhalo. %1"
+msgstr "Míra prohledávání"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:9
 #: data/effects/frei0r/frei0r_facedetect.xml:9
@@ -8808,35 +8709,37 @@ msgid ""
 "The search window scale factor. For example, 120 = 1.20 = increases by 20% "
 "on each pass."
 msgstr ""
+"Faktor měřítka vyhledávacího okna. Například 120 = 1.20 = zvětšení o 20% při "
+"každém průchodu."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:12
 #: data/effects/frei0r/frei0r_facedetect.xml:12
 #, kde-format
 msgid "Neighbors"
-msgstr ""
+msgstr "Sousedé"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:13
 #: data/effects/frei0r/frei0r_facedetect.xml:13
 #, kde-format
 msgid "Minimum number of rectangles that determines an object."
-msgstr ""
+msgstr "Minimální počet obdélníků jež určuje objekt."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:16
 #: data/effects/frei0r/frei0r_facedetect.xml:16
 #, kde-format
 msgid "Smallest"
-msgstr ""
+msgstr "Nejmenší"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:17
 #: data/effects/frei0r/frei0r_facedetect.xml:17
 #, kde-format
 msgid "The minimum window size in pixels."
-msgstr ""
+msgstr "Minimální velikost okna v pixelech."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:20
 #, kde-format
 msgid "Largest"
-msgstr ""
+msgstr "Největší"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:21
 #, kde-format
@@ -8844,12 +8747,13 @@ msgid ""
 "The largest size face in pixels - both horizontally and vertically (square "
 "window)."
 msgstr ""
+"Největší velikost tváře v pixelech - jak výška tak šířka (čtvercové okno)."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:24
 #: data/effects/frei0r/frei0r_facedetect.xml:20
 #, kde-format
 msgid "Recheck"
-msgstr ""
+msgstr "Zopakovat kontrolu"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:25
 #: data/effects/frei0r/frei0r_facedetect.xml:21
@@ -8858,68 +8762,65 @@ msgid ""
 "How often to detect a face. In between checks, it does object motion "
 "tracking."
 msgstr ""
+"Jak často rozpoznávat tváře. V čase mezi kontrolami se sleduje pohyb objektu."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:28
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show ellipse"
-msgstr "Zobrazit pole"
+msgstr "Zobrazit elipsu"
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:29
 #, kde-format
 msgid "Draw a blue ellipse around the face area?"
-msgstr ""
+msgstr "Přejete si vykreslit modrou elipsu okolo obličeje?"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:4
 #, kde-format
 msgid "Face detect"
-msgstr ""
+msgstr "Rozpoznání tváří"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:5
 #, kde-format
 msgid "Detect faces and draw shapes on them using OpenCV"
-msgstr ""
+msgstr "Rozpozná tváře a umožní na ně kreslit tvary pomocí OpenCV"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:24
-#, fuzzy, kde-format
-#| msgid "Rectangle,Ellipse,Triangle,Diamond"
+#, kde-format
 msgid "circle,ellipse,rectangle,random"
-msgstr "Obdélník, elipsa, trojúhelník, diamant"
+msgstr "kruh, elipsa, čtverec, náhodný"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:28
-#, fuzzy, kde-format
-#| msgid "Shape width"
+#, kde-format
 msgid "Stroke width"
-msgstr "Šířka tvaru"
+msgstr "Šířka čáry"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:29
 #, kde-format
 msgid ""
 "0 means fill; otherwise, draw unfilled with a stroke width of this size."
 msgstr ""
+"Použijte 0 pro vyplnění, jinak bude vykreslena pouze čára s uvedenou šířkou."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:32
-#, fuzzy, kde-format
-#| msgid "Shape Alpha"
+#, kde-format
 msgid "Alpha"
-msgstr "Tvar alfa"
+msgstr "Alfa"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:33
 #, kde-format
 msgid ""
 "Set the alpha channel of the shape area to a percentage of fully opaque."
-msgstr ""
+msgstr "Nastavit alfa kanál útvaru na procento z plné neprůhlednosti."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:36
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Antialias"
-msgstr "Italština"
+msgstr "Vyhlazovat"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:37
 #, kde-format
 msgid "Draw with anti-aliasing?"
-msgstr ""
+msgstr "Přejete si vykreslit s použitím vyhlazování?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/frei0r/frei0r_facedetect.xml:43 data/effects/gpsgraphic.xml:96
@@ -8931,7 +8832,7 @@ msgstr "Barva 1"
 #: data/effects/frei0r/frei0r_facedetect.xml:44
 #, kde-format
 msgid "Set the shape color of the first detected face."
-msgstr ""
+msgstr "Nastavit barvu útvaru u první detekované tváře."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/frei0r/frei0r_facedetect.xml:48 data/effects/gpsgraphic.xml:100
@@ -8941,10 +8842,9 @@ msgid "Color 2"
 msgstr "Barva 2"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:49
-#, fuzzy, kde-format
-#| msgid "Sets the color for the Now dot"
+#, kde-format
 msgid "Set the shape color of the second detected face."
-msgstr "Nastaví barvu pro bod Teď"
+msgstr "Nastavit barvu útvaru u druhé detekované tváře."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:53 data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -8954,7 +8854,7 @@ msgstr "Barva 3"
 #: data/effects/frei0r/frei0r_facedetect.xml:54
 #, kde-format
 msgid "Set the shape color of the third detected face."
-msgstr ""
+msgstr "Nastavit barvu útvaru u třetí detekované tváře."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:58 data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -8962,10 +8862,9 @@ msgid "Color 4"
 msgstr "Barva 4"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:59
-#, fuzzy, kde-format
-#| msgid "Sets the color for the Now dot"
+#, kde-format
 msgid "Set the shape color of the fourth detected face."
-msgstr "Nastaví barvu pro bod Teď"
+msgstr "Nastavit barvu útvaru u čtvrté detekované tváře."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:63 data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -8975,30 +8874,27 @@ msgstr "Barva 5"
 #: data/effects/frei0r/frei0r_facedetect.xml:64
 #, kde-format
 msgid "Set the shape color of the fifth detected face."
-msgstr ""
+msgstr "Nastavit barvu útvaru u páté detekované tváře."
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
-#, fuzzy, kde-format
-#| msgid "Flip"
+#, kde-format
 msgid "Flippo"
-msgstr "Převrátit"
+msgstr "Obrácení"
 
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
 msgid "Flipping in X and Y axis"
-msgstr ""
+msgstr "Obracení v ose X a Y"
 
 #: data/effects/frei0r/frei0r_flippo.xml:8
-#, fuzzy, kde-format
-#| msgid "Draw axis"
+#, kde-format
 msgid "X axis"
-msgstr "Zobrazit osy"
+msgstr "Osa X"
 
 #: data/effects/frei0r/frei0r_flippo.xml:11
-#, fuzzy, kde-format
-#| msgid "Draw axis"
+#, kde-format
 msgid "Y axis"
-msgstr "Zobrazit osy"
+msgstr "Osa Y"
 
 #: data/effects/frei0r/frei0r_G.xml:4
 #, kde-format
@@ -9013,7 +8909,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_glitch0r.xml:4
 #, kde-format
 msgid "Glitch0r"
-msgstr ""
+msgstr "Glitch0r"
 
 #: data/effects/frei0r/frei0r_glitch0r.xml:5
 #, kde-format
@@ -9042,40 +8938,38 @@ msgstr ""
 #, kde-format
 msgctxt "Glow Effect Name"
 msgid "Glow"
-msgstr ""
+msgstr "Tlumené světlo"
 
 #: data/effects/frei0r/frei0r_glow.xml:5
-#, fuzzy, kde-format
-#| msgid "Create Group"
+#, kde-format
 msgid "Creates a Glamorous Glow"
-msgstr "Vytvořit skupinu"
+msgstr "Vytvoří kouzelnou záři"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "Noise"
+#, kde-format
 msgid "Denoiser"
-msgstr "Šum"
+msgstr "Odstranění šumu"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:5
 #, kde-format
 msgid "High quality 3D denoiser"
-msgstr ""
+msgstr "Vysoce kvalitní 3D odstranění šumu"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:8
 #, kde-format
 msgid "Spatial"
-msgstr ""
+msgstr "Prostorový"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:9
 #, kde-format
 msgid "Amount of spatial filtering"
-msgstr ""
+msgstr "Množství prostorového filtrování"
 
+# Při odšumování se hledá v prostoru a času (to jsou dva parametry daného efektu). Jejich překlad do AJ je zcela jistě Spatial and Temporal (objevuje se i informatice).
 #: data/effects/frei0r/frei0r_hqdn3d.xml:12
-#, fuzzy, kde-format
-#| msgid "Temporary files:"
+#, kde-format
 msgid "Temporal"
-msgstr "Dočasné soubory:"
+msgstr "Časový"
 
 #: data/effects/frei0r/frei0r_hqdn3d.xml:13
 #, fuzzy, kde-format
@@ -9084,19 +8978,18 @@ msgid "Amount of temporal filtering"
 msgstr "Nelze vytvořit dočasný soubor"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue shift"
-msgstr "Posun HSV barevného odstínu"
+msgstr "Posun tónu"
 
+# Totéž jako u hue shift
 #: data/effects/frei0r/frei0r_hueshift0r.xml:5
 #, kde-format
 msgid "Shifts the hue of a source image"
-msgstr ""
+msgstr "Umožní posunout zabarvení zdrojového obrazu."
 
 #: data/effects/frei0r/frei0r_iirblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Blur"
+#, kde-format
 msgctxt "Blur Effect name"
 msgid "Blur"
 msgstr "Rozostření "
@@ -9105,41 +8998,37 @@ msgstr "Rozostření "
 #, kde-format
 msgid "Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)"
 msgstr ""
+"Rozostření pomocí filtrů 2D IIR (Exponenciální, Dolní propust, Gaussovo)"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:9
 #, kde-format
 msgid "Amount of blur"
-msgstr ""
+msgstr "Síla rozostření"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #, kde-format
 msgid "Exponential,Lowpass,Gaussian"
-msgstr ""
+msgstr "Exponenciální, Dolní propust, Gaussovo"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:14
-#, fuzzy, kde-format
-#| msgid "Select border color"
+#, kde-format
 msgid "Select blurring algorithm"
-msgstr "Vybrat barvu čáry"
+msgstr "Vybrat algoritmus rozostření"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:17
-#, fuzzy, kde-format
-#| msgid "Edge Crop"
+#, kde-format
 msgid "Edge"
-msgstr "Ořez hran"
+msgstr "Okraj"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:18
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Enable edge compensation"
-msgstr "Online dokumentace"
+msgstr "Povolit kompenzace hran"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgid "Kaleidoscope"
-msgstr "Vektorskop"
+msgstr "Kaleidoskop"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
 #, kde-format
@@ -9283,8 +9172,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background color"
 msgstr "Barva pozadí"
 
@@ -9317,93 +9205,83 @@ msgstr ""
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:5
 #, kde-format
 msgid "Reduces the visibility of key color spill in chroma keying"
-msgstr ""
+msgstr "Snižuje viditelnost klíčových barev při rozlití do chroma klíčování"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:8
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "Key color"
-msgstr "Barva textu"
+msgstr "Klíčová barva"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:11
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "Target color"
-msgstr "Barva textu"
+msgstr "Barva cíle"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
 #, kde-format
 msgid "Color distance, Transparency, Edge inwards, Edge outwards"
-msgstr ""
+msgstr "Odstup barev, Průhlednost, Vnitřní hrana, Vnější hrana"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Mask type"
-msgstr "Typ graf"
+msgstr "Typ masky"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Tolerance"
-msgstr "Zůstatek"
+msgstr "Tolerance"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21
 #, kde-format
 msgid "Slope"
-msgstr ""
+msgstr "Sklon"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:24
 #, kde-format
 msgid "Hue gate"
-msgstr ""
+msgstr "Brána odstínu"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:27
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Saturation threshold"
-msgstr "Změnit práh"
+msgstr "Práh saturace"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:30
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
 #, kde-format
 msgid "None, De-Key, Target, Desaturate, Luma adjust"
-msgstr ""
+msgstr "Žádný, De-Key, Cíl, Desaturovat, Upravit lumu"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Operation 1"
-msgstr "Operace"
+msgstr "Operace 1"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:34
-#, fuzzy, kde-format
-#| msgid "Count"
+#, kde-format
 msgid "Amount 1"
-msgstr "Počet"
+msgstr "Množství 1"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:38
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Operation 2"
-msgstr "Operace"
+msgstr "Operace 2"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:41
-#, fuzzy, kde-format
-#| msgid "Count"
+#, kde-format
 msgid "Amount 2"
-msgstr "Počet"
+msgstr "Množství 2"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:44
-#, fuzzy, kde-format
-#| msgid "Show maximum"
+#, kde-format
 msgid "Show mask"
-msgstr "Zobrazit maximum"
+msgstr "Zobrazit masku"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:47
 #, kde-format
 msgid "Mask to Alpha"
-msgstr ""
+msgstr "Maskovat na alfu"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
 #, fuzzy, kde-format
@@ -9414,112 +9292,106 @@ msgstr "Jas (klíčový snímek)"
 #: data/effects/frei0r/frei0r_lenscorrection.xml:5
 #, kde-format
 msgid "Allows compensation of lens distortion"
-msgstr ""
+msgstr "Povolit kompenzaci deformace způsobené čočkou"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:8
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Horizontal center"
-msgstr "Vodorovné rozptýlení"
+msgstr "Vodorovně na střed"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:11
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Vertical center"
-msgstr "Svislé rozptýlení"
+msgstr "Svislé vystředění"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:14
-#, fuzzy, kde-format
-#| msgid "Center crop"
+#, kde-format
 msgid "Center correction"
-msgstr "Středové ořezání"
+msgstr "Korekce vystředění"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:17
-#, fuzzy, kde-format
-#| msgid "Audio correction"
+#, kde-format
 msgid "Edges correction"
-msgstr "Oprava zvuku"
+msgstr "Korekce hran"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:4
 #, kde-format
 msgid "LetterB0xed"
-msgstr ""
+msgstr "LetterB0xed"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:5
 #, kde-format
 msgid "Adds black borders at top and bottom for cinema look"
-msgstr ""
+msgstr "Přidá černé okraje nahoře a dole pro filmový dojem (letterboxing)"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:8
-#, fuzzy, kde-format
-#| msgid "Border width"
+#, kde-format
 msgid "Border Width"
-msgstr "Šířka čáry"
+msgstr "Šířka okraje"
 
+# Přechod sklouznutí má posunovače, kde vlevo (žádný výběr) znamená průhlednost a vpravo (výběr 100 %) znamená neprůhlednost.
+#
+# Opačně to nedává smysl.
 #: data/effects/frei0r/frei0r_letterb0xed.xml:11
 #: data/effects/frei0r/frei0r_timeout.xml:14
 #: data/effects/frei0r/frei0r_transparency.xml:8
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgid "Transparency"
-msgstr "Průhlednost:"
+msgstr "Průhlednost"
 
 #: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
-msgstr ""
+msgstr "Úrovně"
 
 #: data/effects/frei0r/frei0r_levels.xml:6
 #: data/effects/frei0r/frei0r_levels.xml:37
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "Adjust levels"
-msgstr "Úrovně zvuku"
+msgstr "Úprava úrovní"
 
 #: data/effects/frei0r/frei0r_levels.xml:13
 #: data/effects/frei0r/frei0r_levels.xml:44
 #, kde-format
 msgid "Input black level"
-msgstr ""
+msgstr "Vstupní úroveň černé"
 
 #: data/effects/frei0r/frei0r_levels.xml:16
 #: data/effects/frei0r/frei0r_levels.xml:47
 #, kde-format
 msgid "Input white level"
-msgstr ""
+msgstr "Vstupní úroveň bílé"
 
 #: data/effects/frei0r/frei0r_levels.xml:22
 #: data/effects/frei0r/frei0r_levels.xml:53
 #, kde-format
 msgid "Black output"
-msgstr ""
+msgstr "Černá na výstupu"
 
 #: data/effects/frei0r/frei0r_levels.xml:25
 #: data/effects/frei0r/frei0r_levels.xml:56
 #, kde-format
 msgid "White output"
-msgstr ""
+msgstr "Bílá na výstupu"
 
 #: data/effects/frei0r/frei0r_levels.xml:28
 #: data/effects/frei0r/frei0r_levels.xml:59
-#, fuzzy, kde-format
-#| msgid "Histogram"
+#, kde-format
 msgid "Show histogram"
-msgstr "Histogram"
+msgstr "Zobrazit histogram"
 
 #: data/effects/frei0r/frei0r_levels.xml:32
 #: data/effects/frei0r/frei0r_levels.xml:63
-#, fuzzy, kde-format
-#| msgid "Histogram"
+#, kde-format
 msgid "Histogram position"
-msgstr "Histogram"
+msgstr "Umístění histogramu"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
 #, kde-format
 msgid "Light Graffiti"
-msgstr ""
+msgstr "Světelné graffiti"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:8
 #, kde-format
@@ -9529,13 +9401,16 @@ msgid ""
 "painting with light sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video.]]></full>"
 msgstr ""
+"Světelné graffiti.\n"
+"        <full><![CDATA[Tento efekt umožňuje kreslit pomocí světa (tedy "
+"kreslení světelným zdrojem a fotku při použití\n"
+"        dlouhého času, jen totéž funguje pro video.)]]></full>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:11
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:83
-#, fuzzy, kde-format
-#| msgid "Brightness down"
+#, kde-format
 msgid "Brightness Threshold"
-msgstr "Zeslabení jasu"
+msgstr "Práh jasu"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:13
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:85
@@ -9548,13 +9423,19 @@ msgid ""
 "where semi-bright parts, e.g. hands where colors can change quite a lot "
 "compared to the background, are incorrectly recognized as light source.]]>"
 msgstr ""
+"<![CDATA[Jak jasný (<code>R+G+B</code>) má pixel být, aby byl rozpoznán jako "
+"světelný zdroj?<br/>\n"
+"            Zvýšení tohoto prahu nutně vyžaduje jasnější světelný zdroj "
+"(například bělejší, respektive méně barevnější), ale zároveň zabraňuje "
+"«falešným poplachům», kdy jsou docela jasné části, například ruce jejichž "
+"barvy se mění rychle (v porovnání s pozadím), jsou špatně rozpoznány jako "
+"světelný zdroj.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:16
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:88
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Difference Threshold"
-msgstr "Hodnota prahu"
+msgstr "Práh odlišnosti"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:18
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:90
@@ -9567,13 +9448,18 @@ msgid ""
 "be accepted on bright backgrounds, but decreases the danger of noise or "
 "generally bright spots counting as light source.]]>"
 msgstr ""
+"<![CDATA[Jak moc se musí nejsilnější barevný kanál změnit v porovnání k "
+"pozadí(<code>max(dR, dG, dB)</code>), aby byl rozpoznán jako světelný zdroj? "
+"<br/>\n"
+"            Zvýšení tohoto prahu ztíží světelným zdrojům být přijaty pokud "
+"se vyskytují na jasném pozadí. Na druhé straně snižuje nebezpečí šumu nebo "
+"obecně špatnému rozpoznání světelných zdrojů.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:21
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:93
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Difference Sum Threshold"
-msgstr "Hodnota prahu"
+msgstr "Práh sumy odlišnosti"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:23
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:95
@@ -9585,13 +9471,18 @@ msgid ""
 "            Raising this value might, in some cases, avoid that some light "
 "objects lit by the light source are added to the light mask.]]>"
 msgstr ""
+"<![CDATA[Jak moc se musí suma všech barevných kanálů změnit <em>relativně k "
+"pozadí</em> (<code>dR + dG + dB</code>) než je pixel rozpoznán jako světelný "
+"bod?<br/>\n"
+"            Zvýšení této hodnoty může, v některých případech, zabránit "
+"přidání některých světelným objektům osvětlených světelným zdrojem do "
+"světelné masky.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:26
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:98
-#, fuzzy, kde-format
-#| msgid "Intensity"
+#, kde-format
 msgid "Sensitivity"
-msgstr "Intenzita"
+msgstr "Citlivost"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:28
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:100
@@ -9601,12 +9492,15 @@ msgid ""
 "            For slowly moving light source try to use a lower sensitivity to "
 "obtain a better exposure.]]>"
 msgstr ""
+"<![CDATA[Citlivost světla.<br/>\n"
+"            Pro pomalu se pohybující zdroje světla zkuste použít nižší "
+"citlivost, dosáhnete tím lepší expozice.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:31
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:103
 #, kde-format
 msgid "Lower Overexposure"
-msgstr ""
+msgstr "Nižší přeexponování"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:33
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:105
@@ -9616,12 +9510,15 @@ msgid ""
 "            The light mask does not get white immediately when the light "
 "source is moving slowly or staying steady.]]>"
 msgstr ""
+"<![CDATA[Snižuje nadměrnou expozici.<br/>\n"
+"            Světlá maska nezbělá okamžitě, když se zdroj světla pohybuje "
+"pomalu nebo zůstane stabilní.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:36
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:108
 #, kde-format
 msgid "Dimming"
-msgstr ""
+msgstr "Ztlumení"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:37
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:109
@@ -9630,13 +9527,14 @@ msgid ""
 "Dims the light mask. Lights will leave a fainting trail if it is set to a "
 "value > 0."
 msgstr ""
+"Ztmavení světelné masky. Světla zanechají blednoucí stopu pokud je hodnota "
+"nastavena >0."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:40
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:112
-#, fuzzy, kde-format
-#| msgid "Background image"
+#, kde-format
 msgid "Background Weight"
-msgstr "Obrázek na pozadí"
+msgstr "Váha pozadí"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:41
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:113
@@ -9647,12 +9545,15 @@ msgid ""
 "image if the video starts with a «clean» background image. (See the α "
 "parameter.)"
 msgstr ""
+"Síla (vypočítaného) pozadí. Nastavením na 100 se bude světelná maska kreslit "
+"rovnou přes pozadí,  bez malující osoby v obraze pokud video začíná s "
+"«čistým» pozadím. (Podívejte se na parametr α.)"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:44
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:116
 #, kde-format
 msgid "α"
-msgstr ""
+msgstr "α"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:46
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:118
@@ -9665,18 +9566,24 @@ msgid ""
 "outside of the video. If the background constantly changes, e.g. on a "
 "street, try to set α > 0 to calculate an average background image.]]>"
 msgstr ""
+"<![CDATA[Určuje jak se efekt pokusí přizpůsobit změně pozadí.<br/>\n"
+"            Efekt světelného grafity si pamatuje první snímek, na který je "
+"aplikován, takže klip by <em>vždy</em> měl začínat s kreslením mimo video. "
+"Pokud se pozadí neustále mění, například na ulici, zkuste nastavit α > 0 k "
+"vypočtení průměrného pozadí.]]>"
 
+# Totéž jako saturation
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:50
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:122
 #, kde-format
 msgid "Increases the saturation of lights."
-msgstr ""
+msgstr "Zvýší saturaci světel."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:53
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:125
 #, kde-format
 msgid "Show brightness statistics"
-msgstr ""
+msgstr "Zobrazit statistiku jasu"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:55
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:127
@@ -9689,18 +9596,24 @@ msgid ""
 "same with the other parameters. Only parts that are highlighted in <em>all</"
 "em> thresholds will count as light source.]]>"
 msgstr ""
+"<![CDATA[Tyto přepínače umožňují jednoduché a přesné přizpůsobení prahových "
+"parametrů.<br/>\n"
+"            Příklad: Pro nastavení prahu jasu, zaškrtněte toto pole a "
+"přizpůsobujte práh dokud celý světelný zdroj nebude zvýrazněn. Opakujte "
+"totéž s ostatními parametry. Pouze části zvýrazněné v části <em>all</em> "
+"prahu jsou brány jako světelné zdroje.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:58
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:130
 #, kde-format
 msgid "Show background difference statistics"
-msgstr ""
+msgstr "Zobrazit statistiku odlišností pozadí"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:61
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:133
 #, kde-format
 msgid "Show background difference sum statistics"
-msgstr ""
+msgstr "Zobrazit statistiku odlišností pozadí"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:65
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:137
@@ -9709,19 +9622,20 @@ msgid ""
 "Makes the background transparent, allowing to apply a composite effect and "
 "paint the light mask over a completely different video."
 msgstr ""
+"Učiní pozadí průhledným, což umožní použít kompozitní efekty a nakreslení "
+"světelné masky přes úplně jiné video."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:68
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:140
-#, fuzzy, kde-format
-#| msgid "Nonlinear scale"
+#, kde-format
 msgid "Nonlinear dimming"
-msgstr "Nelineární měřítko"
+msgstr "Nelineární ztlumení"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:69
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:141
 #, kde-format
 msgid "If normal dimming does not look natural enough, try this one."
-msgstr ""
+msgstr "Pokud normální ztlumení nevypadá dost přirozeně, zkuste toto."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
@@ -9742,6 +9656,12 @@ msgid ""
 "proper threshold adjusting move the timeline cursor to the beginning of the "
 "clip, check the Reset box and uncheck it again."
 msgstr ""
+"Obnoví světelnou masku a pozadí. Toto je nezbytné například když aplikujete "
+"tento efekt na klip v časové ose a potí se přesunete s kurzorem časové osy z "
+"venku klipu do jeho prostředku. Efekt chápe tento snímek z prostředku jako "
+"první snímek a používá jej jako pozadí. Pro správné přizpůsobení prahu "
+"musíte přesunout kurzor časové osy na začátek klipu. Poté zaškrtnout "
+"zaškrtávací pole Obnovit a poté jej odškrtnout."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:80
 #, kde-format
@@ -9751,35 +9671,36 @@ msgid ""
 "painting with light sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video.]]></full>"
 msgstr ""
+"Světelné graffiti.\n"
+"        <full><![CDATA[Tento efekt umožňuje kreslit pomocí světa (tedy "
+"kreslení světelným zdrojem a fotku při použití\n"
+"        dlouhého času, jen totéž funguje pro video.)]]></full>"
 
 #: data/effects/frei0r/frei0r_luminance.xml:4
-#, fuzzy, kde-format
-#| msgid "Chrominance U"
+#, kde-format
 msgctxt "Luminance Effect Name"
 msgid "Luminance"
-msgstr "Chrominance U"
+msgstr "Svítivost"
 
 #: data/effects/frei0r/frei0r_luminance.xml:5
 #, kde-format
 msgid "Creates a luminance map of the image"
-msgstr ""
+msgstr "Vytvoří mapu svítivosti obrázku"
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:4
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Alpha mask"
-msgstr "Obdélníkové okno"
+msgstr "Obdélníková alfa maska"
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:5
 #, kde-format
 msgid "Creates an square alpha-channel mask"
-msgstr ""
+msgstr "Vytváří čtvercovou masku v alfa kanálu"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
-#, fuzzy, kde-format
-#| msgid "MediaInfo:"
+#, kde-format
 msgid "Medians"
-msgstr "Informace o médiu:"
+msgstr "Mediány"
 
 #: data/effects/frei0r/frei0r_medians.xml:5
 #, kde-format
@@ -9792,59 +9713,58 @@ msgid ""
 "Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,"
 "VarSize"
 msgstr ""
+"Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,"
+"VarSize"
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
 #, kde-format
 msgid "Nervous"
-msgstr ""
+msgstr "Nervózní"
 
 #: data/effects/frei0r/frei0r_nervous.xml:5
 #, kde-format
 msgid "Flushes frames in time in a nervous way"
-msgstr ""
+msgstr "Přeskakuje nervózně mezi snímky tam a zpět"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
 msgid "nosync0r"
-msgstr ""
+msgstr "Svislý posun (frei0r)"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:5
 #, kde-format
 msgid "Broken TV"
-msgstr ""
+msgstr "Pokažená TV"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:8
 #, kde-format
 msgid "HSync"
-msgstr ""
+msgstr "Svislý posun"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixel scale"
+#, kde-format
 msgid "Pixelize"
-msgstr "Pixelové měřítko"
+msgstr "Pixelizovat"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
 msgid "Pixelize input image."
-msgstr ""
+msgstr "Pixelizuje (rozčtverečkuje) vstupní obraz."
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Size X"
+#, kde-format
 msgid "Block Size X"
-msgstr "Velikost X"
+msgstr "Velikost bloku X"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Size Y"
+#, kde-format
 msgid "Block Size Y"
-msgstr "Velikost Y"
+msgstr "Velikost bloku Y"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
 msgid "Pixs0r"
-msgstr ""
+msgstr "Pixs0r"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
@@ -9903,46 +9823,40 @@ msgid "Number of (color) values per channel"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Files"
+#, kde-format
 msgid "Video values"
-msgstr "Video Soubory"
+msgstr "Hodnoty videa"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:5
-#, fuzzy, kde-format
-#| msgid "Enter Unicode value"
+#, kde-format
 msgid "Measure video values"
-msgstr "Zadejte hodnotu unicode"
+msgstr "Měří hodnoty videa"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:8
 #, kde-format
 msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-msgstr ""
+msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:9
-#, fuzzy, kde-format
-#| msgid "Measurement Window"
+#, kde-format
 msgid "Measurement"
-msgstr "Okno měření"
+msgstr "Měření"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:81
-#, fuzzy, kde-format
-#| msgid "Pixel scale"
+#, kde-format
 msgid "256 scale"
-msgstr "Pixelové měřítko"
+msgstr "256 měřítko"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:27
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show alpha"
-msgstr "Zobrazit záznamy"
+msgstr "Zobrazit alfa kanál"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:30
-#, fuzzy, kde-format
-#| msgid "Hamming window"
+#, kde-format
 msgid "Big window"
-msgstr "Hammingovo okno"
+msgstr "Velké okno"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
 #, kde-format
@@ -9967,7 +9881,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:20
 #, kde-format
 msgid "Length"
-msgstr ""
+msgstr "Délka"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:21
 #, fuzzy, kde-format
@@ -9978,7 +9892,7 @@ msgstr "<![CDATA[Nastaví průhlednost obrázku na pozadí]]>"
 #: data/effects/frei0r/frei0r_pr0file.xml:24
 #, kde-format
 msgid "R,G,B,Y',Pr,Pb,Alpha"
-msgstr ""
+msgstr "R,G,B,Y',Pr,Pb,Alpha"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
@@ -9986,10 +9900,9 @@ msgid "<![CDATA[Channel to numerically display]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Marker 1"
-msgstr "Značka"
+msgstr "Značka 1"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
 #, kde-format
@@ -9997,10 +9910,9 @@ msgid "<![CDATA[Position of marker 1]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:33
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Marker 2"
-msgstr "Značka"
+msgstr "Značka 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:34
 #, kde-format
@@ -10008,10 +9920,9 @@ msgid "<![CDATA[Position of marker 2]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:37
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "R trace"
-msgstr "skladba"
+msgstr "Vykreslit červenou"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:38
 #, kde-format
@@ -10019,10 +9930,9 @@ msgid "<![CDATA[Show R trace (red) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:41
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "G trace"
-msgstr "skladba"
+msgstr "Vykreslit zelenou"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:42
 #, kde-format
@@ -10030,10 +9940,9 @@ msgid "<![CDATA[Show G trace (green) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:45
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "B trace"
-msgstr "skladba"
+msgstr "Vykreslit modrou"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:46
 #, kde-format
@@ -10041,10 +9950,9 @@ msgid "<![CDATA[Show B trace (blue) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:49
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "Y trace"
-msgstr "skladba"
+msgstr "Vykreslit žlutou"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
@@ -10052,10 +9960,9 @@ msgid "<![CDATA[Show Y trace (luma) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:53
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "Pr trace"
-msgstr "skladba"
+msgstr "Vykreslit purpurovou"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:54
 #, kde-format
@@ -10063,10 +9970,9 @@ msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:57
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "Pb trace"
-msgstr "skladba"
+msgstr "Vykreslit azurovou"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:58
 #, kde-format
@@ -10074,10 +9980,9 @@ msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:61
-#, fuzzy, kde-format
-#| msgid "Alpha strobing"
+#, kde-format
 msgid "Alpha trace"
-msgstr "Výběrová alfa"
+msgstr "Vykreslit alfa kanál"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:62
 #, kde-format
@@ -10085,10 +9990,9 @@ msgid "<![CDATA[Show Alpha trace on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:65
-#, fuzzy, kde-format
-#| msgid "Display aspect ratio:"
+#, kde-format
 msgid "Display average"
-msgstr "Poměr stran obrazovky:"
+msgstr "Zobrazit průměr"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:66
 #, kde-format
@@ -10098,7 +10002,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:69
 #, kde-format
 msgid "Display RMS"
-msgstr ""
+msgstr "Zobrazit hodnotu"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:70
 #, kde-format
@@ -10108,7 +10012,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:73
 #, kde-format
 msgid "Display minimum"
-msgstr ""
+msgstr "Zobrazit minimum"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:74
 #, kde-format
@@ -10118,7 +10022,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:77
 #, kde-format
 msgid "Display maximum"
-msgstr ""
+msgstr "Zobrazit maximum"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:78
 #, kde-format
@@ -10133,7 +10037,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:85
 #, kde-format
 msgid "CCIR rec. 601,CCIR rec. 709"
-msgstr ""
+msgstr "CCIR rec. 601,CCIR rec. 709"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:86
 #, fuzzy, kde-format
@@ -10147,10 +10051,9 @@ msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:90
-#, fuzzy, kde-format
-#| msgid "Shape color"
+#, kde-format
 msgid "Crosshair color"
-msgstr "Barva tvaru"
+msgstr "Barva nitkového kříže"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:91
 #, kde-format
@@ -10161,23 +10064,23 @@ msgstr ""
 #, kde-format
 msgctxt "Primaries Effect Name"
 msgid "Primaries"
-msgstr ""
+msgstr "Základní"
 
 #: data/effects/frei0r/frei0r_primaries.xml:5
 #, kde-format
 msgid "Reduce image to primary colors"
-msgstr ""
+msgstr "Zredukovat barvy obrázku na základní barvy"
 
 #: data/effects/frei0r/frei0r_primaries.xml:8
 #: data/effects/sox/sox_stretch.xml:8
 #, kde-format
 msgid "Factor"
-msgstr ""
+msgstr "Faktor"
 
 #: data/effects/frei0r/frei0r_primaries.xml:9
 #, kde-format
 msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
-msgstr ""
+msgstr "<![CDATA[Účinek v pixelech, > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, kde-format
@@ -10224,12 +10127,12 @@ msgstr "RGB přehlídka"
 #: data/effects/frei0r/frei0r_rgbparade.xml:5
 #, kde-format
 msgid "Display a histogram of R, G and B components of the video data"
-msgstr ""
+msgstr "Zobrazit histogram červené, zelené a modré složky videa"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:4
 #, kde-format
 msgid "rgbsplit0r"
-msgstr ""
+msgstr "rgbsplit0r"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:5
 #, kde-format
@@ -10250,26 +10153,25 @@ msgstr "Vodorovné rozptýlení"
 
 # Viz saturation
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgctxt "Saturation Effect Name"
 msgid "Saturation"
-msgstr "HSV saturace"
+msgstr "Saturace"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:5
 #, kde-format
 msgid "Adjusts the saturation of a source image"
-msgstr ""
+msgstr "Přizpůsobit saturaci zdrojových obrázků"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:4
 #, kde-format
 msgid "Crop, Scale and Tilt"
-msgstr ""
+msgstr "Ořez, měřítko a náklon"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:5
 #, kde-format
 msgid "Scales, Tilts and Crops an Image"
-msgstr ""
+msgstr "Změna velikosti, naklánění a ořezávání obrázku"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:8 data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -10308,33 +10210,30 @@ msgid "Scale Y"
 msgstr "Měřítko Y"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:26
-#, fuzzy, kde-format
-#| msgid "Tilt"
+#, kde-format
 msgid "Tilt X"
-msgstr "Náklon"
+msgstr "Naklonění X"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:29
-#, fuzzy, kde-format
-#| msgid "Tilt"
+#, kde-format
 msgid "Tilt Y"
-msgstr "Náklon"
+msgstr "Naklonění Y"
 
 #: data/effects/frei0r/frei0r_scanline0r.xml:4
 #, kde-format
 msgid "scanline0r"
-msgstr ""
+msgstr "scanline0r"
 
 #: data/effects/frei0r/frei0r_scanline0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Interlaced"
+#, kde-format
 msgid "Interlaced black lines"
-msgstr "Prokládané"
+msgstr "Proložit černými čarami"
 
 #: data/effects/frei0r/frei0r_select0r.xml:5
 #: data/effects/frei0r/frei0r_select0r.xml:41
 #, kde-format
 msgid "Chroma Key: Advanced (Color Selection)"
-msgstr ""
+msgstr "Klíčování: Pokročilé (paleta barev)"
 
 #: data/effects/frei0r/frei0r_select0r.xml:6
 #: data/effects/frei0r/frei0r_select0r.xml:42
@@ -10401,10 +10300,9 @@ msgid "Box,Ellipsoid,Diamond"
 msgstr "Obdélník,Elipsoid,Diamant"
 
 #: data/effects/frei0r/frei0r_select0r.xml:32
-#, fuzzy, kde-format
-#| msgid "Hard,Fat,Normal,Skinny,Slope"
+#, kde-format
 msgid "Hard,Fat,Normal,Skinny"
-msgstr "Tvrdý, Tlustý, Normální, Hubený, Sklon"
+msgstr "Tvrdý,Tlustý,Normální,Vyzáblý"
 
 #: data/effects/frei0r/frei0r_select0r.xml:59
 #: data/effects/mask_start_frei0r_select0r.xml:25
@@ -10419,8 +10317,7 @@ msgid "Soften"
 msgstr "Rozmazat"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
-#, fuzzy, kde-format
-#| msgid "Sharpen"
+#, kde-format
 msgctxt "Sharpen Effect Name"
 msgid "Sharpen"
 msgstr "Zaostřit"
@@ -10428,7 +10325,7 @@ msgstr "Zaostřit"
 #: data/effects/frei0r/frei0r_sharpness.xml:5
 #, kde-format
 msgid "Unsharp masking (port from Mplayer)"
-msgstr ""
+msgstr "Rozostření (port z MPlayeru)"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:5
 #, kde-format
@@ -10450,10 +10347,9 @@ msgstr "Zeslabení jasu"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:17
-#, fuzzy, kde-format
-#| msgid "Sharpen"
+#, kde-format
 msgid "Sharpness"
-msgstr "Zaostřit"
+msgstr "Ostrost"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:14
 #, kde-format
@@ -10463,13 +10359,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sobel.xml:4
 #, kde-format
 msgid "Sobel"
-msgstr ""
+msgstr "Sobel"
 
 #: data/effects/frei0r/frei0r_sobel.xml:5
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Sobel filter"
-msgstr "Soubor titulků:"
+msgstr "Filtr pro rozpoznání hran (Sobel)"
 
 #: data/effects/frei0r/frei0r_softglow.xml:5
 #, kde-format
@@ -10506,10 +10401,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_softglow.xml:22
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
 #: data/transitions/frei0r/frei0r_cairoblend.xml:12
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Blend mode"
-msgstr "Režim hrany"
+msgstr "Režim mísení"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
 #, kde-format
@@ -10520,7 +10414,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sopsat.xml:55
 #, kde-format
 msgid "SOP/Sat"
-msgstr ""
+msgstr "Sklon, posun, síla, saturace barev"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:6
 #: data/effects/frei0r/frei0r_sopsat.xml:56
@@ -10529,12 +10423,14 @@ msgid ""
 "Changes Slope, Offset, and Power of the color components, and the overall "
 "Saturation, according to the ASC CDL (Color Decision List)."
 msgstr ""
+"Umožňuje upravit sklon, posun a sílu jednotlivých barevných složek. Také "
+"umožňuje nastavit celkovou saturaci podle ASC CDL (Color Decision List)."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:9
 #: data/effects/frei0r/frei0r_sopsat.xml:59
 #, kde-format
 msgid "Slope Red"
-msgstr ""
+msgstr "Sklon červené"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:11
 #: data/effects/frei0r/frei0r_sopsat.xml:61
@@ -10546,33 +10442,34 @@ msgid ""
 "                All effects can be observed well when applied on a greyscale "
 "gradient and looking at the RGB Parade monitor.]]>"
 msgstr ""
+"<![CDATA[Změna sklonu znamená vynásobení hodnoty pixelu konstantou. Černé "
+"pixely zůstanou černé, zatímco všechny ostatní se změní.<br/>\n"
+"                Všechny efekty jsou dobře pozorovatelné při aplikaci "
+"černobílý přechod a shlédnutí RGB přehlídky.]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:14
 #: data/effects/frei0r/frei0r_sopsat.xml:64
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Slope Green"
-msgstr "Zelená"
+msgstr "Sklon zelené"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:17
 #: data/effects/frei0r/frei0r_sopsat.xml:67
 #, kde-format
 msgid "Slope Blue"
-msgstr ""
+msgstr "Sklon modré"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:20
 #: data/effects/frei0r/frei0r_sopsat.xml:70
-#, fuzzy, kde-format
-#| msgid "Shape Alpha"
+#, kde-format
 msgid "Slope Alpha"
-msgstr "Tvar alfa"
+msgstr "Sklon alfa kanálu"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:23
 #: data/effects/frei0r/frei0r_sopsat.xml:73
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset Red"
-msgstr "Posun X"
+msgstr "Posun červené"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:24
 #: data/effects/frei0r/frei0r_sopsat.xml:74
@@ -10580,35 +10477,31 @@ msgstr "Posun X"
 msgid ""
 "Changing the offset lifts (or lowers) the brightness of each pixel by the "
 "given value."
-msgstr ""
+msgstr "Změna posunu změní jas každého pixelu o zadanou hodnotu."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:27
 #: data/effects/frei0r/frei0r_sopsat.xml:77
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset Green"
-msgstr "Posun X"
+msgstr "Posun zelené"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:30
 #: data/effects/frei0r/frei0r_sopsat.xml:80
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset Blue"
-msgstr "Posun X"
+msgstr "Posun modré"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:33
 #: data/effects/frei0r/frei0r_sopsat.xml:83
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset Alpha"
-msgstr "Posun X"
+msgstr "Posun alfa kanálu"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:36
 #: data/effects/frei0r/frei0r_sopsat.xml:86
-#, fuzzy, kde-format
-#| msgid "Lower Bound"
+#, kde-format
 msgid "Power Red"
-msgstr "Spodní hranice"
+msgstr "Síla červené"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:38
 #: data/effects/frei0r/frei0r_sopsat.xml:88
@@ -10619,71 +10512,67 @@ msgid ""
 "                Mathematically, what happens is an exponentiation of the "
 "pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
 msgstr ""
+"<![CDATA[Změní hodnotu gama ve vybraném kanálu. Hodnoty černých a bílých "
+"pixelů nebudou ovlivněny, všechny ostatní ano.<br/>\n"
+"                Matematicky, jas pixelů <code>[0,1]</code> se umocňuje "
+"hodnotou gama.]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:41
 #: data/effects/frei0r/frei0r_sopsat.xml:91
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Power Green"
-msgstr "Zelená"
+msgstr "Síla zelené"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:44
 #: data/effects/frei0r/frei0r_sopsat.xml:94
-#, fuzzy, kde-format
-#| msgid "Lower Bound"
+#, kde-format
 msgid "Power Blue"
-msgstr "Spodní hranice"
+msgstr "Síla modré"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:47
 #: data/effects/frei0r/frei0r_sopsat.xml:97
-#, fuzzy, kde-format
-#| msgid "Preserve alpha"
+#, kde-format
 msgid "Power Alpha"
-msgstr "Zachovat alfu"
+msgstr "Síla alfa"
 
 # Viz saturation
 #: data/effects/frei0r/frei0r_sopsat.xml:50
 #: data/effects/frei0r/frei0r_sopsat.xml:100
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgid "Overall Saturation"
-msgstr "HSV saturace"
+msgstr "Celková saturace"
 
+# Viz saturation
 #: data/effects/frei0r/frei0r_sopsat.xml:51
 #: data/effects/frei0r/frei0r_sopsat.xml:101
 #, kde-format
 msgid "The overall saturation will be changed in the last step of this filter."
-msgstr ""
+msgstr "Celková saturace barev bude upraven v posledním kroku tohoto filtru."
 
 #: data/effects/frei0r/frei0r_squareblur.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2"
+#, kde-format
 msgid "Square Blur"
-msgstr "Čtverec 2"
+msgstr "Čtvercové rozostření"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:5
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2"
+#, kde-format
 msgid "Square blur"
-msgstr "Čtverec 2"
+msgstr "Čtvercové rozostření"
 
 #: data/effects/frei0r/frei0r_squareblur.xml:8
-#, fuzzy, kde-format
-#| msgid "Frame size:"
+#, kde-format
 msgid "Kernel size"
-msgstr "Velikost snímku:"
+msgstr "Velikost jádra"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
 msgid "TehRoxx0r"
-msgstr ""
+msgstr "Zmnožení jednoho obrazu (frei0r)"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:5
 #, kde-format
 msgid "Something videowall-ish"
-msgstr ""
+msgstr "Naprosto šíleně k ničemu ;-)"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:8 data/effects/strobe.xml:12
@@ -10693,107 +10582,95 @@ msgid "Interval"
 msgstr "Interval"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:4
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "3 point balance"
-msgstr "Vyvážení středu"
+msgstr "Tříbodová rovnováha"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:5
 #, kde-format
 msgid "Balances colors along with 3 points"
-msgstr ""
+msgstr "Vyrovná barvy podle 3 bodů"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, fuzzy, kde-format
-#| msgid "BackColor"
+#, kde-format
 msgid "Black color"
-msgstr "PozadníBarva"
+msgstr "Černá"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, fuzzy, kde-format
-#| msgid "Graph color style"
+#, kde-format
 msgid "Gray color"
-msgstr "Styl barevného grafu"
+msgstr "Šedá"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
-#, fuzzy, kde-format
-#| msgid "Shape color"
+#, kde-format
 msgid "White color"
-msgstr "Barva tvaru"
+msgstr "Bílá"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:17
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Split screen preview"
-msgstr "Náhled titulků"
+msgstr "Rozdělit obrazovku náhledu"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:20
-#, fuzzy, kde-format
-#| msgid "Source range %1 to %2"
+#, kde-format
 msgid "Source image on left side"
-msgstr "Rozsah zdroje %1 až %2"
+msgstr "Zdrojový obraz na levé straně"
 
 #: data/effects/frei0r/frei0r_threelay0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "3-level Threshold"
-msgstr "Hodnota prahu"
+msgstr "3-úrovňová hodnota prahu"
 
 #: data/effects/frei0r/frei0r_threelay0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Dynamic 3-level thresholding"
-msgstr "Hodnota prahu"
+msgstr "Dynamický tříúrovňový práh"
 
 #: data/effects/frei0r/frei0r_threshold0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Thresholds a source image"
-msgstr "Prahová hodnota"
+msgstr "Zdrojový obraz bude převeden na černobílý"
 
 #: data/effects/frei0r/frei0r_timeout.xml:5
 #, kde-format
 msgid "Timeout indicator"
-msgstr ""
+msgstr "Ukazatel časového limitu"
 
 #: data/effects/frei0r/frei0r_timeout.xml:8
-#, fuzzy, kde-format
-#| msgid "Invert colors"
+#, kde-format
 msgid "Indicator color"
-msgstr "Invertovat barvy"
+msgstr "Barva ukazatele"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
-#, fuzzy, kde-format
-#| msgid "Timer"
+#, kde-format
 msgid "Time"
-msgstr "Časovač"
+msgstr "Čas"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:4
 #, kde-format
 msgctxt "Tint Effect Name"
 msgid "Tint"
-msgstr ""
+msgstr "Tónování"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:5
 #, kde-format
 msgid "Maps source image luminance between two colors specified"
-msgstr ""
+msgstr "Namapuje světlost zdrojového obrazu doprostřed dvou vybraných barev"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:8
 #, kde-format
 msgid "Map black to"
-msgstr ""
+msgstr "Namapuj černou na"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Map hint"
+#, kde-format
 msgid "Map white to"
-msgstr "Nápovědná mapa"
+msgstr "Namapuj bílou na"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:14
 #, kde-format
 msgid "Tint amount"
-msgstr ""
+msgstr "Síla tónování"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
 #, fuzzy, kde-format
@@ -10811,75 +10688,67 @@ msgstr "Použít luma obrázku namísto kanálu alfa."
 #: data/effects/frei0r/frei0r_twolay0r.xml:4
 #, kde-format
 msgid "Binarize dynamically"
-msgstr ""
+msgstr "Binarizovat dynamicky"
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Dynamic thresholding"
-msgstr "Změnit práh"
+msgstr "Dynamický práh"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgctxt "Vectorscope Effect Name"
 msgid "Vectorscope"
 msgstr "Vektorskop"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid "Display the audio waveform instead of the video"
+#, kde-format
 msgid "Display a vectorscope of the video data"
-msgstr "Zobrazit časový průběh audio signálu namísto videa"
+msgstr "Zobrazit vektorskop video dat"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:5
 #: data/effects/frei0r/frei0r_vertigo.xml:16
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertigo"
-msgstr "Svisle"
+msgstr "Závrať"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:6
 #: data/effects/frei0r/frei0r_vertigo.xml:17
 #, kde-format
 msgid "Alpha blending with zoomed and rotated images"
-msgstr ""
+msgstr "Promíchání alfa kanálu u přiblížených a rotovaných obrázků"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:9
 #: data/effects/frei0r/frei0r_vertigo.xml:20
 #, kde-format
 msgid "Phase Increment"
-msgstr ""
+msgstr "Přírůstek v jedné fázi"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:12
 #: data/effects/frei0r/frei0r_vertigo.xml:23
-#, fuzzy, kde-format
-#| msgid "Zoom Out"
+#, kde-format
 msgid "Zoom Rate"
-msgstr "Oddálit"
+msgstr "Úroveň přiblížení"
 
 #: data/effects/frei0r/frei0r_vignette.xml:4
-#, fuzzy, kde-format
-#| msgid "Vignette Effect"
+#, kde-format
 msgid "Vignette"
 msgstr "Vinětace"
 
 #: data/effects/frei0r/frei0r_vignette.xml:5
 #, kde-format
 msgid "Natural lens vignetting effect"
-msgstr ""
+msgstr "Snížení jasu na okrajích obrazu, simulace přirozené vady objektivu."
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect ratio"
-msgstr "Poměr stran:"
+msgstr "Poměr stran"
 
 #: data/effects/frei0r/frei0r_vignette.xml:11
-#, fuzzy, kde-format
-#| msgid "Clear current cache"
+#, kde-format
 msgid "Clear center size"
-msgstr "Vymazat aktuální mezipaměť"
+msgstr "Odstranit velikost středu"
 
 #: data/effects/frei0r/frei0r_vignette.xml:14
 #: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
@@ -11465,136 +11334,122 @@ msgstr "Invertovat barvy"
 #: data/effects/ladspa/ladspa_declipper.xml:4
 #, kde-format
 msgid "Declipper"
-msgstr ""
+msgstr "Ořezávač"
 
 #: data/effects/ladspa/ladspa_declipper.xml:5
-#, fuzzy, kde-format
-#| msgid "Seek to clip when adding effect"
+#, kde-format
 msgid "LADSPA declipper audio effect"
-msgstr "Při přidávání efektu posunout na klip"
+msgstr "Ořezávač (LADSPA)"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:4
 #, kde-format
 msgid "Equalizer"
-msgstr ""
+msgstr "Ekvalizér"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:5
 #, kde-format
 msgid "LADSPA equalizer audio effect"
-msgstr ""
+msgstr "Ekvalizér (LADSPA)"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:8
 #, kde-format
 msgid "Lo gain"
-msgstr ""
+msgstr "Nízké zesílení"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:11
-#, fuzzy, kde-format
-#| msgid "Maximum gain"
+#, kde-format
 msgid "Mid gain"
-msgstr "Maximální zesílení"
+msgstr "Středně zesílit"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:14
-#, fuzzy, kde-format
-#| msgid "Maximum gain"
+#, kde-format
 msgid "Hi gain"
-msgstr "Maximální zesílení"
+msgstr "Vysoké zesílení"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:4
 #, kde-format
 msgid "15 Band Equalizer"
-msgstr ""
+msgstr "15 pásmový ekvalizér"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:5
 #, kde-format
 msgid "LADSPA equalizer audio effect (15 band)"
-msgstr ""
+msgstr "5 pásmový ekvalizér (LADSPA)"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:8
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "50 Hz"
-msgstr "44100 Hz"
+msgstr "50 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:11
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "100 Hz"
-msgstr "44100 Hz"
+msgstr "100 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
 #, kde-format
 msgid "156 Hz"
-msgstr ""
+msgstr "156 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:17
 #, kde-format
 msgid "220 Hz"
-msgstr ""
+msgstr "220 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:20
 #, kde-format
 msgid "311 Hz"
-msgstr ""
+msgstr "311 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:23
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "440 Hz"
-msgstr "44100 Hz"
+msgstr "440 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
 #, kde-format
 msgid "622 Hz"
-msgstr ""
+msgstr "622 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "880 Hz"
-msgstr "48000 Hz"
+msgstr "880 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:32
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "1250 Hz"
-msgstr "44100 Hz"
+msgstr "1250 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:35
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "1750 Hz"
-msgstr "44100 Hz"
+msgstr "1750 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:38
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "2500 Hz"
-msgstr "44100 Hz"
+msgstr "2500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:41
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "3500 Hz"
-msgstr "44100 Hz"
+msgstr "3500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:44
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "5000 Hz"
-msgstr "48000 Hz"
+msgstr "5000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:47
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "10000 Hz"
-msgstr "48000 Hz"
+msgstr "10000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "20000 Hz"
-msgstr "48000 Hz"
+msgstr "20000 Hz"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:4
 #, kde-format
@@ -11626,153 +11481,148 @@ msgstr ""
 #, kde-format
 msgctxt "Limiter Effect Name"
 msgid "Limiter"
-msgstr ""
+msgstr "Omezovač"
 
 #: data/effects/ladspa/ladspa_limiter.xml:5
 #, kde-format
 msgid "LADSPA limiter audio effect"
-msgstr ""
+msgstr "Omezovač (LADSPA)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:8
 #, kde-format
 msgid "Input gain (dB)"
-msgstr ""
+msgstr "Vstupní zesílení (dB)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:11
 #, kde-format
 msgid "Limit (dB)"
-msgstr ""
+msgstr "Limit (dB)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:14
 #, kde-format
 msgid "Release time (s)"
-msgstr ""
+msgstr "Čas uvolnění (s)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:5
 #, kde-format
 msgid "LADSPA phaser audio effect"
-msgstr ""
+msgstr "Rozkolísání (LADSPA)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:8
 #, kde-format
 msgid "Rate (Hz)"
-msgstr ""
+msgstr "Frekvence (Hz)"
 
 #: data/effects/ladspa/ladspa_phaser.xml:14
 #, kde-format
 msgid "Feedback"
-msgstr ""
+msgstr "Zpětná vazba"
 
 #: data/effects/ladspa/ladspa_phaser.xml:17
 #, kde-format
 msgid "Spread"
-msgstr ""
+msgstr "Rozptyl"
 
 #: data/effects/ladspa/ladspa_pitch.xml:4
 #, kde-format
 msgid "Pitch Shift"
-msgstr ""
+msgstr "Posun výšky tónu"
 
 #: data/effects/ladspa/ladspa_pitch.xml:5
 #, kde-format
 msgid "LADSPA change pitch audio effect"
-msgstr ""
+msgstr "Změna výšky tónu (LADSPA)"
 
 #: data/effects/ladspa/ladspa_pitch.xml:8 data/effects/sox/sox_pitch.xml:8
 #, kde-format
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixel scale"
+#, kde-format
 msgid "Pitch Scaler"
-msgstr "Pixelové měřítko"
+msgstr "Změna výšky tónu"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:5
 #, kde-format
 msgid "LADSPA pitch scale audio effect"
-msgstr ""
+msgstr "Změna výšky tónu (LADSPA)"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:8
 #, kde-format
 msgid "Co-efficient"
-msgstr ""
+msgstr "Součinitel"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:4
-#, fuzzy, kde-format
-#| msgid "Rescale:"
+#, kde-format
 msgid "Rate Scaler"
-msgstr "Změnit měřítko:"
+msgstr "Škálování rychlosti"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:5
 #, kde-format
 msgid "LADSPA rate scale audio effect"
-msgstr ""
+msgstr "Změna vzorkování (LADSPA)"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:8
 #, kde-format
 msgid "Rate"
-msgstr ""
+msgstr "Míra"
 
 #: data/effects/ladspa/ladspa_reverb.xml:4
-#, fuzzy, kde-format
-#| msgid "Revert"
+#, kde-format
 msgctxt "Reverb Effect Name"
 msgid "Reverb"
-msgstr "Vrátit zpět"
+msgstr "Dozvuk"
 
 #: data/effects/ladspa/ladspa_reverb.xml:5
 #, kde-format
 msgid "LADSPA reverb audio effect"
-msgstr ""
+msgstr "Dozvuk (LADSPA)"
 
 #: data/effects/ladspa/ladspa_reverb.xml:8
-#, fuzzy, kde-format
-#| msgid "Revert"
+#, kde-format
 msgid "Reverb time"
-msgstr "Vrátit zpět"
+msgstr "Délka dozvuku"
 
 #: data/effects/ladspa/ladspa_reverb.xml:11
 #: data/effects/ladspa/ladspa_room_reverb.xml:14
 #, kde-format
 msgid "Damping"
-msgstr ""
+msgstr "Tlumení"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:4
 #, kde-format
 msgid "Room Reverb"
-msgstr ""
+msgstr "Ozvěna místnosti"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:5
 #, kde-format
 msgid "LADSPA room reverb audio effect"
-msgstr ""
+msgstr "Dozvuk místnosti (LADSPA)"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:8
 #, kde-format
 msgid "Room size (m)"
-msgstr ""
+msgstr "Velikost místnosti (m)"
 
 #: data/effects/ladspa/ladspa_room_reverb.xml:11
 #, kde-format
 msgid "Delay (s/10)"
-msgstr ""
+msgstr "Zpoždění (s/10)"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:4
 #, kde-format
 msgctxt "Vinyl Effect Name"
 msgid "Vinyl"
-msgstr ""
+msgstr "Vinyl"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:5
 #, kde-format
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr ""
+msgstr "Simulovat audio přehrávač vinyl - audio efekty LADSPA"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:8
-#, fuzzy, kde-format
-#| msgid "Year"
+#, kde-format
 msgctxt "Vinyl Effect Year"
 msgid "Year"
 msgstr "Rok"
@@ -11780,23 +11630,22 @@ msgstr "Rok"
 #: data/effects/ladspa/ladspa_vinyl.xml:11
 #, kde-format
 msgid "RPM"
-msgstr ""
+msgstr "RPM"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:14
 #, kde-format
 msgid "Surface warping"
-msgstr ""
+msgstr "Povrchová deformace"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:17
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid "Crackle"
-msgstr "Stopa"
+msgstr "Praskání v obraze"
 
 #: data/effects/ladspa/ladspa_vinyl.xml:20
 #, kde-format
 msgid "Wear"
-msgstr ""
+msgstr "Opotřebení"
 
 #: data/effects/lift_gamma_gain.xml:4
 #, kde-format
@@ -12706,159 +12555,142 @@ msgstr "Hammingovo okno"
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
 msgid "Sox Band"
-msgstr ""
+msgstr "Frekvenční pásmo (Sox)"
 
 #: data/effects/sox/sox_band.xml:5
 #, kde-format
 msgid "Sox band audio effect"
-msgstr ""
+msgstr "Sox band efekt zvuku"
 
 #: data/effects/sox/sox_band.xml:8
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Center Frequency"
-msgstr "Vytvářejte sekvence"
+msgstr "Středová frekvence"
 
 #: data/effects/sox/sox_bass.xml:4
 #, kde-format
 msgid "Sox Bass"
-msgstr ""
+msgstr "Zesílení basů (Sox)"
 
 #: data/effects/sox/sox_bass.xml:5
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#, kde-format
 msgid "Sox bass audio effect"
-msgstr "Zobrazit hlavní efekty"
+msgstr "Sox bass efekt zvuku"
 
 #: data/effects/sox/sox_echo.xml:4
 #, kde-format
 msgid "Sox Echo"
-msgstr ""
+msgstr "Ozvěna (Sox)"
 
 #: data/effects/sox/sox_echo.xml:5
-#, fuzzy, kde-format
-#| msgid "Seek to clip when adding effect"
+#, kde-format
 msgid "Sox echo audio effect"
-msgstr "Při přidávání efektu posunout na klip"
+msgstr "Sox echo efekt zvuku"
 
 #: data/effects/sox/sox_echo.xml:8 data/effects/sox/sox_phaser.xml:8
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Gain In"
 msgstr "Zesílení"
 
 #: data/effects/sox/sox_echo.xml:11 data/effects/sox/sox_phaser.xml:11
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Gain Out"
-msgstr "Zesílení"
+msgstr "Zeslabení"
 
 #: data/effects/sox/sox_flanger.xml:4
 #, kde-format
 msgid "Sox Flanger"
-msgstr ""
+msgstr "Flanger (Sox)"
 
 #: data/effects/sox/sox_flanger.xml:5
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#, kde-format
 msgid "Sox flanger audio effect"
-msgstr "Zobrazit hlavní efekty"
+msgstr "Sox flanger efekt zvuku"
 
 #: data/effects/sox/sox_gain.xml:4
-#, fuzzy, kde-format
-#| msgid "Start Gain"
+#, kde-format
 msgid "Sox Gain"
-msgstr "Začátek zesílení"
+msgstr "Zesílení (Sox)"
 
 #: data/effects/sox/sox_gain.xml:5
-#, fuzzy, kde-format
-#| msgid "Seek to clip when adding effect"
+#, kde-format
 msgid "Sox gain audio effect"
-msgstr "Při přidávání efektu posunout na klip"
+msgstr "Efekt změny hlasitosti audia"
 
 #: data/effects/sox/sox_phaser.xml:4
 #, kde-format
 msgid "Sox Phaser"
-msgstr ""
+msgstr "Rozkmitání (Sox)"
 
 #: data/effects/sox/sox_phaser.xml:5
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#, kde-format
 msgid "Sox phaser audio effect"
-msgstr "Zobrazit hlavní efekty"
+msgstr "Rozkmitá audio stopu dle nastavení"
 
 #: data/effects/sox/sox_pitch.xml:4
 #, kde-format
 msgid "Sox Pitch Shift"
-msgstr ""
+msgstr "Posun výšky audia (Sox)"
 
 #: data/effects/sox/sox_pitch.xml:5
 #, kde-format
 msgid "Sox change pitch audio effect"
-msgstr ""
+msgstr "Plynulé zvýšení frekvence audia (mluveného hlasu)"
 
 #: data/effects/sox/sox_pitch.xml:11
 #, kde-format
 msgid "Time window (ms)"
-msgstr ""
+msgstr "Časové okno (ms)"
 
 #: data/effects/sox/sox_reverb.xml:4
-#, fuzzy, kde-format
-#| msgid "Revert"
+#, kde-format
 msgid "Sox Reverb"
-msgstr "Vrátit zpět"
+msgstr "Ozvěna (Sox)"
 
 #: data/effects/sox/sox_reverb.xml:5
 #, kde-format
 msgid "Sox reverb audio effect"
-msgstr ""
+msgstr "Vytvoří ozvěnu zvuku."
 
 #: data/effects/sox/sox_reverb.xml:8
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reverberance"
-msgstr "Obrátit směr"
+msgstr "Dozvuk (ozvěna)"
 
 #: data/effects/sox/sox_reverb.xml:11
-#, fuzzy, kde-format
-#| msgid "High frequency"
+#, kde-format
 msgid "High frequency damping"
-msgstr "Vysoká frekvence"
+msgstr "Tlumení vysokých frekvencí"
 
 #: data/effects/sox/sox_reverb.xml:14
-#, fuzzy, kde-format
-#| msgid "Normal scale"
+#, kde-format
 msgid "Room scale"
-msgstr "Normální měřítko"
+msgstr "Velikost místnosti"
 
 #: data/effects/sox/sox_reverb.xml:17
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo depth"
-msgstr "Stereo "
+msgstr "Hloubka sterea"
 
 #: data/effects/sox/sox_reverb.xml:20
 #, kde-format
 msgid "Pre-delay"
-msgstr ""
+msgstr "Předzpoždění"
 
 #: data/effects/sox/sox_reverb.xml:23
-#, fuzzy, kde-format
-#| msgid "Check again"
+#, kde-format
 msgid "Wet gain"
-msgstr "Znovu zkontrolovat"
+msgstr "Vlhké zesílení"
 
 #: data/effects/sox/sox_stretch.xml:4
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Sox Stretch"
-msgstr "Roztáhnout"
+msgstr "Natažení (Sox)"
 
 #: data/effects/sox/sox_stretch.xml:5
-#, fuzzy, kde-format
-#| msgid "Show master effects"
+#, kde-format
 msgid "Sox stretch audio effect"
-msgstr "Zobrazit hlavní efekty"
+msgstr "Natáhne audio, z původního nechá pouze určitá okna"
 
 #: data/effects/speed.xml:5
 #, kde-format
@@ -13715,10 +13547,9 @@ msgid "Make padding transparent"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_addition.xml:4
-#, fuzzy, kde-format
-#| msgid "Add Transition"
+#, kde-format
 msgid "Addition"
-msgstr "Přidat přechod"
+msgstr "Sčítání"
 
 #: data/transitions/frei0r/frei0r_addition.xml:5
 #, kde-format
@@ -13793,7 +13624,7 @@ msgstr "Operace s alfa kanálem"
 #: data/transitions/frei0r/frei0r_burn.xml:4
 #, kde-format
 msgid "Burn"
-msgstr ""
+msgstr "Vypálit"
 
 #: data/transitions/frei0r/frei0r_burn.xml:5
 #, kde-format
@@ -13881,10 +13712,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Darken"
-msgstr "Značka"
+msgstr "Ztmavit"
 
 #: data/transitions/frei0r/frei0r_darken.xml:5
 #, kde-format
@@ -13896,7 +13726,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, kde-format
 msgid "Difference"
-msgstr ""
+msgstr "Rozdíl"
 
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
@@ -13904,10 +13734,9 @@ msgid "Perform an RGB[A] difference operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
-#, fuzzy, kde-format
-#| msgid "Disable video"
+#, kde-format
 msgid "Divide"
-msgstr "Zakázat video"
+msgstr "Dělit"
 
 #: data/transitions/frei0r/frei0r_divide.xml:5
 #, kde-format
@@ -13969,11 +13798,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Light"
+#, kde-format
 msgid "Lighten"
-msgstr "Lehké"
+msgstr "Zesvětlit"
 
 #: data/transitions/frei0r/frei0r_lighten.xml:5
 #, kde-format
@@ -13983,10 +13810,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
-#, fuzzy, kde-format
-#| msgid "Multicam"
+#, kde-format
 msgid "Multiply"
-msgstr "Multicam"
+msgstr "Násobit"
 
 #: data/transitions/frei0r/frei0r_multiply.xml:5
 #, kde-format
@@ -13994,10 +13820,9 @@ msgid "Perform an RGB[A] multiply operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
-#, fuzzy, kde-format
-#| msgid "Overlay:"
+#, kde-format
 msgid "Overlay"
-msgstr "Překrytí:"
+msgstr "Přesah"
 
 #: data/transitions/frei0r/frei0r_overlay.xml:5
 #, kde-format
@@ -14067,10 +13892,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_screen.xml:4
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Screen"
-msgstr "Zelená"
+msgstr "Obrazovka"
 
 #: data/transitions/frei0r/frei0r_screen.xml:5
 #, kde-format
@@ -14234,10 +14058,9 @@ msgid "Circle size"
 msgstr "Velikost souboru:"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Wipe Down"
-msgstr "Dolů"
+msgstr "Vyčistit dolů"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
 #, fuzzy, kde-format
@@ -14255,10 +14078,9 @@ msgid "Edge position"
 msgstr "Nastavit pozici"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Wipe Left"
-msgstr "Vlevo nahoře"
+msgstr "Vyčistit doleva"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
 #, fuzzy, kde-format
@@ -14284,10 +14106,9 @@ msgid "Rectangle size"
 msgstr "Obdélník"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Right"
+#, kde-format
 msgid "Wipe Right"
-msgstr "Vpravo nahoře"
+msgstr "Vyčistit doprava"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
@@ -14295,11 +14116,9 @@ msgid "Wipe from left to right."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Wipe Transition Name"
-#| msgid "Wipe"
+#, kde-format
 msgid "Wipe Up"
-msgstr "Setření"
+msgstr "Vyčistit nahoru"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
 #, fuzzy, kde-format
@@ -14993,7 +14812,7 @@ msgid "Failed to load preset %1"
 msgstr ""
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:310
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:306
 #, kde-format
 msgid "Reset Effect"
 msgstr "Restartovat efekt"
@@ -16602,7 +16421,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -16771,7 +16590,7 @@ msgid "Move subtitle"
 msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:669
 #: src/effects/effectstack/view/effectstackview.cpp:852
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
@@ -17704,13 +17523,13 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr ""
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1731
-#: src/dialogs/renderwidget.cpp:1755 src/doc/kdenlivedoc.cpp:770
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1776
+#: src/dialogs/renderwidget.cpp:1800 src/doc/kdenlivedoc.cpp:770
 #: src/doc/kdenlivedoc.cpp:778 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:746
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:745
 #: src/effects/effectstack/view/effectstackview.cpp:890
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
@@ -17925,7 +17744,7 @@ msgid "Top Right"
 msgstr "Vpravo nahoře"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:230
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -18115,92 +17934,92 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1560
+#: src/dialogs/renderwidget.cpp:103 src/dialogs/renderwidget.cpp:1605
 #, kde-format
 msgid "Waiting…"
 msgstr "Čeká se…"
 
-#: src/dialogs/renderwidget.cpp:109
+#: src/dialogs/renderwidget.cpp:107
 #, kde-format
 msgid "Starting…"
 msgstr "Spouštění…"
 
-#: src/dialogs/renderwidget.cpp:112
+#: src/dialogs/renderwidget.cpp:110
 #, kde-format
 msgid "Rendering finished"
 msgstr "Renderování bylo dokončeno"
 
-#: src/dialogs/renderwidget.cpp:117
+#: src/dialogs/renderwidget.cpp:115
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Renderování selhalo"
 
-#: src/dialogs/renderwidget.cpp:122
+#: src/dialogs/renderwidget.cpp:120
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Renderování přerušeno"
 
-#: src/dialogs/renderwidget.cpp:209
+#: src/dialogs/renderwidget.cpp:218
 #, kde-format
 msgid "Nearest (fast)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:219 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilinearní (dobrý)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:220 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bikubický (lepší)"
 
-#: src/dialogs/renderwidget.cpp:212
+#: src/dialogs/renderwidget.cpp:221
 #, kde-format
 msgid "Lanczos (best)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:222
+#: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "Vodorovně (16:9)"
 
-#: src/dialogs/renderwidget.cpp:223
+#: src/dialogs/renderwidget.cpp:232
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "Svisle (9:16)"
 
-#: src/dialogs/renderwidget.cpp:224
+#: src/dialogs/renderwidget.cpp:233
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Čtverec (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:237 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Jedno pole (rychlé)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:238 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Lineární mísení (rychlé)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:239 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - pouze časový (dobrý)"
 
-#: src/dialogs/renderwidget.cpp:231
+#: src/dialogs/renderwidget.cpp:240
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (lepší)"
 
-#: src/dialogs/renderwidget.cpp:232
+#: src/dialogs/renderwidget.cpp:241
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (nejlepší)"
 
-#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -18208,95 +18027,95 @@ msgstr "BWDIF (nejlepší)"
 msgid "None"
 msgstr "Žádný"
 
-#: src/dialogs/renderwidget.cpp:241
+#: src/dialogs/renderwidget.cpp:250
 #, kde-format
 msgid "Timecode"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:242
+#: src/dialogs/renderwidget.cpp:251
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:243
+#: src/dialogs/renderwidget.cpp:252
 #, kde-format
 msgid "Frame Number"
 msgstr "Číslo rámce"
 
-#: src/dialogs/renderwidget.cpp:247
+#: src/dialogs/renderwidget.cpp:256
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Vykreslování pomocí zástupného klipu s nízkou kvalitou"
 
-#: src/dialogs/renderwidget.cpp:340
+#: src/dialogs/renderwidget.cpp:349
 #, kde-format
 msgid "File"
 msgstr "Soubor"
 
-#: src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:358
 #, kde-format
 msgid "Stored Playlists"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:362 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:371 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:385
+#: src/dialogs/renderwidget.cpp:400
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:392
+#: src/dialogs/renderwidget.cpp:407
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Nastala chyba při sdílení dokumentu: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:392 src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:407 src/dialogs/renderwidget.cpp:415
 #: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Share"
 msgstr "Sdílet"
 
-#: src/dialogs/renderwidget.cpp:397
+#: src/dialogs/renderwidget.cpp:412
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Obrázek byl úspěšně sdílen"
 
-#: src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:415
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:520
+#: src/dialogs/renderwidget.cpp:535
 #, kde-format
 msgid "Beginning"
 msgstr "Začátek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:527 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:542 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Konec"
 
-#: src/dialogs/renderwidget.cpp:648
+#: src/dialogs/renderwidget.cpp:663
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:654
+#: src/dialogs/renderwidget.cpp:669
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Nelze najít program melt (součást MLT), který je vyžadován pro renderování"
 
-#: src/dialogs/renderwidget.cpp:663
+#: src/dialogs/renderwidget.cpp:678
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -18305,25 +18124,25 @@ msgid ""
 "We recommend to transcode to an edit friendly format."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:672
+#: src/dialogs/renderwidget.cpp:687
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:678
+#: src/dialogs/renderwidget.cpp:693
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Překódovat"
 
-#: src/dialogs/renderwidget.cpp:700 src/dialogs/renderwidget.cpp:1534
+#: src/dialogs/renderwidget.cpp:715 src/dialogs/renderwidget.cpp:1579
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Výstupní soubor již existuje. Přejete si jej přepsat?"
 
-#: src/dialogs/renderwidget.cpp:708 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:723 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -18332,12 +18151,12 @@ msgstr ""
 "Složka %1 nemůže být vytvořena.\n"
 "Ujistěte se, že máte dostatečná oprávnění."
 
-#: src/dialogs/renderwidget.cpp:749
+#: src/dialogs/renderwidget.cpp:764
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:788 src/dialogs/renderwidget.cpp:1547
+#: src/dialogs/renderwidget.cpp:803 src/dialogs/renderwidget.cpp:1592
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -18346,59 +18165,60 @@ msgstr ""
 "Již existuje úloha, která zapisuje do souboru: <br /><b>%1</b><br />Jestliže "
 "si přejete soubor přepsat, musíte nejprve ukončit právě běžící úlohu…"
 
-#: src/dialogs/renderwidget.cpp:789 src/dialogs/renderwidget.cpp:1548
+#: src/dialogs/renderwidget.cpp:804 src/dialogs/renderwidget.cpp:1593
 #, kde-format
 msgid "Already running"
 msgstr "Již běží"
 
-#: src/dialogs/renderwidget.cpp:811
+#: src/dialogs/renderwidget.cpp:826
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video bez zvukové stopy"
 
-#: src/dialogs/renderwidget.cpp:813
+#: src/dialogs/renderwidget.cpp:828
 #, kde-format
 msgid "Audio without video track"
 msgstr "Zvuk bez video stopy"
 
-#: src/dialogs/renderwidget.cpp:877 src/main.cpp:415
-#, kde-format
-msgid "Rendering <i>%1</i> started"
+#: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
+#, fuzzy, kde-format
+#| msgid "Rendering <i>%1</i> started"
+msgid "Rendering %1 started"
 msgstr "Renderování <i>%1</i> začalo"
 
-#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1316
+#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "nepojmenovaný"
 
-#: src/dialogs/renderwidget.cpp:977
+#: src/dialogs/renderwidget.cpp:992
 #, kde-format
 msgid "No preset selected"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:979
+#: src/dialogs/renderwidget.cpp:994
 #, kde-format
 msgid "No matching preset"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:991
+#: src/dialogs/renderwidget.cpp:1006
 #, kde-format
 msgid "Invalid preset"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1114
+#: src/dialogs/renderwidget.cpp:1129
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1288
+#: src/dialogs/renderwidget.cpp:1303
 #, kde-format
 msgid "Remaining time "
 msgstr "Zbývající čas "
 
-#: src/dialogs/renderwidget.cpp:1290 src/dialogs/renderwidget.cpp:1345
+#: src/dialogs/renderwidget.cpp:1305 src/dialogs/renderwidget.cpp:1387
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -18406,53 +18226,53 @@ msgstr[0] "%1 den "
 msgstr[1] "%1 dny"
 msgstr[2] "%1 dnů "
 
-#: src/dialogs/renderwidget.cpp:1302
+#: src/dialogs/renderwidget.cpp:1317
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1317
+#: src/dialogs/renderwidget.cpp:1339
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1347
+#: src/dialogs/renderwidget.cpp:1389
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Renderování bylo dokončeno za %1"
 
-#: src/dialogs/renderwidget.cpp:1355
+#: src/dialogs/renderwidget.cpp:1397
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Renderování %1 bylo dokončeno za %2"
 
-#: src/dialogs/renderwidget.cpp:1375
+#: src/dialogs/renderwidget.cpp:1417
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Renderování %1 selhalo</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1419 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1461 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Zrušit úlohu"
 
-#: src/dialogs/renderwidget.cpp:1422
+#: src/dialogs/renderwidget.cpp:1464
 #, kde-format
 msgid "Remove Job"
 msgstr "Smazat úlohu"
 
-#: src/dialogs/renderwidget.cpp:1819
+#: src/dialogs/renderwidget.cpp:1864
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1824
+#: src/dialogs/renderwidget.cpp:1869
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1828
+#: src/dialogs/renderwidget.cpp:1873
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -18460,7 +18280,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/dialogs/renderwidget.cpp:1830
+#: src/dialogs/renderwidget.cpp:1875
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -18468,24 +18288,24 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/dialogs/renderwidget.cpp:1832
+#: src/dialogs/renderwidget.cpp:1877
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1914
+#: src/dialogs/renderwidget.cpp:1959
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
 "%1"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1934
+#: src/dialogs/renderwidget.cpp:1979
 #, kde-format
 msgid "Add to Current Project"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1943
+#: src/dialogs/renderwidget.cpp:1988
 #: src/effects/effectstack/view/maskmanager.cpp:663
 #: src/library/librarywidget.cpp:248
 #, kde-format
@@ -21116,107 +20936,107 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Collapse Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Expand Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:103
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Otevřít efektovou dokumentaci v prohlížeči"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:127
 #, kde-format
 msgid "Enable Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "Hide Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "Show Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:138
 #, kde-format
 msgid "Disable Effect"
 msgstr "Vypnout efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:138
 #, kde-format
 msgid "Enable Effect"
 msgstr "Povolit efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:144
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Create Group"
 msgstr "Vytvořit skupinu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:180
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-format
 msgid "In:"
 msgstr "V:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
 #, kde-format
 msgid "Set zone in"
 msgstr "Nastavit začátek výběru"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:187
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
 #, kde-format
 msgid "Out:"
 msgstr "Ven:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
 #, kde-format
 msgid "Set zone out"
 msgstr "Nastavit konec výběru"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:231
 #, kde-format
 msgid "Use effect zone"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:236
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -21224,35 +21044,35 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:295
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Přednastavení"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:324
 #, kde-format
 msgid "Delete effect"
 msgstr "Smazat efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:329
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:325
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:381
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -21260,28 +21080,28 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #, kde-format
 msgid "Disable %1"
 msgstr "Zakázat %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #, kde-format
 msgid "Enable %1"
 msgstr "Povolit %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:638
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Uložit efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:644
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
 #, kde-format
 msgid "Comments:"
 msgstr "Komentáře:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
@@ -21315,10 +21135,9 @@ msgid "Flip"
 msgstr "Převrátit"
 
 #: src/effects/effectstack/view/effectstackview.cpp:429
-#, fuzzy, kde-format
-#| msgid "Extracting…"
+#, kde-format
 msgid "Exporting…"
-msgstr "Rozbalování…"
+msgstr "Probíhá export…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
@@ -21380,10 +21199,9 @@ msgid "Please configure the SAM2 plugin"
 msgstr "Prosím nakonfigurujte zásuvný modul SAM2"
 
 #: src/effects/effectstack/view/maskmanager.cpp:115
-#, fuzzy, kde-format
-#| msgid "Cut job failed."
+#, kde-format
 msgid "Job failed"
-msgstr "Úloha vyjímání selhala"
+msgstr "Úloha selhala"
 
 #: src/effects/effectstack/view/maskmanager.cpp:200
 #, kde-format
@@ -33119,10 +32937,9 @@ msgstr "Importovat masku do projektu"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/maskmanage_ui.ui:165
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Border"
-msgstr "Okraj "
+msgstr "Okraj"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172
