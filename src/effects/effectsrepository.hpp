@@ -43,6 +43,8 @@ public:
     bool isAudioEffect(const QString &assetId) const;
     /** @brief Returns true if effect is text */
     bool isTextEffect(const QString &assetId) const;
+    /** @brief Find all assets matching an MLT tag */
+    const QStringList getAssetListByMltTag(const QString &mltTag) const;
 
 protected:
     /** @brief Constructor is protected because class is a Singleton */

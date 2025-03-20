@@ -62,7 +62,7 @@ public:
     std::vector<DocumentResource> resourceItems() { return m_items; }
 
 protected:
-    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
+    static QMap<QString, QString> getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
     static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
 
 private:
