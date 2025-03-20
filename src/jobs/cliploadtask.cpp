@@ -787,17 +787,17 @@ void ClipLoadTask::abort()
     if (pCore->taskManager.isBlocked()) {
         return;
     }
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
     if (!m_softDelete && !m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
             if (!m_isCanceled.loadAcquire() && !binClip->isReloading) {
                 // User tried to add an invalid clip, remove it.
-                pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "requestBinClipDeletionById", Qt::QueuedConnection,
+                                          Q_ARG(QString, QString::number(m_owner.itemId)));
             } else {
                 // An existing clip just became invalid, mark it as missing.
+                QMetaObject::invokeMethod(binClip.get(), "setClipStatus", Qt::QueuedConnection, Q_ARG(FileStatus::ClipStatus, FileStatus::StatusMissing));
                 binClip->setClipStatus(FileStatus::StatusMissing);
             }
         }
