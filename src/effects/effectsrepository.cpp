@@ -455,3 +455,17 @@ bool EffectsRepository::isTextEffect(const QString &assetId) const
     }
     return false;
 }
+
+const QStringList EffectsRepository::getAssetListByMltTag(const QString &mltTag) const
+{
+    if (m_assets.count(mltTag) > 0) {
+        return {mltTag};
+    }
+    QStringList matches;
+    for (auto &a : m_assets) {
+        if (a.second.mltId == mltTag) {
+            matches << a.first;
+        }
+    }
+    return matches;
+}

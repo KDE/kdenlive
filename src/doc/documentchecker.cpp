@@ -469,13 +469,13 @@ bool DocumentChecker::hasErrorInProject()
     }
 
     // Check for missing transitions (eg. not installed)
-    QStringList transtions = getAssetsServiceIds(m_doc, QStringLiteral("transition"));
-    for (const QString &id : std::as_const(transtions)) {
-        if (!TransitionsRepository::get()->exists(id) && !itemsContain(MissingType::Transition, id, MissingStatus::Remove)) {
+    auto transitionsIds = getAssetsServiceIds(m_doc, QStringLiteral("transition"));
+    for (auto i = transitionsIds.cbegin(), end = transitionsIds.cend(); i != end; ++i) {
+        if (!TransitionsRepository::get()->exists(i.key()) && !itemsContain(MissingType::Transition, i.key(), MissingStatus::Remove)) {
             DocumentResource item;
             item.type = MissingType::Transition;
             item.status = MissingStatus::Remove;
-            item.originalFilePath = id;
+            item.originalFilePath = i.key();
             m_items.push_back(item);
         }
     }
@@ -510,25 +510,39 @@ bool DocumentChecker::hasErrorInProject()
     }
 
     // Check for missing effects (eg. not installed)
-    QStringList filters = getAssetsServiceIds(m_doc, QStringLiteral("filter"));
+    auto filtersIds = getAssetsServiceIds(m_doc, QStringLiteral("filter"));
     QStringList renamedEffectNames = renamedEffects.keys();
-    for (const QString &id : std::as_const(filters)) {
-        if (!EffectsRepository::get()->exists(id) && !itemsContain(MissingType::Effect, id, MissingStatus::Remove)) {
+    for (auto i = filtersIds.cbegin(), end = filtersIds.cend(); i != end; ++i) {
+        if (!EffectsRepository::get()->exists(i.key()) && !itemsContain(MissingType::Effect, i.key(), MissingStatus::Remove)) {
             // m_missingFilters << id;
-            if (renamedEffectNames.contains(id) && EffectsRepository::get()->exists(renamedEffects.value(id))) {
+            if (renamedEffectNames.contains(i.key()) && EffectsRepository::get()->exists(renamedEffects.value(i.key()))) {
                 // The effect was renamed
                 DocumentResource item;
                 item.type = MissingType::Effect;
                 item.status = MissingStatus::Fixed;
-                item.originalFilePath = id;
-                item.newFilePath = renamedEffects.value(id);
+                item.originalFilePath = i.key();
+                item.newFilePath = renamedEffects.value(i.key());
                 m_items.push_back(item);
                 continue;
+            }
+            // Check if it was a custom effect by checking the MLT tag
+            if (i.key() != i.value()) {
+                const QStringList updatedAssetId = EffectsRepository::get()->getAssetListByMltTag(i.value());
+                if (!updatedAssetId.isEmpty()) {
+                    // Use first matching asset
+                    DocumentResource item;
+                    item.type = MissingType::Effect;
+                    item.status = MissingStatus::Fixed;
+                    item.originalFilePath = i.key();
+                    item.newFilePath = updatedAssetId.first();
+                    m_items.push_back(item);
+                    continue;
+                }
             }
             DocumentResource item;
             item.type = MissingType::Effect;
             item.status = MissingStatus::Remove;
-            item.originalFilePath = id;
+            item.originalFilePath = i.key();
             m_items.push_back(item);
         }
     }
@@ -1329,20 +1343,21 @@ QStringList DocumentChecker::getAssetsFilesByMltTag(const QDomDocument &doc, con
     return files;
 }
 
-QStringList DocumentChecker::getAssetsServiceIds(const QDomDocument &doc, const QString &tagName)
+QMap<QString, QString> DocumentChecker::getAssetsServiceIds(const QDomDocument &doc, const QString &tagName)
 {
     QDomNodeList filters = doc.elementsByTagName(tagName);
     int max = filters.count();
-    QStringList services;
+    QMap<QString, QString> services;
     for (int i = 0; i < max; ++i) {
         QDomElement filter = filters.at(i).toElement();
-        QString service = Xml::getXmlProperty(filter, QStringLiteral("kdenlive_id"));
+        const QString service = Xml::getXmlProperty(filter, QStringLiteral("kdenlive_id"));
+        const QString tag = Xml::getXmlProperty(filter, QStringLiteral("mlt_service"));
         if (service.isEmpty()) {
-            service = Xml::getXmlProperty(filter, QStringLiteral("mlt_service"));
+            services.insert(tag, tag);
+        } else {
+            services.insert(service, tag);
         }
-        services << service;
     }
-    services.removeDuplicates();
     return services;
 }
 
