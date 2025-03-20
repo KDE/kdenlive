@@ -17,16 +17,16 @@ TEST_CASE("Basic tests of the document checker parts", "[DocumentChecker]")
         Xml::docContentFromFile(doc, path, false);
 
         QStringList filters = KdenliveTests::getAssetsServiceIds(doc, QStringLiteral("filter"));
-        CHECK(filters == QStringList({"volume", "panner", "audiolevel", "avfilter.fieldorder"}));
+        CHECK(filters == QStringList({"audiolevel", "avfilter.fieldorder", "panner", "volume"}));
         qDebug() << filters;
 
         KdenliveTests::removeAssetsById(doc, QStringLiteral("filter"), QStringList({"volume"}));
         filters = KdenliveTests::getAssetsServiceIds(doc, QStringLiteral("filter"));
 
-        CHECK(filters == QStringList({"panner", "audiolevel", "avfilter.fieldorder"}));
+        CHECK(filters == QStringList({"audiolevel", "avfilter.fieldorder", "panner"}));
 
         QStringList transitions = KdenliveTests::getAssetsServiceIds(doc, QStringLiteral("transition"));
-        CHECK(transitions == QStringList{"luma", "mix", "frei0r.cairoblend"});
+        CHECK(transitions == QStringList{"frei0r.cairoblend", "luma", "mix"});
 
         qDebug() << filters;
         qDebug() << transitions;
