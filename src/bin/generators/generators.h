@@ -47,6 +47,8 @@ private:
     std::shared_ptr<AssetParameterModel> m_assetModel;
     QLabel *m_preview;
     QPixmap m_pixmap;
+    QMap<QString, QStringList> m_audioCondition;
+    bool hasAudio() const;
 
 private Q_SLOTS:
     void updateProducer();

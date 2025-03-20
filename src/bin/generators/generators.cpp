@@ -79,6 +79,26 @@ Generators::Generators(const QString &path, QWidget *parent)
         connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
         lay->addWidget(buttonBox);
         m_timePos->setValue(KdenliveSettings::color_duration());
+        if (base.attribute(QStringLiteral("type")).contains(QLatin1String("audio"))) {
+            // Alwasy produces audio
+            m_audioCondition.insert(QStringLiteral("audio"), {});
+        } else {
+            // Check if this generator can provide audio
+            QDomNodeList params = base.elementsByTagName(QStringLiteral("parameter"));
+            for (int i = 0; i < params.count(); ++i) {
+                QDomElement currentParameter = params.item(i).toElement();
+                if (currentParameter.hasAttribute(QLatin1String("audio"))) {
+                    const QString audioVals = currentParameter.attribute(QStringLiteral("audio"));
+                    QStringList audioValsList;
+                    if (audioVals.contains(QLatin1Char(';'))) {
+                        audioValsList = audioVals.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+                    } else {
+                        audioValsList = {audioVals};
+                    }
+                    m_audioCondition.insert(currentParameter.attribute(QStringLiteral("name")), audioValsList);
+                }
+            }
+        }
     }
 }
 
@@ -173,9 +193,15 @@ QUrl Generators::getSavedClip(QString clipFolder)
 
     if (url.isValid()) {
         Mlt::Tractor trac(pCore->getProjectProfile());
+        Mlt::Playlist playlist(pCore->getProjectProfile());
         m_producer->set("length", m_timePos->getValue());
         m_producer->set_in_and_out(0, m_timePos->getValue() - 1);
-        trac.set_track(*m_producer, 0);
+        playlist.append(*m_producer);
+        trac.set_track(playlist, 0);
+        if (!hasAudio()) {
+            Mlt::Producer trackProducer(trac.track(0));
+            trackProducer.set("hide", 2);
+        }
         QReadLocker lock(&pCore->xmlMutex);
         Mlt::Consumer c(pCore->getProjectProfile(), "xml", url.toLocalFile().toUtf8().constData());
         c.connect(trac);
@@ -183,4 +209,20 @@ QUrl Generators::getSavedClip(QString clipFolder)
         return url;
     }
     return QUrl();
+}
+
+bool Generators::hasAudio() const
+{
+    if (m_audioCondition.isEmpty()) {
+        return false;
+    }
+    const QStringList paramCondition = m_audioCondition.value(m_audioCondition.firstKey());
+    if (paramCondition.isEmpty()) {
+        return true;
+    }
+    const QString paramVal = m_producer->get(m_audioCondition.firstKey().toUtf8().constData());
+    if (paramCondition.contains(paramVal)) {
+        return true;
+    }
+    return false;
 }
