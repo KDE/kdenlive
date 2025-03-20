@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-18 00:41+0000\n"
-"PO-Revision-Date: 2025-03-17 19:45-0300\n"
+"POT-Creation-Date: 2025-03-20 00:41+0000\n"
+"PO-Revision-Date: 2025-03-18 23:24-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -538,10 +538,9 @@ msgid "Threshold"
 msgstr "Limiar"
 
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Ratio"
-msgstr "Rotação"
+msgstr "Proporção"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
@@ -553,10 +552,9 @@ msgstr ""
 #: data/effects/avfilter/acompressor.xml:20 data/effects/avfilter/agate.xml:23
 #: data/effects/avfilter/avfilter_alimiter.xml:20
 #: data/effects/avfilter/avfilter_aphaser.xml:20
-#, fuzzy, kde-format
-#| msgid "Release time (s)"
+#, kde-format
 msgid "Release"
-msgstr "Tempo de lançamento (s)"
+msgstr "Liberar"
 
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
@@ -566,7 +564,7 @@ msgstr ""
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
 msgid "Knee"
-msgstr ""
+msgstr "Joelho"
 
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
@@ -666,7 +664,7 @@ msgstr "Onda de áudio"
 #: data/effects/avfilter/avfilter_setrange.xml:9
 #, kde-format
 msgid "Range"
-msgstr ""
+msgstr "Intervalo"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:4
 #, kde-format
@@ -718,11 +716,9 @@ msgstr "Arquivo de saída"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:14
 #: data/effects/avfilter/avfilter_alimiter.xml:14
-#, fuzzy, kde-format
-#| msgctxt "Limiter Effect Name"
-#| msgid "Limiter"
+#, kde-format
 msgid "Limit"
-msgstr "Limitador"
+msgstr "Limite"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:17
 #, fuzzy, kde-format
@@ -761,10 +757,9 @@ msgid "DC"
 msgstr "C"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:30
-#, fuzzy, kde-format
-#| msgid "Initialising..."
+#, kde-format
 msgid "Anti-aliasing"
-msgstr "Inicializando..."
+msgstr "Antisserrilhado"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
 #, fuzzy, kde-format
@@ -865,10 +860,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bass.xml:15
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
-#, fuzzy, kde-format
-#| msgid "Wipe Method"
+#, kde-format
 msgid "Method"
-msgstr "Método de limpeza"
+msgstr "Método"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -909,10 +903,9 @@ msgid "1,2"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
-#, fuzzy, kde-format
-#| msgid "Border"
+#, kde-format
 msgid "Order"
-msgstr "Borda"
+msgstr "Ordem"
 
 #: data/effects/avfilter/avfilter_allpass.xml:28
 #: data/effects/avfilter/avfilter_bandpass.xml:27
@@ -1007,10 +1000,9 @@ msgid "sine,triangle,square,sawup,sawdown"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_apulsator.xml:18
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Modulation"
-msgstr "Moduladores"
+msgstr "Modulação"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:21
 #, fuzzy, kde-format
@@ -1036,21 +1028,19 @@ msgid "bpm,ms,Hz"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
-#, fuzzy, kde-format
-#| msgid "Dimming"
+#, kde-format
 msgid "Timing"
-msgstr "Escurecimento"
+msgstr "Temporização"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
-#, fuzzy, kde-format
-#| msgid "RPM"
+#, kde-format
 msgid "BPM"
-msgstr "RPM"
+msgstr "BPM"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:37
 #, kde-format
 msgid "Milliseconds"
-msgstr ""
+msgstr "Milissegundos"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:40
 #, fuzzy, kde-format
@@ -1200,10 +1190,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bass.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Bass"
+#, kde-format
 msgid "Bass"
-msgstr "Graves do Sox"
+msgstr "Graves"
 
 #: data/effects/avfilter/avfilter_bass.xml:5
 #, kde-format
@@ -1417,7 +1406,7 @@ msgstr "Campo inferior primeiro"
 #: data/effects/avfilter/avfilter_yadif.xml:13
 #, kde-format
 msgid "Parity"
-msgstr ""
+msgstr "Paridade"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:16
 #: data/effects/avfilter/avfilter_yadif.xml:16
@@ -1427,10 +1416,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Deinterlace"
-msgstr "Desentrelaçamento"
+msgstr "Desentrelaçar"
 
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
@@ -1448,10 +1436,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gradfun.xml:11
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_normalize.xml:20
-#, fuzzy, kde-format
-#| msgid "Stretch"
+#, kde-format
 msgid "Strength"
-msgstr "Esticamento"
+msgstr "Força"
 
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
@@ -1897,7 +1884,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
 msgid " Hue"
-msgstr ""
+msgstr " Tonalidade"
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
@@ -1986,10 +1973,9 @@ msgid "Blue white output"
 msgstr "Saída de branco"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Bars"
+#, kde-format
 msgid "Color Matrix"
-msgstr "Barras de cor"
+msgstr "Matriz de Cores"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
 #, fuzzy, kde-format
@@ -2181,10 +2167,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
-#, fuzzy, kde-format
-#| msgid "Color Temperature"
+#, kde-format
 msgid "Temperature"
-msgstr "Temperatura da cor"
+msgstr "Temperatura"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
 #, fuzzy, kde-format
@@ -2243,10 +2228,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compand.xml:24
-#, fuzzy, kde-format
-#| msgid "Initial Zoom"
+#, kde-format
 msgid "Initial volume"
-msgstr "Ampliação inicial"
+msgstr "Volume inicial:"
 
 #: data/effects/avfilter/avfilter_compand.xml:25
 #, kde-format
@@ -2457,14 +2441,12 @@ msgid "Size"
 msgstr "Tamanho"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
-#, fuzzy, kde-format
-#| msgid "X Offset"
+#, kde-format
 msgid "X offset"
 msgstr "Deslocamento X"
 
 #: data/effects/avfilter/avfilter_datascope.xml:15
-#, fuzzy, kde-format
-#| msgid "Y Offset"
+#, kde-format
 msgid "Y offset"
 msgstr "Deslocamento Y"
 
@@ -2500,7 +2482,7 @@ msgstr "Opacidade"
 #: data/effects/avfilter/avfilter_datascope.xml:29
 #, kde-format
 msgid "Hex,Dec"
-msgstr ""
+msgstr "Hex,Dec"
 
 #: data/effects/avfilter/avfilter_datascope.xml:30 data/effects/timer.xml:46
 #, kde-format
@@ -3049,7 +3031,7 @@ msgstr "Mudar limiar"
 #: data/effects/avfilter/avfilter_erosion.xml:20
 #, kde-format
 msgid "Coordinates"
-msgstr ""
+msgstr "Coordenadas"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
@@ -3186,8 +3168,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw Grid"
 msgstr "Desenhar grade"
 
@@ -3511,11 +3492,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Clock"
+#, kde-format
 msgid "Block"
-msgstr "Relógio"
+msgstr "Bloquear"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
 #, fuzzy, kde-format
@@ -3616,10 +3595,9 @@ msgid "init,frame"
 msgstr "Primeiro quadro"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
-#, fuzzy, kde-format
-#| msgid "Y value"
+#, kde-format
 msgid "Evaluate"
-msgstr "Valor de Y"
+msgstr "Avaliar"
 
 #: data/effects/avfilter/avfilter_field.xml:4
 #, fuzzy, kde-format
@@ -3858,10 +3836,9 @@ msgid "4,5"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:9
-#, fuzzy, kde-format
-#| msgid "Quality:"
+#, kde-format
 msgid "Quality"
-msgstr "Qualidade:"
+msgstr "Qualidade"
 
 #: data/effects/avfilter/avfilter_fspp.xml:12
 #, kde-format
@@ -3875,10 +3852,9 @@ msgid "QP on B-Frames"
 msgstr "Quadro de entrada"
 
 #: data/effects/avfilter/avfilter_gblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Gaussian radius"
+#, kde-format
 msgid "Gaussian Blur"
-msgstr "Raio gaussiano"
+msgstr "Borrão gaussiano"
 
 #: data/effects/avfilter/avfilter_gblur.xml:5
 #, kde-format
@@ -4066,10 +4042,9 @@ msgid "Right phase"
 msgstr "Direita"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Flip Horizontally"
-msgstr "Horizontal"
+msgstr "Inverter horizontalmente"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
 #, fuzzy, kde-format
@@ -4113,10 +4088,9 @@ msgid "Apply a high shelf filter."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:4
-#, fuzzy, kde-format
-#| msgid "Histogram"
+#, kde-format
 msgid "Histogram Equalizer"
-msgstr "Histograma"
+msgstr "Equalizador do histograma"
 
 #: data/effects/avfilter/avfilter_histeq.xml:5
 #, kde-format
@@ -4193,8 +4167,7 @@ msgstr "Opacidade do Plano de Fundo"
 #: data/effects/avfilter/avfilter_histogram.xml:29
 #: data/effects/avfilter/avfilter_vectorscope.xml:36
 #: data/effects/avfilter/avfilter_waveform.xml:64
-#, fuzzy, kde-format
-#| msgid "Background opacity"
+#, kde-format
 msgid "Background Opacity"
 msgstr "Opacidade do Plano de Fundo"
 
@@ -4255,10 +4228,9 @@ msgstr "Interpolação"
 
 #: data/effects/avfilter/avfilter_hqx.xml:12
 #: data/effects/avfilter/avfilter_xbr.xml:12
-#, fuzzy, kde-format
-#| msgid "Maximal number of dust"
+#, kde-format
 msgid "Maximum number of threads"
-msgstr "Quantidade máxima de poeira"
+msgstr "Número máximo de threads:"
 
 #: data/effects/avfilter/avfilter_hqx.xml:15
 #: data/effects/avfilter/avfilter_xbr.xml:15
@@ -4292,8 +4264,7 @@ msgid "None,Deinterleave,Interleave"
 msgstr "Forçar Overlay Entrelaçado"
 
 #: data/effects/avfilter/avfilter_il.xml:9
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Mode"
 msgstr "Modo Luma"
 
@@ -4338,28 +4309,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold0r"
+#, kde-format
 msgid "threshold0"
-msgstr "Limitador"
+msgstr "Limiar0"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold1"
-msgstr "Limiar"
+msgstr "Limiar1"
 
 #: data/effects/avfilter/avfilter_inflate.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold2"
-msgstr "Limiar"
+msgstr "Limiar2"
 
 #: data/effects/avfilter/avfilter_inflate.xml:17
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold3"
-msgstr "Limiar"
+msgstr "Limiar3"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
 #, fuzzy, kde-format
@@ -4429,7 +4396,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Y-Delta"
 msgid "Delta"
-msgstr "Delta Y"
+msgstr "Delta"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:13
 #, kde-format
@@ -4574,8 +4541,7 @@ msgid "Treat mono input files as \"dual-mono\""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lowpass.xml:4
-#, fuzzy, kde-format
-#| msgid "Low pass"
+#, kde-format
 msgid "Low-pass"
 msgstr "Passa-baixo"
 
@@ -4704,10 +4670,9 @@ msgid "<![CDATA[Select which planes to process]]>"
 msgstr "<![CDATA[Selecione quais planos devem ser processados]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
-#, fuzzy, kde-format
-#| msgid "Make monochrome clip"
+#, kde-format
 msgid "Monochrome"
-msgstr "Tornar o clipe monocromático"
+msgstr "Monocromático"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:5
 #, kde-format
@@ -5000,10 +4965,9 @@ msgstr "<![CDATA[Deslocamento ao longo do eixo X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Components"
-msgstr "Componentes:"
+msgstr "Componentes"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
@@ -5096,7 +5060,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_photosensitivity.xml:16
 #, kde-format
 msgid "Skip"
-msgstr ""
+msgstr "Pular"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
 #, fuzzy, kde-format
@@ -5162,10 +5126,9 @@ msgid "Apply prewitt operator to input video stream"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_random.xml:4
-#, fuzzy, kde-format
-#| msgid "Random Seed"
+#, kde-format
 msgid "Random"
-msgstr "Semente aleatória"
+msgstr "Aleatório"
 
 #: data/effects/avfilter/avfilter_random.xml:5
 #, kde-format
@@ -5395,10 +5358,9 @@ msgid "Cyans"
 msgstr "Ciano"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:24
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blues"
-msgstr "Azul"
+msgstr "Azuis"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
 #, fuzzy, kde-format
@@ -5455,9 +5417,7 @@ msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shear.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Affine Transform Effect Name"
-#| msgid "Shear"
+#, kde-format
 msgid "Shear"
 msgstr "Inclinar"
 
@@ -5672,6 +5632,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Ajuste a intensidade do alfa.<br>\n"
+"            O valor configura o desfoque. Um valor positivo irá desfocar a "
+"imagem, enquanto um valor negativo irá aprimorá-la. Se não for especificado, "
+"o valor padrão será o definido para <em>Intensidade de Luma</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5844,10 +5808,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output format"
-msgstr "Arquivo de saída"
+msgstr "Formato de saída"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, fuzzy, kde-format
@@ -5964,10 +5927,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
-#, fuzzy, kde-format
-#| msgid "Stereo depth"
+#, kde-format
 msgid "Stereo Mode"
-msgstr "Profundidade do estéreo"
+msgstr "Modo estéreo"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
 #, fuzzy, kde-format
@@ -6147,10 +6109,9 @@ msgid "Frames to mix"
 msgstr "Passos dos quadros"
 
 #: data/effects/avfilter/avfilter_transpose.xml:4
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transpose"
-msgstr "Transcodificação"
+msgstr "Transpor"
 
 #: data/effects/avfilter/avfilter_transpose.xml:5
 #, kde-format
@@ -6282,6 +6243,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Define a potência do efeito alfa.<br>\n"
+"            Valores razoáveis estão entre -1,5 e 1,5. Valores negativos irão "
+"desfocar o vídeo de entrada, enquanto valores positivos irão aprimorá-lo, e "
+"um valor igual a zero desativará o efeito. ]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
@@ -6348,10 +6313,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:22
 #: data/effects/avfilter/avfilter_waveform.xml:36
-#, fuzzy, kde-format
-#| msgid "Slope"
+#, kde-format
 msgid "Envelope"
-msgstr "Inclinação"
+msgstr "Envelope"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:25
 #, fuzzy, kde-format
@@ -6379,21 +6343,19 @@ msgid "White,Black,Name"
 msgstr "Balanceamento de branco"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Low Threshold"
-msgstr "Limiar"
+msgstr "Limiar baixo"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:42
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "High Threshold"
-msgstr "Limiar"
+msgstr "Limiar alto"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
-#, kde-format
+#, fuzzy, kde-format
 msgid "Auto,601,709"
-msgstr ""
+msgstr "Automático"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
 #, kde-format
@@ -6401,10 +6363,9 @@ msgid "Colorspace"
 msgstr "Distância de cor"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Flip Vertically"
-msgstr "Vertical"
+msgstr "Inverter verticalmente"
 
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
@@ -6457,9 +6418,9 @@ msgid "Blue luma"
 msgstr "Manter a luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:29
-#, kde-format
+#, fuzzy, kde-format
 msgid "Alternate"
-msgstr ""
+msgstr "Alternativo"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:4
 #, kde-format
@@ -6538,11 +6499,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Smaller values are useful to find out how many values<br>\n"
-#| "       \tof the same luminance are distributed across input rows/"
-#| "columns]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Smaller values are useful for finding out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
@@ -6659,22 +6616,19 @@ msgid "Tint 1"
 msgstr "Tonalidade 1"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
-#, fuzzy, kde-format
-#| msgid "none,size"
+#, kde-format
 msgid "None,Size"
-msgstr "nenhum,tamanho"
+msgstr "Nenhum,Tamanho"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Fit mode"
-msgstr "Modo de pintura:"
+msgstr "Modo de preenchimento"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the fit mode]]>"
-msgstr "<![CDATA[Define a opacidade para a imagem de plano de fundo]]>"
+msgstr "<![CDATA[Define o modo de preenchimento]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, kde-format
@@ -6690,16 +6644,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_weave.xml:8
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Top,Bottom"
-msgstr "De cima para baixo"
+msgstr "Topo,Fundo"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "xBR Interpolator"
-msgstr "Interpolação"
+msgstr "Interpolador xBR"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -6732,10 +6684,9 @@ msgid "Send frame,Send field,Send frame nospatial,Send field nospatial"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_yadif.xml:12
-#, fuzzy, kde-format
-#| msgid "Bottom field first"
+#, kde-format
 msgid "Top field first,Bottom field first,Auto"
-msgstr "Campo inferior primeiro"
+msgstr "Campo superior primeiro,Campo inferior primeiro,Auto"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
 #, fuzzy, kde-format
@@ -6744,10 +6695,9 @@ msgid "Zoom Pan"
 msgstr "Ampliar"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:5
-#, fuzzy, kde-format
-#| msgid "Sox band audio effect"
+#, kde-format
 msgid "Apply Zoom and Pan effect"
-msgstr "Efeito de áudio da banda do Sox"
+msgstr "Aplicar efeito de ampliação e movimento panorâmico"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
@@ -6779,16 +6729,14 @@ msgid "Subtitles"
 msgstr "Legendas"
 
 #: data/effects/avfilter/subtitles.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Render subtitles onto the video"
-msgstr "Sobrepor um contador no vídeo"
+msgstr "Renderizar legendas sobre o vídeo"
 
 #: data/effects/avfilter/subtitles.xml:8
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle file to apply"
-msgstr "Arquivo de legenda:"
+msgstr "Arquivo de legenda para aplicar"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
@@ -7341,10 +7289,9 @@ msgid "Frame rotation in 3D space"
 msgstr "Rotação da imagem no espaço 3D"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:8
-#, fuzzy, kde-format
-#| msgid "Y axis rotation"
+#, kde-format
 msgid "X axis rotation"
-msgstr "Rotação no eixo Y"
+msgstr "Rotação no eixo X"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:11
 #, kde-format
@@ -7437,10 +7384,9 @@ msgid "Keep GREEN"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
+#, kde-format
 msgid "<![CDATA[Influence on Green channel]]>"
-msgstr "<![CDATA[Influência do valor de px médio, > 32 = 0]]>"
+msgstr "<![CDATA[Influência no canal verde]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:24
 #, kde-format
@@ -7448,16 +7394,14 @@ msgid "Keep BLUE"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
+#, kde-format
 msgid "<![CDATA[Influence on Blue channel]]>"
-msgstr "<![CDATA[Influência do valor de px médio, > 32 = 0]]>"
+msgstr "<![CDATA[Influência no canal azul]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
-#, fuzzy, kde-format
-#| msgid "Stroke width"
+#, kde-format
 msgid "Strobe period"
-msgstr "Espessura do traço"
+msgstr "Período do estroboscópio"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
@@ -7538,10 +7482,9 @@ msgstr "Quantidade de aumento/redução/desfoque"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha trace"
+#, kde-format
 msgid "Alpha gradient"
-msgstr "Traço do Alfa"
+msgstr "Gradiente alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
 #: data/effects/frei0r/frei0r_alphagrad.xml:5
@@ -7581,10 +7524,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Angle for the gradient.]]>"
-msgstr "<![CDATA[Ângulo de rotação em torno do eixo X]]>"
+msgstr "<![CDATA[Ângulo para o gradiente]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
@@ -7624,10 +7566,9 @@ msgstr "Formas de alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
 #: data/effects/frei0r/frei0r_alphaspot.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Draws simple shapes into the alpha channel"
-msgstr "Use o inverso do canal alfa"
+msgstr "Desenha formas simples no canal alfa"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
 #: data/effects/frei0r/frei0r_alphaspot.xml:8
@@ -7665,16 +7606,14 @@ msgid "Size Y"
 msgstr "Tamanho Y"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:20
-#, fuzzy, kde-format
-#| msgid "Transparency clip"
+#, kde-format
 msgid "Transparency top"
-msgstr "Clipe transparente"
+msgstr "Transparência alta"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:24
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgid "Transparency bottom"
-msgstr "Transparência:"
+msgstr "Transparência baixa"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -7766,10 +7705,9 @@ msgid "Background Subtractor"
 msgstr "Subtrator de plano de fundo"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Remove background using AI model"
+#, kde-format
 msgid "Remove the background of a static video"
-msgstr "Remove o plano de fundo usando um modelo de IA"
+msgstr "Remove o plano de fundo usando um vídeo estático"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
@@ -7876,10 +7814,9 @@ msgid "fisheye"
 msgstr "olho de peixe"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
-#, fuzzy, kde-format
-#| msgid "VR360 Equirectangular to Rectilinear"
+#, kde-format
 msgid "VR360 Equirectangular to Stereo"
-msgstr "VR360 equidistante para retilinear"
+msgstr "VR360 equirectangular para Estéreo"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:5
 #, kde-format
@@ -7894,15 +7831,14 @@ msgid "Yaw"
 msgstr "Guinada"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
-#, fuzzy, kde-format
-#| msgid "pitch"
+#, kde-format
 msgid "Pitch"
-msgstr "tom"
+msgstr "Tom"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
 #, kde-format
 msgid "Roll"
-msgstr ""
+msgstr "Rolar"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
 #, kde-format
@@ -7910,8 +7846,7 @@ msgid "FOV"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
-#, fuzzy, kde-format
-#| msgid "Nearest-Neighbor,Bilinear"
+#, kde-format
 msgid "Nearest-neighbor,Bilinear"
 msgstr "Vizinho mais próximo,Bilinear"
 
@@ -8084,8 +8019,7 @@ msgid "Pitch Smoothing"
 msgstr "Suavização de tom"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:41
-#, fuzzy, kde-format
-#| msgid "Yaw Time Bias"
+#, kde-format
 msgid "Pitch Time Bias"
 msgstr "Viés de tempo de guinada"
 
@@ -8137,16 +8071,14 @@ msgid "Four corners geometry engine"
 msgstr "Mecanismo de geometria dos quatro cantos"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Top-right X"
-msgstr "Superior direito"
+msgstr "Superior direito X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:17
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Top-right Y"
-msgstr "Superior direito"
+msgstr "Superior direito Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:20
 #, kde-format
@@ -8240,10 +8172,9 @@ msgid "Linear,Radial"
 msgstr "Linear,Radial"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:9
-#, fuzzy, kde-format
-#| msgid "Patterns"
+#, kde-format
 msgid "Pattern"
-msgstr "Padrões"
+msgstr "Padrão"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:12
 #, kde-format
@@ -8251,10 +8182,9 @@ msgid "Start Color"
 msgstr "Cor inicial"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:15
-#, fuzzy, kde-format
-#| msgid "Start at"
+#, kde-format
 msgid "Start Opacity"
-msgstr "Iniciar em"
+msgstr "Opacidade de início"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:18
 #, kde-format
@@ -8262,10 +8192,9 @@ msgid "End Color"
 msgstr "Cor final"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:21
-#, fuzzy, kde-format
-#| msgid "Opacity"
+#, kde-format
 msgid "End Opacity"
-msgstr "Opacidade"
+msgstr "Opacidade de fim"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:24
 #, kde-format
@@ -8664,7 +8593,7 @@ msgstr "Preencher,Centro,Ajustar,Manual"
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:19
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Scaling"
 msgstr "Dimensionar"
@@ -8680,10 +8609,9 @@ msgid "Fix camera scaling between 4:3 and 16:9"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:28
-#, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
+#, kde-format
 msgid "Scale Y to affect aspect ratio"
-msgstr "Manter proporção"
+msgstr "Escalar Y para afetar a taxa de proporção"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
 #, kde-format
@@ -9050,10 +8978,9 @@ msgid "Set the shape color of the fifth detected face."
 msgstr "Define a cor da forma do quinto rosto detectado."
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
-#, fuzzy, kde-format
-#| msgid "Flip"
+#, kde-format
 msgid "Flippo"
-msgstr "Inverter"
+msgstr "Inverter X e Y"
 
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
@@ -9195,22 +9122,19 @@ msgid "Enable edge compensation"
 msgstr "Ativar a compensação de extremidades"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgid "Kaleidoscope"
-msgstr "Vetorscópio"
+msgstr "Kaleidoscópio"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
-#, fuzzy, kde-format
-#| msgid "Select a clip to compare effect"
+#, kde-format
 msgid "Applies a kaleidoscope effect"
-msgstr "Selecione um clipe para comparar o efeito"
+msgstr "Aplica um efeito de kaleidoscópio"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:8
-#, fuzzy, kde-format
-#| msgid "Original"
+#, kde-format
 msgid "Origin X"
-msgstr "Original"
+msgstr "Origem X"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:9
 #, kde-format
@@ -9218,10 +9142,9 @@ msgid "Move the origin of the kaleidoscope along the X axis"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:12
-#, fuzzy, kde-format
-#| msgid "Original"
+#, kde-format
 msgid "Origin Y"
-msgstr "Original"
+msgstr "Origem Y"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:13
 #, kde-format
@@ -9229,10 +9152,9 @@ msgid "Move the origin of the kaleidoscope along the Y axis"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:16
-#, fuzzy, kde-format
-#| msgid "Regeneration"
+#, kde-format
 msgid "Segmentation"
-msgstr "Regeneração"
+msgstr "Segmentação"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:18
 #, kde-format
@@ -9255,10 +9177,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
-#, fuzzy, kde-format
-#| msgid "Source time"
+#, kde-format
 msgid "Source segment"
-msgstr "Tempo da fonte"
+msgstr "Segmento fonte"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
 #, kde-format
@@ -9269,22 +9190,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
-#, fuzzy, kde-format
-#| msgid "Counter Clockwise"
+#, kde-format
 msgid "None,Counter Clockwise,Clockwise"
-msgstr "Sentido anti-horário"
+msgstr "Nenhum,Anti-horário,Horário"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
-#, fuzzy, kde-format
-#| msgid "Animation duration"
+#, kde-format
 msgid "Segmentation direction"
-msgstr "Duração da animação:"
+msgstr "Direção da segmentação"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
-#, fuzzy, kde-format
-#| msgid "Direction of the color gradient."
+#, kde-format
 msgid "Direction of the segmentation."
-msgstr "Direção do degradê de cores."
+msgstr "Direção da segmentação."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, kde-format
@@ -9312,10 +9230,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
-#, fuzzy, kde-format
-#| msgid "Top Left,Top Right,Bottom Left,Bottom Right"
+#, kde-format
 msgid "Top right,Top left,Bottom left,Bottom right"
-msgstr "Superior esquerdo,Superior direito,Inferior esquerdo,Inferior direito"
+msgstr "Superior direito,Superior esquerdo,Inferior esquerdo,Inferior direito"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
 #, kde-format
@@ -9342,8 +9259,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background color"
 msgstr "Cor de fundo"
 
@@ -9355,10 +9271,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
-#, fuzzy, kde-format
-#| msgid "Opaque background"
+#, kde-format
 msgid "Use alpha background"
-msgstr "Imagem de fundo opaca"
+msgstr "Utilizar plano de fundo alfa"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:63
 #, kde-format
@@ -9384,10 +9299,9 @@ msgid "Key color"
 msgstr "Cor chave"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:11
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "Target color"
-msgstr "Cor do texto"
+msgstr "Cor alvo"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
 #, kde-format
@@ -9473,10 +9387,9 @@ msgid "Horizontal center"
 msgstr "Centro horizontal"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:11
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Vertical center"
-msgstr "Dispersão vertical"
+msgstr "Centro vertical"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:14
 #, kde-format
@@ -9955,10 +9868,9 @@ msgid "Height of each block whose shift is invariant (0 = random)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Macroblock height"
+#, kde-format
 msgid "Minimum block height"
-msgstr "Altura do macro-bloco"
+msgstr "Altura mínima do bloco"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:17
 #, kde-format
@@ -9968,10 +9880,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Macroblock height"
+#, kde-format
 msgid "Maximum block height"
-msgstr "Altura do macro-bloco"
+msgstr "Altura máxima do bloco"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:21
 #, kde-format
@@ -9991,16 +9902,14 @@ msgid "Posterizes image by reducing the number of colors used in image"
 msgstr "Posteriza a imagem reduzindo o número de cores usadas na imagem"
 
 #: data/effects/frei0r/frei0r_posterize.xml:9
-#, fuzzy, kde-format
-#| msgid "Number of values per channel."
+#, kde-format
 msgid "Number of (color) values per channel"
-msgstr "Número de valores por canal."
+msgstr "Número de valores (de cor) por canal"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Files"
+#, kde-format
 msgid "Video values"
-msgstr "Arquivos de vídeo"
+msgstr "Valores de vídeo"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:5
 #, kde-format
@@ -10039,22 +9948,19 @@ msgid "Oscilloscope (Advanced)"
 msgstr "Osciloscópio (Avançado)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[X coordinate of the profile]]>"
-msgstr "<![CDATA[Fator de escala aplicado ao eixo X]]>"
+msgstr "<![CDATA[Coordenada X do perfil]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Y coordinate of the profile]]>"
-msgstr "<![CDATA[Fator de escala aplicado ao eixo X]]>"
+msgstr "<![CDATA[Coordenada Y do perfil]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Tilting of the profile]]>"
-msgstr "<![CDATA[Deslocamento ao longo do eixo X]]>"
+msgstr "<![CDATA[Inclinação do perfil]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:20
 #, kde-format
@@ -10062,10 +9968,9 @@ msgid "Length"
 msgstr "Comprimento"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Length of the profile in pixel]]>"
-msgstr "<![CDATA[Define a opacidade para a imagem de plano de fundo]]>"
+msgstr "<![CDATA[Comprimento do perfil em pixels]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:24
 #, kde-format
@@ -10078,16 +9983,14 @@ msgid "<![CDATA[Channel to numerically display]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
-#, fuzzy, kde-format
-#| msgid "Marker 2"
+#, kde-format
 msgid "Marker 1"
-msgstr "Marcação 2"
+msgstr "Marcador 1"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[Deslocamento ao longo do eixo Y]]>"
+msgstr "<![CDATA[Posição do marcador 1]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:33
 #, kde-format
@@ -10095,10 +9998,9 @@ msgid "Marker 2"
 msgstr "Marcação 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:34
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[Deslocamento ao longo do eixo Y]]>"
+msgstr "<![CDATA[Posição do marcador 2]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:37
 #, kde-format
@@ -10221,10 +10123,9 @@ msgid "CCIR rec. 601,CCIR rec. 709"
 msgstr "CCIR rec. 601,CCIR rec. 709"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:86
-#, fuzzy, kde-format
-#| msgid "PCM encoding"
+#, kde-format
 msgid "Color encoding"
-msgstr "Codificação PCM"
+msgstr "Codificação de cor"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
@@ -10777,16 +10678,14 @@ msgid "Balances colors along with 3 points"
 msgstr "Balanceamento das cores em conjunto com 3 pontos"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, fuzzy, kde-format
-#| msgid "BackColor"
+#, kde-format
 msgid "Black color"
-msgstr "CorTraseira"
+msgstr "Cor preta"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, fuzzy, kde-format
-#| msgid "Key color"
+#, kde-format
 msgid "Gray color"
-msgstr "Cor chave"
+msgstr "Cor cinza"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
 #, kde-format
@@ -10829,8 +10728,7 @@ msgid "Indicator color"
 msgstr "Cor do indicador"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
-#, fuzzy, kde-format
-#| msgid "Timer"
+#, kde-format
 msgid "Time"
 msgstr "Temporizador"
 
@@ -10888,10 +10786,9 @@ msgid "Vectorscope"
 msgstr "Vetorscópio"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid "Display a histogram of R, G and B components of the video data"
+#, kde-format
 msgid "Display a vectorscope of the video data"
-msgstr "Mostra um histograma dos componentes R, G e B dos dados de vídeo"
+msgstr "Mostra um vetorscópio dos dados de vídeo"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:5
 #: data/effects/frei0r/frei0r_vertigo.xml:16
@@ -14236,10 +14133,9 @@ msgid "Perform an RGB[A] multiply operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
-#, fuzzy, kde-format
-#| msgid "Overlay:"
+#, kde-format
 msgid "Overlay"
-msgstr "Sobrepor:"
+msgstr "Sobreposição"
 
 #: data/transitions/frei0r/frei0r_overlay.xml:5
 #, kde-format
@@ -14951,32 +14847,32 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Alterna a exibição de quadros-chave no clipe na linha do tempo"
 
-#: src/assets/assetpanel.cpp:270
+#: src/assets/assetpanel.cpp:269
 #, kde-format
 msgid "%1 effects"
 msgstr "Efeitos de %1"
 
-#: src/assets/assetpanel.cpp:275 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "Parâmetros de %1"
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:278
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Rastrear efeitos %1"
 
-#: src/assets/assetpanel.cpp:284
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "%1 efeitos"
 
-#: src/assets/assetpanel.cpp:636
+#: src/assets/assetpanel.cpp:572
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Você tem uma tarefa de máscara em execução. Deseja cancelá-la?"
 
-#: src/assets/assetpanel.cpp:637
+#: src/assets/assetpanel.cpp:573
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -15220,7 +15116,7 @@ msgid "Failed to load preset %1"
 msgstr "Falha ao carregar a predefinição %1"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:284
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:310
 #, kde-format
 msgid "Reset Effect"
 msgstr "Restaurar efeito"
@@ -16884,7 +16780,7 @@ msgstr "Importar arquivo com duplo clique"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:593
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -17057,8 +16953,8 @@ msgid "Move subtitle"
 msgstr "Mover legenda"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:854
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/effectstackview.cpp:852
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -18036,14 +17932,14 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exportar dados das guias"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1731
-#: src/dialogs/renderwidget.cpp:1755 src/doc/kdenlivedoc.cpp:770
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1776
+#: src/dialogs/renderwidget.cpp:1800 src/doc/kdenlivedoc.cpp:770
 #: src/doc/kdenlivedoc.cpp:778 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:892
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:746
+#: src/effects/effectstack/view/effectstackview.cpp:890
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18257,7 +18153,7 @@ msgid "Top Right"
 msgstr "Superior direito"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:230
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -18455,92 +18351,92 @@ msgstr ""
 "Os seguintes parâmetros não terão efeito, porque são substituídos pelas "
 "opções de interface de usuário equivalentes: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1560
+#: src/dialogs/renderwidget.cpp:103 src/dialogs/renderwidget.cpp:1605
 #, kde-format
 msgid "Waiting…"
 msgstr "Aguardando…"
 
-#: src/dialogs/renderwidget.cpp:109
+#: src/dialogs/renderwidget.cpp:107
 #, kde-format
 msgid "Starting…"
 msgstr "Iniciando…"
 
-#: src/dialogs/renderwidget.cpp:112
+#: src/dialogs/renderwidget.cpp:110
 #, kde-format
 msgid "Rendering finished"
 msgstr "Renderização concluída"
 
-#: src/dialogs/renderwidget.cpp:117
+#: src/dialogs/renderwidget.cpp:115
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Renderização falhou"
 
-#: src/dialogs/renderwidget.cpp:122
+#: src/dialogs/renderwidget.cpp:120
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Renderização cancelada"
 
-#: src/dialogs/renderwidget.cpp:209
+#: src/dialogs/renderwidget.cpp:218
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Vizinho mais próximo (rápido)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:219 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilinear (bom)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:220 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bicúbico (melhor)"
 
-#: src/dialogs/renderwidget.cpp:212
+#: src/dialogs/renderwidget.cpp:221
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Lanczos (melhor)"
 
-#: src/dialogs/renderwidget.cpp:222
+#: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "Horizontal (16:9)"
 
-#: src/dialogs/renderwidget.cpp:223
+#: src/dialogs/renderwidget.cpp:232
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "Vertical (9:16)"
 
-#: src/dialogs/renderwidget.cpp:224
+#: src/dialogs/renderwidget.cpp:233
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Quadrado (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:237 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Um campo (rápido)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:238 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Mistura linear (rápido)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:239 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - apenas temporal (bom)"
 
-#: src/dialogs/renderwidget.cpp:231
+#: src/dialogs/renderwidget.cpp:240
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (melhor)"
 
-#: src/dialogs/renderwidget.cpp:232
+#: src/dialogs/renderwidget.cpp:241
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (melhor)"
 
-#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -18548,37 +18444,37 @@ msgstr "BWDIF (melhor)"
 msgid "None"
 msgstr "Nenhum"
 
-#: src/dialogs/renderwidget.cpp:241
+#: src/dialogs/renderwidget.cpp:250
 #, kde-format
 msgid "Timecode"
 msgstr "Código de tempo"
 
-#: src/dialogs/renderwidget.cpp:242
+#: src/dialogs/renderwidget.cpp:251
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Código de tempo de quadro não perdido"
 
-#: src/dialogs/renderwidget.cpp:243
+#: src/dialogs/renderwidget.cpp:252
 #, kde-format
 msgid "Frame Number"
 msgstr "Número do quadro"
 
-#: src/dialogs/renderwidget.cpp:247
+#: src/dialogs/renderwidget.cpp:256
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Renderizar usando proxy de baixa qualidade"
 
-#: src/dialogs/renderwidget.cpp:340
+#: src/dialogs/renderwidget.cpp:349
 #, kde-format
 msgid "File"
 msgstr "Arquivo"
 
-#: src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:358
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Playlists armazenadas"
 
-#: src/dialogs/renderwidget.cpp:362 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:371 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -18587,60 +18483,60 @@ msgstr ""
 "Não foi possível encontrar a aplicação kdenlive_render, algo está errado com "
 "sua instalação. A renderização não funcionará"
 
-#: src/dialogs/renderwidget.cpp:385
+#: src/dialogs/renderwidget.cpp:400
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Funciona apenas para o formato matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:392
+#: src/dialogs/renderwidget.cpp:407
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Ocorreu um problema ao compartilhar o documento: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:392 src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:407 src/dialogs/renderwidget.cpp:415
 #: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Share"
 msgstr "Compartilhar"
 
-#: src/dialogs/renderwidget.cpp:397
+#: src/dialogs/renderwidget.cpp:412
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Documento compartilhado com sucesso"
 
-#: src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:415
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 "Você pode encontrar o documento compartilhado em: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:520
+#: src/dialogs/renderwidget.cpp:535
 #, kde-format
 msgid "Beginning"
 msgstr "Início"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:527 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:542 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Fim"
 
-#: src/dialogs/renderwidget.cpp:648
+#: src/dialogs/renderwidget.cpp:663
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Adicionar um clipe à linha do tempo antes de renderizar"
 
-#: src/dialogs/renderwidget.cpp:654
+#: src/dialogs/renderwidget.cpp:669
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Não foi possível encontrar o programa melt, requerido para renderização "
 "(parte do Mlt)"
 
-#: src/dialogs/renderwidget.cpp:663
+#: src/dialogs/renderwidget.cpp:678
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -18652,25 +18548,25 @@ msgstr ""
 "problemas de sincronização de áudio/vídeo.\n"
 "Se recomenda transcodificar para um formato correto para edição."
 
-#: src/dialogs/renderwidget.cpp:672
+#: src/dialogs/renderwidget.cpp:687
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Renderizar mesmo assim"
 
-#: src/dialogs/renderwidget.cpp:678
+#: src/dialogs/renderwidget.cpp:693
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Transcodificação"
 
-#: src/dialogs/renderwidget.cpp:700 src/dialogs/renderwidget.cpp:1534
+#: src/dialogs/renderwidget.cpp:715 src/dialogs/renderwidget.cpp:1579
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Arquivo de saída já existe. Você deseja sobrescrevê-lo?"
 
-#: src/dialogs/renderwidget.cpp:708 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:723 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -18679,12 +18575,12 @@ msgstr ""
 "A pasta %1, pode não ser criada.\n"
 "Certifique-se de que você tem as permissões necessárias."
 
-#: src/dialogs/renderwidget.cpp:749
+#: src/dialogs/renderwidget.cpp:764
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Os seguintes erros ocorreram ao tentar renderizar"
 
-#: src/dialogs/renderwidget.cpp:788 src/dialogs/renderwidget.cpp:1547
+#: src/dialogs/renderwidget.cpp:803 src/dialogs/renderwidget.cpp:1592
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -18693,47 +18589,47 @@ msgstr ""
 "Já existe uma tarefa escrevendo no arquivo:<br /><b>%1</b><br />Cancele o "
 "trabalho se quiser sobrescrevê-lo…"
 
-#: src/dialogs/renderwidget.cpp:789 src/dialogs/renderwidget.cpp:1548
+#: src/dialogs/renderwidget.cpp:804 src/dialogs/renderwidget.cpp:1593
 #, kde-format
 msgid "Already running"
 msgstr "Já em execução"
 
-#: src/dialogs/renderwidget.cpp:811
+#: src/dialogs/renderwidget.cpp:826
 #, kde-format
 msgid "Video without audio track"
 msgstr "Vídeo sem trilha de áudio"
 
-#: src/dialogs/renderwidget.cpp:813
+#: src/dialogs/renderwidget.cpp:828
 #, kde-format
 msgid "Audio without video track"
 msgstr "Áudio sem trilha de vídeo"
 
-#: src/dialogs/renderwidget.cpp:877 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Renderização <i>%1</i> iniciada"
 
-#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1316
+#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "sem título"
 
-#: src/dialogs/renderwidget.cpp:977
+#: src/dialogs/renderwidget.cpp:992
 #, kde-format
 msgid "No preset selected"
 msgstr "Nenhuma predefinição selecionada"
 
-#: src/dialogs/renderwidget.cpp:979
+#: src/dialogs/renderwidget.cpp:994
 #, kde-format
 msgid "No matching preset"
 msgstr "Nenhuma predefinição correspondente"
 
-#: src/dialogs/renderwidget.cpp:991
+#: src/dialogs/renderwidget.cpp:1006
 #, kde-format
 msgid "Invalid preset"
 msgstr "Predefinição inválida"
 
-#: src/dialogs/renderwidget.cpp:1114
+#: src/dialogs/renderwidget.cpp:1129
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -18741,84 +18637,84 @@ msgid ""
 msgstr ""
 "Renderizar sem áudio e vídeo não funciona. Ative pelo menos um dos dois."
 
-#: src/dialogs/renderwidget.cpp:1288
+#: src/dialogs/renderwidget.cpp:1303
 #, kde-format
 msgid "Remaining time "
 msgstr "Tempo restante "
 
-#: src/dialogs/renderwidget.cpp:1290 src/dialogs/renderwidget.cpp:1345
+#: src/dialogs/renderwidget.cpp:1305 src/dialogs/renderwidget.cpp:1387
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dia "
 msgstr[1] "%1 dias "
 
-#: src/dialogs/renderwidget.cpp:1302
+#: src/dialogs/renderwidget.cpp:1317
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (quadro %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1317
+#: src/dialogs/renderwidget.cpp:1339
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Menos de %1MB de memória disponível restante."
 
-#: src/dialogs/renderwidget.cpp:1347
+#: src/dialogs/renderwidget.cpp:1389
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Renderização finalizada em %1"
 
-#: src/dialogs/renderwidget.cpp:1355
+#: src/dialogs/renderwidget.cpp:1397
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Renderização de %1 foi concluída em %2"
 
-#: src/dialogs/renderwidget.cpp:1375
+#: src/dialogs/renderwidget.cpp:1417
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Renderização de %1 falhou</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1419 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1461 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Cancelar Tarefa"
 
-#: src/dialogs/renderwidget.cpp:1422
+#: src/dialogs/renderwidget.cpp:1464
 #, kde-format
 msgid "Remove Job"
 msgstr "Remover Tarefa"
 
-#: src/dialogs/renderwidget.cpp:1819
+#: src/dialogs/renderwidget.cpp:1864
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Adicionar clipes à linha do tempo antes de renderizar"
 
-#: src/dialogs/renderwidget.cpp:1824
+#: src/dialogs/renderwidget.cpp:1869
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Duração do arquivo renderizado: %1"
 
-#: src/dialogs/renderwidget.cpp:1828
+#: src/dialogs/renderwidget.cpp:1873
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Um clipe faltante utilizado no projeto.</b>"
 msgstr[1] "<b>%1 clipes faltantes utilizados no projeto.</b>"
 
-#: src/dialogs/renderwidget.cpp:1830
+#: src/dialogs/renderwidget.cpp:1875
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Um clipe faltante (não utilizado)."
 msgstr[1] "%1 clipes faltantes (não utilizados)."
 
-#: src/dialogs/renderwidget.cpp:1832
+#: src/dialogs/renderwidget.cpp:1877
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 clipes faltantes (<b>%2 usados no projeto</b>)."
 
-#: src/dialogs/renderwidget.cpp:1914
+#: src/dialogs/renderwidget.cpp:1959
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -18827,12 +18723,12 @@ msgstr ""
 "Parâmetros de velocidade do codec:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1934
+#: src/dialogs/renderwidget.cpp:1979
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Adicionar ao projeto atual"
 
-#: src/dialogs/renderwidget.cpp:1943
+#: src/dialogs/renderwidget.cpp:1988
 #: src/effects/effectstack/view/maskmanager.cpp:663
 #: src/library/librarywidget.cpp:248
 #, kde-format
@@ -19397,7 +19293,7 @@ msgstr "Falha na exportação de áudio"
 msgid "Starting speech recognition"
 msgstr "Iniciando reconhecimento de fala"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Reconhecimento de fala interrompido."
@@ -20315,8 +20211,8 @@ msgid "Delete selection"
 msgstr "Excluir seleção"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, kde-format
 msgid "No speech"
 msgstr "Nenhuma fala"
@@ -20417,8 +20313,8 @@ msgstr "Selecione um clipe com áudio na biblioteca multimídia do projeto."
 msgid "Select a clip with audio for speech recognition."
 msgstr "Selecione um clipe com áudio para reconhecimento de fala."
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Não foi possível criar o arquivo temporário."
@@ -20433,49 +20329,49 @@ msgstr "Extraindo áudio para %1"
 msgid "Audio extract failed."
 msgstr "Falha na extração de áudio."
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Iniciando reconhecimento de fala em %1."
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Erro, por favor, cheque a configuração da fala para texto"
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "No speech detected."
 msgstr "Nenhuma fala detectada."
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Reconhecimento de fala completo."
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Editar texto do clipe"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Criar clipe de sequência"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, kde-format
 msgid "No text to export"
 msgstr "Sem texto para exportar"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Insira o caminho da nova lista de reprodução"
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Nenhum código de tempo encontrado na seleção"
@@ -21502,7 +21398,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "O efeito %1 não pode ser adicionado duas vezes."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:239
+#: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -21518,12 +21414,12 @@ msgstr "O efeito %1 só pode ser adicionado no principal"
 msgid "Move effect %1"
 msgstr "Mover efeito %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
 msgid "Move effect up"
 msgstr "Mover efeito para cima"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21533,12 +21429,12 @@ msgstr ""
 "Move o efeito acima daquele logo acima dele. Os efeitos são manipulados "
 "sequencialmente de cima para baixo, portanto a sequência é importante."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-format
 msgid "Move effect down"
 msgstr "Mover efeito para baixo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21548,110 +21444,110 @@ msgstr ""
 "Move o efeito abaixo daquele logo abaixo dele. Os efeitos são manipulados "
 "sequencialmente de cima para baixo, portanto a sequência é importante."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Recolher efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Expand Effect"
 msgstr "Expandir efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:80
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:103
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Abre a documentação do efeito no navegador"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Ativar quadros-chave"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Ocultar quadros-chave"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Exibir quadros-chave"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Ativa a exibição da régua de quadros-chave."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Disable Effect"
 msgstr "Desativar efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Enable Effect"
 msgstr "Ativar efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 "Desativa o efeito. Útil para comparar antes e depois das configurações."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:144
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Ativa o efeito. Útil para comparar antes e depois das configurações."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:149
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-format
 msgid "Create Group"
 msgstr "Criar grupo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:156
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:180
 #, kde-format
 msgid "In:"
 msgstr "Entrada:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:162
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
 #, kde-format
 msgid "Set zone in"
 msgstr "Definir área de entrada"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 "Define a posição atual do quadro/indicador de reprodução como início da zona."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:168
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
 #, kde-format
 msgid "Out:"
 msgstr "Saída:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-format
 msgid "Set zone out"
 msgstr "Definir área de saída"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 "Define a posição atual do quadro/indicador de reprodução como final da zona."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:211
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
 #, kde-format
 msgid "Use effect zone"
 msgstr "Usar zona de efeitos"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -21659,13 +21555,13 @@ msgstr "Alterna a exibição da zona do efeito."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Predefinições"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -21673,23 +21569,23 @@ msgstr ""
 "Abre uma lista de opções avançadas para gerenciar predefinições para o "
 "efeito."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "Delete effect"
 msgstr "Excluir efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:329
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Exclui o efeito da pilha de efeitos."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:356
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instâncias deste efeito no grupo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -21700,105 +21596,105 @@ msgstr ""
 "projeto para copiar. <b>Pressione Alt e arraste</b> para copiar para um "
 "único item no grupo."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
 #, kde-format
 msgid "Disable %1"
 msgstr "Desativar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
 #, kde-format
 msgid "Enable %1"
 msgstr "Ativar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:589
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:639
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Salvar efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:594
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:644
 #, kde-format
 msgid "Comments:"
 msgstr "Comentários:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Nenhum nome fornecido, efeito não foi salvo."
 
-#: src/effects/effectstack/view/effectstackview.cpp:330
+#: src/effects/effectstack/view/effectstackview.cpp:328
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Inverter na horizontal"
 
-#: src/effects/effectstack/view/effectstackview.cpp:335
+#: src/effects/effectstack/view/effectstackview.cpp:333
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Inverter na vertical"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
-#: src/effects/effectstack/view/effectstackview.cpp:425
-#: src/effects/effectstack/view/effectstackview.cpp:980
+#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:423
+#: src/effects/effectstack/view/effectstackview.cpp:978
 #, kde-format
 msgid "Remove Background"
 msgstr "Remover o plano de fundo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:345
+#: src/effects/effectstack/view/effectstackview.cpp:343
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Remove o plano de fundo usando um modelo de IA"
 
-#: src/effects/effectstack/view/effectstackview.cpp:356
+#: src/effects/effectstack/view/effectstackview.cpp:354
 #, kde-format
 msgid "Flip"
 msgstr "Inverter"
 
-#: src/effects/effectstack/view/effectstackview.cpp:431
+#: src/effects/effectstack/view/effectstackview.cpp:429
 #, kde-format
 msgid "Exporting…"
 msgstr "Exportando…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Ativar pilha de efeitos"
 
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Desativar pilha de efeitos"
 
-#: src/effects/effectstack/view/effectstackview.cpp:811
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #, kde-format
 msgid "No effect selected."
 msgstr "Nenhum efeito selecionado."
 
-#: src/effects/effectstack/view/effectstackview.cpp:817
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Salvar conjunto de efeitos atual"
 
-#: src/effects/effectstack/view/effectstackview.cpp:822
+#: src/effects/effectstack/view/effectstackview.cpp:820
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nome do conjunto de efeitos:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:823
+#: src/effects/effectstack/view/effectstackview.cpp:821
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Descrição:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:835
+#: src/effects/effectstack/view/effectstackview.cpp:833
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Nenhum nome fornecido, pilha de efeitos não foi salva."
 
-#: src/effects/effectstack/view/effectstackview.cpp:842
+#: src/effects/effectstack/view/effectstackview.cpp:840
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21807,8 +21703,8 @@ msgstr ""
 "Nenhuma descrição fornecida.\n"
 "Salvar efeito sem descrição?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:977
-#: src/effects/effectstack/view/effectstackview.cpp:1003
+#: src/effects/effectstack/view/effectstackview.cpp:975
+#: src/effects/effectstack/view/effectstackview.cpp:1001
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Cancelar a criação da máscara"
@@ -23196,13 +23092,7 @@ msgid "Loading Project"
 msgstr "Carregando projeto"
 
 #: src/mainwindow.cpp:943
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have 1 rendering job waiting in the queue.\n"
-#| "What do you want to do with this job?"
-#| msgid_plural ""
-#| "You have %1 rendering jobs waiting in the queue.\n"
-#| "What do you want to do with these jobs?"
+#, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
 "What do you want to do with this job?"
@@ -23210,23 +23100,21 @@ msgid_plural ""
 "You have %1 rendering jobs running.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Você tem %1 tarefas de renderização na fila de espera.\n"
+"Você tem %1 tarefas de renderização em execução.\n"
 "O que deseja fazer com essa tarefa?"
 msgstr[1] ""
-"Você tem %1 trabalhos de renderização na fila de espera.\n"
+"Você tem %1 trabalhos de renderização em execução.\n"
 "O que você deseja fazer com estes trabalhos?"
 
 #: src/mainwindow.cpp:945
-#, fuzzy, kde-format
-#| msgid "Creating menu background"
+#, kde-format
 msgid "Continue rendering in the background"
-msgstr "Criando plano de fundo do menu"
+msgstr "Continuar renderizando no plano de fundo"
 
 #: src/mainwindow.cpp:945
-#, fuzzy, kde-format
-#| msgid "Abort processing"
+#, kde-format
 msgid "Abort rendering"
-msgstr "Interromper processamento"
+msgstr "Interromper renderização"
 
 #: src/mainwindow.cpp:962
 #, kde-format
@@ -31196,11 +31084,11 @@ msgstr "Excluir o ponto atual."
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
 #: src/ui/clipjobmanager_ui.ui:50 src/ui/clipjobmanager_ui.ui:245
 #: src/ui/clipjobmanager_ui.ui:256 src/ui/clipstabilize_ui.ui:57
-#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:113
-#: src/ui/collapsiblewidget_ui.ui:139 src/ui/collapsiblewidget_ui.ui:149
-#: src/ui/collapsiblewidget_ui.ui:159 src/ui/collapsiblewidget_ui.ui:172
-#: src/ui/collapsiblewidget_ui.ui:185 src/ui/collapsiblewidget_ui.ui:198
-#: src/ui/collapsiblewidget_ui.ui:208 src/ui/collapsiblewidget_ui.ui:218
+#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:130
+#: src/ui/collapsiblewidget_ui.ui:156 src/ui/collapsiblewidget_ui.ui:166
+#: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
+#: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
+#: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
@@ -35373,37 +35261,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Girar em passos de 90°"
 
-#: src/widgets/dragvalue.cpp:400
+#: src/widgets/dragvalue.cpp:410
 #, kde-format
 msgid "Normal scale"
 msgstr "Escala normal"
 
-#: src/widgets/dragvalue.cpp:401
+#: src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Pixel scale"
 msgstr "Escala em Pixel"
 
-#: src/widgets/dragvalue.cpp:402
+#: src/widgets/dragvalue.cpp:412
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Escala não-linear"
 
-#: src/widgets/dragvalue.cpp:406
+#: src/widgets/dragvalue.cpp:416
 #, kde-format
 msgid "Direct update"
 msgstr "Atualização direta"
 
-#: src/widgets/dragvalue.cpp:411
+#: src/widgets/dragvalue.cpp:421
 #, kde-format
 msgid "Reset value"
 msgstr "Restaurar Valor"
 
-#: src/widgets/dragvalue.cpp:416
+#: src/widgets/dragvalue.cpp:426
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Mostrar %1 na linha do tempo"
 
-#: src/widgets/dragvalue.cpp:745
+#: src/widgets/dragvalue.cpp:755
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + arraste para ajustar o valor um por um."

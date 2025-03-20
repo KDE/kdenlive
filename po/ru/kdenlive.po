@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-18 00:41+0000\n"
+"POT-Creation-Date: 2025-03-20 00:41+0000\n"
 "PO-Revision-Date: 2025-03-14 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -8699,7 +8699,7 @@ msgstr "Заполнением,Центрированием,Вмещением,�
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:19
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:399
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Scaling"
 msgstr "Масштабирование"
@@ -15078,32 +15078,32 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Переключает отображение ключевых кадров на монтажном столе."
 
-#: src/assets/assetpanel.cpp:270
+#: src/assets/assetpanel.cpp:269
 #, kde-format
 msgid "%1 effects"
 msgstr "Эффекты %1"
 
-#: src/assets/assetpanel.cpp:275 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "Параметры %1"
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:278
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Эффекты дорожки %1"
 
-#: src/assets/assetpanel.cpp:284
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Эффекты корзины %1"
 
-#: src/assets/assetpanel.cpp:636
+#: src/assets/assetpanel.cpp:572
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Выполняется операция маски. Прервать её?"
 
-#: src/assets/assetpanel.cpp:637
+#: src/assets/assetpanel.cpp:573
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -15349,7 +15349,7 @@ msgid "Failed to load preset %1"
 msgstr "Не удалось загрузить предустановку %1"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:284
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:310
 #, kde-format
 msgid "Reset Effect"
 msgstr "Сбросить эффект"
@@ -17027,7 +17027,7 @@ msgstr "Импорт файла по двойному щелчку"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:593
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -17201,8 +17201,8 @@ msgid "Move subtitle"
 msgstr "Переместить субтитр"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
-#: src/effects/effectstack/view/effectstackview.cpp:854
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/effectstackview.cpp:852
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -18182,14 +18182,14 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Экспорт данных направляющих"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1731
-#: src/dialogs/renderwidget.cpp:1755 src/doc/kdenlivedoc.cpp:770
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1776
+#: src/dialogs/renderwidget.cpp:1800 src/doc/kdenlivedoc.cpp:770
 #: src/doc/kdenlivedoc.cpp:778 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:696
-#: src/effects/effectstack/view/effectstackview.cpp:892
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:746
+#: src/effects/effectstack/view/effectstackview.cpp:890
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18405,7 +18405,7 @@ msgid "Top Right"
 msgstr "Вверху справа"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:221
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:230
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -18602,92 +18602,92 @@ msgstr ""
 "значениями эквивалентных параметров интерфейса пользователя: <icode>%1</"
 "icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1560
+#: src/dialogs/renderwidget.cpp:103 src/dialogs/renderwidget.cpp:1605
 #, kde-format
 msgid "Waiting…"
 msgstr "Ожидание…"
 
-#: src/dialogs/renderwidget.cpp:109
+#: src/dialogs/renderwidget.cpp:107
 #, kde-format
 msgid "Starting…"
 msgstr "Запуск…"
 
-#: src/dialogs/renderwidget.cpp:112
+#: src/dialogs/renderwidget.cpp:110
 #, kde-format
 msgid "Rendering finished"
 msgstr "Сборка завершена"
 
-#: src/dialogs/renderwidget.cpp:117
+#: src/dialogs/renderwidget.cpp:115
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Во время сборки произошёл сбой"
 
-#: src/dialogs/renderwidget.cpp:122
+#: src/dialogs/renderwidget.cpp:120
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Сборка прервана"
 
-#: src/dialogs/renderwidget.cpp:209
+#: src/dialogs/renderwidget.cpp:218
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Методом ближайшего соседа (быстро)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:219 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Билинейная (хорошо)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:220 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Бикубическая (лучше)"
 
-#: src/dialogs/renderwidget.cpp:212
+#: src/dialogs/renderwidget.cpp:221
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Ланцош (наилучшая)"
 
-#: src/dialogs/renderwidget.cpp:222
+#: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "По горизонтали (16:9)"
 
-#: src/dialogs/renderwidget.cpp:223
+#: src/dialogs/renderwidget.cpp:232
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "По вертикали (9:16)"
 
-#: src/dialogs/renderwidget.cpp:224
+#: src/dialogs/renderwidget.cpp:233
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Квадрат (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:237 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Одно поле (быстро)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:238 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Линейное смешение (быстро)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:239 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF — только временная проверка (хорошо)"
 
-#: src/dialogs/renderwidget.cpp:231
+#: src/dialogs/renderwidget.cpp:240
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (лучше)"
 
-#: src/dialogs/renderwidget.cpp:232
+#: src/dialogs/renderwidget.cpp:241
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (наилучший)"
 
-#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -18695,38 +18695,38 @@ msgstr "BWDIF (наилучший)"
 msgid "None"
 msgstr "Отсутствует"
 
-#: src/dialogs/renderwidget.cpp:241
+#: src/dialogs/renderwidget.cpp:250
 #, kde-format
 msgid "Timecode"
 msgstr "Тайм-код"
 
-#: src/dialogs/renderwidget.cpp:242
+#: src/dialogs/renderwidget.cpp:251
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Тайм-код без пропуска кадров"
 
-#: src/dialogs/renderwidget.cpp:243
+#: src/dialogs/renderwidget.cpp:252
 #, kde-format
 msgid "Frame Number"
 msgstr "Номер кадра"
 
 # https://userbase.kde.org/Kdenlive/Manual/Projects_and_Files/Clips#Proxy_clips
-#: src/dialogs/renderwidget.cpp:247
+#: src/dialogs/renderwidget.cpp:256
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Сборка с использованием низкокачественного прокси"
 
-#: src/dialogs/renderwidget.cpp:340
+#: src/dialogs/renderwidget.cpp:349
 #, kde-format
 msgid "File"
 msgstr "Файл"
 
-#: src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:358
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Сохранённые списки воспроизведения"
 
-#: src/dialogs/renderwidget.cpp:362 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:371 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -18735,59 +18735,59 @@ msgstr ""
 "Не удалось найти приложение kdenlive_render, что-то не так с установленным "
 "пакетом. Сборка не будет работать."
 
-#: src/dialogs/renderwidget.cpp:385
+#: src/dialogs/renderwidget.cpp:400
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Работает только для формата matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:392
+#: src/dialogs/renderwidget.cpp:407
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "При публикации документа возникла ошибка: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:392 src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:407 src/dialogs/renderwidget.cpp:415
 #: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Share"
 msgstr "Поделиться"
 
-#: src/dialogs/renderwidget.cpp:397
+#: src/dialogs/renderwidget.cpp:412
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Документ успешно опубликован"
 
-#: src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:415
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Опубликованный документ можно найти здесь: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:520
+#: src/dialogs/renderwidget.cpp:535
 #, kde-format
 msgid "Beginning"
 msgstr "Начало"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:527 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:542 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Конец"
 
-#: src/dialogs/renderwidget.cpp:648
+#: src/dialogs/renderwidget.cpp:663
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Добавить клип на монтажную дорожку прежде сборки"
 
-#: src/dialogs/renderwidget.cpp:654
+#: src/dialogs/renderwidget.cpp:669
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Не удалось найти приложение melt (является частью MLT), необходимое для "
 "проведения сборки"
 
-#: src/dialogs/renderwidget.cpp:663
+#: src/dialogs/renderwidget.cpp:678
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -18799,25 +18799,25 @@ msgstr ""
 "рассинхронизации звука и видео.\n"
 "Рекомендуется выполнить перекодирование в редактируемый формат."
 
-#: src/dialogs/renderwidget.cpp:672
+#: src/dialogs/renderwidget.cpp:687
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Всё равно собрать"
 
-#: src/dialogs/renderwidget.cpp:678
+#: src/dialogs/renderwidget.cpp:693
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Перекодировать"
 
-#: src/dialogs/renderwidget.cpp:700 src/dialogs/renderwidget.cpp:1534
+#: src/dialogs/renderwidget.cpp:715 src/dialogs/renderwidget.cpp:1579
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Выходной файл уже существует. Перезаписать его?"
 
-#: src/dialogs/renderwidget.cpp:708 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:723 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -18826,12 +18826,12 @@ msgstr ""
 "Не удалось создать папку «%1».\n"
 "Убедитесь в наличии соответствующих прав."
 
-#: src/dialogs/renderwidget.cpp:749
+#: src/dialogs/renderwidget.cpp:764
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "При попытке сборки произошли следующие ошибки"
 
-#: src/dialogs/renderwidget.cpp:788 src/dialogs/renderwidget.cpp:1547
+#: src/dialogs/renderwidget.cpp:803 src/dialogs/renderwidget.cpp:1592
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -18840,59 +18840,59 @@ msgstr ""
 "Уже выполняется задание по записи файла:<br><b>%1</b><br>Отмените это "
 "задание, чтобы перезаписать файл…"
 
-#: src/dialogs/renderwidget.cpp:789 src/dialogs/renderwidget.cpp:1548
+#: src/dialogs/renderwidget.cpp:804 src/dialogs/renderwidget.cpp:1593
 #, kde-format
 msgid "Already running"
 msgstr "Уже выполняется"
 
-#: src/dialogs/renderwidget.cpp:811
+#: src/dialogs/renderwidget.cpp:826
 #, kde-format
 msgid "Video without audio track"
 msgstr "Видео без звуковой дорожки"
 
-#: src/dialogs/renderwidget.cpp:813
+#: src/dialogs/renderwidget.cpp:828
 #, kde-format
 msgid "Audio without video track"
 msgstr "Звук без видеодорожки"
 
-#: src/dialogs/renderwidget.cpp:877 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Сборка <i>%1</i> запущена"
 
-#: src/dialogs/renderwidget.cpp:939 src/monitor/monitor.cpp:1316
+#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "безымянный"
 
-#: src/dialogs/renderwidget.cpp:977
+#: src/dialogs/renderwidget.cpp:992
 #, kde-format
 msgid "No preset selected"
 msgstr "Предустановка не выбрана"
 
-#: src/dialogs/renderwidget.cpp:979
+#: src/dialogs/renderwidget.cpp:994
 #, kde-format
 msgid "No matching preset"
 msgstr "Нет соответствующей предустановки"
 
-#: src/dialogs/renderwidget.cpp:991
+#: src/dialogs/renderwidget.cpp:1006
 #, kde-format
 msgid "Invalid preset"
 msgstr "Недопустимая предустановка"
 
-#: src/dialogs/renderwidget.cpp:1114
+#: src/dialogs/renderwidget.cpp:1129
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "Сборка невозможна без звука и видео. Включите хотя бы что-то одно."
 
-#: src/dialogs/renderwidget.cpp:1288
+#: src/dialogs/renderwidget.cpp:1303
 #, kde-format
 msgid "Remaining time "
 msgstr "Осталось времени "
 
-#: src/dialogs/renderwidget.cpp:1290 src/dialogs/renderwidget.cpp:1345
+#: src/dialogs/renderwidget.cpp:1305 src/dialogs/renderwidget.cpp:1387
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -18901,53 +18901,53 @@ msgstr[1] "%1 дня "
 msgstr[2] "%1 дней "
 msgstr[3] "%1 день "
 
-#: src/dialogs/renderwidget.cpp:1302
+#: src/dialogs/renderwidget.cpp:1317
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (кадр %1 @ %2 кадров/с)"
 
-#: src/dialogs/renderwidget.cpp:1317
+#: src/dialogs/renderwidget.cpp:1339
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Объём оставшейся доступной памяти менее %1МБ."
 
-#: src/dialogs/renderwidget.cpp:1347
+#: src/dialogs/renderwidget.cpp:1389
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Сборка завершена за %1"
 
-#: src/dialogs/renderwidget.cpp:1355
+#: src/dialogs/renderwidget.cpp:1397
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Сборка %1 завершена за %2"
 
-#: src/dialogs/renderwidget.cpp:1375
+#: src/dialogs/renderwidget.cpp:1417
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Во время сборки %1 произошёл сбой</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1419 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1461 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Прервать задание"
 
-#: src/dialogs/renderwidget.cpp:1422
+#: src/dialogs/renderwidget.cpp:1464
 #, kde-format
 msgid "Remove Job"
 msgstr "Удалить задание"
 
-#: src/dialogs/renderwidget.cpp:1819
+#: src/dialogs/renderwidget.cpp:1864
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Добавить клипы на монтажный стол перед сборкой"
 
-#: src/dialogs/renderwidget.cpp:1824
+#: src/dialogs/renderwidget.cpp:1869
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Длина собранного файла: %1"
 
-#: src/dialogs/renderwidget.cpp:1828
+#: src/dialogs/renderwidget.cpp:1873
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -18956,7 +18956,7 @@ msgstr[1] "<b>В проекте используются %1 отсутствую
 msgstr[2] "<b>В проекте используются %1 отсутствующих клипов.</b>"
 msgstr[3] "<b>В проекте используется один отсутствующий клип.</b>"
 
-#: src/dialogs/renderwidget.cpp:1830
+#: src/dialogs/renderwidget.cpp:1875
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -18965,12 +18965,12 @@ msgstr[1] "%1 отсутствующих клипа (не используютс
 msgstr[2] "%1 отсутствующих клипов (не используются)."
 msgstr[3] "Один отсутствующий клип (не используется)."
 
-#: src/dialogs/renderwidget.cpp:1832
+#: src/dialogs/renderwidget.cpp:1877
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Отсутствующих клипов: %1 (<b>используются в проекте: %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:1914
+#: src/dialogs/renderwidget.cpp:1959
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -18979,12 +18979,12 @@ msgstr ""
 "Параметры скорости кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1934
+#: src/dialogs/renderwidget.cpp:1979
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Добавить в текущий проект"
 
-#: src/dialogs/renderwidget.cpp:1943
+#: src/dialogs/renderwidget.cpp:1988
 #: src/effects/effectstack/view/maskmanager.cpp:663
 #: src/library/librarywidget.cpp:248
 #, kde-format
@@ -19552,7 +19552,7 @@ msgstr "Не удалось экспортировать звук"
 msgid "Starting speech recognition"
 msgstr "Запуск распознавания речи"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1210
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1215
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Распознавание речи прервано."
@@ -20459,8 +20459,8 @@ msgid "Delete selection"
 msgstr "Удалить выбор"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1230 src/dialogs/textbasededit.cpp:1300
-#: src/dialogs/textbasededit.cpp:1324 src/dialogs/textbasededit.cpp:1381
+#: src/dialogs/textbasededit.cpp:1235 src/dialogs/textbasededit.cpp:1305
+#: src/dialogs/textbasededit.cpp:1329 src/dialogs/textbasededit.cpp:1386
 #, kde-format
 msgid "No speech"
 msgstr "Речь отсутствует"
@@ -20561,8 +20561,8 @@ msgstr "Выберите клип со звуком в корзине проек
 msgid "Select a clip with audio for speech recognition."
 msgstr "Выберите клип со звуком для распознавания речи."
 
-#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1126
-#: src/dialogs/textbasededit.cpp:1182
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1129
+#: src/dialogs/textbasededit.cpp:1187
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Не удалось создать временный файл."
@@ -20577,49 +20577,49 @@ msgstr "Извлечение звука для %1."
 msgid "Audio extract failed."
 msgstr "Сбой извлечения звука."
 
-#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1162
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Запуск распознавания речи на %1."
 
-#: src/dialogs/textbasededit.cpp:1214
+#: src/dialogs/textbasededit.cpp:1219
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Ошибка, проверьте конфигурацию распознавания речи."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "No speech detected."
 msgstr "Речь не обнаружена."
 
-#: src/dialogs/textbasededit.cpp:1237
+#: src/dialogs/textbasededit.cpp:1242
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Распознавание речи завершено."
 
-#: src/dialogs/textbasededit.cpp:1474
+#: src/dialogs/textbasededit.cpp:1479
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Редактировать текст клипа"
 
-#: src/dialogs/textbasededit.cpp:1506 src/dialogs/textbasededit.cpp:1588
+#: src/dialogs/textbasededit.cpp:1511 src/dialogs/textbasededit.cpp:1593
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Создать клип последовательности"
 
-#: src/dialogs/textbasededit.cpp:1513 src/dialogs/textbasededit.cpp:1549
+#: src/dialogs/textbasededit.cpp:1518 src/dialogs/textbasededit.cpp:1554
 #, kde-format
 msgid "No text to export"
 msgstr "Текст для экспорта отсутствует"
 
-#: src/dialogs/textbasededit.cpp:1533
+#: src/dialogs/textbasededit.cpp:1538
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Введите новый путь для списка воспроизведения"
 
-#: src/dialogs/textbasededit.cpp:1681
+#: src/dialogs/textbasededit.cpp:1686
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Не удалось найти тайм-код в выборе"
@@ -21672,7 +21672,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Эффект %1 нельзя добавить дважды."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:664
-#: src/effects/effectstack/view/effectstackview.cpp:239
+#: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -21688,12 +21688,12 @@ msgstr "Эффект %1 можно добавить только в мастер
 msgid "Move effect %1"
 msgstr "Переместить эффект %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
 msgid "Move effect up"
 msgstr "Переместить эффект вверх"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21704,12 +21704,12 @@ msgstr ""
 "обрабатываются последовательно от верхнего к нижнему, поэтому "
 "последовательность расположения имеет значение."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-format
 msgid "Move effect down"
 msgstr "Переместить эффект вниз"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21720,53 +21720,53 @@ msgstr ""
 "обрабатываются последовательно от верхнего к нижнему, поэтому "
 "последовательность расположения имеет значение."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Свернуть эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
 #, kde-format
 msgid "Expand Effect"
 msgstr "Развернуть эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:80
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:103
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Открыть документацию по эффекту в браузере"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Включить ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Скрыть ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Показать ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Показать ключевые кадры на монтажном столе."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Disable Effect"
 msgstr "Отключить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Enable Effect"
 msgstr "Включить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
@@ -21774,7 +21774,7 @@ msgstr ""
 "Отключает эффект. Позволяет сравнить результаты до и после применения "
 "параметров настройки."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:144
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
@@ -21782,22 +21782,22 @@ msgstr ""
 "Включает эффект. Позволяет сравнить результаты до и после применения "
 "параметров настройки."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:149
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-format
 msgid "Create Group"
 msgstr "Создать группу"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:156
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:180
 #, kde-format
 msgid "In:"
 msgstr "Вход:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:162
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
 #, kde-format
 msgid "Set zone in"
 msgstr "Установить точку входа участка"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:187
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
@@ -21805,17 +21805,17 @@ msgstr ""
 "Устанавливает текущую позицию кадра/указателя воспроизведения в качестве "
 "точки входа."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:168
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
 #, kde-format
 msgid "Out:"
 msgstr "Выход: "
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:174
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-format
 msgid "Set zone out"
 msgstr "Установить точку выхода участка"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
@@ -21823,12 +21823,12 @@ msgstr ""
 "Устанавливает текущую позицию кадра/указателя воспроизведения в качестве "
 "точки выхода."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:211
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
 #, kde-format
 msgid "Use effect zone"
 msgstr "Использовать участок эффекта"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -21836,13 +21836,13 @@ msgstr "Переключает отображение участка эффек�
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Предустановки"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -21850,23 +21850,23 @@ msgstr ""
 "Открывает список дополнительных параметров для настройки предустановок "
 "эффекта."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "Delete effect"
 msgstr "Удалить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:303
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:329
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Удаляет эффект из стека эффектов."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:356
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "Экземпляров этого эффекта в группе: %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -21877,105 +21877,105 @@ msgstr ""
 "стола, дорожку или клип проекта. Чтобы скопировать эффект в один элемент из "
 "группы: <b>Alt + перемещение</b>."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
 #, kde-format
 msgid "Disable %1"
 msgstr "Отключить %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
 #, kde-format
 msgid "Enable %1"
 msgstr "Включить %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:589
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:639
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Сохранение эффекта"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:594
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:644
 #, kde-format
 msgid "Comments:"
 msgstr "Комментарии:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Имя не указано, эффект не был сохранён."
 
-#: src/effects/effectstack/view/effectstackview.cpp:330
+#: src/effects/effectstack/view/effectstackview.cpp:328
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Отражение по горизонтали"
 
-#: src/effects/effectstack/view/effectstackview.cpp:335
+#: src/effects/effectstack/view/effectstackview.cpp:333
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Отражение по вертикали"
 
-#: src/effects/effectstack/view/effectstackview.cpp:344
-#: src/effects/effectstack/view/effectstackview.cpp:425
-#: src/effects/effectstack/view/effectstackview.cpp:980
+#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:423
+#: src/effects/effectstack/view/effectstackview.cpp:978
 #, kde-format
 msgid "Remove Background"
 msgstr "Удалить фон"
 
-#: src/effects/effectstack/view/effectstackview.cpp:345
+#: src/effects/effectstack/view/effectstackview.cpp:343
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Удалить фон с помощью модели ИИ"
 
-#: src/effects/effectstack/view/effectstackview.cpp:356
+#: src/effects/effectstack/view/effectstackview.cpp:354
 #, kde-format
 msgid "Flip"
 msgstr "Отражение"
 
-#: src/effects/effectstack/view/effectstackview.cpp:431
+#: src/effects/effectstack/view/effectstackview.cpp:429
 #, kde-format
 msgid "Exporting…"
 msgstr "Экспорт…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Включить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Отключить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:811
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #, kde-format
 msgid "No effect selected."
 msgstr "Эффект не выбран."
 
-#: src/effects/effectstack/view/effectstackview.cpp:817
+#: src/effects/effectstack/view/effectstackview.cpp:815
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Сохранение текущего стека эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:822
+#: src/effects/effectstack/view/effectstackview.cpp:820
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Имя сохраняемого стека:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:823
+#: src/effects/effectstack/view/effectstackview.cpp:821
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Описание:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:835
+#: src/effects/effectstack/view/effectstackview.cpp:833
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Имя не было указано, стек эффектов не сохранён."
 
-#: src/effects/effectstack/view/effectstackview.cpp:842
+#: src/effects/effectstack/view/effectstackview.cpp:840
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21984,8 +21984,8 @@ msgstr ""
 "Описание отсутствует. \n"
 "Сохранить эффект без описания?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:977
-#: src/effects/effectstack/view/effectstackview.cpp:1003
+#: src/effects/effectstack/view/effectstackview.cpp:975
+#: src/effects/effectstack/view/effectstackview.cpp:1001
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Прервать создание маски"
@@ -31411,11 +31411,11 @@ msgstr "Удалить выбранную точку"
 #: src/ui/bezierspline_ui.ui:189 src/ui/bezierspline_ui.ui:206
 #: src/ui/clipjobmanager_ui.ui:50 src/ui/clipjobmanager_ui.ui:245
 #: src/ui/clipjobmanager_ui.ui:256 src/ui/clipstabilize_ui.ui:57
-#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:113
-#: src/ui/collapsiblewidget_ui.ui:139 src/ui/collapsiblewidget_ui.ui:149
-#: src/ui/collapsiblewidget_ui.ui:159 src/ui/collapsiblewidget_ui.ui:172
-#: src/ui/collapsiblewidget_ui.ui:185 src/ui/collapsiblewidget_ui.ui:198
-#: src/ui/collapsiblewidget_ui.ui:208 src/ui/collapsiblewidget_ui.ui:218
+#: src/ui/clipstabilize_ui.ui:94 src/ui/collapsiblewidget_ui.ui:130
+#: src/ui/collapsiblewidget_ui.ui:156 src/ui/collapsiblewidget_ui.ui:166
+#: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
+#: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
+#: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
@@ -35611,37 +35611,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "Пошаговый поворот на 90 °"
 
-#: src/widgets/dragvalue.cpp:400
+#: src/widgets/dragvalue.cpp:410
 #, kde-format
 msgid "Normal scale"
 msgstr "Обычный масштаб"
 
-#: src/widgets/dragvalue.cpp:401
+#: src/widgets/dragvalue.cpp:411
 #, kde-format
 msgid "Pixel scale"
 msgstr "Пиксельный масштаб"
 
-#: src/widgets/dragvalue.cpp:402
+#: src/widgets/dragvalue.cpp:412
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Нелинейный масштаб"
 
-#: src/widgets/dragvalue.cpp:406
+#: src/widgets/dragvalue.cpp:416
 #, kde-format
 msgid "Direct update"
 msgstr "Прямое обновление"
 
-#: src/widgets/dragvalue.cpp:411
+#: src/widgets/dragvalue.cpp:421
 #, kde-format
 msgid "Reset value"
 msgstr "Восстановить значение по умолчанию"
 
-#: src/widgets/dragvalue.cpp:416
+#: src/widgets/dragvalue.cpp:426
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Показать %1 на монтажном столе"
 
-#: src/widgets/dragvalue.cpp:745
+#: src/widgets/dragvalue.cpp:755
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + Перемещение для пошагового изменения значения."
