@@ -2700,7 +2700,8 @@ void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc, const QString &mainSe
     QDomNodeList tractors = doc.elementsByTagName(QStringLiteral("tractor"));
     QStringList matches;
     for (int i = 0; i < tractors.length(); ++i) {
-        if (tractors.at(i).toElement().attribute(QStringLiteral("id")) == mainSequenceUuid) {
+        const QString uuid = Xml::getXmlProperty(tractors.at(i).toElement(), QStringLiteral("kdenlive:uuid"));
+        if (uuid == mainSequenceUuid) {
             // We found the main sequence tractor, list its tracks
             QDomNodeList tracks = tractors.at(i).toElement().elementsByTagName(QStringLiteral("track"));
             for (int j = 0; j < tracks.length(); ++j) {
@@ -2709,11 +2710,26 @@ void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc, const QString &mainSe
             break;
         }
     }
+    // Second round in case tractor's tracks are tractors again
+    for (int i = 0; i < tractors.length(); ++i) {
+        if (matches.contains(tractors.at(i).toElement().attribute(QStringLiteral("id")))) {
+            // We found the main sequence tractor, list its tracks
+            QDomNodeList tracks = tractors.at(i).toElement().elementsByTagName(QStringLiteral("track"));
+            for (int j = 0; j < tracks.length(); ++j) {
+                matches << tracks.at(j).toElement().attribute(QStringLiteral("producer"));
+            }
+        }
+    }
+    int matchingPlaylists = 0;
     for (int i = 0; i < playlists.length(); ++i) {
         auto playlist = playlists.at(i).toElement();
         if (matches.contains(playlist.attribute(QStringLiteral("id")))) {
             playlist.setAttribute(QStringLiteral("autoclose"), 1);
+            matchingPlaylists++;
         }
+    }
+    if (matchingPlaylists == 0) {
+        qWarning() << "Did not find any matching playlist to apply autoclose\n............................\n";
     }
 }
 

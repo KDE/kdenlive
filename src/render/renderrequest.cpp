@@ -168,8 +168,10 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         project->restoreRenderAssets();
     }
 
+    const QUuid currentUuid = pCore->currentTimelineId();
+
     // Add autoclose to playlists
-    KdenliveDoc::setAutoclosePlaylists(doc, pCore->currentTimelineId().toString());
+    KdenliveDoc::setAutoclosePlaylists(doc, currentUuid.toString());
 
     // Do we want proxy rendering
     if (!m_proxyRendering && project->useProxy()) {
@@ -216,8 +218,6 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         section.out = m_boundingOut;
         sections.push_back(section);
     }
-
-    const QUuid currentUuid = pCore->currentTimelineId();
 
     int i = 0;
 

@@ -74,13 +74,9 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     m_activeColor = KColorUtils::mix(m_bgColor, hoverColor, 0.2);
     m_activeColorTitle = KColorUtils::mix(m_bgColor, hoverColor, 0.3);
 
-    pal.setColor(QPalette::Active, QPalette::Midlight, pal.shadow().color());
+    pal.setColor(QPalette::Inactive, QPalette::Text, pal.shadow().color());
     pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
     border_frame->setPalette(pal);
-    /*KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
-    m_hoverColor = scheme.decoration(KColorScheme::HoverColor).color();
-    m_bgColor = palette().color(QPalette::Active, QPalette::Window);
-    setAutoFillBackground(true);*/
 
     if (effectId == QLatin1String("speed")) {
         // Speed effect is a "pseudo" effect, cannot be moved
@@ -376,8 +372,11 @@ void CollapsibleEffectView::updateGroupedInstances()
     if (groupedInstances > 1) {
         auto *l = static_cast<QHBoxLayout *>(frame->layout());
         m_effectInstances = new QLabel(this);
-        /*int h = (buttonUp->height() - 4) / 3;
-        m_effectInstances->setStyleSheet(QStringLiteral("margin: 2px; padding: 0px; border-radius: %1px; background: #885500; color: #FFFFFF;").arg(h));*/
+        QPalette pal = m_effectInstances->palette();
+        KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
+        const QColor bg = scheme.background(KColorScheme::LinkBackground).color();
+        pal.setColor(QPalette::Active, QPalette::Base, bg);
+        m_effectInstances->setPalette(pal);
         m_effectInstances->setText(QString::number(groupedInstances));
         m_effectInstances->setToolTip(i18n("%1 instances of this effect in the group", groupedInstances));
         m_effectInstances->setMargin(4);
@@ -503,7 +502,7 @@ bool CollapsibleEffectView::isEnabled() const
 
 void CollapsibleEffectView::slotSetTargetEffect(bool active)
 {
-    QPalette pal = palette();
+    QPalette pal = border_frame->palette();
     if (active) {
         pal.setColor(QPalette::Active, QPalette::Text, pal.highlight().color());
     } else {
@@ -932,14 +931,14 @@ void CollapsibleEffectView::resizeEvent(QResizeEvent *event)
 
 void CollapsibleEffectView::dragLeaveEvent(QDragLeaveEvent * /*event*/)
 {
-    QPalette pal = palette();
+    QPalette pal = border_frame->palette();
     pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
     border_frame->setPalette(pal);
 }
 
 void CollapsibleEffectView::dropEvent(QDropEvent *event)
 {
-    QPalette pal = palette();
+    QPalette pal = border_frame->palette();
     pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
     border_frame->setPalette(pal);
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));

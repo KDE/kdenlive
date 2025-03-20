@@ -412,7 +412,7 @@ int main(int argc, char *argv[])
                     exitCode = EXIT_FAILURE;
                     break;
                 } else {
-                    KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", job.outputPath), QPixmap());
+                    KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering %1 started", job.outputPath), QPixmap());
                 }
             }
         }
