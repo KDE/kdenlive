@@ -407,9 +407,13 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     res.version = int(100 * currentAsset.attribute(QStringLiteral("version")).toDouble());
 
     // Update name if the xml provide one
-    const QString name = Xml::getSubTagContent(currentAsset, QStringLiteral("name"));
-    if (!name.isEmpty()) {
-        res.name = i18n(name.toUtf8().constData());
+    std::pair<QString, QString> nameAndCtx = Xml::getSubTagContentAndContext(currentAsset, QStringLiteral("name"));
+    if (!nameAndCtx.first.isEmpty()) {
+        if (!nameAndCtx.second.isEmpty()) {
+            res.name = i18nc(nameAndCtx.second.toUtf8().constData(), nameAndCtx.first.toUtf8().constData());
+        } else {
+            res.name = i18n(nameAndCtx.first.toUtf8().constData());
+        }
     }
     // Update description if the xml provide one
     const QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
