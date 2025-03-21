@@ -13,8 +13,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
 
+#include <QFrame>
+#include <QLineEdit>
 #include <QStyle>
+#include <QToolButton>
 #include <QVBoxLayout>
+
+#include <KColorScheme>
 
 NotesPlugin::NotesPlugin(QObject *parent)
     : QObject(parent)
@@ -28,9 +33,30 @@ NotesPlugin::NotesPlugin(QObject *parent)
     QSize iconSize(size, size);
     m_tb->setIconSize(iconSize);
     lay->addWidget(m_tb);
+    // Search line
+    m_searchFrame = new QFrame(container);
+    QHBoxLayout *l = new QHBoxLayout(m_searchFrame);
+    m_searchLine = new QLineEdit(container);
+    m_button_next = new QToolButton(container);
+    m_button_next->setIcon(QIcon::fromTheme("go-down"));
+    m_button_next->setAutoRaise(true);
+    m_button_prev = new QToolButton(container);
+    m_button_prev->setIcon(QIcon::fromTheme("go-up"));
+    m_button_prev->setAutoRaise(true);
+    l->addWidget(m_searchLine);
+    l->addWidget(m_button_prev);
+    l->addWidget(m_button_next);
+    lay->addWidget(m_searchFrame);
+    m_searchFrame->setVisible(false);
+
+    m_findAction = KStandardAction::find(this, &NotesPlugin::find, container);
+    container->addAction(m_findAction);
+    m_findAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
     m_widget = new NotesWidget();
     lay->addWidget(m_widget);
     container->setLayout(lay);
+
     connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);
     connect(m_widget, &NotesWidget::insertTextNote, this, &NotesPlugin::slotInsertText);
     connect(m_widget, &NotesWidget::reAssign, this, &NotesPlugin::slotReAssign);
@@ -39,6 +65,82 @@ NotesPlugin::NotesPlugin(QObject *parent)
     m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container);
     m_notesDock->close();
     connect(pCore->projectManager(), &ProjectManager::docOpened, this, &NotesPlugin::setProject);
+    connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &searchText) {
+        QPalette palette = m_searchLine->palette();
+        QColor bgColor = palette.color(QPalette::Base);
+        if (searchText.length() > 2) {
+            bool found = m_widget->find(searchText);
+            KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
+            if (found) {
+                bgColor = scheme.background(KColorScheme::PositiveBackground).color();
+                QTextCursor cur = m_widget->textCursor();
+                cur.select(QTextCursor::WordUnderCursor);
+                m_widget->setTextCursor(cur);
+            } else {
+                // Loop over, abort
+                bgColor = scheme.background(KColorScheme::NegativeBackground).color();
+            }
+        }
+        palette.setColor(QPalette::Base, bgColor);
+        m_searchLine->setPalette(palette);
+    });
+    QAction *next = KStandardAction::findNext(this, &NotesPlugin::findNext, container);
+    next->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    QAction *previous = KStandardAction::findPrev(this, &NotesPlugin::findPrevious, container);
+    previous->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    m_button_next->setDefaultAction(next);
+    m_button_prev->setDefaultAction(previous);
+    container->addAction(next);
+    container->addAction(previous);
+}
+
+void NotesPlugin::findNext()
+{
+    const QString searchText = m_searchLine->text();
+    QPalette palette = m_searchLine->palette();
+    QColor bgColor = palette.color(QPalette::Base);
+    if (searchText.length() > 2) {
+        bool found = m_widget->find(searchText);
+        KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
+        if (found) {
+            bgColor = scheme.background(KColorScheme::PositiveBackground).color();
+            QTextCursor cur = m_widget->textCursor();
+            cur.select(QTextCursor::WordUnderCursor);
+            m_widget->setTextCursor(cur);
+        } else {
+            // Loop over, abort
+            bgColor = scheme.background(KColorScheme::NegativeBackground).color();
+        }
+    }
+    palette.setColor(QPalette::Base, bgColor);
+    m_searchLine->setPalette(palette);
+}
+
+void NotesPlugin::find()
+{
+    m_showSearch->toggle();
+}
+
+void NotesPlugin::findPrevious()
+{
+    const QString searchText = m_searchLine->text();
+    QPalette palette = m_searchLine->palette();
+    QColor bgColor = palette.color(QPalette::Base);
+    if (searchText.length() > 2) {
+        bool found = m_widget->find(searchText, QTextDocument::FindBackward);
+        KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
+        if (found) {
+            bgColor = scheme.background(KColorScheme::PositiveBackground).color();
+            QTextCursor cur = m_widget->textCursor();
+            cur.select(QTextCursor::WordUnderCursor);
+            m_widget->setTextCursor(cur);
+        } else {
+            // Loop over, abort
+            bgColor = scheme.background(KColorScheme::NegativeBackground).color();
+        }
+    }
+    palette.setColor(QPalette::Base, bgColor);
+    m_searchLine->setPalette(palette);
 }
 
 void NotesPlugin::setProject(KdenliveDoc *document)
@@ -56,6 +158,17 @@ void NotesPlugin::setProject(KdenliveDoc *document)
             xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
         connect(a, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
         m_tb->addAction(a);
+        m_showSearch = new QToolButton(m_widget);
+        m_showSearch->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
+        m_showSearch->setCheckable(true);
+        m_showSearch->setAutoRaise(true);
+        m_tb->addWidget(m_showSearch);
+        connect(m_showSearch, &QToolButton::toggled, this, [this](bool checked) {
+            m_searchFrame->setVisible(checked);
+            if (checked) {
+                m_searchLine->setFocus();
+            }
+        });
     }
 }
 

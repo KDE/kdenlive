@@ -47,6 +47,9 @@ bool docContentToFile(const QDomDocument &doc, const QString &fileName);
 */
 QString getSubTagContent(const QDomElement &element, const QString &tagName);
 
+/** @brief Same as above but returns the context attribute as second value */
+std::pair<QString, QString> getSubTagContentAndContext(const QDomElement &element, const QString &tagName);
+
 /** @brief Returns the direct children of given \@element whose tag name matches given \@param tagName.
    This is an alternative to QDomElement::elementsByTagName which returns also non-direct children
 */

@@ -17,9 +17,11 @@
 #include "widgets/timecodedisplay.h"
 #include <profiles/profilemodel.hpp>
 
+#include <KColorScheme>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequesterDialog>
+
 #include <QAbstractTextDocumentLayout>
 #include <QEvent>
 #include <QFontDatabase>
@@ -749,69 +751,91 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
 
     // Search stuff
     search_frame->setVisible(false);
+    QAction *find = KStandardAction::find(this, &TextBasedEdit::find, this);
+    find->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
     connect(button_search, &QToolButton::toggled, this, [&](bool toggled) {
         search_frame->setVisible(toggled);
         search_line->setFocus();
     });
     connect(search_line, &QLineEdit::textChanged, this, [this](const QString &searchText) {
-        QPalette palette = this->palette();
-        QColor col = palette.color(QPalette::Base);
+        QPalette palette = search_line->palette();
+        QColor bgColor = palette.color(QPalette::Base);
         if (searchText.length() > 2) {
             bool found = m_visualEditor->find(searchText);
+            KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
             if (found) {
-                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
-                palette.setColor(QPalette::Base, col);
+                bgColor = scheme.background(KColorScheme::PositiveBackground).color();
                 QTextCursor cur = m_visualEditor->textCursor();
                 cur.select(QTextCursor::WordUnderCursor);
                 m_visualEditor->setTextCursor(cur);
             } else {
                 // Loop over, abort
-                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
-                palette.setColor(QPalette::Base, col);
+                bgColor = scheme.background(KColorScheme::NegativeBackground).color();
             }
         }
+        palette.setColor(QPalette::Base, bgColor);
         search_line->setPalette(palette);
     });
-    connect(search_next, &QToolButton::clicked, this, [this]() {
-        const QString searchText = search_line->text();
-        QPalette palette = this->palette();
-        QColor col = palette.color(QPalette::Base);
-        if (searchText.length() > 2) {
-            bool found = m_visualEditor->find(searchText);
-            if (found) {
-                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
-                palette.setColor(QPalette::Base, col);
-                QTextCursor cur = m_visualEditor->textCursor();
-                cur.select(QTextCursor::WordUnderCursor);
-                m_visualEditor->setTextCursor(cur);
-            } else {
-                // Loop over, abort
-                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
-                palette.setColor(QPalette::Base, col);
-            }
+    // Search next / previous shortcuts
+    QAction *next = KStandardAction::findNext(this, &TextBasedEdit::findNext, this);
+    next->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    QAction *previous = KStandardAction::findPrev(this, &TextBasedEdit::findPrevious, this);
+    previous->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    search_next->setDefaultAction(next);
+    search_prev->setDefaultAction(previous);
+    addAction(find);
+    addAction(next);
+    addAction(previous);
+}
+
+void TextBasedEdit::find()
+{
+    button_search->toggle();
+}
+
+void TextBasedEdit::findNext()
+{
+    const QString searchText = search_line->text();
+    QPalette palette = search_line->palette();
+    QColor bgColor = palette.color(QPalette::Base);
+    if (searchText.length() > 2) {
+        bool found = m_visualEditor->find(searchText);
+        KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
+        if (found) {
+            bgColor = scheme.background(KColorScheme::PositiveBackground).color();
+            QTextCursor cur = m_visualEditor->textCursor();
+            cur.select(QTextCursor::WordUnderCursor);
+            m_visualEditor->setTextCursor(cur);
+        } else {
+            // Loop over, abort
+            bgColor = scheme.background(KColorScheme::NegativeBackground).color();
         }
-        search_line->setPalette(palette);
-    });
-    connect(search_prev, &QToolButton::clicked, this, [this]() {
-        const QString searchText = search_line->text();
-        QPalette palette = this->palette();
-        QColor col = palette.color(QPalette::Base);
-        if (searchText.length() > 2) {
-            bool found = m_visualEditor->find(searchText, QTextDocument::FindBackward);
-            if (found) {
-                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
-                palette.setColor(QPalette::Base, col);
-                QTextCursor cur = m_visualEditor->textCursor();
-                cur.select(QTextCursor::WordUnderCursor);
-                m_visualEditor->setTextCursor(cur);
-            } else {
-                // Loop over, abort
-                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
-                palette.setColor(QPalette::Base, col);
-            }
+    }
+    palette.setColor(QPalette::Base, bgColor);
+    search_line->setPalette(palette);
+}
+
+void TextBasedEdit::findPrevious()
+{
+    const QString searchText = search_line->text();
+    QPalette palette = search_line->palette();
+    QColor bgColor = palette.color(QPalette::Base);
+    if (searchText.length() > 2) {
+        bool found = m_visualEditor->find(searchText, QTextDocument::FindBackward);
+        KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
+        if (found) {
+            bgColor = scheme.background(KColorScheme::PositiveBackground).color();
+            QTextCursor cur = m_visualEditor->textCursor();
+            cur.select(QTextCursor::WordUnderCursor);
+            m_visualEditor->setTextCursor(cur);
+        } else {
+            // Loop over, abort
+            bgColor = scheme.background(KColorScheme::NegativeBackground).color();
         }
-        search_line->setPalette(palette);
-    });
+    }
+    palette.setColor(QPalette::Base, bgColor);
+    search_line->setPalette(palette);
 }
 
 void TextBasedEdit::slotZoomIn()

@@ -54,10 +54,25 @@ QString Xml::getSubTagContent(const QDomElement &element, const QString &tagName
             element.save(stream, 4);
             qDebug() << "Warning: " << str << "provides several " << tagName << ". We keep only first one.";
         }
-        QString content = nodeList.at(0).toElement().text();
+        const QString content = nodeList.first().toElement().text();
         return content;
     }
     return QString();
+}
+
+std::pair<QString, QString> Xml::getSubTagContentAndContext(const QDomElement &element, const QString &tagName)
+{
+    QVector<QDomNode> nodeList = getDirectChildrenByTagName(element, tagName);
+    if (!nodeList.isEmpty()) {
+        if (nodeList.size() > 1) {
+            QString str;
+            QTextStream stream(&str);
+            element.save(stream, 4);
+            qDebug() << "Warning: " << str << "provides several " << tagName << ". We keep only first one.";
+        }
+        return {nodeList.first().toElement().text(), nodeList.first().toElement().attribute(QStringLiteral("context"))};
+    }
+    return {};
 }
 
 QVector<QDomNode> Xml::getDirectChildrenByTagName(const QDomElement &element, const QString &tagName)
