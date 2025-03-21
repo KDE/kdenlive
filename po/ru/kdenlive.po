@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 02:39+0000\n"
+"POT-Creation-Date: 2025-03-21 02:38+0000\n"
 "PO-Revision-Date: 2025-03-14 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -12918,7 +12918,7 @@ msgstr "Проблема с редактирование эффекта"
 msgid "Analysis,Apply"
 msgstr "Обработать"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -17003,7 +17003,7 @@ msgstr[3] "Добавить клип"
 msgid "Duration:"
 msgstr "Длительность:"
 
-#: src/bin/generators/generators.cpp:165
+#: src/bin/generators/generators.cpp:185
 #, kde-format
 msgid "MLT Playlist (*.mlt)"
 msgstr "Список воспроизведения MLT (*.mlt)"
@@ -17354,8 +17354,8 @@ msgstr "Идентификатор"
 msgid "Usage"
 msgstr "Использование"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
-#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1854
+#: src/doc/documentchecker.cpp:1884 src/doc/documentchecker.cpp:1904
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -21043,111 +21043,111 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Идентификатор документа проекта неверен. Создан новый идентификатор."
 
-#: src/doc/documentchecker.cpp:1829
+#: src/doc/documentchecker.cpp:1844
 #, kde-format
 msgid "Video clip"
 msgstr "Видеоклип"
 
-#: src/doc/documentchecker.cpp:1831
+#: src/doc/documentchecker.cpp:1846
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Клип слайд-шоу"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1848
 #, kde-format
 msgid "Image clip"
 msgstr "Клип изображений"
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "Playlist clip"
 msgstr "Клип списка воспроизведения"
 
-#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1853
+#: src/doc/documentchecker.cpp:1852 src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Title Image"
 msgstr "Изображение титров"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Clip"
 msgstr "Клип"
 
-#: src/doc/documentchecker.cpp:1851
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титров"
 
-#: src/doc/documentchecker.cpp:1855
+#: src/doc/documentchecker.cpp:1870
 #, kde-format
 msgid "Luma file"
 msgstr "Файл каше"
 
-#: src/doc/documentchecker.cpp:1857
+#: src/doc/documentchecker.cpp:1872
 #, kde-format
 msgid "Asset file"
 msgstr "Файл ресурса"
 
-#: src/doc/documentchecker.cpp:1859
+#: src/doc/documentchecker.cpp:1874
 #: src/mltcontroller/clippropertiescontroller.cpp:439
 #, kde-format
 msgid "Proxy clip"
 msgstr "Прокси-клип"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1878
 #, kde-format
 msgid "Transition"
 msgstr "Переход"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1880
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Клип без ссылок"
 
-#: src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1882
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Повреждённая последовательность"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1892 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Фиксированная"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "Reload"
 msgstr "Обновить"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Missing"
 msgstr "Отсутствует"
 
-#: src/doc/documentchecker.cpp:1883
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Отсутствует, но доступен прокси"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1900 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Заполнитель"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1902 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Удалить"
 
-#: src/doc/documentchecker.cpp:1898
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проекта ссылается на отсутствующие клипы или файлы."
 
-#: src/doc/documentchecker.cpp:1901
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Отсутствующие прокси могут быть восстановлены при открытии."
@@ -21573,7 +21573,7 @@ msgid "Cyan"
 msgstr "Бирюзовый"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2838 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2854 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"

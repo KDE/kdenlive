@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 02:39+0000\n"
+"POT-Creation-Date: 2025-03-21 02:38+0000\n"
 "PO-Revision-Date: 2025-03-13 11:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1827,7 +1827,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:121
 #: data/effects/frei0r/frei0r_saturat0r.xml:8
 #: data/transitions/frei0r/frei0r_saturation.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Saturation"
 msgid "Saturation"
 msgstr "التّشبّع"
 
@@ -1872,7 +1873,8 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Lightness"
 msgid "Lightness"
 msgstr "الخفة"
 
@@ -2776,7 +2778,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
 #: data/effects/frei0r/frei0r_distort0r.xml:11 data/effects/sox/sox_bass.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Frequency"
 msgid "Frequency"
 msgstr "التّردّد"
 
@@ -3467,7 +3470,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_defish0r.xml:8
 #: data/effects/frei0r/frei0r_iirblur.xml:8
 #: data/effects/frei0r/frei0r_sharpness.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Amount"
 msgid "Amount"
 msgstr "الكمّيّة"
 
@@ -3687,7 +3691,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:12
 #: data/effects/avfilter/avfilter_vibrato.xml:11
 #: data/effects/ladspa/ladspa_phaser.xml:11 data/effects/sox/sox_flanger.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Depth"
 msgid "Depth"
 msgstr "عمق"
 
@@ -3753,7 +3758,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:33
 #: data/effects/avfilter/avfilter_phase.xml:4
 #: data/effects/sox/sox_flanger.xml:26
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Phase"
 msgid "Phase"
 msgstr "طور"
 
@@ -6362,7 +6368,8 @@ msgid "Auto,601,709"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Colorspace"
 msgid "Colorspace"
 msgstr "الفضاء اللوني"
 
@@ -7644,7 +7651,9 @@ msgid "Extracts Blue from Image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "White Balance Effect Name"
+#| msgid "White Balance"
 msgctxt "White Balance Effect Name"
 msgid "White Balance"
 msgstr "توازن الأبيض"
@@ -7671,7 +7680,8 @@ msgid "Green Tint"
 msgstr "الأخضر 2"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:16
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "White Balance"
 msgid "White Balance"
 msgstr "توازن الأبيض"
 
@@ -7917,7 +7927,8 @@ msgid "Equidistant Fisheye"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Projection"
 msgid "Projection"
 msgstr "الإسقاط"
 
@@ -8108,7 +8119,9 @@ msgid "Adjusts the brightness of a source image"
 msgstr "اضبط توزيع اليمين/اليسار للقناة"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Corners Effect Name"
+#| msgid "Corners"
 msgctxt "Corners Effect Name"
 msgid "Corners"
 msgstr "الزّوايا"
@@ -8196,7 +8209,8 @@ msgstr "الاستيفاء"
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:136
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Transparent Background"
 msgid "Transparent Background"
 msgstr "خلفيّة شفّافة"
 
@@ -8294,7 +8308,11 @@ msgstr "الإزاحة"
 #: data/effects/frei0r/frei0r_cairogradient.xml:39
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:26
 #: data/transitions/frei0r/frei0r_cairoblend.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+#| "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
+#| "saturation,HSL color,HSL luminosity"
 msgid ""
 "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
 "burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
@@ -8457,7 +8475,9 @@ msgid "Source Color"
 msgstr "المقطع المصدر"
 
 #: data/effects/frei0r/frei0r_colorize.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Colorize Effect Name"
+#| msgid "Colorize"
 msgctxt "Colorize Effect Name"
 msgid "Colorize"
 msgstr "التّلوين"
@@ -8502,7 +8522,9 @@ msgid "Applies a pre-made color effect to image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_contrast0r.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Contrast Effect Name"
+#| msgid "Contrast"
 msgctxt "Contrast Effect Name"
 msgid "Contrast"
 msgstr "التباين"
@@ -8739,7 +8761,8 @@ msgid "Distort"
 msgstr "تشويه"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Plasma"
 msgid "Plasma"
 msgstr "بلازما"
 
@@ -8763,7 +8786,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_dither.xml:9
 #: data/effects/frei0r/frei0r_levels.xml:36
 #: data/effects/frei0r/frei0r_posterize.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Levels"
 msgid "Levels"
 msgstr "المستويات"
 
@@ -8784,17 +8808,20 @@ msgid "Id of matrix used for dithering."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Edge glow"
 msgid "Edge glow"
 msgstr "توهّج الحوافّ"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Edge glow filter"
 msgid "Edge glow filter"
 msgstr "مرشّح لتوهّج الحوافّ"
 
 #: data/effects/frei0r/frei0r_edgeglow.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Edge lightening threshold"
 msgid "Edge lightening threshold"
 msgstr "عتبة إضاءة الحوافّ"
 
@@ -8953,7 +8980,8 @@ msgid "Draw a blue ellipse around the face area?"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facedetect.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Face detect"
 msgid "Face detect"
 msgstr "اكتشاف الوجوه"
 
@@ -8981,7 +9009,8 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facedetect.xml:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Alpha"
 msgid "Alpha"
 msgstr "ألفا"
 
@@ -9177,7 +9206,9 @@ msgid "Shifts the hue of a source image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_iirblur.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Blur Effect name"
+#| msgid "Blur"
 msgctxt "Blur Effect name"
 msgid "Blur"
 msgstr "غشاوة"
@@ -9531,7 +9562,8 @@ msgid "Adds black borders at top and bottom for cinema look"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Border Width"
 msgid "Border Width"
 msgstr "عرض الحدّ"
 
@@ -9544,7 +9576,9 @@ msgid "Transparency"
 msgstr "الشفافيّة"
 
 #: data/effects/frei0r/frei0r_levels.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Levels Effect Name"
+#| msgid "Levels"
 msgctxt "Levels Effect Name"
 msgid "Levels"
 msgstr "المستويات"
@@ -9558,25 +9592,29 @@ msgstr "مستويات الصّوت"
 
 #: data/effects/frei0r/frei0r_levels.xml:13
 #: data/effects/frei0r/frei0r_levels.xml:44
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Input black level"
 msgid "Input black level"
 msgstr "مستوى الأسود الدّخل"
 
 #: data/effects/frei0r/frei0r_levels.xml:16
 #: data/effects/frei0r/frei0r_levels.xml:47
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Input white level"
 msgid "Input white level"
 msgstr "مستوى الأبيض الدّخل"
 
 #: data/effects/frei0r/frei0r_levels.xml:22
 #: data/effects/frei0r/frei0r_levels.xml:53
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Black output"
 msgid "Black output"
 msgstr "خرج الأسود"
 
 #: data/effects/frei0r/frei0r_levels.xml:25
 #: data/effects/frei0r/frei0r_levels.xml:56
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "White output"
 msgid "White output"
 msgstr "خرج الأبيض"
 
@@ -9729,7 +9767,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:44
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:116
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "α"
 msgid "α"
 msgstr "α"
 
@@ -9874,7 +9913,8 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Nervous"
 msgid "Nervous"
 msgstr "عصبي"
 
@@ -9899,7 +9939,8 @@ msgid "HSync"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Pixelize"
 msgid "Pixelize"
 msgstr "بكسلة"
 
@@ -10047,7 +10088,8 @@ msgid "<![CDATA[Tilting of the profile]]>"
 msgstr "<![CDATA[الإزاحة على طول المحور س]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:20
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Length"
 msgid "Length"
 msgstr "الطّول"
 
@@ -10255,7 +10297,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_primaries.xml:8
 #: data/effects/sox/sox_stretch.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Factor"
 msgid "Factor"
 msgstr "العامل"
 
@@ -10505,7 +10548,9 @@ msgid "Soften"
 msgstr "ليّن"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Sharpen Effect Name"
+#| msgid "Sharpen"
 msgctxt "Sharpen Effect Name"
 msgid "Sharpen"
 msgstr "اشحذ"
@@ -10590,7 +10635,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_softglow.xml:22
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
 #: data/transitions/frei0r/frei0r_cairoblend.xml:12
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Blend mode"
 msgid "Blend mode"
 msgstr "وضع الخلط"
 
@@ -10851,7 +10897,9 @@ msgid "Time"
 msgstr "المؤقّت"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "Tint Effect Name"
+#| msgid "Tint"
 msgctxt "Tint Effect Name"
 msgid "Tint"
 msgstr "صبغة"
@@ -11727,72 +11775,86 @@ msgid "LADSPA equalizer audio effect (15 band)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "50 Hz"
 msgid "50 Hz"
 msgstr "50 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "100 Hz"
 msgid "100 Hz"
 msgstr "100 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "156 Hz"
 msgid "156 Hz"
 msgstr "156 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "220 Hz"
 msgid "220 Hz"
 msgstr "220 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:20
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "311 Hz"
 msgid "311 Hz"
 msgstr "311 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:23
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "440 Hz"
 msgid "440 Hz"
 msgstr "440 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "622 Hz"
 msgid "622 Hz"
 msgstr "622 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "880 Hz"
 msgid "880 Hz"
 msgstr "880 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "1250 Hz"
 msgid "1250 Hz"
 msgstr "1250 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "1750 Hz"
 msgid "1750 Hz"
 msgstr "1750 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:38
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "2500 Hz"
 msgid "2500 Hz"
 msgstr "2500 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "3500 Hz"
 msgid "3500 Hz"
 msgstr "3500 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:44
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "5000 Hz"
 msgid "5000 Hz"
 msgstr "5000 هرتز"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:47
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "10000 Hz"
 msgid "10000 Hz"
 msgstr "10000 هرتز"
 
@@ -11867,7 +11929,8 @@ msgid "Rate (Hz)"
 msgstr "المعدل"
 
 #: data/effects/ladspa/ladspa_phaser.xml:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Feedback"
 msgid "Feedback"
 msgstr "مشاركة بياناتك"
 
@@ -11888,7 +11951,8 @@ msgid "LADSPA change pitch audio effect"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_pitch.xml:8 data/effects/sox/sox_pitch.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Shift"
 msgid "Shift"
 msgstr "Shift"
 
@@ -12927,7 +12991,7 @@ msgstr "مشكلة في تحرير التّأثير"
 msgid "Analysis,Apply"
 msgstr "تحليل"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -14076,7 +14140,8 @@ msgid "The alpha XOR operation"
 msgstr "عملية ألفا"
 
 #: data/transitions/frei0r/frei0r_burn.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Burn"
 msgid "Burn"
 msgstr "احرق"
 
@@ -14089,12 +14154,16 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Cairo Affine Blend"
 msgid "Cairo Affine Blend"
 msgstr "خليط تآلفي القاهرة"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Composites second input on first input applying user-defined "
+#| "transformation, opacity and blend mode."
 msgid ""
 "Composites second input on first input applying user-defined transformation, "
 "opacity and blend mode."
@@ -14119,32 +14188,40 @@ msgid "Y position"
 msgstr "موضع ص"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "X scale"
 msgid "X scale"
 msgstr "مقياس س"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Y scale"
 msgid "Y scale"
 msgstr "مقياس ص"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:30
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Rotation X center"
 msgid "Rotation X center"
 msgstr "تدوير مركز س"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:33
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Rotation Y center"
 msgid "Rotation Y center"
 msgstr "تدوير مركز ص"
 
 #: data/transitions/frei0r/frei0r_cairoblend.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Cairo Blend"
 msgid "Cairo Blend"
 msgstr "خليط القاهرة"
 
 #: data/transitions/frei0r/frei0r_cairoblend.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Composites second input on the first input with user-defined blend mode "
+#| "and opacity."
 msgid ""
 "Composites second input on the first input with user-defined blend mode and "
 "opacity."
@@ -16933,7 +17010,7 @@ msgstr[5] "أضف مقاطع"
 msgid "Duration:"
 msgstr "المدّة:"
 
-#: src/bin/generators/generators.cpp:165
+#: src/bin/generators/generators.cpp:185
 #, kde-format
 msgid "MLT Playlist (*.mlt)"
 msgstr "قائمة تشغيل ام ال تي (*.mlt)"
@@ -17284,8 +17361,8 @@ msgstr "المعرّف"
 msgid "Usage"
 msgstr "الاستخدام"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
-#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1854
+#: src/doc/documentchecker.cpp:1884 src/doc/documentchecker.cpp:1904
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -20929,111 +21006,111 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "معرف مستند مشروعك غير صالح، أنشئ واحد أخر."
 
-#: src/doc/documentchecker.cpp:1829
+#: src/doc/documentchecker.cpp:1844
 #, kde-format
 msgid "Video clip"
 msgstr "مقطع فيديو"
 
-#: src/doc/documentchecker.cpp:1831
+#: src/doc/documentchecker.cpp:1846
 #, kde-format
 msgid "Slideshow clip"
 msgstr "مقطع عرض شرائح"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1848
 #, kde-format
 msgid "Image clip"
 msgstr "مقطع صورة"
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "Playlist clip"
 msgstr "مقطع قائمة تشغيل"
 
-#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1853
+#: src/doc/documentchecker.cpp:1852 src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Title Image"
 msgstr "صورة عنوان"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Clip"
 msgstr "المقطع"
 
-#: src/doc/documentchecker.cpp:1851
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Title Font"
 msgstr "خطّ عنوان"
 
-#: src/doc/documentchecker.cpp:1855
+#: src/doc/documentchecker.cpp:1870
 #, kde-format
 msgid "Luma file"
 msgstr "ملفّ ”لوما“"
 
-#: src/doc/documentchecker.cpp:1857
+#: src/doc/documentchecker.cpp:1872
 #, kde-format
 msgid "Asset file"
 msgstr "ملف أصل"
 
-#: src/doc/documentchecker.cpp:1859
+#: src/doc/documentchecker.cpp:1874
 #: src/mltcontroller/clippropertiescontroller.cpp:439
 #, kde-format
 msgid "Proxy clip"
 msgstr "المقطع الوسيط"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1878
 #, kde-format
 msgid "Transition"
 msgstr "الانتقال"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1880
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "مقطع غير المشار إليه"
 
-#: src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1882
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "تسلسل معطوب"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1892 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "ثابت"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "Reload"
 msgstr "أعد التحميل"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Missing"
 msgstr "مفقود"
 
-#: src/doc/documentchecker.cpp:1883
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "مفقود ولكن يوجد وسيط"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1900 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "عنصر نائب"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1902 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "أزل"
 
-#: src/doc/documentchecker.cpp:1898
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
 
-#: src/doc/documentchecker.cpp:1901
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "الوسطاء ناقصون سيُعاد إنشاؤهم عند الفتح."
@@ -21456,7 +21533,7 @@ msgid "Cyan"
 msgstr "أزرق سماوي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2838 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2854 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
