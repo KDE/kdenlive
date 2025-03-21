@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 00:41+0000\n"
+"POT-Creation-Date: 2025-03-21 00:41+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -12892,7 +12892,7 @@ msgstr ""
 msgid "Analysis,Apply"
 msgstr "आँकलन"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -15265,7 +15265,7 @@ msgid "Failed to load preset %1"
 msgstr "पूर्वनिर्धारितं %1 लोड् कर्तुं असफलम्"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:310
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:306
 #, kde-format
 msgid "Reset Effect"
 msgstr "Reset Effect इति"
@@ -16881,7 +16881,7 @@ msgstr[1] "क्लिप्स् योजयन्तु"
 msgid "Duration:"
 msgstr "अवधि:"
 
-#: src/bin/generators/generators.cpp:165
+#: src/bin/generators/generators.cpp:185
 #, kde-format
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT प्लेलिस्ट (*.mlt)"
@@ -16909,7 +16909,7 @@ msgstr "Double Click इत्यत्र File आयातयन्तु"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -17082,7 +17082,7 @@ msgid "Move subtitle"
 msgstr "उपशीर्षकं चालयन्तु"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:669
 #: src/effects/effectstack/view/effectstackview.cpp:852
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
@@ -17231,8 +17231,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "प्रयोगः"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
-#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1854
+#: src/doc/documentchecker.cpp:1884 src/doc/documentchecker.cpp:1904
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -17250,32 +17250,32 @@ msgstr "उपक्लिप्स् योजयन्तु"
 msgid "Zone"
 msgstr "क्षेत्रम्"
 
-#: src/bin/projectitemmodel.cpp:974
+#: src/bin/projectitemmodel.cpp:985
 #, kde-format
 msgid "Add bin clip"
 msgstr "बिन क्लिप् योजयन्तु"
 
-#: src/bin/projectitemmodel.cpp:1092
+#: src/bin/projectitemmodel.cpp:1103
 #, kde-format
 msgid "Add a sub clip"
 msgstr "एकं उपक्लिप् योजयन्तु"
 
-#: src/bin/projectitemmodel.cpp:1133
+#: src/bin/projectitemmodel.cpp:1144
 #, kde-format
 msgid "Rename Folder"
 msgstr "Folder इत्यस्य नामकरणं कुर्वन्तु"
 
-#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1448
+#: src/bin/projectitemmodel.cpp:1188 src/mainwindow.cpp:1448
 #, kde-format
 msgid "Clean Project"
 msgstr "स्वच्छ परियोजना"
 
-#: src/bin/projectitemmodel.cpp:1405
+#: src/bin/projectitemmodel.cpp:1416
 #, kde-format
 msgid "Reading project clips…"
 msgstr "परियोजना क्लिप्स् पठन्…"
 
-#: src/bin/projectitemmodel.cpp:1513
+#: src/bin/projectitemmodel.cpp:1524
 #, kde-format
 msgid "Loading project clips…"
 msgstr "परियोजना क्लिप्स् लोड् भवति…"
@@ -18058,7 +18058,7 @@ msgstr "निर्यात मार्गदर्शकाः आँकड�
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:746
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:745
 #: src/effects/effectstack/view/effectstackview.cpp:890
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
@@ -18719,8 +18719,9 @@ msgid "Audio without video track"
 msgstr "विडियो ट्रैक विना ऑडियो"
 
 #: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
-#, kde-format
-msgid "Rendering <i>%1</i> started"
+#, fuzzy, kde-format
+#| msgid "Rendering <i>%1</i> started"
+msgid "Rendering %1 started"
 msgstr "<i>%1</i> रेण्डरिंग् आरब्धम्"
 
 #: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
@@ -20841,111 +20842,111 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "भवतः परियोजनायाः document id अमान्यम् आसीत्, नूतनं निर्मितम् अस्ति ।"
 
-#: src/doc/documentchecker.cpp:1829
+#: src/doc/documentchecker.cpp:1844
 #, kde-format
 msgid "Video clip"
 msgstr "विडियो क्लिप्"
 
-#: src/doc/documentchecker.cpp:1831
+#: src/doc/documentchecker.cpp:1846
 #, kde-format
 msgid "Slideshow clip"
 msgstr "स्लाइड शो क्लिप"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1848
 #, kde-format
 msgid "Image clip"
 msgstr "इमेज क्लिप"
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "Playlist clip"
 msgstr "प्लेलिस्ट क्लिप"
 
-#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1853
+#: src/doc/documentchecker.cpp:1852 src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Title Image"
 msgstr "शीर्षक छवि"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Clip"
 msgstr "क्लिप्"
 
-#: src/doc/documentchecker.cpp:1851
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Title Font"
 msgstr "शीर्षक फ़ॉन्ट"
 
-#: src/doc/documentchecker.cpp:1855
+#: src/doc/documentchecker.cpp:1870
 #, kde-format
 msgid "Luma file"
 msgstr "लुमा सञ्चिका"
 
-#: src/doc/documentchecker.cpp:1857
+#: src/doc/documentchecker.cpp:1872
 #, kde-format
 msgid "Asset file"
 msgstr "सम्पत्तिसञ्चिका"
 
-#: src/doc/documentchecker.cpp:1859
+#: src/doc/documentchecker.cpp:1874
 #: src/mltcontroller/clippropertiescontroller.cpp:439
 #, kde-format
 msgid "Proxy clip"
 msgstr "प्रॉक्सी क्लिप्"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1878
 #, kde-format
 msgid "Transition"
 msgstr "परिस्थान"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1880
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "असन्दर्भित क्लिप"
 
-#: src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1882
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "दूषित क्रमः"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1892 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "युक्त"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "Reload"
 msgstr "पुनः लोड करें"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Missing"
 msgstr "असमेत"
 
-#: src/doc/documentchecker.cpp:1883
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "लुप्तः, परन्तु प्रॉक्सी उपलब्धः"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1900 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "स्थानधारकः"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1902 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "अपाकरोति"
 
-#: src/doc/documentchecker.cpp:1898
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "परियोजनासञ्चिकायां लुप्ताः क्लिप्स् अथवा सञ्चिकाः सन्ति ।"
 
-#: src/doc/documentchecker.cpp:1901
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "उद्घाटने लुप्तप्रॉक्सी पुनः निर्मातुं शक्यते ।"
@@ -21354,7 +21355,7 @@ msgid "Cyan"
 msgstr "सियान्"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2838 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2854 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -21504,107 +21505,107 @@ msgstr ""
 "तस्य अधः एव प्रभावं चालयति । प्रभावाः क्रमेण उपरितः अधः यावत् नियन्त्रिताः भवन्ति अतः "
 "क्रमः महत्त्वपूर्णः अस्ति।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Collapse Effect"
 msgstr "पतन प्रभाव"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Expand Effect"
 msgstr "प्रभावं विस्तारयतु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:103
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "ब्राउजर् मध्ये प्रभावदस्तावेजं उद्घाटयन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:127
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "कीफ्रेम्स् सक्षमं कुर्वन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "कीफ्रेम्स् गोपयन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "Show Keyframes"
 msgstr "कीफ्रेम्स् दर्शयतु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "कीफ्रेम् शासकस्य प्रदर्शनं चालू करोति ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:138
 #, kde-format
 msgid "Disable Effect"
 msgstr "प्रभावं अक्षमं कुर्वन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:138
 #, kde-format
 msgid "Enable Effect"
 msgstr "प्रभावं सक्षमं कुर्वन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr "प्रभावं निष्क्रियं करोति । सेटिङ्ग्स् पूर्वं पश्चात् च तुलनां कर्तुं उपयोगी ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:144
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "प्रभावं सक्षमं करोति । सेटिङ्ग्स् पूर्वं पश्चात् च तुलनां कर्तुं उपयोगी ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Create Group"
 msgstr "समूहं रचयन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:180
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-format
 msgid "In:"
 msgstr "इत्यस्मिन्‌:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
 #, kde-format
 msgid "Set zone in"
 msgstr "क्षेत्रं सेट् कुर्वन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:187
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "वर्तमानं फ्रेम/प्लेहेड् स्थानं क्षेत्रस्य आरम्भरूपेण सेट् करोति ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
 #, kde-format
 msgid "Out:"
 msgstr "बहिः:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
 #, kde-format
 msgid "Set zone out"
 msgstr "क्षेत्रं बहिः सेट् कुर्वन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "वर्तमानं फ्रेम/प्लेहेड् स्थानं क्षेत्रस्य अन्तः इति सेट् करोति ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:231
 #, kde-format
 msgid "Use effect zone"
 msgstr "प्रभावक्षेत्रस्य उपयोगं कुर्वन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:236
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -21612,35 +21613,35 @@ msgstr "प्रभावक्षेत्रस्य प्रदर्श�
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:295
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "पूर्वनिर्धारित"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr "प्रभावस्य कृते पूर्वनिर्धारणं प्रबन्धयितुं उन्नतविकल्पानां सूचीं उद्घाटयति ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:324
 #, kde-format
 msgid "Delete effect"
 msgstr "प्रभावं विलोपयतु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:329
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:325
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "इफेक्ट् स्टैक् तः इफेक्ट् अपास्यति ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:381
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 अस्य प्रभावस्य उदाहरणानि समूहे"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -21650,28 +21651,28 @@ msgstr ""
 "तस्य प्रतिलिपिं कर्तुं अन्यस्य समयरेखाक्लिप्, ट्रैक अथवा प्रोजेक्ट् क्लिप् प्रति प्रभावं "
 "<b>कर्षयन्तु</b> । <b>Alt Drag</b> इत्येतत् समूहे एकस्मिन् द्रव्ये प्रतिलिपिं कर्तुं ।"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 अक्षमम्"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 सक्षमं कुर्वन्तु"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:638
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Save Effect इति"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:644
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
 #, kde-format
 msgid "Comments:"
 msgstr "टिप्पणियाँ :"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "नाम न प्रदत्तम्, प्रभावः न रक्षितः।"

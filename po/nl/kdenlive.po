@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 00:41+0000\n"
-"PO-Revision-Date: 2025-03-19 15:07+0100\n"
+"POT-Creation-Date: 2025-03-21 00:41+0000\n"
+"PO-Revision-Date: 2025-03-20 12:58+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1322,11 +1322,13 @@ msgid ""
 "Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
 "Meier circuit (fcut=650 feed=95)"
 msgstr ""
+"Standaard niveau (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
+"Meier circuit (fcut=650 feed=95)"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:9
 #, kde-format
 msgid "Pre-defined crossfeed level"
-msgstr ""
+msgstr "Voorgedefinieerd crossfeed-niveau"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:12
 #, kde-format
@@ -1349,6 +1351,8 @@ msgid ""
 "Motion adaptive deinterlacing based on yadif with the use of w3fdif and "
 "cubic interpolation algorithms. "
 msgstr ""
+"Bewegingsadaptieve deinterlacing gebaseerd op yadif met het gebruik van "
+"w3fdif en kubistische interpolatiealgoritmen. "
 
 #: data/effects/avfilter/avfilter_bwdif.xml:8
 #, kde-format
@@ -2218,10 +2222,9 @@ msgid "Set dry amount. Amount of unprocessed (dry) signal."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Wet amount"
-msgstr "Kleur waarde"
+msgstr "Natte hoeveelheid"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:28
 #, kde-format
@@ -2236,10 +2239,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:4
-#, fuzzy, kde-format
-#| msgid "Crossfade"
+#, kde-format
 msgid "Crossfeed"
-msgstr "crossfeed"
+msgstr "Crossfeed"
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:7
 #, kde-format
@@ -2304,10 +2306,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:15
 #: data/effects/avfilter/avfilter_extrastereo.xml:14
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clipping"
-msgstr "**Enable Clipping**"
+msgstr "Vastnieten inschakelen"
 
 #: data/effects/avfilter/avfilter_datascope.xml:4
 #, kde-format
@@ -2315,10 +2316,9 @@ msgid "DataScope"
 msgstr "Data-scope"
 
 #: data/effects/avfilter/avfilter_datascope.xml:5
-#, fuzzy, kde-format
-#| msgid "Processing data analysis"
+#, kde-format
 msgid "Video data analysis"
-msgstr "Analyse van gegevens uitvoeren"
+msgstr "Analyse van videogegevens"
 
 #: data/effects/avfilter/avfilter_datascope.xml:8
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
@@ -2341,14 +2341,12 @@ msgid "Size"
 msgstr "Grootte"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
-#, fuzzy, kde-format
-#| msgid "X Offset"
+#, kde-format
 msgid "X offset"
 msgstr "X-verschuiving"
 
 #: data/effects/avfilter/avfilter_datascope.xml:15
-#, fuzzy, kde-format
-#| msgid "Y Offset"
+#, kde-format
 msgid "Y offset"
 msgstr "Y-verschuiving"
 
@@ -2382,9 +2380,9 @@ msgid "Opacity"
 msgstr "Dekking"
 
 #: data/effects/avfilter/avfilter_datascope.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hex,Dec"
-msgstr "HEX2DEC"
+msgstr "Hex,Dec"
 
 #: data/effects/avfilter/avfilter_datascope.xml:30 data/effects/timer.xml:46
 #, kde-format
@@ -2392,22 +2390,19 @@ msgid "Format"
 msgstr "Opmaak"
 
 #: data/effects/avfilter/avfilter_dblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Directional Blur"
-msgstr "Richting"
+msgstr "Directionele vervaging"
 
 #: data/effects/avfilter/avfilter_dblur.xml:5
-#, fuzzy, kde-format
-#| msgid "Apply duration to all items"
+#, kde-format
 msgid "Apply directional blur filter"
-msgstr "Tijdsduur toepassen op alle items"
+msgstr "Directioneel vervagingsfilter toepassen"
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Sets the angle for the direction]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stelt de hoek voor de richting in]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
@@ -2418,10 +2413,9 @@ msgid "Radius"
 msgstr "Radius"
 
 #: data/effects/avfilter/avfilter_dblur.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Sets the radius for the direction]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stelt de straal voor de richting in]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #, kde-format
@@ -2431,23 +2425,21 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
-#, fuzzy, kde-format
-#| msgid "Edge glow filter"
+#, kde-format
 msgid "Planes to filter"
-msgstr "Rand gloed filter"
+msgstr "Te filteren vlakken"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr ""
+"<![CDATA[Stelt het kleurruimtevlak in waarop het effect wordt toegepast]]>"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:4
 #: data/effects/avfilter/avfilter_dcshift.xml:10
-#, fuzzy, kde-format
-#| msgid "Max shift"
+#, kde-format
 msgid "DC shift"
-msgstr "**DC-shift**"
+msgstr "DC-verschuiving"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:7
 #, kde-format
@@ -2467,11 +2459,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
-#, fuzzy, kde-format
-#| msgctxt "Limiter Effect Name"
-#| msgid "Limiter"
+#, kde-format
 msgid "Limiter gain"
-msgstr "**Limiter Gain**"
+msgstr "Versterking van begrenzer"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:15
 #, kde-format
@@ -2483,10 +2473,9 @@ msgstr ""
 "0.05 of 0.02) is en wordt gebruikt om clipping te voorkomen."
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:4
-#, fuzzy, kde-format
-#| msgid "Denoiser"
+#, kde-format
 msgid "DCT Denoiser"
-msgstr "Ruis verwijderen"
+msgstr "DCT-ruis verwijdering"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:5
 #, kde-format
@@ -2508,10 +2497,9 @@ msgstr "Overlap"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:14
 #: data/effects/avfilter/avfilter_deblock.xml:12
-#, fuzzy, kde-format
-#| msgid "Block Size X"
+#, kde-format
 msgid "Block size"
-msgstr "Block X-grootte"
+msgstr "Blokgrootte"
 
 #: data/effects/avfilter/avfilter_deband.xml:4
 #, kde-format
@@ -2526,28 +2514,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:8
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "1st plane threshold"
-msgstr "Drempel wijzigen"
+msgstr "1st drempel van vlak"
 
 #: data/effects/avfilter/avfilter_deband.xml:11
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "2nd plane threshold"
-msgstr "Drempel wijzigen"
+msgstr "2de drempel van vlak"
 
 #: data/effects/avfilter/avfilter_deband.xml:14
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "3rd plane threshold"
-msgstr "Drempel wijzigen"
+msgstr "3de drempel van vlak"
 
 #: data/effects/avfilter/avfilter_deband.xml:17
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "4th plane threshold"
-msgstr "Drempel wijzigen"
+msgstr "4de drempel van vlak"
 
 #: data/effects/avfilter/avfilter_deband.xml:23
 #: data/effects/avfilter/avfilter_transpose.xml:9
@@ -2572,11 +2556,9 @@ msgid "Coupling"
 msgstr "Koppeling"
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Clock"
+#, kde-format
 msgid "DeBlock"
-msgstr "Klok"
+msgstr "BlokkeringOpheffen"
 
 #: data/effects/avfilter/avfilter_deblock.xml:5
 #, kde-format
@@ -2589,35 +2571,30 @@ msgid "Weak,Strong"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:9
-#, fuzzy, kde-format
-#| msgid "Glow strength"
+#, kde-format
 msgid "Filter strength"
 msgstr "Filtersterkte"
 
 #: data/effects/avfilter/avfilter_deblock.xml:15
 #: data/effects/avfilter/avfilter_smartblur.xml:48
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Alpha threshold"
-msgstr "Drempel wijzigen"
+msgstr "Alfa-drempel"
 
 #: data/effects/avfilter/avfilter_deblock.xml:18
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "Beta threshold"
-msgstr "Drempel gebruiken"
+msgstr "Beta-drempel"
 
 #: data/effects/avfilter/avfilter_deblock.xml:21
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Gamma threshold"
-msgstr "Drempel wijzigen"
+msgstr "Gamma-drempel"
 
 #: data/effects/avfilter/avfilter_deblock.xml:24
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Delta threshold"
-msgstr "Niveaudrempel"
+msgstr "Delta-drempel"
 
 #: data/effects/avfilter/avfilter_deblock.xml:27
 #, kde-format
@@ -2646,16 +2623,14 @@ msgid "color-reduction Mode"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:12
-#, fuzzy, kde-format
-#| msgid "Saturation threshold"
+#, kde-format
 msgid "Spatial Luma threshold"
-msgstr "Verzadigingsdrempel"
+msgstr "Ruimtelijke luma-drempel"
 
 #: data/effects/avfilter/avfilter_dedot.xml:15
-#, fuzzy, kde-format
-#| msgid "Difference Sum Threshold"
+#, kde-format
 msgid "Temporal Luma Threshold"
-msgstr "Opgetelde verschildrempel"
+msgstr "Tijdelijke luma-drempel"
 
 #: data/effects/avfilter/avfilter_dedot.xml:18
 #, kde-format
@@ -2663,15 +2638,14 @@ msgid "Temporal Chroma Variation"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:21
-#, fuzzy, kde-format
-#| msgid "Level Threshold"
+#, kde-format
 msgid "Temporal Chroma Threshold"
-msgstr "Niveaudrempel"
+msgstr "Tijdelijke chroma-drempel"
 
 #: data/effects/avfilter/avfilter_deesser.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Deesser"
-msgstr "deesser"
+msgstr "De-esser"
 
 #: data/effects/avfilter/avfilter_deesser.xml:5
 #, kde-format
@@ -2684,10 +2658,9 @@ msgid "Set intensity for triggering de-essing. Allowed range is from 0 to 1."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
-#, fuzzy, kde-format
-#| msgid "Missing"
+#, kde-format
 msgid "Max deessing"
-msgstr "**Max de-essing**"
+msgstr "Max de-essing"
 
 #: data/effects/avfilter/avfilter_deesser.xml:13
 #, kde-format
@@ -2715,99 +2688,84 @@ msgid "Input,Output,Ess only"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deesser.xml:21
-#, fuzzy, kde-format
-#| msgid "Output time"
+#, kde-format
 msgid "Output mode"
-msgstr "**Output mode**"
+msgstr "Uitvoermodus"
 
 #: data/effects/avfilter/avfilter_deesser.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set the output mode."
-msgstr "Stelt de uitvoermode in"
+msgstr "Stelt de uitvoermodus in"
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
-#, fuzzy, kde-format
-#| msgid "Template"
+#, kde-format
 msgid "Deflate"
-msgstr "deflate"
+msgstr "Deflate"
 
 #: data/effects/avfilter/avfilter_deflate.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Apply deflate effect to the video"
-msgstr "Aan GPS gerelateerde tekst over de video leggen."
+msgstr "Deflate-effect toepassen op de video"
 
 #: data/effects/avfilter/avfilter_deflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 1st plane"
-msgstr "Drempelwaarde"
+msgstr "Drempel voor 1ste vlak"
 
 #: data/effects/avfilter/avfilter_deflate.xml:11
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 2nd plane"
-msgstr "Drempelwaarde"
+msgstr "B-drempel voor het 2de vlak"
 
 #: data/effects/avfilter/avfilter_deflate.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 3rd plane"
-msgstr "Drempelwaarde"
+msgstr "Drempel voor 3de vlak"
 
 #: data/effects/avfilter/avfilter_deflate.xml:17
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 4th plane"
-msgstr "Drempelwaarde"
+msgstr "Drempel voor 4de vlak"
 
 #: data/effects/avfilter/avfilter_delogo.xml:4
-#, fuzzy, kde-format
-#| msgid "Logo"
+#, kde-format
 msgid "DeLogo"
-msgstr "delogo"
+msgstr "De-Logo"
 
 #: data/effects/avfilter/avfilter_delogo.xml:5
-#, fuzzy, kde-format
-#| msgid "Remove clip from timeline"
+#, kde-format
 msgid "Remove logo from input video"
-msgstr "Clip uit tijdlijn verwijderen"
+msgstr "Logo uit invoervideo verwijderen"
 
 #: data/effects/avfilter/avfilter_delogo.xml:8
-#, fuzzy, kde-format
-#| msgid "X position"
+#, kde-format
 msgid "Logo X Position"
-msgstr "X-positie"
+msgstr "X-positie van logo"
 
 #: data/effects/avfilter/avfilter_delogo.xml:11
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Logo Y Position"
-msgstr "Y-positie"
+msgstr "Y-positie van logo"
 
 #: data/effects/avfilter/avfilter_delogo.xml:14
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Logo Width"
-msgstr "Breedte"
+msgstr "Logo-breedte"
 
 #: data/effects/avfilter/avfilter_delogo.xml:17
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Logo Height"
-msgstr "Hoogte"
+msgstr "Logo-hoogte"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
-#, fuzzy, kde-format
-#| msgid "Show Grid"
+#, kde-format
 msgid "Show borders"
-msgstr "Raster tonen"
+msgstr "Randen tonen"
 
 #: data/effects/avfilter/avfilter_derain.xml:4
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "AI Rain removal"
-msgstr "Verwijdering"
+msgstr "AI regenverwijdering"
 
 #: data/effects/avfilter/avfilter_derain.xml:5
 #, kde-format
@@ -2824,15 +2782,13 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
-#, fuzzy, kde-format
-#| msgid "Audio Backend:"
+#, kde-format
 msgid "DNN Backend"
-msgstr "Audio-backend:"
+msgstr "DNN-backend"
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Load model"
 msgstr "Model laden"
 
@@ -2894,38 +2850,33 @@ msgid "Dilation"
 msgstr "Verwijding"
 
 #: data/effects/avfilter/avfilter_dilation.xml:5
-#, fuzzy, kde-format
-#| msgid "Problem editing effect"
+#, kde-format
 msgid "Apply dilation effect"
-msgstr "Probleem bij bewerken effect"
+msgstr "Dilatatie-effect toepassen"
 
 #: data/effects/avfilter/avfilter_dilation.xml:8
 #: data/effects/avfilter/avfilter_erosion.xml:8
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "1st Plane Threshold"
-msgstr "Drempel gebruiken"
+msgstr "1st drempel van vlak"
 
 #: data/effects/avfilter/avfilter_dilation.xml:11
 #: data/effects/avfilter/avfilter_erosion.xml:11
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "2nd Plane Threshold"
-msgstr "Drempel gebruiken"
+msgstr "2de drempel van vlak"
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
-#, fuzzy, kde-format
-#| msgid "3-level Threshold"
+#, kde-format
 msgid "3rd Plane Threshold"
-msgstr "3-niveau drempel"
+msgstr "3de drempel van vlak"
 
 #: data/effects/avfilter/avfilter_dilation.xml:17
 #: data/effects/avfilter/avfilter_erosion.xml:17
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "4th Plane Threshold"
-msgstr "Drempel wijzigen"
+msgstr "4de drempel van vlak"
 
 #: data/effects/avfilter/avfilter_dilation.xml:20
 #: data/effects/avfilter/avfilter_erosion.xml:20
@@ -2947,17 +2898,15 @@ msgstr ""
 #: data/effects/avfilter/avfilter_field.xml:8
 #: data/effects/avfilter/avfilter_fieldorder.xml:8
 #: data/effects/avfilter/avfilter_mcdeint.xml:12
-#, fuzzy, kde-format
-#| msgid "Bottom field first"
+#, kde-format
 msgid "Top field first,Bottom field first"
-msgstr "Onderste veld eerst"
+msgstr "Bovenste veld eerst,Onderste veld eerst"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:9
 #: data/effects/avfilter/avfilter_weave.xml:9
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First Field"
-msgstr "Eerste frame"
+msgstr "Eerste veld"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:4
 #, kde-format
@@ -2971,10 +2920,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/frei0r/frei0r_c0rners.xml:8
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top-left X"
-msgstr "Linksboven"
+msgstr "X-linksboven"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:9
 #, kde-format
@@ -2983,10 +2931,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top-left Y"
-msgstr "Linksboven"
+msgstr "Y-linksboven"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:13
 #, kde-format
@@ -2994,10 +2941,9 @@ msgid "<![CDATA[Y coordinate of top-left corner]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width (px)"
-msgstr "Breedte: %1 px"
+msgstr "Breedte (px)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:18
 #, kde-format
@@ -3007,10 +2953,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height (px)"
-msgstr "Hoogte: %1 px"
+msgstr "Hoogte (px)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:23
 #, kde-format
@@ -3038,23 +2983,20 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
-#, fuzzy, kde-format
-#| msgid "Line Thickness (px)"
+#, kde-format
 msgid "Thickness (px)"
-msgstr "Lijndikte (px)"
+msgstr "Dikte (px)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:32
-#, fuzzy, kde-format
-#| msgid "Sets the thickness of the line graph in pixels."
+#, kde-format
 msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
-msgstr "Stelt de dikte van de lijngrafiek in in pixels."
+msgstr "<![CDATA[Stelt de dikte van de lijn in in pixels]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace color and alpha"
-msgstr "Clip vervangen"
+msgstr "Kleur en alfa vervangen"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:38
 #, kde-format
@@ -3067,8 +3009,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw Grid"
 msgstr "Raster tekenen"
 
@@ -3138,10 +3079,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
-#, fuzzy, kde-format
-#| msgid "Sets the thickness of the line graph in pixels."
+#, kde-format
 msgid "<![CDATA[Sets the thickness for the grid lines in pixels]]>"
-msgstr "Stelt de dikte van de lijngrafiek in in pixels."
+msgstr "<![CDATA[Stelt de dikte van de rasterlijnen in in pixels]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:36
 #, kde-format
@@ -3165,14 +3105,12 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Low threshold"
 msgstr "Lage drempel"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:11
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "High threshold"
 msgstr "Hoge drempel"
 
@@ -3215,8 +3153,7 @@ msgstr "Lengte van codeboek"
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
-#, fuzzy, kde-format
-#| msgid "Stepsize"
+#, kde-format
 msgid "Steps"
 msgstr "Stappen"
 
@@ -3226,10 +3163,9 @@ msgid "EPX Scaler"
 msgstr "EPX-schaling"
 
 #: data/effects/avfilter/avfilter_epx.xml:5
-#, fuzzy, kde-format
-#| msgid "Select blurring algorithm"
+#, kde-format
 msgid "Scale the input using EPX algorithm."
-msgstr "Vervagingsalgoritme selecteren"
+msgstr "Schaal de invoer met het EPX-algoritme."
 
 #: data/effects/avfilter/avfilter_epx.xml:8
 #, kde-format
@@ -3262,22 +3198,19 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: data/effects/avfilter/avfilter_eq.xml:20
-#, fuzzy, kde-format
-#| msgid "Gamma"
+#, kde-format
 msgid "Red Gamma"
-msgstr "Gamma"
+msgstr "Rode gamma"
 
 #: data/effects/avfilter/avfilter_eq.xml:23
-#, fuzzy, kde-format
-#| msgid "Green 2"
+#, kde-format
 msgid "Green Gamma"
-msgstr "Groen 2"
+msgstr "Groene gamma"
 
 #: data/effects/avfilter/avfilter_eq.xml:26
-#, fuzzy, kde-format
-#| msgid "Gamma"
+#, kde-format
 msgid "Blue Gamma"
-msgstr "Gamma"
+msgstr "Blauwe gamma"
 
 #: data/effects/avfilter/avfilter_eq.xml:29
 #, kde-format
@@ -3285,10 +3218,9 @@ msgid "Gamma Weight"
 msgstr "Gewicht van gamma"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Audio Equalizer (avfilter)"
-msgstr "Filter voor geluidsgolf"
+msgstr "Audio-equalizer (avfilter)"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:5
 #, kde-format
@@ -3296,10 +3228,9 @@ msgid "Apply two-pole peaking equalization (EQ) filter"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width Type"
-msgstr "Breedte"
+msgstr "Type breedte"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
 #, kde-format
@@ -3307,10 +3238,9 @@ msgid "Hertz,Q-Factor,Octave,Slope,None"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
-#, fuzzy, kde-format
-#| msgid "Border Width"
+#, kde-format
 msgid "Band Width"
-msgstr "bandbreedte <= 0"
+msgstr "Bandbreedte"
 
 #: data/effects/avfilter/avfilter_erosion.xml:4
 #, kde-format
@@ -3334,10 +3264,9 @@ msgid "Adjust exposure of the video stream."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:4
-#, fuzzy, kde-format
-#| msgid "Extract to"
+#, kde-format
 msgid "Extrastereo"
-msgstr "extrastereo"
+msgstr "Extra-stereo"
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:5
 #, kde-format
@@ -3390,23 +3319,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Clock"
+#, kde-format
 msgid "Block"
 msgstr "Blok"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set size of block in pixels]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stel de grootte in van het blok in pixels]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Set block overlap]]>"
-msgstr "<![CDATA[Offset langs Y-as]]>"
+msgstr "<![CDATA[Stel de overlap van blok in]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:26
 #, kde-format
@@ -3414,10 +3339,9 @@ msgid "wiener,hard"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set denoising method]]>"
-msgstr "<![CDATA[Offset langs de X-as]]>"
+msgstr "<![CDATA[Stel methode van ruis verwijderen in]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
@@ -3452,10 +3376,9 @@ msgid "Apply arbitrary expressions to samples in frequency domain"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:8
-#, fuzzy, kde-format
-#| msgid "YUV Y plane"
+#, kde-format
 msgid "Gain in Y plane"
-msgstr "YUV Y vlak"
+msgstr "Versterking in Y vlak"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:11
 #, kde-format
@@ -3468,43 +3391,34 @@ msgid "Gain in V plane"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:17
-#, fuzzy, kde-format
-#| msgctxt "Luminance Effect Name"
-#| msgid "Luminance"
+#, kde-format
 msgid "Luminance Y plane"
-msgstr "Luminantie"
+msgstr "Lichtkracht Y vlak"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:20
-#, fuzzy, kde-format
-#| msgctxt "Luminance Effect Name"
-#| msgid "Luminance"
+#, kde-format
 msgid "Luminance U plane"
-msgstr "Luminantie"
+msgstr "Lichtkracht U vlak"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:23
-#, fuzzy, kde-format
-#| msgctxt "Luminance Effect Name"
-#| msgid "Luminance"
+#, kde-format
 msgid "Luminance V plane"
-msgstr "Luminantie"
+msgstr "Lichtkracht V vlak"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "init,frame"
-msgstr "Eerste frame"
+msgstr "init,frame"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
-#, fuzzy, kde-format
-#| msgid "value"
+#, kde-format
 msgid "Evaluate"
-msgstr "Berekenen"
+msgstr "Evalueren"
 
 #: data/effects/avfilter/avfilter_field.xml:4
-#, fuzzy, kde-format
-#| msgid "Extract to"
+#, kde-format
 msgid "Field Extractor"
-msgstr "Uitpakken naar"
+msgstr "Uitpakken van veld"
 
 #: data/effects/avfilter/avfilter_field.xml:5
 #, kde-format
@@ -3518,8 +3432,7 @@ msgid "Field priority"
 msgstr "Veldprioriteit"
 
 #: data/effects/avfilter/avfilter_fieldorder.xml:4
-#, fuzzy, kde-format
-#| msgid "Force field order"
+#, kde-format
 msgid "Interlace field order"
 msgstr "Interlace-veldvolgorde"
 
@@ -3529,8 +3442,7 @@ msgid "Transform the field order of the input video."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fillborders.xml:4
-#, fuzzy, kde-format
-#| msgid "Field order:"
+#, kde-format
 msgid "Fill borders"
 msgstr "Omranding vullen"
 
@@ -3677,10 +3589,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_flanger.xml:37
-#, fuzzy, kde-format
-#| msgid "Linear,Radial"
+#, kde-format
 msgid "Linear,Quadratic"
-msgstr "Lineair,radiaal"
+msgstr "Lineair,kwadratisch"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: data/effects/avfilter/avfilter_flanger.xml:38
@@ -3703,16 +3614,14 @@ msgid "Set delay-line interpolation, linear or quadratic."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_framestep.xml:4
-#, fuzzy, kde-format
-#| msgid "Frames step"
+#, kde-format
 msgid "Framestep"
-msgstr "Framesstap"
+msgstr "Frame-stap"
 
 #: data/effects/avfilter/avfilter_framestep.xml:5
-#, fuzzy, kde-format
-#| msgid "Delete all keyframes"
+#, kde-format
 msgid "Select one frame every N frames"
-msgstr "Alle keyframes verwijderen"
+msgstr "Selecteer één frame elke N frames"
 
 #: data/effects/avfilter/avfilter_framestep.xml:8
 #, kde-format
@@ -3732,7 +3641,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fspp.xml:8
 #, kde-format
 msgid "4,5"
-msgstr ""
+msgstr "4,5"
 
 #: data/effects/avfilter/avfilter_fspp.xml:9
 #, kde-format
@@ -3745,10 +3654,9 @@ msgid "Constant quantizer"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:18
-#, fuzzy, kde-format
-#| msgid "In Frame"
+#, kde-format
 msgid "QP on B-Frames"
-msgstr "In frame"
+msgstr "QP op B-frames"
 
 #: data/effects/avfilter/avfilter_gblur.xml:4
 #, kde-format
@@ -3763,7 +3671,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gblur.xml:11
 #, kde-format
 msgid "1,2,3,4,5,6"
-msgstr ""
+msgstr "1,2,3,4,5,6"
 
 #: data/effects/avfilter/avfilter_gblur.xml:12
 #, kde-format
@@ -3810,10 +3718,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
-#, fuzzy, kde-format
-#| msgid "Graph position"
+#, kde-format
 msgid "Graph Monitor"
-msgstr "Grafische positie"
+msgstr "Grafische monitor"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:5
 #, kde-format
@@ -12746,7 +12653,7 @@ msgstr "Audio bewerken met een SoX-effect"
 msgid "Analysis,Apply"
 msgstr "Analyse"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -15092,7 +14999,7 @@ msgid "Failed to load preset %1"
 msgstr "Voorinstelling %1 laden is mislukt"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:310
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:306
 #, kde-format
 msgid "Reset Effect"
 msgstr "Effect resetten"
@@ -16729,7 +16636,7 @@ msgstr[1] "Clips toevoegen"
 msgid "Duration:"
 msgstr "Tijdsduur: "
 
-#: src/bin/generators/generators.cpp:165
+#: src/bin/generators/generators.cpp:185
 #, kde-format
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT-afspeellijst (*.mlt)"
@@ -16757,7 +16664,7 @@ msgstr "Bestand importeren bij dubbelklikken"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -16930,7 +16837,7 @@ msgid "Move subtitle"
 msgstr "Ondertitel verplaatsen"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:669
 #: src/effects/effectstack/view/effectstackview.cpp:852
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
@@ -17077,8 +16984,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Gebruik"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
-#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1854
+#: src/doc/documentchecker.cpp:1884 src/doc/documentchecker.cpp:1904
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -17096,32 +17003,32 @@ msgstr "Sub-clips toevoegen"
 msgid "Zone"
 msgstr "Zone"
 
-#: src/bin/projectitemmodel.cpp:974
+#: src/bin/projectitemmodel.cpp:985
 #, kde-format
 msgid "Add bin clip"
 msgstr "Bin-clip toevoegen"
 
-#: src/bin/projectitemmodel.cpp:1092
+#: src/bin/projectitemmodel.cpp:1103
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Een subclip toevoegen"
 
-#: src/bin/projectitemmodel.cpp:1133
+#: src/bin/projectitemmodel.cpp:1144
 #, kde-format
 msgid "Rename Folder"
 msgstr "Map hernoemen"
 
-#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1448
+#: src/bin/projectitemmodel.cpp:1188 src/mainwindow.cpp:1448
 #, kde-format
 msgid "Clean Project"
 msgstr "Project opschonen"
 
-#: src/bin/projectitemmodel.cpp:1405
+#: src/bin/projectitemmodel.cpp:1416
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Projectclips worden gelezen…"
 
-#: src/bin/projectitemmodel.cpp:1513
+#: src/bin/projectitemmodel.cpp:1524
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Projectclips worden geladen…"
@@ -17918,7 +17825,7 @@ msgstr "Hulplijngegevens exporteren"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:746
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:745
 #: src/effects/effectstack/view/effectstackview.cpp:890
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
@@ -18584,8 +18491,9 @@ msgid "Audio without video track"
 msgstr "Audio zonder videotrack"
 
 #: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
-#, kde-format
-msgid "Rendering <i>%1</i> started"
+#, fuzzy, kde-format
+#| msgid "Rendering <i>%1</i> started"
+msgid "Rendering %1 started"
 msgstr "Renderen van <i>%1</i> gestart"
 
 #: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
@@ -20755,111 +20663,111 @@ msgid ""
 msgstr ""
 "Het document-id van uw project was ongeldig, er is een nieuwe aangemaakt."
 
-#: src/doc/documentchecker.cpp:1829
+#: src/doc/documentchecker.cpp:1844
 #, kde-format
 msgid "Video clip"
 msgstr "Videoclip"
 
-#: src/doc/documentchecker.cpp:1831
+#: src/doc/documentchecker.cpp:1846
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Diashowclip"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1848
 #, kde-format
 msgid "Image clip"
 msgstr "Afbeeldingsclip"
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "Playlist clip"
 msgstr "Clip met afspeellijst"
 
-#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1853
+#: src/doc/documentchecker.cpp:1852 src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Title Image"
 msgstr "Titel afbeelding"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1851
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Title Font"
 msgstr "Titel lettertype"
 
-#: src/doc/documentchecker.cpp:1855
+#: src/doc/documentchecker.cpp:1870
 #, kde-format
 msgid "Luma file"
 msgstr "Luma bestand"
 
-#: src/doc/documentchecker.cpp:1857
+#: src/doc/documentchecker.cpp:1872
 #, kde-format
 msgid "Asset file"
 msgstr "Bestand met bezit"
 
-#: src/doc/documentchecker.cpp:1859
+#: src/doc/documentchecker.cpp:1874
 #: src/mltcontroller/clippropertiescontroller.cpp:439
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxy-clip"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1878
 #, kde-format
 msgid "Transition"
 msgstr "Overgang"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1880
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Niet naar verwezen clip"
 
-#: src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1882
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Beschadigd geraakte sequentie"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1892 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Vastgezet"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "Reload"
 msgstr "Herladen"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Missing"
 msgstr "Ontbreekt"
 
-#: src/doc/documentchecker.cpp:1883
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Ontbreekt, maar proxy beschikbaar"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1900 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Plaatshouder"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1902 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: src/doc/documentchecker.cpp:1898
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Het projectbestand bevat ontbrekende clips of bestanden."
 
-#: src/doc/documentchecker.cpp:1901
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Ontbrekende proxies kunnen opnieuw aangemaakt worden bij het openen"
@@ -21277,7 +21185,7 @@ msgid "Cyan"
 msgstr "Cyaan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2838 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2854 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -21427,110 +21335,110 @@ msgstr ""
 "Verplaatst het effect onder diegene er recht onder. Effecten worden "
 "sequentieel behandeld van boven naar onder dus sequentie is belangrijk."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Effect invouwen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Expand Effect"
 msgstr "Effect uitvouwen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:103
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Documentatie over effecten in browser openen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:127
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Keyframes inschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Keyframes verbergen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Keyframes tonen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Zet het tonen van de keyframe-liniaal aan."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:138
 #, kde-format
 msgid "Disable Effect"
 msgstr "Effect uitschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:138
 #, kde-format
 msgid "Enable Effect"
 msgstr "Effect inschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 "Schakelt het effect uit. Nuttig om te vergelijken voor en na instellen."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:144
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Schakelt het effect in. Nuttig om te vergelijken voor en na instellen."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Create Group"
 msgstr "Groep maken"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:180
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-format
 msgid "In:"
 msgstr "In:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
 #, kde-format
 msgid "Set zone in"
 msgstr "Zone-begin instellen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:187
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 "Stelt de huidige positie van frame/afspeelkop in als begin van de zone."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
 #, kde-format
 msgid "Out:"
 msgstr "Uit:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
 #, kde-format
 msgid "Set zone out"
 msgstr "Zone-eind instellen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 "Stelt de huidige positie van frame/afspeelkop in als begin van de zone."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:231
 #, kde-format
 msgid "Use effect zone"
 msgstr "Effect van zone gebruiken"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:236
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -21538,13 +21446,13 @@ msgstr "Schakelt het tonen van de effectzone om."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:295
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Voorinstellingen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -21552,23 +21460,23 @@ msgstr ""
 "Opent een lijst met geavanceerde opties om voorinstellingen voor het effect "
 "te beheren."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:324
 #, kde-format
 msgid "Delete effect"
 msgstr "Verwijder effect"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:329
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:325
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Verwijdert het effect van de effectenstapel."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:381
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 exemplaren van dit effect in de groep"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -21579,28 +21487,28 @@ msgstr ""
 "het te kopiëren. <b>Alt slepen</b> om het te kopiëren naar een enkel item in "
 "een groep."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 uitschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 inschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:638
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Effect opslaan"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:644
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
 #, kde-format
 msgid "Comments:"
 msgstr "Opmerkingen:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Geen naam gegeven, effect niet opgeslagen."

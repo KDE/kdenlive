@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 00:41+0000\n"
-"PO-Revision-Date: 2025-03-18 11:03+0100\n"
+"POT-Creation-Date: 2025-03-21 00:41+0000\n"
+"PO-Revision-Date: 2025-03-20 03:33+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1174,7 +1174,7 @@ msgstr "ორმხრივი"
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
-msgstr ""
+msgstr "ორმხრივი ფილტრის გადატარება. სივრცითი მოგლუვება წიბოების შენარჩუნებით."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
@@ -1774,7 +1774,7 @@ msgstr "ფერის განლაგება"
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
 msgid "Overlay a solid color on the video stream with mixing feature."
-msgstr ""
+msgstr "მყარი ფერის გადადება ვიდეონაკადზე შერევის ფუნქციით."
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
@@ -1963,6 +1963,8 @@ msgid ""
 "TV (restricted range),MPEG (restricted range),PC (FULL range),JPEG (FULL "
 "range)"
 msgstr ""
+"TV (შეზღუდული შუალედი),MPEG (შეზღუდული შუალედი),PC (სრული შუალედი),JPEG "
+"(სრული შუალედი)"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
 #, kde-format
@@ -2447,6 +2449,8 @@ msgid ""
 "Optional. It should have a value much less than 1 (e.g. 0.05 or 0.02) and is "
 "used to prevent clipping."
 msgstr ""
+"არასავალდებულოა. მისი მნიშვნელობა 1-ზე გაცილებით მცირე (მაგ: 0..05, ან 0.02) "
+"უნდა იყოს და გამოიყენება კლიპინგის თავიდან ასაცილებლად."
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:4
 #, kde-format
@@ -3480,7 +3484,7 @@ msgstr "ფლანგერი"
 #: data/effects/avfilter/avfilter_flanger.xml:5
 #, kde-format
 msgid "Apply a flanging effect to the audio. "
-msgstr ""
+msgstr "ფლანგერის ეფექტის გადატარება ხმაზე. "
 
 #: data/effects/avfilter/avfilter_flanger.xml:9
 #, kde-format
@@ -6149,7 +6153,7 @@ msgstr "არცერთი,მწვანე,ნარინჯისფე�
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
 msgid "<![CDATA[Set which graticule to display]]>"
-msgstr ""
+msgstr "<![CDATA[დააყენეთ, რომელი გრადუირებული ბადეა ნაჩვენები]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
 #, kde-format
@@ -6174,7 +6178,7 @@ msgstr "ციფრული,მილივოლტი,ire"
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
 msgid "<![CDATA[Set scale used for displaying graticule]]>"
-msgstr ""
+msgstr "<![CDATA[დააყენეთ მასშტაბი გრადუირებული ბადის საჩვენებლად]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
 #, kde-format
@@ -6990,7 +6994,7 @@ msgstr "სტრობოსკოპის პერიოდი"
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
 msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
-msgstr ""
+msgstr "<![CDATA[სტრობოსკოპის სიხშირე (0-დან 8 კადრამდე)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:30
@@ -7111,13 +7115,13 @@ msgstr "<![CDATA[გრადიენტის კუთხე]]>"
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
 #, kde-format
 msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[გამჭვირვალობის აღწერა გრადიენტის თავში.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
 #, kde-format
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[გამჭვირვალობის აღწერა გრადიენტის ბოლოში.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
@@ -7135,7 +7139,7 @@ msgstr "თავიდან ჩაწერა,მაქსიმუმი,მ
 #: data/effects/frei0r/frei0r_alphagrad.xml:30
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
-msgstr ""
+msgstr "<![CDATA[აღწერეთ ალფა ოპერაცია კომპოზიტორისთვის.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
@@ -10094,7 +10098,7 @@ msgstr "სრული გაჯერებულობა"
 #: data/effects/frei0r/frei0r_sopsat.xml:101
 #, kde-format
 msgid "The overall saturation will be changed in the last step of this filter."
-msgstr ""
+msgstr "საერთო გაჯერებულობა შეიცვლება ამ ფილტრის ბოლო ნაბიჯზე."
 
 #: data/effects/frei0r/frei0r_squareblur.xml:4
 #, kde-format
@@ -10202,7 +10206,7 @@ msgstr "ტონი"
 #: data/effects/frei0r/frei0r_tint0r.xml:5
 #, kde-format
 msgid "Maps source image luminance between two colors specified"
-msgstr ""
+msgstr "ასახავს წყარო გამოსახულების განათებულობას ორ მითითებულ ფერს შორის"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:8
 #, kde-format
@@ -10283,7 +10287,7 @@ msgstr "ვინიეტი"
 #: data/effects/frei0r/frei0r_vignette.xml:5
 #, kde-format
 msgid "Natural lens vignetting effect"
-msgstr ""
+msgstr "ნატურალური ლინზის ვინიეტის ეფექტი"
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
 #, kde-format
@@ -11147,12 +11151,12 @@ msgstr "VAD ზღვარი (%)"
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
 msgid "VAD Grace Period (ms)"
-msgstr ""
+msgstr "VAD ტოლერანტობის პერიოდი (მწმ)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
 msgid "Retroactive VAD Grace Period (ms)"
-msgstr ""
+msgstr "რეტროაქტიული VAD ტოლერანტობის პერიოდი (მწმ)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:4
 #, kde-format
@@ -12250,7 +12254,7 @@ msgstr "დამუშავება SoX-ის ეფექტით"
 msgid "Analysis,Apply"
 msgstr "ანალიზი, გადატარება"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1861
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -13309,7 +13313,7 @@ msgstr "დამატება"
 #: data/transitions/frei0r/frei0r_addition.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition operation of the pixel sources."
-msgstr ""
+msgstr "პიქსელის წყაროების RGB[A] მიმატების ოპერაციის ჩატარება."
 
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:4
 #, kde-format
@@ -13319,7 +13323,7 @@ msgstr "addition_alpha"
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition_alpha operation of the pixel sources."
-msgstr ""
+msgstr "პიქსელის წყაროების RGB[A] addition_alpha ოპერაციის ჩატარება."
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
 #, kde-format
@@ -13480,7 +13484,7 @@ msgstr "სხვაობა"
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
 msgid "Perform an RGB[A] difference operation between the pixel sources."
-msgstr ""
+msgstr "RGB[A] სხვაობის ოეპრაციის ჩატარება პიქსელის წყაროებს შორის."
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
 #, kde-format
@@ -13514,7 +13518,7 @@ msgstr "მარცვლის გამოყოფა"
 #: data/transitions/frei0r/frei0r_grain_extract.xml:5
 #, kde-format
 msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
-msgstr ""
+msgstr "ჩაატარებს RGB[A] grain-extract ოპერაციას პიქსელის წყაროებს შორის."
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
 #, kde-format
@@ -13524,7 +13528,7 @@ msgstr "მარცვლების შერწყმა"
 #: data/transitions/frei0r/frei0r_grain_merge.xml:5
 #, kde-format
 msgid "Perform an RGB[A] grain-merge operation between the pixel sources."
-msgstr ""
+msgstr "ჩაატარებს RGB[A] grain-merge ოპერაციას პიქსელის წყაროებს შორის."
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
 #, kde-format
@@ -13534,7 +13538,7 @@ msgstr "მაგარი სინათლე"
 #: data/transitions/frei0r/frei0r_hardlight.xml:5
 #, kde-format
 msgid "Perform an RGB[A] hardlight operation between the pixel sources."
-msgstr ""
+msgstr "ჩაატარებს RGB[A] hardlight ოპერაციას პიქსელის წყაროებს შორის."
 
 #: data/transitions/frei0r/frei0r_hue.xml:5
 #, kde-format
@@ -13563,7 +13567,7 @@ msgstr "გამრავლება"
 #: data/transitions/frei0r/frei0r_multiply.xml:5
 #, kde-format
 msgid "Perform an RGB[A] multiply operation between the pixel sources."
-msgstr ""
+msgstr "RGB[A] გამრავლების ოპერაციის ჩატარება პიქსელის წყაროებს შორის."
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
 #, kde-format
@@ -13700,7 +13704,7 @@ msgstr "რბილი ღია"
 #: data/transitions/frei0r/frei0r_softlight.xml:5
 #, kde-format
 msgid "Perform an RGB[A] softlight operation between the pixel sources."
-msgstr ""
+msgstr "RGB[A] softlight ოპერაციის ჩატარება პიქსელის წყაროებს შორის."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: data/transitions/frei0r/frei0r_subtract.xml:4
@@ -13713,7 +13717,7 @@ msgstr "გამოკლება"
 #, kde-format
 msgid ""
 "Perform an RGB[A] subtract operation of the pixel source input2 from input1."
-msgstr ""
+msgstr "RGB[A] გამოკლების ოპერაცია პიქსელის წყარო1-დან პიქსელის წყარო2-ზე."
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:4
 #, kde-format
@@ -14544,7 +14548,7 @@ msgid "Failed to load preset %1"
 msgstr "პრესეტის %1 ჩატვირთვა ჩავარდა"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:310
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:306
 #, kde-format
 msgid "Reset Effect"
 msgstr "ეფექტის ჩამოყრა"
@@ -16169,7 +16173,7 @@ msgstr[1] "კლიპების დამატება"
 msgid "Duration:"
 msgstr "ხანგრძლივობა:"
 
-#: src/bin/generators/generators.cpp:165
+#: src/bin/generators/generators.cpp:185
 #, kde-format
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT დასაკრავი სია (*.mlt)"
@@ -16197,7 +16201,7 @@ msgstr "ფაილის შემოტანა ორმაგი დაწ
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -16370,7 +16374,7 @@ msgid "Move subtitle"
 msgstr "სუბტიტრის გადატანა"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:670
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:669
 #: src/effects/effectstack/view/effectstackview.cpp:852
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
@@ -16517,8 +16521,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "გამოყენება"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1839
-#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1854
+#: src/doc/documentchecker.cpp:1884 src/doc/documentchecker.cpp:1904
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -16536,32 +16540,32 @@ msgstr "ქვეკლიპების დამატება"
 msgid "Zone"
 msgstr "ზონა"
 
-#: src/bin/projectitemmodel.cpp:974
+#: src/bin/projectitemmodel.cpp:985
 #, kde-format
 msgid "Add bin clip"
 msgstr "კლიპის დამატება კალათიდან"
 
-#: src/bin/projectitemmodel.cpp:1092
+#: src/bin/projectitemmodel.cpp:1103
 #, kde-format
 msgid "Add a sub clip"
 msgstr "ქვეკლიპის დამატება"
 
-#: src/bin/projectitemmodel.cpp:1133
+#: src/bin/projectitemmodel.cpp:1144
 #, kde-format
 msgid "Rename Folder"
 msgstr "საქაღალდის სახელის შეცვლა"
 
-#: src/bin/projectitemmodel.cpp:1177 src/mainwindow.cpp:1448
+#: src/bin/projectitemmodel.cpp:1188 src/mainwindow.cpp:1448
 #, kde-format
 msgid "Clean Project"
 msgstr "პროექტის გაწმენდა"
 
-#: src/bin/projectitemmodel.cpp:1405
+#: src/bin/projectitemmodel.cpp:1416
 #, kde-format
 msgid "Reading project clips…"
 msgstr "პროექტის კლიპების კითხვა…"
 
-#: src/bin/projectitemmodel.cpp:1513
+#: src/bin/projectitemmodel.cpp:1524
 #, kde-format
 msgid "Loading project clips…"
 msgstr "პროექტის კლიპების ჩატვირთვა…"
@@ -17346,7 +17350,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:746
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:745
 #: src/effects/effectstack/view/effectstackview.cpp:890
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
@@ -18010,8 +18014,9 @@ msgid "Audio without video track"
 msgstr "აუდიო ვიდეოს გარეშე"
 
 #: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
-#, kde-format
-msgid "Rendering <i>%1</i> started"
+#, fuzzy, kde-format
+#| msgid "Rendering <i>%1</i> started"
+msgid "Rendering %1 started"
 msgstr "<i>%1</i>-ის რენდერი დაიწყო"
 
 #: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
@@ -20170,111 +20175,111 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "თქვენი პროექტის დოკუმენტის ID არასწორი იყო, ამიტომ ახალი შეიქმნა."
 
-#: src/doc/documentchecker.cpp:1829
+#: src/doc/documentchecker.cpp:1844
 #, kde-format
 msgid "Video clip"
 msgstr "ვიდეოკლიპი"
 
-#: src/doc/documentchecker.cpp:1831
+#: src/doc/documentchecker.cpp:1846
 #, kde-format
 msgid "Slideshow clip"
 msgstr "სლაიდშოუ კლიპი"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1848
 #, kde-format
 msgid "Image clip"
 msgstr "გამოსახულების კლიპი"
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "Playlist clip"
 msgstr "დასაკრავი სიის კლიპი"
 
-#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1853
+#: src/doc/documentchecker.cpp:1852 src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Title Image"
 msgstr "ტიტრის გამოსახულება"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1851
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Title Font"
 msgstr "სათაურის ფონტი"
 
-#: src/doc/documentchecker.cpp:1855
+#: src/doc/documentchecker.cpp:1870
 #, kde-format
 msgid "Luma file"
 msgstr "კაშეს ფაილი"
 
-#: src/doc/documentchecker.cpp:1857
+#: src/doc/documentchecker.cpp:1872
 #, kde-format
 msgid "Asset file"
 msgstr "აქტივების ფაილი"
 
-#: src/doc/documentchecker.cpp:1859
+#: src/doc/documentchecker.cpp:1874
 #: src/mltcontroller/clippropertiescontroller.cpp:439
 #, kde-format
 msgid "Proxy clip"
 msgstr "პროქსი კლიპი"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1878
 #, kde-format
 msgid "Transition"
 msgstr "გადასვლა"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1880
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "კლიპი მიმართვის გარეშე"
 
-#: src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1882
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "დაზიანებული მიმდევრობა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1892 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "ფიქსირებული"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1894
 #, kde-format
 msgid "Reload"
 msgstr "თავიდან ჩატვირთვა"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Missing"
 msgstr "აკლია"
 
-#: src/doc/documentchecker.cpp:1883
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "აკლია, მაგრამ პროქსი ხელმისაწვდომია"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1900 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "შემავსებელი"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1902 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "წაშლა"
 
-#: src/doc/documentchecker.cpp:1898
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "პროექტის ფაილი ნაკლულ კლიპებს ან ფაილებს შეიცავს."
 
-#: src/doc/documentchecker.cpp:1901
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "ნაკლული პროქსიები, შეიძლება, გახსნისას თავიდან შეიქმნას."
@@ -20689,7 +20694,7 @@ msgid "Cyan"
 msgstr "ცისფერი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2838 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2854 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -20839,109 +20844,109 @@ msgstr ""
 "კადრის ზუსტად ერთი საფეხურით დაბლა ჩამოტანა. ეფექტები რიგრიგობით, ზემოდან "
 "ქვემოთ გამოიყენება, ასე რომ მიმდევრობა მნიშვნელოვანია."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Collapse Effect"
 msgstr "ეფექტის ჩაკეცვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:96
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Expand Effect"
 msgstr "ეფექტის ამოკეცვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:103
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "ეფექტის დოკუმენტაციის გახსნა ბრაუზერში"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:131
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:127
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "საკვანძო კადრების ჩართვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "კადრების დამალვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:133
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "Show Keyframes"
 msgstr "კადრების ჩვენება"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "საკვანძო კადრის სახაზავის ჩვენების ჩართვა."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:138
 #, kde-format
 msgid "Disable Effect"
 msgstr "ეფექტის გამორთვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:142
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:138
 #, kde-format
 msgid "Enable Effect"
 msgstr "ეფექტის ჩართვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:143
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:139
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 "გათიშავს ეფექტს. სასარგებლოა მანამდე და შემდეგ პარამეტრების შედარებისას."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:144
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 "ჩართავს ეფექტს. სასარგებლოა მანამდე და შემდეგ პარამეტრების შედარებისას."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Create Group"
 msgstr "ჯგუფის შექმნა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:180
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-format
 msgid "In:"
 msgstr "შეყვანა:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:186
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
 #, kde-format
 msgid "Set zone in"
 msgstr "ზონის შესვლის დაყენება"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:187
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "მიმდინარე კადრის/დაკვრის ადგილის ზონის დასაწყისზე დაყენება."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:192
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
 #, kde-format
 msgid "Out:"
 msgstr "გამოტანა:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
 #, kde-format
 msgid "Set zone out"
 msgstr "ზონის გამოსვლის დაყენება"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "მიმდინარე კადრის/დაკვრის ადგილის ზონის ბოლოზე დაყენება."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:235
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:231
 #, kde-format
 msgid "Use effect zone"
 msgstr "ეფექტის ზონის გამოყენება"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:236
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -20949,35 +20954,35 @@ msgstr "ეფექტის ზონის ჩვენების გად
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:299
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:295
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "პრესეტები"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:300
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr "გახსნის დამატებით პარამეტრებს ეფექტისთვის პრესეტების სამართავად."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:324
 #, kde-format
 msgid "Delete effect"
 msgstr "ეფექტის წაშლა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:329
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:325
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "წაშლის ეფექტს ეფექტების სტეკიდან."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:382
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:381
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "ამ ეფექტის %1 ასლი ამ ჯგუფში"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -20988,28 +20993,28 @@ msgstr ""
 "რომ დააკოპიროთ ის. <b>გადათრევა ღილაკით Alt</b> ერთი ელემენტის ჯგუფში "
 "დასაკოპირებლად."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #, kde-format
 msgid "Disable %1"
 msgstr "%1-ის გამორთვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:603
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
 #, kde-format
 msgid "Enable %1"
 msgstr "%1-ის ჩართვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:638
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "ეფექტის შენახვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:644
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
 #, kde-format
 msgid "Comments:"
 msgstr "კომენტარები:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "სახელი მითითებული არაა. ეფექტი შენახული არ იქნება."
