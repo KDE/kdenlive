@@ -134,8 +134,13 @@ void EffectStackModel::removeAllEffects(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     int current = getActiveEffect();
-    while (rootItem->childCount() > 0) {
-        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(0));
+    int max = rootItem->childCount();
+    while (max > 0) {
+        max--;
+        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(max));
+        if (effect->isBuiltIn()) {
+            continue;
+        }
         int parentId = -1;
         if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
         Fun local_undo = addItem_lambda(effect, parentId);
@@ -204,6 +209,9 @@ void EffectStackModel::removeEffectWithUndo(const QString &assetId, QString &eff
     }
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (sourceEffect->isBuiltIn()) {
+            continue;
+        }
         if (assetId == sourceEffect->getAssetId()) {
             removeEffectWithUndo(sourceEffect, effectName, undo, redo);
             break;
