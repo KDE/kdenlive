@@ -11,6 +11,7 @@
 
 #include <KNSCore/Entry>
 #include <KNSWidgets/Action>
+#include <KStandardAction>
 #include <QAction>
 #include <QFontDatabase>
 #include <QKeyEvent>
@@ -177,6 +178,10 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     m_searchLine->installEventFilter(this);
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) { setFilterName(str); });
     m_lay->addWidget(m_searchLine);
+
+    QAction *findAction = KStandardAction::find(m_searchLine, SLOT(setFocus()), this);
+    addAction(findAction);
+    findAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
     setAcceptDrops(true);
     m_effectsTree = new QTreeView(this);
