@@ -18,10 +18,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="3" column="0">
     <widget class="QFrame" name="frame_progress">
      <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+      <enum>QFrame::Shadow::Plain</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="leftMargin">
@@ -42,8 +42,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="process-stop">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset theme="process-stop"/>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -71,7 +70,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         <string>...</string>
        </property>
        <property name="popupMode">
-        <enum>QToolButton::InstantPopup</enum>
+        <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -91,7 +90,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -116,10 +115,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="4" column="0">
     <widget class="QFrame" name="edit_frame">
      <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
@@ -147,7 +146,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="0" column="10">
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -163,13 +162,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>...</string>
         </property>
         <property name="popupMode">
-         <enum>QToolButton::MenuButtonPopup</enum>
+         <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
         </property>
         <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
+         <enum>Qt::ArrowType::NoArrow</enum>
         </property>
        </widget>
       </item>
@@ -206,7 +205,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="0" column="6">
        <widget class="KSeparator" name="kseparator">
         <property name="frameShape">
-         <enum>QFrame::VLine</enum>
+         <enum>QFrame::Shape::VLine</enum>
         </property>
        </widget>
       </item>
@@ -226,8 +225,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-find">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset theme="edit-find"/>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -243,10 +241,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="5" column="0">
     <widget class="QFrame" name="search_frame">
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="1">
@@ -255,8 +253,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="go-up">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset theme="go-up"/>
         </property>
        </widget>
       </item>
@@ -276,8 +273,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="go-down">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset theme="go-down"/>
         </property>
        </widget>
       </item>
@@ -285,7 +281,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="KMessageWidget" name="info_message"/>
+    <widget class="KMessageWidget" name="info_message">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0" colspan="2">
     <widget class="QFrame" name="text_frame">
@@ -296,10 +296,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </sizepolicy>
      </property>
      <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
     </widget>
    </item>

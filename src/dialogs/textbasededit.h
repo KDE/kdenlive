@@ -167,6 +167,9 @@ private Q_SLOTS:
     void updateEngine();
     void slotZoomIn();
     void slotZoomOut();
+    void find();
+    void findNext();
+    void findPrevious();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
