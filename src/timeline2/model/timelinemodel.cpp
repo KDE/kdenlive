@@ -6818,7 +6818,7 @@ void TimelineModel::checkAndUpdateOffset(std::unordered_set<int> pairIds)
     int ix1 = *it;
     std::advance(it, 1);
     int ix2 = *it;
-    if (getClipBinId(ix1) == getClipBinId(ix2)) {
+    if (isClip(ix1) && isClip(ix2) && getClipBinId(ix1) == getClipBinId(ix2)) {
         // Check if they have same bin id
         ClipType::ProducerType type = m_allClips[ix1]->clipType();
         if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {
