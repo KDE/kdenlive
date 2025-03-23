@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 02:30+0000\n"
-"PO-Revision-Date: 2025-03-20 12:54+0100\n"
+"PO-Revision-Date: 2025-03-22 15:10+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -3716,10 +3716,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
-#, fuzzy, kde-format
-#| msgid "Graph position"
+#, kde-format
 msgid "Graph Monitor"
-msgstr "Grafische positie"
+msgstr "Grafische monitor"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:5
 #, kde-format
@@ -3729,30 +3728,31 @@ msgstr ""
 #: data/effects/avfilter/avfilter_graphmonitor.xml:15
 #, kde-format
 msgid "Compact,Full"
-msgstr ""
+msgstr "Compact,Volledig"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:19
 #, kde-format
 msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
+"Wachtrij,Aantal frames in,Aantal frames uit,Pts,Tijd,Tijdbasis,Formaat,"
+"Grootte,Snelheid"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #: data/effects/avfilter/avfilter_vectorscope.xml:33
 #: data/effects/avfilter/avfilter_waveform.xml:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "Flags"
 msgstr "Vlaggen"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
-#, fuzzy, kde-format
-#| msgid "Video Resolution"
+#, kde-format
 msgid "Video Ratio"
-msgstr "Video resolutie"
+msgstr "Videoverhouding"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
 msgid "Haas Stereo Enhancer"
-msgstr ""
+msgstr "Haas stereo-verbeteraar"
 
 #: data/effects/avfilter/avfilter_haas.xml:6
 #, kde-format
@@ -3762,35 +3762,35 @@ msgid ""
 "applied to mono signals it give some directionality and stretches its stereo "
 "image."
 msgstr ""
+"Haas-effect toepassing op audio.\n"
+"Merk op dat dit het meest zinvol is om toe te passen op mono-signalen. Met "
+"dit filter toegepast op mono-signalen geeft het enige richting en strekt "
+"zijn stereobeeld uit."
 
 #: data/effects/avfilter/avfilter_haas.xml:9
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level in"
-msgstr "Niveaus"
+msgstr "Niveau in"
 
 #: data/effects/avfilter/avfilter_haas.xml:12
-#, fuzzy, kde-format
-#| msgid "Level of trip"
+#, kde-format
 msgid "Level out"
-msgstr "Drempelwaarde voor afschakelen"
+msgstr "Niveau uit"
 
 #: data/effects/avfilter/avfilter_haas.xml:15
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Side gain"
-msgstr "Midden tonen"
+msgstr "Zijkantversterking"
 
 #: data/effects/avfilter/avfilter_haas.xml:18
 #, kde-format
 msgid "left,right,mid,side"
-msgstr ""
+msgstr "links,rechts,midden,zijkant"
 
 #: data/effects/avfilter/avfilter_haas.xml:19
-#, fuzzy, kde-format
-#| msgid "Online Resources"
+#, kde-format
 msgid "Middle source"
-msgstr "Online hulpbronnen"
+msgstr "Middenbron"
 
 #: data/effects/avfilter/avfilter_haas.xml:22
 #, kde-format
@@ -3798,22 +3798,19 @@ msgid "Middle phase"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:25
-#, fuzzy, kde-format
-#| msgid "Video delay"
+#, kde-format
 msgid "Left delay"
-msgstr "Video vertraging"
+msgstr "Linker vertraging"
 
 #: data/effects/avfilter/avfilter_haas.xml:28
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "Left balance"
-msgstr "Middelpuntbalans"
+msgstr "Linker balans"
 
 #: data/effects/avfilter/avfilter_haas.xml:31
-#, fuzzy, kde-format
-#| msgid "Left margin"
+#, kde-format
 msgid "Left Gain"
-msgstr "Linkermarge"
+msgstr "Linker versterking"
 
 #: data/effects/avfilter/avfilter_haas.xml:34
 #, kde-format
@@ -5302,7 +5299,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Change threshold"
 msgid "Luma threshold"
-msgstr "Luma Threshold"
+msgstr "Luma-drempel"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:20
 #, kde-format
@@ -5348,7 +5345,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Change threshold"
 msgid "Chroma threshold"
-msgstr "Chroma Threshold"
+msgstr "Chroma-drempel"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:35
 #, kde-format
@@ -18499,7 +18496,7 @@ msgstr "Audio zonder videotrack"
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
-msgstr "Renderen van <i>%1</i> gestart"
+msgstr "Weergave uitwerken begonnen"
 
 #: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
 #, kde-format
