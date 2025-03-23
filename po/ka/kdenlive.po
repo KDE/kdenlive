@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 00:41+0000\n"
-"PO-Revision-Date: 2025-03-21 04:58+0100\n"
+"PO-Revision-Date: 2025-03-22 04:00+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1943,16 +1943,13 @@ msgstr "გადატანის გადაცემის მახას�
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
-#, fuzzy, kde-format
-#| msgid ""
-#| "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
-#| "BT.2020,JEDEC P22 phsphors"
+#, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phosphors"
 msgstr ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,ლენტა,Smpte-431,SMPTE-432,"
-"BT.2020,JEDEC P22 phsphors"
+"BT.2020,JEDEC P22 phosphors"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
@@ -3989,7 +3986,7 @@ msgstr "Hq*x ინტერპოლატორი"
 #: data/effects/avfilter/avfilter_hqx.xml:5
 #, kde-format
 msgid "Scale the input by 2, 3 or 4 using the hq*x magnification algorithm"
-msgstr ""
+msgstr "შეყვანის გადიდება 2-ჯერ, 3-ჯერ, ან 4-ჯერ hq*x მასშტაბის ალგორითმით"
 
 #: data/effects/avfilter/avfilter_hqx.xml:8
 #, kde-format
@@ -4580,6 +4577,9 @@ msgid ""
 "Normalize RGB video (aka histogram stretching, contrast stretching). See: "
 "https://en.wikipedia.org/wiki/Normalization_(image_processing) "
 msgstr ""
+"RGB ვიდეოს ნორმალიზაცია (იგივე, რაც ჰისტოგრამის გაწელვა, კონტრასტის "
+"გაწელვა). იხილეთ: https://en.wikipedia.org/wiki/"
+"Normalization_(image_processing) "
 
 #: data/effects/avfilter/avfilter_normalize.xml:8
 #, kde-format
@@ -4725,8 +4725,7 @@ msgid "Print statistics"
 msgstr "სტატისტიკის გამოტანა"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[switch statistics on or off]]>"
+#, kde-format
 msgid "<![CDATA[Switch statistics on or off]]>"
 msgstr "<![CDATA[სტატისტიკის ჩართვა, ან გამორთვა]]>"
 

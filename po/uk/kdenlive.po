@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 00:41+0000\n"
-"PO-Revision-Date: 2025-03-21 10:20+0200\n"
+"PO-Revision-Date: 2025-03-22 09:30+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1980,16 +1980,13 @@ msgstr "Характеристики переходу до результату"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
-#, fuzzy, kde-format
-#| msgid ""
-#| "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
-#| "BT.2020,JEDEC P22 phsphors"
+#, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phosphors"
 msgstr ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Плівка,Smpte-431,SMPTE-432,"
-"BT.2020,JEDEC P22 phsphors"
+"BT.2020,JEDEC P22 phosphors"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
@@ -2120,18 +2117,7 @@ msgstr "Атаки"
 
 #: data/effects/avfilter/avfilter_compand.xml:9
 #: data/effects/avfilter/avfilter_compand.xml:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "A list of times in seconds for each channel over which the instantaneous "
-#| "level of the input signal is averaged to determine its volume. attacks "
-#| "refers to increase of volume and decays refers to decrease of volume. For "
-#| "most situations, the attack time (response to the audio getting louder) "
-#| "should be shorter than the decay time, because the human ear is more "
-#| "sensitive to sudden loud audio than sudden soft audio. A typical value "
-#| "for attack is 0.3 seconds and a typical value for decay is 0.8 seconds. "
-#| "If specified number of attacks and decays is lower than number of "
-#| "channels, the last set attack/decay will be used for all remaining "
-#| "channels."
+#, kde-format
 msgid ""
 "A list of times in seconds for each channel over which the instantaneous "
 "level of the input signal is averaged to determine its volume. Attacks "
@@ -4527,12 +4513,7 @@ msgid "Apply LUT"
 msgstr "Застосування таблиці пошуку"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a Look Up Table (LUT) to the video.\n"
-#| "  <full><![CDATA[A LUT is an easy way to correct the color of a video. "
-#| "Supported formats: .3dl (AfterEffects), .cube (Iridas), .dat(DaVinci), ."
-#| "m3d (Pandora)]]></full>"
+#, kde-format
 msgid ""
 "Apply a Look Up Table (LUT) to the video.\n"
 "  <full><![CDATA[A LUT is an easy way to correct the color of a video. "
@@ -4942,8 +4923,7 @@ msgid "Print statistics"
 msgstr "Показати статистичні дані"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[switch statistics on or off]]>"
+#, kde-format
 msgid "<![CDATA[Switch statistics on or off]]>"
 msgstr "<![CDATA[Увімкнути або вимкнути статистику]]>"
 
