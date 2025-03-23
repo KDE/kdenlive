@@ -52,7 +52,7 @@ QString Xml::getSubTagContent(const QDomElement &element, const QString &tagName
             QString str;
             QTextStream stream(&str);
             element.save(stream, 4);
-            qDebug() << "Warning: " << str << "provides several " << tagName << ". We keep only first one.";
+            qWarning() << str << "provides several " << tagName << ". We keep only first one.";
         }
         const QString content = nodeList.first().toElement().text();
         return content;
@@ -68,7 +68,7 @@ std::pair<QString, QString> Xml::getSubTagContentAndContext(const QDomElement &e
             QString str;
             QTextStream stream(&str);
             element.save(stream, 4);
-            qDebug() << "Warning: " << str << "provides several " << tagName << ". We keep only first one.";
+            qWarning() << str << "provides several " << tagName << ". We keep only first one.";
         }
         return {nodeList.first().toElement().text(), nodeList.first().toElement().attribute(QStringLiteral("context"))};
     }
