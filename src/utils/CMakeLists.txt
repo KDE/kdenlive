@@ -12,6 +12,7 @@ set(kdenlive_SRCS
   utils/thememanager.cpp
   utils/thumbnailcache.cpp
   utils/timecode.cpp
+  utils/uiutils.cpp
   utils/qstringutils.cpp
   PARENT_SCOPE
 )

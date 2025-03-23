@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
+#include "utils/uiutils.h"
 #include "widgets/choosecolorwidget.h"
 #include "widgets/timecodedisplay.h"
 #include <audio/audioStreamInfo.h>
@@ -1081,18 +1082,18 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     m_tabWidget->addTab(forceAudioPage, QString());
     m_tabWidget->addTab(m_metaPage, QString());
     m_tabWidget->addTab(m_analysisPage, QString());
-    m_tabWidget->setTabIcon(0, rotatedIcon(iconSize, QStringLiteral("edit-find")));
+    m_tabWidget->setTabIcon(0, UiUtils::rotatedIcon(QStringLiteral("edit-find"), iconSize));
     m_tabWidget->setTabToolTip(0, i18n("File info"));
     m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the file."));
-    m_tabWidget->setTabIcon(1, rotatedIcon(iconSize, QStringLiteral("document-edit")));
+    m_tabWidget->setTabIcon(1, UiUtils::rotatedIcon(QStringLiteral("document-edit"), iconSize));
     m_tabWidget->setTabToolTip(1, i18n("Properties"));
     m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the video data/codec."));
-    m_tabWidget->setTabIcon(2, rotatedIcon(iconSize, QStringLiteral("audio-volume-high")));
+    m_tabWidget->setTabIcon(2, UiUtils::rotatedIcon(QStringLiteral("audio-volume-high"), iconSize));
     m_tabWidget->setTabToolTip(2, i18n("Audio Properties"));
     m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the audio streams/data/codec."));
     m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("view-grid")));
     m_tabWidget->setTabToolTip(3, i18n("Metadata"));
-    m_tabWidget->setTabIcon(4, rotatedIcon(iconSize, QStringLiteral("visibility")));
+    m_tabWidget->setTabIcon(4, UiUtils::rotatedIcon(QStringLiteral("visibility"), iconSize));
     m_tabWidget->setTabToolTip(4, i18n("Analysis"));
     m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays analysis data."));
     m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
@@ -1100,16 +1101,6 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         m_tabWidget->setTabEnabled(0, false);
     }
     connect(m_tabWidget, &QTabWidget::currentChanged, this, &ClipPropertiesController::updateTab);
-}
-
-QIcon ClipPropertiesController::rotatedIcon(const QSize iconSize, const QString &iconName)
-{
-    QIcon icon = QIcon::fromTheme(iconName);
-    QPixmap pix = icon.pixmap(iconSize);
-    QTransform trans;
-    trans.rotate(-90);
-    pix = pix.transformed(trans);
-    return QIcon(pix);
 }
 
 ClipPropertiesController::~ClipPropertiesController() = default;
