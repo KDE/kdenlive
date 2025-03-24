@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 00:41+0000\n"
-"PO-Revision-Date: 2025-03-22 15:16+0100\n"
+"PO-Revision-Date: 2025-03-23 23:02+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1374,7 +1374,7 @@ msgstr "Pariteit"
 #: data/effects/avfilter/avfilter_yadif.xml:16
 #, kde-format
 msgid "Deint all frames,Deint interlaced frames only"
-msgstr ""
+msgstr "De-int alle frames,De-int alleen interlaced frames"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
@@ -1385,12 +1385,12 @@ msgstr "De-interlace"
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
 msgid "Contrast Adaptive Sharpen"
-msgstr ""
+msgstr "Verscherpen met aanpasbaar contrast"
 
 #: data/effects/avfilter/avfilter_cas.xml:5
 #, kde-format
 msgid "Apply Contrast Adaptive Sharpen filter to video stream."
-msgstr ""
+msgstr "Aanpasbaar contrast verscherpingsfilter op videostream toepassen."
 
 #: data/effects/avfilter/avfilter_cas.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:10
@@ -1405,7 +1405,7 @@ msgstr "Sterkte"
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
 msgid "Set the sharpening strength."
-msgstr ""
+msgstr "Stel de sterkte van het verscherpen in."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
@@ -1416,6 +1416,7 @@ msgstr "Chroma behoud"
 #, kde-format
 msgid "Remove all color information for all colors except for certain one. "
 msgstr ""
+"Verwijder alle kleurinformatie voor alle kleuren behalve voor een bepaalde. "
 
 #: data/effects/avfilter/avfilter_chromahold.xml:8
 #: data/effects/avfilter/avfilter_colorhold.xml:8 data/effects/chroma.xml:8
@@ -1970,16 +1971,13 @@ msgstr "Uitvoer overdrachtskarakteristieken"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
-#, fuzzy, kde-format
-#| msgid ""
-#| "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
-#| "BT.2020,JEDEC P22 phsphors"
+#, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phosphors"
 msgstr ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
-"BT.2020,JEDEC P22 phsphors"
+"BT.2020,JEDEC P22 phosphors"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
@@ -3823,28 +3821,24 @@ msgid "Left phase"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:37
-#, fuzzy, kde-format
-#| msgid "Video delay"
+#, kde-format
 msgid "Right delay"
-msgstr "Video vertraging"
+msgstr "Rechter vertraging"
 
 #: data/effects/avfilter/avfilter_haas.xml:40
-#, fuzzy, kde-format
-#| msgid "3 point balance"
+#, kde-format
 msgid "Right balance"
-msgstr "3 punt- balans"
+msgstr "Rechter balans"
 
 #: data/effects/avfilter/avfilter_haas.xml:43
-#, fuzzy, kde-format
-#| msgid "Right margin"
+#, kde-format
 msgid "Right Gain"
-msgstr "Rechtermarge"
+msgstr "Rechter versterking"
 
 #: data/effects/avfilter/avfilter_haas.xml:46
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Right phase"
-msgstr "Rechts"
+msgstr "Rechter fase"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
 #, kde-format

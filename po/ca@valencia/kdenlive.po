@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 00:41+0000\n"
-"PO-Revision-Date: 2025-03-20 14:32+0100\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"PO-Revision-Date: 2025-03-22 22:22+0100\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -1998,10 +1998,7 @@ msgstr "Característiques de transferència d'eixida"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
-#, fuzzy, kde-format
-#| msgid ""
-#| "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
-#| "BT.2020,JEDEC P22 phsphors"
+#, kde-format
 msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phosphors"
@@ -2137,18 +2134,7 @@ msgstr "Atacs"
 
 #: data/effects/avfilter/avfilter_compand.xml:9
 #: data/effects/avfilter/avfilter_compand.xml:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "A list of times in seconds for each channel over which the instantaneous "
-#| "level of the input signal is averaged to determine its volume. attacks "
-#| "refers to increase of volume and decays refers to decrease of volume. For "
-#| "most situations, the attack time (response to the audio getting louder) "
-#| "should be shorter than the decay time, because the human ear is more "
-#| "sensitive to sudden loud audio than sudden soft audio. A typical value "
-#| "for attack is 0.3 seconds and a typical value for decay is 0.8 seconds. "
-#| "If specified number of attacks and decays is lower than number of "
-#| "channels, the last set attack/decay will be used for all remaining "
-#| "channels."
+#, kde-format
 msgid ""
 "A list of times in seconds for each channel over which the instantaneous "
 "level of the input signal is averaged to determine its volume. Attacks "
@@ -4565,12 +4551,7 @@ msgid "Apply LUT"
 msgstr "Aplica la LUT"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a Look Up Table (LUT) to the video.\n"
-#| "  <full><![CDATA[A LUT is an easy way to correct the color of a video. "
-#| "Supported formats: .3dl (AfterEffects), .cube (Iridas), .dat(DaVinci), ."
-#| "m3d (Pandora)]]></full>"
+#, kde-format
 msgid ""
 "Apply a Look Up Table (LUT) to the video.\n"
 "  <full><![CDATA[A LUT is an easy way to correct the color of a video. "
@@ -4981,8 +4962,7 @@ msgid "Print statistics"
 msgstr "Imprimix les estadístiques"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[switch statistics on or off]]>"
+#, kde-format
 msgid "<![CDATA[Switch statistics on or off]]>"
 msgstr "<![CDATA[Canvia les estadístiques actives o inactives]]>"
 
@@ -18713,10 +18693,9 @@ msgid "Audio without video track"
 msgstr "Àudio sense pista de vídeo"
 
 #: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
-#, fuzzy, kde-format
-#| msgid "Rendering <i>%1</i> started"
+#, kde-format
 msgid "Rendering %1 started"
-msgstr "Ha començat la renderització de <i>%1</i>"
+msgstr "Ha començat la renderització de %1"
 
 #: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
 #, kde-format
