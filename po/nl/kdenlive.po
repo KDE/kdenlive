@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 02:30+0000\n"
-"PO-Revision-Date: 2025-03-22 15:10+0100\n"
+"PO-Revision-Date: 2025-03-23 22:26+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -1356,7 +1356,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bwdif.xml:8
 #, kde-format
 msgid "Send frame,Send field"
-msgstr ""
+msgstr "Verzendframe,Verzendveld"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
 #: data/effects/avfilter/avfilter_yadif.xml:12
@@ -1374,7 +1374,7 @@ msgstr "Pariteit"
 #: data/effects/avfilter/avfilter_yadif.xml:16
 #, kde-format
 msgid "Deint all frames,Deint interlaced frames only"
-msgstr ""
+msgstr "De-int alle frames,De-int alleen interlaced frames"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
@@ -1385,7 +1385,7 @@ msgstr "De-interlace"
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
 msgid "Contrast Adaptive Sharpen"
-msgstr ""
+msgstr "Verscherpen met aanpasbaar contrast"
 
 #: data/effects/avfilter/avfilter_cas.xml:5
 #, kde-format
@@ -3818,28 +3818,24 @@ msgid "Left phase"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:37
-#, fuzzy, kde-format
-#| msgid "Video delay"
+#, kde-format
 msgid "Right delay"
-msgstr "Video vertraging"
+msgstr "Rechter vertraging"
 
 #: data/effects/avfilter/avfilter_haas.xml:40
-#, fuzzy, kde-format
-#| msgid "3 point balance"
+#, kde-format
 msgid "Right balance"
-msgstr "3 punt- balans"
+msgstr "Rechter balans"
 
 #: data/effects/avfilter/avfilter_haas.xml:43
-#, fuzzy, kde-format
-#| msgid "Right margin"
+#, kde-format
 msgid "Right Gain"
-msgstr "Rechtermarge"
+msgstr "Rechter versterking"
 
 #: data/effects/avfilter/avfilter_haas.xml:46
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Right phase"
-msgstr "Rechts"
+msgstr "Rechter fase"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
 #, kde-format
@@ -4031,7 +4027,7 @@ msgstr "Maximum aantal threads"
 #: data/effects/avfilter/avfilter_xbr.xml:15
 #, kde-format
 msgid "frame,filter,source,producer"
-msgstr ""
+msgstr "frame,filter,bron,produceerder"
 
 #: data/effects/avfilter/avfilter_hqx.xml:16
 #: data/effects/avfilter/avfilter_xbr.xml:16
@@ -4047,15 +4043,14 @@ msgstr "Interleave - interleave verwijderen"
 #: data/effects/avfilter/avfilter_il.xml:5
 #, kde-format
 msgid "Deinterleave or interleave fields"
-msgstr ""
+msgstr "De-interleave of interleave velden"
 
 #: data/effects/avfilter/avfilter_il.xml:8
 #: data/effects/avfilter/avfilter_il.xml:12
 #: data/effects/avfilter/avfilter_il.xml:16
-#, fuzzy, kde-format
-#| msgid "Force Deinterlace Overlay"
+#, kde-format
 msgid "None,Deinterleave,Interleave"
-msgstr "Forceer deinterlace overzicht"
+msgstr "Geen,De-interleave,Interleave"
 
 #: data/effects/avfilter/avfilter_il.xml:9
 #, fuzzy, kde-format
@@ -5577,7 +5572,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Levels"
 msgid "Level IN"
-msgstr "Niveaus"
+msgstr "Niveau in"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:10
 #: data/effects/avfilter/avfilter_stereotools.xml:15
@@ -5591,7 +5586,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Levels"
 msgid "Level OUT"
-msgstr "Niveaus"
+msgstr "Niveau uit"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:18
 #: data/effects/avfilter/avfilter_stereotools.xml:86

@@ -23633,7 +23633,7 @@ msgstr "特大 (%1x%2)"
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
-msgstr "此操作将完全隐藏菜单栏。您可以按 Ctrl+M 重新显示菜单栏。"
+msgstr "这将完全隐藏菜单栏。按 Ctrl+M 可以重新显示。"
 
 #: src/mainwindow.cpp:4433
 #, kde-format
