@@ -2304,6 +2304,7 @@ void MainWindow::slotRenderProject()
     slotCheckRenderStatus();
     if (m_renderWidget) {
         m_renderWidget->showNormal();
+        m_renderWidget->raise();
     }
 
     // What are the following lines supposed to do?
