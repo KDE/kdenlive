@@ -1,5 +1,6 @@
 /*
 SPDX-FileCopyrightText: 2015 Jean-Baptiste Mardelle <jb@kdenlive.org>
+SPDX-FileCopyrightText: 2025 Julius Künzel <julius.kuenzel@kde.org>
 This file is part of Kdenlive. See www.kdenlive.org.
 
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
@@ -165,12 +166,12 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     lay->setContentsMargins(0, 0, 0, 0);
     m_clipLabel = new ElidedFileLinkLabel(this);
 
-    if (m_type == ClipType::Color || m_type == ClipType::Timeline || controller->clipUrl().isEmpty()) {
+    if (m_type == ClipType::Color || m_type == ClipType::Timeline || m_controller->clipUrl().isEmpty()) {
         m_clipLabel->clear();
         m_clipLabel->setText(clipName);
     } else {
-        m_clipLabel->setText(controller->clipUrl());
-        m_clipLabel->setLink(controller->clipUrl());
+        m_clipLabel->setText(m_controller->clipUrl());
+        m_clipLabel->setLink(m_controller->clipUrl());
     }
     lay->addWidget(m_clipLabel);
     lay->addWidget(&m_warningMessage);
@@ -183,59 +184,392 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     m_tabWidget->setDocumentMode(true);
     m_tabWidget->setTabPosition(QTabWidget::East);
     m_tabWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-    auto *forcePage = new QScrollArea(this);
-    auto *forceAudioPage = new QScrollArea(this);
-    m_propertiesPage = new QWidget(this);
-    m_metaPage = new QWidget(this);
-    m_analysisPage = new QWidget(this);
 
-    // Clip properties
-    auto *propsBox = new QVBoxLayout;
+    constructFileInfoPage();
+    auto forcePage = constructPropertiesPage();
+    auto forceAudioPage = constructAudioPropertiesPage();
+    constructMetadataPage();
+    constructAnalysisPage();
+
+    const QSize iconSize = m_tabWidget->tabBar()->iconSize();
+    m_tabWidget->addTab(m_propertiesPage, QString());
+    m_tabWidget->addTab(forcePage, QString());
+    m_tabWidget->addTab(forceAudioPage, QString());
+    m_tabWidget->addTab(m_metaPage, QString());
+    m_tabWidget->addTab(m_analysisPage, QString());
+    m_tabWidget->setTabIcon(0, UiUtils::rotatedIcon(QStringLiteral("edit-find"), iconSize));
+    m_tabWidget->setTabToolTip(0, i18n("File info"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the file."));
+    m_tabWidget->setTabIcon(1, UiUtils::rotatedIcon(QStringLiteral("document-edit"), iconSize));
+    m_tabWidget->setTabToolTip(1, i18n("Properties"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the video data/codec."));
+    m_tabWidget->setTabIcon(2, UiUtils::rotatedIcon(QStringLiteral("audio-volume-high"), iconSize));
+    m_tabWidget->setTabToolTip(2, i18n("Audio Properties"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the audio streams/data/codec."));
+    m_tabWidget->setTabIcon(3, UiUtils::rotatedIcon(QStringLiteral("view-grid"), iconSize));
+    m_tabWidget->setTabToolTip(3, i18n("Metadata"));
+    m_tabWidget->setTabIcon(4, UiUtils::rotatedIcon(QStringLiteral("visibility"), iconSize));
+    m_tabWidget->setTabToolTip(4, i18n("Analysis"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays analysis data."));
+    m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
+    if (m_type == ClipType::Color) {
+        m_tabWidget->setTabEnabled(0, false);
+    }
+    connect(m_tabWidget, &QTabWidget::currentChanged, this, &ClipPropertiesController::updateTab);
+}
+
+ClipPropertiesController::~ClipPropertiesController() = default;
+
+void ClipPropertiesController::constructFileInfoPage()
+{
+    m_propertiesPage = new QWidget(this);
+    auto *box = new QVBoxLayout;
+    m_propertiesPage->setLayout(box);
+
     m_propertiesTree = new QTreeWidget(this);
     m_propertiesTree->setRootIsDecorated(false);
     m_propertiesTree->setColumnCount(2);
     m_propertiesTree->setAlternatingRowColors(true);
     m_propertiesTree->sortByColumn(0, Qt::AscendingOrder);
     m_propertiesTree->setHeaderHidden(true);
-    propsBox->addWidget(m_propertiesTree);
+    box->addWidget(m_propertiesTree);
+
     fillProperties();
-    m_propertiesPage->setLayout(propsBox);
+}
 
-    // metadata
-    auto *m2Box = new QVBoxLayout;
-    auto *metaTree = new QTreeWidget;
-    metaTree->setRootIsDecorated(true);
-    metaTree->setColumnCount(2);
-    metaTree->setAlternatingRowColors(true);
-    metaTree->setHeaderHidden(true);
-    m2Box->addWidget(metaTree);
-    slotFillMeta(metaTree);
-    m_metaPage->setLayout(m2Box);
+QHBoxLayout *ClipPropertiesController::comboboxProperty(const QString &label, const QString &propertyName, const QMap<QString, int> &options,
+                                                        const QString &defaultValue)
+{
+    QString propertyValue = m_properties->get(propertyName.toUtf8().constData());
 
-    // Clip analysis
-    auto *aBox = new QVBoxLayout;
-    m_analysisTree = new AnalysisTree(this);
-    aBox->addWidget(new QLabel(i18n("Analysis data")));
-    aBox->addWidget(m_analysisTree);
-    auto *bar2 = new QToolBar;
-    bar2->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
-    bar2->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the data set(s)."));
-    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis…"), this, SLOT(slotSaveAnalysis()));
-    bar2->setWhatsThis(xi18nc("@info:whatsthis", "Opens a file dialog window to export/save the analysis data."));
-    bar2->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import analysis…"), this, SLOT(slotLoadAnalysis()));
-    bar2->setWhatsThis(xi18nc("@info:whatsthis", "Opens a file dialog window to import/load analysis data."));
-    aBox->addWidget(bar2);
+    m_originalProperties.insert(propertyName, propertyValue.isEmpty() ? QStringLiteral("-") : propertyValue);
 
-    slotFillAnalysisData();
-    m_analysisPage->setLayout(aBox);
+    auto box = new QCheckBox(label, this);
+    box->setObjectName(propertyName);
 
-    // Force properties
+    // Construct the combo box
+    auto combo = new QComboBox(this);
+    combo->setObjectName(QStringLiteral("%1_value").arg(propertyName));
+
+    QMapIterator<QString, int> i(options);
+    while (i.hasNext()) {
+        i.next();
+        combo->addItem(i.key(), i.value());
+    }
+
+    // connect signals and initalize state
+    connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this, propertyName, combo]() {
+        QMap<QString, QString> properties;
+        properties.insert(propertyName, QString::number(combo->currentData().toInt()));
+        Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
+        m_originalProperties = properties;
+    });
+
+    if (!propertyValue.isEmpty()) {
+        combo->setCurrentIndex(combo->findData(propertyValue));
+    } else if (!defaultValue.isEmpty()) {
+        combo->setCurrentIndex(combo->findData(defaultValue));
+    }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
+    connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
+    connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
+    box->setChecked(!propertyValue.isEmpty());
+    combo->setEnabled(!propertyValue.isEmpty());
+
+    // put everything together
+    auto hlay = new QHBoxLayout;
+    hlay->addWidget(box);
+    hlay->addWidget(combo);
+
+    return hlay;
+}
+
+QHBoxLayout *ClipPropertiesController::doubleSpinboxProperty(const QString &label, const QString &propertyName, double maxValue, double defaultValue)
+{
+    QString propertyValue = m_properties->get(propertyName.toUtf8().constData());
+    m_originalProperties.insert(propertyName, propertyValue.isEmpty() ? QStringLiteral("-") : propertyValue);
+
+    QCheckBox *box = new QCheckBox(label, this);
+    box->setObjectName(propertyName);
+
+    // Construct the spin box
+    auto *spin = new QDoubleSpinBox(this);
+    spin->setObjectName(QStringLiteral("%1_value").arg(propertyName));
+    spin->setMaximum(maxValue);
+
+    // connect signals and initalize state
+    connect(spin, &QDoubleSpinBox::valueChanged, this, [this, propertyName](double value) {
+        QMap<QString, QString> properties;
+        properties.insert(propertyName, QString::number(value, 'f'));
+        Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
+        m_originalProperties = properties;
+    });
+
+    if (!propertyValue.isEmpty()) {
+        spin->setValue(propertyValue.toDouble());
+    } else if (defaultValue > 0) {
+        spin->setValue(defaultValue);
+    }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
+    connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
+    connect(box, &QAbstractButton::toggled, spin, &QWidget::setEnabled);
+    box->setChecked(!propertyValue.isEmpty());
+    spin->setEnabled(!propertyValue.isEmpty());
+
+    // put everything together
+    auto *hlay = new QHBoxLayout;
+    hlay->addWidget(box);
+    hlay->addWidget(spin);
+
+    return hlay;
+}
+
+QHBoxLayout *ClipPropertiesController::proxyProperty(const QString &label, const QString &propertyName)
+{
+    QString proxy = m_properties->get(propertyName.toUtf8().constData());
+    m_originalProperties.insert(propertyName, proxy);
+    auto *hlay = new QHBoxLayout;
+    auto *bg = new QGroupBox(this);
+    bg->setCheckable(false);
+    bg->setFlat(true);
+    auto *groupLay = new QHBoxLayout;
+    groupLay->setContentsMargins(0, 0, 0, 0);
+    auto *pbox = new QCheckBox(label, this);
+    pbox->setTristate(true);
+    // Proxy codec label
+    QLabel *lab = new QLabel(this);
+    pbox->setObjectName(propertyName);
+    bool hasProxy = m_controller->hasProxy();
+    if (hasProxy) {
+        bg->setToolTip(proxy);
+        bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties->get("resource")).fileName());
+        if (proxyReady) {
+            pbox->setCheckState(Qt::Checked);
+            if (!m_properties->property_exists("video_index")) {
+                // Probable an image proxy
+                lab->setText(i18n("Image"));
+            } else {
+                lab->setText(m_properties->get(QStringLiteral("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()));
+            }
+        } else {
+            pbox->setCheckState(Qt::PartiallyChecked);
+        }
+    } else {
+        pbox->setCheckState(Qt::Unchecked);
+    }
+    pbox->setEnabled(pCore->projectManager()->current()->useProxy());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(pbox, &QCheckBox::checkStateChanged, this, [this, pbox](Qt::CheckState state) {
+#else
+    connect(pbox, &QCheckBox::stateChanged, this, [this, pbox](int state) {
+#endif
+        Q_EMIT requestProxy(state == Qt::PartiallyChecked);
+        if (state == Qt::Checked) {
+            QSignalBlocker bk(pbox);
+            pbox->setCheckState(Qt::Unchecked);
+        }
+    });
+    connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
+    connect(this, &ClipPropertiesController::proxyModified, this, [this, pbox, bg, lab](const QString &pxy) {
+        bool hasProxyClip = pxy.length() > 2;
+        QSignalBlocker bk(pbox);
+        pbox->setCheckState(hasProxyClip ? Qt::Checked : Qt::Unchecked);
+        bg->setEnabled(pbox->isChecked());
+        bg->setToolTip(pxy);
+        lab->setText(hasProxyClip ? m_properties->get(QStringLiteral("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData())
+                                  : QString());
+    });
+    hlay->addWidget(pbox);
+    bg->setEnabled(pbox->checkState() == Qt::Checked);
+
+    groupLay->addWidget(lab);
+
+    // Delete button
+    auto *tb = new QToolButton(this);
+    tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
+    tb->setAutoRaise(true);
+    connect(tb, &QToolButton::clicked, this, [this, proxy]() { Q_EMIT deleteProxy(); });
+    tb->setToolTip(i18n("Delete proxy file"));
+    groupLay->addWidget(tb);
+
+    // Folder button
+    tb = new QToolButton(this);
+    auto *pMenu = new QMenu(this);
+    tb->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
+    tb->setToolTip(i18n("Proxy options"));
+    tb->setMenu(pMenu);
+    tb->setAutoRaise(true);
+    tb->setPopupMode(QToolButton::InstantPopup);
+
+    QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder…"), this);
+    connect(ac, &QAction::triggered, this, [this, propertyName]() {
+        QString pxy = m_properties->get(propertyName.toUtf8().constData());
+        pCore->highlightFileInExplorer({QUrl::fromLocalFile(pxy)});
+    });
+    pMenu->addAction(ac);
+    ac = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Play proxy clip"), this);
+    connect(ac, &QAction::triggered, this, [this, propertyName]() {
+        QString pxy = m_properties->get(propertyName.toUtf8().constData());
+        QDesktopServices::openUrl(QUrl::fromLocalFile(pxy));
+    });
+    pMenu->addAction(ac);
+    ac = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy file location to clipboard"), this);
+    connect(ac, &QAction::triggered, this, [this, propertyName]() {
+        QString pxy = m_properties->get(propertyName.toUtf8().constData());
+        QGuiApplication::clipboard()->setText(pxy);
+    });
+    pMenu->addAction(ac);
+
+    groupLay->addWidget(tb);
+    bg->setLayout(groupLay);
+    hlay->addWidget(bg);
+
+    return hlay;
+}
+
+QHBoxLayout *ClipPropertiesController::durationProperty(const QString &label, const QString &propertyName)
+{
+    QCheckBox *box = new QCheckBox(label, this);
+    box->setObjectName(propertyName.toUtf8().constData());
+
+    auto *timePos = new TimecodeDisplay(this);
+    timePos->setObjectName(QStringLiteral("%1_value").arg(propertyName));
+
+    m_originalProperties.insert(QStringLiteral("out"), m_properties->get("out"));
+    int kdenlive_length = m_properties->time_to_frames(m_properties->get("kdenlive:duration"));
+    if (kdenlive_length > 0) {
+        m_originalProperties.insert(QStringLiteral("kdenlive:duration"), m_properties->get("kdenlive:duration"));
+    }
+    m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
+    timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties->get_int("length"));
+
+    int original_length = m_properties->get_int("kdenlive:original_length");
+    if (original_length > 0) {
+        box->setChecked(true);
+    } else {
+        timePos->setEnabled(false);
+    }
+
+    connect(box, &QAbstractButton::toggled, timePos, &QWidget::setEnabled);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
+    connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
+    connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
+    connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
+
+    auto *hlay = new QHBoxLayout;
+    hlay->addWidget(box);
+    hlay->addWidget(timePos);
+
+    return hlay;
+}
+
+QHBoxLayout *ClipPropertiesController::aspectRatioProperty(const QString &label)
+{
+    double ratio = 0.;
+    if (m_properties->property_exists("force_aspect_ratio")) {
+        ratio = m_properties->get_double("force_aspect_ratio");
+        m_originalProperties.insert(QStringLiteral("force_aspect_den"), QString::number(ratio));
+    } else {
+        m_originalProperties.insert(QStringLiteral("force_aspect_den"), QString());
+    }
+    QCheckBox *box = new QCheckBox(label, this);
+    box->setObjectName(QStringLiteral("force_ar"));
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
+    connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
+
+    auto *numSpin = new QSpinBox(this);
+    numSpin->setMaximum(8000);
+    numSpin->setObjectName(QStringLiteral("force_aspect_num_value"));
+
+    auto *denSpin = new QSpinBox(this);
+    denSpin->setMinimum(1);
+    denSpin->setMaximum(8000);
+    denSpin->setObjectName(QStringLiteral("force_aspect_den_value"));
+
+    if (ratio == 0.) {
+        // use current ratio
+        int num = m_properties->get_int("meta.media.sample_aspect_num");
+        int den = m_properties->get_int("meta.media.sample_aspect_den");
+        if (den == 0) {
+            num = 1;
+            den = 1;
+        }
+        numSpin->setEnabled(false);
+        denSpin->setEnabled(false);
+        numSpin->setValue(num);
+        denSpin->setValue(den);
+    } else {
+        box->setChecked(true);
+        numSpin->setEnabled(true);
+        denSpin->setEnabled(true);
+
+        int ratio_num = qRound(ratio * 1000);
+        int ratio_den = 1000;
+        int num = ProfilesDialog::gcd(ratio_num, ratio_den);
+        if (num > 0) {
+            ratio_num /= num;
+            ratio_den /= num;
+        }
+        numSpin->setValue(ratio_num);
+        denSpin->setValue(ratio_den);
+    }
+    connect(denSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
+    connect(numSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
+    connect(box, &QAbstractButton::toggled, numSpin, &QWidget::setEnabled);
+    connect(box, &QAbstractButton::toggled, denSpin, &QWidget::setEnabled);
+
+    auto *hlay = new QHBoxLayout;
+    hlay->addWidget(box);
+    hlay->addStretch(10);
+    hlay->addWidget(numSpin);
+    hlay->addWidget(new QLabel(QStringLiteral(":")));
+    hlay->addWidget(denSpin);
+
+    return hlay;
+}
+
+QVBoxLayout *ClipPropertiesController::textProperty(const QString &label, const QString &propertyName)
+{
+    auto vlay = new QVBoxLayout;
+    QString currentText = m_properties->get(propertyName.toUtf8().constData());
+    m_originalProperties.insert(propertyName, currentText);
+    m_textEdit = new QTextEdit(this);
+    m_textEdit->setAcceptRichText(false);
+    m_textEdit->setPlainText(currentText);
+    m_textEdit->setPlaceholderText(label);
+    vlay->addWidget(m_textEdit);
+    QPushButton *button = new QPushButton(i18n("Apply"), this);
+    vlay->addWidget(button);
+    connect(button, &QPushButton::clicked, this, &ClipPropertiesController::slotTextChanged);
+
+    return vlay;
+}
+
+QWidget *ClipPropertiesController::constructPropertiesPage()
+{
+    auto *forcePage = new QScrollArea(this);
+    QWidget *forceProp = new QWidget(this);
+
     auto *fpBox = new QVBoxLayout;
     fpBox->setSpacing(0);
+    fpBox->addStretch(10);
 
-    // Force Audio properties
-    auto *audioVbox = new QVBoxLayout;
-    audioVbox->setSpacing(0);
+    forceProp->setLayout(fpBox);
+    forcePage->setWidget(forceProp);
+    forcePage->setWidgetResizable(true);
 
     if (m_type == ClipType::Text || m_type == ClipType::SlideShow || m_type == ClipType::TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
@@ -244,42 +578,15 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     }
     if (m_type == ClipType::Color || m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::TextTemplate) {
         // Edit duration widget
-        m_originalProperties.insert(QStringLiteral("out"), m_properties->get("out"));
-        int kdenlive_length = m_properties->time_to_frames(m_properties->get("kdenlive:duration"));
-        if (kdenlive_length > 0) {
-            m_originalProperties.insert(QStringLiteral("kdenlive:duration"), m_properties->get("kdenlive:duration"));
-        }
-        m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
-        auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Duration:"), this);
-        box->setObjectName(QStringLiteral("force_duration"));
-        hlay->addWidget(box);
-        auto *timePos = new TimecodeDisplay(this);
-        timePos->setObjectName(QStringLiteral("force_duration_value"));
-        timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties->get_int("length"));
-        int original_length = m_properties->get_int("kdenlive:original_length");
-        if (original_length > 0) {
-            box->setChecked(true);
-        } else {
-            timePos->setEnabled(false);
-        }
-        hlay->addWidget(timePos);
+        auto hlay = durationProperty(i18n("Duration:"), QStringLiteral("force_duration"));
         fpBox->addLayout(hlay);
-        connect(box, &QAbstractButton::toggled, timePos, &QWidget::setEnabled);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
-        connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
-        connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
 
         // Autorotate
         if (m_type == ClipType::Image) {
             int autorotate = m_properties->get_int("disable_exif");
             m_originalProperties.insert(QStringLiteral("disable_exif"), QString::number(autorotate));
             hlay = new QHBoxLayout;
-            box = new QCheckBox(i18n("Disable autorotate"), this);
+            auto box = new QCheckBox(i18n("Disable autorotate"), this);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
             connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
 #else
@@ -294,16 +601,8 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     }
     if (m_type == ClipType::TextTemplate) {
         // Edit text widget
-        QString currentText = m_properties->get("templatetext");
-        m_originalProperties.insert(QStringLiteral("templatetext"), currentText);
-        m_textEdit = new QTextEdit(this);
-        m_textEdit->setAcceptRichText(false);
-        m_textEdit->setPlainText(currentText);
-        m_textEdit->setPlaceholderText(i18n("Enter template text here"));
-        fpBox->addWidget(m_textEdit);
-        QPushButton *button = new QPushButton(i18n("Apply"), this);
-        fpBox->addWidget(button);
-        connect(button, &QPushButton::clicked, this, &ClipPropertiesController::slotTextChanged);
+        auto vlay = textProperty(i18n("Enter template text here"), QStringLiteral("templatetext"));
+        fpBox->addLayout(vlay);
     } else if (m_type == ClipType::Color) {
         // Edit color widget
         m_originalProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
@@ -325,297 +624,45 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image) {
         // Aspect ratio
-        double ratio = 0.;
-        if (m_properties->property_exists("force_aspect_ratio")) {
-            ratio = m_properties->get_double("force_aspect_ratio");
-            m_originalProperties.insert(QStringLiteral("force_aspect_den"), QString::number(ratio));
-        } else {
-            m_originalProperties.insert(QStringLiteral("force_aspect_den"), QString());
-        }
-        auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Aspect ratio:"), this);
-        box->setObjectName(QStringLiteral("force_ar"));
-        fpBox->addWidget(box);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
-        auto *spin1 = new QSpinBox(this);
-        spin1->setMaximum(8000);
-        spin1->setObjectName(QStringLiteral("force_aspect_num_value"));
-        hlay->addStretch(10);
-        hlay->addWidget(spin1);
-        hlay->addWidget(new QLabel(QStringLiteral(":")));
-        auto *spin2 = new QSpinBox(this);
-        spin2->setMinimum(1);
-        spin2->setMaximum(8000);
-        spin2->setObjectName(QStringLiteral("force_aspect_den_value"));
-        hlay->addWidget(spin2);
-        if (ratio == 0.) {
-            // use current ratio
-            int num = m_properties->get_int("meta.media.sample_aspect_num");
-            int den = m_properties->get_int("meta.media.sample_aspect_den");
-            if (den == 0) {
-                num = 1;
-                den = 1;
-            }
-            spin1->setEnabled(false);
-            spin2->setEnabled(false);
-            spin1->setValue(num);
-            spin2->setValue(den);
-        } else {
-            box->setChecked(true);
-            spin1->setEnabled(true);
-            spin2->setEnabled(true);
-
-            int ratio_num = qRound(ratio * 1000);
-            int ratio_den = 1000;
-            int num = ProfilesDialog::gcd(ratio_num, ratio_den);
-            if (num > 0) {
-                ratio_num /= num;
-                ratio_den /= num;
-            }
-            spin1->setValue(ratio_num);
-            spin2->setValue(ratio_den);
-        }
-        connect(spin2, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
-        connect(spin1, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ClipPropertiesController::slotAspectValueChanged);
-        connect(box, &QAbstractButton::toggled, spin1, &QWidget::setEnabled);
-        connect(box, &QAbstractButton::toggled, spin2, &QWidget::setEnabled);
+        auto hlay = aspectRatioProperty(i18n("Pixel aspect ratio:"));
         fpBox->addLayout(hlay);
     }
 
-    if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image || m_type == ClipType::Playlist) {
+    if (m_controller->supportsProxy()) {
         // Proxy
-        QString proxy = m_properties->get("kdenlive:proxy");
-        m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
-        auto *hlay = new QHBoxLayout;
-        auto *bg = new QGroupBox(this);
-        bg->setCheckable(false);
-        bg->setFlat(true);
-        auto *groupLay = new QHBoxLayout;
-        groupLay->setContentsMargins(0, 0, 0, 0);
-        auto *pbox = new QCheckBox(i18n("Proxy clip"), this);
-        pbox->setTristate(true);
-        // Proxy codec label
-        QLabel *lab = new QLabel(this);
-        pbox->setObjectName(QStringLiteral("kdenlive:proxy"));
-        bool hasProxy = m_controller->hasProxy();
-        if (hasProxy) {
-            bg->setToolTip(proxy);
-            bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties->get("resource")).fileName());
-            if (proxyReady) {
-                pbox->setCheckState(Qt::Checked);
-                if (!m_properties->property_exists("video_index")) {
-                    // Probable an image proxy
-                    lab->setText(i18n("Image"));
-                } else {
-                    lab->setText(m_properties->get(QStringLiteral("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()));
-                }
-            } else {
-                pbox->setCheckState(Qt::PartiallyChecked);
-            }
-        } else {
-            pbox->setCheckState(Qt::Unchecked);
-        }
-        pbox->setEnabled(pCore->projectManager()->current()->useProxy());
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(pbox, &QCheckBox::checkStateChanged, this, [this, pbox](Qt::CheckState state) {
-#else
-        connect(pbox, &QCheckBox::stateChanged, this, [this, pbox](int state) {
-#endif
-            Q_EMIT requestProxy(state == Qt::PartiallyChecked);
-            if (state == Qt::Checked) {
-                QSignalBlocker bk(pbox);
-                pbox->setCheckState(Qt::Unchecked);
-            }
-        });
-        connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
-        connect(this, &ClipPropertiesController::proxyModified, this, [this, pbox, bg, lab](const QString &pxy) {
-            bool hasProxyClip = pxy.length() > 2;
-            QSignalBlocker bk(pbox);
-            pbox->setCheckState(hasProxyClip ? Qt::Checked : Qt::Unchecked);
-            bg->setEnabled(pbox->isChecked());
-            bg->setToolTip(pxy);
-            lab->setText(hasProxyClip
-                             ? m_properties->get(QStringLiteral("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData())
-                             : QString());
-        });
-        hlay->addWidget(pbox);
-        bg->setEnabled(pbox->checkState() == Qt::Checked);
-
-        groupLay->addWidget(lab);
-
-        // Delete button
-        auto *tb = new QToolButton(this);
-        tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
-        tb->setAutoRaise(true);
-        connect(tb, &QToolButton::clicked, this, [this, proxy]() { Q_EMIT deleteProxy(); });
-        tb->setToolTip(i18n("Delete proxy file"));
-        groupLay->addWidget(tb);
-        // Folder button
-        tb = new QToolButton(this);
-        auto *pMenu = new QMenu(this);
-        tb->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
-        tb->setToolTip(i18n("Proxy options"));
-        tb->setMenu(pMenu);
-        tb->setAutoRaise(true);
-        tb->setPopupMode(QToolButton::InstantPopup);
-
-        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder…"), this);
-        connect(ac, &QAction::triggered, this, [this]() {
-            QString pxy = m_properties->get("kdenlive:proxy");
-            pCore->highlightFileInExplorer({QUrl::fromLocalFile(pxy)});
-        });
-        pMenu->addAction(ac);
-        ac = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Play proxy clip"), this);
-        connect(ac, &QAction::triggered, this, [this]() {
-            QString pxy = m_properties->get("kdenlive:proxy");
-            QDesktopServices::openUrl(QUrl::fromLocalFile(pxy));
-        });
-        pMenu->addAction(ac);
-        ac = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy file location to clipboard"), this);
-        connect(ac, &QAction::triggered, this, [this]() {
-            QString pxy = m_properties->get("kdenlive:proxy");
-            QGuiApplication::clipboard()->setText(pxy);
-        });
-        pMenu->addAction(ac);
-        groupLay->addWidget(tb);
-        bg->setLayout(groupLay);
-        hlay->addWidget(bg);
+        auto hlay = proxyProperty(i18n("Proxy clip"), QStringLiteral("kdenlive:proxy"));
         fpBox->addLayout(hlay);
     }
 
     if (m_type == ClipType::AV || m_type == ClipType::Video) {
         // Fps
-        QString force_fps = m_properties->get("force_fps");
-        m_originalProperties.insert(QStringLiteral("force_fps"), force_fps.isEmpty() ? QStringLiteral("-") : force_fps);
-        auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Frame rate:"), this);
-        box->setObjectName(QStringLiteral("force_fps"));
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
-        auto *spin = new QDoubleSpinBox(this);
-        spin->setMaximum(1000);
-        connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
-        // connect(spin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ClipPropertiesController::slotValueChanged);
-        spin->setObjectName(QStringLiteral("force_fps_value"));
-        if (force_fps.isEmpty()) {
-            spin->setValue(controller->originalFps());
-        } else {
-            spin->setValue(force_fps.toDouble());
-        }
-        connect(box, &QAbstractButton::toggled, spin, &QWidget::setEnabled);
-        box->setChecked(!force_fps.isEmpty());
-        spin->setEnabled(!force_fps.isEmpty());
-        hlay->addWidget(box);
-        hlay->addWidget(spin);
+        auto hlay = doubleSpinboxProperty(i18n("Frame rate:"), QStringLiteral("force_fps"), 1000, m_controller->originalFps());
         fpBox->addLayout(hlay);
 
         // Scanning
-        QString force_prog = m_properties->get("force_progressive");
-        m_originalProperties.insert(QStringLiteral("force_progressive"), force_prog.isEmpty() ? QStringLiteral("-") : force_prog);
-        hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Scanning:"), this);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
-        box->setObjectName(QStringLiteral("force_progressive"));
-        auto *combo = new QComboBox(this);
-        combo->addItem(i18n("Interlaced"), 0);
-        combo->addItem(i18n("Progressive"), 1);
-        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-        combo->setObjectName(QStringLiteral("force_progressive_value"));
-        if (!force_prog.isEmpty()) {
-            combo->setCurrentIndex(force_prog.toInt());
-        }
-        connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
-        box->setChecked(!force_prog.isEmpty());
-        combo->setEnabled(!force_prog.isEmpty());
-        hlay->addWidget(box);
-        hlay->addWidget(combo);
+        QMap<QString, int> options = {{i18n("Interlaced"), 0}, {i18n("Progressive"), 1}};
+        hlay = comboboxProperty(i18n("Scanning:"), QStringLiteral("force_progressive"), options);
         fpBox->addLayout(hlay);
 
         // Field order
-        QString force_tff = m_properties->get("force_tff");
-        m_originalProperties.insert(QStringLiteral("force_tff"), force_tff.isEmpty() ? QStringLiteral("-") : force_tff);
-        hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Field order:"), this);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
-        box->setObjectName(QStringLiteral("force_tff"));
-        combo = new QComboBox(this);
-        combo->addItem(i18n("Bottom First"), 0);
-        combo->addItem(i18n("Top First"), 1);
-        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-        combo->setObjectName(QStringLiteral("force_tff_value"));
-        if (!force_tff.isEmpty()) {
-            combo->setCurrentIndex(force_tff.toInt());
-        }
-        connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
-        box->setChecked(!force_tff.isEmpty());
-        combo->setEnabled(!force_tff.isEmpty());
-        hlay->addWidget(box);
-        hlay->addWidget(combo);
+        options = {{i18n("Bottom First"), 0}, {i18n("Top First"), 1}};
+        hlay = comboboxProperty(i18n("Field order:"), QStringLiteral("force_tff"), options);
         fpBox->addLayout(hlay);
 
-        // Autorotate
-        QString autorotate = m_properties->get("autorotate");
-        m_originalProperties.insert(QStringLiteral("autorotate"), autorotate);
-        hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Disable autorotate"), this);
-        box->setObjectName(QStringLiteral("autorotate"));
-        box->setChecked(autorotate == QLatin1String("0"));
+        // Rotate
         int vix = m_sourceProperties->get_int("video_index");
         const QString query = QStringLiteral("meta.media.%1.codec.rotate").arg(vix);
-        int angle = m_sourceProperties->get_int(query.toUtf8().constData());
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
-
-        // Rotate
-        int rotate = 0;
-        if (m_properties->property_exists("rotate")) {
-            rotate = m_properties->get_int("rotate");
-            m_originalProperties.insert(QStringLiteral("rotate"), QString::number(rotate));
-        } else {
-            // Display automatic rotation
-            rotate = angle;
-        }
-        combo = new QComboBox(this);
-        combo->setObjectName(QStringLiteral("rotate_value"));
+        int defaultRotate = m_sourceProperties->get_int(query.toUtf8().constData());
+        options.clear();
         for (int i = 0; i < 4; i++) {
             int a = 90 * i;
-            if (a == angle) {
-                combo->addItem(i18n("%1 (default)", a), a);
+            if (a == defaultRotate) {
+                options.insert(i18n("%1 (default)", QStringLiteral("%1°").arg(a)), a);
             } else {
-                combo->addItem(QString::number(a), a);
+                options.insert(QStringLiteral("%1°").arg(a), a);
             }
         }
-        if (rotate > 0) {
-            combo->setCurrentIndex(combo->findData(rotate));
-        }
-        // Disable force rotate when autorotate is disabled
-        combo->setEnabled(!box->isChecked());
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, [combo](Qt::CheckState state) { combo->setEnabled(state != Qt::Unchecked); });
-#else
-        connect(box, &QCheckBox::stateChanged, this, [combo](int state) { combo->setEnabled(state != Qt::Unchecked); });
-#endif
-        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-        hlay->addWidget(box);
-        hlay->addWidget(combo);
+        hlay = comboboxProperty(i18n("Rotate:"), QStringLiteral("rotate"), options, QString::number(defaultRotate));
         fpBox->addLayout(hlay);
 
         // Video index
@@ -625,8 +672,8 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             hlay = new QHBoxLayout;
 
             KDualAction *ac = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
-            ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-video")));
-            ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-video")));
+            ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("video")));
+            ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("video-off")));
             auto *tbv = new QToolButton(this);
             tbv->setToolButtonStyle(Qt::ToolButtonIconOnly);
             tbv->setDefaultAction(ac);
@@ -669,350 +716,38 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             fpBox->addLayout(hlay);
         }
 
-        // Audio index
-        QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();
-        if (!audioStreamsInfo.isEmpty()) {
-            QList<int> enabledStreams = m_controller->activeStreams().keys();
-            QString vix = m_sourceProperties->get("audio_index");
-            m_originalProperties.insert(QStringLiteral("audio_index"), vix);
-            QStringList streamString;
-            for (int streamIx : std::as_const(enabledStreams)) {
-                streamString << QString::number(streamIx);
-            }
-            m_originalProperties.insert(QStringLiteral("kdenlive:active_streams"), streamString.join(QLatin1Char(';')));
-            hlay = new QHBoxLayout;
-
-            KDualAction *ac = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
-            ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-high")));
-            ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("audio-off")));
-            auto *tbv = new QToolButton(this);
-            tbv->setToolButtonStyle(Qt::ToolButtonIconOnly);
-            tbv->setDefaultAction(ac);
-            tbv->setAutoRaise(true);
-            hlay->addWidget(tbv);
-            hlay->addWidget(new QLabel(i18n("Audio streams")));
-            audioVbox->addLayout(hlay);
-            m_audioStreamsView = new QListWidget(this);
-            m_audioStreamsView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-            audioVbox->addWidget(m_audioStreamsView);
-            QMapIterator<int, QString> i(audioStreamsInfo);
-            while (i.hasNext()) {
-                i.next();
-                auto *item = new QListWidgetItem(i.value(), m_audioStreamsView);
-                // Store stream index
-                item->setData(Qt::UserRole, i.key());
-                // Store oringinal name
-                item->setData(Qt::UserRole + 1, i.value());
-                item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
-                if (enabledStreams.contains(i.key())) {
-                    item->setCheckState(Qt::Checked);
-                } else {
-                    item->setCheckState(Qt::Unchecked);
-                }
-                updateStreamIcon(m_audioStreamsView->row(item), i.key());
-            }
-            if (audioStreamsInfo.count() > 1) {
-                QListWidgetItem *item = new QListWidgetItem(i18n("Merge all streams"), m_audioStreamsView);
-                item->setData(Qt::UserRole, INT_MAX);
-                item->setData(Qt::UserRole + 1, item->text());
-                item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-                if (enabledStreams.contains(INT_MAX)) {
-                    item->setCheckState(Qt::Checked);
-                } else {
-                    item->setCheckState(Qt::Unchecked);
-                }
-            }
-            connect(m_audioStreamsView, &QListWidget::currentRowChanged, this, [this](int row) {
-                if (row > -1) {
-                    m_audioEffectGroup->setEnabled(true);
-                    QListWidgetItem *item = m_audioStreamsView->item(row);
-                    m_activeAudioStreams = item->data(Qt::UserRole).toInt();
-                    QStringList effects = m_controller->getAudioStreamEffect(m_activeAudioStreams);
-                    QSignalBlocker bk(m_swapChannels);
-                    QSignalBlocker bk1(m_copyChannelGroup);
-                    QSignalBlocker bk2(m_normalize);
-                    m_swapChannels->setChecked(effects.contains(QLatin1String("channelswap")));
-                    m_copyChannel1->setChecked(effects.contains(QStringLiteral("channelcopy from=0 to=1")));
-                    m_copyChannel2->setChecked(effects.contains(QStringLiteral("channelcopy from=1 to=0")));
-                    m_normalize->setChecked(effects.contains(QStringLiteral("dynamic_loudness")));
-                    int gain = 0;
-                    for (const QString &st : std::as_const(effects)) {
-                        if (st.startsWith(QLatin1String("volume "))) {
-                            QSignalBlocker bk3(m_gain);
-                            gain = st.section(QLatin1Char('='), 1).toInt();
-                            break;
-                        }
-                    }
-                    QSignalBlocker bk3(m_gain);
-                    m_gain->setValue(gain);
-                } else {
-                    m_activeAudioStreams = -1;
-                    m_audioEffectGroup->setEnabled(false);
-                }
-            });
-            connect(m_audioStreamsView, &QListWidget::itemChanged, this, [this](QListWidgetItem *item) {
-                if (!item) {
-                    return;
-                }
-                bool checked = item->checkState() == Qt::Checked;
-                int streamId = item->data(Qt::UserRole).toInt();
-                bool streamModified = false;
-                QString currentStreams = m_originalProperties.value(QStringLiteral("kdenlive:active_streams"));
-                QStringList activeStreams = currentStreams.split(QLatin1Char(';'));
-                if (activeStreams.contains(QString::number(streamId))) {
-                    if (!checked) {
-                        // Stream was unselected
-                        activeStreams.removeAll(QString::number(streamId));
-                        streamModified = true;
-                    }
-                } else if (checked) {
-                    // Stream was selected
-                    if (streamId == INT_MAX) {
-                        // merge all streams should not have any other stream selected
-                        activeStreams.clear();
-                    } else {
-                        activeStreams.removeAll(QString::number(INT_MAX));
-                    }
-                    activeStreams << QString::number(streamId);
-                    activeStreams.sort();
-                    streamModified = true;
-                }
-                if (streamModified) {
-                    if (activeStreams.isEmpty()) {
-                        activeStreams << QStringLiteral("-1");
-                    }
-                    QMap<QString, QString> properties;
-                    properties.insert(QStringLiteral("kdenlive:active_streams"), activeStreams.join(QLatin1Char(';')));
-                    Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
-                    m_originalProperties = properties;
-                } else if (item->text() != item->data(Qt::UserRole + 1).toString()) {
-                    // Rename event
-                    QString txt = item->text();
-                    int row = m_audioStreamsView->row(item) + 1;
-                    if (!txt.startsWith(QStringLiteral("%1|").arg(row))) {
-                        txt.prepend(QStringLiteral("%1|").arg(row));
-                    }
-                    m_controller->renameAudioStream(streamId, txt);
-                    QSignalBlocker bk(m_audioStreamsView);
-                    item->setText(txt);
-                    item->setData(Qt::UserRole + 1, txt);
-                }
-            });
-            ac->setActive(vix.toInt() == -1);
-            connect(ac, &KDualAction::activeChanged, this, [this, audioStreamsInfo](bool activated) {
-                QMap<QString, QString> properties;
-                int vindx = -1;
-                if (activated) {
-                    properties.insert(QStringLiteral("kdenlive:active_streams"), QStringLiteral("-1"));
-                } else {
-                    properties.insert(QStringLiteral("kdenlive:active_streams"), QString());
-                    vindx = audioStreamsInfo.firstKey();
-                }
-                properties.insert(QStringLiteral("audio_index"), QString::number(vindx));
-                // Find stream position in index
-                QMap<int, QString>::const_iterator it = audioStreamsInfo.constFind(vindx);
-                if (it != audioStreamsInfo.constEnd()) {
-                    properties.insert(QStringLiteral("astream"), QString::number(std::distance(audioStreamsInfo.begin(), it)));
-                }
-                properties.insert(QStringLiteral("set.test_audio"), vindx > -1 ? QStringLiteral("0") : QStringLiteral("1"));
-                Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
-                m_originalProperties = properties;
-            });
-            // Audio effects
-            m_audioEffectGroup = new QGroupBox(this);
-            m_audioEffectGroup->setEnabled(false);
-            auto *vbox = new QVBoxLayout;
-            // Normalize
-            m_normalize = new QCheckBox(i18n("Normalize"), this);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-            connect(m_normalize, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
-#else
-            connect(m_normalize, &QCheckBox::stateChanged, this, [this](int state) {
-#endif
-                if (m_activeAudioStreams == -1) {
-                    // No stream selected, abort
-                    return;
-                }
-                if (state == Qt::Checked) {
-                    // Add swap channels effect
-                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("dynamic_loudness"));
-                } else {
-                    // Remove swap channels effect
-                    m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("dynamic_loudness"));
-                }
-                updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
-            });
-            vbox->addWidget(m_normalize);
-
-            // Swap channels
-            m_swapChannels = new QCheckBox(i18n("Swap channels"), this);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-            connect(m_swapChannels, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
-#else
-            connect(m_swapChannels, &QCheckBox::stateChanged, this, [this](int state) {
-#endif
-                if (m_activeAudioStreams == -1) {
-                    // No stream selected, abort
-                    return;
-                }
-                if (state == Qt::Checked) {
-                    // Add swap channels effect
-                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelswap"));
-                } else {
-                    // Remove swap channels effect
-                    m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("channelswap"));
-                }
-                updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
-            });
-            vbox->addWidget(m_swapChannels);
-            // Copy channel
-            auto *copyLay = new QHBoxLayout;
-            copyLay->addWidget(new QLabel(i18n("Copy channel:"), this));
-            m_copyChannel1 = new QCheckBox(i18n("1"), this);
-            m_copyChannel2 = new QCheckBox(i18n("2"), this);
-            m_copyChannelGroup = new QButtonGroup(this);
-            m_copyChannelGroup->addButton(m_copyChannel1);
-            m_copyChannelGroup->addButton(m_copyChannel2);
-            m_copyChannelGroup->setExclusive(false);
-            copyLay->addWidget(m_copyChannel1);
-            copyLay->addWidget(m_copyChannel2);
-            copyLay->addStretch(1);
-            vbox->addLayout(copyLay);
-            connect(m_copyChannelGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [this](QAbstractButton *but, bool) {
-                if (but == m_copyChannel1) {
-                    QSignalBlocker bk(m_copyChannelGroup);
-                    m_copyChannel2->setChecked(false);
-                } else {
-                    QSignalBlocker bk(m_copyChannelGroup);
-                    m_copyChannel1->setChecked(false);
-                }
-                if (m_copyChannel1->isChecked()) {
-                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy from=0 to=1"));
-                } else if (m_copyChannel2->isChecked()) {
-                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy from=1 to=0"));
-                } else {
-                    // Remove swap channels effect
-                    m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy"));
-                }
-                updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
-            });
-            // Gain
-            auto *gainLay = new QHBoxLayout;
-            gainLay->addWidget(new QLabel(i18n("Gain:"), this));
-            m_gain = new QSpinBox(this);
-            m_gain->setRange(-100, 60);
-            m_gain->setSuffix(i18n("dB"));
-            connect(m_gain, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int value) {
-                if (m_activeAudioStreams == -1) {
-                    // No stream selected, abort
-                    return;
-                }
-                if (value == 0) {
-                    // Remove effect
-                    m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("volume"));
-                } else {
-                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("volume level=%1").arg(value));
-                }
-                updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
-            });
-            gainLay->addWidget(m_gain);
-            gainLay->addStretch(1);
-            vbox->addLayout(gainLay);
-
-            vbox->addStretch(1);
-            m_audioEffectGroup->setLayout(vbox);
-            audioVbox->addWidget(m_audioEffectGroup);
-
-            // Audio sync
-            hlay = new QHBoxLayout;
-            hlay->addWidget(new QLabel(i18n("Audio sync:")));
-            auto *spinSync = new QSpinBox(this);
-            spinSync->setSuffix(i18n("ms"));
-            spinSync->setRange(-1000, 1000);
-            spinSync->setValue(qRound(1000 * m_sourceProperties->get_double("video_delay")));
-            spinSync->setObjectName(QStringLiteral("video_delay"));
-            if (spinSync->value() != 0) {
-                m_originalProperties.insert(QStringLiteral("video_delay"), QString::number(m_sourceProperties->get_double("video_delay"), 'f'));
-            }
-            QObject::connect(spinSync, &QSpinBox::editingFinished, this, [this, spinSync]() {
-                QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("video_delay"), QString::number(spinSync->value() / 1000., 'f'));
-                Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
-                m_originalProperties = properties;
-            });
-            hlay->addWidget(spinSync);
-            audioVbox->addLayout(hlay);
-        }
-
         // Colorspace
-        hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Color space:"), this);
-        box->setObjectName(QStringLiteral("force_colorspace"));
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
-        combo = new QComboBox(this);
-        combo->setObjectName(QStringLiteral("force_colorspace_value"));
-        combo->addItem(ProfileRepository::getColorspaceDescription(240), 240);
-        combo->addItem(ProfileRepository::getColorspaceDescription(601), 601);
-        combo->addItem(ProfileRepository::getColorspaceDescription(709), 709);
-        combo->addItem(ProfileRepository::getColorspaceDescription(10), 10);
-        int force_colorspace = m_properties->get_int("force_colorspace");
-        m_originalProperties.insert(QStringLiteral("force_colorspace"), force_colorspace == 0 ? QStringLiteral("-") : QString::number(force_colorspace));
-        int colorspace = controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
+        options = {{ProfileRepository::getColorspaceDescription(240), 240},
+                   {ProfileRepository::getColorspaceDescription(601), 601},
+                   {ProfileRepository::getColorspaceDescription(709), 709},
+                   {ProfileRepository::getColorspaceDescription(10), 10}};
+
+        QString defaultValue;
+        int colorspace = m_controller->videoCodecProperty(QStringLiteral("colorspace")).toInt();
         if (colorspace == 9) {
             colorspace = 10;
         }
-        if (force_colorspace > 0) {
-            box->setChecked(true);
-            combo->setEnabled(true);
-            combo->setCurrentIndex(combo->findData(force_colorspace));
-        } else if (colorspace > 0) {
-            combo->setEnabled(false);
-            combo->setCurrentIndex(combo->findData(colorspace));
-        } else {
-            combo->setEnabled(false);
+        if (colorspace > 0) {
+            defaultValue = QString::number(colorspace);
         }
-        connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
-        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-        hlay->addWidget(box);
-        hlay->addWidget(combo);
+
+        hlay = comboboxProperty(i18n("Color space:"), QStringLiteral("force_colorspace"), options, defaultValue);
         fpBox->addLayout(hlay);
 
         // Color range
-        hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Color range:"), this);
-        box->setObjectName(QStringLiteral("force_color_range"));
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
-#else
-        connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-#endif
-        combo = new QComboBox(this);
-        combo->setObjectName(QStringLiteral("force_color_range_value"));
-        combo->addItem(i18n("Broadcast limited (MPEG)"), 1);
-        combo->addItem(i18n("Full (JPEG)"), 2);
-        int color_range = m_properties->get_int("color_range");
-        if (color_range == 0) {
-            combo->setCurrentIndex(combo->findData(m_controller->isFullRange() ? 2 : 1));
-            combo->setEnabled(false);
-        } else {
-            box->setChecked(true);
-            combo->setCurrentIndex(combo->findData(color_range));
-        }
-        connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
-        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-        hlay->addWidget(box);
-        hlay->addWidget(combo);
+        options = {{i18n("Broadcast limited (MPEG)"), 1},
+                   {i18n("Full (JPEG)"), 2},
+                   {ProfileRepository::getColorspaceDescription(709), 709},
+                   {ProfileRepository::getColorspaceDescription(10), 10}};
+        defaultValue = QString::number(m_controller->isFullRange() ? 2 : 1);
+        hlay = comboboxProperty(i18n("Color range:"), QStringLiteral("color_range"), options, defaultValue);
         fpBox->addLayout(hlay);
 
         // Check for variable frame rate
         if (m_properties->get_int("meta.media.variable_frame_rate")) {
             m_warningMessage.setText(i18n("File uses a variable frame rate, not recommended"));
             QAction *ac = new QAction(i18n("Transcode"));
-            QObject::connect(ac, &QAction::triggered, [id = m_id, resource = controller->clipUrl()]() {
+            QObject::connect(ac, &QAction::triggered, [id = m_id, resource = m_controller->clipUrl()]() {
                 QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(int, 0),
                                           Q_ARG(bool, false));
             });
@@ -1023,46 +758,338 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             m_warningMessage.hide();
         }
     }
-    // Force properties page
-    QWidget *forceProp = new QWidget(this);
-    forceProp->setLayout(fpBox);
-    forcePage->setWidget(forceProp);
-    forcePage->setWidgetResizable(true);
+
+    return forcePage;
+}
+
+QWidget *ClipPropertiesController::constructAudioPropertiesPage()
+{
+    auto *forceAudioPage = new QScrollArea(this);
+
+    // Force Audio properties
+    auto *audioVbox = new QVBoxLayout;
+    audioVbox->setSpacing(0);
+
+    // Audio index
+    QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();
+    if (!audioStreamsInfo.isEmpty()) {
+        QList<int> enabledStreams = m_controller->activeStreams().keys();
+        QString vix = m_sourceProperties->get("audio_index");
+        m_originalProperties.insert(QStringLiteral("audio_index"), vix);
+        QStringList streamString;
+        for (int streamIx : std::as_const(enabledStreams)) {
+            streamString << QString::number(streamIx);
+        }
+        m_originalProperties.insert(QStringLiteral("kdenlive:active_streams"), streamString.join(QLatin1Char(';')));
+        auto hlay = new QHBoxLayout;
+
+        KDualAction *ac = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
+        ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("audio-volume-high")));
+        ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("audio-off")));
+        auto *tbv = new QToolButton(this);
+        tbv->setToolButtonStyle(Qt::ToolButtonIconOnly);
+        tbv->setDefaultAction(ac);
+        tbv->setAutoRaise(true);
+        hlay->addWidget(tbv);
+        hlay->addWidget(new QLabel(i18n("Audio streams")));
+        audioVbox->addLayout(hlay);
+        m_audioStreamsView = new QListWidget(this);
+        m_audioStreamsView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+        audioVbox->addWidget(m_audioStreamsView);
+        QMapIterator<int, QString> i(audioStreamsInfo);
+        while (i.hasNext()) {
+            i.next();
+            auto *item = new QListWidgetItem(i.value(), m_audioStreamsView);
+            // Store stream index
+            item->setData(Qt::UserRole, i.key());
+            // Store oringinal name
+            item->setData(Qt::UserRole + 1, i.value());
+            item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
+            if (enabledStreams.contains(i.key())) {
+                item->setCheckState(Qt::Checked);
+            } else {
+                item->setCheckState(Qt::Unchecked);
+            }
+            updateStreamIcon(m_audioStreamsView->row(item), i.key());
+        }
+        if (audioStreamsInfo.count() > 1) {
+            QListWidgetItem *item = new QListWidgetItem(i18n("Merge all streams"), m_audioStreamsView);
+            item->setData(Qt::UserRole, INT_MAX);
+            item->setData(Qt::UserRole + 1, item->text());
+            item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+            if (enabledStreams.contains(INT_MAX)) {
+                item->setCheckState(Qt::Checked);
+            } else {
+                item->setCheckState(Qt::Unchecked);
+            }
+        }
+        connect(m_audioStreamsView, &QListWidget::currentRowChanged, this, [this](int row) {
+            if (row > -1) {
+                m_audioEffectGroup->setEnabled(true);
+                QListWidgetItem *item = m_audioStreamsView->item(row);
+                m_activeAudioStreams = item->data(Qt::UserRole).toInt();
+                QStringList effects = m_controller->getAudioStreamEffect(m_activeAudioStreams);
+                QSignalBlocker bk(m_swapChannels);
+                QSignalBlocker bk1(m_copyChannelGroup);
+                QSignalBlocker bk2(m_normalize);
+                m_swapChannels->setChecked(effects.contains(QLatin1String("channelswap")));
+                m_copyChannel1->setChecked(effects.contains(QStringLiteral("channelcopy from=0 to=1")));
+                m_copyChannel2->setChecked(effects.contains(QStringLiteral("channelcopy from=1 to=0")));
+                m_normalize->setChecked(effects.contains(QStringLiteral("dynamic_loudness")));
+                int gain = 0;
+                for (const QString &st : std::as_const(effects)) {
+                    if (st.startsWith(QLatin1String("volume "))) {
+                        QSignalBlocker bk3(m_gain);
+                        gain = st.section(QLatin1Char('='), 1).toInt();
+                        break;
+                    }
+                }
+                QSignalBlocker bk3(m_gain);
+                m_gain->setValue(gain);
+            } else {
+                m_activeAudioStreams = -1;
+                m_audioEffectGroup->setEnabled(false);
+            }
+        });
+        connect(m_audioStreamsView, &QListWidget::itemChanged, this, [this](QListWidgetItem *item) {
+            if (!item) {
+                return;
+            }
+            bool checked = item->checkState() == Qt::Checked;
+            int streamId = item->data(Qt::UserRole).toInt();
+            bool streamModified = false;
+            QString currentStreams = m_originalProperties.value(QStringLiteral("kdenlive:active_streams"));
+            QStringList activeStreams = currentStreams.split(QLatin1Char(';'));
+            if (activeStreams.contains(QString::number(streamId))) {
+                if (!checked) {
+                    // Stream was unselected
+                    activeStreams.removeAll(QString::number(streamId));
+                    streamModified = true;
+                }
+            } else if (checked) {
+                // Stream was selected
+                if (streamId == INT_MAX) {
+                    // merge all streams should not have any other stream selected
+                    activeStreams.clear();
+                } else {
+                    activeStreams.removeAll(QString::number(INT_MAX));
+                }
+                activeStreams << QString::number(streamId);
+                activeStreams.sort();
+                streamModified = true;
+            }
+            if (streamModified) {
+                if (activeStreams.isEmpty()) {
+                    activeStreams << QStringLiteral("-1");
+                }
+                QMap<QString, QString> properties;
+                properties.insert(QStringLiteral("kdenlive:active_streams"), activeStreams.join(QLatin1Char(';')));
+                Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
+                m_originalProperties = properties;
+            } else if (item->text() != item->data(Qt::UserRole + 1).toString()) {
+                // Rename event
+                QString txt = item->text();
+                int row = m_audioStreamsView->row(item) + 1;
+                if (!txt.startsWith(QStringLiteral("%1|").arg(row))) {
+                    txt.prepend(QStringLiteral("%1|").arg(row));
+                }
+                m_controller->renameAudioStream(streamId, txt);
+                QSignalBlocker bk(m_audioStreamsView);
+                item->setText(txt);
+                item->setData(Qt::UserRole + 1, txt);
+            }
+        });
+        ac->setActive(vix.toInt() == -1);
+        connect(ac, &KDualAction::activeChanged, this, [this, audioStreamsInfo](bool activated) {
+            QMap<QString, QString> properties;
+            int vindx = -1;
+            if (activated) {
+                properties.insert(QStringLiteral("kdenlive:active_streams"), QStringLiteral("-1"));
+            } else {
+                properties.insert(QStringLiteral("kdenlive:active_streams"), QString());
+                vindx = audioStreamsInfo.firstKey();
+            }
+            properties.insert(QStringLiteral("audio_index"), QString::number(vindx));
+            // Find stream position in index
+            QMap<int, QString>::const_iterator it = audioStreamsInfo.constFind(vindx);
+            if (it != audioStreamsInfo.constEnd()) {
+                properties.insert(QStringLiteral("astream"), QString::number(std::distance(audioStreamsInfo.begin(), it)));
+            }
+            properties.insert(QStringLiteral("set.test_audio"), vindx > -1 ? QStringLiteral("0") : QStringLiteral("1"));
+            Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
+            m_originalProperties = properties;
+        });
+        // Audio effects
+        m_audioEffectGroup = new QGroupBox(this);
+        m_audioEffectGroup->setEnabled(false);
+        auto *vbox = new QVBoxLayout;
+        // Normalize
+        m_normalize = new QCheckBox(i18n("Normalize"), this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(m_normalize, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
+        connect(m_normalize, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
+            if (m_activeAudioStreams == -1) {
+                // No stream selected, abort
+                return;
+            }
+            if (state == Qt::Checked) {
+                // Add swap channels effect
+                m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("dynamic_loudness"));
+            } else {
+                // Remove swap channels effect
+                m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("dynamic_loudness"));
+            }
+            updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
+        });
+        vbox->addWidget(m_normalize);
+
+        // Swap channels
+        m_swapChannels = new QCheckBox(i18n("Swap channels"), this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(m_swapChannels, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
+        connect(m_swapChannels, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
+            if (m_activeAudioStreams == -1) {
+                // No stream selected, abort
+                return;
+            }
+            if (state == Qt::Checked) {
+                // Add swap channels effect
+                m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelswap"));
+            } else {
+                // Remove swap channels effect
+                m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("channelswap"));
+            }
+            updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
+        });
+        vbox->addWidget(m_swapChannels);
+        // Copy channel
+        auto *copyLay = new QHBoxLayout;
+        copyLay->addWidget(new QLabel(i18n("Copy channel:"), this));
+        m_copyChannel1 = new QCheckBox(i18n("1"), this);
+        m_copyChannel2 = new QCheckBox(i18n("2"), this);
+        m_copyChannelGroup = new QButtonGroup(this);
+        m_copyChannelGroup->addButton(m_copyChannel1);
+        m_copyChannelGroup->addButton(m_copyChannel2);
+        m_copyChannelGroup->setExclusive(false);
+        copyLay->addWidget(m_copyChannel1);
+        copyLay->addWidget(m_copyChannel2);
+        copyLay->addStretch(1);
+        vbox->addLayout(copyLay);
+        connect(m_copyChannelGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [this](QAbstractButton *but, bool) {
+            if (but == m_copyChannel1) {
+                QSignalBlocker bk(m_copyChannelGroup);
+                m_copyChannel2->setChecked(false);
+            } else {
+                QSignalBlocker bk(m_copyChannelGroup);
+                m_copyChannel1->setChecked(false);
+            }
+            if (m_copyChannel1->isChecked()) {
+                m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy from=0 to=1"));
+            } else if (m_copyChannel2->isChecked()) {
+                m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy from=1 to=0"));
+            } else {
+                // Remove swap channels effect
+                m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy"));
+            }
+            updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
+        });
+        // Gain
+        auto *gainLay = new QHBoxLayout;
+        gainLay->addWidget(new QLabel(i18n("Gain:"), this));
+        m_gain = new QSpinBox(this);
+        m_gain->setRange(-100, 60);
+        m_gain->setSuffix(i18n("dB"));
+        connect(m_gain, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int value) {
+            if (m_activeAudioStreams == -1) {
+                // No stream selected, abort
+                return;
+            }
+            if (value == 0) {
+                // Remove effect
+                m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("volume"));
+            } else {
+                m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("volume level=%1").arg(value));
+            }
+            updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
+        });
+        gainLay->addWidget(m_gain);
+        gainLay->addStretch(1);
+        vbox->addLayout(gainLay);
+
+        vbox->addStretch(1);
+        m_audioEffectGroup->setLayout(vbox);
+        audioVbox->addWidget(m_audioEffectGroup);
+
+        // Audio sync
+        hlay = new QHBoxLayout;
+        hlay->addWidget(new QLabel(i18n("Audio sync:")));
+        auto *spinSync = new QSpinBox(this);
+        spinSync->setSuffix(i18n("ms"));
+        spinSync->setRange(-1000, 1000);
+        spinSync->setValue(qRound(1000 * m_sourceProperties->get_double("video_delay")));
+        spinSync->setObjectName(QStringLiteral("video_delay"));
+        if (spinSync->value() != 0) {
+            m_originalProperties.insert(QStringLiteral("video_delay"), QString::number(m_sourceProperties->get_double("video_delay"), 'f'));
+        }
+        QObject::connect(spinSync, &QSpinBox::editingFinished, this, [this, spinSync]() {
+            QMap<QString, QString> properties;
+            properties.insert(QStringLiteral("video_delay"), QString::number(spinSync->value() / 1000., 'f'));
+            Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
+            m_originalProperties = properties;
+        });
+        hlay->addWidget(spinSync);
+        audioVbox->addLayout(hlay);
+    }
+
     // Force audio properties page
     QWidget *forceAudioProp = new QWidget(this);
     forceAudioProp->setLayout(audioVbox);
     forceAudioPage->setWidget(forceAudioProp);
     forceAudioPage->setWidgetResizable(true);
 
-    fpBox->addStretch(10);
-    const QSize iconSize = m_tabWidget->tabBar()->iconSize();
-    m_tabWidget->addTab(m_propertiesPage, QString());
-    m_tabWidget->addTab(forcePage, QString());
-    m_tabWidget->addTab(forceAudioPage, QString());
-    m_tabWidget->addTab(m_metaPage, QString());
-    m_tabWidget->addTab(m_analysisPage, QString());
-    m_tabWidget->setTabIcon(0, UiUtils::rotatedIcon(QStringLiteral("edit-find"), iconSize));
-    m_tabWidget->setTabToolTip(0, i18n("File info"));
-    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the file."));
-    m_tabWidget->setTabIcon(1, UiUtils::rotatedIcon(QStringLiteral("document-edit"), iconSize));
-    m_tabWidget->setTabToolTip(1, i18n("Properties"));
-    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the video data/codec."));
-    m_tabWidget->setTabIcon(2, UiUtils::rotatedIcon(QStringLiteral("audio-volume-high"), iconSize));
-    m_tabWidget->setTabToolTip(2, i18n("Audio Properties"));
-    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the audio streams/data/codec."));
-    m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("view-grid")));
-    m_tabWidget->setTabToolTip(3, i18n("Metadata"));
-    m_tabWidget->setTabIcon(4, UiUtils::rotatedIcon(QStringLiteral("visibility"), iconSize));
-    m_tabWidget->setTabToolTip(4, i18n("Analysis"));
-    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays analysis data."));
-    m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
-    if (m_type == ClipType::Color) {
-        m_tabWidget->setTabEnabled(0, false);
-    }
-    connect(m_tabWidget, &QTabWidget::currentChanged, this, &ClipPropertiesController::updateTab);
+    return forceAudioPage;
 }
 
-ClipPropertiesController::~ClipPropertiesController() = default;
+void ClipPropertiesController::constructMetadataPage()
+{
+    m_metaPage = new QWidget(this);
+    auto *box = new QVBoxLayout;
+    m_metaPage->setLayout(box);
+
+    auto *metaTree = new QTreeWidget;
+    metaTree->setRootIsDecorated(true);
+    metaTree->setColumnCount(2);
+    metaTree->setAlternatingRowColors(true);
+    metaTree->setHeaderHidden(true);
+    box->addWidget(metaTree);
+
+    slotFillMeta(metaTree);
+}
+
+void ClipPropertiesController::constructAnalysisPage()
+{
+    m_analysisPage = new QWidget(this);
+    auto *box = new QVBoxLayout;
+    m_analysisPage->setLayout(box);
+
+    m_analysisTree = new AnalysisTree(this);
+    box->addWidget(new QLabel(i18n("Analysis data")));
+    box->addWidget(m_analysisTree);
+    auto *bar = new QToolBar;
+    bar->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
+    bar->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the data set(s)."));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis…"), this, SLOT(slotSaveAnalysis()));
+    bar->setWhatsThis(xi18nc("@info:whatsthis", "Opens a file dialog window to export/save the analysis data."));
+    bar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import analysis…"), this, SLOT(slotLoadAnalysis()));
+    bar->setWhatsThis(xi18nc("@info:whatsthis", "Opens a file dialog window to import/load analysis data."));
+    box->addWidget(bar);
+
+    slotFillAnalysisData();
+}
 
 void ClipPropertiesController::updateStreamIcon(int row, int streamIndex)
 {
@@ -1189,10 +1216,8 @@ void ClipPropertiesController::slotEnableForce(int state)
             properties.insert(param, QString());
         } else if (param == QLatin1String("force_ar")) {
             properties.insert(QStringLiteral("force_aspect_ratio"), QString());
-        } else if (param == QLatin1String("autorotate")) {
-            properties.insert(QStringLiteral("autorotate"), QString());
-        } else if (param == QLatin1String("force_color_range")) {
-            properties.insert(QStringLiteral("color_range"), QString());
+            // } else if (param == QLatin1String("autorotate")) {
+            //     properties.insert(QStringLiteral("autorotate"), QString());
         } else {
             properties.insert(param, QString());
         }
@@ -1216,20 +1241,15 @@ void ClipPropertiesController::slotEnableForce(int state)
                 return;
             }
             properties.insert(param, QString::number(spin->value()));
-        } else if (param == QLatin1String("force_colorspace") || param == QLatin1String("force_progressive") || param == QLatin1String("force_tff")) {
+        } else if (param == QLatin1String("force_colorspace") || param == QLatin1String("force_progressive") || param == QLatin1String("force_tff") ||
+                   param == QLatin1String("color_range")) {
             auto *combo = findChild<QComboBox *>(param + QStringLiteral("_value"));
             if (!combo) {
                 return;
             }
             properties.insert(param, QString::number(combo->currentData().toInt()));
-        } else if (param == QLatin1String("force_color_range")) {
-            auto *combo = findChild<QComboBox *>(param + QStringLiteral("_value"));
-            if (!combo) {
-                return;
-            }
-            properties.insert(QStringLiteral("color_range"), QString::number(combo->currentData().toInt()));
-        } else if (param == QLatin1String("autorotate")) {
-            properties.insert(QStringLiteral("autorotate"), QStringLiteral("0"));
+            // } else if (param == QLatin1String("autorotate")) {
+            //     properties.insert(QStringLiteral("autorotate"), QStringLiteral("0"));
         } else if (param == QLatin1String("force_ar")) {
             auto *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
             auto *spin2 = findChild<QSpinBox *>(QStringLiteral("force_aspect_den_value"));
@@ -1248,32 +1268,6 @@ void ClipPropertiesController::slotEnableForce(int state)
     m_originalProperties = properties;
 }
 
-void ClipPropertiesController::slotValueChanged(double value)
-{
-    auto *box = qobject_cast<QDoubleSpinBox *>(sender());
-    if (!box) {
-        return;
-    }
-    QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
-    QMap<QString, QString> properties;
-    properties.insert(param, QString::number(value, 'f'));
-    Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
-    m_originalProperties = properties;
-}
-
-void ClipPropertiesController::slotValueChanged(int value)
-{
-    auto *box = qobject_cast<QSpinBox *>(sender());
-    if (!box) {
-        return;
-    }
-    QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
-    QMap<QString, QString> properties;
-    properties.insert(param, QString::number(value));
-    Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
-    m_originalProperties = properties;
-}
-
 void ClipPropertiesController::slotAspectValueChanged(int)
 {
     auto *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
@@ -1287,20 +1281,109 @@ void ClipPropertiesController::slotAspectValueChanged(int)
     m_originalProperties = properties;
 }
 
-void ClipPropertiesController::slotComboValueChanged()
+QList<QStringList> ClipPropertiesController::getVideoProperties(int streamIndex)
 {
-    auto *box = qobject_cast<QComboBox *>(sender());
-    if (!box) {
-        return;
+    // We have a video stream
+    const QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(streamIndex);
+    const QString streamInfo = QStringLiteral("meta.media.%1.stream.").arg(streamIndex);
+
+    QList<QStringList> propertyMap;
+
+    // Video codec
+    QString property = codecInfo + QStringLiteral("long_name");
+    QString codec = m_sourceProperties->get(property.toUtf8().constData());
+    if (!codec.isEmpty()) {
+        propertyMap.append({i18n("Video codec:"), codec});
     }
-    QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
-    if (param == QLatin1String("force_color_range")) {
-        param = QStringLiteral("color_range");
+
+    // Frame size
+    int width = m_sourceProperties->get_int("meta.media.width");
+    int height = m_sourceProperties->get_int("meta.media.height");
+    propertyMap.append({i18n("Frame size:"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
+
+    // Frame rate
+    property = streamInfo + QStringLiteral("frame_rate");
+    QString fpsValue = m_sourceProperties->get(property.toUtf8().constData());
+    if (!fpsValue.isEmpty()) {
+        propertyMap.append({i18n("Frame rate:"), fpsValue});
+    } else {
+        int rate_den = m_sourceProperties->get_int("meta.media.frame_rate_den");
+        if (rate_den > 0) {
+            double fps = double(m_sourceProperties->get_int("meta.media.frame_rate_num")) / rate_den;
+            propertyMap.append({i18n("Frame rate:"), QString::number(fps, 'f', 2)});
+        }
     }
-    QMap<QString, QString> properties;
-    properties.insert(param, QString::number(box->currentData().toInt()));
-    Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
-    m_originalProperties = properties;
+
+    // Video bitrate
+    property = codecInfo + QStringLiteral("bit_rate");
+    int bitrate = m_sourceProperties->get_int(property.toUtf8().constData()) / 1000;
+    if (bitrate > 0) {
+        propertyMap.append({i18n("Video bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+    }
+
+    // Scanning
+    int scan = m_sourceProperties->get_int("meta.media.progressive");
+    propertyMap.append({i18n("Scanning:"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
+
+    // Pixel aspect ratio
+    property = codecInfo + QStringLiteral("sample_aspect_ratio");
+    double par = m_sourceProperties->get_double(property.toUtf8().constData());
+    if (qFuzzyIsNull(par)) {
+        // Read media aspect ratio
+        par = m_sourceProperties->get_double("meta.media.sample_aspect_num");
+        double den = m_sourceProperties->get_double("meta.media.sample_aspect_den");
+        if (den > 0) {
+            par /= den;
+        }
+    }
+    propertyMap.append({i18n("Pixel aspect ratio:"), QString::number(par, 'f', 3)});
+    property = codecInfo + QStringLiteral("pix_fmt");
+
+    // Pixel format
+    propertyMap.append({i18n("Pixel format:"), m_sourceProperties->get(property.toUtf8().constData())});
+
+    // Colorspace
+    property = codecInfo + QStringLiteral("colorspace");
+    int colorspace = m_sourceProperties->get_int(property.toUtf8().constData());
+    propertyMap.append({i18n("Colorspace:"), ProfileRepository::getColorspaceDescription(colorspace)});
+
+    // B frames
+    int b_frames = m_sourceProperties->get_int("meta.media.has_b_frames");
+    propertyMap.append({i18n("B frames:"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
+
+    return propertyMap;
+}
+
+QList<QStringList> ClipPropertiesController::getAudioProperties(int streamIndex)
+{
+    const QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(streamIndex);
+    QList<QStringList> propertyMap;
+
+    // Audio codec
+    QString property = codecInfo + QStringLiteral("long_name");
+    QString codec = m_sourceProperties->get(property.toUtf8().constData());
+    if (!codec.isEmpty()) {
+        propertyMap.append({i18n("Audio codec:"), codec});
+    }
+
+    // Audio channels
+    property = codecInfo + QStringLiteral("channels");
+    int channels = m_sourceProperties->get_int(property.toUtf8().constData());
+    propertyMap.append({i18n("Audio channels:"), QString::number(channels)});
+
+    // Audio frequency
+    property = codecInfo + QStringLiteral("sample_rate");
+    int srate = m_sourceProperties->get_int(property.toUtf8().constData());
+    propertyMap.append({i18n("Audio frequency:"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
+
+    // Audio bitrate
+    property = codecInfo + QStringLiteral("bit_rate");
+    int bitrate = m_sourceProperties->get_int(property.toUtf8().constData()) / 1000;
+    if (bitrate > 0) {
+        propertyMap.append({i18n("Audio bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+    }
+
+    return propertyMap;
 }
 
 void ClipPropertiesController::fillProperties()
@@ -1345,9 +1428,8 @@ void ClipPropertiesController::fillProperties()
         m_videoStreams.clear();
         int aStreams = m_sourceProperties->get_int("meta.media.nb_streams");
         for (int ix = 0; ix < aStreams; ++ix) {
-            char property[200];
-            snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
-            QString type = m_sourceProperties->get(property);
+            const QString propertName = QStringLiteral("meta.media.%1.stream.type").arg(ix);
+            QString type = m_sourceProperties->get(propertName.toUtf8().constData());
             if (type == QLatin1String("video")) {
                 m_videoStreams << ix;
             }
@@ -1355,81 +1437,18 @@ void ClipPropertiesController::fillProperties()
         m_clipProperties.insert(QStringLiteral("default_video"), QString::number(vindex));
         m_clipProperties.insert(QStringLiteral("default_audio"), QString::number(default_audio));
 
+        // Video streams
+        propertyMap.append({i18n("Video streams:"), QString::number(m_videoStreams.count())});
+
         if (vindex > -1) {
-            // We have a video stream
-            const QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(vindex);
-            const QString streamInfo = QStringLiteral("meta.media.%1.stream.").arg(vindex);
-            QString property = codecInfo + QStringLiteral("long_name");
-            QString codec = m_sourceProperties->get(property.toUtf8().constData());
-            if (!codec.isEmpty()) {
-                propertyMap.append({i18n("Video codec:"), codec});
-            }
-            int width = m_sourceProperties->get_int("meta.media.width");
-            int height = m_sourceProperties->get_int("meta.media.height");
-            propertyMap.append({i18n("Frame size:"), QString::number(width) + QLatin1Char('x') + QString::number(height)});
-
-            property = streamInfo + QStringLiteral("frame_rate");
-            QString fpsValue = m_sourceProperties->get(property.toUtf8().constData());
-            if (!fpsValue.isEmpty()) {
-                propertyMap.append({i18n("Frame rate:"), fpsValue});
-            } else {
-                int rate_den = m_sourceProperties->get_int("meta.media.frame_rate_den");
-                if (rate_den > 0) {
-                    double fps = double(m_sourceProperties->get_int("meta.media.frame_rate_num")) / rate_den;
-                    propertyMap.append({i18n("Frame rate:"), QString::number(fps, 'f', 2)});
-                }
-            }
-            property = codecInfo + QStringLiteral("bit_rate");
-            int bitrate = m_sourceProperties->get_int(property.toUtf8().constData()) / 1000;
-            if (bitrate > 0) {
-                propertyMap.append({i18n("Video bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
-            }
-
-            int scan = m_sourceProperties->get_int("meta.media.progressive");
-            propertyMap.append({i18n("Scanning:"), (scan == 1 ? i18n("Progressive") : i18n("Interlaced"))});
-
-            property = codecInfo + QStringLiteral("sample_aspect_ratio");
-            double par = m_sourceProperties->get_double(property.toUtf8().constData());
-            if (qFuzzyIsNull(par)) {
-                // Read media aspect ratio
-                par = m_sourceProperties->get_double("meta.media.sample_aspect_num");
-                double den = m_sourceProperties->get_double("meta.media.sample_aspect_den");
-                if (den > 0) {
-                    par /= den;
-                }
-            }
-            propertyMap.append({i18n("Pixel aspect ratio:"), QString::number(par, 'f', 3)});
-            property = codecInfo + QStringLiteral("pix_fmt");
-            propertyMap.append({i18n("Pixel format:"), m_sourceProperties->get(property.toUtf8().constData())});
-            property = codecInfo + QStringLiteral("colorspace");
-            int colorspace = m_sourceProperties->get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Colorspace:"), ProfileRepository::getColorspaceDescription(colorspace)});
-
-            int b_frames = m_sourceProperties->get_int("meta.media.has_b_frames");
-            propertyMap.append({i18n("B frames:"), (b_frames == 1 ? i18n("Yes") : i18n("No"))});
+            propertyMap << getVideoProperties(vindex);
         }
+
+        // Audio streams
+        propertyMap.append({i18n("Audio streams:"), QString::number(m_controller->audioStreamsCount())});
+
         if (default_audio > -1) {
-            propertyMap.append({i18n("Audio streams:"), QString::number(m_controller->audioStreamsCount())});
-
-            QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(default_audio);
-            QString property = codecInfo + QStringLiteral("long_name");
-            QString codec = m_sourceProperties->get(property.toUtf8().constData());
-            if (!codec.isEmpty()) {
-                propertyMap.append({i18n("Audio codec:"), codec});
-            }
-            property = codecInfo + QStringLiteral("channels");
-            int channels = m_sourceProperties->get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Audio channels:"), QString::number(channels)});
-
-            property = codecInfo + QStringLiteral("sample_rate");
-            int srate = m_sourceProperties->get_int(property.toUtf8().constData());
-            propertyMap.append({i18n("Audio frequency:"), QString::number(srate) + QLatin1Char(' ') + i18nc("Herz", "Hz")});
-
-            property = codecInfo + QStringLiteral("bit_rate");
-            int bitrate = m_sourceProperties->get_int(property.toUtf8().constData()) / 1000;
-            if (bitrate > 0) {
-                propertyMap.append({i18n("Audio bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
-            }
+            propertyMap << getAudioProperties(default_audio);
         }
     } else if (m_type == ClipType::Timeline) {
         int tracks = m_sourceProperties->get_int("kdenlive:sequenceproperties.tracksCount");
