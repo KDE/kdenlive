@@ -2304,6 +2304,7 @@ void MainWindow::slotRenderProject()
     slotCheckRenderStatus();
     if (m_renderWidget) {
         m_renderWidget->showNormal();
+        m_renderWidget->activateWindow();
         m_renderWidget->raise();
     }
 
