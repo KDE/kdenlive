@@ -1683,9 +1683,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
         const std::shared_ptr<ProjectClip> &item = clipList.at(i);
         ClipType::ProducerType t = item->clipType();
         // Only allow proxy on some clip types
-        if ((t == ClipType::Video || t == ClipType::AV || t == ClipType::Unknown || t == ClipType::Image || t == ClipType::Playlist ||
-             t == ClipType::SlideShow) &&
-            item->statusReady()) {
+        if (item->supportsProxy() && item->statusReady()) {
             // Check for MP3 with cover art
             if (t == ClipType::AV && item->codec(false) == QLatin1String("mjpeg")) {
                 QString frame_rate = item->videoCodecProperty(QStringLiteral("frame_rate"));

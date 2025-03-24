@@ -1153,6 +1153,20 @@ const QString ClipController::getOriginalUrl()
     return path;
 }
 
+bool ClipController::supportsProxy() const
+{
+    switch (clipType()) {
+        case ClipType::Video:
+        case ClipType::AV:
+        case ClipType::Image:
+        case ClipType::Playlist:
+        case ClipType::SlideShow:
+            return true;
+        default:
+            return false;
+    }
+}
+
 bool ClipController::hasProxy() const
 {
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));

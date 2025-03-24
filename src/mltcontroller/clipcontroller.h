@@ -204,6 +204,8 @@ public:
     int audioStreamsCount() const;
     /** @brief Get the path to the original clip url (in case it is proxied) */
     const QString getOriginalUrl();
+    /** @brief Returns true if this clip supports creating a proxy for it. */
+    bool supportsProxy() const;
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
     /** @brief Delete or re-assign all markers in a category. */
