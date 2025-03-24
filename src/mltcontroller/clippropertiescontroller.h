@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "definitions.h"
+#include "widgets/elidedfilelinklabel.h"
 
 #include <KMessageWidget>
 
@@ -27,24 +28,6 @@ class QCheckBox;
 class QButtonGroup;
 class QSpinBox;
 class QSortFilterProxyModel;
-
-class ElidedLinkLabel : public QLabel
-{
-    Q_OBJECT
-
-public:
-    explicit ElidedLinkLabel(QWidget *parent = nullptr);
-    void setLabelText(const QString &text, const QString &link);
-    void updateText(int width);
-    int currentWidth() const;
-
-private:
-    QString m_text;
-    QString m_link;
-
-protected:
-    void resizeEvent(QResizeEvent *event) override;
-};
 
 class AnalysisTree : public QTreeWidget
 {
@@ -95,7 +78,7 @@ private Q_SLOTS:
 private:
     ClipController *m_controller;
     QTabWidget *m_tabWidget;
-    ElidedLinkLabel *m_clipLabel;
+    ElidedFileLinkLabel *m_clipLabel;
     QString m_id;
     ClipType::ProducerType m_type;
     /** @brief: the properties of the active producer (can be a proxy) */

@@ -21,7 +21,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KDualAction>
 #include <KLocalizedString>
 
-#include "kdenlive_debug.h"
 #include <KFileMetaData/ExtractionResult>
 #include <KFileMetaData/Extractor>
 #include <KFileMetaData/ExtractorCollection>
@@ -53,47 +52,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QtMath>
-
-ElidedLinkLabel::ElidedLinkLabel(QWidget *parent)
-    : QLabel(parent)
-{
-}
-
-void ElidedLinkLabel::setLabelText(const QString &text, const QString &link)
-{
-    m_text = text;
-    m_link = link;
-    int width = currentWidth();
-    updateText(width);
-}
-
-void ElidedLinkLabel::updateText(int width)
-{
-    if (m_link.isEmpty()) {
-        setText(fontMetrics().elidedText(m_text, Qt::ElideLeft, width));
-    } else {
-        setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(m_link, fontMetrics().elidedText(m_text, Qt::ElideLeft, width)));
-    }
-}
-
-int ElidedLinkLabel::currentWidth() const
-{
-    int width = 0;
-    if (isVisible()) {
-        width = contentsRect().width();
-    } else {
-        QMargins mrg = contentsMargins();
-        width = sizeHint().width() - mrg.left() - mrg.right();
-    }
-    return width;
-}
-
-void ElidedLinkLabel::resizeEvent(QResizeEvent *event)
-{
-    int diff = event->size().width() - event->oldSize().width();
-    updateText(currentWidth() + diff);
-    QLabel::resizeEvent(event);
-}
 
 AnalysisTree::AnalysisTree(QWidget *parent)
     : QTreeWidget(parent)
@@ -205,14 +163,15 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
-    m_clipLabel = new ElidedLinkLabel(this);
+    m_clipLabel = new ElidedFileLinkLabel(this);
 
     if (m_type == ClipType::Color || m_type == ClipType::Timeline || controller->clipUrl().isEmpty()) {
-        m_clipLabel->setLabelText(clipName, QString());
+        m_clipLabel->clear();
+        m_clipLabel->setText(clipName);
     } else {
-        m_clipLabel->setLabelText(controller->clipUrl(), controller->clipUrl());
+        m_clipLabel->setText(controller->clipUrl());
+        m_clipLabel->setLink(controller->clipUrl());
     }
-    connect(m_clipLabel, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
     lay->addWidget(m_clipLabel);
     lay->addWidget(&m_warningMessage);
     m_warningMessage.setCloseButtonVisible(false);
