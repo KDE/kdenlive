@@ -1458,6 +1458,115 @@ void ClipPropertiesController::fillProperties()
     m_propertiesTree->resizeColumnToContents(0);
 }
 
+QMap<QString, QString> ClipPropertiesController::getMetadateMagicLantern()
+{
+    QString url = m_controller->clipUrl();
+    url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".LOG");
+    if (!QFile::exists(url)) {
+        return {};
+    }
+
+    QFile file(url);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return {};
+    }
+
+    QMap<QString, QString> metadata;
+
+    m_controller->setProducerProperty(QStringLiteral("kdenlive:magiclantern"), 1);
+
+    while (!file.atEnd()) {
+        QString line = file.readLine().simplified();
+        if (line.startsWith('#') || line.isEmpty() || !line.contains(QLatin1Char(':'))) {
+            continue;
+        }
+        if (line.startsWith(QLatin1String("CSV data"))) {
+            break;
+        }
+        QString key = line.section(QLatin1Char(':'), 0, 0).simplified();
+        QString value = line.section(QLatin1Char(':'), 1).simplified();
+        m_controller->setProducerProperty("kdenlive:meta.magiclantern." + key, value);
+
+        metadata.insert(key, value);
+    }
+    return metadata;
+}
+
+QMap<QString, QString> ClipPropertiesController::getMetadataExif()
+{
+    QString exifToolBinary = QStandardPaths::findExecutable(QStringLiteral("exiftool"));
+    if (exifToolBinary.isEmpty()) {
+        return {};
+    }
+
+    QString url = m_controller->clipUrl();
+    // Check for Canon THM file
+    url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".THM");
+
+    QMap<QString, QString> metadata;
+
+    if (QFile::exists(url)) {
+        // Read the exif metadata embedded in the THM file
+        QProcess p;
+        QStringList args = {QStringLiteral("-g"), QStringLiteral("-args"), url};
+        p.start(exifToolBinary, args);
+        p.waitForFinished();
+        QString res = p.readAllStandardOutput();
+        m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
+        QStringList list = res.split(QLatin1Char('\n'));
+        for (const QString &tagline : std::as_const(list)) {
+            if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
+                continue;
+            }
+            QString tag = tagline.section(QLatin1Char(':'), 1).simplified();
+            if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
+                continue;
+            }
+            QString key = tag.section(QLatin1Char('='), 0, 0);
+            QString value = tag.section(QLatin1Char('='), 1).simplified();
+
+            if (!key.isEmpty() && !value.isEmpty()) {
+                m_controller->setProducerProperty("kdenlive:meta.exiftool." + key, value);
+                metadata.insert(key, value);
+            }
+        }
+        return metadata; //TODO: this copies the current behaviour but maybe we should continue below eg. if metadate is empty yet?
+    }
+
+    if (!(m_type == ClipType::Image || m_controller->codec(false) == QLatin1String("h264"))) {
+        return {};
+    }
+
+    QProcess p;
+    QStringList args = {QStringLiteral("-g"), QStringLiteral("-args"), m_controller->clipUrl()};
+    p.start(exifToolBinary, args);
+    p.waitForFinished();
+    QString res = p.readAllStandardOutput();
+    if (m_type != ClipType::Image) {
+        m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
+    }
+    QStringList list = res.split(QLatin1Char('\n'));
+    for (const QString &tagline : std::as_const(list)) {
+        if (m_type != ClipType::Image && !tagline.startsWith(QLatin1String("-H264"))) {
+            continue;
+        }
+        QString tag = tagline.section(QLatin1Char(':'), 1);
+        if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
+            continue;
+        }
+        QString key = tag.section(QLatin1Char('='), 0, 0);
+        QString value = tag.section(QLatin1Char('='), 1).simplified();
+
+        if (m_type != ClipType::Image) {
+            // Do not store image exif metadata in project file, would be too much noise
+            m_controller->setProducerProperty("kdenlive:meta.exiftool." + key, value);
+        }
+        metadata.insert(key, value);
+    }
+
+    return metadata;
+}
+
 void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
 {
     tree->clear();
@@ -1465,136 +1574,66 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
         // Currently, we only use exiftool on video files
         return;
     }
+
+    // Exif Metadata
+    QMap<QString, QString> exifMetadata;
     int exifUsed = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:exiftool"));
     if (exifUsed == 1) {
+        // we have chached metadata
         Mlt::Properties subProperties;
         subProperties.pass_values(*m_properties, "kdenlive:meta.exiftool.");
         if (subProperties.count() > 0) {
-            QTreeWidgetItem *exif = new QTreeWidgetItem(tree, {i18n("Exif"), QString()});
-            exif->setExpanded(true);
             for (int i = 0; i < subProperties.count(); i++) {
-                new QTreeWidgetItem(exif, {subProperties.get_name(i), subProperties.get(i)});
+                exifMetadata.insert(subProperties.get_name(i), subProperties.get(i));
             }
         }
     } else if (KdenliveSettings::use_exiftool()) {
-        QString url = m_controller->clipUrl();
-        // Check for Canon THM file
-        url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".THM");
-        if (QFile::exists(url)) {
-            QString exifToolBinary = QStandardPaths::findExecutable(QStringLiteral("exiftool"));
-            if (!exifToolBinary.isEmpty()) {
-                // Read the exif metadata embedded in the THM file
-                QProcess p;
-                QStringList args = {QStringLiteral("-g"), QStringLiteral("-args"), url};
-                p.start(exifToolBinary, args);
-                p.waitForFinished();
-                QString res = p.readAllStandardOutput();
-                m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
-                QTreeWidgetItem *exif = nullptr;
-                QStringList list = res.split(QLatin1Char('\n'));
-                for (const QString &tagline : std::as_const(list)) {
-                    if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
-                        continue;
-                    }
-                    QString tag = tagline.section(QLatin1Char(':'), 1).simplified();
-                    if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
-                        continue;
-                    }
-                    if (!tag.section(QLatin1Char('='), 0, 0).isEmpty() && !tag.section(QLatin1Char('='), 1).simplified().isEmpty()) {
-                        if (!exif) {
-                            exif = new QTreeWidgetItem(tree, {i18n("Exif"), QString()});
-                            exif->setExpanded(true);
-                        }
-                        m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
-                                                          tag.section(QLatin1Char('='), 1).simplified());
-                        new QTreeWidgetItem(exif, {tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified()});
-                    }
-                }
-            }
-        } else {
-            if (m_type == ClipType::Image || m_controller->codec(false) == QLatin1String("h264")) {
-                QString exifToolBinary = QStandardPaths::findExecutable(QStringLiteral("exiftool"));
-                if (!exifToolBinary.isEmpty()) {
-                    QProcess p;
-                    QStringList args = {QStringLiteral("-g"), QStringLiteral("-args"), m_controller->clipUrl()};
-                    p.start(exifToolBinary, args);
-                    p.waitForFinished();
-                    QString res = p.readAllStandardOutput();
-                    if (m_type != ClipType::Image) {
-                        m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
-                    }
-                    QTreeWidgetItem *exif = nullptr;
-                    QStringList list = res.split(QLatin1Char('\n'));
-                    for (const QString &tagline : std::as_const(list)) {
-                        if (m_type != ClipType::Image && !tagline.startsWith(QLatin1String("-H264"))) {
-                            continue;
-                        }
-                        QString tag = tagline.section(QLatin1Char(':'), 1);
-                        if (tag.startsWith(QLatin1String("ImageWidth")) || tag.startsWith(QLatin1String("ImageHeight"))) {
-                            continue;
-                        }
-                        if (!exif) {
-                            exif = new QTreeWidgetItem(tree, {i18n("Exif"), QString()});
-                            exif->setExpanded(true);
-                        }
-                        if (m_type != ClipType::Image) {
-                            // Do not store image exif metadata in project file, would be too much noise
-                            m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
-                                                              tag.section(QLatin1Char('='), 1).simplified());
-                        }
-                        new QTreeWidgetItem(exif, {tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified()});
-                    }
-                }
-            }
+        exifMetadata = getMetadataExif();
+    }
+
+    if (!exifMetadata.isEmpty()) {
+        // Parent tree item
+        QTreeWidgetItem *exif = new QTreeWidgetItem(tree, {i18n("Exif"), QString()});
+        exif->setExpanded(true);
+
+        // Child tree items
+        QMapIterator<QString, QString> i(exifMetadata);
+        while (i.hasNext()) {
+            i.next();
+            new QTreeWidgetItem(exif, { i.key(), i.value() });
         }
     }
+
+    // Magic Lantern Metadata
+    QMap<QString, QString> magicLanternMetadata;
     int magic = m_controller->getProducerIntProperty(QStringLiteral("kdenlive:magiclantern"));
     if (magic == 1) {
+        // We have chached metadata
         Mlt::Properties subProperties;
         subProperties.pass_values(*m_properties, "kdenlive:meta.magiclantern.");
-        QTreeWidgetItem *magicL = nullptr;
         for (int i = 0; i < subProperties.count(); i++) {
-            if (!magicL) {
-                magicL = new QTreeWidgetItem(tree, {i18n("Magic Lantern"), QString()});
-                QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
-                magicL->setIcon(0, icon);
-                magicL->setExpanded(true);
-            }
-            new QTreeWidgetItem(magicL, {subProperties.get_name(i), subProperties.get(i)});
+            magicLanternMetadata.insert(subProperties.get_name(i), subProperties.get(i));
         }
     } else if (m_type != ClipType::Image && KdenliveSettings::use_magicLantern()) {
-        QString url = m_controller->clipUrl();
-        url = url.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".LOG");
-        if (QFile::exists(url)) {
-            QFile file(url);
-            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                m_controller->setProducerProperty(QStringLiteral("kdenlive:magiclantern"), 1);
-                QTreeWidgetItem *magicL = nullptr;
-                while (!file.atEnd()) {
-                    QString line = file.readLine().simplified();
-                    if (line.startsWith('#') || line.isEmpty() || !line.contains(QLatin1Char(':'))) {
-                        continue;
-                    }
-                    if (line.startsWith(QLatin1String("CSV data"))) {
-                        break;
-                    }
-                    m_controller->setProducerProperty("kdenlive:meta.magiclantern." + line.section(QLatin1Char(':'), 0, 0).simplified(),
-                                                      line.section(QLatin1Char(':'), 1).simplified());
-                    if (!magicL) {
-                        magicL = new QTreeWidgetItem(tree, {i18n("Magic Lantern"), QString()});
-                        QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
-                        magicL->setIcon(0, icon);
-                        magicL->setExpanded(true);
-                    }
-                    new QTreeWidgetItem(magicL, {line.section(QLatin1Char(':'), 0, 0).simplified(), line.section(QLatin1Char(':'), 1).simplified()});
-                }
-            }
-        }
-
-        // if (!meta.isEmpty())
-        // clip->setMetadata(meta, "Magic Lantern");
-        // clip->setProperty("magiclantern", "1");
+        magicLanternMetadata = getMetadateMagicLantern();
     }
+
+    if (!magicLanternMetadata.isEmpty()) {
+        // Parent tree item
+        QTreeWidgetItem *magicL = new QTreeWidgetItem(tree, { i18n("Magic Lantern"), QString() });
+        QIcon icon(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("meta_magiclantern.png")));
+        magicL->setIcon(0, icon);
+        magicL->setExpanded(true);
+
+        // Child tree items
+        QMapIterator<QString, QString> i(magicLanternMetadata);
+        while (i.hasNext()) {
+            i.next();
+            new QTreeWidgetItem(magicL, { i.key(), i.value() });
+        }
+    }
+
+    // Final touches
     tree->resizeColumnToContents(0);
 }
 

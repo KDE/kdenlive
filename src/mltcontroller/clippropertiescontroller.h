@@ -110,6 +110,9 @@ private:
     /** @brief Add/remove icon beside audio stream to indicate effects. */
     void updateStreamIcon(int row, int streamIndex);
 
+    QMap<QString, QString> getMetadateMagicLantern();
+    QMap<QString, QString> getMetadataExif();
+
 Q_SIGNALS:
     void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);
     void colorModified(const QColor &);
