@@ -194,7 +194,7 @@ void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString>
         return;
     }
     if (m_targetTrackInfo.keep) {
-        // Wer are gradding a clip, don't update timeline target tracks
+        // Wer are dragging a clip, don't update timeline target tracks
         m_targetTrackInfo.needsToBeApplied = true;
         m_targetTrackInfo.hasVideo = hasVideo;
         m_targetTrackInfo.audioTargets = audioTargets;
