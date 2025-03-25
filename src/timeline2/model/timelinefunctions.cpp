@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
+#include "lib/audio/audioStreamInfo.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "project/projectmanager.h"
@@ -69,13 +70,15 @@ int spacerMinPosition(-1);
 int spacerMaxPosition(-1);
 QSemaphore semaphore(1);
 
-bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo,
-                                  Fun &redo)
+bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, int audioStream,
+                                  Fun &undo, Fun &redo)
 {
     // Special case: slowmotion clips
     double clipSpeed = timeline->m_allClips[clipId]->getSpeed();
     bool warp_pitch = timeline->m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
-    int audioStream = timeline->m_allClips[clipId]->getIntProperty(QStringLiteral("audio_index"));
+    if (audioStream == -1) {
+        audioStream = timeline->m_allClips[clipId]->getIntProperty(QStringLiteral("audio_index"));
+    }
     bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, audioStream, clipSpeed, warp_pitch, undo, redo);
     if (!res) {
         return false;
@@ -145,7 +148,7 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     int subplaylist = timeline->m_allClips[clipId]->getSubPlaylistIndex();
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     // Check if clip has an end Mix
-    bool res = cloneClip(timeline, clipId, newId, state, undo, redo);
+    bool res = cloneClip(timeline, clipId, newId, state, -1, undo, redo);
     if (!res) {
         qDebug() << "// CLONING CLIP FAILED";
         return false;
@@ -1030,7 +1033,7 @@ bool TimelineFunctions::requestItemCopy(const std::shared_ptr<TimelineItemModel>
         int newId = -1;
         if (timeline->isClip(id)) {
             PlaylistState::ClipState state = timeline->m_allClips[id]->clipState();
-            res = cloneClip(timeline, id, newId, state, undo, redo);
+            res = cloneClip(timeline, id, newId, state, -1, undo, redo);
             res = res && (newId != -1);
         }
         int target_position = timeline->getItemPosition(id) + deltaPos;
@@ -1153,7 +1156,7 @@ bool TimelineFunctions::changeClipState(const std::shared_ptr<TimelineItemModel>
     return result;
 }
 
-bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int audioTarget)
+bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, QList<int> targetTracks)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -1168,38 +1171,41 @@ bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemMode
             return false;
         }
         int position = timeline->getClipPosition(cid);
-        int track = timeline->getClipTrackId(cid);
-        QList<int> possibleTracks;
-        // Try inserting in target track first, then mirror track
-        if (audioTarget >= 0) {
-            possibleTracks = {audioTarget};
+        int inserts = 0;
+        std::unordered_set<int> newIds;
+        std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(timeline->getClipBinId(cid));
+        QList<int> streams = binClip->activeStreams().keys();
+        int tid = timeline->getClipTrackId(cid);
+        int mirror = timeline->getMirrorAudioTrackId(tid);
+        QList destTracks = targetTracks;
+        qsizetype ix = destTracks.indexOf(mirror);
+        if (ix > -1 && (destTracks.size() - ix >= streams.size())) {
+            // We have enough tracks, start inserting from mirror track
+            destTracks.remove(0, ix);
         }
-        int mirror = timeline->getMirrorAudioTrackId(track);
-        if (mirror > -1) {
-            possibleTracks << mirror;
+        qDebug() << "::: TESTING AUDIO EXTRACT; STREAMS: " << streams << "\nTRACKS: " << destTracks << "\n\nHHHHHHHHHHHHHHHHHH";
+        while (!streams.isEmpty() && !destTracks.isEmpty()) {
+            int stream = streams.takeFirst();
+            int newTrack = destTracks.takeFirst();
+            int newId;
+            bool res = cloneClip(timeline, cid, newId, PlaylistState::AudioOnly, stream, undo, redo);
+            if (!res) {
+                bool undone = undo();
+                Q_ASSERT(undone);
+                pCore->displayMessage(i18n("Audio restore failed"), ErrorMessage);
+                qDebug() << "::: CLONING FAILEd.......\n\nHHHHHHHHHHHHHHHHHH";
+                return false;
+            }
+            if (timeline->requestClipMove(newId, newTrack, position, true, true, false, true, undo, redo)) {
+                inserts++;
+                newIds.insert(newId);
+            }
         }
-        if (possibleTracks.isEmpty()) {
-            // No available audio track for splitting, abort
-            undo();
-            pCore->displayMessage(i18n("No available audio track for restore operation"), ErrorMessage);
-            return false;
-        }
-        int newId;
-        bool res = cloneClip(timeline, cid, newId, PlaylistState::AudioOnly, undo, redo);
-        if (!res) {
-            bool undone = undo();
-            Q_ASSERT(undone);
-            pCore->displayMessage(i18n("Audio restore failed"), ErrorMessage);
-            return false;
-        }
-        bool success = false;
-        while (!success && !possibleTracks.isEmpty()) {
-            int newTrack = possibleTracks.takeFirst();
-            success = timeline->requestClipMove(newId, newTrack, position, true, true, false, true, undo, redo);
-        }
+        bool success = inserts > 0;
         TimelineFunctions::changeClipState(timeline, cid, PlaylistState::VideoOnly, undo, redo);
-        success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo);
+        success = success && timeline->m_groups->createGroupAtSameLevel(cid, newIds, GroupType::AVSplit, undo, redo);
         if (!success) {
+            qDebug() << "::: GROUPING FAILEd......., INSERTS: " << inserts << "\n\nHHHHHHHHHHHHHHHHHH";
             bool undone = undo();
             Q_ASSERT(undone);
             pCore->displayMessage(i18n("Audio restore failed"), ErrorMessage);
@@ -1245,7 +1251,7 @@ bool TimelineFunctions::requestSplitVideo(const std::shared_ptr<TimelineItemMode
             return false;
         }
         int newId;
-        bool res = cloneClip(timeline, cid, newId, PlaylistState::VideoOnly, undo, redo);
+        bool res = cloneClip(timeline, cid, newId, PlaylistState::VideoOnly, -1, undo, redo);
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);

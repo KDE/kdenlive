@@ -194,7 +194,7 @@ void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString>
         return;
     }
     if (m_targetTrackInfo.keep) {
-        // Wer are gradding a clip, don't update timeline target tracks
+        // Wer are dragging a clip, don't update timeline target tracks
         m_targetTrackInfo.needsToBeApplied = true;
         m_targetTrackInfo.hasVideo = hasVideo;
         m_targetTrackInfo.audioTargets = audioTargets;
@@ -3312,25 +3312,17 @@ bool TimelineController::splitAV()
         if (clip->clipState() == PlaylistState::AudioOnly) {
             return TimelineFunctions::requestSplitVideo(m_model, cid, videoTarget());
         } else {
-            QVariantList aTargets = audioTarget();
-            int targetTrack = aTargets.isEmpty() ? -1 : aTargets.first().toInt();
-            return TimelineFunctions::requestSplitAudio(m_model, cid, targetTrack);
+            // Check the available tracks
+            QList<int> availableAudioTracks = m_model->getActiveAudioTrackIndexes();
+            if (availableAudioTracks.isEmpty()) {
+                pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage, 500);
+                return false;
+            }
+            return TimelineFunctions::requestSplitAudio(m_model, cid, availableAudioTracks);
         }
     }
     pCore->displayMessage(i18n("No clip found to perform AV split operation"), ErrorMessage, 500);
     return false;
-}
-
-void TimelineController::splitAudio(int clipId)
-{
-    QVariantList aTargets = audioTarget();
-    int targetTrack = aTargets.isEmpty() ? -1 : aTargets.first().toInt();
-    TimelineFunctions::requestSplitAudio(m_model, clipId, targetTrack);
-}
-
-void TimelineController::splitVideo(int clipId)
-{
-    TimelineFunctions::requestSplitVideo(m_model, clipId, videoTarget());
 }
 
 void TimelineController::setAudioRef(int clipId)

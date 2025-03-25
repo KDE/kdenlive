@@ -879,6 +879,7 @@ Rectangle {
             }
         }
         onExited: {
+            timeline.keepAudioTargets(false)
             if (clipBeingDroppedId != -1 && (lastDragPos.y < lastDragPos.x || (clipDropArea.height - lastDragPos.y < lastDragPos.x))) {
                 // If we exit on top or bottom, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
@@ -928,6 +929,7 @@ Rectangle {
         }
         onDropped: {
             processDrop()
+            timeline.keepAudioTargets(false)
         }
     }
     DropArea { //Drop area for urls (direct drop from file manager)
