@@ -152,7 +152,8 @@ void GlaxnimateLauncher::onReadyRead()
         } else {
             m_isProtocolValid = true;
         }
-    } else {
+    }
+    if (m_isProtocolValid) {
         qreal time = -1.0;
         for (int i = 0; i < 1000 && !m_stream->atEnd(); i++) {
             *m_stream >> time;
