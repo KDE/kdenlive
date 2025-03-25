@@ -648,17 +648,16 @@ int TimelineItemModel::getFirstVideoTrackIndex() const
     return trackId;
 }
 
-int TimelineItemModel::getFirstAudioTrackIndex() const
+QList<int> TimelineItemModel::getActiveAudioTrackIndexes() const
 {
-    int trackId = -1;
-    auto it = m_allTracks.cbegin();
-    while (it != m_allTracks.cend()) {
-        if ((*it)->isAudioTrack()) {
-            trackId = (*it)->getId();
+    QList<int> trackIds;
+    std::list<std::shared_ptr<TrackModel>>::const_reverse_iterator it;
+    for (it = m_allTracks.rbegin(); it != m_allTracks.rend(); it++) {
+        if ((*it)->isAudioTrack() && (*it)->shouldReceiveTimelineOp()) {
+            trackIds << (*it)->getId();
         }
-        ++it;
     }
-    return trackId;
+    return trackIds;
 }
 
 std::shared_ptr<SubtitleModel> TimelineItemModel::createSubtitleModel()

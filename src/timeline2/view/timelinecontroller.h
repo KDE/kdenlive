@@ -488,8 +488,6 @@ public:
      */
     void saveZone(int clipId = -1);
 
-    Q_INVOKABLE void splitAudio(int clipId);
-    Q_INVOKABLE void splitVideo(int clipId);
     Q_INVOKABLE void setAudioRef(int clipId = -1);
     Q_INVOKABLE void alignAudio(int clipId = -1);
     Q_INVOKABLE void urlDropped(QStringList droppedFile, int frame, int tid);

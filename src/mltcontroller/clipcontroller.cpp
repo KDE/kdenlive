@@ -325,6 +325,7 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("blipflash")) {
         // Mostly used for testing
         m_clipType = ClipType::AV;
+        audioIndex = 0;
     } else if (m_service == QLatin1String("glaxnimate")) {
         // Mostly used for testing
         m_clipType = ClipType::Animation;
