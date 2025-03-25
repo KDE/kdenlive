@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 00:41+0000\n"
-"PO-Revision-Date: 2025-03-23 23:02+0100\n"
+"PO-Revision-Date: 2025-03-24 11:35+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1428,7 +1428,7 @@ msgstr "Kleursleutel"
 #: data/effects/avfilter/avfilter_chromahold.xml:9
 #, kde-format
 msgid "The color which will not be replaced with neutral chroma"
-msgstr ""
+msgstr "De kleur die niet zal worden vervangen door neutraal chroma"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:12
 #: data/effects/avfilter/avfilter_colorhold.xml:11
@@ -1443,6 +1443,9 @@ msgid ""
 "        0.01 matches only the exact key color, while 1.0 matches "
 "everything.]]>"
 msgstr ""
+"<![CDATA[Percentage gelijkheid met de geselecteerde kleur<br>\n"
+"        0.01 komt alleen overeen met de exacte sleutelkleur, terwijl 1,0 met "
+"alles overeenkomt.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -1457,6 +1460,9 @@ msgid ""
 "at all.<br>\n"
 "        Higher values result in more preserved color.]]>"
 msgstr ""
+"<![CDATA[Percentage mengen. 0,0 maakt pixels ofwel volledig grijs of "
+"helemaal niet grijs.<br>\n"
+"        Hogere waarden resulteren in meer behouden kleur.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
@@ -1467,6 +1473,7 @@ msgstr "YUV-kleur"
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
 msgstr ""
+"<![CDATA[Selecteer dit als de clip YUV-gegevens heeft in plaats van RGB.]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -1476,7 +1483,7 @@ msgstr "Chroma ruisreductie"
 #: data/effects/avfilter/avfilter_chromanr.xml:5
 #, kde-format
 msgid "Reduce chrominance noise."
-msgstr ""
+msgstr "Chrominantie ruis verminderen."
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
 #, kde-format
@@ -1516,7 +1523,7 @@ msgstr "V-drempel"
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
 msgid "Manhattan,Euclidean"
-msgstr ""
+msgstr "Manhattan,Euclidisch"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
 #, kde-format
@@ -1557,7 +1564,7 @@ msgstr "Chroma-rood V-verschuiving"
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, kde-format
 msgid "Smear,Wrap"
-msgstr ""
+msgstr "Vlekken,Rondlopen"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:21
 #: data/effects/frei0r/frei0r_select0r.xml:33
@@ -1577,6 +1584,8 @@ msgstr "Kleurbalans"
 msgid ""
 "Modify intensity of primary colors (red, green and blue) of input frames. "
 msgstr ""
+"Intensiteit van primaire kleuren (rood, groen en blauw) van invoerframes "
+"wijzigen."
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
 #, kde-format
@@ -1596,7 +1605,7 @@ msgstr "Blauwe schaduw"
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
 msgid "Red Midtones"
-msgstr ""
+msgstr "Rode middentonen"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
 #, kde-format
@@ -1640,6 +1649,8 @@ msgid ""
 "Modifies a color channel by adding the values associated to the other "
 "channels of the same pixels"
 msgstr ""
+"Wijzigt een kleurkanaal door de waarden geassocieerd met de andere kanalen "
+"van dezelfde pixels op te tellen"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
@@ -1695,6 +1706,7 @@ msgstr "Kleurcontrast"
 #, kde-format
 msgid "Adjust color contrast between RGB components."
 msgstr ""
+"Kleurcontrast tussen RGB componenten aanpassen. (|avfilter.colorcontrast"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
 #, kde-format
@@ -1742,6 +1754,8 @@ msgid ""
 "Adjust color white balance selectively for blacks and whites.This filter "
 "operates in YUV colorspace."
 msgstr ""
+"De kleur witbalans selectief voor de zwarten en de witten aanpassen. Dit "
+"filter werkt in de YUV-kleurruimte."
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
@@ -1779,7 +1793,7 @@ msgstr "Verzadiging"
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
 #, kde-format
 msgid "Manual,Average,Minimax,Median"
-msgstr ""
+msgstr "Handmatig,gemiddelde,Minimax,Mediaan"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
 #, kde-format
@@ -1796,6 +1810,8 @@ msgstr "Kleur behouden"
 msgid ""
 "Remove all color information for all RGB colors except for certain one. "
 msgstr ""
+"Verwijder alle kleurinformatie voor alle RGB-kleuren behalve voor een "
+"bepaalde. "
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, kde-format
@@ -1805,7 +1821,7 @@ msgstr "Kleuroverlay"
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
 msgid "Overlay a solid color on the video stream with mixing feature."
-msgstr ""
+msgstr "Overlay een egale kleur op de videostream met mengfunctie."
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
@@ -1826,17 +1842,17 @@ msgstr "Kleurniveaus"
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
 msgid "Adjust video input frames using levels. "
-msgstr ""
+msgstr "Video-invoerframes aanpassen met niveaus. "
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:8
 #, kde-format
 msgid "Red black input"
-msgstr ""
+msgstr "Rood-zwart-invoer"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:11
 #, kde-format
 msgid "Red white input"
-msgstr ""
+msgstr "Rood-wit-invoer"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:14
 #, kde-format
@@ -1902,7 +1918,7 @@ msgstr "Kleurenmatrix converteren."
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
 #, kde-format
 msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
-msgstr ""
+msgstr "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
 #, kde-format
@@ -1926,6 +1942,8 @@ msgid ""
 "Convert colorspace, transfer characteristics or color primaries. Input video "
 "needs to have an even size."
 msgstr ""
+"Converteert de kleurruimte, overdrachtskarakteristieken of primaire kleuren. "
+"Invoervideo moet een even grootte hebben."
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
 #: data/effects/avfilter/avfilter_colorspace.xml:43
@@ -1934,6 +1952,8 @@ msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
 "BT.2020"
 msgstr ""
+"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
+"BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
 #, kde-format
@@ -1946,6 +1966,7 @@ msgstr "Kleureigenschappen"
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
+"BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 niet-constante luma"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #, kde-format
@@ -2023,7 +2044,7 @@ msgstr "Snelle conversie"
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
 msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
+msgstr "Geen dithering,Floyd-Steinberg dithering"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
 #, kde-format
@@ -2036,11 +2057,13 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"Bradford-witpunt-aanpassing,von Kries-witpunt-aanpassing,identiteit-witpunt-"
+"aanpassing"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
 msgid "Whitepoint adaptation mode"
-msgstr ""
+msgstr "Witpunt-aanpas-modus"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
@@ -2079,6 +2102,8 @@ msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
 msgstr ""
+"Kleurtemperatuur in video aanpassen om variaties in "
+"omgevingskleurtemperatuur te simuleren. "
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
@@ -3846,14 +3871,12 @@ msgid "Flip Horizontally"
 msgstr "Horizontaal spiegelen"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
-#, fuzzy, kde-format
-#| msgid "Horizontal guides."
+#, kde-format
 msgid "Horizontally flip the input video."
-msgstr "Horizontale hulplijnen."
+msgstr "Horizontale de invoervideo omklappen."
 
 #: data/effects/avfilter/avfilter_highpass.xml:4
-#, fuzzy, kde-format
-#| msgid "High"
+#, kde-format
 msgid "High-pass"
 msgstr "Hoog doorlaten"
 
@@ -3904,7 +3927,7 @@ msgid "None,Weak,Strong"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid "Antibanding Level"
 msgstr "Niveau van anti-banding"
 
@@ -3967,16 +3990,14 @@ msgid "Background Opacity"
 msgstr "Achtergronddekking"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
+#, kde-format
 msgid "High precision/quality 3d denoiser"
-msgstr "High quality 3D ruis verwijderen"
+msgstr "Hoge precisie/kwaliteit 3d-ruis verwijderen"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
+#, kde-format
 msgid "Apply a High Quality 3D Denoise"
-msgstr "High quality 3D ruis verwijderen"
+msgstr "Hoge kwaliteit 3d-ruis verwijderen toepassen"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
@@ -3999,10 +4020,9 @@ msgid "Temporal Chroma Strength"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:4
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "Hq*x Interpolator"
-msgstr "HQ*X-interpolatie"
+msgstr "Hq*X-interpolatie"
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
 #, kde-format
@@ -4056,16 +4076,14 @@ msgid "None,Deinterleave,Interleave"
 msgstr "Geen,De-interleave,Interleave"
 
 #: data/effects/avfilter/avfilter_il.xml:9
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Mode"
-msgstr "Luma mode"
+msgstr "Luma-modus"
 
 #: data/effects/avfilter/avfilter_il.xml:13
-#, fuzzy, kde-format
-#| msgid "Chroma Hold"
+#, kde-format
 msgid "Chroma Mode"
-msgstr "Chroma behoud"
+msgstr "Chroma-modus"
 
 #: data/effects/avfilter/avfilter_il.xml:17
 #, kde-format
@@ -4073,27 +4091,24 @@ msgid "Alpha Mode"
 msgstr "Alfamodus"
 
 #: data/effects/avfilter/avfilter_il.xml:20
-#, fuzzy, kde-format
-#| msgid "Luma Files"
+#, kde-format
 msgid "Swap Luma Fields"
-msgstr "Luma-bestanden"
+msgstr "Luma-velden omwisselen"
 
 #: data/effects/avfilter/avfilter_il.xml:23
-#, fuzzy, kde-format
-#| msgid "Swap Channels"
+#, kde-format
 msgid "Swap Chroma Fields"
-msgstr "Kanalen verwisselen"
+msgstr "Chroma-velden omwisselen"
 
 #: data/effects/avfilter/avfilter_il.xml:26
-#, fuzzy, kde-format
-#| msgid "Swap channels"
+#, kde-format
 msgid "Swap Alpha Fields"
-msgstr "Verwissel kanalen"
+msgstr "Alfa-verwissel omwisselen"
 
 #: data/effects/avfilter/avfilter_inflate.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Inflate"
-msgstr "inflate"
+msgstr "Inflate"
 
 #: data/effects/avfilter/avfilter_inflate.xml:5
 #, kde-format
@@ -4103,10 +4118,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold0r"
+#, kde-format
 msgid "threshold0"
-msgstr "Drempel"
+msgstr "drempel0"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
 #, kde-format
@@ -4206,8 +4220,7 @@ msgid "Slowly update darker pixels."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens Correction"
+#, kde-format
 msgid "Lens correction"
 msgstr "Lenscorrectie"
 
@@ -4330,8 +4343,7 @@ msgid "Treat mono input files as \"dual-mono\""
 msgstr "Invoerbestanden met mono behandelen als \"dual-mono\""
 
 #: data/effects/avfilter/avfilter_lowpass.xml:4
-#, fuzzy, kde-format
-#| msgid "Low pass"
+#, kde-format
 msgid "Low-pass"
 msgstr "Laag doorlaat"
 
@@ -4380,7 +4392,7 @@ msgid "Nearest, Trilinear, Tetrahedral"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Motion compensation deinterlacer"
 msgstr "Bewegingscompensatie interlace verwijderen"
 
@@ -4416,22 +4428,19 @@ msgid "Pick median pixel from certain rectangle defined by radius."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:8
-#, fuzzy, kde-format
-#| msgid "Horizontal End"
+#, kde-format
 msgid "Horizontal radius"
-msgstr "Horizontale straal:"
+msgstr "Horizontale straal"
 
 #: data/effects/avfilter/avfilter_median.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Set median radius]]>"
-msgstr "<![CDATA[Offset langs Y-as]]>"
+msgstr "<![CDATA[Mediane straal instellen]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
-#, fuzzy, kde-format
-#| msgid "Vertical End"
+#, kde-format
 msgid "Vertical radius"
-msgstr "Verticale straal:"
+msgstr "Verticale straal"
 
 #: data/effects/avfilter/avfilter_median.xml:14
 #, kde-format
@@ -4454,10 +4463,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+msgstr "<![CDATA[Selecteren welke vlakken te verwerken]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
@@ -4495,10 +4503,9 @@ msgid "Negate"
 msgstr "Inverteer"
 
 #: data/effects/avfilter/avfilter_negate.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Negate (invert) the input video or its alpha channel."
-msgstr "De inverse van het alfa-kanaal gebruiken."
+msgstr "Negate (inverteer) de invoervideo of zijn alfa-kanaal."
 
 #: data/effects/avfilter/avfilter_negate.xml:8
 #, kde-format
@@ -4506,7 +4513,7 @@ msgid "Negate alpha"
 msgstr "Alfa inverteren"
 
 #: data/effects/avfilter/avfilter_noise.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video Noise generator"
 msgstr "Videoruisgenerator"
 
@@ -4521,28 +4528,24 @@ msgid "All components noise seed"
 msgstr "Ruisvoeding voor alle componenten"
 
 #: data/effects/avfilter/avfilter_noise.xml:11
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #0 noise seed"
-msgstr "Component #0 / #1 / #2 / #3 ruisvoeding"
+msgstr "Component #0 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:14
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #1 noise seed"
-msgstr "Component #0 / #1 / #2 / #3 ruisvoeding"
+msgstr "Component #1 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:17
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #2 noise seed"
-msgstr "Component #0 / #1 / #2 / #3 ruisvoeding"
+msgstr "Component #2 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:20
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #3 noise seed"
-msgstr "Component #0 / #1 / #2 / #3 ruisvoeding"
+msgstr "Component #3 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:23
 #, kde-format
@@ -4550,28 +4553,24 @@ msgid "All component strength"
 msgstr "Sterkte van alle componenten"
 
 #: data/effects/avfilter/avfilter_noise.xml:26
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #0 strength"
-msgstr "Componenten:"
+msgstr "Component #0 sterkte"
 
 #: data/effects/avfilter/avfilter_noise.xml:29
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #1 strength"
-msgstr "Componenten:"
+msgstr "Component #1 sterkte"
 
 #: data/effects/avfilter/avfilter_noise.xml:32
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #2 strength"
-msgstr "Componenten:"
+msgstr "Component #2 sterkte"
 
 #: data/effects/avfilter/avfilter_noise.xml:35
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #3 strength"
-msgstr "Componenten:"
+msgstr "Component #3 sterkte"
 
 #: data/effects/avfilter/avfilter_noise.xml:38
 #: data/effects/avfilter/avfilter_noise.xml:42
@@ -4588,30 +4587,29 @@ msgid "Flag all"
 msgstr "Alles vlaggen"
 
 #: data/effects/avfilter/avfilter_noise.xml:43
-#, fuzzy, kde-format
+#, kde-format
 msgid "Flag component 0"
-msgstr "Vlagcomponent 0 / 1 / 2 / 3"
+msgstr "Vlagcomponent 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:47
-#, fuzzy, kde-format
+#, kde-format
 msgid "Flag component 1"
-msgstr "Vlagcomponent 0 / 1 / 2 / 3"
+msgstr "Vlagcomponent 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:51
-#, fuzzy, kde-format
+#, kde-format
 msgid "Flag component 2"
-msgstr "Vlagcomponent 0 / 1 / 2 / 3"
+msgstr "Vlagcomponent 2"
 
 #: data/effects/avfilter/avfilter_noise.xml:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Flag component 3"
-msgstr "Vlagcomponent 0 / 1 / 2 / 3"
+msgstr "Vlagcomponent 3"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
-#, fuzzy, kde-format
-#| msgid "Normal view"
+#, kde-format
 msgid "Normalize RGB video"
-msgstr "RGB Video Normaliseren"
+msgstr "RGB-video normaliseren"
 
 #: data/effects/avfilter/avfilter_normalize.xml:5
 #, kde-format
