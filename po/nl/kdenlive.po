@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-22 02:30+0000\n"
-"PO-Revision-Date: 2025-03-23 22:26+0100\n"
+"POT-Creation-Date: 2025-03-25 02:33+0000\n"
+"PO-Revision-Date: 2025-03-24 11:33+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -1390,7 +1390,7 @@ msgstr "Verscherpen met aanpasbaar contrast"
 #: data/effects/avfilter/avfilter_cas.xml:5
 #, kde-format
 msgid "Apply Contrast Adaptive Sharpen filter to video stream."
-msgstr ""
+msgstr "Aanpasbaar contrast verscherpingsfilter op videostream toepassen."
 
 #: data/effects/avfilter/avfilter_cas.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:10
@@ -1405,7 +1405,7 @@ msgstr "Sterkte"
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
 msgid "Set the sharpening strength."
-msgstr ""
+msgstr "Stel de sterkte van het verscherpen in."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
@@ -1416,6 +1416,7 @@ msgstr "Chroma behoud"
 #, kde-format
 msgid "Remove all color information for all colors except for certain one. "
 msgstr ""
+"Verwijder alle kleurinformatie voor alle kleuren behalve voor een bepaalde. "
 
 #: data/effects/avfilter/avfilter_chromahold.xml:8
 #: data/effects/avfilter/avfilter_colorhold.xml:8 data/effects/chroma.xml:8
@@ -1427,7 +1428,7 @@ msgstr "Kleursleutel"
 #: data/effects/avfilter/avfilter_chromahold.xml:9
 #, kde-format
 msgid "The color which will not be replaced with neutral chroma"
-msgstr ""
+msgstr "De kleur die niet zal worden vervangen door neutraal chroma"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:12
 #: data/effects/avfilter/avfilter_colorhold.xml:11
@@ -1442,6 +1443,9 @@ msgid ""
 "        0.01 matches only the exact key color, while 1.0 matches "
 "everything.]]>"
 msgstr ""
+"<![CDATA[Percentage gelijkheid met de geselecteerde kleur<br>\n"
+"        0.01 komt alleen overeen met de exacte sleutelkleur, terwijl 1,0 met "
+"alles overeenkomt.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -1456,6 +1460,9 @@ msgid ""
 "at all.<br>\n"
 "        Higher values result in more preserved color.]]>"
 msgstr ""
+"<![CDATA[Percentage mengen. 0,0 maakt pixels ofwel volledig grijs of "
+"helemaal niet grijs.<br>\n"
+"        Hogere waarden resulteren in meer behouden kleur.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
@@ -1466,6 +1473,7 @@ msgstr "YUV-kleur"
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
 msgstr ""
+"<![CDATA[Selecteer dit als de clip YUV-gegevens heeft in plaats van RGB.]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -1475,7 +1483,7 @@ msgstr "Chroma ruisreductie"
 #: data/effects/avfilter/avfilter_chromanr.xml:5
 #, kde-format
 msgid "Reduce chrominance noise."
-msgstr ""
+msgstr "Chrominantie ruis verminderen."
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
 #, kde-format
@@ -1515,7 +1523,7 @@ msgstr "V-drempel"
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
 msgid "Manhattan,Euclidean"
-msgstr ""
+msgstr "Manhattan,Euclidisch"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
 #, kde-format
@@ -1556,7 +1564,7 @@ msgstr "Chroma-rood V-verschuiving"
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, kde-format
 msgid "Smear,Wrap"
-msgstr ""
+msgstr "Vlekken,Rondlopen"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:21
 #: data/effects/frei0r/frei0r_select0r.xml:33
@@ -1576,6 +1584,8 @@ msgstr "Kleurbalans"
 msgid ""
 "Modify intensity of primary colors (red, green and blue) of input frames. "
 msgstr ""
+"Intensiteit van primaire kleuren (rood, groen en blauw) van invoerframes "
+"wijzigen."
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
 #, kde-format
@@ -1595,7 +1605,7 @@ msgstr "Blauwe schaduw"
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
 msgid "Red Midtones"
-msgstr ""
+msgstr "Rode middentonen"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
 #, kde-format
@@ -1639,6 +1649,8 @@ msgid ""
 "Modifies a color channel by adding the values associated to the other "
 "channels of the same pixels"
 msgstr ""
+"Wijzigt een kleurkanaal door de waarden geassocieerd met de andere kanalen "
+"van dezelfde pixels op te tellen"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
@@ -1694,6 +1706,7 @@ msgstr "Kleurcontrast"
 #, kde-format
 msgid "Adjust color contrast between RGB components."
 msgstr ""
+"Kleurcontrast tussen RGB componenten aanpassen. (|avfilter.colorcontrast"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
 #, kde-format
@@ -1741,6 +1754,8 @@ msgid ""
 "Adjust color white balance selectively for blacks and whites.This filter "
 "operates in YUV colorspace."
 msgstr ""
+"De kleur witbalans selectief voor de zwarten en de witten aanpassen. Dit "
+"filter werkt in de YUV-kleurruimte."
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
@@ -1778,7 +1793,7 @@ msgstr "Verzadiging"
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
 #, kde-format
 msgid "Manual,Average,Minimax,Median"
-msgstr ""
+msgstr "Handmatig,gemiddelde,Minimax,Mediaan"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
 #, kde-format
@@ -1795,6 +1810,8 @@ msgstr "Kleur behouden"
 msgid ""
 "Remove all color information for all RGB colors except for certain one. "
 msgstr ""
+"Verwijder alle kleurinformatie voor alle RGB-kleuren behalve voor een "
+"bepaalde. "
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, kde-format
@@ -1804,7 +1821,7 @@ msgstr "Kleuroverlay"
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
 msgid "Overlay a solid color on the video stream with mixing feature."
-msgstr ""
+msgstr "Overlay een egale kleur op de videostream met mengfunctie."
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
@@ -1825,17 +1842,17 @@ msgstr "Kleurniveaus"
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
 msgid "Adjust video input frames using levels. "
-msgstr ""
+msgstr "Video-invoerframes aanpassen met niveaus. "
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:8
 #, kde-format
 msgid "Red black input"
-msgstr ""
+msgstr "Rood-zwart-invoer"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:11
 #, kde-format
 msgid "Red white input"
-msgstr ""
+msgstr "Rood-wit-invoer"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:14
 #, kde-format
@@ -1901,7 +1918,7 @@ msgstr "Kleurenmatrix converteren."
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
 #, kde-format
 msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
-msgstr ""
+msgstr "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
 #, kde-format
@@ -1925,6 +1942,8 @@ msgid ""
 "Convert colorspace, transfer characteristics or color primaries. Input video "
 "needs to have an even size."
 msgstr ""
+"Converteert de kleurruimte, overdrachtskarakteristieken of primaire kleuren. "
+"Invoervideo moet een even grootte hebben."
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
 #: data/effects/avfilter/avfilter_colorspace.xml:43
@@ -1933,6 +1952,8 @@ msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
 "BT.2020"
 msgstr ""
+"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
+"BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
 #, kde-format
@@ -1945,6 +1966,7 @@ msgstr "Kleureigenschappen"
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
+"BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 niet-constante luma"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #, kde-format
@@ -1966,7 +1988,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
 msgid "Output transfer characteristicse"
-msgstr ""
+msgstr "Overdrachtskarakteristieken uitvoeren"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
@@ -2022,7 +2044,7 @@ msgstr "Snelle conversie"
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
 msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
+msgstr "Geen dithering,Floyd-Steinberg dithering"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
 #, kde-format
@@ -2035,11 +2057,13 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"Bradford-witpunt-aanpassing,von Kries-witpunt-aanpassing,identiteit-witpunt-"
+"aanpassing"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
 msgid "Whitepoint adaptation mode"
-msgstr ""
+msgstr "Witpunt-aanpas-modus"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
@@ -2078,6 +2102,8 @@ msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
 msgstr ""
+"Kleurtemperatuur in video aanpassen om variaties in "
+"omgevingskleurtemperatuur te simuleren. "
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
@@ -3843,14 +3869,12 @@ msgid "Flip Horizontally"
 msgstr "Horizontaal spiegelen"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
-#, fuzzy, kde-format
-#| msgid "Horizontal guides."
+#, kde-format
 msgid "Horizontally flip the input video."
-msgstr "Horizontale hulplijnen."
+msgstr "Horizontale de invoervideo omklappen."
 
 #: data/effects/avfilter/avfilter_highpass.xml:4
-#, fuzzy, kde-format
-#| msgid "High"
+#, kde-format
 msgid "High-pass"
 msgstr "Hoog doorlaten"
 
@@ -3901,7 +3925,7 @@ msgid "None,Weak,Strong"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid "Antibanding Level"
 msgstr "Niveau van anti-banding"
 
@@ -3964,16 +3988,14 @@ msgid "Background Opacity"
 msgstr "Achtergronddekking"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
-#, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
+#, kde-format
 msgid "High precision/quality 3d denoiser"
-msgstr "High quality 3D ruis verwijderen"
+msgstr "Hoge precisie/kwaliteit 3d-ruis verwijderen"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
+#, kde-format
 msgid "Apply a High Quality 3D Denoise"
-msgstr "High quality 3D ruis verwijderen"
+msgstr "Hoge kwaliteit 3d-ruis verwijderen toepassen"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
@@ -3996,10 +4018,9 @@ msgid "Temporal Chroma Strength"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:4
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "Hq*x Interpolator"
-msgstr "HQ*X-interpolatie"
+msgstr "Hq*X-interpolatie"
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
 #, kde-format
@@ -4053,16 +4074,14 @@ msgid "None,Deinterleave,Interleave"
 msgstr "Geen,De-interleave,Interleave"
 
 #: data/effects/avfilter/avfilter_il.xml:9
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Mode"
-msgstr "Luma mode"
+msgstr "Luma-modus"
 
 #: data/effects/avfilter/avfilter_il.xml:13
-#, fuzzy, kde-format
-#| msgid "Chroma Hold"
+#, kde-format
 msgid "Chroma Mode"
-msgstr "Chroma behoud"
+msgstr "Chroma-modus"
 
 #: data/effects/avfilter/avfilter_il.xml:17
 #, kde-format
@@ -4070,27 +4089,24 @@ msgid "Alpha Mode"
 msgstr "Alfamodus"
 
 #: data/effects/avfilter/avfilter_il.xml:20
-#, fuzzy, kde-format
-#| msgid "Luma Files"
+#, kde-format
 msgid "Swap Luma Fields"
-msgstr "Luma-bestanden"
+msgstr "Luma-velden omwisselen"
 
 #: data/effects/avfilter/avfilter_il.xml:23
-#, fuzzy, kde-format
-#| msgid "Swap Channels"
+#, kde-format
 msgid "Swap Chroma Fields"
-msgstr "Kanalen verwisselen"
+msgstr "Chroma-velden omwisselen"
 
 #: data/effects/avfilter/avfilter_il.xml:26
-#, fuzzy, kde-format
-#| msgid "Swap channels"
+#, kde-format
 msgid "Swap Alpha Fields"
-msgstr "Verwissel kanalen"
+msgstr "Alfa-verwissel omwisselen"
 
 #: data/effects/avfilter/avfilter_inflate.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Inflate"
-msgstr "inflate"
+msgstr "Inflate"
 
 #: data/effects/avfilter/avfilter_inflate.xml:5
 #, kde-format
@@ -4100,28 +4116,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold0r"
+#, kde-format
 msgid "threshold0"
-msgstr "Drempel:"
+msgstr "drempel0"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold1"
-msgstr "Drempel:"
+msgstr "drempel1"
 
 #: data/effects/avfilter/avfilter_inflate.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold2"
-msgstr "Drempel:"
+msgstr "drempel2"
 
 #: data/effects/avfilter/avfilter_inflate.xml:17
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold3"
-msgstr "Drempel:"
+msgstr "drempel3"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
 #, kde-format
@@ -4206,8 +4218,7 @@ msgid "Slowly update darker pixels."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens Correction"
+#, kde-format
 msgid "Lens correction"
 msgstr "Lenscorrectie"
 
@@ -4330,10 +4341,9 @@ msgid "Treat mono input files as \"dual-mono\""
 msgstr "Invoerbestanden met mono behandelen als \"dual-mono\""
 
 #: data/effects/avfilter/avfilter_lowpass.xml:4
-#, fuzzy, kde-format
-#| msgid "Low pass"
+#, kde-format
 msgid "Low-pass"
-msgstr "Laag doorlaatfilter"
+msgstr "Laag doorlaat"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
 #, kde-format
@@ -4380,7 +4390,7 @@ msgid "Nearest, Trilinear, Tetrahedral"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Motion compensation deinterlacer"
 msgstr "Bewegingscompensatie interlace verwijderen"
 
@@ -4416,22 +4426,19 @@ msgid "Pick median pixel from certain rectangle defined by radius."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:8
-#, fuzzy, kde-format
-#| msgid "Horizontal End"
+#, kde-format
 msgid "Horizontal radius"
-msgstr "Horizontale straal:"
+msgstr "Horizontale straal"
 
 #: data/effects/avfilter/avfilter_median.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Set median radius]]>"
-msgstr "<![CDATA[Offset langs Y-as]]>"
+msgstr "<![CDATA[Mediane straal instellen]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
-#, fuzzy, kde-format
-#| msgid "Vertical End"
+#, kde-format
 msgid "Vertical radius"
-msgstr "Verticale straal:"
+msgstr "Verticale straal"
 
 #: data/effects/avfilter/avfilter_median.xml:14
 #, kde-format
@@ -4454,10 +4461,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+msgstr "<![CDATA[Selecteren welke vlakken te verwerken]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
@@ -4495,10 +4501,9 @@ msgid "Negate"
 msgstr "Inverteer"
 
 #: data/effects/avfilter/avfilter_negate.xml:5
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Negate (invert) the input video or its alpha channel."
-msgstr "De inverse van het alfa-kanaal gebruiken."
+msgstr "Negate (inverteer) de invoervideo of zijn alfa-kanaal."
 
 #: data/effects/avfilter/avfilter_negate.xml:8
 #, kde-format
@@ -4506,7 +4511,7 @@ msgid "Negate alpha"
 msgstr "Alfa inverteren"
 
 #: data/effects/avfilter/avfilter_noise.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video Noise generator"
 msgstr "Videoruisgenerator"
 
@@ -4521,28 +4526,24 @@ msgid "All components noise seed"
 msgstr "Ruisvoeding voor alle componenten"
 
 #: data/effects/avfilter/avfilter_noise.xml:11
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #0 noise seed"
-msgstr "Component #0 / #1 / #2 / #3 ruisvoeding"
+msgstr "Component #0 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:14
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #1 noise seed"
-msgstr "Component #0 / #1 / #2 / #3 ruisvoeding"
+msgstr "Component #1 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:17
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #2 noise seed"
-msgstr "Component #0 / #1 / #2 / #3 ruisvoeding"
+msgstr "Component #2 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:20
-#, fuzzy, kde-format
-#| msgid "Amount of noise added."
+#, kde-format
 msgid "Component #3 noise seed"
-msgstr "Component #0 / #1 / #2 / #3 ruisvoeding"
+msgstr "Component #3 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:23
 #, kde-format
@@ -4550,28 +4551,24 @@ msgid "All component strength"
 msgstr "Sterkte van alle componenten"
 
 #: data/effects/avfilter/avfilter_noise.xml:26
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #0 strength"
-msgstr "Componenten:"
+msgstr "Component #0 sterkte"
 
 #: data/effects/avfilter/avfilter_noise.xml:29
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #1 strength"
-msgstr "Componenten:"
+msgstr "Component #1 sterkte"
 
 #: data/effects/avfilter/avfilter_noise.xml:32
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #2 strength"
-msgstr "Componenten:"
+msgstr "Component #2 sterkte"
 
 #: data/effects/avfilter/avfilter_noise.xml:35
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Component #3 strength"
-msgstr "Componenten:"
+msgstr "Component #3 sterkte"
 
 #: data/effects/avfilter/avfilter_noise.xml:38
 #: data/effects/avfilter/avfilter_noise.xml:42
@@ -4588,14 +4585,14 @@ msgid "Flag all"
 msgstr "Alles vlaggen"
 
 #: data/effects/avfilter/avfilter_noise.xml:43
-#, fuzzy, kde-format
+#, kde-format
 msgid "Flag component 0"
-msgstr "Vlagcomponent 0 / 1 / 2 / 3"
+msgstr "Vlagcomponent 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:47
-#, fuzzy, kde-format
+#, kde-format
 msgid "Flag component 1"
-msgstr "Vlagcomponent 0 / 1 / 2 / 3"
+msgstr "Vlagcomponent 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:51
 #, fuzzy, kde-format
@@ -15431,7 +15428,7 @@ msgstr ""
 "\n"
 "R:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1008
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -16428,7 +16425,7 @@ msgstr ""
 "Uw project heeft meer audiotracks nodig om alle streams te behandelen. %1 "
 "audiotracks toevoegen?"
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2718
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Kan clip, waaraan markering moet worden toegevoegd, niet vinden"
@@ -16515,7 +16512,7 @@ msgstr "Effect %1 verwijderen"
 msgid "Project Bin"
 msgstr "Project-bin"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4828
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Project-bin %1"
@@ -18620,7 +18617,7 @@ msgstr "Aan huidig project toevoegen"
 msgid "Open Containing Folder"
 msgstr "Map openen waarin het zich bevindt"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3950
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3951
 #, kde-format
 msgid "Timeline"
 msgstr "Tijdlijn"
@@ -20867,7 +20864,7 @@ msgid ""
 msgstr ""
 "Het ondertitelbestand:<br/>%1<br/>bestaat als. Wilt u het overschrijven?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3468
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3469
 #, kde-format
 msgid "Overwrite"
 msgstr "Overschrijven"
@@ -22043,13 +22040,13 @@ msgid "Add Markers by Category"
 msgstr "Markeringen per categorie toevoegen"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3845
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3846
 #, kde-format
 msgid "Extract Audio"
 msgstr "Extract audio"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3819
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3820
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Cliptaken"
@@ -23266,7 +23263,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Experimentele GPU-processing ingeschakeld - niet voor productie"
 
-#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3454
+#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3455
 #, kde-format
 msgid "Multicam"
 msgstr "Multi-camera"
@@ -24180,28 +24177,28 @@ msgstr "Kan bewerking niet uitvoeren, ongeldig document-id: %1"
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Kan bewerking niet uitvoeren, doelmap bestaat al: %1"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Dit verwijdert alle niet gebruikte clips uit het project."
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "Clean up project"
 msgstr "Project opschonen"
 
-#: src/mainwindow.cpp:2519
+#: src/mainwindow.cpp:2520
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Nieuwe toetsenbordschema's downloaden…"
 
-#: src/mainwindow.cpp:2528
+#: src/mainwindow.cpp:2529
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Algemeen"
 
-#: src/mainwindow.cpp:2602
+#: src/mainwindow.cpp:2603
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -24210,28 +24207,28 @@ msgstr ""
 "Dit zal het configuratiebestand van Kdenlive verwijderen en de toepassing "
 "herstarten. Wilt u doorgaan?"
 
-#: src/mainwindow.cpp:2603
+#: src/mainwindow.cpp:2604
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Configuratie resetten"
 
-#: src/mainwindow.cpp:2735 src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2736 src/mainwindow.cpp:2763
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Kan geen clip vinden waarvan het markering dient verwijderd "
 
-#: src/mainwindow.cpp:2745 src/mainwindow.cpp:2791
+#: src/mainwindow.cpp:2746 src/mainwindow.cpp:2792
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Geen markering gevonden op cursor tijdstip"
 
-#: src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2768
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Er is een fout opgetreden tijdens het verwijderen van markeringen"
 
-#: src/mainwindow.cpp:2784 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2785 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -24240,46 +24237,46 @@ msgstr "Er is een fout opgetreden tijdens het verwijderen van markeringen"
 msgid "Cannot find clip to edit marker"
 msgstr "Kan clip niet vinden om markering te bewerken"
 
-#: src/mainwindow.cpp:2835
+#: src/mainwindow.cpp:2836
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "Categorie van markering bestaat niet"
 
-#: src/mainwindow.cpp:3025 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3026 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Zone overschrijven"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3046
+#: src/mainwindow.cpp:3028 src/mainwindow.cpp:3047
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3146
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Kon zone niet invoegen"
 
-#: src/mainwindow.cpp:3037
+#: src/mainwindow.cpp:3038
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Geen clip geselecteerd in project-bin"
 
-#: src/mainwindow.cpp:3044 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Insert zone"
 msgstr "Zone invoegen"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3212
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Kan effect niet toevoegen aan actieve item"
 
-#: src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:3274
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Zoomfactor: %1/%2"
 
-#: src/mainwindow.cpp:3422
+#: src/mainwindow.cpp:3423
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24292,7 +24289,7 @@ msgstr ""
 "om een gegroepeerde clip naar een andere track te verplaatsen, "
 "<shortcut>Ctrl slepen</shortcut> om heen en weer te bewegen (pan)"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24306,24 +24303,24 @@ msgstr ""
 "om een gegroepeerde clip naar een andere track te verplaatsen, <shortcut> "
 "Ctrl slepen</shortcut> om heen en weer te bewegen (pan)"
 
-#: src/mainwindow.cpp:3429
+#: src/mainwindow.cpp:3430
 #, kde-format
 msgid "Select"
 msgstr "Selecteren"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3432
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> om geknipt frame te bekijken"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3432 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3433 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Scheermes"
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3437
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24334,12 +24331,12 @@ msgstr ""
 "<shortcut>Shift</shortcut> om ook geleiders te verplaatsen. U kunt beide "
 "modificatoren combineren."
 
-#: src/mainwindow.cpp:3437
+#: src/mainwindow.cpp:3438
 #, kde-format
 msgid "Spacer"
 msgstr "Afstandhouder"
 
-#: src/mainwindow.cpp:3439
+#: src/mainwindow.cpp:3440
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24349,13 +24346,13 @@ msgstr ""
 "<shortcut>Klik</shortcut> om een item te slippen, <shortcut>Shift-klik</"
 "shortcut> voor meerdere selecties."
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3441
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Slippen"
 
-#: src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3446
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24368,13 +24365,13 @@ msgstr ""
 "naar een item selecteren in een groep, <shortcut>Ctrl slepen</shortcut> om "
 "heen en weer te bewegen (pan)"
 
-#: src/mainwindow.cpp:3447
+#: src/mainwindow.cpp:3448
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Rimpel "
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3454
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24384,99 +24381,99 @@ msgstr ""
 "<shortcut>Klik</shortcut> op een trackweergave in de projectmonitor om alle "
 "tracks behalve de actieve op te liften"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3466
 #, kde-format
 msgid "Insert"
 msgstr "Invoegen"
 
-#: src/mainwindow.cpp:3735 src/mainwindow.cpp:3737
+#: src/mainwindow.cpp:3736 src/mainwindow.cpp:3738
 #, kde-format
 msgid "Scopes"
 msgstr "Scopes"
 
-#: src/mainwindow.cpp:3742
+#: src/mainwindow.cpp:3743
 #, kde-format
 msgid "Project Bins"
 msgstr "Project-bins"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3839
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Cliptaken configureren…"
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3845
 #, kde-format
 msgid "Transcoders"
 msgstr "Codering overzetters"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3905
 #, kde-format
 msgid "-merged"
 msgstr "Samenvoegen"
 
-#: src/mainwindow.cpp:3907
+#: src/mainwindow.cpp:3908
 #, kde-format
 msgid "-stream-%1"
 msgstr "-stream-%1"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3950
 #, kde-format
 msgid "Interface"
 msgstr "Interface"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3972
 #, kde-format
 msgid "Raise %1"
 msgstr "%1 naar voren brengen"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4039
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Bestanden waarvan codering wordt overgezet (transcode) "
 
-#: src/mainwindow.cpp:4170
+#: src/mainwindow.cpp:4171
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projectbestand kon niet worden opgeslagen voor archivering"
 
-#: src/mainwindow.cpp:4178
+#: src/mainwindow.cpp:4179
 #, kde-format
 msgid "Archiving project"
 msgstr "Project archiveren"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4319
 #, kde-format
 msgid "Icon Size"
 msgstr "Pictogramgrootte"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4323
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Standaard"
 
-#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4344 src/mainwindow.cpp:4372
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Klein (%1x%2)"
 
-#: src/mainwindow.cpp:4345 src/mainwindow.cpp:4373
+#: src/mainwindow.cpp:4346 src/mainwindow.cpp:4374
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Middel (%1x%2)"
 
-#: src/mainwindow.cpp:4347 src/mainwindow.cpp:4375
+#: src/mainwindow.cpp:4348 src/mainwindow.cpp:4376
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Groot (%1x%2)"
 
-#: src/mainwindow.cpp:4349 src/mainwindow.cpp:4377
+#: src/mainwindow.cpp:4350 src/mainwindow.cpp:4378
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Enorm (%1x%2)"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -24485,27 +24482,27 @@ msgstr ""
 "Hierdoor wordt de menubalk geheel verborgen. U kunt die weer zichtbaar maken "
 "door Ctrl+M te typen."
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menubalk verbergen"
 
-#: src/mainwindow.cpp:4696 src/timeline2/view/timelinecontroller.cpp:5119
+#: src/mainwindow.cpp:4697 src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Geen ondertitels in het huidige project"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:4984
 #, kde-format
 msgid "Go to download page"
 msgstr "Ga naar downloadpagina"
 
-#: src/mainwindow.cpp:4988
+#: src/mainwindow.cpp:4989
 #, kde-format
 msgid "Never check again"
 msgstr "Nooit opnieuw controleren"
 
-#: src/mainwindow.cpp:4991
+#: src/mainwindow.cpp:4992
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -24514,7 +24511,7 @@ msgstr ""
 "Uw versie van Kdenlive is ouder dan 1 jaar, we moedigen u sterk aan om op te "
 "waarderen"
 
-#: src/mainwindow.cpp:4995
+#: src/mainwindow.cpp:4996
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -24522,7 +24519,7 @@ msgstr ""
 "Uw versie van Kdenlive is ouder dan 6 maanden, we moedigen u aan om op te "
 "waarderen"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5039
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Grootte opgeslagen gegevens wordt gecontroleerd"
@@ -29235,14 +29232,14 @@ msgid "Change clip speed"
 msgstr "Clipsnelheid wijzigen"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Vergrendel sporen"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -29397,7 +29394,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2187
+#: src/timeline2/view/qml/timeline.qml:2189
 #, kde-format
 msgid "Paused"
 msgstr "Gepauzeerd"
@@ -29541,51 +29538,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Dubbelklik</b> om tekst te bewerken"
 
-#: src/timeline2/view/qml/timeline.qml:1002
+#: src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Show master effects"
 msgstr "Mastereffecten tonen"
 
-#: src/timeline2/view/qml/timeline.qml:1145
+#: src/timeline2/view/qml/timeline.qml:1147
 #, kde-format
 msgid "Click to see details"
 msgstr "Klikken om details te zien"
 
-#: src/timeline2/view/qml/timeline.qml:1167
+#: src/timeline2/view/qml/timeline.qml:1169
 #, kde-format
 msgid "Speech recognition"
 msgstr "Spraakherkenning"
 
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Tonen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Verbergen"
 
-#: src/timeline2/view/qml/timeline.qml:1850
+#: src/timeline2/view/qml/timeline.qml:1852
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubbelklik</b> om ondertitel toe te voegen"
 
-#: src/timeline2/view/qml/timeline.qml:2017
+#: src/timeline2/view/qml/timeline.qml:2019
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Verschuiving: %1, positie: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2176
-#: src/timeline2/view/qml/timeline.qml:2185
+#: src/timeline2/view/qml/timeline.qml:2178
+#: src/timeline2/view/qml/timeline.qml:2187
 #, kde-format
 msgid "Recording"
 msgstr "Opname"
 
-#: src/timeline2/view/qml/timeline.qml:2279
+#: src/timeline2/view/qml/timeline.qml:2281
 #, kde-format
 msgid "Multicam In"
 msgstr "Multi-camera in"

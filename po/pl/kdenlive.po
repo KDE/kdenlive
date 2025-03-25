@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-22 02:30+0000\n"
+"POT-Creation-Date: 2025-03-25 02:33+0000\n"
 "PO-Revision-Date: 2025-03-22 12:35+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -16207,7 +16207,7 @@ msgstr ""
 "\n"
 "R:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1008
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "Główny"
@@ -17206,7 +17206,7 @@ msgstr ""
 "Twój projekt wymaga więcej ścieżek dźwiękowych, aby obsłużyć wszystkie "
 "strumienie. Czy dodać %1 ścieżek dźwiękowych?"
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2718
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nie można znaleźć wycinka do dodania znacznika"
@@ -17292,7 +17292,7 @@ msgstr "Usuń efekt %1"
 msgid "Project Bin"
 msgstr "Pojemnik projektu"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4828
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Pojemnik projektu %1"
@@ -19396,7 +19396,7 @@ msgstr "Dodaj do bieżącego projektu"
 msgid "Open Containing Folder"
 msgstr "Otwórz jego katalog"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3950
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3951
 #, kde-format
 msgid "Timeline"
 msgstr "Oś czasu"
@@ -21630,7 +21630,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Plik napisów:<br/> %1<br/> już istnieje. Czy zastąpić go?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3468
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3469
 #, kde-format
 msgid "Overwrite"
 msgstr "Zastąp"
@@ -22809,13 +22809,13 @@ msgid "Add Markers by Category"
 msgstr "Dodaj znaczniki po kategorii"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3845
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3846
 #, kde-format
 msgid "Extract Audio"
 msgstr "Wydobądź dźwięk"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3819
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3820
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Działania na wycinkach"
@@ -24037,7 +24037,7 @@ msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 "Eksperymentalne przetwarzanie GPU włączone - nie dla celów produkcyjnych"
 
-#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3454
+#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3455
 #, kde-format
 msgid "Multicam"
 msgstr "Multicam"
@@ -24951,28 +24951,28 @@ msgstr "Nie można wykonać działania, nieprawidłowy id dokumentu: %1"
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Nie można wykonać działania, katalog docelowy już istnieje: %1"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Usunie to wszystkie nieużywane wycinki z twojego projektu."
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "Clean up project"
 msgstr "Posprzątaj w projekcie"
 
-#: src/mainwindow.cpp:2519
+#: src/mainwindow.cpp:2520
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Pobierz nowe układy klawiatury…"
 
-#: src/mainwindow.cpp:2528
+#: src/mainwindow.cpp:2529
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Ogólne"
 
-#: src/mainwindow.cpp:2602
+#: src/mainwindow.cpp:2603
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -24981,28 +24981,28 @@ msgstr ""
 "To usunie plik ustawień Kdenlive i uruchomi aplikację ponownie. Czy "
 "kontynuować?"
 
-#: src/mainwindow.cpp:2603
+#: src/mainwindow.cpp:2604
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Wyzeruj ustawienia"
 
-#: src/mainwindow.cpp:2735 src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2736 src/mainwindow.cpp:2763
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Nie można znaleźć wycinka do usunięcia znacznika"
 
-#: src/mainwindow.cpp:2745 src/mainwindow.cpp:2791
+#: src/mainwindow.cpp:2746 src/mainwindow.cpp:2792
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Nie znaleziono znacznika w wybranym czasie"
 
-#: src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2768
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Wystąpił błąd podczas usuwania znaczników"
 
-#: src/mainwindow.cpp:2784 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2785 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -25011,46 +25011,46 @@ msgstr "Wystąpił błąd podczas usuwania znaczników"
 msgid "Cannot find clip to edit marker"
 msgstr "Nie można znaleźć wycinka do edycji znacznika"
 
-#: src/mainwindow.cpp:2835
+#: src/mainwindow.cpp:2836
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "Kategoria znaczników nie istnieje"
 
-#: src/mainwindow.cpp:3025 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3026 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Zastąp zakres"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3046
+#: src/mainwindow.cpp:3028 src/mainwindow.cpp:3047
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3146
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Nie można wstawić zakresu"
 
-#: src/mainwindow.cpp:3037
+#: src/mainwindow.cpp:3038
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Nie wybrano wycinka w pojemniku projektu"
 
-#: src/mainwindow.cpp:3044 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Insert zone"
 msgstr "Wstaw zakres"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3212
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Nie można dodać efektu do bieżącej rzeczy"
 
-#: src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:3274
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Poziom powiększenia: %1/%2"
 
-#: src/mainwindow.cpp:3422
+#: src/mainwindow.cpp:3423
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25063,7 +25063,7 @@ msgstr ""
 "przeciągnięcie</shortcut>, aby przesunąć pogrupowany wycinek na inną "
 "ścieżkę, <shortcut>Ctrl+przeciągnięcie</shortcut>, aby przesuwać po płótnie"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25077,24 +25077,24 @@ msgstr ""
 "Alt przeciągnięcie</shortcut>, aby przesunąć pogrupowany wycinek na inną "
 "ścieżkę, <shortcut>Ctrl+przeciągnięcie</shortcut>, aby przesuwać po płótnie"
 
-#: src/mainwindow.cpp:3429
+#: src/mainwindow.cpp:3430
 #, kde-format
 msgid "Select"
 msgstr "Wybierz"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3432
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut>, aby podejrzeć wyciętą klatkę"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3432 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3433 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Ostrze"
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3437
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25105,12 +25105,12 @@ msgstr ""
 "<shortcut>Shift</shortcut>, aby przesunąć także prowadnice. Możesz połączyć "
 "oba klawisze odmieniające."
 
-#: src/mainwindow.cpp:3437
+#: src/mainwindow.cpp:3438
 #, kde-format
 msgid "Spacer"
 msgstr "Odstęp"
 
-#: src/mainwindow.cpp:3439
+#: src/mainwindow.cpp:3440
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25120,13 +25120,13 @@ msgstr ""
 "<shortcut>Naciśnij</shortcut> na rzeczy, aby nasunąć, <shortcut>Naciśnij z "
 "Shiftem</shortcut> aby zaznaczyć wiele"
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3441
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Poślizg "
 
-#: src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3446
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25139,13 +25139,13 @@ msgstr ""
 "+ + kliknięcie</shortcut>, aby zaznaczyć rzecz w grupie, <shortcut>Ctrl + "
 "przeciągnięcie</shortcut>, aby przesuwać po płótnie"
 
-#: src/mainwindow.cpp:3447
+#: src/mainwindow.cpp:3448
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Zafalowanie"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3454
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25155,99 +25155,99 @@ msgstr ""
 "<shortcut>Naciśnij</shortcut> na widoku ścieżki w monitorze projektu, aby "
 "podnieść wszystkie ścieżki poza bieżącą"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3466
 #, kde-format
 msgid "Insert"
 msgstr "Wstaw"
 
-#: src/mainwindow.cpp:3735 src/mainwindow.cpp:3737
+#: src/mainwindow.cpp:3736 src/mainwindow.cpp:3738
 #, kde-format
 msgid "Scopes"
 msgstr "Zakresy"
 
-#: src/mainwindow.cpp:3742
+#: src/mainwindow.cpp:3743
 #, kde-format
 msgid "Project Bins"
 msgstr "Pojemnik projektu"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3839
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Ustawienia zadań na wycinkach..."
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3845
 #, kde-format
 msgid "Transcoders"
 msgstr "Transkodery"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3905
 #, kde-format
 msgid "-merged"
 msgstr "-scalone"
 
-#: src/mainwindow.cpp:3907
+#: src/mainwindow.cpp:3908
 #, kde-format
 msgid "-stream-%1"
 msgstr "-strumień-%1"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3950
 #, kde-format
 msgid "Interface"
 msgstr "Interfejs"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3972
 #, kde-format
 msgid "Raise %1"
 msgstr "Podnieś %1"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4039
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Pliki do transkodowania"
 
-#: src/mainwindow.cpp:4170
+#: src/mainwindow.cpp:4171
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Nie można było zapisać pliku projektu do archiwizacji."
 
-#: src/mainwindow.cpp:4178
+#: src/mainwindow.cpp:4179
 #, kde-format
 msgid "Archiving project"
 msgstr "Zarchiwizuj projekt"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4319
 #, kde-format
 msgid "Icon Size"
 msgstr "Rozmiar ikon"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4323
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Domyślne"
 
-#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4344 src/mainwindow.cpp:4372
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Małe (%1x%2)"
 
-#: src/mainwindow.cpp:4345 src/mainwindow.cpp:4373
+#: src/mainwindow.cpp:4346 src/mainwindow.cpp:4374
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Średnie (%1x%2)"
 
-#: src/mainwindow.cpp:4347 src/mainwindow.cpp:4375
+#: src/mainwindow.cpp:4348 src/mainwindow.cpp:4376
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Duże (%1x%2)"
 
-#: src/mainwindow.cpp:4349 src/mainwindow.cpp:4377
+#: src/mainwindow.cpp:4350 src/mainwindow.cpp:4378
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Wielkie (%1x%2)"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -25256,27 +25256,27 @@ msgstr ""
 "Spowoduje to całkowite ukrycie paska menu. Można go przywrócić naciskając "
 "Ctrl+M."
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Ukryj pasek menu"
 
-#: src/mainwindow.cpp:4696 src/timeline2/view/timelinecontroller.cpp:5119
+#: src/mainwindow.cpp:4697 src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Brak napisów w bieżącym projekcie"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:4984
 #, kde-format
 msgid "Go to download page"
 msgstr "Przejdź do strony pobierania"
 
-#: src/mainwindow.cpp:4988
+#: src/mainwindow.cpp:4989
 #, kde-format
 msgid "Never check again"
 msgstr "Nie sprawdzaj już ponownie"
 
-#: src/mainwindow.cpp:4991
+#: src/mainwindow.cpp:4992
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -25285,7 +25285,7 @@ msgstr ""
 "Twoja wersja Kdenlive jest starsza niż 1 rok, więc bardzo zalecamy jej "
 "uaktualnienie"
 
-#: src/mainwindow.cpp:4995
+#: src/mainwindow.cpp:4996
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -25293,7 +25293,7 @@ msgstr ""
 "Twoja wersja Kdenlive jest starsza niż 6 miesięcy, więc zalecamy jej "
 "uaktualnienie"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5039
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Sprawdzanie rozmiaru pamięci podręcznej"
@@ -30021,14 +30021,14 @@ msgid "Change clip speed"
 msgstr "Zmień szybkość wycinka"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Zablokuj ścieżkę"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -30182,7 +30182,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2187
+#: src/timeline2/view/qml/timeline.qml:2189
 #, kde-format
 msgid "Paused"
 msgstr "Wstrzymano"
@@ -30327,51 +30327,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Kliknij dwukrotnie</b>, aby edytować tekst"
 
-#: src/timeline2/view/qml/timeline.qml:1002
+#: src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Show master effects"
 msgstr "Pokaż główne efekty"
 
-#: src/timeline2/view/qml/timeline.qml:1145
+#: src/timeline2/view/qml/timeline.qml:1147
 #, kde-format
 msgid "Click to see details"
 msgstr "Naciśnij po szczegóły"
 
-#: src/timeline2/view/qml/timeline.qml:1167
+#: src/timeline2/view/qml/timeline.qml:1169
 #, kde-format
 msgid "Speech recognition"
 msgstr "Rozpoznawanie mowy"
 
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Pokaż"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Ukryj"
 
-#: src/timeline2/view/qml/timeline.qml:1850
+#: src/timeline2/view/qml/timeline.qml:1852
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Kliknij dwukrotnie</b>, aby dodać napis"
 
-#: src/timeline2/view/qml/timeline.qml:2017
+#: src/timeline2/view/qml/timeline.qml:2019
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Przesunięcie: %1, Położenie: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2176
-#: src/timeline2/view/qml/timeline.qml:2185
+#: src/timeline2/view/qml/timeline.qml:2178
+#: src/timeline2/view/qml/timeline.qml:2187
 #, kde-format
 msgid "Recording"
 msgstr "Nagrywanie"
 
-#: src/timeline2/view/qml/timeline.qml:2279
+#: src/timeline2/view/qml/timeline.qml:2281
 #, kde-format
 msgid "Multicam In"
 msgstr "Wejście Multicam"

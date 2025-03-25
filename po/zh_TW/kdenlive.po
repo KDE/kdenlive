@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-22 02:30+0000\n"
-"PO-Revision-Date: 2025-02-20 15:43+0900\n"
+"POT-Creation-Date: 2025-03-25 02:33+0000\n"
+"PO-Revision-Date: 2025-03-24 19:50+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /usr/share/locale/zh_TW/LC_MESSAGES\n"
-"X-Generator: Lokalize 25.03.70\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -473,23 +473,20 @@ msgid "Channel to draw"
 msgstr "要繪製的聲道"
 
 #: data/effects/avfilter/acompressor.xml:4
-#, fuzzy, kde-format
-#| msgid "Compressed archive:"
+#, kde-format
 msgid "Compressor (avfilter)"
-msgstr "已壓縮封存："
+msgstr "Compressor (avfilter)"
 
 #: data/effects/avfilter/acompressor.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Codecs"
+#, kde-format
 msgid "Audio Compressor"
-msgstr "聲訊編解碼器"
+msgstr "音訊壓縮器 (Compressor)"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input Gain"
-msgstr "匯入增益 (dB)"
+msgstr "輸入增益"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
@@ -502,65 +499,61 @@ msgstr "匯入增益 (dB)"
 #: data/effects/mask_start_shape.xml:14 data/effects/shape.xml:11
 #, kde-format
 msgid "Threshold"
-msgstr "黑白索引色"
+msgstr "閾值"
 
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Ratio"
-msgstr "旋轉"
+msgstr "Ratio（比例）"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
 #: data/effects/avfilter/avfilter_aphaser.xml:17
 #, kde-format
 msgid "Attack"
-msgstr ""
+msgstr "Attack"
 
 #: data/effects/avfilter/acompressor.xml:20 data/effects/avfilter/agate.xml:23
 #: data/effects/avfilter/avfilter_alimiter.xml:20
 #: data/effects/avfilter/avfilter_aphaser.xml:20
-#, fuzzy, kde-format
-#| msgid "Release time (s)"
+#, kde-format
 msgid "Release"
-msgstr "重設時間 (s)"
+msgstr "Release"
 
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
 msgid "Make Up Gain"
-msgstr ""
+msgstr "Make Up Gain（增益補償）"
 
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
 msgid "Knee"
-msgstr ""
+msgstr "Knee"
 
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
 msgid "Average,Maximum"
-msgstr ""
+msgstr "平均,最大"
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Link Type"
-msgstr "類別"
+msgstr "連結類型"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
 msgid "Peak,Rms"
-msgstr ""
+msgstr "峰值,Rms"
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Detection"
-msgstr "方向"
+msgstr "偵測"
 
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
 msgid "Sidechain Gain"
-msgstr ""
+msgstr "Sidechain Gain"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -580,22 +573,19 @@ msgid "Mix"
 msgstr "混合"
 
 #: data/effects/avfilter/aecho.xml:4
-#, fuzzy, kde-format
-#| msgid "EQ and filters"
+#, kde-format
 msgid "Echo (avfilter)"
-msgstr "EQ 和過濾器"
+msgstr "回聲 (avfilter)"
 
 #: data/effects/avfilter/aecho.xml:5
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Echo"
-msgstr "新增效果"
+msgstr "新增回聲"
 
 #: data/effects/avfilter/aecho.xml:11
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output Gain"
-msgstr "匯出檔案"
+msgstr "輸出增益"
 
 #: data/effects/avfilter/aecho.xml:14
 #: data/effects/avfilter/avfilter_flanger.xml:8
@@ -657,50 +647,44 @@ msgid "Crusher"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_acrusher.xml:5
-#, fuzzy, kde-format
-#| msgid "Render at Preview Resolution"
+#, kde-format
 msgid "Reduce audio bit resolution."
-msgstr "以預覽解析度算繪"
+msgstr "降低音訊位元深度/解析度。"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:8
 #: data/effects/avfilter/avfilter_alimiter.xml:8
 #: data/effects/avfilter/avfilter_aphaser.xml:8
 #: data/effects/avfilter/avfilter_apulsator.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:22
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input gain"
-msgstr "匯入增益 (dB)"
+msgstr "輸入增益"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:11
 #: data/effects/avfilter/avfilter_alimiter.xml:11
 #: data/effects/avfilter/avfilter_aphaser.xml:11
 #: data/effects/avfilter/avfilter_apulsator.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:25
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output gain"
-msgstr "匯出檔案"
+msgstr "輸出增益"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:14
 #: data/effects/avfilter/avfilter_alimiter.xml:14
-#, fuzzy, kde-format
-#| msgid "Limiter"
+#, kde-format
 msgid "Limit"
 msgstr "限制"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:17
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Bit reduction"
-msgstr "方向"
+msgstr "位元降低"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:23
 #: data/effects/avfilter/avfilter_histogram.xml:18
-#, fuzzy, kde-format
-#| msgid "Logarithmic"
+#, kde-format
 msgid "Linear,Logarithmic"
-msgstr "對數"
+msgstr "線性,對數"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:24
 #: data/effects/avfilter/avfilter_apulsator.xml:15
@@ -720,76 +704,66 @@ msgid "Mode"
 msgstr "型態"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:27
-#, fuzzy, kde-format
-#| msgid "C"
+#, kde-format
 msgid "DC"
-msgstr "C"
+msgstr "DC"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:30
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Anti-aliasing"
-msgstr "義大利語"
+msgstr "反頻疊"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
-#, fuzzy, kde-format
-#| msgid "Frame duration"
+#, kde-format
 msgid "Sample reduction"
-msgstr "幀持續時間"
+msgstr "樣本降低"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable LFO"
-msgstr "啟用"
+msgstr "啟用 LFO"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
 msgid "LFO depth"
-msgstr ""
+msgstr "LFO 深度"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
-#, fuzzy, kde-format
-#| msgid "Frame rate"
+#, kde-format
 msgid "LFO rate"
-msgstr "幀率"
+msgstr "LFO 頻率"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
-#, fuzzy, kde-format
-#| msgid "Limiter"
+#, kde-format
 msgid "Limiter"
-msgstr "限制"
+msgstr "Limiter"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:5
 #: data/effects/avfilter/avfilter_aphaser.xml:5
 #, kde-format
 msgid "Audio lookahead limiter."
-msgstr ""
+msgstr "音訊用支援預看 (lookahead) 的 Limiter。"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable ASC"
-msgstr "啟用"
+msgstr "啟用 ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "ASC level"
-msgstr "音量等級"
+msgstr "ASC 等級"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Normalize to 0dB"
-msgstr "正規化"
+msgstr "正規化至 0dB"
 
 #: data/effects/avfilter/avfilter_allpass.xml:4
-#, fuzzy, kde-format
-#| msgid "2 pass"
+#, kde-format
 msgid "Allpass"
-msgstr "兩步驟"
+msgstr "全通"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
 #, kde-format
@@ -806,8 +780,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:8
 #: data/effects/avfilter/avfilter_lowpass.xml:8
 #: data/effects/avfilter/avfilter_lowshelf.xml:8
-#, fuzzy, kde-format
-#| msgid "Center Frequency"
+#, kde-format
 msgid "Central frequency"
 msgstr "中心頻率"
 
@@ -913,7 +886,7 @@ msgstr "簡易變形"
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
 #, kde-format
 msgid "Auto,s16,s32,f32,f64"
-msgstr ""
+msgstr "自動,s16,s32,f32,f64"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -976,16 +949,14 @@ msgid "Modulation"
 msgstr "調變器"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:21
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset L"
-msgstr "偏移 X"
+msgstr "偏移（左）"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:24
-#, fuzzy, kde-format
-#| msgid "Offset Red"
+#, kde-format
 msgid "Offset R"
-msgstr "紅色偏移"
+msgstr "偏移（右）"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:27
 #, fuzzy, kde-format
@@ -996,34 +967,32 @@ msgstr "輪廓寬度"
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
 msgid "bpm,ms,Hz"
-msgstr ""
+msgstr "bpm,ms,Hz"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, kde-format
 msgid "Timing"
-msgstr ""
+msgstr "計時法"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
-#, fuzzy, kde-format
-#| msgid "RPM"
+#, kde-format
 msgid "BPM"
-msgstr "RPM"
+msgstr "BPM"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:37
 #, kde-format
 msgid "Milliseconds"
-msgstr ""
+msgstr "毫秒"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:40
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency in Hz"
-msgstr "頻率"
+msgstr "頻率（單位為赫茲）"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:41
 #, kde-format
 msgid "Only used if timing is set to hz."
-msgstr ""
+msgstr "僅於計時法設為 Hz 時使用。"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
@@ -1120,10 +1089,9 @@ msgid "Planes"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
-#, fuzzy, kde-format
-#| msgid "Pan, low-pass"
+#, kde-format
 msgid "Band-pass"
-msgstr "平移，低通"
+msgstr "帶通"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
 #, kde-format
@@ -1136,8 +1104,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bandpass.xml:8
 #: data/effects/avfilter/avfilter_equalizer.xml:8
-#, fuzzy, kde-format
-#| msgid "Center Frequency"
+#, kde-format
 msgid "Central Frequency"
 msgstr "中心頻率"
 
@@ -2419,14 +2386,12 @@ msgid "Size"
 msgstr "大小"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
-#, fuzzy, kde-format
-#| msgid "X Offset"
+#, kde-format
 msgid "X offset"
 msgstr "X 位移"
 
 #: data/effects/avfilter/avfilter_datascope.xml:15
-#, fuzzy, kde-format
-#| msgid "Y Offset"
+#, kde-format
 msgid "Y offset"
 msgstr "Y 位移"
 
@@ -3324,10 +3289,9 @@ msgid "Scale factor"
 msgstr "模糊系數"
 
 #: data/effects/avfilter/avfilter_eq.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "Video Equalizer"
-msgstr "均衡器"
+msgstr "視訊等化器"
 
 #: data/effects/avfilter/avfilter_eq.xml:5
 #, kde-format
@@ -3369,31 +3333,29 @@ msgid "Gamma Weight"
 msgstr "Gamma：紅"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Audio Equalizer (avfilter)"
-msgstr "音波顯示器"
+msgstr "音訊等化器 (avfilter)"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:5
 #, kde-format
 msgid "Apply two-pole peaking equalization (EQ) filter"
-msgstr ""
+msgstr "套用雙極鋒化等化器過濾器"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width Type"
-msgstr "寬度"
+msgstr "寬度類型"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
 #, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,None"
-msgstr ""
+msgstr "赫茲,Q 係數,八度,斜率,無"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid "Band Width"
-msgstr "邊線方塊寬度"
+msgstr "頻段寬度"
 
 #: data/effects/avfilter/avfilter_erosion.xml:4
 #, fuzzy, kde-format
@@ -4022,10 +3984,9 @@ msgid "Right phase"
 msgstr "右"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Flip Horizontally"
-msgstr "水平"
+msgstr "水平翻轉"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
 #, fuzzy, kde-format
@@ -4034,10 +3995,9 @@ msgid "Horizontally flip the input video."
 msgstr "水平參照線。"
 
 #: data/effects/avfilter/avfilter_highpass.xml:4
-#, fuzzy, kde-format
-#| msgid "High"
+#, kde-format
 msgid "High-pass"
-msgstr "高"
+msgstr "高通"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
 #, kde-format
@@ -4069,10 +4029,9 @@ msgid "Apply a high shelf filter."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:4
-#, fuzzy, kde-format
-#| msgid "Histogram"
+#, kde-format
 msgid "Histogram Equalizer"
-msgstr "直方圖"
+msgstr "直方等化器"
 
 #: data/effects/avfilter/avfilter_histeq.xml:5
 #, kde-format
@@ -4514,9 +4473,9 @@ msgid "Measured threshold of input file"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Offset gain"
-msgstr "偏移"
+msgstr "偏移增益"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:32
 #, kde-format
@@ -4529,8 +4488,7 @@ msgid "Treat mono input files as \"dual-mono\""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lowpass.xml:4
-#, fuzzy, kde-format
-#| msgid "Low pass"
+#, kde-format
 msgid "Low-pass"
 msgstr "低通"
 
@@ -5410,7 +5368,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
 msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
-msgstr ""
+msgstr "自動,未指定,未知,受限,tv,mpeg,完整,pc,jpeg"
 
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, fuzzy, kde-format
@@ -6340,7 +6298,7 @@ msgstr "黑白索引色"
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
 msgid "Auto,601,709"
-msgstr ""
+msgstr "自動,601,709"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
 #, kde-format
@@ -6348,10 +6306,9 @@ msgid "Colorspace"
 msgstr "色彩空間"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Flip Vertically"
-msgstr "垂直"
+msgstr "垂直翻轉"
 
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
@@ -7980,10 +7937,9 @@ msgid "Analysis Search Radius"
 msgstr "分析數據"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:20
-#, fuzzy, kde-format
-#| msgid "Analysis data"
+#, kde-format
 msgid "Analysis Offset"
-msgstr "分析數據"
+msgstr "分析偏移"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, fuzzy, kde-format
@@ -9015,7 +8971,7 @@ msgstr "翻轉"
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
 msgid "Flipping in X and Y axis"
-msgstr ""
+msgstr "依 X 軸與 Y 軸翻轉"
 
 #: data/effects/frei0r/frei0r_flippo.xml:8
 #, fuzzy, kde-format
@@ -10747,10 +10703,9 @@ msgid "Map black to"
 msgstr "對應黑色的色彩"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Map hint"
+#, kde-format
 msgid "Map white to"
-msgstr "地圖提示"
+msgstr "對應白色的色彩"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:14
 #, kde-format
@@ -10758,40 +10713,36 @@ msgid "Tint amount"
 msgstr "著色量"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgctxt "Transparency"
 msgid "Transparency"
-msgstr "透明度："
+msgstr "透明度"
 
 #: data/effects/frei0r/frei0r_transparency.xml:5
-#, fuzzy, kde-format
-#| msgid "Draws simple shapes into the alpha channel"
+#, kde-format
 msgid "Tunes the alpha channel."
-msgstr "繪制簡單的形狀到透通色版裡"
+msgstr "調整透通色版。"
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:4
 #, kde-format
 msgid "Binarize dynamically"
-msgstr ""
+msgstr "動態二元化"
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dynamic thresholding"
-msgstr "飽和"
+msgstr "動態閥值化"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgctxt "Vectorscope Effect Name"
 msgid "Vectorscope"
 msgstr "向量示波器"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid "Display the audio waveform instead of the video"
+#, kde-format
 msgid "Display a vectorscope of the video data"
-msgstr "顯示音訊波形而非視訊"
+msgstr "以向量示波器形式顯示視訊資料"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:5
 #: data/effects/frei0r/frei0r_vertigo.xml:16
@@ -10828,10 +10779,9 @@ msgid "Natural lens vignetting effect"
 msgstr "編輯特效時發生問題"
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect ratio"
-msgstr "寬高比："
+msgstr "寬高比"
 
 #: data/effects/frei0r/frei0r_vignette.xml:11
 #, kde-format
@@ -11449,7 +11399,7 @@ msgstr "LADSPA 去除雜音器聲訊特效"
 #: data/effects/ladspa/ladspa_equalizer.xml:4
 #, kde-format
 msgid "Equalizer"
-msgstr "均衡器"
+msgstr "等化器"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:5
 #, kde-format
@@ -11459,105 +11409,102 @@ msgstr "LADSPA 等化器聲訊特效"
 #: data/effects/ladspa/ladspa_equalizer.xml:8
 #, kde-format
 msgid "Lo gain"
-msgstr "低增益"
+msgstr "低頻增益"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:11
 #, kde-format
 msgid "Mid gain"
-msgstr "中等增益"
+msgstr "中頻增益"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:14
 #, kde-format
 msgid "Hi gain"
-msgstr "高增益"
+msgstr "高頻增益"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "15 Band Equalizer"
-msgstr "均衡器"
+msgstr "15 頻段等化器"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "LADSPA equalizer audio effect (15 band)"
-msgstr "LADSPA 等化器聲訊特效"
+msgstr "LADSPA 等化器聲訊特效（15 頻段）"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "50 Hz"
-msgstr "11250"
+msgstr "50 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:11
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "100 Hz"
-msgstr "44100 Hz"
+msgstr "100 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
 #, kde-format
 msgid "156 Hz"
-msgstr ""
+msgstr "156 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "220 Hz"
-msgstr "11250"
+msgstr "220 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:20
 #, kde-format
 msgid "311 Hz"
-msgstr ""
+msgstr "311 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:23
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "440 Hz"
-msgstr "44100 Hz"
+msgstr "440 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
 #, kde-format
 msgid "622 Hz"
-msgstr ""
+msgstr "622 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "880 Hz"
-msgstr "48000 Hz"
+msgstr "880 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "1250 Hz"
-msgstr "11250"
+msgstr "1250 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "1750 Hz"
-msgstr "11250"
+msgstr "1750 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "2500 Hz"
-msgstr "22500"
+msgstr "2500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:41
-#, fuzzy, kde-format
+#, kde-format
 msgid "3500 Hz"
-msgstr "22500"
+msgstr "3500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:44
-#, fuzzy, kde-format
+#, kde-format
 msgid "5000 Hz"
-msgstr "22500"
+msgstr "5000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:47
-#, fuzzy, kde-format
+#, kde-format
 msgid "10000 Hz"
-msgstr "41000"
+msgstr "10000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "20000 Hz"
-msgstr "41000"
+msgstr "20000 Hz"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:4
 #, kde-format
@@ -11600,7 +11547,7 @@ msgstr "LADSPA 限制器聲訊特效"
 #: data/effects/ladspa/ladspa_limiter.xml:8
 #, kde-format
 msgid "Input gain (dB)"
-msgstr "匯入增益 (dB)"
+msgstr "輸入增益 (dB)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:11
 #, kde-format
@@ -12059,7 +12006,7 @@ msgstr "鏡像"
 #: data/effects/mirror.xml:5
 #, kde-format
 msgid "Flip your image in any direction"
-msgstr "以任意旋轉您的圖片"
+msgstr "朝任何方向翻轉您的圖片"
 
 #: data/effects/mirror.xml:8
 #, kde-format
@@ -15427,7 +15374,7 @@ msgstr ""
 "\n"
 "紅："
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1008
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -16390,7 +16337,7 @@ msgid ""
 "tracks ?"
 msgstr "您的專案需要更多音訊軌才能處理所有串流。要新增 %1 個音訊軌嗎？"
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2718
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要新增標記的素材"
@@ -16474,7 +16421,7 @@ msgstr "刪除效果 %1"
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4828
 #, kde-format
 msgid "Project Bin %1"
 msgstr "專案素材庫 %1"
@@ -18537,7 +18484,7 @@ msgstr "加入目前專案"
 msgid "Open Containing Folder"
 msgstr "開啟包含資料夾"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3950
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3951
 #, kde-format
 msgid "Timeline"
 msgstr "時間軸"
@@ -20704,7 +20651,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "字幕檔案：<br/>%1<br/>已經存在。您是否要覆寫它?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3468
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3469
 #, kde-format
 msgid "Overwrite"
 msgstr "覆寫"
@@ -21861,13 +21808,13 @@ msgid "Add Markers by Category"
 msgstr "依分類新增標記"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3845
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3846
 #, kde-format
 msgid "Extract Audio"
 msgstr "提取音訊"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3819
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3820
 #, kde-format
 msgid "Clip Jobs"
 msgstr "剪輯工作"
@@ -23050,7 +22997,7 @@ msgstr "調整縮放等級來將整個專案顯示於時間軸視窗內。"
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "已啟用實驗性 GPU 處理 — 不適合生產用途"
 
-#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3454
+#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3455
 #, kde-format
 msgid "Multicam"
 msgstr "多相機"
@@ -23949,56 +23896,56 @@ msgstr "無法進行作業，無效文件 ID：%1"
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "無法進行作業，目標目錄已經存在：%1"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "這會從您的專案中移除所有未使用的素材。"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "Clean up project"
 msgstr "清理專案"
 
-#: src/mainwindow.cpp:2519
+#: src/mainwindow.cpp:2520
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "下載新的鍵盤方案…"
 
-#: src/mainwindow.cpp:2528
+#: src/mainwindow.cpp:2529
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "常規"
 
-#: src/mainwindow.cpp:2602
+#: src/mainwindow.cpp:2603
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr "這會刪除 Kdenlive 的設定檔案並重啟應用程式。您要繼續嗎？"
 
-#: src/mainwindow.cpp:2603
+#: src/mainwindow.cpp:2604
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "重設設定"
 
-#: src/mainwindow.cpp:2735 src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2736 src/mainwindow.cpp:2763
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "無法找到要移除記號的素材"
 
-#: src/mainwindow.cpp:2745 src/mainwindow.cpp:2791
+#: src/mainwindow.cpp:2746 src/mainwindow.cpp:2792
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "游標時間上沒有標記"
 
-#: src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2768
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "刪除標記時發生錯誤"
 
-#: src/mainwindow.cpp:2784 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2785 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -24007,46 +23954,46 @@ msgstr "刪除標記時發生錯誤"
 msgid "Cannot find clip to edit marker"
 msgstr "找不到要編輯記號的素材"
 
-#: src/mainwindow.cpp:2835
+#: src/mainwindow.cpp:2836
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "標記分類不存在"
 
-#: src/mainwindow.cpp:3025 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3026 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Overwrite zone"
 msgstr "覆寫區段"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3046
+#: src/mainwindow.cpp:3028 src/mainwindow.cpp:3047
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3146
 #, kde-format
 msgid "Could not insert zone"
 msgstr "無法插入區段"
 
-#: src/mainwindow.cpp:3037
+#: src/mainwindow.cpp:3038
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "專案素材庫中沒有選取素材"
 
-#: src/mainwindow.cpp:3044 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Insert zone"
 msgstr "插入區段"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3212
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "無法新增效果到作用中項目"
 
-#: src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:3274
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "縮放等級：%1/%2"
 
-#: src/mainwindow.cpp:3422
+#: src/mainwindow.cpp:3423
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24058,7 +24005,7 @@ msgstr ""
 "多重選取，<shortcut>Meta+拖曳</shortcut>來將一組素材移動到另一個軌道，"
 "<shortcut>Ctrl+拖曳</shortcut>來平移"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24071,24 +24018,24 @@ msgstr ""
 "多重選取，<shortcut>Meta+Alt+拖曳</shortcut>來將一組素材移動到另一個軌道，"
 "<shortcut>Ctrl+拖曳</shortcut>來平移"
 
-#: src/mainwindow.cpp:3429
+#: src/mainwindow.cpp:3430
 #, kde-format
 msgid "Select"
 msgstr "選取"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3432
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> 來預覽分割影格"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3432 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3433 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "分割"
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3437
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24098,12 +24045,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> 來只套用到目前軌道，<shortcut>Shift</shortcut> 來同"
 "時移動參照線。兩個修飾鍵可以同時使用。"
 
-#: src/mainwindow.cpp:3437
+#: src/mainwindow.cpp:3438
 #, kde-format
 msgid "Spacer"
 msgstr "空白區域"
 
-#: src/mainwindow.cpp:3439
+#: src/mainwindow.cpp:3440
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24113,13 +24060,13 @@ msgstr ""
 "<shortcut>點擊</shortcut>項目來滑動，<shortcut>Shift+點擊</shortcut>來進行多"
 "重選取"
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3441
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "滑動"
 
-#: src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3446
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24131,13 +24078,13 @@ msgstr ""
 "多重選取，<shortcut>Alt+點擊</shortcut>來選擇群組內的項目，<shortcut>Ctrl+拖"
 "曳</shortcut>來平移"
 
-#: src/mainwindow.cpp:3447
+#: src/mainwindow.cpp:3448
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "波紋"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3454
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24147,139 +24094,139 @@ msgstr ""
 "<shortcut>點擊</shortcut>專案預覽視窗中的軌道檢視來刪除 (lift) 作用中軌道以外"
 "的所有軌道"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3466
 #, kde-format
 msgid "Insert"
 msgstr "插入"
 
-#: src/mainwindow.cpp:3735 src/mainwindow.cpp:3737
+#: src/mainwindow.cpp:3736 src/mainwindow.cpp:3738
 #, kde-format
 msgid "Scopes"
 msgstr "示波器"
 
-#: src/mainwindow.cpp:3742
+#: src/mainwindow.cpp:3743
 #, kde-format
 msgid "Project Bins"
 msgstr "專案素材庫"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3839
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "設定剪輯工作…"
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3845
 #, kde-format
 msgid "Transcoders"
 msgstr "轉換編碼器"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3905
 #, kde-format
 msgid "-merged"
 msgstr "-已合併"
 
-#: src/mainwindow.cpp:3907
+#: src/mainwindow.cpp:3908
 #, kde-format
 msgid "-stream-%1"
 msgstr "-串流-%1"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3950
 #, kde-format
 msgid "Interface"
 msgstr "介面"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3972
 #, kde-format
 msgid "Raise %1"
 msgstr "抬升 %1"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4039
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "要轉換編碼的檔案"
 
-#: src/mainwindow.cpp:4170
+#: src/mainwindow.cpp:4171
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "無法為封存儲存專案檔。"
 
-#: src/mainwindow.cpp:4178
+#: src/mainwindow.cpp:4179
 #, kde-format
 msgid "Archiving project"
 msgstr "專案封存中"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4319
 #, kde-format
 msgid "Icon Size"
 msgstr "圖示大小"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4323
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "預設"
 
-#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4344 src/mainwindow.cpp:4372
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "小型 (%1x%2)"
 
-#: src/mainwindow.cpp:4345 src/mainwindow.cpp:4373
+#: src/mainwindow.cpp:4346 src/mainwindow.cpp:4374
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "中型 (%1x%2)"
 
-#: src/mainwindow.cpp:4347 src/mainwindow.cpp:4375
+#: src/mainwindow.cpp:4348 src/mainwindow.cpp:4376
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "大型 (%1x%2)"
 
-#: src/mainwindow.cpp:4349 src/mainwindow.cpp:4377
+#: src/mainwindow.cpp:4350 src/mainwindow.cpp:4378
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "巨大 (%1x%2)"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "這會完全隱藏選單列。您可以按下 Ctrl+M 重新顯示選單列。"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid "Hide menu bar"
 msgstr "隱藏選單列"
 
-#: src/mainwindow.cpp:4696 src/timeline2/view/timelinecontroller.cpp:5119
+#: src/mainwindow.cpp:4697 src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "目前專案中沒有字幕"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:4984
 #, kde-format
 msgid "Go to download page"
 msgstr "造訪下載頁面"
 
-#: src/mainwindow.cpp:4988
+#: src/mainwindow.cpp:4989
 #, kde-format
 msgid "Never check again"
 msgstr "不再次檢查"
 
-#: src/mainwindow.cpp:4991
+#: src/mainwindow.cpp:4992
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "您的 Kdenlive 版本已釋出超過 1 年，我們強烈建議您更新"
 
-#: src/mainwindow.cpp:4995
+#: src/mainwindow.cpp:4996
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "您的 Kdenlive 版本已釋出超過 6 個月，我們建議您更新"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5039
 #, kde-format
 msgid "Checking cached data size"
 msgstr "正在檢查已快取資料大小"
@@ -25363,16 +25310,14 @@ msgid ""
 msgstr ""
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:419
-#, fuzzy, kde-format
-#| msgid "Go to Clip Start"
+#, kde-format
 msgid "Go to mask start"
-msgstr "跳到素材起點"
+msgstr "跳到遮罩起點"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:432
-#, fuzzy, kde-format
-#| msgid "Go to Clip End"
+#, kde-format
 msgid "Go to mask end"
-msgstr "跳到素材末尾"
+msgstr "跳到遮罩末尾"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:313
 #, kde-kuit-format
@@ -28908,14 +28853,14 @@ msgid "Change clip speed"
 msgstr "變更素材速度"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "鎖定軌道"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -29061,7 +29006,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2187
+#: src/timeline2/view/qml/timeline.qml:2189
 #, kde-format
 msgid "Paused"
 msgstr "已暫停"
@@ -29200,51 +29145,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>雙擊</b>來編輯文字"
 
-#: src/timeline2/view/qml/timeline.qml:1002
+#: src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Show master effects"
 msgstr "顯示 master 效果"
 
-#: src/timeline2/view/qml/timeline.qml:1145
+#: src/timeline2/view/qml/timeline.qml:1147
 #, kde-format
 msgid "Click to see details"
 msgstr "點擊來檢視詳細資料"
 
-#: src/timeline2/view/qml/timeline.qml:1167
+#: src/timeline2/view/qml/timeline.qml:1169
 #, kde-format
 msgid "Speech recognition"
 msgstr "語音辨識"
 
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "顯示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/timeline2/view/qml/timeline.qml:1850
+#: src/timeline2/view/qml/timeline.qml:1852
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>雙擊</b>來新增字幕"
 
-#: src/timeline2/view/qml/timeline.qml:2017
+#: src/timeline2/view/qml/timeline.qml:2019
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/timeline.qml:2176
-#: src/timeline2/view/qml/timeline.qml:2185
+#: src/timeline2/view/qml/timeline.qml:2178
+#: src/timeline2/view/qml/timeline.qml:2187
 #, kde-format
 msgid "Recording"
 msgstr "錄製"
 
-#: src/timeline2/view/qml/timeline.qml:2279
+#: src/timeline2/view/qml/timeline.qml:2281
 #, kde-format
 msgid "Multicam In"
 msgstr "多相機 入"

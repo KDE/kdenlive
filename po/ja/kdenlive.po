@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-22 02:30+0000\n"
+"POT-Creation-Date: 2025-03-25 02:33+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -15614,7 +15614,7 @@ msgstr ""
 "\n"
 "右:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1008
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "マスター"
@@ -16603,7 +16603,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2718
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "マーカーを追加すべきクリップが見つかりません"
@@ -16685,7 +16685,7 @@ msgstr "効果 %1の削除"
 msgid "Project Bin"
 msgstr "プロジェクトビン"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4828
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -18888,7 +18888,7 @@ msgstr "現在のプロジェクトに追加"
 msgid "Open Containing Folder"
 msgstr "宛先フォルダ"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3950
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3951
 #, kde-format
 msgid "Timeline"
 msgstr "タイムライン(I)"
@@ -21214,7 +21214,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "出力先のファイルは既に存在しています。上書きしてよろしいですか？"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3468
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3469
 #, kde-format
 msgid "Overwrite"
 msgstr "上書き"
@@ -22452,13 +22452,13 @@ msgid "Add Markers by Category"
 msgstr "カテゴリ"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3845
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3846
 #, kde-format
 msgid "Extract Audio"
 msgstr "オーディオの抽出"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3819
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3820
 #, kde-format
 msgid "Clip Jobs"
 msgstr "クリップジョブ"
@@ -23697,7 +23697,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3454
+#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3455
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -24654,29 +24654,29 @@ msgstr "施錠済みトラックにはスペーサーを使用できません"
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "施錠済みトラックにはスペーサーを使用できません"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "プロジェクトから、すべての未使用クリップを削除します。"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "Clean up project"
 msgstr "プロジェクトをクリーンアップ"
 
-#: src/mainwindow.cpp:2519
+#: src/mainwindow.cpp:2520
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Keyboard Schemes…"
 msgstr "新しいタイトルテンプレートのダウンロード(W)..."
 
-#: src/mainwindow.cpp:2528
+#: src/mainwindow.cpp:2529
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "汎用"
 
-#: src/mainwindow.cpp:2602
+#: src/mainwindow.cpp:2603
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -24684,28 +24684,28 @@ msgid ""
 msgstr ""
 "Kdenlive の設定ファイルを削除しアプリケーションを再起動します。続けますか？"
 
-#: src/mainwindow.cpp:2603
+#: src/mainwindow.cpp:2604
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "設定をリセット"
 
-#: src/mainwindow.cpp:2735 src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2736 src/mainwindow.cpp:2763
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "マーカーを削除すべきクリップが見つかりません"
 
-#: src/mainwindow.cpp:2745 src/mainwindow.cpp:2791
+#: src/mainwindow.cpp:2746 src/mainwindow.cpp:2792
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "カーソルの時刻にはマーカーが見つかりません"
 
-#: src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2768
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "マーカーを削除する際にエラーが発生しました"
 
-#: src/mainwindow.cpp:2784 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2785 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -24715,19 +24715,19 @@ msgstr "マーカーを削除する際にエラーが発生しました"
 msgid "Cannot find clip to edit marker"
 msgstr "マーカーを追加すべきクリップが見つかりません"
 
-#: src/mainwindow.cpp:2835
+#: src/mainwindow.cpp:2836
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Marker category does not exist"
 msgstr "カテゴリ"
 
-#: src/mainwindow.cpp:3025 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3026 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Overwrite zone"
 msgstr "上書き範囲(O)"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3046
+#: src/mainwindow.cpp:3028 src/mainwindow.cpp:3047
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3146
 #, fuzzy, kde-format
@@ -24735,30 +24735,30 @@ msgstr "上書き範囲(O)"
 msgid "Could not insert zone"
 msgstr "挿入モード(I)"
 
-#: src/mainwindow.cpp:3037
+#: src/mainwindow.cpp:3038
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected in project bin"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/mainwindow.cpp:3044 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Insert zone"
 msgstr "挿入範囲"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3212
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to active item"
 msgstr "このクリップにはビデオ効果を追加できません"
 
-#: src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:3274
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "拡大レベル: %1/%2"
 
-#: src/mainwindow.cpp:3422
+#: src/mainwindow.cpp:3423
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for "
@@ -24772,7 +24772,7 @@ msgstr ""
 "<b>シフト + ドラッグ</b>で矩形選択、<b>シフト + クリック</b>で複数選択、"
 "<b>Ctrl + ドラッグ</b>でパン"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3427
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for "
@@ -24787,12 +24787,12 @@ msgstr ""
 "<b>シフト + ドラッグ</b>で矩形選択、<b>シフト + クリック</b>で複数選択、"
 "<b>Ctrl + ドラッグ</b>でパン"
 
-#: src/mainwindow.cpp:3429
+#: src/mainwindow.cpp:3430
 #, kde-format
 msgid "Select"
 msgstr "選択"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3432
 #, fuzzy, kde-kuit-format
 #| msgid "<b>Shift</b> to preview cut frame"
 msgctxt "@info:whatsthis"
@@ -24800,13 +24800,13 @@ msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<b>シフト</b>でフレームカットプレビュー"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3432 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3433 src/ui/configtools_ui.ui:21
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "刈り取りツール(R)"
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3437
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Ctrl</b> to apply on current track only, <b>Shift</b> to also move "
@@ -24819,13 +24819,13 @@ msgstr ""
 "<b>Ctrl</b> で現在のトラックのみに適用、<b>シフト</b>でガイドも移動。両方を組"
 "み合わせることもできます。"
 
-#: src/mainwindow.cpp:3437
+#: src/mainwindow.cpp:3438
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "スペース(P)"
 
-#: src/mainwindow.cpp:3439
+#: src/mainwindow.cpp:3440
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -24839,14 +24839,14 @@ msgstr ""
 "<shortcut>クリック</shortcut> でポイントを追加、<shortcut>右クリック</"
 "shortcut> でシェイプを閉じる。"
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3441
 #, fuzzy, kde-format
 #| msgid "Slip"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "スリップ"
 
-#: src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3446
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for "
@@ -24860,13 +24860,13 @@ msgstr ""
 "<b>シフト + ドラッグ</b>で矩形選択、<b>シフト + クリック</b>で複数選択、"
 "<b>Ctrl + ドラッグ</b>でパン"
 
-#: src/mainwindow.cpp:3447
+#: src/mainwindow.cpp:3448
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr ""
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3454
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24874,104 +24874,104 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3466
 #, kde-format
 msgid "Insert"
 msgstr "挿入"
 
-#: src/mainwindow.cpp:3735 src/mainwindow.cpp:3737
+#: src/mainwindow.cpp:3736 src/mainwindow.cpp:3738
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3742
+#: src/mainwindow.cpp:3743
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bins"
 msgstr "プロジェクトビン"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3839
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "クリップジョブを設定..."
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3845
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "トランスコード"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3905
 #, kde-format
 msgid "-merged"
 msgstr ""
 
-#: src/mainwindow.cpp:3907
+#: src/mainwindow.cpp:3908
 #, fuzzy, kde-format
 #| msgid "Video stream %1"
 msgid "-stream-%1"
 msgstr "ビデオストリーム %1"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3950
 #, kde-format
 msgid "Interface"
 msgstr "インターフェース"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3972
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Raise %1"
 msgstr "効果の保存"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4039
 #, fuzzy, kde-format
 #| msgid "Close after transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "トランスコード完了後に閉じる"
 
-#: src/mainwindow.cpp:4170
+#: src/mainwindow.cpp:4171
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "プロジェクトファイルをアーカイブできませんでした。"
 
-#: src/mainwindow.cpp:4178
+#: src/mainwindow.cpp:4179
 #, kde-format
 msgid "Archiving project"
 msgstr ""
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4319
 #, kde-format
 msgid "Icon Size"
 msgstr "アイコンのサイズ"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4323
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "既定値"
 
-#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4344 src/mainwindow.cpp:4372
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "小 (%1x%2)"
 
-#: src/mainwindow.cpp:4345 src/mainwindow.cpp:4373
+#: src/mainwindow.cpp:4346 src/mainwindow.cpp:4374
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "中 (%1x%2)"
 
-#: src/mainwindow.cpp:4347 src/mainwindow.cpp:4375
+#: src/mainwindow.cpp:4348 src/mainwindow.cpp:4376
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "大 (%1x%2)"
 
-#: src/mainwindow.cpp:4349 src/mainwindow.cpp:4377
+#: src/mainwindow.cpp:4350 src/mainwindow.cpp:4378
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "特大 (%1x%2)"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -24979,40 +24979,40 @@ msgid ""
 msgstr ""
 "これはメニューバーを完全に隠します。Ctrl+M を押すことで再表示できます。"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid "Hide menu bar"
 msgstr "メニューバーを隠す"
 
-#: src/mainwindow.cpp:4696 src/timeline2/view/timelinecontroller.cpp:5119
+#: src/mainwindow.cpp:4697 src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "現在のプロジェクトには字幕がありません"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:4984
 #, kde-format
 msgid "Go to download page"
 msgstr "ダウンロードページを訪れる"
 
-#: src/mainwindow.cpp:4988
+#: src/mainwindow.cpp:4989
 #, kde-format
 msgid "Never check again"
 msgstr "再度確認しない"
 
-#: src/mainwindow.cpp:4991
+#: src/mainwindow.cpp:4992
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:4995
+#: src/mainwindow.cpp:4996
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5039
 #, kde-format
 msgid "Checking cached data size"
 msgstr "キャッシュデータのサイズを確認中"
@@ -29875,14 +29875,14 @@ msgid "Change clip speed"
 msgstr "クリップタイプの変更"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "トラックの施錠"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -30043,7 +30043,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2187
+#: src/timeline2/view/qml/timeline.qml:2189
 #, kde-format
 msgid "Paused"
 msgstr "一時停止"
@@ -30190,55 +30190,55 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>ダブルクリック</b>でテキストを編集"
 
-#: src/timeline2/view/qml/timeline.qml:1002
+#: src/timeline2/view/qml/timeline.qml:1004
 #, fuzzy, kde-format
 #| msgid "Sox band audio effect"
 msgid "Show master effects"
 msgstr "Sox Band オーディオ効果"
 
-#: src/timeline2/view/qml/timeline.qml:1145
+#: src/timeline2/view/qml/timeline.qml:1147
 #, kde-format
 msgid "Click to see details"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1167
+#: src/timeline2/view/qml/timeline.qml:1169
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "遷移効果の選択(E)"
 
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "表示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "隠す"
 
-#: src/timeline2/view/qml/timeline.qml:1850
+#: src/timeline2/view/qml/timeline.qml:1852
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ダブルクリック</b>で字幕を追加"
 
-#: src/timeline2/view/qml/timeline.qml:2017
+#: src/timeline2/view/qml/timeline.qml:2019
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Offset: %1, Position: %2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/timeline.qml:2176
-#: src/timeline2/view/qml/timeline.qml:2185
+#: src/timeline2/view/qml/timeline.qml:2178
+#: src/timeline2/view/qml/timeline.qml:2187
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "録画"
 
-#: src/timeline2/view/qml/timeline.qml:2279
+#: src/timeline2/view/qml/timeline.qml:2281
 #, kde-format
 msgid "Multicam In"
 msgstr ""

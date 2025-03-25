@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-22 02:30+0000\n"
-"PO-Revision-Date: 2025-03-18 08:25+0200\n"
+"POT-Creation-Date: 2025-03-25 02:33+0000\n"
+"PO-Revision-Date: 2025-03-23 08:14+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -543,12 +543,12 @@ msgstr ""
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
 msgid "Knee"
-msgstr ""
+msgstr "ברך"
 
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
 msgid "Average,Maximum"
-msgstr ""
+msgstr "ממוצע,מרבי"
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
 #, fuzzy, kde-format
@@ -642,12 +642,12 @@ msgstr "גל שמע"
 #: data/effects/avfilter/avfilter_setrange.xml:9
 #, kde-format
 msgid "Range"
-msgstr ""
+msgstr "טווח"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:4
 #, kde-format
 msgid "Simple Compressor/Expander"
-msgstr ""
+msgstr "דוחס/מרחיב פשוט"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
@@ -3373,10 +3373,9 @@ msgid "Apply two-pole peaking equalization (EQ) filter"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width Type"
-msgstr "רוחב"
+msgstr "סוג עובי"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
 #, kde-format
@@ -3384,15 +3383,14 @@ msgid "Hertz,Q-Factor,Octave,Slope,None"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid "Band Width"
-msgstr "רוחב גבול"
+msgstr "עובי רצועה"
 
 #: data/effects/avfilter/avfilter_erosion.xml:4
-#, fuzzy, kde-format
-#| msgid "version"
+#, kde-format
 msgid "Erosion"
-msgstr "גרסה"
+msgstr "סחיפה"
 
 #: data/effects/avfilter/avfilter_erosion.xml:5
 #, kde-format
@@ -3401,10 +3399,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Exposure"
-msgstr "יוצאו:"
+msgstr "חשיפה"
 
 #: data/effects/avfilter/avfilter_exposure.xml:5
 #, kde-format
@@ -5099,10 +5096,9 @@ msgid "Apply prewitt operator to input video stream"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_random.xml:4
-#, fuzzy, kde-format
-#| msgid "Random Seed"
+#, kde-format
 msgid "Random"
-msgstr "גורם אקראיות"
+msgstr "אקראי"
 
 #: data/effects/avfilter/avfilter_random.xml:5
 #, kde-format
@@ -5124,10 +5120,9 @@ msgid "Seed"
 msgstr "ליבה:"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:4
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Grain Removal"
-msgstr "הסרה"
+msgstr "הסרת גרגרים"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:5
 #, kde-format
@@ -5321,28 +5316,24 @@ msgid "Reds"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:15
-#, fuzzy, kde-format
-#| msgid "Yellow"
+#, kde-format
 msgid "Yellows"
-msgstr "צהוב"
+msgstr "צהובים"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:18
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Greens"
-msgstr "ירוק"
+msgstr "ירוקים"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:21
-#, fuzzy, kde-format
-#| msgid "Cyan"
+#, kde-format
 msgid "Cyans"
-msgstr "ציאן"
+msgstr "ציאנים"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:24
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blues"
-msgstr "כחול"
+msgstr "כחולים"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
 #, kde-format
@@ -5350,22 +5341,19 @@ msgid "Magentas"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:30
-#, fuzzy, kde-format
-#| msgid "White"
+#, kde-format
 msgid "Whites"
-msgstr "לבן"
+msgstr "לבנים"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:33
-#, fuzzy, kde-format
-#| msgid "Neutral Color"
+#, kde-format
 msgid "Neutrals"
-msgstr "צבע טבעי"
+msgstr "נייטרליים"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:36
-#, fuzzy, kde-format
-#| msgid "Black"
+#, kde-format
 msgid "Blacks"
-msgstr "שחור"
+msgstr "שחורים"
 
 #: data/effects/avfilter/avfilter_separatefields.xml:4
 #, fuzzy, kde-format
@@ -5382,10 +5370,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set Range"
-msgstr "הגדרת קטע"
+msgstr "הגדרת טווח"
 
 #: data/effects/avfilter/avfilter_setrange.xml:5
 #, kde-format
@@ -5398,9 +5385,7 @@ msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shear.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Affine Transform Effect Name"
-#| msgid "Shear"
+#, kde-format
 msgid "Shear"
 msgstr "גזירה"
 
@@ -5661,10 +5646,9 @@ msgid "Elevation"
 msgstr "פעולה"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency,Time"
-msgstr "תדר"
+msgstr "תדירות,זמן"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:27
 #, fuzzy, kde-format
@@ -6454,9 +6438,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Row,Column"
-msgstr "טורים"
+msgstr "שורה,עמודה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:12
 #, kde-format
@@ -6484,22 +6468,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the display mode]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[הגדרת מצב התצוגה]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[בחירת הרכיבים לתצוגה]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the envelope mode]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[הגדרת מצב המעטפה]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
@@ -6516,10 +6497,9 @@ msgid "Filter"
 msgstr "מסנן"
 
 #: data/effects/avfilter/avfilter_waveform.xml:42
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the filter mode]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[הגדרת מצב המסנן]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
@@ -6559,15 +6539,14 @@ msgid "<![CDATA[Set scale used for displaying graticule]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the background opacity]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[הגדרת אטימות הרקע]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tint 0"
-msgstr "אפקט עמעום"
+msgstr "גיוון 0"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
@@ -6578,9 +6557,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:73
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tint 1"
-msgstr "אפקט עמעום"
+msgstr "גיוון 1"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, fuzzy, kde-format
@@ -6589,10 +6568,9 @@ msgid "none,size"
 msgstr "‫שינוי גודל"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Fit mode"
-msgstr "מצב צביעה:"
+msgstr "מצב התאמה"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, fuzzy, kde-format
@@ -7443,16 +7421,15 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:48
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shrink/Grow/Blur amount"
-msgstr "הקטן/הגדל סכום"
+msgstr "כמות צמצום/הגדלה/טשטוש"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha trace"
+#, kde-format
 msgid "Alpha gradient"
-msgstr "ערוץ אלפא"
+msgstr "מדרג שקיפות"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
 #: data/effects/frei0r/frei0r_alphagrad.xml:5
@@ -7598,11 +7575,10 @@ msgid "Extracts Blue from Image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:5
-#, fuzzy, kde-format
-#| msgid "White Balance"
+#, kde-format
 msgctxt "White Balance Effect Name"
 msgid "White Balance"
-msgstr "איזון צבע לבן"
+msgstr "איזון לבן"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:6
 #: data/effects/frei0r/frei0r_balanc0r.xml:17
@@ -7639,9 +7615,9 @@ msgid "Delayed alpha smoothed blit of time"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bézier Curves"
-msgstr "עקומות"
+msgstr "עקומות בזייה"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:5
 #: data/effects/frei0r/frei0r_curves.xml:6
@@ -10482,9 +10458,9 @@ msgstr "הסט אלפא"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:36
 #: data/effects/frei0r/frei0r_sopsat.xml:86
-#, fuzzy, kde-format
+#, kde-format
 msgid "Power Red"
-msgstr "עוצמת אדום (גמא)"
+msgstr "עוצמת אדום"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:38
 #: data/effects/frei0r/frei0r_sopsat.xml:88
@@ -10498,21 +10474,21 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_sopsat.xml:41
 #: data/effects/frei0r/frei0r_sopsat.xml:91
-#, fuzzy, kde-format
+#, kde-format
 msgid "Power Green"
-msgstr "עוצמת ירוק (גמא)"
+msgstr "עוצמת ירוק"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:44
 #: data/effects/frei0r/frei0r_sopsat.xml:94
-#, fuzzy, kde-format
+#, kde-format
 msgid "Power Blue"
-msgstr "עוצמת אדום (גמא)"
+msgstr "עוצמת אדום"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:47
 #: data/effects/frei0r/frei0r_sopsat.xml:97
-#, fuzzy, kde-format
+#, kde-format
 msgid "Power Alpha"
-msgstr "עוצמת אלפא (גמא)"
+msgstr "עוצמת שקיפות"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:50
 #: data/effects/frei0r/frei0r_sopsat.xml:100
@@ -10721,9 +10697,9 @@ msgid "Aspect ratio"
 msgstr "יחס גובה־רוחב"
 
 #: data/effects/frei0r/frei0r_vignette.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clear center size"
-msgstr "גודל ליבה"
+msgstr "פינוי גודל מרכז"
 
 #: data/effects/frei0r/frei0r_vignette.xml:14
 #: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
@@ -12786,10 +12762,9 @@ msgid "Room scale"
 msgstr "נרמל"
 
 #: data/effects/sox/sox_reverb.xml:17
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo depth"
-msgstr "סטריאו "
+msgstr "עומק סטריאו"
 
 #: data/effects/sox/sox_reverb.xml:20
 #, fuzzy, kde-format
@@ -15359,7 +15334,7 @@ msgstr ""
 "\n"
 "ימ׳:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1008
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "ראשי"
@@ -16342,7 +16317,7 @@ msgid ""
 msgstr ""
 "המיזם שלך צריך יותר רצועות שמע כדי לטפל בכל התזרימים. להוסיף %1 רצועות שמע?"
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2718
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "לא נמצא סרטון להוספת סמן"
@@ -16429,7 +16404,7 @@ msgstr "מחיקת אפקט %1"
 msgid "Project Bin"
 msgstr "סל מיזם"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4828
 #, kde-format
 msgid "Project Bin %1"
 msgstr "סל המיזם %1"
@@ -18517,7 +18492,7 @@ msgstr "הוספה למיזם הנוכחי"
 msgid "Open Containing Folder"
 msgstr "פתיחת התיקייה המכילה"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3950
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3951
 #, kde-format
 msgid "Timeline"
 msgstr "ציר זמן"
@@ -20719,7 +20694,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "קובץ הכתוביות:<br/>%1<br/>כבר קיים. לשכתב אותו?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3468
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3469
 #, kde-format
 msgid "Overwrite"
 msgstr "שכתוב"
@@ -21888,13 +21863,13 @@ msgid "Add Markers by Category"
 msgstr "הוספת סמנים לפי קטגוריה"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3845
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3846
 #, kde-format
 msgid "Extract Audio"
 msgstr "חילוץ שמע"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3819
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3820
 #, kde-format
 msgid "Clip Jobs"
 msgstr "משימות סרטונים"
@@ -23094,7 +23069,7 @@ msgstr "מכוון את המרחק כך שכל המיזם יופיע בחלונ�
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "עיבוד מעבד גרפי ניסיוני פעיל - לא מומלץ לעבודה שוטפת עדיין"
 
-#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3454
+#: src/mainwindow.cpp:1341 src/mainwindow.cpp:3455
 #, kde-format
 msgid "Multicam"
 msgstr "ריבוי מצלמות"
@@ -23994,28 +23969,28 @@ msgstr "לא ניתן לבצע את הפעולה, מזהה מסמך שגוי: %1
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "לא ניתן לבצע את הפעולה, תיקיית היעד כבר קיימת: %1"
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "פעולה זו תסיר מהמיזם שלך את הסרטונים שלא בשימוש."
 
-#: src/mainwindow.cpp:2377
+#: src/mainwindow.cpp:2378
 #, kde-format
 msgid "Clean up project"
 msgstr "ניקוי מיזם"
 
-#: src/mainwindow.cpp:2519
+#: src/mainwindow.cpp:2520
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "הורדות תצורות מקלדת חדשות…"
 
-#: src/mainwindow.cpp:2528
+#: src/mainwindow.cpp:2529
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "כללי"
 
-#: src/mainwindow.cpp:2602
+#: src/mainwindow.cpp:2603
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -24023,28 +23998,28 @@ msgid ""
 msgstr ""
 "הפעולה הזאת תמחק את קובץ ההגדרות של Kdenlive ותפעיל את היישום מחדש. להמשיך?"
 
-#: src/mainwindow.cpp:2603
+#: src/mainwindow.cpp:2604
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "איפוס הגדרות"
 
-#: src/mainwindow.cpp:2735 src/mainwindow.cpp:2762
+#: src/mainwindow.cpp:2736 src/mainwindow.cpp:2763
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "לא נמצא סרטון להסרת סמן"
 
-#: src/mainwindow.cpp:2745 src/mainwindow.cpp:2791
+#: src/mainwindow.cpp:2746 src/mainwindow.cpp:2792
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "לא נמצא סימון בנקודת זמן הסמן"
 
-#: src/mainwindow.cpp:2767
+#: src/mainwindow.cpp:2768
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 
-#: src/mainwindow.cpp:2784 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/mainwindow.cpp:2785 src/timeline2/view/timelinecontroller.cpp:1331
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1360
 #: src/timeline2/view/timelinecontroller.cpp:1400
@@ -24053,46 +24028,46 @@ msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 msgid "Cannot find clip to edit marker"
 msgstr "לא ניתן לאתר את הסרטון לעריכת הסמן"
 
-#: src/mainwindow.cpp:2835
+#: src/mainwindow.cpp:2836
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "קטגוריית הסמנים לא קיימת"
 
-#: src/mainwindow.cpp:3025 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3026 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Overwrite zone"
 msgstr "שכתוב קטע"
 
-#: src/mainwindow.cpp:3027 src/mainwindow.cpp:3046
+#: src/mainwindow.cpp:3028 src/mainwindow.cpp:3047
 #: src/timeline2/model/timelinefunctions.cpp:790
 #: src/timeline2/view/timelinecontroller.cpp:3146
 #, kde-format
 msgid "Could not insert zone"
 msgstr "לא ניתן להוסיף קטע"
 
-#: src/mainwindow.cpp:3037
+#: src/mainwindow.cpp:3038
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "לא נבחר אף סרטון בסל המיזם"
 
-#: src/mainwindow.cpp:3044 src/timeline2/model/timelinefunctions.cpp:788
+#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:788
 #: src/timeline2/view/timelinecontroller.cpp:3144
 #, kde-format
 msgid "Insert zone"
 msgstr "הוספת קטע"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3212
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "לא ניתן להוסיף אפקט לפריט פעיל"
 
-#: src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:3274
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "רמת תקריב: %1/%2"
 
-#: src/mainwindow.cpp:3422
+#: src/mainwindow.cpp:3423
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24105,7 +24080,7 @@ msgstr ""
 "כדי להעביר סרטון מקובץ לרצועה אחרת, <shortcut>Ctrl גרירה</shortcut> כדי "
 "להזיז את התצוגה"
 
-#: src/mainwindow.cpp:3426
+#: src/mainwindow.cpp:3427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24119,24 +24094,24 @@ msgstr ""
 "shortcut> כדי להעביר סרטון מקובץ לרצועה אחרת, <shortcut>Ctrl גרירה</"
 "shortcut> כדי להזיז את התצוגה"
 
-#: src/mainwindow.cpp:3429
+#: src/mainwindow.cpp:3430
 #, kde-format
 msgid "Select"
 msgstr "בחירה"
 
-#: src/mainwindow.cpp:3431
+#: src/mainwindow.cpp:3432
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> לתצוגה מקדימה של תמונית חיתוך"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3432 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3433 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "סכין"
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3437
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24146,12 +24121,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> כדי להחיל רק על הרצועה הנוכחית, <shortcut>Shift</"
 "shortcut> כדי להסיר גם קווים מנחים. אפשר גם לשלב בין שני מקשי ההחלפה."
 
-#: src/mainwindow.cpp:3437
+#: src/mainwindow.cpp:3438
 #, kde-format
 msgid "Spacer"
 msgstr "מרווח"
 
-#: src/mainwindow.cpp:3439
+#: src/mainwindow.cpp:3440
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24161,13 +24136,13 @@ msgstr ""
 "<shortcut>לחיצה</shortcut>  על פריט להחלקה, <shortcut>Shift ולחיצה</"
 "shortcut>  לבחירה במרוכז"
 
-#: src/mainwindow.cpp:3440
+#: src/mainwindow.cpp:3441
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "הזחה"
 
-#: src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3446
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24179,13 +24154,13 @@ msgstr ""
 "shortcut> כדי לבחור במרוכז, <shortcut>Alt לחיצה</shortcut> כדי לבחור פריט "
 "בקבוצה, <shortcut>Ctrl גרירה</shortcut> כדי להסיט את התצוגה"
 
-#: src/mainwindow.cpp:3447
+#: src/mainwindow.cpp:3448
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "אדווה"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3454
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24195,99 +24170,99 @@ msgstr ""
 "<shortcut>לחיצה</shortcut> על תצוגת רצועה בצג המיזם תגביה את כל הרצועות למעט "
 "אחת"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3466
 #, kde-format
 msgid "Insert"
 msgstr "הוספה"
 
-#: src/mainwindow.cpp:3735 src/mainwindow.cpp:3737
+#: src/mainwindow.cpp:3736 src/mainwindow.cpp:3738
 #, kde-format
 msgid "Scopes"
 msgstr "טווחים"
 
-#: src/mainwindow.cpp:3742
+#: src/mainwindow.cpp:3743
 #, kde-format
 msgid "Project Bins"
 msgstr "סלי מיזמים"
 
-#: src/mainwindow.cpp:3838
+#: src/mainwindow.cpp:3839
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "הגדרת משימות סרטונים…"
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3845
 #, kde-format
 msgid "Transcoders"
 msgstr "מתמירים"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3905
 #, kde-format
 msgid "-merged"
 msgstr "-ממוזג"
 
-#: src/mainwindow.cpp:3907
+#: src/mainwindow.cpp:3908
 #, kde-format
 msgid "-stream-%1"
 msgstr "-תזרים-%1"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3950
 #, kde-format
 msgid "Interface"
 msgstr "ממשק"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3972
 #, kde-format
 msgid "Raise %1"
 msgstr "הגבהת %1"
 
-#: src/mainwindow.cpp:4038
+#: src/mainwindow.cpp:4039
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "קבצים להתמרה"
 
-#: src/mainwindow.cpp:4170
+#: src/mainwindow.cpp:4171
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "לא ניתן לשמור קובץ מיזם לארכיון."
 
-#: src/mainwindow.cpp:4178
+#: src/mainwindow.cpp:4179
 #, kde-format
 msgid "Archiving project"
 msgstr "המיזם מועבר לארכיון"
 
-#: src/mainwindow.cpp:4318
+#: src/mainwindow.cpp:4319
 #, kde-format
 msgid "Icon Size"
 msgstr "גודל סמל"
 
-#: src/mainwindow.cpp:4322
+#: src/mainwindow.cpp:4323
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ברירת מחדל"
 
-#: src/mainwindow.cpp:4343 src/mainwindow.cpp:4371
+#: src/mainwindow.cpp:4344 src/mainwindow.cpp:4372
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "קטן (%1×%2)"
 
-#: src/mainwindow.cpp:4345 src/mainwindow.cpp:4373
+#: src/mainwindow.cpp:4346 src/mainwindow.cpp:4374
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "בינוני (%1×%2)"
 
-#: src/mainwindow.cpp:4347 src/mainwindow.cpp:4375
+#: src/mainwindow.cpp:4348 src/mainwindow.cpp:4376
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "גדול (%1×%2)"
 
-#: src/mainwindow.cpp:4349 src/mainwindow.cpp:4377
+#: src/mainwindow.cpp:4350 src/mainwindow.cpp:4378
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ענק (%1×%2)"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -24296,40 +24271,40 @@ msgstr ""
 "הפעולה הזאת תסתיר את סרגל התפריטים לחלוטין. אפשר להציג אותו שוב בלחיצה על "
 "Ctrl+M."
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4434
 #, kde-format
 msgid "Hide menu bar"
 msgstr "הסתרת סרגל תפריטים"
 
-#: src/mainwindow.cpp:4696 src/timeline2/view/timelinecontroller.cpp:5119
+#: src/mainwindow.cpp:4697 src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "אין כתוביות במיזם הנוכחי"
 
-#: src/mainwindow.cpp:4983
+#: src/mainwindow.cpp:4984
 #, kde-format
 msgid "Go to download page"
 msgstr "מעבר לעמוד ההורדה"
 
-#: src/mainwindow.cpp:4988
+#: src/mainwindow.cpp:4989
 #, kde-format
 msgid "Never check again"
 msgstr "לא לבדוק שוב"
 
-#: src/mainwindow.cpp:4991
+#: src/mainwindow.cpp:4992
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר משנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:4995
+#: src/mainwindow.cpp:4996
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר מחצי שנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5039
 #, kde-format
 msgid "Checking cached data size"
 msgstr "גודל הנתונים ששמורים במטמון נבדקים"
@@ -28991,14 +28966,14 @@ msgid "Change clip speed"
 msgstr "שינוי מהירות הסרטון"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "נעילת רצועה"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
-#: src/timeline2/view/qml/timeline.qml:1211
+#: src/timeline2/view/qml/timeline.qml:1213
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -29149,7 +29124,7 @@ msgid "Stop"
 msgstr "עצירה"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2187
+#: src/timeline2/view/qml/timeline.qml:2189
 #, kde-format
 msgid "Paused"
 msgstr "מושהה"
@@ -29293,51 +29268,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>לחיצה כפולה</b> לעריכת טקסט"
 
-#: src/timeline2/view/qml/timeline.qml:1002
+#: src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Show master effects"
 msgstr "הצגת אפקטי הורה"
 
-#: src/timeline2/view/qml/timeline.qml:1145
+#: src/timeline2/view/qml/timeline.qml:1147
 #, kde-format
 msgid "Click to see details"
 msgstr "לחיצה להצגת פרטים"
 
-#: src/timeline2/view/qml/timeline.qml:1167
+#: src/timeline2/view/qml/timeline.qml:1169
 #, kde-format
 msgid "Speech recognition"
 msgstr "זיהוי דיבור"
 
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "הצגה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1187
+#: src/timeline2/view/qml/timeline.qml:1189
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "הסתרה"
 
-#: src/timeline2/view/qml/timeline.qml:1850
+#: src/timeline2/view/qml/timeline.qml:1852
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>לחיצה כפולה</b> להוספת כתובית"
 
-#: src/timeline2/view/qml/timeline.qml:2017
+#: src/timeline2/view/qml/timeline.qml:2019
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "היסט: %1, מקום: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2176
-#: src/timeline2/view/qml/timeline.qml:2185
+#: src/timeline2/view/qml/timeline.qml:2178
+#: src/timeline2/view/qml/timeline.qml:2187
 #, kde-format
 msgid "Recording"
 msgstr "הקלטה"
 
-#: src/timeline2/view/qml/timeline.qml:2279
+#: src/timeline2/view/qml/timeline.qml:2281
 #, kde-format
 msgid "Multicam In"
 msgstr "ריבוי מצלמות נכנס"
