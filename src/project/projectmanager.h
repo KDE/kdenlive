@@ -198,6 +198,7 @@ public Q_SLOTS:
 
     /** @brief Mute/Unmute or Hide/Show current timeline track */
     void slotSwitchTrackDisabled();
+    void slotSwitchAllTrackDisabled();
     /** @brief Un/Lock current timeline track */
     void slotSwitchTrackLock();
     void slotSwitchAllTrackLock();

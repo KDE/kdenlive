@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="235" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="234" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -193,6 +193,7 @@
         <Action name="unselect_all_tracks" />
         <Separator />
         <Action name="switch_track_disabled" />
+        <Action name="switch_all_track_disabled" />
         <Action name="switch_track_lock" />
         <Action name="switch_all_track_lock" />
         <Action name="switch_track_target" />

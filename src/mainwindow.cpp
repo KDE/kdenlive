@@ -1986,9 +1986,11 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("switch_track_disabled"), i18n("Toggle Track Disabled"), pCore->projectManager(), SLOT(slotSwitchTrackDisabled()), QIcon(),
               Qt::SHIFT | Qt::Key_H, timelineActions);
+    addAction(QStringLiteral("switch_all_track_disabled"), i18n("Toggle All Tracks Disabled"), pCore->projectManager(), SLOT(slotSwitchAllTrackDisabled()),
+              QIcon(), Qt::CTRL | Qt::SHIFT | Qt::Key_H, timelineActions);
     addAction(QStringLiteral("switch_track_lock"), i18n("Toggle Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(),
               Qt::SHIFT | Qt::Key_L, timelineActions);
-    addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Track Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(),
+    addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Tracks Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(),
               Qt::CTRL | Qt::SHIFT | Qt::Key_L, timelineActions);
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(),
               Qt::SHIFT | Qt::Key_T, timelineActions);

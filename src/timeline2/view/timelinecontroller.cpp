@@ -3513,7 +3513,7 @@ void TimelineController::makeAllTrackActive()
     m_activeSnaps.clear();
 }
 
-void TimelineController::switchTrackDisabled()
+void TimelineController::switchTrackDisabled(bool allTracks)
 {
 
     if (m_model->isSubtitleTrack(m_activeTrack)) {
@@ -3522,7 +3522,7 @@ void TimelineController::switchTrackDisabled()
     } else {
         bool isAudio = m_model->getTrackById_const(m_activeTrack)->isAudioTrack();
         bool enabled = isAudio ? m_model->getTrackById_const(m_activeTrack)->isMute() : m_model->getTrackById_const(m_activeTrack)->isHidden();
-        hideTrack(m_activeTrack, enabled);
+        hideTrack(m_activeTrack, enabled, allTracks);
     }
 }
 
