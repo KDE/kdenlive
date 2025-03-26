@@ -7,7 +7,6 @@
 #include "assets/assetlist/view/asseticonprovider.hpp"
 #include "assets/assetpanel.hpp"
 #include "assets/view/assetparameterview.hpp"
-#include "builtstack.hpp"
 #include "collapsibleeffectview.hpp"
 #include "core.h"
 #include "effects/effectsrepository.hpp"

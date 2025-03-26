@@ -161,9 +161,6 @@ ecm_target_qml_sources(kdenliveLib
     assets/view/qml/AssetView.qml
     timeline2/view/qml/AssetMenu.qml
     timeline2/view/qml/GuidesMenu.qml
-    effects/effectstack/view/qml/BuiltStack.qml
-    effects/effectstack/view/qml/EffectSlider.qml
-    effects/effectstack/view/qml/LiftGammaGain.qml
 )
 
 qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)

@@ -20,7 +20,6 @@ class AssetParameterModel;
 class EffectStackModel;
 class EffectItemModel;
 class AssetIconProvider;
-class BuiltStack;
 class EffectStackFilter;
 class AssetPanel;
 class QPushButton;
