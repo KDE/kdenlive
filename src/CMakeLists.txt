@@ -121,16 +121,17 @@ ecm_add_qml_module(kdenliveLib
 ecm_target_qml_sources(kdenliveLib
     SOURCES
     qml/ZoomBar.qml
-    monitor/view/kdenlivemonitor.qml
+    monitor/view/ProjectMonitor.qml
     monitor/view/Countdown.qml
-    monitor/view/kdenliveclipmonitor.qml
-    monitor/view/kdenlivemonitorautomask.qml
-    monitor/view/kdenlivemonitoreffectscene.qml
-    monitor/view/kdenlivemonitorcornerscene.qml
-    monitor/view/kdenlivemonitorrotoscene.qml
-    monitor/view/kdenlivemonitorsplit.qml
-    monitor/view/kdenlivemonitorsplittracks.qml
+    monitor/view/ClipMonitor.qml
+    monitor/view/MonitorAutomask.qml
+    monitor/view/MonitorCornerScene.qml
+    monitor/view/MonitorGeometryScene.qml
+    monitor/view/MonitorRotoScene.qml
+    monitor/view/MonitorSplit.qml
+    monitor/view/MonitorSplitTracks.qml
     monitor/view/MonitorToolButton.qml
+    monitor/view/MonitorTrimming.qml
     monitor/view/SceneToolBar.qml
     monitor/view/MultiScreenToolBar.qml
     monitor/view/EffectToolBar.qml
@@ -163,7 +164,6 @@ ecm_target_qml_sources(kdenliveLib
     effects/effectstack/view/qml/BuiltStack.qml
     effects/effectstack/view/qml/EffectSlider.qml
     effects/effectstack/view/qml/LiftGammaGain.qml
-    monitor/view/kdenlivemonitortrimming.qml
 )
 
 qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
