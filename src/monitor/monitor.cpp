@@ -2624,8 +2624,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
             m_nextSceneType = type;
             connect(root, &QObject::destroyed, this, [this, sceneData]() {
                 m_qmlManager->blockSceneChange(false);
-                if (m_qmlManager->setScene(m_id, m_nextSceneType, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
-                                           double(m_glMonitor->zoom()), m_glMonitor->m_maxProducerPosition)) {
+                if (m_qmlManager->setScene(m_id, m_nextSceneType, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->m_maxProducerPosition)) {
                     // Perform scene change
                     loadQmlScene(m_nextSceneType, sceneData, true);
                     Q_EMIT sceneChanged(m_nextSceneType);
@@ -2635,8 +2634,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
             m_qmlManager->blockSceneChange(true);
             root->deleteLater();
             return;
-        } else if (!m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
-                                           double(m_glMonitor->zoom()), m_glMonitor->m_maxProducerPosition)) {
+        } else if (!m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->m_maxProducerPosition)) {
             return;
         }
     }
