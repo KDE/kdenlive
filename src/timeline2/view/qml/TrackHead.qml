@@ -467,6 +467,12 @@ Rectangle {
                         muteButton.modifier = mouse.modifiers
                         mouse.accepted = false
                     }
+                    onEntered: {
+                        timeline.showKeyBinding(i18n("<b>Shift</b> to show/hide all tracks of the same type (audio/video)"))
+                    }
+                    onExited: {
+                        timeline.showKeyBinding()
+                    }
                 }
                 ToolTip {
                     visible: muteButton.hovered
