@@ -347,29 +347,29 @@ void TimelineController::hideTrack(int trackId, bool hide, bool allTracks)
     bool isAudio = m_model->isAudioTrack(trackId);
     QString state = hide ? (isAudio ? "1" : "2") : "3";
     QString previousState = m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString();
-    QList<int> targetTracks;
+    QMap<int, QString> targetTracks;
     if (allTracks) {
         auto it = m_model->m_allTracks.cbegin();
         while (it != m_model->m_allTracks.cend()) {
             int target_track = (*it)->getId();
             if (m_model->getTrackById_const(target_track)->isAudioTrack() == isAudio) {
-                targetTracks << target_track;
+                targetTracks.insert(target_track, m_model->getTrackProperty(target_track, QStringLiteral("hide")).toString());
             }
             ++it;
         }
     } else {
-        targetTracks = {trackId};
+        targetTracks.insert(trackId, m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString());
     }
     Fun undo_lambda = [this, targetTracks, previousState]() {
-        for (const auto &tid : targetTracks) {
-            m_model->setTrackProperty(tid, QStringLiteral("hide"), previousState);
+        for (auto i = targetTracks.cbegin(), end = targetTracks.cend(); i != end; ++i) {
+            m_model->setTrackProperty(i.key(), QStringLiteral("hide"), i.value());
         }
         m_model->updateDuration();
         return true;
     };
     Fun redo_lambda = [this, targetTracks, state]() {
-        for (const auto &tid : targetTracks) {
-            m_model->setTrackProperty(tid, QStringLiteral("hide"), state);
+        for (auto i = targetTracks.cbegin(), end = targetTracks.cend(); i != end; ++i) {
+            m_model->setTrackProperty(i.key(), QStringLiteral("hide"), state);
         }
         m_model->updateDuration();
         return true;
