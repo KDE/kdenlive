@@ -19,7 +19,6 @@
 #include "mainwindow.h"
 #include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
-#include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"
 #include "utils/clipboardproxy.hpp"
@@ -45,7 +44,6 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
     setClearColor(palette().window().color());
-    registerTimelineItems();
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     setVisible(false);
@@ -189,7 +187,9 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
         propertyList.append({"subtitleModel", QVariant()});
     }
     rootContext()->setContextProperties(propertyList);
-    setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+
+    setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Timeline.qml")));
+
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     connect(rootObject(), SIGNAL(mousePosChanged(int)), this, SLOT(emitMousePos(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));

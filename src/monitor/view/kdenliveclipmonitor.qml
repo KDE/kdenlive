@@ -6,9 +6,9 @@
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
-import Kdenlive.Controls 1.0
 import QtQuick 2.15
-import com.enums 1.0
+
+import org.kde.kdenlive as Kdenlive
 
 Item {
     id: root
@@ -183,7 +183,7 @@ Item {
         }
     }
 
-    SceneToolBar {
+    Kdenlive.SceneToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right
@@ -249,7 +249,7 @@ Item {
             Item {
                 id: audioThumb
                 property bool stateVisible: (root.permanentAudioThumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
-                property bool isAudioClip: controller.clipType == ProducerType.Audio
+                property bool isAudioClip: controller.clipType == Kdenlive.ClipType.Audio
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -258,7 +258,7 @@ Item {
                 height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: (root.permanentAudioThumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipHasAV)
+                visible: (root.permanentAudioThumb || root.showAudiothumb) && (isAudioClip || controller.clipType == Kdenlive.ClipType.AV || controller.clipHasAV)
 
                 Label {
                     id: clipStreamLabel
@@ -326,7 +326,7 @@ Item {
                     property double streamHeight: audioThumb.height / streamThumb.count
                     Item {
                         anchors.fill: parent
-                        TimelineWaveform {
+                        Kdenlive.TimelineWaveform {
                             anchors.right: parent.right
                             anchors.left: parent.left
                             height: streamThumb.streamHeight
@@ -795,7 +795,7 @@ Item {
                     }
                     Row {
                         id: labelRow
-                        MonitorToolButton {
+                        Kdenlive.MonitorToolButton {
                             id: iconButton
                             iconName: "window-close"
                             anchors.leftMargin: 4
@@ -840,7 +840,7 @@ Item {
             }
         }
     }
-    MonitorRuler {
+    Kdenlive.MonitorRuler {
         id: clipMonitorRuler
         anchors {
             left: root.left

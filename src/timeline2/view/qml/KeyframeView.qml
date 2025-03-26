@@ -6,7 +6,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQml.Models 2.15
-import com.enums 1.0
 
 Rectangle
 {
@@ -100,7 +99,7 @@ Rectangle
             model: kfrModel
             Rectangle {
                 id: keyframe
-                visible: root.activeTool === ProjectTool.SelectTool
+                visible: root.activeTool === Kdenlive.ToolType.SelectTool
                 property int frame : model.frame
                 property int frameType : model.type
                 property string realValue: model.value

@@ -7,7 +7,6 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import com.enums 1.0
 
 
 Item {
@@ -204,7 +203,7 @@ Item {
                         drag.smoothed: false
                         onDoubleClicked: timeline.editGuide(model.frame)
                         onClicked: mouse => {
-                            if (root.activeTool !== ProjectTool.SlipTool) {
+                            if (root.activeTool !== Kdenlive.ToolType.SlipTool) {
                                 proxy.position = model.frame
                             }
                             if (mouse.button == Qt.RightButton) {

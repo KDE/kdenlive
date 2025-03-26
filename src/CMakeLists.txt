@@ -111,11 +111,60 @@ endif()
 file(GLOB kdenlive_UIS "ui/*.ui")
 ki18n_wrap_ui(kdenlive_UIS ${kdenlive_UIS})
 
-## MOC
-qt_wrap_cpp(kdenlive_MOC definitions.h)
-set_property(SOURCE definitions.h PROPERTY SKIP_AUTOMOC ON)
+add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} definitions.h lib/localeHandling.cpp lib/localeHandling.h)
 
-add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} ${kdenlive_MOC} lib/localeHandling.cpp lib/localeHandling.h)
+ecm_add_qml_module(kdenliveLib
+    URI org.kde.kdenlive
+    GENERATE_PLUGIN_SOURCE
+)
+
+ecm_target_qml_sources(kdenliveLib
+    SOURCES
+    qml/ZoomBar.qml
+    monitor/view/kdenlivemonitor.qml
+    monitor/view/Countdown.qml
+    monitor/view/kdenliveclipmonitor.qml
+    monitor/view/kdenlivemonitorautomask.qml
+    monitor/view/kdenlivemonitoreffectscene.qml
+    monitor/view/kdenlivemonitorcornerscene.qml
+    monitor/view/kdenlivemonitorrotoscene.qml
+    monitor/view/kdenlivemonitorsplit.qml
+    monitor/view/kdenlivemonitorsplittracks.qml
+    monitor/view/MonitorToolButton.qml
+    monitor/view/SceneToolBar.qml
+    monitor/view/MultiScreenToolBar.qml
+    monitor/view/EffectToolBar.qml
+    monitor/view/MaskToolBar.qml
+    monitor/view/MonitorRuler.qml
+    monitor/view/OverlayStandard.qml
+    monitor/view/OverlayMinimal.qml
+    monitor/view/OverlayCenter.qml
+    monitor/view/OverlayCenterDiagonal.qml
+    monitor/view/OverlayThirds.qml
+    timeline2/view/qml/Timeline.qml
+    timeline2/view/qml/TimelineLogic.js
+    timeline2/view/qml/TrackHead.qml
+    timeline2/view/qml/AudioLevels.qml
+    timeline2/view/qml/Track.qml
+    timeline2/view/qml/Ruler.qml
+    timeline2/view/qml/RulerZone.qml
+    timeline2/view/qml/Clip.qml
+    timeline2/view/qml/SubTitle.qml
+    timeline2/view/qml/MixShape.qml
+    timeline2/view/qml/ClipThumbs.qml
+    timeline2/view/qml/ClipAudioThumbs.qml
+    timeline2/view/qml/KeyframeView.qml
+    timeline2/view/qml/Composition.qml
+    timeline2/view/qml/PulsingAnimation.qml
+    timeline2/view/qml/CornerSelectionShadow.qml
+    assets/view/qml/AssetView.qml
+    timeline2/view/qml/AssetMenu.qml
+    timeline2/view/qml/GuidesMenu.qml
+    effects/effectstack/view/qml/BuiltStack.qml
+    effects/effectstack/view/qml/EffectSlider.qml
+    effects/effectstack/view/qml/LiftGammaGain.qml
+    monitor/view/kdenlivemonitortrimming.qml
+)
 
 qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
 
@@ -130,15 +179,16 @@ target_include_directories(kdenlive
     )
 target_include_directories(kdenlive
 	SYSTEM PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
-target_link_libraries(kdenlive kdenliveLib)
+target_link_libraries(kdenlive kdenliveLib kdenliveLibplugin)
 install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
 
 ## Kdenlive Lib
-target_include_directories(kdenliveLib
-    PRIVATE ${CMAKE_BINARY_DIR}
+target_include_directories(kdenliveLib PRIVATE
+    ${CMAKE_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/timeline2/view/qml
     )
 target_include_directories(kdenliveLib
 	SYSTEM  PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
@@ -147,7 +197,7 @@ target_include_directories(kdenliveLib
 # KDE definitions and include directories *must* always come first, Qt follows
 # (to avoid breaking builds when KDE and/or Qt are installed to different
 # prefixes).
-target_link_libraries(kdenliveLib
+target_link_libraries(kdenliveLib PUBLIC
     KF${KF_MAJOR}::WidgetsAddons
     KF${KF_MAJOR}::Archive
     KF${KF_MAJOR}::CoreAddons
@@ -176,7 +226,7 @@ target_link_libraries(kdenliveLib
     kiss_fft
     )
 
-target_link_libraries(kdenliveLib
+target_link_libraries(kdenliveLib PUBLIC
     Qt${QT_MAJOR_VERSION}::Svg
     Qt${QT_MAJOR_VERSION}::Quick
     Qt${QT_MAJOR_VERSION}::QuickControls2
@@ -187,18 +237,17 @@ target_link_libraries(kdenliveLib
     Qt${QT_MAJOR_VERSION}::SvgWidgets
 )
 
-target_link_libraries(kdenliveLib
-    PkgConfig::LIBAV)
+target_link_libraries(kdenliveLib PUBLIC PkgConfig::LIBAV)
 
 if(WIN32)
-    target_link_libraries(kdenliveLib d3d11 d3dcompiler)
+    target_link_libraries(kdenliveLib PUBLIC d3d11 d3dcompiler)
 endif()
 
 if(USE_DBUS)
-  target_link_libraries(kdenliveLib KF${KF_MAJOR}::DBusAddons)
+  target_link_libraries(kdenliveLib PUBLIC KF${KF_MAJOR}::DBusAddons)
 endif()
 if(BUILD_COVERAGE)
-  target_link_libraries(kdenliveLib gcov)
+  target_link_libraries(kdenliveLib PUBLIC gcov)
 endif()
 set_property(TARGET kdenliveLib PROPERTY CXX_STANDARD 14)
 add_definitions(${qt${QT_MAJOR_VERSION}gui_definitions} -DQT_STRICT_ITERATORS -DQT_NO_CAST_FROM_BYTEARRAY)
@@ -224,24 +273,24 @@ endif()
 
 if(Q_WS_X11)
 	target_include_directories(kdenliveLib SYSTEM PRIVATE ${X11_Xlib_INCLUDE_PATH})
-    target_link_libraries(kdenliveLib ${X11_LIBRARIES})
+    target_link_libraries(kdenliveLib PUBLIC ${X11_LIBRARIES})
 endif()
 
 if(SDL2_FOUND)
-    target_link_libraries(kdenliveLib ${SDL2_LIBRARY})
+    target_link_libraries(kdenliveLib PUBLIC ${SDL2_LIBRARY})
 elseif(SDL_FOUND)
-    target_link_libraries(kdenliveLib ${SDL_LIBRARY})
+    target_link_libraries(kdenliveLib PUBLIC ${SDL_LIBRARY})
 endif()
 
 if(LIBV4L2_FOUND)
     target_include_directories(kdenliveLib SYSTEM PRIVATE ${LIBV4L2_INCLUDE_DIR})
-    target_link_libraries(kdenliveLib ${LIBV4L2_LIBRARY})
+    target_link_libraries(kdenliveLib PUBLIC ${LIBV4L2_LIBRARY})
     target_compile_definitions(kdenliveLib PRIVATE -DUSE_V4L)
 endif()
 
 if(HAVE_LINUX_INPUT_H)
     target_compile_definitions(kdenliveLib PRIVATE -DUSE_JOGSHUTTLE)
-    target_link_libraries(kdenliveLib media_ctrl)
+    target_link_libraries(kdenliveLib PUBLIC media_ctrl)
 endif()
 
 if(APPLE)
@@ -268,4 +317,7 @@ if (BUILD_QCH)
         COMPONENT Devel
     )
 endif()
+
+ecm_finalize_qml_module(kdenliveLib
+    DESTINATION ${KDE_INSTALL_QMLDIR})
 

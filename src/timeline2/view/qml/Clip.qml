@@ -7,13 +7,14 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import Kdenlive.Controls 1.0
+// import Kdenlive.Controls 1.0
 import QtQuick.Window 2.15
 import QtQml.Models 2.15
 import QtQml 2.15
 
-import 'Timeline.js' as Logic
-import com.enums 1.0
+import org.kde.kdenlive as Kdenlive
+
+import 'TimelineLogic.js' as Logic
 
 Rectangle {
     id: clipRoot
@@ -149,7 +150,7 @@ Rectangle {
     }
 
     onClipResourceChanged: {
-        if (itemType === ProducerType.Color) {
+        if (itemType === Kdenlive.ClipType.Color) {
             color: Qt.darker(getColor(), 1.5)
         }
     }
@@ -219,7 +220,7 @@ Rectangle {
         nameContainer.anchors.leftMargin = clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
     }
 
-    /*border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
+    /*border.color: (clipStatus === Kdenlive.FileStatus.StatusMissing || clipStatus === Kdenlive.FileStatus.StatusWaiting || clipStatus === Kdenlive.FileStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
     border.width: isGrabbed ? 8 : 2*/
 
     function updateDrag() {
@@ -237,22 +238,22 @@ Rectangle {
     }
 
     function getColor() {
-        if (clipRoot.clipState === ClipState.Disabled) {
+        if (clipRoot.clipState === Kdenlive.PlaylistState.Disabled) {
             return '#888'
         }
         if (clipRoot.tagColor) {
             return clipRoot.tagColor
         }
-        if (itemType === ProducerType.Text) {
+        if (itemType === Kdenlive.ClipType.Text) {
             return titleColor
         }
-        if (itemType === ProducerType.Image) {
+        if (itemType === Kdenlive.ClipType.Image) {
             return imageColor
         }
-        if (itemType === ProducerType.SlideShow) {
+        if (itemType === Kdenlive.ClipType.SlideShow) {
             return slideshowColor
         }
-        if (itemType === ProducerType.Color) {
+        if (itemType === Kdenlive.ClipType.Color) {
             var color = clipResource.substring(clipResource.length - 9)
             if (color[0] === '#') {
                 return color
@@ -272,7 +273,7 @@ Rectangle {
         //generateWaveform()
     }
 */
-    property bool noThumbs: (isAudio || itemType === ProducerType.Color || mltService === '')
+    property bool noThumbs: (isAudio || itemType === Kdenlive.ClipType.Color || mltService === '')
     property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + clipThumbId
 
     DropArea { //Drop area for clips
@@ -308,10 +309,10 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+        enabled: root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+        hoverEnabled: root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: mouse => {
             root.autoScrolling = false
@@ -405,7 +406,7 @@ Rectangle {
             asynchronous: true
             visible: status == Loader.Ready
             source: {
-                if (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === ProducerType.Color) {
+                if (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === Kdenlive.ClipType.Color) {
                     return ""
                 }
                 if (parentTrack.isAudio) {
@@ -430,7 +431,7 @@ Rectangle {
             property int handleWidth: Math.max(2, Math.ceil(root.baseUnit / 4))
             anchors.fill: parent
             border.color: {
-                let placeholder = (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting)
+                let placeholder = (clipStatus === Kdenlive.FileStatus.StatusMissing || clipStatus === Kdenlive.FileStatus.StatusWaiting || clipStatus === Kdenlive.FileStatus.StatusDeleting)
                 if (placeholder) {
                     return "#ff0000"
                 }
@@ -456,8 +457,8 @@ Rectangle {
                 Drag.active: trimOutMouseArea.drag.active
                 Drag.proposedAction: Qt.MoveAction
                 visible: trimOutMouseArea.pressed || (
-                    (root.activeTool === ProjectTool.SelectTool
-                    || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                    (root.activeTool === Kdenlive.ToolType.SelectTool
+                    || (root.activeTool === Kdenlive.ToolType.RippleTool && clipRoot.mixDuration <= 0)
                     ) && !mouseArea.drag.active && parent.enabled)
             }
             Rectangle {
@@ -470,8 +471,8 @@ Rectangle {
                 Drag.active: trimInMouseArea.drag.active
                 Drag.proposedAction: Qt.MoveAction
                 visible: trimInMouseArea.pressed || (
-                    (root.activeTool === ProjectTool.SelectTool
-                    || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                    (root.activeTool === Kdenlive.ToolType.SelectTool
+                    || (root.activeTool === Kdenlive.ToolType.RippleTool && clipRoot.mixDuration <= 0)
                     ) && !mouseArea.drag.active && parent.enabled)
             }
         }
@@ -556,7 +557,7 @@ Rectangle {
                         anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
                         height: parent.height
                         width: root.baseUnit / 2
-                        visible: root.activeTool === ProjectTool.SelectTool
+                        visible: root.activeTool === Kdenlive.ToolType.SelectTool
                         property int previousMix
                         enabled: !isLocked && mixArea.enabled && (pressed || container.handleVisible)
                         hoverEnabled: true
@@ -638,7 +639,7 @@ Rectangle {
                             color: itemBorder.border.color
                             Drag.active: trimInMixArea.drag.active
                             Drag.proposedAction: Qt.MoveAction
-                            visible: trimInMixArea.pressed || (root.activeTool === ProjectTool.SelectTool && !mouseArea.drag.active && parent.enabled)
+                            visible: trimInMixArea.pressed || (root.activeTool === Kdenlive.ToolType.SelectTool && !mouseArea.drag.active && parent.enabled)
                         }
                     }
                 }
@@ -717,12 +718,12 @@ Rectangle {
                         return false
                     }
 
-                    if (root.activeTool === ProjectTool.SelectTool) {
+                    if (root.activeTool === Kdenlive.ToolType.SelectTool) {
                         return true
                     }
 
                     let hasMix = clipRoot.mixDuration > 0 || controller.hasClipEndMix(clipRoot.clipId)
-                    if (root.activeTool === ProjectTool.RippleTool && !hasMix) {
+                    if (root.activeTool === Kdenlive.ToolType.RippleTool && !hasMix) {
                         return true
                     }
 
@@ -743,11 +744,11 @@ Rectangle {
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
+                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != Kdenlive.ClipType.Color && itemType != Kdenlive.ClipType.Timeline && itemType != Kdenlive.ClipType.Playlist && itemType != Kdenlive.ClipType.Image
                     if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
-                    if (root.activeTool === ProjectTool.RippleTool) { //TODO
+                    if (root.activeTool === Kdenlive.ToolType.RippleTool) { //TODO
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
                     }
                 }
@@ -758,13 +759,13 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
+                        if (!controlTrim && root.activeTool !== Kdenlive.ToolType.RippleTool) {
                             updateDrag()
                         } else {
                             root.endDrag()
                         }
                     } else {
-                        if (root.activeTool === ProjectTool.RippleTool) { //TODO
+                        if (root.activeTool === Kdenlive.ToolType.RippleTool) { //TODO
                             timeline.requestEndTrimmingMode();
                         }
                         root.groupTrimData = undefined
@@ -792,7 +793,7 @@ Rectangle {
                                 }
                             }
                             var newDuration = 0;
-                            if (root.activeTool === ProjectTool.RippleTool) {
+                            if (root.activeTool === Kdenlive.ToolType.RippleTool) {
                                 newDuration = clipRoot.originalDuration - delta
                             } else {
                                 if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
@@ -843,8 +844,8 @@ Rectangle {
                 height: container.height
                 width: root.baseUnit
                 hoverEnabled: true
-                visible: enabled && (root.activeTool === ProjectTool.SelectTool
-                                     || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0))
+                visible: enabled && (root.activeTool === Kdenlive.ToolType.SelectTool
+                                     || (root.activeTool === Kdenlive.ToolType.RippleTool && clipRoot.mixDuration <= 0))
                 enabled: !isLocked && (pressed || container.handleVisible) && clipRoot.clipId == dragProxy.draggedItem
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -860,11 +861,11 @@ Rectangle {
                     clipRoot.originalDuration = clipDuration
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != ProducerType.Color && itemType != ProducerType.Timeline && itemType != ProducerType.Playlist && itemType != ProducerType.Image
+                    controlTrim = mouse.modifiers & Qt.ControlModifier && itemType != Kdenlive.ClipType.Color && itemType != Kdenlive.ClipType.Timeline && itemType != Kdenlive.ClipType.Playlist && itemType != Kdenlive.ClipType.Image
                     if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
-                    if (root.activeTool === ProjectTool.RippleTool) {
+                    if (root.activeTool === Kdenlive.ToolType.RippleTool) {
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, true);
                     }
                 }
@@ -875,13 +876,13 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
-                        if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
+                        if (!controlTrim && root.activeTool !== Kdenlive.ToolType.RippleTool) {
                             updateDrag()
                         } else {
                             root.endDrag()
                         }
                     } else {
-                        if (root.activeTool === ProjectTool.RippleTool) {
+                        if (root.activeTool === Kdenlive.ToolType.RippleTool) {
                             timeline.requestEndTrimmingMode();
                         }
                         root.groupTrimData = undefined
@@ -935,7 +936,7 @@ Rectangle {
                 }
             }
 
-            TimelineTriangle {
+            Kdenlive.TimelineTriangle {
                 // Green fade in triangle
                 id: fadeInTriangle
                 fillColor: 'green'
@@ -947,7 +948,7 @@ Rectangle {
                 opacity: 0.4
             }
 
-            TimelineTriangle {
+            Kdenlive.TimelineTriangle {
                 // Red fade out triangle
                 id: fadeOutCanvas
                 fillColor: 'red'
@@ -1121,7 +1122,7 @@ Rectangle {
                     height: labelRect.height
                     anchors.top: labelRect.top
                     anchors.left: labelRect.right
-                    visible: !clipRoot.isAudio && clipRoot.clipStatus === ClipStatus.StatusProxy || clipRoot.clipStatus === ClipStatus.StatusProxyOnly
+                    visible: !clipRoot.isAudio && clipRoot.clipStatus === Kdenlive.FileStatus.StatusProxy || clipRoot.clipStatus === Kdenlive.FileStatus.StatusProxyOnly
                     Text {
                         // Proxy P
                         id: proxyLabel
@@ -1570,7 +1571,7 @@ Rectangle {
             height: container.height
             width: clipRoot.maxDuration * clipRoot.timeScale
             x: - (clipRoot.inPoint - slipOffset) * clipRoot.timeScale
-            visible: root.activeTool === ProjectTool.SlipTool && clipRoot.selected && clipRoot.maxDuration > 0 // don't show for endless clips
+            visible: root.activeTool === Kdenlive.ToolType.SlipTool && clipRoot.selected && clipRoot.maxDuration > 0 // don't show for endless clips
             property int inPoint: clipRoot.inPoint
             property int outPoint: clipRoot.outPoint
             Rectangle {

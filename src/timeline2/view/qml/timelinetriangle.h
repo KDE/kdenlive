@@ -10,6 +10,8 @@
 class TimelineTriangle : public QQuickPaintedItem
 {
     Q_OBJECT
+    QML_ELEMENT
+
     Q_PROPERTY(QColor fillColor MEMBER m_color)
     Q_PROPERTY(bool endFade MEMBER m_endFade)
     Q_PROPERTY(int curveType MEMBER m_curveType NOTIFY curveChanged)

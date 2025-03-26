@@ -35,7 +35,6 @@
 #include "core.h"
 #include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
-#include "timeline2/view/qml/timelineitems.h"
 #include "timeline2/view/qmltypes/thumbnailprovider.h"
 #include "videowidget.h"
 #include <lib/localeHandling.h>
@@ -121,7 +120,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     rootContext()->setContextProperty("markersModel", nullptr);
     connect(pCore.get(), &Core::switchTimelineRecord, this, &VideoWidget::switchRecordState);
 
-    registerTimelineItems();
     m_proxy = new MonitorProxy(this);
     rootContext()->setContextProperty("controller", m_proxy);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);

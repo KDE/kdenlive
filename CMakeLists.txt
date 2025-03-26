@@ -73,6 +73,7 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMEnableSanitizers)
 include(ECMAddQch)
 include(ECMDeprecationSettings)
+include(ECMQmlModule)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
 # MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
 if(NOT MSVC)
@@ -128,6 +129,7 @@ find_package(Qt${QT_MAJOR_VERSION}
     Multimedia
     NetworkAuth
     SvgWidgets
+    Xml
 )
 
 if(USE_DBUS)

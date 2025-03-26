@@ -10,14 +10,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kdenlive_debug.h"
 #include "mlt++/Mlt.h"
+#include <QColor>
 #include <QDomElement>
 #include <QHash>
 #include <QPersistentModelIndex>
 #include <QString>
 #include <QUuid>
+#include <QtQml>
 #include <cassert>
 #include <memory>
-#include <qcolor.h>
 
 const int MAXCLIPDURATION = 15000;
 
@@ -118,12 +119,16 @@ enum OperationType {
 
 namespace PlaylistState {
 Q_NAMESPACE
+QML_ELEMENT
+
 enum ClipState { VideoOnly = 1, AudioOnly = 2, Disabled = 3, Unknown = 4 };
 Q_ENUM_NS(ClipState)
 } // namespace PlaylistState
 
 namespace FileStatus {
 Q_NAMESPACE
+QML_ELEMENT
+
 enum ClipStatus { StatusReady = 0, StatusProxy, StatusMissing, StatusWaiting, StatusDeleting, StatusProxyOnly };
 Q_ENUM_NS(ClipStatus)
 } // namespace FileStatus
@@ -138,6 +143,8 @@ enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };
 
 namespace AssetListType {
 Q_NAMESPACE
+QML_ELEMENT
+
 enum AssetType {
     Preferred,
     Video,
@@ -162,6 +169,8 @@ Q_ENUM_NS(AssetType)
 
 namespace ClipType {
 Q_NAMESPACE
+QML_ELEMENT
+
 enum ProducerType {
     Unknown = 0,
     Audio = 1,
@@ -191,12 +200,16 @@ enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWi
 
 namespace SpeechToTextEngine {
 Q_NAMESPACE
+QML_ELEMENT
+
 enum EngineType { EngineNone = 0, EngineVosk, EngineWhisper };
 Q_ENUM_NS(EngineType)
 } // namespace SpeechToTextEngine
 
 namespace KeyframeType {
 Q_NAMESPACE
+QML_ELEMENT
+
 enum KeyframeEnum {
     Linear = mlt_keyframe_linear,
     Discrete = mlt_keyframe_discrete,
@@ -218,12 +231,16 @@ Q_ENUM_NS(KeyframeEnum)
 
 namespace MaskModeType {
 Q_NAMESPACE
+QML_ELEMENT
+
 enum MaskCreationMode { MaskNone, MaskInput, MaskEdit, MaskPreview };
 Q_ENUM_NS(MaskCreationMode)
 } // namespace MaskModeType
 
 namespace ToolType {
 Q_NAMESPACE
+QML_ELEMENT
+
 enum ProjectTool { SelectTool = 0, RazorTool = 1, SpacerTool = 2, RippleTool = 3, RollTool = 4, SlipTool = 5, SlideTool = 6, MulticamTool = 7 };
 Q_ENUM_NS(ProjectTool)
 } // namespace ToolType

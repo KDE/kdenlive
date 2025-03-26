@@ -5,13 +5,13 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import Kdenlive.Controls 1.0
 import QtQml.Models 2.15
-import com.enums 1.0
+
+import org.kde.kdenlive as Kdenlive
 
 Row {
     id: waveform
-    opacity: clipState === ClipState.Disabled ? 0.2 : 1
+    opacity: clipState === Kdenlive.PlaylistState.Disabled ? 0.2 : 1
     property int maxWidth: 2048
     property int totalChunks: 0
     property bool usesOffset: false
@@ -81,7 +81,7 @@ Row {
 
     Repeater {
         id: waveformRepeater
-        TimelineWaveform {
+        Kdenlive.TimelineWaveform {
             width: waveform.maxWidth < waveform.width ? (index + waveform.offset == waveform.totalChunks - 1 ? waveform.width % waveform.maxWidth : waveform.maxWidth) : Math.round(waveform.width)
             height: waveform.height
             channels: clipRoot.audioChannels

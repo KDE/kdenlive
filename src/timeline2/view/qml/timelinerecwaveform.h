@@ -10,6 +10,8 @@
 class TimelineRecWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
+    QML_ELEMENT
+
     Q_PROPERTY(QColor fillColor0 MEMBER m_bgColor NOTIFY propertyChanged)
     Q_PROPERTY(QColor fillColor1 MEMBER m_color NOTIFY propertyChanged)
     Q_PROPERTY(QColor fillColor2 MEMBER m_color2 NOTIFY propertyChanged)

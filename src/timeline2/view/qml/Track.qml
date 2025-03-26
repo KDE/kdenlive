@@ -7,7 +7,8 @@
 
 import QtQuick 2.15
 import QtQml.Models 2.15
-import com.enums 1.0
+
+import org.kde.kdenlive as Kdenlive
 
 Item{
     id: trackRoot
@@ -26,11 +27,11 @@ Item{
     }
 
     function isClip(type) {
-        return type != ProducerType.Composition && type != ProducerType.Track;
+        return type != Kdenlive.ClipType.Composition && type != Kdenlive.ClipType.Track;
     }
 
     function clipTrimming(clip, newDuration, shiftTrim, controlTrim, right) {
-        if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
+        if (root.activeTool === Kdenlive.ToolType.SelectTool && controlTrim) {
             if (!speedController.visible) {
                 // Store original speed
                 speedController.originalSpeed = clip.speed
@@ -55,7 +56,7 @@ Item{
             return
         }
         var new_duration = 0;
-        if (root.activeTool === ProjectTool.RippleTool) {
+        if (root.activeTool === Kdenlive.ToolType.RippleTool) {
             console.log("Trimming request for " + newDuration + " right: " + right)
             new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, right, false, root.snapping, shiftTrim)
             timeline.requestStartTrimmingMode(clip.clipId, false, right);
@@ -93,21 +94,21 @@ Item{
     function trimedClip(clip, shiftTrim, controlTrim, right) {
         //bubbleHelp.hide()
         timeline.showToolTip();
-        if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
+        if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === Kdenlive.ToolType.RippleTool /* < TODO*/) || controlTrim) {
             // We only resize one element
-            if (root.activeTool === ProjectTool.RippleTool) {
+            if (root.activeTool === Kdenlive.ToolType.RippleTool) {
                 timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
             } else {
                 controller.requestItemResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
             }
 
-            if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
+            if (root.activeTool === Kdenlive.ToolType.SelectTool && controlTrim) {
                 // Update speed
                 speedController.visible = false
                 controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, right, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
                 speedController.originalSpeed = 1
             } else {
-                if (root.activeTool === ProjectTool.RippleTool) {
+                if (root.activeTool === Kdenlive.ToolType.RippleTool) {
                     timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, right, true, 0, shiftTrim)
                     timeline.requestEndTrimmingMode();
                 } else {
@@ -130,7 +131,7 @@ Item{
             property bool clipItem: isClip(model.clipType)
             function calculateZIndex() {
                 // Z order indicates the items that will be drawn on top.
-                if (model.clipType == ProducerType.Composition) {
+                if (model.clipType == Kdenlive.ClipType.Composition) {
                     // Compositions should be top, then clips
                     return 50000;
                 }
@@ -140,11 +141,11 @@ Item{
                     return Math.round(model.start / 25) + 1;
                 }
 
-                if (root.activeTool === ProjectTool.SlipTool && model.selected) {
+                if (root.activeTool === Kdenlive.ToolType.SlipTool && model.selected) {
                     return model.item === timeline.trimmingMainClip ? 2 : 1;
                 }
 
-                if (root.activeTool === ProjectTool.RippleTool && model.item === timeline.trimmingMainClip) {
+                if (root.activeTool === Kdenlive.ToolType.RippleTool && model.item === timeline.trimmingMainClip) {
                     return 1;
                 }
                 return 0;
@@ -282,13 +283,13 @@ Item{
                     target: loader.item
                     property: "aTrack"
                     value: model.a_track
-                    when: loader.status == Loader.Ready && model.clipType == ProducerType.Composition
+                    when: loader.status == Loader.Ready && model.clipType == Kdenlive.ClipType.Composition
                 }
                 Binding {
                     target: loader.item
                     property: "trackHeight"
                     value: root.trackHeight
-                    when: loader.status == Loader.Ready && model.clipType == ProducerType.Composition
+                    when: loader.status == Loader.Ready && model.clipType == Kdenlive.ClipType.Composition
                 }
                 Binding {
                     target: loader.item
@@ -389,7 +390,7 @@ Item{
                 sourceComponent: {
                     if (clipItem) {
                         return clipDelegate
-                    } else if (model.clipType == ProducerType.Composition) {
+                    } else if (model.clipType == Kdenlive.ClipType.Composition) {
                         return compositionDelegate
                     } else {
                         // Track
@@ -408,7 +409,7 @@ Item{
                         item.canBeVideo = model.canBeVideo
                         item.itemType = model.clipType
                         console.log('loaded clip with Astream: ', model.audioStream)                       
-                    } else if (model.clipType == ProducerType.Composition) {
+                    } else if (model.clipType == Kdenlive.ClipType.Composition) {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         //item.aTrack = model.a_track
                     } else {

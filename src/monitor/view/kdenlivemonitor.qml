@@ -5,8 +5,9 @@
 
 import QtQuick.Controls
 import QtQuick.Window
-import Kdenlive.Controls
 import QtQuick
+
+import org.kde.kdenlive as Kdenlive
 
 Item {
     id: root
@@ -287,7 +288,7 @@ Item {
                 maximumLength: 25
             }
         }
-        MonitorToolButton {
+        Kdenlive.MonitorToolButton {
             anchors.top: monitorArea.top
             anchors.left: monitorArea.left
             anchors.topMargin: 10

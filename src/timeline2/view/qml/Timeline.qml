@@ -10,10 +10,10 @@
 import QtQuick 2.15
 import QtQml.Models 2.15
 import QtQuick.Controls 2.15
-import Kdenlive.Controls 1.0
-import 'Timeline.js' as Logic
-import com.enums 1.0
-import org.kde.kdenlive 1.0 as Kdenlive
+
+import org.kde.kdenlive as Kdenlive
+import 'TimelineLogic.js' as Logic
+
 
 Rectangle {
     id: root
@@ -392,7 +392,7 @@ Rectangle {
             tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), false)
         }
 
-        if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y)) && root.activeTool !== ProjectTool.SpacerTool) {
+        if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y)) && root.activeTool !== Kdenlive.ToolType.SpacerTool) {
             dragProxy.draggedItem = tentativeClip.clipId
             var tk = controller.getItemTrackId(tentativeClip.clipId)
             dragProxy.x = tentativeClip.x
@@ -466,7 +466,7 @@ Rectangle {
         }
     }
 
-    property int activeTool: ProjectTool.SelectTool
+    property int activeTool: Kdenlive.ToolType.SelectTool
     property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     property int minClipWidthForViews: 1.5 * baseUnit
     property real fontUnit: fontMetrics.font.pointSize
@@ -610,10 +610,10 @@ Rectangle {
     }
 
     onActiveToolChanged: {
-        if (root.activeTool === ProjectTool.SpacerTool) {
+        if (root.activeTool === Kdenlive.ToolType.SpacerTool) {
             // Spacer activated
             endDrag()
-        } else if (root.activeTool === ProjectTool.SelectTool) {
+        } else if (root.activeTool === Kdenlive.ToolType.SelectTool) {
             var tk = getMouseTrack()
             if (tk < 0) {
                 return
@@ -1355,12 +1355,12 @@ Rectangle {
             acceptedButtons: Qt.AllButtons
             cursorShape: {
                 switch(root.activeTool) {
-                case ProjectTool.SelectTool:
-                case ProjectTool.RollTool:
+                case Kdenlive.ToolType.SelectTool:
+                case Kdenlive.ToolType.RollTool:
                     return Qt.ArrowCursor;
-                case ProjectTool.RazorTool:
+                case Kdenlive.ToolType.RazorTool:
                     return Qt.IBeamCursor;
-                case ProjectTool.RippleTool:
+                case Kdenlive.ToolType.RippleTool:
                     return Qt.SplitHCursor;
                 default:
                     return Qt.SizeHorCursor;
@@ -1369,7 +1369,7 @@ Rectangle {
             onWheel: wheel => {
                 if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
                     zoomByWheel(wheel)
-                } else if (root.activeTool !== ProjectTool.SlipTool) {
+                } else if (root.activeTool !== Kdenlive.ToolType.SlipTool) {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
                     proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, timeline.fullDuration - 1)
                 }
@@ -1377,7 +1377,7 @@ Rectangle {
             onPressed: mouse => {
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
-                let selectLikeTool = root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                let selectLikeTool = root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool
                 if (mouse.buttons === Qt.MiddleButton || (selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
@@ -1394,7 +1394,7 @@ Rectangle {
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
-                    if (root.activeTool === ProjectTool.RazorTool) {
+                    if (root.activeTool === Kdenlive.ToolType.RazorTool) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
@@ -1403,7 +1403,7 @@ Rectangle {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, -2)
                         }
                     }
-                    if(root.activeTool === ProjectTool.SlipTool) {
+                    if(root.activeTool === Kdenlive.ToolType.SlipTool) {
                         //slip tool
                         if (mouse.y > ruler.height) {
                             var tk = getMouseTrack()
@@ -1427,7 +1427,7 @@ Rectangle {
                             return
                         }
                     }
-                    if (root.activeTool === ProjectTool.SpacerTool && mouse.y > ruler.height) {
+                    if (root.activeTool === Kdenlive.ToolType.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height + scrollView.contentY
                         var frame = (scrollView.contentX + mouse.x) / root.timeScale
@@ -1507,7 +1507,7 @@ Rectangle {
                 timeline.showTimelineToolInfo(true)
             }
             onDoubleClicked: mouse => {
-                if (mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height) {
+                if (mouse.buttons === Qt.LeftButton && root.activeTool === Kdenlive.ToolType.SelectTool && mouse.y > ruler.height) {
                     if (root.showSubtitles && mouse.y < (ruler.height + subtitleTrack.height)) {
                         subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale, (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1)))
                         timeline.activeTrack = -2
@@ -1520,7 +1520,7 @@ Rectangle {
                 }
             }
             onPositionChanged: mouse => {
-                let selectLikeTool = root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                let selectLikeTool = root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool
                 if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
@@ -1532,12 +1532,12 @@ Rectangle {
                     return
                 }
                 var mouseXPos = getMouseFrame()
-                if (root.activeTool === ProjectTool.SlipTool && pressed && mouse.y > ruler.height) {
+                if (root.activeTool === Kdenlive.ToolType.SlipTool && pressed && mouse.y > ruler.height) {
                     var frame = mouseXPos
                     trimmingOffset = frame - trimmingClickFrame
                     timeline.slipPosChanged(trimmingOffset);
                 }
-                if (!pressed && !rubberSelect.visible && root.activeTool === ProjectTool.RazorTool) {
+                if (!pressed && !rubberSelect.visible && root.activeTool === Kdenlive.ToolType.RazorTool) {
                     cutLine.x = mouseXPos * root.timeScale - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         // Seek
@@ -1572,9 +1572,9 @@ Rectangle {
                     }
                     continuousScrolling(newX, newY)
                 } else if ((pressedButtons & Qt.LeftButton) && (!shiftPress || spacerGuides)) {
-                    if (selectLikeTool || (mouse.y < ruler.height && root.activeTool !== ProjectTool.SlipTool && (root.activeTool !== ProjectTool.SpacerTool || spacerGroup == -1))) {
+                    if (selectLikeTool || (mouse.y < ruler.height && root.activeTool !== Kdenlive.ToolType.SlipTool && (root.activeTool !== Kdenlive.ToolType.SpacerTool || spacerGroup == -1))) {
                         proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / root.timeScale, timeline.fullDuration - 1))
-                    } else if (root.activeTool === ProjectTool.SpacerTool && spacerGroup > -1) {
+                    } else if (root.activeTool === Kdenlive.ToolType.SpacerTool && spacerGroup > -1) {
                         // Spacer tool, move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var lastPos = 0;
@@ -1607,7 +1607,7 @@ Rectangle {
                 }
             }
             onReleased: mouse => {
-                if((mouse.button & Qt.LeftButton) && root.activeTool === ProjectTool.SlipTool) {
+                if((mouse.button & Qt.LeftButton) && root.activeTool === Kdenlive.ToolType.SlipTool) {
                     // slip tool
                     controller.requestSlipSelection(trimmingOffset, true)
                     trimmingOffset = 0;
@@ -1650,7 +1650,7 @@ Rectangle {
                     }
                     rubberSelect.y = -1
                 } else if (shiftPress && !spacerGuides) {
-                    if (root.activeTool === ProjectTool.RazorTool) {
+                    if (root.activeTool === Kdenlive.ToolType.RazorTool) {
                         // Shift click, process seek
                         proxy.position = Math.min((scrollView.contentX + mouse.x) / root.timeScale, timeline.fullDuration - 1)
                     } else if (dragProxy.draggedItem > -1) {
@@ -1732,7 +1732,7 @@ Rectangle {
                         id: ruler
                         width: rulercontainer.contentWidth
                         height: parent.height
-                        TimelinePlayhead {
+                        Kdenlive.TimelinePlayhead {
                             id: playhead
                             height: Math.round(root.baseUnit * .8)
                             width: Math.round(root.baseUnit * 1.2)
@@ -1848,7 +1848,7 @@ Rectangle {
                                 hoverEnabled: true
                                 onWheel: wheel => zoomByWheel(wheel)
                                 onEntered: {
-                                    if (root.activeTool === ProjectTool.SelectTool) {
+                                    if (root.activeTool === Kdenlive.ToolType.SelectTool) {
                                         timeline.showKeyBinding(i18n("<b>Double click</b> to add a subtitle"))
                                     }
                                 }
@@ -1893,12 +1893,12 @@ Rectangle {
                                     property int snapping: root.snapping
                                     property bool moveMirrorTracks: true
                                     cursorShape: {
-                                        if (root.activeTool === ProjectTool.SelectTool) {
+                                        if (root.activeTool === Kdenlive.ToolType.SelectTool) {
                                             return dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
                                         }
                                         return tracksArea.cursorShape
                                     }
-                                    enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                                    enabled: root.activeTool === Kdenlive.ToolType.SelectTool || root.activeTool === Kdenlive.ToolType.RippleTool
                                     onPressed: mouse => {
                                         if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
                                             mouse.accepted = false
@@ -2075,11 +2075,11 @@ Rectangle {
                                         } else {
                                             clipBeingMovedId = -1
                                             timeline.ungrabHack()
-                                            if(dragProxy.masterObject.itemType === ProducerType.Timeline) {
+                                            if(dragProxy.masterObject.itemType === Kdenlive.ClipType.Timeline) {
                                                 timeline.focusTimelineSequence(dragProxy.draggedItem)
-                                            } else if(dragProxy.masterObject.itemType === ProducerType.Text || dragProxy.masterObject.itemType === ProducerType.TextTemplate) {
+                                            } else if(dragProxy.masterObject.itemType === Kdenlive.ClipType.Text || dragProxy.masterObject.itemType === Kdenlive.ClipType.TextTemplate) {
                                                 timeline.editTitleClip(dragProxy.draggedItem)
-                                            } else if (dragProxy.masterObject.itemType === ProducerType.Animation) {
+                                            } else if (dragProxy.masterObject.itemType === Kdenlive.ClipType.Animation) {
                                                 timeline.editAnimationClip(dragProxy.draggedItem)
                                             } else {
                                                 timeline.editItemDuration()
@@ -2155,7 +2155,7 @@ Rectangle {
                                 model: Math.ceil(recordPlaceHolder.width / recordPlaceHolder.maxWidth)
                                 property bool repaintNodes: false
                                 anchors.fill: parent
-                                TimelineRecWaveform {
+                                Kdenlive.TimelineRecWaveform {
                                     id: recWave
                                     width: recordPlaceHolder.maxWidth < recordPlaceHolder.width ? index == recordPlaceHolder.totalChunks - 1 ? recordPlaceHolder.width % recordPlaceHolder.maxWidth : recordPlaceHolder.maxWidth : Math.round(recordPlaceHolder.width)
                                     height: recordPlaceHolder.height
@@ -2234,7 +2234,7 @@ Rectangle {
             }
             Rectangle {
                 id: cutLine
-                visible: root.activeTool === ProjectTool.RazorTool && (tracksArea.mouseY > ruler.height || subtitleMouseArea.containsMouse)
+                visible: root.activeTool === Kdenlive.ToolType.RazorTool && (tracksArea.mouseY > ruler.height || subtitleMouseArea.containsMouse)
                 color: 'red'
                 width: 1
                 opacity: 1
@@ -2259,7 +2259,7 @@ Rectangle {
             }
             Rectangle {
                 id: multicamLine
-                visible: root.activeTool === ProjectTool.MulticamTool && timeline.multicamIn > -1
+                visible: root.activeTool === Kdenlive.ToolType.MulticamTool && timeline.multicamIn > -1
                 color: 'purple'
                 width: 3
                 opacity: 1

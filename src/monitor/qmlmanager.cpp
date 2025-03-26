@@ -50,7 +50,7 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     double scaley = double(displayRect.height()) / profile.height() * zoom;
     switch (type) {
     case MonitorSceneGeometry:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitoreffectscene.qml")));
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenlivemonitoreffectscene.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(effectChanged(QRectF)), m_monitor, SIGNAL(effectChanged(QRectF)), Qt::UniqueConnection);
         QObject::connect(root, SIGNAL(centersChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
@@ -61,7 +61,7 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         // root->setProperty("center", displayRect.center());
         break;
     case MonitorSceneCorners:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorcornerscene.qml")));
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenlivemonitorcornerscene.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
@@ -72,7 +72,7 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         // root->setProperty("center", displayRect.center());
         break;
     case MonitorSceneRoto:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorrotoscene.qml")));
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenlivemonitorrotoscene.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(effectPolygonChanged(QVariant, QVariant)), this, SLOT(effectRotoChanged(QVariant, QVariant)), Qt::UniqueConnection);
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
@@ -83,7 +83,7 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         // root->setProperty("center", displayRect.center());
         break;
     case MonitorSplitTrack:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplittracks.qml")));
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenlivemonitorsplittracks.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(activateTrack(int)), this, SIGNAL(activateTrack(int)), Qt::UniqueConnection);
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
@@ -94,7 +94,7 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         // root->setProperty("center", displayRect.center());
         break;
     case MonitorSceneSplit:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplit.qml")));
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenlivemonitorsplit.qml")));
         root = m_view->rootObject();
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         // root->setProperty("scalex", scalex);
@@ -102,11 +102,11 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         // root->setProperty("center", displayRect.center());
         break;
     case MonitorSceneTrimming:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitortrimming.qml")));
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenlivemonitortrimming.qml")));
         root = m_view->rootObject();
         break;
     case MonitorSceneAutoMask:
-        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorautomask.qml")));
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenlivemonitorautomask.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(moveControlPoint(int, double, double)), m_monitor, SLOT(moveControlPoint(int, double, double)), Qt::UniqueConnection);
         QObject::connect(root, SIGNAL(addControlPoint(double, double, bool, bool)), m_monitor, SLOT(addControlPoint(double, double, bool, bool)),
@@ -124,9 +124,9 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         break;
     default:
         if (id == Kdenlive::ClipMonitor) {
-            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml")));
+            m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenliveclipmonitor.qml")));
         } else {
-            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
+            m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/kdenlivemonitor.qml")));
         }
         root = m_view->rootObject();
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
