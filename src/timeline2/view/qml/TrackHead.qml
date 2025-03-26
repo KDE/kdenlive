@@ -444,6 +444,7 @@ Rectangle {
             }
             ToolButton {
                 id: muteButton
+                property var modifier: 0
                 focusPolicy: Qt.NoFocus
                 contentItem: Item {
                     Image {
@@ -456,7 +457,17 @@ Rectangle {
                 }
                 width: root.collapsedHeight
                 height: root.collapsedHeight
-                onClicked: timeline.hideTrack(trackId, isDisabled)
+                onClicked: timeline.hideTrack(trackId, isDisabled, modifier & Qt.ShiftModifier)
+                MouseArea {
+                    // Used to pass modifier state to expand button
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton
+                    hoverEnabled: true
+                    onPressed: mouse => {
+                        muteButton.modifier = mouse.modifiers
+                        mouse.accepted = false
+                    }
+                }
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
