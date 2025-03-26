@@ -60,6 +60,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include <QApplication>
 #include <QCheckBox>
+#include <QClipboard>
 #include <QDrag>
 #include <QFontDatabase>
 #include <QMenu>
@@ -694,6 +695,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     }
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame")));
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_project")));
+    m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_clipboard")));
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("add_project_note")));
 
     m_contextMenu->addAction(m_markIn);
@@ -1298,11 +1300,61 @@ std::shared_ptr<ProjectClip> Monitor::currentController() const
     return m_controller;
 }
 
-void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
+void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject, bool toClipboard)
 {
     if (m_playAction->isActive()) {
         // Pause playing
         switchPlay(false);
+    }
+    if (toClipboard) {
+        // Disable preview scaling if any
+        int previewScale = KdenliveSettings::previewScaling();
+        if (previewScale > 0) {
+            KdenliveSettings::setPreviewScaling(0);
+            m_glMonitor->updateScaling();
+        }
+        QStringList proxiedClips;
+        QMap<QString, QString> existingProxies;
+        if (m_id == Kdenlive::ProjectMonitor) {
+            // Check if we have proxied clips at position
+            proxiedClips = pCore->window()->getCurrentTimeline()->model()->getProxiesAt(m_glMonitor->getCurrentPos());
+            // Temporarily disable proxy on those clips
+            if (!proxiedClips.isEmpty()) {
+                existingProxies = pCore->currentDoc()->proxyClipsById(proxiedClips, false);
+            }
+        }
+        disconnect(m_glMonitor, &VideoWidget::analyseFrame, this, &Monitor::frameUpdated);
+        bool analysisStatus = m_glMonitor->sendFrameForAnalysis;
+        m_glMonitor->sendFrameForAnalysis = true;
+        if (m_captureConnection) {
+            QObject::disconnect(m_captureConnection);
+        }
+        m_captureConnection =
+            connect(m_glMonitor, &VideoWidget::analyseFrame, this, [this, proxiedClips, existingProxies, analysisStatus, previewScale](const QImage &img) {
+                m_glMonitor->sendFrameForAnalysis = analysisStatus;
+                m_glMonitor->releaseAnalyse();
+                if (pCore->getCurrentSar() != 1.) {
+                    QImage scaled = img.scaled(pCore->getCurrentFrameDisplaySize());
+                    QApplication::clipboard()->setImage(scaled);
+                } else {
+                    QApplication::clipboard()->setImage(img);
+                }
+                if (previewScale > 0) {
+                    KdenliveSettings::setPreviewScaling(previewScale);
+                    m_glMonitor->updateScaling();
+                }
+                // Re-enable proxy on those clips
+                if (!proxiedClips.isEmpty()) {
+                    pCore->currentDoc()->proxyClipsById(proxiedClips, true, existingProxies);
+                }
+                QObject::disconnect(m_captureConnection);
+                connect(m_glMonitor, &VideoWidget::analyseFrame, this, &Monitor::frameUpdated);
+            });
+        if (proxiedClips.isEmpty()) {
+            // If there is a proxy, replacing it in timeline will trigger the monitor once replaced
+            refreshMonitor();
+        }
+        return;
     }
     if (QFileInfo(frameName).fileName().isEmpty()) {
         // convenience: when extracting an image to be added to the project,

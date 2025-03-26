@@ -837,6 +837,13 @@ void MonitorManager::slotExtractCurrentFrameToProject()
     }
 }
 
+void MonitorManager::slotExtractCurrentFrameToClipboard()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotExtractCurrentFrame(QString(), false, true);
+    }
+}
+
 void MonitorManager::slotZoomIn()
 {
     if (m_activeMonitor) {

@@ -2038,6 +2038,9 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("extract_frame_to_project"), i18n("Extract Frame to Project…"), pCore->monitorManager(), SLOT(slotExtractCurrentFrameToProject()),
               QIcon::fromTheme(QStringLiteral("insert-image")));
+
+    addAction(QStringLiteral("extract_frame_to_clipboard"), i18n("Extract Frame to Clipboard"), pCore->monitorManager(),
+              SLOT(slotExtractCurrentFrameToClipboard()), QIcon::fromTheme(QStringLiteral("insert-image")));
 }
 
 void MainWindow::saveOptions()

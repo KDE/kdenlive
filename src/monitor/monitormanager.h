@@ -108,6 +108,7 @@ public Q_SLOTS:
     void slotExtractCurrentFrame();
     /** @brief Export the current monitor's frame to image file and add it to the current project */
     void slotExtractCurrentFrameToProject();
+    void slotExtractCurrentFrameToClipboard();
     /** @brief Refresh monitor background color */
     void updateBgColor();
     /** @brief Refresh monitor grid */

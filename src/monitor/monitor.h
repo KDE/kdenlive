@@ -124,7 +124,7 @@ public:
     void clearDisplay();
     void reconfigure();
     /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
-    void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
+    void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false, bool toClipboard = false);
     /** @brief Zoom in active monitor */
     void slotZoomIn();
     /** @brief Zoom out active monitor */
