@@ -80,7 +80,6 @@ public:
     Q_INVOKABLE bool copyClipEffect(int clipId, const QString sourceId);
     /** @brief returns the lower video track index in timeline.
      **/
-    int getFirstVideoTrackIndex() const;
     QList<int> getActiveAudioTrackIndexes() const;
     const QString getTrackFullName(int tid) const;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;

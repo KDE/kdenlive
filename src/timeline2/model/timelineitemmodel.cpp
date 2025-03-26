@@ -634,20 +634,6 @@ QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name) const
     return getTrackById_const(tid)->getProperty(name);
 }
 
-int TimelineItemModel::getFirstVideoTrackIndex() const
-{
-    int trackId = -1;
-    auto it = m_allTracks.cbegin();
-    while (it != m_allTracks.cend()) {
-        trackId = (*it)->getId();
-        if (!(*it)->isAudioTrack()) {
-            break;
-        }
-        ++it;
-    }
-    return trackId;
-}
-
 QList<int> TimelineItemModel::getActiveAudioTrackIndexes() const
 {
     QList<int> trackIds;

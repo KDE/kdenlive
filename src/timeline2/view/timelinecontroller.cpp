@@ -207,7 +207,7 @@ void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString>
     m_hasVideoTarget = hasVideo;
     m_hasAudioTarget = audioTargets.size();
     if (m_hasVideoTarget) {
-        videoTrack = m_model->getFirstVideoTrackIndex();
+        videoTrack = m_model->getTopVideoTrackIndex();
     }
     if (m_hasAudioTarget > 0) {
         if (m_lastAudioTarget.count() == audioTargets.count()) {
@@ -342,18 +342,35 @@ void TimelineController::checkDuration()
     }
 }
 
-void TimelineController::hideTrack(int trackId, bool hide)
+void TimelineController::hideTrack(int trackId, bool hide, bool allTracks)
 {
     bool isAudio = m_model->isAudioTrack(trackId);
     QString state = hide ? (isAudio ? "1" : "2") : "3";
     QString previousState = m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString();
-    Fun undo_lambda = [this, trackId, previousState]() {
-        m_model->setTrackProperty(trackId, QStringLiteral("hide"), previousState);
+    QMap<int, QString> targetTracks;
+    if (allTracks) {
+        auto it = m_model->m_allTracks.cbegin();
+        while (it != m_model->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            if (m_model->getTrackById_const(target_track)->isAudioTrack() == isAudio) {
+                targetTracks.insert(target_track, m_model->getTrackProperty(target_track, QStringLiteral("hide")).toString());
+            }
+            ++it;
+        }
+    } else {
+        targetTracks.insert(trackId, m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString());
+    }
+    Fun undo_lambda = [this, targetTracks, previousState]() {
+        for (auto i = targetTracks.cbegin(), end = targetTracks.cend(); i != end; ++i) {
+            m_model->setTrackProperty(i.key(), QStringLiteral("hide"), i.value());
+        }
         m_model->updateDuration();
         return true;
     };
-    Fun redo_lambda = [this, trackId, state]() {
-        m_model->setTrackProperty(trackId, QStringLiteral("hide"), state);
+    Fun redo_lambda = [this, targetTracks, state]() {
+        for (auto i = targetTracks.cbegin(), end = targetTracks.cend(); i != end; ++i) {
+            m_model->setTrackProperty(i.key(), QStringLiteral("hide"), state);
+        }
         m_model->updateDuration();
         return true;
     };
