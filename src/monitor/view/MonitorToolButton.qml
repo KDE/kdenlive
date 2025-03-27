@@ -9,17 +9,8 @@ import QtQuick.Controls 2.15
 
 ToolButton {
     id: toolButton
-    property string iconName
+    property alias iconName: toolButton.icon.name
     property string toolTipText
-    contentItem: Item {
-        Image {
-            visible: toolButton.iconName
-            source: 'image://icon/' + toolButton.iconName
-            anchors.centerIn: parent
-            width: parent.width - 4
-            height: width
-        }
-    }
     width: parent.width
     height: width
     focusPolicy: Qt.NoFocus

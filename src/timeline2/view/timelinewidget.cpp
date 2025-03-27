@@ -28,7 +28,6 @@
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"
 
-#include <KQuickIconProvider>
 #include <QAction>
 #include <QActionGroup>
 #include <QFontDatabase>
@@ -46,7 +45,6 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     , timelineController(this)
     , m_uuid(uuid)
 {
-    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
 #if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     KLocalization::setupLocalizedContext(engine());
 #else

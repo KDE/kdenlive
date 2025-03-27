@@ -1075,15 +1075,7 @@ Rectangle {
                         anchors.leftMargin: 1.5 * root.baseUnit
                         width: root.collapsedHeight
                         height: root.collapsedHeight
-                        contentItem: Item {
-                            Image {
-                                source: subtitleTrackHeader.collapsed ? "image://icon/go-next" : "image://icon/go-down"
-                                anchors.centerIn: parent
-                                width: root.collapsedHeight - 4
-                                height: root.collapsedHeight - 4
-                                cache: root.paletteUnchanged
-                            }
-                        }
+                        icon.name: subtitleTrackHeader.collapsed ? "go-next" : "go-down"
                         onClicked: {
                             if (subtitleTrack.height > root.collapsedHeight) {
                                 subtitleTrack.height = root.collapsedHeight
@@ -1118,15 +1110,7 @@ Rectangle {
                             id: warningButton
                             visible: subtitlesWarning
                             focusPolicy: Qt.NoFocus
-                            contentItem: Item {
-                                Image {
-                                    source: "image://icon/data-warning"
-                                    anchors.centerIn: parent
-                                    width: root.collapsedHeight - 4
-                                    height: root.collapsedHeight - 4
-                                    cache: root.paletteUnchanged
-                                }
-                            }
+                            icon.name: "data-warning"
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             onClicked: timeline.subtitlesWarningDetails()
@@ -1148,15 +1132,7 @@ Rectangle {
                         ToolButton {
                             id: analyseButton
                             focusPolicy: Qt.NoFocus
-                            contentItem: Item {
-                                Image {
-                                    source: "image://icon/text-speak"
-                                    anchors.centerIn: parent
-                                    width: root.collapsedHeight - 4
-                                    height: root.collapsedHeight - 4
-                                    cache: root.paletteUnchanged
-                                }
-                            }
+                            icon.name: "text-speak"
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             onClicked: timeline.triggerAction('audio_recognition')
@@ -1168,15 +1144,7 @@ Rectangle {
                         ToolButton {
                             id: muteButton
                             focusPolicy: Qt.NoFocus
-                            contentItem: Item {
-                                Image {
-                                    source: root.subtitlesDisabled ? "image://icon/view-hidden" : "image://icon/view-visible"
-                                    anchors.centerIn: parent
-                                    width: root.collapsedHeight - 4
-                                    height: root.collapsedHeight - 4
-                                    cache: root.paletteUnchanged
-                                }
-                            }
+                            icon.name: root.subtitlesDisabled ? "view-hidden" : "view-visible"
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             onClicked: timeline.triggerAction('disable_subtitle')
@@ -1191,18 +1159,7 @@ Rectangle {
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             focusPolicy: Qt.NoFocus
-                            contentItem: Rectangle {
-                                id: bgRect
-                                anchors.fill: parent
-                                color: "transparent"
-                                Image {
-                                    source: root.subtitlesLocked ? "image://icon/lock" : "image://icon/unlock"
-                                    anchors.centerIn: parent
-                                    width: root.collapsedHeight - 4
-                                    height: root.collapsedHeight - 4
-                                    cache: root.paletteUnchanged
-                                }
-                            }
+                            icon.name: root.subtitlesLocked ? "lock" : "unlock"
                             onClicked: timeline.triggerAction('lock_subtitle')
                             ToolTip.visible: hovered
                             ToolTip.delay: 1500
@@ -1213,11 +1170,9 @@ Rectangle {
                                 loops: 3
                                 ParallelAnimation {
                                     ScaleAnimator {target: lockButton; from: 1; to: 1.2; duration: 120}
-                                    PropertyAnimation {target: bgRect;property: "color"; from: "transparent"; to: "darkred"; duration: 100}
                                 }
                                 ParallelAnimation {
                                     ScaleAnimator {target: lockButton; from: 1.6; to: 1; duration: 120}
-                                    PropertyAnimation {target: bgRect;property: "color"; from: "darkred"; to: "transparent"; duration: 120}
                                 }
                             }
                         }

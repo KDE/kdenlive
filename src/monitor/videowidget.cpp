@@ -36,7 +36,6 @@
 #endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KQuickIconProvider>
 
 #include "bin/model/markersortmodel.h"
 #include "core.h"
@@ -96,7 +95,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_loopIn(0)
     , m_offset(QPoint(0, 0))
 {
-    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
 #if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     KLocalization::setupLocalizedContext(engine());
 #else

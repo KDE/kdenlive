@@ -149,12 +149,7 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 width: parent.width
                 height: width
-                contentItem: Item {
-                    Image {
-                        source: "image://icon/go-down"
-                        anchors.fill: parent
-                    }
-                }
+                icon.name: "go-down"
                 onClicked: {
                     root.showTargetMenu(trackId)
                 }
@@ -236,15 +231,7 @@ Rectangle {
             id: expandButton
             focusPolicy: Qt.NoFocus
             property var modifier: 0
-            contentItem: Item {
-                Image {
-                    source: trackHeadRoot.collapsed ? "image://icon/go-next" : "image://icon/go-down"
-                    anchors.centerIn: parent
-                    width: root.collapsedHeight - 4
-                    height: width
-                    cache: root.paletteUnchanged
-                }
-            }
+            icon.name: trackHeadRoot.collapsed ? "go-next" : "go-down"
             onClicked: {
                 if (modifier & Qt.ShiftModifier) {
                     // Collapse / expand all tracks
@@ -408,16 +395,7 @@ Rectangle {
             ToolButton {
                 id: effectButton
                 focusPolicy: Qt.NoFocus
-                contentItem: Item {
-                    Image {
-                        source: "image://icon/tools-wizard"
-                        anchors.centerIn: parent
-                        width: root.collapsedHeight - 4
-                        height: width
-                        cache: root.paletteUnchanged
-                        opacity: effectButton.enabled ? 1 : 0.5
-                    }
-                }
+                icon.name: "tools-wizard"
                 enabled: trackHeadRoot.effectNames != ''
                 checkable: true
                 checked: enabled && trackHeadRoot.isStackEnabled
@@ -446,15 +424,7 @@ Rectangle {
                 id: muteButton
                 property var modifier: 0
                 focusPolicy: Qt.NoFocus
-                contentItem: Item {
-                    Image {
-                        source: isAudio ? (isDisabled ? "image://icon/audio-off" : "image://icon/audio-volume-high") : (isDisabled ? "image://icon/kdenlive-hide-video" : "image://icon/kdenlive-show-video")
-                        anchors.centerIn: parent
-                        width: root.collapsedHeight - 4
-                        height: width
-                        cache: root.paletteUnchanged
-                    }
-                }
+                icon.name: isAudio ? (isDisabled ? "audio-off" : "audio-volume-high") : (isDisabled ? "kdenlive-hide-video" : "kdenlive-show-video")
                 width: root.collapsedHeight
                 height: root.collapsedHeight
                 onClicked: timeline.hideTrack(trackId, isDisabled, modifier & Qt.ShiftModifier)
@@ -495,18 +465,7 @@ Rectangle {
                 width: root.collapsedHeight
                 height: root.collapsedHeight
                 focusPolicy: Qt.NoFocus
-                contentItem: Rectangle {
-                    id: bgRect
-                    color: 'transparent'
-                    anchors.fill: parent
-                    Image {
-                        source: trackHeadRoot.isLocked ? "image://icon/lock" : "image://icon/unlock"
-                        anchors.centerIn: parent
-                        width: root.collapsedHeight - 4
-                        height: width
-                        cache: root.paletteUnchanged
-                    }
-                }
+                icon.name: trackHeadRoot.isLocked ? "lock" : "unlock"
                 onClicked: controller.setTrackLockedState(trackId, !isLocked)
                 ToolTip {
                     visible: lockButton.hovered
@@ -527,11 +486,9 @@ Rectangle {
                     loops: 3
                     ParallelAnimation {
                         ScaleAnimator {target: lockButton; from: 1; to: 1.2; duration: 120}
-                        PropertyAnimation {target: bgRect;property: "color"; from: "transparent"; to: "darkred"; duration: 100}
                     }
                     ParallelAnimation {
                         ScaleAnimator {target: lockButton; from: 1.6; to: 1; duration: 120}
-                        PropertyAnimation {target: bgRect;property: "color"; from: "darkred"; to: "transparent"; duration: 120}
                     }
                 }
             }
