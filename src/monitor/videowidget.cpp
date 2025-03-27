@@ -26,7 +26,13 @@
 #include <QtGlobal>
 #include <memory>
 
+#include <ki18n_version.h>
+
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+#include <KLocalizedQmlContext>
+#else
 #include <KLocalizedContext>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KQuickIconProvider>
@@ -90,7 +96,11 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_offset(QPoint(0, 0))
 {
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    KLocalization::setupLocalizedContext(engine());
+#else
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
+#endif
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
     setAcceptDrops(true);

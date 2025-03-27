@@ -195,6 +195,7 @@ target_include_directories(kdenliveLib
 # (to avoid breaking builds when KDE and/or Qt are installed to different
 # prefixes).
 target_link_libraries(kdenliveLib PUBLIC
+    KF${KF_MAJOR}::I18n
     KF${KF_MAJOR}::WidgetsAddons
     KF${KF_MAJOR}::Archive
     KF${KF_MAJOR}::CoreAddons
@@ -222,6 +223,10 @@ target_link_libraries(kdenliveLib PUBLIC
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
     )
+
+if(KF6_VERSION VERSION_GREATER_EQUAL "6.8.0")
+  target_link_libraries(kdenliveLib PUBLIC KF${KF_MAJOR}::I18nQml)
+endif()
 
 target_link_libraries(kdenliveLib PUBLIC
     Qt${QT_MAJOR_VERSION}::Svg

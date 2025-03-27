@@ -3,7 +3,13 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include <QtVersionChecks>
+#include <ki18n_version.h>
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+#include <KLocalizedQmlContext>
+#else
 #include <KLocalizedContext>
+#endif
 
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
@@ -42,7 +48,11 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     , m_uuid(uuid)
 {
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    KLocalization::setupLocalizedContext(engine());
+#else
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
+#endif
     setClearColor(palette().window().color());
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
