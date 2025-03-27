@@ -244,14 +244,14 @@ Item {
                 anchors.bottom: parent.bottom
                 height: parent.showText ? root.baseUnit * 0.8 : 4
                 width: 1
-                color: dimmedColor2
+                color: rulerRoot.dimmedColor2
             }
             Label {
                 visible: parent.showText
                 anchors.top: parent.top
                 text: timeline.timecode(parent.realPos)
                 font: miniFont
-                color: dimmedColor
+                color: rulerRoot.dimmedColor
             }
         }
     }

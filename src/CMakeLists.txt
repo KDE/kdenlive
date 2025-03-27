@@ -116,6 +116,8 @@ add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} definitions.h li
 ecm_add_qml_module(kdenliveLib
     URI org.kde.kdenlive
     GENERATE_PLUGIN_SOURCE
+    DEPENDENCIES
+      QtQuick
 )
 
 ecm_target_qml_sources(kdenliveLib
@@ -185,6 +187,7 @@ target_include_directories(kdenliveLib PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils
     ${CMAKE_CURRENT_SOURCE_DIR}/timeline2/view/qml
     )
 target_include_directories(kdenliveLib
@@ -319,6 +322,9 @@ if (BUILD_QCH)
         COMPONENT Devel
     )
 endif()
+
+# TODO: enable once a few more warning are fixed
+# add_dependencies(kdenlive all_qmllint)
 
 ecm_finalize_qml_module(kdenliveLib
     DESTINATION ${KDE_INSTALL_QMLDIR})

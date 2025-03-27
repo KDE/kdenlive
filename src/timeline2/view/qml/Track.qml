@@ -438,9 +438,9 @@ Item{
                 root.groupTrimData = controller.getGroupData(clipId)
             }
             onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => { clipTrimming(clip, newDuration, shiftTrim, controlTrim, false) }
-            onTrimmedIn: (clip, shiftTrim, controlTrim) => { trimedClip(clip, shiftTrim, controlTrim, false) }
+            onTrimmedIn: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, false) }
             onTrimmingOut: (clip, newDuration, shiftTrim, controlTrim) => { clipTrimming(clip, newDuration, shiftTrim, controlTrim, true) }
-            onTrimmedOut: (clip, shiftTrim, controlTrim) => { trimedClip(clip, shiftTrim, controlTrim, true) }
+            onTrimmedOut: (clip, shiftTrim, controlTrim) => { trackRoot.trimedClip(clip, shiftTrim, controlTrim, true) }
         }
     }
     Component {

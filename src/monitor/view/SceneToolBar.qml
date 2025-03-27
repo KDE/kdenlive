@@ -3,7 +3,6 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.15
 import QtQuick 2.15
 
 import org.kde.kdenlive as Kdenlive

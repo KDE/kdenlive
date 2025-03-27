@@ -288,13 +288,13 @@ Item {
                     State {
                         when: audioThumb.stateVisible || audioThumb.isAudioClip;
                         PropertyChanges {
-                            target: audioThumb; opacity: 1.0
+                            audioThumb.opacity: 1.0
                         }
                     },
                     State {
                         when: !audioThumb.stateVisible && !audioThumb.isAudioClip;
                         PropertyChanges {
-                            target: audioThumb; opacity: 0.0
+                            audioThumb.opacity: 0.0
                         }
                     }
                 ]
@@ -327,11 +327,12 @@ Item {
                     Item {
                         anchors.fill: parent
                         Kdenlive.TimelineWaveform {
+                            id: waveform
                             anchors.right: parent.right
                             anchors.left: parent.left
                             height: streamThumb.streamHeight
                             property int aChannels: controller.audioChannels[model.index]
-                            y: model.index * height
+                            y: model.index * waveform.height
                             channels: aChannels
                             binId: controller.clipId
                             audioStream: controller.audioStreams[model.index]
@@ -339,8 +340,8 @@ Item {
                             normalize: controller.audioThumbNormalize
                             property int aClipDuration: root.duration + 1
                             scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
-                            waveInPoint: aClipDuration * root.zoomStart
-                            waveOutPoint: aClipDuration * (root.zoomStart + root.zoomFactor)
+                            waveInPoint: waveform.aClipDuration * root.zoomStart
+                            waveOutPoint: waveform.aClipDuration * (root.zoomStart + root.zoomFactor)
                             fgColorEven: root.thumbColor1
                             fgColorOdd: root.thumbColor2
                             bgColorEven: "#00000000"

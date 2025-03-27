@@ -6,6 +6,7 @@
 #pragma once
 
 #include <QObject>
+#include <QtQml>
 
 /** @class ClipboardProxy
     @brief Provides an interface to the clipboard, to use directly from QML
@@ -15,8 +16,11 @@ class ClipboardProxy : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QStringList mimeTypes READ mimeTypes NOTIFY changed)
+
+    QML_ELEMENT
+    QML_SINGLETON
 public:
-    explicit ClipboardProxy(QObject *parent);
+    explicit ClipboardProxy(QObject *parent = nullptr);
 
     QStringList mimeTypes() const;
 

@@ -108,7 +108,7 @@ Item {
     DropArea { //Drop area for effects
         id: effectArea
         anchors.fill: parent
-        keys: 'kdenlive/effect'
+        keys: ['kdenlive/effect']
         property string droppedData
         property string droppedDataSource
         onEntered: drag => {

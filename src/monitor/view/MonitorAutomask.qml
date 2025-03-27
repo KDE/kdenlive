@@ -85,7 +85,7 @@ Item {
     }
 
     onMaskModeChanged: {
-        if (maskMode == Kdenlive.Kdenlive.MaskModeType.MaskPreview) {
+        if (maskMode == Kdenlive.MaskModeType.MaskPreview) {
             generateLabel.visible = false
         }
     }
@@ -205,7 +205,6 @@ Item {
                     if (maskMode != Kdenlive.MaskModeType.MaskPreview) {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
-                        root.captureRightClick
                         clickPointX = mouseX
                         clickPointY = mouseY
                         selectionRect.x = mouseX
@@ -345,7 +344,7 @@ Item {
                         }
                         MouseArea {
                             anchors.fill: kfrPoint
-                            cursorShape: Qt.PointingHand
+                            cursorShape: Qt.PointingHandCursor
                             drag.target: kfrPoint
                             drag.smoothed: false
                             onPressed: mouse => {
@@ -417,11 +416,10 @@ Item {
             anchors.bottom: outsideLabel.bottom
             anchors.left: outsideLabel.left
             text: i18n("Go to mask start")
-            onPressed: mouse =>{
+            onPressed: () =>{
                 root.captureRightClick = true
-                mouse.accepted = true
             }
-            onReleased: mouse => {
+            onReleased: () => {
                 root.updateClickCapture()
             }
             onClicked: controller.position = root.maskStart
@@ -430,11 +428,10 @@ Item {
             anchors.bottom: outsideLabel.bottom
             anchors.right: outsideLabel.right
             text: i18n("Go to mask end")
-            onPressed: mouse =>{
+            onPressed: () =>{
                 root.captureRightClick = true
-                mouse.accepted = true
             }
-            onReleased: mouse => {
+            onReleased: () => {
                 root.updateClickCapture()
             }
             onClicked: controller.position = root.maskEnd

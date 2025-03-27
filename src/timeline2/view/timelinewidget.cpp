@@ -27,7 +27,6 @@
 #include "profiles/profilemodel.hpp"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"
-#include "utils/clipboardproxy.hpp"
 
 #include <KQuickIconProvider>
 #include <QAction>
@@ -188,7 +187,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
                                                      {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
                                                      {"documentId", QVariant::fromValue(model->uuid())},
                                                      {"audiorec", QVariant::fromValue(m_audioRec.get())},
-                                                     {"clipboard", QVariant::fromValue(new ClipboardProxy(this))},
                                                      {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
                                                      {"proxy", QVariant()}};
     if (model->getSubtitleModel()) {

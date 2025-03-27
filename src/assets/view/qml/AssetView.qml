@@ -23,7 +23,7 @@ Rectangle {
             text: display
         }
 
-        model: assetModel
+        model: assetRoot.assetModel
     }
 
 }

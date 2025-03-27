@@ -644,7 +644,7 @@ Rectangle {
         property int sameCutPos: -1
         property int fakeFrame: -1
         property int fakeTrack: -1
-        keys: 'kdenlive/composition'
+        keys: ['kdenlive/composition']
         function moveDrop(offset, voffset)
         {
             if (clipBeingDroppedId >= 0) {
@@ -778,7 +778,7 @@ Rectangle {
         height: root.height - ruler.height
         y: ruler.height
         x: headerWidth
-        keys: 'text/producerslist'
+        keys: ['text/producerslist']
         enabled: !compoArea.containsDrag
         function moveDrop(offset, voffset)
         {
@@ -941,7 +941,7 @@ Rectangle {
         height: root.height - ruler.height
         y: ruler.height
         x: headerWidth
-        keys: 'text/uri-list'
+        keys: ['text/uri-list']
         onEntered: drag => {
             drag.accepted = true
             droppedUrls.length = 0
@@ -1013,25 +1013,26 @@ Rectangle {
                         timeline.showMasterEffects()
                     }
                     DropArea { //Drop area for tracks
+                        id: trackEffectDrop
                         anchors.fill: parent
-                        keys: 'kdenlive/effect'
+                        keys: ['kdenlive/effect']
                         property string dropData
                         property string dropSource
                         onEntered: drag => {
                             dropData = drag.getDataAsString('kdenlive/effect')
                             dropSource = drag.getDataAsString('kdenlive/effectsource')
-                            drag.acceptProposedAction
+                            drag.acceptProposedAction()
                         }
                         onDropped: drag => {
-                            console.log("Add effect: ", dropData)
+                            console.log("Add effect: ", trackEffectDrop.dropData)
                             if (dropSource == '') {
                                 // drop from effects list
-                                controller.addTrackEffect(-1, dropData);
+                                controller.addTrackEffect(-1, trackEffectDrop.dropData);
                             } else {
-                                controller.copyTrackEffect(-1, dropSource);
+                                controller.copyTrackEffect(-1, trackEffectDrop.dropSource);
                             }
                             dropSource = ''
-                            drag.acceptProposedAction
+                            drag.acceptProposedAction()
                         }
                     }
                 }
@@ -1051,7 +1052,7 @@ Rectangle {
                     height: trackHeaders.height + subtitleTrackHeader.height
                     acceptedButtons: Qt.NoButton
                     onWheel: wheel => {
-                        verticalScroll(wheel)
+                        root.verticalScroll(wheel)
                         wheel.accepted = true
                     }
                 }
@@ -1073,7 +1074,6 @@ Rectangle {
                     ToolButton {
                         id: expandSubButton
                         focusPolicy: Qt.NoFocus
-                        property var modifier: 0
                         anchors.left: parent.left
                         anchors.leftMargin: 1.5 * root.baseUnit
                         width: root.collapsedHeight
@@ -2298,8 +2298,8 @@ Rectangle {
         height: bubbleHelpLabel.height + 6
         radius: 3
         states: [
-            State { name: 'invisible'; PropertyChanges { target: bubbleHelp; opacity: 0} },
-            State { name: 'visible'; PropertyChanges { target: bubbleHelp; opacity: 0.8} }
+            State { name: 'invisible'; PropertyChanges { bubbleHelp.opacity: 0} },
+            State { name: 'visible'; PropertyChanges { bubbleHelp.opacity: 0.8} }
         ]
         state: 'invisible'
         transitions: [

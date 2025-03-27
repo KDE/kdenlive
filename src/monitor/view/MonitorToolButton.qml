@@ -8,12 +8,13 @@ import QtQuick.Controls 2.15
 
 
 ToolButton {
+    id: toolButton
     property string iconName
     property string toolTipText
     contentItem: Item {
         Image {
-            visible: iconName
-            source: 'image://icon/' + iconName
+            visible: toolButton.iconName
+            source: 'image://icon/' + toolButton.iconName
             anchors.centerIn: parent
             width: parent.width - 4
             height: width
@@ -29,9 +30,9 @@ ToolButton {
         root.captureRightClick = false
     }
     ToolTip {
-        visible: parent.hovered
+        visible: toolButton.hovered
         delay: Qt.styleHints.mousePressAndHoldInterval
-        text: toolTipText
+        text: toolButton.toolTipText
         timeout: 3000
     }
 }
