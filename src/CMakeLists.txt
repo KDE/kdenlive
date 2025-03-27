@@ -92,9 +92,6 @@ if(CRASH_AUTO_TEST)
     list(APPEND kdenlive_SRCS logger.cpp)
 endif()
 
-## Others special cases
-kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
-install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 ecm_qt_declare_logging_category(kdenlive_SRCS
     HEADER kdenlive_debug.h
     IDENTIFIER KDENLIVE_LOG
@@ -112,6 +109,21 @@ file(GLOB kdenlive_UIS "ui/*.ui")
 ki18n_wrap_ui(kdenlive_UIS ${kdenlive_UIS})
 
 add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} definitions.h lib/localeHandling.cpp lib/localeHandling.h)
+
+kconfig_target_kcfg_file(kdenliveLib
+    FILE kdenlivesettings.kcfg
+    CLASS_NAME KdenliveSettings
+    MUTATORS
+    SINGLETON
+
+    GENERATE_PROPERTIES
+    GENERATE_MOC
+
+    QML_REGISTRATION
+
+    # DEFAULT_VALUE_GETTERS
+)
+install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 
 ecm_add_qml_module(kdenliveLib
     URI org.kde.kdenlive
