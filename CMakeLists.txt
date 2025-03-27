@@ -169,7 +169,7 @@ else()
     set_package_properties(OpenTimelineIO PROPERTIES
         DESCRIPTION "API and interchange format for editorial timeline information"
         URL "http://opentimeline.io/"
-        PURPOSE "Required for OpenTimielineIO import and export")
+        PURPOSE "Required for OpenTimelineIO import and export")
 endif()
 
 # Windows
