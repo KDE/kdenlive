@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-26 00:41+0000\n"
+"POT-Creation-Date: 2025-03-27 00:41+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotate-3-way.xml:45
 #: data/effects/rotation.xml:41 data/effects/rotation_keyframable.xml:23
-#: data/effects/timer.xml:26 src/monitor/monitor.cpp:444
+#: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
 #, fuzzy, kde-format
 #| msgid "Background"
 msgid "Background Color"
@@ -15743,13 +15743,13 @@ msgid ""
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2015 src/timeline2/model/timelineitemmodel.cpp:997
+#: src/bin/bin.cpp:2015 src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Replace audio"
 msgstr "Izvuci okvir"
 
-#: src/bin/bin.cpp:2018 src/timeline2/model/timelineitemmodel.cpp:997
+#: src/bin/bin.cpp:2018 src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Replace video"
@@ -15935,8 +15935,8 @@ msgstr "Playlista isječak"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2490 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1592
-#: src/project/projectmanager.cpp:1594 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1597
+#: src/project/projectmanager.cpp:1599 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 msgid "Sequences"
 msgstr "Veličina slike"
@@ -16168,8 +16168,8 @@ msgstr[2] "Pomakni isječak"
 msgid "No valid clip to insert"
 msgstr "Ne mogu naći isječak za izrezati"
 
-#: src/bin/bin.cpp:4017 src/timeline2/view/timelinecontroller.cpp:1551
-#: src/timeline2/view/timelinecontroller.cpp:3433
+#: src/bin/bin.cpp:4017 src/timeline2/view/timelinecontroller.cpp:1568
+#: src/timeline2/view/timelinecontroller.cpp:3450
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
@@ -16342,7 +16342,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2739
+#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2744
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Ne mogu naći isječak za dodati marker"
@@ -16425,7 +16425,7 @@ msgid "Transcode Without Saving"
 msgstr "Pretvori"
 
 #: src/bin/bin.cpp:6386 src/effects/effectstack/model/effectstackmodel.cpp:198
-#: src/timeline2/model/timelineitemmodel.cpp:1132
+#: src/timeline2/model/timelineitemmodel.cpp:1118
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
@@ -16437,7 +16437,7 @@ msgstr "Obriši efekt"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4849
+#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4854
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -16702,7 +16702,7 @@ msgstr "Obriši sve oznake"
 
 #: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:908
 #: src/bin/model/markerlistmodel.cpp:933
-#: src/timeline2/view/timelinecontroller.cpp:1519
+#: src/timeline2/view/timelinecontroller.cpp:1536
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No guide found at current position"
@@ -17784,11 +17784,11 @@ msgstr "Dodaj oznaku"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1891 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
-#: src/timeline2/view/timelinecontroller.cpp:5153
-#: src/timeline2/view/timelinecontroller.cpp:5158
+#: src/timeline2/view/timelinecontroller.cpp:5170
+#: src/timeline2/view/timelinecontroller.cpp:5175
 #: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
@@ -17855,7 +17855,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1781
+#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1786
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
@@ -18464,7 +18464,7 @@ msgstr "Fade in audio traka"
 msgid "Rendering %1 started"
 msgstr "Stvaranje <i>%1</i> započelo"
 
-#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
+#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1368
 #, fuzzy, kde-format
 msgid "untitled"
 msgstr "Bez naziva"
@@ -18596,7 +18596,7 @@ msgstr "dodaj isječak projektu"
 msgid "Open Containing Folder"
 msgstr "Odredište"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3972
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3977
 #, kde-format
 msgid "Timeline"
 msgstr "Vremenska linija"
@@ -20829,7 +20829,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Izlazna datoteka već postoji. Želite je prepisati?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3490
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3495
 #, fuzzy, kde-format
 msgid "Overwrite"
 msgstr "Stvaranje završeno u %1"
@@ -20938,8 +20938,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1466
-#: src/project/projectmanager.cpp:1502
+#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1471
+#: src/project/projectmanager.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Error moving project folder: %1"
@@ -20947,7 +20947,7 @@ msgstr "Projektna mapa"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2457
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1722
+#: src/project/projectmanager.cpp:1727
 #, kde-format
 msgid "Untitled"
 msgstr "Bez naziva"
@@ -21231,8 +21231,8 @@ msgid "Update zone for %1"
 msgstr "Spremi profil"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:303
-#: src/timeline2/model/timelineitemmodel.cpp:757
-#: src/timeline2/model/timelineitemmodel.cpp:770
+#: src/timeline2/model/timelineitemmodel.cpp:743
+#: src/timeline2/model/timelineitemmodel.cpp:756
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Copy effect"
@@ -21511,14 +21511,14 @@ msgid "Exporting…"
 msgstr "Čekanje..."
 
 #: src/effects/effectstack/view/effectstackview.cpp:770
-#: src/timeline2/view/timelinecontroller.cpp:3284
+#: src/timeline2/view/timelinecontroller.cpp:3301
 #, fuzzy, kde-format
 #| msgid "Save effect"
 msgid "Enable Effect Stack"
 msgstr "Spremi efekt"
 
 #: src/effects/effectstack/view/effectstackview.cpp:770
-#: src/timeline2/view/timelinecontroller.cpp:3284
+#: src/timeline2/view/timelinecontroller.cpp:3301
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Disable Effect Stack"
@@ -22048,14 +22048,14 @@ msgid "Add Markers by Category"
 msgstr "Oznake"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3867
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3872
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract Audio"
 msgstr "Izvuci okvir"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3841
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3846
 #, fuzzy, kde-format
 msgid "Clip Jobs"
 msgstr "Prikazivač isječka"
@@ -22130,72 +22130,72 @@ msgid "Tracks"
 msgstr "Traka"
 
 #. i18n: ectx: Menu (video_effects_menu)
-#: src/kdenliveui.rc:204 src/mainwindow.cpp:487
+#: src/kdenliveui.rc:206 src/mainwindow.cpp:487
 #, fuzzy, kde-format
 msgid "Add Effect"
 msgstr "Dodaj audio efekt"
 
 #. i18n: ectx: Menu (monitor)
-#: src/kdenliveui.rc:219 src/mainwindow.cpp:135
+#: src/kdenliveui.rc:221 src/mainwindow.cpp:135
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor"
 msgstr "Monitor"
 
 #. i18n: ectx: Menu (monitor_go)
-#: src/kdenliveui.rc:226
+#: src/kdenliveui.rc:228
 #, kde-format
 msgid "Go To"
 msgstr "Idi na"
 
 #. i18n: ectx: Menu (monitor_seek)
-#: src/kdenliveui.rc:238
+#: src/kdenliveui.rc:240
 #, kde-format
 msgid "Seek"
 msgstr ""
 
 #. i18n: ectx: Menu (monitor_config_overlay)
-#: src/kdenliveui.rc:255
+#: src/kdenliveui.rc:257
 #, fuzzy, kde-format
 #| msgid "Monitor overlay infos"
 msgid "Current Monitor Overlay"
 msgstr "Podaci monitor overlaya"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:263 src/mainwindow.cpp:1521
+#: src/kdenliveui.rc:265 src/mainwindow.cpp:1521
 #, fuzzy, kde-format
 #| msgid "Video Resolution"
 msgid "Preview Resolution"
 msgstr "Video rezolucija"
 
 #. i18n: ectx: Menu (monitor_config)
-#: src/kdenliveui.rc:270
+#: src/kdenliveui.rc:272
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor Config"
 msgstr "Monitor"
 
 #. i18n: ectx: Menu (view)
-#: src/kdenliveui.rc:282
+#: src/kdenliveui.rc:284
 #, kde-format
 msgid "View"
 msgstr "Pogled"
 
 #. i18n: ectx: Menu (dockareaoriantation)
-#: src/kdenliveui.rc:289
+#: src/kdenliveui.rc:291
 #, kde-format
 msgid "Dock Area Orientation"
 msgstr ""
 
 #. i18n: ectx: ToolBar (timelineToolBar)
-#: src/kdenliveui.rc:310
+#: src/kdenliveui.rc:312
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Timeline Toolbar"
 msgstr "Vremenska linija"
 
 #. i18n: ectx: ToolBar (extraToolBar)
-#: src/kdenliveui.rc:337
+#: src/kdenliveui.rc:339
 #, kde-format
 msgid "Extra Toolbar"
 msgstr "Extra alatna traka"
@@ -22363,7 +22363,7 @@ msgstr ""
 msgid "Hz "
 msgstr "H"
 
-#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:320
+#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:321
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "Merged streams"
@@ -22907,7 +22907,7 @@ msgid "Add Transition"
 msgstr "Dodaj prijelaz"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:492 src/mainwindow.cpp:2024
+#: src/mainwindow.cpp:492 src/mainwindow.cpp:2026
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, fuzzy, kde-format
@@ -22950,7 +22950,7 @@ msgstr "Stvaranje u datoteku"
 msgid "Rendering preview"
 msgstr "Niti dekodiranja"
 
-#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:428
+#: src/mainwindow.cpp:602 src/monitor/monitor.cpp:429
 #, fuzzy, kde-format
 msgid "Go to Guide…"
 msgstr "Uredi oznaku"
@@ -23055,7 +23055,7 @@ msgstr "Početna snaga"
 msgid "Delete them"
 msgstr "Obriši %1"
 
-#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2155
+#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2172
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to compare effect"
@@ -23331,7 +23331,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3476
+#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3481
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -23492,22 +23492,22 @@ msgstr "Podaci monitor overlaya"
 msgid "Full Resolution (1:1)"
 msgstr "Video rezolucija"
 
-#: src/mainwindow.cpp:1529 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1529 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "720p"
 msgstr ""
 
-#: src/mainwindow.cpp:1533 src/monitor/monitor.cpp:235
+#: src/mainwindow.cpp:1533 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "540p"
 msgstr ""
 
-#: src/mainwindow.cpp:1537 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1537 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "360p"
 msgstr ""
 
-#: src/mainwindow.cpp:1541 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1541 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "270p"
 msgstr ""
@@ -24009,7 +24009,7 @@ msgstr "Umetni traku"
 msgid "Fit all Tracks in View"
 msgstr "sa trakom"
 
-#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4880
+#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4897
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Master effects"
@@ -24172,80 +24172,92 @@ msgstr "sa trakom"
 #: src/mainwindow.cpp:1989
 #, fuzzy, kde-format
 #| msgid "with track"
-msgid "Toggle Track Lock"
+msgid "Toggle All Tracks Disabled"
 msgstr "sa trakom"
 
 #: src/mainwindow.cpp:1991
 #, fuzzy, kde-format
 #| msgid "with track"
-msgid "Toggle All Track Lock"
+msgid "Toggle Track Lock"
 msgstr "sa trakom"
 
 #: src/mainwindow.cpp:1993
 #, fuzzy, kde-format
 #| msgid "with track"
-msgid "Toggle Track Target"
+msgid "Toggle All Tracks Lock"
 msgstr "sa trakom"
 
 #: src/mainwindow.cpp:1995
 #, fuzzy, kde-format
 #| msgid "with track"
-msgid "Toggle Track Active"
+msgid "Toggle Track Target"
 msgstr "sa trakom"
 
 #: src/mainwindow.cpp:1997
 #, fuzzy, kde-format
 #| msgid "with track"
-msgid "Toggle All Tracks Active"
+msgid "Toggle Track Active"
 msgstr "sa trakom"
 
 #: src/mainwindow.cpp:1999
 #, fuzzy, kde-format
 #| msgid "with track"
-msgid "Switch All Tracks Active"
+msgid "Toggle All Tracks Active"
 msgstr "sa trakom"
 
 #: src/mainwindow.cpp:2001
+#, fuzzy, kde-format
+#| msgid "with track"
+msgid "Switch All Tracks Active"
+msgstr "sa trakom"
+
+#: src/mainwindow.cpp:2003
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr ""
 
-#: src/mainwindow.cpp:2003
+#: src/mainwindow.cpp:2005
 #, fuzzy, kde-format
 msgid "Add Project Note"
 msgstr "Projektna mapa"
 
-#: src/mainwindow.cpp:2009
+#: src/mainwindow.cpp:2011
 #, fuzzy, kde-format
 #| msgid "Split Audio"
 msgid "Select Audio Track %1"
 msgstr "Podijeli zvuk"
 
-#: src/mainwindow.cpp:2013
+#: src/mainwindow.cpp:2015
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Select Video Track %1"
 msgstr "Obriši stavku"
 
-#: src/mainwindow.cpp:2017
+#: src/mainwindow.cpp:2019
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Select Target %1"
 msgstr "Obriši efekt"
 
-#: src/mainwindow.cpp:2034
+#: src/mainwindow.cpp:2036
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract Frame…"
 msgstr "Izvuci okvir"
 
-#: src/mainwindow.cpp:2037
+#: src/mainwindow.cpp:2039
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract Frame to Project…"
 msgstr "Izvuci okvir"
 
-#: src/mainwindow.cpp:2170
+#: src/mainwindow.cpp:2042
+#, fuzzy, kde-format
+#| msgid "Extract frame"
+msgid "Extract Frame to Clipboard"
+msgstr "Izvuci okvir"
+
+#: src/mainwindow.cpp:2175
 #, fuzzy, kde-format
 #| msgid ""
 #| "You have changed the project folder. Do you want to copy the cached data "
@@ -24257,13 +24269,13 @@ msgstr ""
 "Promjenili ste mapu projekta. Želite li kopirati prikupljene podatke iz %1 u "
 "novu mapu %2?"
 
-#: src/mainwindow.cpp:2171
+#: src/mainwindow.cpp:2176
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Grupa"
 
-#: src/mainwindow.cpp:2172 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2177 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2255
 #, kde-format
@@ -24271,7 +24283,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr ""
 
-#: src/mainwindow.cpp:2228
+#: src/mainwindow.cpp:2233
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -24279,125 +24291,125 @@ msgid ""
 "<br>and the project file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2236
+#: src/mainwindow.cpp:2241
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2245 src/project/projectmanager.cpp:619
+#: src/mainwindow.cpp:2250 src/project/projectmanager.cpp:619
 #, fuzzy, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Ne mogu umetnuti isječak na odabrano mjesto"
 
-#: src/mainwindow.cpp:2250 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2255 src/project/projectmanager.cpp:625
 #, fuzzy, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Ne mogu umetnuti isječak na odabrano mjesto"
 
-#: src/mainwindow.cpp:2399
+#: src/mainwindow.cpp:2404
 #, fuzzy, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Ovo će izbaciti odabrane isječke iz projekta"
 
-#: src/mainwindow.cpp:2399
+#: src/mainwindow.cpp:2404
 #, fuzzy, kde-format
 msgid "Clean up project"
 msgstr "Cijeli projekt"
 
-#: src/mainwindow.cpp:2541
+#: src/mainwindow.cpp:2546
 #, fuzzy, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Preuzmi nove Luma-e..."
 
-#: src/mainwindow.cpp:2550
+#: src/mainwindow.cpp:2555
 #, fuzzy, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Generatori"
 
-#: src/mainwindow.cpp:2624
+#: src/mainwindow.cpp:2629
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2625
+#: src/mainwindow.cpp:2630
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Postavke uređaja"
 
-#: src/mainwindow.cpp:2757 src/mainwindow.cpp:2784
+#: src/mainwindow.cpp:2762 src/mainwindow.cpp:2789
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Ne mogu naći isječak za uklonjeni oznaku"
 
-#: src/mainwindow.cpp:2767 src/mainwindow.cpp:2813
+#: src/mainwindow.cpp:2772 src/mainwindow.cpp:2818
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Oznaka nije pronađena kod pokazivača"
 
-#: src/mainwindow.cpp:2789
+#: src/mainwindow.cpp:2794
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2806 src/timeline2/view/timelinecontroller.cpp:1331
-#: src/timeline2/view/timelinecontroller.cpp:1339
-#: src/timeline2/view/timelinecontroller.cpp:1360
-#: src/timeline2/view/timelinecontroller.cpp:1400
-#: src/timeline2/view/timelinecontroller.cpp:1426
+#: src/mainwindow.cpp:2811 src/timeline2/view/timelinecontroller.cpp:1348
+#: src/timeline2/view/timelinecontroller.cpp:1356
+#: src/timeline2/view/timelinecontroller.cpp:1377
+#: src/timeline2/view/timelinecontroller.cpp:1417
+#: src/timeline2/view/timelinecontroller.cpp:1443
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to add marker"
 msgid "Cannot find clip to edit marker"
 msgstr "Ne mogu naći isječak za dodati marker"
 
-#: src/mainwindow.cpp:2857
+#: src/mainwindow.cpp:2862
 #, fuzzy, kde-format
 #| msgid "Markers"
 msgid "Marker category does not exist"
 msgstr "Oznake"
 
-#: src/mainwindow.cpp:3047 src/timeline2/model/timelinefunctions.cpp:791
-#: src/timeline2/view/timelinecontroller.cpp:3144
+#: src/mainwindow.cpp:3052 src/timeline2/model/timelinefunctions.cpp:791
+#: src/timeline2/view/timelinecontroller.cpp:3161
 #, fuzzy, kde-format
 msgid "Overwrite zone"
 msgstr "Stvaranje završeno u %1"
 
-#: src/mainwindow.cpp:3049 src/mainwindow.cpp:3068
+#: src/mainwindow.cpp:3054 src/mainwindow.cpp:3073
 #: src/timeline2/model/timelinefunctions.cpp:793
-#: src/timeline2/view/timelinecontroller.cpp:3146
+#: src/timeline2/view/timelinecontroller.cpp:3163
 #, fuzzy, kde-format
 msgid "Could not insert zone"
 msgstr "Umetni prazninu"
 
-#: src/mainwindow.cpp:3059
+#: src/mainwindow.cpp:3064
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip selected in project bin"
 msgstr "isječak nije kopiran"
 
-#: src/mainwindow.cpp:3066 src/timeline2/model/timelinefunctions.cpp:791
-#: src/timeline2/view/timelinecontroller.cpp:3144
+#: src/mainwindow.cpp:3071 src/timeline2/model/timelinefunctions.cpp:791
+#: src/timeline2/view/timelinecontroller.cpp:3161
 #, fuzzy, kde-format
 msgid "Insert zone"
 msgstr "Umetni prazninu"
 
-#: src/mainwindow.cpp:3233
+#: src/mainwindow.cpp:3238
 #, fuzzy, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Problem pri dodavanju efekata u isječak"
 
-#: src/mainwindow.cpp:3295
+#: src/mainwindow.cpp:3300
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr ""
 
-#: src/mainwindow.cpp:3444
+#: src/mainwindow.cpp:3449
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24406,7 +24418,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3448
+#: src/mainwindow.cpp:3453
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24416,26 +24428,26 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3451
+#: src/mainwindow.cpp:3456
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select"
 msgstr "Alat odabira"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3458
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3454 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3459 src/ui/configtools_ui.ui:21
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "Alat razdvajanja"
 
-#: src/mainwindow.cpp:3458
+#: src/mainwindow.cpp:3463
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24443,13 +24455,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3459
+#: src/mainwindow.cpp:3464
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "Praznina"
 
-#: src/mainwindow.cpp:3461
+#: src/mainwindow.cpp:3466
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24457,14 +24469,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3462
+#: src/mainwindow.cpp:3467
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Alat praznine"
 
-#: src/mainwindow.cpp:3467
+#: src/mainwindow.cpp:3472
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24473,14 +24485,14 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3469
+#: src/mainwindow.cpp:3474
 #, fuzzy, kde-format
 #| msgid "Extension"
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Proširenje"
 
-#: src/mainwindow.cpp:3475
+#: src/mainwindow.cpp:3480
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24488,150 +24500,150 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3487
+#: src/mainwindow.cpp:3492
 #, fuzzy, kde-format
 msgid "Insert"
 msgstr "Prijelaz"
 
-#: src/mainwindow.cpp:3757 src/mainwindow.cpp:3759
+#: src/mainwindow.cpp:3762 src/mainwindow.cpp:3764
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3764
+#: src/mainwindow.cpp:3769
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bins"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:3860
+#: src/mainwindow.cpp:3865
 #, fuzzy, kde-format
 #| msgid "Current jobs"
 msgid "Configure Clip Jobs…"
 msgstr "Trenutni poslovi"
 
-#: src/mainwindow.cpp:3866
+#: src/mainwindow.cpp:3871
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Pretvori"
 
-#: src/mainwindow.cpp:3926
+#: src/mainwindow.cpp:3931
 #, kde-format
 msgid "-merged"
 msgstr ""
 
-#: src/mainwindow.cpp:3929
+#: src/mainwindow.cpp:3934
 #, fuzzy, kde-format
 #| msgid "Video track"
 msgid "-stream-%1"
 msgstr "Video traka"
 
-#: src/mainwindow.cpp:3971
+#: src/mainwindow.cpp:3976
 #, fuzzy, kde-format
 #| msgid "Interlaced"
 msgid "Interface"
 msgstr "Interlaced"
 
-#: src/mainwindow.cpp:3993
+#: src/mainwindow.cpp:3998
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Raise %1"
 msgstr "Obriši efekt"
 
-#: src/mainwindow.cpp:4060
+#: src/mainwindow.cpp:4065
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "isječak nije kopiran"
 
-#: src/mainwindow.cpp:4192
+#: src/mainwindow.cpp:4197
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4200
+#: src/mainwindow.cpp:4205
 #, fuzzy, kde-format
 msgid "Archiving project"
 msgstr "dodaj isječak projektu"
 
-#: src/mainwindow.cpp:4340
+#: src/mainwindow.cpp:4345
 #, fuzzy, kde-format
 #| msgid "Font"
 msgid "Icon Size"
 msgstr "Pismo"
 
-#: src/mainwindow.cpp:4344
+#: src/mainwindow.cpp:4349
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Zadano"
 
-#: src/mainwindow.cpp:4365 src/mainwindow.cpp:4393
+#: src/mainwindow.cpp:4370 src/mainwindow.cpp:4398
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4367 src/mainwindow.cpp:4395
+#: src/mainwindow.cpp:4372 src/mainwindow.cpp:4400
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4369 src/mainwindow.cpp:4397
+#: src/mainwindow.cpp:4374 src/mainwindow.cpp:4402
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4371 src/mainwindow.cpp:4399
+#: src/mainwindow.cpp:4376 src/mainwindow.cpp:4404
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4455
+#: src/mainwindow.cpp:4460
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4455
+#: src/mainwindow.cpp:4460
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide menu bar"
 msgstr "Sakrij okvir"
 
-#: src/mainwindow.cpp:4718 src/timeline2/view/timelinecontroller.cpp:5111
+#: src/mainwindow.cpp:4723 src/timeline2/view/timelinecontroller.cpp:5128
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "Nema vodića na mjestu pokazivača"
 
-#: src/mainwindow.cpp:5005
+#: src/mainwindow.cpp:5010
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5010
+#: src/mainwindow.cpp:5015
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Postavke uređaja"
 
-#: src/mainwindow.cpp:5013
+#: src/mainwindow.cpp:5018
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5017
+#: src/mainwindow.cpp:5022
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5060
+#: src/mainwindow.cpp:5065
 #, fuzzy, kde-format
 msgid "Checking cached data size"
 msgstr "Obriši odabrane stavke"
@@ -24834,14 +24846,14 @@ msgid "Enable audio"
 msgstr "Podijeli zvuk"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:733
-#: src/monitor/monitor.cpp:303
+#: src/monitor/monitor.cpp:304
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "Audio streams"
 msgstr "Audio traka"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:755
-#: src/monitor/monitor.cpp:1990
+#: src/monitor/monitor.cpp:2042
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -25122,23 +25134,23 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr ""
 
-#: src/monitor/monitor.cpp:88
+#: src/monitor/monitor.cpp:89
 #, fuzzy, kde-format
 #| msgid "Audio only"
 msgid "Audio volume"
 msgstr "Samo zvuk"
 
-#: src/monitor/monitor.cpp:93 src/scopes/colorscopes/vectorscope.cpp:256
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:256
 #, kde-format
 msgid "%1%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:231
+#: src/monitor/monitor.cpp:232
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:233
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25147,51 +25159,51 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:235
+#: src/monitor/monitor.cpp:236
 #, fuzzy, kde-format
 #| msgid "X11"
 msgid "1:1"
 msgstr "X11"
 
-#: src/monitor/monitor.cpp:373 src/monitor/monitormanager.cpp:682
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:682
 #, fuzzy, kde-format
 msgid "Set Zone In"
 msgstr "Postavi kraj zone"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:686
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:686
 #, fuzzy, kde-format
 msgid "Set Zone Out"
 msgstr "Postavi početak zone"
 
-#: src/monitor/monitor.cpp:386 src/monitor/monitormanager.cpp:566
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Rewind"
 msgstr "Prevrti"
 
-#: src/monitor/monitor.cpp:391 src/monitor/monitor.cpp:394
+#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
 #: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Play"
 msgstr "Reprodukcija"
 
-#: src/monitor/monitor.cpp:394 src/monitor/monitormanager.cpp:541
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:541
 #: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Pause"
 msgstr ""
 
-#: src/monitor/monitor.cpp:414 src/monitor/monitormanager.cpp:579
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Forward"
 msgstr "Naprijed"
 
-#: src/monitor/monitor.cpp:418
+#: src/monitor/monitor.cpp:419
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "More Options…"
 msgstr "Opis"
 
-#: src/monitor/monitor.cpp:419
+#: src/monitor/monitor.cpp:420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25199,153 +25211,153 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:428
+#: src/monitor/monitor.cpp:429
 #, fuzzy, kde-format
 msgid "Go to Marker…"
 msgstr "Uredi oznaku"
 
-#: src/monitor/monitor.cpp:432
+#: src/monitor/monitor.cpp:433
 #, fuzzy, kde-format
 #| msgid "Font"
 msgid "Force Monitor Size"
 msgstr "Pismo"
 
-#: src/monitor/monitor.cpp:433
+#: src/monitor/monitor.cpp:434
 #, kde-format
 msgid "Force 100%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:435
+#: src/monitor/monitor.cpp:436
 #, kde-format
 msgid "Force 50%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:437
+#: src/monitor/monitor.cpp:438
 #, fuzzy, kde-format
 #| msgid "Frame size"
 msgid "Free Resize"
 msgstr "Veličina okvira"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:445 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "Crno"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:447 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr ""
 
-#: src/monitor/monitor.cpp:449
+#: src/monitor/monitor.cpp:450
 #, kde-format
 msgid "Pink"
 msgstr ""
 
-#: src/monitor/monitor.cpp:452
+#: src/monitor/monitor.cpp:453
 #, fuzzy, kde-format
 #| msgid "CheckBox"
 msgid "Checkerboard"
 msgstr "Označnik (CheckBox)"
 
-#: src/monitor/monitor.cpp:525
+#: src/monitor/monitor.cpp:526
 #, kde-format
 msgid "-5"
 msgstr ""
 
-#: src/monitor/monitor.cpp:531
+#: src/monitor/monitor.cpp:532
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "-1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:537
+#: src/monitor/monitor.cpp:538
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "+1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:543
+#: src/monitor/monitor.cpp:544
 #, kde-format
 msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:689
+#: src/monitor/monitor.cpp:690
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract Zone"
 msgstr "Izvuci okvir"
 
-#: src/monitor/monitor.cpp:702
+#: src/monitor/monitor.cpp:704
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Postavi trenutnu sliku kao sličicu (thumbnail)"
 
-#: src/monitor/monitor.cpp:709
+#: src/monitor/monitor.cpp:711
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "Prikaži audio kratke prikaze"
 
-#: src/monitor/monitor.cpp:726
+#: src/monitor/monitor.cpp:728
 #, fuzzy, kde-format
 #| msgid "Sox echo audio effect"
 msgid "Show Audio Levels"
 msgstr "Sox echo audio efekt"
 
-#: src/monitor/monitor.cpp:733
+#: src/monitor/monitor.cpp:735
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Source Timecode"
 msgstr "Monitor snimanja"
 
-#: src/monitor/monitor.cpp:770
+#: src/monitor/monitor.cpp:772
 #, fuzzy, kde-format
 #| msgid "You must select one transition for this action"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Morate odabrati jedan prijelaz za ovu akciju"
 
-#: src/monitor/monitor.cpp:904 src/monitor/monitor.cpp:940
+#: src/monitor/monitor.cpp:906 src/monitor/monitor.cpp:942
 #, fuzzy, kde-format
 #| msgid "Cannot change grouped clips"
 msgid "Cannot change zone when creating a mask"
 msgstr "Ne mogu promijeniti grupirane isječke"
 
-#: src/monitor/monitor.cpp:933 src/monitor/monitor.cpp:969
-#: src/timeline2/view/timelinecontroller.cpp:1814
+#: src/monitor/monitor.cpp:935 src/monitor/monitor.cpp:971
+#: src/timeline2/view/timelinecontroller.cpp:1831
 #, fuzzy, kde-format
 msgid "Set Zone"
 msgstr "Postavi kraj zone"
 
-#: src/monitor/monitor.cpp:1329
+#: src/monitor/monitor.cpp:1381
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Spremi DVD projekt"
 
-#: src/monitor/monitor.cpp:1329
+#: src/monitor/monitor.cpp:1381
 #, fuzzy, kde-format
 #| msgid "Load Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Učitaj sliku"
 
-#: src/monitor/monitor.cpp:1336
+#: src/monitor/monitor.cpp:1388
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1877
+#: src/monitor/monitor.cpp:1929
 #, fuzzy, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Trajanje"
 
-#: src/monitor/monitor.cpp:1975 src/monitor/monitor.cpp:2107
+#: src/monitor/monitor.cpp:2027 src/monitor/monitor.cpp:2159
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "%1 audio stream"
@@ -25354,49 +25366,49 @@ msgstr[0] "Audio traka"
 msgstr[1] "Audio traka"
 msgstr[2] "Audio traka"
 
-#: src/monitor/monitor.cpp:2414
+#: src/monitor/monitor.cpp:2466
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2456 src/monitor/monitor.cpp:2513
+#: src/monitor/monitor.cpp:2508 src/monitor/monitor.cpp:2565
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2476
+#: src/monitor/monitor.cpp:2528
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "Isječak nema oznaka"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2530
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Odaberite isječak ako želite dodati efekt"
 
-#: src/monitor/monitor.cpp:2520
+#: src/monitor/monitor.cpp:2572
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2649
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3094
+#: src/monitor/monitor.cpp:3146
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip selected in Clip Monitor"
 msgstr "isječak nije kopiran"
 
-#: src/monitor/monitor.cpp:3115
+#: src/monitor/monitor.cpp:3167
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
@@ -27351,7 +27363,7 @@ msgstr "Luma datoteka"
 msgid "Save changes to document?"
 msgstr "Spremiti promjene u dokument ?"
 
-#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1721
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1726
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -27483,37 +27495,37 @@ msgid ""
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1444
+#: src/project/projectmanager.cpp:1449
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1480
+#: src/project/projectmanager.cpp:1485
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Moving project folder"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1571 src/project/projectmanager.cpp:1626
-#: src/project/projectmanager.cpp:1630
+#: src/project/projectmanager.cpp:1576 src/project/projectmanager.cpp:1631
+#: src/project/projectmanager.cpp:1635
 #, fuzzy, kde-format
 msgid "Sequence 1"
 msgstr "Veličina slike"
 
-#: src/project/projectmanager.cpp:1582
+#: src/project/projectmanager.cpp:1587
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1732
-#: src/project/projectmanager.cpp:1742 src/project/projectmanager.cpp:1756
+#: src/project/projectmanager.cpp:1732 src/project/projectmanager.cpp:1737
+#: src/project/projectmanager.cpp:1747 src/project/projectmanager.cpp:1761
 #, fuzzy, kde-format
 msgid "Project profile change aborted"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1879
+#: src/project/projectmanager.cpp:1884
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -27521,12 +27533,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Izlazna datoteka već postoji. Želite je prepisati?"
 
-#: src/project/projectmanager.cpp:1901
+#: src/project/projectmanager.cpp:1906
 #, fuzzy, kde-format
 msgid "Project profile changed"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1965
+#: src/project/projectmanager.cpp:1970
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid ""
@@ -27534,18 +27546,18 @@ msgid ""
 "%1"
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/project/projectmanager.cpp:2048
+#: src/project/projectmanager.cpp:2053
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2238
+#: src/project/projectmanager.cpp:2243
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Odaberite isječak ako želite dodati efekt"
 
-#: src/project/projectmanager.cpp:2276
+#: src/project/projectmanager.cpp:2281
 #, fuzzy, kde-format
 #| msgid "Center Frequency"
 msgid "Create Sequence Clip"
@@ -28858,26 +28870,26 @@ msgid "Cut all clips"
 msgstr "Izreži isječak"
 
 #: src/timeline2/model/timelinefunctions.cpp:685
-#: src/timeline2/view/timelinecontroller.cpp:1490
+#: src/timeline2/view/timelinecontroller.cpp:1507
 #, kde-format
 msgid "Insert space"
 msgstr "Umetni prazninu"
 
 #: src/timeline2/model/timelinefunctions.cpp:687
-#: src/timeline2/view/timelinecontroller.cpp:1492
+#: src/timeline2/view/timelinecontroller.cpp:1509
 #, kde-format
 msgid "Remove space"
 msgstr "Ukloni prazninu"
 
 #: src/timeline2/model/timelinefunctions.cpp:756
-#: src/timeline2/view/timelinecontroller.cpp:2950
+#: src/timeline2/view/timelinecontroller.cpp:2967
 #, fuzzy, kde-format
 msgid "Lift zone"
 msgstr "Pomak"
 
 #: src/timeline2/model/timelinefunctions.cpp:756
-#: src/timeline2/view/timelinecontroller.cpp:730
-#: src/timeline2/view/timelinecontroller.cpp:2950
+#: src/timeline2/view/timelinecontroller.cpp:747
+#: src/timeline2/view/timelinecontroller.cpp:2967
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract zone"
@@ -28889,28 +28901,28 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:951
-#: src/timeline2/view/timelinecontroller.cpp:1229
-#: src/timeline2/view/timelinecontroller.cpp:1309
-#: src/timeline2/view/timelinecontroller.cpp:1319
-#: src/timeline2/view/timelinecontroller.cpp:1348
-#: src/timeline2/view/timelinecontroller.cpp:1388
-#: src/timeline2/view/timelinecontroller.cpp:1414
-#: src/timeline2/view/timelinecontroller.cpp:1439
-#: src/timeline2/view/timelinecontroller.cpp:2318
-#: src/timeline2/view/timelinecontroller.cpp:2968
-#: src/timeline2/view/timelinecontroller.cpp:3033
-#: src/timeline2/view/timelinecontroller.cpp:3247
-#: src/timeline2/view/timelinecontroller.cpp:3292
-#: src/timeline2/view/timelinecontroller.cpp:3333
-#: src/timeline2/view/timelinecontroller.cpp:3340
-#: src/timeline2/view/timelinecontroller.cpp:3368
-#: src/timeline2/view/timelinecontroller.cpp:3693
-#: src/timeline2/view/timelinecontroller.cpp:3708
-#: src/timeline2/view/timelinecontroller.cpp:3733
-#: src/timeline2/view/timelinecontroller.cpp:3748
-#: src/timeline2/view/timelinecontroller.cpp:3807
-#: src/timeline2/view/timelinecontroller.cpp:3860
-#: src/timeline2/view/timelinecontroller.cpp:3884
+#: src/timeline2/view/timelinecontroller.cpp:1246
+#: src/timeline2/view/timelinecontroller.cpp:1326
+#: src/timeline2/view/timelinecontroller.cpp:1336
+#: src/timeline2/view/timelinecontroller.cpp:1365
+#: src/timeline2/view/timelinecontroller.cpp:1405
+#: src/timeline2/view/timelinecontroller.cpp:1431
+#: src/timeline2/view/timelinecontroller.cpp:1456
+#: src/timeline2/view/timelinecontroller.cpp:2335
+#: src/timeline2/view/timelinecontroller.cpp:2985
+#: src/timeline2/view/timelinecontroller.cpp:3050
+#: src/timeline2/view/timelinecontroller.cpp:3264
+#: src/timeline2/view/timelinecontroller.cpp:3309
+#: src/timeline2/view/timelinecontroller.cpp:3350
+#: src/timeline2/view/timelinecontroller.cpp:3357
+#: src/timeline2/view/timelinecontroller.cpp:3385
+#: src/timeline2/view/timelinecontroller.cpp:3710
+#: src/timeline2/view/timelinecontroller.cpp:3725
+#: src/timeline2/view/timelinecontroller.cpp:3750
+#: src/timeline2/view/timelinecontroller.cpp:3765
+#: src/timeline2/view/timelinecontroller.cpp:3824
+#: src/timeline2/view/timelinecontroller.cpp:3877
+#: src/timeline2/view/timelinecontroller.cpp:3901
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip selected"
@@ -28924,7 +28936,7 @@ msgstr "Pomakni efekt"
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1121
 #: src/timeline2/model/timelinefunctions.cpp:1128
-#: src/timeline2/view/timelinecontroller.cpp:4025
+#: src/timeline2/view/timelinecontroller.cpp:4042
 #, fuzzy, kde-format
 msgid "Enable clip"
 msgstr "isječak naslova"
@@ -28932,7 +28944,7 @@ msgstr "isječak naslova"
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1121
 #: src/timeline2/model/timelinefunctions.cpp:1128
-#: src/timeline2/view/timelinecontroller.cpp:4025
+#: src/timeline2/view/timelinecontroller.cpp:4042
 #, fuzzy, kde-format
 msgid "Disable clip"
 msgstr "isječak naslova"
@@ -29116,18 +29128,18 @@ msgstr "Spremi efekt"
 msgid "Disable Track Effect Stack"
 msgstr "Obriši efekt"
 
-#: src/timeline2/model/timelineitemmodel.cpp:861
+#: src/timeline2/model/timelineitemmodel.cpp:847
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:964
+#: src/timeline2/model/timelineitemmodel.cpp:950
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:966
-#: src/timeline2/model/timelineitemmodel.cpp:993
+#: src/timeline2/model/timelineitemmodel.cpp:952
+#: src/timeline2/model/timelineitemmodel.cpp:979
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "One clip replaced"
@@ -29136,12 +29148,12 @@ msgstr[0] "isječak nije kopiran"
 msgstr[1] "isječak nije kopiran"
 msgstr[2] "isječak nije kopiran"
 
-#: src/timeline2/model/timelineitemmodel.cpp:991
+#: src/timeline2/model/timelineitemmodel.cpp:977
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
-#: src/timeline2/model/timelineitemmodel.cpp:997
+#: src/timeline2/model/timelineitemmodel.cpp:983
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Replace clip"
@@ -29186,7 +29198,7 @@ msgstr "Pomakni isječak"
 #: src/timeline2/model/timelinemodel.cpp:1930
 #: src/timeline2/model/timelinemodel.cpp:1953
 #: src/timeline2/model/timelinemodel.cpp:1976
-#: src/timeline2/view/timelinecontroller.cpp:3318
+#: src/timeline2/view/timelinecontroller.cpp:3335
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
@@ -29236,7 +29248,7 @@ msgstr "Pozicija"
 
 #: src/timeline2/model/timelinemodel.cpp:2404
 #: src/timeline2/model/timelinemodel.cpp:2694
-#: src/timeline2/view/timelinecontroller.cpp:4262
+#: src/timeline2/view/timelinecontroller.cpp:4279
 #, kde-format
 msgid "Move group"
 msgstr "Pomakni grupu"
@@ -29315,7 +29327,7 @@ msgid "Ungroup clips"
 msgstr "Odgrupiraj isječke"
 
 #: src/timeline2/model/timelinemodel.cpp:4773
-#: src/timeline2/view/timelinecontroller.cpp:965
+#: src/timeline2/view/timelinecontroller.cpp:982
 #, kde-format
 msgid "Delete Track"
 msgstr "Obriši stavku"
@@ -29388,14 +29400,14 @@ msgstr "Promijeni brzinu isječka"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:505
+#: src/timeline2/view/qml/TrackHead.qml:522
 #, kde-format
 msgid "Lock track"
 msgstr "Zaključaj traku"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:505
+#: src/timeline2/view/qml/TrackHead.qml:522
 #, kde-format
 msgid "Unlock track"
 msgstr "Otključaj traku"
@@ -29719,7 +29731,7 @@ msgid "Speech recognition"
 msgstr "Prijelaz"
 
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:471
+#: src/timeline2/view/qml/TrackHead.qml:488
 #, fuzzy, kde-format
 #| msgid "Show All"
 msgid "Show"
@@ -29727,7 +29739,7 @@ msgstr "Prikaži sve"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:488 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr ""
@@ -29815,22 +29827,27 @@ msgid "Toggle track effects"
 msgstr "Pomakni efekt"
 
 #: src/timeline2/view/qml/TrackHead.qml:471
+#, kde-format
+msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
+msgstr ""
+
+#: src/timeline2/view/qml/TrackHead.qml:488
 #, fuzzy, kde-format
 msgid "Unmute"
 msgstr "Prikazivač isječka"
 
-#: src/timeline2/view/qml/TrackHead.qml:471
+#: src/timeline2/view/qml/TrackHead.qml:488
 #, kde-format
 msgid "Mute"
 msgstr "Gluho"
 
-#: src/timeline2/view/qml/TrackHead.qml:579
+#: src/timeline2/view/qml/TrackHead.qml:596
 #, fuzzy, kde-format
 #| msgid "Tracks"
 msgid "Edit track name"
 msgstr "Trake"
 
-#: src/timeline2/view/qml/TrackHead.qml:652
+#: src/timeline2/view/qml/TrackHead.qml:669
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""
@@ -29841,250 +29858,250 @@ msgstr ""
 msgid "unknown"
 msgstr "Nepoznati isječak"
 
-#: src/timeline2/view/timelinecontroller.cpp:361
+#: src/timeline2/view/timelinecontroller.cpp:378
 #, fuzzy, kde-format
 msgid "Hide Track"
 msgstr "Dodaj traku"
 
-#: src/timeline2/view/timelinecontroller.cpp:361
+#: src/timeline2/view/timelinecontroller.cpp:378
 #, fuzzy, kde-format
 msgid "Enable Track"
 msgstr "isječak naslova"
 
-#: src/timeline2/view/timelinecontroller.cpp:424
+#: src/timeline2/view/timelinecontroller.cpp:441
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:614
+#: src/timeline2/view/timelinecontroller.cpp:631
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:676
-#: src/timeline2/view/timelinecontroller.cpp:1110
+#: src/timeline2/view/timelinecontroller.cpp:693
 #: src/timeline2/view/timelinecontroller.cpp:1127
-#: src/timeline2/view/timelinecontroller.cpp:1158
-#: src/timeline2/view/timelinecontroller.cpp:1238
+#: src/timeline2/view/timelinecontroller.cpp:1144
+#: src/timeline2/view/timelinecontroller.cpp:1175
+#: src/timeline2/view/timelinecontroller.cpp:1255
 #, fuzzy, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "Ne mogu umetnuti isječak na odabrano mjesto"
 
-#: src/timeline2/view/timelinecontroller.cpp:942
-#: src/timeline2/view/timelinecontroller.cpp:5041
+#: src/timeline2/view/timelinecontroller.cpp:959
+#: src/timeline2/view/timelinecontroller.cpp:5058
 #, fuzzy, kde-format
 msgid "Could not insert track"
 msgstr "Umetni prazninu"
 
-#: src/timeline2/view/timelinecontroller.cpp:965
+#: src/timeline2/view/timelinecontroller.cpp:982
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete Tracks"
 msgstr "Obriši stavku"
 
-#: src/timeline2/view/timelinecontroller.cpp:978
+#: src/timeline2/view/timelinecontroller.cpp:995
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:1115
+#: src/timeline2/view/timelinecontroller.cpp:1132
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:1527
+#: src/timeline2/view/timelinecontroller.cpp:1544
 #, fuzzy, kde-format
 #| msgid "Guide"
 msgid "guide"
 msgstr "vodić"
 
-#: src/timeline2/view/timelinecontroller.cpp:1691
+#: src/timeline2/view/timelinecontroller.cpp:1708
 #, fuzzy, kde-format
 #| msgid "Lock track"
 msgid "No active track"
 msgstr "Zaključaj traku"
 
-#: src/timeline2/view/timelinecontroller.cpp:1775
+#: src/timeline2/view/timelinecontroller.cpp:1792
 #, fuzzy, kde-format
 msgid "No item selected in timeline"
 msgstr "Ne mogu naći isječak za izrezati"
 
-#: src/timeline2/view/timelinecontroller.cpp:1913
+#: src/timeline2/view/timelinecontroller.cpp:1930
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip to cut"
 msgstr "isječak nije kopiran"
 
-#: src/timeline2/view/timelinecontroller.cpp:2237
+#: src/timeline2/view/timelinecontroller.cpp:2254
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2325
+#: src/timeline2/view/timelinecontroller.cpp:2342
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2726
+#: src/timeline2/view/timelinecontroller.cpp:2743
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clips found to insert space"
 msgstr "isječak nije kopiran"
 
-#: src/timeline2/view/timelinecontroller.cpp:2744
+#: src/timeline2/view/timelinecontroller.cpp:2761
 #, fuzzy, kde-format
 #| msgid "Cannot move transition"
 msgid "Cannot remove space at given position"
 msgstr "Ne mogu pouklonjeni prijelaz"
 
-#: src/timeline2/view/timelinecontroller.cpp:2758
+#: src/timeline2/view/timelinecontroller.cpp:2775
 #, fuzzy, kde-format
 #| msgid "Cannot move transition"
 msgid "Cannot remove all spaces"
 msgstr "Ne mogu pouklonjeni prijelaz"
 
-#: src/timeline2/view/timelinecontroller.cpp:2772
+#: src/timeline2/view/timelinecontroller.cpp:2789
 #, fuzzy, kde-format
 msgid "Cannot remove all clips"
 msgstr "Ne mogu naći isječak za izrezati"
 
-#: src/timeline2/view/timelinecontroller.cpp:2807
-#: src/timeline2/view/timelinecontroller.cpp:2812
-#: src/timeline2/view/timelinecontroller.cpp:2834
+#: src/timeline2/view/timelinecontroller.cpp:2824
+#: src/timeline2/view/timelinecontroller.cpp:2829
+#: src/timeline2/view/timelinecontroller.cpp:2851
 #, fuzzy, kde-format
 msgid "No item to edit"
 msgstr "Poravnaj lijevo"
 
-#: src/timeline2/view/timelinecontroller.cpp:2924
-#: src/timeline2/view/timelinecontroller.cpp:5306
+#: src/timeline2/view/timelinecontroller.cpp:2941
+#: src/timeline2/view/timelinecontroller.cpp:5323
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3189
+#: src/timeline2/view/timelinecontroller.cpp:3206
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3259
+#: src/timeline2/view/timelinecontroller.cpp:3276
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Select a favorite composition"
 msgstr "Pozicija"
 
-#: src/timeline2/view/timelinecontroller.cpp:3324
+#: src/timeline2/view/timelinecontroller.cpp:3341
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "No clip found to perform AV split operation"
 msgstr "Odaberite isječak prije kopiranja"
 
-#: src/timeline2/view/timelinecontroller.cpp:3352
-#: src/timeline2/view/timelinecontroller.cpp:3420
+#: src/timeline2/view/timelinecontroller.cpp:3369
+#: src/timeline2/view/timelinecontroller.cpp:3437
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot move clip to frame %1."
 msgstr "Ne mogu pouklonjeni isječak na poziciju %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:3373
+#: src/timeline2/view/timelinecontroller.cpp:3390
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3557
+#: src/timeline2/view/timelinecontroller.cpp:3574
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3716
+#: src/timeline2/view/timelinecontroller.cpp:3733
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effects"
 msgstr "Obriši efekt"
 
-#: src/timeline2/view/timelinecontroller.cpp:3754
-#: src/timeline2/view/timelinecontroller.cpp:3760
-#: src/timeline2/view/timelinecontroller.cpp:3766
+#: src/timeline2/view/timelinecontroller.cpp:3771
+#: src/timeline2/view/timelinecontroller.cpp:3777
+#: src/timeline2/view/timelinecontroller.cpp:3783
 #, kde-format
 msgid "No information in clipboard"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3791
+#: src/timeline2/view/timelinecontroller.cpp:3808
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effects"
 msgstr "Zalijepi efekte"
 
-#: src/timeline2/view/timelinecontroller.cpp:3793
+#: src/timeline2/view/timelinecontroller.cpp:3810
 #, fuzzy, kde-format
 #| msgid "Cannot paste selected clips"
 msgid "Cannot paste effect on selected clip"
 msgstr "Ne mogu umetnuti odabrane isječke"
 
-#: src/timeline2/view/timelinecontroller.cpp:3845
+#: src/timeline2/view/timelinecontroller.cpp:3862
 #, fuzzy, kde-format
 #| msgid "Center Frequency"
 msgid "Open sequence"
 msgstr "Centriraj frekvenciju"
 
-#: src/timeline2/view/timelinecontroller.cpp:3867
+#: src/timeline2/view/timelinecontroller.cpp:3884
 #, fuzzy, kde-format
 msgid "Item is not a title clip"
 msgstr "Obriši vremenski isječak"
 
-#: src/timeline2/view/timelinecontroller.cpp:3966
+#: src/timeline2/view/timelinecontroller.cpp:3983
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4020
+#: src/timeline2/view/timelinecontroller.cpp:4037
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Restore video"
 msgstr "Obriši efekt"
 
-#: src/timeline2/view/timelinecontroller.cpp:4020
+#: src/timeline2/view/timelinecontroller.cpp:4037
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Restore audio"
 msgstr "Izvuci okvir"
 
-#: src/timeline2/view/timelinecontroller.cpp:4241
+#: src/timeline2/view/timelinecontroller.cpp:4258
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move item"
 msgstr "Pomakni vodić"
 
-#: src/timeline2/view/timelinecontroller.cpp:4732
+#: src/timeline2/view/timelinecontroller.cpp:4749
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4743
+#: src/timeline2/view/timelinecontroller.cpp:4760
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4834
+#: src/timeline2/view/timelinecontroller.cpp:4851
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Record audio"
 msgstr "Izvuci okvir"
 
-#: src/timeline2/view/timelinecontroller.cpp:4981
+#: src/timeline2/view/timelinecontroller.cpp:4998
 #, fuzzy, kde-format
 #| msgid "Edit Clip"
 msgid "Expand clip"
 msgstr "Uredi isječak"
 
-#: src/timeline2/view/timelinecontroller.cpp:4984
+#: src/timeline2/view/timelinecontroller.cpp:5001
 #, fuzzy, kde-format
 #| msgid "Add clips"
 msgid "Could not expand clip"
 msgstr "Dodaj isječke"
 
-#: src/timeline2/view/timelinecontroller.cpp:5039
+#: src/timeline2/view/timelinecontroller.cpp:5056
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgid "Insert Track"
@@ -30093,18 +30110,18 @@ msgstr[0] "Umetni traku"
 msgstr[1] "Umetni traku"
 msgstr[2] "Umetni traku"
 
-#: src/timeline2/view/timelinecontroller.cpp:5118
+#: src/timeline2/view/timelinecontroller.cpp:5135
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Export subtitle file"
 msgstr "Dodaj vodić"
 
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5136
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5133
+#: src/timeline2/view/timelinecontroller.cpp:5150
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -30113,48 +30130,48 @@ msgid ""
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5138
+#: src/timeline2/view/timelinecontroller.cpp:5155
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Warning"
 msgstr "Skeniranje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5176
+#: src/timeline2/view/timelinecontroller.cpp:5193
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5193
+#: src/timeline2/view/timelinecontroller.cpp:5210
 #, fuzzy, kde-format
 msgid "Show subtitle track"
 msgstr "Prikaži vremensku liniju"
 
-#: src/timeline2/view/timelinecontroller.cpp:5193
+#: src/timeline2/view/timelinecontroller.cpp:5210
 #, fuzzy, kde-format
 msgid "Hide subtitle track"
 msgstr "Obriši isječak"
 
-#: src/timeline2/view/timelinecontroller.cpp:5216
+#: src/timeline2/view/timelinecontroller.cpp:5233
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "Otključaj traku"
 
-#: src/timeline2/view/timelinecontroller.cpp:5216
+#: src/timeline2/view/timelinecontroller.cpp:5233
 #, fuzzy, kde-format
 msgid "Lock subtitle track"
 msgstr "Bez naziva"
 
-#: src/timeline2/view/timelinecontroller.cpp:5383
-#: src/timeline2/view/timelinecontroller.cpp:5392
+#: src/timeline2/view/timelinecontroller.cpp:5400
+#: src/timeline2/view/timelinecontroller.cpp:5409
 #, fuzzy, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Bez naziva"
 
-#: src/timeline2/view/timelinecontroller.cpp:5394
+#: src/timeline2/view/timelinecontroller.cpp:5411
 #, fuzzy, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
