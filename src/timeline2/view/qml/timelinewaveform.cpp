@@ -112,6 +112,9 @@ void TimelineWaveform::compute()
     const int inputPoints = AUDIOLEVELS_POINTS_PER_FRAME * length;
     const bool reverse = m_speed < 0;
     m_pointsPerPixel = static_cast<double>(AUDIOLEVELS_POINTS_PER_FRAME) / timescale;
+    if (reverse) {
+        std::reverse(levels.begin(), levels.end());
+    }
 
     if (m_pointsPerPixel > 1) {
         // Resample the levels and store them
@@ -121,10 +124,6 @@ void TimelineWaveform::compute()
     } else {
         // Just extract the part to be displayed
         m_audioLevels = levels.mid(inPoint * AUDIOLEVELS_POINTS_PER_FRAME * m_channels, inputPoints * m_channels);
-    }
-
-    if (reverse) {
-        std::reverse(m_audioLevels.begin(), m_audioLevels.end());
     }
 
     if (!m_separateChannels) {
