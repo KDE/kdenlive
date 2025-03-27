@@ -141,6 +141,7 @@ ecm_target_qml_sources(kdenliveLib
     monitor/view/MonitorAutomask.qml
     monitor/view/MonitorCornerScene.qml
     monitor/view/MonitorGeometryScene.qml
+    monitor/view/MonitorOverlay.qml
     monitor/view/MonitorRotoScene.qml
     monitor/view/MonitorSplit.qml
     monitor/view/MonitorSplitTracks.qml

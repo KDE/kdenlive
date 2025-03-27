@@ -545,11 +545,6 @@ QColor MonitorProxy::thumbColor2() const
     return KdenliveSettings::thumbColor2();
 }
 
-QColor MonitorProxy::overlayColor() const
-{
-    return KdenliveSettings::overlayColor();
-}
-
 bool MonitorProxy::audioThumbFormat() const
 {
     return KdenliveSettings::displayallchannels();

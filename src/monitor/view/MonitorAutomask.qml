@@ -9,7 +9,7 @@ import QtQuick.Window 2.15
 import QtQuick.Effects
 import QtQuick 2.15
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 Item {
     id: root
@@ -66,7 +66,6 @@ Item {
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
     property color thumbColor2: controller.thumbColor2
-    property color overlayColor: controller.overlayColor
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
@@ -85,7 +84,7 @@ Item {
     }
 
     onMaskModeChanged: {
-        if (maskMode == Kdenlive.MaskModeType.MaskPreview) {
+        if (maskMode == K.MaskModeType.MaskPreview) {
             generateLabel.visible = false
         }
     }
@@ -165,6 +164,12 @@ Item {
             x: root.center.x - width / 2 - root.offsetx;
             y: root.center.y - height / 2 - root.offsety;
 
+            K.MonitorOverlay {
+                anchors.fill: frame
+                color: K.KdenliveSettings.overlayColor
+                overlayType: root.overlayType
+            }
+
             Loader {
                 anchors.fill: parent
                 source: {
@@ -202,7 +207,7 @@ Item {
                 property real yPos: 0
                 onPressed: mouse => {
                     console.log('GOT FRAME HEIGHT: ', frame.height)
-                    if (maskMode != Kdenlive.MaskModeType.MaskPreview) {
+                    if (maskMode != K.MaskModeType.MaskPreview) {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
                         clickPointX = mouseX
@@ -296,10 +301,10 @@ Item {
             Image {
                 id: maskPreview
                 anchors.fill: frame
-                source: maskMode != Kdenlive.MaskModeType.MaskPreview ? controller.previewOverlay : ''
+                source: maskMode != K.MaskModeType.MaskPreview ? controller.previewOverlay : ''
                 asynchronous: true
                 opacity: controller.maskOpacity / 100
-                visible: maskMode != Kdenlive.MaskModeType.MaskPreview
+                visible: maskMode != K.MaskModeType.MaskPreview
                 onSourceChanged: {
                     generateLabel.visible = false
                     if (opacity == 0 && source != '') {
@@ -383,7 +388,7 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: keyframes.length == 0 ? i18n("Select an object in the image first") : maskMode != Kdenlive.MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
+        text: keyframes.length == 0 ? i18n("Select an object in the image first") : maskMode != K.MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
         visible: false
         background: Rectangle {
             color: keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -394,7 +399,7 @@ Item {
         id: infoLabel
         anchors.centerIn: parent
         padding: 5
-        text: maskMode != Kdenlive.MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
+        text: maskMode != K.MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
         visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible && keyframes.length == 0
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)

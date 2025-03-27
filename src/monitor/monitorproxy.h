@@ -51,7 +51,6 @@ class MonitorProxy : public QObject
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
     Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
-    Q_PROPERTY(QColor overlayColor READ overlayColor NOTIFY colorsChanged)
     Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
@@ -99,7 +98,6 @@ public:
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QColor thumbColor1() const;
     Q_INVOKABLE QColor thumbColor2() const;
-    Q_INVOKABLE QColor overlayColor() const;
     Q_INVOKABLE QByteArray getUuid() const;
     Q_INVOKABLE void selectClip(int ix);
     Q_INVOKABLE const QPoint clipBoundary(int ix);

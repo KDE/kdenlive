@@ -7,7 +7,7 @@ import QtQuick.Controls
 import QtQuick.Window
 import QtQuick
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 Item {
     id: root
@@ -44,7 +44,6 @@ Item {
     property double frameSize: 10
     property double timeScale: 1
     property int overlayType: controller.overlayType
-    property color overlayColor: controller.overlayColor
     property bool isClipMonitor: false
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
@@ -145,26 +144,12 @@ Item {
             x: root.center.x - width / 2 - root.offsetx;
             y: root.center.y - height / 2 - root.offsety;
 
-            Loader {
+            K.MonitorOverlay {
                 anchors.fill: frame
-                source: {
-                    switch(root.overlayType)
-                    {
-                        case 0:
-                            return '';
-                        case 1:
-                            return "OverlayStandard.qml";
-                        case 2:
-                            return "OverlayMinimal.qml";
-                        case 3:
-                            return "OverlayCenter.qml";
-                        case 4:
-                            return "OverlayCenterDiagonal.qml";
-                        case 5:
-                            return "OverlayThirds.qml";
-                    }
-                }
+                color: K.KdenliveSettings.overlayColor
+                overlayType: root.overlayType
             }
+
             Loader {
                 id: countDownLoader
                 anchors.fill: frame
@@ -288,7 +273,7 @@ Item {
                 maximumLength: 25
             }
         }
-        Kdenlive.MonitorToolButton {
+        K.MonitorToolButton {
             anchors.top: monitorArea.top
             anchors.left: monitorArea.left
             anchors.topMargin: 10

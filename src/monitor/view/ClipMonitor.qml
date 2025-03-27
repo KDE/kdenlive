@@ -8,7 +8,7 @@ import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
 import QtQuick 2.15
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 Item {
     id: root
@@ -58,7 +58,6 @@ Item {
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
     property color thumbColor2: controller.thumbColor2
-    property color overlayColor: controller.overlayColor
     property bool isClipMonitor: true
     property bool permanentAudioThumb: controller.permanentAudioThumb
     property int dragType: 0
@@ -183,7 +182,7 @@ Item {
         }
     }
 
-    Kdenlive.SceneToolBar {
+    K.SceneToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right
@@ -205,24 +204,10 @@ Item {
             x: root.center.x - width / 2 - root.offsetx;
             y: root.center.y - height / 2 - root.offsety;
 
-            Loader {
-                anchors.fill: parent
-                source: {
-                    switch (root.overlayType) {
-                        case 0:
-                            return '';
-                        case 1:
-                            return "OverlayStandard.qml";
-                        case 2:
-                            return "OverlayMinimal.qml";
-                        case 3:
-                            return "OverlayCenter.qml";
-                        case 4:
-                            return "OverlayCenterDiagonal.qml";
-                        case 5:
-                            return "OverlayThirds.qml";
-                    }
-                }
+            K.MonitorOverlay {
+                anchors.fill: frame
+                color: K.KdenliveSettings.overlayColor
+                overlayType: root.overlayType
             }
         }
         DropArea { //Drop area for effects
@@ -249,7 +234,7 @@ Item {
             Item {
                 id: audioThumb
                 property bool stateVisible: (root.permanentAudioThumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
-                property bool isAudioClip: controller.clipType == Kdenlive.ClipType.Audio
+                property bool isAudioClip: controller.clipType == K.ClipType.Audio
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -258,7 +243,7 @@ Item {
                 height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: (root.permanentAudioThumb || root.showAudiothumb) && (isAudioClip || controller.clipType == Kdenlive.ClipType.AV || controller.clipHasAV)
+                visible: (root.permanentAudioThumb || root.showAudiothumb) && (isAudioClip || controller.clipType == K.ClipType.AV || controller.clipHasAV)
 
                 Label {
                     id: clipStreamLabel
@@ -326,7 +311,7 @@ Item {
                     property double streamHeight: audioThumb.height / streamThumb.count
                     Item {
                         anchors.fill: parent
-                        Kdenlive.TimelineWaveform {
+                        K.TimelineWaveform {
                             id: waveform
                             anchors.right: parent.right
                             anchors.left: parent.left
@@ -796,7 +781,7 @@ Item {
                     }
                     Row {
                         id: labelRow
-                        Kdenlive.MonitorToolButton {
+                        K.MonitorToolButton {
                             id: iconButton
                             iconName: "window-close"
                             anchors.leftMargin: 4
@@ -841,7 +826,7 @@ Item {
             }
         }
     }
-    Kdenlive.MonitorRuler {
+    K.MonitorRuler {
         id: clipMonitorRuler
         anchors {
             left: root.left

@@ -6,6 +6,8 @@
 import QtQuick 2.15
 import QtQuick.Shapes 1.15
 
+import org.kde.kdenlive as K
+
 Item {
     id: root
     objectName: "rooteffectscene"
@@ -19,7 +21,6 @@ Item {
     property rect adjustedFrame
     property point profile: controller.profile
     property int overlayType: controller.overlayType
-    property color overlayColor: controller.overlayColor
     property point center
     property double scalex
     property double scaley
@@ -198,26 +199,13 @@ Item {
         y: root.center.y - height / 2 - root.offsety;
         color: "transparent"
         border.color: "#ffffff00"
-        Loader {
-            anchors.fill: parent
-            source: {
-                switch(root.overlayType)
-                {
-                    case 0:
-                        return '';
-                    case 1:
-                        return "OverlayStandard.qml";
-                    case 2:
-                        return "OverlayMinimal.qml";
-                    case 3:
-                        return "OverlayCenter.qml";
-                    case 4:
-                        return "OverlayCenterDiagonal.qml";
-                    case 5:
-                        return "OverlayThirds.qml";
-                }
-            }
+
+        K.MonitorOverlay {
+            anchors.fill: frame
+            color: K.KdenliveSettings.overlayColor
+            overlayType: root.overlayType
         }
+
         Repeater {
           model: controller.showGrid ? Math.floor(root.profile.x / controller.gridH) : 0
           Rectangle {

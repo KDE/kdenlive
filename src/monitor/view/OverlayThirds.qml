@@ -7,28 +7,31 @@ import QtQuick 2.15
 
 Item {
     id: overlay
+    property color color
+
     // Vertical segments
     Rectangle {
-        color: root.overlayColor
+        color: overlay.color
         height: parent.height
         width: 1
         x: parent.width / 3
     }
     Rectangle {
-        color: root.overlayColor
+        color: overlay.color
         height: parent.height
         width: 1
         x: (parent.width / 3 ) * 2
     }
+
     // Horizontal segments
     Rectangle {
-        color: root.overlayColor
+        color: overlay.color
         width: parent.width
         height: 1
         y: parent.height / 3
     }
     Rectangle {
-        color: root.overlayColor
+        color: overlay.color
         width: parent.width
         height: 1
         y: (parent.height / 3) * 2

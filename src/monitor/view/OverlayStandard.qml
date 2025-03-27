@@ -7,12 +7,13 @@ import QtQuick 2.15
 
 Item {
     id: overlay
-    //property color: 'cyan'
+    property color color
+
     Rectangle {
         id: safezone
         objectName: "safezone"
         color: "transparent"
-        border.color: root.overlayColor
+        border.color: overlay.color
         width: parent.width * 0.9
         height: parent.height * 0.9
         anchors.centerIn: parent
@@ -20,46 +21,46 @@ Item {
             id: safetext
             objectName: "safetext"
             color: "transparent"
-            border.color: root.overlayColor
+            border.color: overlay.color
             width: frame.width * 0.8
             height: frame.height * 0.8
             anchors.centerIn: parent
         }
         Rectangle {
-            color: root.overlayColor
+            color: overlay.color
             width: frame.width / 20
             height: 1
             anchors.centerIn: parent
         }
         Rectangle {
-            color: root.overlayColor
+            color: overlay.color
             height: frame.width / 20
             width: 1
             anchors.centerIn: parent
         }
         Rectangle {
-            color: root.overlayColor
+            color: overlay.color
             height: frame.height / 11
             width: 1
             y: 0
             x: parent.width / 2
         }
         Rectangle {
-            color: root.overlayColor
+            color: overlay.color
             height: frame.height / 11
             width: 1
             y: parent.height -height
             x: parent.width / 2
         }
         Rectangle {
-            color: root.overlayColor
+            color: overlay.color
             width: frame.width / 11
             height: 1
             y: parent.height / 2
             x: 0
         }
         Rectangle {
-            color: root.overlayColor
+            color: overlay.color
             width: frame.width / 11
             height: 1
             y: parent.height / 2
