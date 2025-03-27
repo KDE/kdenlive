@@ -898,16 +898,6 @@ void MonitorManager::updateBgColor()
     }
 }
 
-void MonitorManager::updateGrid()
-{
-    if (m_projectMonitor) {
-        Q_EMIT m_projectMonitor->getControllerProxy()->gridChanged();
-    }
-    if (m_clipMonitor) {
-        Q_EMIT m_clipMonitor->getControllerProxy()->gridChanged();
-    }
-}
-
 void MonitorManager::markMonitorDirty(Kdenlive::MonitorId name, const QUuid uuid)
 {
     if (name == Kdenlive::ClipMonitor) {

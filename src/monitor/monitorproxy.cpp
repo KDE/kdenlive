@@ -56,16 +56,6 @@ void MonitorProxy::switchGrid()
     Q_EMIT showGridChanged();
 }
 
-int MonitorProxy::gridH() const
-{
-    return KdenliveSettings::monitorGridH();
-}
-
-int MonitorProxy::gridV() const
-{
-    return KdenliveSettings::monitorGridV();
-}
-
 int MonitorProxy::getPosition() const
 {
     return m_position;
@@ -535,42 +525,6 @@ QPoint MonitorProxy::profile()
     return QPoint(s.width(), s.height());
 }
 
-QColor MonitorProxy::thumbColor1() const
-{
-    return KdenliveSettings::thumbColor1();
-}
-
-QColor MonitorProxy::thumbColor2() const
-{
-    return KdenliveSettings::thumbColor2();
-}
-
-bool MonitorProxy::audioThumbFormat() const
-{
-    return KdenliveSettings::displayallchannels();
-}
-
-bool MonitorProxy::audioThumbNormalize() const
-{
-    return KdenliveSettings::normalizechannels();
-}
-
-bool MonitorProxy::permanentAudioThumb() const
-{
-    return KdenliveSettings::alwaysShowMonitorAudio();
-}
-
-void MonitorProxy::switchAutoKeyframe()
-{
-    KdenliveSettings::setAutoKeyframe(!KdenliveSettings::autoKeyframe());
-    Q_EMIT autoKeyframeChanged();
-}
-
-bool MonitorProxy::autoKeyframe() const
-{
-    return KdenliveSettings::autoKeyframe();
-}
-
 const QString MonitorProxy::timecode() const
 {
     if (m_td) {
@@ -649,11 +603,6 @@ void MonitorProxy::updateClipBounds(const QVector<QPoint> &bounds)
 const QPoint MonitorProxy::clipBoundary(int ix)
 {
     return m_clipBounds.at(ix);
-}
-
-bool MonitorProxy::seekOnDrop() const
-{
-    return KdenliveSettings::seekonaddeffect();
 }
 
 void MonitorProxy::addEffect(const QString &effectData, const QString &effectSource)

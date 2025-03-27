@@ -7,7 +7,7 @@
 import QtQuick.Controls 2.15
 import QtQuick 2.15
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 MouseArea {
     id: barZone
@@ -53,14 +53,14 @@ MouseArea {
 
         Column {
             width: parent.width
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
                 toolTipText: i18n("Switch Full Screen")
                 onClicked: controller.triggerAction('monitor_fullscreen')
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "switchGrid"
                 iconName: "snap"
                 toolTipText: i18n("Show Grid")
@@ -70,7 +70,7 @@ MouseArea {
                     controller.switchGrid()
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "switchOverlay"
                 iconName: "view-grid"
                 toolTipText: i18n("Change Overlay")
@@ -83,44 +83,44 @@ MouseArea {
                     root.overlayType = controller.overlayType
                 }
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "nextKeyframe"
                 iconName: "keyframe-next"
                 toolTipText: i18n("Go to Next Keyframe")
                 onClicked: controller.seekToKeyframe(-1, 1);
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "prevKeyframe"
                 iconName: "keyframe-previous"
                 toolTipText: i18n("Go to Previous Keyframe")
                 onClicked: controller.seekToKeyframe(-1, -1);
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "addKeyframe"
                 iconName: "keyframe-add"
                 toolTipText: i18n("Add/Remove Keyframe")
                 onClicked: controller.addRemoveKeyframe()
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 iconName: "keyframe-record"
                 toolTipText: i18n("Automatic Keyframes")
-                onClicked: controller.switchAutoKeyframe()
+                onClicked: () => { K.KdenliveSettings.autoKeyframe = K.KdenliveSettings.autoKeyframe }
                 checkable: true
-                checked: controller.autoKeyframe
+                checked: K.KdenliveSettings.autoKeyframe
                 visible: barZone.showAutoKeyframe
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 iconName: "zoom-in"
                 toolTipText: i18n("Zoom in")
                 onClicked: controller.triggerAction('monitor_zoomin')
             }
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 iconName: "zoom-out"
                 toolTipText: i18n("Zoom out")
                 onClicked: controller.triggerAction('monitor_zoomout')
             }
 
-            Kdenlive.MonitorToolButton {
+            K.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
                 toolTipText: i18n("Move Toolbar")

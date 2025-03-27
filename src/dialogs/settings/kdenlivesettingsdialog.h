@@ -156,17 +156,9 @@ Q_SIGNALS:
     void doResetConsumer(bool fullReset);
     void updateCaptureFolder();
     void updateLibraryFolder();
-    /** @brief Screengrab method changed between fullsceen and region, update rec monitor */
-    void updateFullScreenGrab();
     /** @brief A settings changed that requires a Kdenlive restart, trigger it */
     void restartKdenlive(bool resetConfig = false);
     void checkTabPosition();
-    /** @brief Switch between merged / separate channels for audio thumbs */
-    void audioThumbFormatChanged();
     /** @brief An important timeline property changed, prepare for a reset */
     void resetView();
-    /** @brief Monitor background color changed, update monitors */
-    void updateMonitorBg();
-    /** @brief Monitor grid changed, update monitors */
-    void updateMonitorGrid();
 };

@@ -47,8 +47,6 @@ Item {
     // Display hover audio thumbnails overlay
     property bool showAudiothumb: false
     property bool showClipJobs: false
-    // Always display audio thumbs under video
-    property bool permanentAudiothumb: false
     property bool showToolbar: false
     property string clipName: controller.clipName
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
@@ -64,8 +62,6 @@ Item {
     property int maskStart: -1
     property int maskEnd: -1
     property int overlayType: controller.overlayType
-    property color thumbColor1: controller.thumbColor1
-    property color thumbColor2: controller.thumbColor2
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath

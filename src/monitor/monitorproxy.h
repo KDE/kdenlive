@@ -46,15 +46,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(MaskModeType::MaskCreationMode maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
     Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
     Q_PROPERTY(bool builtinEffectsEnabled MEMBER m_builtinEffectsEnabled NOTIFY builtinEffectsEnabledChanged)
-    Q_PROPERTY(int gridH READ gridH NOTIFY gridChanged)
-    Q_PROPERTY(int gridV READ gridV NOTIFY gridChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
-    Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
-    Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
-    Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
-    Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
-    Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
-    Q_PROPERTY(bool permanentAudioThumb READ permanentAudioThumb NOTIFY permanentAudioThumbChanged)
     Q_PROPERTY(QStringList lastClips MEMBER m_lastClips NOTIFY lastClipsChanged)
     /** @brief Returns true if current clip in monitor has Audio and Video
      * */
@@ -96,14 +88,9 @@ public:
     Q_INVOKABLE bool setPosition(int pos);
     bool setPositionAdvanced(int pos, bool noAudioScrub);
     Q_INVOKABLE void seek(int delta, uint modifiers);
-    Q_INVOKABLE QColor thumbColor1() const;
-    Q_INVOKABLE QColor thumbColor2() const;
     Q_INVOKABLE QByteArray getUuid() const;
     Q_INVOKABLE void selectClip(int ix);
     Q_INVOKABLE const QPoint clipBoundary(int ix);
-    bool audioThumbFormat() const;
-    bool audioThumbNormalize() const;
-    bool permanentAudioThumb() const;
     void positionFromConsumer(int pos, bool playing);
     void setMarker(const QString &comment, const QColor &color);
     int zoneIn() const;
@@ -121,13 +108,8 @@ public:
     Q_INVOKABLE void startZoneMove();
     Q_INVOKABLE void endZoneMove();
     Q_INVOKABLE void switchGrid();
-    Q_INVOKABLE int gridH() const;
-    Q_INVOKABLE int gridV() const;
     Q_INVOKABLE double fps() const;
-    Q_INVOKABLE void switchAutoKeyframe();
-    Q_INVOKABLE bool autoKeyframe() const;
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
-    Q_INVOKABLE bool seekOnDrop() const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     Q_INVOKABLE void terminateJob(const QString &uuid);
     QPoint profile();
@@ -175,7 +157,6 @@ Q_SIGNALS:
     void maskModeChanged();
     void showGridChanged();
     void builtinEffectsEnabledChanged();
-    void gridChanged();
     void addRemoveKeyframe(bool addOnly = false);
     /** @brief Seek to an effect keyframe
      *  @param ix the index of the keyframe we want to reach
@@ -188,12 +169,9 @@ Q_SIGNALS:
     void clipTypeChanged();
     void clipIdChanged();
     void audioThumbChanged();
-    void colorsChanged();
     void audioThumbFormatChanged();
     void audioThumbNormalizeChanged();
-    void permanentAudioThumbChanged();
     void profileChanged();
-    void autoKeyframeChanged();
     void timecodeChanged();
     void trimmingTC1Changed();
     void trimmingTC2Changed();

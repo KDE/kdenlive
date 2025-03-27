@@ -12,7 +12,6 @@ MouseArea {
     id: barZone
     hoverEnabled: true
     property bool rightSide: true
-    property bool showAutoKeyframe: true
     acceptedButtons: Qt.NoButton
     width: 2.4 * fontMetrics.font.pixelSize
     height: parent.height

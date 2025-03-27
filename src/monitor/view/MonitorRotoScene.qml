@@ -45,7 +45,7 @@ Item {
     onSourcedarChanged: refreshdar()
     property bool iskeyframe : true
     property bool cursorOutsideEffect: false
-    property bool autoKeyframe: controller.autoKeyframe
+    property bool autoKeyframe: K.KdenliveSettings.autoKeyframe
     property bool isDefined: false
     property int requestedKeyFrame : -1
     property int requestedSubKeyFrame : -1
@@ -104,7 +104,7 @@ Item {
     }
 
     onIskeyframeChanged: {
-        if (root.displayResize && !controller.autoKeyframe) {
+        if (root.displayResize && !K.KdenliveSettings.autoKeyframe) {
             root.displayResize = false
         }
         if (!global.pressed) {
@@ -262,7 +262,7 @@ Item {
                     }
                     c2 = convertPoint(root.centerPointsTypes[2*i])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p1.x, p1.y);
-                    if ((iskeyframe || autoKeyframe) && !root.displayResize && !root.cursorOutsideEffect) {
+                    if ((root.iskeyframe || root.autoKeyframe) && !root.displayResize && !root.cursorOutsideEffect) {
                         // Draw control points and segments
                         if (subkf) {
                             ctx.fillStyle = activePalette.highlight
@@ -471,7 +471,7 @@ Item {
         }
         onDoubleClicked: {
             if (root.isDefined) {
-                if (root.iskeyframe == false && controller.autoKeyframe) {
+                if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                 }
                 if (root.displayResize) {
@@ -598,7 +598,7 @@ Item {
                 }
                 if (centerContainsMouse) {
                     // moving shape
-                    if (controller.position == lastMousePos && controller.autoKeyframe && controller.speed > 0) {
+                    if (controller.position == lastMousePos && K.KdenliveSettings.autoKeyframe && controller.speed > 0) {
                         // Don't try to update existing keyframe when playing
                         return
                     }
@@ -640,7 +640,7 @@ Item {
                     canvas.requestPaint()
                     root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                 }
-            } else if ((root.iskeyframe || controller.autoKeyframe) && root.centerPoints.length > 0) {
+            } else if ((root.iskeyframe || K.KdenliveSettings.autoKeyframe) && root.centerPoints.length > 0) {
               // Check if we are over a keyframe
               if (!root.displayResize) {
                   addPointPossible = Qt.point(0, 0)

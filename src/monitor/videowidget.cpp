@@ -12,6 +12,7 @@
     SPDX-License-Identifier: BSD-3-Clause
 */
 
+#include "monitor/monitor.h"
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
@@ -106,9 +107,9 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     setAcceptDrops(true);
     setClearColor(KdenliveSettings::window_background());
 
-    if (m_id == Kdenlive::ClipMonitor && !(KdenliveSettings::displayClipMonitorInfo() & 0x01)) {
+    if (m_id == Kdenlive::ClipMonitor && !(KdenliveSettings::displayClipMonitorInfo() & Monitor::InfoOverlay)) {
         m_rulerHeight = 0;
-    } else if (!(KdenliveSettings::displayProjectMonitorInfo() & 0x01)) {
+    } else if (!(KdenliveSettings::displayProjectMonitorInfo() & Monitor::InfoOverlay)) {
         m_rulerHeight = 0;
     }
     m_displayRulerHeight = m_rulerHeight;

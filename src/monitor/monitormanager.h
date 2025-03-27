@@ -111,8 +111,6 @@ public Q_SLOTS:
     void slotExtractCurrentFrameToClipboard();
     /** @brief Refresh monitor background color */
     void updateBgColor();
-    /** @brief Refresh monitor grid */
-    void updateGrid();
     /** @brief Start multitrack operation */
     void slotStartMultiTrackMode();
     /** @brief Stop multitrack operation */

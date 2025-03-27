@@ -1482,32 +1482,32 @@ void MainWindow::setupActions()
     QAction *overlayInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Info Overlay"), this);
     addAction(QStringLiteral("monitor_overlay"), overlayInfo, {}, QStringLiteral("monitor"));
     overlayInfo->setCheckable(true);
-    overlayInfo->setData(0x01);
+    overlayInfo->setData(Monitor::InfoOverlay);
 
     QAction *overlayTCInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Timecode"), this);
     addAction(QStringLiteral("monitor_overlay_tc"), overlayTCInfo, {}, QStringLiteral("monitor"));
     overlayTCInfo->setCheckable(true);
-    overlayTCInfo->setData(0x02);
+    overlayTCInfo->setData(Monitor::TimecodeOverlay);
 
     QAction *overlayFpsInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Playback Fps"), this);
     addAction(QStringLiteral("monitor_overlay_fps"), overlayFpsInfo, {}, QStringLiteral("monitor"));
     overlayFpsInfo->setCheckable(true);
-    overlayFpsInfo->setData(0x20);
+    overlayFpsInfo->setData(Monitor::PlaybackFpsOverlay);
 
     QAction *overlayMarkerInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Markers"), this);
     addAction(QStringLiteral("monitor_overlay_markers"), overlayMarkerInfo, {}, QStringLiteral("monitor"));
     overlayMarkerInfo->setCheckable(true);
-    overlayMarkerInfo->setData(0x04);
+    overlayMarkerInfo->setData(Monitor::MarkersOverlay);
 
     QAction *overlayAudioInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Audio Waveform"), this);
     addAction(QStringLiteral("monitor_overlay_audiothumb"), overlayAudioInfo, {}, QStringLiteral("monitor"));
     overlayAudioInfo->setCheckable(true);
-    overlayAudioInfo->setData(0x10);
+    overlayAudioInfo->setData(Monitor::AudioWaveformOverlay);
 
     QAction *overlayClipJobs = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Clip Jobs"), this);
     addAction(QStringLiteral("monitor_overlay_clipjobs"), overlayClipJobs, {}, QStringLiteral("monitor"));
     overlayClipJobs->setCheckable(true);
-    overlayClipJobs->setData(0x40);
+    overlayClipJobs->setData(Monitor::ClipJobsOverlay);
 
     connect(overlayInfo, &QAction::toggled, this, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo, overlayClipJobs](bool toggled) {
         overlayTCInfo->setEnabled(toggled);
@@ -2603,10 +2603,8 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
-    connect(dialog, &KdenliveSettingsDialog::audioThumbFormatChanged, m_timelineTabs, &TimelineTabs::audioThumbFormatChanged);
     connect(dialog, &KdenliveSettingsDialog::resetView, this, &MainWindow::resetTimelineTracks);
-    connect(dialog, &KdenliveSettingsDialog::updateMonitorBg, pCore->monitorManager(), &MonitorManager::updateBgColor);
-    connect(dialog, &KdenliveSettingsDialog::updateMonitorGrid, pCore->monitorManager(), &MonitorManager::updateGrid);
+    connect(KdenliveSettings::self(), &KdenliveSettings::window_backgroundChanged, pCore->monitorManager(), &MonitorManager::updateBgColor);
 
     dialog->show();
     if (page != Kdenlive::NoPage) {
@@ -2664,7 +2662,6 @@ void MainWindow::updateConfiguration()
 void MainWindow::slotSwitchVideoThumbs()
 {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
-    Q_EMIT m_timelineTabs->showThumbnailsChanged();
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
 
@@ -2672,14 +2669,12 @@ void MainWindow::slotSwitchAudioThumbs()
 {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->bin()->checkAudioThumbs();
-    Q_EMIT m_timelineTabs->showAudioThumbnailsChanged();
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
 
 void MainWindow::slotSwitchMarkersComments()
 {
     KdenliveSettings::setShowmarkers(!KdenliveSettings::showmarkers());
-    Q_EMIT getCurrentTimeline()->controller()->showMarkersChanged();
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
 }
 
@@ -2687,7 +2682,6 @@ void MainWindow::slotSwitchSnap()
 {
     KdenliveSettings::setSnaptopoints(!KdenliveSettings::snaptopoints());
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
-    Q_EMIT getCurrentTimeline()->controller()->snapChanged();
 }
 
 void MainWindow::slotShowTimelineTags()
@@ -2914,10 +2908,6 @@ void MainWindow::slotRemoveAllClipsInTrack()
 void MainWindow::slotSeparateAudioChannel()
 {
     KdenliveSettings::setDisplayallchannels(!KdenliveSettings::displayallchannels());
-    Q_EMIT getCurrentTimeline()->controller()->audioThumbFormatChanged();
-    if (m_clipMonitor) {
-        m_clipMonitor->refreshAudioThumbs();
-    }
 }
 
 void MainWindow::slotAutoTrackHeight(bool enable)
@@ -2929,10 +2919,6 @@ void MainWindow::slotAutoTrackHeight(bool enable)
 void MainWindow::slotNormalizeAudioChannel(bool normalize)
 {
     KdenliveSettings::setNormalizechannels(normalize);
-    Q_EMIT getCurrentTimeline()->controller()->audioThumbNormalizeChanged();
-    if (m_clipMonitor) {
-        m_clipMonitor->normalizeAudioThumbs();
-    }
 }
 
 void MainWindow::slotInsertTrack()
@@ -3015,7 +3001,6 @@ void MainWindow::slotExportGuides()
 void MainWindow::slotLockGuides(bool lock)
 {
     KdenliveSettings::setLockedGuides(lock);
-    Q_EMIT getCurrentTimeline()->controller()->guidesLockedChanged();
 }
 
 void MainWindow::slotDeleteGuide()
@@ -4290,7 +4275,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     QList<QAction *> actions = monitorOverlay->actions();
     for (QAction *ac : std::as_const(actions)) {
         int mid = ac->data().toInt();
-        if (mid == 0x010 || mid == 0x040) {
+        if (mid == Monitor::InfoOverlay || mid == Monitor::ClipJobsOverlay) {
             ac->setVisible(id == Kdenlive::ClipMonitor);
         }
         ac->setChecked(code & mid);

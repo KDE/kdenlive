@@ -56,10 +56,7 @@ Item {
     property double frameSize: 10
     property double timeScale: 1
     property int overlayType: controller.overlayType
-    property color thumbColor1: controller.thumbColor1
-    property color thumbColor2: controller.thumbColor2
     property bool isClipMonitor: true
-    property bool permanentAudioThumb: controller.permanentAudioThumb
     property int dragType: 0
     property string baseThumbPath
     property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
@@ -129,7 +126,6 @@ Item {
     }
 
     onHeightChanged: {
-        console.log("MONITOR HEIGHT CHANGED; PERMANENT THUMB: ", root.permanentAudioThumb)
         if (audioThumb.stateVisible && audioThumb.visible) {
             controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
         } else {
@@ -233,7 +229,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (root.permanentAudioThumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
+                property bool stateVisible: (K.KdenliveSettings.alwaysShowMonitorAudio || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
                 property bool isAudioClip: controller.clipType == K.ClipType.Audio
                 anchors {
                     left: parent.left
@@ -243,7 +239,7 @@ Item {
                 height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: (root.permanentAudioThumb || root.showAudiothumb) && (isAudioClip || controller.clipType == K.ClipType.AV || controller.clipHasAV)
+                visible: (K.KdenliveSettings.alwaysShowMonitorAudio || root.showAudiothumb) && (isAudioClip || controller.clipType == K.ClipType.AV || controller.clipHasAV)
 
                 Label {
                     id: clipStreamLabel
@@ -291,7 +287,7 @@ Item {
                 }]
                 Rectangle {
                     color: "black"
-                    opacity: audioThumb.isAudioClip || root.permanentAudioThumb ? 1 : 0.6
+                    opacity: audioThumb.isAudioClip || K.KdenliveSettings.alwaysShowMonitorAudio ? 1 : 0.6
                     anchors.fill: parent
                 }
                 Rectangle {
@@ -321,14 +317,14 @@ Item {
                             channels: aChannels
                             binId: controller.clipId
                             audioStream: controller.audioStreams[model.index]
-                            format: controller.audioThumbFormat
-                            normalize: controller.audioThumbNormalize
+                            format: K.KdenliveSettings.displayallchannels
+                            normalize: K.KdenliveSettings.normalizechannels
                             property int aClipDuration: root.duration + 1
                             scaleFactor: audioThumb.width / aClipDuration / root.zoomFactor
                             waveInPoint: waveform.aClipDuration * root.zoomStart
                             waveOutPoint: waveform.aClipDuration * (root.zoomStart + root.zoomFactor)
-                            fgColorEven: root.thumbColor1
-                            fgColorOdd: root.thumbColor2
+                            fgColorEven: K.KdenliveSettings.thumbColor1
+                            fgColorOdd: K.KdenliveSettings.thumbColor2
                             bgColorEven: "#00000000"
                             bgColorOdd: "#00000000"
                         }

@@ -66,6 +66,16 @@ public:
 
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor() override;
+
+    enum MonitorOverlay {
+        InfoOverlay = 0x01,
+        TimecodeOverlay = 0x02,
+        MarkersOverlay = 0x04,
+        AudioWaveformOverlay = 0x10,
+        PlaybackFpsOverlay = 0x20,
+        ClipJobsOverlay = 0x40
+    };
+
     QTimer refreshMonitorTimer;
     bool locked{false};
     void resetProfile();
@@ -140,10 +150,6 @@ public:
     /** @brief Returns true if monitor is currently fullscreen */
     bool monitorIsFullScreen() const;
     void reloadActiveStream();
-    /** @brief Trigger a refresh of audio thumbs colors */
-    void refreshAudioThumbs();
-    /** @brief Trigger a refresh of audio thumbs on notrmalization change */
-    void normalizeAudioThumbs();
     /** @brief Returns true if monitor is playing */
     bool isPlaying() const;
     /** @brief Enables / disables effect scene*/

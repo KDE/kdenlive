@@ -7,11 +7,11 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 
-import org.kde.kdenlive as Kdenlive
+import org.kde.kdenlive as K
 
 Row {
     id: waveform
-    opacity: clipState === Kdenlive.PlaylistState.Disabled ? 0.2 : 1
+    opacity: clipState === K.PlaylistState.Disabled ? 0.2 : 1
     property int maxWidth: 2048
     property int totalChunks: 0
     property bool usesOffset: false
@@ -45,7 +45,7 @@ Row {
     function processReload() {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
-        if (!waveform.visible || !timeline.showAudioThumbnails) {
+        if (!waveform.visible || !K.KdenliveSettings.audiothumbnails) {
             return;
         }
         var total = Math.ceil(waveform.width / waveform.maxWidth)
@@ -81,7 +81,7 @@ Row {
 
     Repeater {
         id: waveformRepeater
-        Kdenlive.TimelineWaveform {
+        K.TimelineWaveform {
             width: waveform.maxWidth < waveform.width ? (index + waveform.offset == waveform.totalChunks - 1 ? waveform.width % waveform.maxWidth : waveform.maxWidth) : Math.round(waveform.width)
             height: waveform.height
             channels: clipRoot.audioChannels
@@ -89,16 +89,16 @@ Row {
             audioStream: clipRoot.audioStream
             isOpaque: true
             scaleFactor: waveform.timeScale
-            format: timeline.audioThumbFormat
-            normalize: timeline.audioThumbNormalize
+            format: K.KdenliveSettings.displayallchannels
+            normalize: K.KdenliveSettings.normalizechannels
             speed: clipRoot.speed
             property int aWaveInPoint: Math.round((clipRoot.inPoint + ((index + waveform.offset) * waveform.maxWidth / scaleFactor)) * Math.abs(clipRoot.speed))
             waveInPoint: aWaveInPoint
             waveOutPoint: aWaveInPoint + Math.round(width / scaleFactor * Math.abs(clipRoot.speed))
-            bgColorEven: root.thumbColor1.darker(5)
-            bgColorOdd: root.thumbColor2.darker(5)
-            fgColorEven: root.thumbColor1
-            fgColorOdd: root.thumbColor2
+            bgColorEven: K.KdenliveSettings.thumbColor1.darker(5)
+            bgColorOdd: K.KdenliveSettings.thumbColor2.darker(5)
+            fgColorEven: K.KdenliveSettings.thumbColor1
+            fgColorOdd: K.KdenliveSettings.thumbColor2
             drawChannelNames: (index + waveform.offset) == 0
         }
     }

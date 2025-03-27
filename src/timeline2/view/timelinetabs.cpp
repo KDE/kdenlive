@@ -279,9 +279,6 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     int position = pCore->currentDoc()->getSequenceProperty(timeline->getUuid(), QStringLiteral("position"), QString::number(0)).toInt();
     pCore->monitorManager()->projectMonitor()->getControllerProxy()->setCursorPosition(position);
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor, Qt::DirectConnection);
-    connect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
-    connect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);
-    connect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline->controller(), &TimelineController::showAudioThumbnailsChanged);
     connect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
     connect(this, &TimelineTabs::fitZoom, timeline, &TimelineWidget::slotFitZoom);
     connect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);
@@ -310,9 +307,6 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     timeline->setMouseTracking(false);
     timeline->rootContext()->setContextProperty("proxy", QVariant());
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
-    disconnect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
-    disconnect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);
-    disconnect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline->controller(), &TimelineController::showAudioThumbnailsChanged);
     disconnect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
     disconnect(this, &TimelineTabs::fitZoom, timeline, &TimelineWidget::slotFitZoom);
     disconnect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);

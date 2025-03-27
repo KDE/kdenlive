@@ -6,6 +6,7 @@
 #pragma once
 
 #include "definitions.h"
+#include "kdenlivesettings.h"
 #include "lib/audio/audioCorrelation.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 
@@ -31,24 +32,17 @@ class TimelineController : public QObject
      */
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
     Q_PROPERTY(int fullDuration READ fullDuration NOTIFY durationChanged)
-    Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
-    Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
-    Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
-    Q_PROPERTY(bool showThumbnails READ showThumbnails NOTIFY showThumbnailsChanged)
-    Q_PROPERTY(bool showMarkers READ showMarkers NOTIFY showMarkersChanged)
-    Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
     Q_PROPERTY(QVariantList dirtyChunks READ dirtyChunks NOTIFY dirtyChunksChanged)
     Q_PROPERTY(QVariantList renderedChunks READ renderedChunks NOTIFY renderedChunksChanged)
     Q_PROPERTY(QVariantList masterEffectZones MEMBER m_masterEffectZones NOTIFY masterZonesChanged)
     Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
-    Q_PROPERTY(bool scrollVertically READ scrollVertically NOTIFY scrollVerticallyChanged)
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
-    Q_PROPERTY(QString audioZoomText READ audioZoomText NOTIFY audioThumbNormalizeChanged)
+    Q_PROPERTY(QString audioZoomText READ audioZoomText NOTIFY audioZoomTextChanged)
     Q_PROPERTY(int activeSubLayer READ activeSubLayer WRITE setActiveSubLayer NOTIFY activeSubLayerChanged)
     Q_PROPERTY(QVariantList subtitlesList READ subtitlesList NOTIFY subtitlesListChanged)
     Q_PROPERTY(int maxSubLayer READ getMaxSubLayer WRITE setMaxSubLayer NOTIFY maxSubLayerChanged)
@@ -66,8 +60,6 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor titleColor READ titleColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor imageColor READ imageColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
-    Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
     Q_PROPERTY(QColor slideshowColor READ slideshowColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor targetColor READ targetColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor targetTextColor READ targetTextColor NOTIFY colorsChanged)
@@ -78,7 +70,6 @@ class TimelineController : public QObject
     Q_PROPERTY(bool subtitlesDisabled READ subtitlesDisabled NOTIFY subtitlesDisabledChanged)
     Q_PROPERTY(bool subtitlesLocked READ subtitlesLocked NOTIFY subtitlesLockedChanged)
     Q_PROPERTY(int activeSubPosition MEMBER m_activeSubPosition NOTIFY activeSubtitlePositionChanged)
-    Q_PROPERTY(bool guidesLocked READ guidesLocked NOTIFY guidesLockedChanged)
     Q_PROPERTY(bool autotrackHeight MEMBER m_autotrackHeight NOTIFY autotrackHeightChanged)
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
     Q_PROPERTY(int trimmingMainClip READ trimmingMainClip NOTIFY trimmingMainClipChanged)
@@ -87,7 +78,6 @@ class TimelineController : public QObject
 public:
     TimelineController(QObject *parent);
     ~TimelineController() override;
-
     struct TargetTracksData
     {
         bool keep{false};
@@ -198,8 +188,6 @@ public:
     Q_INVOKABLE QColor audioColor() const;
     Q_INVOKABLE QColor titleColor() const;
     Q_INVOKABLE QColor imageColor() const;
-    Q_INVOKABLE QColor thumbColor1() const;
-    Q_INVOKABLE QColor thumbColor2() const;
     Q_INVOKABLE QColor slideshowColor() const;
     Q_INVOKABLE QColor targetColor() const;
     Q_INVOKABLE QColor targetTextColor() const;
@@ -221,7 +209,6 @@ public:
     bool subtitlesDisabled() const;
     void switchSubtitleLock();
     bool subtitlesLocked() const;
-    bool guidesLocked() const;
     int zoneIn() const { return m_zone.x(); }
     int zoneOut() const { return m_zone.y(); }
     void setZoneIn(int inPoint);
@@ -233,7 +220,6 @@ public:
        @param position is the desired new timeline position
      */
     Q_INVOKABLE void setPosition(int position);
-    Q_INVOKABLE bool snap();
     Q_INVOKABLE bool ripple();
     Q_INVOKABLE bool scrub();
     Q_INVOKABLE QString timecode(int frames) const;
@@ -305,16 +291,6 @@ public:
      */
     std::pair<int, int> selectionPosition(int *aTracks, int *vTracks);
 
-    /** @brief Do we want to display video thumbnails
-     */
-    bool showThumbnails() const;
-    bool showAudioThumbnails() const;
-    bool showMarkers() const;
-    bool audioThumbFormat() const;
-    bool audioThumbNormalize() const;
-    /** @brief Do we want to display audio thumbnails
-     */
-    Q_INVOKABLE bool showWaveforms() const;
     /** @brief Invoke the GUI to add new timeline tracks
      */
     Q_INVOKABLE void beginAddTrack(int tid);
@@ -612,9 +588,6 @@ public:
     /** @brief Return true if we want to use timeline ruler zone for editing */
     bool useRuler() const;
 
-    /** @brief Return true if the scroll wheel should scroll vertically (Shift key for horizontal); false if it should scroll horizontally (Shift for vertical) */
-    bool scrollVertically() const;
-
     /** @brief Load timeline preview from saved doc
      */
     void loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist);
@@ -819,13 +792,12 @@ private:
     void connectPreviewManager();
 
 Q_SIGNALS:
+    void audioZoomTextChanged();
     void selectionChanged();
     void selectedMixChanged();
     void frameFormatChanged();
     void trackHeightChanged();
     void scaleFactorChanged();
-    void audioThumbFormatChanged();
-    void audioThumbNormalizeChanged();
     void durationChanged(int duration);
     void audioTargetChanged();
     void videoTargetChanged();
@@ -836,11 +808,8 @@ Q_SIGNALS:
     void lastVideoTargetChanged();
     void activeTrackChanged();
     void activeSubLayerChanged();
-    void trimmingMainClipChanged();
     void colorsChanged();
-    void showThumbnailsChanged();
-    void showAudioThumbnailsChanged();
-    void showMarkersChanged();
+    void trimmingMainClipChanged();
     void rippleChanged();
     void scrubChanged();
     void subtitlesWarningChanged();
@@ -865,18 +834,13 @@ Q_SIGNALS:
     void subtitlesDisabledChanged();
     void subtitlesLockedChanged();
     void useRulerChanged();
-    void scrollVerticallyChanged();
     void updateZoom(double);
     /** @brief emitted when timeline selection changes, true if a clip is selected
      */
     void timelineClipSelected(bool);
-    /** @brief User enabled / disabled snapping, update timeline behavior
-     */
-    void snapChanged();
     /** @brief Center timeline view on current position
      */
     void centerView();
-    void guidesLockedChanged();
     void effectZoneChanged();
     void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();

@@ -78,6 +78,7 @@ TimelineController::TimelineController(QObject *parent)
         m_autotrackHeight = enable;
         Q_EMIT autotrackHeightChanged();
     });
+    connect(KdenliveSettings::self(), &KdenliveSettings::waveformScalerChanged, this, &TimelineController::audioZoomTextChanged);
 }
 
 TimelineController::~TimelineController() {}
@@ -491,11 +492,6 @@ void TimelineController::resetView()
         QMetaObject::invokeMethod(m_root, "updatePalette");
     }
     Q_EMIT colorsChanged();
-}
-
-bool TimelineController::snap()
-{
-    return KdenliveSettings::snaptopoints();
 }
 
 bool TimelineController::ripple()
@@ -913,36 +909,6 @@ QString TimelineController::simplifiedTC(int frames) const
     }
     QString s = m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
     return s.startsWith(QLatin1String("00:")) ? s.remove(0, 3) : s;
-}
-
-bool TimelineController::showThumbnails() const
-{
-    return KdenliveSettings::videothumbnails();
-}
-
-bool TimelineController::showAudioThumbnails() const
-{
-    return KdenliveSettings::audiothumbnails();
-}
-
-bool TimelineController::showMarkers() const
-{
-    return KdenliveSettings::showmarkers();
-}
-
-bool TimelineController::audioThumbFormat() const
-{
-    return KdenliveSettings::displayallchannels();
-}
-
-bool TimelineController::audioThumbNormalize() const
-{
-    return KdenliveSettings::normalizechannels();
-}
-
-bool TimelineController::showWaveforms() const
-{
-    return KdenliveSettings::audiothumbnails();
 }
 
 void TimelineController::beginAddTrack(int tid)
@@ -2678,11 +2644,6 @@ bool TimelineController::useRuler() const
     return pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1;
 }
 
-bool TimelineController::scrollVertically() const
-{
-    return KdenliveSettings::scrollvertically() == 1;
-}
-
 void TimelineController::resetPreview()
 {
     if (m_model->hasTimelinePreview()) {
@@ -3455,8 +3416,6 @@ void TimelineController::zoomWaveform()
 {
     if (KdenliveSettings::normalizechannels()) {
         KdenliveSettings::setNormalizechannels(false);
-        pCore->monitorManager()->clipMonitor()->normalizeAudioThumbs();
-        Q_EMIT audioThumbNormalizeChanged();
     }
     if (KdenliveSettings::waveformScaler() < 5) {
         KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() * 2);
@@ -4691,16 +4650,6 @@ QColor TimelineController::imageColor() const
     return scheme.foreground(KColorScheme::NeutralText).color();
 }
 
-QColor TimelineController::thumbColor1() const
-{
-    return KdenliveSettings::thumbColor1();
-}
-
-QColor TimelineController::thumbColor2() const
-{
-    return KdenliveSettings::thumbColor2();
-}
-
 QColor TimelineController::slideshowColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
@@ -5239,11 +5188,6 @@ bool TimelineController::subtitlesLocked() const
         return m_model->getSubtitleModel()->isLocked();
     }
     return false;
-}
-
-bool TimelineController::guidesLocked() const
-{
-    return KdenliveSettings::lockedGuides();
 }
 
 void TimelineController::showToolTip(const QString &info) const

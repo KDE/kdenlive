@@ -1107,7 +1107,6 @@ void KdenliveSettingsDialog::updateSettings()
     // Check if screengrab is fullscreen
     if (m_configCapture.kcfg_grab_capture_type->currentIndex() != KdenliveSettings::grab_capture_type()) {
         KdenliveSettings::setGrab_capture_type(m_configCapture.kcfg_grab_capture_type->currentIndex());
-        Q_EMIT updateFullScreenGrab();
     }
 
     bool audioRecDeviceChanged = false;
@@ -1241,30 +1240,23 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configColors.kcfg_monitorGridH->value() != KdenliveSettings::monitorGridH()) {
         KdenliveSettings::setMonitorGridH(m_configColors.kcfg_monitorGridH->value());
-        Q_EMIT updateMonitorGrid();
     }
     if (m_configColors.kcfg_monitorGridV->value() != KdenliveSettings::monitorGridV()) {
         KdenliveSettings::setMonitorGridV(m_configColors.kcfg_monitorGridV->value());
-        Q_EMIT updateMonitorGrid();
     }
 
     if (m_configColors.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configColors.kcfg_window_background->color());
-        Q_EMIT updateMonitorBg();
     }
 
     if (m_configColors.kcfg_thumbColor1->color() != KdenliveSettings::thumbColor1() ||
         m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
-        Q_EMIT pCore->window()->getCurrentTimeline()->controller()->colorsChanged();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
     if (m_configColors.kcfg_overlayColor->color() != KdenliveSettings::overlayColor()) {
         KdenliveSettings::setOverlayColor(m_configColors.kcfg_overlayColor->color());
-        Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->colorsChanged();
-        Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->colorsChanged();
     }
 
     if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {
@@ -1273,8 +1265,6 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_displayallchannels->isChecked() != KdenliveSettings::displayallchannels()) {
         KdenliveSettings::setDisplayallchannels(m_configTimeline.kcfg_displayallchannels->isChecked());
-        Q_EMIT audioThumbFormatChanged();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
     if (m_modified) {
@@ -1328,7 +1318,6 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_scrollvertically->isChecked() != KdenliveSettings::scrollvertically()) {
         KdenliveSettings::setScrollvertically(m_configTimeline.kcfg_scrollvertically->isChecked());
-        Q_EMIT pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
     }
 
     m_pluginsPage->applySettings();

@@ -710,10 +710,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         QString waveformIconName = QIcon::hasThemeIcon(QStringLiteral("waveform")) ? QStringLiteral("waveform") : QStringLiteral("kdenlive-show-audiothumb");
         QAction *alwaysShowAudio = new QAction(QIcon::fromTheme(waveformIconName), i18n("Always show audio thumbnails"), this);
         alwaysShowAudio->setCheckable(true);
-        connect(alwaysShowAudio, &QAction::triggered, this, [this](bool checked) {
-            KdenliveSettings::setAlwaysShowMonitorAudio(checked);
-            Q_EMIT m_glMonitor->getControllerProxy()->permanentAudioThumbChanged();
-        });
+        connect(alwaysShowAudio, &QAction::triggered, this, &KdenliveSettings::setAlwaysShowMonitorAudio);
         alwaysShowAudio->setChecked(KdenliveSettings::alwaysShowMonitorAudio());
         m_contextMenu->addAction(alwaysShowAudio);
         m_configMenuAction->addAction(alwaysShowAudio);
@@ -1530,17 +1527,6 @@ void Monitor::slotSeek(int pos)
     Q_EMIT m_monitorManager->cleanMixer();
 }
 
-void Monitor::refreshAudioThumbs()
-{
-    Q_EMIT m_glMonitor->getControllerProxy()->audioThumbFormatChanged();
-    Q_EMIT m_glMonitor->getControllerProxy()->colorsChanged();
-}
-
-void Monitor::normalizeAudioThumbs()
-{
-    Q_EMIT m_glMonitor->getControllerProxy()->audioThumbNormalizeChanged();
-}
-
 void Monitor::checkOverlay(int pos)
 {
     if (m_qmlManager->sceneType() != MonitorSceneDefault) {
@@ -1835,9 +1821,9 @@ void Monitor::slotSwitchPlay()
     }
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
-        showDropped = KdenliveSettings::displayClipMonitorInfo() & 0x20;
+        showDropped = KdenliveSettings::displayClipMonitorInfo() & Monitor::PlaybackFpsOverlay;
     } else if (m_id == Kdenlive::ProjectMonitor) {
-        showDropped = KdenliveSettings::displayProjectMonitorInfo() & 0x20;
+        showDropped = KdenliveSettings::displayProjectMonitorInfo() & Monitor::PlaybackFpsOverlay;
     }
     if (showDropped) {
         m_glMonitor->resetDrops();
@@ -2111,7 +2097,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
             m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(),
                                                                  controller->clipName());
-            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
+            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & Monitor::AudioWaveformOverlay) {
                 if (m_audioMeterWidget->audioChannels == 0 || !m_controller->hasAudio()) {
                     qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR EMPTY!!!";
                     m_glMonitor->getControllerProxy()->setAudioThumb();
@@ -2252,9 +2238,9 @@ void Monitor::switchMonitorInfo(int code)
         KdenliveSettings::setDisplayProjectMonitorInfo(currentOverlay);
     }
     updateQmlDisplay(currentOverlay);
-    if (code == 0x01) {
+    if (code == Monitor::InfoOverlay) {
         // Hide/show ruler
-        m_glMonitor->switchRuler(currentOverlay & 0x01);
+        m_glMonitor->switchRuler(currentOverlay & Monitor::InfoOverlay);
     }
 }
 
@@ -2742,7 +2728,7 @@ void Monitor::slotSwitchTrimming(bool enable)
         loadQmlScene(MonitorSceneDefault);
         m_trimmingbar->setVisible(false);
         m_toolbar->setVisible(true);
-        m_glMonitor->switchRuler(KdenliveSettings::displayClipMonitorInfo() & 0x01);
+        m_glMonitor->switchRuler(KdenliveSettings::displayClipMonitorInfo() & Monitor::InfoOverlay);
     }
 }
 
@@ -2839,14 +2825,14 @@ void Monitor::displayAudioMonitor(bool isActive)
 
 void Monitor::updateQmlDisplay(int currentOverlay)
 {
-    m_glMonitor->rootObject()->setVisible((currentOverlay & 0x01) != 0);
-    m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & 0x04);
-    bool showDropped = currentOverlay & 0x20;
+    m_glMonitor->rootObject()->setVisible((currentOverlay & Monitor::InfoOverlay) != 0);
+    m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & Monitor::MarkersOverlay);
+    bool showDropped = currentOverlay & Monitor::PlaybackFpsOverlay;
     m_glMonitor->rootObject()->setProperty("showFps", showDropped);
-    m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & 0x02);
+    m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & Monitor::TimecodeOverlay);
     if (m_id == Kdenlive::ClipMonitor) {
-        m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
-        m_glMonitor->rootObject()->setProperty("showClipJobs", currentOverlay & 0x40);
+        m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & Monitor::AudioWaveformOverlay);
+        m_glMonitor->rootObject()->setProperty("showClipJobs", currentOverlay & Monitor::ClipJobsOverlay);
     }
     if (showDropped) {
         if (!m_droppedTimer.isActive() && m_playAction->isActive()) {
