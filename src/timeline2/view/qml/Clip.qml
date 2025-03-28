@@ -682,7 +682,7 @@ Rectangle {
                             hoverEnabled: true
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
                             onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
-                                                                               ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(model.frame / clipRoot.speed))
+                                                                               ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(model.frame / clipRoot.speed))
                                                                                : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
                         }
                     }
