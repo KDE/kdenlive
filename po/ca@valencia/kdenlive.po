@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-27 02:36+0000\n"
+"POT-Creation-Date: 2025-03-28 02:37+0000\n"
 "PO-Revision-Date: 2025-03-20 14:32+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -14707,7 +14707,7 @@ msgid "Generator Failed"
 msgstr "El generador ha fallat"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:56
-#: src/assets/assetlist/view/assetlistwidget.cpp:390
+#: src/assets/assetlist/view/assetlistwidget.cpp:404
 #, kde-format
 msgid "Add to favorites"
 msgstr "Afig als preferits"
@@ -14797,13 +14797,13 @@ msgstr "Mostra o oculta la descripció de les composicions"
 msgid "Search…"
 msgstr "Busca…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:390
+#: src/assets/assetlist/view/assetlistwidget.cpp:404
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Elimina dels preferits"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:412
-#: src/assets/assetlist/view/assetlistwidget.cpp:414
+#: src/assets/assetlist/view/assetlistwidget.cpp:426
+#: src/assets/assetlist/view/assetlistwidget.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
