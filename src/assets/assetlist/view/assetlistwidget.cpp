@@ -197,7 +197,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     m_effectsTree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_effectsTree, &QTreeView::customContextMenuRequested, this, &AssetListWidget::onCustomContextMenu);
     auto *viewSplitter = new QSplitter(Qt::Vertical, this);
-    viewSplitter->addWidget(m_effectsTree);
+    viewSplitter->insertWidget(0, m_effectsTree);
     QTextBrowser *textEdit = new QTextBrowser(this);
     textEdit->setReadOnly(true);
     textEdit->setAcceptRichText(true);
@@ -205,17 +205,31 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     connect(textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
     m_infoDocument = new QTextDocument(this);
     textEdit->setDocument(m_infoDocument);
-    viewSplitter->addWidget(textEdit);
+    viewSplitter->insertWidget(1, textEdit);
     m_lay->addWidget(viewSplitter);
-    viewSplitter->setStretchFactor(0, 4);
-    viewSplitter->setStretchFactor(1, 2);
     viewSplitter->setSizes({50, 0});
     connect(showInfo, &QAction::triggered, this, [showInfo, viewSplitter]() {
         if (showInfo->isChecked()) {
-            viewSplitter->setSizes({50, 20});
+            int height;
+            if (KdenliveSettings::assetsInfoHeight() > 0) {
+                height = KdenliveSettings::assetsInfoHeight();
+            } else {
+                height = viewSplitter->height() / 4;
+            }
+            viewSplitter->setSizes({viewSplitter->height() - height, height});
         } else {
             viewSplitter->setSizes({50, 0});
         }
+    });
+    connect(viewSplitter, &QSplitter::splitterMoved, this, [showInfo, viewSplitter]() {
+        int infoHeight = viewSplitter->sizes().at(1);
+        if (infoHeight == 0) {
+            showInfo->setChecked(false);
+            return;
+        } else {
+            showInfo->setChecked(true);
+        }
+        KdenliveSettings::setAssetsInfoHeight(qMax(viewSplitter->height() / 5, infoHeight));
     });
 }
 

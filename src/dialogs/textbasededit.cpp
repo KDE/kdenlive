@@ -282,6 +282,50 @@ QVector<QPoint> VideoTextEdit::getInsertZones()
     return processedZones(zones);
 }
 
+QMap<int, std::pair<QString, int>> VideoTextEdit::getMarkerZones()
+{
+    QMap<int, std::pair<QString, int>> markersMap;
+    if (m_selectedBlocks.isEmpty()) {
+        // return text selection, not blocks
+        QTextCursor cursor = textCursor();
+        QString anchorStart;
+        QString anchorEnd;
+        QString text = cursor.selectedText();
+        if (!text.isEmpty()) {
+            int start = cursor.selectionStart();
+            int end = cursor.selectionEnd() - 1;
+            anchorStart = selectionStartAnchor(cursor, start, end);
+            anchorEnd = selectionEndAnchor(cursor, end, start);
+        } else {
+            // Return full text
+            cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+            int end = cursor.position() - 1;
+            cursor.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+            int start = cursor.position();
+            cursor.select(QTextCursor::BlockUnderCursor);
+            text = cursor.selectedText();
+            anchorStart = selectionStartAnchor(cursor, start, end);
+            anchorEnd = selectionEndAnchor(cursor, end, start);
+        }
+        if (!anchorStart.isEmpty() && !anchorEnd.isEmpty()) {
+            double startMs = anchorStart.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble();
+            double endMs = anchorEnd.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 1, 1).toDouble();
+            markersMap.insert(GenTime(startMs).frames(pCore->getCurrentFps()), {text, GenTime(endMs).frames(pCore->getCurrentFps())});
+        }
+        return markersMap;
+    }
+    int currentEnd = -1;
+    int currentStart = -1;
+    for (auto &bk : m_selectedBlocks) {
+        QPair<double, double> z = speechZones.at(bk);
+        currentStart = GenTime(z.first).frames(pCore->getCurrentFps());
+        currentEnd = GenTime(z.second).frames(pCore->getCurrentFps());
+        const QTextBlock block = document()->findBlockByNumber(bk);
+        markersMap.insert(currentStart, {block.text(), currentEnd});
+    }
+    return markersMap;
+}
+
 QVector<QPoint> VideoTextEdit::fullExport()
 {
     // Loop through all blocks
@@ -1700,30 +1744,26 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
 void TextBasedEdit::addBookmark()
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(m_binId);
-    if (clip) {
-        QString txt = m_visualEditor->textCursor().selectedText();
-        QTextCursor cursor = m_visualEditor->textCursor();
-        QString startAnchor = m_visualEditor->selectionStartAnchor(cursor, -1, -1);
-        cursor = m_visualEditor->textCursor();
-        QString endAnchor = m_visualEditor->selectionEndAnchor(cursor, -1, -1);
-        if (startAnchor.isEmpty()) {
-            showMessage(i18n("No timecode found in selection"), KMessageWidget::Information);
-            return;
-        }
-        double ms = startAnchor.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble();
-        int startPos = GenTime(ms).frames(pCore->getCurrentFps());
-        ms = endAnchor.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 1, 1).toDouble();
-        int endPos = GenTime(ms).frames(pCore->getCurrentFps());
+    if (!clip) {
+        qDebug() << "==== NO CLIP FOR " << m_binId;
+        return;
+    }
+    QMap<int, std::pair<QString, int>> zones = m_visualEditor->getMarkerZones();
+    if (zones.count() == 1) {
         int monitorPos = pCore->getMonitor(Kdenlive::ClipMonitor)->position();
-        qDebug() << "==== GOT MARKER: " << txt << ", FOR POS: " << startPos << "-" << endPos << ", MON: " << monitorPos;
-        if (monitorPos > startPos && monitorPos < endPos) {
+        const auto value = zones.value(zones.firstKey());
+        if (monitorPos > zones.firstKey() && monitorPos < value.second) {
             // Monitor seek is on the selection, use the current frame
-            pCore->bin()->addClipMarker(m_binId, {monitorPos}, {txt});
+            pCore->bin()->addClipMarker(m_binId, {monitorPos}, {});
         } else {
-            pCore->bin()->addClipMarker(m_binId, {startPos}, {txt});
+            pCore->bin()->addClipMarker(m_binId, {zones.firstKey()}, {value.first});
         }
     } else {
-        qDebug() << "==== NO CLIP FOR " << m_binId;
+        QStringList zonesTexts;
+        for (auto i = zones.cbegin(), end = zones.cend(); i != end; ++i) {
+            zonesTexts << i.value().first;
+        }
+        pCore->bin()->addClipMarker(m_binId, zones.keys(), zonesTexts);
     }
 }
 

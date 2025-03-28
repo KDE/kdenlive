@@ -103,7 +103,7 @@ private:
     QCheckBox *m_copyChannel1;
     QCheckBox *m_copyChannel2;
     QSpinBox *m_gain;
-    KMessageWidget m_warningMessage;
+    KMessageWidget *m_warningMessage;
     /** @brief The selected audio stream. */
     int m_activeAudioStreams;
     QList<QStringList> getVideoProperties(int streamIndex);

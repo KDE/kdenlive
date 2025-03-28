@@ -2046,6 +2046,7 @@ void MainWindow::setupActions()
 void MainWindow::saveOptions()
 {
     KdenliveSettings::self()->save();
+    pCore->projectManager()->saveRecentFiles();
 }
 
 bool MainWindow::readOptions()

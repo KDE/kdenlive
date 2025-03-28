@@ -139,6 +139,9 @@ public:
      * @param replaceAudio if true, only the audio clips will be replaced. if false, only the video parts.
      */
     void replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo);
+    /** @brief Sync the recent file list to settings file
+     */
+    void saveRecentFiles();
     void buildNotesWidget();
     /** @brief Used for testing only
      */
@@ -272,7 +275,6 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QStringList m_mltWarnings;
-    void saveRecentFiles();
     /** @brief Something went wrong, stop loading file */
     void abortLoading();
     /** @brief Project loading failed, ask user if he wants to open a backup */

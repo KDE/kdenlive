@@ -49,7 +49,10 @@ public:
     void checkHoverBlock(int yPos);
     void blockClicked(Qt::KeyboardModifiers modifiers, bool play = false);
     QVector<QPoint> processedZones(const QVector<QPoint> &sourceZones);
+    /** @brief Get a list of in-out points for selected blocks */
     QVector<QPoint> getInsertZones();
+    /** @brief Get a list of in point / Text for selected blocks */
+    QMap<int, std::pair<QString, int>> getMarkerZones();
     QVector<QPoint> fullExport();
     /** @brief Remove all text outside loadZones
      */
