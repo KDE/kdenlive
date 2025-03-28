@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-27 00:41+0000\n"
-"PO-Revision-Date: 2025-03-23 05:21+0100\n"
+"POT-Creation-Date: 2025-03-28 00:41+0000\n"
+"PO-Revision-Date: 2025-03-27 04:04+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -843,7 +843,7 @@ msgstr "ფილტრის-სიგანე"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:866
+#: src/mltcontroller/clippropertiescontroller.cpp:927
 #, kde-format
 msgid "Normalize"
 msgstr "ნორმალიზაცია"
@@ -2949,7 +2949,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fillborders.xml:24
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2502
 #: src/layoutmanagement.cpp:36
-#: src/mltcontroller/clippropertiescontroller.cpp:352
+#: src/mltcontroller/clippropertiescontroller.cpp:611
 #, kde-format
 msgid "Color"
 msgstr "ფერი"
@@ -6419,7 +6419,7 @@ msgstr "სადამდე"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:888
+#: src/mltcontroller/clippropertiescontroller.cpp:949
 #, kde-format
 msgid "Swap channels"
 msgstr "არხების გადანაცვლება"
@@ -15018,7 +15018,7 @@ msgstr ""
 "აუდიოკლიპს)."
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:944
+#: src/mltcontroller/clippropertiescontroller.cpp:1005
 #, kde-format
 msgid "dB"
 msgstr "დბ"
@@ -15592,7 +15592,7 @@ msgstr "ვიდეოს დადუმება"
 msgid "Audio"
 msgstr "აუდიო"
 
-#: src/bin/bin.cpp:2478 src/mltcontroller/clippropertiescontroller.cpp:452
+#: src/bin/bin.cpp:2478 src/mltcontroller/clippropertiescontroller.cpp:356
 #, kde-format
 msgid "Image"
 msgstr "გამოსახულება"
@@ -15765,7 +15765,7 @@ msgstr "კლიპის დუბლირება"
 msgid "Clip Properties"
 msgstr "კლიპის თვისებები"
 
-#: src/bin/bin.cpp:3727 src/mltcontroller/clippropertiescontroller.cpp:281
+#: src/bin/bin.cpp:3727 src/mltcontroller/clippropertiescontroller.cpp:575
 #, kde-format
 msgid "Edit Clip"
 msgstr "კლიპის ჩასწორება"
@@ -16034,7 +16034,7 @@ msgstr ""
 "დამატებითი ნაკადების კლიპისთვის\n"
 "%1"
 
-#: src/bin/bin.cpp:6007 src/mltcontroller/clippropertiescontroller.cpp:679
+#: src/bin/bin.cpp:6007 src/mltcontroller/clippropertiescontroller.cpp:686
 #, kde-format
 msgid "Video stream %1"
 msgstr "ვიდეო ნაკადი %1"
@@ -16185,7 +16185,7 @@ msgstr[1] "კლიპების დამატება"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
-#: src/mltcontroller/clippropertiescontroller.cpp:294
+#: src/mltcontroller/clippropertiescontroller.cpp:581
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
 #: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:628
@@ -18299,7 +18299,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
-#: src/mltcontroller/clippropertiescontroller.cpp:1054
+#: src/mltcontroller/clippropertiescontroller.cpp:749
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -18400,8 +18400,8 @@ msgstr "მიმდინარე პარამეტრები"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1600
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1636
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1653
-#: src/mltcontroller/clippropertiescontroller.cpp:572
-#: src/mltcontroller/clippropertiescontroller.cpp:1439
+#: src/mltcontroller/clippropertiescontroller.cpp:643
+#: src/mltcontroller/clippropertiescontroller.cpp:1326
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -18436,35 +18436,25 @@ msgstr "გადმოწერა (1.4გბ)"
 msgid "Installing multilingual data…"
 msgstr "მრავალენოვანი მონაცემების დაყენება…"
 
-#. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
-#. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#. i18n: ectx: property (text), widget (QLabel, sam_folder_label)
-#: src/dialogs/settings/pluginssettings.cpp:98
-#: src/dialogs/settings/pluginssettings.cpp:898 src/ui/configspeech_ui.ui:116
-#: src/ui/configspeech_ui.ui:336 src/ui/configspeech_ui.ui:791
-#, kde-format
-msgid "Models folder"
-msgstr "მოდელების საქაღალდე"
-
-#: src/dialogs/settings/pluginssettings.cpp:151
-#: src/dialogs/settings/pluginssettings.cpp:154
-#: src/dialogs/settings/pluginssettings.cpp:157
+#: src/dialogs/settings/pluginssettings.cpp:146
+#: src/dialogs/settings/pluginssettings.cpp:149
+#: src/dialogs/settings/pluginssettings.cpp:152
 #, kde-format
 msgid "Probing..."
 msgstr "ზონდირება..."
 
-#: src/dialogs/settings/pluginssettings.cpp:181
+#: src/dialogs/settings/pluginssettings.cpp:176
 #, kde-format
 msgid "Downloading multilingual model…"
 msgstr "მიმდინარეობს მრავალენოვანი მოდელის გადმოწერა…"
 
-#: src/dialogs/settings/pluginssettings.cpp:239
-#: src/dialogs/settings/pluginssettings.cpp:895
+#: src/dialogs/settings/pluginssettings.cpp:234
+#: src/dialogs/settings/pluginssettings.cpp:890
 #, kde-format
 msgid "Please add a speech model."
 msgstr "დაამატეთ საუბრის მოდელი."
 
-#: src/dialogs/settings/pluginssettings.cpp:272
+#: src/dialogs/settings/pluginssettings.cpp:267
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -18473,8 +18463,8 @@ msgstr ""
 "გადმოწერეთ მეტყველების მოდელები: <a href=\"https://alphacephei.com/vosk/"
 "models\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/settings/pluginssettings.cpp:280
-#: src/dialogs/settings/pluginssettings.cpp:381
+#: src/dialogs/settings/pluginssettings.cpp:275
+#: src/dialogs/settings/pluginssettings.cpp:376
 #, kde-format
 msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
@@ -18483,15 +18473,7 @@ msgstr ""
 "<b>გამოიყენება სისტემური პაკეტები. ეს, მხოლოდ, მაშინ გამოიყენეთ, თუ იცით, რა "
 "არის</b>. ყველა საჭირო პაკეტი სისტემაზე თქვენ უნდა დააყენოთ.:<br>%1"
 
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label_3)
-#. i18n: ectx: property (text), widget (QLabel, sam_venv_label)
-#: src/dialogs/settings/pluginssettings.cpp:441 src/ui/configspeech_ui.ui:278
-#: src/ui/configspeech_ui.ui:705
-#, kde-format
-msgid "Plugin size"
-msgstr "დამატების ზომა"
-
-#: src/dialogs/settings/pluginssettings.cpp:453
+#: src/dialogs/settings/pluginssettings.cpp:448
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
@@ -18500,8 +18482,8 @@ msgstr ""
 "ეს წაშლის დაყენებულ მოდელს\n"
 "ისინი, მოგვიანებით, თავიდან შეგიძლიათ, დააყენოთ."
 
-#: src/dialogs/settings/pluginssettings.cpp:470
-#: src/dialogs/settings/pluginssettings.cpp:484
+#: src/dialogs/settings/pluginssettings.cpp:465
+#: src/dialogs/settings/pluginssettings.cpp:479
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -18513,80 +18495,80 @@ msgstr ""
 "გადმოწერაც თავიდან მოხდება."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:499 src/ui/configspeech_ui.ui:319
+#: src/dialogs/settings/pluginssettings.cpp:494 src/ui/configspeech_ui.ui:340
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "მრავალენოვანი თარგმანის დაყენება"
 
-#: src/dialogs/settings/pluginssettings.cpp:508
+#: src/dialogs/settings/pluginssettings.cpp:503
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "წარმოთქმის მოდელის დაყენება. ჩვენ გირჩევთ <b>ტურბოს</b>"
 
-#: src/dialogs/settings/pluginssettings.cpp:563
+#: src/dialogs/settings/pluginssettings.cpp:558
 #, kde-format
 msgid "Select model to download"
 msgstr "აირჩიეთ გადმოსაწერი მოდელი"
 
-#: src/dialogs/settings/pluginssettings.cpp:579
+#: src/dialogs/settings/pluginssettings.cpp:574
 #, kde-format
 msgid "All models are already installed"
 msgstr "ყველა მოდელი უკვე დაყენებულია"
 
-#: src/dialogs/settings/pluginssettings.cpp:599
+#: src/dialogs/settings/pluginssettings.cpp:594
 #, kde-format
 msgid "Downloading…"
 msgstr "ჩამოტვირთვა…"
 
-#: src/dialogs/settings/pluginssettings.cpp:609
+#: src/dialogs/settings/pluginssettings.cpp:604
 #, kde-format
 msgid "Downloading smallest model…"
 msgstr "ყველაზე პატარა მოდელის გადმოწერა…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:628 src/ui/configspeech_ui.ui:854
+#: src/dialogs/settings/pluginssettings.cpp:623 src/ui/configspeech_ui.ui:890
 #, kde-format
 msgid "Download models"
 msgstr "მოდელების გადმოწერა"
 
-#: src/dialogs/settings/pluginssettings.cpp:686
-#: src/dialogs/settings/pluginssettings.cpp:700
-#: src/dialogs/settings/pluginssettings.cpp:709
+#: src/dialogs/settings/pluginssettings.cpp:681
+#: src/dialogs/settings/pluginssettings.cpp:695
+#: src/dialogs/settings/pluginssettings.cpp:704
 #, kde-format
 msgid "Install a model"
 msgstr "მოდელის დაყენება"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:702
-#: src/dialogs/settings/pluginssettings.cpp:711 src/ui/configspeech_ui.ui:405
+#: src/dialogs/settings/pluginssettings.cpp:697
+#: src/dialogs/settings/pluginssettings.cpp:706 src/ui/configspeech_ui.ui:441
 #, kde-format
 msgid "Manage models"
 msgstr "მოდელების მართვა"
 
-#: src/dialogs/settings/pluginssettings.cpp:778
+#: src/dialogs/settings/pluginssettings.cpp:773
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "შეიყვანეთ ბმული ახალი ლექსიკონისთვის"
 
-#: src/dialogs/settings/pluginssettings.cpp:784
+#: src/dialogs/settings/pluginssettings.cpp:779
 #, kde-format
 msgid "Downloading model…"
 msgstr "მოდელის გადმოწერა…"
 
-#: src/dialogs/settings/pluginssettings.cpp:794
+#: src/dialogs/settings/pluginssettings.cpp:789
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "მომხმარებლის საქაღალდის მოდელების წაშლის მხარდაჭერა არ არსებობს. ეს ხელით "
 "უნდა ქნათ."
 
-#: src/dialogs/settings/pluginssettings.cpp:800
-#: src/dialogs/settings/pluginssettings.cpp:854
+#: src/dialogs/settings/pluginssettings.cpp:795
+#: src/dialogs/settings/pluginssettings.cpp:849
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "ლექსიკონის საქაღალდესთან წვდომა შეუძლებელია."
 
-#: src/dialogs/settings/pluginssettings.cpp:809
+#: src/dialogs/settings/pluginssettings.cpp:804
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -18595,27 +18577,27 @@ msgstr ""
 "საქაღალდის წაშლა:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:829
+#: src/dialogs/settings/pluginssettings.cpp:824
 #, kde-format
 msgid "Download error"
 msgstr "გადმოწერის შეცდომა"
 
-#: src/dialogs/settings/pluginssettings.cpp:833
+#: src/dialogs/settings/pluginssettings.cpp:828
 #, kde-format
 msgid "Download error %1"
 msgstr "გადმოწერის შეცდომა %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:861
+#: src/dialogs/settings/pluginssettings.cpp:856
 #, kde-format
 msgid "Extracting archive…"
 msgstr "არქივის გაშლა…"
 
-#: src/dialogs/settings/pluginssettings.cpp:868
+#: src/dialogs/settings/pluginssettings.cpp:863
 #, kde-format
 msgid "New dictionary installed."
 msgstr "ახალი ლექსიკონი დაყენებულია."
 
-#: src/dialogs/settings/pluginssettings.cpp:1001
+#: src/dialogs/settings/pluginssettings.cpp:996
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -18624,17 +18606,17 @@ msgstr ""
 "Nvidia GPU-ის მხარდაჭერა %1-სთვის\n"
 "აირჩიეთ დასაყენებელი CUDA-ის ვერსია."
 
-#: src/dialogs/settings/pluginssettings.cpp:1005
+#: src/dialogs/settings/pluginssettings.cpp:1000
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1018
+#: src/dialogs/settings/pluginssettings.cpp:1013
 #, kde-format
 msgid "Detected version: %1"
 msgstr "აღმოჩენილია ვერსია: %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1021
+#: src/dialogs/settings/pluginssettings.cpp:1016
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -18643,7 +18625,7 @@ msgstr ""
 "CUDA-ის ვერსიის დადგენა შეუძლებელია.\n"
 "აირჩიეთ ვერსია, რომელიც ხელმისაწვდომია თქვენს სისტემაზე."
 
-#: src/dialogs/settings/pluginssettings.cpp:1035
+#: src/dialogs/settings/pluginssettings.cpp:1030
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -20240,7 +20222,7 @@ msgid "Asset file"
 msgstr "აქტივების ფაილი"
 
 #: src/doc/documentchecker.cpp:1874
-#: src/mltcontroller/clippropertiescontroller.cpp:439
+#: src/mltcontroller/clippropertiescontroller.cpp:633
 #, kde-format
 msgid "Proxy clip"
 msgstr "პროქსი კლიპი"
@@ -20521,7 +20503,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "პროექტის ბილიკის გადატანის შეცდომა: %1"
 
-#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2457
+#: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2455
 #: src/project/dialogs/archivewidget.cpp:247
 #: src/project/projectmanager.cpp:1727
 #, kde-format
@@ -20597,12 +20579,12 @@ msgid_plural "Remove proxy clips"
 msgstr[0] "პროქსი კლიპის წაშლა"
 msgstr[1] "პროქსი კლიპების წაშლა"
 
-#: src/doc/kdenlivedoc.cpp:1696 src/doc/kdenlivedoc.cpp:1756
+#: src/doc/kdenlivedoc.cpp:1694 src/doc/kdenlivedoc.cpp:1754
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "კლიპის ტიპს პროქსიების მხარდაჭერა არ აქვს"
 
-#: src/doc/kdenlivedoc.cpp:1895
+#: src/doc/kdenlivedoc.cpp:1893
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -20612,14 +20594,14 @@ msgstr ""
 "პროექტი იყენებს არასტანდარტულ კადრების სიხშირეს (%1). ეს არასწორად დალაგებულ "
 "კლიპებს და კადრის წანაცვლებებს გამოიწვევს."
 
-#: src/doc/kdenlivedoc.cpp:1990
+#: src/doc/kdenlivedoc.cpp:1988
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "გაფრთხილება: არასტანდარტული კადრი/წმ სიხშირე. დამრგვალება უახლოეს მთელ "
 "რიცხვამდე. "
 
-#: src/doc/kdenlivedoc.cpp:2008
+#: src/doc/kdenlivedoc.cpp:2006
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -20628,43 +20610,43 @@ msgstr ""
 "თქვენი ნაგულისხმევი პროექტის პროფილია %1, თქვენი კლიპის პროფილი (%2) კი %3.\n"
 "გნებავთ შეცვალოთ ნაგულისხმევი პროფილი მომავალი პროექტებისთვის?"
 
-#: src/doc/kdenlivedoc.cpp:2010
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Change default project profile"
 msgstr "ნაგულისხმევი პროექტის პროფილის შეცვლა"
 
-#: src/doc/kdenlivedoc.cpp:2010
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Change default to %1"
 msgstr "ნაგულისხმევის შეცვლა %1-ზე"
 
-#: src/doc/kdenlivedoc.cpp:2011
+#: src/doc/kdenlivedoc.cpp:2009
 #, kde-format
 msgid "Keep current default %1"
 msgstr "მიმდინარე ნაგულისხმევის %1-ზე დატოვება"
 
-#: src/doc/kdenlivedoc.cpp:2011
+#: src/doc/kdenlivedoc.cpp:2009
 #, kde-format
 msgid "Ask me later"
 msgstr "მოგვიანებით მკითხე"
 
-#: src/doc/kdenlivedoc.cpp:2031
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Switch"
 msgstr "გადართვა"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2033 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "გაუქმენა"
 
-#: src/doc/kdenlivedoc.cpp:2035
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "გადავრთო კლიპის (%1) პროფილზე %2?"
 
-#: src/doc/kdenlivedoc.cpp:2040
+#: src/doc/kdenlivedoc.cpp:2038
 #, kde-format
 msgid ""
 "\n"
@@ -20673,7 +20655,7 @@ msgstr ""
 "\n"
 "პროფილის კადრი/წმ გასწორდა ორიგინალიდან %1"
 
-#: src/doc/kdenlivedoc.cpp:2044
+#: src/doc/kdenlivedoc.cpp:2042
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -20682,13 +20664,13 @@ msgstr ""
 "თქვენი კლიპისთვის %1 პროფილი ვერ ვიპოვე.\n"
 "შევქმნა და გადავერთო ახალ პროფილზე (%2x%3,%4კადრი/წმ)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2496 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2494 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "წითელი"
 
-#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2495 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -20696,24 +20678,24 @@ msgstr "წითელი"
 msgid "Green"
 msgstr "მწვანე"
 
-#: src/doc/kdenlivedoc.cpp:2498 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2496 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "ლურჯი"
 
-#: src/doc/kdenlivedoc.cpp:2499 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "ყვითელი"
 
-#: src/doc/kdenlivedoc.cpp:2500
+#: src/doc/kdenlivedoc.cpp:2498
 #, kde-format
 msgid "Cyan"
 msgstr "ცისფერი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2854 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -23604,10 +23586,9 @@ msgid "Toggle Track Disabled"
 msgstr "ტრეკის გათიშულობის გადართვა"
 
 #: src/mainwindow.cpp:1989
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle All Tracks Disabled"
-msgstr "ტრეკის გათიშულობის გადართვა"
+msgstr "ყველა ტრეკის გათიშულობის გადართვა"
 
 #: src/mainwindow.cpp:1991
 #, kde-format
@@ -23615,8 +23596,7 @@ msgid "Toggle Track Lock"
 msgstr "ტრეკის დაბლოკვის გადართვა"
 
 #: src/mainwindow.cpp:1993
-#, fuzzy, kde-format
-#| msgid "Toggle All Track Lock"
+#, kde-format
 msgid "Toggle All Tracks Lock"
 msgstr "ყველა ტრეკის დაბლოკვის გადართვა"
 
@@ -23676,10 +23656,9 @@ msgid "Extract Frame to Project…"
 msgstr "კადრის გაშლა პროექტში…"
 
 #: src/mainwindow.cpp:2042
-#, fuzzy, kde-format
-#| msgid "Extract Frame to Project…"
+#, kde-format
 msgid "Extract Frame to Clipboard"
-msgstr "კადრის გაშლა პროექტში…"
+msgstr "კადრის გაშლა ბუფერში"
 
 #: src/mainwindow.cpp:2175
 #, kde-format
@@ -24087,256 +24066,20 @@ msgstr "რენდერისთვის საჭირო პროგრ�
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "თქვენი MLT პროფილები ვერ ვიპოვე. მიუთითეთ ბილიკი"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:173
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
-#: src/mltcontroller/clippropertiescontroller.cpp:1481
+#: src/mltcontroller/clippropertiescontroller.cpp:133
+#: src/mltcontroller/clippropertiescontroller.cpp:1321
+#: src/mltcontroller/clippropertiescontroller.cpp:1383
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
 msgstr "კბ/წმ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:258
-#, kde-format
-msgid "Analysis data"
-msgstr "ანალიზის მონაცემები"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:261
-#, kde-format
-msgid "Delete analysis"
-msgstr "ანალიზის წაშლა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:262
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Deletes the data set(s)."
-msgstr "მონაცემების სეტ(ებ)-ის წაშლა."
-
-#: src/mltcontroller/clippropertiescontroller.cpp:263
-#, kde-format
-msgid "Export analysis…"
-msgstr "ანალიზის გატანა…"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:264
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Opens a file dialog window to export/save the analysis data."
-msgstr "გახსნის ფაილის დიალოგს ანალიზის მონაცემების გატანა/შესანახად."
-
-#: src/mltcontroller/clippropertiescontroller.cpp:265
-#, kde-format
-msgid "Import analysis…"
-msgstr "ანალიზის შემოტანა…"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:266
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Opens a file dialog window to import/load analysis data."
-msgstr "გახსნის ფაილის დიალოგს ანალიზის მონაცემების შემოტანა/ჩასატვირთად."
-
-#: src/mltcontroller/clippropertiescontroller.cpp:322
-#: src/mltcontroller/clippropertiescontroller.cpp:615
-#, kde-format
-msgid "Disable autorotate"
-msgstr "ავტომობრუნების გამორთვა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:342
-#, kde-format
-msgid "Enter template text here"
-msgstr "აქ შეგიძლიათ ნიმუშის ტექსტი შეიყვანოთ"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:344
-#, kde-format
-msgid "Apply"
-msgstr "გამოყენება"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:376
-#, kde-format
-msgid "Aspect ratio:"
-msgstr "თანაფარდობა:"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:495
-#, kde-format
-msgid "Delete proxy file"
-msgstr "პროქსი ფაილის წაშლა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:501
-#, kde-format
-msgid "Proxy options"
-msgstr "პროქსის მორგება"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:506
-#, kde-format
-msgid "Open folder…"
-msgstr "საქარალდის გახსნა…"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:512
-#, kde-format
-msgid "Play proxy clip"
-msgstr "პროქსი კლიპის დაკვრა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:518
-#, kde-format
-msgid "Copy file location to clipboard"
-msgstr "ფაილის მდებარეობის ბუფერში კოპირება"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:535
-#: src/mltcontroller/clippropertiescontroller.cpp:1424
-#: src/mltcontroller/clippropertiescontroller.cpp:1429
-#: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
-#: src/ui/profiledialog_ui.ui:287
-#, kde-format
-msgid "Frame rate:"
-msgstr "კადრების სიხშირე:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_scanning)
-#. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:563
-#: src/mltcontroller/clippropertiescontroller.cpp:1439
-#: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
-#: src/ui/profiledialog_ui.ui:197
-#, kde-format
-msgid "Scanning:"
-msgstr "სკანირება:"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, scanning)
-#. i18n: ectx: property (text), widget (QLabel, p_progressive)
-#. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:571
-#: src/mltcontroller/clippropertiescontroller.cpp:1439
-#: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
-#: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
-#, kde-format
-msgid "Interlaced"
-msgstr "ხაზგამოტოვებით"
-
-#. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:589
-#: src/ui/profiledialog_ui.ui:217
-#, kde-format
-msgid "Field order:"
-msgstr "ველების მიმდევრობა:"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:597
-#, kde-format
-msgid "Bottom First"
-msgstr "ჯერ ქვედა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:598
-#, kde-format
-msgid "Top First"
-msgstr "ჯერ ზედა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:641
-#, kde-format
-msgid "%1 (default)"
-msgstr "%1 (ნაგულისხმები)"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:667
-#, kde-format
-msgid "Disable video"
-msgstr "ვიდეოს გათიშვა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:667
-#, kde-format
-msgid "Enable video"
-msgstr "ვიდეოს ჩართვა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:675
-#, kde-format
-msgid "Video stream"
-msgstr "ვიდეო ნაკადი"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:725
-#, kde-format
-msgid "Disable audio"
-msgstr "აუდიოს გამორთვა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:725
-#, kde-format
-msgid "Enable audio"
-msgstr "აუდიოს ჩართვა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:733
-#: src/monitor/monitor.cpp:304
-#, kde-format
-msgid "Audio streams"
-msgstr "აუდიო ნაკადები"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:755
-#: src/monitor/monitor.cpp:2042
-#, kde-format
-msgid "Merge all streams"
-msgstr "ყველა ნაკადის შერწყმა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:910
-#, kde-format
-msgid "Copy channel:"
-msgstr "არხის კოპირება:"
-
-#. i18n: ectx: property (text), widget (QLabel, aspect_den)
-#. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:911
-#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
-#, kde-format
-msgid "1"
-msgstr "1"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:912
-#: src/ui/projectsettings_ui.ui:579
-#, kde-format
-msgid "2"
-msgstr "2"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:941
-#, kde-format
-msgid "Gain:"
-msgstr "გაძლიერება:"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:968
-#, kde-format
-msgid "Audio sync:"
-msgstr "აუდიოს სინქრონიზაცია:"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:970
-#, kde-format
-msgid "ms"
-msgstr "მწმ"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:989
-#, kde-format
-msgid "Color space:"
-msgstr "ფერების სივრცე:"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:1026
-#, kde-format
-msgid "Color range:"
-msgstr "ფერების დიაპაზონი:"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
-#, kde-format
-msgid "Broadcast limited (MPEG)"
-msgstr "შეზღუდვა ტრანსლაციაზე (MPEG)"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:1036
-#, kde-format
-msgid "Full (JPEG)"
-msgstr "სრული (JPEG)"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:1053
-#, kde-format
-msgid "File uses a variable frame rate, not recommended"
-msgstr "ფაილი ცვალებადი კადრების სიხშირეს იყენებს. ეს რეკომენდებული არაა"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:1085
+#: src/mltcontroller/clippropertiescontroller.cpp:201
 #, kde-format
 msgid "File info"
 msgstr "ფაილის ინფორმაცია"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1086
+#: src/mltcontroller/clippropertiescontroller.cpp:202
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -24344,24 +24087,24 @@ msgstr "აჩვენებს დეტალურ ინფორმაც�
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1088
+#: src/mltcontroller/clippropertiescontroller.cpp:204
 #: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:785
 #, kde-format
 msgid "Properties"
 msgstr "თვისებები"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1089
+#: src/mltcontroller/clippropertiescontroller.cpp:205
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "აჩვენებს დეტალურ ინფორმაციას ვიდეოს მონაცემების/კოდეკის შესახებ."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1091
+#: src/mltcontroller/clippropertiescontroller.cpp:207
 #, kde-format
 msgid "Audio Properties"
 msgstr "აუდიო თვისებები"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1092
+#: src/mltcontroller/clippropertiescontroller.cpp:208
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
@@ -24369,160 +24112,400 @@ msgstr ""
 "აჩვენებს დეტალურ ინფორმაციას ხმის ნაკადების/მონაცემების/კოდეკის შესახებ."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1094
+#: src/mltcontroller/clippropertiescontroller.cpp:210
 #: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "მეტამონაცემები"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1096
+#: src/mltcontroller/clippropertiescontroller.cpp:212
 #, kde-format
 msgid "Analysis"
 msgstr "ანალიზი"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1097
+#: src/mltcontroller/clippropertiescontroller.cpp:213
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "ანალიზის მონაცემების ჩვენება."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1180
-#: src/mltcontroller/clippropertiescontroller.cpp:1487
+#: src/mltcontroller/clippropertiescontroller.cpp:398
 #, kde-format
-msgid "Tracks:"
-msgstr "ტრეკები:"
+msgid "Delete proxy file"
+msgstr "პროქსი ფაილის წაშლა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
+#: src/mltcontroller/clippropertiescontroller.cpp:405
 #, kde-format
-msgid "Image size:"
-msgstr "Სურათის ზომა:"
+msgid "Proxy options"
+msgstr "პროქსის მორგება"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1381
+#: src/mltcontroller/clippropertiescontroller.cpp:410
 #, kde-format
-msgid "Image duration:"
-msgstr "გამოსახულების ხანგრძლივობა:"
+msgid "Open folder…"
+msgstr "საქარალდის გახსნა…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1388
+#: src/mltcontroller/clippropertiescontroller.cpp:416
 #, kde-format
-msgid "Image count:"
-msgstr "გამოსახულებების რაოდენობა:"
+msgid "Play proxy clip"
+msgstr "პროქსი კლიპის დაკვრა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1415
+#: src/mltcontroller/clippropertiescontroller.cpp:422
 #, kde-format
-msgid "Video codec:"
-msgstr "ვიდეო კოდეკი:"
+msgid "Copy file location to clipboard"
+msgstr "ფაილის მდებარეობის ბუფერში კოპირება"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1419
+#: src/mltcontroller/clippropertiescontroller.cpp:554
 #, kde-format
-msgid "Frame size:"
-msgstr "კადრის ზომა:"
+msgid "Apply"
+msgstr "გამოყენება"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1435
+#: src/mltcontroller/clippropertiescontroller.cpp:589
 #, kde-format
-msgid "Video bitrate:"
-msgstr "ვიდეოს ბიტური სიჩქარე:"
+msgid "Disable autorotate"
+msgstr "ავტომობრუნების გამორთვა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:604
+#, kde-format
+msgid "Enter template text here"
+msgstr "აქ შეგიძლიათ ნიმუშის ტექსტი შეიყვანოთ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:1451
+#: src/mltcontroller/clippropertiescontroller.cpp:627
+#: src/mltcontroller/clippropertiescontroller.cpp:1339
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "პიქსელის პროპორცია:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1453
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_18)
+#: src/mltcontroller/clippropertiescontroller.cpp:639
+#: src/mltcontroller/clippropertiescontroller.cpp:1308
+#: src/mltcontroller/clippropertiescontroller.cpp:1313
+#: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
+#: src/ui/profiledialog_ui.ui:287
+#, kde-format
+msgid "Frame rate:"
+msgstr "კადრების სიხშირე:"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, scanning)
+#. i18n: ectx: property (text), widget (QLabel, p_progressive)
+#. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
+#: src/mltcontroller/clippropertiescontroller.cpp:643
+#: src/mltcontroller/clippropertiescontroller.cpp:1326
+#: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
+#: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
+#, kde-format
+msgid "Interlaced"
+msgstr "ხაზგამოტოვებით"
+
+#. i18n: ectx: property (text), widget (QLabel, label_scanning)
+#. i18n: ectx: property (text), widget (QCheckBox, cScanning)
+#: src/mltcontroller/clippropertiescontroller.cpp:644
+#: src/mltcontroller/clippropertiescontroller.cpp:1326
+#: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
+#: src/ui/profiledialog_ui.ui:197
+#, kde-format
+msgid "Scanning:"
+msgstr "სკანირება:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:648
+#, kde-format
+msgid "Bottom First"
+msgstr "ჯერ ქვედა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:648
+#, kde-format
+msgid "Top First"
+msgstr "ჯერ ზედა"
+
+#. i18n: ectx: property (text), widget (QLabel, label_field_order)
+#: src/mltcontroller/clippropertiescontroller.cpp:649
+#: src/ui/profiledialog_ui.ui:217
+#, kde-format
+msgid "Field order:"
+msgstr "ველების მიმდევრობა:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:660
+#, kde-format
+msgid "%1 (default)"
+msgstr "%1 (ნაგულისხმები)"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:665
+#, fuzzy, kde-format
+#| msgid "Rotate"
+msgid "Rotate:"
+msgstr "შემობრუნება"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:674
+#, kde-format
+msgid "Disable video"
+msgstr "ვიდეოს გათიშვა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:674
+#, kde-format
+msgid "Enable video"
+msgstr "ვიდეოს ჩართვა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:682
+#, kde-format
+msgid "Video stream"
+msgstr "ვიდეო ნაკადი"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:734
+#, kde-format
+msgid "Color space:"
+msgstr "ფერების სივრცე:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:738
+#, kde-format
+msgid "Broadcast limited (MPEG)"
+msgstr "შეზღუდვა ტრანსლაციაზე (MPEG)"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:739
+#, kde-format
+msgid "Full (JPEG)"
+msgstr "სრული (JPEG)"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:743
+#, kde-format
+msgid "Color range:"
+msgstr "ფერების დიაპაზონი:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:748
+#, kde-format
+msgid "File uses a variable frame rate, not recommended"
+msgstr "ფაილი ცვალებადი კადრების სიხშირეს იყენებს. ეს რეკომენდებული არაა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:786
+#, kde-format
+msgid "Disable audio"
+msgstr "აუდიოს გამორთვა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:786
+#, kde-format
+msgid "Enable audio"
+msgstr "აუდიოს ჩართვა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:794
+#: src/monitor/monitor.cpp:304
+#, kde-format
+msgid "Audio streams"
+msgstr "აუდიო ნაკადები"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:816
+#: src/monitor/monitor.cpp:2042
+#, kde-format
+msgid "Merge all streams"
+msgstr "ყველა ნაკადის შერწყმა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:971
+#, kde-format
+msgid "Copy channel:"
+msgstr "არხის კოპირება:"
+
+#. i18n: ectx: property (text), widget (QLabel, aspect_den)
+#. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
+#: src/mltcontroller/clippropertiescontroller.cpp:972
+#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
+#, kde-format
+msgid "1"
+msgstr "1"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
+#: src/mltcontroller/clippropertiescontroller.cpp:973
+#: src/ui/projectsettings_ui.ui:579
+#, kde-format
+msgid "2"
+msgstr "2"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1002
+#, kde-format
+msgid "Gain:"
+msgstr "გაძლიერება:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1029
+#, kde-format
+msgid "Audio sync:"
+msgstr "აუდიოს სინქრონიზაცია:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1031
+#, kde-format
+msgid "ms"
+msgstr "მწმ"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1080
+#, kde-format
+msgid "Analysis data"
+msgstr "ანალიზის მონაცემები"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1083
+#, kde-format
+msgid "Delete analysis"
+msgstr "ანალიზის წაშლა"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Deletes the data set(s)."
+msgstr "მონაცემების სეტ(ებ)-ის წაშლა."
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1085
+#, kde-format
+msgid "Export analysis…"
+msgstr "ანალიზის გატანა…"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a file dialog window to export/save the analysis data."
+msgstr "გახსნის ფაილის დიალოგს ანალიზის მონაცემების გატანა/შესანახად."
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1087
+#, kde-format
+msgid "Import analysis…"
+msgstr "ანალიზის შემოტანა…"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1088
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a file dialog window to import/load analysis data."
+msgstr "გახსნის ფაილის დიალოგს ანალიზის მონაცემების შემოტანა/ჩასატვირთად."
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1157
+#: src/mltcontroller/clippropertiescontroller.cpp:1456
+#, kde-format
+msgid "Tracks:"
+msgstr "ტრეკები:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1296
+#, kde-format
+msgid "Video codec:"
+msgstr "ვიდეო კოდეკი:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1302
+#, kde-format
+msgid "Frame size:"
+msgstr "კადრის ზომა:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1321
+#, kde-format
+msgid "Video bitrate:"
+msgstr "ვიდეოს ბიტური სიჩქარე:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1343
 #, kde-format
 msgid "Pixel format:"
 msgstr "პიქსელის ფორმატი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1456
+#: src/mltcontroller/clippropertiescontroller.cpp:1348
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "ფერების სივრცე:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1352
 #, kde-format
 msgid "B frames:"
 msgstr "B კადრები:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1352
 #, kde-format
 msgid "Yes"
 msgstr "დიახ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1352
 #, kde-format
 msgid "No"
 msgstr "არა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1462
-#, kde-format
-msgid "Audio streams:"
-msgstr "აუდიონაკადები:"
-
-#: src/mltcontroller/clippropertiescontroller.cpp:1468
+#: src/mltcontroller/clippropertiescontroller.cpp:1366
 #, kde-format
 msgid "Audio codec:"
 msgstr "აუდიო კოდეკი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1372
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "აუდიო არხები:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1476
+#: src/mltcontroller/clippropertiescontroller.cpp:1377
 #, kde-format
 msgid "Audio frequency:"
 msgstr "აუდიოს სიხშირე:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1476
+#: src/mltcontroller/clippropertiescontroller.cpp:1377
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "ჰც"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1481
+#: src/mltcontroller/clippropertiescontroller.cpp:1383
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "აუდიოს ბიტური სიჩქარე:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1501
+#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#, kde-format
+msgid "Image size:"
+msgstr "Სურათის ზომა:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1414
+#, kde-format
+msgid "Image duration:"
+msgstr "გამოსახულების ხანგრძლივობა:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1421
+#, kde-format
+msgid "Image count:"
+msgstr "გამოსახულებების რაოდენობა:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
+#, fuzzy, kde-format
+#| msgid "Video stream"
+msgid "Video streams:"
+msgstr "ვიდეო ნაკადი"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
+#, kde-format
+msgid "Audio streams:"
+msgstr "აუდიონაკადები:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1470
 #, kde-format
 msgid "File size:"
 msgstr "ფაილის ზომა:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1523
-#: src/mltcontroller/clippropertiescontroller.cpp:1555
-#: src/mltcontroller/clippropertiescontroller.cpp:1587
+#: src/mltcontroller/clippropertiescontroller.cpp:1615
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1608
-#: src/mltcontroller/clippropertiescontroller.cpp:1634
+#: src/mltcontroller/clippropertiescontroller.cpp:1642
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1675
+#: src/mltcontroller/clippropertiescontroller.cpp:1683
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "ანალიზის მონაცემების შენახვა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1676
-#: src/mltcontroller/clippropertiescontroller.cpp:1689
+#: src/mltcontroller/clippropertiescontroller.cpp:1684
+#: src/mltcontroller/clippropertiescontroller.cpp:1697
 #: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "ტექსტური ფაილი (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1688
+#: src/mltcontroller/clippropertiescontroller.cpp:1696
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -26980,7 +26963,7 @@ msgstr "ვიდეოს გადაკოდირება"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/pythoninterfaces/abstractpythoninterface.cpp:34
-#: src/ui/configspeech_ui.ui:613
+#: src/ui/configspeech_ui.ui:618
 #, kde-format
 msgid "Check configuration"
 msgstr "კონფიგურაციის შემოწმება"
@@ -29179,12 +29162,10 @@ msgid "Toggle track effects"
 msgstr "ტრეკის ეფექტების გადართვა"
 
 #: src/timeline2/view/qml/TrackHead.qml:471
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
+#, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
-"<b>Shift</b> იგივე ტიპის (აუდიო/ვიდეო) მქონე ყველა ტრეკის ჩამოშლა/აკეცვა"
+"<b>Shift</b> იგივე ტიპის (აუდიო/ვიდეო) მქონე ყველა ტრეკის დამალვა/ჩვენება"
 
 #: src/timeline2/view/qml/TrackHead.qml:488
 #, kde-format
@@ -30989,7 +30970,7 @@ msgstr "ჩანაწერის ფაილის სახელი:"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:444 src/ui/configspeech_ui.ui:870
+#: src/ui/configspeech_ui.ui:480 src/ui/configspeech_ui.ui:906
 #, kde-format
 msgid "Device:"
 msgstr "მოწყობიობა:"
@@ -31747,112 +31728,15 @@ msgstr "გამოტანის მოწყობილობა:"
 msgid "Speech To Text"
 msgstr "საუბრიდან-ტექსტამდე"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:39
-#, kde-format
-msgid "Speech engine"
-msgstr "საუბრის ძრავა"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:46
-#, kde-format
-msgid "VOS&K"
-msgstr "VOS&K"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:53
-#, kde-format
-msgid "Wh&isper"
-msgstr "Wh&isper"
-
-#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:94
-#, kde-format
-msgid "Custom models folder"
-msgstr "მომხმარებლის მოდელების საქაღალდე"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:152
-#, kde-format
-msgid "Remove Model"
-msgstr "მოდელის წაშლა"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:162
-#, kde-format
-msgid "Add Model"
-msgstr "მოდელის დამატება"
-
-#. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
-#: src/ui/configspeech_ui.ui:239
-#, kde-format
-msgid "Seamless"
-msgstr "გამჭვირვალე"
-
-#. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
-#. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:292 src/ui/configspeech_ui.ui:758
-#, kde-format
-msgid "Uninstall plugin"
-msgstr "დამატების წაშლა"
-
-#. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
-#: src/ui/configspeech_ui.ui:356
-#, kde-format
-msgid "Whisper"
-msgstr "Whisper"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:393
-#, kde-format
-msgid "Model:"
-msgstr "მოდელი:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:434
-#, kde-format
-msgid "Language:"
-msgstr "ენა:"
-
-#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, whisper_device_info)
-#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, sam_device_info)
-#: src/ui/configspeech_ui.ui:460 src/ui/configspeech_ui.ui:886
-#, kde-format
-msgid ""
-"If your Nvidia GPU is not listed, try installing an alternative with the "
-"Nvidia GPU Support button"
-msgstr ""
-"თუ თქვენი Nvidia GPU ჩამონათვალში არაა, სცადეთ, დააყენოთ სხვა Nvidia GPU-ის "
-"მხარდაჭერის ღილაკით"
-
-#. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
-#. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
-#: src/ui/configspeech_ui.ui:480 src/ui/configspeech_ui.ui:909
-#, kde-format
-msgid "GPU Support"
-msgstr "GPU-ის მხარდაჭერა"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:489
-#, kde-format
-msgid "Disable half precision (FP16 )"
-msgstr "ნახევარი სიზუსტის (FP16) გათიშვა"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:496
-#, kde-format
-msgid "Translate text to English"
-msgstr "ტექსტის ინგლისურად თარგმნა"
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
-#: src/ui/configspeech_ui.ui:522 src/ui/configspeech_ui.ui:951
+#: src/ui/configspeech_ui.ui:52 src/ui/configspeech_ui.ui:987
 #, kde-format
 msgid "Use system packages only"
 msgstr "მხოლოდ, სისტემური პაკეტების გამოყენება"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_4)
-#: src/ui/configspeech_ui.ui:529
+#: src/ui/configspeech_ui.ui:59
 #, kde-format
 msgid ""
 "When enabled, Kdenlive will use the speech to text packages installed on "
@@ -31863,32 +31747,145 @@ msgstr ""
 "ტექსტამდე პაკეტებს. განკუთვნილია, მხოლოდ, მომხმარებლებისთვის, ვინც იცის, რას "
 "აკეთებს, რადგან სისტემის მხარეს ყველაფრის გაკეთება თქვენ მოგიწევთ."
 
+#. i18n: ectx: property (text), widget (ElidedFileLinkLabel, modelV_folder_label)
+#. i18n: ectx: property (text), widget (ElidedFileLinkLabel, sam_venv_label_3)
+#. i18n: ectx: property (text), widget (ElidedFileLinkLabel, sam_folder_label)
+#: src/ui/configspeech_ui.ui:112 src/ui/configspeech_ui.ui:357
+#: src/ui/configspeech_ui.ui:827
+#, kde-format
+msgid "Models folder"
+msgstr "მოდელების საქაღალდე"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_delete)
+#: src/ui/configspeech_ui.ui:147
+#, kde-format
+msgid "Remove Model"
+msgstr "მოდელის წაშლა"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_add)
+#: src/ui/configspeech_ui.ui:157
+#, kde-format
+msgid "Add Model"
+msgstr "მოდელის დამატება"
+
+#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
+#: src/ui/configspeech_ui.ui:183
+#, kde-format
+msgid "Custom models folder"
+msgstr "მომხმარებლის მოდელების საქაღალდე"
+
+#. i18n: ectx: property (text), widget (ElidedFileLinkLabel, seamless_folder_label)
+#: src/ui/configspeech_ui.ui:254
+#, kde-format
+msgid "Seamless"
+msgstr "გამჭვირვალე"
+
+#. i18n: ectx: property (text), widget (ElidedFileLinkLabel, sam_venv_label_4)
+#. i18n: ectx: property (text), widget (ElidedFileLinkLabel, sam_venv_label)
+#: src/ui/configspeech_ui.ui:296 src/ui/configspeech_ui.ui:837
+#, kde-format
+msgid "Plugin size"
+msgstr "დამატების ზომა"
+
+#. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
+#. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
+#: src/ui/configspeech_ui.ui:313 src/ui/configspeech_ui.ui:804
+#, kde-format
+msgid "Uninstall plugin"
+msgstr "დამატების წაშლა"
+
+#. i18n: ectx: property (text), widget (ElidedFileLinkLabel, whisper_folder_label)
+#: src/ui/configspeech_ui.ui:389
+#, kde-format
+msgid "Whisper"
+msgstr "Whisper"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configspeech_ui.ui:429
+#, kde-format
+msgid "Model:"
+msgstr "მოდელი:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/configspeech_ui.ui:470
+#, kde-format
+msgid "Language:"
+msgstr "ენა:"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, whisper_device_info)
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, sam_device_info)
+#: src/ui/configspeech_ui.ui:496 src/ui/configspeech_ui.ui:922
+#, kde-format
+msgid ""
+"If your Nvidia GPU is not listed, try installing an alternative with the "
+"Nvidia GPU Support button"
+msgstr ""
+"თუ თქვენი Nvidia GPU ჩამონათვალში არაა, სცადეთ, დააყენოთ სხვა Nvidia GPU-ის "
+"მხარდაჭერის ღილაკით"
+
+#. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
+#. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
+#: src/ui/configspeech_ui.ui:516 src/ui/configspeech_ui.ui:945
+#, kde-format
+msgid "GPU Support"
+msgstr "GPU-ის მხარდაჭერა"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
+#: src/ui/configspeech_ui.ui:525
+#, kde-format
+msgid "Disable half precision (FP16 )"
+msgstr "ნახევარი სიზუსტის (FP16) გათიშვა"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
+#: src/ui/configspeech_ui.ui:532
+#, kde-format
+msgid "Translate text to English"
+msgstr "ტექსტის ინგლისურად თარგმნა"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:610
+#: src/ui/configspeech_ui.ui:615
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "საუბრის ძრავის პროგრამის შემოწმება"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configspeech_ui.ui:649
+#, kde-format
+msgid "Speech engine"
+msgstr "საუბრის ძრავა"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
 #: src/ui/configspeech_ui.ui:656
+#, kde-format
+msgid "VOS&K"
+msgstr "VOS&K"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:663
+#, kde-format
+msgid "Wh&isper"
+msgstr "Wh&isper"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: src/ui/configspeech_ui.ui:686
 #, kde-format
 msgid "Object Detection"
 msgstr "ობიექტის ამოცნობა"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:722
+#: src/ui/configspeech_ui.ui:761
 #, kde-format
 msgid "Delete all models"
 msgstr "ყველა მოდელის წაშლა"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:835 src/ui/speechdialog_ui.ui:94
+#: src/ui/configspeech_ui.ui:871 src/ui/speechdialog_ui.ui:94
 #, kde-format
 msgid "Model"
 msgstr "მოდელი"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configspeech_ui.ui:861
+#: src/ui/configspeech_ui.ui:897
 #, kde-format
 msgid ""
 "Object Detection relies on SAM2 - <a href=\"https://github.com/"
@@ -31898,13 +31895,13 @@ msgstr ""
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_offload_video)
-#: src/ui/configspeech_ui.ui:920
+#: src/ui/configspeech_ui.ui:956
 #, kde-format
 msgid "Offload video to CPU to save GPU Memory"
 msgstr "ვიდეოს გადატანა CPU-ზე GPU-ის მეხსიერების დასაზოგად"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_3)
-#: src/ui/configspeech_ui.ui:927
+#: src/ui/configspeech_ui.ui:963
 #, kde-format
 msgid ""
 "This offloads some of the memory used to the RAM instead of the GPU memory, "
@@ -31914,7 +31911,7 @@ msgstr ""
 "დიდი მიმდევრობების დამუშავების საშუალებას მოგცემთ."
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
-#: src/ui/configspeech_ui.ui:958
+#: src/ui/configspeech_ui.ui:994
 #, kde-format
 msgid ""
 "When enabled, Kdenlive will use the SAM2 version installed on your system. "
@@ -34783,6 +34780,9 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid "Aspect ratio:"
+#~ msgstr "თანაფარდობა:"
 
 #~ msgid "No available audio track for restore operation"
 #~ msgstr "აღდგენის ოპერაციისთვის ხელმისაწვდომი აუდიობილიკის გარეშე"
