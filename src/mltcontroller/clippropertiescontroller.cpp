@@ -213,16 +213,17 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     }
     connect(m_clipLabel, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
     lay->addWidget(m_clipLabel);
-    lay->addWidget(&m_warningMessage);
-    m_warningMessage.setCloseButtonVisible(false);
-    m_warningMessage.setWordWrap(true);
-    m_warningMessage.hide();
+    m_warningMessage = new KMessageWidget(this);
+    lay->addWidget(m_warningMessage);
+    m_warningMessage->setCloseButtonVisible(false);
+    m_warningMessage->setWordWrap(true);
+    m_warningMessage->hide();
     m_tabWidget = new QTabWidget(this);
-    lay->addWidget(m_tabWidget);
-    setLayout(lay);
     m_tabWidget->setDocumentMode(true);
     m_tabWidget->setTabPosition(QTabWidget::East);
     m_tabWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    lay->addWidget(m_tabWidget);
+    setLayout(lay);
     auto *forcePage = new QScrollArea(this);
     auto *forceAudioPage = new QScrollArea(this);
     m_propertiesPage = new QWidget(this);
@@ -1050,17 +1051,17 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
 
         // Check for variable frame rate
         if (m_properties->get_int("meta.media.variable_frame_rate")) {
-            m_warningMessage.setText(i18n("File uses a variable frame rate, not recommended"));
+            m_warningMessage->setText(i18n("File uses a variable frame rate, not recommended"));
             QAction *ac = new QAction(i18n("Transcode"));
             QObject::connect(ac, &QAction::triggered, [id = m_id, resource = controller->clipUrl()]() {
                 QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(int, 0),
                                           Q_ARG(bool, false));
             });
-            m_warningMessage.setMessageType(KMessageWidget::Warning);
-            m_warningMessage.addAction(ac);
-            m_warningMessage.show();
+            m_warningMessage->setMessageType(KMessageWidget::Warning);
+            m_warningMessage->addAction(ac);
+            m_warningMessage->show();
         } else {
-            m_warningMessage.hide();
+            m_warningMessage->hide();
         }
     }
     // Force properties page
