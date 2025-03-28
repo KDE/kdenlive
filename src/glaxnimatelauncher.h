@@ -49,4 +49,5 @@ private Q_SLOTS:
     void onConnect();
     void onReadyRead();
     void onSocketError(QLocalSocket::LocalSocketError socketError);
+    void onDisconnect();
 };

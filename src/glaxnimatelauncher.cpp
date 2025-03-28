@@ -131,6 +131,7 @@ void GlaxnimateLauncher::onConnect()
     m_socket = m_server->nextPendingConnection();
     connect(m_socket, &QLocalSocket::readyRead, this, &GlaxnimateLauncher::onReadyRead);
     connect(m_socket, &QLocalSocket::errorOccurred, this, &GlaxnimateLauncher::onSocketError);
+    connect(m_socket, &QLocalSocket::disconnected, this, &GlaxnimateLauncher::onDisconnect);
     m_stream.reset(new QDataStream(m_socket));
     m_stream->setVersion(QDataStream::Qt_5_15);
     *m_stream << QStringLiteral("hello");
@@ -192,6 +193,14 @@ void GlaxnimateLauncher::onSocketError(QLocalSocket::LocalSocketError socketErro
     default:
         qDebug() << "Glaxnimate IPC error:" << m_socket->errorString();
     }
+}
+
+void GlaxnimateLauncher::onDisconnect()
+{
+    qDebug() << "Glaxnimate disconnected";
+    m_parent->m_clipId = -1;
+    m_stream.reset();
+    m_sharedMemory.reset();
 }
 
 bool GlaxnimateLauncher::copyToShared(const QImage &image)
