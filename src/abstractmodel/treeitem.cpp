@@ -47,7 +47,7 @@ std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
         appendChild(child);
         return child;
     }
-    qDebug() << "ERROR: Something went wrong when appending child in TreeItem. Model is not available anymore";
+    qCCritical(KDENLIVE_LOG) << "Something went wrong when appending child in TreeItem. Model is not available anymore";
     Q_ASSERT(false);
     return std::shared_ptr<TreeItem>();
 }
@@ -64,7 +64,7 @@ bool TreeItem::appendChild(const std::shared_ptr<TreeItem> &child)
             return true;
         }
         // in that case a call to removeChild should have been carried out
-        qDebug() << "ERROR: trying to append a child that alrealdy has a parent";
+        qCCritical(KDENLIVE_LOG) << "Trying to append a child to TreeItem that alrealdy has a parent";
         return false;
     }
     if (auto ptr = m_model.lock()) {
@@ -77,7 +77,7 @@ bool TreeItem::appendChild(const std::shared_ptr<TreeItem> &child)
         ptr->notifyRowAppended(child);
         return true;
     }
-    qDebug() << "ERROR: Something went wrong when appending child in TreeItem. Model is not available anymore";
+    qCCritical(KDENLIVE_LOG) << "Something went wrong when appending child in TreeItem. Model is not available anymore";
     Q_ASSERT(false);
     return false;
 }
@@ -103,7 +103,7 @@ void TreeItem::moveChild(int ix, const std::shared_ptr<TreeItem> &child)
         ptr->notifyRowAppended(child);
         m_isInModel = true;
     } else {
-        qDebug() << "ERROR: Something went wrong when moving child in TreeItem. Model is not available anymore";
+        qCCritical(KDENLIVE_LOG) << "Something went wrong when moving child in TreeItem. Model is not available anymore";
         Q_ASSERT(false);
     }
 }
@@ -124,7 +124,7 @@ void TreeItem::removeChild(const std::shared_ptr<TreeItem> &child)
         child->deregisterSelf();
         ptr->notifyRowDeleted();
     } else {
-        qDebug() << "ERROR: Something went wrong when removing child in TreeItem. Model is not available anymore";
+        qCCritical(KDENLIVE_LOG) << "Something went wrong when removing child in TreeItem. Model is not available anymore";
         Q_ASSERT(false);
     }
 }
@@ -218,7 +218,7 @@ void TreeItem::registerSelf(const std::shared_ptr<TreeItem> &self)
         ptr->registerItem(self);
         self->m_isInModel = true;
     } else {
-        qDebug() << "Error : construction of treeItem failed because parent model is not available anymore";
+        qCCritical(KDENLIVE_LOG) << "Construction of treeItem failed because parent model is not available anymore";
         Q_ASSERT(false);
     }
 }

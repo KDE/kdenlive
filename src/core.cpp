@@ -367,7 +367,7 @@ QString Core::openExternalApp(QString appPath, QStringList args)
         }
         process.setProcessEnvironment(env);
     }
-    qDebug() << "Starting external app" << appPath << "with arguments" << args;
+    qCInfo(KDENLIVE_LOG) << "Starting external app" << appPath << "with arguments" << args;
     if (!process.startDetached()) {
         return process.errorString();
     }

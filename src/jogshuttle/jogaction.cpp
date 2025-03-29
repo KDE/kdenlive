@@ -46,7 +46,6 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
         if (shuttle_pos < 0) {
             Q_EMIT rewind(-SPEEDS[magnitude]);
         } else if (shuttle_pos == 0) {
-            ////qCDebug(KDENLIVE_LOG) << "Shuttle pos0 action: " << m_actionMap[0];
             Q_EMIT action(m_actionMap[0]);
         } else if (shuttle_pos > 0) {
             Q_EMIT forward(SPEEDS[magnitude]);
@@ -57,10 +56,9 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
 void JogShuttleAction::slotButton(int button_id)
 {
     if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
-        // TODO(fleury): Should this go to the status bar to inform the user ?
-        // qCDebug(KDENLIVE_LOG) << "No action applied for button: " << button_id;
+        pCore->displayMessage(i18nc("%1 button id", "No action applied for jog shutte button %1", button_id), InformationMessage);
+        qCInfo(KDENLIVE_LOG) << "No action applied for jog shutte button: " << button_id;
         return;
     }
-    ////qCDebug(KDENLIVE_LOG) << "Shuttle button =" << button_id << ": action=" << m_actionMap[button_id];
     Q_EMIT action(m_actionMap[button_id]);
 }

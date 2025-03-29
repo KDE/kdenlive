@@ -188,10 +188,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     Q_EMIT pCore->loadingMessageNewStage(i18n("Upgrading project version…"), 0);
     // The document is too new
     if (version > currentVersion) {
-        // qCDebug(KDENLIVE_LOG) << "Unable to open document with version " << version;
+        qCCritical(KDENLIVE_LOG) << "Unable to open document with version " << version << "because it is newer than what this Kdenlive release supports (" << currentVersion << ")";
         KMessageBox::error(
             QApplication::activeWindow(),
-            i18n("This project type is unsupported (version %1) and cannot be loaded.\nPlease consider upgrading your Kdenlive version.", version),
+            i18n("This project is unsupported because its document version (%1) is new than what this Kdenlive release supports (version %2 and older).\nPlease consider upgrading your Kdenlive version.", version, currentVersion),
             i18n("Unable to open project"));
         return false;
     }
@@ -199,7 +199,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     // Unsupported document versions
     if (qFuzzyCompare(version, 0.5) || qFuzzyCompare(version, 0.7)) {
         // 0.7 is unsupported
-        // qCDebug(KDENLIVE_LOG) << "Unable to open document with version " << version;
+        qCCritical(KDENLIVE_LOG) << "Unable to open document with version " << version << "(0.5 and 0.7 are unsupported)";
         KMessageBox::error(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and cannot be loaded.", version),
                            i18n("Unable to open project"));
         return false;
@@ -237,7 +237,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             m_doc.documentElement().appendChild(westley);
         }
         if (tractor.isNull()) {
-            // qCDebug(KDENLIVE_LOG) << "// NO MLT PLAYLIST, building empty one";
             QDomElement blank_tractor = m_doc.createElement(QStringLiteral("tractor"));
             westley.appendChild(blank_tractor);
             QDomElement blank_playlist = m_doc.createElement(QStringLiteral("playlist"));
@@ -299,7 +298,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                                 inserted = true;
                                 break;
                             } else {
-                                // qCDebug(KDENLIVE_LOG) << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
                                 if (playlist_id < track_elem.attribute("producer")) {
                                     tractor.insertBefore(track, track_elem);
                                     inserted = true;
@@ -381,7 +379,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     for (int j = 0; j < attrs.count(); ++j) {
                         QDomAttr a = attrs.item(j).toAttr();
                         if (!a.isNull()) {
-                            // qCDebug(KDENLIVE_LOG) << " FILTER; adding :" << a.name() << ':' << a.value();
                             auto property = m_doc.createElement(QStringLiteral("property"));
                             property.setAttribute(QStringLiteral("name"), a.name());
                             auto property_value = m_doc.createTextNode(a.value());
@@ -402,7 +399,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             if (prod.attribute(QStringLiteral("mlt_service")) == QLatin1String("framebuffer")) {
                 QString slowmotionprod = prod.attribute(QStringLiteral("resource"));
                 slowmotionprod.replace(QLatin1Char(':'), QLatin1Char('?'));
-                // qCDebug(KDENLIVE_LOG) << "// FOUND WRONG SLOWMO, new: " << slowmotionprod;
                 prod.setAttribute(QStringLiteral("resource"), slowmotionprod);
             }
         }
@@ -536,9 +532,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     continue;
                 }
                 // We have to do slightly different things, depending on the type
-                // qCDebug(KDENLIVE_LOG) << "Converting producer element with type" << wproducer.attribute("type");
                 if (wproducer.attribute(QStringLiteral("type")).toInt() == int(ClipType::Text)) {
-                    // qCDebug(KDENLIVE_LOG) << "Found TEXT element in producer" << endl;
                     QDomElement kproducer = wproducer.cloneNode(true).toElement();
                     kproducer.setTagName(QStringLiteral("kdenlive_producer"));
                     infoXml_new.appendChild(kproducer);
@@ -590,7 +584,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QDomElement folder = folders.at(i).toElement();
                 if (!folder.isNull()) {
                     QString groupName = folder.attribute(QStringLiteral("name"));
-                    // qCDebug(KDENLIVE_LOG) << "groupName: " << groupName << " with groupId: " << groupId;
                     QDomNodeList fproducers = folder.elementsByTagName(QStringLiteral("producer"));
                     int psize = fproducers.size();
                     for (int j = 0; j < psize; ++j) {
@@ -630,7 +623,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // adds <avfile /> information to <kdenlive_producer />
         QDomNodeList kproducers = m_doc.elementsByTagName(QStringLiteral("kdenlive_producer"));
         QDomNodeList avfiles = infoXml_old.elementsByTagName(QStringLiteral("avfile"));
-        // qCDebug(KDENLIVE_LOG) << "found" << avfiles.count() << "<avfile />s and" << kproducers.count() << "<kdenlive_producer />s";
         for (int i = 0; i < avfiles.count(); ++i) {
             QDomElement avfile = avfiles.at(i).toElement();
             QDomElement kproducer;
@@ -640,7 +632,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 QString id = avfile.attribute(QStringLiteral("id"));
                 // this is horrible, must be rewritten, it's just for test
                 for (int j = 0; j < kproducers.count(); ++j) {
-                    ////qCDebug(KDENLIVE_LOG) << "checking <kdenlive_producer /> with id" << kproducers.at(j).toElement().attribute("id");
                     if (kproducers.at(j).toElement().attribute(QStringLiteral("id")) == id) {
                         kproducer = kproducers.at(j).toElement();
                         break;
@@ -649,7 +640,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 if (kproducer == QDomElement()) {
                     qCWarning(KDENLIVE_LOG) << "no match for <avfile /> with id =" << id;
                 } else {
-                    ////qCDebug(KDENLIVE_LOG) << "ready to set additional <avfile />'s attributes (id =" << id << ')';
                     kproducer.setAttribute(QStringLiteral("channels"), avfile.attribute(QStringLiteral("channels")));
                     kproducer.setAttribute(QStringLiteral("duration"), avfile.attribute(QStringLiteral("duration")));
                     kproducer.setAttribute(QStringLiteral("frame_size"),
@@ -1463,7 +1453,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
         }
-        // qCDebug(KDENLIVE_LOG)<<"------------------------\n"<<m_doc.toString();
     }
     if (version < 0.95) {
         // convert slowmotion effects/producers
