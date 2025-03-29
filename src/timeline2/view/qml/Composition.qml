@@ -11,6 +11,7 @@ import QtQml.Models 2.15
 import QtQuick.Window 2.15
 
 import 'TimelineLogic.js' as Logic
+import org.kde.kdenlive as K
 
 Item {
     id: compositionRoot
@@ -228,8 +229,8 @@ Item {
             id: mouseArea
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            enabled: root.activeTool === Kdenlive.ToolType.SelectTool && !dragProxyArea.pressed
-            hoverEnabled: root.activeTool === Kdenlive.ToolType.SelectTool
+            enabled: root.activeTool === K.ToolType.SelectTool && !dragProxyArea.pressed
+            hoverEnabled: root.activeTool === K.ToolType.SelectTool
             Keys.onShortcutOverride: event => {event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)}
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
@@ -296,7 +297,7 @@ Item {
                 x: enabled ? -displayRect.border.width : 0
                 height: mouseArea.height
                 width: root.baseUnit
-                visible: enabled && root.activeTool === Kdenlive.ToolType.SelectTool
+                visible: enabled && root.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
                 hoverEnabled: true
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
@@ -356,7 +357,7 @@ Item {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || (root.activeTool === Kdenlive.ToolType.SelectTool && !mouseArea.drag.active && trimInMouseArea.enabled)
+                    visible: trimInMouseArea.pressed || (root.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimInMouseArea.enabled)
                 }
             }
 
@@ -371,7 +372,7 @@ Item {
                 drag.target: trimOutMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
-                visible: enabled && root.activeTool === Kdenlive.ToolType.SelectTool
+                visible: enabled && root.activeTool === K.ToolType.SelectTool
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
 
                 onPressed: {
@@ -420,7 +421,7 @@ Item {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || (root.activeTool === Kdenlive.ToolType.SelectTool && !mouseArea.drag.active && trimOutMouseArea.enabled)
+                    visible: trimOutMouseArea.pressed || (root.activeTool === K.ToolType.SelectTool && !mouseArea.drag.active && trimOutMouseArea.enabled)
                 }
             }
             Item {
