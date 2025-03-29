@@ -456,6 +456,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="uiDebugMode" type="Bool">
+      <label>Enable technical elements and info to debug the UI (for developers)</label>
+      <default>false</default>
+    </entry>
+
     </group>
 
     <group name="sdl">

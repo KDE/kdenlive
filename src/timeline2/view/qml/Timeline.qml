@@ -20,7 +20,7 @@ Rectangle {
     objectName: "timelineview"
     SystemPalette { id: activePalette }
     color: activePalette.window
-    property bool debugmode: false
+    property bool debugmode: K.KdenliveSettings.uiDebugMode
     property bool validMenu: false
     property bool subtitleMoving: false
     property var subtitleItem
