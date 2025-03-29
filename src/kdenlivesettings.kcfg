@@ -446,8 +446,13 @@
       <default>true</default>
     </entry>
 
-    <entry name="raisepropstransitions" type="Bool">
-      <label>Raise property pane when selecting timeline transitions.</label>
+    <entry name="raisepropscompositions" type="Bool">
+      <label>Raise property pane when selecting timeline compositions.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="raisepropsmixes" type="Bool">
+      <label>Raise property pane when selecting timeline mixes.</label>
       <default>true</default>
     </entry>
 

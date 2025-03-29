@@ -26,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "docktitlebarmanager.h"
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/customjobtask.h"
 #include "jobs/scenesplittask.h"
@@ -356,10 +357,17 @@ void MainWindow::init(const QString &mltPath)
     connect(m_assetPanel, &AssetPanel::switchCurrentComposition, this,
             [&](int cid, const QString &compositionId) { getCurrentTimeline()->model()->switchComposition(cid, compositionId); });
     connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
-    connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
+    connect(m_timelineTabs, &TimelineTabs::showMixModel, this, [&](int cid, std::shared_ptr<AssetParameterModel> model, bool refreshOnly) {
+        m_assetPanel->showMix(cid, model, refreshOnly);
+        if (KdenliveSettings::raisepropsmixes()) {
+            m_effectStackDock->raise();
+        }
+    });
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&](int tid, std::shared_ptr<AssetParameterModel> model) {
         m_assetPanel->showTransition(tid, model);
-        m_effectStackDock->raise();
+        if (KdenliveSettings::raisepropscompositions()) {
+            m_effectStackDock->raise();
+        }
     });
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
             [&](const QString &clipName, std::shared_ptr<EffectStackModel> model, QSize size, bool showKeyframes) {
@@ -368,7 +376,11 @@ void MainWindow::init(const QString &mltPath)
                     return;
                 }
                 m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
-                m_effectStackDock->raise();
+                bool isClip = model && model->getOwnerId().type == KdenliveObjectType::TimelineClip;
+                bool isTrack = model && model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
+                if ((isClip && KdenliveSettings::raisepropsclips()) || (isTrack && KdenliveSettings::raisepropstracks())) {
+                    m_effectStackDock->raise();
+                }
             });
 
     connect(m_timelineTabs, &TimelineTabs::updateAssetPosition, m_assetPanel, &AssetPanel::updateAssetPosition);

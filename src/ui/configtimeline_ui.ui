@@ -89,48 +89,62 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     </widget>
    </item>
    <item row="8" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>On Selection:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="2">
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Scrolling:</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="10" column="1">
     <widget class="QCheckBox" name="kcfg_autoscroll">
      <property name="text">
       <string>Autoscroll while playing</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="11" column="1">
     <widget class="QCheckBox" name="kcfg_scrollvertically">
      <property name="text">
       <string>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="0" colspan="2">
+   <item row="12" column="0" colspan="2">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="13" column="1">
+   <item row="15" column="1">
     <widget class="QCheckBox" name="kcfg_showmarkers">
      <property name="text">
       <string>Display clip markers comments</string>
      </property>
     </widget>
    </item>
-   <item row="14" column="0">
+   <item row="16" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Default track height:</string>
      </property>
     </widget>
    </item>
-   <item row="14" column="1">
+   <item row="16" column="1">
     <widget class="QSpinBox" name="kcfg_trackheight">
      <property name="minimum">
       <number>0</number>
@@ -143,50 +157,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="15" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Raise Properties Pane when Selecting in Timeline</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="kcfg_raisepropsclips">
-        <property name="text">
-         <string>Clips</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="kcfg_raisepropstransitions">
-        <property name="text">
-         <string>Transitions</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QCheckBox" name="kcfg_raisepropstracks">
-        <property name="text">
-         <string>Tracks</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>231</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="16" column="0" colspan="2">
+   <item row="18" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
       <string>Multi Stream Audio Clips</string>
@@ -234,7 +205,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </layout>
     </widget>
    </item>
-   <item row="18" column="0">
    <item row="19" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
@@ -262,14 +232,63 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
+   <item row="8" column="1">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Raise Effects/Composition Stack for</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="kcfg_raisepropscompositions">
+        <property name="text">
+         <string>Compositions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QCheckBox" name="kcfg_raisepropstracks">
+        <property name="text">
+         <string>Tracks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_raisepropsclips">
+        <property name="text">
+         <string>Clips</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="kcfg_raisepropsmixes">
+        <property name="text">
+         <string>Mixes</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>kcfg_videothumbnails</tabstop>
+  <tabstop>kcfg_audiothumbnails</tabstop>
+  <tabstop>kcfg_displayallchannels</tabstop>
+  <tabstop>kcfg_pauseonseek</tabstop>
+  <tabstop>kcfg_jumptostart</tabstop>
+  <tabstop>kcfg_seekonaddeffect</tabstop>
+  <tabstop>kcfg_raisepropsclips</tabstop>
+  <tabstop>kcfg_raisepropscompositions</tabstop>
+  <tabstop>kcfg_raisepropsmixes</tabstop>
+  <tabstop>kcfg_raisepropstracks</tabstop>
+  <tabstop>kcfg_autoscroll</tabstop>
+  <tabstop>kcfg_scrollvertically</tabstop>
+  <tabstop>kcfg_showmarkers</tabstop>
+  <tabstop>kcfg_trackheight</tabstop>
   <tabstop>kcfg_multistream</tabstop>
   <tabstop>kcfg_multistream_checktrack</tabstop>
-  <tabstop>kcfg_raisepropsclips</tabstop>
-  <tabstop>kcfg_raisepropstransitions</tabstop>
-  <tabstop>kcfg_raisepropstracks</tabstop>
+  <tabstop>kcfg_uiDebugMode</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -280,12 +299,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>35</x>
-     <y>66</y>
+     <x>186</x>
+     <y>62</y>
     </hint>
     <hint type="destinationlabel">
-     <x>105</x>
-     <y>66</y>
+     <x>256</x>
+     <y>92</y>
     </hint>
    </hints>
   </connection>
