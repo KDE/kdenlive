@@ -259,6 +259,8 @@ protected:
     KdenliveDoc *m_project{nullptr};
 
 private:
+    static bool isSupportedArchive(const QUrl &url);
+
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url, bool newFile = false);
     /** @brief Update the sequence producer stored in the project model. */

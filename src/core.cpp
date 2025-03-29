@@ -340,7 +340,6 @@ QString Core::openExternalApp(QString appPath, QStringList args)
     if (pCore->packageType() == LinuxPackageType::AppImage) {
         // Strip appimage custom LD_LIBRARY_PATH...
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        qDebug() << "::: GOT ENV: " << env.value("LD_LIBRARY_PATH") << ", PATH: " << env.value("PATH");
         QStringList libPath = env.value(QStringLiteral("LD_LIBRARY_PATH")).split(QLatin1Char(':'), Qt::SkipEmptyParts);
         QStringList updatedLDPath;
         for (auto &s : libPath) {
@@ -1138,27 +1137,37 @@ void Core::updateItemKeyframes(ObjectId id)
 
 void Core::updateItemModel(ObjectId id, const QString &service, const QString &updatedParam)
 {
-    if (m_guiConstructed && id.type == KdenliveObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading &&
-        service.startsWith(QLatin1String("fade"))) {
-        auto tl = m_mainWindow->getTimeline(id.uuid);
-        if (tl) {
-            bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
-            QVector<int> roles;
-            if (startFade) {
-                roles = {TimelineModel::FadeInRole, TimelineModel::FadeInMethodRole};
-                if (updatedParam == QLatin1String("alpha") || updatedParam == QLatin1String("level")) {
-                    roles << TimelineModel::FadeInMethodRole;
-                }
-            } else {
-                roles = {TimelineModel::FadeOutRole, TimelineModel::FadeOutMethodRole};
-                if (updatedParam == QLatin1String("alpha") || updatedParam == QLatin1String("level")) {
-                    roles << TimelineModel::FadeOutMethodRole;
-                }
-            }
-            qDebug() << "==== UPDATING FADE ROLES";
-            tl->controller()->updateClip(id.itemId, roles);
+    if (!m_guiConstructed) {
+        return;
+    }
+
+    if (id.type != KdenliveObjectType::TimelineClip || m_mainWindow->getCurrentTimeline()->loading) {
+        return;
+    }
+
+    if (!service.startsWith(QLatin1String("fade"))) {
+        return;
+    }
+
+    auto tl = m_mainWindow->getTimeline(id.uuid);
+    if (!tl) {
+        return;
+    }
+
+    bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
+    QVector<int> roles;
+    if (startFade) {
+        roles = {TimelineModel::FadeInRole, TimelineModel::FadeInMethodRole};
+        if (updatedParam == QLatin1String("alpha") || updatedParam == QLatin1String("level")) {
+            roles << TimelineModel::FadeInMethodRole;
+        }
+    } else { // endFade
+        roles = {TimelineModel::FadeOutRole, TimelineModel::FadeOutMethodRole};
+        if (updatedParam == QLatin1String("alpha") || updatedParam == QLatin1String("level")) {
+            roles << TimelineModel::FadeOutMethodRole;
         }
     }
+    tl->controller()->updateClip(id.itemId, roles);
 }
 
 void Core::showClipKeyframes(ObjectId id, bool enable)

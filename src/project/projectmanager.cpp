@@ -764,12 +764,17 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     return false;
 }
 
-void ProjectManager::openFile(const QUrl &url)
+bool ProjectManager::isSupportedArchive(const QUrl &url)
 {
     QMimeDatabase db;
-    // Make sure the url is a Kdenlive project file
     QMimeType mime = db.mimeTypeForUrl(url);
-    if (mime.inherits(QStringLiteral("application/x-compressed-tar")) || mime.inherits(QStringLiteral("application/zip"))) {
+    return mime.inherits(QStringLiteral("application/x-compressed-tar")) || mime.inherits(QStringLiteral("application/zip"));
+}
+
+void ProjectManager::openFile(const QUrl &url)
+{
+    // Make sure the url is a Kdenlive project file
+    if (isSupportedArchive(url)) {
         // Opening a compressed project file, we need to process it
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
