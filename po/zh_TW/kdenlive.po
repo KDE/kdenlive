@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:41+0000\n"
+"POT-Creation-Date: 2025-03-29 00:41+0000\n"
 "PO-Revision-Date: 2025-03-24 19:50+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -831,7 +831,7 @@ msgstr "羽化寬度"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:927
+#: src/mltcontroller/clippropertiescontroller.cpp:928
 #, kde-format
 msgid "Normalize"
 msgstr "正規化"
@@ -1151,7 +1151,6 @@ msgstr ""
 #: data/effects/normalise.xml:8 data/effects/sox/sox_bass.xml:8
 #: data/effects/sox/sox_gain.xml:8 data/effects/volume.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:32
-#: src/effects/effectstack/view/qml/LiftGammaGain.qml:80
 #, kde-format
 msgid "Gain"
 msgstr "增益"
@@ -3070,7 +3069,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fillborders.xml:24
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2502
 #: src/layoutmanagement.cpp:36
-#: src/mltcontroller/clippropertiescontroller.cpp:611
+#: src/mltcontroller/clippropertiescontroller.cpp:612
 #, kde-format
 msgid "Color"
 msgstr "色彩"
@@ -3305,7 +3304,6 @@ msgstr ""
 #: data/effects/frei0r/frei0r_levels.xml:50 data/effects/gamma.xml:8
 #: data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
-#: src/effects/effectstack/view/qml/LiftGammaGain.qml:63
 #, kde-format
 msgid "Gamma"
 msgstr "Gamma"
@@ -3678,8 +3676,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
-#: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:50 src/ui/clipspeed_ui.ui:36
+#: src/timeline2/view/qml/Track.qml:51 src/ui/clipspeed_ui.ui:36
 #: src/ui/editsub_ui.ui:524
 #, kde-format
 msgid "Speed"
@@ -6650,8 +6647,8 @@ msgstr "縮放"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1298 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
-#: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
-#: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:53 src/timeline2/view/qml/Track.qml:79
+#: src/timeline2/view/qml/Track.qml:87 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "持續時間"
@@ -6750,7 +6747,7 @@ msgstr "到"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:949
+#: src/mltcontroller/clippropertiescontroller.cpp:950
 #, kde-format
 msgid "Swap channels"
 msgstr "交換聲道"
@@ -7121,8 +7118,7 @@ msgstr "從黑色背景淡入為視訊"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:169
-#: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:84
+#: src/monitor/view/MonitorTrimming.qml:110 src/timeline2/view/qml/Track.qml:85
 #, kde-format
 msgid "In"
 msgstr "起點"
@@ -7144,7 +7140,7 @@ msgid "Fade video to black"
 msgstr "視訊淡出為黑色畫面背景"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/kdenlivemonitortrimming.qml:143
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:144
 #, kde-format
 msgid "Out"
 msgstr "終點"
@@ -11815,7 +11811,6 @@ msgstr "用來套用升降、增益及 Gamma 校正到圖片 Luma 值的過濾�
 
 #: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
-#: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
 #, kde-format
 msgid "Lift"
 msgstr "顏色升降"
@@ -12605,7 +12600,7 @@ msgid "Analysis,Apply"
 msgstr "分析"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
-#: src/monitor/view/kdenlivemonitorsplit.qml:102
+#: src/monitor/view/MonitorSplit.qml:102
 #, kde-format
 msgid "Effect"
 msgstr "效果"
@@ -14463,7 +14458,7 @@ msgid "Generator Failed"
 msgstr "產生器已失敗"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:56
-#: src/assets/assetlist/view/assetlistwidget.cpp:390
+#: src/assets/assetlist/view/assetlistwidget.cpp:404
 #, kde-format
 msgid "Add to favorites"
 msgstr "新增到最愛"
@@ -14553,13 +14548,13 @@ msgstr "顯示/隱藏合成方案的描述"
 msgid "Search…"
 msgstr "搜尋…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:390
+#: src/assets/assetlist/view/assetlistwidget.cpp:404
 #, kde-format
 msgid "Remove from favorites"
 msgstr "從最愛中移除"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:412
-#: src/assets/assetlist/view/assetlistwidget.cpp:414
+#: src/assets/assetlist/view/assetlistwidget.cpp:426
+#: src/assets/assetlist/view/assetlistwidget.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -14976,7 +14971,7 @@ msgstr "儲存效果"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -14984,7 +14979,7 @@ msgstr "輸入預設檔名稱"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "輸入此預設檔的名稱："
@@ -15370,7 +15365,7 @@ msgstr ""
 "\n"
 "紅："
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1010
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1007
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -15384,7 +15379,7 @@ msgid ""
 msgstr "調整音訊軌道的輸出音量（會同等影響所有音訊素材）。"
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:1005
+#: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -15938,7 +15933,7 @@ msgstr "將影片靜音"
 msgid "Audio"
 msgstr "音訊"
 
-#: src/bin/bin.cpp:2478 src/mltcontroller/clippropertiescontroller.cpp:356
+#: src/bin/bin.cpp:2478 src/mltcontroller/clippropertiescontroller.cpp:357
 #, kde-format
 msgid "Image"
 msgstr "圖片"
@@ -16110,7 +16105,7 @@ msgstr "複製素材"
 msgid "Clip Properties"
 msgstr "素材屬性"
 
-#: src/bin/bin.cpp:3727 src/mltcontroller/clippropertiescontroller.cpp:575
+#: src/bin/bin.cpp:3727 src/mltcontroller/clippropertiescontroller.cpp:576
 #, kde-format
 msgid "Edit Clip"
 msgstr "編輯素材"
@@ -16141,14 +16136,14 @@ msgstr ""
 "子資料夾。"
 
 #: src/bin/bin.cpp:3832 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:718
+#: src/dialogs/textbasededit.cpp:762
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "顯示紀錄"
 
-#: src/bin/bin.cpp:3835 src/dialogs/textbasededit.cpp:719
+#: src/bin/bin.cpp:3835 src/dialogs/textbasededit.cpp:763
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
 msgid "Detailed log"
@@ -16176,8 +16171,8 @@ msgstr[0] "移動素材"
 msgid "No valid clip to insert"
 msgstr "沒有可插入的有效素材"
 
-#: src/bin/bin.cpp:4017 src/timeline2/view/timelinecontroller.cpp:1568
-#: src/timeline2/view/timelinecontroller.cpp:3450
+#: src/bin/bin.cpp:4017 src/timeline2/view/timelinecontroller.cpp:1534
+#: src/timeline2/view/timelinecontroller.cpp:3411
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "選取素材來套用效果"
@@ -16334,7 +16329,7 @@ msgid ""
 "tracks ?"
 msgstr "您的專案需要更多音訊軌才能處理所有串流。要新增 %1 個音訊軌嗎？"
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2744
+#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2739
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要新增標記的素材"
@@ -16374,7 +16369,7 @@ msgstr ""
 "以下素材的額外串流\n"
 " %1"
 
-#: src/bin/bin.cpp:6007 src/mltcontroller/clippropertiescontroller.cpp:686
+#: src/bin/bin.cpp:6007 src/mltcontroller/clippropertiescontroller.cpp:687
 #, kde-format
 msgid "Video stream %1"
 msgstr "視訊串流 %1"
@@ -16418,7 +16413,7 @@ msgstr "刪除效果 %1"
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4854
+#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4840
 #, kde-format
 msgid "Project Bin %1"
 msgstr "專案素材庫 %1"
@@ -16524,7 +16519,7 @@ msgstr[0] "新增素材"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
-#: src/mltcontroller/clippropertiescontroller.cpp:581
+#: src/mltcontroller/clippropertiescontroller.cpp:582
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
 #: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:628
@@ -16664,7 +16659,7 @@ msgstr "刪除所有標記"
 
 #: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:908
 #: src/bin/model/markerlistmodel.cpp:933
-#: src/timeline2/view/timelinecontroller.cpp:1536
+#: src/timeline2/view/timelinecontroller.cpp:1502
 #, kde-format
 msgid "No guide found at current position"
 msgstr "游標時間上沒有參照線"
@@ -16733,7 +16728,7 @@ msgstr "移動字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:852
+#: src/effects/effectstack/view/effectstackview.cpp:851
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -16796,7 +16791,7 @@ msgstr "序列數量"
 msgid "Timeline sequence"
 msgstr "時間軸序列"
 
-#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1128
+#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1126
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -16940,7 +16935,7 @@ msgid "Tag %1"
 msgstr "標籤 %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
-#: src/dialogs/textbasededit.cpp:637
+#: src/dialogs/textbasededit.cpp:681
 #: src/effects/effectstack/view/maskmanager.cpp:78
 #, kde-format
 msgid "Configure"
@@ -17699,7 +17694,7 @@ msgstr "匯出參照線資料"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:890
+#: src/effects/effectstack/view/effectstackview.cpp:889
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -17709,8 +17704,8 @@ msgstr "匯出參照線資料"
 #: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
-#: src/timeline2/view/timelinecontroller.cpp:5170
-#: src/timeline2/view/timelinecontroller.cpp:5175
+#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5124
 #: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
@@ -18359,7 +18354,7 @@ msgstr "不含視訊軌的音訊"
 msgid "Rendering %1 started"
 msgstr "算繪 <i>%1</i> 已開始"
 
-#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1368
+#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1365
 #, kde-format
 msgid "untitled"
 msgstr "無標題"
@@ -18481,7 +18476,7 @@ msgstr "加入目前專案"
 msgid "Open Containing Folder"
 msgstr "開啟包含資料夾"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3977
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3963
 #, kde-format
 msgid "Timeline"
 msgstr "時間軸"
@@ -18615,7 +18610,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
-#: src/mltcontroller/clippropertiescontroller.cpp:749
+#: src/mltcontroller/clippropertiescontroller.cpp:750
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -18696,28 +18691,28 @@ msgstr "輸入 Glaxnimate 應用程式的路徑"
 msgid "Please select a video profile"
 msgstr "請選取一個影片編碼方案"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1304
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1294
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive 需要重新啟動才能變更此設定"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1428
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1417
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "已經存在使用該名稱的編碼方案"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1551
 #, kde-format
 msgid "Current settings"
 msgstr "目前設定"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1600
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1636
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1653
-#: src/mltcontroller/clippropertiescontroller.cpp:643
-#: src/mltcontroller/clippropertiescontroller.cpp:1326
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1589
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1625
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1642
+#: src/mltcontroller/clippropertiescontroller.cpp:644
+#: src/mltcontroller/clippropertiescontroller.cpp:1327
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -18971,8 +18966,8 @@ msgstr "選擇時間軸中的素材來進行分析"
 msgid "No audio track found"
 msgstr "找不到音訊軌"
 
-#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:908
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:952
+#: src/dialogs/textbasededit.cpp:989
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "請安裝語音辨識模型"
@@ -18988,8 +18983,8 @@ msgstr "檢查設定…"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "請先設定語音轉文字，缺乏依賴關係：%1。"
 
-#: src/dialogs/speechdialog.cpp:273 src/dialogs/textbasededit.cpp:1018
-#: src/dialogs/textbasededit.cpp:1034
+#: src/dialogs/speechdialog.cpp:273 src/dialogs/textbasededit.cpp:1062
+#: src/dialogs/textbasededit.cpp:1078
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "請先設定語音轉文字。"
@@ -19004,12 +18999,12 @@ msgstr "正在開始音訊匯出"
 msgid "Audio export failed"
 msgstr "音訊匯出失敗"
 
-#: src/dialogs/speechdialog.cpp:369 src/dialogs/textbasededit.cpp:1055
+#: src/dialogs/speechdialog.cpp:369 src/dialogs/textbasededit.cpp:1099
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "正在開始語音辨識"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1239
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1283
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "語音辨識已中止。"
@@ -19907,169 +19902,164 @@ msgstr "樣式名稱不能包含「/」。"
 msgid "Delete selection"
 msgstr "刪除所選"
 
-#: src/dialogs/textbasededit.cpp:315 src/dialogs/textbasededit.cpp:571
-#: src/dialogs/textbasededit.cpp:1259 src/dialogs/textbasededit.cpp:1329
-#: src/dialogs/textbasededit.cpp:1353 src/dialogs/textbasededit.cpp:1410
+#: src/dialogs/textbasededit.cpp:359 src/dialogs/textbasededit.cpp:615
+#: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1373
+#: src/dialogs/textbasededit.cpp:1397 src/dialogs/textbasededit.cpp:1454
 #, kde-format
 msgid "No speech"
 msgstr "無語音"
 
-#: src/dialogs/textbasededit.cpp:621
+#: src/dialogs/textbasededit.cpp:665
 #, kde-format
 msgid "Speech Model"
 msgstr "語音模型"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:623 src/ui/speechdialog_ui.ui:169
+#: src/dialogs/textbasededit.cpp:667 src/ui/speechdialog_ui.ui:169
 #, kde-format
 msgid "Translate to English"
 msgstr "翻譯成英文"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:670
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "設定語音辨識"
 
-#: src/dialogs/textbasededit.cpp:660
+#: src/dialogs/textbasededit.cpp:704
 #, kde-format
 msgid "Create new sequence with edit"
 msgstr "建立有編輯的新序列"
 
-#: src/dialogs/textbasededit.cpp:661
+#: src/dialogs/textbasededit.cpp:705
 #, kde-format
 msgid "Insert selection in timeline"
 msgstr "將所選項目插入至時間軸"
 
-#: src/dialogs/textbasededit.cpp:662
+#: src/dialogs/textbasededit.cpp:706
 #, kde-format
 msgid "Save edited text in a playlist file"
 msgstr "將已編輯的文字儲存在一個播放清單檔案中"
 
-#: src/dialogs/textbasededit.cpp:669
+#: src/dialogs/textbasededit.cpp:713
 #, kde-format
 msgid "Create new sequence with text edit"
 msgstr "建立有文字編輯的新序列"
 
-#: src/dialogs/textbasededit.cpp:670
+#: src/dialogs/textbasededit.cpp:714
 #, kde-format
 msgid "Search in text"
 msgstr "在文字中搜尋"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/dialogs/textbasededit.cpp:671 src/ui/speechdialog_ui.ui:124
+#: src/dialogs/textbasededit.cpp:715 src/ui/speechdialog_ui.ui:124
 #, kde-format
 msgid "Language"
 msgstr "語言"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:772
 #, kde-format
 msgid "Delete selected text"
 msgstr "刪除所選文字"
 
-#: src/dialogs/textbasededit.cpp:732
+#: src/dialogs/textbasededit.cpp:776
 #, kde-format
 msgid "Add marker for current selection"
 msgstr "為目前的選取範圍新增標記"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:780
 #, kde-format
 msgid "Increase Font Size"
 msgstr "提高字型大小"
 
-#: src/dialogs/textbasededit.cpp:739
+#: src/dialogs/textbasededit.cpp:783
 #, kde-format
 msgid "Decrease Font Size"
 msgstr "降低字型大小"
 
-#: src/dialogs/textbasededit.cpp:743
+#: src/dialogs/textbasededit.cpp:787
 #, kde-format
 msgid "Remove non speech zones"
 msgstr "移除非語音的區段"
 
-#: src/dialogs/textbasededit.cpp:1002
+#: src/dialogs/textbasededit.cpp:1046
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr "已有另一個辨識工作正在進行中。開始新工作則會將它停止。您要繼續嗎？"
 
-#: src/dialogs/textbasededit.cpp:1042
+#: src/dialogs/textbasededit.cpp:1086
 #, kde-format
 msgid "Please install a language model."
 msgstr "請安裝一個語言模型。"
 
-#: src/dialogs/textbasededit.cpp:1050
+#: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "從專案素材庫選取有音訊的素材。"
 
-#: src/dialogs/textbasededit.cpp:1096
+#: src/dialogs/textbasededit.cpp:1140
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "選取有音訊的素材來進行語音辨識。"
 
-#: src/dialogs/textbasededit.cpp:1105 src/dialogs/textbasededit.cpp:1153
-#: src/dialogs/textbasededit.cpp:1211
+#: src/dialogs/textbasededit.cpp:1149 src/dialogs/textbasededit.cpp:1197
+#: src/dialogs/textbasededit.cpp:1255
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "無法建立暫存檔。"
 
-#: src/dialogs/textbasededit.cpp:1110
+#: src/dialogs/textbasededit.cpp:1154
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "正在為 %1 提取音訊。"
 
-#: src/dialogs/textbasededit.cpp:1118
+#: src/dialogs/textbasededit.cpp:1162
 #, kde-format
 msgid "Audio extract failed."
 msgstr "音訊提取失敗。"
 
-#: src/dialogs/textbasededit.cpp:1124 src/dialogs/textbasededit.cpp:1189
+#: src/dialogs/textbasededit.cpp:1168 src/dialogs/textbasededit.cpp:1233
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "正在開始對 %1 進行語音辨識。"
 
-#: src/dialogs/textbasededit.cpp:1243
+#: src/dialogs/textbasededit.cpp:1287
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "錯誤，請檢查語音轉文字設定。"
 
-#: src/dialogs/textbasededit.cpp:1245
+#: src/dialogs/textbasededit.cpp:1289
 #, kde-format
 msgid "No speech detected."
 msgstr "未偵測到語音。"
 
-#: src/dialogs/textbasededit.cpp:1266
+#: src/dialogs/textbasededit.cpp:1310
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "語音辨識已完成。"
 
-#: src/dialogs/textbasededit.cpp:1503
+#: src/dialogs/textbasededit.cpp:1547
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "編輯素材文字"
 
-#: src/dialogs/textbasededit.cpp:1535 src/dialogs/textbasededit.cpp:1617
+#: src/dialogs/textbasededit.cpp:1579 src/dialogs/textbasededit.cpp:1661
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "建立序列素材"
 
-#: src/dialogs/textbasededit.cpp:1542 src/dialogs/textbasededit.cpp:1578
+#: src/dialogs/textbasededit.cpp:1586 src/dialogs/textbasededit.cpp:1622
 #, kde-format
 msgid "No text to export"
 msgstr "沒有要匯出的文字"
 
-#: src/dialogs/textbasededit.cpp:1562
+#: src/dialogs/textbasededit.cpp:1606
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "輸入新的播放清單路徑"
-
-#: src/dialogs/textbasededit.cpp:1710
-#, kde-format
-msgid "No timecode found in selection"
-msgstr "選取範圍內沒有找到時間碼"
 
 #: src/dialogs/timeremap.cpp:506 src/dialogs/timeremap.cpp:706
 #, kde-format
@@ -20476,7 +20466,7 @@ msgid "Asset file"
 msgstr "資源檔案"
 
 #: src/doc/documentchecker.cpp:1874
-#: src/mltcontroller/clippropertiescontroller.cpp:633
+#: src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Proxy clip"
 msgstr "代理素材"
@@ -20630,7 +20620,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "字幕檔案：<br/>%1<br/>已經存在。您是否要覆寫它?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3495
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3481
 #, kde-format
 msgid "Overwrite"
 msgstr "覆寫"
@@ -21037,7 +21027,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 無法加入兩次。"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:672
-#: src/effects/effectstack/view/effectstackview.cpp:237
+#: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -21251,81 +21241,81 @@ msgstr "註解："
 msgid "No name provided, effect not saved."
 msgstr "未提供名稱，因此未儲存效果。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:328
+#: src/effects/effectstack/view/effectstackview.cpp:327
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "水平翻轉"
 
-#: src/effects/effectstack/view/effectstackview.cpp:333
+#: src/effects/effectstack/view/effectstackview.cpp:332
 #, kde-format
 msgid "Vertical Flip"
 msgstr "垂直翻轉"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
-#: src/effects/effectstack/view/effectstackview.cpp:423
-#: src/effects/effectstack/view/effectstackview.cpp:978
+#: src/effects/effectstack/view/effectstackview.cpp:341
+#: src/effects/effectstack/view/effectstackview.cpp:422
+#: src/effects/effectstack/view/effectstackview.cpp:977
 #, fuzzy, kde-format
 #| msgid "Remove group"
 msgid "Remove Background"
 msgstr "移除群組"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:342
 #, kde-format
 msgid "Remove background using AI model"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:354
+#: src/effects/effectstack/view/effectstackview.cpp:353
 #, kde-format
 msgid "Flip"
 msgstr "翻轉"
 
-#: src/effects/effectstack/view/effectstackview.cpp:429
+#: src/effects/effectstack/view/effectstackview.cpp:428
 #, fuzzy, kde-format
 #| msgid "Extracting…"
 msgid "Exporting…"
 msgstr "提取中…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:770
-#: src/timeline2/view/timelinecontroller.cpp:3301
+#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "啟用效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:770
-#: src/timeline2/view/timelinecontroller.cpp:3301
+#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "停用效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:808
 #, kde-format
 msgid "No effect selected."
 msgstr "沒有選擇任何效果。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:814
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "儲存目前效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:820
+#: src/effects/effectstack/view/effectstackview.cpp:819
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "儲存的效果堆疊名稱："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:821
+#: src/effects/effectstack/view/effectstackview.cpp:820
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "描述："
 
-#: src/effects/effectstack/view/effectstackview.cpp:833
+#: src/effects/effectstack/view/effectstackview.cpp:832
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "未提供名稱，因此未儲存效果堆疊。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:840
+#: src/effects/effectstack/view/effectstackview.cpp:839
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21334,8 +21324,8 @@ msgstr ""
 "未提供描述。\n"
 "要儲存沒有描述的效果嗎？"
 
-#: src/effects/effectstack/view/effectstackview.cpp:975
-#: src/effects/effectstack/view/effectstackview.cpp:1001
+#: src/effects/effectstack/view/effectstackview.cpp:974
+#: src/effects/effectstack/view/effectstackview.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Exit Mask Creation"
 msgid "Abort Mask Creation"
@@ -21787,13 +21777,13 @@ msgid "Add Markers by Category"
 msgstr "依分類新增標記"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3872
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3858
 #, kde-format
 msgid "Extract Audio"
 msgstr "提取音訊"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3846
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3832
 #, kde-format
 msgid "Clip Jobs"
 msgstr "剪輯工作"
@@ -22752,7 +22742,7 @@ msgstr "立刻開始"
 msgid "Delete them"
 msgstr "刪除它們"
 
-#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2172
+#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2138
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "選取素材來比對效果"
@@ -23006,7 +22996,7 @@ msgstr "調整縮放等級來將整個專案顯示於時間軸視窗內。"
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "已啟用實驗性 GPU 處理 — 不適合生產用途"
 
-#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3481
+#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3467
 #, kde-format
 msgid "Multicam"
 msgstr "多相機"
@@ -23600,7 +23590,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "效果關鍵幀"
 
-#: src/mainwindow.cpp:1842 src/monitor/view/EffectToolBar.qml:99
+#: src/mainwindow.cpp:1842 src/monitor/view/EffectToolBar.qml:101
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "新增/移除關鍵幀"
@@ -23641,7 +23631,7 @@ msgstr "插入軌道…"
 msgid "Fit all Tracks in View"
 msgstr "維持所有軌道在檢視內"
 
-#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4897
+#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4846
 #, kde-format
 msgid "Master effects"
 msgstr "Master 效果"
@@ -23869,20 +23859,20 @@ msgstr "提取影格到專案…"
 msgid "Extract Frame to Clipboard"
 msgstr "提取影格到專案…"
 
-#: src/mainwindow.cpp:2175
+#: src/mainwindow.cpp:2176
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr "您已經修改了代理的參數。您是否要為這個專案重新建立所有代理素材？"
 
-#: src/mainwindow.cpp:2176
+#: src/mainwindow.cpp:2177
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "重新建立"
 
-#: src/mainwindow.cpp:2177 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2178 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2255
 #, kde-format
@@ -23890,7 +23880,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "不建立直接繼續"
 
-#: src/mainwindow.cpp:2233
+#: src/mainwindow.cpp:2234
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -23900,7 +23890,7 @@ msgstr ""
 "目前專案尚未儲存。<br/>這會先儲存專案，然後將所有暫存檔從<br/><b>%1</b> 移動"
 "到 <b>%2</b>，<br>然後重新載入專案檔"
 
-#: src/mainwindow.cpp:2241
+#: src/mainwindow.cpp:2242
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -23908,114 +23898,114 @@ msgid ""
 msgstr ""
 "這會將所有暫存檔從<br/><b>%1</b> 移動到 <b>%2</b>，<br/>然後重新載入專案檔"
 
-#: src/mainwindow.cpp:2250 src/project/projectmanager.cpp:619
+#: src/mainwindow.cpp:2251 src/project/projectmanager.cpp:619
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "無法進行作業，無效文件 ID：%1"
 
-#: src/mainwindow.cpp:2255 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2256 src/project/projectmanager.cpp:625
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "無法進行作業，目標目錄已經存在：%1"
 
-#: src/mainwindow.cpp:2404
+#: src/mainwindow.cpp:2405
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "這會從您的專案中移除所有未使用的素材。"
 
-#: src/mainwindow.cpp:2404
+#: src/mainwindow.cpp:2405
 #, kde-format
 msgid "Clean up project"
 msgstr "清理專案"
 
-#: src/mainwindow.cpp:2546
+#: src/mainwindow.cpp:2547
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "下載新的鍵盤方案…"
 
-#: src/mainwindow.cpp:2555
+#: src/mainwindow.cpp:2556
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "常規"
 
-#: src/mainwindow.cpp:2629
+#: src/mainwindow.cpp:2628
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr "這會刪除 Kdenlive 的設定檔案並重啟應用程式。您要繼續嗎？"
 
-#: src/mainwindow.cpp:2630
+#: src/mainwindow.cpp:2629
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "重設設定"
 
-#: src/mainwindow.cpp:2762 src/mainwindow.cpp:2789
+#: src/mainwindow.cpp:2757 src/mainwindow.cpp:2784
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "無法找到要移除記號的素材"
 
-#: src/mainwindow.cpp:2772 src/mainwindow.cpp:2818
+#: src/mainwindow.cpp:2767 src/mainwindow.cpp:2813
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "游標時間上沒有標記"
 
-#: src/mainwindow.cpp:2794
+#: src/mainwindow.cpp:2789
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "刪除標記時發生錯誤"
 
-#: src/mainwindow.cpp:2811 src/timeline2/view/timelinecontroller.cpp:1348
-#: src/timeline2/view/timelinecontroller.cpp:1356
-#: src/timeline2/view/timelinecontroller.cpp:1377
-#: src/timeline2/view/timelinecontroller.cpp:1417
-#: src/timeline2/view/timelinecontroller.cpp:1443
+#: src/mainwindow.cpp:2806 src/timeline2/view/timelinecontroller.cpp:1314
+#: src/timeline2/view/timelinecontroller.cpp:1322
+#: src/timeline2/view/timelinecontroller.cpp:1343
+#: src/timeline2/view/timelinecontroller.cpp:1383
+#: src/timeline2/view/timelinecontroller.cpp:1409
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "找不到要編輯記號的素材"
 
-#: src/mainwindow.cpp:2862
+#: src/mainwindow.cpp:2857
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "標記分類不存在"
 
-#: src/mainwindow.cpp:3052 src/timeline2/model/timelinefunctions.cpp:791
-#: src/timeline2/view/timelinecontroller.cpp:3161
+#: src/mainwindow.cpp:3038 src/timeline2/model/timelinefunctions.cpp:791
+#: src/timeline2/view/timelinecontroller.cpp:3122
 #, kde-format
 msgid "Overwrite zone"
 msgstr "覆寫區段"
 
-#: src/mainwindow.cpp:3054 src/mainwindow.cpp:3073
+#: src/mainwindow.cpp:3040 src/mainwindow.cpp:3059
 #: src/timeline2/model/timelinefunctions.cpp:793
-#: src/timeline2/view/timelinecontroller.cpp:3163
+#: src/timeline2/view/timelinecontroller.cpp:3124
 #, kde-format
 msgid "Could not insert zone"
 msgstr "無法插入區段"
 
-#: src/mainwindow.cpp:3064
+#: src/mainwindow.cpp:3050
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "專案素材庫中沒有選取素材"
 
-#: src/mainwindow.cpp:3071 src/timeline2/model/timelinefunctions.cpp:791
-#: src/timeline2/view/timelinecontroller.cpp:3161
+#: src/mainwindow.cpp:3057 src/timeline2/model/timelinefunctions.cpp:791
+#: src/timeline2/view/timelinecontroller.cpp:3122
 #, kde-format
 msgid "Insert zone"
 msgstr "插入區段"
 
-#: src/mainwindow.cpp:3238
+#: src/mainwindow.cpp:3224
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "無法新增效果到作用中項目"
 
-#: src/mainwindow.cpp:3300
+#: src/mainwindow.cpp:3286
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "縮放等級：%1/%2"
 
-#: src/mainwindow.cpp:3449
+#: src/mainwindow.cpp:3435
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24027,7 +24017,7 @@ msgstr ""
 "多重選取，<shortcut>Meta+拖曳</shortcut>來將一組素材移動到另一個軌道，"
 "<shortcut>Ctrl+拖曳</shortcut>來平移"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3439
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24040,24 +24030,24 @@ msgstr ""
 "多重選取，<shortcut>Meta+Alt+拖曳</shortcut>來將一組素材移動到另一個軌道，"
 "<shortcut>Ctrl+拖曳</shortcut>來平移"
 
-#: src/mainwindow.cpp:3456
+#: src/mainwindow.cpp:3442
 #, kde-format
 msgid "Select"
 msgstr "選取"
 
-#: src/mainwindow.cpp:3458
+#: src/mainwindow.cpp:3444
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> 來預覽分割影格"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3459 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3445 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "分割"
 
-#: src/mainwindow.cpp:3463
+#: src/mainwindow.cpp:3449
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24067,12 +24057,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> 來只套用到目前軌道，<shortcut>Shift</shortcut> 來同"
 "時移動參照線。兩個修飾鍵可以同時使用。"
 
-#: src/mainwindow.cpp:3464
+#: src/mainwindow.cpp:3450
 #, kde-format
 msgid "Spacer"
 msgstr "空白區域"
 
-#: src/mainwindow.cpp:3466
+#: src/mainwindow.cpp:3452
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24082,13 +24072,13 @@ msgstr ""
 "<shortcut>點擊</shortcut>項目來滑動，<shortcut>Shift+點擊</shortcut>來進行多"
 "重選取"
 
-#: src/mainwindow.cpp:3467
+#: src/mainwindow.cpp:3453
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "滑動"
 
-#: src/mainwindow.cpp:3472
+#: src/mainwindow.cpp:3458
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24100,13 +24090,13 @@ msgstr ""
 "多重選取，<shortcut>Alt+點擊</shortcut>來選擇群組內的項目，<shortcut>Ctrl+拖"
 "曳</shortcut>來平移"
 
-#: src/mainwindow.cpp:3474
+#: src/mainwindow.cpp:3460
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "波紋"
 
-#: src/mainwindow.cpp:3480
+#: src/mainwindow.cpp:3466
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24116,139 +24106,139 @@ msgstr ""
 "<shortcut>點擊</shortcut>專案預覽視窗中的軌道檢視來刪除 (lift) 作用中軌道以外"
 "的所有軌道"
 
-#: src/mainwindow.cpp:3492
+#: src/mainwindow.cpp:3478
 #, kde-format
 msgid "Insert"
 msgstr "插入"
 
-#: src/mainwindow.cpp:3762 src/mainwindow.cpp:3764
+#: src/mainwindow.cpp:3748 src/mainwindow.cpp:3750
 #, kde-format
 msgid "Scopes"
 msgstr "示波器"
 
-#: src/mainwindow.cpp:3769
+#: src/mainwindow.cpp:3755
 #, kde-format
 msgid "Project Bins"
 msgstr "專案素材庫"
 
-#: src/mainwindow.cpp:3865
+#: src/mainwindow.cpp:3851
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "設定剪輯工作…"
 
-#: src/mainwindow.cpp:3871
+#: src/mainwindow.cpp:3857
 #, kde-format
 msgid "Transcoders"
 msgstr "轉換編碼器"
 
-#: src/mainwindow.cpp:3931
+#: src/mainwindow.cpp:3917
 #, kde-format
 msgid "-merged"
 msgstr "-已合併"
 
-#: src/mainwindow.cpp:3934
+#: src/mainwindow.cpp:3920
 #, kde-format
 msgid "-stream-%1"
 msgstr "-串流-%1"
 
-#: src/mainwindow.cpp:3976
+#: src/mainwindow.cpp:3962
 #, kde-format
 msgid "Interface"
 msgstr "介面"
 
-#: src/mainwindow.cpp:3998
+#: src/mainwindow.cpp:3984
 #, kde-format
 msgid "Raise %1"
 msgstr "抬升 %1"
 
-#: src/mainwindow.cpp:4065
+#: src/mainwindow.cpp:4051
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "要轉換編碼的檔案"
 
-#: src/mainwindow.cpp:4197
+#: src/mainwindow.cpp:4183
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "無法為封存儲存專案檔。"
 
-#: src/mainwindow.cpp:4205
+#: src/mainwindow.cpp:4191
 #, kde-format
 msgid "Archiving project"
 msgstr "專案封存中"
 
-#: src/mainwindow.cpp:4345
+#: src/mainwindow.cpp:4331
 #, kde-format
 msgid "Icon Size"
 msgstr "圖示大小"
 
-#: src/mainwindow.cpp:4349
+#: src/mainwindow.cpp:4335
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "預設"
 
-#: src/mainwindow.cpp:4370 src/mainwindow.cpp:4398
+#: src/mainwindow.cpp:4356 src/mainwindow.cpp:4384
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "小型 (%1x%2)"
 
-#: src/mainwindow.cpp:4372 src/mainwindow.cpp:4400
+#: src/mainwindow.cpp:4358 src/mainwindow.cpp:4386
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "中型 (%1x%2)"
 
-#: src/mainwindow.cpp:4374 src/mainwindow.cpp:4402
+#: src/mainwindow.cpp:4360 src/mainwindow.cpp:4388
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "大型 (%1x%2)"
 
-#: src/mainwindow.cpp:4376 src/mainwindow.cpp:4404
+#: src/mainwindow.cpp:4362 src/mainwindow.cpp:4390
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "巨大 (%1x%2)"
 
-#: src/mainwindow.cpp:4460
+#: src/mainwindow.cpp:4446
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "這會完全隱藏選單列。您可以按下 Ctrl+M 重新顯示選單列。"
 
-#: src/mainwindow.cpp:4460
+#: src/mainwindow.cpp:4446
 #, kde-format
 msgid "Hide menu bar"
 msgstr "隱藏選單列"
 
-#: src/mainwindow.cpp:4723 src/timeline2/view/timelinecontroller.cpp:5128
+#: src/mainwindow.cpp:4709 src/timeline2/view/timelinecontroller.cpp:5077
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "目前專案中沒有字幕"
 
-#: src/mainwindow.cpp:5010
+#: src/mainwindow.cpp:4996
 #, kde-format
 msgid "Go to download page"
 msgstr "造訪下載頁面"
 
-#: src/mainwindow.cpp:5015
+#: src/mainwindow.cpp:5001
 #, kde-format
 msgid "Never check again"
 msgstr "不再次檢查"
 
-#: src/mainwindow.cpp:5018
+#: src/mainwindow.cpp:5004
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "您的 Kdenlive 版本已釋出超過 1 年，我們強烈建議您更新"
 
-#: src/mainwindow.cpp:5022
+#: src/mainwindow.cpp:5008
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "您的 Kdenlive 版本已釋出超過 6 個月，我們建議您更新"
 
-#: src/mainwindow.cpp:5065
+#: src/mainwindow.cpp:5051
 #, kde-format
 msgid "Checking cached data size"
 msgstr "正在檢查已快取資料大小"
@@ -24264,19 +24254,19 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "無法找到您的 MLT 編碼方案，請指定路徑"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:133
-#: src/mltcontroller/clippropertiescontroller.cpp:1321
-#: src/mltcontroller/clippropertiescontroller.cpp:1383
+#: src/mltcontroller/clippropertiescontroller.cpp:1322
+#: src/mltcontroller/clippropertiescontroller.cpp:1384
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
 msgstr "kB/秒"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:201
+#: src/mltcontroller/clippropertiescontroller.cpp:202
 #, kde-format
 msgid "File info"
 msgstr "檔案資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:202
+#: src/mltcontroller/clippropertiescontroller.cpp:203
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -24284,91 +24274,91 @@ msgstr "顯示關於檔案的詳細資訊。"
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:204
+#: src/mltcontroller/clippropertiescontroller.cpp:205
 #: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:785
 #, kde-format
 msgid "Properties"
 msgstr "屬性"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:205
+#: src/mltcontroller/clippropertiescontroller.cpp:206
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "顯示關於視訊資料/編碼器的詳細資訊。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:207
+#: src/mltcontroller/clippropertiescontroller.cpp:208
 #, kde-format
 msgid "Audio Properties"
 msgstr "音訊屬性"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:208
+#: src/mltcontroller/clippropertiescontroller.cpp:209
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
 msgstr "顯示關於音訊串流/資料/編碼器的詳細資訊。"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:210
+#: src/mltcontroller/clippropertiescontroller.cpp:211
 #: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "描述資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:212
+#: src/mltcontroller/clippropertiescontroller.cpp:213
 #, kde-format
 msgid "Analysis"
 msgstr "分析"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:213
+#: src/mltcontroller/clippropertiescontroller.cpp:214
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "顯示分析數據。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:398
+#: src/mltcontroller/clippropertiescontroller.cpp:399
 #, kde-format
 msgid "Delete proxy file"
 msgstr "刪除代理檔"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:405
+#: src/mltcontroller/clippropertiescontroller.cpp:406
 #, kde-format
 msgid "Proxy options"
 msgstr "代理選項"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:410
+#: src/mltcontroller/clippropertiescontroller.cpp:411
 #, kde-format
 msgid "Open folder…"
 msgstr "開啟資料夾…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:416
+#: src/mltcontroller/clippropertiescontroller.cpp:417
 #, kde-format
 msgid "Play proxy clip"
 msgstr "播放代理素材"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:422
+#: src/mltcontroller/clippropertiescontroller.cpp:423
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "複製檔案路徑到剪貼簿"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:554
+#: src/mltcontroller/clippropertiescontroller.cpp:555
 #, kde-format
 msgid "Apply"
 msgstr "套用"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:589
+#: src/mltcontroller/clippropertiescontroller.cpp:590
 #, kde-format
 msgid "Disable autorotate"
 msgstr "關閉自動旋轉"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:604
+#: src/mltcontroller/clippropertiescontroller.cpp:605
 #, kde-format
 msgid "Enter template text here"
 msgstr "在此輸入樣板文字"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:627
-#: src/mltcontroller/clippropertiescontroller.cpp:1339
+#: src/mltcontroller/clippropertiescontroller.cpp:628
+#: src/mltcontroller/clippropertiescontroller.cpp:1340
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -24377,9 +24367,9 @@ msgstr "像素寬高比："
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:639
-#: src/mltcontroller/clippropertiescontroller.cpp:1308
-#: src/mltcontroller/clippropertiescontroller.cpp:1313
+#: src/mltcontroller/clippropertiescontroller.cpp:640
+#: src/mltcontroller/clippropertiescontroller.cpp:1309
+#: src/mltcontroller/clippropertiescontroller.cpp:1314
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:287
 #, kde-format
@@ -24389,8 +24379,8 @@ msgstr "幀率："
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:643
-#: src/mltcontroller/clippropertiescontroller.cpp:1326
+#: src/mltcontroller/clippropertiescontroller.cpp:644
+#: src/mltcontroller/clippropertiescontroller.cpp:1327
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -24399,309 +24389,309 @@ msgstr "交錯式"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:644
-#: src/mltcontroller/clippropertiescontroller.cpp:1326
+#: src/mltcontroller/clippropertiescontroller.cpp:645
+#: src/mltcontroller/clippropertiescontroller.cpp:1327
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
 msgstr "掃描："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:648
+#: src/mltcontroller/clippropertiescontroller.cpp:649
 #, kde-format
 msgid "Bottom First"
 msgstr "底部先"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:648
+#: src/mltcontroller/clippropertiescontroller.cpp:649
 #, kde-format
 msgid "Top First"
 msgstr "頂端先"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:649
+#: src/mltcontroller/clippropertiescontroller.cpp:650
 #: src/ui/profiledialog_ui.ui:217
 #, kde-format
 msgid "Field order:"
 msgstr "場序："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:660
+#: src/mltcontroller/clippropertiescontroller.cpp:661
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1（預設）"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:665
+#: src/mltcontroller/clippropertiescontroller.cpp:666
 #, fuzzy, kde-format
 #| msgid "Rotate"
 msgid "Rotate:"
 msgstr "旋轉"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:674
+#: src/mltcontroller/clippropertiescontroller.cpp:675
 #, kde-format
 msgid "Disable video"
 msgstr "關閉視訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:674
+#: src/mltcontroller/clippropertiescontroller.cpp:675
 #, kde-format
 msgid "Enable video"
 msgstr "啟用視訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:682
+#: src/mltcontroller/clippropertiescontroller.cpp:683
 #, kde-format
 msgid "Video stream"
 msgstr "視訊串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:734
+#: src/mltcontroller/clippropertiescontroller.cpp:735
 #, kde-format
 msgid "Color space:"
 msgstr "色彩空間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:738
+#: src/mltcontroller/clippropertiescontroller.cpp:739
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "有限 (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:739
+#: src/mltcontroller/clippropertiescontroller.cpp:740
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "完整 (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:743
+#: src/mltcontroller/clippropertiescontroller.cpp:744
 #, kde-format
 msgid "Color range:"
 msgstr "色彩範圍："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:748
+#: src/mltcontroller/clippropertiescontroller.cpp:749
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "檔案使用可變幀率，不建議"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:786
+#: src/mltcontroller/clippropertiescontroller.cpp:787
 #, kde-format
 msgid "Disable audio"
 msgstr "關閉音效"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:786
+#: src/mltcontroller/clippropertiescontroller.cpp:787
 #, kde-format
 msgid "Enable audio"
 msgstr "啟用音訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:794
+#: src/mltcontroller/clippropertiescontroller.cpp:795
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "音訊串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:816
-#: src/monitor/monitor.cpp:2042
+#: src/mltcontroller/clippropertiescontroller.cpp:817
+#: src/monitor/monitor.cpp:2028
 #, kde-format
 msgid "Merge all streams"
 msgstr "合併所有串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:971
+#: src/mltcontroller/clippropertiescontroller.cpp:972
 #, kde-format
 msgid "Copy channel:"
 msgstr "複製頻道："
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:972
+#: src/mltcontroller/clippropertiescontroller.cpp:973
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:973
+#: src/mltcontroller/clippropertiescontroller.cpp:974
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1002
+#: src/mltcontroller/clippropertiescontroller.cpp:1003
 #, kde-format
 msgid "Gain:"
 msgstr "增益："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1029
+#: src/mltcontroller/clippropertiescontroller.cpp:1030
 #, kde-format
 msgid "Audio sync:"
 msgstr "音訊同步："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1031
+#: src/mltcontroller/clippropertiescontroller.cpp:1032
 #, kde-format
 msgid "ms"
 msgstr "毫秒"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1080
+#: src/mltcontroller/clippropertiescontroller.cpp:1081
 #, kde-format
 msgid "Analysis data"
 msgstr "分析數據"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1083
+#: src/mltcontroller/clippropertiescontroller.cpp:1084
 #, kde-format
 msgid "Delete analysis"
 msgstr "刪除數據"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1085
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "刪除資料集。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1085
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
 #, kde-format
 msgid "Export analysis…"
 msgstr "匯出分析…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1086
+#: src/mltcontroller/clippropertiescontroller.cpp:1087
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "開啟檔案對話框視窗來匯出/儲存分析資料。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1087
+#: src/mltcontroller/clippropertiescontroller.cpp:1088
 #, kde-format
 msgid "Import analysis…"
 msgstr "匯入分析…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1088
+#: src/mltcontroller/clippropertiescontroller.cpp:1089
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "開啟檔案對話框視窗來匯入/載入分析資料。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1157
-#: src/mltcontroller/clippropertiescontroller.cpp:1456
+#: src/mltcontroller/clippropertiescontroller.cpp:1158
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #, kde-format
 msgid "Tracks:"
 msgstr "軌道："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1296
+#: src/mltcontroller/clippropertiescontroller.cpp:1297
 #, kde-format
 msgid "Video codec:"
 msgstr "視訊編碼："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1302
+#: src/mltcontroller/clippropertiescontroller.cpp:1303
 #, kde-format
 msgid "Frame size:"
 msgstr "畫面大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1321
+#: src/mltcontroller/clippropertiescontroller.cpp:1322
 #, kde-format
 msgid "Video bitrate:"
 msgstr "視訊位元率："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1343
+#: src/mltcontroller/clippropertiescontroller.cpp:1344
 #, kde-format
 msgid "Pixel format:"
 msgstr "像素格式："
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1348
+#: src/mltcontroller/clippropertiescontroller.cpp:1349
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "色彩空間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1352
+#: src/mltcontroller/clippropertiescontroller.cpp:1353
 #, kde-format
 msgid "B frames:"
 msgstr "B-Frame："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1352
+#: src/mltcontroller/clippropertiescontroller.cpp:1353
 #, kde-format
 msgid "Yes"
 msgstr "是"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1352
+#: src/mltcontroller/clippropertiescontroller.cpp:1353
 #, kde-format
 msgid "No"
 msgstr "否"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1366
+#: src/mltcontroller/clippropertiescontroller.cpp:1367
 #, kde-format
 msgid "Audio codec:"
 msgstr "音訊編碼："
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "聲道："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1377
+#: src/mltcontroller/clippropertiescontroller.cpp:1378
 #, kde-format
 msgid "Audio frequency:"
 msgstr "音訊頻率："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1377
+#: src/mltcontroller/clippropertiescontroller.cpp:1378
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1383
+#: src/mltcontroller/clippropertiescontroller.cpp:1384
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "音訊位元率："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#: src/mltcontroller/clippropertiescontroller.cpp:1412
 #, kde-format
 msgid "Image size:"
 msgstr "圖片大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1414
+#: src/mltcontroller/clippropertiescontroller.cpp:1415
 #, kde-format
 msgid "Image duration:"
 msgstr "圖片持續時間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1421
+#: src/mltcontroller/clippropertiescontroller.cpp:1422
 #, kde-format
 msgid "Image count:"
 msgstr "圖片數量："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1441
+#: src/mltcontroller/clippropertiescontroller.cpp:1442
 #, fuzzy, kde-format
 #| msgid "Video stream"
 msgid "Video streams:"
 msgstr "視訊串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1448
+#: src/mltcontroller/clippropertiescontroller.cpp:1449
 #, kde-format
 msgid "Audio streams:"
 msgstr "音訊串流："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1470
+#: src/mltcontroller/clippropertiescontroller.cpp:1471
 #, kde-format
 msgid "File size:"
 msgstr "檔案大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1615
+#: src/mltcontroller/clippropertiescontroller.cpp:1616
 #, kde-format
 msgid "Exif"
 msgstr "Exif 資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1642
+#: src/mltcontroller/clippropertiescontroller.cpp:1643
 #, kde-format
 msgid "Magic Lantern"
 msgstr "魔術燈"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1683
+#: src/mltcontroller/clippropertiescontroller.cpp:1684
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "儲存分析數據"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1684
-#: src/mltcontroller/clippropertiescontroller.cpp:1697
+#: src/mltcontroller/clippropertiescontroller.cpp:1685
+#: src/mltcontroller/clippropertiescontroller.cpp:1698
 #: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "文字檔案 (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1696
+#: src/mltcontroller/clippropertiescontroller.cpp:1697
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -24810,7 +24800,7 @@ msgstr "自動調整大小"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
-#: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
+#: src/timeline2/view/timelinecontroller.cpp:283 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "黑色"
@@ -24870,102 +24860,102 @@ msgstr "將目前圖片設定為縮圖"
 msgid "Always show audio thumbnails"
 msgstr "總是顯示音訊縮圖"
 
-#: src/monitor/monitor.cpp:728
+#: src/monitor/monitor.cpp:725
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "顯示音量等級"
 
-#: src/monitor/monitor.cpp:735
+#: src/monitor/monitor.cpp:732
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "顯示來源時間碼"
 
-#: src/monitor/monitor.cpp:772
+#: src/monitor/monitor.cpp:769
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "螢幕解析度不夠執行此操作"
 
-#: src/monitor/monitor.cpp:906 src/monitor/monitor.cpp:942
+#: src/monitor/monitor.cpp:903 src/monitor/monitor.cpp:939
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr ""
 
-#: src/monitor/monitor.cpp:935 src/monitor/monitor.cpp:971
-#: src/timeline2/view/timelinecontroller.cpp:1831
+#: src/monitor/monitor.cpp:932 src/monitor/monitor.cpp:968
+#: src/timeline2/view/timelinecontroller.cpp:1797
 #, kde-format
 msgid "Set Zone"
 msgstr "設定區段"
 
-#: src/monitor/monitor.cpp:1381
+#: src/monitor/monitor.cpp:1378
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "儲存圖片到專案中"
 
-#: src/monitor/monitor.cpp:1381
+#: src/monitor/monitor.cpp:1378
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "儲存圖片"
 
-#: src/monitor/monitor.cpp:1388
+#: src/monitor/monitor.cpp:1385
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "使用來源解析度匯出圖片"
 
-#: src/monitor/monitor.cpp:1929
+#: src/monitor/monitor.cpp:1915
 #, fuzzy, kde-format
 #| msgid "Exit Mask Creation"
 msgid "Exit Mask Mode ?"
 msgstr "離開遮罩建立"
 
-#: src/monitor/monitor.cpp:2027 src/monitor/monitor.cpp:2159
+#: src/monitor/monitor.cpp:2013 src/monitor/monitor.cpp:2145
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 個音訊串流"
 
-#: src/monitor/monitor.cpp:2466
+#: src/monitor/monitor.cpp:2452
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "無法初始化 Movit 的 GLSL 管理器，請停用 Movit"
 
-#: src/monitor/monitor.cpp:2508 src/monitor/monitor.cpp:2565
+#: src/monitor/monitor.cpp:2494 src/monitor/monitor.cpp:2551
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr "該功能需要 alphagrad 過濾器，請安裝 frei0r 並重新啟動 Kdenlive"
 
-#: src/monitor/monitor.cpp:2528
+#: src/monitor/monitor.cpp:2514
 #, kde-format
 msgid "Clip has no effects"
 msgstr "素材沒有效果"
 
-#: src/monitor/monitor.cpp:2530
+#: src/monitor/monitor.cpp:2516
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "在專案素材庫中選取素材來比對效果"
 
-#: src/monitor/monitor.cpp:2572
+#: src/monitor/monitor.cpp:2558
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr "該功能需要 cairoblend 轉場特效，請安裝 frei0r 並重新啟動 Kdenlive"
 
-#: src/monitor/monitor.cpp:2649
+#: src/monitor/monitor.cpp:2633
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "在預覽視窗啟用編輯模式來編輯效果"
 
-#: src/monitor/monitor.cpp:3146
+#: src/monitor/monitor.cpp:3130
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "專案素材庫中沒有選取素材"
 
-#: src/monitor/monitor.cpp:3167
+#: src/monitor/monitor.cpp:3151
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"
@@ -25162,17 +25152,17 @@ msgstr "MLT 編譯時必須有 libfftw3 才能使用音訊頻譜"
 msgid "Enable Audio Spectrum"
 msgstr "啟用音訊頻譜"
 
-#: src/monitor/videowidget.cpp:1089
+#: src/monitor/videowidget.cpp:1096
 #, kde-format
 msgid "Select a zone to play"
 msgstr "選取要播放的區段"
 
-#: src/monitor/videowidget.cpp:1098
+#: src/monitor/videowidget.cpp:1105
 #, kde-format
 msgid "Select a clip to play"
 msgstr "選擇要播放的素材"
 
-#: src/monitor/videowidget.cpp:1203
+#: src/monitor/videowidget.cpp:1210
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -25182,62 +25172,7 @@ msgstr ""
 "無法建立影片預覽視窗。\n"
 "您的 Kdenlive 安裝或驅動程式設定有問題，請修正它。"
 
-#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:56
-#: src/monitor/view/SceneToolBar.qml:56
-#, kde-format
-msgid "Switch Full Screen"
-msgstr "切換全螢幕"
-
-#: src/monitor/view/EffectToolBar.qml:64
-#, kde-format
-msgid "Show Grid"
-msgstr "顯示格線"
-
-#: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
-#, kde-format
-msgid "Change Overlay"
-msgstr "變更覆蓋顯示"
-
-#: src/monitor/view/EffectToolBar.qml:87
-#, kde-format
-msgid "Go to Next Keyframe"
-msgstr "跳到下一個關鍵幀"
-
-#: src/monitor/view/EffectToolBar.qml:93
-#, kde-format
-msgid "Go to Previous Keyframe"
-msgstr "跳到上一個關鍵幀"
-
-#: src/monitor/view/EffectToolBar.qml:104
-#, kde-format
-msgid "Automatic Keyframes"
-msgstr "自動關鍵幀"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:64
-#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
-#, kde-format
-msgid "Zoom in"
-msgstr "放大"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:128
-#: src/monitor/view/MultiScreenToolBar.qml:72
-#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
-#, kde-format
-msgid "Zoom out"
-msgstr "縮小"
-
-#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:135
-#: src/monitor/view/MultiScreenToolBar.qml:81
-#: src/monitor/view/SceneToolBar.qml:112
-#, kde-format
-msgid "Move Toolbar"
-msgstr "移動工具列"
-
-#: src/monitor/view/kdenliveclipmonitor.qml:179
+#: src/monitor/view/ClipMonitor.qml:174
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25251,150 +25186,85 @@ msgstr ""
 "shortcut>或<shortcut>方向鍵</shortcut>來前後移動，<shortcut>Ctrl+滾輪</"
 "shortcut>來縮放"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:569
-#: src/monitor/view/kdenlivemonitor.qml:204
+#: src/monitor/view/ClipMonitor.qml:551 src/monitor/view/ProjectMonitor.qml:190
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:602
-#, kde-format
-msgid "In/Out Point"
-msgstr "起點/終點"
-
-#: src/monitor/view/kdenliveclipmonitor.qml:602
-#: src/monitor/view/kdenlivemonitor.qml:237
+#: src/monitor/view/ClipMonitor.qml:584 src/monitor/view/ProjectMonitor.qml:223
 #, kde-format
 msgid "In Point"
 msgstr "起點"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:624
-#: src/monitor/view/kdenlivemonitor.qml:254
+#: src/monitor/view/ClipMonitor.qml:584
+#, kde-format
+msgid "In/Out Point"
+msgstr "起點/終點"
+
+#: src/monitor/view/ClipMonitor.qml:606 src/monitor/view/ProjectMonitor.qml:240
 #, kde-format
 msgid "Out Point"
 msgstr "終點"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:804
+#: src/monitor/view/ClipMonitor.qml:786
 #, kde-format
 msgid "Terminate Job"
 msgstr "終止工作"
 
-#: src/monitor/view/kdenlivemonitor.qml:101
+#: src/monitor/view/EffectToolBar.qml:60 src/monitor/view/MaskToolBar.qml:59
+#: src/monitor/view/MultiScreenToolBar.qml:57
+#: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
-msgid ""
-"<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
-"for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
-msgstr ""
-"<b>點擊</b>來播放，<b>雙擊</b>進入全螢幕，<b>滑鼠停留於右方</b>來打開工具列，"
-"使用<b>滾輪</b>或<b>方向鍵</b>來前後移動，<b>Ctrl+滾輪</b>來縮放"
+msgid "Switch Full Screen"
+msgstr "切換全螢幕"
 
-#: src/monitor/view/kdenlivemonitor.qml:300
+#: src/monitor/view/EffectToolBar.qml:66
 #, kde-format
-msgctxt "@tooltip Transform, a tool to resize"
-msgid "Transform"
-msgstr "簡易變形"
+msgid "Show Grid"
+msgstr "顯示格線"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:387
-#, fuzzy, kde-format
-#| msgid "Select a clip in project bin to compare effect"
-msgid "Select an object in the image first"
-msgstr "在專案素材庫中選取素材來比對效果"
-
-#: src/monitor/view/kdenlivemonitorautomask.qml:387
+#: src/monitor/view/EffectToolBar.qml:76 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
-msgid "Generating image mask"
-msgstr "正在建立影像遮罩"
+msgid "Change Overlay"
+msgstr "變更覆蓋顯示"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:387
+#: src/monitor/view/EffectToolBar.qml:89
 #, kde-format
-msgid "Generating video mask"
-msgstr "正在建立影片遮罩"
+msgid "Go to Next Keyframe"
+msgstr "跳到下一個關鍵幀"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:398
+#: src/monitor/view/EffectToolBar.qml:95
 #, kde-format
-msgid ""
-"Click on an object or draw a box to start a mask.\n"
-"Shift+click to include another zone.\n"
-"Ctrl+click to exclude a zone."
-msgstr ""
-"點擊物件或是繪製方框來開始建立遮罩。\n"
-"Shift+點擊來包含另一個區域。\n"
-"Ctrl+點擊來排除一個區域。"
+msgid "Go to Previous Keyframe"
+msgstr "跳到上一個關鍵幀"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:398
+#: src/monitor/view/EffectToolBar.qml:106
 #, kde-format
-msgid "Previewing video mask"
-msgstr "正在預覽影片遮罩"
+msgid "Automatic Keyframes"
+msgstr "自動關鍵幀"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:409
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
+#: src/monitor/view/EffectToolBar.qml:114 src/monitor/view/MaskToolBar.qml:123
+#: src/monitor/view/MultiScreenToolBar.qml:65
+#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
-msgid ""
-"You are outside of the time zone defined\n"
-"for the mask and cannot add keyframes.\n"
-"\n"
-"\n"
-msgstr ""
+msgid "Zoom in"
+msgstr "放大"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:419
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
+#: src/monitor/view/EffectToolBar.qml:119 src/monitor/view/MaskToolBar.qml:128
+#: src/monitor/view/MultiScreenToolBar.qml:73
+#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
-msgid "Go to mask start"
-msgstr "跳到遮罩起點"
+msgid "Zoom out"
+msgstr "縮小"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:432
+#: src/monitor/view/EffectToolBar.qml:126 src/monitor/view/MaskToolBar.qml:135
+#: src/monitor/view/MultiScreenToolBar.qml:82
+#: src/monitor/view/SceneToolBar.qml:112
 #, kde-format
-msgid "Go to mask end"
-msgstr "跳到遮罩末尾"
-
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:313
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</"
-"shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for "
-"center-based rescale, <shortcut>Hover right</shortcut> for toolbar, "
-"<shortcut>Click</shortcut> on a center to seek to its keyframe"
-msgstr ""
-"<shortcut>雙擊</shortcut>來新增關鍵幀，<shortcut>Shift-拖曳</shortcut>來使用"
-"比例縮放，<shortcut>Ctrl-拖曳</shortcut>來使用中心縮放，<shortcut>滑鼠停駐在"
-"右邊</shortcut>來使用工具列，在中心<shortcut>點擊</shortcut>來移動到它的關鍵"
-"幀"
-
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
-"to close shape."
-msgstr ""
-"<shortcut>點擊</shortcut>來新增點，<shortcut>右鍵點擊</shortcut>來關閉形狀。"
-
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<shortcut>Double click</shortcut> on center to resize, <shortcut>Double "
-"click</shortcut> on line segment to add new point, <shortcut>Double click</"
-"shortcut> point to delete it, <shortcut>Double click</shortcut> background "
-"to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
-msgstr ""
-"<shortcut>雙擊</shortcut>中心來調整大小，<shortcut>雙擊</shortcut>線段來新增"
-"點，<shortcut>雙擊</shortcut>點來刪除它，<shortcut>雙擊</shortcut>背景來建立"
-"新影格，<shortcut>滑鼠停駐於右方</shortcut>來使用工具列"
-
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:71
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
-msgstr "<shortcut>Shift-拖曳把手</shortcut>來以中央為中心調整大小"
-
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:442
-#, kde-format
-msgid ""
-"Click to add points,\n"
-"right click or press enter to close shape."
-msgstr ""
-"點擊以新增控制點，\n"
-"右鍵點擊或按 Enter 來將形狀封起來。"
+msgid "Move Toolbar"
+msgstr "移動工具列"
 
 #: src/monitor/view/MaskToolBar.qml:65
 #, kde-format
@@ -25423,7 +25293,109 @@ msgstr "離開遮罩建立"
 msgid "Exit Preview Mode"
 msgstr "離開預覽模式"
 
-#: src/monitor/view/MonitorRuler.qml:268
+#: src/monitor/view/MonitorAutomask.qml:387
+#, fuzzy, kde-format
+#| msgid "Select a clip in project bin to compare effect"
+msgid "Select an object in the image first"
+msgstr "在專案素材庫中選取素材來比對效果"
+
+#: src/monitor/view/MonitorAutomask.qml:387
+#, kde-format
+msgid "Generating image mask"
+msgstr "正在建立影像遮罩"
+
+#: src/monitor/view/MonitorAutomask.qml:387
+#, kde-format
+msgid "Generating video mask"
+msgstr "正在建立影片遮罩"
+
+#: src/monitor/view/MonitorAutomask.qml:398
+#, kde-format
+msgid ""
+"Click on an object or draw a box to start a mask.\n"
+"Shift+click to include another zone.\n"
+"Ctrl+click to exclude a zone."
+msgstr ""
+"點擊物件或是繪製方框來開始建立遮罩。\n"
+"Shift+點擊來包含另一個區域。\n"
+"Ctrl+點擊來排除一個區域。"
+
+#: src/monitor/view/MonitorAutomask.qml:398
+#, kde-format
+msgid "Previewing video mask"
+msgstr "正在預覽影片遮罩"
+
+#: src/monitor/view/MonitorAutomask.qml:409
+#, kde-format
+msgid ""
+"You are outside of the time zone defined\n"
+"for the mask and cannot add keyframes.\n"
+"\n"
+"\n"
+msgstr ""
+
+#: src/monitor/view/MonitorAutomask.qml:419
+#, kde-format
+msgid "Go to mask start"
+msgstr "跳到遮罩起點"
+
+#: src/monitor/view/MonitorAutomask.qml:431
+#, kde-format
+msgid "Go to mask end"
+msgstr "跳到遮罩末尾"
+
+#: src/monitor/view/MonitorGeometryScene.qml:301
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</"
+"shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for "
+"center-based rescale, <shortcut>Hover right</shortcut> for toolbar, "
+"<shortcut>Click</shortcut> on a center to seek to its keyframe"
+msgstr ""
+"<shortcut>雙擊</shortcut>來新增關鍵幀，<shortcut>Shift-拖曳</shortcut>來使用"
+"比例縮放，<shortcut>Ctrl-拖曳</shortcut>來使用中心縮放，<shortcut>滑鼠停駐在"
+"右邊</shortcut>來使用工具列，在中心<shortcut>點擊</shortcut>來移動到它的關鍵"
+"幀"
+
+#: src/monitor/view/MonitorRotoScene.qml:70
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
+"to close shape."
+msgstr ""
+"<shortcut>點擊</shortcut>來新增點，<shortcut>右鍵點擊</shortcut>來關閉形狀。"
+
+#: src/monitor/view/MonitorRotoScene.qml:71
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Double click</shortcut> on center to resize, <shortcut>Double "
+"click</shortcut> on line segment to add new point, <shortcut>Double click</"
+"shortcut> point to delete it, <shortcut>Double click</shortcut> background "
+"to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
+msgstr ""
+"<shortcut>雙擊</shortcut>中心來調整大小，<shortcut>雙擊</shortcut>線段來新增"
+"點，<shortcut>雙擊</shortcut>點來刪除它，<shortcut>雙擊</shortcut>背景來建立"
+"新影格，<shortcut>滑鼠停駐於右方</shortcut>來使用工具列"
+
+#: src/monitor/view/MonitorRotoScene.qml:72
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
+msgstr "<shortcut>Shift-拖曳把手</shortcut>來以中央為中心調整大小"
+
+#: src/monitor/view/MonitorRotoScene.qml:429
+#, kde-format
+msgid ""
+"Click to add points,\n"
+"right click or press enter to close shape."
+msgstr ""
+"點擊以新增控制點，\n"
+"右鍵點擊或按 Enter 來將形狀封起來。"
+
+#: src/monitor/view/MonitorRuler.qml:267
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25437,7 +25409,7 @@ msgstr ""
 "記，<shortcut>Home</shortcut> / <shortcut>End</shortcut> 來前往第一個 / 最後"
 "一個影格"
 
-#: src/monitor/view/MonitorRuler.qml:339
+#: src/monitor/view/MonitorRuler.qml:338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25447,7 +25419,7 @@ msgstr ""
 "<shortcut>拖曳</shortcut>來設定區段起點，<shortcut>Shift+拖曳</shortcut>來一"
 "邊移動一邊調整區段起點"
 
-#: src/monitor/view/MonitorRuler.qml:388
+#: src/monitor/view/MonitorRuler.qml:387
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25456,6 +25428,21 @@ msgid ""
 msgstr ""
 "<shortcut>拖曳</shortcut>來設定區段終點，<shortcut>Shift+拖曳</shortcut>來一"
 "邊移動一邊調整區段終點"
+
+#: src/monitor/view/ProjectMonitor.qml:101
+#, kde-format
+msgid ""
+"<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
+"for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
+msgstr ""
+"<b>點擊</b>來播放，<b>雙擊</b>進入全螢幕，<b>滑鼠停留於右方</b>來打開工具列，"
+"使用<b>滾輪</b>或<b>方向鍵</b>來前後移動，<b>Ctrl+滾輪</b>來縮放"
+
+#: src/monitor/view/ProjectMonitor.qml:286
+#, kde-format
+msgctxt "@tooltip Transform, a tool to resize"
+msgid "Transform"
+msgstr "簡易變形"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -28382,26 +28369,26 @@ msgid "Cut all clips"
 msgstr "分割所有素材"
 
 #: src/timeline2/model/timelinefunctions.cpp:685
-#: src/timeline2/view/timelinecontroller.cpp:1507
+#: src/timeline2/view/timelinecontroller.cpp:1473
 #, kde-format
 msgid "Insert space"
 msgstr "插入空白空間"
 
 #: src/timeline2/model/timelinefunctions.cpp:687
-#: src/timeline2/view/timelinecontroller.cpp:1509
+#: src/timeline2/view/timelinecontroller.cpp:1475
 #, kde-format
 msgid "Remove space"
 msgstr "移除空白空間"
 
 #: src/timeline2/model/timelinefunctions.cpp:756
-#: src/timeline2/view/timelinecontroller.cpp:2967
+#: src/timeline2/view/timelinecontroller.cpp:2928
 #, kde-format
 msgid "Lift zone"
 msgstr "刪除區段"
 
 #: src/timeline2/model/timelinefunctions.cpp:756
-#: src/timeline2/view/timelinecontroller.cpp:747
-#: src/timeline2/view/timelinecontroller.cpp:2967
+#: src/timeline2/view/timelinecontroller.cpp:743
+#: src/timeline2/view/timelinecontroller.cpp:2928
 #, kde-format
 msgid "Extract zone"
 msgstr "刪除區段後前移"
@@ -28412,28 +28399,28 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr "請點擊軌道名稱，將軌道設為作用中"
 
 #: src/timeline2/model/timelinefunctions.cpp:951
-#: src/timeline2/view/timelinecontroller.cpp:1246
-#: src/timeline2/view/timelinecontroller.cpp:1326
-#: src/timeline2/view/timelinecontroller.cpp:1336
-#: src/timeline2/view/timelinecontroller.cpp:1365
-#: src/timeline2/view/timelinecontroller.cpp:1405
-#: src/timeline2/view/timelinecontroller.cpp:1431
-#: src/timeline2/view/timelinecontroller.cpp:1456
-#: src/timeline2/view/timelinecontroller.cpp:2335
-#: src/timeline2/view/timelinecontroller.cpp:2985
-#: src/timeline2/view/timelinecontroller.cpp:3050
-#: src/timeline2/view/timelinecontroller.cpp:3264
-#: src/timeline2/view/timelinecontroller.cpp:3309
-#: src/timeline2/view/timelinecontroller.cpp:3350
-#: src/timeline2/view/timelinecontroller.cpp:3357
-#: src/timeline2/view/timelinecontroller.cpp:3385
-#: src/timeline2/view/timelinecontroller.cpp:3710
-#: src/timeline2/view/timelinecontroller.cpp:3725
-#: src/timeline2/view/timelinecontroller.cpp:3750
-#: src/timeline2/view/timelinecontroller.cpp:3765
-#: src/timeline2/view/timelinecontroller.cpp:3824
-#: src/timeline2/view/timelinecontroller.cpp:3877
-#: src/timeline2/view/timelinecontroller.cpp:3901
+#: src/timeline2/view/timelinecontroller.cpp:1212
+#: src/timeline2/view/timelinecontroller.cpp:1292
+#: src/timeline2/view/timelinecontroller.cpp:1302
+#: src/timeline2/view/timelinecontroller.cpp:1331
+#: src/timeline2/view/timelinecontroller.cpp:1371
+#: src/timeline2/view/timelinecontroller.cpp:1397
+#: src/timeline2/view/timelinecontroller.cpp:1422
+#: src/timeline2/view/timelinecontroller.cpp:2301
+#: src/timeline2/view/timelinecontroller.cpp:2946
+#: src/timeline2/view/timelinecontroller.cpp:3011
+#: src/timeline2/view/timelinecontroller.cpp:3225
+#: src/timeline2/view/timelinecontroller.cpp:3270
+#: src/timeline2/view/timelinecontroller.cpp:3311
+#: src/timeline2/view/timelinecontroller.cpp:3318
+#: src/timeline2/view/timelinecontroller.cpp:3346
+#: src/timeline2/view/timelinecontroller.cpp:3669
+#: src/timeline2/view/timelinecontroller.cpp:3684
+#: src/timeline2/view/timelinecontroller.cpp:3709
+#: src/timeline2/view/timelinecontroller.cpp:3724
+#: src/timeline2/view/timelinecontroller.cpp:3783
+#: src/timeline2/view/timelinecontroller.cpp:3836
+#: src/timeline2/view/timelinecontroller.cpp:3860
 #, kde-format
 msgid "No clip selected"
 msgstr "未選取素材"
@@ -28446,7 +28433,7 @@ msgstr "無法移動所選群組"
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1121
 #: src/timeline2/model/timelinefunctions.cpp:1128
-#: src/timeline2/view/timelinecontroller.cpp:4042
+#: src/timeline2/view/timelinecontroller.cpp:4001
 #, kde-format
 msgid "Enable clip"
 msgstr "啟用素材"
@@ -28454,7 +28441,7 @@ msgstr "啟用素材"
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1121
 #: src/timeline2/model/timelinefunctions.cpp:1128
-#: src/timeline2/view/timelinecontroller.cpp:4042
+#: src/timeline2/view/timelinecontroller.cpp:4001
 #, kde-format
 msgid "Disable clip"
 msgstr "停用素材"
@@ -28687,7 +28674,7 @@ msgstr "移動素材"
 #: src/timeline2/model/timelinemodel.cpp:1930
 #: src/timeline2/model/timelinemodel.cpp:1953
 #: src/timeline2/model/timelinemodel.cpp:1976
-#: src/timeline2/view/timelinecontroller.cpp:3335
+#: src/timeline2/view/timelinecontroller.cpp:3296
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "沒有插入操作可利用的軌道"
@@ -28735,7 +28722,7 @@ msgstr "刪除合成方案"
 
 #: src/timeline2/model/timelinemodel.cpp:2404
 #: src/timeline2/model/timelinemodel.cpp:2694
-#: src/timeline2/view/timelinecontroller.cpp:4279
+#: src/timeline2/view/timelinecontroller.cpp:4238
 #, kde-format
 msgid "Move group"
 msgstr "移動群組"
@@ -28809,7 +28796,7 @@ msgid "Ungroup clips"
 msgstr "取消組合"
 
 #: src/timeline2/model/timelinemodel.cpp:4773
-#: src/timeline2/view/timelinecontroller.cpp:982
+#: src/timeline2/view/timelinecontroller.cpp:948
 #, kde-format
 msgid "Delete Track"
 msgstr "刪除軌道"
@@ -28875,15 +28862,15 @@ msgid "Change clip speed"
 msgstr "變更素材速度"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
-#: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:522
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:128
+#: src/timeline2/view/qml/TrackHead.qml:481
 #, kde-format
 msgid "Lock track"
 msgstr "鎖定軌道"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
-#: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:522
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:128
+#: src/timeline2/view/qml/TrackHead.qml:481
 #, kde-format
 msgid "Unlock track"
 msgstr "解鎖軌道"
@@ -29028,7 +29015,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2189
+#: src/timeline2/view/qml/Timeline.qml:1997
 #, kde-format
 msgid "Paused"
 msgstr "已暫停"
@@ -29044,8 +29031,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3)，位置：%4，時長：%5"
 
 #: src/timeline2/view/qml/Clip.qml:343 src/timeline2/view/qml/Clip.qml:357
-#: src/timeline2/view/qml/SubTitle.qml:206
-#: src/timeline2/view/qml/SubTitle.qml:212
+#: src/timeline2/view/qml/SubTitle.qml:207
+#: src/timeline2/view/qml/SubTitle.qml:213
 #, kde-format
 msgid "Position: %1"
 msgstr "位置：%1"
@@ -29107,27 +29094,27 @@ msgstr "偏移：%1"
 msgid " <b>Click</b> to align clips"
 msgstr "<b>點擊</b>來對齊素材"
 
-#: src/timeline2/view/qml/Clip.qml:1280 src/timeline2/view/qml/Clip.qml:1317
+#: src/timeline2/view/qml/Clip.qml:1278 src/timeline2/view/qml/Clip.qml:1315
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>點擊</b>來新增合成方案"
 
-#: src/timeline2/view/qml/Clip.qml:1394 src/timeline2/view/qml/Clip.qml:1401
+#: src/timeline2/view/qml/Clip.qml:1392 src/timeline2/view/qml/Clip.qml:1399
 #, kde-format
 msgid "Fade out: %1"
 msgstr "淡出：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1405 src/timeline2/view/qml/Clip.qml:1512
+#: src/timeline2/view/qml/Clip.qml:1403 src/timeline2/view/qml/Clip.qml:1510
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr "<b>拖曳</b>來調整淡入淡出，<b>點擊</b>來加上預設長度的淡入淡出"
 
-#: src/timeline2/view/qml/Clip.qml:1501 src/timeline2/view/qml/Clip.qml:1508
+#: src/timeline2/view/qml/Clip.qml:1499 src/timeline2/view/qml/Clip.qml:1506
 #, kde-format
 msgid "Fade in: %1"
 msgstr "淡入：%1"
 
-#: src/timeline2/view/qml/Clip.qml:1596
+#: src/timeline2/view/qml/Clip.qml:1594
 #, kde-format
 msgid "Slip Clip"
 msgstr "滑動素材"
@@ -29139,13 +29126,13 @@ msgstr "%1，位置：%2，時長：%3"
 
 #: src/timeline2/view/qml/Composition.qml:336
 #: src/timeline2/view/qml/Composition.qml:400
-#: src/timeline2/view/qml/SubTitle.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:443
+#: src/timeline2/view/qml/SubTitle.qml:341
+#: src/timeline2/view/qml/SubTitle.qml:444
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>拖曳</b>來調整大小"
 
-#: src/timeline2/view/qml/KeyframeView.qml:170
+#: src/timeline2/view/qml/KeyframeView.qml:171
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -29154,7 +29141,7 @@ msgstr ""
 "<b>拖曳</b>來移動所選關鍵幀的位置。<b>Shift+拖曳</b>來移動這個關鍵幀後方的所"
 "有關鍵幀。"
 
-#: src/timeline2/view/qml/KeyframeView.qml:282
+#: src/timeline2/view/qml/KeyframeView.qml:283
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -29162,349 +29149,349 @@ msgid ""
 msgstr ""
 "<b>Shift+拖曳</b>來變更所選關鍵幀的數值，<b>Ctrl+點擊</b>來選取多個關鍵幀。"
 
-#: src/timeline2/view/qml/SubTitle.qml:111
+#: src/timeline2/view/qml/SubTitle.qml:112
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>雙擊</b>來編輯文字"
 
-#: src/timeline2/view/qml/timeline.qml:1004
-#, kde-format
-msgid "Show master effects"
-msgstr "顯示 master 效果"
-
-#: src/timeline2/view/qml/timeline.qml:1147
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:89
 #, kde-format
 msgid "Click to see details"
 msgstr "點擊來檢視詳細資料"
 
-#: src/timeline2/view/qml/timeline.qml:1169
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:103
 #, kde-format
 msgid "Speech recognition"
 msgstr "語音辨識"
 
-#: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:488
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
+#: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
 msgid "Show"
 msgstr "顯示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:488 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
+#: src/timeline2/view/qml/TrackHead.qml:458 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/timeline2/view/qml/timeline.qml:1852
+#: src/timeline2/view/qml/Timeline.qml:1001
+#, kde-format
+msgid "Show master effects"
+msgstr "顯示 master 效果"
+
+#: src/timeline2/view/qml/Timeline.qml:1660
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>雙擊</b>來新增字幕"
 
-#: src/timeline2/view/qml/timeline.qml:2019
+#: src/timeline2/view/qml/Timeline.qml:1827
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/timeline.qml:2178
-#: src/timeline2/view/qml/timeline.qml:2187
+#: src/timeline2/view/qml/Timeline.qml:1986
+#: src/timeline2/view/qml/Timeline.qml:1995
 #, kde-format
 msgid "Recording"
 msgstr "錄製"
 
-#: src/timeline2/view/qml/timeline.qml:2281
+#: src/timeline2/view/qml/Timeline.qml:2089
 #, kde-format
 msgid "Multicam In"
 msgstr "多相機 入"
 
-#: src/timeline2/view/qml/Track.qml:459 src/timeline2/view/qml/Track.qml:477
+#: src/timeline2/view/qml/Track.qml:460 src/timeline2/view/qml/Track.qml:478
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2，時長 = %3"
 
-#: src/timeline2/view/qml/Track.qml:501
+#: src/timeline2/view/qml/Track.qml:502
 #, kde-format
 msgid "Adjusting speed"
 msgstr "速度調整"
 
-#: src/timeline2/view/qml/TrackHead.qml:188
+#: src/timeline2/view/qml/TrackHead.qml:183
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr "點擊來切換軌道是否為目標。素材插入會在是目標的軌道上進行。"
 
-#: src/timeline2/view/qml/TrackHead.qml:275
+#: src/timeline2/view/qml/TrackHead.qml:262
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b> 來收起或展開所有同類型（音訊/影片）的軌道"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:282
 #, kde-format
 msgid "Minimize"
 msgstr "最小化"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:282
 #, kde-format
 msgid "Expand"
 msgstr "展開"
 
-#: src/timeline2/view/qml/TrackHead.qml:334
+#: src/timeline2/view/qml/TrackHead.qml:321
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr "點擊來切換軌道是否為作用中。作用中軌道會適用編輯操作"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:419
 #, kde-format
 msgid "Disable track effects"
 msgstr "關閉軌道效果"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:419
 #, kde-format
 msgid "Enable track effects"
 msgstr "開啟軌道效果"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:419
 #, kde-format
 msgid "Toggle track effects"
 msgstr "切換軌道效果"
 
-#: src/timeline2/view/qml/TrackHead.qml:471
+#: src/timeline2/view/qml/TrackHead.qml:441
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b> 來收起或展開所有同類型（音訊/影片）的軌道"
 
-#: src/timeline2/view/qml/TrackHead.qml:488
+#: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
 msgid "Unmute"
 msgstr "取消靜音"
 
-#: src/timeline2/view/qml/TrackHead.qml:488
+#: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
 msgid "Mute"
 msgstr "靜音"
 
-#: src/timeline2/view/qml/TrackHead.qml:596
+#: src/timeline2/view/qml/TrackHead.qml:553
 #, kde-format
 msgid "Edit track name"
 msgstr "編輯軌道名稱"
 
-#: src/timeline2/view/qml/TrackHead.qml:669
+#: src/timeline2/view/qml/TrackHead.qml:626
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:279
+#: src/timeline2/view/timelinecontroller.cpp:280
 #, kde-format
 msgid "unknown"
 msgstr "未知"
 
-#: src/timeline2/view/timelinecontroller.cpp:378
+#: src/timeline2/view/timelinecontroller.cpp:379
 #, kde-format
 msgid "Hide Track"
 msgstr "隱藏軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:378
+#: src/timeline2/view/timelinecontroller.cpp:379
 #, kde-format
 msgid "Enable Track"
 msgstr "啟用軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:441
+#: src/timeline2/view/timelinecontroller.cpp:442
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr "作用中軌道中沒有項目位於時間軸游標下方"
 
-#: src/timeline2/view/timelinecontroller.cpp:631
+#: src/timeline2/view/timelinecontroller.cpp:627
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr "無法加入合成方案於所選位置"
 
-#: src/timeline2/view/timelinecontroller.cpp:693
-#: src/timeline2/view/timelinecontroller.cpp:1127
-#: src/timeline2/view/timelinecontroller.cpp:1144
-#: src/timeline2/view/timelinecontroller.cpp:1175
-#: src/timeline2/view/timelinecontroller.cpp:1255
+#: src/timeline2/view/timelinecontroller.cpp:689
+#: src/timeline2/view/timelinecontroller.cpp:1093
+#: src/timeline2/view/timelinecontroller.cpp:1110
+#: src/timeline2/view/timelinecontroller.cpp:1141
+#: src/timeline2/view/timelinecontroller.cpp:1221
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "無法在於時間軸中拖曳時進行操作"
 
-#: src/timeline2/view/timelinecontroller.cpp:959
-#: src/timeline2/view/timelinecontroller.cpp:5058
+#: src/timeline2/view/timelinecontroller.cpp:925
+#: src/timeline2/view/timelinecontroller.cpp:5007
 #, kde-format
 msgid "Could not insert track"
 msgstr "無法插入軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:982
+#: src/timeline2/view/timelinecontroller.cpp:948
 #, kde-format
 msgid "Delete Tracks"
 msgstr "刪除軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:995
+#: src/timeline2/view/timelinecontroller.cpp:961
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "選擇要為哪個音訊軌顯示錄製控制"
 
-#: src/timeline2/view/timelinecontroller.cpp:1132
+#: src/timeline2/view/timelinecontroller.cpp:1098
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "選取至少兩個項目才能群組化"
 
-#: src/timeline2/view/timelinecontroller.cpp:1544
+#: src/timeline2/view/timelinecontroller.cpp:1510
 #, kde-format
 msgid "guide"
 msgstr "參照線"
 
-#: src/timeline2/view/timelinecontroller.cpp:1708
+#: src/timeline2/view/timelinecontroller.cpp:1674
 #, kde-format
 msgid "No active track"
 msgstr "沒有作用中軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:1792
+#: src/timeline2/view/timelinecontroller.cpp:1758
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "時間軸中沒有選擇任何項目"
 
-#: src/timeline2/view/timelinecontroller.cpp:1930
+#: src/timeline2/view/timelinecontroller.cpp:1896
 #, kde-format
 msgid "No clip to cut"
 msgstr "沒有可分割的素材"
 
-#: src/timeline2/view/timelinecontroller.cpp:2254
+#: src/timeline2/view/timelinecontroller.cpp:2220
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "輸入：%1，輸出：%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2342
+#: src/timeline2/view/timelinecontroller.cpp:2308
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr "滑動操作僅適用於視訊、音訊與動畫素材"
 
-#: src/timeline2/view/timelinecontroller.cpp:2743
+#: src/timeline2/view/timelinecontroller.cpp:2704
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "找不到要在其之間插入空白空間的素材"
 
-#: src/timeline2/view/timelinecontroller.cpp:2761
+#: src/timeline2/view/timelinecontroller.cpp:2722
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "無法移除指定位置的空白空間"
 
-#: src/timeline2/view/timelinecontroller.cpp:2775
+#: src/timeline2/view/timelinecontroller.cpp:2736
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "無法移除所有空白空間"
 
-#: src/timeline2/view/timelinecontroller.cpp:2789
+#: src/timeline2/view/timelinecontroller.cpp:2750
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "無法移除所有素材"
 
-#: src/timeline2/view/timelinecontroller.cpp:2824
-#: src/timeline2/view/timelinecontroller.cpp:2829
-#: src/timeline2/view/timelinecontroller.cpp:2851
+#: src/timeline2/view/timelinecontroller.cpp:2785
+#: src/timeline2/view/timelinecontroller.cpp:2790
+#: src/timeline2/view/timelinecontroller.cpp:2812
 #, kde-format
 msgid "No item to edit"
 msgstr "沒有要編輯的項目"
 
-#: src/timeline2/view/timelinecontroller.cpp:2941
-#: src/timeline2/view/timelinecontroller.cpp:5323
+#: src/timeline2/view/timelinecontroller.cpp:2902
+#: src/timeline2/view/timelinecontroller.cpp:5267
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "請為此操作點擊軌道名稱，將軌道設為作用中"
 
-#: src/timeline2/view/timelinecontroller.cpp:3206
+#: src/timeline2/view/timelinecontroller.cpp:3167
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "請點擊軌道的目標範圍來選擇目標軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:3276
+#: src/timeline2/view/timelinecontroller.cpp:3237
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "選擇一個最愛的合成方案"
 
-#: src/timeline2/view/timelinecontroller.cpp:3341
+#: src/timeline2/view/timelinecontroller.cpp:3302
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "找不到要進行視訊音訊分割操作的素材"
 
-#: src/timeline2/view/timelinecontroller.cpp:3369
-#: src/timeline2/view/timelinecontroller.cpp:3437
+#: src/timeline2/view/timelinecontroller.cpp:3330
+#: src/timeline2/view/timelinecontroller.cpp:3398
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "無法移動素材到影格 %1。"
 
-#: src/timeline2/view/timelinecontroller.cpp:3390
+#: src/timeline2/view/timelinecontroller.cpp:3351
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "嘗試對齊前先設定音訊參照"
 
-#: src/timeline2/view/timelinecontroller.cpp:3574
+#: src/timeline2/view/timelinecontroller.cpp:3533
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr "所有串流皆已被指定，請先取消選取另一個音訊目標"
 
-#: src/timeline2/view/timelinecontroller.cpp:3733
+#: src/timeline2/view/timelinecontroller.cpp:3692
 #, kde-format
 msgid "Delete effects"
 msgstr "刪除效果"
 
-#: src/timeline2/view/timelinecontroller.cpp:3771
-#: src/timeline2/view/timelinecontroller.cpp:3777
-#: src/timeline2/view/timelinecontroller.cpp:3783
+#: src/timeline2/view/timelinecontroller.cpp:3730
+#: src/timeline2/view/timelinecontroller.cpp:3736
+#: src/timeline2/view/timelinecontroller.cpp:3742
 #, kde-format
 msgid "No information in clipboard"
 msgstr "剪貼簿中沒有資訊"
 
-#: src/timeline2/view/timelinecontroller.cpp:3808
+#: src/timeline2/view/timelinecontroller.cpp:3767
 #, kde-format
 msgid "Paste effects"
 msgstr "貼上效果"
 
-#: src/timeline2/view/timelinecontroller.cpp:3810
+#: src/timeline2/view/timelinecontroller.cpp:3769
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "無法將效果貼上於所選素材上"
 
-#: src/timeline2/view/timelinecontroller.cpp:3862
+#: src/timeline2/view/timelinecontroller.cpp:3821
 #, kde-format
 msgid "Open sequence"
 msgstr "開啟序列"
 
-#: src/timeline2/view/timelinecontroller.cpp:3884
+#: src/timeline2/view/timelinecontroller.cpp:3843
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "項目不是標題素材"
 
-#: src/timeline2/view/timelinecontroller.cpp:3983
+#: src/timeline2/view/timelinecontroller.cpp:3942
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "已選取 %1 個項目 (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4037
+#: src/timeline2/view/timelinecontroller.cpp:3996
 #, kde-format
 msgid "Restore video"
 msgstr "回復視訊"
 
-#: src/timeline2/view/timelinecontroller.cpp:4037
+#: src/timeline2/view/timelinecontroller.cpp:3996
 #, kde-format
 msgid "Restore audio"
 msgstr "回復音訊"
 
-#: src/timeline2/view/timelinecontroller.cpp:4258
+#: src/timeline2/view/timelinecontroller.cpp:4217
 #, kde-format
 msgid "Move item"
 msgstr "移動項目"
 
-#: src/timeline2/view/timelinecontroller.cpp:4749
+#: src/timeline2/view/timelinecontroller.cpp:4698
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "無法擷取到已鎖定的軌道上"
 
-#: src/timeline2/view/timelinecontroller.cpp:4760
+#: src/timeline2/view/timelinecontroller.cpp:4709
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -29513,38 +29500,38 @@ msgstr ""
 "無法在此擷取：該擷取可能會覆寫素材。請移除目前位置後面的素材，或是選擇另一個"
 "軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:4851
+#: src/timeline2/view/timelinecontroller.cpp:4800
 #, kde-format
 msgid "Record audio"
 msgstr "錄製音訊"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:4947
 #, kde-format
 msgid "Expand clip"
 msgstr "展開素材"
 
-#: src/timeline2/view/timelinecontroller.cpp:5001
+#: src/timeline2/view/timelinecontroller.cpp:4950
 #, kde-format
 msgid "Could not expand clip"
 msgstr "無法展開素材"
 
-#: src/timeline2/view/timelinecontroller.cpp:5056
+#: src/timeline2/view/timelinecontroller.cpp:5005
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "插入軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5135
+#: src/timeline2/view/timelinecontroller.cpp:5084
 #, kde-format
 msgid "Export subtitle file"
 msgstr "匯出字幕檔"
 
-#: src/timeline2/view/timelinecontroller.cpp:5136
+#: src/timeline2/view/timelinecontroller.cpp:5085
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "Sub Station Alpha v4.00+ 檔案 (*.ass);;SubRip 字幕檔 (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5150
+#: src/timeline2/view/timelinecontroller.cpp:5099
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -29555,12 +29542,12 @@ msgstr ""
 "目前字幕軌道包含多個圖層，這代表如果多個圖層的字幕使用同樣的起始位置，只有最"
 "底層的字幕會被保留。這可能會造成匯出檔案中某些字幕是缺乏的。您確定要繼續嗎？"
 
-#: src/timeline2/view/timelinecontroller.cpp:5155
+#: src/timeline2/view/timelinecontroller.cpp:5104
 #, kde-format
 msgid "Warning"
 msgstr "警告"
 
-#: src/timeline2/view/timelinecontroller.cpp:5193
+#: src/timeline2/view/timelinecontroller.cpp:5142
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -29569,34 +29556,34 @@ msgstr ""
 "需要 avfilter.subtitles 過濾器，但並未找到它。字幕功能應該不會如預期正常運"
 "作。"
 
-#: src/timeline2/view/timelinecontroller.cpp:5210
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, kde-format
 msgid "Show subtitle track"
 msgstr "顯示字幕軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5210
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "隱藏字幕軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5233
+#: src/timeline2/view/timelinecontroller.cpp:5182
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "解鎖字幕軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5233
+#: src/timeline2/view/timelinecontroller.cpp:5182
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "鎖定字幕軌道"
 
-#: src/timeline2/view/timelinecontroller.cpp:5400
-#: src/timeline2/view/timelinecontroller.cpp:5409
+#: src/timeline2/view/timelinecontroller.cpp:5344
+#: src/timeline2/view/timelinecontroller.cpp:5353
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/timeline2/view/timelinecontroller.cpp:5411
+#: src/timeline2/view/timelinecontroller.cpp:5355
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
@@ -29621,22 +29608,22 @@ msgstr ""
 msgid "Close %1"
 msgstr "關閉 %1"
 
-#: src/timeline2/view/timelinetabs.cpp:422
+#: src/timeline2/view/timelinetabs.cpp:416
 #, kde-format
 msgid "Rename Sequence"
 msgstr "重新命名序列"
 
-#: src/timeline2/view/timelinewidget.cpp:54
+#: src/timeline2/view/timelinewidget.cpp:59
 #, kde-format
 msgid "Insert an effect..."
 msgstr "插入效果..."
 
-#: src/timeline2/view/timelinewidget.cpp:55
+#: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
 msgid "Insert a composition..."
 msgstr "插入合成方案…"
 
-#: src/timeline2/view/timelinewidget.cpp:316
+#: src/timeline2/view/timelinewidget.cpp:322
 #, kde-format
 msgid "No available stream"
 msgstr "沒有可用的串流"
@@ -34830,6 +34817,9 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小時"
+
+#~ msgid "No timecode found in selection"
+#~ msgstr "選取範圍內沒有找到時間碼"
 
 #~ msgid "Aspect ratio:"
 #~ msgstr "寬高比："

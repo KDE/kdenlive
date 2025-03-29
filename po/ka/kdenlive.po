@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:41+0000\n"
-"PO-Revision-Date: 2025-03-27 04:04+0100\n"
+"POT-Creation-Date: 2025-03-29 00:41+0000\n"
+"PO-Revision-Date: 2025-03-28 02:57+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -843,7 +843,7 @@ msgstr "ფილტრის-სიგანე"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:927
+#: src/mltcontroller/clippropertiescontroller.cpp:928
 #, kde-format
 msgid "Normalize"
 msgstr "ნორმალიზაცია"
@@ -1152,7 +1152,6 @@ msgstr ""
 #: data/effects/normalise.xml:8 data/effects/sox/sox_bass.xml:8
 #: data/effects/sox/sox_gain.xml:8 data/effects/volume.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:32
-#: src/effects/effectstack/view/qml/LiftGammaGain.qml:80
 #, kde-format
 msgid "Gain"
 msgstr "გაძლიერება"
@@ -2949,7 +2948,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fillborders.xml:24
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2502
 #: src/layoutmanagement.cpp:36
-#: src/mltcontroller/clippropertiescontroller.cpp:611
+#: src/mltcontroller/clippropertiescontroller.cpp:612
 #, kde-format
 msgid "Color"
 msgstr "ფერი"
@@ -3173,7 +3172,6 @@ msgstr "გაასწორეთ სიკაშკაშე, კონტრ
 #: data/effects/frei0r/frei0r_levels.xml:50 data/effects/gamma.xml:8
 #: data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
-#: src/effects/effectstack/view/qml/LiftGammaGain.qml:63
 #, kde-format
 msgid "Gamma"
 msgstr "გამა"
@@ -3535,8 +3533,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_flanger.xml:24
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
-#: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:50 src/ui/clipspeed_ui.ui:36
+#: src/timeline2/view/qml/Track.qml:51 src/ui/clipspeed_ui.ui:36
 #: src/ui/editsub_ui.ui:524
 #, kde-format
 msgid "Speed"
@@ -6320,8 +6317,8 @@ msgstr "გადიდება"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
 #: src/bin/bin.cpp:1298 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
-#: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
-#: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:53 src/timeline2/view/qml/Track.qml:79
+#: src/timeline2/view/qml/Track.qml:87 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "ხანგრძლოვობა"
@@ -6419,7 +6416,7 @@ msgstr "სადამდე"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:949
+#: src/mltcontroller/clippropertiescontroller.cpp:950
 #, kde-format
 msgid "Swap channels"
 msgstr "არხების გადანაცვლება"
@@ -6794,8 +6791,7 @@ msgstr "ვიდეოს გამოჩენა სიშავიდან"
 
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:169
-#: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:84
+#: src/monitor/view/MonitorTrimming.qml:110 src/timeline2/view/qml/Track.qml:85
 #, kde-format
 msgid "In"
 msgstr "შეყვანა"
@@ -6817,7 +6813,7 @@ msgid "Fade video to black"
 msgstr "ვიდეოს მინავლება სიშავეში"
 
 #: data/effects/fade_to_black.xml:11 data/effects/mask_start_shape.xml:38
-#: data/effects/shape.xml:35 src/monitor/view/kdenlivemonitortrimming.qml:143
+#: data/effects/shape.xml:35 src/monitor/view/MonitorTrimming.qml:144
 #, kde-format
 msgid "Out"
 msgstr "გარე"
@@ -11462,7 +11458,6 @@ msgstr ""
 
 #: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
-#: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
 #, kde-format
 msgid "Lift"
 msgstr "აწევა"
@@ -12274,7 +12269,7 @@ msgid "Analysis,Apply"
 msgstr "ანალიზი, გადატარება"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
-#: src/monitor/view/kdenlivemonitorsplit.qml:102
+#: src/monitor/view/MonitorSplit.qml:102
 #, kde-format
 msgid "Effect"
 msgstr "ეფექტი"
@@ -14083,7 +14078,7 @@ msgid "Generator Failed"
 msgstr "გენერატორი ჩავარდა"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:56
-#: src/assets/assetlist/view/assetlistwidget.cpp:390
+#: src/assets/assetlist/view/assetlistwidget.cpp:404
 #, kde-format
 msgid "Add to favorites"
 msgstr "რჩეულებში დამატება"
@@ -14173,13 +14168,13 @@ msgstr "კომპოზიციის აღწერის ჩვენე�
 msgid "Search…"
 msgstr "ძებნა…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:390
+#: src/assets/assetlist/view/assetlistwidget.cpp:404
 #, kde-format
 msgid "Remove from favorites"
 msgstr "რჩეულებიდან წაშლა"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:412
-#: src/assets/assetlist/view/assetlistwidget.cpp:414
+#: src/assets/assetlist/view/assetlistwidget.cpp:426
+#: src/assets/assetlist/view/assetlistwidget.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -14601,7 +14596,7 @@ msgstr "ეფექტის შენახვა"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -14609,7 +14604,7 @@ msgstr "შეიყვანეთ პრესეტის სახელი"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1414
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "შეიყვანეთ პრესეტის სახელი:"
@@ -15002,7 +14997,7 @@ msgstr ""
 "\n"
 "მარჯვ:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1010
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1007
 #, kde-format
 msgid "Master"
 msgstr "მთავარი"
@@ -15018,7 +15013,7 @@ msgstr ""
 "აუდიოკლიპს)."
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:1005
+#: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "დბ"
@@ -15592,7 +15587,7 @@ msgstr "ვიდეოს დადუმება"
 msgid "Audio"
 msgstr "აუდიო"
 
-#: src/bin/bin.cpp:2478 src/mltcontroller/clippropertiescontroller.cpp:356
+#: src/bin/bin.cpp:2478 src/mltcontroller/clippropertiescontroller.cpp:357
 #, kde-format
 msgid "Image"
 msgstr "გამოსახულება"
@@ -15765,7 +15760,7 @@ msgstr "კლიპის დუბლირება"
 msgid "Clip Properties"
 msgstr "კლიპის თვისებები"
 
-#: src/bin/bin.cpp:3727 src/mltcontroller/clippropertiescontroller.cpp:575
+#: src/bin/bin.cpp:3727 src/mltcontroller/clippropertiescontroller.cpp:576
 #, kde-format
 msgid "Edit Clip"
 msgstr "კლიპის ჩასწორება"
@@ -15797,14 +15792,14 @@ msgstr ""
 "ერთმანეთში ჩაალაგოთ."
 
 #: src/bin/bin.cpp:3832 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:718
+#: src/dialogs/textbasededit.cpp:762
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "ჟურნალის ჩვენება"
 
-#: src/bin/bin.cpp:3835 src/dialogs/textbasededit.cpp:719
+#: src/bin/bin.cpp:3835 src/dialogs/textbasededit.cpp:763
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
 msgid "Detailed log"
@@ -15833,8 +15828,8 @@ msgstr[1] "კლიპების გადატანა"
 msgid "No valid clip to insert"
 msgstr "ჩასასმელად სწორი კლიპი ვერ ვიპოვე"
 
-#: src/bin/bin.cpp:4017 src/timeline2/view/timelinecontroller.cpp:1568
-#: src/timeline2/view/timelinecontroller.cpp:3450
+#: src/bin/bin.cpp:4017 src/timeline2/view/timelinecontroller.cpp:1534
+#: src/timeline2/view/timelinecontroller.cpp:3411
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "აირჩიეთ კლიპი ეფექტის გადასატარებლად"
@@ -15993,7 +15988,7 @@ msgstr ""
 "თქვენ პროექტს ყველა ნაკადის დასამუშავებლად მეტი აუდიობილიკი სჭირება. "
 "დავამატო %1 აუდიობილიკი?"
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2744
+#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2739
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "მარკერის დასამატებელი კლიპი ვერ ვიპოვე"
@@ -16034,7 +16029,7 @@ msgstr ""
 "დამატებითი ნაკადების კლიპისთვის\n"
 "%1"
 
-#: src/bin/bin.cpp:6007 src/mltcontroller/clippropertiescontroller.cpp:686
+#: src/bin/bin.cpp:6007 src/mltcontroller/clippropertiescontroller.cpp:687
 #, kde-format
 msgid "Video stream %1"
 msgstr "ვიდეო ნაკადი %1"
@@ -16078,7 +16073,7 @@ msgstr "ეფექტის წაშლა: %1"
 msgid "Project Bin"
 msgstr "პროექტის კალათა"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4854
+#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4840
 #, kde-format
 msgid "Project Bin %1"
 msgstr "პროექტის კალათა %1"
@@ -16185,7 +16180,7 @@ msgstr[1] "კლიპების დამატება"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
-#: src/mltcontroller/clippropertiescontroller.cpp:581
+#: src/mltcontroller/clippropertiescontroller.cpp:582
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
 #: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:628
@@ -16326,7 +16321,7 @@ msgstr "ყველა მარკერის წაშლა"
 
 #: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:908
 #: src/bin/model/markerlistmodel.cpp:933
-#: src/timeline2/view/timelinecontroller.cpp:1536
+#: src/timeline2/view/timelinecontroller.cpp:1502
 #, kde-format
 msgid "No guide found at current position"
 msgstr "მიმდინარე მდებარეობაზე მიმმართველი აღმოჩენილი არაა"
@@ -16395,7 +16390,7 @@ msgstr "სუბტიტრის გადატანა"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:852
+#: src/effects/effectstack/view/effectstackview.cpp:851
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -16458,7 +16453,7 @@ msgstr "მიმდევრობის რაოდენობა"
 msgid "Timeline sequence"
 msgstr "დროის ხაზის მიმდევრობა"
 
-#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1128
+#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1126
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -16601,7 +16596,7 @@ msgid "Tag %1"
 msgstr "%1-ის ჭდე"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
-#: src/dialogs/textbasededit.cpp:637
+#: src/dialogs/textbasededit.cpp:681
 #: src/effects/effectstack/view/maskmanager.cpp:78
 #, kde-format
 msgid "Configure"
@@ -17371,7 +17366,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:890
+#: src/effects/effectstack/view/effectstackview.cpp:889
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -17381,8 +17376,8 @@ msgstr "მიმმართველის მონაცემების �
 #: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
-#: src/timeline2/view/timelinecontroller.cpp:5170
-#: src/timeline2/view/timelinecontroller.cpp:5175
+#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5124
 #: src/titler/titlewidget.cpp:2272
 #, kde-format
 msgid "Cannot write to file %1"
@@ -18038,7 +18033,7 @@ msgstr "აუდიო ვიდეოს გარეშე"
 msgid "Rendering %1 started"
 msgstr "%1-ის რენდერი დაიწყო"
 
-#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1368
+#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1365
 #, kde-format
 msgid "untitled"
 msgstr "უსახელო"
@@ -18163,7 +18158,7 @@ msgstr "მიმდინარე პროექტში დამატე�
 msgid "Open Containing Folder"
 msgstr "შემცველი საქაღალდის გახსნა"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3977
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:81 src/mainwindow.cpp:3963
 #, kde-format
 msgid "Timeline"
 msgstr "თაიმლაინი"
@@ -18299,7 +18294,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1583 src/kdenliveui.rc:100
-#: src/mltcontroller/clippropertiescontroller.cpp:749
+#: src/mltcontroller/clippropertiescontroller.cpp:750
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -18380,28 +18375,28 @@ msgstr "შეიყვანეთ ბილიკი თქვენს Glaxni
 msgid "Please select a video profile"
 msgstr "აირჩიეთ ვიდეო პროფილი"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1304
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1294
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "ამ პარამეტრების შესაცვლელად აუცილებელია, Kdenlive გადატვირთოთ"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1428
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1417
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "პროფილი ამ სახელით უკვე არსებობს"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1562
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1551
 #, kde-format
 msgid "Current settings"
 msgstr "მიმდინარე პარამეტრები"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1600
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1636
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1653
-#: src/mltcontroller/clippropertiescontroller.cpp:643
-#: src/mltcontroller/clippropertiescontroller.cpp:1326
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1589
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1625
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1642
+#: src/mltcontroller/clippropertiescontroller.cpp:644
+#: src/mltcontroller/clippropertiescontroller.cpp:1327
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -18664,8 +18659,8 @@ msgstr "აირჩიეთ კლიპი დროის ხაზში �
 msgid "No audio track found"
 msgstr "აუდიობილიკი ვერ ვპოვე"
 
-#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:908
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:952
+#: src/dialogs/textbasededit.cpp:989
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "დააყენეთ საუბრის ამოცნობის მოდელები"
@@ -18681,8 +18676,8 @@ msgstr "მორგების შემოწმება…"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "მოირგეთ საუბრიდან-ტექსტამდე. აკლია დამოკიდებულებები: %1"
 
-#: src/dialogs/speechdialog.cpp:273 src/dialogs/textbasededit.cpp:1018
-#: src/dialogs/textbasededit.cpp:1034
+#: src/dialogs/speechdialog.cpp:273 src/dialogs/textbasededit.cpp:1062
+#: src/dialogs/textbasededit.cpp:1078
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "მოირგეთ საუბრიდან-ტექსტამდე."
@@ -18697,12 +18692,12 @@ msgstr "აუდიოს გატანის დაწყება"
 msgid "Audio export failed"
 msgstr "აუდიოს გატანის შეცდომა"
 
-#: src/dialogs/speechdialog.cpp:369 src/dialogs/textbasededit.cpp:1055
+#: src/dialogs/speechdialog.cpp:369 src/dialogs/textbasededit.cpp:1099
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "საუბრის ამოცნობის დაწყება"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1239
+#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1283
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "საუბრის ამოცნობა გაუქმდა."
@@ -19617,86 +19612,86 @@ msgstr "სტილის სახელი არ შეიძლება, '
 msgid "Delete selection"
 msgstr "მონიშნულის წაშლა"
 
-#: src/dialogs/textbasededit.cpp:315 src/dialogs/textbasededit.cpp:571
-#: src/dialogs/textbasededit.cpp:1259 src/dialogs/textbasededit.cpp:1329
-#: src/dialogs/textbasededit.cpp:1353 src/dialogs/textbasededit.cpp:1410
+#: src/dialogs/textbasededit.cpp:359 src/dialogs/textbasededit.cpp:615
+#: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1373
+#: src/dialogs/textbasededit.cpp:1397 src/dialogs/textbasededit.cpp:1454
 #, kde-format
 msgid "No speech"
 msgstr "საუბრის გარეშე"
 
-#: src/dialogs/textbasededit.cpp:621
+#: src/dialogs/textbasededit.cpp:665
 #, kde-format
 msgid "Speech Model"
 msgstr "საუბრის მოდელი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:623 src/ui/speechdialog_ui.ui:169
+#: src/dialogs/textbasededit.cpp:667 src/ui/speechdialog_ui.ui:169
 #, kde-format
 msgid "Translate to English"
 msgstr "ინგლისურად თარგმნა"
 
-#: src/dialogs/textbasededit.cpp:626
+#: src/dialogs/textbasededit.cpp:670
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "საუბრის ამოცნობის მორგება"
 
-#: src/dialogs/textbasededit.cpp:660
+#: src/dialogs/textbasededit.cpp:704
 #, kde-format
 msgid "Create new sequence with edit"
 msgstr "ახალი მიმდევრობის შექმნა ჩასწორებით"
 
-#: src/dialogs/textbasededit.cpp:661
+#: src/dialogs/textbasededit.cpp:705
 #, kde-format
 msgid "Insert selection in timeline"
 msgstr "მონიშვნის ჩასმა დროის ხაზზე"
 
-#: src/dialogs/textbasededit.cpp:662
+#: src/dialogs/textbasededit.cpp:706
 #, kde-format
 msgid "Save edited text in a playlist file"
 msgstr "ჩასწორებული ტექსტის შენახვა დასაკრავი სიის ფაილში"
 
-#: src/dialogs/textbasededit.cpp:669
+#: src/dialogs/textbasededit.cpp:713
 #, kde-format
 msgid "Create new sequence with text edit"
 msgstr "ახალი მიმდევრობის შექმნა ტექსტის ჩასწორებით"
 
-#: src/dialogs/textbasededit.cpp:670
+#: src/dialogs/textbasededit.cpp:714
 #, kde-format
 msgid "Search in text"
 msgstr "ძებნა ტექსტში"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/dialogs/textbasededit.cpp:671 src/ui/speechdialog_ui.ui:124
+#: src/dialogs/textbasededit.cpp:715 src/ui/speechdialog_ui.ui:124
 #, kde-format
 msgid "Language"
 msgstr "ენა"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:772
 #, kde-format
 msgid "Delete selected text"
 msgstr "მონიშნული ტექსტის წაშლა"
 
-#: src/dialogs/textbasededit.cpp:732
+#: src/dialogs/textbasededit.cpp:776
 #, kde-format
 msgid "Add marker for current selection"
 msgstr "სანიშნის დამატება მიმდინარე მონიშნულისთვის"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:780
 #, kde-format
 msgid "Increase Font Size"
 msgstr "ფონტის ზომის გაზრდა"
 
-#: src/dialogs/textbasededit.cpp:739
+#: src/dialogs/textbasededit.cpp:783
 #, kde-format
 msgid "Decrease Font Size"
 msgstr "ფონტის ზომის შემცირება"
 
-#: src/dialogs/textbasededit.cpp:743
+#: src/dialogs/textbasededit.cpp:787
 #, kde-format
 msgid "Remove non speech zones"
 msgstr "საუბრის არშემცველი ზონების წაშლა"
 
-#: src/dialogs/textbasededit.cpp:1002
+#: src/dialogs/textbasededit.cpp:1046
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -19705,83 +19700,78 @@ msgstr ""
 "უკვე გაშვებულია ამოცნობის სხვა დავალება. თუ გნებავთ, ახალი დავალება გაუშვათ, "
 "გაშვებულ ნაძალადევად დასრულდება. გააგრძელებთ?"
 
-#: src/dialogs/textbasededit.cpp:1042
+#: src/dialogs/textbasededit.cpp:1086
 #, kde-format
 msgid "Please install a language model."
 msgstr "დააყენეთ ენის მოდელი."
 
-#: src/dialogs/textbasededit.cpp:1050
+#: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "აირჩიეთ ხმიანი კლიპი პროექტის კალათაში."
 
-#: src/dialogs/textbasededit.cpp:1096
+#: src/dialogs/textbasededit.cpp:1140
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "აირჩიეთ ხმიანი კლიპი საუბრის ამოსაცნობად."
 
-#: src/dialogs/textbasededit.cpp:1105 src/dialogs/textbasededit.cpp:1153
-#: src/dialogs/textbasededit.cpp:1211
+#: src/dialogs/textbasededit.cpp:1149 src/dialogs/textbasededit.cpp:1197
+#: src/dialogs/textbasededit.cpp:1255
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "დროებითი ფაილის შექმნა შეუძლებელია."
 
-#: src/dialogs/textbasededit.cpp:1110
+#: src/dialogs/textbasededit.cpp:1154
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "აუდიოს გაშლა %1-სთვის."
 
-#: src/dialogs/textbasededit.cpp:1118
+#: src/dialogs/textbasededit.cpp:1162
 #, kde-format
 msgid "Audio extract failed."
 msgstr "აუდიოს გაშლა ჩავარდა."
 
-#: src/dialogs/textbasededit.cpp:1124 src/dialogs/textbasededit.cpp:1189
+#: src/dialogs/textbasededit.cpp:1168 src/dialogs/textbasededit.cpp:1233
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "საუბრის ამოცნობის დაწყება %1-ზე."
 
-#: src/dialogs/textbasededit.cpp:1243
+#: src/dialogs/textbasededit.cpp:1287
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "შეცდომა. გადაამოწმეთ ტექსტის ამოცნობის კონფიგურაცია."
 
-#: src/dialogs/textbasededit.cpp:1245
+#: src/dialogs/textbasededit.cpp:1289
 #, kde-format
 msgid "No speech detected."
 msgstr "საუბარი ვერ ვიპოვე."
 
-#: src/dialogs/textbasededit.cpp:1266
+#: src/dialogs/textbasededit.cpp:1310
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "საუბრის ამოცნობა დასრულდა."
 
-#: src/dialogs/textbasededit.cpp:1503
+#: src/dialogs/textbasededit.cpp:1547
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "კლიპის ტექსტის ჩასწორება"
 
-#: src/dialogs/textbasededit.cpp:1535 src/dialogs/textbasededit.cpp:1617
+#: src/dialogs/textbasededit.cpp:1579 src/dialogs/textbasededit.cpp:1661
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
 
-#: src/dialogs/textbasededit.cpp:1542 src/dialogs/textbasededit.cpp:1578
+#: src/dialogs/textbasededit.cpp:1586 src/dialogs/textbasededit.cpp:1622
 #, kde-format
 msgid "No text to export"
 msgstr "გასატანი ტექსტის გარეშე"
 
-#: src/dialogs/textbasededit.cpp:1562
+#: src/dialogs/textbasededit.cpp:1606
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "შეიყვანეთ ახალი დასაკრავი სიის ბილიკი"
-
-#: src/dialogs/textbasededit.cpp:1710
-#, kde-format
-msgid "No timecode found in selection"
-msgstr "მონიშნულში დროის კოდი ვერ ვიპოვე"
 
 #: src/dialogs/timeremap.cpp:506 src/dialogs/timeremap.cpp:706
 #, kde-format
@@ -20222,7 +20212,7 @@ msgid "Asset file"
 msgstr "აქტივების ფაილი"
 
 #: src/doc/documentchecker.cpp:1874
-#: src/mltcontroller/clippropertiescontroller.cpp:633
+#: src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Proxy clip"
 msgstr "პროქსი კლიპი"
@@ -20378,7 +20368,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "სუბტიტრის ფაილი: <br/>%1<br/> უკვე არსებობს. გნებავთ გადააწეროთ?"
 
-#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3495
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3481
 #, kde-format
 msgid "Overwrite"
 msgstr "თავზე გადაწერა"
@@ -20799,7 +20789,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "ეფექტს %1 ორჯერ ვერ დაამატებთ."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:672
-#: src/effects/effectstack/view/effectstackview.cpp:237
+#: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
@@ -21020,79 +21010,79 @@ msgstr "კომენტარები:"
 msgid "No name provided, effect not saved."
 msgstr "სახელი მითითებული არაა. ეფექტი შენახული არ იქნება."
 
-#: src/effects/effectstack/view/effectstackview.cpp:328
+#: src/effects/effectstack/view/effectstackview.cpp:327
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "ჰორიზონტალური გადაბრუნება"
 
-#: src/effects/effectstack/view/effectstackview.cpp:333
+#: src/effects/effectstack/view/effectstackview.cpp:332
 #, kde-format
 msgid "Vertical Flip"
 msgstr "ვერტიკალური გადაბრუნება"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
-#: src/effects/effectstack/view/effectstackview.cpp:423
-#: src/effects/effectstack/view/effectstackview.cpp:978
+#: src/effects/effectstack/view/effectstackview.cpp:341
+#: src/effects/effectstack/view/effectstackview.cpp:422
+#: src/effects/effectstack/view/effectstackview.cpp:977
 #, kde-format
 msgid "Remove Background"
 msgstr "ფონის წაშლა"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:342
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "ფონის წაშლა ხი მოდელის გამოყენებით"
 
-#: src/effects/effectstack/view/effectstackview.cpp:354
+#: src/effects/effectstack/view/effectstackview.cpp:353
 #, kde-format
 msgid "Flip"
 msgstr "გადაბრუნება"
 
-#: src/effects/effectstack/view/effectstackview.cpp:429
+#: src/effects/effectstack/view/effectstackview.cpp:428
 #, kde-format
 msgid "Exporting…"
 msgstr "გატანა…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:770
-#: src/timeline2/view/timelinecontroller.cpp:3301
+#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "ეფექტების სტეკის ჩართვა"
 
-#: src/effects/effectstack/view/effectstackview.cpp:770
-#: src/timeline2/view/timelinecontroller.cpp:3301
+#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "ეფექტების სტეკის გამორთვა"
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:808
 #, kde-format
 msgid "No effect selected."
 msgstr "ეფექტი არჩეული არაა."
 
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:814
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "მიმდინარე ეფექტის სტეკის შენახვა"
 
-#: src/effects/effectstack/view/effectstackview.cpp:820
+#: src/effects/effectstack/view/effectstackview.cpp:819
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "სახელი შენახული სტეკისთვის:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:821
+#: src/effects/effectstack/view/effectstackview.cpp:820
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "აღწერა:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:833
+#: src/effects/effectstack/view/effectstackview.cpp:832
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "სახელი მითითებული არაა. ეფექტის სტეკი შენახული არ იქნება."
 
-#: src/effects/effectstack/view/effectstackview.cpp:840
+#: src/effects/effectstack/view/effectstackview.cpp:839
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21101,8 +21091,8 @@ msgstr ""
 "აღწერა შეყვანილი არაა.\n"
 "შევინახო ეფექტი აღწერის გარეშე?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:975
-#: src/effects/effectstack/view/effectstackview.cpp:1001
+#: src/effects/effectstack/view/effectstackview.cpp:974
+#: src/effects/effectstack/view/effectstackview.cpp:1000
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "ნიღბის შექმნის შეწყვეტა"
@@ -21550,13 +21540,13 @@ msgid "Add Markers by Category"
 msgstr "სანიშნების დამატება კატეგორიით"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3872
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3858
 #, kde-format
 msgid "Extract Audio"
 msgstr "აუდიოს გამოღება"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3846
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3832
 #, kde-format
 msgid "Clip Jobs"
 msgstr "კლიპის დავალებები"
@@ -22525,7 +22515,7 @@ msgstr "ახლა გაშვება"
 msgid "Delete them"
 msgstr "მათი წაშლა"
 
-#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2172
+#: src/mainwindow.cpp:1057 src/timeline2/view/timelinecontroller.cpp:2138
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "აირჩიეთ კლიპი ეფექტის შესადარებლად"
@@ -22791,7 +22781,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "ექსპერიმენტული GPU დამუშავება ჩართულია - ნუ გამოიყენებთ ყოველდღიურად"
 
-#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3481
+#: src/mainwindow.cpp:1361 src/mainwindow.cpp:3467
 #, kde-format
 msgid "Multicam"
 msgstr "მრავალკამერიანი მონტაჟი"
@@ -23394,7 +23384,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "ეფექტის საკვანძო კადრები"
 
-#: src/mainwindow.cpp:1842 src/monitor/view/EffectToolBar.qml:99
+#: src/mainwindow.cpp:1842 src/monitor/view/EffectToolBar.qml:101
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "ძირითადი კადრის დამატება/წაშლა"
@@ -23435,7 +23425,7 @@ msgstr "ბილიკის ჩასმა…"
 msgid "Fit all Tracks in View"
 msgstr "ყველა ტრეკის ჩატევა ხედში"
 
-#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4897
+#: src/mainwindow.cpp:1868 src/timeline2/view/timelinecontroller.cpp:4846
 #, kde-format
 msgid "Master effects"
 msgstr "ძირითადი ეფექტები"
@@ -23660,7 +23650,7 @@ msgstr "კადრის გაშლა პროექტში…"
 msgid "Extract Frame to Clipboard"
 msgstr "კადრის გაშლა ბუფერში"
 
-#: src/mainwindow.cpp:2175
+#: src/mainwindow.cpp:2176
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -23669,13 +23659,13 @@ msgstr ""
 "პროქსის პარამეტრები შეცვალეთ. გნებავთ, თავიდან შექმნათ ყველა პროქსი კლიპი ამ "
 "პროექტისთვის?"
 
-#: src/mainwindow.cpp:2176
+#: src/mainwindow.cpp:2177
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "თავიდან შექმნა"
 
-#: src/mainwindow.cpp:2177 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2178 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2255
 #, kde-format
@@ -23683,7 +23673,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "გარეშე გაგრძელება"
 
-#: src/mainwindow.cpp:2233
+#: src/mainwindow.cpp:2234
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -23694,7 +23684,7 @@ msgstr ""
 "გადაიტანს ყველა დროებით ფაილს საქაღალდიდან <br/><b>%1</b> საქაღალდეში <b>%2</"
 "b>,<br>და პროექტის ფაილი თავიდან ჩაიტვირთება"
 
-#: src/mainwindow.cpp:2241
+#: src/mainwindow.cpp:2242
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -23703,38 +23693,38 @@ msgstr ""
 "ეს ყველა დროებით ფაილს გადაიტანს საქაღალდიდან<br/><b>%1</b>საქაღალდეში <b>"
 "%2</b>,<br/>შემდეგ კი პროექტის ფაილი თავიდან ჩაიტვირთება"
 
-#: src/mainwindow.cpp:2250 src/project/projectmanager.cpp:619
+#: src/mainwindow.cpp:2251 src/project/projectmanager.cpp:619
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "ოპერაციის შესრულება შეუძლებელია. არასწორი დოკუმენტის ID: %1"
 
-#: src/mainwindow.cpp:2255 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2256 src/project/projectmanager.cpp:625
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ოპერაციის შესრულება შეუძლებელია. სამიზნე საქაღალდე უკვე არსებობს: %1"
 
-#: src/mainwindow.cpp:2404
+#: src/mainwindow.cpp:2405
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "ეს თქვენი პროექტიდან ყველა გამოუყენებელ კლიპს წაშლის."
 
-#: src/mainwindow.cpp:2404
+#: src/mainwindow.cpp:2405
 #, kde-format
 msgid "Clean up project"
 msgstr "პროექტის გასუფთავება"
 
-#: src/mainwindow.cpp:2546
+#: src/mainwindow.cpp:2547
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "ახალი კლავიატურის სქემების გადმოწერა…"
 
-#: src/mainwindow.cpp:2555
+#: src/mainwindow.cpp:2556
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "საერთო"
 
-#: src/mainwindow.cpp:2629
+#: src/mainwindow.cpp:2628
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -23743,76 +23733,76 @@ msgstr ""
 "ეს წაშლის Kdenlive-ის კონფიგურაციის ფაილს და გადატვირთავს აპლიკაციას. "
 "გააგრძელებთ?"
 
-#: src/mainwindow.cpp:2630
+#: src/mainwindow.cpp:2629
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "კონფიგურაციის გასუფთავება"
 
-#: src/mainwindow.cpp:2762 src/mainwindow.cpp:2789
+#: src/mainwindow.cpp:2757 src/mainwindow.cpp:2784
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "მარკერის წასაშლელად კლიპი ვერ ვიპოვე"
 
-#: src/mainwindow.cpp:2772 src/mainwindow.cpp:2818
+#: src/mainwindow.cpp:2767 src/mainwindow.cpp:2813
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "კურსორის დროსთან მარკერი ვერ ვიპოვე"
 
-#: src/mainwindow.cpp:2794
+#: src/mainwindow.cpp:2789
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "შეცდომა მარკერების წაშლისას"
 
-#: src/mainwindow.cpp:2811 src/timeline2/view/timelinecontroller.cpp:1348
-#: src/timeline2/view/timelinecontroller.cpp:1356
-#: src/timeline2/view/timelinecontroller.cpp:1377
-#: src/timeline2/view/timelinecontroller.cpp:1417
-#: src/timeline2/view/timelinecontroller.cpp:1443
+#: src/mainwindow.cpp:2806 src/timeline2/view/timelinecontroller.cpp:1314
+#: src/timeline2/view/timelinecontroller.cpp:1322
+#: src/timeline2/view/timelinecontroller.cpp:1343
+#: src/timeline2/view/timelinecontroller.cpp:1383
+#: src/timeline2/view/timelinecontroller.cpp:1409
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "მარკერის ჩასასწორებელი კლიპი ვერ ვიპოვე"
 
-#: src/mainwindow.cpp:2862
+#: src/mainwindow.cpp:2857
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "სანიშნეს კატეგორია არ არსებობს"
 
-#: src/mainwindow.cpp:3052 src/timeline2/model/timelinefunctions.cpp:791
-#: src/timeline2/view/timelinecontroller.cpp:3161
+#: src/mainwindow.cpp:3038 src/timeline2/model/timelinefunctions.cpp:791
+#: src/timeline2/view/timelinecontroller.cpp:3122
 #, kde-format
 msgid "Overwrite zone"
 msgstr "ზონის თავზე გადაწერა"
 
-#: src/mainwindow.cpp:3054 src/mainwindow.cpp:3073
+#: src/mainwindow.cpp:3040 src/mainwindow.cpp:3059
 #: src/timeline2/model/timelinefunctions.cpp:793
-#: src/timeline2/view/timelinecontroller.cpp:3163
+#: src/timeline2/view/timelinecontroller.cpp:3124
 #, kde-format
 msgid "Could not insert zone"
 msgstr "ზონის ჩასმა შეუძლებელია"
 
-#: src/mainwindow.cpp:3064
+#: src/mainwindow.cpp:3050
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "პროექტის კალათაში კლიპი მონიშნული არაა"
 
-#: src/mainwindow.cpp:3071 src/timeline2/model/timelinefunctions.cpp:791
-#: src/timeline2/view/timelinecontroller.cpp:3161
+#: src/mainwindow.cpp:3057 src/timeline2/model/timelinefunctions.cpp:791
+#: src/timeline2/view/timelinecontroller.cpp:3122
 #, kde-format
 msgid "Insert zone"
 msgstr "ზონის ჩასმა"
 
-#: src/mainwindow.cpp:3238
+#: src/mainwindow.cpp:3224
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "ეფექტის დამატება აქტიური ელემენტისთვის შეუძლებელია"
 
-#: src/mainwindow.cpp:3300
+#: src/mainwindow.cpp:3286
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "გადიდების დონე: %1/%2"
 
-#: src/mainwindow.cpp:3449
+#: src/mainwindow.cpp:3435
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23825,7 +23815,7 @@ msgstr ""
 "+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე გადასათრევად, "
 "<shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
 
-#: src/mainwindow.cpp:3453
+#: src/mainwindow.cpp:3439
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23839,24 +23829,24 @@ msgstr ""
 "+Alt+გადათრევა</shortcut> დაჯგუფებული კლიპის სხვა ტრეკზე გადასათრევად, "
 "<shortcut>Ctrl+გადათრევა</shortcut> პანორამირებისთვის"
 
-#: src/mainwindow.cpp:3456
+#: src/mainwindow.cpp:3442
 #, kde-format
 msgid "Select"
 msgstr "აირჩიეთ"
 
-#: src/mainwindow.cpp:3458
+#: src/mainwindow.cpp:3444
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> ამოსაჭრელი კადრის მინიატურისთვის"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3459 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3445 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "სამართებელი"
 
-#: src/mainwindow.cpp:3463
+#: src/mainwindow.cpp:3449
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23867,12 +23857,12 @@ msgstr ""
 "<shortcut>Shift</shortcut> გიდებსაც გადაადგილებს. შეგიძლიათ, ორივე "
 "მოდიფიკატორი გამოიყენოთ."
 
-#: src/mainwindow.cpp:3464
+#: src/mainwindow.cpp:3450
 #, kde-format
 msgid "Spacer"
 msgstr "დაშორება"
 
-#: src/mainwindow.cpp:3466
+#: src/mainwindow.cpp:3452
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23882,13 +23872,13 @@ msgstr ""
 "<shortcut>წკაპი</shortcut> ელემენტზე მის გადასათრევად, <shortcut>Shift"
 "+წკაპი</shortcut> ერთზე მეტი ელემენტის მოსანიშნად"
 
-#: src/mainwindow.cpp:3467
+#: src/mainwindow.cpp:3453
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "სრიალი"
 
-#: src/mainwindow.cpp:3472
+#: src/mainwindow.cpp:3458
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23901,13 +23891,13 @@ msgstr ""
 "+წკაპი</shortcut> ჯგუფის ელემენტის მოსანიშნად, <shortcut>Ctrl+გადათრევა</"
 "shortcut> პანორამირებისთვის"
 
-#: src/mainwindow.cpp:3474
+#: src/mainwindow.cpp:3460
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "ჭავლი"
 
-#: src/mainwindow.cpp:3480
+#: src/mainwindow.cpp:3466
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23917,99 +23907,99 @@ msgstr ""
 "<shortcut>წკაპი</shortcut> ტრეკის ხედზე პროექტის მონიტორში, რომ აქტიურის "
 "გარდა ყველა ტრეკის აწევა მოახდინოთ"
 
-#: src/mainwindow.cpp:3492
+#: src/mainwindow.cpp:3478
 #, kde-format
 msgid "Insert"
 msgstr "ჩასმა"
 
-#: src/mainwindow.cpp:3762 src/mainwindow.cpp:3764
+#: src/mainwindow.cpp:3748 src/mainwindow.cpp:3750
 #, kde-format
 msgid "Scopes"
 msgstr "ფარგლები"
 
-#: src/mainwindow.cpp:3769
+#: src/mainwindow.cpp:3755
 #, kde-format
 msgid "Project Bins"
 msgstr "პროექტის კალათები"
 
-#: src/mainwindow.cpp:3865
+#: src/mainwindow.cpp:3851
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "კლიპის დავალებების მორგება…"
 
-#: src/mainwindow.cpp:3871
+#: src/mainwindow.cpp:3857
 #, kde-format
 msgid "Transcoders"
 msgstr "გადამკოდირებლები"
 
-#: src/mainwindow.cpp:3931
+#: src/mainwindow.cpp:3917
 #, kde-format
 msgid "-merged"
 msgstr "-merged"
 
-#: src/mainwindow.cpp:3934
+#: src/mainwindow.cpp:3920
 #, kde-format
 msgid "-stream-%1"
 msgstr "-stream-%1"
 
-#: src/mainwindow.cpp:3976
+#: src/mainwindow.cpp:3962
 #, kde-format
 msgid "Interface"
 msgstr "ინტერფეისი"
 
-#: src/mainwindow.cpp:3998
+#: src/mainwindow.cpp:3984
 #, kde-format
 msgid "Raise %1"
 msgstr "%1-ის აწევა"
 
-#: src/mainwindow.cpp:4065
+#: src/mainwindow.cpp:4051
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "გადასაკოდირებელი ფაილები"
 
-#: src/mainwindow.cpp:4197
+#: src/mainwindow.cpp:4183
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "დასაარქივებლად პროექტის ფაილის შენახვა შეუძლებელია."
 
-#: src/mainwindow.cpp:4205
+#: src/mainwindow.cpp:4191
 #, kde-format
 msgid "Archiving project"
 msgstr "პროექტის დაარქივება"
 
-#: src/mainwindow.cpp:4345
+#: src/mainwindow.cpp:4331
 #, kde-format
 msgid "Icon Size"
 msgstr "ხატულების ზომა"
 
-#: src/mainwindow.cpp:4349
+#: src/mainwindow.cpp:4335
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ნაგულისხმები"
 
-#: src/mainwindow.cpp:4370 src/mainwindow.cpp:4398
+#: src/mainwindow.cpp:4356 src/mainwindow.cpp:4384
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "პატარა (%1x%2)"
 
-#: src/mainwindow.cpp:4372 src/mainwindow.cpp:4400
+#: src/mainwindow.cpp:4358 src/mainwindow.cpp:4386
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "საშუალო (%1x%2)"
 
-#: src/mainwindow.cpp:4374 src/mainwindow.cpp:4402
+#: src/mainwindow.cpp:4360 src/mainwindow.cpp:4388
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "მოზრდილი (%1x%2)"
 
-#: src/mainwindow.cpp:4376 src/mainwindow.cpp:4404
+#: src/mainwindow.cpp:4362 src/mainwindow.cpp:4390
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ვეება (%1x%2)"
 
-#: src/mainwindow.cpp:4460
+#: src/mainwindow.cpp:4446
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -24017,27 +24007,27 @@ msgid ""
 msgstr ""
 "ეს მენიუს ზოლს მთლიანად დამალავს. მისი ჩვენება Ctrl+M ღილაკებით შეგიძლიათ."
 
-#: src/mainwindow.cpp:4460
+#: src/mainwindow.cpp:4446
 #, kde-format
 msgid "Hide menu bar"
 msgstr "მენიუს ზოლის დამალვა"
 
-#: src/mainwindow.cpp:4723 src/timeline2/view/timelinecontroller.cpp:5128
+#: src/mainwindow.cpp:4709 src/timeline2/view/timelinecontroller.cpp:5077
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "მიმდინარე პროექტში სუბტიტრები არაა"
 
-#: src/mainwindow.cpp:5010
+#: src/mainwindow.cpp:4996
 #, kde-format
 msgid "Go to download page"
 msgstr "გადმოწერის გვერდზე გადასვლა"
 
-#: src/mainwindow.cpp:5015
+#: src/mainwindow.cpp:5001
 #, kde-format
 msgid "Never check again"
 msgstr "აღარასდროს შეამოწმო"
 
-#: src/mainwindow.cpp:5018
+#: src/mainwindow.cpp:5004
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -24045,13 +24035,13 @@ msgid ""
 msgstr ""
 "თქვენი Kdenlive-ის ვერსია 1 წელზე ძველია. დაჟინებით გირჩევთ, ასწიოთ ვერსია"
 
-#: src/mainwindow.cpp:5022
+#: src/mainwindow.cpp:5008
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "თქვენი Kdenlive-ის ვერსია 6 თვეზე ძველია. გირჩევთ, განახლდეთ"
 
-#: src/mainwindow.cpp:5065
+#: src/mainwindow.cpp:5051
 #, kde-format
 msgid "Checking cached data size"
 msgstr "დაკეშილი მონაცემების შემოწმება"
@@ -24067,19 +24057,19 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "თქვენი MLT პროფილები ვერ ვიპოვე. მიუთითეთ ბილიკი"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:133
-#: src/mltcontroller/clippropertiescontroller.cpp:1321
-#: src/mltcontroller/clippropertiescontroller.cpp:1383
+#: src/mltcontroller/clippropertiescontroller.cpp:1322
+#: src/mltcontroller/clippropertiescontroller.cpp:1384
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
 msgstr "კბ/წმ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:201
+#: src/mltcontroller/clippropertiescontroller.cpp:202
 #, kde-format
 msgid "File info"
 msgstr "ფაილის ინფორმაცია"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:202
+#: src/mltcontroller/clippropertiescontroller.cpp:203
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -24087,24 +24077,24 @@ msgstr "აჩვენებს დეტალურ ინფორმაც�
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:204
+#: src/mltcontroller/clippropertiescontroller.cpp:205
 #: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:785
 #, kde-format
 msgid "Properties"
 msgstr "თვისებები"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:205
+#: src/mltcontroller/clippropertiescontroller.cpp:206
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "აჩვენებს დეტალურ ინფორმაციას ვიდეოს მონაცემების/კოდეკის შესახებ."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:207
+#: src/mltcontroller/clippropertiescontroller.cpp:208
 #, kde-format
 msgid "Audio Properties"
 msgstr "აუდიო თვისებები"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:208
+#: src/mltcontroller/clippropertiescontroller.cpp:209
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
@@ -24112,67 +24102,67 @@ msgstr ""
 "აჩვენებს დეტალურ ინფორმაციას ხმის ნაკადების/მონაცემების/კოდეკის შესახებ."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:210
+#: src/mltcontroller/clippropertiescontroller.cpp:211
 #: src/project/dialogs/projectsettings.cpp:875 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "მეტამონაცემები"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:212
+#: src/mltcontroller/clippropertiescontroller.cpp:213
 #, kde-format
 msgid "Analysis"
 msgstr "ანალიზი"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:213
+#: src/mltcontroller/clippropertiescontroller.cpp:214
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "ანალიზის მონაცემების ჩვენება."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:398
+#: src/mltcontroller/clippropertiescontroller.cpp:399
 #, kde-format
 msgid "Delete proxy file"
 msgstr "პროქსი ფაილის წაშლა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:405
+#: src/mltcontroller/clippropertiescontroller.cpp:406
 #, kde-format
 msgid "Proxy options"
 msgstr "პროქსის მორგება"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:410
+#: src/mltcontroller/clippropertiescontroller.cpp:411
 #, kde-format
 msgid "Open folder…"
 msgstr "საქარალდის გახსნა…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:416
+#: src/mltcontroller/clippropertiescontroller.cpp:417
 #, kde-format
 msgid "Play proxy clip"
 msgstr "პროქსი კლიპის დაკვრა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:422
+#: src/mltcontroller/clippropertiescontroller.cpp:423
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "ფაილის მდებარეობის ბუფერში კოპირება"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:554
+#: src/mltcontroller/clippropertiescontroller.cpp:555
 #, kde-format
 msgid "Apply"
 msgstr "გამოყენება"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:589
+#: src/mltcontroller/clippropertiescontroller.cpp:590
 #, kde-format
 msgid "Disable autorotate"
 msgstr "ავტომობრუნების გამორთვა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:604
+#: src/mltcontroller/clippropertiescontroller.cpp:605
 #, kde-format
 msgid "Enter template text here"
 msgstr "აქ შეგიძლიათ ნიმუშის ტექსტი შეიყვანოთ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:627
-#: src/mltcontroller/clippropertiescontroller.cpp:1339
+#: src/mltcontroller/clippropertiescontroller.cpp:628
+#: src/mltcontroller/clippropertiescontroller.cpp:1340
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -24181,9 +24171,9 @@ msgstr "პიქსელის პროპორცია:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:639
-#: src/mltcontroller/clippropertiescontroller.cpp:1308
-#: src/mltcontroller/clippropertiescontroller.cpp:1313
+#: src/mltcontroller/clippropertiescontroller.cpp:640
+#: src/mltcontroller/clippropertiescontroller.cpp:1309
+#: src/mltcontroller/clippropertiescontroller.cpp:1314
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:287
 #, kde-format
@@ -24193,8 +24183,8 @@ msgstr "კადრების სიხშირე:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:643
-#: src/mltcontroller/clippropertiescontroller.cpp:1326
+#: src/mltcontroller/clippropertiescontroller.cpp:644
+#: src/mltcontroller/clippropertiescontroller.cpp:1327
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -24203,309 +24193,307 @@ msgstr "ხაზგამოტოვებით"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:644
-#: src/mltcontroller/clippropertiescontroller.cpp:1326
+#: src/mltcontroller/clippropertiescontroller.cpp:645
+#: src/mltcontroller/clippropertiescontroller.cpp:1327
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
 msgstr "სკანირება:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:648
+#: src/mltcontroller/clippropertiescontroller.cpp:649
 #, kde-format
 msgid "Bottom First"
 msgstr "ჯერ ქვედა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:648
+#: src/mltcontroller/clippropertiescontroller.cpp:649
 #, kde-format
 msgid "Top First"
 msgstr "ჯერ ზედა"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:649
+#: src/mltcontroller/clippropertiescontroller.cpp:650
 #: src/ui/profiledialog_ui.ui:217
 #, kde-format
 msgid "Field order:"
 msgstr "ველების მიმდევრობა:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:660
+#: src/mltcontroller/clippropertiescontroller.cpp:661
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1 (ნაგულისხმები)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:665
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#: src/mltcontroller/clippropertiescontroller.cpp:666
+#, kde-format
 msgid "Rotate:"
-msgstr "შემობრუნება"
+msgstr "შემობრუნება:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:674
+#: src/mltcontroller/clippropertiescontroller.cpp:675
 #, kde-format
 msgid "Disable video"
 msgstr "ვიდეოს გათიშვა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:674
+#: src/mltcontroller/clippropertiescontroller.cpp:675
 #, kde-format
 msgid "Enable video"
 msgstr "ვიდეოს ჩართვა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:682
+#: src/mltcontroller/clippropertiescontroller.cpp:683
 #, kde-format
 msgid "Video stream"
 msgstr "ვიდეო ნაკადი"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:734
+#: src/mltcontroller/clippropertiescontroller.cpp:735
 #, kde-format
 msgid "Color space:"
 msgstr "ფერების სივრცე:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:738
+#: src/mltcontroller/clippropertiescontroller.cpp:739
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "შეზღუდვა ტრანსლაციაზე (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:739
+#: src/mltcontroller/clippropertiescontroller.cpp:740
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "სრული (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:743
+#: src/mltcontroller/clippropertiescontroller.cpp:744
 #, kde-format
 msgid "Color range:"
 msgstr "ფერების დიაპაზონი:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:748
+#: src/mltcontroller/clippropertiescontroller.cpp:749
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "ფაილი ცვალებადი კადრების სიხშირეს იყენებს. ეს რეკომენდებული არაა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:786
+#: src/mltcontroller/clippropertiescontroller.cpp:787
 #, kde-format
 msgid "Disable audio"
 msgstr "აუდიოს გამორთვა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:786
+#: src/mltcontroller/clippropertiescontroller.cpp:787
 #, kde-format
 msgid "Enable audio"
 msgstr "აუდიოს ჩართვა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:794
+#: src/mltcontroller/clippropertiescontroller.cpp:795
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "აუდიო ნაკადები"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:816
-#: src/monitor/monitor.cpp:2042
+#: src/mltcontroller/clippropertiescontroller.cpp:817
+#: src/monitor/monitor.cpp:2028
 #, kde-format
 msgid "Merge all streams"
 msgstr "ყველა ნაკადის შერწყმა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:971
+#: src/mltcontroller/clippropertiescontroller.cpp:972
 #, kde-format
 msgid "Copy channel:"
 msgstr "არხის კოპირება:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:972
+#: src/mltcontroller/clippropertiescontroller.cpp:973
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:973
+#: src/mltcontroller/clippropertiescontroller.cpp:974
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1002
+#: src/mltcontroller/clippropertiescontroller.cpp:1003
 #, kde-format
 msgid "Gain:"
 msgstr "გაძლიერება:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1029
+#: src/mltcontroller/clippropertiescontroller.cpp:1030
 #, kde-format
 msgid "Audio sync:"
 msgstr "აუდიოს სინქრონიზაცია:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1031
+#: src/mltcontroller/clippropertiescontroller.cpp:1032
 #, kde-format
 msgid "ms"
 msgstr "მწმ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1080
+#: src/mltcontroller/clippropertiescontroller.cpp:1081
 #, kde-format
 msgid "Analysis data"
 msgstr "ანალიზის მონაცემები"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1083
+#: src/mltcontroller/clippropertiescontroller.cpp:1084
 #, kde-format
 msgid "Delete analysis"
 msgstr "ანალიზის წაშლა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1085
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "მონაცემების სეტ(ებ)-ის წაშლა."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1085
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
 #, kde-format
 msgid "Export analysis…"
 msgstr "ანალიზის გატანა…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1086
+#: src/mltcontroller/clippropertiescontroller.cpp:1087
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "გახსნის ფაილის დიალოგს ანალიზის მონაცემების გატანა/შესანახად."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1087
+#: src/mltcontroller/clippropertiescontroller.cpp:1088
 #, kde-format
 msgid "Import analysis…"
 msgstr "ანალიზის შემოტანა…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1088
+#: src/mltcontroller/clippropertiescontroller.cpp:1089
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "გახსნის ფაილის დიალოგს ანალიზის მონაცემების შემოტანა/ჩასატვირთად."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1157
-#: src/mltcontroller/clippropertiescontroller.cpp:1456
+#: src/mltcontroller/clippropertiescontroller.cpp:1158
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #, kde-format
 msgid "Tracks:"
 msgstr "ტრეკები:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1296
+#: src/mltcontroller/clippropertiescontroller.cpp:1297
 #, kde-format
 msgid "Video codec:"
 msgstr "ვიდეო კოდეკი:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1302
+#: src/mltcontroller/clippropertiescontroller.cpp:1303
 #, kde-format
 msgid "Frame size:"
 msgstr "კადრის ზომა:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1321
+#: src/mltcontroller/clippropertiescontroller.cpp:1322
 #, kde-format
 msgid "Video bitrate:"
 msgstr "ვიდეოს ბიტური სიჩქარე:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1343
+#: src/mltcontroller/clippropertiescontroller.cpp:1344
 #, kde-format
 msgid "Pixel format:"
 msgstr "პიქსელის ფორმატი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1348
+#: src/mltcontroller/clippropertiescontroller.cpp:1349
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "ფერების სივრცე:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1352
+#: src/mltcontroller/clippropertiescontroller.cpp:1353
 #, kde-format
 msgid "B frames:"
 msgstr "B კადრები:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1352
+#: src/mltcontroller/clippropertiescontroller.cpp:1353
 #, kde-format
 msgid "Yes"
 msgstr "დიახ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1352
+#: src/mltcontroller/clippropertiescontroller.cpp:1353
 #, kde-format
 msgid "No"
 msgstr "არა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1366
+#: src/mltcontroller/clippropertiescontroller.cpp:1367
 #, kde-format
 msgid "Audio codec:"
 msgstr "აუდიო კოდეკი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "აუდიო არხები:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1377
+#: src/mltcontroller/clippropertiescontroller.cpp:1378
 #, kde-format
 msgid "Audio frequency:"
 msgstr "აუდიოს სიხშირე:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1377
+#: src/mltcontroller/clippropertiescontroller.cpp:1378
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "ჰც"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1383
+#: src/mltcontroller/clippropertiescontroller.cpp:1384
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "აუდიოს ბიტური სიჩქარე:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#: src/mltcontroller/clippropertiescontroller.cpp:1412
 #, kde-format
 msgid "Image size:"
 msgstr "Სურათის ზომა:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1414
+#: src/mltcontroller/clippropertiescontroller.cpp:1415
 #, kde-format
 msgid "Image duration:"
 msgstr "გამოსახულების ხანგრძლივობა:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1421
+#: src/mltcontroller/clippropertiescontroller.cpp:1422
 #, kde-format
 msgid "Image count:"
 msgstr "გამოსახულებების რაოდენობა:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1441
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#, kde-format
 msgid "Video streams:"
-msgstr "ვიდეო ნაკადი"
+msgstr "ვიდეონაკადები:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1448
+#: src/mltcontroller/clippropertiescontroller.cpp:1449
 #, kde-format
 msgid "Audio streams:"
 msgstr "აუდიონაკადები:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1470
+#: src/mltcontroller/clippropertiescontroller.cpp:1471
 #, kde-format
 msgid "File size:"
 msgstr "ფაილის ზომა:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1615
+#: src/mltcontroller/clippropertiescontroller.cpp:1616
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1642
+#: src/mltcontroller/clippropertiescontroller.cpp:1643
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1683
+#: src/mltcontroller/clippropertiescontroller.cpp:1684
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "ანალიზის მონაცემების შენახვა"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1684
-#: src/mltcontroller/clippropertiescontroller.cpp:1697
+#: src/mltcontroller/clippropertiescontroller.cpp:1685
+#: src/mltcontroller/clippropertiescontroller.cpp:1698
 #: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "ტექსტური ფაილი (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1696
+#: src/mltcontroller/clippropertiescontroller.cpp:1697
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -24617,7 +24605,7 @@ msgstr "ნაძალადევი ზომის შეცლა"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
-#: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:123
+#: src/timeline2/view/timelinecontroller.cpp:283 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
 msgstr "შავი"
@@ -24675,68 +24663,68 @@ msgstr "მიმდინარე გამოსახულების მ�
 msgid "Always show audio thumbnails"
 msgstr "აუდიოს მინიატურების ყოველთვის ჩვენება"
 
-#: src/monitor/monitor.cpp:728
+#: src/monitor/monitor.cpp:725
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "ხმის დონეების ჩვენება"
 
-#: src/monitor/monitor.cpp:735
+#: src/monitor/monitor.cpp:732
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "წყარის დროის კოდის ჩვენება"
 
-#: src/monitor/monitor.cpp:772
+#: src/monitor/monitor.cpp:769
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "ამ ქმედებისთვის თქვენი ეკრანის გაფართოება საკმარისი არაა"
 
-#: src/monitor/monitor.cpp:906 src/monitor/monitor.cpp:942
+#: src/monitor/monitor.cpp:903 src/monitor/monitor.cpp:939
 #, kde-format
 msgid "Cannot change zone when creating a mask"
 msgstr "ნიღბის შექმნისას ზონის შეცვლა შეუძლებელია"
 
-#: src/monitor/monitor.cpp:935 src/monitor/monitor.cpp:971
-#: src/timeline2/view/timelinecontroller.cpp:1831
+#: src/monitor/monitor.cpp:932 src/monitor/monitor.cpp:968
+#: src/timeline2/view/timelinecontroller.cpp:1797
 #, kde-format
 msgid "Set Zone"
 msgstr "ზონის დაყენება"
 
-#: src/monitor/monitor.cpp:1381
+#: src/monitor/monitor.cpp:1378
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "გამოსახულების შენახვა პროექტში"
 
-#: src/monitor/monitor.cpp:1381
+#: src/monitor/monitor.cpp:1378
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "გამოსახულების შენახვა"
 
-#: src/monitor/monitor.cpp:1388
+#: src/monitor/monitor.cpp:1385
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "გამოსახულების გატანა წყაროს გაფართოებით"
 
-#: src/monitor/monitor.cpp:1929
+#: src/monitor/monitor.cpp:1915
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "გავიდე ნიღბის შექმნიდან?"
 
-#: src/monitor/monitor.cpp:2027 src/monitor/monitor.cpp:2159
+#: src/monitor/monitor.cpp:2013 src/monitor/monitor.cpp:2145
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 აუდიო ნაკადი"
 msgstr[1] "%1 აუდიო ნაკადი"
 
-#: src/monitor/monitor.cpp:2466
+#: src/monitor/monitor.cpp:2452
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit-ის GLSL მმართველის ინიციალიზაცია შეუძლებელია. გამორთეთ Movit, გეთაყვა"
 
-#: src/monitor/monitor.cpp:2508 src/monitor/monitor.cpp:2565
+#: src/monitor/monitor.cpp:2494 src/monitor/monitor.cpp:2551
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -24745,17 +24733,17 @@ msgstr ""
 "ამ თვისებისთვის alphagrad ფილტრი დაგჭირდებათ. დააყენეთ frei0r და გადატვირთეთ "
 "Kdenlive"
 
-#: src/monitor/monitor.cpp:2528
+#: src/monitor/monitor.cpp:2514
 #, kde-format
 msgid "Clip has no effects"
 msgstr "კლიპს ეფექტები არ აქვს"
 
-#: src/monitor/monitor.cpp:2530
+#: src/monitor/monitor.cpp:2516
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "აირჩიეთ კლიპი პროექტის კალათაში ეფექტის შესადარებლად"
 
-#: src/monitor/monitor.cpp:2572
+#: src/monitor/monitor.cpp:2558
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -24764,17 +24752,17 @@ msgstr ""
 "ამ თვისებისთვის cairoblend გადასვლა დაგჭირდებათ. დააყენეთ frei0r და "
 "გადატვირთეთ Kdenlive"
 
-#: src/monitor/monitor.cpp:2649
+#: src/monitor/monitor.cpp:2633
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "ეფექტის შესაცვლელად მონიტორში ჩასწორების რეჟიმი ჩართეთ"
 
-#: src/monitor/monitor.cpp:3146
+#: src/monitor/monitor.cpp:3130
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "კლიპის მონიტორისთვის კლიპი არჩეული არაა"
 
-#: src/monitor/monitor.cpp:3167
+#: src/monitor/monitor.cpp:3151
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "კლიპის მონიტორისთვის შემქმნელის მიღება შეუძლებელია"
@@ -24975,17 +24963,17 @@ msgstr "აუდიოს სპექტრის ჩასართავა�
 msgid "Enable Audio Spectrum"
 msgstr "ხმის სპექტრის ჩართვა"
 
-#: src/monitor/videowidget.cpp:1089
+#: src/monitor/videowidget.cpp:1096
 #, kde-format
 msgid "Select a zone to play"
 msgstr "აირჩიეთ დასაკრავი ზონა"
 
-#: src/monitor/videowidget.cpp:1098
+#: src/monitor/videowidget.cpp:1105
 #, kde-format
 msgid "Select a clip to play"
 msgstr "აირჩიეთ დასაკრავი კლიპი"
 
-#: src/monitor/videowidget.cpp:1203
+#: src/monitor/videowidget.cpp:1210
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -24995,62 +24983,7 @@ msgstr ""
 "ვიდეოს მინიატურის ფანჯარა ვერ შევქმენი.\n"
 "თქვენს Kdenlive-ის ფაილებს ან დრაივერის პარამეტრებს რაღაც სჭირს. გაასწორეთ."
 
-#: src/monitor/view/EffectToolBar.qml:58 src/monitor/view/MaskToolBar.qml:59
-#: src/monitor/view/MultiScreenToolBar.qml:56
-#: src/monitor/view/SceneToolBar.qml:56
-#, kde-format
-msgid "Switch Full Screen"
-msgstr "სრულ ეკრანზე გადართვა"
-
-#: src/monitor/view/EffectToolBar.qml:64
-#, kde-format
-msgid "Show Grid"
-msgstr "ბადის ჩვენება"
-
-#: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
-#, kde-format
-msgid "Change Overlay"
-msgstr "განლაგების შეცვლა"
-
-#: src/monitor/view/EffectToolBar.qml:87
-#, kde-format
-msgid "Go to Next Keyframe"
-msgstr "გადასვლა შემდეგ საკვანძო კადრზე"
-
-#: src/monitor/view/EffectToolBar.qml:93
-#, kde-format
-msgid "Go to Previous Keyframe"
-msgstr "გადასვლა წინა საკვანძო კადრზე"
-
-#: src/monitor/view/EffectToolBar.qml:104
-#, kde-format
-msgid "Automatic Keyframes"
-msgstr "ავტომატური საკვანძო კადრები"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:112 src/monitor/view/MaskToolBar.qml:123
-#: src/monitor/view/MultiScreenToolBar.qml:64
-#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
-#, kde-format
-msgid "Zoom in"
-msgstr "&გადიდება"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:117 src/monitor/view/MaskToolBar.qml:128
-#: src/monitor/view/MultiScreenToolBar.qml:72
-#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
-#, kde-format
-msgid "Zoom out"
-msgstr "დაპატარავება"
-
-#: src/monitor/view/EffectToolBar.qml:124 src/monitor/view/MaskToolBar.qml:135
-#: src/monitor/view/MultiScreenToolBar.qml:81
-#: src/monitor/view/SceneToolBar.qml:112
-#, kde-format
-msgid "Move Toolbar"
-msgstr "ინსტრუმენტების პანელის გადატანა"
-
-#: src/monitor/view/kdenliveclipmonitor.qml:179
+#: src/monitor/view/ClipMonitor.qml:174
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25064,160 +24997,85 @@ msgstr ""
 "ხელსაწყოების პანელისთვის, <shortcut>ბორბალი</shortcut> ან <shortcut>ისრები</"
 "shortcut> გადასახვევად, <shortcut>Ctrl+ბორბალი</shortcut> გასადიდებლად"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:569
-#: src/monitor/view/kdenlivemonitor.qml:204
+#: src/monitor/view/ClipMonitor.qml:551 src/monitor/view/ProjectMonitor.qml:190
 #, kde-format
 msgid "%1fps"
 msgstr "%1კადრი/წმ"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:602
-#, kde-format
-msgid "In/Out Point"
-msgstr "შესვლის/გამოსვლის წერტილი"
-
-#: src/monitor/view/kdenliveclipmonitor.qml:602
-#: src/monitor/view/kdenlivemonitor.qml:237
+#: src/monitor/view/ClipMonitor.qml:584 src/monitor/view/ProjectMonitor.qml:223
 #, kde-format
 msgid "In Point"
 msgstr "შესვლის წერტილი"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:624
-#: src/monitor/view/kdenlivemonitor.qml:254
+#: src/monitor/view/ClipMonitor.qml:584
+#, kde-format
+msgid "In/Out Point"
+msgstr "შესვლის/გამოსვლის წერტილი"
+
+#: src/monitor/view/ClipMonitor.qml:606 src/monitor/view/ProjectMonitor.qml:240
 #, kde-format
 msgid "Out Point"
 msgstr "გამოსვლის წერტილი"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:804
+#: src/monitor/view/ClipMonitor.qml:786
 #, kde-format
 msgid "Terminate Job"
 msgstr "დავალების შეწყვეტა"
 
-#: src/monitor/view/kdenlivemonitor.qml:101
+#: src/monitor/view/EffectToolBar.qml:60 src/monitor/view/MaskToolBar.qml:59
+#: src/monitor/view/MultiScreenToolBar.qml:57
+#: src/monitor/view/SceneToolBar.qml:56
 #, kde-format
-msgid ""
-"<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
-"for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
-msgstr ""
-"<b>წკაპი</b> დასაკრავად, <b>ორმაგი წკაპი</b> სრულ ეკრანზე გასატანად, "
-"<b>მაჯვნივ წაღება</b> ხელსაწყოებისთვის, <b>თაგუნას ბორბალი</b> ან <b>ისრები</"
-"b> გადასახვევად, <b>Ctrl ბორბალი</b> გასადიდებლად"
+msgid "Switch Full Screen"
+msgstr "სრულ ეკრანზე გადართვა"
 
-#: src/monitor/view/kdenlivemonitor.qml:300
+#: src/monitor/view/EffectToolBar.qml:66
 #, kde-format
-msgctxt "@tooltip Transform, a tool to resize"
-msgid "Transform"
-msgstr "ტრასფორმირება"
+msgid "Show Grid"
+msgstr "ბადის ჩვენება"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:387
+#: src/monitor/view/EffectToolBar.qml:76 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
-msgid "Select an object in the image first"
-msgstr "ჯერ აირჩიეთ ობიექტი გამოსახულებაში"
+msgid "Change Overlay"
+msgstr "განლაგების შეცვლა"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:387
+#: src/monitor/view/EffectToolBar.qml:89
 #, kde-format
-msgid "Generating image mask"
-msgstr "გამოსახულების ნიღბის გენერაცია"
+msgid "Go to Next Keyframe"
+msgstr "გადასვლა შემდეგ საკვანძო კადრზე"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:387
+#: src/monitor/view/EffectToolBar.qml:95
 #, kde-format
-msgid "Generating video mask"
-msgstr "ვიდეოს ნიღბის გენერაცია"
+msgid "Go to Previous Keyframe"
+msgstr "გადასვლა წინა საკვანძო კადრზე"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:398
+#: src/monitor/view/EffectToolBar.qml:106
 #, kde-format
-msgid ""
-"Click on an object or draw a box to start a mask.\n"
-"Shift+click to include another zone.\n"
-"Ctrl+click to exclude a zone."
-msgstr ""
-"დააწკაპუნეთ ობიექტზე ნიღბის დასაწყებად.\n"
-"Shift+წკაპი სხვა ზონის ჩასასმელად.\n"
-"Ctrl+წკაპი ზონის ამოსაღებად."
+msgid "Automatic Keyframes"
+msgstr "ავტომატური საკვანძო კადრები"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:398
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
+#: src/monitor/view/EffectToolBar.qml:114 src/monitor/view/MaskToolBar.qml:123
+#: src/monitor/view/MultiScreenToolBar.qml:65
+#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
-msgid "Previewing video mask"
-msgstr "ვიდეოს ნიღბის მინიატურა"
+msgid "Zoom in"
+msgstr "&გადიდება"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:409
+#. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
+#: src/monitor/view/EffectToolBar.qml:119 src/monitor/view/MaskToolBar.qml:128
+#: src/monitor/view/MultiScreenToolBar.qml:73
+#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
-msgid ""
-"You are outside of the time zone defined\n"
-"for the mask and cannot add keyframes.\n"
-"\n"
-"\n"
-msgstr ""
-"თქვენ ნიღბისთვის აღწერილი დროის სარტყლის გარეთ\n"
-"იმყოფებით და საკვანძო კადრებს ვერ დაამატებთ.\n"
-"\n"
-"\n"
+msgid "Zoom out"
+msgstr "დაპატარავება"
 
-#: src/monitor/view/kdenlivemonitorautomask.qml:419
+#: src/monitor/view/EffectToolBar.qml:126 src/monitor/view/MaskToolBar.qml:135
+#: src/monitor/view/MultiScreenToolBar.qml:82
+#: src/monitor/view/SceneToolBar.qml:112
 #, kde-format
-msgid "Go to mask start"
-msgstr "ნიღბის დასაწყისში გადასვლა"
-
-#: src/monitor/view/kdenlivemonitorautomask.qml:432
-#, kde-format
-msgid "Go to mask end"
-msgstr "ნიღბის ბოლოში გადასვლა"
-
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:313
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</"
-"shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for "
-"center-based rescale, <shortcut>Hover right</shortcut> for toolbar, "
-"<shortcut>Click</shortcut> on a center to seek to its keyframe"
-msgstr ""
-"<shortcut>ორმაგი წკაპი</shortcut> საკვანძო კადრის დასამატებლად, "
-"<shortcut>Shift+გადათრევა</shortcut> პროპორციული დამასშტაბებისთვის, "
-"<shortcut>Ctrl+გადათრევა</shortcut> ცენტრზე მიმაგრებული დამასშტაბებისთვის, "
-"<shortcut>გააჩერეთ თაგუნა ზემოდან</shortcut> ხელსაწყოების პანელისთვის, "
-"<shortcut>დააწკაპუნეთ</shortcut> ცენტრში, რომ მის საკვანძო კადრზე გადაახვიოთ"
-
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
-"to close shape."
-msgstr ""
-"<shortcut>წკაპი</shortcut> წერტილების დასამატებლად, <shortcut>მარჯვენა "
-"წკაპი</shortcut> ფიგურის დასასრულებლად."
-
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"<shortcut>Double click</shortcut> on center to resize, <shortcut>Double "
-"click</shortcut> on line segment to add new point, <shortcut>Double click</"
-"shortcut> point to delete it, <shortcut>Double click</shortcut> background "
-"to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
-msgstr ""
-"<shortcut>ორმაგი წკაპი</shortcut> ცენტრზე ზომის შესაცვლელად, "
-"<shortcut>ორმაგი წკაპი</shortcut> ხაზის სეგმენტზე ახალი წერტილის "
-"დასამატებლად, <shortcut>ორმაგი წკაპი</shortcut> წერტილზე მის წასაშლელად, "
-"<shortcut>ორმაგი წკაპი</shortcut> ფონზ ახალი საკვანძო კადრის შესაქმნელად, "
-"<shortcut>გადაატარეთ მარჯვნივ</shortcut> ხელსაწყოს პანელისთვის"
-
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:71
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
-msgstr ""
-"<shortcut>Shift სახელურის გადათრევა</shortcut> ცენტრზე დაფუძნებული ზომის "
-"შეცვლისთვის"
-
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:442
-#, kde-format
-msgid ""
-"Click to add points,\n"
-"right click or press enter to close shape."
-msgstr ""
-"წკაპი წერტილების დასამატებლად.\n"
-"მარჯვენა წკაპი ან დააწექით ღილაკს Enter ფიგურის დასახურად."
+msgid "Move Toolbar"
+msgstr "ინსტრუმენტების პანელის გადატანა"
 
 #: src/monitor/view/MaskToolBar.qml:65
 #, kde-format
@@ -25244,7 +25102,118 @@ msgstr "ნიღბის შექმნიდან გასვლა"
 msgid "Exit Preview Mode"
 msgstr "გადახედვის რეჟიმიდან გასვლა"
 
-#: src/monitor/view/MonitorRuler.qml:268
+#: src/monitor/view/MonitorAutomask.qml:387
+#, kde-format
+msgid "Select an object in the image first"
+msgstr "ჯერ აირჩიეთ ობიექტი გამოსახულებაში"
+
+#: src/monitor/view/MonitorAutomask.qml:387
+#, kde-format
+msgid "Generating image mask"
+msgstr "გამოსახულების ნიღბის გენერაცია"
+
+#: src/monitor/view/MonitorAutomask.qml:387
+#, kde-format
+msgid "Generating video mask"
+msgstr "ვიდეოს ნიღბის გენერაცია"
+
+#: src/monitor/view/MonitorAutomask.qml:398
+#, kde-format
+msgid ""
+"Click on an object or draw a box to start a mask.\n"
+"Shift+click to include another zone.\n"
+"Ctrl+click to exclude a zone."
+msgstr ""
+"დააწკაპუნეთ ობიექტზე ნიღბის დასაწყებად.\n"
+"Shift+წკაპი სხვა ზონის ჩასასმელად.\n"
+"Ctrl+წკაპი ზონის ამოსაღებად."
+
+#: src/monitor/view/MonitorAutomask.qml:398
+#, kde-format
+msgid "Previewing video mask"
+msgstr "ვიდეოს ნიღბის მინიატურა"
+
+#: src/monitor/view/MonitorAutomask.qml:409
+#, kde-format
+msgid ""
+"You are outside of the time zone defined\n"
+"for the mask and cannot add keyframes.\n"
+"\n"
+"\n"
+msgstr ""
+"თქვენ ნიღბისთვის აღწერილი დროის სარტყლის გარეთ\n"
+"იმყოფებით და საკვანძო კადრებს ვერ დაამატებთ.\n"
+"\n"
+"\n"
+
+#: src/monitor/view/MonitorAutomask.qml:419
+#, kde-format
+msgid "Go to mask start"
+msgstr "ნიღბის დასაწყისში გადასვლა"
+
+#: src/monitor/view/MonitorAutomask.qml:431
+#, kde-format
+msgid "Go to mask end"
+msgstr "ნიღბის ბოლოში გადასვლა"
+
+#: src/monitor/view/MonitorGeometryScene.qml:301
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Double click</shortcut> to add a keyframe, <shortcut>Shift drag</"
+"shortcut> for proportional rescale, <shortcut>Ctrl drag</shortcut> for "
+"center-based rescale, <shortcut>Hover right</shortcut> for toolbar, "
+"<shortcut>Click</shortcut> on a center to seek to its keyframe"
+msgstr ""
+"<shortcut>ორმაგი წკაპი</shortcut> საკვანძო კადრის დასამატებლად, "
+"<shortcut>Shift+გადათრევა</shortcut> პროპორციული დამასშტაბებისთვის, "
+"<shortcut>Ctrl+გადათრევა</shortcut> ცენტრზე მიმაგრებული დამასშტაბებისთვის, "
+"<shortcut>გააჩერეთ თაგუნა ზემოდან</shortcut> ხელსაწყოების პანელისთვის, "
+"<shortcut>დააწკაპუნეთ</shortcut> ცენტრში, რომ მის საკვანძო კადრზე გადაახვიოთ"
+
+#: src/monitor/view/MonitorRotoScene.qml:70
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
+"to close shape."
+msgstr ""
+"<shortcut>წკაპი</shortcut> წერტილების დასამატებლად, <shortcut>მარჯვენა "
+"წკაპი</shortcut> ფიგურის დასასრულებლად."
+
+#: src/monitor/view/MonitorRotoScene.qml:71
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Double click</shortcut> on center to resize, <shortcut>Double "
+"click</shortcut> on line segment to add new point, <shortcut>Double click</"
+"shortcut> point to delete it, <shortcut>Double click</shortcut> background "
+"to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
+msgstr ""
+"<shortcut>ორმაგი წკაპი</shortcut> ცენტრზე ზომის შესაცვლელად, "
+"<shortcut>ორმაგი წკაპი</shortcut> ხაზის სეგმენტზე ახალი წერტილის "
+"დასამატებლად, <shortcut>ორმაგი წკაპი</shortcut> წერტილზე მის წასაშლელად, "
+"<shortcut>ორმაგი წკაპი</shortcut> ფონზ ახალი საკვანძო კადრის შესაქმნელად, "
+"<shortcut>გადაატარეთ მარჯვნივ</shortcut> ხელსაწყოს პანელისთვის"
+
+#: src/monitor/view/MonitorRotoScene.qml:72
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
+msgstr ""
+"<shortcut>Shift სახელურის გადათრევა</shortcut> ცენტრზე დაფუძნებული ზომის "
+"შეცვლისთვის"
+
+#: src/monitor/view/MonitorRotoScene.qml:429
+#, kde-format
+msgid ""
+"Click to add points,\n"
+"right click or press enter to close shape."
+msgstr ""
+"წკაპი წერტილების დასამატებლად.\n"
+"მარჯვენა წკაპი ან დააწექით ღილაკს Enter ფიგურის დასახურად."
+
+#: src/monitor/view/MonitorRuler.qml:267
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25258,7 +25227,7 @@ msgstr ""
 "<shortcut>Alt</shortcut> მარკერამდე გადასახვევად, <shortcut>Home</"
 "shortcut> / <shortcut>End</shortcut> პირველ / ბოლო კადრზე გადასასვლელად"
 
-#: src/monitor/view/MonitorRuler.qml:339
+#: src/monitor/view/MonitorRuler.qml:338
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25268,7 +25237,7 @@ msgstr ""
 "<shortcut>გადაათრიეთ</shortcut> წერტილში ზონის დასაყენებლად, <shortcut>Shift"
 "+Drag</shortcut> გადასახვევად ზონის გასწორებისას"
 
-#: src/monitor/view/MonitorRuler.qml:388
+#: src/monitor/view/MonitorRuler.qml:387
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25277,6 +25246,22 @@ msgid ""
 msgstr ""
 "<shortcut>გადაათრიეთ</shortcut> წერტილიდან ზონის დასაყენებლად, "
 "<shortcut>Shift+Drag</shortcut> გადასახვევად ზონიდან გასწორებისას"
+
+#: src/monitor/view/ProjectMonitor.qml:101
+#, kde-format
+msgid ""
+"<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
+"for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
+msgstr ""
+"<b>წკაპი</b> დასაკრავად, <b>ორმაგი წკაპი</b> სრულ ეკრანზე გასატანად, "
+"<b>მაჯვნივ წაღება</b> ხელსაწყოებისთვის, <b>თაგუნას ბორბალი</b> ან <b>ისრები</"
+"b> გადასახვევად, <b>Ctrl ბორბალი</b> გასადიდებლად"
+
+#: src/monitor/view/ProjectMonitor.qml:286
+#, kde-format
+msgctxt "@tooltip Transform, a tool to resize"
+msgid "Transform"
+msgstr "ტრასფორმირება"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -28250,26 +28235,26 @@ msgid "Cut all clips"
 msgstr "ყველა კლიპის ამოჭრა"
 
 #: src/timeline2/model/timelinefunctions.cpp:685
-#: src/timeline2/view/timelinecontroller.cpp:1507
+#: src/timeline2/view/timelinecontroller.cpp:1473
 #, kde-format
 msgid "Insert space"
 msgstr "ადგილის დამატება"
 
 #: src/timeline2/model/timelinefunctions.cpp:687
-#: src/timeline2/view/timelinecontroller.cpp:1509
+#: src/timeline2/view/timelinecontroller.cpp:1475
 #, kde-format
 msgid "Remove space"
 msgstr "გამოტოვების წაშლა"
 
 #: src/timeline2/model/timelinefunctions.cpp:756
-#: src/timeline2/view/timelinecontroller.cpp:2967
+#: src/timeline2/view/timelinecontroller.cpp:2928
 #, kde-format
 msgid "Lift zone"
 msgstr "ზონის აწევა"
 
 #: src/timeline2/model/timelinefunctions.cpp:756
-#: src/timeline2/view/timelinecontroller.cpp:747
-#: src/timeline2/view/timelinecontroller.cpp:2967
+#: src/timeline2/view/timelinecontroller.cpp:743
+#: src/timeline2/view/timelinecontroller.cpp:2928
 #, kde-format
 msgid "Extract zone"
 msgstr "ზონის გაშლა"
@@ -28280,28 +28265,28 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr "გაააქტიურეთ ტრეკი მის ჭდეზე დაწკაპუნებით"
 
 #: src/timeline2/model/timelinefunctions.cpp:951
-#: src/timeline2/view/timelinecontroller.cpp:1246
-#: src/timeline2/view/timelinecontroller.cpp:1326
-#: src/timeline2/view/timelinecontroller.cpp:1336
-#: src/timeline2/view/timelinecontroller.cpp:1365
-#: src/timeline2/view/timelinecontroller.cpp:1405
-#: src/timeline2/view/timelinecontroller.cpp:1431
-#: src/timeline2/view/timelinecontroller.cpp:1456
-#: src/timeline2/view/timelinecontroller.cpp:2335
-#: src/timeline2/view/timelinecontroller.cpp:2985
-#: src/timeline2/view/timelinecontroller.cpp:3050
-#: src/timeline2/view/timelinecontroller.cpp:3264
-#: src/timeline2/view/timelinecontroller.cpp:3309
-#: src/timeline2/view/timelinecontroller.cpp:3350
-#: src/timeline2/view/timelinecontroller.cpp:3357
-#: src/timeline2/view/timelinecontroller.cpp:3385
-#: src/timeline2/view/timelinecontroller.cpp:3710
-#: src/timeline2/view/timelinecontroller.cpp:3725
-#: src/timeline2/view/timelinecontroller.cpp:3750
-#: src/timeline2/view/timelinecontroller.cpp:3765
-#: src/timeline2/view/timelinecontroller.cpp:3824
-#: src/timeline2/view/timelinecontroller.cpp:3877
-#: src/timeline2/view/timelinecontroller.cpp:3901
+#: src/timeline2/view/timelinecontroller.cpp:1212
+#: src/timeline2/view/timelinecontroller.cpp:1292
+#: src/timeline2/view/timelinecontroller.cpp:1302
+#: src/timeline2/view/timelinecontroller.cpp:1331
+#: src/timeline2/view/timelinecontroller.cpp:1371
+#: src/timeline2/view/timelinecontroller.cpp:1397
+#: src/timeline2/view/timelinecontroller.cpp:1422
+#: src/timeline2/view/timelinecontroller.cpp:2301
+#: src/timeline2/view/timelinecontroller.cpp:2946
+#: src/timeline2/view/timelinecontroller.cpp:3011
+#: src/timeline2/view/timelinecontroller.cpp:3225
+#: src/timeline2/view/timelinecontroller.cpp:3270
+#: src/timeline2/view/timelinecontroller.cpp:3311
+#: src/timeline2/view/timelinecontroller.cpp:3318
+#: src/timeline2/view/timelinecontroller.cpp:3346
+#: src/timeline2/view/timelinecontroller.cpp:3669
+#: src/timeline2/view/timelinecontroller.cpp:3684
+#: src/timeline2/view/timelinecontroller.cpp:3709
+#: src/timeline2/view/timelinecontroller.cpp:3724
+#: src/timeline2/view/timelinecontroller.cpp:3783
+#: src/timeline2/view/timelinecontroller.cpp:3836
+#: src/timeline2/view/timelinecontroller.cpp:3860
 #, kde-format
 msgid "No clip selected"
 msgstr "კლიპი მონიშნული არაა"
@@ -28314,7 +28299,7 @@ msgstr "არჩეულ ჯგუფის გადატანა შეუ
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1121
 #: src/timeline2/model/timelinefunctions.cpp:1128
-#: src/timeline2/view/timelinecontroller.cpp:4042
+#: src/timeline2/view/timelinecontroller.cpp:4001
 #, kde-format
 msgid "Enable clip"
 msgstr "კლიპის ჩართვა"
@@ -28322,7 +28307,7 @@ msgstr "კლიპის ჩართვა"
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1121
 #: src/timeline2/model/timelinefunctions.cpp:1128
-#: src/timeline2/view/timelinecontroller.cpp:4042
+#: src/timeline2/view/timelinecontroller.cpp:4001
 #, kde-format
 msgid "Disable clip"
 msgstr "კლიპის გათიშვა"
@@ -28558,7 +28543,7 @@ msgstr "კლიპის გადატანა"
 #: src/timeline2/model/timelinemodel.cpp:1930
 #: src/timeline2/model/timelinemodel.cpp:1953
 #: src/timeline2/model/timelinemodel.cpp:1976
-#: src/timeline2/view/timelinecontroller.cpp:3335
+#: src/timeline2/view/timelinecontroller.cpp:3296
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "ჩასმის ოპერაციისთვის ხელმისაწვდომი ტრეკის გარეშე"
@@ -28606,7 +28591,7 @@ msgstr "კომპოზიციის წაშლა"
 
 #: src/timeline2/model/timelinemodel.cpp:2404
 #: src/timeline2/model/timelinemodel.cpp:2694
-#: src/timeline2/view/timelinecontroller.cpp:4279
+#: src/timeline2/view/timelinecontroller.cpp:4238
 #, kde-format
 msgid "Move group"
 msgstr "ჯგუფის გადაადგილება"
@@ -28681,7 +28666,7 @@ msgid "Ungroup clips"
 msgstr "კლიპების განჯგუფება"
 
 #: src/timeline2/model/timelinemodel.cpp:4773
-#: src/timeline2/view/timelinecontroller.cpp:982
+#: src/timeline2/view/timelinecontroller.cpp:948
 #, kde-format
 msgid "Delete Track"
 msgstr "ტრეკის წაშლა"
@@ -28747,15 +28732,15 @@ msgid "Change clip speed"
 msgstr "კლიპის სიჩქარის შეცვლა"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
-#: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:522
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:128
+#: src/timeline2/view/qml/TrackHead.qml:481
 #, kde-format
 msgid "Lock track"
 msgstr "ბილიკის ჩაკეტვა"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
-#: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:522
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:128
+#: src/timeline2/view/qml/TrackHead.qml:481
 #, kde-format
 msgid "Unlock track"
 msgstr "ბილიკის გახსნა"
@@ -28908,7 +28893,7 @@ msgid "Stop"
 msgstr "შეჩერება"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2189
+#: src/timeline2/view/qml/Timeline.qml:1997
 #, kde-format
 msgid "Paused"
 msgstr "შეჩერებულია"
@@ -28924,8 +28909,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), მდებარეობა: %4, ხანგრძლივობა: %5"
 
 #: src/timeline2/view/qml/Clip.qml:343 src/timeline2/view/qml/Clip.qml:357
-#: src/timeline2/view/qml/SubTitle.qml:206
-#: src/timeline2/view/qml/SubTitle.qml:212
+#: src/timeline2/view/qml/SubTitle.qml:207
+#: src/timeline2/view/qml/SubTitle.qml:213
 #, kde-format
 msgid "Position: %1"
 msgstr "მდებარეობა: %1"
@@ -28989,29 +28974,29 @@ msgstr "წანაცვლება: %1"
 msgid " <b>Click</b> to align clips"
 msgstr " <b>დააწკაპუნეთ</b> კლიპების გასასწორებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1280 src/timeline2/view/qml/Clip.qml:1317
+#: src/timeline2/view/qml/Clip.qml:1278 src/timeline2/view/qml/Clip.qml:1315
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>დააწკაპუნეთ</b> კომპოზიციის დასამატებლად"
 
-#: src/timeline2/view/qml/Clip.qml:1394 src/timeline2/view/qml/Clip.qml:1401
+#: src/timeline2/view/qml/Clip.qml:1392 src/timeline2/view/qml/Clip.qml:1399
 #, kde-format
 msgid "Fade out: %1"
 msgstr "მინავლება: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1405 src/timeline2/view/qml/Clip.qml:1512
+#: src/timeline2/view/qml/Clip.qml:1403 src/timeline2/view/qml/Clip.qml:1510
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>გადათრიეთ</b> მინავლების მოსარგებად, <b>დააწკაპუნეთ</b> ნაგულისხმევი "
 "მნიშვნელობის ხანგრძლივობის მინავლების დამატება"
 
-#: src/timeline2/view/qml/Clip.qml:1501 src/timeline2/view/qml/Clip.qml:1508
+#: src/timeline2/view/qml/Clip.qml:1499 src/timeline2/view/qml/Clip.qml:1506
 #, kde-format
 msgid "Fade in: %1"
 msgstr "გამოჩენა: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1596
+#: src/timeline2/view/qml/Clip.qml:1594
 #, kde-format
 msgid "Slip Clip"
 msgstr "კლიპის გადახვევა"
@@ -29023,13 +29008,13 @@ msgstr "%1, მდებარეობა: %2, ხანგრძლივო�
 
 #: src/timeline2/view/qml/Composition.qml:336
 #: src/timeline2/view/qml/Composition.qml:400
-#: src/timeline2/view/qml/SubTitle.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:443
+#: src/timeline2/view/qml/SubTitle.qml:341
+#: src/timeline2/view/qml/SubTitle.qml:444
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>გადაათრიეთ</b> ზომის შესაცვლელად"
 
-#: src/timeline2/view/qml/KeyframeView.qml:170
+#: src/timeline2/view/qml/KeyframeView.qml:171
 #, kde-format
 msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
@@ -29038,7 +29023,7 @@ msgstr ""
 "<b>გადაათრიეთ</b> მონიშნული საკვანძო კადრის მდებარეობის შესაცვლელად. <b>Shift"
 "+გადათრევა</b> ყველა საკვანძო კადრის ამის შემდეგ გადასატანად."
 
-#: src/timeline2/view/qml/KeyframeView.qml:282
+#: src/timeline2/view/qml/KeyframeView.qml:283
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -29047,71 +29032,71 @@ msgstr ""
 "<b>Shift+გადათრევა</b> მონიშნული საკვანძო კადრების მნიშვნელობის შესაცვლელად. "
 "<b>Ctrl+წკაპი</b> ერთზე მეტი საკვანძო კადრის მოსანიშნად."
 
-#: src/timeline2/view/qml/SubTitle.qml:111
+#: src/timeline2/view/qml/SubTitle.qml:112
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>ორმაგი წკაპი</b> ტექსტის ჩასასწორებლად"
 
-#: src/timeline2/view/qml/timeline.qml:1004
-#, kde-format
-msgid "Show master effects"
-msgstr "ძირითადი ეფექტების ჩვენება"
-
-#: src/timeline2/view/qml/timeline.qml:1147
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:89
 #, kde-format
 msgid "Click to see details"
 msgstr "დეტალების სანახავად დააწკაპუნეთ"
 
-#: src/timeline2/view/qml/timeline.qml:1169
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:103
 #, kde-format
 msgid "Speech recognition"
 msgstr "საუბრის ამოცნობა"
 
-#: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:488
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
+#: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
 msgid "Show"
 msgstr "ჩვენება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:488 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/SubtitleTrackHead.qml:115
+#: src/timeline2/view/qml/TrackHead.qml:458 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "დამალვა"
 
-#: src/timeline2/view/qml/timeline.qml:1852
+#: src/timeline2/view/qml/Timeline.qml:1001
+#, kde-format
+msgid "Show master effects"
+msgstr "ძირითადი ეფექტების ჩვენება"
+
+#: src/timeline2/view/qml/Timeline.qml:1660
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ორმაგი წკაპი</b> სუბტიტრის დასამატებლად"
 
-#: src/timeline2/view/qml/timeline.qml:2019
+#: src/timeline2/view/qml/Timeline.qml:1827
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "წანაცვლება: %1, მდებარეობა: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2178
-#: src/timeline2/view/qml/timeline.qml:2187
+#: src/timeline2/view/qml/Timeline.qml:1986
+#: src/timeline2/view/qml/Timeline.qml:1995
 #, kde-format
 msgid "Recording"
 msgstr "ჩაწერა"
 
-#: src/timeline2/view/qml/timeline.qml:2281
+#: src/timeline2/view/qml/Timeline.qml:2089
 #, kde-format
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"
 
-#: src/timeline2/view/qml/Track.qml:459 src/timeline2/view/qml/Track.qml:477
+#: src/timeline2/view/qml/Track.qml:460 src/timeline2/view/qml/Track.qml:478
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, ხანგრძლივობა = %3"
 
-#: src/timeline2/view/qml/Track.qml:501
+#: src/timeline2/view/qml/Track.qml:502
 #, kde-format
 msgid "Adjusting speed"
 msgstr "სიჩქარის გასწორება"
 
-#: src/timeline2/view/qml/TrackHead.qml:188
+#: src/timeline2/view/qml/TrackHead.qml:183
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -29120,24 +29105,24 @@ msgstr ""
 "დააწკაპუნოთ, რომ ჩართოთ ან გამორთოთ ტრეკის სამიზნეობა. სამიზნე ტრეკები "
 "ჩასმულ კლიპებს მიიღებენ"
 
-#: src/timeline2/view/qml/TrackHead.qml:275
+#: src/timeline2/view/qml/TrackHead.qml:262
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Shift</b> იგივე ტიპის (აუდიო/ვიდეო) მქონე ყველა ტრეკის ჩამოშლა/აკეცვა"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:282
 #, kde-format
 msgid "Minimize"
 msgstr "ჩაკეცვა"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:282
 #, kde-format
 msgid "Expand"
 msgstr "გაფართოება"
 
-#: src/timeline2/view/qml/TrackHead.qml:334
+#: src/timeline2/view/qml/TrackHead.qml:321
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -29146,255 +29131,255 @@ msgstr ""
 "დააწკაპუნეთ ტრეკის გააქტიურებისთვის/გააქტიურების გაუქმებისთვის. აქტიური "
 "ტრეკები ჩასწორების ოპერაციებს ხელს უშლის"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:419
 #, kde-format
 msgid "Disable track effects"
 msgstr "ტრეკის ეფექტების გათიშვა"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:419
 #, kde-format
 msgid "Enable track effects"
 msgstr "ტრეკის ეფექტების ჩართვა"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:419
 #, kde-format
 msgid "Toggle track effects"
 msgstr "ტრეკის ეფექტების გადართვა"
 
-#: src/timeline2/view/qml/TrackHead.qml:471
+#: src/timeline2/view/qml/TrackHead.qml:441
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Shift</b> იგივე ტიპის (აუდიო/ვიდეო) მქონე ყველა ტრეკის დამალვა/ჩვენება"
 
-#: src/timeline2/view/qml/TrackHead.qml:488
+#: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
 msgid "Unmute"
 msgstr "დადუმების გამორთვა"
 
-#: src/timeline2/view/qml/TrackHead.qml:488
+#: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
 msgid "Mute"
 msgstr "დადუმება"
 
-#: src/timeline2/view/qml/TrackHead.qml:596
+#: src/timeline2/view/qml/TrackHead.qml:553
 #, kde-format
 msgid "Edit track name"
 msgstr "ტრეკის სახელის ჩასწორება"
 
-#: src/timeline2/view/qml/TrackHead.qml:669
+#: src/timeline2/view/qml/TrackHead.qml:626
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr "დააწკაპუნეთ აუდიოს ტალღის ფორმის გადიდების წრეზე სატარებლად"
 
-#: src/timeline2/view/timelinecontroller.cpp:279
+#: src/timeline2/view/timelinecontroller.cpp:280
 #, kde-format
 msgid "unknown"
 msgstr "unknown"
 
-#: src/timeline2/view/timelinecontroller.cpp:378
+#: src/timeline2/view/timelinecontroller.cpp:379
 #, kde-format
 msgid "Hide Track"
 msgstr "ტრეკის დამალვა"
 
-#: src/timeline2/view/timelinecontroller.cpp:378
+#: src/timeline2/view/timelinecontroller.cpp:379
 #, kde-format
 msgid "Enable Track"
 msgstr "ტრეკის ჩართვა"
 
-#: src/timeline2/view/timelinecontroller.cpp:441
+#: src/timeline2/view/timelinecontroller.cpp:442
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr "აქტიურ ტრეკში დროის ხაზის კურსორის ქვეშ ელემენტი არ არსებობს"
 
-#: src/timeline2/view/timelinecontroller.cpp:631
+#: src/timeline2/view/timelinecontroller.cpp:627
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr "არჩეულ ადგილას კომპოზიციას ვერ დაამატებთ"
 
-#: src/timeline2/view/timelinecontroller.cpp:693
-#: src/timeline2/view/timelinecontroller.cpp:1127
-#: src/timeline2/view/timelinecontroller.cpp:1144
-#: src/timeline2/view/timelinecontroller.cpp:1175
-#: src/timeline2/view/timelinecontroller.cpp:1255
+#: src/timeline2/view/timelinecontroller.cpp:689
+#: src/timeline2/view/timelinecontroller.cpp:1093
+#: src/timeline2/view/timelinecontroller.cpp:1110
+#: src/timeline2/view/timelinecontroller.cpp:1141
+#: src/timeline2/view/timelinecontroller.cpp:1221
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr "ოპერაციის ჩატარება დროის ხაზზე გადათრევისას შეუძლებელია"
 
-#: src/timeline2/view/timelinecontroller.cpp:959
-#: src/timeline2/view/timelinecontroller.cpp:5058
+#: src/timeline2/view/timelinecontroller.cpp:925
+#: src/timeline2/view/timelinecontroller.cpp:5007
 #, kde-format
 msgid "Could not insert track"
 msgstr "ტრეკი ვერ ჩავსვი"
 
-#: src/timeline2/view/timelinecontroller.cpp:982
+#: src/timeline2/view/timelinecontroller.cpp:948
 #, kde-format
 msgid "Delete Tracks"
 msgstr "ტრეკების წაშლა"
 
-#: src/timeline2/view/timelinecontroller.cpp:995
+#: src/timeline2/view/timelinecontroller.cpp:961
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "აირჩიეთ აუდიოტრეკი ჩაწერის კონტროლების საჩვენებლად"
 
-#: src/timeline2/view/timelinecontroller.cpp:1132
+#: src/timeline2/view/timelinecontroller.cpp:1098
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "დასაჯგუფებლად აირჩიეთ 2 ელემენტი მაინც"
 
-#: src/timeline2/view/timelinecontroller.cpp:1544
+#: src/timeline2/view/timelinecontroller.cpp:1510
 #, kde-format
 msgid "guide"
 msgstr "მიმმართველი"
 
-#: src/timeline2/view/timelinecontroller.cpp:1708
+#: src/timeline2/view/timelinecontroller.cpp:1674
 #, kde-format
 msgid "No active track"
 msgstr "აქტიური ტრეკის გარეშე"
 
-#: src/timeline2/view/timelinecontroller.cpp:1792
+#: src/timeline2/view/timelinecontroller.cpp:1758
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "დროის ხაზზე ელმენტი მონიშნული არაა"
 
-#: src/timeline2/view/timelinecontroller.cpp:1930
+#: src/timeline2/view/timelinecontroller.cpp:1896
 #, kde-format
 msgid "No clip to cut"
 msgstr "ამოსაჭრელი კლიპის გარეშე"
 
-#: src/timeline2/view/timelinecontroller.cpp:2254
+#: src/timeline2/view/timelinecontroller.cpp:2220
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "შეყვ:%1, გამოყვ:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2342
+#: src/timeline2/view/timelinecontroller.cpp:2308
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 "სრიალი, მხოლოდ, ვიდეო, აუდიო ან ანიმაციის კლიპებზე შეგიძლიათ, გამოიყენოთ"
 
-#: src/timeline2/view/timelinecontroller.cpp:2743
+#: src/timeline2/view/timelinecontroller.cpp:2704
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "გამოტოვების ჩასასმელად კლიპები ვერ ვიპოვე"
 
-#: src/timeline2/view/timelinecontroller.cpp:2761
+#: src/timeline2/view/timelinecontroller.cpp:2722
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "მითითებულ ადგილას გამოტოვების წაშლა შეუძლებელია"
 
-#: src/timeline2/view/timelinecontroller.cpp:2775
+#: src/timeline2/view/timelinecontroller.cpp:2736
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "ყველა სივრცის წაშლა შეუძლებელია"
 
-#: src/timeline2/view/timelinecontroller.cpp:2789
+#: src/timeline2/view/timelinecontroller.cpp:2750
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "ყველა კლიპის წაშლა შეუძლებელია"
 
-#: src/timeline2/view/timelinecontroller.cpp:2824
-#: src/timeline2/view/timelinecontroller.cpp:2829
-#: src/timeline2/view/timelinecontroller.cpp:2851
+#: src/timeline2/view/timelinecontroller.cpp:2785
+#: src/timeline2/view/timelinecontroller.cpp:2790
+#: src/timeline2/view/timelinecontroller.cpp:2812
 #, kde-format
 msgid "No item to edit"
 msgstr "ჩასასწორებელი ელემენტის გარეშე"
 
-#: src/timeline2/view/timelinecontroller.cpp:2941
-#: src/timeline2/view/timelinecontroller.cpp:5323
+#: src/timeline2/view/timelinecontroller.cpp:2902
+#: src/timeline2/view/timelinecontroller.cpp:5267
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "გაააქტიურეთ ტრეკი ამ ოპერაციისთვის მის ჭდეზე დაწკაპუნებით"
 
-#: src/timeline2/view/timelinecontroller.cpp:3206
+#: src/timeline2/view/timelinecontroller.cpp:3167
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "აირჩიეთ სამიზნე ტრეკი ტრეკის სამიზნე ზონაზე დაწკაპუნებით"
 
-#: src/timeline2/view/timelinecontroller.cpp:3276
+#: src/timeline2/view/timelinecontroller.cpp:3237
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "აირჩიეთ რჩეული კომპოზიცია"
 
-#: src/timeline2/view/timelinecontroller.cpp:3341
+#: src/timeline2/view/timelinecontroller.cpp:3302
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "AV გაყოფის ოპერაციისთვის კლიპი ვერ ვიპოვე"
 
-#: src/timeline2/view/timelinecontroller.cpp:3369
-#: src/timeline2/view/timelinecontroller.cpp:3437
+#: src/timeline2/view/timelinecontroller.cpp:3330
+#: src/timeline2/view/timelinecontroller.cpp:3398
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "კლიპის გადატანა კადრთან %1 შეუძლებელია."
 
-#: src/timeline2/view/timelinecontroller.cpp:3390
+#: src/timeline2/view/timelinecontroller.cpp:3351
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "ხმის მიმართვის დაყენება სწორების მცდელობამდე"
 
-#: src/timeline2/view/timelinecontroller.cpp:3574
+#: src/timeline2/view/timelinecontroller.cpp:3533
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr "ყველა ნაკადი უკვე მინიჭებულია. ჯერ სხვა აუდიოსამიზნე მოხსენით"
 
-#: src/timeline2/view/timelinecontroller.cpp:3733
+#: src/timeline2/view/timelinecontroller.cpp:3692
 #, kde-format
 msgid "Delete effects"
 msgstr "ეფექტების წაშლა"
 
-#: src/timeline2/view/timelinecontroller.cpp:3771
-#: src/timeline2/view/timelinecontroller.cpp:3777
-#: src/timeline2/view/timelinecontroller.cpp:3783
+#: src/timeline2/view/timelinecontroller.cpp:3730
+#: src/timeline2/view/timelinecontroller.cpp:3736
+#: src/timeline2/view/timelinecontroller.cpp:3742
 #, kde-format
 msgid "No information in clipboard"
 msgstr "ბუფერში ინფორმაცია არაა"
 
-#: src/timeline2/view/timelinecontroller.cpp:3808
+#: src/timeline2/view/timelinecontroller.cpp:3767
 #, kde-format
 msgid "Paste effects"
 msgstr "ეფექტების ჩასმა"
 
-#: src/timeline2/view/timelinecontroller.cpp:3810
+#: src/timeline2/view/timelinecontroller.cpp:3769
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "მონიშნულ კლიპზე ეფექტის ჩასმა შეუძლებელია"
 
-#: src/timeline2/view/timelinecontroller.cpp:3862
+#: src/timeline2/view/timelinecontroller.cpp:3821
 #, kde-format
 msgid "Open sequence"
 msgstr "მიმდევრობის გახსნა"
 
-#: src/timeline2/view/timelinecontroller.cpp:3884
+#: src/timeline2/view/timelinecontroller.cpp:3843
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "ელემენტი ტიტრის კლიპი არაა"
 
-#: src/timeline2/view/timelinecontroller.cpp:3983
+#: src/timeline2/view/timelinecontroller.cpp:3942
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 ელემენტი მონიშნულია (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4037
+#: src/timeline2/view/timelinecontroller.cpp:3996
 #, kde-format
 msgid "Restore video"
 msgstr "ვიდეოს აღდგენა"
 
-#: src/timeline2/view/timelinecontroller.cpp:4037
+#: src/timeline2/view/timelinecontroller.cpp:3996
 #, kde-format
 msgid "Restore audio"
 msgstr "აუდიოს აღდგენა"
 
-#: src/timeline2/view/timelinecontroller.cpp:4258
+#: src/timeline2/view/timelinecontroller.cpp:4217
 #, kde-format
 msgid "Move item"
 msgstr "გადაადგილება"
 
-#: src/timeline2/view/timelinecontroller.cpp:4749
+#: src/timeline2/view/timelinecontroller.cpp:4698
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "დაბლოკილ ტრეკზე ჩაწერა შეუძლებელია"
 
-#: src/timeline2/view/timelinecontroller.cpp:4760
+#: src/timeline2/view/timelinecontroller.cpp:4709
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -29403,40 +29388,40 @@ msgstr ""
 "აქ გადაღება შეუძლებელია. გადაღება კლიპებს გადაფარავდა. წაშალეთ კლიპები "
 "მიმდინარე პოზიციის შემდეგ, ან აირჩიეთ სხვა ტრეკი"
 
-#: src/timeline2/view/timelinecontroller.cpp:4851
+#: src/timeline2/view/timelinecontroller.cpp:4800
 #, kde-format
 msgid "Record audio"
 msgstr "ხმის ჩაწერა"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:4947
 #, kde-format
 msgid "Expand clip"
 msgstr "კლიპის ამოკეცვა"
 
-#: src/timeline2/view/timelinecontroller.cpp:5001
+#: src/timeline2/view/timelinecontroller.cpp:4950
 #, kde-format
 msgid "Could not expand clip"
 msgstr "კლიპის ამოკეცვა შეუძლებელია"
 
-#: src/timeline2/view/timelinecontroller.cpp:5056
+#: src/timeline2/view/timelinecontroller.cpp:5005
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "ბილიკის ჩასმა"
 msgstr[1] "ბილიკების ჩასმა"
 
-#: src/timeline2/view/timelinecontroller.cpp:5135
+#: src/timeline2/view/timelinecontroller.cpp:5084
 #, kde-format
 msgid "Export subtitle file"
 msgstr "სუბტიტრის ფაილის გატანა"
 
-#: src/timeline2/view/timelinecontroller.cpp:5136
+#: src/timeline2/view/timelinecontroller.cpp:5085
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 "Sub Station Alpha v4.00+-ის დაილი (*.ass);;SubRip-ის სუბტიტრის ფაილი (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5150
+#: src/timeline2/view/timelinecontroller.cpp:5099
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -29449,12 +29434,12 @@ msgstr ""
 "მხოლოდ, ყველაზე დაბლა მყოფი ფენა შენარჩუნდება. ამან, შეიძლება, სუბტიტრების "
 "კარგვა გამოიწვიოს გატანილ ფაილში. გააგრძელებთ?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5155
+#: src/timeline2/view/timelinecontroller.cpp:5104
 #, kde-format
 msgid "Warning"
 msgstr "გაფთხილება"
 
-#: src/timeline2/view/timelinecontroller.cpp:5193
+#: src/timeline2/view/timelinecontroller.cpp:5142
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -29463,34 +29448,34 @@ msgstr ""
 "მოთხოვნილია ფილტრი avfilter.subtitles, მაგრამ ვერ ვიპოვე. სუბტიტრების "
 "ფუნქცია, ალბათ, მოსალოდნელივით არ იმუშავებს."
 
-#: src/timeline2/view/timelinecontroller.cpp:5210
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, kde-format
 msgid "Show subtitle track"
 msgstr "სუბტიტრის ტრეკის ჩვენება"
 
-#: src/timeline2/view/timelinecontroller.cpp:5210
+#: src/timeline2/view/timelinecontroller.cpp:5159
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "სუბტიტრის ტრეკის დამალვა"
 
-#: src/timeline2/view/timelinecontroller.cpp:5233
+#: src/timeline2/view/timelinecontroller.cpp:5182
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "სუბტიტრის ტრეკის გახსნა"
 
-#: src/timeline2/view/timelinecontroller.cpp:5233
+#: src/timeline2/view/timelinecontroller.cpp:5182
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "სუბტიტრის ტრეკის ჩაკეტვა"
 
-#: src/timeline2/view/timelinecontroller.cpp:5400
-#: src/timeline2/view/timelinecontroller.cpp:5409
+#: src/timeline2/view/timelinecontroller.cpp:5344
+#: src/timeline2/view/timelinecontroller.cpp:5353
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "სუბტიტრები"
 
-#: src/timeline2/view/timelinecontroller.cpp:5411
+#: src/timeline2/view/timelinecontroller.cpp:5355
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
@@ -29515,22 +29500,22 @@ msgstr ""
 msgid "Close %1"
 msgstr "%1-ის დახურვა"
 
-#: src/timeline2/view/timelinetabs.cpp:422
+#: src/timeline2/view/timelinetabs.cpp:416
 #, kde-format
 msgid "Rename Sequence"
 msgstr "მიმდევრობის სახელის გადარქმევა"
 
-#: src/timeline2/view/timelinewidget.cpp:54
+#: src/timeline2/view/timelinewidget.cpp:59
 #, kde-format
 msgid "Insert an effect..."
 msgstr "ეფექტის ჩასმა..."
 
-#: src/timeline2/view/timelinewidget.cpp:55
+#: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
 msgid "Insert a composition..."
 msgstr "კომპოზიციის ჩასმა..."
 
-#: src/timeline2/view/timelinewidget.cpp:316
+#: src/timeline2/view/timelinewidget.cpp:322
 #, kde-format
 msgid "No available stream"
 msgstr "ხელმისაწვდომი ნაკადის გარეშე"
@@ -34780,6 +34765,9 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid "No timecode found in selection"
+#~ msgstr "მონიშნულში დროის კოდი ვერ ვიპოვე"
 
 #~ msgid "Aspect ratio:"
 #~ msgstr "თანაფარდობა:"
