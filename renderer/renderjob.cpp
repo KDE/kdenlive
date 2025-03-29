@@ -5,6 +5,7 @@
 */
 
 #include "renderjob.h"
+#include "kdenlive_renderer_debug.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -14,7 +15,6 @@
 #include <QJsonObject>
 #include <QStandardPaths>
 #include <QStringList>
-#include <utility>
 
 RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out, const QString &subtitleFile,
                      bool debugMode, QObject *parent)
@@ -45,7 +45,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
 
     // Create a log of every render process.
     if (!m_logfile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "Unable to log to " << m_logfile.fileName();
+        qCWarning(KDENLIVE_RENDERER_LOG) << "Unable to log to" << m_logfile.fileName();
     } else {
         m_logstream.setDevice(&m_logfile);
     }
@@ -81,10 +81,10 @@ void RenderJob::sendFinish(int status, const QString &error)
         m_kdenlivesocket->flush();
     } else {
         if (!QFile::exists(m_dest)) {
-            qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors: Result file does not exist!!!";
-            qDebug() << "===================\nJOB OUTPUT: " << m_renderProcess.readAllStandardOutput();
+            qCDebug(KDENLIVE_RENDERER_LOG) << "Rendering to" << m_dest << "finished. Status:" << status << "Errors: Result file does not exist!!!";
+            qCDebug(KDENLIVE_RENDERER_LOG) << "JOB OUTPUT:" << m_renderProcess.readAllStandardOutput();
         } else {
-            qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
+            qCDebug(KDENLIVE_RENDERER_LOG) << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
         }
     }
 }
@@ -158,13 +158,14 @@ void RenderJob::updateProgress()
 #else
     } else if (!m_connectTimer.isActive()) {
         // Linux, try to reconnect if we have a Kdenlive instance
+        qCWarning(KDENLIVE_RENDERER_LOG) << "Connection to Kdenlive instance lost, trying to reconnect";
         QStringList files = QDir::temp().entryList({QStringLiteral("org.kde.kdenlive*")}, QDir::System);
-        qDebug() << "=== FOUND POSS MATHCES:" << files;
+        qCDebug(KDENLIVE_RENDERER_LOG) << "Searching for possible instances, results:" << files;
         if (!files.isEmpty()) {
-            qDebug() << "::: FOUND POSSIBLE RUNNING INSTANCE: " << files.first();
+            qCDebug(KDENLIVE_RENDERER_LOG) << "Found possible running instance:" << files.first();
             bool ok;
             int pid = files.first().section(QLatin1Char('-'), -1).toInt(&ok);
-            qDebug() << "::: FOUND POSSIBLE RUNNING INSTANCE PID: " << pid;
+            qCDebug(KDENLIVE_RENDERER_LOG) << "Found possible running instance PID:" << pid;
             if (ok && pid > -1) {
                 m_pid = pid;
                 QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
@@ -172,7 +173,7 @@ void RenderJob::updateProgress()
             }
         }
         m_connectTimer.start();
-        qDebug() << "Progress:" << m_progress << "%,"
+        qCDebug(KDENLIVE_RENDERER_LOG) << "Progress:" << m_progress << "%,"
                  << "frame" << m_frame;
     }
 #endif
@@ -200,7 +201,7 @@ void RenderJob::start()
         m_kdenlivesocket->connectToServer(servername);
         if (m_kdenlivesocket->waitForConnected(1000)) {
         } else {
-            qDebug() << "==== RENDER SOCKET NOT CONNECTED";
+            qCDebug(KDENLIVE_RENDERER_LOG) << "==== RENDER SOCKET NOT CONNECTED";
         }
         connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, &RenderJob::gotMessage);
     }
@@ -286,7 +287,7 @@ void RenderJob::slotIsOver(int exitCode, QProcess::ExitStatus status)
                     m_temporaryRenderFile = QDir::temp().absoluteFilePath(videoRender.fileName());
                     QStringList args = {
                         "-y", "-v", "quiet", "-stats", "-i", m_dest, "-i", m_subtitleFile, "-c", "copy", "-f", "matroska", m_temporaryRenderFile};
-                    qDebug() << "::: JOB ARGS: " << args;
+                    qCDebug(KDENLIVE_RENDERER_LOG) << "::: JOB ARGS: " << args;
                     m_progress = 0;
                     disconnect(&m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
                     m_subsProcess.setProcessChannelMode(QProcess::MergedChannels);
@@ -336,7 +337,7 @@ void RenderJob::slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exit
 {
     if (exitStatus == QProcess::CrashExit || !QFile::exists(m_temporaryRenderFile)) {
         // rendering crashed
-        qDebug() << ":::: FOUND ERROR IN SUBS: " << exitStatus << " / " << exitCode << ", FILE EXISTS: " << QFile::exists(m_temporaryRenderFile);
+        qCCritical(KDENLIVE_RENDERER_LOG) << "Subtitle process exited unexpectedly:" << exitStatus << "/" << exitCode << "; Does file exist?" << QFile::exists(m_temporaryRenderFile);
         QString error = tr("Rendering of %1 aborted when adding subtitles.").arg(m_dest);
         m_errorMessage.append(error);
         sendFinish(-2, m_errorMessage);

@@ -7,6 +7,8 @@
 #include "../src/lib/localeHandling.h"
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
+#include "kdenlive_renderer_debug.h"
+
 #include <../config-kdenlive.h>
 #include <QApplication>
 #include <QCommandLineParser>
@@ -51,7 +53,7 @@ int main(int argc, char **argv)
         parser.process(app);
         args = parser.positionalArguments();
         if (args.count() < 7) {
-            qCritical() << "Error: not enough arguments specified\n";
+            qCCritical(KDENLIVE_RENDERER_LOG) << "Error: not enough arguments specified\n";
             parser.showHelp(1);
             // the command above will quit the app with return 1;
         }
@@ -188,11 +190,11 @@ int main(int argc, char **argv)
         QFile f(playlist);
         QDomDocument doc;
         if (!f.open(QIODevice::ReadOnly)) {
-            qWarning() << "Failed to open file" << f.fileName() << "for reading";
+            qCWarning(KDENLIVE_RENDERER_LOG) << "Failed to open file" << f.fileName() << "for reading";
             return 1;
         }
         if (!doc.setContent(&f)) {
-            qWarning() << "Failed to parse file" << f.fileName() << "to QDomDocument";
+            qCWarning(KDENLIVE_RENDERER_LOG) << "Failed to parse file" << f.fileName() << "to QDomDocument";
             f.close();
             return 1;
         }
@@ -218,7 +220,7 @@ int main(int argc, char **argv)
                     tmp.close();
                     QFile file(tmp.fileName());
                     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                        qDebug() << "Failed to set custom output destination, falling back to target set in source file: " << target;
+                        qCDebug(KDENLIVE_RENDERER_LOG) << "Failed to set custom output destination, falling back to target set in source file: " << target;
                     } else {
                         playlist = tmp.fileName();
                         target = output;
@@ -227,7 +229,7 @@ int main(int argc, char **argv)
                     }
                     file.close();
                 } else {
-                    qDebug() << "Failed to set custom output destination, falling back to target set in source file: " << target;
+                    qCDebug(KDENLIVE_RENDERER_LOG) << "Failed to set custom output destination, falling back to target set in source file: " << target;
                 }
                 tmp.close();
             }

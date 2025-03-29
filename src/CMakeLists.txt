@@ -95,8 +95,9 @@ endif()
 ecm_qt_declare_logging_category(kdenlive_SRCS
     HEADER kdenlive_debug.h
     IDENTIFIER KDENLIVE_LOG
-    CATEGORY_NAME org.kde.multimedia.kdenlive
-    DESCRIPTION "kdenlive"
+    CATEGORY_NAME org.kde.kdenlive
+    OLD_CATEGORY_NAMES org.kde.multimedia.kdenlive
+    DESCRIPTION "Kdenlive"
     EXPORT KDENLIVE
 )
 
