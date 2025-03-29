@@ -98,7 +98,6 @@ void ProjectManager::slotLoadOnOpen()
         QList<QUrl> urls;
         urls.reserve(list.count());
         for (const QString &path : list) {
-            // qCDebug(KDENLIVE_LOG) << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
         pCore->bin()->droppedUrls(urls);
@@ -772,7 +771,6 @@ void ProjectManager::openFile(const QUrl &url)
     QMimeType mime = db.mimeTypeForUrl(url);
     if (mime.inherits(QStringLiteral("application/x-compressed-tar")) || mime.inherits(QStringLiteral("application/zip"))) {
         // Opening a compressed project file, we need to process it
-        // qCDebug(KDENLIVE_LOG)<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
             openFile(QUrl::fromLocalFile(ar->extractedProjectFile()));

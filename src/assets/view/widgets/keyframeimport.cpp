@@ -752,7 +752,6 @@ QString KeyframeImport::selectedTarget() const
 
 void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int limitKeyframes, const QColor &textColor)
 {
-    // qDebug() << "============= DRAWING KFR CHANNS: " << m_dataCombo->currentData().toString();
     std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
     QRect br(0, 0, pix.width(), pix.height());
     double frameFactor = double(out - in) / br.width();
@@ -828,7 +827,6 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         if (xDist > 0) {
             painter.setPen(cX);
             int val = int((rect.x - xOffset) * maxHeight / xDist);
-            // qDebug() << "// DRAWINC CURVE : " << rect.x << ", POS: " << (int(i * frameFactor) + in) << ", RESULT: " << val;
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (yDist > 0) {
@@ -839,7 +837,6 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         if (wDist > 0) {
             painter.setPen(cW);
             int val = int((rect.w - wOffset) * maxHeight / wDist);
-            // qDebug() << "// OFFSET: " << wOffset << ", maxH: " << maxHeight << ", wDIst:" << wDist << " = " << val;
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (hDist > 0) {

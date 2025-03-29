@@ -242,8 +242,6 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
         while (stream.readLineInto(&line)) {
             line = line.trimmed();
-            // qDebug()<<"Turn: "<<turn;
-            // qDebug()<<"Line: "<<line;
             if (!line.isEmpty()) {
                 if (!turn) {
                     // index=atoi(line.toStdString().c_str());
@@ -275,7 +273,6 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 if (endPos > startPos) {
                     addSubtitle({0, startPos + subtitleOffset}, SubtitleEvent(true, endPos + subtitleOffset, "Default", "", 0, 0, 0, "", comment), undo, redo,
                                 false);
-                    // qDebug() << "Adding Subtitle: \n  Start time: " << start << "\n  End time: " << end << "\n  Text: " << comment;
                 } else {
                     qDebug() << "===== INVALID SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
                 }
@@ -314,36 +311,27 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             line = line.simplified();
             if (!line.isEmpty()) {
                 if (!turn) {
-                    // qDebug() << " turn = 0  " << line;
                     // check if it is script info, event,or v4+ style
                     QString linespace = line;
                     if (linespace.replace(" ", "").contains("ScriptInfo")) {
-                        // qDebug()<< "Script Info";
                         section = "Script Info";
                         turn++;
-                        // qDebug()<< "turn" << turn;
                         continue;
                     } else if (linespace.contains("KdenliveExtradata")) {
-                        // qDebug()<< "KdenliveExtradata";
                         section = "Kdenlive Extradata";
                         turn++;
-                        // qDebug()<< "turn" << turn;
                         continue;
                     } else if (line.contains("Styles")) {
-                        // qDebug()<< "V4+ Styles";
                         section = "V4+ Styles";
                         turn++;
-                        // qDebug()<< "turn" << turn;
                         continue;
                     } else if (line.contains("Fonts")) {
                         section = "Fonts";
                         turn++;
-                        // qDebug()<< "turn" << turn;
                         continue;
                     } else if (line.contains("Events")) {
                         turn++;
                         section = "Events";
-                        // qDebug()<< "turn" << turn;
                         continue;
                     } else {
                         // unknown section
@@ -377,7 +365,6 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                         m_subtitleStyles[line.section(":", 1).trimmed().split(",").at(0)] = SubtitleStyle(line);
                     }
                 }
-                // qDebug() << "\n turn != 0  " << turn<< line;
                 if (section.contains("Fonts")) {
                     fontSection += line + "\n";
                 }
@@ -411,11 +398,6 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         }
         assFile.close();
     } else {
-        if (endPos > startPos) {
-            // addSubtitle({0, startPos + subtitleOffset}, endPos + subtitleOffset, event, undo, redo, false);
-        } else {
-            // qDebug() << "===== INVALID VTT SUBTITLE FOUND: " << start << "-" << end << ", " << event;
-        }
         //   reinitialize for next comment:
         comment.clear();
         timeLine.clear();
@@ -515,7 +497,6 @@ bool SubtitleModel::addSubtitle(int id, std::pair<int, GenTime> start, const Sub
     if (!temporary && event.endTime().frames(pCore->getCurrentFps()) > m_timeline->duration()) {
         m_timeline->updateDuration();
     }
-    // qDebug() << "Added to model";
     if (updateFilter) {
         Q_EMIT modelChanged();
     }
@@ -1188,14 +1169,12 @@ void SubtitleModel::subtitleFileFromZone(int in, int out, const QString &outFile
         currentSubtitle.insert(QLatin1String("startPos"), QJsonValue(inTime.seconds()));
         currentSubtitle.insert(QLatin1String("dialogue"), QJsonValue(subtitle.second.toString(layer, inTime)));
         list.push_back(currentSubtitle);
-        // qDebug()<<subtitle.first.seconds();
     }
     saveSubtitleData(list, outFile);
 }
 
 const QJsonArray SubtitleModel::toJson()
 {
-    // qDebug()<< "to JSON";
     QJsonArray list;
     for (const auto &subtitle : m_subtitleList) {
         QJsonObject currentSubtitle;
@@ -1203,7 +1182,6 @@ const QJsonArray SubtitleModel::toJson()
         currentSubtitle.insert(QLatin1String("startPos"), QJsonValue(subtitle.first.second.seconds()));
         currentSubtitle.insert(QLatin1String("dialogue"), QJsonValue(subtitle.second.toString(subtitle.first.first, subtitle.first.second)));
         list.push_back(currentSubtitle);
-        // qDebug()<<subtitle.first.seconds();
     }
     return list;
 }
@@ -1264,7 +1242,6 @@ int SubtitleModel::saveSubtitleData(const QJsonArray &list, const QString &outFi
     }
     QFile outF(outFile);
 
-    // qDebug()<< "Import from JSON";
     QWriteLocker locker(&m_lock);
     if (list.isEmpty()) {
         qDebug() << "Error : Json file should be an array";
@@ -1331,7 +1308,6 @@ int SubtitleModel::saveSubtitleData(const QJsonArray &list, const QString &outFi
                 qDebug() << sub.text() << '\n';
             }
 
-            // qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
         }
         outF.close();
     }

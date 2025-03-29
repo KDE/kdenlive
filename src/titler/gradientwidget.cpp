@@ -88,7 +88,6 @@ void GradientWidget::updatePreview()
         m_gradient.setStart(p.width() / 2, 0);
         m_gradient.setFinalStop(p.width() / 2 + (p.width() / 2) * qCos(qDegreesToRadians(ang)), p.height() * qSin(qDegreesToRadians(ang)));
     }
-    // qCDebug(KDENLIVE_LOG)<<"* * * ANGLE: "<<angle->value()<<" = "<<p.height() * tan(angle->value() * 3.1415926 / 180.0);
 
     QLinearGradient copy = m_gradient;
     QPointF gradStart = m_gradient.start() + QPointF(p.width() / 2, 0);

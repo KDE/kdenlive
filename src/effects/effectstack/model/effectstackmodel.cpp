@@ -1271,14 +1271,12 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
     QWriteLocker locker(&m_lock);
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<EffectItemModel>(item);
-        // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect: " << effectItem->getAssetId();
         if (effectItem->data(QModelIndex(), AssetParameterModel::RequiresInOut).toBool() == true) {
             int in = pCore->getItemIn(m_ownerId);
             int out = in + pCore->getItemDuration(m_ownerId) - 1;
             effectItem->filter().set_in_and_out(in, out);
         }
         if (!m_loadingExisting) {
-            // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_childServices.size();
             effectItem->plant(m_masterService);
             // Check if we have an internal effect that needs to stay on top
             if (m_ownerId.type == KdenliveObjectType::Master || m_ownerId.type == KdenliveObjectType::TimelineTrack) {
@@ -1658,7 +1656,6 @@ bool EffectStackModel::checkConsistency()
             if (filt->property_exists("kdenlive_id")) {
                 kdenliveFilterCount++;
             }
-            // qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
         }
         if (kdenliveFilterCount != int(allFilters.size())) {
             qDebug() << "ERROR: Wrong filter count: " << kdenliveFilterCount << " = " << allFilters.size();

@@ -174,7 +174,6 @@ void VideoTextEdit::rebuildZones()
     for (int i = 0; i < document()->blockCount(); ++i) {
         int start = curs.position() + 1;
         QString anchorStart = selectionStartAnchor(curs, start, document()->characterCount());
-        // qDebug()<<"=== START ANCHOR: "<<anchorStart<<" AT POS: "<<curs.position();
         curs.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor);
         int end = curs.position() - 1;
         QString anchorEnd = selectionEndAnchor(curs, end, start);
@@ -337,7 +336,6 @@ QVector<QPoint> VideoTextEdit::fullExport()
         QTextCursor curs(block);
         int start = curs.position() + 1;
         QString anchorStart = selectionStartAnchor(curs, start, document()->characterCount());
-        // qDebug()<<"=== START ANCHOR: "<<anchorStart<<" AT POS: "<<curs.position();
         curs.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor);
         int end = curs.position() - 1;
         QString anchorEnd = selectionEndAnchor(curs, end, start);

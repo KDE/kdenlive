@@ -52,7 +52,6 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const qre
     // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
     const float pixelDepth = float(totalPixels / accelFactor) / (ww * wh);
     const float gain = 255.f / (8 * pixelDepth);
-    // qCDebug(KDENLIVE_LOG) << "Pixel depth: expected " << pixelDepth << "; Gain: using " << gain << " (acceleration: " << accelFactor << "x)";
 
     // Subtract 1 from sizes because we start counting from 0.
     // Not doing it would result in attempts to paint outside of the image.

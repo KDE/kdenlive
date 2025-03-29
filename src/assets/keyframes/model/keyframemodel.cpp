@@ -589,7 +589,6 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum
 {
     QWriteLocker locker(&m_lock);
     return [this, pos, type, value, notify]() {
-        // qDebug() << "update lambda" << pos.frames(pCore->getCurrentFps()) << value << notify;
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;
@@ -1323,7 +1322,6 @@ void KeyframeModel::refresh(int in, int out)
     }
     if (animData == m_lastData) {
         // nothing to do
-        // qDebug() << "// DATA WAS ALREADY PARSED, ABORTING REFRESH\n";
         return;
     }
     if (m_paramType == ParamType::Roto_spline) {

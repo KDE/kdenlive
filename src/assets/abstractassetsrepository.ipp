@@ -217,7 +217,6 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
 			paramlistdisplay_str += QLatin1String(";")+QLatin1String(param_list_values.get_name(jff));
 		      }
 
-		      // qDebug() << " paramlist: " << paramlist_str << "\n";
 		      params.setAttribute(QStringLiteral("paramlist"), paramlistdisplay_str);
 
 		      QDomElement pname = doc.createElement(QStringLiteral("paramlistdisplay"));

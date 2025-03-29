@@ -17,8 +17,6 @@ ScopeWidget::ScopeWidget(QWidget *parent)
     , m_mutex()
     , m_size(0, 0)
 {
-    // qCDebug(KDENLIVE_LOG) << "begin" << m_future.isFinished();
-    // qCDebug(KDENLIVE_LOG) << "end";
 }
 
 ScopeWidget::~ScopeWidget() = default;

@@ -146,7 +146,6 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         }
 
         if (customAssets.count(result.id) > 0) {
-            // qDebug() << "duplicate effect" << result.id << ", VERSION= "<<result.version<<", EXISTING: "<<customAssets.at(result.id).version;
             if (result.version < customAssets.at(result.id).version) {
                 continue;
             }

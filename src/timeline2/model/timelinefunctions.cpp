@@ -2011,7 +2011,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     std::sort(sourceTracks.audioIds.begin(), sourceTracks.audioIds.end());
     std::sort(singleAudioTracks.begin(), singleAudioTracks.end());
 
-    // qDebug()<<"== GOT WANTED TKS\n VIDEO: "<<videoTracks<<"\n AUDIO TKS: "<<audioTracks<<"\n SINGLE AUDIO: "<<singleAudioTracks;
     int requestedVideoTracks = sourceTracks.videoIds.isEmpty() ? 0 : sourceTracks.videoIds.last() - sourceTracks.videoIds.first() + 1;
     int requestedAudioTracks = sourceTracks.audioIds.isEmpty() ? 0 : sourceTracks.audioIds.last() - sourceTracks.audioIds.first() + 1;
     if (requestedVideoTracks > timelineTracks.videoIds.size() || requestedAudioTracks > timelineTracks.audioIds.size()) {
@@ -2097,8 +2096,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             return false;
         }
         tracksMap.insert(tk, timelineTracks.videoIds.at(newPos));
-        // qDebug() << "/// MAPPING SOURCE TRACK: "<<tk<<" TO PROJECT TK: "<<timelineTracks.videoIds.at(newPos)<<" =
-        // "<<timeline->getTrackMltIndex(timelineTracks.videoIds.at(newPos));
     }
     bool audioOffsetCalculated = false;
     int audioOffset = 0;

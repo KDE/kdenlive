@@ -579,13 +579,11 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
                 extensions << glob;
             }
         }
-        // qCDebug(KDENLIVE_LOG) << "EXTS: " << extensions;
         QDir mimeDir(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/mime/packages/"));
         if (!mimeDir.exists()) {
             mimeDir.mkpath(QStringLiteral("."));
         }
         QString packageFileName = mimeDir.absoluteFilePath(mimefile + QStringLiteral(".xml"));
-        // qCDebug(KDENLIVE_LOG) << "INSTALLING NEW MIME TO: " << packageFileName;
         QFile packageFile(packageFileName);
         if (!packageFile.open(QIODevice::WriteOnly)) {
             qCCritical(KDENLIVE_LOG) << "Couldn't open" << packageFileName << "for writing";

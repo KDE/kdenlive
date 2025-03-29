@@ -895,7 +895,6 @@ void CollapsibleEffectView::updateTimecodeFormat()
 
 void CollapsibleEffectView::slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/)
 {
-    // qCDebug(KDENLIVE_LOG)<<"// EMIT CHANGE SUBEFFECT.....:";
     Q_EMIT parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 

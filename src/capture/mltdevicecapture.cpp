@@ -263,7 +263,6 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
             delete m_mltProducer;
             m_mltProducer = nullptr;
         }
-        // qCDebug(KDENLIVE_LOG)<<"//// ERROR CREATRING PROD";
         return false;
     }
     m_mltConsumer->connect(*m_mltProducer);
@@ -273,7 +272,6 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
         return false;
     }
     m_droppedFramesTimer.start();
-    // connect(this, SIGNAL(imageReady(QImage)), this, SIGNAL(frameUpdated(QImage)));
     return true;
 }
 
@@ -424,7 +422,6 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     lock.unlock();
 
     if (m_mltProducer == nullptr || !m_mltProducer->is_valid()) {
-        // qCDebug(KDENLIVE_LOG)<<"//// ERROR CREATRING PROD";
         delete m_mltConsumer;
         m_mltConsumer = nullptr;
         delete m_mltProducer;
@@ -451,7 +448,6 @@ void MltDeviceCapture::setOverlay(const QString &path)
     }
     Mlt::Producer parentProd(m_mltProducer->parent());
     if (parentProd.get_producer() == nullptr) {
-        // qCDebug(KDENLIVE_LOG) << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
         return;
     }
 

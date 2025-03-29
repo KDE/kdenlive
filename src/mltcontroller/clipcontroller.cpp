@@ -1170,7 +1170,6 @@ bool ClipController::supportsProxy() const
 bool ClipController::hasProxy() const
 {
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    // qDebug()<<"::: PROXY: "<<proxy<<" = "<<getProducerProperty(QStringLiteral("resource"));
     return proxy.size() > 2 && proxy == getProducerProperty(QStringLiteral("resource"));
 }
 

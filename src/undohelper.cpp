@@ -21,7 +21,6 @@ FunctionalUndoCommand::FunctionalUndoCommand(Fun undo, Fun redo, const QString &
 
 void FunctionalUndoCommand::undo()
 {
-    // qDebug() << "UNDOING " <<text();
 #ifdef CRASH_AUTO_TEST
     Logger::log_undo(true);
 #endif
@@ -34,7 +33,6 @@ void FunctionalUndoCommand::undo()
 void FunctionalUndoCommand::redo()
 {
     if (m_undone) {
-        // qDebug() << "REDOING " <<text();
 #ifdef CRASH_AUTO_TEST
         Logger::log_undo(false);
 #endif

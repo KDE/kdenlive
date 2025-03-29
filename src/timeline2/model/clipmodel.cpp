@@ -156,8 +156,6 @@ ClipModel::~ClipModel() = default;
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo, bool hasMix)
 {
     QWriteLocker locker(&m_lock);
-    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
-    // m_producer->get_length()<<" > "<<m_producer->get("kdenlive:duration")<<" = "<<m_producer->get("kdenlive:maxduration");
     int maxDuration = m_producer->get_length();
     if (!m_endlessResize && (size <= 0 || size > maxDuration) && !hasTimeRemap()) {
         return false;
@@ -185,7 +183,6 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     } else {
         in += delta;
     }
-    // qDebug() << "Resize facts delta =" << delta << "old in" << old_in << "old_out" << old_out << "in" << in << "out" << out;
     std::function<bool(void)> track_operation = []() { return true; };
     std::function<bool(void)> track_reverse = []() { return true; };
     int outPoint = out;

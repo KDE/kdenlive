@@ -114,7 +114,6 @@ void ShuttleThread::shuttle(const media_ctrl_event &ev)
     int value = ev.value / 2;
 
     if (value > MaxShuttleRange || value < -MaxShuttleRange) {
-        // qCDebug(KDENLIVE_LOG) << "Jog shuttle value is out of range: " << MaxShuttleRange;
         return;
     }
     QApplication::postEvent(m_parent, new MediaCtrlEvent(MediaCtrlEvent::Shuttle, value));
@@ -194,8 +193,6 @@ DeviceMap JogShuttle::enumerateDevices(const QString &devPath)
     for (const QString &fileName : fileList) {
         QString devFullPath = devDir.absoluteFilePath(fileName);
         QString fileLink = JogShuttle::canonicalDevice(devFullPath);
-        // qCDebug(KDENLIVE_LOG) << QStringLiteral(" [%1] ").arg(fileName);
-        // qCDebug(KDENLIVE_LOG) << QStringLiteral(" [%1] ").arg(fileLink);
 
         media_ctrl mc;
         media_ctrl_open_dev(&mc, fileLink.toUtf8().data());

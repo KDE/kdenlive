@@ -612,21 +612,15 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     QMap<QString, QString> mappable_actions(m_mappable_actions);
     QList<QString> action_names = mappable_actions.keys();
     QList<QString>::Iterator iter = action_names.begin();
-    // qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
     while (iter != action_names.end()) {
-        // qCDebug(KDENLIVE_LOG) << *iter;
         ++iter;
     }
-
-    // qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
 
     std::sort(action_names.begin(), action_names.end());
     iter = action_names.begin();
     while (iter != action_names.end()) {
-        // qCDebug(KDENLIVE_LOG) << *iter;
         ++iter;
     }
-    // qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
 
     // Here we need to compute the action_id -> index-in-action_names. We iterate over the
     // action_names, as the sorting may depend on the user-language.
@@ -821,11 +815,8 @@ void KdenliveSettingsDialog::fillMonitorData()
 void KdenliveSettingsDialog::slotReadAudioDevices()
 {
     QString result = QString(m_readProcess.readAllStandardOutput());
-    // qCDebug(KDENLIVE_LOG) << "// / / / / / READING APLAY: ";
-    // qCDebug(KDENLIVE_LOG) << result;
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &devicestr : lines) {
-        ////qCDebug(KDENLIVE_LOG) << "// READING LINE: " << data;
         if (!devicestr.startsWith(QLatin1Char(' ')) && devicestr.count(QLatin1Char(':')) > 1) {
             QString card = devicestr.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
             QString device = devicestr.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
@@ -944,7 +935,6 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
 void KdenliveSettingsDialog::updateWidgets()
 {
 // Revert widgets to last saved state (for example when user pressed "Cancel")
-// //qCDebug(KDENLIVE_LOG) << "// // // KCONFIG Revert called";
 #ifdef USE_JOGSHUTTLE
     // revert jog shuttle device
     if (m_configShuttle.shuttledevicelist->count() > 0) {
@@ -999,7 +989,6 @@ void KdenliveSettingsDialog::updateExternalApps()
 void KdenliveSettingsDialog::updateSettings()
 {
     // Save changes to settings (for example when user pressed "Apply" or "Ok")
-    // //qCDebug(KDENLIVE_LOG) << "// // // KCONFIG UPDATE called";
     if (m_pw->selectedProfile().isEmpty()) {
         KMessageBox::error(this, i18n("Please select a video profile"));
         return;

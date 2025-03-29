@@ -576,14 +576,12 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
 {
     qDebug() << "root context get sub model new function";
     if (!model()->hasSubtitleModel()) {
-        // qDebug()<<"null ptr here at root context";
         return;
-    } else {
-        // qDebug()<<"null ptr NOT here at root context";
-        rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
-        if (firstConnect) {
-            rootContext()->setContextProperty("subtitleModel", model()->getSubtitleModel().get());
-            QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
-        }
+    }
+
+    rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
+    if (firstConnect) {
+        rootContext()->setContextProperty("subtitleModel", model()->getSubtitleModel().get());
+        QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
     }
 }

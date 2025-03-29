@@ -5192,7 +5192,6 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
     if (pCore->currentDoc()) {
         // pCore->currentDoc()->position = pCore->getTimelinePosition();
         //  disconnect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
-        // qDebug()<<"=== SETTING POSITION  FOR DOC: "<<pCore->currentDoc()->position<<" / "<<pCore->currentDoc()->uuid;
     }
     if (!onClose) {
         // Ensure the active timeline has an transparent black background for embedded compositing

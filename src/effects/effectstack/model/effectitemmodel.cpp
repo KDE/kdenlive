@@ -25,7 +25,6 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_
         if (m_childEffects.size() == 0) {
             return;
         }
-        // qDebug() << "* * *SETTING EFFECT PARAM: " << name << " = " << m_asset->get(name.toUtf8().constData());
         QMapIterator<int, std::shared_ptr<EffectItemModel>> i(m_childEffects);
         while (i.hasNext()) {
             i.next();

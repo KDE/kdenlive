@@ -88,7 +88,6 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     }
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
-    // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
     pCore->taskManager.unBlock();
     initializeProperties(true, tracks, audioChannels);
 
@@ -338,13 +337,11 @@ KdenliveDoc::~KdenliveDoc()
             }
         }
     }
-    // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
     if (pCore->window()) {
         disconnect(this, &KdenliveDoc::docModified, pCore->window(), &MainWindow::slotUpdateDocumentState);
     }
     m_commandStack->clear();
     m_timelines.clear();
-    // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) {
             m_autosave->remove();
@@ -684,7 +681,6 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     // check if project contains custom effects to embed them in project file
     QDomNodeList effects = mlt.elementsByTagName(QStringLiteral("filter"));
     int maxEffects = effects.count();
-    // qCDebug(KDENLIVE_LOG) << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
     QMap<QString, QString> effectIds;
     for (int i = 0; i < maxEffects; ++i) {
         QDomNode m = effects.at(i);
@@ -1165,7 +1161,6 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
                 qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << "size match but not hash";
             }
         }
-        ////qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
@@ -1505,7 +1500,6 @@ void KdenliveDoc::cleanupBackupFiles()
     if (hourList.count() > 20) {
         int step = hourList.count() / 10;
         for (int i = 0; i < hourList.count(); i += step) {
-            // qCDebug(KDENLIVE_LOG)<<"REMOVE AT: "<<i<<", COUNT: "<<hourList.count();
             hourList.removeAt(i);
             --i;
         }

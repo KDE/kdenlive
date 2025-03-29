@@ -101,7 +101,6 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             QString updatedName = effect.second + i18n(" - deprecated");
             data = {updatedName, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred, includeListed};
         } else {
-            // qDebug() << effect.second << effect.first << "in " << targetCategory->dataColumn(0).toString();
             data = {effect.second, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred, includeListed};
         }
         if (KdenliveSettings::favorite_effects().contains(effect.first) && effectCategory.contains(favCategory)) {

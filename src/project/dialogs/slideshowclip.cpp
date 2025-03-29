@@ -388,7 +388,6 @@ QString SlideshowClip::selectedPath()
     }
     QString path = selectedPath(url, m_view.method_mime->isChecked(), QStringLiteral(".all.") + m_view.image_type->currentData().toString(), &list);
     m_count = list.count();
-    // qCDebug(KDENLIVE_LOG)<<"// SELECTED PATH: "<<path;
     return path;
 }
 
@@ -452,7 +451,6 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
             extension.append(QStringLiteral("?begin=%1").arg(firstFrame));
         }
     }
-    // qCDebug(KDENLIVE_LOG) << "// FOUND " << (*list).count() << " items for " << url.toLocalFile();
     return folder + extension;
 }
 

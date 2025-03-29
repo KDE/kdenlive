@@ -313,7 +313,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         QList<QCheckBox *> cbs = d.findChildren<QCheckBox *>();
         QMap<QPersistentModelIndex, QStringList> params;
         for (auto c : std::as_const(cbs)) {
-            // qDebug()<<"=== FOUND CBS: "<<KLocalizedString::removeAcceleratorMarker(c->text());
             if (c->isChecked()) {
                 QPersistentModelIndex ix = c->property("index").toModelIndex();
                 if (rectParams.contains(ix)) {
