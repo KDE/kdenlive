@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-29 02:32+0000\n"
-"PO-Revision-Date: 2025-03-26 11:53+0100\n"
+"PO-Revision-Date: 2025-03-29 13:47+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -2140,6 +2140,16 @@ msgid ""
 "specified number of attacks and decays is lower than number of channels, the "
 "last set attack/decay will be used for all remaining channels."
 msgstr ""
+"Een lijst met tijden in seconden voor elk kanaal waarover het instantane "
+"niveau van het invoersignaal wordt gemiddeld om zijn volume te bepalen. "
+"Attacks verwijzen naar toename van volume en afvallen verwijzen naar afname "
+"van volume. Voor de meeste situaties zou de attack-tijd (reactie op het "
+"luider worden van de audio) korter moeten zijn dan de afvaltijd, omdat het "
+"menselijke oor meer gevoelig is voor plotseling luid geluid dan plotseling "
+"zacht geluid. Een typische waarde voor attack is 0,3 seconden en een "
+"typische waarde voor afvallen is 0,8 seconden. Als het gespecificeerde "
+"aantal attacks en afvallen lager is dan het aantal kanalen, zal de laatste "
+"instelde attack/afval gebruikt worden voor alle overblijvende kanalen."
 
 #: data/effects/avfilter/avfilter_compand.xml:12
 #, kde-format
@@ -2180,6 +2190,11 @@ msgid ""
 "before the companding has begun to operate. A typical value for audio which "
 "is initially quiet is -90 dB."
 msgstr ""
+"et een initieel volume, in dB, om aangenomen te worden door elk kanaal "
+"wanneer filteren begint. Dit laat de gebruiker initieel een nominaal niveau "
+"aanleveren, zodat, bijvoorbeeld, een zeer grote versterking niet wordt "
+"toegepast op de initiële signaalniveaus alvorens het companderen is begonnen "
+"om te werken. Een typische waarde voor geluid dat initieel stil is is -90 dB."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, kde-format
@@ -4818,8 +4833,7 @@ msgid "Set how many frames to use."
 msgstr "Stel in hoeveel frames te gebruiken."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:12
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Theshold"
 msgstr "Drempel"
 
@@ -5029,8 +5043,7 @@ msgid "Chroma pre-filter radius"
 msgstr "Chroma-straal voor filteren"
 
 #: data/effects/avfilter/avfilter_sab.xml:23
-#, fuzzy, kde-format
-#| msgid "Glow strength"
+#, kde-format
 msgid "Chroma Strength"
 msgstr "Chroma-sterkte"
 
@@ -5101,10 +5114,9 @@ msgid "Cyans"
 msgstr "Cyaantinten"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:24
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blues"
-msgstr "Blues"
+msgstr "Blauwtinten"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
 #, kde-format
@@ -5405,16 +5417,14 @@ msgid "Frequency,Time"
 msgstr "Frequentie,Tijd"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:27
-#, fuzzy, kde-format
-#| msgid "End Gain"
+#, kde-format
 msgid "LFE Gain"
-msgstr "Eind versterking"
+msgstr "LFE-versterking"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:30
-#, fuzzy, kde-format
-#| msgid "Frame size"
+#, kde-format
 msgid "Framesize"
-msgstr "Frame afmetingen"
+msgstr "Framegrootte"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:31
 #, kde-format
@@ -5427,16 +5437,14 @@ msgid "Interpolate"
 msgstr "Interpoleren"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
-#, fuzzy, kde-format
-#| msgid "Phase"
+#, kde-format
 msgid "Minphase"
-msgstr "Fase"
+msgstr "Min-fase"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:43
-#, fuzzy, kde-format
-#| msgid "Angle"
+#, kde-format
 msgid "Anglestep"
-msgstr "Hoek"
+msgstr "Hoekstap"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:44
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
@@ -5450,10 +5458,9 @@ msgid "Radstep"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sr.xml:4
-#, fuzzy, kde-format
-#| msgid "Use project resolution"
+#, kde-format
 msgid "AI Super resolution"
-msgstr "Gebruik project resolutie"
+msgstr "Ai-superresolutie"
 
 #: data/effects/avfilter/avfilter_sr.xml:5
 #, kde-format
@@ -5511,10 +5518,9 @@ msgid "Output format"
 msgstr "Uitvoerformaat"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo to mono"
+#, kde-format
 msgid "Stereo tools"
-msgstr "Stereo naar mono"
+msgstr "Stereohulpmiddelen"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:5
 #, kde-format
@@ -5525,10 +5531,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:8
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level IN"
-msgstr "Niveau in"
+msgstr "Niveau IN"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:10
 #: data/effects/avfilter/avfilter_stereotools.xml:15
@@ -5539,17 +5544,15 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level OUT"
-msgstr "Niveau uit"
+msgstr "Niveau UIT"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:18
 #: data/effects/avfilter/avfilter_stereotools.xml:86
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Balance IN"
-msgstr "Balans"
+msgstr "Balans IN"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:19
 #: data/effects/avfilter/avfilter_stereotools.xml:23
@@ -5561,16 +5564,14 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
 #: data/effects/avfilter/avfilter_stereotools.xml:96
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Balance OUT"
-msgstr "Balans"
+msgstr "Balans UIT"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:26
-#, fuzzy, kde-format
-#| msgid "Source clip"
+#, kde-format
 msgid "Softclip"
-msgstr "Oorspronkelijke clip"
+msgstr "Softclip"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:27
 #, kde-format
@@ -5578,42 +5579,38 @@ msgid ""
 "Enable softclipping. Results in analog distortion instead of harsh digital "
 "0dB clipping."
 msgstr ""
+"Met softclip werken inschakelen. Resultaten in analoge distorsie in plaats "
+"van hard digitaal 0dB clipping."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:30
-#, fuzzy, kde-format
-#| msgid "Center Left"
+#, kde-format
 msgid "Mute Left"
-msgstr "Linksmidden"
+msgstr "Links dempen"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:33
-#, fuzzy, kde-format
-#| msgid "Center Right"
+#, kde-format
 msgid "Mute Right"
-msgstr "Rechtsmidden"
+msgstr "Rechts dempen"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:36
-#, fuzzy, kde-format
-#| msgid "Phase"
+#, kde-format
 msgid "Phase Left"
-msgstr "Fase"
+msgstr "Fase links"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:37
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Change the phase of the left channel."
-msgstr "De inverse van het alfa-kanaal gebruiken."
+msgstr "De fase in het linker kanaal wijzigen."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:40
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Phase Right"
-msgstr "Rechts"
+msgstr "Fase rechts"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:41
-#, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
+#, kde-format
 msgid "Change the phase of the right channel."
-msgstr "De inverse van het alfa-kanaal gebruiken."
+msgstr "De fase in het rechter kanaal wijzigen."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:44
 #, kde-format
@@ -5630,34 +5627,35 @@ msgid "Stereo Mode"
 msgstr "Stereomodus"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Side Level"
-msgstr "Microfoonniveau"
+msgstr "Zijniveau"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:49
 #, kde-format
 msgid ""
 "Set level of side signal. Default is 1. Allowed range is from 0.015625 to 64."
 msgstr ""
+"Niveau van zijsignaal zetten. Standaard is 1. Toegestane reeks is van "
+"0.015625 tot 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:52
-#, fuzzy, kde-format
-#| msgid "White Balance"
+#, kde-format
 msgid "Side Balance"
-msgstr "Wit balans"
+msgstr "Zijbalans"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:53
 #, kde-format
 msgid ""
 "Set balance of side signal. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Balans van zijsignaal zetten. Standaard is 0. Toegestane reeks is van -1 tot "
+"1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Mid Level"
-msgstr "Microfoonniveau"
+msgstr "Middenniveau"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:57
 #, kde-format
@@ -5667,10 +5665,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Mid Pan"
-msgstr "Midden tonen"
+msgstr "Midden rondkijken"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:61
 #, kde-format
@@ -5678,10 +5675,9 @@ msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo base"
-msgstr "Stereo "
+msgstr "Stereobasis"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:65
 #, kde-format
@@ -5698,16 +5694,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "S/C level"
-msgstr "Microfoonniveau"
+msgstr "S/C-niveau"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:75
-#, fuzzy, kde-format
-#| msgid "Stereo depth"
+#, kde-format
 msgid "Stereo phase"
-msgstr "Stereo diepte"
+msgstr "Stereofase"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:76
 #, kde-format
@@ -5734,10 +5728,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo depth"
+#, kde-format
 msgid "Stereo widener"
-msgstr "Stereo diepte"
+msgstr "Stereoverbreder"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:5
 #, kde-format
@@ -5754,10 +5747,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback Gain"
-msgstr "Terugkoppeling"
+msgstr "Versterking van terugkoppeling"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:14
 #, kde-format
@@ -5768,10 +5760,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:17
-#, fuzzy, kde-format
-#| msgid "Crossfade"
+#, kde-format
 msgid "Cross feed"
-msgstr "Crossfade"
+msgstr "Cross-feed"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:19
 #, kde-format
@@ -5797,16 +5788,14 @@ msgid "Temporal frames Mixer"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_tmix.xml:5
-#, fuzzy, kde-format
-#| msgid "Exporting video frames"
+#, kde-format
 msgid "Mix successive video frames"
-msgstr "Videoframes worden geëxporteerd"
+msgstr "Opvolgende videoframes mengen"
 
 #: data/effects/avfilter/avfilter_tmix.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames step"
+#, kde-format
 msgid "Frames to mix"
-msgstr "Framesstap"
+msgstr "Te mengen frames"
 
 #: data/effects/avfilter/avfilter_transpose.xml:4
 #, kde-format
@@ -5844,28 +5833,24 @@ msgid "Sharpen or unsharpen/blur your video"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:9
-#, fuzzy, kde-format
-#| msgid "Horizontal factor"
+#, kde-format
 msgid "Luma horizontal matrix"
-msgstr "Horizontale factor"
+msgstr "Luma horizontale matrix"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the luma matrix horizontal size]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Zet de horizontale grootte van de luma-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Luma vertical matrix"
-msgstr "Verticale marge"
+msgstr "Verticale matrix van luma"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set the luma matrix vertical size]]>"
-msgstr "<![CDATA[Offset langs de X-as]]>"
+msgstr "<![CDATA[Zet de verticale grootte van de luma-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
 #, kde-format
@@ -5882,10 +5867,9 @@ msgid "Chroma horizontal matrix"
 msgstr "Chroma horizontale matrix"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Zet de horizontale grootte van de chroma-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
 #, kde-format
@@ -5893,10 +5877,9 @@ msgid "Chroma vertical matrix"
 msgstr "Chroma verticale matrix"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the chroma matrix vertical size]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Zet de verticale grootte van de chroma-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:32
 #, kde-format
@@ -5908,16 +5891,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
-#, fuzzy, kde-format
-#| msgid "Allow horizontal moves"
+#, kde-format
 msgid "Alpha horizontal matrix"
-msgstr "Horizontale bewegingen toestaan"
+msgstr "Alfa horizontale matrix"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Zet de horizontale grootte van de alfa-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:39
 #, fuzzy, kde-format
