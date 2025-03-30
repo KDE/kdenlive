@@ -56,8 +56,8 @@ void JogShuttleAction::slotShuttlePos(int shuttle_pos)
 void JogShuttleAction::slotButton(int button_id)
 {
     if (button_id >= m_actionMap.size() || m_actionMap[button_id].isEmpty()) {
-        pCore->displayMessage(i18nc("%1 button id", "No action applied for jog shutte button %1", button_id), InformationMessage);
-        qCInfo(KDENLIVE_LOG) << "No action applied for jog shutte button: " << button_id;
+        pCore->displayMessage(i18nc("%1 button id", "No action applied for jog shuttle button %1", button_id), InformationMessage);
+        qCInfo(KDENLIVE_LOG) << "No action applied for jog shuttle button: " << button_id;
         return;
     }
     Q_EMIT action(m_actionMap[button_id]);
