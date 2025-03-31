@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-30 00:41+0000\n"
-"PO-Revision-Date: 2025-03-28 10:55+0100\n"
+"POT-Creation-Date: 2025-03-31 00:41+0000\n"
+"PO-Revision-Date: 2025-03-30 10:39+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20997,17 +20997,16 @@ msgid "Upgrading project version…"
 msgstr "S'està actualitzant la versió del projecte…"
 
 #: src/doc/documentvalidator.cpp:194
-#, fuzzy, kde-format
-#| msgid ""
-#| "This project type is unsupported (version %1) and cannot be loaded.\n"
-#| "Please consider upgrading your Kdenlive version."
+#, kde-format
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
 "what this Kdenlive release supports (version %2 and older).\n"
 "Please consider upgrading your Kdenlive version."
 msgstr ""
-"El tipus de projecte no és compatible (versió %1) i no es pot carregar.\n"
-"Considereu l'actualització de la versió del Kdenlive."
+"Aquest projecte no és compatible perquè la seva versió del document (%1) és "
+"més nova que la que admet aquesta versió del Kdenlive (versió %2 o "
+"anteriors).\n"
+"Considereu actualitzar la vostra versió del Kdenlive."
 
 #: src/doc/documentvalidator.cpp:195 src/doc/documentvalidator.cpp:204
 #, kde-format
@@ -22213,10 +22212,12 @@ msgid "Transcoding"
 msgstr "S'està transcodificant"
 
 #: src/jogshuttle/jogaction.cpp:59
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "%1 button id"
+#| msgid "No action applied for jog shutte button %1"
 msgctxt "%1 button id"
-msgid "No action applied for jog shutte button %1"
-msgstr ""
+msgid "No action applied for jog shuttle button %1"
+msgstr "No s'ha aplicat cap acció al botó %1 del Jog Shuttle"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:19
@@ -32774,10 +32775,9 @@ msgstr "Cerca al clip en afegir un efecte"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "On Selection:"
-msgstr "Selecció"
+msgstr "A la selecció:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:108
@@ -32850,24 +32850,21 @@ msgstr "Comprova si el projecte conté pistes suficients"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:211
-#, fuzzy, kde-format
-#| msgid "Envelope"
+#, kde-format
 msgid "Developer:"
-msgstr "Envolupant"
+msgstr "Desenvolupador:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable debug mode"
-msgstr "Activa el vídeo"
+msgstr "Activa el mode de depuració"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
-#, fuzzy, kde-format
-#| msgid "Effect/Composition Stack"
+#, kde-format
 msgid "Raise Effects/Composition Stack for"
-msgstr "Pila d'efectes/composició"
+msgstr "Eleva la pila d'efectes/composició per a"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:258
@@ -32877,10 +32874,9 @@ msgstr "Clips"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
 #: src/ui/configtimeline_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Mixes:"
+#, kde-format
 msgid "Mixes"
-msgstr "Mescles:"
+msgstr "Mescles"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27

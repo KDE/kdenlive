@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-30 00:41+0000\n"
+"POT-Creation-Date: 2025-03-31 00:41+0000\n"
 "PO-Revision-Date: 2025-03-14 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -22386,7 +22386,7 @@ msgstr "Перекодирование"
 #: src/jogshuttle/jogaction.cpp:59
 #, kde-format
 msgctxt "%1 button id"
-msgid "No action applied for jog shutte button %1"
+msgid "No action applied for jog shuttle button %1"
 msgstr ""
 
 #. i18n: ectx: Menu (go)

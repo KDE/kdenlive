@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-30 00:41+0000\n"
-"PO-Revision-Date: 2025-03-27 00:12+0300\n"
+"POT-Creation-Date: 2025-03-31 00:41+0000\n"
+"PO-Revision-Date: 2025-03-30 19:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1430,6 +1430,9 @@ msgid ""
 "        0.01 matches only the exact key color, while 1.0 matches "
 "everything.]]>"
 msgstr ""
+"<![CDATA[Seçili renkle benzerlik yüzdesi<br>\n"
+"        0,01 yalnızca tam anahtar renkle eşleşirken, 1,0 her şeyle "
+"eşleşir.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -1444,6 +1447,9 @@ msgid ""
 "at all.<br>\n"
 "        Higher values result in more preserved color.]]>"
 msgstr ""
+"<![CDATA[Harman yüzdesi. 0,0, pikselleri ya tamamen gri yapar ya da hiç gri "
+"yapmaz.<br>\n"
+"        Daha yüksek değerler, daha fazla korunmuş renk ile sonuçlanır.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
@@ -1453,7 +1459,7 @@ msgstr "YUV rengi"
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
-msgstr ""
+msgstr "<![CDATA[Klipte RGB yerine YUV verileri varsa bunu seçin.]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -1466,10 +1472,9 @@ msgid "Reduce chrominance noise."
 msgstr "Renklilik gürültüsünü azaltın."
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "Y+U+V Threshold"
-msgstr "Eşik Kullan"
+msgstr "Y+U+V Eşiği"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:11
 #, kde-format
@@ -1517,36 +1522,35 @@ msgid "Chroma shift"
 msgstr "Renk kayması"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
-#, fuzzy, kde-format
-#| msgid "Box blur (separate horizontal and vertical blur)"
+#, kde-format
 msgid "Shift chroma pixels horizontally and/or vertically. "
-msgstr "Kutu bulanıklığı (ayrı yatay ve dikey bulanıklık)"
+msgstr "Renk piksellerini yatay ve/veya dikey olarak kaydırın."
 
 #: data/effects/avfilter/avfilter_chromashift.xml:8
 #, kde-format
 msgid "Chroma-blue H shift"
-msgstr ""
+msgstr "Renk-Mavi H kayması"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
 #, kde-format
 msgid "Chroma-blue V shift"
-msgstr ""
+msgstr "Renk-Mavi V kayması"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
 #, kde-format
 msgid "Chroma-red H shift"
-msgstr ""
+msgstr "Renk-Kırmızı H kayması"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
 #, kde-format
 msgid "Chroma-red V shift"
-msgstr ""
+msgstr "Renk-Kırmızı V kayması"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, kde-format
 msgid "Smear,Wrap"
-msgstr ""
+msgstr "Leke,Kayma"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:21
 #: data/effects/frei0r/frei0r_select0r.xml:33
@@ -1557,80 +1561,73 @@ msgid "Edge mode"
 msgstr "Kenar kipi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color balance"
-msgstr "Renk Aralığı"
+msgstr "Renk dengesi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:5
 #, kde-format
 msgid ""
 "Modify intensity of primary colors (red, green and blue) of input frames. "
 msgstr ""
+"Giriş karelerinin ana renklerinin (kırmızı, yeşil ve mavi) yoğunluğunda "
+"değişiklik yapın."
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Red Shadow"
-msgstr "Gölge"
+msgstr "Kırmızı Gölgesi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:11
-#, fuzzy, kde-format
-#| msgid "Drop Shadow"
+#, kde-format
 msgid "Green Shadow"
-msgstr "Damla Gölge"
+msgstr "Yeşil Gölgesi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:14
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Blue Shadow"
-msgstr "Gölge"
+msgstr "Mavi Gölgesi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
 msgid "Red Midtones"
-msgstr ""
+msgstr "Kırmızı Orta Tonları"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
 #, kde-format
 msgid "Green Midtones"
-msgstr ""
+msgstr "Yeşil Orta Tonları"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:23
 #, kde-format
 msgid "Blue Midtones"
-msgstr ""
+msgstr "Mavi Orta Tonları"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Red Highlights"
-msgstr "Uç noktaları vurgula"
+msgstr "Kırmızı Vurgular"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:29
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Green Highlights"
-msgstr "Uç noktaları vurgula"
+msgstr "Yeşil Vurgular"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:32
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Blue Highlights"
-msgstr "Uç noktaları vurgula"
+msgstr "Mavi Vurgular"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:35
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
-#, fuzzy, kde-format
-#| msgid "Preserve alpha"
+#, kde-format
 msgid "Preserve lightness"
-msgstr "Alfayı koru"
+msgstr "Açıklığı koru"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Channel Mixer"
-msgstr "Renk Klibi"
+msgstr "Renk Kanalı Karıştırıcısı"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
@@ -1638,117 +1635,103 @@ msgid ""
 "Modifies a color channel by adding the values associated to the other "
 "channels of the same pixels"
 msgstr ""
+"Aynı piksellerin diğer kanallarıyla ilişkilendirilmiş değerleri ekleyerek "
+"bir renk kanalını değiştirir"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
 msgid "Red-Red"
-msgstr ""
+msgstr "Kırmızı-Kırmızı"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:11
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Red-Green"
-msgstr "Yeşil"
+msgstr "Kırmızı-Yeşil"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:14
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Red-Blue"
-msgstr "Mavi"
+msgstr "Kırmızı-Mavi"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:17
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Red"
-msgstr "Yeşil"
+msgstr "Yeşil-Kırmızı"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:20
-#, fuzzy, kde-format
-#| msgid "Gain: Green"
+#, kde-format
 msgid "Green-Green"
-msgstr "Kazanç: Yeşil"
+msgstr "Yeşil-Yeşil"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:23
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Blue"
-msgstr "Yeşil"
+msgstr "Yeşil-Mavi"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:26
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue-Red"
-msgstr "Mavi"
+msgstr "Mavi-Kırmızı"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:29
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Blue-Green"
-msgstr "Yeşil"
+msgstr "Mavi-Yeşil"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:32
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue-Blue"
-msgstr "Mavi"
+msgstr "Mavi-Mavi"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Color Contrast"
-msgstr "Karşıtlık"
+msgstr "Renk Karşıtlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
 msgid "Adjust color contrast between RGB components."
-msgstr ""
+msgstr "RGB bileşenleri arasındaki renk karşıtlığını ayarlayın."
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
-#, fuzzy, kde-format
-#| msgid "Min. contrast"
+#, kde-format
 msgid "Red-Cyan contrast"
-msgstr "En düşük karşıtlık"
+msgstr "Kırmızı-Camgöbeği karşıtlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:11
-#, fuzzy, kde-format
-#| msgid "Min. contrast"
+#, kde-format
 msgid "Green-Magenta contrast"
-msgstr "En düşük karşıtlık"
+msgstr "Yeşil-Eflatun karşıtlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:14
-#, fuzzy, kde-format
-#| msgid "Blue/Yellow axis"
+#, kde-format
 msgid "Blue-Yellow contrast"
-msgstr "Mavi/Sarı eksen"
+msgstr "Mavi-Yeşil karşıtlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:17
-#, fuzzy, kde-format
-#| msgid "Font weight"
+#, kde-format
 msgid "Red-Cyan weight"
-msgstr "Yazıtipi ağırlığı"
+msgstr "Kırmızı-Camgöbeği ağırlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:20
 #, kde-format
 msgid "Green-Magenta weight"
-msgstr ""
+msgstr "Yeşil-Eflatun karşıtlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:23
-#, fuzzy, kde-format
-#| msgid "Blue/Yellow axis"
+#, kde-format
 msgid "Blue-Yellow weight"
-msgstr "Mavi/Sarı eksen"
+msgstr "Mavi-Sarı ağırlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:26
-#, fuzzy, kde-format
-#| msgid "Brightness"
+#, kde-format
 msgid "Preserving lightness"
-msgstr "Parlaklık"
+msgstr "Açıklığı korumak"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Color Correct"
-msgstr "Seçilecek renk"
+msgstr "Renk Düzeltmesi"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:5
 #, kde-format
@@ -1756,27 +1739,28 @@ msgid ""
 "Adjust color white balance selectively for blacks and whites.This filter "
 "operates in YUV colorspace."
 msgstr ""
+"Siyahlar ve beyazlar için renk beyaz dengesini seçici olarak ayarlayın. Bu "
+"süzgeç, YUV renk uzayında çalışır."
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
 msgid "Red shadow spot"
-msgstr ""
+msgstr "Kırmızı gölge noktası"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:11
 #, kde-format
 msgid "Blue shadow spot"
-msgstr ""
+msgstr "Mavi gölge noktası"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:14
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Red highlight spot"
-msgstr "Uç noktaları vurgula"
+msgstr "Kırmızı vurgu noktası"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:17
 #, kde-format
 msgid "Blue highlight spot"
-msgstr ""
+msgstr "Mavi vurgu noktası"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:20
 #: data/effects/avfilter/avfilter_colorize.xml:11
@@ -1787,163 +1771,155 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:121
 #: data/effects/frei0r/frei0r_saturat0r.xml:8
 #: data/transitions/frei0r/frei0r_saturation.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Saturation"
+#, kde-format
 msgid "Saturation"
-msgstr "HSV Doygunluğu"
+msgstr "Doygunluk"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
 #, kde-format
 msgid "Manual,Average,Minimax,Median"
-msgstr ""
+msgstr "Elle,Ortalama,Minimaks,Ortanca"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
-#, fuzzy, kde-format
-#| msgid "Manage models"
+#, kde-format
 msgid "Analyze mode"
-msgstr "Modelleri Yönet"
+msgstr "Çözümleme kipi"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Model"
+#, kde-format
 msgid "Color Hold"
-msgstr "Renk Modeli"
+msgstr "Renk Tutma"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:5
 #, kde-format
 msgid ""
 "Remove all color information for all RGB colors except for certain one. "
 msgstr ""
+"Belirli bir renk dışındaki tüm RGB renkleri için tüm renk bilgilerini "
+"kaldırın."
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
-#, fuzzy, kde-format
-#| msgid "Color key"
+#, kde-format
 msgid "Color Overlay"
-msgstr "Renk anahtarı"
+msgstr "Renk Kaplaması"
 
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
 msgid "Overlay a solid color on the video stream with mixing feature."
-msgstr ""
+msgstr "Karıştırma özelliği ile video akışına düz bir renk yerleştirin."
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
 msgid " Hue"
-msgstr ""
+msgstr "Ton"
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
-#, fuzzy, kde-format
-#| msgid "Brightness"
+#, kde-format
 msgid "Lightness"
-msgstr "Parlaklık"
+msgstr "Açıklık"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Model"
+#, kde-format
 msgid "Color levels"
-msgstr "Renk Modeli"
+msgstr "Renk düzeyleri"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
 msgid "Adjust video input frames using levels. "
-msgstr ""
+msgstr "Düzeyleri kullanarak video girdi karelerini ayarlayın."
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:8
 #, kde-format
 msgid "Red black input"
-msgstr ""
+msgstr "Kırmızı-Siyah girdisi"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:11
 #, kde-format
 msgid "Red white input"
-msgstr ""
+msgstr "Kırmızı-Beyaz girdisi"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:14
 #, kde-format
 msgid "Red black output"
-msgstr ""
+msgstr "Kırmızı-Siyah çıktısı"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:17
 #, kde-format
 msgid "Red white output"
-msgstr ""
+msgstr "Kırmızı-Beyaz çıktısı"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:20
 #, kde-format
 msgid "Green black input"
-msgstr ""
+msgstr "Yeşil-Siyah girdisi"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:23
 #, kde-format
 msgid "Green white input"
-msgstr ""
+msgstr "Yeşil-Beyaz girdisi"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:26
 #, kde-format
 msgid "Green black output"
-msgstr ""
+msgstr "Yeşil-Siyah çıktısı"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:29
 #, kde-format
 msgid "Green white output"
-msgstr ""
+msgstr "Yeşil-Beyaz çıktısı"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:32
 #, kde-format
 msgid "Blue black input"
-msgstr ""
+msgstr "Mavi-Siyah girdisi"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:35
 #, kde-format
 msgid "Blue white input"
-msgstr ""
+msgstr "Mavi-Beyaz girdisi"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:38
 #, kde-format
 msgid "Blue black output"
-msgstr ""
+msgstr "Mavi-Siyah çıktısı"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:41
 #, kde-format
 msgid "Blue white output"
-msgstr ""
+msgstr "Mavi-Beyaz çıktısı"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Bars"
+#, kde-format
 msgid "Color Matrix"
-msgstr "Renk Çubukları"
+msgstr "Renk Matrisi"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
-#, fuzzy, kde-format
-#| msgid "Invert colors"
+#, kde-format
 msgid "Convert color matrix."
-msgstr "Renkleri tersine çevir"
+msgstr "Renk matrisini dönüştürün."
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:8
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
 #, kde-format
 msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
-msgstr ""
+msgstr "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
-#, fuzzy, kde-format
-#| msgid "Source clip"
+#, kde-format
 msgid "Source color Matrix"
-msgstr "Kaynak klip"
+msgstr "Kaynak Renk Matrisi"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
-#, fuzzy, kde-format
-#| msgid "Destination Folder"
+#, kde-format
 msgid "Destination color Matrix"
-msgstr "Hedef Klasör"
+msgstr "Hedef Renk Matrisi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: src/scopes/colorscopes/vectorscope.cpp:94
 #, kde-format
 msgid "Color Space"
-msgstr "Renk Aralığı"
+msgstr "Renk Uzayı"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:5
 #, kde-format
@@ -1951,6 +1927,8 @@ msgid ""
 "Convert colorspace, transfer characteristics or color primaries. Input video "
 "needs to have an even size."
 msgstr ""
+"Renk uzayını, aktarım karakteristiklerini veya renk ana renklerini "
+"dönüştürün. Giriş videosunun eşit bir boyuta sahip olması gerekir."
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
 #: data/effects/avfilter/avfilter_colorspace.xml:43
@@ -1959,12 +1937,13 @@ msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
 "BT.2020"
 msgstr ""
+"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
+"BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Color properties"
-msgstr "Klip Özellikleri"
+msgstr "Renk özellikleri"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:12
 #: data/effects/avfilter/avfilter_colorspace.xml:47
@@ -1975,10 +1954,9 @@ msgstr ""
 "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 sabit olmayan luma"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Output Color Space"
-msgstr "Renk Aralığı"
+msgstr "Çıktı Renk Uzayı"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #: data/effects/avfilter/avfilter_colorspace.xml:55
@@ -1988,11 +1966,14 @@ msgid ""
 "SMPTE-170M,SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 for 10-"
 "bits content, BT.2020 for 12-bits content"
 msgstr ""
+"BT.709, BT.470M, BT.470BG, 2,2’nin sabit gaması, 2,8’in sabit gaması, "
+"SMPTE-170M, SMPTE-240M, SRGB, iec61966-2-1, iec61966-2-4, xvycc, 10 bitlik "
+"içerik için BT.2020, 12 bitlik içerik için BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
 msgid "Output transfer characteristics"
-msgstr ""
+msgstr "Çıktı Aktarımı Karakteristikleri"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
@@ -2001,12 +1982,13 @@ msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phosphors"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
+"BT.2020,JEDEC P22 fosforları"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
-#, fuzzy, kde-format
-#| msgid "Output time"
+#, kde-format
 msgid "Output Color Primaries"
-msgstr "Çıktı zamanı"
+msgstr "Çıktı Ana Renkleri"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:24
 #: data/effects/avfilter/avfilter_colorspace.xml:59
@@ -2014,13 +1996,12 @@ msgstr "Çıktı zamanı"
 msgid ""
 "TV (restricted range),MPEG (restricted range),PC (FULL range),JPEG (FULL "
 "range)"
-msgstr ""
+msgstr "TV (kısıtlı erim),MPEG (kısıtlı erim),PC (TAM erim),JPEG (TAM erim)"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "Output Color Range"
-msgstr "Çıktı dili"
+msgstr "Renk Erimini Çıktıla"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:28
 #, kde-format
@@ -2029,28 +2010,30 @@ msgid ""
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
+"YUV 4:2:0 düzlemsel 8 bit,YUV 4:2:0 düzlemsel 10 bit,YUV 4:2:0 düzlemsel 12 "
+"bit,YUV 4:2:2 düzlemsel 8 bit,YUV 4:2:2 düzlemsel 10 bit,YUV 4:2:2 düzlemsel "
+"12 bit,YUV 4:4:4 düzlemsel 8 bit,YUV 4:4:4 düzlemsel 10 bit,YUV 4:4:4 "
+"düzlemsel 12 bit"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
 msgid "Output Color Format"
-msgstr ""
+msgstr "Çıktı Renk Biçimi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
-#, fuzzy, kde-format
-#| msgid "version"
+#, kde-format
 msgid "Fast Conversion"
-msgstr "sürüm"
+msgstr "Hızlı Dönüştürme"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
 msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
+msgstr "Titreme yok,Floyd-Steinberg titremesi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
-#, fuzzy, kde-format
-#| msgid "View Mode"
+#, kde-format
 msgid "Dithering Mode"
-msgstr "Görünüm Kipi"
+msgstr "Titretme Kipi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:39
 #, kde-format
@@ -2058,44 +2041,44 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"Bradford beyaz nokta uyarlaması,von Kries beyaz nokta uyarlaması,Özdeşlik "
+"beyaz nokta uyarlaması"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
 msgid "Whitepoint adaptation mode"
-msgstr ""
+msgstr "Beyaz nokta uyarlama kipi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
 msgid "Override all input properties at once"
-msgstr ""
+msgstr "Tüm girdi özelliklerini bir kerede geçersiz kıl"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:48
 #, kde-format
 msgid "Override input colorspace"
-msgstr ""
+msgstr "Girdi renk uzayını geçersiz kıl"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:52
 #, kde-format
 msgid "Override input color primaries"
-msgstr ""
+msgstr "Girdi ana renklerini geçersiz kıl"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:56
 #, kde-format
 msgid "Override input transfer characteristics"
-msgstr ""
+msgstr "Girdi aktarımı karakteristiklerini geçersiz kıl"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:60
-#, fuzzy, kde-format
-#| msgid "Render full color range"
+#, kde-format
 msgid "Override input color range"
-msgstr "Tam renk aralığını sun"
+msgstr "Girdi renk erimini geçersiz kıl"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:4
 #: data/effects/frei0r/frei0r_colgate.xml:11
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color Temperature"
-msgstr "Renk Aralığı"
+msgstr "Renk Sıcaklığı"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:5
 #, kde-format
@@ -2103,13 +2086,14 @@ msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
 msgstr ""
+"Ortam renk sıcaklığındaki değişimlerini benzetmek için videodaki renk "
+"sıcaklığını ayarlayın."
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
-#, fuzzy, kde-format
-#| msgid "Templates"
+#, kde-format
 msgid "Temperature"
-msgstr "Şablonlar"
+msgstr "Sıcaklık"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
 #, kde-format
@@ -3623,7 +3607,7 @@ msgstr "Alt"
 #: data/effects/avfilter/avfilter_fillborders.xml:20
 #, kde-format
 msgid "Smear,Mirror,Fixed,Reflect,Wrap,Fade,Margins"
-msgstr ""
+msgstr "Leke,Ayna,Sabit,Yansıt,Kaydır,Soldur,Boşluklar"
 
 #: data/effects/avfilter/avfilter_flanger.xml:4
 #, kde-format
@@ -5318,7 +5302,7 @@ msgstr "Mavi"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
 #, kde-format
 msgid "Magentas"
-msgstr ""
+msgstr "Eflatunlar"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:30
 #, fuzzy, kde-format
@@ -22282,7 +22266,7 @@ msgstr "Arakodlanıyor"
 #: src/jogshuttle/jogaction.cpp:59
 #, kde-format
 msgctxt "%1 button id"
-msgid "No action applied for jog shutte button %1"
+msgid "No action applied for jog shuttle button %1"
 msgstr ""
 
 #. i18n: ectx: Menu (go)
