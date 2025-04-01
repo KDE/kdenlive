@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-31 00:41+0000\n"
-"PO-Revision-Date: 2025-03-26 02:49+0100\n"
+"PO-Revision-Date: 2025-03-31 20:04+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Poedit 3.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2738,7 +2738,7 @@ msgstr "Rastros de puntos,Arcoíris"
 #: data/effects/avfilter/avfilter_dedot.xml:9
 #, kde-format
 msgid "color-reduction Mode"
-msgstr "Modo de reducción de color"
+msgstr "Modo de reducción de colores"
 
 #: data/effects/avfilter/avfilter_dedot.xml:12
 #, kde-format
@@ -7304,12 +7304,12 @@ msgstr "Congelar en"
 #: data/effects/freeze.xml:11
 #, kde-format
 msgid "Freeze Before"
-msgstr "Congelar antes de"
+msgstr "Desde el inicio"
 
 #: data/effects/freeze.xml:14
 #, kde-format
 msgid "Freeze After"
-msgstr "Congelar después de"
+msgstr "Hasta el final"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:4
 #, kde-format
@@ -10404,7 +10404,7 @@ msgstr "Líneas negras entrelazadas"
 #: data/effects/frei0r/frei0r_select0r.xml:41
 #, kde-format
 msgid "Chroma Key: Advanced (Color Selection)"
-msgstr "Recorte por croma: Avanzado (selección de color)"
+msgstr "Recorte por croma: Avanzado"
 
 #: data/effects/frei0r/frei0r_select0r.xml:6
 #: data/effects/frei0r/frei0r_select0r.xml:42
@@ -12322,7 +12322,7 @@ msgstr "Permite invertir la imagen en cualquier dirección"
 #: data/effects/mirror.xml:8
 #, kde-format
 msgid "Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop"
-msgstr "Horizontal,Vertical,Diagonal,Diagonal X,Flip,Flop"
+msgstr "Horizontal,Vertical,Diagonal,Diagonal X,Invertir en X,Invertir en Y"
 
 #: data/effects/mirror.xml:9
 #, kde-format
@@ -12520,7 +12520,7 @@ msgid ""
 "Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
 "Destination out"
 msgstr ""
-"Fundido alfa,O exclusivo,Sumar,Multiplicar,Trama,Superponer,Oscurecer,"
+"Fundido alfa,O exclusivo,Adicionar,Multiplicar,Trama,Superponer,Oscurecer,"
 "Aclarar,Sobreexponer color,Subexponer color,Luz fuerte,Luz suave,Diferencia,"
 "Exclusión,O (bit a bit),Y (bit a bit),O exclusivo (bit a bit),No O (bit a "
 "bit),No Y (bit a bit),No O exclusivo (bit a bit),Destino interior,Destino "
@@ -14011,24 +14011,24 @@ msgstr "Rellenar alfa"
 #: data/transitions/frei0r/frei0r_addition.xml:4
 #, kde-format
 msgid "Addition"
-msgstr "Adición"
+msgstr "Adicionar"
 
 #: data/transitions/frei0r/frei0r_addition.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition operation of the pixel sources."
 msgstr ""
-"Permite realizar una operación RVA[α] Adición entre los clips involucrados."
+"Permite realizar una operación RVA[α] Adicionar entre los clips involucrados."
 
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:4
 #, kde-format
 msgid "addition_alpha"
-msgstr "Adición (alfa)"
+msgstr "Adicionar (alfa)"
 
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition_alpha operation of the pixel sources."
 msgstr ""
-"Permite realizar una operación RVA[α] Adición (alfa) entre los clips "
+"Permite realizar una operación RVA[α] Adicionar (alfa) entre los clips "
 "involucrados."
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
@@ -14110,7 +14110,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
 #, kde-format
 msgid "Cairo Affine Blend"
-msgstr "Componer y transformar Cairo"
+msgstr "Componer y transformar (cairo)"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:5
 #, kde-format
@@ -14160,7 +14160,7 @@ msgstr "Centro de rotación Y"
 #: data/transitions/frei0r/frei0r_cairoblend.xml:4
 #, kde-format
 msgid "Cairo Blend"
-msgstr "Componer Cairo"
+msgstr "Componer (cairo)"
 
 #: data/transitions/frei0r/frei0r_cairoblend.xml:5
 #, kde-format
@@ -14883,12 +14883,12 @@ msgstr "Efectos personalizados"
 #: src/assets/assetlist/view/assetlistwidget.cpp:111
 #, kde-format
 msgid "Show transitions only"
-msgstr "Mostrar transiciones"
+msgstr "Transiciones"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:117
 #, kde-format
 msgid "Show favorite items"
-msgstr "Mostrar elementos favoritos"
+msgstr "Favoritos"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:122
 #, kde-format
@@ -14913,7 +14913,7 @@ msgstr "Descripciones de efectos"
 #: src/assets/assetlist/view/assetlistwidget.cpp:168
 #, kde-format
 msgid "Show/hide description of the compositions"
-msgstr "Mostrar/ocultar descripciones de métodos de composición"
+msgstr "Descripciones de métodos de composición"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1193
 #, kde-format
@@ -14995,7 +14995,7 @@ msgstr "Vista normal"
 #: src/assets/assetpanel.cpp:122 src/assets/assetpanel.cpp:126
 #, kde-format
 msgid "Compare effect"
-msgstr "Comparar efecto"
+msgstr "Comparar efectos"
 
 #: src/assets/assetpanel.cpp:129
 #, kde-kuit-format
@@ -15539,7 +15539,7 @@ msgstr "Importar claves en el portapapeles"
 #: src/assets/view/widgets/keyframewidget.cpp:75
 #, kde-format
 msgid "Switch to timeline view"
-msgstr "Cambiar a línea de tiempo"
+msgstr "Cambiar a regla de tiempo"
 
 #: src/assets/view/widgets/keyframewidget.cpp:77
 #, kde-format
@@ -15608,7 +15608,7 @@ msgstr "Valor de posición actual a claves seleccionados…"
 #: src/assets/view/widgets/keyframewidget.cpp:137
 #, kde-format
 msgid "Keyframe interpolation"
-msgstr "Interpolación del fotograma clave"
+msgstr "Interpolación del clave seleccionado"
 
 #: src/assets/view/widgets/keyframewidget.cpp:138
 #, kde-kuit-format
@@ -15617,7 +15617,7 @@ msgid ""
 "Keyframe interpolation. This defines which interpolation will be used for "
 "the current keyframe."
 msgstr ""
-"Interpolación del fotograma clave. Define la interpolación que usará el "
+"Interpolación del clave seleccionado. Define la interpolación que usará el "
 "fotograma clave actual."
 
 #: src/assets/view/widgets/keyframewidget.cpp:159
@@ -15975,7 +15975,7 @@ msgstr "Deshabilitar efectos en bandeja"
 #: src/bin/bin.cpp:1338
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
-msgstr "Mostrar miniaturas de video"
+msgstr "Miniaturas en movimiento"
 
 #: src/bin/bin.cpp:1348
 #, kde-kuit-format
@@ -16451,11 +16451,11 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
-"Diálogo principal para cargar fuentes de material (como videos, imágenes, "
-"audio, títulos, animaciones) a la bandeja del proyecto.<nl/>Hacer clic sobre "
-"el ícono con la flecha hacia abajo para obtener una lista de distintos tipos "
-"de fuentes.<nl/>Hacer clic sobre el ícono de medios para abrir una ventana "
-"para seleccionar archivos."
+"Diálogo principal para cargar recursos (como videos, imágenes, audio, "
+"títulos, animaciones) a la Bandeja del proyecto.<nl/>Hacer clic sobre el "
+"ícono con la flecha hacia abajo para obtener una lista de los distintos "
+"tipos de recursos.<nl/>Hacer clic sobre el ícono de medios para abrir una "
+"ventana para seleccionar archivos y cargarlos como clips."
 
 #: src/bin/bin.cpp:3666
 #, kde-format
@@ -18981,7 +18981,7 @@ msgstr "Captura"
 #: src/effects/effectlist/model/effecttreemodel.cpp:64
 #, kde-format
 msgid "Misc"
-msgstr "Varios"
+msgstr "General"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:789
@@ -20128,7 +20128,7 @@ msgid ""
 "frame."
 msgstr ""
 "Crea un nuevo subtítulo de duración predeterminada (definida en "
-"<interface>Preferencias->Configurar Kdenlive…->Varios</interface>) en la "
+"<interface>Preferencias->Configurar Kdenlive…->General</interface>) en la "
 "posición actual del cursor de tiempo."
 
 #: src/dialogs/subtitleedit.cpp:286
@@ -21116,17 +21116,16 @@ msgid "Upgrading project version…"
 msgstr "Actualizando versión del proyecto…"
 
 #: src/doc/documentvalidator.cpp:194
-#, fuzzy, kde-format
-#| msgid ""
-#| "This project type is unsupported (version %1) and cannot be loaded.\n"
-#| "Please consider upgrading your Kdenlive version."
+#, kde-format
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
 "what this Kdenlive release supports (version %2 and older).\n"
 "Please consider upgrading your Kdenlive version."
 msgstr ""
-"Este tipo de proyecto no es compatible (versión %1) y no puede ser cargado.\n"
-"Por favor, considere la actualización a una nueva versión de Kdenlive."
+"Este proyecto no puede ser cargado porque su versión de documento (%1) es "
+"más nueva de lo que esta versión de Kdenlive soporta (versión %2 y "
+"anteriores).\n"
+"Considerar actualizar la versión de Kdenlive."
 
 #: src/doc/documentvalidator.cpp:195 src/doc/documentvalidator.cpp:204
 #, kde-format
@@ -21663,7 +21662,7 @@ msgstr "Expandir efecto"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, kde-format
 msgid "Open effect documentation in browser"
-msgstr "Abrir la documentación del efecto en un explorador"
+msgstr "Abrir la documentación del efecto en un navegador"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:127
 #, kde-format
@@ -22336,7 +22335,7 @@ msgstr "Transcodificando"
 #, kde-format
 msgctxt "%1 button id"
 msgid "No action applied for jog shuttle button %1"
-msgstr ""
+msgstr "Ninguna acción aplicada para el botón %1 del dial"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:19
@@ -24427,10 +24426,9 @@ msgid "Toggle Track Disabled"
 msgstr "Deshabilitar pista"
 
 #: src/mainwindow.cpp:2001
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle All Tracks Disabled"
-msgstr "Deshabilitar pista"
+msgstr "Deshabilitar todas las pistas"
 
 #: src/mainwindow.cpp:2003
 #, kde-format
@@ -24438,8 +24436,7 @@ msgid "Toggle Track Lock"
 msgstr "Bloquear pista"
 
 #: src/mainwindow.cpp:2005
-#, fuzzy, kde-format
-#| msgid "Toggle All Track Lock"
+#, kde-format
 msgid "Toggle All Tracks Lock"
 msgstr "Bloquear todas las pistas"
 
@@ -24499,10 +24496,9 @@ msgid "Extract Frame to Project…"
 msgstr "Extraer fotograma al proyecto…"
 
 #: src/mainwindow.cpp:2054
-#, fuzzy, kde-format
-#| msgid "Extract Frame to Project…"
+#, kde-format
 msgid "Extract Frame to Clipboard"
-msgstr "Extraer fotograma al proyecto…"
+msgstr "Extraer fotograma al portapapeles"
 
 #: src/mainwindow.cpp:2188
 #, kde-format
@@ -25081,13 +25077,12 @@ msgstr "Orden de campos:"
 #: src/mltcontroller/clippropertiescontroller.cpp:661
 #, kde-format
 msgid "%1 (default)"
-msgstr "%1 (predeterminado)"
+msgstr "%1 (predeterminada)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:666
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgid "Rotate:"
-msgstr "Rotación"
+msgstr "Rotación:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:675
 #, kde-format
@@ -25319,10 +25314,9 @@ msgid "Image count:"
 msgstr "Cantidad de imágenes:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1442
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video streams:"
-msgstr "Fuente de video"
+msgstr "Fuentes de video"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1449
 #, kde-format
@@ -30048,18 +30042,16 @@ msgid "Toggle track effects"
 msgstr "Alternar efectos de pista"
 
 #: src/timeline2/view/qml/TrackHead.qml:441
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
+#, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
-"<b>Mayús</b> para colapsar/expandir todas las pistas del mismo tipo (audio/"
+"<b>Mayús</b> para mostrar/ocultar todas las pistas del mismo tipo (audio/"
 "video)"
 
 #: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
 msgid "Unmute"
-msgstr "Quitar silencio"
+msgstr "Escuchar"
 
 #: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
@@ -31450,13 +31442,13 @@ msgstr "Recortar inicio:"
 #: src/ui/clipdurationdialog_ui.ui:98
 #, kde-format
 msgid "Crop end:"
-msgstr "Recortar fin:"
+msgstr "Recortar final:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
 #, kde-format
 msgid "Ripple resize"
-msgstr "Redimensionar encadenado"
+msgstr "Redimensión encadenada"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -32205,7 +32197,7 @@ msgstr "Botón  4"
 #: src/ui/configjogshuttle_ui.ui:187
 #, kde-format
 msgid "Device name:"
-msgstr "Nombre de dispositivo:"
+msgstr "Nombre del dispositivo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configjogshuttle_ui.ui:200
@@ -32876,10 +32868,9 @@ msgstr "Saltar al clip al agregar un efecto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "On Selection:"
-msgstr "Selección"
+msgstr "Al seleccionar:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:108
@@ -32951,24 +32942,21 @@ msgstr "Comprobar si la secuencia contiene suficientes pistas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:211
-#, fuzzy, kde-format
-#| msgid "Envelope"
+#, kde-format
 msgid "Developer:"
-msgstr "Envolvente"
+msgstr "Desarrolladores:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable debug mode"
-msgstr "Habilitar video"
+msgstr "Habilitar modo de depuración"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
-#, fuzzy, kde-format
-#| msgid "Effect/Composition Stack"
+#, kde-format
 msgid "Raise Effects/Composition Stack for"
-msgstr "Opciones de efectos/composición"
+msgstr "Mostrar panel Opciones de efectos/composición"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:258
@@ -32978,10 +32966,9 @@ msgstr "Clips"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
 #: src/ui/configtimeline_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Mixes:"
+#, kde-format
 msgid "Mixes"
-msgstr "Mezclas:"
+msgstr "Mezclas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27
@@ -34400,7 +34387,7 @@ msgstr "Generar para videos mayores a"
 #: src/ui/projectsettings_ui.ui:447 src/ui/projectsettings_ui.ui:463
 #, kde-format
 msgid "pixels"
-msgstr "píxeles"
+msgstr " píxeles"
 
 #. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
 #: src/ui/projectsettings_ui.ui:248
@@ -35711,12 +35698,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Raise Properties Pane when Selecting in Timeline"
-#~ msgstr "Mostrar panel Opciones de efectos/composición al seleccionar"
-
-#~ msgid "No timecode found in selection"
-#~ msgstr "No se encontró código de tiempo en la selección"
-
-#~ msgid "Aspect ratio:"
-#~ msgstr "Proporción:"

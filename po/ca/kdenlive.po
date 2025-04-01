@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-31 00:41+0000\n"
-"PO-Revision-Date: 2025-03-30 10:39+0200\n"
+"PO-Revision-Date: 2025-03-31 09:22+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -22212,9 +22212,7 @@ msgid "Transcoding"
 msgstr "S'està transcodificant"
 
 #: src/jogshuttle/jogaction.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "%1 button id"
-#| msgid "No action applied for jog shutte button %1"
+#, kde-format
 msgctxt "%1 button id"
 msgid "No action applied for jog shuttle button %1"
 msgstr "No s'ha aplicat cap acció al botó %1 del Jog Shuttle"
