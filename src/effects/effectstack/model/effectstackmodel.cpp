@@ -1334,7 +1334,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
             m_fadeOuts.insert(effectItem->getId());
         }
-        if (!effectItem->isAudio() && !m_loadingExisting) {
+        if (!effectItem->isAudio() && effectItem->isAssetEnabled() && !m_loadingExisting) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }

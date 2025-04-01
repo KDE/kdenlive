@@ -21,7 +21,7 @@ public:
     ~AudioStreamInfo();
 
     int samplingRate() const;
-    int channels() const;
+    int channels(int stream = -1) const;
     /** @brief returns a list of audio stream index > stream description */
     QMap <int, QString> streams() const;
     /** @brief returns a list of audio stream index > channels per stream */

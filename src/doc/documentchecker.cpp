@@ -180,11 +180,14 @@ bool DocumentChecker::hasErrorInProject()
     QString storageFolder;
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    QStringList timelinePreviewIds;
     QDomElement mainBinPlaylist;
+    int requestedPlaylists = 2;
     for (int i = 0; i < playlists.count(); ++i) {
-        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
+        QDomElement pl = playlists.at(i).toElement();
+        if (pl.attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
             // This is the bin playlist
-            mainBinPlaylist = playlists.at(i).toElement();
+            mainBinPlaylist = pl;
             // ensure the documentid is valid
             m_documentid = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.documentid"));
             if (m_documentid.isEmpty()) {
@@ -217,6 +220,17 @@ bool DocumentChecker::hasErrorInProject()
                 QDomElement e = m_binEntries.item(i).toElement();
                 m_binIds << e.attribute(QStringLiteral("producer"));
             }
+            requestedPlaylists--;
+        } else if (Xml::getXmlProperty(pl, QStringLiteral("kdenlive:playlistid")) == QLatin1String("timeline_preview")) {
+            // list timeline preview producers
+            QDomNodeList entries = pl.elementsByTagName(QLatin1String("entry"));
+            for (int i = 0; i < entries.count(); ++i) {
+                QDomElement e = entries.item(i).toElement();
+                timelinePreviewIds << e.attribute(QStringLiteral("producer"));
+            }
+            requestedPlaylists--;
+        }
+        if (requestedPlaylists == 0) {
             break;
         }
     }
@@ -253,6 +267,10 @@ bool DocumentChecker::hasErrorInProject()
         int kid = Xml::getXmlProperty(e, "kdenlive:id").toInt();
         const QString resource = Xml::getXmlProperty(e, "resource");
         if (!m_binIds.contains(id)) {
+            if (timelinePreviewIds.contains(id)) {
+                // Timeline preview clip
+                continue;
+            }
             // This is a timeline producer, ensure it has a bin entry and uuid_control
             timelineProducers.insert(kid, {id, resource});
             continue;
