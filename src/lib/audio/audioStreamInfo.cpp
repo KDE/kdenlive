@@ -114,8 +114,11 @@ int AudioStreamInfo::samplingRate() const
     return m_samplingRate;
 }
 
-int AudioStreamInfo::channels() const
+int AudioStreamInfo::channels(int stream) const
 {
+    if (m_audioChannels.contains(stream)) {
+        return m_audioChannels.value(stream);
+    }
     return m_channels;
 }
 

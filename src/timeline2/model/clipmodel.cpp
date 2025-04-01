@@ -1105,7 +1105,7 @@ std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
 int ClipModel::audioChannels() const
 {
     READ_LOCK();
-    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioChannels();
+    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioChannels(audioStream());
 }
 
 bool ClipModel::audioMultiStream() const

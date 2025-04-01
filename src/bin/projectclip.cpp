@@ -2116,12 +2116,12 @@ bool ProjectClip::hasVariableFps()
     return false;
 }
 
-int ProjectClip::audioChannels() const
+int ProjectClip::audioChannels(int stream) const
 {
     if (!audioInfo()) {
         return 0;
     }
-    return audioInfo()->channels();
+    return audioInfo()->channels(stream);
 }
 
 void ProjectClip::discardAudioThumb()
