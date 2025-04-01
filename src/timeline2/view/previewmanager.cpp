@@ -346,6 +346,13 @@ void PreviewManager::invalidatePreviews()
             // new chunks archived, cleanup old ones
             Q_EMIT cleanupOldPreviews();
         }
+        if (!m_dirtyChunksToRemove.isEmpty()) {
+            for (int ix : std::as_const(m_dirtyChunksToRemove)) {
+                m_dirtyChunks.removeAll(ix);
+            }
+            m_dirtyChunksToRemove.clear();
+            Q_EMIT dirtyChunksChanged();
+        }
     } else {
         // Restore existing chunks, delete others
         // Check if we just undo the last stack action, then backup, otherwise delete
@@ -384,6 +391,13 @@ void PreviewManager::invalidatePreviews()
                     qDebug() << "// ERROR PROCESSE CHUNK: " << i << ", " << cacheFileName;
                 }
             }
+        }
+        if (!m_dirtyChunksToRemove.isEmpty()) {
+            for (int ix : std::as_const(m_dirtyChunksToRemove)) {
+                m_dirtyChunks.removeAll(ix);
+            }
+            m_dirtyChunksToRemove.clear();
+            Q_EMIT dirtyChunksChanged();
         }
         if (!foundChunks.isEmpty()) {
             std::sort(foundChunks.begin(), foundChunks.end(), chunkSort);
@@ -430,35 +444,66 @@ void PreviewManager::clearPreviewRange(bool resetZones)
 {
     m_previewGatherTimer.stop();
     abortRendering();
-    m_tractor->lock();
-    bool hasPreview = m_previewTrack != nullptr;
+
+    // Mark all chunks as dirty
+    QList<int> toRemove;
     QMutexLocker lock(&m_dirtyMutex);
-    for (const auto &ix : std::as_const(m_renderedChunks)) {
-        m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
-        if (!m_dirtyChunks.contains(ix)) {
+    for (auto &frame : m_renderedChunks) {
+        toRemove << frame.toInt();
+    }
+    if (!toRemove.isEmpty() && !resetZones) {
+        loadParams();
+        return;
+    }
+    for (auto &frame : m_dirtyChunks) {
+        toRemove << frame.toInt();
+    }
+    Fun undo = [this, dirty = toRemove]() {
+        for (int ix : std::as_const(dirty)) {
             m_dirtyChunks << ix;
         }
-        if (!hasPreview) {
-            continue;
+        m_previewGatherTimer.start();
+        return true;
+    };
+    Fun redo = [this, dirty = toRemove, resetZones]() {
+        m_tractor->lock();
+        bool hasPreview = m_previewTrack != nullptr;
+        for (auto &frame : dirty) {
+            if (m_renderedChunks.contains(frame)) {
+                m_renderedChunks.removeAll(frame);
+                m_dirtyChunks << frame;
+            } else if (resetZones) {
+                m_dirtyChunks.removeAll(frame);
+            }
+            if (!hasPreview) {
+                continue;
+            }
+            int trackIx = m_previewTrack->get_clip_index_at(frame);
+            if (!m_previewTrack->is_blank(trackIx)) {
+                Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
+                delete prod;
+            }
         }
-        int trackIx = m_previewTrack->get_clip_index_at(ix.toInt());
-        if (!m_previewTrack->is_blank(trackIx)) {
-            Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
-            delete prod;
+        Q_EMIT renderedChunksChanged();
+        if (resetZones) {
+            m_dirtyChunksToRemove = dirty;
+        } else {
+            // Reload preview params
+            loadParams();
+            Q_EMIT dirtyChunksChanged();
         }
-    }
-    if (hasPreview) {
-        m_previewTrack->consolidate_blanks();
-    }
-    m_tractor->unlock();
-    m_renderedChunks.clear();
-    // Reload preview params
-    loadParams();
-    if (resetZones) {
-        m_dirtyChunks.clear();
-    }
-    Q_EMIT renderedChunksChanged();
-    Q_EMIT dirtyChunksChanged();
+        if (hasPreview) {
+            m_previewTrack->consolidate_blanks();
+        }
+        m_tractor->unlock();
+        m_previewGatherTimer.start();
+        return true;
+    };
+
+    m_previewGatherTimer.stop();
+    abortRendering();
+    redo();
+    pCore->pushUndo(undo, redo, i18n("Remove All Preview Zones"));
 }
 
 void PreviewManager::addPreviewRange(const QPoint zone, bool add)
@@ -475,12 +520,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
                 m_dirtyChunks << frame;
             }
         } else {
-            if (m_renderedChunks.contains(frame)) {
-                toRemove << frame;
-                m_renderedChunks.removeAll(frame);
-            } else {
-                m_dirtyChunks.removeAll(frame);
-            }
+            toRemove << frame;
         }
     }
     if (add) {
@@ -490,31 +530,54 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         }
     } else {
         // Remove processed chunks
+        if (toRemove.isEmpty()) {
+            // Nothing to do, abort
+            return;
+        }
         bool isRendering = m_previewProcess.state() != QProcess::NotRunning;
+        Fun undo = [this, dirty = toRemove]() {
+            for (int ix : std::as_const(dirty)) {
+                m_dirtyChunks << ix;
+            }
+            m_previewGatherTimer.start();
+            return true;
+        };
+        Fun redo = [this, dirty = toRemove, isRendering]() {
+            m_tractor->lock();
+            bool hasPreview = m_previewTrack != nullptr;
+            for (auto &frame : dirty) {
+                if (m_renderedChunks.contains(frame)) {
+                    m_renderedChunks.removeAll(frame);
+                    m_dirtyChunks << frame;
+                } else {
+                    m_dirtyChunks.removeAll(frame);
+                }
+                if (!hasPreview) {
+                    continue;
+                }
+                int trackIx = m_previewTrack->get_clip_index_at(frame);
+                if (!m_previewTrack->is_blank(trackIx)) {
+                    Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
+                    delete prod;
+                }
+            }
+            Q_EMIT renderedChunksChanged();
+            m_dirtyChunksToRemove = dirty;
+            if (hasPreview) {
+                m_previewTrack->consolidate_blanks();
+            }
+            m_tractor->unlock();
+            m_previewGatherTimer.start();
+            if (isRendering || KdenliveSettings::autopreview()) {
+                m_previewTimer.start();
+            }
+            return true;
+        };
+
         m_previewGatherTimer.stop();
         abortRendering();
-        m_tractor->lock();
-        bool hasPreview = m_previewTrack != nullptr;
-        for (int ix : std::as_const(toRemove)) {
-            m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
-            if (!hasPreview) {
-                continue;
-            }
-            int trackIx = m_previewTrack->get_clip_index_at(ix);
-            if (!m_previewTrack->is_blank(trackIx)) {
-                Mlt::Producer *prod = m_previewTrack->replace_with_blank(trackIx);
-                delete prod;
-            }
-        }
-        if (hasPreview) {
-            m_previewTrack->consolidate_blanks();
-        }
-        Q_EMIT renderedChunksChanged();
-        Q_EMIT dirtyChunksChanged();
-        m_tractor->unlock();
-        if (isRendering || KdenliveSettings::autopreview()) {
-            m_previewTimer.start();
-        }
+        redo();
+        pCore->pushUndo(undo, redo, i18n("Remove Preview Zone"));
     }
 }
 
