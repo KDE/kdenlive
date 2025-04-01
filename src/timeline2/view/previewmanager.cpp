@@ -674,7 +674,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     int chunkSize = KdenliveSettings::timelinechunks();
     int start = startFrame - startFrame % chunkSize;
     int end = endFrame - endFrame % chunkSize;
-
+    bool timerWasRunning = m_previewGatherTimer.isActive();
     m_previewGatherTimer.stop();
     bool previewWasRunning = m_previewProcess.state() == QProcess::Running;
     bool alreadyRendered = false;
@@ -729,7 +729,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
         if (previewWasRunning) {
             abortRendering();
         }
-    } else {
+    } else if (!timerWasRunning) {
         // Invalidated zone outside our rendered zones
         return;
     }
