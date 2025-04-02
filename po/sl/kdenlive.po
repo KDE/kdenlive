@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-29 02:32+0000\n"
+"POT-Creation-Date: 2025-04-02 02:32+0000\n"
 "PO-Revision-Date: 2025-03-23 01:01+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -12847,7 +12847,7 @@ msgstr "Obdelajte zvok z učinkom SoX"
 msgid "Analysis,Apply"
 msgstr "Preučevanje"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1894
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -17178,8 +17178,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uporaba"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1854
-#: src/doc/documentchecker.cpp:1884 src/doc/documentchecker.cpp:1904
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1872
+#: src/doc/documentchecker.cpp:1902 src/doc/documentchecker.cpp:1922
 #: src/mltcontroller/clipcontroller.cpp:517 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -20830,122 +20830,122 @@ msgstr "Mapa s posnetki"
 msgid "Applying fixes…"
 msgstr "Uveljavljanje popravkov …"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:253
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Preverjanje manjkajočih elementov …"
 
-#: src/doc/documentchecker.cpp:195
+#: src/doc/documentchecker.cpp:198
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "ID dokumenta vašega projekta je bil neveljaven, ustvarjen je bil nov."
 
-#: src/doc/documentchecker.cpp:1844
+#: src/doc/documentchecker.cpp:1862
 #, kde-format
 msgid "Video clip"
 msgstr "Video posnetek"
 
-#: src/doc/documentchecker.cpp:1846
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Predstavitveni posnetek"
 
-#: src/doc/documentchecker.cpp:1848
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Image clip"
 msgstr "Posnetek iz slike"
 
-#: src/doc/documentchecker.cpp:1850
+#: src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Playlist clip"
 msgstr "Posnetek seznama predvajanja"
 
-#: src/doc/documentchecker.cpp:1852 src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1870 src/doc/documentchecker.cpp:1886
 #, kde-format
 msgid "Title Image"
 msgstr "Slika naslova"
 
-#: src/doc/documentchecker.cpp:1864
+#: src/doc/documentchecker.cpp:1882
 #, kde-format
 msgid "Clip"
 msgstr "Posnetek"
 
-#: src/doc/documentchecker.cpp:1866
+#: src/doc/documentchecker.cpp:1884
 #, kde-format
 msgid "Title Font"
 msgstr "Pisava naslova"
 
-#: src/doc/documentchecker.cpp:1870
+#: src/doc/documentchecker.cpp:1888
 #, kde-format
 msgid "Luma file"
 msgstr "Datoteka svetilnosti"
 
-#: src/doc/documentchecker.cpp:1872
+#: src/doc/documentchecker.cpp:1890
 #, kde-format
 msgid "Asset file"
 msgstr "Datoteka sredstev"
 
-#: src/doc/documentchecker.cpp:1874
+#: src/doc/documentchecker.cpp:1892
 #: src/mltcontroller/clippropertiescontroller.cpp:440
 #, kde-format
 msgid "Proxy clip"
 msgstr "Posredni posnetek"
 
-#: src/doc/documentchecker.cpp:1878
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Transition"
 msgstr "Prehod"
 
-#: src/doc/documentchecker.cpp:1880
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Posnetek brez sklicev"
 
-#: src/doc/documentchecker.cpp:1882
+#: src/doc/documentchecker.cpp:1900
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Okvarjeno zaporedje"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1892 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1910 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Nespremenljivo"
 
-#: src/doc/documentchecker.cpp:1894
+#: src/doc/documentchecker.cpp:1912
 #, kde-format
 msgid "Reload"
 msgstr "Znova naloži"
 
-#: src/doc/documentchecker.cpp:1896
+#: src/doc/documentchecker.cpp:1914
 #, kde-format
 msgid "Missing"
 msgstr "Manjkajoči"
 
-#: src/doc/documentchecker.cpp:1898
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Manjkajoči, vendar je na voljo posredni posnetek"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1900 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1918 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Ograda"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1902 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1920 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Odstrani"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1931
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
 
-#: src/doc/documentchecker.cpp:1916
+#: src/doc/documentchecker.cpp:1934
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Manjkajoče posredne posnetke lahko obnovite ob odpiranju."
@@ -22513,7 +22513,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:320
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:320
 #, kde-format
 msgid "Merged streams"
 msgstr "Zliti tokovi"
@@ -23767,7 +23767,7 @@ msgstr ""
 "Dodajte trenutno določeno časovnico/območja izbora kot območje izrisa "
 "predogleda"
 
-#: src/mainwindow.cpp:1614
+#: src/mainwindow.cpp:1614 src/timeline2/view/previewmanager.cpp:580
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Odstrani območje predogleda"
@@ -23783,7 +23783,7 @@ msgstr ""
 "predogleda. Upoštevajte, da lahko to pusti luknje v območjih izrisa "
 "predogleda."
 
-#: src/mainwindow.cpp:1619
+#: src/mainwindow.cpp:1619 src/timeline2/view/previewmanager.cpp:506
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Odstrani vsa območja predogleda"
@@ -29574,7 +29574,7 @@ msgstr "Neveljavni parametri predogleda časovnice"
 msgid "Something is wrong with cache folders"
 msgstr "Z mapami predpomnilnika je nekaj narobe"
 
-#: src/timeline2/view/previewmanager.cpp:774
+#: src/timeline2/view/previewmanager.cpp:837
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""

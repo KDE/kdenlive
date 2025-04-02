@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-29 02:32+0000\n"
+"POT-Creation-Date: 2025-04-02 02:32+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -12752,7 +12752,7 @@ msgstr ""
 msgid "Analysis,Apply"
 msgstr ""
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1894
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -17255,8 +17255,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1854
-#: src/doc/documentchecker.cpp:1884 src/doc/documentchecker.cpp:1904
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1872
+#: src/doc/documentchecker.cpp:1902 src/doc/documentchecker.cpp:1922
 #: src/mltcontroller/clipcontroller.cpp:517 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -20947,133 +20947,133 @@ msgstr "قىسقۇچ قوشۇش"
 msgid "Applying fixes…"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:253
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Checking for missing items…"
 msgstr "سەپلە"
 
-#: src/doc/documentchecker.cpp:195
+#: src/doc/documentchecker.cpp:198
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1844
+#: src/doc/documentchecker.cpp:1862
 #, kde-format
 msgid "Video clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1846
+#: src/doc/documentchecker.cpp:1864
 #, fuzzy, kde-format
 #| msgid "Slideshow"
 msgid "Slideshow clip"
 msgstr "تام تەسۋىرى"
 
-#: src/doc/documentchecker.cpp:1848
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Image clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1850
+#: src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Playlist clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1852 src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1870 src/doc/documentchecker.cpp:1886
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Title Image"
 msgstr "سۈرەت"
 
-#: src/doc/documentchecker.cpp:1864
+#: src/doc/documentchecker.cpp:1882
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "ئىلغۇچ"
 
-#: src/doc/documentchecker.cpp:1866
+#: src/doc/documentchecker.cpp:1884
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Title Font"
 msgstr "ماۋزۇ"
 
-#: src/doc/documentchecker.cpp:1870
+#: src/doc/documentchecker.cpp:1888
 #, kde-format
 msgid "Luma file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1872
+#: src/doc/documentchecker.cpp:1890
 #, fuzzy, kde-format
 #| msgid "Profiles"
 msgid "Asset file"
 msgstr "Profiles"
 
-#: src/doc/documentchecker.cpp:1874
+#: src/doc/documentchecker.cpp:1892
 #: src/mltcontroller/clippropertiescontroller.cpp:440
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1878
+#: src/doc/documentchecker.cpp:1896
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "ئالماشتۇر"
 
-#: src/doc/documentchecker.cpp:1880
+#: src/doc/documentchecker.cpp:1898
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Unreferenced clip"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/doc/documentchecker.cpp:1882
+#: src/doc/documentchecker.cpp:1900
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Corrupted sequence"
 msgstr "سۈرەت چوڭلۇقى"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1892 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1910 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1894
+#: src/doc/documentchecker.cpp:1912
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Reload"
 msgstr "تاللانغان تۈرلەرنى ئۆچۈر"
 
-#: src/doc/documentchecker.cpp:1896
+#: src/doc/documentchecker.cpp:1914
 #, kde-format
 msgid "Missing"
 msgstr "يوقالغان"
 
-#: src/doc/documentchecker.cpp:1898
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1900 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1918 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1902 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1920 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove"
 msgstr "قىسقۇچ قۇر"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1931
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1916
+#: src/doc/documentchecker.cpp:1934
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -22686,7 +22686,7 @@ msgstr ""
 msgid "Hz "
 msgstr "Hz"
 
-#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:320
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:320
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Merged streams"
@@ -23962,7 +23962,7 @@ msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1614
+#: src/mainwindow.cpp:1614 src/timeline2/view/previewmanager.cpp:580
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Remove Preview Zone"
@@ -23976,7 +23976,7 @@ msgid ""
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 
-#: src/mainwindow.cpp:1619
+#: src/mainwindow.cpp:1619 src/timeline2/view/previewmanager.cpp:506
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Remove All Preview Zones"
@@ -29826,7 +29826,7 @@ msgstr "سەپلەك ئۆچۈر"
 msgid "Something is wrong with cache folders"
 msgstr ""
 
-#: src/timeline2/view/previewmanager.cpp:774
+#: src/timeline2/view/previewmanager.cpp:837
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""

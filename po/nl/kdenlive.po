@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-29 02:32+0000\n"
-"PO-Revision-Date: 2025-03-29 13:47+0100\n"
+"POT-Creation-Date: 2025-04-02 02:32+0000\n"
+"PO-Revision-Date: 2025-04-01 16:33+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -4454,7 +4454,7 @@ msgstr "Horizontale straal"
 #: data/effects/avfilter/avfilter_median.xml:9
 #, kde-format
 msgid "<![CDATA[Set median radius]]>"
-msgstr "<![CDATA[Mediane straal instellen]]>"
+msgstr "<![CDATA[Stel de mediane straal in]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
 #, kde-format
@@ -5840,7 +5840,7 @@ msgstr "Luma horizontale matrix"
 #: data/effects/avfilter/avfilter_unsharp.xml:10
 #, kde-format
 msgid "<![CDATA[Set the luma matrix horizontal size]]>"
-msgstr "<![CDATA[Zet de horizontale grootte van de luma-matrix]]>"
+msgstr "<![CDATA[Stel de horizontale grootte in van de luma-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
 #, kde-format
@@ -5850,7 +5850,7 @@ msgstr "Verticale matrix van luma"
 #: data/effects/avfilter/avfilter_unsharp.xml:14
 #, kde-format
 msgid "<![CDATA[Set the luma matrix vertical size]]>"
-msgstr "<![CDATA[Zet de verticale grootte van de luma-matrix]]>"
+msgstr "<![CDATA[Stel de verticale grootte van de luma-matrix in]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:19
 #, kde-format
@@ -5869,7 +5869,7 @@ msgstr "Chroma horizontale matrix"
 #: data/effects/avfilter/avfilter_unsharp.xml:23
 #, kde-format
 msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
-msgstr "<![CDATA[Zet de horizontale grootte van de chroma-matrix]]>"
+msgstr "<![CDATA[Stel de horizontale grootte in van de chroma-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
 #, kde-format
@@ -5879,7 +5879,7 @@ msgstr "Chroma verticale matrix"
 #: data/effects/avfilter/avfilter_unsharp.xml:27
 #, kde-format
 msgid "<![CDATA[Set the chroma matrix vertical size]]>"
-msgstr "<![CDATA[Zet de verticale grootte van de chroma-matrix]]>"
+msgstr "<![CDATA[Stel de verticale grootte in van de chroma-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:32
 #, kde-format
@@ -5898,19 +5898,17 @@ msgstr "Alfa horizontale matrix"
 #: data/effects/avfilter/avfilter_unsharp.xml:36
 #, kde-format
 msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
-msgstr "<![CDATA[Zet de horizontale grootte van de alfa-matrix]]>"
+msgstr "<![CDATA[Stel de horizontale grootte in van de alfa-matrix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:39
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Alpha vertical matrix"
-msgstr "Verticale marge"
+msgstr "Verticale alfa-matrix"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:40
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the alpha matrix vertical size]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stel de verticale grootte in van de alfa-matix]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:45
 #, kde-format
@@ -5922,10 +5920,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
-#, fuzzy, kde-format
-#| msgid "Denoiser"
+#, kde-format
 msgid "Wavelet Denoiser"
-msgstr "Ruis verwijderen"
+msgstr "Ruis verwijderen uit wavelet"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:5
 #, kde-format
@@ -5944,8 +5941,7 @@ msgid "Percentage"
 msgstr "Percentage"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:4
-#, fuzzy, kde-format
-#| msgid "Vectorscope"
+#, kde-format
 msgid "Vectorscope (Advanced)"
 msgstr "Vectorscope (geavanceerd)"
 
@@ -5982,8 +5978,7 @@ msgstr "Y"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:18
 #: data/effects/avfilter/avfilter_waveform.xml:15
-#, fuzzy, kde-format
-#| msgid "Intensity"
+#, kde-format
 msgid "Intenstiy"
 msgstr "Intensiteit"
 
@@ -5995,35 +5990,31 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:22
 #: data/effects/avfilter/avfilter_waveform.xml:36
-#, fuzzy, kde-format
-#| msgid "Slope"
+#, kde-format
 msgid "Envelope"
 msgstr "Envelop"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:25
-#, fuzzy, kde-format
-#| msgid "Foreground color"
+#, kde-format
 msgid "none,green,color"
-msgstr "Voorgrondkleur"
+msgstr "geen,groen,kleur"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:26
 #: data/effects/avfilter/avfilter_waveform.xml:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "Graticule"
 msgstr "Streepplaat"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:29
 #: data/effects/avfilter/avfilter_waveform.xml:50
-#, fuzzy, kde-format
-#| msgid "Start Opacity"
+#, kde-format
 msgid "Graticule Opacity"
 msgstr "Dekking van streepplaat"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:32
-#, fuzzy, kde-format
-#| msgid "White Balance"
+#, kde-format
 msgid "White,Black,Name"
-msgstr "Wit balans"
+msgstr "Wit,zwart,naam"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #, kde-format
@@ -6036,9 +6027,9 @@ msgid "High Threshold"
 msgstr "Hoge drempel"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "Auto,601,709"
-msgstr "Auto"
+msgstr "Auto,601,709"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
 #, kde-format
@@ -6066,63 +6057,54 @@ msgid "Boost or alter saturation. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vibrance.xml:11
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "Red balance"
 msgstr "Roodbalans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:14
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "Green balance"
-msgstr "groenbalans"
+msgstr "Groenbalans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:17
-#, fuzzy, kde-format
-#| msgid "Balance"
+#, kde-format
 msgid "Blue balance"
 msgstr "Blauwbalans"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:20
-#, fuzzy, kde-format
-#| msgid "Keep luma"
+#, kde-format
 msgid "Red luma"
-msgstr "Luma behouden"
+msgstr "Rode luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
-#, fuzzy, kde-format
-#| msgid "Keep luma"
+#, kde-format
 msgid "Green luma"
-msgstr "Luma behouden"
+msgstr "Groene luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
-#, fuzzy, kde-format
-#| msgid "Keep luma"
+#, kde-format
 msgid "Blue luma"
-msgstr "Luma behouden"
+msgstr "Blauwe luma"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alternate"
 msgstr "Afwisselen"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Vibro"
+#, kde-format
 msgid "Vibrato"
 msgstr "vibrato"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:5
-#, fuzzy, kde-format
-#| msgid "Paste effect"
+#, kde-format
 msgid "Vibrato effect."
-msgstr "Effect plakken"
+msgstr "Vibrato-effect."
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "w3fdif Deinterlacer"
-msgstr "Deinterlacer"
+msgstr "w3fdif-deinterlacer"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:5
 #, kde-format
@@ -6137,10 +6119,9 @@ msgid "Simple,Complex"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:9
-#, fuzzy, kde-format
-#| msgid "Co-efficient"
+#, kde-format
 msgid "Filter coefficients"
-msgstr "Coëfficiënt"
+msgstr "Filtercoëfficiënten"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:12
 #, kde-format
@@ -6148,14 +6129,12 @@ msgid "Deinterlace all frames,Marked as interlaced only"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
-#, fuzzy, kde-format
-#| msgid "Force Interlaced"
+#, kde-format
 msgid "Frames to deinterlace"
-msgstr "Dwing interlaced af"
+msgstr "Frames te ontdoen van interlace"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Video waveform monitor"
 msgstr "Videogolfvormmonitor"
 
@@ -6168,10 +6147,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:8
-#, fuzzy, kde-format
-#| msgid "Columns"
+#, kde-format
 msgid "Row,Column"
-msgstr "Kolommen"
+msgstr "Rij,kolom"
 
 #: data/effects/avfilter/avfilter_waveform.xml:12
 #, kde-format
@@ -6199,22 +6177,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the display mode]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stel de modus van tonen in]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Selecteer de te tonen elementen]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the envelope mode]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stel de modus van de envelop in]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
@@ -6231,10 +6206,9 @@ msgid "Filter"
 msgstr "Filter"
 
 #: data/effects/avfilter/avfilter_waveform.xml:42
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the filter mode]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stel de modus van filteren in]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
@@ -6247,10 +6221,9 @@ msgid "<![CDATA[Set which graticule to display]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the opacity of the graticule]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stel de dekking van de steepplaat in]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
@@ -6258,10 +6231,9 @@ msgid "numbers,dots"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Set graticule flags]]>"
-msgstr "<![CDATA[Offset langs Y-as]]>"
+msgstr "<![CDATA[Stel de vlaggen van de streepplaat in]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
@@ -6274,17 +6246,14 @@ msgid "<![CDATA[Set scale used for displaying graticule]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the background opacity]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stel de dekking van de achtergrond in]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
-#, fuzzy, kde-format
-#| msgctxt "Tint Effect Name"
-#| msgid "Tint"
+#, kde-format
 msgid "Tint 0"
-msgstr "Kleur"
+msgstr "Tint 0"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
@@ -6295,35 +6264,29 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:73
-#, fuzzy, kde-format
-#| msgctxt "Tint Effect Name"
-#| msgid "Tint"
+#, kde-format
 msgid "Tint 1"
-msgstr "Kleur"
+msgstr "Tint 1"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgid "none,size"
-msgstr "Verschaal"
+msgstr "geen,grootte"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Fit mode"
-msgstr "Tekenmodus:"
+msgstr "Modus voor laten passen"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the fit mode]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Stel het model van passen in]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Weave interlacer"
-msgstr "Deinterlacer"
+msgstr "Weave-interlacer"
 
 #: data/effects/avfilter/avfilter_weave.xml:5
 #, kde-format
@@ -6334,16 +6297,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_weave.xml:8
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Top,Bottom"
-msgstr "Boven: %1, onder: %2"
+msgstr "Boven,onder"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "xBR Interpolator"
-msgstr "XBR-interpolatie"
+msgstr "xBR-interpolatie"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -12587,7 +12548,7 @@ msgstr "Audio bewerken met een SoX-effect"
 msgid "Analysis,Apply"
 msgstr "Analyse"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1876
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1894
 #: src/monitor/view/kdenlivemonitorsplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -16919,8 +16880,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Gebruik"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1854
-#: src/doc/documentchecker.cpp:1884 src/doc/documentchecker.cpp:1904
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1872
+#: src/doc/documentchecker.cpp:1902 src/doc/documentchecker.cpp:1922
 #: src/mltcontroller/clipcontroller.cpp:517 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -20581,123 +20542,123 @@ msgstr "Clipmap"
 msgid "Applying fixes…"
 msgstr "Reparaties worden toegepast…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:253
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Controleren op ontbrekende items…"
 
-#: src/doc/documentchecker.cpp:195
+#: src/doc/documentchecker.cpp:198
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 "Het document-id van uw project was ongeldig, er is een nieuwe aangemaakt."
 
-#: src/doc/documentchecker.cpp:1844
+#: src/doc/documentchecker.cpp:1862
 #, kde-format
 msgid "Video clip"
 msgstr "Videoclip"
 
-#: src/doc/documentchecker.cpp:1846
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Diashowclip"
 
-#: src/doc/documentchecker.cpp:1848
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Image clip"
 msgstr "Afbeeldingsclip"
 
-#: src/doc/documentchecker.cpp:1850
+#: src/doc/documentchecker.cpp:1868
 #, kde-format
 msgid "Playlist clip"
 msgstr "Clip met afspeellijst"
 
-#: src/doc/documentchecker.cpp:1852 src/doc/documentchecker.cpp:1868
+#: src/doc/documentchecker.cpp:1870 src/doc/documentchecker.cpp:1886
 #, kde-format
 msgid "Title Image"
 msgstr "Titel afbeelding"
 
-#: src/doc/documentchecker.cpp:1864
+#: src/doc/documentchecker.cpp:1882
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1866
+#: src/doc/documentchecker.cpp:1884
 #, kde-format
 msgid "Title Font"
 msgstr "Titel lettertype"
 
-#: src/doc/documentchecker.cpp:1870
+#: src/doc/documentchecker.cpp:1888
 #, kde-format
 msgid "Luma file"
 msgstr "Luma bestand"
 
-#: src/doc/documentchecker.cpp:1872
+#: src/doc/documentchecker.cpp:1890
 #, kde-format
 msgid "Asset file"
 msgstr "Bestand met bezit"
 
-#: src/doc/documentchecker.cpp:1874
+#: src/doc/documentchecker.cpp:1892
 #: src/mltcontroller/clippropertiescontroller.cpp:440
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxy-clip"
 
-#: src/doc/documentchecker.cpp:1878
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "Transition"
 msgstr "Overgang"
 
-#: src/doc/documentchecker.cpp:1880
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Niet naar verwezen clip"
 
-#: src/doc/documentchecker.cpp:1882
+#: src/doc/documentchecker.cpp:1900
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Beschadigd geraakte sequentie"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1892 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1910 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Vastgezet"
 
-#: src/doc/documentchecker.cpp:1894
+#: src/doc/documentchecker.cpp:1912
 #, kde-format
 msgid "Reload"
 msgstr "Herladen"
 
-#: src/doc/documentchecker.cpp:1896
+#: src/doc/documentchecker.cpp:1914
 #, kde-format
 msgid "Missing"
 msgstr "Ontbreekt"
 
-#: src/doc/documentchecker.cpp:1898
+#: src/doc/documentchecker.cpp:1916
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Ontbreekt, maar proxy beschikbaar"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1900 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1918 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Plaatshouder"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1902 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1920 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1931
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Het projectbestand bevat ontbrekende clips of bestanden."
 
-#: src/doc/documentchecker.cpp:1916
+#: src/doc/documentchecker.cpp:1934
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Ontbrekende proxies kunnen opnieuw aangemaakt worden bij het openen"
@@ -22261,7 +22222,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:320
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:320
 #, kde-format
 msgid "Merged streams"
 msgstr "Samengevoegde streams"
@@ -23517,7 +23478,7 @@ msgstr ""
 "Voegt de nu gedefinieerde tijdlijn/selectiezone toe als een "
 "voorbeeldrenderzone"
 
-#: src/mainwindow.cpp:1614
+#: src/mainwindow.cpp:1614 src/timeline2/view/previewmanager.cpp:580
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Voorbeeldzone verwijderen"
@@ -23533,7 +23494,7 @@ msgstr ""
 "voorbeeldrenderzone. Merk op dat dit gaten kan achterlaten in de "
 "voorbeeldrenderzone."
 
-#: src/mainwindow.cpp:1619
+#: src/mainwindow.cpp:1619 src/timeline2/view/previewmanager.cpp:506
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Alle voorbeeldzones verwijderen"
@@ -29313,7 +29274,7 @@ msgstr "Ongeldige vooruitblikparameters van tijdlijn"
 msgid "Something is wrong with cache folders"
 msgstr "Er is iets fout met cachemappen"
 
-#: src/timeline2/view/previewmanager.cpp:774
+#: src/timeline2/view/previewmanager.cpp:837
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
