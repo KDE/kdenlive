@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-31 00:41+0000\n"
+"POT-Creation-Date: 2025-04-02 00:41+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -12818,7 +12818,7 @@ msgstr ""
 msgid "Analysis,Apply"
 msgstr ""
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1875
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1893
 #: src/monitor/view/MonitorSplit.qml:102
 #, fuzzy, kde-format
 #| msgid "Effects"
@@ -17392,8 +17392,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1853
-#: src/doc/documentchecker.cpp:1883 src/doc/documentchecker.cpp:1903
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1901 src/doc/documentchecker.cpp:1921
 #: src/mltcontroller/clipcontroller.cpp:517 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -21108,132 +21108,132 @@ msgstr "Cuir fillteán leis"
 msgid "Applying fixes…"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:253
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Checking for missing items…"
 msgstr "Cumraigh"
 
-#: src/doc/documentchecker.cpp:195
+#: src/doc/documentchecker.cpp:198
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1843
+#: src/doc/documentchecker.cpp:1861
 #, kde-format
 msgid "Video clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1845
+#: src/doc/documentchecker.cpp:1863
 #, fuzzy, kde-format
 #| msgid "Slideshow"
 msgid "Slideshow clip"
 msgstr "Taispeántas Sleamhnán"
 
-#: src/doc/documentchecker.cpp:1847
+#: src/doc/documentchecker.cpp:1865
 #, kde-format
 msgid "Image clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1867
 #, kde-format
 msgid "Playlist clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1851 src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1885
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Title Image"
 msgstr "Sábháil marcóirí"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1881
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Clip"
 msgstr "Ailínigh ar chlé"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1883
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Title Font"
 msgstr "Teideal"
 
-#: src/doc/documentchecker.cpp:1869
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Luma file"
 msgstr "Comhad Luma"
 
-#: src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1889
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Scrios comhaid"
 
-#: src/doc/documentchecker.cpp:1873
+#: src/doc/documentchecker.cpp:1891
 #: src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1895
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transition"
 msgstr "Trasdulta"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1897
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Unreferenced clip"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1899
 #, fuzzy, kde-format
 #| msgid "Preview Settings"
 msgid "Corrupted sequence"
 msgstr "Socruithe Réamhamhairc"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1891 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1909 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1893
+#: src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Reload"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1895
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "Missing"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1915
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1899 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1917 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1901 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1919 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove"
 msgstr "Bain an comhad"
 
-#: src/doc/documentchecker.cpp:1912
+#: src/doc/documentchecker.cpp:1930
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1915
+#: src/doc/documentchecker.cpp:1933
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -22880,7 +22880,7 @@ msgstr ""
 msgid "Hz "
 msgstr "H"
 
-#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:321
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:321
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Merged streams"
@@ -24191,7 +24191,7 @@ msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1646
+#: src/mainwindow.cpp:1646 src/timeline2/view/previewmanager.cpp:580
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Remove Preview Zone"
@@ -24205,7 +24205,7 @@ msgid ""
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 
-#: src/mainwindow.cpp:1651
+#: src/mainwindow.cpp:1651 src/timeline2/view/previewmanager.cpp:506
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Remove All Preview Zones"
@@ -30130,7 +30130,7 @@ msgstr "Comhaid an Tionscadail"
 msgid "Something is wrong with cache folders"
 msgstr ""
 
-#: src/timeline2/view/previewmanager.cpp:774
+#: src/timeline2/view/previewmanager.cpp:837
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""

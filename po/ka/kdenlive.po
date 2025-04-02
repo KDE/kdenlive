@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-31 00:41+0000\n"
+"POT-Creation-Date: 2025-04-02 00:41+0000\n"
 "PO-Revision-Date: 2025-03-30 04:15+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -12268,7 +12268,7 @@ msgstr "დამუშავება SoX-ის ეფექტით"
 msgid "Analysis,Apply"
 msgstr "ანალიზი, გადატარება"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1875
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1893
 #: src/monitor/view/MonitorSplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -16536,8 +16536,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "გამოყენება"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1853
-#: src/doc/documentchecker.cpp:1883 src/doc/documentchecker.cpp:1903
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1901 src/doc/documentchecker.cpp:1921
 #: src/mltcontroller/clipcontroller.cpp:517 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -20155,122 +20155,122 @@ msgstr "კლიპების საქაღლდე"
 msgid "Applying fixes…"
 msgstr "ჩასწორებების გადატარება…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:253
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "შემოწმება ნაკლულ ელემენტებზე…"
 
-#: src/doc/documentchecker.cpp:195
+#: src/doc/documentchecker.cpp:198
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "თქვენი პროექტის დოკუმენტის ID არასწორი იყო, ამიტომ ახალი შეიქმნა."
 
-#: src/doc/documentchecker.cpp:1843
+#: src/doc/documentchecker.cpp:1861
 #, kde-format
 msgid "Video clip"
 msgstr "ვიდეოკლიპი"
 
-#: src/doc/documentchecker.cpp:1845
+#: src/doc/documentchecker.cpp:1863
 #, kde-format
 msgid "Slideshow clip"
 msgstr "სლაიდშოუ კლიპი"
 
-#: src/doc/documentchecker.cpp:1847
+#: src/doc/documentchecker.cpp:1865
 #, kde-format
 msgid "Image clip"
 msgstr "გამოსახულების კლიპი"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1867
 #, kde-format
 msgid "Playlist clip"
 msgstr "დასაკრავი სიის კლიპი"
 
-#: src/doc/documentchecker.cpp:1851 src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1885
 #, kde-format
 msgid "Title Image"
 msgstr "ტიტრის გამოსახულება"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1881
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1883
 #, kde-format
 msgid "Title Font"
 msgstr "სათაურის ფონტი"
 
-#: src/doc/documentchecker.cpp:1869
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Luma file"
 msgstr "კაშეს ფაილი"
 
-#: src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Asset file"
 msgstr "აქტივების ფაილი"
 
-#: src/doc/documentchecker.cpp:1873
+#: src/doc/documentchecker.cpp:1891
 #: src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Proxy clip"
 msgstr "პროქსი კლიპი"
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1895
 #, kde-format
 msgid "Transition"
 msgstr "გადასვლა"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1897
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "კლიპი მიმართვის გარეშე"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1899
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "დაზიანებული მიმდევრობა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1891 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1909 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "ფიქსირებული"
 
-#: src/doc/documentchecker.cpp:1893
+#: src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Reload"
 msgstr "თავიდან ჩატვირთვა"
 
-#: src/doc/documentchecker.cpp:1895
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "Missing"
 msgstr "აკლია"
 
-#: src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1915
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "აკლია, მაგრამ პროქსი ხელმისაწვდომია"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1899 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1917 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "შემავსებელი"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1901 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1919 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "წაშლა"
 
-#: src/doc/documentchecker.cpp:1912
+#: src/doc/documentchecker.cpp:1930
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "პროექტის ფაილი ნაკლულ კლიპებს ან ფაილებს შეიცავს."
 
-#: src/doc/documentchecker.cpp:1915
+#: src/doc/documentchecker.cpp:1933
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "ნაკლული პროქსიები, შეიძლება, გახსნისას თავიდან შეიქმნას."
@@ -21833,7 +21833,7 @@ msgstr "კჰც "
 msgid "Hz "
 msgstr "ჰც "
 
-#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:321
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:321
 #, kde-format
 msgid "Merged streams"
 msgstr "შერწყმული ნაკადები"
@@ -23106,7 +23106,7 @@ msgstr ""
 "ამჟამად აღწერილი დროის ხაზის/მონიშნული ზონის დამატება მინიატურის რენდერის "
 "ზონის სახით"
 
-#: src/mainwindow.cpp:1646
+#: src/mainwindow.cpp:1646 src/timeline2/view/previewmanager.cpp:580
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "მინიატურის ზონის წაშლა"
@@ -23122,7 +23122,7 @@ msgstr ""
 "დაიმახსოვრეთ, რომ ამას მინიატურის რენდერის ზონებში ადგილების დატოვება "
 "შეუძლია."
 
-#: src/mainwindow.cpp:1651
+#: src/mainwindow.cpp:1651 src/timeline2/view/previewmanager.cpp:506
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "ყველა მინიატურის ზონების წაშლა"
@@ -28888,7 +28888,7 @@ msgstr "არასწორი დროის ხაზის მინია
 msgid "Something is wrong with cache folders"
 msgstr "კეშის საქაღალდეს რაღაც სჭირს"
 
-#: src/timeline2/view/previewmanager.cpp:774
+#: src/timeline2/view/previewmanager.cpp:837
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""

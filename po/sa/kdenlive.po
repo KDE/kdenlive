@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-31 00:41+0000\n"
+"POT-Creation-Date: 2025-04-02 00:41+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -12888,7 +12888,7 @@ msgstr ""
 msgid "Analysis,Apply"
 msgstr "आँकलन"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1875
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1893
 #: src/monitor/view/MonitorSplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -17228,8 +17228,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "प्रयोगः"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1853
-#: src/doc/documentchecker.cpp:1883 src/doc/documentchecker.cpp:1903
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1901 src/doc/documentchecker.cpp:1921
 #: src/mltcontroller/clipcontroller.cpp:517 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -20805,122 +20805,122 @@ msgstr "क्लिप्स् फोल्डर"
 msgid "Applying fixes…"
 msgstr "निराकरणं प्रयोजयन्…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:253
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "गम्यमानवस्तूनाम् जाँचः…"
 
-#: src/doc/documentchecker.cpp:195
+#: src/doc/documentchecker.cpp:198
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "भवतः परियोजनायाः document id अमान्यम् आसीत्, नूतनं निर्मितम् अस्ति ।"
 
-#: src/doc/documentchecker.cpp:1843
+#: src/doc/documentchecker.cpp:1861
 #, kde-format
 msgid "Video clip"
 msgstr "विडियो क्लिप्"
 
-#: src/doc/documentchecker.cpp:1845
+#: src/doc/documentchecker.cpp:1863
 #, kde-format
 msgid "Slideshow clip"
 msgstr "स्लाइड शो क्लिप"
 
-#: src/doc/documentchecker.cpp:1847
+#: src/doc/documentchecker.cpp:1865
 #, kde-format
 msgid "Image clip"
 msgstr "इमेज क्लिप"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1867
 #, kde-format
 msgid "Playlist clip"
 msgstr "प्लेलिस्ट क्लिप"
 
-#: src/doc/documentchecker.cpp:1851 src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1885
 #, kde-format
 msgid "Title Image"
 msgstr "शीर्षक छवि"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1881
 #, kde-format
 msgid "Clip"
 msgstr "क्लिप्"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1883
 #, kde-format
 msgid "Title Font"
 msgstr "शीर्षक फ़ॉन्ट"
 
-#: src/doc/documentchecker.cpp:1869
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Luma file"
 msgstr "लुमा सञ्चिका"
 
-#: src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Asset file"
 msgstr "सम्पत्तिसञ्चिका"
 
-#: src/doc/documentchecker.cpp:1873
+#: src/doc/documentchecker.cpp:1891
 #: src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Proxy clip"
 msgstr "प्रॉक्सी क्लिप्"
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1895
 #, kde-format
 msgid "Transition"
 msgstr "परिस्थान"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1897
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "असन्दर्भित क्लिप"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1899
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "दूषित क्रमः"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1891 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1909 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "युक्त"
 
-#: src/doc/documentchecker.cpp:1893
+#: src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Reload"
 msgstr "पुनः लोड करें"
 
-#: src/doc/documentchecker.cpp:1895
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "Missing"
 msgstr "असमेत"
 
-#: src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1915
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "लुप्तः, परन्तु प्रॉक्सी उपलब्धः"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1899 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1917 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "स्थानधारकः"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1901 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1919 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "अपाकरोति"
 
-#: src/doc/documentchecker.cpp:1912
+#: src/doc/documentchecker.cpp:1930
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "परियोजनासञ्चिकायां लुप्ताः क्लिप्स् अथवा सञ्चिकाः सन्ति ।"
 
-#: src/doc/documentchecker.cpp:1915
+#: src/doc/documentchecker.cpp:1933
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "उद्घाटने लुप्तप्रॉक्सी पुनः निर्मातुं शक्यते ।"
@@ -22485,7 +22485,7 @@ msgstr "किलोहर्ट्ज "
 msgid "Hz "
 msgstr "हर्ट्ज "
 
-#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:321
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:321
 #, kde-format
 msgid "Merged streams"
 msgstr "विलीनाः धाराः"
@@ -23749,7 +23749,7 @@ msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr "वर्तमानं परिभाषितं समयरेखा/चयनक्षेत्रं पूर्वावलोकनप्रतिपादनक्षेत्ररूपेण योजयन्तु"
 
-#: src/mainwindow.cpp:1646
+#: src/mainwindow.cpp:1646 src/timeline2/view/previewmanager.cpp:580
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "पूर्वावलोकनक्षेत्रं निष्कासयन्तु"
@@ -23764,7 +23764,7 @@ msgstr ""
 "पूर्वावलोकनप्रतिपादनक्षेत्रात् वर्तमानं परिभाषितं समयरेखां/चयनक्षेत्रं निष्कासयति । ध्यानं "
 "कुर्वन्तु यत् एतेन पूर्वावलोकन-रेण्डर्-क्षेत्रेषु अन्तरालाः त्यक्तुं शक्यन्ते ।"
 
-#: src/mainwindow.cpp:1651
+#: src/mainwindow.cpp:1651 src/timeline2/view/previewmanager.cpp:506
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "सर्वाणि पूर्वावलोकनक्षेत्राणि निष्कासयन्तु"
@@ -29504,7 +29504,7 @@ msgstr "अमान्य समयरेखा पूर्वावलोक�
 msgid "Something is wrong with cache folders"
 msgstr "cache folders इत्यत्र किमपि दोषः अस्ति"
 
-#: src/timeline2/view/previewmanager.cpp:774
+#: src/timeline2/view/previewmanager.cpp:837
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr "पूर्वावलोकनप्रतिपादनं विफलम्, स्वस्य मापदण्डान् परीक्ष्यताम् । %1विवरणं दर्शयतु...%2"

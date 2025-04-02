@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-31 00:41+0000\n"
+"POT-Creation-Date: 2025-04-02 00:41+0000\n"
 "PO-Revision-Date: 2025-03-23 16:05+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -12622,7 +12622,7 @@ msgstr "Elabora l'audio usando un effetto SoX"
 msgid "Analysis,Apply"
 msgstr "Analizza,Applica"
 
-#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1875
+#: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1893
 #: src/monitor/view/MonitorSplit.qml:102
 #, kde-format
 msgid "Effect"
@@ -16948,8 +16948,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uso"
 
-#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1853
-#: src/doc/documentchecker.cpp:1883 src/doc/documentchecker.cpp:1903
+#: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1901 src/doc/documentchecker.cpp:1921
 #: src/mltcontroller/clipcontroller.cpp:517 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -20608,12 +20608,12 @@ msgstr "Cartella di clip"
 msgid "Applying fixes…"
 msgstr "Applicazione delle correzioni..."
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:253
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Verifica degli elementi mancanti..."
 
-#: src/doc/documentchecker.cpp:195
+#: src/doc/documentchecker.cpp:198
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
@@ -20621,111 +20621,111 @@ msgstr ""
 "L'identificativo del documento del tuo progetto non è valido, ne è stato "
 "creato uno nuovo."
 
-#: src/doc/documentchecker.cpp:1843
+#: src/doc/documentchecker.cpp:1861
 #, kde-format
 msgid "Video clip"
 msgstr "Clip video"
 
-#: src/doc/documentchecker.cpp:1845
+#: src/doc/documentchecker.cpp:1863
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip di presentazione"
 
-#: src/doc/documentchecker.cpp:1847
+#: src/doc/documentchecker.cpp:1865
 #, kde-format
 msgid "Image clip"
 msgstr "Clip da immagine"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1867
 #, kde-format
 msgid "Playlist clip"
 msgstr "Lista di riproduzione clip"
 
-#: src/doc/documentchecker.cpp:1851 src/doc/documentchecker.cpp:1867
+#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1885
 #, kde-format
 msgid "Title Image"
 msgstr "Immagine del titolo"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1881
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1883
 #, kde-format
 msgid "Title Font"
 msgstr "Carattere del titolo"
 
-#: src/doc/documentchecker.cpp:1869
+#: src/doc/documentchecker.cpp:1887
 #, kde-format
 msgid "Luma file"
 msgstr "File luma"
 
-#: src/doc/documentchecker.cpp:1871
+#: src/doc/documentchecker.cpp:1889
 #, kde-format
 msgid "Asset file"
 msgstr "File di risorsa"
 
-#: src/doc/documentchecker.cpp:1873
+#: src/doc/documentchecker.cpp:1891
 #: src/mltcontroller/clippropertiescontroller.cpp:634
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip rappresentativa"
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1895
 #, kde-format
 msgid "Transition"
 msgstr "Transizione"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1897
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Clip senza riferimenti"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1899
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Sequenza corrotta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1891 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1909 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Fisso"
 
-#: src/doc/documentchecker.cpp:1893
+#: src/doc/documentchecker.cpp:1911
 #, kde-format
 msgid "Reload"
 msgstr "Ricarica"
 
-#: src/doc/documentchecker.cpp:1895
+#: src/doc/documentchecker.cpp:1913
 #, kde-format
 msgid "Missing"
 msgstr "Non trovato"
 
-#: src/doc/documentchecker.cpp:1897
+#: src/doc/documentchecker.cpp:1915
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Mancante, ma la clip rappresentativa è disponibile"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1899 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1917 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Segnaposto"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1901 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1919 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: src/doc/documentchecker.cpp:1912
+#: src/doc/documentchecker.cpp:1930
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Il file del progetto contiene delle clip o dei file mancanti."
 
-#: src/doc/documentchecker.cpp:1915
+#: src/doc/documentchecker.cpp:1933
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Le clip rappresentative mancanti possono essere ricreate all'apertura."
@@ -22312,7 +22312,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:161 src/monitor/monitor.cpp:321
+#: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:321
 #, kde-format
 msgid "Merged streams"
 msgstr "Flussi uniti"
@@ -23604,7 +23604,7 @@ msgstr ""
 "Aggiunge la zona della linea temporale o della selezione attualmente "
 "definita come una zona di esportazione dell'anteprima"
 
-#: src/mainwindow.cpp:1646
+#: src/mainwindow.cpp:1646 src/timeline2/view/previewmanager.cpp:580
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Rimuovi zona di anteprima"
@@ -23620,7 +23620,7 @@ msgstr ""
 "dalla zona di esportazione dell'anteprima. Nota che questo può lasciare "
 "degli spazi nella zona di esportazione dell'anteprima."
 
-#: src/mainwindow.cpp:1651
+#: src/mainwindow.cpp:1651 src/timeline2/view/previewmanager.cpp:506
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Rimuovi tutte le zone di anteprima"
@@ -29484,7 +29484,7 @@ msgstr "Parametri di anteprima della linea temporale non validi"
 msgid "Something is wrong with cache folders"
 msgstr "C'è qualcosa che non va con le cartelle della cache"
 
-#: src/timeline2/view/previewmanager.cpp:774
+#: src/timeline2/view/previewmanager.cpp:837
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
