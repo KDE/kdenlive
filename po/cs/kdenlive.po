@@ -24230,10 +24230,9 @@ msgid "%1 (default)"
 msgstr "%1 (výchozí)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:666
-#, fuzzy, kde-format
-#| msgid "Rotate"
+#, kde-format
 msgid "Rotate:"
-msgstr "Otočit"
+msgstr "Otočit:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:675
 #, kde-format
@@ -31818,10 +31817,9 @@ msgstr "Obálka"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable debug mode"
-msgstr "Povolit video"
+msgstr "Povolit režim ladění"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
@@ -31837,10 +31835,9 @@ msgstr "Klipy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
 #: src/ui/configtimeline_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Mixes:"
+#, kde-format
 msgid "Mixes"
-msgstr "Mixy:"
+msgstr "Směšovače"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27

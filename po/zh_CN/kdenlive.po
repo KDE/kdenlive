@@ -20056,6 +20056,8 @@ msgid ""
 "what this Kdenlive release supports (version %2 and older).\n"
 "Please consider upgrading your Kdenlive version."
 msgstr ""
+"该项目不受支持，其存档文件版本号为 (%1)，高于当前 Kdenlive 支持的最高版本(%2 "
+"和更旧版本)。请考虑升级您的 Kdenlive"
 
 #: src/doc/documentvalidator.cpp:195 src/doc/documentvalidator.cpp:204
 #, kde-format
@@ -21224,7 +21226,7 @@ msgstr "正在转码"
 #, kde-format
 msgctxt "%1 button id"
 msgid "No action applied for jog shuttle button %1"
-msgstr ""
+msgstr "未为穿梭旋钮按钮 %1 分配操作"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:19
@@ -23268,7 +23270,7 @@ msgstr "启用/禁用轨道"
 #: src/mainwindow.cpp:2001
 #, kde-format
 msgid "Toggle All Tracks Disabled"
-msgstr ""
+msgstr "禁用全部轨道"
 
 #: src/mainwindow.cpp:2003
 #, kde-format
@@ -23278,7 +23280,7 @@ msgstr "锁定/解锁轨道"
 #: src/mainwindow.cpp:2005
 #, kde-format
 msgid "Toggle All Tracks Lock"
-msgstr ""
+msgstr "锁定所有轨道"
 
 #: src/mainwindow.cpp:2007
 #, kde-format
@@ -23338,7 +23340,7 @@ msgstr "提取帧到项目…"
 #: src/mainwindow.cpp:2054
 #, kde-format
 msgid "Extract Frame to Clipboard"
-msgstr ""
+msgstr "将帧提取到剪贴板"
 
 #: src/mainwindow.cpp:2188
 #, kde-format
@@ -23904,7 +23906,7 @@ msgstr "%1 (默认)"
 #: src/mltcontroller/clippropertiescontroller.cpp:666
 #, kde-format
 msgid "Rotate:"
-msgstr ""
+msgstr "旋转："
 
 #: src/mltcontroller/clippropertiescontroller.cpp:675
 #, kde-format
@@ -24136,7 +24138,7 @@ msgstr "图像数量："
 #: src/mltcontroller/clippropertiescontroller.cpp:1442
 #, kde-format
 msgid "Video streams:"
-msgstr ""
+msgstr "视频流："
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1449
 #, kde-format
@@ -28722,7 +28724,7 @@ msgstr "启用/禁用轨道效果"
 #: src/timeline2/view/qml/TrackHead.qml:441
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
-msgstr ""
+msgstr "<b>Shift</b>以显示/隐藏所有同类轨道 (音频/视频)"
 
 #: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
@@ -31491,7 +31493,7 @@ msgstr "添加效果时时移到剪辑"
 #: src/ui/configtimeline_ui.ui:94
 #, kde-format
 msgid "On Selection:"
-msgstr ""
+msgstr "选中内容："
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:108
@@ -31564,19 +31566,19 @@ msgstr "检查项目是否包含足够的轨道"
 #: src/ui/configtimeline_ui.ui:211
 #, kde-format
 msgid "Developer:"
-msgstr ""
+msgstr "开发人员："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
 #, kde-format
 msgid "Enable debug mode"
-msgstr ""
+msgstr "启用调试模式"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
 #, kde-format
 msgid "Raise Effects/Composition Stack for"
-msgstr ""
+msgstr "启用效果/合成堆栈"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:258
@@ -31588,7 +31590,7 @@ msgstr "剪辑"
 #: src/ui/configtimeline_ui.ui:265
 #, kde-format
 msgid "Mixes"
-msgstr ""
+msgstr "Mixes(混合)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27
