@@ -6369,10 +6369,17 @@ void Bin::applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetI
 void Bin::removeEffectFromGroup(int bid, const QString &assetId, int eid)
 {
     QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    if (clips.isEmpty()) {
+        auto clp = m_itemModel->getClipByBinID(QString::number(bid));
+        if (clp) {
+            clips << clp;
+        }
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     QString effectName;
     int assetRow = -1;
+    bool foundEffect = false;
     for (auto &c : clips) {
         if (c->binId().toInt() == bid) {
             assetRow = c->getEffectStack()->effectRow(assetId, eid);
@@ -6381,9 +6388,12 @@ void Bin::removeEffectFromGroup(int bid, const QString &assetId, int eid)
         }
         if (assetRow > -1) {
             c->getEffectStack()->removeEffectWithUndo(assetId, effectName, assetRow, undo, redo);
+            foundEffect = true;
         }
     }
-    pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+    if (foundEffect) {
+        pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+    }
 }
 
 void Bin::disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo)
