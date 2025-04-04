@@ -295,63 +295,70 @@ void OtioImport::importTrack(const std::shared_ptr<OtioImportData> &importData, 
 
 int OtioImport::importClip(const std::shared_ptr<OtioImportData> &importData, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &otioClip, int trackId)
 {
-    int clipId = -1;
     const auto otioTrimmedRange = otioClip->trimmed_range_in_parent();
-    if (otioTrimmedRange.has_value()) {
+    if (!otioTrimmedRange.has_value()) {
+        return -1;
+    }
+    const OTIO_NS::RationalTime otioTimelineDuration = importData->otioTimeline->duration();
+    const int duration = otioTrimmedRange.value().duration().rescaled_to(otioTimelineDuration).round().value();
+    if (duration <= 0) {
+        return -1;
+    }
 
-        // Find the bin clip that corresponds to the OTIO media reference.
-        QString binId;
-        if (const auto &otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
-            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), importData->otioFile);
-            const auto i = importData->otioExternalRefToBinId.find(file);
-            if (i != importData->otioExternalRefToBinId.end()) {
-                binId = i.value();
-            }
-            //} else if (const auto &otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
-            // TODO: Image sequence references.
-        } else if (const auto &otioGeneratorReference = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference())) {
-            const auto i = importData->otioColorGeneratorRefToBinId.find(QString::fromStdString(otioGeneratorReference->name()));
-            if (i != importData->otioColorGeneratorRefToBinId.end()) {
-                binId = i.value();
-            }
+    // Find the bin clip that corresponds to the OTIO media reference.
+    QString binId;
+    if (const auto &otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
+        const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), importData->otioFile);
+        const auto i = importData->otioExternalRefToBinId.find(file);
+        if (i != importData->otioExternalRefToBinId.end()) {
+            binId = i.value();
         }
-
-        // Insert the clip into the track.
-        if (!binId.isEmpty()) {
-            const OTIO_NS::RationalTime otioTimelineDuration = importData->otioTimeline->duration();
-            const int position = otioTrimmedRange.value().start_time().rescaled_to(otioTimelineDuration).round().value();
-            Fun undo = []() { return true; };
-            Fun redo = []() { return true; };
-            importData->timeline->requestClipInsertion(binId, trackId, position, clipId, false, true, true, undo, redo);
-            if (clipId != -1) {
-
-                // Resize the clip.
-                const int duration = otioTrimmedRange.value().duration().rescaled_to(otioTimelineDuration).round().value();
-                importData->timeline->requestItemResize(clipId, duration, true, false, -1, true);
-
-                // Slip the clip.
-                const int start = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
-                int slip = start;
-                const auto i = importData->binIdToTimecode.find(binId);
-                if (i != importData->binIdToTimecode.end()) {
-                    const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(i->toStdString(), otioTimelineDuration.rate());
-                    slip -= otioTimecode.value();
-                }
-                if (slip != 0) {
-                    importData->timeline->requestClipSlip(clipId, -slip, false, true);
-                }
-
-                // Add markers.
-                if (std::shared_ptr<ClipModel> clipModel = importData->timeline->getClipPtr(clipId)) {
-                    for (const auto &otioMarker : otioClip->markers()) {
-                        const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
-                        const GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
-                        importMarker(otioMarker, pos, clipModel->getMarkerModel());
-                    }
-                }
-            }
+        //} else if (const auto &otioImagSequenceReference = dynamic_cast<OTIO_NS::ImageSequenceReference *>(otioClip->media_reference())) {
+        // TODO: Image sequence references.
+    } else if (const auto &otioGeneratorReference = dynamic_cast<OTIO_NS::GeneratorReference *>(otioClip->media_reference())) {
+        const auto i = importData->otioColorGeneratorRefToBinId.find(QString::fromStdString(otioGeneratorReference->name()));
+        if (i != importData->otioColorGeneratorRefToBinId.end()) {
+            binId = i.value();
         }
     }
+    if (binId.isEmpty()) {
+        return -1;
+    }
+
+    // Insert the clip into the track.
+    const int position = otioTrimmedRange.value().start_time().rescaled_to(otioTimelineDuration).round().value();
+    int clipId = -1;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    importData->timeline->requestClipInsertion(binId, trackId, position, clipId, false, true, true, undo, redo);
+    if (-1 == clipId) {
+        return -1;
+    }
+
+    // Resize the clip.
+    importData->timeline->requestItemResize(clipId, duration, true, false, -1, true);
+
+    // Slip the clip.
+    const int start = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();
+    int slip = start;
+    const auto i = importData->binIdToTimecode.find(binId);
+    if (i != importData->binIdToTimecode.end()) {
+        const OTIO_NS::RationalTime otioTimecode = OTIO_NS::RationalTime::from_timecode(i->toStdString(), otioTimelineDuration.rate());
+        slip -= otioTimecode.value();
+    }
+    if (slip != 0) {
+        importData->timeline->requestClipSlip(clipId, -slip, false, true);
+    }
+
+    // Add markers.
+    if (std::shared_ptr<ClipModel> clipModel = importData->timeline->getClipPtr(clipId)) {
+        for (const auto &otioMarker : otioClip->markers()) {
+            const OTIO_NS::RationalTime otioMarkerStart = otioMarker->marked_range().start_time().rescaled_to(otioTimelineDuration).round();
+            const GenTime pos(start + otioMarkerStart.value(), otioTimelineDuration.rate());
+            importMarker(otioMarker, pos, clipModel->getMarkerModel());
+        }
+    }
+
     return clipId;
 }
 
