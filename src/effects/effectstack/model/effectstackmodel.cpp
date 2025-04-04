@@ -163,7 +163,7 @@ void EffectStackModel::removeAllEffects(Fun &undo, Fun &redo)
         if (!m_fadeOuts.empty()) {
             roles << TimelineModel::FadeOutRole;
         }
-        Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
+        Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), roles);
         pCore->updateItemKeyframes(m_ownerId);
         return true;
     };
@@ -180,7 +180,7 @@ void EffectStackModel::removeAllEffects(Fun &undo, Fun &redo)
         }
         m_fadeIns.clear();
         m_fadeOuts.clear();
-        Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
+        Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), roles);
         pCore->updateItemKeyframes(m_ownerId);
         return true;
     };
@@ -231,17 +231,19 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
     }
     int currentRow = effect->row();
     Fun local_undo = addItem_lambda(effect, parentId);
-    if (currentRow != rowCount() - 1) {
-        Fun move = moveItem_lambda(effect->getId(), currentRow, true);
-        PUSH_LAMBDA(move, undo);
+    int effectId = effect->getId();
+    Fun move = []() { return true; };
+    if (currentRow < rowCount() - 1) {
+        move = moveItem_lambda(effectId, currentRow, true);
     }
-    Fun local_redo = removeItem_lambda(effect->getId());
+    Fun local_redo = removeItem_lambda(effectId);
+    QModelIndex ix = getIndexFromItem(effect);
     bool res = local_redo();
     if (res) {
         int inFades = int(m_fadeIns.size());
         int outFades = int(m_fadeOuts.size());
-        m_fadeIns.erase(effect->getId());
-        m_fadeOuts.erase(effect->getId());
+        m_fadeIns.erase(effectId);
+        m_fadeOuts.erase(effectId);
         inFades = int(m_fadeIns.size()) - inFades;
         outFades = int(m_fadeOuts.size()) - outFades;
         effectName = EffectsRepository::get()->getName(effect->getAssetId());
@@ -250,7 +252,7 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
             // Required to build the effect view
             if (rowCount() == 0) {
                 // Stack is now empty
-                Q_EMIT dataChanged(QModelIndex(), QModelIndex(), {});
+                Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), {});
             } else {
                 QVector<int> roles = {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole};
                 if (inFades < 0) {
@@ -259,7 +261,7 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
                 if (outFades < 0) {
                     roles << TimelineModel::FadeOutRole;
                 }
-                Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
+                Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), roles);
             }
             if (hasZone) {
                 updateEffectZones();
@@ -267,7 +269,7 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
-        Fun update2 = [this, inFades, outFades, current, hasZone]() {
+        Fun update2 = [this, inFades, outFades, current, hasZone, ix]() {
             // Required to build the effect view
             QVector<int> roles = {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole};
             // TODO: only update if effect is fade or keyframe
@@ -276,7 +278,7 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
             } else if (outFades < 0) {
                 roles << TimelineModel::FadeOutRole;
             }
-            Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
+            Q_EMIT dataChanged(ix, ix, roles);
             if (hasZone) {
                 updateEffectZones();
             }
@@ -286,7 +288,8 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
         };
         update();
         PUSH_LAMBDA(update, local_redo);
-        PUSH_LAMBDA(update2, local_undo);
+        PUSH_LAMBDA(update2, move);
+        PUSH_LAMBDA(move, local_undo);
         PUSH_LAMBDA(local_redo, redo);
         PUSH_LAMBDA(local_undo, undo);
     } else {
@@ -542,7 +545,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     }
     if (effectAdded) {
         Fun update = [this]() {
-            Q_EMIT dataChanged(QModelIndex(), QModelIndex(), {});
+            Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), {});
             return true;
         };
         update();
@@ -634,8 +637,9 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
     }
     bool res = local_redo();
     if (res) {
-        Fun update = [this, roles]() {
-            Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
+        QModelIndex ix = getIndexFromItem(effect);
+        Fun update = [this, roles, ix]() {
+            Q_EMIT dataChanged(ix, ix, roles);
             return true;
         };
         update();
@@ -745,7 +749,8 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
         } else if (m_ownerId.type == KdenliveObjectType::TimelineTrack) {
             effect->filter().set("out", pCore->getItemDuration(m_ownerId));
         }
-        Fun update = [this, inFades, outFades]() {
+        QModelIndex ix = getIndexFromItem(effect);
+        Fun update = [this, inFades, outFades, ix]() {
             // TODO: only update if effect is fade or keyframe
             QVector<int> roles = {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole};
             if (inFades > 0) {
@@ -754,7 +759,7 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
                 roles << TimelineModel::FadeOutRole;
             }
             pCore->updateItemKeyframes(m_ownerId);
-            Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
+            Q_EMIT dataChanged(ix, ix, roles);
             return true;
         };
         Fun update_undo = [this, inFades, outFades, previousFadeIn, previousFadeOut]() {
@@ -768,7 +773,7 @@ std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, 
                 roles << TimelineModel::FadeOutRole;
             }
             pCore->updateItemKeyframes(m_ownerId);
-            Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
+            Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), roles);
             return true;
         };
         if (!effect->isBuiltIn()) {
@@ -1213,21 +1218,20 @@ void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEff
             return;
         }
     }
-
     int itemId = item->getId();
     Q_ASSERT(m_allItems.count(itemId) > 0);
+    Fun undo = moveItem_lambda(itemId, oldRow + 1);
     Fun redo = moveItem_lambda(itemId, destRow);
     bool res = redo();
     if (res) {
-        Fun undo = moveItem_lambda(itemId, oldRow);
         Fun update_redo = [this, row = destRow > oldRow ? destRow - 1 : destRow]() {
             setActiveEffect(row);
-            Q_EMIT this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole});
+            Q_EMIT this->customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole});
             return true;
         };
         Fun update_undo = [this, oldRow]() {
             setActiveEffect(oldRow);
-            Q_EMIT this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole});
+            Q_EMIT this->customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole});
             return true;
         };
         update_redo();
@@ -1250,12 +1254,12 @@ bool EffectStackModel::moveEffectWithUndo(int destRow, const std::shared_ptr<Abs
         Fun local_undo = moveItem_lambda(itemId, oldRow);
         Fun update_redo = [this, row = destRow > oldRow ? destRow - 1 : destRow]() {
             setActiveEffect(row);
-            Q_EMIT this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole});
+            Q_EMIT this->customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole});
             return true;
         };
         Fun update_undo = [this, oldRow]() {
             setActiveEffect(oldRow);
-            Q_EMIT this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole});
+            Q_EMIT this->customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole});
             return true;
         };
         update_redo();
@@ -1806,7 +1810,7 @@ void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
             }
             QVector<int> roles = {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole};
             roles << (outEffects ? TimelineModel::FadeOutRole : TimelineModel::FadeInRole);
-            Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
+            Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), roles);
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
@@ -1971,7 +1975,7 @@ QVariantList EffectStackModel::getEffectZones() const
 
 void EffectStackModel::updateEffectZones()
 {
-    Q_EMIT dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectZonesRole});
+    Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectZonesRole});
     if (m_ownerId.type == KdenliveObjectType::Master) {
         Q_EMIT updateMasterZones();
     }

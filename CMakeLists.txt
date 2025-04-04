@@ -128,6 +128,7 @@ find_package(Qt${QT_MAJOR_VERSION}
     Multimedia
     NetworkAuth
     SvgWidgets
+#    Test
 )
 
 if(USE_DBUS)

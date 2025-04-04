@@ -5218,7 +5218,7 @@ void TimelineModel::updateDuration()
             if (duration == current) {
                 Q_EMIT durationUpdated(m_uuid);
                 if (m_masterStack) {
-                    Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
+                    Q_EMIT m_masterStack->customDataChanged(QModelIndex(), QModelIndex(), {});
                 }
             }
         }
@@ -5230,7 +5230,7 @@ void TimelineModel::updateDuration()
         m_blackClip->unlock();
         Q_EMIT durationUpdated(m_uuid);
         if (m_masterStack) {
-            Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
+            Q_EMIT m_masterStack->customDataChanged(QModelIndex(), QModelIndex(), {});
         }
     }
 }

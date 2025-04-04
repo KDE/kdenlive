@@ -297,7 +297,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
         m_splitButton->setEnabled(effectsModel->rowCount() > 0);
-        QObject::connect(effectsModel.get(), &EffectStackModel::dataChanged, this, [&]() {
+        QObject::connect(effectsModel.get(), &EffectStackModel::customDataChanged, this, [&]() {
             if (m_effectStackWidget->isEmpty()) {
                 m_splitButton->setActive(false);
             }

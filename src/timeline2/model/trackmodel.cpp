@@ -64,6 +64,14 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
                                  Q_EMIT ptr2->dataChanged(ix, ix, roles);
                              }
                          });
+        QObject::connect(m_effectStack.get(), &EffectStackModel::customDataChanged, m_effectStack.get(),
+                         [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
+                             if (auto ptr2 = m_parent.lock()) {
+                                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
+                                 qDebug() << "==== TRACK ZONES CHANGED";
+                                 Q_EMIT ptr2->dataChanged(ix, ix, roles);
+                             }
+                         });
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
