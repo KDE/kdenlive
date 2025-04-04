@@ -289,6 +289,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     }
     unsetModel(false);
     m_effectsTree->setModel(nullptr);
+    m_effectsTree->reset();
     m_model.reset();
     if (m) {
         delete m;
@@ -299,6 +300,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     }
     m_effectsTree->setFixedHeight(0);
     m_model = std::move(model);
+    // m_testModel.reset(new QAbstractItemModelTester(m_model.get(), QAbstractItemModelTester::FailureReportingMode::Fatal, this));
     if (KdenliveSettings::enableBuiltInEffects() && currentState != newState) {
         // Rebuilt the builtin effect stack
         QLayout *lay = m_builtStack->layout();
@@ -407,7 +409,11 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     m_effectsTree->setUniformRowHeights(false);
     m_mutex.unlock();
     loadEffects();
+    connect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &EffectStackView::loadEffects);
+    connect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &EffectStackView::loadEffects);
+    connect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &EffectStackView::loadEffects);
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
+    connect(m_model.get(), &EffectStackModel::customDataChanged, this, &EffectStackView::refresh);
     connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
     connect(m_model.get(), &EffectStackModel::currentChanged, this, &EffectStackView::activateEffect, Qt::DirectConnection);
     connect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
@@ -513,7 +519,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::collapseAllEffects, this, &EffectStackView::slotCollapseAllEffects);
         connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) { m_model->setActiveEffect(row); });
         connect(view, &CollapsibleEffectView::effectNamesUpdated, this,
-                [=]() { Q_EMIT m_model->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole}); });
+                [=]() { Q_EMIT m_model->customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole}); });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
         connect(this, &EffectStackView::blockWheelEvent, view, &CollapsibleEffectView::blockWheelEvent);
@@ -671,7 +677,6 @@ void EffectStackView::refresh(const QModelIndex &topL, const QModelIndex &bottom
     const QModelIndex topLeft = m_filter->mapFromSource(topL);
     const QModelIndex bottomRight = m_filter->mapFromSource(bottomR);
     if (!topLeft.isValid() || !bottomRight.isValid()) {
-        loadEffects();
         return;
     }
     for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
@@ -696,7 +701,11 @@ void EffectStackView::unsetModel(bool reset)
         ObjectId item = m_model->getOwnerId();
         pCore->showEffectZone(item, {0, 0}, false);
         id = item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
+        disconnect(m_model.get(), &QAbstractItemModel::rowsInserted, this, &EffectStackView::loadEffects);
+        disconnect(m_model.get(), &QAbstractItemModel::rowsRemoved, this, &EffectStackView::loadEffects);
+        disconnect(m_model.get(), &QAbstractItemModel::rowsMoved, this, &EffectStackView::loadEffects);
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
+        disconnect(m_model.get(), &EffectStackModel::customDataChanged, this, &EffectStackView::refresh);
         disconnect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
         disconnect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
         disconnect(m_model.get(), &EffectStackModel::currentChanged, this, &EffectStackView::activateEffect);

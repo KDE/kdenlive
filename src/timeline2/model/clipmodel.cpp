@@ -51,12 +51,19 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     }
     QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, m_effectStack.get(),
                      [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
-                         qDebug() << "// GOT CLIP STACK DATA CHANGE: " << roles;
                          if (m_currentTrackId != -1) {
                              if (auto ptr = m_parent.lock()) {
                                  QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                                  Q_EMIT ptr->dataChanged(ix, ix, roles);
-                                 qDebug() << "// GOT CLIP STACK DATA CHANGE DONE: " << ix << " = " << roles;
+                             }
+                         }
+                     });
+    QObject::connect(m_effectStack.get(), &EffectStackModel::customDataChanged, m_effectStack.get(),
+                     [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
+                         if (m_currentTrackId != -1) {
+                             if (auto ptr = m_parent.lock()) {
+                                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                                 Q_EMIT ptr->dataChanged(ix, ix, roles);
                              }
                          }
                      });

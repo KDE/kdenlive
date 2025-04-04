@@ -5,10 +5,10 @@
     <name>BoxBlur</name>
     <description>Box blur (separate horizontal and vertical blur)</description>
     <author>Meltytech, LLC</author>
-    <parameter type="animated" name="hradius" max="1000" min="0" default="1" suffix="%">
+    <parameter type="animated" name="hradius" max="1000" min="0" default="1" suffix="%" decimals="1">
         <name>Horizontal multiplicator</name>
     </parameter>
-    <parameter type="animated" name="vradius" max="1000" min="0" default="1" suffix="%">
+    <parameter type="animated" name="vradius" max="1000" min="0" default="1" suffix="%" decimals="1">
         <name>Vertical multiplicator</name>
     </parameter>
     <parameter type="bool" name="preserve_alpha" default="0" min="0" max="1">

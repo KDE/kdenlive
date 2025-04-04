@@ -230,8 +230,16 @@ void UrlListParamWidget::slotRefresh()
         m_listType = LUTLIST;
         // check for Kdenlive installed luts files
         QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
+        const QString path = KRecentDirs::dir(QStringLiteral(":KdenliveUrlLutParamFolder"));
+        if (!path.isEmpty()) {
+            customLuts << path;
+        }
+        customLuts.removeDuplicates();
         for (const QString &folderpath : std::as_const(customLuts)) {
             QDir dir(folderpath);
+            if (!dir.exists()) {
+                continue;
+            }
             QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
             while (it.hasNext()) {
                 const QString path = it.next();
@@ -404,7 +412,7 @@ bool UrlListParamWidget::isValidCubeFile(const QString &path)
         int lineCt = 0;
         QTextStream in(&f);
         while (!in.atEnd() && lineCt < 30) {
-            QString line = in.readLine();
+            const QString line = in.readLine();
             if (line.contains(QStringLiteral("LUT_3D_SIZE"))) {
                 f.close();
                 return true;
@@ -434,13 +442,13 @@ void UrlListParamWidget::openFile()
     default:
         path = KRecentDirs::dir(QStringLiteral(":KdenliveUrlListParamFolder"));
     }
-    QString filter = m_model->data(m_index, AssetParameterModel::FilterRole).toString();
+    const QString filter = m_model->data(m_index, AssetParameterModel::FilterRole).toString();
 
     if (path.isEmpty()) {
         path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
     }
 
-    QString urlString = QFileDialog::getOpenFileName(this, QString(), path, filter);
+    const QString urlString = QFileDialog::getOpenFileName(this, QString(), path, filter);
 
     if (!urlString.isEmpty()) {
         if (m_listType == LUTLIST) {

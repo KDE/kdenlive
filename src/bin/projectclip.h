@@ -412,6 +412,9 @@ public Q_SLOTS:
      */
     int getStartTCFromMediainfo();
 
+private Q_SLOTS:
+    void refreshIconOverlay();
+
 private:
     QMutex m_producerMutex;
     QByteArray m_thumbXml;
