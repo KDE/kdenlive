@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-02 00:41+0000\n"
-"PO-Revision-Date: 2025-03-28 22:58+0300\n"
+"PO-Revision-Date: 2025-04-03 21:29+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -23922,10 +23922,9 @@ msgid "Extract Frame to Project…"
 msgstr "ייצוא תמונית למיזם…"
 
 #: src/mainwindow.cpp:2054
-#, fuzzy, kde-format
-#| msgid "Extract Frame to Project…"
+#, kde-format
 msgid "Extract Frame to Clipboard"
-msgstr "ייצוא תמונית למיזם…"
+msgstr "חילוץ תמונית ללוח הגזירים"
 
 #: src/mainwindow.cpp:2188
 #, kde-format
@@ -32162,10 +32161,9 @@ msgstr "לחתור לסרטון עם הוספת אפקט"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "On Selection:"
-msgstr "בחירה"
+msgstr "עם בחירה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:108
@@ -32236,17 +32234,15 @@ msgstr "לבדוק אם המיזם מכיל מספיק רצועות"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:211
-#, fuzzy, kde-format
-#| msgid "Envelope"
+#, kde-format
 msgid "Developer:"
-msgstr "מעטפה"
+msgstr "פיתוח:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable debug mode"
-msgstr "הפעלת וידאו"
+msgstr "הפעלת מצב ניפוי שגיאות"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
@@ -32263,10 +32259,9 @@ msgstr "סרטונים"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
 #: src/ui/configtimeline_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Mixes:"
+#, kde-format
 msgid "Mixes"
-msgstr "ערבובים:"
+msgstr "ערבובים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27

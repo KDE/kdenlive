@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-02 00:41+0000\n"
-"PO-Revision-Date: 2025-03-23 16:05+0100\n"
+"PO-Revision-Date: 2025-03-30 14:43+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1258,26 +1258,26 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Chroma Radius"
-msgstr "Raggio di sfocatura"
+msgstr "Raggio cromatica"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
 msgid "Radius of the chroma blurring box"
-msgstr ""
+msgstr "Raggio del riquadro di sfocatura cromatica"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
-#, fuzzy, kde-format
-#| msgid "Chroma Keep"
+#, kde-format
 msgid "Chroma Power"
-msgstr "Tieni crominanza"
+msgstr "Potenza cromatica"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
 msgid "How many times should the boxblur be applied to chroma"
 msgstr ""
+"Quante volte il rettangolo di sfocatura dovrebbe essere applicato alla "
+"cromatica"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
 #, kde-format
@@ -1287,18 +1287,18 @@ msgstr "Raggio di alfa"
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
 msgid "Radius of the alpha blurring box"
-msgstr ""
+msgstr "Raggio del rettangolo di sfocatura su alfa"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:28
-#, fuzzy, kde-format
-#| msgid "Alpha operation"
+#, kde-format
 msgid "Alpha Power"
-msgstr "Operazione sul canale alfa"
+msgstr "Potenza alfa"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:29
 #, kde-format
 msgid "How many times should the boxblur be applied to alpha"
 msgstr ""
+"Quante volte il rettangolo di sfocatura dovrebbe essere applicato ad alfa"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:4
 #, kde-format
@@ -4168,10 +4168,9 @@ msgid "Luma Mode"
 msgstr "Modalità luma"
 
 #: data/effects/avfilter/avfilter_il.xml:13
-#, fuzzy, kde-format
-#| msgid "Chroma Hold"
+#, kde-format
 msgid "Chroma Mode"
-msgstr "Mantieni colore"
+msgstr "Modalità cromatica"
 
 #: data/effects/avfilter/avfilter_il.xml:17
 #, kde-format
@@ -4184,10 +4183,9 @@ msgid "Swap Luma Fields"
 msgstr "Inverti i campi luma"
 
 #: data/effects/avfilter/avfilter_il.xml:23
-#, fuzzy, kde-format
-#| msgid "Swap Channels"
+#, kde-format
 msgid "Swap Chroma Fields"
-msgstr "Scambia i canali"
+msgstr "Scambia i canali cromatici"
 
 #: data/effects/avfilter/avfilter_il.xml:26
 #, kde-format
@@ -5133,10 +5131,9 @@ msgid "Chroma pre-filter radius"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sab.xml:23
-#, fuzzy, kde-format
-#| msgid "Glow strength"
+#, kde-format
 msgid "Chroma Strength"
-msgstr "Forza del bagliore"
+msgstr "Forza cromatica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:574
@@ -5384,10 +5381,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
-#, fuzzy, kde-format
-#| msgid "Circle radius"
+#, kde-format
 msgid "Chroma radius"
-msgstr "Raggio del cerchio"
+msgstr "Raggio cromatico"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:25
 #, kde-format
@@ -5400,10 +5396,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
-#, fuzzy, kde-format
-#| msgid "Glow strength"
+#, kde-format
 msgid "Chroma strength"
-msgstr "Forza del bagliore"
+msgstr "Forza cromatica"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:30
 #, kde-format
@@ -5413,12 +5408,15 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Imposta la forza cromatica.<br>\n"
+"            Il valore configura la sfocatura. Un valore positivo sfocherà "
+"l'immagine, mentre uno negativo ne aumenterà la nitidezza. Se non è "
+"specificato sarà uguale al valore impostato della <em>Forza Luma</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "Chroma threshold"
-msgstr "Modifica soglia"
+msgstr "Soglia cromatica"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:35
 #, kde-format
@@ -5429,6 +5427,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Imposta la soglia cromatica usata come coefficiente<br>\n"
+"            per determinare se un pixel verrà sfocato o no. Un valore di 0 "
+"filtrerà tutta l'immagine, uno positivo solo le aree piatte, mentre uno "
+"negativo filtrerà solo i bordi. Se non è specificato sarà uguale al valore "
+"impostato della <em>Soglia Luma</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -5986,28 +5989,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
-#, fuzzy, kde-format
-#| msgid "Crop mode horizontal"
+#, kde-format
 msgid "Chroma horizontal matrix"
-msgstr "Modalità taglio orizzontale"
+msgstr "Matrice orizzontale cromatica"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
-msgstr "<![CDATA[Imposta l'opacità dell'immagine di sfondo]]>"
+msgstr "<![CDATA[Imposta la dimensione della matrice orizzontale cromatica]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
-#, fuzzy, kde-format
-#| msgid "Crop mode vertical"
+#, kde-format
 msgid "Chroma vertical matrix"
-msgstr "Modalità taglio verticale"
+msgstr "Matrice verticale cromatica"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the chroma matrix vertical size]]>"
-msgstr "<![CDATA[Imposta l'opacità dell'immagine di sfondo]]>"
+msgstr "<![CDATA[Imposta la dimensione della matrice verticale cromatica]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:32
 #, kde-format
@@ -6237,6 +6236,8 @@ msgid ""
 "Deinterlace the input video \"w3fdif\" stands for Weston 3 Field "
 "Deinterlacing Filter"
 msgstr ""
+"Deinterlaccia il video in ingresso («w3fdif» significa Weston 3 Field "
+"Deinterlacing Filter)"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
 #, kde-format
@@ -32685,10 +32686,9 @@ msgstr "Clip"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
 #: src/ui/configtimeline_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Mixes:"
+#, kde-format
 msgid "Mixes"
-msgstr "Mescolamenti:"
+msgstr "Mescolamenti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27
