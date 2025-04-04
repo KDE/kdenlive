@@ -348,7 +348,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     Q_ASSERT(outPoint < m_producer->get_length());
     Q_ASSERT(inPoint >= 0);
     Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
-    Q_ASSERT(inPoint < outPoint);
+    Q_ASSERT(inPoint <= outPoint);
     Q_ASSERT(out - in == outPoint - inPoint);
 
     if (m_currentTrackId != -1) {
