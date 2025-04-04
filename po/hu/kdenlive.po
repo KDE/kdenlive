@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 02:32+0000\n"
+"POT-Creation-Date: 2025-04-04 02:40+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -15787,13 +15787,13 @@ msgstr "Áttűnés"
 msgid "Create or edit a mask for this clip"
 msgstr "%1 fogyasztó nem hozható létre."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:328
+#: src/assets/view/widgets/urllistparamwidget.cpp:336
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Egyéni"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:457
+#: src/assets/view/widgets/urllistparamwidget.cpp:465
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid LUT file %1"
@@ -16965,20 +16965,20 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Átkódolás"
 
-#: src/bin/bin.cpp:6386 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6395 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Effektus törlése"
 
-#: src/bin/bin.cpp:6451 src/mainwindow.cpp:324
+#: src/bin/bin.cpp:6461 src/mainwindow.cpp:324
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4830
+#: src/bin/bin.cpp:6464 src/bin/bin.cpp:6467 src/mainwindow.cpp:4830
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"

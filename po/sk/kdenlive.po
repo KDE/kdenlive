@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 02:32+0000\n"
+"POT-Creation-Date: 2025-04-04 02:40+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -15721,13 +15721,13 @@ msgstr "Nič (Rozplynúť)"
 msgid "Create or edit a mask for this clip"
 msgstr "Nie je možné vytvoriť filter %1"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:328
+#: src/assets/view/widgets/urllistparamwidget.cpp:336
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Vlastné"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:457
+#: src/assets/view/widgets/urllistparamwidget.cpp:465
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid LUT file %1"
@@ -16881,18 +16881,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Prekódovanie: %1"
 
-#: src/bin/bin.cpp:6386 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6395 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Vymazať efekt %1"
 
-#: src/bin/bin.cpp:6451 src/mainwindow.cpp:324
+#: src/bin/bin.cpp:6461 src/mainwindow.cpp:324
 #, kde-format
 msgid "Project Bin"
 msgstr "Kôš projektu"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4830
+#: src/bin/bin.cpp:6464 src/bin/bin.cpp:6467 src/mainwindow.cpp:4830
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"

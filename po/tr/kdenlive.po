@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 02:32+0000\n"
+"POT-Creation-Date: 2025-04-04 02:40+0000\n"
 "PO-Revision-Date: 2025-03-27 00:12+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -15746,12 +15746,12 @@ msgstr "Yok (Çözült)"
 msgid "Create or edit a mask for this clip"
 msgstr "Bu klip için bir maske oluştur veya düzenle"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:328
+#: src/assets/view/widgets/urllistparamwidget.cpp:336
 #, kde-format
 msgid "Custom…"
 msgstr "Özel…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:457
+#: src/assets/view/widgets/urllistparamwidget.cpp:465
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Geçersiz LUT dosyası %1"
@@ -16837,18 +16837,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Kaydetmeden Arakodla"
 
-#: src/bin/bin.cpp:6386 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6395 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 Efektini Sil"
 
-#: src/bin/bin.cpp:6451 src/mainwindow.cpp:324
+#: src/bin/bin.cpp:6461 src/mainwindow.cpp:324
 #, kde-format
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4830
+#: src/bin/bin.cpp:6464 src/bin/bin.cpp:6467 src/mainwindow.cpp:4830
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"

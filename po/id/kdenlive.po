@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 02:32+0000\n"
+"POT-Creation-Date: 2025-04-04 02:40+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -15630,12 +15630,12 @@ msgstr ""
 "Tidak bisa membuat sebuah linimasa dari klip ini:\n"
 "%1"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:328
+#: src/assets/view/widgets/urllistparamwidget.cpp:336
 #, kde-format
 msgid "Custom…"
 msgstr "Kustom..."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:457
+#: src/assets/view/widgets/urllistparamwidget.cpp:465
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "LUT file %1 tidak valid"
@@ -16702,18 +16702,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Mentranskode"
 
-#: src/bin/bin.cpp:6386 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6395 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Hapus efek %1"
 
-#: src/bin/bin.cpp:6451 src/mainwindow.cpp:324
+#: src/bin/bin.cpp:6461 src/mainwindow.cpp:324
 #, kde-format
 msgid "Project Bin"
 msgstr "Bin Proyek"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4830
+#: src/bin/bin.cpp:6464 src/bin/bin.cpp:6467 src/mainwindow.cpp:4830
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Bin Proyek %1"

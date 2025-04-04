@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 02:32+0000\n"
+"POT-Creation-Date: 2025-04-04 02:40+0000\n"
 "PO-Revision-Date: 2025-03-14 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -15764,12 +15764,12 @@ msgstr "Нет (наплыв)"
 msgid "Create or edit a mask for this clip"
 msgstr "Создать или изменить маску для этого клипа"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:328
+#: src/assets/view/widgets/urllistparamwidget.cpp:336
 #, kde-format
 msgid "Custom…"
 msgstr "Пользовательский…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:457
+#: src/assets/view/widgets/urllistparamwidget.cpp:465
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Недопустимый файл LUT %1"
@@ -16874,18 +16874,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Перекодировать без сохранения"
 
-#: src/bin/bin.cpp:6386 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6395 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Удалить эффект %1"
 
-#: src/bin/bin.cpp:6451 src/mainwindow.cpp:324
+#: src/bin/bin.cpp:6461 src/mainwindow.cpp:324
 #, kde-format
 msgid "Project Bin"
 msgstr "Корзина проекта"
 
-#: src/bin/bin.cpp:6454 src/bin/bin.cpp:6457 src/mainwindow.cpp:4830
+#: src/bin/bin.cpp:6464 src/bin/bin.cpp:6467 src/mainwindow.cpp:4830
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Корзина проекта %1"
