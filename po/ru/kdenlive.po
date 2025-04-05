@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 00:41+0000\n"
+"POT-Creation-Date: 2025-04-05 00:41+0000\n"
 "PO-Revision-Date: 2025-03-14 17:16+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -15756,12 +15756,12 @@ msgstr "Нет (наплыв)"
 msgid "Create or edit a mask for this clip"
 msgstr "Создать или изменить маску для этого клипа"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:328
+#: src/assets/view/widgets/urllistparamwidget.cpp:336
 #, kde-format
 msgid "Custom…"
 msgstr "Пользовательский…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:457
+#: src/assets/view/widgets/urllistparamwidget.cpp:465
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Недопустимый файл LUT %1"
@@ -16637,13 +16637,13 @@ msgstr "Для применения эффекта выберите клип"
 msgid "Cannot apply effects on folders"
 msgstr "Не удалось добавить эффекты в папки"
 
-#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:700
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:704
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Не удалось добавить эффект к клипу"
 
-#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:660
 #, kde-format
 msgid "Paste effect"
 msgstr "Вставить эффект"
@@ -16659,7 +16659,7 @@ msgid "Edit Tags"
 msgstr "Изменить метки"
 
 #: src/bin/bin.cpp:4600 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -16866,18 +16866,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Перекодировать без сохранения"
 
-#: src/bin/bin.cpp:6243 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6252 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Удалить эффект %1"
 
-#: src/bin/bin.cpp:6308 src/mainwindow.cpp:325
+#: src/bin/bin.cpp:6318 src/mainwindow.cpp:325
 #, kde-format
 msgid "Project Bin"
 msgstr "Корзина проекта"
 
-#: src/bin/bin.cpp:6311 src/bin/bin.cpp:6314 src/mainwindow.cpp:4852
+#: src/bin/bin.cpp:6321 src/bin/bin.cpp:6324 src/mainwindow.cpp:4852
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Корзина проекта %1"
@@ -17199,7 +17199,7 @@ msgstr "Переместить субтитр"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:851
+#: src/effects/effectstack/view/effectstackview.cpp:860
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17257,18 +17257,18 @@ msgstr "версия"
 msgid "Sequence count"
 msgstr "Количество последовательностей"
 
-#: src/bin/projectclip.cpp:246
+#: src/bin/projectclip.cpp:250
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Последовательность монтажного стола"
 
-#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1126
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1126
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "П"
 
-#: src/bin/projectclip.cpp:619
+#: src/bin/projectclip.cpp:623
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -17277,7 +17277,7 @@ msgstr ""
 "Размер изображения не превышает 8 пикселов.\n"
 "Правильная поддержка такого формата не обеспечивается данной видеоплатформой."
 
-#: src/bin/projectclip.cpp:916
+#: src/bin/projectclip.cpp:920
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -17286,39 +17286,39 @@ msgstr ""
 "Не удалось извлечь метаданные из %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1202 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Недопустимый"
 
-#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1501
 #, kde-format
 msgid "File already exists"
 msgstr "Файл уже существует"
 
-#: src/bin/projectclip.cpp:2643
+#: src/bin/projectclip.cpp:2647
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Скорректировать клипы монтажного стола"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Add stream effect"
 msgstr "Добавить эффект потока"
 
-#: src/bin/projectclip.cpp:2857
+#: src/bin/projectclip.cpp:2861
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Удалить эффект потока"
 
-#: src/bin/projectclip.cpp:3172
+#: src/bin/projectclip.cpp:3176
 #, kde-format
 msgid "Mask added to clip"
 msgstr "К клипу добавлена маска"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3180
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Отсутствует клип для маски"
@@ -18186,7 +18186,7 @@ msgstr "Экспорт данных направляющих"
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:889
+#: src/effects/effectstack/view/effectstackview.cpp:898
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -21635,34 +21635,34 @@ msgstr "Показать ключевые кадры"
 msgid "Update zone for %1"
 msgstr "Обновить участок для %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:303
+#: src/effects/effectstack/model/effectstackmodel.cpp:306
 #: src/timeline2/model/timelineitemmodel.cpp:736
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Copy effect"
 msgstr "Копировать эффект"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:399
-#: src/effects/effectstack/model/effectstackmodel.cpp:576
-#: src/effects/effectstack/model/effectstackmodel.cpp:686
-#: src/effects/effectstack/model/effectstackmodel.cpp:1479
+#: src/effects/effectstack/model/effectstackmodel.cpp:402
+#: src/effects/effectstack/model/effectstackmodel.cpp:579
+#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:1483
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Эффект %1 нельзя добавить дважды."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:672
+#: src/effects/effectstack/model/effectstackmodel.cpp:676
 #: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
 msgstr "Добавить эффект %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:682
+#: src/effects/effectstack/model/effectstackmodel.cpp:686
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "Эффект %1 можно добавить только в мастер"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1237
+#: src/effects/effectstack/model/effectstackmodel.cpp:1241
 #, kde-format
 msgid "Move effect %1"
 msgstr "Переместить эффект %1"
@@ -21882,79 +21882,79 @@ msgstr "Комментарии:"
 msgid "No name provided, effect not saved."
 msgstr "Имя не указано, эффект не был сохранён."
 
-#: src/effects/effectstack/view/effectstackview.cpp:327
+#: src/effects/effectstack/view/effectstackview.cpp:329
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Отражение по горизонтали"
 
-#: src/effects/effectstack/view/effectstackview.cpp:332
+#: src/effects/effectstack/view/effectstackview.cpp:334
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Отражение по вертикали"
 
-#: src/effects/effectstack/view/effectstackview.cpp:341
-#: src/effects/effectstack/view/effectstackview.cpp:422
-#: src/effects/effectstack/view/effectstackview.cpp:977
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:428
+#: src/effects/effectstack/view/effectstackview.cpp:986
 #, kde-format
 msgid "Remove Background"
 msgstr "Удалить фон"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Удалить фон с помощью модели ИИ"
 
-#: src/effects/effectstack/view/effectstackview.cpp:353
+#: src/effects/effectstack/view/effectstackview.cpp:355
 #, kde-format
 msgid "Flip"
 msgstr "Отражение"
 
-#: src/effects/effectstack/view/effectstackview.cpp:428
+#: src/effects/effectstack/view/effectstackview.cpp:434
 #, kde-format
 msgid "Exporting…"
 msgstr "Экспорт…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Включить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Отключить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:808
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgid "No effect selected."
 msgstr "Эффект не выбран."
 
-#: src/effects/effectstack/view/effectstackview.cpp:814
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Сохранение текущего стека эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:819
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Имя сохраняемого стека:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:820
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Описание:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:832
+#: src/effects/effectstack/view/effectstackview.cpp:841
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Имя не было указано, стек эффектов не сохранён."
 
-#: src/effects/effectstack/view/effectstackview.cpp:839
+#: src/effects/effectstack/view/effectstackview.cpp:848
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21963,8 +21963,8 @@ msgstr ""
 "Описание отсутствует. \n"
 "Сохранить эффект без описания?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:974
-#: src/effects/effectstack/view/effectstackview.cpp:1000
+#: src/effects/effectstack/view/effectstackview.cpp:983
+#: src/effects/effectstack/view/effectstackview.cpp:1009
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Прервать создание маски"

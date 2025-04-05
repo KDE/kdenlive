@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 00:41+0000\n"
-"PO-Revision-Date: 2025-04-01 17:16+0200\n"
+"POT-Creation-Date: 2025-04-05 00:41+0000\n"
+"PO-Revision-Date: 2025-04-03 14:00+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1328,6 +1328,8 @@ msgid ""
 "Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
 "Meier circuit (fcut=650 feed=95)"
 msgstr ""
+"Niveau par défaut (fcut =700 feed=50), circuit Chu Moy (fcut =700 feed=60), "
+"circuit Jan Meier (fcut=650 feed=95)"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:9
 #, kde-format
@@ -1355,6 +1357,9 @@ msgid ""
 "Motion adaptive deinterlacing based on yadif with the use of w3fdif and "
 "cubic interpolation algorithms. "
 msgstr ""
+"Désentrelacement adaptatif au mouvement reposant sur la bibliothèque "
+"« yadif » avec l'utilisation d'algorithmes d'interpolation « w3fdif » et "
+"cubique."
 
 #: data/effects/avfilter/avfilter_bwdif.xml:8
 #, kde-format
@@ -1760,6 +1765,9 @@ msgid ""
 "Adjust color white balance selectively for blacks and whites.This filter "
 "operates in YUV colorspace."
 msgstr ""
+"Ajustez la balance des couleurs pour les blancs de façon sélective pour les "
+"noirs et les blancs. Ce filtre fonctionne dans l'espace colorimétrique "
+"« YUV »."
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
@@ -1947,6 +1955,8 @@ msgid ""
 "Convert colorspace, transfer characteristics or color primaries. Input video "
 "needs to have an even size."
 msgstr ""
+"Convertir des espaces colorimétriques, transférer des caractéristiques ou "
+"des couleurs primaires. La vidéo d'entrée doit avoir une taille uniforme."
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
 #: data/effects/avfilter/avfilter_colorspace.xml:43
@@ -2136,6 +2146,17 @@ msgid ""
 "specified number of attacks and decays is lower than number of channels, the "
 "last set attack/decay will be used for all remaining channels."
 msgstr ""
+"Une liste de temps en secondes pour chaque canal sur lequel le niveau "
+"instantané du signal d’entrée est moyenné pour déterminer son volume. Les "
+"attaques font référence aux augmentations de volume et les décompositions "
+"font référence à la diminution du volume. Pour la plupart des situations, le "
+"temps d’attaque (Réponse audio devenant plus forte) devrait être plus court "
+"que le temps de décomposition, car l’oreille humaine est plus sensible à un "
+"son bruyant soudain que l’audio doux soudain. Une valeur typique pour les "
+"attaques est de 0,3 seconde et une valeur typique pour la décomposition est "
+"de 0,8 seconde. Si le nombre spécifié d’attaques et de décompositions est "
+"inférieur au nombre de canaux, les dernières attaques et décompositions "
+"définies seront utilisées pour tous les canaux restants."
 
 #: data/effects/avfilter/avfilter_compand.xml:12
 #, kde-format
@@ -2205,6 +2226,26 @@ msgid ""
 "delay tolerance depends on sample rate, too. Higher sample rates will give "
 "more tolerance. "
 msgstr ""
+"Le paramètre de ligne de compensation de retard est un délai reposant sur la "
+"métrique pour compenser les positions différentes des microphones ou des "
+"haut-parleurs.  \n"
+"Par exemple, vous avez enregistré une guitare avec deux microphones placés à "
+"des endroits différents. Parce que le front de l’onde sonore a une vitesse "
+"fixe dans des conditions normales, la phase des microphones peut varier et "
+"dépend de leur emplacement et de leur interposition. Le meilleur mélange "
+"sonore peut être obtenu lorsque ces microphones sont en phase "
+"(Synchronisés). Veuillez noter qu’une distance d’environ 30 cm entre les "
+"microphones permet à un microphone de capter le signal en phase inverse de "
+"l’autre microphone. Cela conduit à un rendu un peu mélancolique du mélange "
+"final. Ce filtre aide à résoudre les problèmes de phasage en ajoutant "
+"différents retards à chaque piste de microphone et en les rendant "
+"synchronisés.  \n"
+"\n"
+"Le meilleur résultat peut être atteint lorsque vous prenez une piste comme "
+"référence et synchronisez les autres pistes une par une avec elle. Veuillez "
+"ne pas oublier que la tolérance de synchronisation / de retard dépend "
+"également de la fréquence d’échantillonnage. Des fréquences "
+"d’échantillonnage plus élevées donneront une meilleure tolérance. "
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, kde-format
@@ -2526,6 +2567,8 @@ msgid ""
 "Optional. It should have a value much less than 1 (e.g. 0.05 or 0.02) and is "
 "used to prevent clipping."
 msgstr ""
+"Facultatif. Il doit avoir une valeur bien inférieure à 1 (Par exemple 0,05 "
+"ou 0,02) et est utilisé pour empêcher l'écrêtage."
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:4
 #, kde-format
@@ -2835,6 +2878,9 @@ msgid ""
 "Remove the rain in the input image/video by applying the derain methods "
 "based on convolutional neural networks"
 msgstr ""
+"Supprimer la pluie dans l'image / dans la vidéo d'entrée en appliquant les "
+"méthodes de suppression de la pluie reposant sur les réseaux convolutionnels "
+"de neurones"
 
 #: data/effects/avfilter/avfilter_derain.xml:8
 #: data/effects/avfilter/avfilter_sr.xml:8
@@ -2865,6 +2911,8 @@ msgid ""
 "Remove unwanted contamination of foreground colors, caused by reflected "
 "color of greenscreen or bluescreen"
 msgstr ""
+"Supprimer la contamination indésirable des couleurs de premier plan, causée "
+"par la couleur réfléchie de l'écran vert ou de l'écran bleu"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
 #, kde-format
@@ -4211,6 +4259,8 @@ msgid ""
 "Replaces the pixel by the local(3x3) average by taking into account only "
 "values higher than the pixel. "
 msgstr ""
+"Remplace le pixel par la moyenne locale (3 x 3) en ne prenant en compte que "
+"les valeurs supérieures au pixel."
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, kde-format
@@ -5614,6 +5664,8 @@ msgid ""
 "Scale the input by applying one of the super-resolution methods based on "
 "convolutional neural networks. "
 msgstr ""
+"Mettre à l'échelle l'entrée en appliquant l'une des méthodes de super-"
+"résolution reposant sur des réseaux convolutionnels de neurones."
 
 #: data/effects/avfilter/avfilter_sr.xml:15
 #, kde-format
@@ -5876,6 +5928,13 @@ msgid ""
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
 msgstr ""
+"« balance »\n"
+"Mode d'équilibrage classique. Atténuez un canal à la fois. Le gain est "
+"augmenté jusqu'à 1.\n"
+"« amplitude »\n"
+"Similaire au mode classique ci-dessus, mais le gain est augmenté jusqu'à 2.\n"
+"« power »\n"
+"Distribution de puissance égale, de -6 dB à +6 dB."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
 #, kde-format
@@ -5889,6 +5948,9 @@ msgid ""
 "channels and by delaying the signal of left into right and vice versa, "
 "thereby widening the stereo effect."
 msgstr ""
+"Ce filtre améliore l'effet stéréo par suppression du signal commun aux deux "
+"canaux et en retardant le signal à gauche vers la droite et vice versa, "
+"élargissant ainsi l'effet stéréo."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:9
 #, kde-format
@@ -13945,6 +14007,8 @@ msgid ""
 "Perform a conversion to color only of the source input1 using the hue and "
 "saturation values of input2."
 msgstr ""
+"Effectuez une conversion en couleur uniquement de l'entrée source #1 en "
+"utilisant les valeurs de teinte et de saturation de l'entrée #2."
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
 #, kde-format
@@ -13980,6 +14044,8 @@ msgid ""
 "Perform an RGB[A] divide operation between the pixel sources: input1 is the "
 "numerator, input2 the denominator."
 msgstr ""
+"Effectuez une opération de division RVB[A] entre les sources de pixels : "
+"l'entrée #1 est le numérateur, l'entrée #2 est le dénominateur."
 
 #: data/transitions/frei0r/frei0r_dodge.xml:4
 #, kde-format
@@ -14031,6 +14097,8 @@ msgid ""
 "Perform a conversion to hue only of the source input1 using the hue of "
 "input2."
 msgstr ""
+"Effectuez une conversion en teinte uniquement de l'entrée source #1 en "
+"utilisant la teinte de l'entrée #2."
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
 #, kde-format
@@ -15464,12 +15532,12 @@ msgstr "Aucune (Dissoudre)"
 msgid "Create or edit a mask for this clip"
 msgstr "Créer ou modifier un masque pour cette séquence"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:328
+#: src/assets/view/widgets/urllistparamwidget.cpp:336
 #, kde-format
 msgid "Custom…"
 msgstr "Personnalisé..."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:457
+#: src/assets/view/widgets/urllistparamwidget.cpp:465
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Fichier « LUT » %1 non valable"
@@ -16350,13 +16418,13 @@ msgstr "Sélectionner un clip auquel appliquer un effet"
 msgid "Cannot apply effects on folders"
 msgstr "Impossible d'appliquer des effets sur des dossiers"
 
-#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:700
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:704
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Impossible d'ajouter l'effet au clip"
 
-#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:660
 #, kde-format
 msgid "Paste effect"
 msgstr "Coller l'effet"
@@ -16372,7 +16440,7 @@ msgid "Edit Tags"
 msgstr "Modifier des étiquettes"
 
 #: src/bin/bin.cpp:4600 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -16578,18 +16646,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Convertir sans enregistrement"
 
-#: src/bin/bin.cpp:6243 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6252 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Supprimer l'effet %1"
 
-#: src/bin/bin.cpp:6308 src/mainwindow.cpp:325
+#: src/bin/bin.cpp:6318 src/mainwindow.cpp:325
 #, kde-format
 msgid "Project Bin"
 msgstr "Sources du projet"
 
-#: src/bin/bin.cpp:6311 src/bin/bin.cpp:6314 src/mainwindow.cpp:4852
+#: src/bin/bin.cpp:6321 src/bin/bin.cpp:6324 src/mainwindow.cpp:4852
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Environnement du projet %1"
@@ -16911,7 +16979,7 @@ msgstr "Déplacer un sous-titre"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:851
+#: src/effects/effectstack/view/effectstackview.cpp:860
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -16969,18 +17037,18 @@ msgstr "version"
 msgid "Sequence count"
 msgstr "Numéro de séquence"
 
-#: src/bin/projectclip.cpp:246
+#: src/bin/projectclip.cpp:250
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Séquence de la frise chronologique"
 
-#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1126
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1126
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:619
+#: src/bin/projectclip.cpp:623
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -16989,7 +17057,7 @@ msgstr ""
 "Image de dimension inférieure à 8 pixels.\n"
 "Ceci n'est pas pris en charge par notre moteur vidéo."
 
-#: src/bin/projectclip.cpp:916
+#: src/bin/projectclip.cpp:920
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -16998,39 +17066,39 @@ msgstr ""
 "Impossible d'extraire les métadonnées depuis %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1202 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Non valable"
 
-#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1501
 #, kde-format
 msgid "File already exists"
 msgstr "Le fichier existe déjà"
 
-#: src/bin/projectclip.cpp:2643
+#: src/bin/projectclip.cpp:2647
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Ajuster les vidéo sur la frise chronologique"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Add stream effect"
 msgstr "Ajouter un effet de flux"
 
-#: src/bin/projectclip.cpp:2857
+#: src/bin/projectclip.cpp:2861
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Supprimer un effet de flux"
 
-#: src/bin/projectclip.cpp:3172
+#: src/bin/projectclip.cpp:3176
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Masque ajouté à la séquence"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3180
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Séquence manquante pour le masque"
@@ -17903,7 +17971,7 @@ msgstr "Exporter des données de guides"
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:889
+#: src/effects/effectstack/view/effectstackview.cpp:898
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -20897,18 +20965,16 @@ msgid "Upgrading project version…"
 msgstr "Mise à jour en cours de la version du projet..."
 
 #: src/doc/documentvalidator.cpp:194
-#, fuzzy, kde-format
-#| msgid ""
-#| "This project type is unsupported (version %1) and cannot be loaded.\n"
-#| "Please consider upgrading your Kdenlive version."
+#, kde-format
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
 "what this Kdenlive release supports (version %2 and older).\n"
 "Please consider upgrading your Kdenlive version."
 msgstr ""
-"Ce type de projet n'est pas pris en charge (version %1), impossible de le "
-"charger.\n"
-"Veuillez mettre à jour votre version de Kdenlive."
+"Ce projet n'est pas pris en charge. En effet, sa version de documentation "
+"(%1) est plus récente que  ce que la version de Kdenlive prend en charge "
+"(Version %2 et supérieure).\n"
+"Veuillez envisager une mis à niveau de votre version de Kdenlive."
 
 #: src/doc/documentvalidator.cpp:195 src/doc/documentvalidator.cpp:204
 #, kde-format
@@ -21379,34 +21445,34 @@ msgstr "Afficher les trames clé"
 msgid "Update zone for %1"
 msgstr "Mettre à jour la zone pour %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:303
+#: src/effects/effectstack/model/effectstackmodel.cpp:306
 #: src/timeline2/model/timelineitemmodel.cpp:736
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Copy effect"
 msgstr "Copier l'effet"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:399
-#: src/effects/effectstack/model/effectstackmodel.cpp:576
-#: src/effects/effectstack/model/effectstackmodel.cpp:686
-#: src/effects/effectstack/model/effectstackmodel.cpp:1479
+#: src/effects/effectstack/model/effectstackmodel.cpp:402
+#: src/effects/effectstack/model/effectstackmodel.cpp:579
+#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:1483
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "L'effet %1 ne peut être ajouté une deuxième fois."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:672
+#: src/effects/effectstack/model/effectstackmodel.cpp:676
 #: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
 msgstr "Ajouter l'effet %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:682
+#: src/effects/effectstack/model/effectstackmodel.cpp:686
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "L'effet %1 ne peut être ajouté qu'à l'élément maître."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1237
+#: src/effects/effectstack/model/effectstackmodel.cpp:1241
 #, kde-format
 msgid "Move effect %1"
 msgstr "Déplacer l'effet %1"
@@ -21620,79 +21686,79 @@ msgstr "Commentaires :"
 msgid "No name provided, effect not saved."
 msgstr "Aucun nom fourni, l'effet n'a pas été enregistré."
 
-#: src/effects/effectstack/view/effectstackview.cpp:327
+#: src/effects/effectstack/view/effectstackview.cpp:329
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Basculement horizontal"
 
-#: src/effects/effectstack/view/effectstackview.cpp:332
+#: src/effects/effectstack/view/effectstackview.cpp:334
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Basculement vertical"
 
-#: src/effects/effectstack/view/effectstackview.cpp:341
-#: src/effects/effectstack/view/effectstackview.cpp:422
-#: src/effects/effectstack/view/effectstackview.cpp:977
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:428
+#: src/effects/effectstack/view/effectstackview.cpp:986
 #, kde-format
 msgid "Remove Background"
 msgstr "Supprimer l'arrière-plan"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Supprimer l'arrière-plan en utilisant un modèle d'IA."
 
-#: src/effects/effectstack/view/effectstackview.cpp:353
+#: src/effects/effectstack/view/effectstackview.cpp:355
 #, kde-format
 msgid "Flip"
 msgstr "Bascule"
 
-#: src/effects/effectstack/view/effectstackview.cpp:428
+#: src/effects/effectstack/view/effectstackview.cpp:434
 #, kde-format
 msgid "Exporting…"
 msgstr "Exportation en cours…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Activer la pile d'effets"
 
-#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Désactiver la pile d'effets"
 
-#: src/effects/effectstack/view/effectstackview.cpp:808
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgid "No effect selected."
 msgstr "Aucun effet sélectionné."
 
-#: src/effects/effectstack/view/effectstackview.cpp:814
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Enregistrer la pile d'effets courants"
 
-#: src/effects/effectstack/view/effectstackview.cpp:819
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nom pour la pile enregistrée : "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:820
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Description : "
 
-#: src/effects/effectstack/view/effectstackview.cpp:832
+#: src/effects/effectstack/view/effectstackview.cpp:841
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Aucun nom fourni, la pile d'effets n'a pas été enregistrée."
 
-#: src/effects/effectstack/view/effectstackview.cpp:839
+#: src/effects/effectstack/view/effectstackview.cpp:848
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21701,8 +21767,8 @@ msgstr ""
 "Aucune description fourni.\n"
 "Voulez-vous vraiment enregistrer un effet sans description ?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:974
-#: src/effects/effectstack/view/effectstackview.cpp:1000
+#: src/effects/effectstack/view/effectstackview.cpp:983
+#: src/effects/effectstack/view/effectstackview.cpp:1009
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Annuler la création du masque"

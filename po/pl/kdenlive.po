@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 00:41+0000\n"
+"POT-Creation-Date: 2025-04-05 00:41+0000\n"
 "PO-Revision-Date: 2025-03-29 19:21+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -16026,12 +16026,12 @@ msgstr "Brak (Rozpływanie)"
 msgid "Create or edit a mask for this clip"
 msgstr "Utwórz lub dostosuj maskę dla tego wycinka"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:328
+#: src/assets/view/widgets/urllistparamwidget.cpp:336
 #, kde-format
 msgid "Custom…"
 msgstr "Własny…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:457
+#: src/assets/view/widgets/urllistparamwidget.cpp:465
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Nieprawidłowy plik LUT %1"
@@ -16903,13 +16903,13 @@ msgstr "Wybierz wycinek, na który chcesz nałożyć efekt"
 msgid "Cannot apply effects on folders"
 msgstr "Nie można nałożyć efektu na katalogi"
 
-#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:700
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:704
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Nie można dodać efektu do wycinka"
 
-#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:660
 #, kde-format
 msgid "Paste effect"
 msgstr "Wklej efekt"
@@ -16925,7 +16925,7 @@ msgid "Edit Tags"
 msgstr "Edytuj znaczniki"
 
 #: src/bin/bin.cpp:4600 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -17127,18 +17127,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkoduj bez zapisywania"
 
-#: src/bin/bin.cpp:6243 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6252 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Usuń efekt %1"
 
-#: src/bin/bin.cpp:6308 src/mainwindow.cpp:325
+#: src/bin/bin.cpp:6318 src/mainwindow.cpp:325
 #, kde-format
 msgid "Project Bin"
 msgstr "Pojemnik projektu"
 
-#: src/bin/bin.cpp:6311 src/bin/bin.cpp:6314 src/mainwindow.cpp:4852
+#: src/bin/bin.cpp:6321 src/bin/bin.cpp:6324 src/mainwindow.cpp:4852
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Pojemnik projektu %1"
@@ -17459,7 +17459,7 @@ msgstr "Przesuń napisy"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:851
+#: src/effects/effectstack/view/effectstackview.cpp:860
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17517,18 +17517,18 @@ msgstr "wersja"
 msgid "Sequence count"
 msgstr "Liczba w szeregu"
 
-#: src/bin/projectclip.cpp:246
+#: src/bin/projectclip.cpp:250
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Odcinek na osi czasu"
 
-#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1126
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1126
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:619
+#: src/bin/projectclip.cpp:623
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -17537,7 +17537,7 @@ msgstr ""
 "Obraz ma rozmiar mniejszy niż 8 pikseli.\n"
 "Nie jest to poprawie obsługiwane przez nasz szkielet wideo."
 
-#: src/bin/projectclip.cpp:916
+#: src/bin/projectclip.cpp:920
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -17546,39 +17546,39 @@ msgstr ""
 "Nie można wydobyć metadanych z %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1202 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Nieprawidłowy"
 
-#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1501
 #, kde-format
 msgid "File already exists"
 msgstr "Plik już istnieje"
 
-#: src/bin/projectclip.cpp:2643
+#: src/bin/projectclip.cpp:2647
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Dostosuj wycinki na osi czasu"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Add stream effect"
 msgstr "Dodaj efekt strumienia"
 
-#: src/bin/projectclip.cpp:2857
+#: src/bin/projectclip.cpp:2861
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Usuń efekt strumienia"
 
-#: src/bin/projectclip.cpp:3172
+#: src/bin/projectclip.cpp:3176
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Dodano maskę do wycinka"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3180
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Brak wycinka dla maski"
@@ -18441,7 +18441,7 @@ msgstr "Wyeksportuj dane prowadnic"
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:889
+#: src/effects/effectstack/view/effectstackview.cpp:898
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -21868,34 +21868,34 @@ msgstr "Pokaż klatki kluczowe"
 msgid "Update zone for %1"
 msgstr "Uaktualnij obszar dla %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:303
+#: src/effects/effectstack/model/effectstackmodel.cpp:306
 #: src/timeline2/model/timelineitemmodel.cpp:736
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Copy effect"
 msgstr "Skopiuj efekt"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:399
-#: src/effects/effectstack/model/effectstackmodel.cpp:576
-#: src/effects/effectstack/model/effectstackmodel.cpp:686
-#: src/effects/effectstack/model/effectstackmodel.cpp:1479
+#: src/effects/effectstack/model/effectstackmodel.cpp:402
+#: src/effects/effectstack/model/effectstackmodel.cpp:579
+#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:1483
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Nie można dodać dwukrotnie efektu %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:672
+#: src/effects/effectstack/model/effectstackmodel.cpp:676
 #: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
 msgstr "Dodaj efekt %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:682
+#: src/effects/effectstack/model/effectstackmodel.cpp:686
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "Efek %1 można dodać tylko do głównej ścieżki"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1237
+#: src/effects/effectstack/model/effectstackmodel.cpp:1241
 #, kde-format
 msgid "Move effect %1"
 msgstr "Przesuń efekt %1"
@@ -22105,79 +22105,79 @@ msgstr "Komentarze:"
 msgid "No name provided, effect not saved."
 msgstr "Nie wpisano żadnej nazwy, więc nie zapisano efektu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:327
+#: src/effects/effectstack/view/effectstackview.cpp:329
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Odbij w poziomie"
 
-#: src/effects/effectstack/view/effectstackview.cpp:332
+#: src/effects/effectstack/view/effectstackview.cpp:334
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Odbij w pionie"
 
-#: src/effects/effectstack/view/effectstackview.cpp:341
-#: src/effects/effectstack/view/effectstackview.cpp:422
-#: src/effects/effectstack/view/effectstackview.cpp:977
+#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:428
+#: src/effects/effectstack/view/effectstackview.cpp:986
 #, kde-format
 msgid "Remove Background"
 msgstr "Usuń tło"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
+#: src/effects/effectstack/view/effectstackview.cpp:344
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Usuń tło przy użyciu modelu AI"
 
-#: src/effects/effectstack/view/effectstackview.cpp:353
+#: src/effects/effectstack/view/effectstackview.cpp:355
 #, kde-format
 msgid "Flip"
 msgstr "Odbij"
 
-#: src/effects/effectstack/view/effectstackview.cpp:428
+#: src/effects/effectstack/view/effectstackview.cpp:434
 #, kde-format
 msgid "Exporting…"
 msgstr "Eksportowanie…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Włącz stos efektów"
 
-#: src/effects/effectstack/view/effectstackview.cpp:769
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3262
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Wyłącz stos efektów"
 
-#: src/effects/effectstack/view/effectstackview.cpp:808
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgid "No effect selected."
 msgstr "Nie wybrano żadnego efektu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:814
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Zapisz bieżący stos efektów"
 
-#: src/effects/effectstack/view/effectstackview.cpp:819
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nazwa dla zapisanego stosu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:820
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Opis:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:832
+#: src/effects/effectstack/view/effectstackview.cpp:841
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Nie wpisano żadnej nazwy, więc nie zapisano stosu efektów."
 
-#: src/effects/effectstack/view/effectstackview.cpp:839
+#: src/effects/effectstack/view/effectstackview.cpp:848
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -22186,8 +22186,8 @@ msgstr ""
 "Nie podano żadnego opisu.\n"
 "Czy zapisać efekt bez niego?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:974
-#: src/effects/effectstack/view/effectstackview.cpp:1000
+#: src/effects/effectstack/view/effectstackview.cpp:983
+#: src/effects/effectstack/view/effectstackview.cpp:1009
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Przerwij tworzenie maski"
