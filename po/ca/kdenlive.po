@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-04 02:40+0000\n"
+"POT-Creation-Date: 2025-04-05 02:38+0000\n"
 "PO-Revision-Date: 2025-04-01 09:34+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -16493,13 +16493,13 @@ msgstr "Seleccioneu un clip per a aplicar-hi un efecte"
 msgid "Cannot apply effects on folders"
 msgstr "No es poden aplicar efectes a les carpetes"
 
-#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:700
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:704
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "No s'ha pogut afegir un efecte al clip"
 
-#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:660
 #, kde-format
 msgid "Paste effect"
 msgstr "Enganxa l'efecte"
@@ -16515,7 +16515,7 @@ msgid "Edit Tags"
 msgstr "Edició d'etiquetes"
 
 #: src/bin/bin.cpp:4600 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -17048,7 +17048,7 @@ msgstr "Mou els subtítols"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:852
+#: src/effects/effectstack/view/effectstackview.cpp:861
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17106,18 +17106,18 @@ msgstr "versió"
 msgid "Sequence count"
 msgstr "Comptador de seqüències"
 
-#: src/bin/projectclip.cpp:246
+#: src/bin/projectclip.cpp:250
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Seqüència de la línia de temps"
 
-#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1128
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1128
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:619
+#: src/bin/projectclip.cpp:623
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -17126,7 +17126,7 @@ msgstr ""
 "La dimensió de la imatge és inferior a 8 píxels.\n"
 "Això no s'admet en aquest entorn de treball de vídeo."
 
-#: src/bin/projectclip.cpp:916
+#: src/bin/projectclip.cpp:920
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -17135,39 +17135,39 @@ msgstr ""
 "No s'han pogut extreure les metadades des de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1202 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "No vàlida"
 
-#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1501
 #, kde-format
 msgid "File already exists"
 msgstr "El fitxer ja existeix"
 
-#: src/bin/projectclip.cpp:2643
+#: src/bin/projectclip.cpp:2647
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Ajusta els clips de la línia de temps"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Add stream effect"
 msgstr "Afegeix un nou de flux"
 
-#: src/bin/projectclip.cpp:2857
+#: src/bin/projectclip.cpp:2861
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Elimina l'efecte de flux"
 
-#: src/bin/projectclip.cpp:3172
+#: src/bin/projectclip.cpp:3176
 #, kde-format
 msgid "Mask added to clip"
 msgstr "La màscara s'ha afegit al clip"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3180
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Manca un clip per a la màscara"
@@ -18034,7 +18034,7 @@ msgstr "Exportació de les dades de guies"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:890
+#: src/effects/effectstack/view/effectstackview.cpp:899
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -21485,34 +21485,34 @@ msgstr "Mostra els fotogrames clau"
 msgid "Update zone for %1"
 msgstr "Actualitza la zona per a %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:303
+#: src/effects/effectstack/model/effectstackmodel.cpp:306
 #: src/timeline2/model/timelineitemmodel.cpp:743
 #: src/timeline2/model/timelineitemmodel.cpp:756
 #, kde-format
 msgid "Copy effect"
 msgstr "Copia l'efecte"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:399
-#: src/effects/effectstack/model/effectstackmodel.cpp:576
-#: src/effects/effectstack/model/effectstackmodel.cpp:686
-#: src/effects/effectstack/model/effectstackmodel.cpp:1481
+#: src/effects/effectstack/model/effectstackmodel.cpp:402
+#: src/effects/effectstack/model/effectstackmodel.cpp:579
+#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:1485
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "No es pot afegir l'efecte %1 dues vegades."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:672
+#: src/effects/effectstack/model/effectstackmodel.cpp:676
 #: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
 msgstr "Afegeix l'efecte %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:682
+#: src/effects/effectstack/model/effectstackmodel.cpp:686
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "L'efecte %1 només es pot afegir al mestre"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1237
+#: src/effects/effectstack/model/effectstackmodel.cpp:1241
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mou l'efecte %1"
@@ -21731,79 +21731,79 @@ msgstr "Comentaris:"
 msgid "No name provided, effect not saved."
 msgstr "No s'ha proporcionat cap nom, l'efecte no s'ha desat."
 
-#: src/effects/effectstack/view/effectstackview.cpp:328
+#: src/effects/effectstack/view/effectstackview.cpp:330
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Inversió horitzontal"
 
-#: src/effects/effectstack/view/effectstackview.cpp:333
+#: src/effects/effectstack/view/effectstackview.cpp:335
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Inversió vertical"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
-#: src/effects/effectstack/view/effectstackview.cpp:423
-#: src/effects/effectstack/view/effectstackview.cpp:978
+#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:429
+#: src/effects/effectstack/view/effectstackview.cpp:987
 #, kde-format
 msgid "Remove Background"
 msgstr "Elimina el fons"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:345
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "Elimina el fons utilitzant un model d'IA"
 
-#: src/effects/effectstack/view/effectstackview.cpp:354
+#: src/effects/effectstack/view/effectstackview.cpp:356
 #, kde-format
 msgid "Flip"
 msgstr "Inversió"
 
-#: src/effects/effectstack/view/effectstackview.cpp:429
+#: src/effects/effectstack/view/effectstackview.cpp:435
 #, kde-format
 msgid "Exporting…"
 msgstr "S'està exportant…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:770
+#: src/effects/effectstack/view/effectstackview.cpp:779
 #: src/timeline2/view/timelinecontroller.cpp:3301
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Activa la pila d'efectes"
 
-#: src/effects/effectstack/view/effectstackview.cpp:770
+#: src/effects/effectstack/view/effectstackview.cpp:779
 #: src/timeline2/view/timelinecontroller.cpp:3301
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Desactiva la pila d'efectes"
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:818
 #, kde-format
 msgid "No effect selected."
 msgstr "No s'ha seleccionat cap efecte."
 
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:824
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Desa la pila d'efectes actual"
 
-#: src/effects/effectstack/view/effectstackview.cpp:820
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nom de la pila desada:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:821
+#: src/effects/effectstack/view/effectstackview.cpp:830
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Descripció:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:833
+#: src/effects/effectstack/view/effectstackview.cpp:842
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "No s'ha proporcionat cap nom, la pila d'efectes no s'ha desat."
 
-#: src/effects/effectstack/view/effectstackview.cpp:840
+#: src/effects/effectstack/view/effectstackview.cpp:849
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21812,8 +21812,8 @@ msgstr ""
 "No s'ha proporcionat cap descripció.\n"
 "Deso l'efecte sense cap descripció?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:975
-#: src/effects/effectstack/view/effectstackview.cpp:1001
+#: src/effects/effectstack/view/effectstackview.cpp:984
+#: src/effects/effectstack/view/effectstackview.cpp:1010
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Interromp la creació de la màscara"

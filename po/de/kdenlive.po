@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-04 02:40+0000\n"
+"POT-Creation-Date: 2025-04-05 02:38+0000\n"
 "PO-Revision-Date: 2024-10-21 13:23+0200\n"
 "Last-Translator: R. Arp <rarp@7bps.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -16533,13 +16533,13 @@ msgstr "Wählen Sie einen Clip, auf den Sie einen Effekt anwenden möchten"
 msgid "Cannot apply effects on folders"
 msgstr "Effekte können nicht auf Ordner angewendet werden"
 
-#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:700
-#: src/effects/effectstack/model/effectstackmodel.cpp:706
+#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:704
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Der Effekt kann nicht dem Clip hinzugefügt werden"
 
-#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:660
 #, kde-format
 msgid "Paste effect"
 msgstr "Effekt einfügen"
@@ -16555,7 +16555,7 @@ msgid "Edit Tags"
 msgstr "Etiketten bearbeiten"
 
 #: src/bin/bin.cpp:4600 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -17095,7 +17095,7 @@ msgstr "Untertitel verschieben"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:852
+#: src/effects/effectstack/view/effectstackview.cpp:861
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17158,26 +17158,26 @@ msgstr "Persisch"
 msgid "Sequence count"
 msgstr "Sequenz 1"
 
-#: src/bin/projectclip.cpp:246
+#: src/bin/projectclip.cpp:250
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Zeitleisten-Sequenz"
 
-#: src/bin/projectclip.cpp:538 src/timeline2/view/qml/Clip.qml:1128
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1128
 #, fuzzy, kde-format
 #| msgid "P"
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:619
+#: src/bin/projectclip.cpp:623
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:916
+#: src/bin/projectclip.cpp:920
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -17186,41 +17186,41 @@ msgstr ""
 "Die Metadaten können nicht aus %1 extrahiert werden\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1202 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Ungültig"
 
-#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1501
 #, kde-format
 msgid "File already exists"
 msgstr "Datei bereits vorhanden"
 
-#: src/bin/projectclip.cpp:2643
+#: src/bin/projectclip.cpp:2647
 #, fuzzy, kde-format
 #| msgid "Paste timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Zeitleisten-Clip einfügen"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Add stream effect"
 msgstr "Stream-Effekt hinzufügen"
 
-#: src/bin/projectclip.cpp:2857
+#: src/bin/projectclip.cpp:2861
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Stream-Effekt entfernen"
 
-#: src/bin/projectclip.cpp:3172
+#: src/bin/projectclip.cpp:3176
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Mask added to clip"
 msgstr "Wiedergabelisten-Clips"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3180
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing clip for mask"
@@ -18087,7 +18087,7 @@ msgstr "Hilfsliniendaten exportieren"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:890
+#: src/effects/effectstack/view/effectstackview.cpp:899
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -21617,35 +21617,35 @@ msgstr "Keyframes anzeigen"
 msgid "Update zone for %1"
 msgstr "%1 aktualisieren "
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:303
+#: src/effects/effectstack/model/effectstackmodel.cpp:306
 #: src/timeline2/model/timelineitemmodel.cpp:743
 #: src/timeline2/model/timelineitemmodel.cpp:756
 #, kde-format
 msgid "Copy effect"
 msgstr "Effekt kopieren"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:399
-#: src/effects/effectstack/model/effectstackmodel.cpp:576
-#: src/effects/effectstack/model/effectstackmodel.cpp:686
-#: src/effects/effectstack/model/effectstackmodel.cpp:1481
+#: src/effects/effectstack/model/effectstackmodel.cpp:402
+#: src/effects/effectstack/model/effectstackmodel.cpp:579
+#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:1485
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Der Effekt %1 kann nicht zweimal hinzugefügt werden."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:672
+#: src/effects/effectstack/model/effectstackmodel.cpp:676
 #: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5087
 #, kde-format
 msgid "Add effect %1"
 msgstr "Effekt %1 hinzufügen"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:682
+#: src/effects/effectstack/model/effectstackmodel.cpp:686
 #, fuzzy, kde-format
 #| msgid "Effect %1 cannot be added twice."
 msgid "Effect %1 can only be added to master"
 msgstr "Der Effekt %1 kann nicht zweimal hinzugefügt werden."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1237
+#: src/effects/effectstack/model/effectstackmodel.cpp:1241
 #, kde-format
 msgid "Move effect %1"
 msgstr "Effekt %1 verschieben"
@@ -21860,95 +21860,95 @@ msgstr "Kommentare:"
 msgid "No name provided, effect not saved."
 msgstr "Kein Name angegeben. Effekt nicht gespeichert."
 
-#: src/effects/effectstack/view/effectstackview.cpp:328
+#: src/effects/effectstack/view/effectstackview.cpp:330
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgid "Horizontal Flip"
 msgstr "Horizontal"
 
-#: src/effects/effectstack/view/effectstackview.cpp:333
+#: src/effects/effectstack/view/effectstackview.cpp:335
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical Flip"
 msgstr "Senkrecht"
 
-#: src/effects/effectstack/view/effectstackview.cpp:342
-#: src/effects/effectstack/view/effectstackview.cpp:423
-#: src/effects/effectstack/view/effectstackview.cpp:978
+#: src/effects/effectstack/view/effectstackview.cpp:344
+#: src/effects/effectstack/view/effectstackview.cpp:429
+#: src/effects/effectstack/view/effectstackview.cpp:987
 #, fuzzy, kde-format
 #| msgid "Remove group"
 msgid "Remove Background"
 msgstr "Gruppe entfernen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:343
+#: src/effects/effectstack/view/effectstackview.cpp:345
 #, fuzzy, kde-format
 #| msgid "Remove the background of a static video"
 msgid "Remove background using AI model"
 msgstr "Entfernt den Hintergrund eines statischen Videos"
 
-#: src/effects/effectstack/view/effectstackview.cpp:354
+#: src/effects/effectstack/view/effectstackview.cpp:356
 #, fuzzy, kde-format
 #| msgid "Flippo"
 msgid "Flip"
 msgstr "Flippo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:429
+#: src/effects/effectstack/view/effectstackview.cpp:435
 #, fuzzy, kde-format
 #| msgid "Extracting…"
 msgid "Exporting…"
 msgstr "Extrahieren läuft ..."
 
-#: src/effects/effectstack/view/effectstackview.cpp:770
+#: src/effects/effectstack/view/effectstackview.cpp:779
 #: src/timeline2/view/timelinecontroller.cpp:3301
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "Effekt aktivieren"
 
-#: src/effects/effectstack/view/effectstackview.cpp:770
+#: src/effects/effectstack/view/effectstackview.cpp:779
 #: src/timeline2/view/timelinecontroller.cpp:3301
 #, fuzzy, kde-format
 #| msgid "Disable Effect"
 msgid "Disable Effect Stack"
 msgstr "Effekt deaktivieren"
 
-#: src/effects/effectstack/view/effectstackview.cpp:809
+#: src/effects/effectstack/view/effectstackview.cpp:818
 #, kde-format
 msgid "No effect selected."
 msgstr "Kein Effekt ausgewählt."
 
-#: src/effects/effectstack/view/effectstackview.cpp:815
+#: src/effects/effectstack/view/effectstackview.cpp:824
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Aktuellen Effektstapel speichern"
 
-#: src/effects/effectstack/view/effectstackview.cpp:820
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Name für gespeicherten Stapel:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:821
+#: src/effects/effectstack/view/effectstackview.cpp:830
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Beschreibung:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:833
+#: src/effects/effectstack/view/effectstackview.cpp:842
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Kein Name angegeben. Stapel nicht gespeichert."
 
-#: src/effects/effectstack/view/effectstackview.cpp:840
+#: src/effects/effectstack/view/effectstackview.cpp:849
 #, kde-format
 msgid ""
 "No description provided. \n"
 "Save effect with no description?"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:975
-#: src/effects/effectstack/view/effectstackview.cpp:1001
+#: src/effects/effectstack/view/effectstackview.cpp:984
+#: src/effects/effectstack/view/effectstackview.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Abort Mask Creation"
