@@ -44,7 +44,7 @@ TEST_CASE("Export/import", "[OTIO]")
         // Import the OTIO test timeline.
         OtioImport otioImport;
         otioImport.importFile(inputPath, false);
-        while (timeline->getClipsCount() < otioClipCount) {
+        while (pCore->currentDoc()->loading) {
             qApp->processEvents();
         }
 
@@ -125,7 +125,7 @@ TEST_CASE("Export/import", "[OTIO]")
         // Import the OTIO test timeline.
         OtioImport otioImport;
         otioImport.importFile(inputPath, false);
-        while (timeline->getClipsCount() < otioClipCount) {
+        while (pCore->currentDoc()->loading) {
             qApp->processEvents();
         }
 
@@ -204,7 +204,7 @@ TEST_CASE("Export/import", "[OTIO]")
         // Import the OTIO test timeline.
         OtioImport otioImport;
         otioImport.importFile(inputPath, false);
-        while (timeline->getClipsCount() < otioClipCount) {
+        while (pCore->currentDoc()->loading) {
             qApp->processEvents();
         }
 
@@ -255,7 +255,7 @@ TEST_CASE("Export/import", "[OTIO]")
         // Import the OTIO test timeline.
         OtioImport otioImport;
         otioImport.importFile(inputPath, false);
-        while (timeline->getClipsCount() < otioClipCount) {
+        while (pCore->currentDoc()->loading) {
             qApp->processEvents();
         }
 
@@ -305,7 +305,7 @@ TEST_CASE("Export/import", "[OTIO]")
         // Import the OTIO test timeline.
         OtioImport otioImport;
         otioImport.importFile(inputPath, false);
-        while (0 == timeline->getClipsCount()) {
+        while (pCore->currentDoc()->loading) {
             qApp->processEvents();
         }
 
@@ -321,6 +321,132 @@ TEST_CASE("Export/import", "[OTIO]")
         REQUIRE(otioClipCount > 0);
         const auto otioNewClips = otioNewTimeline->find_clips();
         REQUIRE(static_cast<int>(otioNewClips.size()) < otioClipCount);
+
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("Missing Media 2")
+    {
+        // Create the test document and timeline.
+        auto binModel = pCore->projectItemModel();
+        std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+        KdenliveDoc document(undoStack);
+        pCore->projectManager()->testSetDocument(&document);
+        QDateTime documentDate = QDateTime::currentDateTime();
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+        auto timeline = document.getTimeline(document.uuid());
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+
+        // Read the OTIO test timeline.
+        QString inputPath = sourcesPath + "/dataset/test-missing-media2.otio";
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
+        const auto otioClips = otioTestTimeline->find_clips();
+        const int otioClipCount = otioClips.size();
+
+        // Import the OTIO test timeline.
+        OtioImport otioImport;
+        otioImport.importFile(inputPath, false);
+        while (pCore->currentDoc()->loading) {
+            qApp->processEvents();
+        }
+
+        // Export a new OTIO timeline.
+        OtioExport otioExport;
+        QTemporaryDir dir;
+        QString outputPath = dir.filePath("test-missing-media2-export.otio");
+        otioExport.exportFile(outputPath);
+
+        // Compare the original test OTIO timeline with the new one.
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioNewTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(outputPath.toStdString())));
+        REQUIRE(2 == otioClipCount);
+        const auto otioNewClips = otioNewTimeline->find_clips();
+        REQUIRE(otioNewClips.empty());
+
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("No Clips")
+    {
+        // Create the test document and timeline.
+        auto binModel = pCore->projectItemModel();
+        std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+        KdenliveDoc document(undoStack);
+        pCore->projectManager()->testSetDocument(&document);
+        QDateTime documentDate = QDateTime::currentDateTime();
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+        auto timeline = document.getTimeline(document.uuid());
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+
+        // Read the OTIO test timeline.
+        QString inputPath = sourcesPath + "/dataset/test-no-clips.otio";
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
+        const auto otioClips = otioTestTimeline->find_clips();
+        const int otioClipCount = otioClips.size();
+
+        // Import the OTIO test timeline.
+        OtioImport otioImport;
+        otioImport.importFile(inputPath, false);
+        while (pCore->currentDoc()->loading) {
+            qApp->processEvents();
+        }
+
+        // Export a new OTIO timeline.
+        OtioExport otioExport;
+        QTemporaryDir dir;
+        QString outputPath = dir.filePath("test-no-clips-export.otio");
+        otioExport.exportFile(outputPath);
+
+        // Compare the original test OTIO timeline with the new one.
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioNewTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(outputPath.toStdString())));
+        REQUIRE(0 == otioClipCount);
+        const auto otioNewClips = otioNewTimeline->find_clips();
+        REQUIRE(otioNewClips.empty());
+
+        pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("No Tracks")
+    {
+        // Create the test document and timeline.
+        auto binModel = pCore->projectItemModel();
+        std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+        KdenliveDoc document(undoStack);
+        pCore->projectManager()->testSetDocument(&document);
+        QDateTime documentDate = QDateTime::currentDateTime();
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+        auto timeline = document.getTimeline(document.uuid());
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+
+        // Read the OTIO test timeline.
+        QString inputPath = sourcesPath + "/dataset/test-no-tracks.otio";
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTestTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(inputPath.toStdString())));
+        const auto otioClips = otioTestTimeline->find_clips();
+        const int otioClipCount = otioClips.size();
+
+        // Import the OTIO test timeline.
+        OtioImport otioImport;
+        otioImport.importFile(inputPath, false);
+        while (pCore->currentDoc()->loading) {
+            qApp->processEvents();
+        }
+
+        // Export a new OTIO timeline.
+        OtioExport otioExport;
+        QTemporaryDir dir;
+        QString outputPath = dir.filePath("test-no-tracks-export.otio");
+        otioExport.exportFile(outputPath);
+
+        // Compare the original test OTIO timeline with the new one.
+        OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioNewTimeline(
+            dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(outputPath.toStdString())));
+        REQUIRE(0 == otioClipCount);
+        const auto otioNewClips = otioNewTimeline->find_clips();
+        REQUIRE(otioNewClips.empty());
 
         pCore->projectManager()->closeCurrentDocument(false, false);
     }

@@ -1776,17 +1776,17 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
         return false;
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
-    if (!master->statusReady() || !master->isCompatible(state)) {
-        if (!master->statusReady()) {
-            qWarning() << "clip not ready...";
-        } else {
-            qWarning() << "clip not compatible" << state;
-        }
+
+    if (!master->statusReady()) {
+        qWarning() << "clip not ready...";
+        return false;
+    }
+    if (!master->isCompatible(state)) {
+        qWarning() << "clip not compatible" << state;
         return false;
     }
     int clipId = TimelineModel::getNextId();
     id = clipId;
-    qDebug() << "======\nCREATING TIMELINE OBJECT: " << clipId << "\n========================";
     Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), bid, clipId, state, audioStream, speed, warp_pitch);
     auto clip = m_allClips[clipId];
@@ -2116,8 +2116,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (normalisedBinId.startsWith(QLatin1Char('A')) || normalisedBinId.startsWith(QLatin1Char('V'))) {
             normalisedBinId.remove(0, 1);
         }
-        res = requestClipCreation(normalisedBinId, id, dropType, binClip->getProducerIntProperty(QStringLiteral("audio_index")), 1.0, false, local_undo,
-                                  local_redo);
+        int audioIndex = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
+        res = requestClipCreation(normalisedBinId, id, dropType, audioIndex, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
     }
     if (!res) {

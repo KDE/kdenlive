@@ -186,6 +186,7 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
         // Create a new document.
         pCore->projectManager()->newFile(profile, false);
     }
+    pCore->currentDoc()->loading = true;
 
     // Get the timeline model. We save the default tracks so we can delete
     // them after the import is finished.
@@ -196,11 +197,14 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
     // completed loading, import the timeline.
     std::function<void(const QString &)> callback = [this, importData](const QString &) {
         ++importData->completedBinClips;
-        if (importData->completedBinClips == importData->binClipCount) {
+        if (importData->completedBinClips >= importData->binClipCount) {
             importTimeline(importData);
         }
         if (m_importingDialog) {
             m_importingDialog->setValue(importData->completedBinClips);
+            if (importData->completedBinClips >= importData->binClipCount) {
+                m_importingDialog->close();
+            }
         }
     };
     for (const auto &file : importData->otioExternalRefs) {
@@ -221,6 +225,11 @@ void OtioImport::importFile(const QString &fileName, bool newDocument)
         const QString binId = ClipCreator::createColorClip(value.first, value.second, key, pCore->projectItemModel()->getRootFolder()->clipId(),
                                                            pCore->projectItemModel(), callback);
         importData->otioColorGeneratorRefToBinId[key] = binId;
+    }
+
+    // Manually call the callback if there were no clips to import.
+    if (0 == importData->binClipCount) {
+        callback(QString());
     }
 }
 
@@ -262,6 +271,7 @@ void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &importDat
         Fun redo = []() { return true; };
         importData->timeline->requestTrackDeletion(id, undo, redo);
     }
+    pCore->currentDoc()->loading = false;
 }
 
 void OtioImport::importTrack(const std::shared_ptr<OtioImportData> &importData, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &otioTrack,
