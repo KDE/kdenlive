@@ -5009,10 +5009,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Components"
-msgstr "구성 요소:"
+msgstr "구성 요소"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
@@ -5189,8 +5188,7 @@ msgid "Number of frames in cache"
 msgstr "채널당 값 수입니다."
 
 #: data/effects/avfilter/avfilter_random.xml:11
-#, fuzzy, kde-format
-#| msgid "Seed"
+#, kde-format
 msgid "Seed"
 msgstr "시드"
 
@@ -7772,8 +7770,7 @@ msgid "Background Subtractor"
 msgstr "배경 감산자"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Remove the background of a static video"
+#, kde-format
 msgid "Remove the background of a static video"
 msgstr "정적 동영상의 배경 삭제"
 
@@ -9531,10 +9528,9 @@ msgstr "경계선 폭"
 #: data/effects/frei0r/frei0r_letterb0xed.xml:11
 #: data/effects/frei0r/frei0r_timeout.xml:14
 #: data/effects/frei0r/frei0r_transparency.xml:8
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgid "Transparency"
-msgstr "투명도:"
+msgstr "투명도"
 
 #: data/effects/frei0r/frei0r_levels.xml:5
 #, kde-format
@@ -10948,8 +10944,7 @@ msgid "Natural lens vignetting effect"
 msgstr "자연 렌즈 비네팅 효과"
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
-#, fuzzy, kde-format
-#| msgid "Aspect ratio"
+#, kde-format
 msgid "Aspect ratio"
 msgstr "종횡 비율"
 

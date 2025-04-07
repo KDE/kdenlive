@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-05 02:38+0000\n"
-"PO-Revision-Date: 2025-04-03 14:00+0200\n"
+"PO-Revision-Date: 2025-04-05 19:48+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1154,6 +1154,9 @@ msgid ""
 "frequency, and (3dB-point) band-width width. The filter roll off at 6dB per "
 "octave (20dB per decade)."
 msgstr ""
+"Appliquez un filtre de réjection de bande de Butterworth à deux pôles avec "
+"une fréquence centrale et une largeur de bande (De point à 3 dB ). Le filtre "
+"s'éteint à 6 dB par octave (20 dB par décennie)."
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
@@ -1166,6 +1169,9 @@ msgid ""
 "Apply a two-pole all-pass filter with central frequency (in Hz) frequency, "
 "and filter-width width. Boost or cut lower frequencies."
 msgstr ""
+"Appliquez un filtre passe-tout bipolaire avec une fréquence centrale (En Hz) "
+"et une largeur de filtre. Veuillez augmenter ou réduire les fréquences plus "
+"basses."
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -1244,6 +1250,8 @@ msgid ""
 "Set an expression for the box radius in pixels used for blurring the "
 "corresponding input plane."
 msgstr ""
+"Définissez une expression pour le rayon de la boîte en pixels utilisée pour "
+"flouter le plan d'entrée correspondant."
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
@@ -1664,6 +1672,8 @@ msgid ""
 "Modifies a color channel by adding the values associated to the other "
 "channels of the same pixels"
 msgstr ""
+"Modifie un canal de couleurs en ajoutant les valeurs associées aux autres "
+"canaux des mêmes pixels"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
@@ -2012,6 +2022,8 @@ msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phsphors"
 msgstr ""
+"BT.709, BT.470M, BT.470BG, SMPTE-170M, SMPTE-240M, Film, Smpte-431, "
+"SMPTE-432, BT.2020,luminophores JEDEC P22"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
@@ -2025,6 +2037,8 @@ msgid ""
 "TV (restricted range),MPEG (restricted range),PC (FULL range),JPEG (FULL "
 "range)"
 msgstr ""
+"TV (Gamme restreinte), MPEG (Gamme restreinte), PC (Gamme complète), JPEG "
+"(Gamme complète)"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
 #, kde-format
@@ -2068,6 +2082,8 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"Adaptation du point blanc de Bradford, adaptation du point blanc de Von "
+"Kries, adaptation du point blanc d'identité"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
@@ -2111,6 +2127,8 @@ msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
 msgstr ""
+"Ajustez la température de couleurs dans la vidéo pour simuler les variations "
+"de la température de couleurs ambiantes."
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
@@ -2169,6 +2187,8 @@ msgid ""
 "Set the additional gain in dB to be applied at all points on the transfer "
 "function. This allows for easy adjustment of the overall gain."
 msgstr ""
+"Définissez le gain supplémentaire en dB à appliquer à tous les points de la "
+"fonction de transfert. Cela permet un ajustement facile du gain global."
 
 #: data/effects/avfilter/avfilter_compand.xml:24
 #, kde-format
@@ -2260,6 +2280,8 @@ msgstr "Distance en centimètres"
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
 msgstr ""
+"Définir la distance en cm. Il s'agit de la distance de compensation pour la "
+"configuration de la distance de resserrement."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
 #, kde-format
@@ -2271,6 +2293,8 @@ msgstr "Mesurer la distance"
 msgid ""
 "Set meters distance. This is compensation distance for hard distance setup."
 msgstr ""
+"Définir la distance en mètres. Il s'agit de la distance de compensation pour "
+"la configuration de la distance réelle."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
 #, kde-format
@@ -2298,6 +2322,8 @@ msgid ""
 "Set temperature in degrees Celsius. This is the temperature of the "
 "environment."
 msgstr ""
+"Définissez la température en degrés Celsius. Il s'agit de la température de "
+"l'environnement."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:4
 #, kde-format
@@ -2362,6 +2388,9 @@ msgid ""
 "Simple algorithm for audio noise sharpening.\n"
 "This filter linearly increases differences betweeen each audio sample."
 msgstr ""
+"Algorithme simple pour l'accentuation du bruit audio.\n"
+"Ce filtre augmente linéairement les différences entre chaque échantillon "
+"audio."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
 #: data/effects/avfilter/avfilter_deesser.xml:8
@@ -2380,6 +2409,10 @@ msgid ""
 "effect).\n"
 "To inverse filtering use negative value. "
 msgstr ""
+"Définit l'intensité de l'effet (Par défaut : 2,0).\n"
+"Doit être compris entre l'intervalle de -10,0 à 0 (Son inchangé) à 10,0 "
+"(Effet maximum).\n"
+"Pour inverser le filtrage, veuillez utiliser une valeur négative."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:15
 #: data/effects/avfilter/avfilter_extrastereo.xml:14
@@ -2543,6 +2576,8 @@ msgid ""
 "Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift "
 "the audio."
 msgstr ""
+"Définissez le décalage DC. L'intervalle autorisé est de -1à 1. Il indique la "
+"quantité de décalage de l'audio."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
 #, kde-format
@@ -2600,6 +2635,9 @@ msgid ""
 "Remove banding artifacts from input video. It works by replacing banded "
 "pixels with average value of referenced pixels"
 msgstr ""
+"Supprimez les artefacts de tramage dans la vidéo d'entrée. Il fonctionne en "
+"remplaçant les pixels des tramages par la valeur moyenne des pixels "
+"référencés."
 
 #: data/effects/avfilter/avfilter_deband.xml:8
 #, kde-format
@@ -2748,6 +2786,8 @@ msgstr ""
 #, kde-format
 msgid "Set intensity for triggering de-essing. Allowed range is from 0 to 1."
 msgstr ""
+"Réglez l'intensité pour déclencher la réduction des sifflantes. L'intervalle "
+"autorisé est de 0 à 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
 #, fuzzy, kde-format
@@ -2760,6 +2800,8 @@ msgstr "Manquant"
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
+"Définir la quantité d'évitement sur la partie aiguë du son. L'intervalle "
+"autorisé est de 0 à 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
@@ -2774,6 +2816,8 @@ msgid ""
 "How much of original frequency content to keep when de-essing. Allowed range "
 "is from 0 to 1."
 msgstr ""
+"Quelle quantité de contenu de la fréquence d'origine doit être conservée "
+"lors de la réduction des sifflantes. L'intervalle autorisé est de 0 à 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:20
 #, kde-format
@@ -3222,6 +3266,8 @@ msgstr "Détection des bords"
 msgid ""
 "Detect and draw edges. The filter uses the Canny Edge Detection algorithm. "
 msgstr ""
+"Détecter et dessiner les bordures. Le filtre utilise l'algorithme de "
+"détection précise des bords."
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:8
 #, kde-format
@@ -3394,6 +3440,8 @@ msgid ""
 "Linearly increases the difference between left and right channels which adds "
 "some sort of \"live\" effect to playback. "
 msgstr ""
+"Augmente de façon linéaire la différence entre les canaux gauche et droit ce "
+"qui permet d’obtenir un lecture avec un effet « direct »."
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:11
 #, kde-format
@@ -3734,6 +3782,8 @@ msgstr "Phase"
 msgid ""
 "Set swept wave percentage-shift for multi channel. Range from 0 to 100. "
 msgstr ""
+"Définissez le pourcentage de décalage de l'onde balayée pour le multicanal. "
+"L'intervalle est de 0 à 100."
 
 #: data/effects/avfilter/avfilter_flanger.xml:37
 #, kde-format
@@ -3891,6 +3941,8 @@ msgstr "Compact, complet"
 #, kde-format
 msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
+"File d'attente, Nombre d'images entrantes, Nombre d'images sortantes, Pts, "
+"Temps, Base de temps, Format, Taille, Fréquence"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #: data/effects/avfilter/avfilter_vectorscope.xml:33
@@ -4284,6 +4336,9 @@ msgid ""
 "deinterling. Work on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
+"Désentrelacez la vidéo d'entrée en appliquant le désentrelacement adaptatif "
+"de noyau de Donald Graft. Veuillez travailler sur des parties entrelacées "
+"d'une vidéo pour produire des trames progressives."
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:11
 #, kde-format
@@ -4769,6 +4824,9 @@ msgid ""
 "Normalize RGB video (aka histogram stretching, contrast stretching). See: "
 "https://en.wikipedia.org/wiki/Normalization_(image_processing) "
 msgstr ""
+"Normaliser la vidéo RVB (C'est à dire l'étirement de l'histogramme, "
+"l'étirement du contraste). Veuillez consulter : https://en.wikipedia.org/"
+"wiki/Normalization_(image_processing) (En anglais)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:8
 #, kde-format
@@ -4956,7 +5014,7 @@ msgstr "Photo-sensibilité"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
 #, kde-format
 msgid "Filter out photosensitive epilepsy seizure-inducing flashes."
-msgstr ""
+msgstr "Filtrer les flashs photosensibles provoquant des crises d'épilepsie."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
 #, kde-format
@@ -5053,6 +5111,9 @@ msgid ""
 "Flush video frames from internal cache of frames into a random order. No "
 "frame is discarded. Inspired by frei0r nervous filter."
 msgstr ""
+"Vider les trames vidéo du cache interne des trames dans un ordre aléatoire. "
+"Aucun trame n'est mise à la corbeille. Cette fonction est inspirée par le "
+"filtre nerveux de frei0r."
 
 #: data/effects/avfilter/avfilter_random.xml:8
 #, kde-format
@@ -5291,6 +5352,9 @@ msgid ""
 "fields, producing a new half height clip with twice the frame rate and twice "
 "the frame count. "
 msgstr ""
+"Il prend une entrée vidéo reposant sur les trames et divise chaque trame en "
+"ses champs de composants, produisant une nouvelle séquence de demi-hauteur "
+"avec deux fois la fréquence de trames et deux fois le nombre de trames."
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
 #, kde-format
@@ -5739,6 +5803,8 @@ msgid ""
 "Set input level before filtering for both channels.\n"
 "Allowed range is from 0.015625 to 64."
 msgstr ""
+"Définissez le niveau d'entrée avant le filtrage des deux canaux.\n"
+"L'intervalle autorisé est de 0,015625 à 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
 #, kde-format
@@ -5758,6 +5824,8 @@ msgid ""
 "Set input balance between both channels. Default is 0. Allowed range is from "
 "-1 to 1."
 msgstr ""
+"Définissez l'équilibre d'entrée entre les deux canaux. La valeur par défaut "
+"est de 0. L'intervalle autorisé est de -1 à 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
 #: data/effects/avfilter/avfilter_stereotools.xml:96
@@ -5776,6 +5844,8 @@ msgid ""
 "Enable softclipping. Results in analog distortion instead of harsh digital "
 "0dB clipping."
 msgstr ""
+"Activez le découpage doux. Il en résulte une distorsion analogique au lieu "
+"d'un écrêtage numérique sévère de 0 dB."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:30
 #, kde-format
@@ -5815,6 +5885,11 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
+"Gauche / Droite à Gauche / Droite, Gauche / Droite à Central / Latéral, "
+"Central / Latéral à Gauche / Droite, Gauche / Droite à Gauche + Droite, "
+"Gauche / Droite à Droite / Gauche, Central / Latéral à Gauche / Gauche, "
+"Central / Latéral à Droite / Droite, Central / Latéral à Droite / Gauche, "
+"Gauche / Droite à Gauche - Droite"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
 #, kde-format
@@ -5858,6 +5933,8 @@ msgid ""
 "Set level of the middle signal. Default is 1. Allowed range is from 0.015625 "
 "to 64."
 msgstr ""
+"Définir le niveau du signal médian. La valeur par défaut est 1. L'intervalle "
+"autorisé est de 0,015625 à 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
 #, kde-format
@@ -5882,6 +5959,8 @@ msgid ""
 "Set stereo base between mono and inverted channels. Default is 0. Allowed "
 "range is from -1 to 1."
 msgstr ""
+"Définissez la base stéréo entre les canaux mono et inversé. La valeur par "
+"défaut est 0. L'intervalle autorisé est de -1 à 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:69
 #, kde-format
@@ -5889,6 +5968,9 @@ msgid ""
 "Set delay in milliseconds how much to delay left from right channel and vice "
 "versa. Default is 0. Allowed range is from -20 to 20."
 msgstr ""
+"Définissez le retard en millisecondes de combien il faut retarder le canal "
+"de gauche vis-à-vis du droit et inversement. La valeur par défaut est 0. "
+"L'intervalle autorisé est de -20 à 20."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
 #, kde-format
@@ -5967,6 +6049,9 @@ msgid ""
 "Gives a delay effect of left signal in right output and vice versa which "
 "gives widening effect."
 msgstr ""
+"Montant du gain du signal retardé vers la droite et inversement.\n"
+"Donne un effet de retard du signal gauche dans la sortie droite et "
+"inversement ce qui donne un effet d'élargissement."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:17
 #, kde-format
@@ -5980,6 +6065,9 @@ msgid ""
 "the mono.\n"
 "If the value is 1 it will cancel all the signal common to both channels. "
 msgstr ""
+"Alimentation croisée de gauche vers la droite avec phase inversée. Cela aide "
+"à supprimer le mono.\n"
+"Si la valeur est 1, cela annulera tout le signal commun aux deux canaux."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:22
 #, kde-format
@@ -6176,6 +6264,8 @@ msgid ""
 "Display 2 color component values in the two dimensional graph (which is "
 "called a vectorscope)"
 msgstr ""
+"Afficher 2 valeurs de composants de couleurs dans le graphique "
+"bidimensionnel (Ce qu'on appelle un vectoroscope)"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #, kde-format
@@ -6337,6 +6427,8 @@ msgid ""
 "Deinterlace the input video \"w3fdif\" stands for Weston 3 Field "
 "Deinterlacing Filter"
 msgstr ""
+"Désentrelacez la vidéo d'entrée « w3fdif » pour le filtre de "
+"désentrelacement de Weston 3"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
 #, kde-format
@@ -6370,6 +6462,9 @@ msgid ""
 "only. Each column of the waveform corresponds to a column of pixels in the "
 "source video. "
 msgstr ""
+"Le moniteur de forme d'onde trace l'intensité des composants de couleurs. "
+"Par défaut, il le fait uniquement avec la luminance. Chaque colonne de la "
+"forme d'onde correspond à une colonne de pixels dans la vidéo source."
 
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #, kde-format
@@ -6536,6 +6631,10 @@ msgid ""
 "fields into single frame, producing a new double height clip with half the "
 "frame rate and half the frame count."
 msgstr ""
+"Le tissage prend une entrée vidéo reposant sur des trames et accole deux "
+"champs séquentiels ensemble en une seule trame, produisant une nouvelle "
+"séquence de double hauteur avec la moitié de la fréquence des trames et la "
+"moitié du nombre de trames."
 
 #: data/effects/avfilter/avfilter_weave.xml:8
 #, kde-format
@@ -7724,6 +7823,9 @@ msgid ""
 "Projects a stereographic image from an equirectangular. Use this to create "
 "the little planet effect from a VR360 footage."
 msgstr ""
+"Projette une image stéréographique à partir d'un équirectangulaire. Veuillez "
+"utiliser ceci pour créer l'effet de petite planète à partir d'une séquence "
+"« VR360 »."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
 #, kde-format
@@ -10428,15 +10530,9 @@ msgid "Blend mode"
 msgstr "Mode de mélange"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
-#, fuzzy, kde-format
-#| msgid ""
-#| "Blend mode used to blend highlight blur with input image. 0 - 0.33 - "
-#| "screen, 0.33 - 0.66 - overlay, 0.66 - 1.0 - add."
+#, kde-format
 msgid "Blend mode used to blend highlight blur with input image."
-msgstr ""
-"Mode de mélange utilisé pour mélanger les zones éclairées et l'image "
-"d'origine. 0 - 0,33 - masquage, 0.33 - 0.66 - incrustation, 0.66 - 1.0 - "
-"addition."
+msgstr "Mode de fondu utilisé pour fondre le flou avec l’image d’entrée."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
@@ -13928,6 +14024,9 @@ msgid ""
 "generalised algorithm: D = saturation of 255 or depletion of 0, of ((255 - "
 "A) * 256) / (B + 1)"
 msgstr ""
+"Réaliser une opération RVB[A] d'esquive entre les sources de pixels, en "
+"utilisant l'algorithme généralisé : D = saturation de 255 ou diminution de "
+"0, de ((255 - A) * 256) / (B + 1)"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
 #, kde-format
@@ -14018,6 +14117,8 @@ msgid ""
 "Perform a darken operation between two sources (minimum value of both "
 "sources)."
 msgstr ""
+"Effectuer une opération d'assombrissement entre les deux sources (Valeur "
+"minimale des deux sources)."
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, kde-format
@@ -14055,6 +14156,9 @@ msgid ""
 "Perform an RGB[A] dodge operation between the pixel sources, using the "
 "generalised algorithm: D = saturation of 255 or (A * 256) / (256 - B)"
 msgstr ""
+"Réaliser une opération RVB[A] d'esquive entre les sources de pixels, en "
+"utilisant l'algorithme généralisé : D = saturation de 255 ou (A * 256) / "
+"(256 - B)"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, kde-format
@@ -14065,6 +14169,8 @@ msgstr "Extraction du grain"
 #, kde-format
 msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
 msgstr ""
+"Réaliser une opération de extraction de grains RVB[A] entre les sources de "
+"pixels."
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
 #, kde-format
@@ -14087,6 +14193,7 @@ msgstr "Lumière dure"
 #, kde-format
 msgid "Perform an RGB[A] hardlight operation between the pixel sources."
 msgstr ""
+"Réaliser une opération RVB[A] en lumière crue entre les sources de pixels."
 
 #: data/transitions/frei0r/frei0r_hue.xml:5
 #, kde-format
@@ -14108,6 +14215,8 @@ msgid ""
 "Perform a lighten operation between two sources (maximum value of both "
 "sources)."
 msgstr ""
+"Effectuer une opération d'allégement entre les deux sources (Valeur maximale "
+"des deux sources)."
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
 #, kde-format
@@ -14132,6 +14241,8 @@ msgid ""
 "Perform an RGB[A] overlay operation between the pixel sources, using the "
 "generalised algorithm: D = A * (B + (2 * B) * (255 - A))"
 msgstr ""
+"Réaliser une opération RVB[A] de superposition entre les sources de pixels, "
+"en utilisant l'algorithme généralisé : D = A * (B + (2 * B) * (255 - A))"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
 #, kde-format
@@ -14187,6 +14298,8 @@ msgid ""
 "Perform a conversion to saturation only of the source input1 using the "
 "saturation level of input2."
 msgstr ""
+"Réaliser une conversion vers saturation uniquement de l'entrée source #1 en "
+"utilisant le niveau de saturation de l'entrée #2."
 
 #: data/transitions/frei0r/frei0r_screen.xml:4
 #, kde-format
@@ -14199,6 +14312,8 @@ msgid ""
 "Perform an RGB[A] screen operation between the pixel sources, using the "
 "generalised algorithm: D = 255 - (255 - A) * (255 - B)"
 msgstr ""
+"Réaliser une opération RVB[A] d'écran entre les sources de pixels, en "
+"utilisant l'algorithme généralisé : D = 255 - (255 - A) * (255 - B)"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
 #, kde-format
@@ -14257,6 +14372,7 @@ msgstr "Lumière douce"
 #, kde-format
 msgid "Perform an RGB[A] softlight operation between the pixel sources."
 msgstr ""
+"Réaliser une opération RVB[A] de lumière douce entre les sources de pixels."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: data/transitions/frei0r/frei0r_subtract.xml:4
@@ -14296,6 +14412,8 @@ msgid ""
 "Perform a conversion to value only of the source input1 using the value of "
 "input2."
 msgstr ""
+"Réaliser une conversion en valeur uniquement de l'entrée source #1 en "
+"utilisant la valeur de l'entrée #2."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
 #, fuzzy, kde-format
