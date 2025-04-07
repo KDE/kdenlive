@@ -482,8 +482,15 @@ void ClipLoadTask::run()
                                       Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
         }
-        Q_EMIT taskDone();
-        abort();
+
+        if (pCore->currentDoc()->loading) {
+            // We are loading a project with a missing clip, don't delete the clip'
+            QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
+            Q_EMIT taskDone();
+        } else {
+            Q_EMIT taskDone();
+            abort();
+        }
         return;
     }
     const QString mltService = producer->get("mlt_service");

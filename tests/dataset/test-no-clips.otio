@@ -1,0 +1,40 @@
+{
+    "OTIO_SCHEMA": "Timeline.1",
+    "metadata": {},
+    "name": "",
+    "global_start_time": null,
+    "tracks": {
+        "OTIO_SCHEMA": "Stack.1",
+        "metadata": {},
+        "name": "tracks",
+        "source_range": null,
+        "effects": [],
+        "markers": [],
+        "enabled": true,
+        "children": [
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {},
+                "name": "",
+                "source_range": {
+                    "OTIO_SCHEMA": "TimeRange.1",
+                    "duration": {
+                        "OTIO_SCHEMA": "RationalTime.1",
+                        "rate": 24.0,
+                        "value": 0.0
+                    },
+                    "start_time": {
+                        "OTIO_SCHEMA": "RationalTime.1",
+                        "rate": 24.0,
+                        "value": 0.0
+                    }
+                },
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "children": [],
+                "kind": "Video"
+            }
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "OTIO_SCHEMA": "Timeline.1",
+    "metadata": {},
+    "name": "",
+    "global_start_time": null,
+    "tracks": {
+        "OTIO_SCHEMA": "Stack.1",
+        "metadata": {},
+        "name": "tracks",
+        "source_range": null,
+        "effects": [],
+        "markers": [],
+        "enabled": true,
+        "children": []
+    }
+}
