@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-05 00:41+0000\n"
-"PO-Revision-Date: 2025-03-05 21:05+0100\n"
+"PO-Revision-Date: 2025-04-06 12:02+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -495,23 +495,20 @@ msgid "Channel to draw"
 msgstr "Marrazteko kanala"
 
 #: data/effects/avfilter/acompressor.xml:4
-#, fuzzy, kde-format
-#| msgid "Compressed archive:"
+#, kde-format
 msgid "Compressor (avfilter)"
-msgstr "Konprimatutako artxiboa:"
+msgstr "Konprimatzailea (avfilter)"
 
 #: data/effects/avfilter/acompressor.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Codecs"
+#, kde-format
 msgid "Audio Compressor"
-msgstr "Audio kodekak"
+msgstr "Audio konprimatzailea"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input Gain"
-msgstr "Sarrerako irabazia (dB)"
+msgstr "Sarrerako irabazia"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
@@ -528,17 +525,16 @@ msgid "Threshold"
 msgstr "Atalasea"
 
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Ratio"
-msgstr "Errotazioa"
+msgstr "Proportzioa"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
 #: data/effects/avfilter/avfilter_aphaser.xml:17
 #, kde-format
 msgid "Attack"
-msgstr ""
+msgstr "Erasoa"
 
 #: data/effects/avfilter/acompressor.xml:20 data/effects/avfilter/agate.xml:23
 #: data/effects/avfilter/avfilter_alimiter.xml:20
@@ -567,7 +563,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Type"
 msgid "Link Type"
-msgstr "Mota"
+msgstr "Esteka-mota"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
@@ -575,16 +571,15 @@ msgid "Peak,Rms"
 msgstr ""
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Detection"
-msgstr "Norabidea"
+msgstr "Antzematea"
 
 #: data/effects/avfilter/acompressor.xml:37
 #, fuzzy, kde-format
 #| msgid "Sidechain plugins"
 msgid "Sidechain Gain"
-msgstr "Sidechain pluginak"
+msgstr "Sidechain irabazia"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -604,22 +599,19 @@ msgid "Mix"
 msgstr "Nahastu"
 
 #: data/effects/avfilter/aecho.xml:4
-#, fuzzy, kde-format
-#| msgid "EQ and filters"
+#, kde-format
 msgid "Echo (avfilter)"
-msgstr "EQ eta iragazkiak"
+msgstr "Oihartzuna (avfilter)"
 
 #: data/effects/avfilter/aecho.xml:5
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Echo"
-msgstr "Gehitu efektua"
+msgstr "Gehitu oihartzuna"
 
 #: data/effects/avfilter/aecho.xml:11
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output Gain"
-msgstr "Irteerako fitxategia"
+msgstr "Irteerako irabazia"
 
 #: data/effects/avfilter/aecho.xml:14
 #: data/effects/avfilter/avfilter_flanger.xml:8
@@ -639,16 +631,14 @@ msgid "Decay"
 msgstr "Desintegrazioa"
 
 #: data/effects/avfilter/agate.xml:4
-#, fuzzy, kde-format
-#| msgid "Rate Scaler"
+#, kde-format
 msgid "Gate (avfilter)"
-msgstr "Emari eskalatzailea"
+msgstr "Ataka (avfilter)"
 
 #: data/effects/avfilter/agate.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Wave"
+#, kde-format
 msgid "Audio Gate"
-msgstr "Audio-uhina"
+msgstr "Audio-ataka"
 
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
@@ -656,17 +646,17 @@ msgstr "Audio-uhina"
 #: data/effects/avfilter/avfilter_setrange.xml:9
 #, kde-format
 msgid "Range"
-msgstr ""
+msgstr "Tartea"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:4
 #, kde-format
 msgid "Simple Compressor/Expander"
-msgstr ""
+msgstr "Konprimatzaile/Zabaltzeko sinplea"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
 msgid "Simple audio dynamic range compression/expansion filter."
-msgstr ""
+msgstr "Audioaren tarte-dinamikoa konprimatu/zabaltzeko iragazki sinplea."
 
 #: data/effects/avfilter/avfilter_acontrast.xml:8
 #: data/effects/avfilter/avfilter_eq.xml:8
@@ -681,51 +671,44 @@ msgid "Crusher"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_acrusher.xml:5
-#, fuzzy, kde-format
-#| msgid "Render at Preview Resolution"
+#, kde-format
 msgid "Reduce audio bit resolution."
-msgstr "Errendatu aurrebistaren erresoluzioan"
+msgstr "Audioaren bit bereizmena murriztu."
 
 #: data/effects/avfilter/avfilter_acrusher.xml:8
 #: data/effects/avfilter/avfilter_alimiter.xml:8
 #: data/effects/avfilter/avfilter_aphaser.xml:8
 #: data/effects/avfilter/avfilter_apulsator.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:22
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input gain"
-msgstr "Sarrerako irabazia (dB)"
+msgstr "Sarrerako irabazia"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:11
 #: data/effects/avfilter/avfilter_alimiter.xml:11
 #: data/effects/avfilter/avfilter_aphaser.xml:11
 #: data/effects/avfilter/avfilter_apulsator.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:25
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output gain"
-msgstr "Irteerako fitxategia"
+msgstr "Irteerako irabazia"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:14
 #: data/effects/avfilter/avfilter_alimiter.xml:14
-#, fuzzy, kde-format
-#| msgctxt "Limiter Effect Name"
-#| msgid "Limiter"
+#, kde-format
 msgid "Limit"
-msgstr "Mugatzailea"
+msgstr "Muga"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:17
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Bit reduction"
-msgstr "Norabidea"
+msgstr "Bit-murrizketa"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:23
 #: data/effects/avfilter/avfilter_histogram.xml:18
-#, fuzzy, kde-format
-#| msgid "Logarithmic"
+#, kde-format
 msgid "Linear,Logarithmic"
-msgstr "Logaritmikoa"
+msgstr "Lineala,Logaritmikoa"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:24
 #: data/effects/avfilter/avfilter_apulsator.xml:15
@@ -745,44 +728,38 @@ msgid "Mode"
 msgstr "Modua"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:27
-#, fuzzy, kde-format
-#| msgid "C"
+#, kde-format
 msgid "DC"
-msgstr "C"
+msgstr "DC"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "Anti-aliasing"
-msgstr "Hasieratzen..."
+msgstr "Ertzak-leuntzea"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
-#, fuzzy, kde-format
-#| msgid "Frame duration"
+#, kde-format
 msgid "Sample reduction"
-msgstr "Fotogramaren iraupena"
+msgstr "Lagin-murrizketa"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable LFO"
-msgstr "Gaitu"
+msgstr "Gaitu LFO"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
 msgid "LFO depth"
-msgstr ""
+msgstr "LFO sakonera"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
-#, fuzzy, kde-format
-#| msgid "Frame rate"
+#, kde-format
 msgid "LFO rate"
-msgstr "Fotograma tasa"
+msgstr "LFO emaria"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Limiter Effect Name"
-#| msgid "Limiter"
+#, kde-format
 msgid "Limiter"
 msgstr "Mugatzailea"
 
@@ -793,22 +770,19 @@ msgid "Audio lookahead limiter."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable ASC"
-msgstr "Gaitu"
+msgstr "Gaitu ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "ASC level"
-msgstr "Audio mailak"
+msgstr "ASC maila"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Normalize to 0dB"
-msgstr "Normalizatu"
+msgstr "Normalizatu 0db-ra"
 
 #: data/effects/avfilter/avfilter_allpass.xml:4
 #, fuzzy, kde-format
@@ -831,10 +805,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:8
 #: data/effects/avfilter/avfilter_lowpass.xml:8
 #: data/effects/avfilter/avfilter_lowshelf.xml:8
-#, fuzzy, kde-format
-#| msgid "Center Frequency"
+#, kde-format
 msgid "Central frequency"
-msgstr "Zentratu maiztasuna"
+msgstr "Maiztasun zentrala"
 
 #: data/effects/avfilter/avfilter_allpass.xml:11
 #: data/effects/avfilter/avfilter_bandpass.xml:14
@@ -854,10 +827,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bass.xml:15
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
-#, fuzzy, kde-format
-#| msgid "Wipe Method"
+#, kde-format
 msgid "Method"
-msgstr "Gortina metodoa"
+msgstr "Metodoa"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -867,10 +839,9 @@ msgstr "Gortina metodoa"
 #: data/effects/avfilter/avfilter_highshelf.xml:15
 #: data/effects/avfilter/avfilter_lowpass.xml:15
 #: data/effects/avfilter/avfilter_lowshelf.xml:15
-#, fuzzy, kde-format
-#| msgid "Feather width"
+#, kde-format
 msgid "Filter-width"
-msgstr "Difuminatu honekin"
+msgstr "Iragazki-zabalera"
 
 #: data/effects/avfilter/avfilter_allpass.xml:21
 #: data/effects/avfilter/avfilter_bandpass.xml:24
@@ -895,7 +866,7 @@ msgstr "Normalizatu"
 #: data/effects/avfilter/avfilter_lowshelf.xml:21
 #, kde-format
 msgid "1,2"
-msgstr ""
+msgstr "1,2"
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
 #, fuzzy, kde-format
@@ -923,10 +894,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:32
 #: data/effects/avfilter/avfilter_lowpass.xml:29
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgid "Transform type"
-msgstr "Eraldatu"
+msgstr "Eraldatze mota"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -938,7 +908,7 @@ msgstr "Eraldatu"
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
 #, kde-format
 msgid "Auto,s16,s32,f32,f64"
-msgstr ""
+msgstr "Auto,s16,s32,f32,f64"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -951,7 +921,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "File Extension"
 msgid "Filter precision"
-msgstr "Fitxategiaren luzapena"
+msgstr "Iragazkiaren zehaztasuna"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
@@ -960,23 +930,20 @@ msgid "Phaser"
 msgstr "Faserra"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:14
-#, fuzzy, kde-format
-#| msgid "Duration (seconds)"
+#, kde-format
 msgid "Delay in milliseconds"
-msgstr "Iraupena (segundoak)"
+msgstr "Atzerapena milisegundotan"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
 #: data/effects/avfilter/avfilter_flanger.xml:28
-#, fuzzy, kde-format
-#| msgid "Triangular window"
+#, kde-format
 msgid "Triangular,Sinusoidal"
-msgstr "Leiho hirukia"
+msgstr "Triangeluarra,Sinusoidala"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:24
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Modulation type"
-msgstr "Modulatzaileak"
+msgstr "Modulazio mota"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:4
 #, fuzzy, kde-format
@@ -996,10 +963,9 @@ msgid "sine,triangle,square,sawup,sawdown"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_apulsator.xml:18
-#, fuzzy, kde-format
-#| msgid "Modulators"
+#, kde-format
 msgid "Modulation"
-msgstr "Modulatzaileak"
+msgstr "Modulazioa"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:21
 #, fuzzy, kde-format
@@ -1022,7 +988,7 @@ msgstr "Kanpoko lerroaren zabalera"
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
 msgid "bpm,ms,Hz"
-msgstr ""
+msgstr "bpm,ms,Hz"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, fuzzy, kde-format
@@ -1031,21 +997,19 @@ msgid "Timing"
 msgstr "Iluntzea"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
-#, fuzzy, kde-format
-#| msgid "RPM"
+#, kde-format
 msgid "BPM"
-msgstr "b/min"
+msgstr "BPM"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:37
 #, kde-format
 msgid "Milliseconds"
-msgstr ""
+msgstr "Milisegundo"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:40
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency in Hz"
-msgstr "Maiztasuna"
+msgstr "Maiztasuna Hz-tan"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:41
 #, kde-format
@@ -1122,10 +1086,9 @@ msgid "Y size"
 msgstr "Y tamaina"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue,Luma"
+#, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All"
-msgstr "RGB,Gorria,Berdea,Urdina,Luma"
+msgstr "Alfa,Y,U,V,Gorria,Berdea,Urdina,dena"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:15
 #: data/effects/avfilter/avfilter_bilateral.xml:17
@@ -1164,10 +1127,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bandpass.xml:8
 #: data/effects/avfilter/avfilter_equalizer.xml:8
-#, fuzzy, kde-format
-#| msgid "Center Frequency"
+#, kde-format
 msgid "Central Frequency"
-msgstr "Zentratu maiztasuna"
+msgstr "Maiztasun zentrala"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
 #, fuzzy, kde-format
@@ -1189,10 +1151,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_bass.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Bass"
+#, kde-format
 msgid "Bass"
-msgstr "Sox Baxua"
+msgstr "Baxua"
 
 #: data/effects/avfilter/avfilter_bass.xml:5
 #, kde-format
@@ -1258,10 +1219,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_cas.xml:12
 #: data/effects/avfilter/avfilter_kirsch.xml:16
-#, fuzzy, kde-format
-#| msgid "Red,Green,Blue,Luma"
+#, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
-msgstr "RGB,Gorria,Berdea,Urdina,Luma"
+msgstr "Alfa,Y,U,V,Gorria,Berdea,Urdina,dena,"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, fuzzy, kde-format
@@ -1420,7 +1380,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Deinterlacer"
 msgid "Deinterlace"
-msgstr "Gurutzelarkatzailea"
+msgstr "Desgurutzelarkatu"
 
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
@@ -2182,15 +2142,14 @@ msgid "Temperature"
 msgstr "Kolorearen tenperatura"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
-#, fuzzy, kde-format
-#| msgid "Collapse/Expand Item"
+#, kde-format
 msgid "Compressor/Expander"
-msgstr "Tolestu/Zabaldu elementua"
+msgstr "Konprimatzailea/Zabaltzekoa"
 
 #: data/effects/avfilter/avfilter_compand.xml:5
 #, kde-format
 msgid "Compress or expand the audio’s dynamic range."
-msgstr ""
+msgstr "Audioaren tarte-dinamiko konprimatu edo zabaldu."
 
 #: data/effects/avfilter/avfilter_compand.xml:8
 #, fuzzy, kde-format
@@ -5378,7 +5337,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_selectivecolor.xml:5
 #, kde-format
 msgid "Apply CMYK correction to specific color ranges"
-msgstr ""
+msgstr "Aplikatu CMYK zuzenketa kolore-tarte jakinetan"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
 #, fuzzy, kde-format
@@ -5460,15 +5419,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set Range"
-msgstr "Ezarri eskualdea"
+msgstr "Ezarri tartea"
 
 #: data/effects/avfilter/avfilter_setrange.xml:5
 #, kde-format
 msgid "Force color range for the output video frame"
-msgstr ""
+msgstr "Behartu kolore-tartea, irteerako bideo fotogramarako"
 
 #: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
@@ -15520,7 +15478,7 @@ msgstr "Desplazamendu bertikala:"
 #: src/assets/view/widgets/keyframeimport.cpp:496
 #, kde-format
 msgid "Source range %1 to %2"
-msgstr "Iturri-barrutia %1(e)tik %2(e)ra"
+msgstr "Iturri-tartea %1(e)tik %2(e)ra"
 
 #: src/assets/view/widgets/keyframeimport.cpp:338
 #, kde-format
@@ -15530,7 +15488,7 @@ msgstr "Helburuaren tartea:"
 #: src/assets/view/widgets/keyframeimport.cpp:346
 #, kde-format
 msgid "Actual range only"
-msgstr "Uneko barrutia bakarrik"
+msgstr "Uneko tartea bakarrik"
 
 #: src/assets/view/widgets/keyframeimport.cpp:353
 #, kde-format
@@ -15551,7 +15509,7 @@ msgstr "Desplazamendu posizioa"
 #: src/assets/view/widgets/keyframeimport.cpp:499
 #, kde-format
 msgid "Source range: (%1-%2), (%3-%4)"
-msgstr "Iturburuaren barrutia: (%1-%2), (%3-%4)"
+msgstr "Iturburuaren tartea: (%1-%2), (%3-%4)"
 
 #: src/assets/view/widgets/keyframeimport.cpp:795
 #, kde-format
@@ -19419,27 +19377,21 @@ msgstr ""
 #: src/dialogs/settings/pluginssettings.cpp:1000
 #, kde-format
 msgid "CUDA %1"
-msgstr ""
+msgstr "CUDA %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Detected devices:"
+#, kde-format
 msgid "Detected version: %1"
-msgstr "Antzemandako gailuak:"
+msgstr "Antzemandako bertsioa: %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1016
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot find a compatible python version:\n"
-#| "%1\n"
-#| "Please install it on your system.\n"
+#, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
-"Ezin du python-en bertsio bateragarri bat aurkitu:\n"
-"%1\n"
-"Mesedez, instalatu zure sisteman.\n"
+"CUDAren bertsioa ezin da zehaztu,\n"
+"Mesedez, hautatu zure sisteman erabilgarri dagoen bertsio."
 
 #: src/dialogs/settings/pluginssettings.cpp:1030
 #, kde-format
@@ -19447,6 +19399,8 @@ msgid ""
 "Only use this install option if your GPU\n"
 "is not correctly detected or not working with this plugin."
 msgstr ""
+"Erabili instalatzeko aukera hau bakarrik zure GPUa\n"
+"behar bezala antzematen ez bada, edo plugin honekin ez badabil."
 
 #: src/dialogs/speechdialog.cpp:45
 #, kde-format
@@ -21677,7 +21631,7 @@ msgstr "Efektua tolestu"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
 #, kde-format
 msgid "Expand Effect"
-msgstr "Zabaldu efektu"
+msgstr "Zabaldu efektua"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, kde-format
@@ -21956,24 +21910,22 @@ msgstr ""
 #: src/effects/effectstack/view/maskmanager.cpp:231
 #, kde-format
 msgid "Another transcode task is running, try later."
-msgstr ""
+msgstr "Transkodetzeko beste ataza bat martxan dago, saiatu beranduago."
 
 #: src/effects/effectstack/view/maskmanager.cpp:236
 #, kde-format
 msgid "Another mask task is running, try later."
-msgstr ""
+msgstr "Beste maskara ataza bat martxan dago, saiatu beranduago."
 
 #: src/effects/effectstack/view/maskmanager.cpp:245
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary file"
+#, kde-format
 msgid "Cannot open temporary file"
-msgstr "Ezin izan da denbora baterako fitxategia sortu"
+msgstr "Ezin da denbora baterako fitxategia ireki"
 
 #: src/effects/effectstack/view/maskmanager.cpp:258
-#, fuzzy, kde-format
-#| msgid "Cannot access dictionary folder."
+#, kde-format
 msgid "Cannot access project folder"
-msgstr "Ezin da hiztegi-karpeta atzitu."
+msgstr "Ezin da proiektuaren karpetara sartu"
 
 #: src/effects/effectstack/view/maskmanager.cpp:309
 #, kde-format
@@ -22565,12 +22517,12 @@ msgstr "Kudeatu Diseinuak…"
 #: src/layoutmanagement.cpp:61
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
-msgstr "Antolatu panel areak lerrotan"
+msgstr "Antolatu panel azalerak errenkadatan"
 
 #: src/layoutmanagement.cpp:65
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
-msgstr "Antolatu panel areak zutabetan"
+msgstr "Antolatu panel azalerak zutabetan"
 
 #: src/layoutmanagement.cpp:171
 #, kde-format
@@ -23311,13 +23263,7 @@ msgid "Loading Project"
 msgstr "Proiektua Kargatzen"
 
 #: src/mainwindow.cpp:955
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have 1 rendering job waiting in the queue.\n"
-#| "What do you want to do with this job?"
-#| msgid_plural ""
-#| "You have %1 rendering jobs waiting in the queue.\n"
-#| "What do you want to do with these jobs?"
+#, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
 "What do you want to do with this job?"
@@ -23325,23 +23271,21 @@ msgid_plural ""
 "You have %1 rendering jobs running.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Errendatzeko lan 1 ilaran zain daukazu.\n"
+"Errendatzeko lan 1 martxan duzu.\n"
 "Lan horrekin zer egin nahi duzu?"
 msgstr[1] ""
-"Errendatzeko %1 lan ilaran zain dituzu.\n"
+"Errendatzeko %1 lan martxan dituzu.\n"
 "Lan horiekin zer egin nahi duzu?"
 
 #: src/mainwindow.cpp:957
-#, fuzzy, kde-format
-#| msgid "Creating menu background"
+#, kde-format
 msgid "Continue rendering in the background"
-msgstr "Menuko atzeko planoa sortzea"
+msgstr "Jarraitu atzeko planoan errendatzen"
 
 #: src/mainwindow.cpp:957
-#, fuzzy, kde-format
-#| msgid "Abort processing"
+#, kde-format
 msgid "Abort rendering"
-msgstr "Prozesatzea bertan behera"
+msgstr "Errendatzea bertan behera utzi"
 
 #: src/mainwindow.cpp:974
 #, kde-format
@@ -23723,12 +23667,12 @@ msgstr "Transkodetu Klipak…"
 #: src/mainwindow.cpp:1479
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
-msgstr "«OpenTimelineIO» e&sportatzea…"
+msgstr "OpenTimelineIO e&sportatzea…"
 
 #: src/mainwindow.cpp:1483
 #, kde-format
 msgid "OpenTimelineIO &Import…"
-msgstr "«OpenTimelineIO» i&nportatzea…"
+msgstr "OpenTimelineIO i&nportatzea…"
 
 #: src/mainwindow.cpp:1488
 #, kde-format
@@ -25129,7 +25073,7 @@ msgstr "Osoa (JPEG)"
 #: src/mltcontroller/clippropertiescontroller.cpp:744
 #, kde-format
 msgid "Color range:"
-msgstr "Kolore barrutia:"
+msgstr "Kolore-tartea:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:749
 #, kde-format
@@ -26446,48 +26390,41 @@ msgid "Error Getting Access Token from %1."
 msgstr "%1etik Tokenera Sarrera Lortzean Errorea."
 
 #: src/otio/otioexport.cpp:43
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgctxt "@title:window"
 msgid "Exporting OpenTimelineIO"
-msgstr "Hutsegitea fitxategia irekitzerakoan"
+msgstr "OpenTimelineIO esportatzea"
 
 #: src/otio/otioexport.cpp:57
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Export"
-msgstr "«OpenTimelineIO» e&sportatzea…"
+msgstr "OpenTimelineIO esportatu"
 
 #: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:230
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO E&xport…"
+#, kde-format
 msgid "OpenTimelineIO Project"
-msgstr "«OpenTimelineIO» e&sportatzea…"
+msgstr "OpenTimelineIO proiektua"
 
 #: src/otio/otioexport.cpp:101
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error exporting OpenTimelineIO file"
-msgstr "Hutsegitea fitxategia irekitzerakoan"
+msgstr "Errorea OpenTimelineIO fitxategia esportatzean"
 
 #: src/otio/otioimport.cpp:48
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgctxt "@title:window"
 msgid "Importing OpenTimelineIO"
-msgstr "Hutsegitea fitxategia irekitzerakoan"
+msgstr "OpenTimelineIO inportatzea"
 
 #: src/otio/otioimport.cpp:76
-#, fuzzy, kde-format
-#| msgid "Error opening file"
+#, kde-format
 msgid "Error importing OpenTimelineIO file"
-msgstr "Hutsegitea fitxategia irekitzerakoan"
+msgstr "Errorea OpenTimelineIO fitxategia inportatzean"
 
 #: src/otio/otioimport.cpp:229
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO &Import…"
+#, kde-format
 msgid "OpenTimelineIO Import"
-msgstr "«OpenTimelineIO» i&nportatzea…"
+msgstr "OpenTimelineIO inportatzea"
 
 #: src/profiles/profileinfo.cpp:103
 #, kde-format
@@ -27935,10 +27872,9 @@ msgstr ""
 "Saiatu plugina desinstalatu eta berrinstalatzen."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:397
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find system python"
-msgstr "%1 diseinua ezin da aurkitu"
+msgstr "Ezin du sistemako python aurkitu"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:427
 #, kde-format
@@ -30007,7 +29943,7 @@ msgstr ""
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
-"<b>Maius</b> zabaldu/ikonotzeko mota bereko pista guztiak (audioa/bideoa)"
+"<b>Maius</b> mota bereko pista guztiak tolesteko/zabaltzeko (audioa/bideoa)"
 
 #: src/timeline2/view/qml/TrackHead.qml:282
 #, kde-format
@@ -30044,12 +29980,10 @@ msgid "Toggle track effects"
 msgstr "Aktibatu/desaktibatu pistaren efektuak"
 
 #: src/timeline2/view/qml/TrackHead.qml:441
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
+#, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
-"<b>Maius</b> zabaldu/ikonotzeko mota bereko pista guztiak (audioa/bideoa)"
+"<b>Maius</b> mota bereko pista guztiak erakusteko/ezkutatzeko (audioa/bideoa)"
 
 #: src/timeline2/view/qml/TrackHead.qml:458
 #, kde-format
@@ -30305,7 +30239,7 @@ msgstr "Zabaldu klipa"
 #: src/timeline2/view/timelinecontroller.cpp:4950
 #, kde-format
 msgid "Could not expand clip"
-msgstr "Ezin da klipa zabaldu"
+msgstr "Ezin izan du klipa zabaldu"
 
 #: src/timeline2/view/timelinecontroller.cpp:5005
 #, kde-format
@@ -30959,10 +30893,10 @@ msgid ""
 "wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 msgstr ""
 "<p>Ene marra (n zabalerako marra).</p><p>Erabilera adibideak: Ingelesez "
-"balio barrutietarako (1878&#x2013;1903), erlazio/konexioentzako "
-"(Zurich&#x2013;Dublin). Alemanez ere ideiak adierazteko erabiltzen da "
-"(zuriuneekin!) :&ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein "
-"regnerischer Tag.</p> <p>Ikus<a href=\"https://eu.wikipedia.org/wiki/"
+"balio tarteetarako (1878&#x2013;1903), erlazio/konexioentzako (Zurich&#x2013;"
+"Dublin). Alemanez ere ideiak adierazteko erabiltzen da (zuriuneekin!) :"
+"&ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag."
+"</p> <p>Ikus<a href=\"https://eu.wikipedia.org/wiki/"
 "Marra_(ikurra)\">Wikipedia:Marra (Ikurra)</a></p>"
 
 #: src/titler/unicodedialog.cpp:186
@@ -32631,6 +32565,9 @@ msgid ""
 "your system. For advanced users only, as you will have to properly setup "
 "everything by yourself."
 msgstr ""
+"Gaituta dagoenean, Kdenlive zure sisteman instalatutako ahotsetik testura "
+"paketea erabiliko du. Erabiltzaile aurreratuentzako bakarrik, guztia zure "
+"kasa behar bezala ezarri beharko duzu eta."
 
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, sam_venv_label_3)
@@ -32705,13 +32642,15 @@ msgid ""
 "If your Nvidia GPU is not listed, try installing an alternative with the "
 "Nvidia GPU Support button"
 msgstr ""
+"Zure Nvidia GPUa zerrendatuta ez badago, Nvidia GPU euskarri botoia "
+"erabiliz, saiatu ordezko bat instalatzen"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_wr)
 #. i18n: ectx: property (text), widget (QPushButton, install_nvidia_sam)
 #: src/ui/configspeech_ui.ui:516 src/ui/configspeech_ui.ui:945
 #, kde-format
 msgid "GPU Support"
-msgstr ""
+msgstr "GPU euskarria"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
 #: src/ui/configspeech_ui.ui:525
@@ -32799,6 +32738,9 @@ msgid ""
 "For advanced users only, as you will have to properly setup everything by "
 "yourself."
 msgstr ""
+"Gaituta dagoenean, Kdenlive-k zure sisteman instalatutako SAM2 bertsioa "
+"erabiliko du. Erabiltzaile aurreratuentzako bakarrik, guztia zure kasa behar "
+"bezala ezarri beharko duzu eta."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -32853,10 +32795,9 @@ msgstr "Mugitu klipera efektua gehitzean"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "On Selection:"
-msgstr "Hautapena"
+msgstr "Hautatzean:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:108
@@ -32925,21 +32866,19 @@ msgstr "Inportatzean, gaitu:"
 #: src/ui/configtimeline_ui.ui:201
 #, kde-format
 msgid "Check if project contains enough tracks"
-msgstr "Egiaztatu proiektuak nahiko pista dituen"
+msgstr "Egiaztatu proiektuak behar adina pista dituen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:211
-#, fuzzy, kde-format
-#| msgid "Slope"
+#, kde-format
 msgid "Developer:"
-msgstr "Malda"
+msgstr "Garatzailea:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable debug mode"
-msgstr "Gaitu bideoa"
+msgstr "Gaitu arazteko modua"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
@@ -34612,7 +34551,7 @@ msgstr "Banatzaile moduan erabiltzeko gida-lerroa:"
 #: src/ui/renderwidget_ui.ui:496
 #, kde-format
 msgid "Render full color range"
-msgstr "Errendatu kolore-barruti osoa"
+msgstr "Errendatu kolore-tarte osoa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:503
