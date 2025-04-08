@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-05 02:38+0000\n"
-"PO-Revision-Date: 2025-03-24 19:50+0900\n"
+"POT-Creation-Date: 2025-04-08 02:38+0000\n"
+"PO-Revision-Date: 2025-04-07 15:42+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -28,7 +28,7 @@ msgid "Your emails"
 msgstr ",mail@kisaragi-hiu.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Balance"
 msgstr "平衡"
@@ -15387,13 +15387,13 @@ msgid ""
 "equally)."
 msgstr "調整音訊軌道的輸出音量（會同等影響所有音訊素材）。"
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
 #: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15404,80 +15404,80 @@ msgstr ""
 "調整軌道的輸出左右平衡。負數代表將輸出向左移動，正數代表將輸出向右移動。會同"
 "等影響所有音訊素材。"
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:158
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "左"
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:160
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "右"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Mute track"
 msgstr "將軌道靜音"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Unmute track"
 msgstr "將軌道取消靜音"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "將音訊軌靜音或解除靜音。"
 
-#: src/audiomixer/mixerwidget.cpp:267
+#: src/audiomixer/mixerwidget.cpp:280
 #, kde-format
 msgid "Solo mode"
 msgstr "Solo 模式"
 
-#: src/audiomixer/mixerwidget.cpp:268
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "選取時，將其他所有音訊軌靜音。"
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:290
 #, kde-format
 msgid "Monitor audio"
 msgstr "監聽音訊"
 
-#: src/audiomixer/mixerwidget.cpp:278
+#: src/audiomixer/mixerwidget.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "將音訊軌置於錄製模式。"
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-format
 msgid "Show channels"
 msgstr "顯示頻道"
 
-#: src/audiomixer/mixerwidget.cpp:295
+#: src/audiomixer/mixerwidget.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr "切換顯示音訊混音器檢視中的音訊軌道控制元件。"
 
-#: src/audiomixer/mixerwidget.cpp:311
+#: src/audiomixer/mixerwidget.cpp:324
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "開啟效果堆疊"
 
-#: src/audiomixer/mixerwidget.cpp:313
+#: src/audiomixer/mixerwidget.cpp:326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "開啟音訊軌的效果堆疊。"
 
-#: src/audiomixer/mixerwidget.cpp:315
+#: src/audiomixer/mixerwidget.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -21505,17 +21505,17 @@ msgstr "視訊縮圖"
 msgid "Loading clip"
 msgstr "載入素材中"
 
-#: src/jobs/cliploadtask.cpp:510
+#: src/jobs/cliploadtask.cpp:517
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "無法判斷檔案 <b>%1</b> 的長度。"
 
-#: src/jobs/cliploadtask.cpp:702
+#: src/jobs/cliploadtask.cpp:709
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "檔案 <b>%1</b> 是無法跳轉的。"
 
-#: src/jobs/cliploadtask.cpp:731
+#: src/jobs/cliploadtask.cpp:738
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "檔案 <b>%1</b> 使用可變幀率。"
@@ -25741,13 +25741,13 @@ msgstr "開啟檔案時發生錯誤"
 msgid "OpenTimelineIO Export"
 msgstr "OpenTimelineIO 匯出(&X)…"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:230
+#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport…"
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO 匯出(&X)…"
 
-#: src/otio/otioexport.cpp:101
+#: src/otio/otioexport.cpp:102
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"
@@ -25766,7 +25766,7 @@ msgstr "開啟檔案時發生錯誤"
 msgid "Error importing OpenTimelineIO file"
 msgstr "開啟檔案時發生錯誤"
 
-#: src/otio/otioimport.cpp:229
+#: src/otio/otioimport.cpp:238
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO &Import…"
 msgid "OpenTimelineIO Import"
@@ -30156,9 +30156,9 @@ msgid ""
 "Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>"
 msgstr ""
 "<p>狹窄不間斷白字元。寬度與U+2009 相同。</p><p>用法：用於單位表示（白字元用U"
-"+2423, &#x2423; 作為記號）：230&# x2423;V, &#x2212;21&#x2423;&deg;C, "
-"50&#x2423;lb，<em>但是</em> 90&deg; （​​沒有白字元）。德語中用於縮寫(如：i.&# "
-"x202f;d.&#x202f;R。而不是i.&#xa0;d.&#xa0;R. 和U+00a0)。</p><p>詳見<a href="
+"+2423, &#x2423; 作為記號）：230&#x2423;V, &#x2212;21&#x2423;&deg;C, "
+"50&#x2423;lb，<em>但是</em> 90&deg; （​​沒有白字元）。德語中用於縮寫(如：i."
+"&#x202f;d.&#x202f;R。而不是i.&#xa0;d.&#xa0;R. 和U+00a0)。</p><p>詳見<a href="
 "\"https://de.wikipedia.org/wiki/Schmales_Leerzeichen\">維基百科：de: 狹窄白字"
 "元(Schmales_Leerzeichen)</a></p>"
 
