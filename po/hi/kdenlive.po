@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-05 00:41+0000\n"
+"POT-Creation-Date: 2025-04-08 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -30,7 +30,7 @@ msgid "Your emails"
 msgstr "आपके ईमेल"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Balance"
 msgstr "संतुलन"
@@ -15718,13 +15718,13 @@ msgstr ""
 "ऑडियो ट्रैक के आउटपुट वॉल्यूम को समायोजित करता है (सभी ऑडियो क्लिप को समान रूप से "
 "प्रभावित करता है)।"
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "डीबी"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15735,80 +15735,80 @@ msgstr ""
 "ट्रैक के आउटपुट संतुलन को समायोजित करता है। नकारात्मक मान आउटपुट को बाईं ओर ले जाते हैं, "
 "सकारात्मक मान दाईं ओर। सभी ऑडियो क्लिप को समान रूप से प्रभावित करता है।"
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:158
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "एल"
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:160
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "आर"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Mute track"
 msgstr "ट्रैक म्यूट करें"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Unmute track"
 msgstr "ट्रैक अनम्यूट करें"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "ऑडियो ट्रैक को म्यूट/अन-म्यूट करता है।"
 
-#: src/audiomixer/mixerwidget.cpp:267
+#: src/audiomixer/mixerwidget.cpp:280
 #, kde-format
 msgid "Solo mode"
 msgstr "केवल फैशन"
 
-#: src/audiomixer/mixerwidget.cpp:268
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "चयनित होने पर अन्य सभी ऑडियो ट्रैक म्यूट हो जाते हैं।"
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:290
 #, kde-format
 msgid "Monitor audio"
 msgstr "ऑडियो मॉनिटर करें"
 
-#: src/audiomixer/mixerwidget.cpp:278
+#: src/audiomixer/mixerwidget.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "ऑडियो ट्रैक को रिकॉर्डिंग मोड में डालता है।"
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-format
 msgid "Show channels"
 msgstr "चैनल दिखाएं"
 
-#: src/audiomixer/mixerwidget.cpp:295
+#: src/audiomixer/mixerwidget.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr "ऑडियो मिक्सर दृश्य में ऑडियो ट्रैक नियंत्रणों के प्रदर्शन को टॉगल करता है।"
 
-#: src/audiomixer/mixerwidget.cpp:311
+#: src/audiomixer/mixerwidget.cpp:324
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "प्रभाव स्टैक खोलें"
 
-#: src/audiomixer/mixerwidget.cpp:313
+#: src/audiomixer/mixerwidget.cpp:326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "ऑडियो ट्रैक के लिए प्रभाव स्टैक खोलता है."
 
-#: src/audiomixer/mixerwidget.cpp:315
+#: src/audiomixer/mixerwidget.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -21912,17 +21912,17 @@ msgstr "वीडियो थम्ब्स"
 msgid "Loading clip"
 msgstr "क्लिप लोड हो रहा है"
 
-#: src/jobs/cliploadtask.cpp:510
+#: src/jobs/cliploadtask.cpp:517
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "फ़ाइल <b>%1</b> की अवधि निर्धारित नहीं की जा सकती."
 
-#: src/jobs/cliploadtask.cpp:702
+#: src/jobs/cliploadtask.cpp:709
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "फ़ाइल <b>%1</b> खोजयोग्य नहीं है."
 
-#: src/jobs/cliploadtask.cpp:731
+#: src/jobs/cliploadtask.cpp:738
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "फ़ाइल <b>%1</b> में परिवर्तनीय फ़्रेम दर है."
@@ -26261,13 +26261,13 @@ msgstr "फ़ाइल खोलने में त्रुटि"
 msgid "OpenTimelineIO Export"
 msgstr "OpenTimelineIO निर्यात करें…"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:230
+#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport…"
 msgid "OpenTimelineIO Project"
 msgstr "OpenTimelineIO निर्यात करें…"
 
-#: src/otio/otioexport.cpp:101
+#: src/otio/otioexport.cpp:102
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"
@@ -26286,7 +26286,7 @@ msgstr "फ़ाइल खोलने में त्रुटि"
 msgid "Error importing OpenTimelineIO file"
 msgstr "फ़ाइल खोलने में त्रुटि"
 
-#: src/otio/otioimport.cpp:229
+#: src/otio/otioimport.cpp:238
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO &Import…"
 msgid "OpenTimelineIO Import"

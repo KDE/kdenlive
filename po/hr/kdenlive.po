@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-05 00:41+0000\n"
+"POT-Creation-Date: 2025-04-08 00:41+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -33,7 +33,7 @@ msgid "Your emails"
 msgstr ""
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
 #, fuzzy, kde-format
 msgid "Balance"
 msgstr "Balans bijele boje"
@@ -15326,13 +15326,13 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15341,86 +15341,86 @@ msgid ""
 "equally."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:158
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:160
 #, fuzzy, kde-format
 #| msgid "R"
 msgctxt "Right"
 msgid "R"
 msgstr "R"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, fuzzy, kde-format
 #| msgid "Mute track"
 msgid "Mute track"
 msgstr "Zagluši traku"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, fuzzy, kde-format
 #| msgid "Mute track"
 msgid "Unmute track"
 msgstr "Zagluši traku"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:267
+#: src/audiomixer/mixerwidget.cpp:280
 #, fuzzy, kde-format
 msgid "Solo mode"
 msgstr "Normaliziraj"
 
-#: src/audiomixer/mixerwidget.cpp:268
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:290
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor audio"
 msgstr "Monitor"
 
-#: src/audiomixer/mixerwidget.cpp:278
+#: src/audiomixer/mixerwidget.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:307
 #, fuzzy, kde-format
 msgid "Show channels"
 msgstr "Audio kanali"
 
-#: src/audiomixer/mixerwidget.cpp:295
+#: src/audiomixer/mixerwidget.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:311
+#: src/audiomixer/mixerwidget.cpp:324
 #, fuzzy, kde-format
 #| msgid "Effect Stack"
 msgid "Open Effect Stack"
 msgstr "Skladište efekata"
 
-#: src/audiomixer/mixerwidget.cpp:313
+#: src/audiomixer/mixerwidget.cpp:326
 #, fuzzy, kde-kuit-format
 #| msgid "Fade in audio track"
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Fade in audio traka"
 
-#: src/audiomixer/mixerwidget.cpp:315
+#: src/audiomixer/mixerwidget.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -21690,17 +21690,17 @@ msgstr "Sličice"
 msgid "Loading clip"
 msgstr "Učitaj projektne isječke"
 
-#: src/jobs/cliploadtask.cpp:510
+#: src/jobs/cliploadtask.cpp:517
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:702
+#: src/jobs/cliploadtask.cpp:709
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:731
+#: src/jobs/cliploadtask.cpp:738
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -26192,13 +26192,13 @@ msgstr "Stvaranje završeno u %1"
 msgid "OpenTimelineIO Export"
 msgstr "Vremenska linija"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:230
+#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO Project"
 msgstr "Vremenska linija"
 
-#: src/otio/otioexport.cpp:101
+#: src/otio/otioexport.cpp:102
 #, fuzzy, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Stvaranje završeno u %1"
@@ -26214,7 +26214,7 @@ msgstr "Stvaranje završeno u %1"
 msgid "Error importing OpenTimelineIO file"
 msgstr "Stvaranje završeno u %1"
 
-#: src/otio/otioimport.cpp:229
+#: src/otio/otioimport.cpp:238
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO Import"

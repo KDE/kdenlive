@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-05 00:41+0000\n"
-"PO-Revision-Date: 2025-04-03 12:24+0200\n"
+"POT-Creation-Date: 2025-04-08 00:41+0000\n"
+"PO-Revision-Date: 2025-04-07 12:31+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -32,7 +32,7 @@ msgid "Your emails"
 msgstr "rinsedevries@kde.nl,stroet43@zonnet.nl,freekdekruijf@kde.nl"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Balance"
 msgstr "Balans"
@@ -2244,6 +2244,8 @@ msgstr "Afstand in centimeters"
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
 msgstr ""
+"Stel afstand in in cm. Dit is de compensatie-afstand voor aanscherping van "
+"de afstandsopzet."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
 #, kde-format
@@ -2255,6 +2257,8 @@ msgstr "Afstand in meters"
 msgid ""
 "Set meters distance. This is compensation distance for hard distance setup."
 msgstr ""
+"Stel afstand in in meters. Dit is de compensatie-afstand voor harde "
+"afstandsopzet."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
 #, kde-format
@@ -2265,6 +2269,7 @@ msgstr "Droge hoeveelheid"
 #, kde-format
 msgid "Set dry amount. Amount of unprocessed (dry) signal."
 msgstr ""
+"Hoeveelheid droog instellen. Hoeveelheid niet verwerkt (droog) signaal."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
 #, kde-format
@@ -2274,7 +2279,7 @@ msgstr "Natte hoeveelheid"
 #: data/effects/avfilter/avfilter_compensationdelay.xml:28
 #, kde-format
 msgid "Set wet amount. Amount of processed (wet) signal."
-msgstr ""
+msgstr "Hoeveelheid nat instellen. Hoeveelheid verwerkt (nat) signaal."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:32
 #, kde-format
@@ -2298,6 +2303,12 @@ msgid ""
 "low frequencies.\n"
 "The intent is to produce more speaker like sound to the listener."
 msgstr ""
+"Koptelefoon crossfeed-filter toepassen.\n"
+"Crossfeed is het proces van mengen van de linker en rechter kanalen van "
+"stereogeluidsopnamen. Het wordt hoofdzakelijk gebruikt om extreme "
+"stereoscheiding van lage frequenties te verminderen.\n"
+"De bedoeling is het produceren van meer luidsprekerachtig geluid naar de "
+"luisteraar."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:13
 #, kde-format
@@ -2307,6 +2318,10 @@ msgid ""
 "filter for side part of stereo image.\n"
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
+"Sterkte van crossfeed.\n"
+"Standaard is 0,2. Toegestane reeks is van 0 tot 1. Dit stelt de versterking "
+"in van het lage gedeelte filter van het stereobeeld.\n"
+"Standaard is -6dB. Max toegestaan is -30db bij sterkte ingesteld op 1."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:19
 #, kde-format
@@ -2317,6 +2332,11 @@ msgid ""
 "Default is cut off near 1550 Hz. With range set to 1 cut off frequency is "
 "set to 2100 Hz. "
 msgstr ""
+"Stelt de breedte van het geluidsbeeld in.\n"
+"Standaard is 0,5. Toegestane reeks is van 0 tot 1. Dit stelt de "
+"afsnijfrequentie in van lage gedeelte van het filter in.\n"
+"Standaard is afsnijden nabij 1550 Hz. Met reeks gezet op 1 afsnijfrequentie "
+"is gezet op 2100 Hz. "
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
 #, kde-format
@@ -9548,20 +9568,19 @@ msgid "Posterize"
 msgstr "Poster maken"
 
 #: data/effects/frei0r/frei0r_posterize.xml:5
-#, fuzzy, kde-format
-#| msgid "Dithers the image and reduces the number of available colors"
+#, kde-format
 msgid "Posterizes image by reducing the number of colors used in image"
-msgstr "Dithert de afbeelding en reduceert het aantal beschikbare kleuren"
+msgstr ""
+"Poster maken van afbeelding door het aantal kleuren in de afbeelding te "
+"verminderen"
 
 #: data/effects/frei0r/frei0r_posterize.xml:9
-#, fuzzy, kde-format
-#| msgid "Number of values per channel."
+#, kde-format
 msgid "Number of (color) values per channel"
-msgstr "Aantal waarden per kanaal."
+msgstr "Aantal (kleur)waarden per kanaal"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Files"
+#, kde-format
 msgid "Video values"
 msgstr "Videowaarden"
 
@@ -9597,28 +9616,24 @@ msgid "Big window"
 msgstr "Groot venster"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
-#| msgid "Oscilloscope"
+#, kde-format
 msgid "Oscilloscope (Advanced)"
 msgstr "Oscilloscoop (geavanceerd)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[X coordinate of the profile]]>"
-msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+msgstr "<![CDATA[X-coördinaat van het profiel]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Y coordinate of the profile]]>"
-msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+msgstr "<![CDATA[Y-coördinaat van het profiel]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Tilting of the profile]]>"
-msgstr "<![CDATA[Offset langs de X-as]]>"
+msgstr "<![CDATA[Kanteling van het profiel]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:20
 #, kde-format
@@ -9626,10 +9641,9 @@ msgid "Length"
 msgstr "Lengte"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Length of the profile in pixel]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr "<![CDATA[Lengte van het profiel in pixels]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:24
 #, kde-format
@@ -9642,27 +9656,24 @@ msgid "<![CDATA[Channel to numerically display]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
-#, fuzzy, kde-format
-#| msgid "Marker 2"
+#, kde-format
 msgid "Marker 1"
-msgstr "Markering"
+msgstr "Markering 1"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[Offset langs Y-as]]>"
+msgstr "<![CDATA[Positie van markering 1]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:33
 #, kde-format
 msgid "Marker 2"
-msgstr "Markeerpunt 2"
+msgstr "Markering 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:34
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[Offset langs Y-as]]>"
+msgstr "<![CDATA[Positie van markering 2]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:37
 #, kde-format
@@ -9672,7 +9683,7 @@ msgstr "R trace"
 #: data/effects/frei0r/frei0r_pr0file.xml:38
 #, kde-format
 msgid "<![CDATA[Show R trace (red) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[R trace tonen (rood) op scope]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:41
 #, kde-format
@@ -9740,10 +9751,9 @@ msgid "Display average"
 msgstr "Gemiddelde weergeven"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:66
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Show average on scope]]>"
-msgstr "<![CDATA[Schuintrekhoek rond de X-as]]>"
+msgstr "<![CDATA[Gemiddelde tonen op scope]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:69
 #, kde-format
@@ -9753,7 +9763,7 @@ msgstr "RMS tonen"
 #: data/effects/frei0r/frei0r_pr0file.xml:70
 #, kde-format
 msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[RMS (wortel van gemiddelde kwadraad) tonen op scope]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:73
 #, kde-format
@@ -9786,10 +9796,9 @@ msgid "CCIR rec. 601,CCIR rec. 709"
 msgstr "CCIR rec. 601,CCIR rec. 709"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:86
-#, fuzzy, kde-format
-#| msgid "PCM encoding"
+#, kde-format
 msgid "Color encoding"
-msgstr "PCM-codering"
+msgstr "Kleur-codering"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
@@ -9829,10 +9838,9 @@ msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
 msgstr "<![CDATA[Invloed van de gemiddelde px waarde, > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
-#, fuzzy, kde-format
-#| msgid "Channel to draw"
+#, kde-format
 msgid "Channel Extractor RED"
-msgstr "Te tekenen kanaal"
+msgstr "Kanaal-extractie ROOD"
 
 #: data/effects/frei0r/frei0r_R.xml:5
 #, kde-format
@@ -10152,14 +10160,10 @@ msgid "Blend mode"
 msgstr "Mengmodus"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
-#, fuzzy, kde-format
-#| msgid ""
-#| "Blend mode used to blend highlight blur with input image. 0 - 0.33 - "
-#| "screen, 0.33 - 0.66 - overlay, 0.66 - 1.0 - add."
+#, kde-format
 msgid "Blend mode used to blend highlight blur with input image."
 msgstr ""
-"Mengmodus gebruikt om accentueringsvervaging te mengen met invorafbeelding. "
-"0 - 0.33 - scherm, 0.33 - 0.66 - overlay, 0.66 - 1.0 - toevoegen."
+"Mengmodus gebruikt om oplichtende vervaging te mengen met invoerafbeelding."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
@@ -10280,10 +10284,9 @@ msgstr "Kracht van groen"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:44
 #: data/effects/frei0r/frei0r_sopsat.xml:94
-#, fuzzy, kde-format
-#| msgid "Power Red"
+#, kde-format
 msgid "Power Blue"
-msgstr "Kracht van rood"
+msgstr "Kracht van blauw"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:47
 #: data/effects/frei0r/frei0r_sopsat.xml:97
@@ -10430,17 +10433,15 @@ msgid "Tint amount"
 msgstr "Kleur waarde"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgctxt "Transparency"
 msgid "Transparency"
 msgstr "Transparantie"
 
 #: data/effects/frei0r/frei0r_transparency.xml:5
-#, fuzzy, kde-format
-#| msgid "copied to the alpha channel."
+#, kde-format
 msgid "Tunes the alpha channel."
-msgstr "Naar het alfa-kanaal kopiëren"
+msgstr "Stemt het alfa-kanaal af."
 
 #: data/effects/frei0r/frei0r_twolay0r.xml:4
 #, kde-format
@@ -10459,10 +10460,9 @@ msgid "Vectorscope"
 msgstr "Vectorscoop"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:5
-#, fuzzy, kde-format
-#| msgid "Display a histogram of R, G and B components of the video data"
+#, kde-format
 msgid "Display a vectorscope of the video data"
-msgstr "Een histogram tonen van de R, G en B componenten van de video data"
+msgstr "Toont een vectorscope van de videogegevens"
 
 #: data/effects/frei0r/frei0r_vertigo.xml:5
 #: data/effects/frei0r/frei0r_vertigo.xml:16
@@ -11372,15 +11372,14 @@ msgid "Microphone background noise removal filter"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
-#, fuzzy, no-c-format, kde-format
-#| msgid "Threshold"
+#, no-c-format, kde-format
 msgid "VAD Threshold (%)"
-msgstr "Drempel"
+msgstr "VAD-drempel (%)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:11
 #, kde-format
 msgid "VAD Grace Period (ms)"
-msgstr ""
+msgstr "VAD-respijtperiode (ms)"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
@@ -12480,9 +12479,9 @@ msgid "<![CDATA[Offset along Y axis]]>"
 msgstr "<![CDATA[Offset langs Y-as]]>"
 
 #: data/effects/sox/sox.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "SoX"
-msgstr "sox"
+msgstr "SoX"
 
 #: data/effects/sox/sox.xml:5
 #, kde-format
@@ -12490,10 +12489,9 @@ msgid "Process audio using a SoX effect"
 msgstr "Audio bewerken met een SoX-effect"
 
 #: data/effects/sox/sox.xml:8
-#, fuzzy, kde-format
-#| msgid "Analysis"
+#, kde-format
 msgid "Analysis,Apply"
-msgstr "Analyse"
+msgstr "Analyse,Toepassen"
 
 #: data/effects/sox/sox.xml:9 src/doc/documentchecker.cpp:1893
 #: src/monitor/view/MonitorSplit.qml:102
@@ -12502,34 +12500,29 @@ msgid "Effect"
 msgstr "Effect"
 
 #: data/effects/sox/sox.xml:12
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Normalization level "
-msgstr "Normaliseer"
+msgstr "Normalisatieniveau"
 
 #: data/effects/sox/sox.xml:15
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Gain to normalize"
-msgstr "Normaliseer"
+msgstr "Versterking naar normaliseren"
 
 #: data/effects/sox/sox.xml:18
-#, fuzzy, kde-format
-#| msgid "Use Luma"
+#, kde-format
 msgid "Use peak"
-msgstr "Luma gebruiken"
+msgstr "Piek gebruiken"
 
 #: data/effects/sox/sox.xml:21
-#, fuzzy, kde-format
-#| msgid "Loudness normalization"
+#, kde-format
 msgid "Dynamic normalization"
-msgstr "Normalisatie van luidheid"
+msgstr "Dynamische normalisatie"
 
 #: data/effects/sox/sox.xml:24
-#, fuzzy, kde-format
-#| msgid "Hamming window"
+#, kde-format
 msgid "Smoothing window size "
-msgstr "Hamming venster"
+msgstr "Venstergrootte wordt gladgestreken"
 
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
@@ -12572,10 +12565,9 @@ msgid "Gain In"
 msgstr "Ingang volume"
 
 #: data/effects/sox/sox_echo.xml:11 data/effects/sox/sox_phaser.xml:11
-#, fuzzy, kde-format
-#| msgid "Gain out"
+#, kde-format
 msgid "Gain Out"
-msgstr "Uitgang volume"
+msgstr "Uitgangsversterking"
 
 #: data/effects/sox/sox_flanger.xml:4
 #, kde-format
@@ -13555,15 +13547,14 @@ msgid "Make padding transparent"
 msgstr "Aanvulling transparant maken"
 
 #: data/transitions/frei0r/frei0r_addition.xml:4
-#, fuzzy, kde-format
-#| msgid "Add Transition"
+#, kde-format
 msgid "Addition"
-msgstr "Optelling"
+msgstr "Optellen"
 
 #: data/transitions/frei0r/frei0r_addition.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition operation of the pixel sources."
-msgstr "Voer een RGB[A] bewerking toevoeging uit op de pixelbronnen."
+msgstr "Voer een RGB[A] optelbewerking uit op de pixelbronnen."
 
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:4
 #, kde-format
@@ -13581,10 +13572,9 @@ msgid "Alpha ATOP"
 msgstr "Alfa ATOP"
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha operation"
+#, kde-format
 msgid "The alpha ATOP operation"
-msgstr "De alpha-ATOP bewerking."
+msgstr "De alpha-ATOP bewerking"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:4
 #, kde-format
@@ -13592,10 +13582,9 @@ msgid "Alpha IN"
 msgstr "Alfa IN"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha operation"
+#, kde-format
 msgid "The alpha IN operation"
-msgstr "De alpha-IN bewerking."
+msgstr "De alpha-IN bewerking"
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:4
 #, kde-format
@@ -13603,10 +13592,9 @@ msgid "Alpha OUT"
 msgstr "Alfa OUT"
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha operation"
+#, kde-format
 msgid "The alpha OUT operation"
-msgstr "De alpha-OUT bewerking."
+msgstr "De alpha-OUT bewerking"
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:4
 #, kde-format
@@ -13614,10 +13602,9 @@ msgid "Alpha OVER"
 msgstr "Alfa OVER"
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha operation"
+#, kde-format
 msgid "The alpha OVER operation"
-msgstr "De bewerking alpha-OVER."
+msgstr "De alpha-OVER bewerking"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:4
 #, kde-format
@@ -13625,10 +13612,9 @@ msgid "Alpha XOR"
 msgstr "Alpha XOR"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha operation"
+#, kde-format
 msgid "The alpha XOR operation"
-msgstr "De alpha-XOR bewerking."
+msgstr "De alpha-XOR bewerking"
 
 #: data/transitions/frei0r/frei0r_burn.xml:4
 #, kde-format
@@ -13720,8 +13706,7 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Darken"
 msgstr "Donkerder maken"
 
@@ -13743,8 +13728,7 @@ msgid "Perform an RGB[A] difference operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
-#, fuzzy, kde-format
-#| msgid "Disable video"
+#, kde-format
 msgid "Divide"
 msgstr "Delen"
 
@@ -13756,9 +13740,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_dodge.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dodge"
-msgstr "Dodge"
+msgstr "Doezelen"
 
 #: data/transitions/frei0r/frei0r_dodge.xml:5
 #, kde-format
@@ -13829,10 +13813,9 @@ msgid "Perform an RGB[A] multiply operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
-#, fuzzy, kde-format
-#| msgid "Overlay:"
+#, kde-format
 msgid "Overlay"
-msgstr "Overlay:"
+msgstr "Overlay"
 
 #: data/transitions/frei0r/frei0r_overlay.xml:5
 #, kde-format
@@ -13842,10 +13825,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Pushto"
+#, kde-format
 msgid "Push Down"
-msgstr "Poesjto"
+msgstr "Omlaag verplaatsen"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:5
 #, kde-format
@@ -13856,16 +13838,14 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_push-left.xml:8
 #: data/transitions/frei0r/frei0r_push-right.xml:8
 #: data/transitions/frei0r/frei0r_push-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Push position"
-msgstr "Y-positie"
+msgstr "Positie van verplaatsen"
 
 #: data/transitions/frei0r/frei0r_push-left.xml:4
-#, fuzzy, kde-format
-#| msgid "Pushto"
+#, kde-format
 msgid "Push Left"
-msgstr "Poesjto"
+msgstr "Links verplaatsen"
 
 #: data/transitions/frei0r/frei0r_push-left.xml:5
 #, kde-format
@@ -13873,10 +13853,9 @@ msgid "Push from right to left."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_push-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Push Right"
-msgstr "Rechts"
+msgstr "Rechts verplaatsen"
 
 #: data/transitions/frei0r/frei0r_push-right.xml:5
 #, kde-format
@@ -13884,10 +13863,9 @@ msgid "Push from left to right."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_push-up.xml:4
-#, fuzzy, kde-format
-#| msgid "Pushto"
+#, kde-format
 msgid "Push Up"
-msgstr "Poesjto"
+msgstr "Omhoog verplaatsen"
 
 #: data/transitions/frei0r/frei0r_push-up.xml:5
 #, kde-format
@@ -13902,8 +13880,7 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_screen.xml:4
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Screen"
 msgstr "Scherm"
 
@@ -13915,61 +13892,52 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Slideshow"
+#, kde-format
 msgid "Slide Down"
-msgstr "Diashow"
+msgstr "Omlaag verschuiven"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to bottom."
+#, kde-format
 msgid "Slide from top to bottom."
-msgstr "Item onderaan uitlijnen."
+msgstr "Van boven naar beneden schuiven."
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:8
 #: data/transitions/frei0r/frei0r_slide-left.xml:8
 #: data/transitions/frei0r/frei0r_slide-right.xml:8
 #: data/transitions/frei0r/frei0r_slide-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Slide position"
-msgstr "Positie instellen"
+msgstr "Positie na verschuiven"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:4
-#, fuzzy, kde-format
-#| msgid " Slide "
+#, kde-format
 msgid "Slide Left"
-msgstr " Verschuiven "
+msgstr "Links verschuiven"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to left."
+#, kde-format
 msgid "Slide from right to left."
-msgstr "Item links uitlijnen."
+msgstr "Van rechts naar links verschuiven"
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:4
-#, fuzzy, kde-format
-#| msgid " Slide "
+#, kde-format
 msgid "Slide Up"
-msgstr " Verschuiven "
+msgstr "Omhoog verschuiven"
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to top."
+#, kde-format
 msgid "Slide from bottom to top."
-msgstr "Item boven uitlijnen."
+msgstr "Van beneden naar boven verschuiven."
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:4
-#, fuzzy, kde-format
-#| msgid " Slide "
+#, kde-format
 msgid "Slide Right"
-msgstr " Verschuiven "
+msgstr "Rechts verschuiven"
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to right."
+#, kde-format
 msgid "Slide from left to right."
-msgstr "Item rechts uitlijnen."
+msgstr "Van links naar rechts verschuiven."
 
 #: data/transitions/frei0r/frei0r_softlight.xml:4
 #, kde-format
@@ -14023,17 +13991,15 @@ msgid "Horizontal Barn Door Wipe"
 msgstr "Horizontal Barn Door Wipe"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:5
-#, fuzzy, kde-format
-#| msgid "Horizontal factor"
+#, kde-format
 msgid "Horizontal barn door wipe."
-msgstr "Horizontal Barn Door Wipe"
+msgstr "Horizontale schuurdeurveeg."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:8
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Edges position"
-msgstr "Y-positie"
+msgstr "Positie van rand"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:4
 #, kde-format
@@ -14041,10 +14007,9 @@ msgid "Vertical Barn Door Wipe"
 msgstr "Vertical Barn Door Wipe"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:5
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Vertical barn door wipe."
-msgstr "Vertical Barn Door Wipe"
+msgstr "Verticale schuurdeurveeg"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:4
 #, kde-format
@@ -14057,43 +14022,37 @@ msgid "Wipe from center to edge in a circle."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
-#, fuzzy, kde-format
-#| msgid "File size"
+#, kde-format
 msgid "Circle size"
-msgstr "Bestandsgrootte"
+msgstr "Cirkelgrootte"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Wipe Softness"
+#, kde-format
 msgid "Wipe Down"
 msgstr "Omlaag vegen"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to bottom."
+#, kde-format
 msgid "Wipe from top to bottom."
-msgstr "Item onderaan uitlijnen."
+msgstr "Van boven naar beneden vegen."
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:8
 #: data/transitions/frei0r/frei0r_wipe-left.xml:8
 #: data/transitions/frei0r/frei0r_wipe-right.xml:8
 #: data/transitions/frei0r/frei0r_wipe-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Edge position"
-msgstr "Y-positie"
+msgstr "Positie van rand"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Wipe Left"
 msgstr "Links vegen"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to left."
+#, kde-format
 msgid "Wipe from right to left."
-msgstr "Item links uitlijnen."
+msgstr "Van rechts naar links vegen"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:4
 #, kde-format
@@ -14106,14 +14065,12 @@ msgid "Wipe from center to edge in a rectangle."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Rectangle size"
-msgstr "Rechthoek"
+msgstr "Grootte van rechthoek"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Right"
+#, kde-format
 msgid "Wipe Right"
 msgstr "Rechts vegen"
 
@@ -14123,16 +14080,14 @@ msgid "Wipe from left to right."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
-#, fuzzy, kde-format
-#| msgid "Wipe"
+#, kde-format
 msgid "Wipe Up"
 msgstr "Omhoog vegen"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
-#, fuzzy, kde-format
-#| msgid "Raise object to top"
+#, kde-format
 msgid "Wipe from bottom to top."
-msgstr "Project bovenaan"
+msgstr "Van beneden naar boven vegen."
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -15291,13 +15246,13 @@ msgstr ""
 "Past het uitvoervolume van de geluidstrack aan (beïnvloedt alle audioclips "
 "evenveel)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15309,62 +15264,62 @@ msgstr ""
 "naar links, positieve waarden naar rechts. (beïnvloedt alle audioclips "
 "evenveel)."
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:158
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "L"
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:160
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "R"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Mute track"
 msgstr "Track dempen"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Unmute track"
 msgstr "Dempen van track opheffen"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Dempt/heft op de geluidstrack."
 
-#: src/audiomixer/mixerwidget.cpp:267
+#: src/audiomixer/mixerwidget.cpp:280
 #, kde-format
 msgid "Solo mode"
 msgstr "Modus solo"
 
-#: src/audiomixer/mixerwidget.cpp:268
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Indien geselecteerd dempt alle andere geluidstracks."
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:290
 #, kde-format
 msgid "Monitor audio"
 msgstr "Audio monitoren"
 
-#: src/audiomixer/mixerwidget.cpp:278
+#: src/audiomixer/mixerwidget.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Zet de geluidstrack in modus opnemen."
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-format
 msgid "Show channels"
 msgstr "Kanalen tonen"
 
-#: src/audiomixer/mixerwidget.cpp:295
+#: src/audiomixer/mixerwidget.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15373,18 +15328,18 @@ msgstr ""
 "Schakelt het tonen van de besturing van de geluidstrack in de weergave van "
 "de geluidsmixer."
 
-#: src/audiomixer/mixerwidget.cpp:311
+#: src/audiomixer/mixerwidget.cpp:324
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Effectenstapel openen"
 
-#: src/audiomixer/mixerwidget.cpp:313
+#: src/audiomixer/mixerwidget.cpp:326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Opent de effectstapel van de geluidstrack."
 
-#: src/audiomixer/mixerwidget.cpp:315
+#: src/audiomixer/mixerwidget.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -18334,10 +18289,9 @@ msgid "Audio without video track"
 msgstr "Audio zonder videotrack"
 
 #: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
-#, fuzzy, kde-format
-#| msgid "Rendering <i>%1</i> started"
+#, kde-format
 msgid "Rendering %1 started"
-msgstr "Weergave uitwerken begonnen"
+msgstr "Renderen %1 gestart"
 
 #: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1365
 #, kde-format
@@ -20628,18 +20582,16 @@ msgid "Upgrading project version…"
 msgstr "Projectversie wordt opgewaardeerd…"
 
 #: src/doc/documentvalidator.cpp:194
-#, fuzzy, kde-format
-#| msgid ""
-#| "This project type is unsupported (version %1) and cannot be loaded.\n"
-#| "Please consider upgrading your Kdenlive version."
+#, kde-format
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
 "what this Kdenlive release supports (version %2 and older).\n"
 "Please consider upgrading your Kdenlive version."
 msgstr ""
-"Dit project type wordt niet ondersteund (versie %1) en kan niet geladen "
-"worden.\n"
-"Upgrade naar de laatste Kdenlive versie"
+"Dit project wordt niet ondersteund omdat zijn versie van het document (%1) "
+"nieuwer is dan wat deze uitgave van Kdenlive ondersteunt (versie %2 en "
+"ouder).\n"
+"Overweeg het opwaarderen van uw versie van Kdenlive."
 
 #: src/doc/documentvalidator.cpp:195 src/doc/documentvalidator.cpp:204
 #, kde-format
@@ -21570,17 +21522,17 @@ msgstr "Video-miniaturen"
 msgid "Loading clip"
 msgstr "Bezig met laden van clip"
 
-#: src/jobs/cliploadtask.cpp:510
+#: src/jobs/cliploadtask.cpp:517
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "De duur van bestand <b>%1</b> kan niet bepaald worden."
 
-#: src/jobs/cliploadtask.cpp:702
+#: src/jobs/cliploadtask.cpp:709
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "In bestand <b>%1</b> kan niet gesprongen worden."
 
-#: src/jobs/cliploadtask.cpp:731
+#: src/jobs/cliploadtask.cpp:738
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Bestand <b>%1</b> heeft een variabele framesnelheid."
@@ -22805,13 +22757,7 @@ msgid "Loading Project"
 msgstr "Project wordt geladen"
 
 #: src/mainwindow.cpp:955
-#, fuzzy, kde-format
-#| msgid ""
-#| "You have 1 rendering job waiting in the queue.\n"
-#| "What do you want to do with this job?"
-#| msgid_plural ""
-#| "You have %1 rendering jobs waiting in the queue.\n"
-#| "What do you want to do with these jobs?"
+#, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
 "What do you want to do with this job?"
@@ -22819,23 +22765,21 @@ msgid_plural ""
 "You have %1 rendering jobs running.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Er is nog 1 rendering opdracht in de wachtrij.\n"
-"Wat moet hiermee gedaan worden?"
+"U hebt 1 rendertaak actief.\n"
+"Wat wilt u doen met deze taak?"
 msgstr[1] ""
-"Er zijn nog %1 rendering opdrachten in de wachtrij.\n"
-"Wat moet hiermee gedaan worden?"
+"U hebt %1 rendertaken actief.\n"
+"Wat wilt u doen met deze taken?"
 
 #: src/mainwindow.cpp:957
-#, fuzzy, kde-format
-#| msgid "Creating menu background"
+#, kde-format
 msgid "Continue rendering in the background"
-msgstr "Menu achtergrond aanmaken"
+msgstr "Doorgaan met renderen in de achtergrond"
 
 #: src/mainwindow.cpp:957
-#, fuzzy, kde-format
-#| msgid "Start Rendering"
+#, kde-format
 msgid "Abort rendering"
-msgstr "Start Renderen/omzetten"
+msgstr "Renderen afbreken"
 
 #: src/mainwindow.cpp:974
 #, kde-format
@@ -23929,10 +23873,9 @@ msgid "Toggle Track Disabled"
 msgstr "Track uitgeschakeld omschakelen"
 
 #: src/mainwindow.cpp:2001
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle All Tracks Disabled"
-msgstr "Track uitgeschakeld omschakelen"
+msgstr "Schakel alle tracks om naar uitgeschakeld"
 
 #: src/mainwindow.cpp:2003
 #, kde-format
@@ -23940,10 +23883,9 @@ msgid "Toggle Track Lock"
 msgstr "Vergrendeling van track omschakelen"
 
 #: src/mainwindow.cpp:2005
-#, fuzzy, kde-format
-#| msgid "Toggle All Track Lock"
+#, kde-format
 msgid "Toggle All Tracks Lock"
-msgstr "Vergrendeling van alle tracks omschakelen"
+msgstr "Alle tracks omschakelen naar vergrendeld"
 
 #: src/mainwindow.cpp:2007
 #, kde-format
@@ -24001,10 +23943,9 @@ msgid "Extract Frame to Project…"
 msgstr "Frame naar project extraheren…"
 
 #: src/mainwindow.cpp:2054
-#, fuzzy, kde-format
-#| msgid "Extract Frame to Project…"
+#, kde-format
 msgid "Extract Frame to Clipboard"
-msgstr "Frame naar project extraheren…"
+msgstr "Frame uit klembord extraheren"
 
 #: src/mainwindow.cpp:2188
 #, kde-format
@@ -24820,10 +24761,9 @@ msgid "Image count:"
 msgstr "Aantal afbeeldingen:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1442
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video streams:"
-msgstr "Video-stream"
+msgstr "Video-streams:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1449
 #, kde-format
@@ -25941,12 +25881,12 @@ msgstr "OpenTimelineIO wordt geëxporteerd"
 msgid "OpenTimelineIO Export"
 msgstr "Exporteren van OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:230
+#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "Project van OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:101
+#: src/otio/otioexport.cpp:102
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Exporteren van OpenTimelineIO-bestand gaat fout"
@@ -25962,7 +25902,7 @@ msgstr "OpenTimelineIO wordt geïmporteerd"
 msgid "Error importing OpenTimelineIO file"
 msgstr "Importeren van OpenTimelineIO-bestand gaat fout"
 
-#: src/otio/otioimport.cpp:229
+#: src/otio/otioimport.cpp:238
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "Importeren van OpenTimelineIO"
@@ -29527,12 +29467,10 @@ msgid "Toggle track effects"
 msgstr "Trackeffecten omschakelen"
 
 #: src/timeline2/view/qml/TrackHead.qml:441
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
+#, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
-"<b>Shift</b> om alle tracks van hetzelfde type in of uit te klappen (audio/"
+"<b>Shift</b> om alle tracks van hetzelfde type te tonen/verbergen (audio/"
 "video)"
 
 #: src/timeline2/view/qml/TrackHead.qml:458
@@ -32342,10 +32280,9 @@ msgstr "Spring naar clip bij toevoegen van effect"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "On Selection:"
-msgstr "Selectie"
+msgstr "Bij selectie:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:108
@@ -32416,24 +32353,21 @@ msgstr "Controleren of project genoeg tracks bevat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:211
-#, fuzzy, kde-format
-#| msgid "Envelope"
+#, kde-format
 msgid "Developer:"
-msgstr "Ontwikkelaar"
+msgstr "Ontwikkelaar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable debug mode"
-msgstr "Video inschakelen"
+msgstr "Modus debug inschakelen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
-#, fuzzy, kde-format
-#| msgid "Effect/Composition Stack"
+#, kde-format
 msgid "Raise Effects/Composition Stack for"
-msgstr "Effect/compositiestack:"
+msgstr "Effect/compositiestapel omhoog brengen voor"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:258

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-05 00:41+0000\n"
+"POT-Creation-Date: 2025-04-08 00:41+0000\n"
 "PO-Revision-Date: 2025-03-31 11:05+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -31,7 +31,7 @@ msgid "Your emails"
 msgstr "yurchor@ukr.net"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Balance"
 msgstr "Баланс"
@@ -15598,13 +15598,13 @@ msgstr ""
 "Коригує гучність вихідного звуку звукової доріжки (впливає на усі звукові "
 "кліпи одночасно)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "дБ"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15616,62 +15616,62 @@ msgstr ""
 "пересувають відтворення ліворуч, додатні — праворуч. Впливає на усі звукові "
 "кліпи одночасно."
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:158
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "Л"
 
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:160
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "П"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Mute track"
 msgstr "Вимкнути звук на доріжці"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Unmute track"
 msgstr "Увімкнути звук на доріжці."
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Вимикає або вмикає звук на звуковій доріжці."
 
-#: src/audiomixer/mixerwidget.cpp:267
+#: src/audiomixer/mixerwidget.cpp:280
 #, kde-format
 msgid "Solo mode"
 msgstr "Режим соло"
 
-#: src/audiomixer/mixerwidget.cpp:268
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Якщо позначено, вимикає звук на усіх інших звукових доріжках."
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:290
 #, kde-format
 msgid "Monitor audio"
 msgstr "Стеження за звуком"
 
-#: src/audiomixer/mixerwidget.cpp:278
+#: src/audiomixer/mixerwidget.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Переводить звукову доріжку у режим записування."
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-format
 msgid "Show channels"
 msgstr "Показувати канали"
 
-#: src/audiomixer/mixerwidget.cpp:295
+#: src/audiomixer/mixerwidget.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15680,18 +15680,18 @@ msgstr ""
 "Вмикає або вимикає показ засобів керування звуковою доріжкою на панелі "
 "мікшування звуку."
 
-#: src/audiomixer/mixerwidget.cpp:311
+#: src/audiomixer/mixerwidget.cpp:324
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Відкрити стос ефектів"
 
-#: src/audiomixer/mixerwidget.cpp:313
+#: src/audiomixer/mixerwidget.cpp:326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Відкриває стос ефектів для звукової доріжки."
 
-#: src/audiomixer/mixerwidget.cpp:315
+#: src/audiomixer/mixerwidget.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -21922,17 +21922,17 @@ msgstr "Мініатюри відео"
 msgid "Loading clip"
 msgstr "Завантажуємо кліп"
 
-#: src/jobs/cliploadtask.cpp:510
+#: src/jobs/cliploadtask.cpp:517
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Не вдалося визначити тривалість відтворення файла <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:702
+#: src/jobs/cliploadtask.cpp:709
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Позиціювання у файлі <b>%1</b> неможливе."
 
-#: src/jobs/cliploadtask.cpp:731
+#: src/jobs/cliploadtask.cpp:738
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Частота кадрів у файлі <b>%1</b> є змінною."
@@ -26322,12 +26322,12 @@ msgstr "Експортування до OpenTimelineIO"
 msgid "OpenTimelineIO Export"
 msgstr "Експортування до OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:230
+#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
 #, kde-format
 msgid "OpenTimelineIO Project"
 msgstr "проєкт OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:101
+#: src/otio/otioexport.cpp:102
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Помилка під час спроби експортувати файл OpenTimelineIO"
@@ -26343,7 +26343,7 @@ msgstr "Імпортування до OpenTimelineIO"
 msgid "Error importing OpenTimelineIO file"
 msgstr "Помилка під час спроби імпортувати файл OpenTimelineIO"
 
-#: src/otio/otioimport.cpp:229
+#: src/otio/otioimport.cpp:238
 #, kde-format
 msgid "OpenTimelineIO Import"
 msgstr "Імпортувати OpenTimelineIO"

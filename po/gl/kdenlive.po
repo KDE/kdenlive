@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-05 00:41+0000\n"
+"POT-Creation-Date: 2025-04-08 00:41+0000\n"
 "PO-Revision-Date: 2025-03-04 08:47+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -32,7 +32,7 @@ msgid "Your emails"
 msgstr "xosecalvo@gmail.com, adrian@chaves.gal"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
 #, kde-format
 msgid "Balance"
 msgstr "Balance"
@@ -15880,13 +15880,13 @@ msgstr ""
 "son por igual)."
 
 # B significa Azul
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
+#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15898,63 +15898,63 @@ msgstr ""
 "esquerda, e os positivos á dereita. Afecta a todos os fragmentos de son por "
 "igual."
 
-#: src/audiomixer/mixerwidget.cpp:145
+#: src/audiomixer/mixerwidget.cpp:158
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "E"
 
 # R significa Red
-#: src/audiomixer/mixerwidget.cpp:147
+#: src/audiomixer/mixerwidget.cpp:160
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Mute track"
 msgstr "Silenciar a pista"
 
-#: src/audiomixer/mixerwidget.cpp:218
+#: src/audiomixer/mixerwidget.cpp:231
 #, kde-format
 msgid "Unmute track"
 msgstr "Desilenciar a pista"
 
-#: src/audiomixer/mixerwidget.cpp:219
+#: src/audiomixer/mixerwidget.cpp:232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Silencia ou deixa de silenciar a pista de son."
 
-#: src/audiomixer/mixerwidget.cpp:267
+#: src/audiomixer/mixerwidget.cpp:280
 #, kde-format
 msgid "Solo mode"
 msgstr "Modo solo"
 
-#: src/audiomixer/mixerwidget.cpp:268
+#: src/audiomixer/mixerwidget.cpp:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Ao seleccionarse, silencia o resto de pistas de son."
 
-#: src/audiomixer/mixerwidget.cpp:277
+#: src/audiomixer/mixerwidget.cpp:290
 #, kde-format
 msgid "Monitor audio"
 msgstr "Monitorizar o son."
 
-#: src/audiomixer/mixerwidget.cpp:278
+#: src/audiomixer/mixerwidget.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Pon a pista de son no modo de gravación."
 
-#: src/audiomixer/mixerwidget.cpp:294
+#: src/audiomixer/mixerwidget.cpp:307
 #, kde-format
 msgid "Show channels"
 msgstr "Amosa as canles"
 
-#: src/audiomixer/mixerwidget.cpp:295
+#: src/audiomixer/mixerwidget.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15963,18 +15963,18 @@ msgstr ""
 "Conmuta a visualización dos controis da pista de son na vista do mesturador "
 "de son."
 
-#: src/audiomixer/mixerwidget.cpp:311
+#: src/audiomixer/mixerwidget.cpp:324
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Abre a morea de efectos"
 
-#: src/audiomixer/mixerwidget.cpp:313
+#: src/audiomixer/mixerwidget.cpp:326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Abre a morea de efectos da pista de son."
 
-#: src/audiomixer/mixerwidget.cpp:315
+#: src/audiomixer/mixerwidget.cpp:328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -22168,17 +22168,17 @@ msgstr "Miniaturas de vídeo"
 msgid "Loading clip"
 msgstr "Cargando o fragmento"
 
-#: src/jobs/cliploadtask.cpp:510
+#: src/jobs/cliploadtask.cpp:517
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Non é posíbel determinar a duración do ficheiro <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:702
+#: src/jobs/cliploadtask.cpp:709
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Non se pode mover o punto de reprodución no ficheiro <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:731
+#: src/jobs/cliploadtask.cpp:738
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "O ficheiro <b>%1</b> ten unha taxa de fotogramas variábel."
@@ -26562,13 +26562,13 @@ msgstr "Produciuse un erro ao abrir o ficheiro"
 msgid "OpenTimelineIO Export"
 msgstr "E&xportación de OpenTimelineIO…"
 
-#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:230
+#: src/otio/otioexport.cpp:58 src/otio/otioimport.cpp:239
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport…"
 msgid "OpenTimelineIO Project"
 msgstr "E&xportación de OpenTimelineIO…"
 
-#: src/otio/otioexport.cpp:101
+#: src/otio/otioexport.cpp:102
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error exporting OpenTimelineIO file"
@@ -26587,7 +26587,7 @@ msgstr "Produciuse un erro ao abrir o ficheiro"
 msgid "Error importing OpenTimelineIO file"
 msgstr "Produciuse un erro ao abrir o ficheiro"
 
-#: src/otio/otioimport.cpp:229
+#: src/otio/otioimport.cpp:238
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO &Import…"
 msgid "OpenTimelineIO Import"
