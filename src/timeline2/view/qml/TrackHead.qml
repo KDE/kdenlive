@@ -161,32 +161,14 @@ Rectangle {
                 ToolTip {
                     visible: targetMouse.hovered
                     font: miniFont
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: timeline.actionText("switch_target_stream")
-                    }
+                    text: timeline.actionText("switch_target_stream")
                 }
             }
         }
         ToolTip {
             visible: targetArea.containsMouse && !targetMouse.hovered
             font: miniFont
-            delay: 1500
-            timeout: 5000
-            background: Rectangle {
-                color: activePalette.alternateBase
-                border.color: activePalette.light
-            }
-            contentItem: Label {
-                color: activePalette.text
-                text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
-            }
+            text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
         }
     state:  'normalTarget'
     states: [
@@ -284,16 +266,7 @@ Rectangle {
             ToolTip {
                 visible: expandButton.hovered
                 font: miniFont
-                delay: 1500
-                timeout: 5000
-                background: Rectangle {
-                    color: activePalette.alternateBase
-                    border.color: activePalette.light
-                }
-                contentItem: Label {
-                    color: activePalette.text
-                    text: trackLabel.visible? i18n("Minimize") : i18n("Expand")
-                }
+                text: trackLabel.visible? i18n("Minimize") : i18n("Expand")
             }
         }
         Label {
@@ -323,16 +296,7 @@ Rectangle {
             ToolTip {
                 visible: tagMouseArea.containsMouse
                 font: miniFont
-                delay: 1500
-                timeout: 5000
-                background: Rectangle {
-                    color: activePalette.alternateBase
-                    border.color: activePalette.light
-                }
-                contentItem: Label {
-                    color: activePalette.text
-                    text: i18n("Click to make track active/inactive. Active tracks will react to editing operations")
-                }
+                text: (trackHeadRoot.trackName.length == 0 || miniTrackLabel.visible || trackLabel.visible) ? i18n("Click to make track active/inactive. Active tracks will react to editing operations") : trackHeadRoot.trackName
             }
         state:  'normalled'
             states: [
@@ -387,6 +351,7 @@ Rectangle {
             visible: root.debugmode
         }
         Label {
+            id: miniTrackLabel
             anchors.left: trackLed.right
             anchors.top: parent.top
             anchors.leftMargin: 2
@@ -430,16 +395,7 @@ Rectangle {
                 ToolTip {
                     visible: effectButton.hovered
                     font: miniFont
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
-                    }
+                    text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
                 }
             }
             ToolButton {
@@ -471,16 +427,7 @@ Rectangle {
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
-                    }
+                    text: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
                 }
             }
 
@@ -505,16 +452,7 @@ Rectangle {
                 ToolTip {
                     visible: lockButton.hovered
                     font: miniFont
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: isLocked? i18n("Unlock track") : i18n("Lock track")
-                    }
+                    text: isLocked? i18n("Unlock track") : i18n("Lock track")
                 }
                 SequentialAnimation {
                     id: flashLock
@@ -652,16 +590,7 @@ Rectangle {
             ToolTip {
                 visible: zoomMouseArea.containsMouse
                 font: miniFont
-                delay: 1500
-                timeout: 5000
-                background: Rectangle {
-                    color: activePalette.alternateBase
-                    border.color: activePalette.light
-                }
-                contentItem: Label {
-                    color: activePalette.text
-                    text: i18n("Click to cycle audio waveforms zoom")
-                }
+                text: i18n("Click to cycle audio waveforms zoom")
             }
         }
     }
