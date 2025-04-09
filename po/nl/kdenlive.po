@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-08 02:38+0000\n"
-"PO-Revision-Date: 2025-04-07 12:17+0200\n"
+"PO-Revision-Date: 2025-04-08 12:02+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -2221,6 +2221,23 @@ msgid ""
 "delay tolerance depends on sample rate, too. Higher sample rates will give "
 "more tolerance. "
 msgstr ""
+"Compensatievertragingslijn is een op meten gebaseerde vertraging om "
+"verschillen te compenseren in posities van microfoons of luidsprekers.\n"
+"U hebt bijvoorbeeld een guitar opgenomen met twee microfoons geplaatst op "
+"verschillende locaties. Omdat de voorkant van de geluidsgolf een vaste "
+"snelheid heeft in normale omstandigheden, kan de fasering van microfoons "
+"variëren en hangt af van hun locatie en tussenliggende positie. De beste "
+"geluidsmix kan verkregen worden wanneer deze microfoons in fase zijn "
+"(gesynchroniseerd). Merk op dat een afstand van ~30 cm tussen microfoons "
+"maakt dat de ene microfoon het signaal vangt in antifase tot de andere "
+"microfoon. Dat maakt dat de uiteindelijke mix somber klinkt. Dit filter "
+"helpt problemen met fasen op te lossen door verschillende vertragingen aan "
+"elk microfoontrack toe te voegen en ze gesynchroniseerd te maken.\n"
+"\n"
+"Het beste resultaat kan bereikt worden wanneer u een track als basis neemt "
+"en andere tracks een voor een met deze synchroniseert. Bedenk dat tolerantie "
+"van synchronisatie/vertraging tolerance ook afhangt van samplesnelheid. "
+"Hogere samplesnelheden zullen meer tolerantie geven. "
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, kde-format
@@ -2350,6 +2367,8 @@ msgid ""
 "Simple algorithm for audio noise sharpening.\n"
 "This filter linearly increases differences betweeen each audio sample."
 msgstr ""
+"Eenvoudig algoritme voor audioruis verscherpen.\n"
+"Dit filter verhoogt lineair verschillen tussen elk audiosample."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
 #: data/effects/avfilter/avfilter_deesser.xml:8
@@ -2368,6 +2387,10 @@ msgid ""
 "effect).\n"
 "To inverse filtering use negative value. "
 msgstr ""
+"Stelt de intensiteit van het effect in (standaard 2,0).\n"
+"Moet in de reeks tussen -10,0 tot 0 (onveranderd geluid) zijn tot 10.0 "
+"(maximum effect) zijn.\n"
+"Om het effect van het filter om te keren gebruikt u negatieve waarden. "
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:15
 #: data/effects/avfilter/avfilter_extrastereo.xml:14
@@ -2389,7 +2412,7 @@ msgstr "Analyse van videogegevens"
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
-msgstr ""
+msgstr "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -2418,13 +2441,13 @@ msgstr "Y-verschuiving"
 #: data/effects/avfilter/avfilter_datascope.xml:18
 #, kde-format
 msgid "mono,color,color2"
-msgstr ""
+msgstr "mono,kleur,kleur2"
 
 #: data/effects/avfilter/avfilter_datascope.xml:22
 #: data/effects/avfilter/avfilter_delogo.xml:20
 #, kde-format
 msgid "Off,On"
-msgstr ""
+msgstr "Uit,Aan"
 
 #: data/effects/avfilter/avfilter_datascope.xml:23
 #, kde-format
@@ -2488,6 +2511,8 @@ msgid ""
 "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
 "All"
 msgstr ""
+"Alfa,Lichtkracht (Y vlak),Chroma (U vlak),Chroma (V vlak),Rood,Groen,Blauw,"
+"All"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #, kde-format
@@ -2515,6 +2540,12 @@ msgid ""
 "The effect of a DC offset is reduced headroom and hence volume. The astats "
 "filter can be used to determine if a signal has a DC offset."
 msgstr ""
+"Een DC-verschuiving aan de audio toepassen.\n"
+"Dit kan nuttig zijn om een DC-offset (misschien veroorzaakt door een "
+"hardware probleem in de opnameketen) van de audio te verwijderen.\n"
+"Het effect van een DC-offset is verminderde ruimte aan de bovenkant en dus "
+"volume. Het astats-filter kan gebruikt worden om te bepalen of een signaal "
+"een DC-offset heeft."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:11
 #, kde-format
@@ -2522,6 +2553,8 @@ msgid ""
 "Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift "
 "the audio."
 msgstr ""
+"Stelt de DC-verschuiving in, het toegestane bereik is [-1, 1]. Dit geeft de "
+"hoeveelheid aan die de audio verschuift."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
 #, kde-format
@@ -2545,7 +2578,7 @@ msgstr "DCT-ruis verwijdering"
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:5
 #, kde-format
 msgid "Denoise frames using 2D DCT frequency domain filtering"
-msgstr ""
+msgstr "Ruis verwijderen uit frames met 2D DCT frequentiedomeinfiltering"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
@@ -2577,6 +2610,8 @@ msgid ""
 "Remove banding artifacts from input video. It works by replacing banded "
 "pixels with average value of referenced pixels"
 msgstr ""
+"Bandvormige artifacts uit invoervideo verwijderen. Het werkt door pixels in "
+"banden te vervangen door een gemiddelde waarde van gerefereerde pixels"
 
 #: data/effects/avfilter/avfilter_deband.xml:8
 #, kde-format
@@ -2628,12 +2663,12 @@ msgstr "BlokkeringOpheffen"
 #: data/effects/avfilter/avfilter_deblock.xml:5
 #, kde-format
 msgid "Remove blocking artifacts from input video."
-msgstr ""
+msgstr "Blokvormige artifacts uit invoervideo verwijderen."
 
 #: data/effects/avfilter/avfilter_deblock.xml:8
 #, kde-format
 msgid "Weak,Strong"
-msgstr ""
+msgstr "Zwak,Sterk"
 
 #: data/effects/avfilter/avfilter_deblock.xml:9
 #, kde-format
@@ -2664,12 +2699,12 @@ msgstr "Delta-drempel"
 #: data/effects/avfilter/avfilter_deblock.xml:27
 #, kde-format
 msgid "All,Y,U,V,Alpha,Red,Green,Blue"
-msgstr ""
+msgstr "Alles,Y,U,V,Alfa,Rood,Groen,Blauw"
 
 #: data/effects/avfilter/avfilter_dedot.xml:4
 #, kde-format
 msgid "DeDot"
-msgstr ""
+msgstr "DeDot"
 
 #: data/effects/avfilter/avfilter_dedot.xml:5
 #, kde-format
