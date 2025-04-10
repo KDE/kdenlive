@@ -60,13 +60,12 @@ Item {
     property color thumbColor2: controller.thumbColor2
     property color overlayColor: controller.overlayColor
     property bool isClipMonitor: true
-    property bool permanentAudioThumb: controller.permanentAudioThumb
     property int dragType: 0
     property string baseThumbPath
     property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
-        if (audioThumb.stateVisible && audioThumb.visible) {
+        if (controller.permanentAudioThumb && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -114,7 +113,7 @@ Item {
         }
 
         // adjust monitor image size if audio thumb is displayed
-        if (audioThumb.stateVisible && audioThumb.visible) {
+        if (controller.permanentAudioThumb && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -122,7 +121,7 @@ Item {
     }
 
     onZoomOffsetChanged: {
-        if (audioThumb.stateVisible && audioThumb.visible) {
+        if (controller.permanentAudioThumb && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -130,8 +129,7 @@ Item {
     }
 
     onHeightChanged: {
-        console.log("MONITOR HEIGHT CHANGED; PERMANENT THUMB: ", root.permanentAudioThumb)
-        if (audioThumb.stateVisible && audioThumb.visible) {
+        if (controller.permanentAudioThumb && audioThumb.visible) {
             controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -248,7 +246,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (root.permanentAudioThumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
+                property bool stateVisible: (controller.permanentAudioThumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
                 property bool isAudioClip: controller.clipType == ProducerType.Audio
                 anchors {
                     left: parent.left
@@ -258,7 +256,7 @@ Item {
                 height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: (root.permanentAudioThumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipHasAV)
+                visible: (controller.permanentAudioThumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipHasAV)
 
                 Label {
                     id: clipStreamLabel
@@ -277,7 +275,7 @@ Item {
                 }
                 onStateVisibleChanged: {
                     // adjust monitor image size
-                    if (stateVisible && audioThumb.visible) {
+                    if (controller.permanentAudioThumb && audioThumb.visible) {
                         controller.rulerHeight = audioThumb.height + root.zoomOffset
                     } else {
                         controller.rulerHeight = root.zoomOffset
@@ -306,7 +304,7 @@ Item {
                 }]
                 Rectangle {
                     color: "black"
-                    opacity: audioThumb.isAudioClip || root.permanentAudioThumb ? 1 : 0.6
+                    opacity: audioThumb.isAudioClip || controller.permanentAudioThumb ? 1 : 0.6
                     anchors.fill: parent
                 }
                 Rectangle {
