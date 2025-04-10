@@ -1776,17 +1776,17 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
         return false;
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
-    if (!master->statusReady() || !master->isCompatible(state)) {
-        if (!master->statusReady()) {
-            qWarning() << "clip not ready...";
-        } else {
-            qWarning() << "clip not compatible" << state;
-        }
+
+    if (!master->statusReady()) {
+        qWarning() << "clip not ready...";
+        return false;
+    }
+    if (!master->isCompatible(state)) {
+        qWarning() << "clip not compatible" << state;
         return false;
     }
     int clipId = TimelineModel::getNextId();
     id = clipId;
-    qDebug() << "======\nCREATING TIMELINE OBJECT: " << clipId << "\n========================";
     Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), bid, clipId, state, audioStream, speed, warp_pitch);
     auto clip = m_allClips[clipId];
@@ -2116,8 +2116,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (normalisedBinId.startsWith(QLatin1Char('A')) || normalisedBinId.startsWith(QLatin1Char('V'))) {
             normalisedBinId.remove(0, 1);
         }
-        res = requestClipCreation(normalisedBinId, id, dropType, binClip->getProducerIntProperty(QStringLiteral("audio_index")), 1.0, false, local_undo,
-                                  local_redo);
+        int audioIndex = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
+        res = requestClipCreation(normalisedBinId, id, dropType, audioIndex, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
     }
     if (!res) {
@@ -4611,12 +4611,12 @@ bool TimelineModel::requestClipUngroup(int itemId, bool logUndo)
     return result;
 }
 
-bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo, bool onDeletion)
 {
     QWriteLocker locker(&m_lock);
     bool isSelection = m_groups->getType(m_groups->getRootId(itemId)) == GroupType::Selection;
     if (!isSelection) {
-        requestClearSelection();
+        requestClearSelection(onDeletion);
     }
     bool res = m_groups->ungroupItem(itemId, undo, redo);
     if (res && !isSelection) {
@@ -5218,7 +5218,7 @@ void TimelineModel::updateDuration()
             if (duration == current) {
                 Q_EMIT durationUpdated(m_uuid);
                 if (m_masterStack) {
-                    Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
+                    Q_EMIT m_masterStack->customDataChanged(QModelIndex(), QModelIndex(), {});
                 }
             }
         }
@@ -5230,7 +5230,7 @@ void TimelineModel::updateDuration()
         m_blackClip->unlock();
         Q_EMIT durationUpdated(m_uuid);
         if (m_masterStack) {
-            Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
+            Q_EMIT m_masterStack->customDataChanged(QModelIndex(), QModelIndex(), {});
         }
     }
 }
@@ -6818,7 +6818,7 @@ void TimelineModel::checkAndUpdateOffset(std::unordered_set<int> pairIds)
     int ix1 = *it;
     std::advance(it, 1);
     int ix2 = *it;
-    if (getClipBinId(ix1) == getClipBinId(ix2)) {
+    if (isClip(ix1) && isClip(ix2) && getClipBinId(ix1) == getClipBinId(ix2)) {
         // Check if they have same bin id
         ClipType::ProducerType type = m_allClips[ix1]->clipType();
         if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {

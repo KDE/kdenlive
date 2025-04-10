@@ -221,4 +221,5 @@ Q_SIGNALS:
     void updateMasterZones();
     /** @brief: Currently active effect changed */
     void currentChanged(QModelIndex ix, bool active);
+    void customDataChanged(const QModelIndex &, const QModelIndex &, const QList<int> &roles = QList<int>());
 };

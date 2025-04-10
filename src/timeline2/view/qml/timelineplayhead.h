@@ -11,8 +11,9 @@
 class TimelinePlayhead : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY colorChanged)
     QML_ELEMENT
+
+    Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY colorChanged)
 
 public:
     TimelinePlayhead(QQuickItem *parent = nullptr);

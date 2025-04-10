@@ -151,6 +151,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="assetsInfoHeight" type="Double">
+      <label>Height of the info box.</label>
+      <default>0</default>
+    </entry>
+
     <entry name="disable_effect_parameters" type="Bool">
       <label>Disable parameters when the effect is disabled.</label>
       <default>true</default>
@@ -441,14 +446,24 @@
       <default>true</default>
     </entry>
 
-    <entry name="raisepropstransitions" type="Bool">
-      <label>Raise property pane when selecting timeline transitions.</label>
+    <entry name="raisepropscompositions" type="Bool">
+      <label>Raise property pane when selecting timeline compositions.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="raisepropsmixes" type="Bool">
+      <label>Raise property pane when selecting timeline mixes.</label>
       <default>true</default>
     </entry>
 
     <entry name="raisepropstracks" type="Bool">
       <label>Raise property pane when selecting timeline tracks.</label>
       <default>true</default>
+    </entry>
+
+    <entry name="uiDebugMode" type="Bool">
+      <label>Enable technical elements and info to debug the UI (for developers)</label>
+      <default>false</default>
     </entry>
 
     </group>

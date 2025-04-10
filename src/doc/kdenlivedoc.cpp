@@ -88,7 +88,6 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     }
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
-    // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
     pCore->taskManager.unBlock();
     initializeProperties(true, tracks, audioChannels);
 
@@ -338,13 +337,11 @@ KdenliveDoc::~KdenliveDoc()
             }
         }
     }
-    // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
     if (pCore->window()) {
         disconnect(this, &KdenliveDoc::docModified, pCore->window(), &MainWindow::slotUpdateDocumentState);
     }
     m_commandStack->clear();
     m_timelines.clear();
-    // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) {
             m_autosave->remove();
@@ -684,7 +681,6 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     // check if project contains custom effects to embed them in project file
     QDomNodeList effects = mlt.elementsByTagName(QStringLiteral("filter"));
     int maxEffects = effects.count();
-    // qCDebug(KDENLIVE_LOG) << "// FOUD " << maxEffects << " EFFECTS+++++++++++++++++++++";
     QMap<QString, QString> effectIds;
     for (int i = 0; i < maxEffects; ++i) {
         QDomNode m = effects.at(i);
@@ -1165,7 +1161,6 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
                 qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << "size match but not hash";
             }
         }
-        ////qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
@@ -1505,7 +1500,6 @@ void KdenliveDoc::cleanupBackupFiles()
     if (hourList.count() > 20) {
         int step = hourList.count() / 10;
         for (int i = 0; i < hourList.count(); i += step) {
-            // qCDebug(KDENLIVE_LOG)<<"REMOVE AT: "<<i<<", COUNT: "<<hourList.count();
             hourList.removeAt(i);
             --i;
         }
@@ -1683,9 +1677,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
         const std::shared_ptr<ProjectClip> &item = clipList.at(i);
         ClipType::ProducerType t = item->clipType();
         // Only allow proxy on some clip types
-        if ((t == ClipType::Video || t == ClipType::AV || t == ClipType::Unknown || t == ClipType::Image || t == ClipType::Playlist ||
-             t == ClipType::SlideShow) &&
-            item->statusReady()) {
+        if (item->supportsProxy() && item->statusReady()) {
             // Check for MP3 with cover art
             if (t == ClipType::AV && item->codec(false) == QLatin1String("mjpeg")) {
                 QString frame_rate = item->videoCodecProperty(QStringLiteral("frame_rate"));
@@ -2700,7 +2692,8 @@ void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc, const QString &mainSe
     QDomNodeList tractors = doc.elementsByTagName(QStringLiteral("tractor"));
     QStringList matches;
     for (int i = 0; i < tractors.length(); ++i) {
-        if (tractors.at(i).toElement().attribute(QStringLiteral("id")) == mainSequenceUuid) {
+        const QString uuid = Xml::getXmlProperty(tractors.at(i).toElement(), QStringLiteral("kdenlive:uuid"));
+        if (uuid == mainSequenceUuid) {
             // We found the main sequence tractor, list its tracks
             QDomNodeList tracks = tractors.at(i).toElement().elementsByTagName(QStringLiteral("track"));
             for (int j = 0; j < tracks.length(); ++j) {
@@ -2709,11 +2702,26 @@ void KdenliveDoc::setAutoclosePlaylists(QDomDocument &doc, const QString &mainSe
             break;
         }
     }
+    // Second round in case tractor's tracks are tractors again
+    for (int i = 0; i < tractors.length(); ++i) {
+        if (matches.contains(tractors.at(i).toElement().attribute(QStringLiteral("id")))) {
+            // We found the main sequence tractor, list its tracks
+            QDomNodeList tracks = tractors.at(i).toElement().elementsByTagName(QStringLiteral("track"));
+            for (int j = 0; j < tracks.length(); ++j) {
+                matches << tracks.at(j).toElement().attribute(QStringLiteral("producer"));
+            }
+        }
+    }
+    int matchingPlaylists = 0;
     for (int i = 0; i < playlists.length(); ++i) {
         auto playlist = playlists.at(i).toElement();
         if (matches.contains(playlist.attribute(QStringLiteral("id")))) {
             playlist.setAttribute(QStringLiteral("autoclose"), 1);
+            matchingPlaylists++;
         }
+    }
+    if (matchingPlaylists == 0) {
+        qWarning() << "Did not find any matching playlist to apply autoclose\n............................\n";
     }
 }
 

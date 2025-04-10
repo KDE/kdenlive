@@ -7,6 +7,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import org.kde.kdenlive as K
+
 Item {
     id: root
     objectName: "rootrotoscene"
@@ -20,7 +22,6 @@ Item {
     property point center
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int overlayType: controller.overlayType
-    property color overlayColor: controller.overlayColor
     property double scalex : 1
     property double scaley : 1
     property bool captureRightClick: true
@@ -44,7 +45,7 @@ Item {
     onSourcedarChanged: refreshdar()
     property bool iskeyframe : true
     property bool cursorOutsideEffect: false
-    property bool autoKeyframe: controller.autoKeyframe
+    property bool autoKeyframe: K.KdenliveSettings.autoKeyframe
     property bool isDefined: false
     property int requestedKeyFrame : -1
     property int requestedSubKeyFrame : -1
@@ -82,6 +83,10 @@ Item {
             event.accepted = false;
         }
     }
+    Component.onCompleted: {
+        // adjust monitor image size if audio thumb is displayed
+        controller.rulerHeight = root.zoomOffset
+    }
 
     function updateClickCapture() {
         if (root.isDefined) {
@@ -99,7 +104,7 @@ Item {
     }
 
     onIskeyframeChanged: {
-        if (root.displayResize && !controller.autoKeyframe) {
+        if (root.displayResize && !K.KdenliveSettings.autoKeyframe) {
             root.displayResize = false
         }
         if (!global.pressed) {
@@ -257,7 +262,7 @@ Item {
                     }
                     c2 = convertPoint(root.centerPointsTypes[2*i])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p1.x, p1.y);
-                    if ((iskeyframe || autoKeyframe) && !root.displayResize && !root.cursorOutsideEffect) {
+                    if ((root.iskeyframe || root.autoKeyframe) && !root.displayResize && !root.cursorOutsideEffect) {
                         // Draw control points and segments
                         if (subkf) {
                             ctx.fillStyle = activePalette.highlight
@@ -405,25 +410,11 @@ Item {
         y: root.center.y - height / 2 - root.offsety;
         color: "transparent"
         border.color: "#ffffff00"
-        Loader {
-            anchors.fill: parent
-            source: {
-                switch(root.overlayType)
-                {
-                    case 0:
-                        return '';
-                    case 1:
-                        return "OverlayStandard.qml";
-                    case 2:
-                        return "OverlayMinimal.qml";
-                    case 3:
-                        return "OverlayCenter.qml";
-                    case 4:
-                        return "OverlayCenterDiagonal.qml";
-                    case 5:
-                        return "OverlayThirds.qml";
-                }
-            }
+
+        K.MonitorOverlay {
+            anchors.fill: frame
+            color: K.KdenliveSettings.overlayColor
+            overlayType: root.overlayType
         }
     }
 
@@ -480,7 +471,7 @@ Item {
         }
         onDoubleClicked: {
             if (root.isDefined) {
-                if (root.iskeyframe == false && controller.autoKeyframe) {
+                if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                 }
                 if (root.displayResize) {
@@ -607,7 +598,7 @@ Item {
                 }
                 if (centerContainsMouse) {
                     // moving shape
-                    if (controller.position == lastMousePos && controller.autoKeyframe && controller.speed > 0) {
+                    if (controller.position == lastMousePos && K.KdenliveSettings.autoKeyframe && controller.speed > 0) {
                         // Don't try to update existing keyframe when playing
                         return
                     }
@@ -649,7 +640,7 @@ Item {
                     canvas.requestPaint()
                     root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
                 }
-            } else if ((root.iskeyframe || controller.autoKeyframe) && root.centerPoints.length > 0) {
+            } else if ((root.iskeyframe || K.KdenliveSettings.autoKeyframe) && root.centerPoints.length > 0) {
               // Check if we are over a keyframe
               if (!root.displayResize) {
                   addPointPossible = Qt.point(0, 0)

@@ -149,44 +149,21 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 width: parent.width
                 height: width
-                contentItem: Item {
-                    Image {
-                        source: "image://icon/go-down"
-                        anchors.fill: parent
-                    }
-                }
+                icon.name: "go-down"
                 onClicked: {
                     root.showTargetMenu(trackId)
                 }
                 ToolTip {
                     visible: targetMouse.hovered
                     font: miniFont
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: timeline.actionText("switch_target_stream")
-                    }
+                    text: timeline.actionText("switch_target_stream")
                 }
             }
         }
         ToolTip {
             visible: targetArea.containsMouse && !targetMouse.hovered
             font: miniFont
-            delay: 1500
-            timeout: 5000
-            background: Rectangle {
-                color: activePalette.alternateBase
-                border.color: activePalette.light
-            }
-            contentItem: Label {
-                color: activePalette.text
-                text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
-            }
+            text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
         }
     state:  'normalTarget'
     states: [
@@ -236,15 +213,7 @@ Rectangle {
             id: expandButton
             focusPolicy: Qt.NoFocus
             property var modifier: 0
-            contentItem: Item {
-                Image {
-                    source: trackHeadRoot.collapsed ? "image://icon/go-next" : "image://icon/go-down"
-                    anchors.centerIn: parent
-                    width: root.collapsedHeight - 4
-                    height: width
-                    cache: root.paletteUnchanged
-                }
-            }
+            icon.name: trackHeadRoot.collapsed ? "go-next" : "go-down"
             onClicked: {
                 if (modifier & Qt.ShiftModifier) {
                     // Collapse / expand all tracks
@@ -284,16 +253,7 @@ Rectangle {
             ToolTip {
                 visible: expandButton.hovered
                 font: miniFont
-                delay: 1500
-                timeout: 5000
-                background: Rectangle {
-                    color: activePalette.alternateBase
-                    border.color: activePalette.light
-                }
-                contentItem: Label {
-                    color: activePalette.text
-                    text: trackLabel.visible? i18n("Minimize") : i18n("Expand")
-                }
+                text: trackLabel.visible? i18n("Minimize") : i18n("Expand")
             }
         }
         Label {
@@ -323,16 +283,7 @@ Rectangle {
             ToolTip {
                 visible: tagMouseArea.containsMouse
                 font: miniFont
-                delay: 1500
-                timeout: 5000
-                background: Rectangle {
-                    color: activePalette.alternateBase
-                    border.color: activePalette.light
-                }
-                contentItem: Label {
-                    color: activePalette.text
-                    text: i18n("Click to make track active/inactive. Active tracks will react to editing operations")
-                }
+                text: (trackHeadRoot.trackName.length == 0 || miniTrackLabel.visible || trackLabel.visible) ? i18n("Click to make track active/inactive. Active tracks will react to editing operations") : trackHeadRoot.trackName
             }
         state:  'normalled'
             states: [
@@ -387,6 +338,7 @@ Rectangle {
             visible: root.debugmode
         }
         Label {
+            id: miniTrackLabel
             anchors.left: trackLed.right
             anchors.top: parent.top
             anchors.leftMargin: 2
@@ -408,16 +360,7 @@ Rectangle {
             ToolButton {
                 id: effectButton
                 focusPolicy: Qt.NoFocus
-                contentItem: Item {
-                    Image {
-                        source: "image://icon/tools-wizard"
-                        anchors.centerIn: parent
-                        width: root.collapsedHeight - 4
-                        height: width
-                        cache: root.paletteUnchanged
-                        opacity: effectButton.enabled ? 1 : 0.5
-                    }
-                }
+                icon.name: "tools-wizard"
                 enabled: trackHeadRoot.effectNames != ''
                 checkable: true
                 checked: enabled && trackHeadRoot.isStackEnabled
@@ -430,46 +373,37 @@ Rectangle {
                 ToolTip {
                     visible: effectButton.hovered
                     font: miniFont
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
-                    }
+                    text: enabled ? (isStackEnabled ? i18n("Disable track effects") : i18n("Enable track effects")) : i18n("Toggle track effects");
                 }
             }
             ToolButton {
                 id: muteButton
+                property var modifier: 0
                 focusPolicy: Qt.NoFocus
-                contentItem: Item {
-                    Image {
-                        source: isAudio ? (isDisabled ? "image://icon/audio-off" : "image://icon/audio-volume-high") : (isDisabled ? "image://icon/kdenlive-hide-video" : "image://icon/kdenlive-show-video")
-                        anchors.centerIn: parent
-                        width: root.collapsedHeight - 4
-                        height: width
-                        cache: root.paletteUnchanged
-                    }
-                }
+                icon.name: isAudio ? (isDisabled ? "audio-off" : "audio-volume-high") : (isDisabled ? "kdenlive-hide-video" : "kdenlive-show-video")
                 width: root.collapsedHeight
                 height: root.collapsedHeight
-                onClicked: timeline.hideTrack(trackId, isDisabled)
+                onClicked: timeline.hideTrack(trackId, isDisabled, modifier & Qt.ShiftModifier)
+                MouseArea {
+                    // Used to pass modifier state to expand button
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton
+                    hoverEnabled: true
+                    onPressed: mouse => {
+                        muteButton.modifier = mouse.modifiers
+                        mouse.accepted = false
+                    }
+                    onEntered: {
+                        timeline.showKeyBinding(i18n("<b>Shift</b> to show/hide all tracks of the same type (audio/video)"))
+                    }
+                    onExited: {
+                        timeline.showKeyBinding()
+                    }
+                }
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
-                    }
+                    text: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
                 }
             }
 
@@ -478,43 +412,21 @@ Rectangle {
                 width: root.collapsedHeight
                 height: root.collapsedHeight
                 focusPolicy: Qt.NoFocus
-                contentItem: Rectangle {
-                    id: bgRect
-                    color: 'transparent'
-                    anchors.fill: parent
-                    Image {
-                        source: trackHeadRoot.isLocked ? "image://icon/lock" : "image://icon/unlock"
-                        anchors.centerIn: parent
-                        width: root.collapsedHeight - 4
-                        height: width
-                        cache: root.paletteUnchanged
-                    }
-                }
+                icon.name: trackHeadRoot.isLocked ? "lock" : "unlock"
                 onClicked: controller.setTrackLockedState(trackId, !isLocked)
                 ToolTip {
                     visible: lockButton.hovered
                     font: miniFont
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: isLocked? i18n("Unlock track") : i18n("Lock track")
-                    }
+                    text: isLocked? i18n("Unlock track") : i18n("Lock track")
                 }
                 SequentialAnimation {
                     id: flashLock
                     loops: 3
                     ParallelAnimation {
                         ScaleAnimator {target: lockButton; from: 1; to: 1.2; duration: 120}
-                        PropertyAnimation {target: bgRect;property: "color"; from: "transparent"; to: "darkred"; duration: 100}
                     }
                     ParallelAnimation {
                         ScaleAnimator {target: lockButton; from: 1.6; to: 1; duration: 120}
-                        PropertyAnimation {target: bgRect;property: "color"; from: "darkred"; to: "transparent"; duration: 120}
                     }
                 }
             }
@@ -641,16 +553,7 @@ Rectangle {
             ToolTip {
                 visible: zoomMouseArea.containsMouse
                 font: miniFont
-                delay: 1500
-                timeout: 5000
-                background: Rectangle {
-                    color: activePalette.alternateBase
-                    border.color: activePalette.light
-                }
-                contentItem: Label {
-                    color: activePalette.text
-                    text: i18n("Click to cycle audio waveforms zoom")
-                }
+                text: i18n("Click to cycle audio waveforms zoom")
             }
         }
     }

@@ -464,8 +464,8 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     m_pageJog = addPage(p6, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
 #if defined(Q_OS_WIN)
     m_configShuttle.shuttledisabled->setText(i18n("For device configuration see <a "
-                                                  "href=\"https://docs.kdenlive.org/user_interface/menu/settings_menu/"
-                                                  "configure_kdenlive.html#windows?mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
+                                                  "href=\"https://docs.kdenlive.org/getting_started/configure_kdenlive/configuration_jogshuttle.html"
+                                                  "#windows?mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
                                                   "documentation</a>."));
     connect(m_configShuttle.shuttledisabled, &QLabel::linkActivated, this, &KdenliveSettingsDialog::openBrowserUrl);
 #endif
@@ -612,21 +612,15 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     QMap<QString, QString> mappable_actions(m_mappable_actions);
     QList<QString> action_names = mappable_actions.keys();
     QList<QString>::Iterator iter = action_names.begin();
-    // qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
     while (iter != action_names.end()) {
-        // qCDebug(KDENLIVE_LOG) << *iter;
         ++iter;
     }
-
-    // qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
 
     std::sort(action_names.begin(), action_names.end());
     iter = action_names.begin();
     while (iter != action_names.end()) {
-        // qCDebug(KDENLIVE_LOG) << *iter;
         ++iter;
     }
-    // qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
 
     // Here we need to compute the action_id -> index-in-action_names. We iterate over the
     // action_names, as the sorting may depend on the user-language.
@@ -821,11 +815,8 @@ void KdenliveSettingsDialog::fillMonitorData()
 void KdenliveSettingsDialog::slotReadAudioDevices()
 {
     QString result = QString(m_readProcess.readAllStandardOutput());
-    // qCDebug(KDENLIVE_LOG) << "// / / / / / READING APLAY: ";
-    // qCDebug(KDENLIVE_LOG) << result;
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &devicestr : lines) {
-        ////qCDebug(KDENLIVE_LOG) << "// READING LINE: " << data;
         if (!devicestr.startsWith(QLatin1Char(' ')) && devicestr.count(QLatin1Char(':')) > 1) {
             QString card = devicestr.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
             QString device = devicestr.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
@@ -944,7 +935,6 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
 void KdenliveSettingsDialog::updateWidgets()
 {
 // Revert widgets to last saved state (for example when user pressed "Cancel")
-// //qCDebug(KDENLIVE_LOG) << "// // // KCONFIG Revert called";
 #ifdef USE_JOGSHUTTLE
     // revert jog shuttle device
     if (m_configShuttle.shuttledevicelist->count() > 0) {
@@ -999,7 +989,6 @@ void KdenliveSettingsDialog::updateExternalApps()
 void KdenliveSettingsDialog::updateSettings()
 {
     // Save changes to settings (for example when user pressed "Apply" or "Ok")
-    // //qCDebug(KDENLIVE_LOG) << "// // // KCONFIG UPDATE called";
     if (m_pw->selectedProfile().isEmpty()) {
         KMessageBox::error(this, i18n("Please select a video profile"));
         return;
@@ -1107,7 +1096,6 @@ void KdenliveSettingsDialog::updateSettings()
     // Check if screengrab is fullscreen
     if (m_configCapture.kcfg_grab_capture_type->currentIndex() != KdenliveSettings::grab_capture_type()) {
         KdenliveSettings::setGrab_capture_type(m_configCapture.kcfg_grab_capture_type->currentIndex());
-        Q_EMIT updateFullScreenGrab();
     }
 
     bool audioRecDeviceChanged = false;
@@ -1241,30 +1229,23 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configColors.kcfg_monitorGridH->value() != KdenliveSettings::monitorGridH()) {
         KdenliveSettings::setMonitorGridH(m_configColors.kcfg_monitorGridH->value());
-        Q_EMIT updateMonitorGrid();
     }
     if (m_configColors.kcfg_monitorGridV->value() != KdenliveSettings::monitorGridV()) {
         KdenliveSettings::setMonitorGridV(m_configColors.kcfg_monitorGridV->value());
-        Q_EMIT updateMonitorGrid();
     }
 
     if (m_configColors.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configColors.kcfg_window_background->color());
-        Q_EMIT updateMonitorBg();
     }
 
     if (m_configColors.kcfg_thumbColor1->color() != KdenliveSettings::thumbColor1() ||
         m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
-        Q_EMIT pCore->window()->getCurrentTimeline()->controller()->colorsChanged();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
     if (m_configColors.kcfg_overlayColor->color() != KdenliveSettings::overlayColor()) {
         KdenliveSettings::setOverlayColor(m_configColors.kcfg_overlayColor->color());
-        Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->colorsChanged();
-        Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->colorsChanged();
     }
 
     if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {
@@ -1273,8 +1254,6 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_displayallchannels->isChecked() != KdenliveSettings::displayallchannels()) {
         KdenliveSettings::setDisplayallchannels(m_configTimeline.kcfg_displayallchannels->isChecked());
-        Q_EMIT audioThumbFormatChanged();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
     if (m_modified) {
@@ -1328,7 +1307,6 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_scrollvertically->isChecked() != KdenliveSettings::scrollvertically()) {
         KdenliveSettings::setScrollvertically(m_configTimeline.kcfg_scrollvertically->isChecked());
-        Q_EMIT pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
     }
 
     m_pluginsPage->applySettings();

@@ -24,6 +24,7 @@ RenderServer::RenderServer(QObject *parent)
         qWarning() << "Render server failed to listen on " << servername;
     }
     connect(pCore->window(), &MainWindow::abortRenderJob, this, &RenderServer::abortJob, Qt::QueuedConnection);
+    connect(pCore->window(), &MainWindow::abortAllRenderJobs, this, &RenderServer::abortAllJobs, Qt::DirectConnection);
     connect(this, &RenderServer::setRenderingProgress, pCore->window(), &MainWindow::setRenderingProgress);
     connect(this, &RenderServer::setRenderingFinished, pCore->window(), &MainWindow::setRenderingFinished);
 }
@@ -85,5 +86,15 @@ void RenderServer::abortJob(const QString &job)
         m_jobSocket[job]->flush();
     } else {
         pCore->displayMessage(i18n("Can't open communication with render job %1", job), ErrorMessage);
+    }
+}
+
+void RenderServer::abortAllJobs()
+{
+    disconnect(this, &RenderServer::setRenderingProgress, pCore->window(), &MainWindow::setRenderingProgress);
+    disconnect(this, &RenderServer::setRenderingFinished, pCore->window(), &MainWindow::setRenderingFinished);
+    for (auto i = m_jobSocket.cbegin(), end = m_jobSocket.cend(); i != end; ++i) {
+        i.value()->write("abort");
+        i.value()->flush();
     }
 }

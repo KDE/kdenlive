@@ -4,19 +4,19 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.15
 import QtQuick 2.15
 
 Item {
     id: overlay
+    property color color
     Rectangle {
-        color: root.overlayColor
+        color: overlay.color
         width: parent.width
         height: 1
         anchors.centerIn: parent
     }
     Rectangle {
-        color: root.overlayColor
+        color: overlay.color
         height: parent.height
         width: 1
         anchors.centerIn: parent

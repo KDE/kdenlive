@@ -295,6 +295,7 @@ AudioGraphSpectrum::AudioGraphSpectrum(MonitorManager *manager, QWidget *parent)
         connect(m_manager, &MonitorManager::frameDisplayed, this, &ScopeWidget::onNewFrame, Qt::UniqueConnection);
     }
     connect(a, &QAction::triggered, this, &AudioGraphSpectrum::activate);
+    connect(pCore.get(), &Core::updatePalette, this, &AudioGraphSpectrum::refreshPixmap);
     addAction(a);
     setContextMenuPolicy(Qt::ActionsContextMenu);
 }

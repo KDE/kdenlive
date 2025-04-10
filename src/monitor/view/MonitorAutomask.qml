@@ -7,9 +7,9 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
 import QtQuick.Effects
-import Kdenlive.Controls 1.0
 import QtQuick 2.15
-import com.enums 1.0
+
+import org.kde.kdenlive as K
 
 Item {
     id: root
@@ -47,8 +47,6 @@ Item {
     // Display hover audio thumbnails overlay
     property bool showAudiothumb: false
     property bool showClipJobs: false
-    // Always display audio thumbs under video
-    property bool permanentAudiothumb: false
     property bool showToolbar: false
     property string clipName: controller.clipName
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
@@ -64,14 +62,14 @@ Item {
     property int maskStart: -1
     property int maskEnd: -1
     property int overlayType: controller.overlayType
-    property color thumbColor1: controller.thumbColor1
-    property color thumbColor2: controller.thumbColor2
-    property color overlayColor: controller.overlayColor
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
     property int overlayMargin: 0
     property int maskMode: controller.maskMode
+    Component.onCompleted: {
+        controller.rulerHeight = root.zoomOffset
+    }
 
     onDisplayFrameChanged: {
         if (root.maskStart > -1 && (root.displayFrame < root.maskStart || root.displayFrame > root.maskEnd)) {
@@ -82,7 +80,7 @@ Item {
     }
 
     onMaskModeChanged: {
-        if (maskMode == MaskModeType.MaskPreview) {
+        if (maskMode == K.MaskModeType.MaskPreview) {
             generateLabel.visible = false
         }
     }
@@ -162,6 +160,12 @@ Item {
             x: root.center.x - width / 2 - root.offsetx;
             y: root.center.y - height / 2 - root.offsety;
 
+            K.MonitorOverlay {
+                anchors.fill: frame
+                color: K.KdenliveSettings.overlayColor
+                overlayType: root.overlayType
+            }
+
             Loader {
                 anchors.fill: parent
                 source: {
@@ -198,10 +202,10 @@ Item {
                 property real xPos: 0
                 property real yPos: 0
                 onPressed: mouse => {
-                    if (maskMode != MaskModeType.MaskPreview) {
+                    console.log('GOT FRAME HEIGHT: ', frame.height)
+                    if (maskMode != K.MaskModeType.MaskPreview) {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
-                        root.captureRightClick
                         clickPointX = mouseX
                         clickPointY = mouseY
                         selectionRect.x = mouseX
@@ -293,10 +297,10 @@ Item {
             Image {
                 id: maskPreview
                 anchors.fill: frame
-                source: maskMode != MaskModeType.MaskPreview ? controller.previewOverlay : ''
+                source: maskMode != K.MaskModeType.MaskPreview ? controller.previewOverlay : ''
                 asynchronous: true
                 opacity: controller.maskOpacity / 100
-                visible: maskMode != MaskModeType.MaskPreview
+                visible: maskMode != K.MaskModeType.MaskPreview
                 onSourceChanged: {
                     generateLabel.visible = false
                     if (opacity == 0 && source != '') {
@@ -341,7 +345,7 @@ Item {
                         }
                         MouseArea {
                             anchors.fill: kfrPoint
-                            cursorShape: Qt.PointingHand
+                            cursorShape: Qt.PointingHandCursor
                             drag.target: kfrPoint
                             drag.smoothed: false
                             onPressed: mouse => {
@@ -380,7 +384,7 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: keyframes.length == 0 ? i18n("Select an object in the image first") : maskMode != MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
+        text: keyframes.length == 0 ? i18n("Select an object in the image first") : maskMode != K.MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
         visible: false
         background: Rectangle {
             color: keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -391,7 +395,7 @@ Item {
         id: infoLabel
         anchors.centerIn: parent
         padding: 5
-        text: maskMode != MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
+        text: maskMode != K.MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
         visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible && keyframes.length == 0
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -413,11 +417,10 @@ Item {
             anchors.bottom: outsideLabel.bottom
             anchors.left: outsideLabel.left
             text: i18n("Go to mask start")
-            onPressed: mouse =>{
+            onPressed: () =>{
                 root.captureRightClick = true
-                mouse.accepted = true
             }
-            onReleased: mouse => {
+            onReleased: () => {
                 root.updateClickCapture()
             }
             onClicked: controller.position = root.maskStart
@@ -426,11 +429,10 @@ Item {
             anchors.bottom: outsideLabel.bottom
             anchors.right: outsideLabel.right
             text: i18n("Go to mask end")
-            onPressed: mouse =>{
+            onPressed: () =>{
                 root.captureRightClick = true
-                mouse.accepted = true
             }
-            onReleased: mouse => {
+            onReleased: () => {
                 root.updateClickCapture()
             }
             onClicked: controller.position = root.maskEnd

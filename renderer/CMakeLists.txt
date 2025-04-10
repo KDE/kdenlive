@@ -16,6 +16,14 @@ set(kdenlive_render_SRCS
   ../src/lib/localeHandling.cpp
 )
 
+ecm_qt_declare_logging_category(kdenlive_render_SRCS
+    HEADER kdenlive_renderer_debug.h
+    IDENTIFIER KDENLIVE_RENDERER_LOG
+    CATEGORY_NAME org.kde.kdenlive.render
+    DESCRIPTION "kdenlive"
+    EXPORT KDENLIVE
+)
+
 add_executable(kdenlive_render ${kdenlive_render_SRCS})
 ecm_mark_nongui_executable(kdenlive_render)
 

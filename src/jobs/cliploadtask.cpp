@@ -482,8 +482,15 @@ void ClipLoadTask::run()
                                       Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
         }
-        Q_EMIT taskDone();
-        abort();
+
+        if (pCore->currentDoc()->loading) {
+            // We are loading a project with a missing clip, don't delete the clip'
+            QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
+            Q_EMIT taskDone();
+        } else {
+            Q_EMIT taskDone();
+            abort();
+        }
         return;
     }
     const QString mltService = producer->get("mlt_service");
@@ -787,17 +794,17 @@ void ClipLoadTask::abort()
     if (pCore->taskManager.isBlocked()) {
         return;
     }
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
     if (!m_softDelete && !m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
             if (!m_isCanceled.loadAcquire() && !binClip->isReloading) {
                 // User tried to add an invalid clip, remove it.
-                pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "requestBinClipDeletionById", Qt::QueuedConnection,
+                                          Q_ARG(QString, QString::number(m_owner.itemId)));
             } else {
                 // An existing clip just became invalid, mark it as missing.
+                QMetaObject::invokeMethod(binClip.get(), "setClipStatus", Qt::QueuedConnection, Q_ARG(FileStatus::ClipStatus, FileStatus::StatusMissing));
                 binClip->setClipStatus(FileStatus::StatusMissing);
             }
         }

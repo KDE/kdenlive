@@ -98,7 +98,6 @@ void ProjectManager::slotLoadOnOpen()
         QList<QUrl> urls;
         urls.reserve(list.count());
         for (const QString &path : list) {
-            // qCDebug(KDENLIVE_LOG) << QDir::current().absoluteFilePath(path);
             urls << QUrl::fromLocalFile(QDir::current().absoluteFilePath(path));
         }
         pCore->bin()->droppedUrls(urls);
@@ -765,14 +764,18 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     return false;
 }
 
-void ProjectManager::openFile(const QUrl &url)
+bool ProjectManager::isSupportedArchive(const QUrl &url)
 {
     QMimeDatabase db;
-    // Make sure the url is a Kdenlive project file
     QMimeType mime = db.mimeTypeForUrl(url);
-    if (mime.inherits(QStringLiteral("application/x-compressed-tar")) || mime.inherits(QStringLiteral("application/zip"))) {
+    return mime.inherits(QStringLiteral("application/x-compressed-tar")) || mime.inherits(QStringLiteral("application/zip"));
+}
+
+void ProjectManager::openFile(const QUrl &url)
+{
+    // Make sure the url is a Kdenlive project file
+    if (isSupportedArchive(url)) {
         // Opening a compressed project file, we need to process it
-        // qCDebug(KDENLIVE_LOG)<<"Opening archive, processing";
         QPointer<ArchiveWidget> ar = new ArchiveWidget(url);
         if (ar->exec() == QDialog::Accepted) {
             openFile(QUrl::fromLocalFile(ar->extractedProjectFile()));
@@ -1374,6 +1377,11 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
 void ProjectManager::slotSwitchTrackDisabled()
 {
     pCore->window()->getCurrentTimeline()->controller()->switchTrackDisabled();
+}
+
+void ProjectManager::slotSwitchAllTrackDisabled()
+{
+    pCore->window()->getCurrentTimeline()->controller()->switchTrackDisabled(true);
 }
 
 void ProjectManager::slotSwitchTrackLock()

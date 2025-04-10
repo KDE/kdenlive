@@ -180,11 +180,14 @@ bool DocumentChecker::hasErrorInProject()
     QString storageFolder;
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    QStringList timelinePreviewIds;
     QDomElement mainBinPlaylist;
+    int requestedPlaylists = 2;
     for (int i = 0; i < playlists.count(); ++i) {
-        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
+        QDomElement pl = playlists.at(i).toElement();
+        if (pl.attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
             // This is the bin playlist
-            mainBinPlaylist = playlists.at(i).toElement();
+            mainBinPlaylist = pl;
             // ensure the documentid is valid
             m_documentid = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.documentid"));
             if (m_documentid.isEmpty()) {
@@ -217,6 +220,17 @@ bool DocumentChecker::hasErrorInProject()
                 QDomElement e = m_binEntries.item(i).toElement();
                 m_binIds << e.attribute(QStringLiteral("producer"));
             }
+            requestedPlaylists--;
+        } else if (Xml::getXmlProperty(pl, QStringLiteral("kdenlive:playlistid")) == QLatin1String("timeline_preview")) {
+            // list timeline preview producers
+            QDomNodeList entries = pl.elementsByTagName(QLatin1String("entry"));
+            for (int i = 0; i < entries.count(); ++i) {
+                QDomElement e = entries.item(i).toElement();
+                timelinePreviewIds << e.attribute(QStringLiteral("producer"));
+            }
+            requestedPlaylists--;
+        }
+        if (requestedPlaylists == 0) {
             break;
         }
     }
@@ -253,6 +267,10 @@ bool DocumentChecker::hasErrorInProject()
         int kid = Xml::getXmlProperty(e, "kdenlive:id").toInt();
         const QString resource = Xml::getXmlProperty(e, "resource");
         if (!m_binIds.contains(id)) {
+            if (timelinePreviewIds.contains(id)) {
+                // Timeline preview clip
+                continue;
+            }
             // This is a timeline producer, ensure it has a bin entry and uuid_control
             timelineProducers.insert(kid, {id, resource});
             continue;
@@ -469,13 +487,13 @@ bool DocumentChecker::hasErrorInProject()
     }
 
     // Check for missing transitions (eg. not installed)
-    QStringList transtions = getAssetsServiceIds(m_doc, QStringLiteral("transition"));
-    for (const QString &id : std::as_const(transtions)) {
-        if (!TransitionsRepository::get()->exists(id) && !itemsContain(MissingType::Transition, id, MissingStatus::Remove)) {
+    auto transitionsIds = getAssetsServiceIds(m_doc, QStringLiteral("transition"));
+    for (auto i = transitionsIds.cbegin(), end = transitionsIds.cend(); i != end; ++i) {
+        if (!TransitionsRepository::get()->exists(i.key()) && !itemsContain(MissingType::Transition, i.key(), MissingStatus::Remove)) {
             DocumentResource item;
             item.type = MissingType::Transition;
             item.status = MissingStatus::Remove;
-            item.originalFilePath = id;
+            item.originalFilePath = i.key();
             m_items.push_back(item);
         }
     }
@@ -510,25 +528,39 @@ bool DocumentChecker::hasErrorInProject()
     }
 
     // Check for missing effects (eg. not installed)
-    QStringList filters = getAssetsServiceIds(m_doc, QStringLiteral("filter"));
+    auto filtersIds = getAssetsServiceIds(m_doc, QStringLiteral("filter"));
     QStringList renamedEffectNames = renamedEffects.keys();
-    for (const QString &id : std::as_const(filters)) {
-        if (!EffectsRepository::get()->exists(id) && !itemsContain(MissingType::Effect, id, MissingStatus::Remove)) {
+    for (auto i = filtersIds.cbegin(), end = filtersIds.cend(); i != end; ++i) {
+        if (!EffectsRepository::get()->exists(i.key()) && !itemsContain(MissingType::Effect, i.key(), MissingStatus::Remove)) {
             // m_missingFilters << id;
-            if (renamedEffectNames.contains(id) && EffectsRepository::get()->exists(renamedEffects.value(id))) {
+            if (renamedEffectNames.contains(i.key()) && EffectsRepository::get()->exists(renamedEffects.value(i.key()))) {
                 // The effect was renamed
                 DocumentResource item;
                 item.type = MissingType::Effect;
                 item.status = MissingStatus::Fixed;
-                item.originalFilePath = id;
-                item.newFilePath = renamedEffects.value(id);
+                item.originalFilePath = i.key();
+                item.newFilePath = renamedEffects.value(i.key());
                 m_items.push_back(item);
                 continue;
+            }
+            // Check if it was a custom effect by checking the MLT tag
+            if (i.key() != i.value()) {
+                const QStringList updatedAssetId = EffectsRepository::get()->getAssetListByMltTag(i.value());
+                if (!updatedAssetId.isEmpty()) {
+                    // Use first matching asset
+                    DocumentResource item;
+                    item.type = MissingType::Effect;
+                    item.status = MissingStatus::Fixed;
+                    item.originalFilePath = i.key();
+                    item.newFilePath = updatedAssetId.first();
+                    m_items.push_back(item);
+                    continue;
+                }
             }
             DocumentResource item;
             item.type = MissingType::Effect;
             item.status = MissingStatus::Remove;
-            item.originalFilePath = id;
+            item.originalFilePath = i.key();
             m_items.push_back(item);
         }
     }
@@ -1280,7 +1312,6 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
                 }
             }
         }
-        ////qCDebug(KDENLIVE_LOG) << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
@@ -1329,20 +1360,21 @@ QStringList DocumentChecker::getAssetsFilesByMltTag(const QDomDocument &doc, con
     return files;
 }
 
-QStringList DocumentChecker::getAssetsServiceIds(const QDomDocument &doc, const QString &tagName)
+QMap<QString, QString> DocumentChecker::getAssetsServiceIds(const QDomDocument &doc, const QString &tagName)
 {
     QDomNodeList filters = doc.elementsByTagName(tagName);
     int max = filters.count();
-    QStringList services;
+    QMap<QString, QString> services;
     for (int i = 0; i < max; ++i) {
         QDomElement filter = filters.at(i).toElement();
-        QString service = Xml::getXmlProperty(filter, QStringLiteral("kdenlive_id"));
+        const QString service = Xml::getXmlProperty(filter, QStringLiteral("kdenlive_id"));
+        const QString tag = Xml::getXmlProperty(filter, QStringLiteral("mlt_service"));
         if (service.isEmpty()) {
-            service = Xml::getXmlProperty(filter, QStringLiteral("mlt_service"));
+            services.insert(tag, tag);
+        } else {
+            services.insert(service, tag);
         }
-        services << service;
     }
-    services.removeDuplicates();
     return services;
 }
 

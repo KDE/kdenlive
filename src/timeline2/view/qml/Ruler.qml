@@ -7,7 +7,8 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import com.enums 1.0
+
+import org.kde.kdenlive as K
 
 
 Item {
@@ -28,7 +29,7 @@ Item {
     property bool hoverGuide: false
     property int cursorShape: resizeActive ? Qt.SizeHorCursor : hoverGuide ? Qt.PointingHandCursor : Qt.ArrowCursor
     property var effectZones: timeline.masterEffectZones
-    property int guideLabelHeight: timeline.showMarkers ? fontMetrics.height : 0
+    property int guideLabelHeight: K.KdenliveSettings.showmarkers ? fontMetrics.height : 0
     property int previewHeight: Math.ceil(timecodeContainer.height / 5)
     property color dimmedColor: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 1.3) : Qt.lighter(activePalette.text, 1.3)
     property color dimmedColor2: (activePalette.text.r + activePalette.text.g + activePalette.text.b > 1.5) ? Qt.darker(activePalette.text, 2.2) : Qt.lighter(activePalette.text, 2.2)
@@ -101,7 +102,7 @@ Item {
     Repeater {
         id: guidesRepeater
         model: guidesModel
-        property int radiusSize: timeline.guidesLocked ? 0 : guideLabelHeight / 2
+        property int radiusSize: K.KdenliveSettings.lockedGuides ? 0 : guideLabelHeight / 2
         delegate:
         Item {
             id: guideRoot
@@ -115,8 +116,7 @@ Item {
                 color: guideRoot.activated ? Qt.lighter(model.color, 1.3) : model.color
                 property int markerId: model.id
                 Rectangle {
-                    
-                    visible: timeline.showMarkers
+                    visible: K.KdenliveSettings.showmarkers
                     width: mlabel.contentWidth + 4 - guidesRepeater.radiusSize
                     height: guideLabelHeight
                     color: markerBase.color
@@ -129,7 +129,7 @@ Item {
                     ToolTip.delay: 1000
                     ToolTip.timeout: 5000
                     Rectangle {
-                        visible: !timeline.guidesLocked
+                        visible: !K.KdenliveSettings.lockedGuides
                         color: markerBase.color
                         anchors.fill: parent
                         radius: guidesRepeater.radiusSize
@@ -204,7 +204,7 @@ Item {
                         drag.smoothed: false
                         onDoubleClicked: timeline.editGuide(model.frame)
                         onClicked: mouse => {
-                            if (root.activeTool !== ProjectTool.SlipTool) {
+                            if (root.activeTool !== Kdenlive.ToolType.SlipTool) {
                                 proxy.position = model.frame
                             }
                             if (mouse.button == Qt.RightButton) {
@@ -245,14 +245,14 @@ Item {
                 anchors.bottom: parent.bottom
                 height: parent.showText ? root.baseUnit * 0.8 : 4
                 width: 1
-                color: dimmedColor2
+                color: rulerRoot.dimmedColor2
             }
             Label {
                 visible: parent.showText
                 anchors.top: parent.top
                 text: timeline.timecode(parent.realPos)
                 font: miniFont
-                color: dimmedColor
+                color: rulerRoot.dimmedColor
             }
         }
     }

@@ -2,51 +2,6 @@
     <qresource prefix="/kxmlgui5/kdenlive">
         <file>kdenliveui.rc</file>
     </qresource>
-    <qresource prefix="/qml">
-        <file alias="kdenlivemonitor.qml">monitor/view/kdenlivemonitor.qml</file>
-        <file alias="Countdown.qml">monitor/view/Countdown.qml</file>
-        <file alias="kdenliveclipmonitor.qml">monitor/view/kdenliveclipmonitor.qml</file>
-        <file alias="kdenlivemonitorautomask.qml">monitor/view/kdenlivemonitorautomask.qml</file>
-        <file alias="kdenlivemonitoreffectscene.qml">monitor/view/kdenlivemonitoreffectscene.qml</file>
-        <file alias="kdenlivemonitorcornerscene.qml">monitor/view/kdenlivemonitorcornerscene.qml</file>
-        <file alias="kdenlivemonitorrotoscene.qml">monitor/view/kdenlivemonitorrotoscene.qml</file>
-        <file alias="kdenlivemonitorsplit.qml">monitor/view/kdenlivemonitorsplit.qml</file>
-        <file alias="kdenlivemonitorsplittracks.qml">monitor/view/kdenlivemonitorsplittracks.qml</file>
-        <file alias="MonitorToolButton.qml">monitor/view/MonitorToolButton.qml</file>
-        <file alias="SceneToolBar.qml">monitor/view/SceneToolBar.qml</file>
-        <file alias="MultiScreenToolBar.qml">monitor/view/MultiScreenToolBar.qml</file>
-        <file alias="EffectToolBar.qml">monitor/view/EffectToolBar.qml</file>
-        <file alias="MaskToolBar.qml">monitor/view/MaskToolBar.qml</file>
-        <file alias="MonitorRuler.qml">monitor/view/MonitorRuler.qml</file>
-        <file alias="OverlayStandard.qml">monitor/view/OverlayStandard.qml</file>
-        <file alias="OverlayMinimal.qml">monitor/view/OverlayMinimal.qml</file>
-        <file alias="OverlayCenter.qml">monitor/view/OverlayCenter.qml</file>
-        <file alias="OverlayCenterDiagonal.qml">monitor/view/OverlayCenterDiagonal.qml</file>
-        <file alias="OverlayThirds.qml">monitor/view/OverlayThirds.qml</file>
-        <file alias="timeline.qml">timeline2/view/qml/timeline.qml</file>
-        <file alias="TrackHead.qml">timeline2/view/qml/TrackHead.qml</file>
-        <file alias="AudioLevels.qml">timeline2/view/qml/AudioLevels.qml</file>
-        <file alias="Track.qml">timeline2/view/qml/Track.qml</file>
-        <file alias="Ruler.qml">timeline2/view/qml/Ruler.qml</file>
-        <file alias="RulerZone.qml">timeline2/view/qml/RulerZone.qml</file>
-        <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>
-        <file alias="SubTitle.qml">timeline2/view/qml/SubTitle.qml</file>
-        <file alias="MixShape.qml">timeline2/view/qml/MixShape.qml</file>
-        <file alias="ClipThumbs.qml">timeline2/view/qml/ClipThumbs.qml</file>
-        <file alias="ClipAudioThumbs.qml">timeline2/view/qml/ClipAudioThumbs.qml</file>
-        <file alias="KeyframeView.qml">timeline2/view/qml/KeyframeView.qml</file>
-        <file alias="Composition.qml">timeline2/view/qml/Composition.qml</file>
-        <file alias="PulsingAnimation.qml">timeline2/view/qml/PulsingAnimation.qml</file>
-        <file alias="CornerSelectionShadow.qml">timeline2/view/qml/CornerSelectionShadow.qml</file>
-        <file alias="Timeline.js">timeline2/view/qml/Timeline.js</file>
-        <file alias="AssetView.qml">assets/view/qml/AssetView.qml</file>
-        <file alias="AssetMenu.qml">timeline2/view/qml/AssetMenu.qml</file>
-        <file alias="GuidesMenu.qml">timeline2/view/qml/GuidesMenu.qml</file>
-        <file alias="BuiltStack.qml">effects/effectstack/view/qml/BuiltStack.qml</file>
-        <file alias="EffectSlider.qml">effects/effectstack/view/qml/EffectSlider.qml</file>
-        <file alias="LiftGammaGain.qml">effects/effectstack/view/qml/LiftGammaGain.qml</file>
-        <file alias="kdenlivemonitortrimming.qml">monitor/view/kdenlivemonitortrimming.qml</file>
-    </qresource>
     <qresource prefix="/data">
         <file alias="included_effects.txt">../data/included_effects.txt</file>
         <file alias="excluded_effects.txt">../data/excluded_effects.txt</file>
@@ -59,9 +14,5 @@
         <file alias="kdenlive_wipes.knsrc">../data/knewstuff/kdenlive_wipes.knsrc</file>
         <file alias="kdenlive_keyboardschemes.knsrc">../data/knewstuff/kdenlive_keyboardschemes.knsrc</file>
         <file alias="kdenlive_luts.knsrc">../data/knewstuff/kdenlive_luts.knsrc</file>
-    </qresource>
-    <qresource prefix="/qt-project.org/imports/org/kde/kdenlive">
-        <file alias="ZoomBar.qml">qml/ZoomBar.qml</file>
-        <file alias="qmldir">qml/qmldir</file>
     </qresource>
 </RCC>

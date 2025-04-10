@@ -844,7 +844,6 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                     break;
                 }
             }
-            // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
         }
     } else {
         // Adjusting clip end

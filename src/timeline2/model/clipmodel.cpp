@@ -51,12 +51,19 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     }
     QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, m_effectStack.get(),
                      [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
-                         qDebug() << "// GOT CLIP STACK DATA CHANGE: " << roles;
                          if (m_currentTrackId != -1) {
                              if (auto ptr = m_parent.lock()) {
                                  QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                                  Q_EMIT ptr->dataChanged(ix, ix, roles);
-                                 qDebug() << "// GOT CLIP STACK DATA CHANGE DONE: " << ix << " = " << roles;
+                             }
+                         }
+                     });
+    QObject::connect(m_effectStack.get(), &EffectStackModel::customDataChanged, m_effectStack.get(),
+                     [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
+                         if (m_currentTrackId != -1) {
+                             if (auto ptr = m_parent.lock()) {
+                                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                                 Q_EMIT ptr->dataChanged(ix, ix, roles);
                              }
                          }
                      });
@@ -156,8 +163,6 @@ ClipModel::~ClipModel() = default;
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo, bool hasMix)
 {
     QWriteLocker locker(&m_lock);
-    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
-    // m_producer->get_length()<<" > "<<m_producer->get("kdenlive:duration")<<" = "<<m_producer->get("kdenlive:maxduration");
     int maxDuration = m_producer->get_length();
     if (!m_endlessResize && (size <= 0 || size > maxDuration) && !hasTimeRemap()) {
         return false;
@@ -185,7 +190,6 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     } else {
         in += delta;
     }
-    // qDebug() << "Resize facts delta =" << delta << "old in" << old_in << "old_out" << old_out << "in" << in << "out" << out;
     std::function<bool(void)> track_operation = []() { return true; };
     std::function<bool(void)> track_reverse = []() { return true; };
     int outPoint = out;
@@ -351,7 +355,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     Q_ASSERT(outPoint < m_producer->get_length());
     Q_ASSERT(inPoint >= 0);
     Q_ASSERT(inPoint <= m_producer->get_length() - m_producer->get_playtime());
-    Q_ASSERT(inPoint < outPoint);
+    Q_ASSERT(inPoint <= outPoint);
     Q_ASSERT(out - in == outPoint - inPoint);
 
     if (m_currentTrackId != -1) {
@@ -1047,7 +1051,7 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
         };
     }
     if (revertSpeed) {
-        int out = getOut() + 1;
+        int out = getOut();
         int in = qMax(0, qRound((m_producer->get_length() - 1 - out) * std::fabs(m_speed / speed)));
         out = in + newDuration;
         operation = [operation, in, out, this]() {
@@ -1105,7 +1109,7 @@ std::shared_ptr<MarkerListModel> ClipModel::getMarkerModel() const
 int ClipModel::audioChannels() const
 {
     READ_LOCK();
-    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioChannels();
+    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioChannels(audioStream());
 }
 
 bool ClipModel::audioMultiStream() const

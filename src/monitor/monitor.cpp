@@ -60,6 +60,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include <QApplication>
 #include <QCheckBox>
+#include <QClipboard>
 #include <QDrag>
 #include <QFontDatabase>
 #include <QMenu>
@@ -166,7 +167,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 }
                 if (m_glMonitor->rootObject()) {
                     updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
-                    m_glMonitor->rootObject()->setProperty("permanentAudiothumb", KdenliveSettings::alwaysShowMonitorAudio());
                 }
             } else if (pCore->window()) {
                 if (pCore->window()->getCurrentTimeline() && pCore->window()->getCurrentTimeline()->model()) {
@@ -695,6 +695,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     }
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame")));
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_project")));
+    m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_clipboard")));
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("add_project_note")));
 
     m_contextMenu->addAction(m_markIn);
@@ -709,10 +710,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         QString waveformIconName = QIcon::hasThemeIcon(QStringLiteral("waveform")) ? QStringLiteral("waveform") : QStringLiteral("kdenlive-show-audiothumb");
         QAction *alwaysShowAudio = new QAction(QIcon::fromTheme(waveformIconName), i18n("Always show audio thumbnails"), this);
         alwaysShowAudio->setCheckable(true);
-        connect(alwaysShowAudio, &QAction::triggered, this, [this](bool checked) {
-            KdenliveSettings::setAlwaysShowMonitorAudio(checked);
-            m_glMonitor->rootObject()->setProperty("permanentAudiothumb", checked);
-        });
+        connect(alwaysShowAudio, &QAction::triggered, this, &KdenliveSettings::setAlwaysShowMonitorAudio);
         alwaysShowAudio->setChecked(KdenliveSettings::alwaysShowMonitorAudio());
         m_contextMenu->addAction(alwaysShowAudio);
         m_configMenuAction->addAction(alwaysShowAudio);
@@ -1299,11 +1297,61 @@ std::shared_ptr<ProjectClip> Monitor::currentController() const
     return m_controller;
 }
 
-void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
+void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject, bool toClipboard)
 {
     if (m_playAction->isActive()) {
         // Pause playing
         switchPlay(false);
+    }
+    if (toClipboard) {
+        // Disable preview scaling if any
+        int previewScale = KdenliveSettings::previewScaling();
+        if (previewScale > 0) {
+            KdenliveSettings::setPreviewScaling(0);
+            m_glMonitor->updateScaling();
+        }
+        QStringList proxiedClips;
+        QMap<QString, QString> existingProxies;
+        if (m_id == Kdenlive::ProjectMonitor) {
+            // Check if we have proxied clips at position
+            proxiedClips = pCore->window()->getCurrentTimeline()->model()->getProxiesAt(m_glMonitor->getCurrentPos());
+            // Temporarily disable proxy on those clips
+            if (!proxiedClips.isEmpty()) {
+                existingProxies = pCore->currentDoc()->proxyClipsById(proxiedClips, false);
+            }
+        }
+        disconnect(m_glMonitor, &VideoWidget::analyseFrame, this, &Monitor::frameUpdated);
+        bool analysisStatus = m_glMonitor->sendFrameForAnalysis;
+        m_glMonitor->sendFrameForAnalysis = true;
+        if (m_captureConnection) {
+            QObject::disconnect(m_captureConnection);
+        }
+        m_captureConnection =
+            connect(m_glMonitor, &VideoWidget::analyseFrame, this, [this, proxiedClips, existingProxies, analysisStatus, previewScale](const QImage &img) {
+                m_glMonitor->sendFrameForAnalysis = analysisStatus;
+                m_glMonitor->releaseAnalyse();
+                if (pCore->getCurrentSar() != 1.) {
+                    QImage scaled = img.scaled(pCore->getCurrentFrameDisplaySize());
+                    QApplication::clipboard()->setImage(scaled);
+                } else {
+                    QApplication::clipboard()->setImage(img);
+                }
+                if (previewScale > 0) {
+                    KdenliveSettings::setPreviewScaling(previewScale);
+                    m_glMonitor->updateScaling();
+                }
+                // Re-enable proxy on those clips
+                if (!proxiedClips.isEmpty()) {
+                    pCore->currentDoc()->proxyClipsById(proxiedClips, true, existingProxies);
+                }
+                QObject::disconnect(m_captureConnection);
+                connect(m_glMonitor, &VideoWidget::analyseFrame, this, &Monitor::frameUpdated);
+            });
+        if (proxiedClips.isEmpty()) {
+            // If there is a proxy, replacing it in timeline will trigger the monitor once replaced
+            refreshMonitor();
+        }
+        return;
     }
     if (QFileInfo(frameName).fileName().isEmpty()) {
         // convenience: when extracting an image to be added to the project,
@@ -1477,17 +1525,6 @@ void Monitor::slotSeek(int pos)
     }
     m_glMonitor->getControllerProxy()->setPosition(pos);
     Q_EMIT m_monitorManager->cleanMixer();
-}
-
-void Monitor::refreshAudioThumbs()
-{
-    Q_EMIT m_glMonitor->getControllerProxy()->audioThumbFormatChanged();
-    Q_EMIT m_glMonitor->getControllerProxy()->colorsChanged();
-}
-
-void Monitor::normalizeAudioThumbs()
-{
-    Q_EMIT m_glMonitor->getControllerProxy()->audioThumbNormalizeChanged();
 }
 
 void Monitor::checkOverlay(int pos)
@@ -1784,9 +1821,9 @@ void Monitor::slotSwitchPlay()
     }
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
-        showDropped = KdenliveSettings::displayClipMonitorInfo() & 0x20;
+        showDropped = KdenliveSettings::displayClipMonitorInfo() & Monitor::PlaybackFpsOverlay;
     } else if (m_id == Kdenlive::ProjectMonitor) {
-        showDropped = KdenliveSettings::displayProjectMonitorInfo() & 0x20;
+        showDropped = KdenliveSettings::displayProjectMonitorInfo() & Monitor::PlaybackFpsOverlay;
     }
     if (showDropped) {
         m_glMonitor->resetDrops();
@@ -1878,7 +1915,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         if (KMessageBox::warningContinueCancel(this, i18n("Exit Mask Mode ?")) != KMessageBox::Continue) {
             return false;
         }
-        abortPreviewMask();
+        abortPreviewMask(false);
         Q_EMIT disablePreviewMask();
     }
     m_activeControllerId.clear();
@@ -2060,7 +2097,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
             m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(),
                                                                  controller->clipName());
-            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
+            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & Monitor::AudioWaveformOverlay) {
                 if (m_audioMeterWidget->audioChannels == 0 || !m_controller->hasAudio()) {
                     qDebug() << "=======\n\nSETTING AUDIO DATA IN MONITOR EMPTY!!!";
                     m_glMonitor->getControllerProxy()->setAudioThumb();
@@ -2201,9 +2238,9 @@ void Monitor::switchMonitorInfo(int code)
         KdenliveSettings::setDisplayProjectMonitorInfo(currentOverlay);
     }
     updateQmlDisplay(currentOverlay);
-    if (code == 0x01) {
+    if (code == Monitor::InfoOverlay) {
         // Hide/show ruler
-        m_glMonitor->switchRuler(currentOverlay & 0x01);
+        m_glMonitor->switchRuler(currentOverlay & Monitor::InfoOverlay);
     }
 }
 
@@ -2556,10 +2593,10 @@ QSize Monitor::profileSize() const
     return m_glMonitor->profileSize();
 }
 
-void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
+void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, bool resetProperties)
 {
     if (type == m_qmlManager->sceneType()) {
-        if (sceneData.isNull()) {
+        if (sceneData.isNull() && !resetProperties) {
             return;
         }
     } else {
@@ -2573,10 +2610,9 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
             m_nextSceneType = type;
             connect(root, &QObject::destroyed, this, [this, sceneData]() {
                 m_qmlManager->blockSceneChange(false);
-                if (m_qmlManager->setScene(m_id, m_nextSceneType, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
-                                           double(m_glMonitor->zoom()), m_glMonitor->m_maxProducerPosition)) {
+                if (m_qmlManager->setScene(m_id, m_nextSceneType, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->m_maxProducerPosition)) {
                     // Perform scene change
-                    loadQmlScene(m_nextSceneType, sceneData);
+                    loadQmlScene(m_nextSceneType, sceneData, true);
                     Q_EMIT sceneChanged(m_nextSceneType);
                 }
                 m_nextSceneType = MonitorSceneNone;
@@ -2584,12 +2620,13 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
             m_qmlManager->blockSceneChange(true);
             root->deleteLater();
             return;
-        } else if (!m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
-                                           double(m_glMonitor->zoom()), m_glMonitor->m_maxProducerPosition)) {
+        } else if (!m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->m_maxProducerPosition)) {
             return;
         }
     }
 
+    // Ensure scalex, scaley and center are correctly updated
+    m_glMonitor->refreshRect();
     bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;
     if (!m_monitorManager->getAction(QStringLiteral("monitor_editmode"))->isChecked() && sceneWithEdit) {
         // User doesn't want effect scenes
@@ -2614,6 +2651,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
         m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
         if (m_id == Kdenlive::ClipMonitor) {
+            qDebug() << ":::: UPDATING MONITOR DISPLAY INFO!!!!!!!!!!!!!!\nXXXXXXXXXXXXXXXXXXX\n";
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
@@ -2690,7 +2728,7 @@ void Monitor::slotSwitchTrimming(bool enable)
         loadQmlScene(MonitorSceneDefault);
         m_trimmingbar->setVisible(false);
         m_toolbar->setVisible(true);
-        m_glMonitor->switchRuler(KdenliveSettings::displayClipMonitorInfo() & 0x01);
+        m_glMonitor->switchRuler(KdenliveSettings::displayClipMonitorInfo() & Monitor::InfoOverlay);
     }
 }
 
@@ -2787,14 +2825,14 @@ void Monitor::displayAudioMonitor(bool isActive)
 
 void Monitor::updateQmlDisplay(int currentOverlay)
 {
-    m_glMonitor->rootObject()->setVisible((currentOverlay & 0x01) != 0);
-    m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & 0x04);
-    bool showDropped = currentOverlay & 0x20;
+    m_glMonitor->rootObject()->setVisible((currentOverlay & Monitor::InfoOverlay) != 0);
+    m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & Monitor::MarkersOverlay);
+    bool showDropped = currentOverlay & Monitor::PlaybackFpsOverlay;
     m_glMonitor->rootObject()->setProperty("showFps", showDropped);
-    m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & 0x02);
+    m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & Monitor::TimecodeOverlay);
     if (m_id == Kdenlive::ClipMonitor) {
-        m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
-        m_glMonitor->rootObject()->setProperty("showClipJobs", currentOverlay & 0x40);
+        m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & Monitor::AudioWaveformOverlay);
+        m_glMonitor->rootObject()->setProperty("showClipJobs", currentOverlay & Monitor::ClipJobsOverlay);
     }
     if (showDropped) {
         if (!m_droppedTimer.isActive() && m_playAction->isActive()) {
@@ -3135,18 +3173,20 @@ void Monitor::previewMask(const QString &binId, const QString &maskFile, int in,
     loadQmlScene(MonitorSceneAutoMask);
 }
 
-void Monitor::abortPreviewMask()
+void Monitor::abortPreviewMask(bool rebuildProducer)
 {
     if (maskMode() == MaskModeType::MaskNone) {
         // We are not in mask mode, ignore
         return;
     }
-    buildBackgroundedProducer(position());
-    m_maskOpacity.reset();
-    m_maskInvert.reset();
     disconnect(m_glMonitor->getControllerProxy(), &MonitorProxy::refreshMask, this, &Monitor::updatePreviewMask);
     getControllerProxy()->setMaskMode(MaskModeType::MaskNone);
-    loadQmlScene(MonitorSceneDefault);
+    if (rebuildProducer) {
+        buildBackgroundedProducer(position());
+        loadQmlScene(MonitorSceneDefault);
+    }
+    m_maskOpacity.reset();
+    m_maskInvert.reset();
 }
 
 void Monitor::updatePreviewMask()

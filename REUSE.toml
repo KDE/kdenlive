@@ -205,7 +205,7 @@ SPDX-FileCopyrightText = "2020 Kdenlive contributors"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 [[annotations]]
-path = ["src/qml/qmldir", "src/kdenlivesettings.kcfgc"]
+path = ["src/qml/qmldir"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "None"
 SPDX-License-Identifier = "CC0-1.0"

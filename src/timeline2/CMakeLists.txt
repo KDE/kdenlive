@@ -18,7 +18,6 @@ set(kdenlive_SRCS
   timeline2/view/dialogs/speeddialog.cpp
   timeline2/view/dialogs/trackdialog.cpp
   timeline2/view/previewmanager.cpp
-  timeline2/view/qml/timelineitems.cpp
   timeline2/view/qml/timelineplayhead.cpp
   timeline2/view/qml/timelinerecwaveform.cpp
   timeline2/view/qml/timelinetriangle.cpp

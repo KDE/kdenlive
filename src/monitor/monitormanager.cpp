@@ -837,6 +837,13 @@ void MonitorManager::slotExtractCurrentFrameToProject()
     }
 }
 
+void MonitorManager::slotExtractCurrentFrameToClipboard()
+{
+    if (m_activeMonitor) {
+        static_cast<Monitor *>(m_activeMonitor)->slotExtractCurrentFrame(QString(), false, true);
+    }
+}
+
 void MonitorManager::slotZoomIn()
 {
     if (m_activeMonitor) {
@@ -888,16 +895,6 @@ void MonitorManager::updateBgColor()
     if (m_clipMonitor) {
         m_clipMonitor->updateBgColor();
         m_clipMonitor->forceMonitorRefresh();
-    }
-}
-
-void MonitorManager::updateGrid()
-{
-    if (m_projectMonitor) {
-        Q_EMIT m_projectMonitor->getControllerProxy()->gridChanged();
-    }
-    if (m_clipMonitor) {
-        Q_EMIT m_clipMonitor->getControllerProxy()->gridChanged();
     }
 }
 

@@ -3,9 +3,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.15
 import QtQuick 2.15
 
+import org.kde.kdenlive as Kdenlive
 
 MouseArea {
     id: barZone
@@ -49,7 +49,7 @@ MouseArea {
 
         Column {
             width: parent.width
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
@@ -59,7 +59,7 @@ MouseArea {
                     controller.triggerAction('monitor_fullscreen')
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "switchOverlay"
                 iconName: "view-grid"
                 toolTipText: i18n("Change Overlay")
@@ -72,7 +72,7 @@ MouseArea {
                     root.overlayType = controller.overlayType
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 iconName: "zoom-in"
                 toolTipText: i18n("Zoom in")
                 onClicked: {
@@ -80,7 +80,7 @@ MouseArea {
                     controller.triggerAction('monitor_zoomin')
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 iconName: "zoom-out"
                 toolTipText: i18n("Zoom out")
                 onClicked: {
@@ -88,7 +88,7 @@ MouseArea {
                     controller.triggerAction('monitor_zoomout')
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "addMarker"
                 iconName: "list-add"
                 toolTipText: root.isClipMonitor ? i18n("Add Marker") : i18n("Add Guide")
@@ -97,7 +97,7 @@ MouseArea {
                     controller.triggerAction('add_marker_guide_quickly')
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "removeMarker"
                 iconName: "list-remove"
                 toolTipText: root.isClipMonitor ? i18n("Remove Marker") : i18n("Remove Guide")
@@ -106,7 +106,7 @@ MouseArea {
                     root.isClipMonitor ? controller.triggerAction('delete_clip_marker') : controller.triggerAction('delete_guide')
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
                 toolTipText: i18n("Move Toolbar")

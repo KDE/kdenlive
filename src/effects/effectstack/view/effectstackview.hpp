@@ -6,6 +6,7 @@
 #pragma once
 
 #include "definitions.h"
+// #include <QAbstractItemModelTester>
 #include <QMutex>
 #include <QReadWriteLock>
 #include <QStyledItemDelegate>
@@ -20,7 +21,6 @@ class AssetParameterModel;
 class EffectStackModel;
 class EffectItemModel;
 class AssetIconProvider;
-class BuiltStack;
 class EffectStackFilter;
 class AssetPanel;
 class QPushButton;
@@ -102,6 +102,7 @@ private:
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
     std::shared_ptr<EffectStackFilter> m_filter;
+    // std::shared_ptr<QAbstractItemModelTester> m_testModel;
     QTimer m_scrollTimer;
     QTimer m_timerHeight;
     QPoint m_dragStart;

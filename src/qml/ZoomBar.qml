@@ -10,6 +10,7 @@ import QtQuick.Controls 2.15
 
 Rectangle {
     id: zoomContainer
+    SystemPalette { id: activePalette }
     SystemPalette { id: barPalette; colorGroup: SystemPalette.Disabled }
     property bool hoveredBar: barArea.containsMouse || barArea.pressed || zoomStart.isActive || zoomEnd.isActive
     property int barMinWidth: 1
@@ -33,7 +34,7 @@ Rectangle {
         hoverEnabled: true
         onWheel: wheel => {
             if (wheel.modifiers & Qt.ControlModifier) {
-                zoomByWheel(wheel)
+                zoomContainer.zoomByWheel(wheel)
             } else {
                 var newPos = zoomBar.x
                 if (wheel.angleDelta.y < 0) {
@@ -41,15 +42,15 @@ Rectangle {
                 } else {
                     newPos = Math.max(0, newPos - 10)
                 }
-                proposeContentPos(newPos / zoomHandleContainer.width)
+                zoomContainer.proposeContentPos(newPos / zoomHandleContainer.width)
             }
         }
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
                 if (mouseX > zoomEnd.x + zoomEnd.width) {
-                    proposeContentPos((zoomBar.x + zoomBar.width) / zoomHandleContainer.width)
+                    zoomContainer.proposeContentPos((zoomBar.x + zoomBar.width) / zoomHandleContainer.width)
                 } else if (mouseX < zoomBar.x) {
-                    proposeContentPos(Math.max(0, (zoomBar.x - zoomBar.width) / zoomHandleContainer.width))
+                    zoomContainer.proposeContentPos(Math.max(0, (zoomBar.x - zoomBar.width) / zoomHandleContainer.width))
                 }
             }
         }
@@ -60,10 +61,10 @@ Rectangle {
         Item {
             id: zoomBar
             height: parent.height
-            property int minWidth: barMinWidth + zoomEnd.width + zoomStart.width
-            property int preferedWidth: zoomFactor * zoomHandleContainer.width
+            property int minWidth: zoomContainer.barMinWidth + zoomEnd.width + zoomStart.width
+            property int preferedWidth: zoomContainer.zoomFactor * zoomHandleContainer.width
             width: !zoomStart.pressed && !zoomEnd.pressed && preferedWidth < minWidth ? minWidth : preferedWidth
-            x: contentPos * zoomHandleContainer.width
+            x: zoomContainer.contentPos * zoomHandleContainer.width
             MouseArea {
                 id: barArea
                 anchors.fill: parent
@@ -80,26 +81,26 @@ Rectangle {
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
-                        proposeContentPos(zoomBar.x / zoomHandleContainer.width)
+                        zoomContainer.proposeContentPos(zoomBar.x / zoomHandleContainer.width)
                     }
                 }
                 onDoubleClicked: {
                     // Switch between current zoom and fit whole content
-                    if (zoomBar.x == 0 && fitsZoom) {
+                    if (zoomBar.x == 0 && zoomContainer.fitsZoom) {
                         // Restore previous pos
                         if (previousFactor > -1) {
-                            proposeZoomFactor(previousFactor)
-                            proposeContentPos(previousPos)
+                            zoomContainer.proposeZoomFactor(previousFactor)
+                            zoomContainer.proposeContentPos(previousPos)
                         }
                     } else {
-                        previousPos = contentPos
-                        previousFactor = zoomFactor
-                        fitZoom()
+                        previousPos = zoomContainer.contentPos
+                        previousFactor = zoomContainer.zoomFactor
+                        zoomContainer.fitZoom()
                     }
                 }
                 Rectangle {
-                    color: hoveredBar ? activePalette.highlight : containerArea.containsMouse ? activePalette.text : barPalette.text
-                    opacity: hoveredBar || containerArea.containsMouse ? 0.6 : 1
+                    color: zoomContainer.hoveredBar ? activePalette.highlight : containerArea.containsMouse ? activePalette.text : barPalette.text
+                    opacity: zoomContainer.hoveredBar || containerArea.containsMouse ? 0.6 : 1
                     x: parent.x + zoomStart.width
                     height: parent.height
                     width: parent.width - zoomStart.width - zoomEnd.width
@@ -123,8 +124,8 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var updatedPos = Math.max(0, x + mouseX)
                     updatedPos = Math.min(updatedPos, zoomEnd.x - width - 1)
-                    proposeZoomFactor((zoomBar.x + zoomBar.width + 0.5 - updatedPos) / zoomHandleContainer.width)
-                    proposeContentPos(updatedPos / zoomHandleContainer.width)
+                    zoomContainer.proposeZoomFactor((zoomBar.x + zoomBar.width + 0.5 - updatedPos) / zoomHandleContainer.width)
+                    zoomContainer.proposeContentPos(updatedPos / zoomHandleContainer.width)
                     startHandleRect.x = updatedPos - x
                 }
             }
@@ -132,7 +133,7 @@ Rectangle {
                 id: startHandleRect
                 anchors.fill: parent.pressed ? undefined : parent
                 radius: height / 2
-                color: zoomStart.isActive ? activePalette.highlight : hoveredBar || containerArea.containsMouse ? activePalette.text : barPalette.text
+                color: zoomStart.isActive ? activePalette.highlight : zoomContainer.hoveredBar || containerArea.containsMouse ? activePalette.text : barPalette.text
                 Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: height / 2
@@ -158,8 +159,8 @@ Rectangle {
                     var updatedPos = Math.min(zoomHandleContainer.width, x + mouseX)
                     updatedPos = Math.max(updatedPos, zoomBar.x + width * 2 + 1)
                     var zoomBarX = zoomBar.x // we need to save the value before we change zoomFactor, but apply it afterwards
-                    proposeZoomFactor((updatedPos - zoomBar.x) / zoomHandleContainer.width)
-                    proposeContentPos(zoomBarX / zoomHandleContainer.width)
+                    zoomContainer.proposeZoomFactor((updatedPos - zoomBar.x) / zoomHandleContainer.width)
+                    zoomContainer.proposeContentPos(zoomBarX / zoomHandleContainer.width)
                     endHandleRect.x = updatedPos - x - width
                 }
             }
@@ -167,7 +168,7 @@ Rectangle {
                 id: endHandleRect
                 anchors.fill: parent.pressed ? undefined : parent
                 radius: height / 2
-                color: zoomEnd.isActive ? activePalette.highlight : hoveredBar || containerArea.containsMouse ? activePalette.text : barPalette.text
+                color: zoomEnd.isActive ? activePalette.highlight : zoomContainer.hoveredBar || containerArea.containsMouse ? activePalette.text : barPalette.text
                 Rectangle {
                     anchors {
                         fill: parent
@@ -179,7 +180,7 @@ Rectangle {
         }
     }
     ToolTip {
-        visible: barArea.containsMouse && toolTipText
+        visible: barArea.containsMouse && zoomContainer.toolTipText
         delay: 1000
         timeout: 5000
         background: Rectangle {
@@ -189,7 +190,7 @@ Rectangle {
         contentItem: Label {
             color: activePalette.text
             //font: fixedFont
-            text: toolTipText
+            text: zoomContainer.toolTipText
         }
     }
 }

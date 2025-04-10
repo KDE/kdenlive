@@ -17,10 +17,11 @@ Menu {
         onObjectAdded: menuRoot.insertItem( index, object )
         onObjectRemoved: menuRoot.removeItem( object )
         delegate: MenuItem {
+            id: menuItem
             text: model.comment
             property int assetFrame: model.frame
             onTriggered: {
-                menuRoot.guideSelected(assetFrame)
+                menuRoot.guideSelected(menuItem.assetFrame)
             }
         }
     }

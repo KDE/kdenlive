@@ -32,6 +32,8 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     if (reversed) {
         ui->checkBox->setChecked(true);
     }
+    ui->label_dest->setBuddy(ui->kurlrequester);
+    ui->label->setBuddy(ui->precisionSpin);
     ui->speedSlider->setValue(int(qLn(speed) * 12));
     ui->pitchCompensate->setChecked(pitch_compensate);
     if (!EffectsRepository::get()->exists(QStringLiteral("rbpitch"))) {
@@ -52,10 +54,13 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     ui->precisionSpin->setFocus();
     ui->precisionSpin->selectAll();
     if (m_duration > 0) {
-        ui->durationLayout->addWidget(new QLabel(i18n("Duration"), this));
+        QLabel *durationLabel = new QLabel(i18n("Duration"), this);
+        ui->durationLayout->addWidget(durationLabel);
         m_durationDisplay = new TimecodeDisplay(this);
         m_durationDisplay->setValue(m_duration);
         ui->durationLayout->addWidget(m_durationDisplay);
+        durationLabel->setBuddy(m_durationDisplay);
+        setTabOrder(ui->precisionSpin, m_durationDisplay);
         connect(m_durationDisplay, &TimecodeDisplay::timeCodeEditingFinished, this, [this, speed, minSpeed](int value) {
             if (value < 1) {
                 value = 1;

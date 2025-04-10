@@ -17,9 +17,11 @@
 #include "widgets/timecodedisplay.h"
 #include <profiles/profilemodel.hpp>
 
+#include <KColorScheme>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequesterDialog>
+
 #include <QAbstractTextDocumentLayout>
 #include <QEvent>
 #include <QFontDatabase>
@@ -172,7 +174,6 @@ void VideoTextEdit::rebuildZones()
     for (int i = 0; i < document()->blockCount(); ++i) {
         int start = curs.position() + 1;
         QString anchorStart = selectionStartAnchor(curs, start, document()->characterCount());
-        // qDebug()<<"=== START ANCHOR: "<<anchorStart<<" AT POS: "<<curs.position();
         curs.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor);
         int end = curs.position() - 1;
         QString anchorEnd = selectionEndAnchor(curs, end, start);
@@ -280,6 +281,50 @@ QVector<QPoint> VideoTextEdit::getInsertZones()
     return processedZones(zones);
 }
 
+QMap<int, std::pair<QString, int>> VideoTextEdit::getMarkerZones()
+{
+    QMap<int, std::pair<QString, int>> markersMap;
+    if (m_selectedBlocks.isEmpty()) {
+        // return text selection, not blocks
+        QTextCursor cursor = textCursor();
+        QString anchorStart;
+        QString anchorEnd;
+        QString text = cursor.selectedText();
+        if (!text.isEmpty()) {
+            int start = cursor.selectionStart();
+            int end = cursor.selectionEnd() - 1;
+            anchorStart = selectionStartAnchor(cursor, start, end);
+            anchorEnd = selectionEndAnchor(cursor, end, start);
+        } else {
+            // Return full text
+            cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+            int end = cursor.position() - 1;
+            cursor.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor);
+            int start = cursor.position();
+            cursor.select(QTextCursor::BlockUnderCursor);
+            text = cursor.selectedText();
+            anchorStart = selectionStartAnchor(cursor, start, end);
+            anchorEnd = selectionEndAnchor(cursor, end, start);
+        }
+        if (!anchorStart.isEmpty() && !anchorEnd.isEmpty()) {
+            double startMs = anchorStart.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble();
+            double endMs = anchorEnd.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 1, 1).toDouble();
+            markersMap.insert(GenTime(startMs).frames(pCore->getCurrentFps()), {text, GenTime(endMs).frames(pCore->getCurrentFps())});
+        }
+        return markersMap;
+    }
+    int currentEnd = -1;
+    int currentStart = -1;
+    for (auto &bk : m_selectedBlocks) {
+        QPair<double, double> z = speechZones.at(bk);
+        currentStart = GenTime(z.first).frames(pCore->getCurrentFps());
+        currentEnd = GenTime(z.second).frames(pCore->getCurrentFps());
+        const QTextBlock block = document()->findBlockByNumber(bk);
+        markersMap.insert(currentStart, {block.text(), currentEnd});
+    }
+    return markersMap;
+}
+
 QVector<QPoint> VideoTextEdit::fullExport()
 {
     // Loop through all blocks
@@ -291,7 +336,6 @@ QVector<QPoint> VideoTextEdit::fullExport()
         QTextCursor curs(block);
         int start = curs.position() + 1;
         QString anchorStart = selectionStartAnchor(curs, start, document()->characterCount());
-        // qDebug()<<"=== START ANCHOR: "<<anchorStart<<" AT POS: "<<curs.position();
         curs.movePosition(QTextCursor::EndOfBlock, QTextCursor::MoveAnchor);
         int end = curs.position() - 1;
         QString anchorEnd = selectionEndAnchor(curs, end, start);
@@ -749,69 +793,91 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
 
     // Search stuff
     search_frame->setVisible(false);
+    QAction *find = KStandardAction::find(this, &TextBasedEdit::find, this);
+    find->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
     connect(button_search, &QToolButton::toggled, this, [&](bool toggled) {
         search_frame->setVisible(toggled);
         search_line->setFocus();
     });
     connect(search_line, &QLineEdit::textChanged, this, [this](const QString &searchText) {
-        QPalette palette = this->palette();
-        QColor col = palette.color(QPalette::Base);
+        QPalette palette = search_line->palette();
+        QColor bgColor = palette.color(QPalette::Base);
         if (searchText.length() > 2) {
             bool found = m_visualEditor->find(searchText);
+            KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
             if (found) {
-                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
-                palette.setColor(QPalette::Base, col);
+                bgColor = scheme.background(KColorScheme::PositiveBackground).color();
                 QTextCursor cur = m_visualEditor->textCursor();
                 cur.select(QTextCursor::WordUnderCursor);
                 m_visualEditor->setTextCursor(cur);
             } else {
                 // Loop over, abort
-                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
-                palette.setColor(QPalette::Base, col);
+                bgColor = scheme.background(KColorScheme::NegativeBackground).color();
             }
         }
+        palette.setColor(QPalette::Base, bgColor);
         search_line->setPalette(palette);
     });
-    connect(search_next, &QToolButton::clicked, this, [this]() {
-        const QString searchText = search_line->text();
-        QPalette palette = this->palette();
-        QColor col = palette.color(QPalette::Base);
-        if (searchText.length() > 2) {
-            bool found = m_visualEditor->find(searchText);
-            if (found) {
-                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
-                palette.setColor(QPalette::Base, col);
-                QTextCursor cur = m_visualEditor->textCursor();
-                cur.select(QTextCursor::WordUnderCursor);
-                m_visualEditor->setTextCursor(cur);
-            } else {
-                // Loop over, abort
-                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
-                palette.setColor(QPalette::Base, col);
-            }
+    // Search next / previous shortcuts
+    QAction *next = KStandardAction::findNext(this, &TextBasedEdit::findNext, this);
+    next->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    QAction *previous = KStandardAction::findPrev(this, &TextBasedEdit::findPrevious, this);
+    previous->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    search_next->setDefaultAction(next);
+    search_prev->setDefaultAction(previous);
+    addAction(find);
+    addAction(next);
+    addAction(previous);
+}
+
+void TextBasedEdit::find()
+{
+    button_search->toggle();
+}
+
+void TextBasedEdit::findNext()
+{
+    const QString searchText = search_line->text();
+    QPalette palette = search_line->palette();
+    QColor bgColor = palette.color(QPalette::Base);
+    if (searchText.length() > 2) {
+        bool found = m_visualEditor->find(searchText);
+        KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
+        if (found) {
+            bgColor = scheme.background(KColorScheme::PositiveBackground).color();
+            QTextCursor cur = m_visualEditor->textCursor();
+            cur.select(QTextCursor::WordUnderCursor);
+            m_visualEditor->setTextCursor(cur);
+        } else {
+            // Loop over, abort
+            bgColor = scheme.background(KColorScheme::NegativeBackground).color();
         }
-        search_line->setPalette(palette);
-    });
-    connect(search_prev, &QToolButton::clicked, this, [this]() {
-        const QString searchText = search_line->text();
-        QPalette palette = this->palette();
-        QColor col = palette.color(QPalette::Base);
-        if (searchText.length() > 2) {
-            bool found = m_visualEditor->find(searchText, QTextDocument::FindBackward);
-            if (found) {
-                col.setGreen(qMin(255, static_cast<int>(col.green() * 1.5)));
-                palette.setColor(QPalette::Base, col);
-                QTextCursor cur = m_visualEditor->textCursor();
-                cur.select(QTextCursor::WordUnderCursor);
-                m_visualEditor->setTextCursor(cur);
-            } else {
-                // Loop over, abort
-                col.setRed(qMin(255, static_cast<int>(col.red() * 1.5)));
-                palette.setColor(QPalette::Base, col);
-            }
+    }
+    palette.setColor(QPalette::Base, bgColor);
+    search_line->setPalette(palette);
+}
+
+void TextBasedEdit::findPrevious()
+{
+    const QString searchText = search_line->text();
+    QPalette palette = search_line->palette();
+    QColor bgColor = palette.color(QPalette::Base);
+    if (searchText.length() > 2) {
+        bool found = m_visualEditor->find(searchText, QTextDocument::FindBackward);
+        KColorScheme scheme(palette.currentColorGroup(), KColorScheme::Window);
+        if (found) {
+            bgColor = scheme.background(KColorScheme::PositiveBackground).color();
+            QTextCursor cur = m_visualEditor->textCursor();
+            cur.select(QTextCursor::WordUnderCursor);
+            m_visualEditor->setTextCursor(cur);
+        } else {
+            // Loop over, abort
+            bgColor = scheme.background(KColorScheme::NegativeBackground).color();
         }
-        search_line->setPalette(palette);
-    });
+    }
+    palette.setColor(QPalette::Base, bgColor);
+    search_line->setPalette(palette);
 }
 
 void TextBasedEdit::slotZoomIn()
@@ -1115,10 +1181,13 @@ void TextBasedEdit::startRecognition()
                             m_stt->speechScript(),
                             QStringLiteral("--src=\"%1\"").arg(m_playlistWav.fileName()),
                             QStringLiteral("--model=%1").arg(modelName),
-                            QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice()),
                             QStringLiteral("--task=%1").arg(KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
                             QStringLiteral("--ffmpeg=%1").arg(KdenliveSettings::ffmpegpath()),
                             QStringLiteral("--language=%1").arg(language)};
+
+                        if (!KdenliveSettings::whisperDevice().isEmpty()) {
+                            args << QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice());
+                        }
 
                         if (speech_zone->isChecked()) {
                             m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
@@ -1171,10 +1240,12 @@ void TextBasedEdit::startRecognition()
             args = {m_stt->speechScript(),
                     QStringLiteral("--src=\"%1\"").arg(m_sourceUrl),
                     QStringLiteral("--model=%1").arg(modelName),
-                    QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice()),
                     QStringLiteral("--task=%1").arg(KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")),
                     QStringLiteral("--language=%1").arg(language),
                     QStringLiteral("--ffmpeg_path=%1").arg(KdenliveSettings::ffmpegpath())};
+            if (!KdenliveSettings::whisperDevice().isEmpty()) {
+                args << QStringLiteral("--device=%1").arg(KdenliveSettings::whisperDevice());
+            }
             connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &TextBasedEdit::slotProcessWhisperSpeech);
             if (speech_zone->isChecked()) {
                 m_tmpCutWav.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.wav")));
@@ -1671,30 +1742,26 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
 void TextBasedEdit::addBookmark()
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(m_binId);
-    if (clip) {
-        QString txt = m_visualEditor->textCursor().selectedText();
-        QTextCursor cursor = m_visualEditor->textCursor();
-        QString startAnchor = m_visualEditor->selectionStartAnchor(cursor, -1, -1);
-        cursor = m_visualEditor->textCursor();
-        QString endAnchor = m_visualEditor->selectionEndAnchor(cursor, -1, -1);
-        if (startAnchor.isEmpty()) {
-            showMessage(i18n("No timecode found in selection"), KMessageWidget::Information);
-            return;
-        }
-        double ms = startAnchor.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 0, 0).toDouble();
-        int startPos = GenTime(ms).frames(pCore->getCurrentFps());
-        ms = endAnchor.section(QLatin1Char('#'), 1).section(QLatin1Char(':'), 1, 1).toDouble();
-        int endPos = GenTime(ms).frames(pCore->getCurrentFps());
+    if (!clip) {
+        qDebug() << "==== NO CLIP FOR " << m_binId;
+        return;
+    }
+    QMap<int, std::pair<QString, int>> zones = m_visualEditor->getMarkerZones();
+    if (zones.count() == 1) {
         int monitorPos = pCore->getMonitor(Kdenlive::ClipMonitor)->position();
-        qDebug() << "==== GOT MARKER: " << txt << ", FOR POS: " << startPos << "-" << endPos << ", MON: " << monitorPos;
-        if (monitorPos > startPos && monitorPos < endPos) {
+        const auto value = zones.value(zones.firstKey());
+        if (monitorPos > zones.firstKey() && monitorPos < value.second) {
             // Monitor seek is on the selection, use the current frame
-            pCore->bin()->addClipMarker(m_binId, {monitorPos}, {txt});
+            pCore->bin()->addClipMarker(m_binId, {monitorPos}, {});
         } else {
-            pCore->bin()->addClipMarker(m_binId, {startPos}, {txt});
+            pCore->bin()->addClipMarker(m_binId, {zones.firstKey()}, {value.first});
         }
     } else {
-        qDebug() << "==== NO CLIP FOR " << m_binId;
+        QStringList zonesTexts;
+        for (auto i = zones.cbegin(), end = zones.cend(); i != end; ++i) {
+            zonesTexts << i.value().first;
+        }
+        pCore->bin()->addClipMarker(m_binId, zones.keys(), zonesTexts);
     }
 }
 

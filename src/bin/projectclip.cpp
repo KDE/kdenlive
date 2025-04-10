@@ -229,12 +229,16 @@ std::shared_ptr<MarkerListModel> ProjectClip::markerModel()
 
 void ProjectClip::connectEffectStack()
 {
-    connect(m_effectStack.get(), &EffectStackModel::dataChanged, this, [&]() {
-        if (auto ptr = m_model.lock()) {
-            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           {AbstractProjectItem::IconOverlay});
-        }
-    });
+    connect(m_effectStack.get(), &EffectStackModel::dataChanged, this, &ProjectClip::refreshIconOverlay);
+    connect(m_effectStack.get(), &EffectStackModel::customDataChanged, this, &ProjectClip::refreshIconOverlay);
+}
+
+void ProjectClip::refreshIconOverlay()
+{
+    if (auto ptr = m_model.lock()) {
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
+                                                                       {AbstractProjectItem::IconOverlay});
+    }
 }
 
 QString ProjectClip::getToolTip() const
@@ -2116,12 +2120,12 @@ bool ProjectClip::hasVariableFps()
     return false;
 }
 
-int ProjectClip::audioChannels() const
+int ProjectClip::audioChannels(int stream) const
 {
     if (!audioInfo()) {
         return 0;
     }
-    return audioInfo()->channels();
+    return audioInfo()->channels(stream);
 }
 
 void ProjectClip::discardAudioThumb()

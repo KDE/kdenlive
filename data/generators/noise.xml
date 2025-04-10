@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<generator tag="noise" id="noise">
+<generator tag="noise" id="noise" type="audio;video">
 	<name>White Noise</name>
 	<description>White noise producer</description>
 	<author>Charles Yates</author>

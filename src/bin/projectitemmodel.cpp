@@ -757,6 +757,17 @@ std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const Q
     return std::static_pointer_cast<AbstractProjectItem>(getItemById(int(index.internalId())));
 }
 
+bool ProjectItemModel::requestBinClipDeletionById(const QString &id)
+{
+    auto binClip = pCore->projectItemModel()->getClipByBinID(id);
+    if (binClip) {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        requestBinClipDeletion(binClip, undo, redo);
+    }
+    return true;
+}
+
 bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProjectItem> &clip, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);

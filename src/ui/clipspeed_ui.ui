@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>434</width>
-    <height>218</height>
+    <height>234</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -125,11 +125,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </widget>
  <customwidgets>
   <customwidget>
-   <class>PrecisionSpinBox</class>
-   <extends>QAbstractSpinBox</extends>
-   <header>widgets/precisionspinbox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KUrlRequester</class>
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
@@ -139,8 +134,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PrecisionSpinBox</class>
+   <extends>QAbstractSpinBox</extends>
+   <header>widgets/precisionspinbox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>kurlrequester</tabstop>
+  <tabstop>speedSlider</tabstop>
+  <tabstop>precisionSpin</tabstop>
+  <tabstop>pitchCompensate</tabstop>
+  <tabstop>checkBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

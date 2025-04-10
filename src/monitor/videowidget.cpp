@@ -12,6 +12,7 @@
     SPDX-License-Identifier: BSD-3-Clause
 */
 
+#include "monitor/monitor.h"
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
@@ -26,16 +27,20 @@
 #include <QtGlobal>
 #include <memory>
 
+#include <ki18n_version.h>
+
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+#include <KLocalizedQmlContext>
+#else
 #include <KLocalizedContext>
+#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KQuickIconProvider>
 
 #include "bin/model/markersortmodel.h"
 #include "core.h"
 #include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
-#include "timeline2/view/qml/timelineitems.h"
 #include "timeline2/view/qmltypes/thumbnailprovider.h"
 #include "videowidget.h"
 #include <lib/localeHandling.h>
@@ -90,16 +95,19 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_loopIn(0)
     , m_offset(QPoint(0, 0))
 {
-    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    KLocalization::setupLocalizedContext(engine());
+#else
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
+#endif
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
     setAcceptDrops(true);
     setClearColor(KdenliveSettings::window_background());
 
-    if (m_id == Kdenlive::ClipMonitor && !(KdenliveSettings::displayClipMonitorInfo() & 0x01)) {
+    if (m_id == Kdenlive::ClipMonitor && !(KdenliveSettings::displayClipMonitorInfo() & Monitor::InfoOverlay)) {
         m_rulerHeight = 0;
-    } else if (!(KdenliveSettings::displayProjectMonitorInfo() & 0x01)) {
+    } else if (!(KdenliveSettings::displayProjectMonitorInfo() & Monitor::InfoOverlay)) {
         m_rulerHeight = 0;
     }
     m_displayRulerHeight = m_rulerHeight;
@@ -121,7 +129,6 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     rootContext()->setContextProperty("markersModel", nullptr);
     connect(pCore.get(), &Core::switchTimelineRecord, this, &VideoWidget::switchRecordState);
 
-    registerTimelineItems();
     m_proxy = new MonitorProxy(this);
     rootContext()->setContextProperty("controller", m_proxy);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
@@ -281,8 +288,14 @@ void VideoWidget::slotZoom(bool zoomIn)
     }
 }
 
+void VideoWidget::refreshRect()
+{
+    resizeVideo(width(), height());
+}
+
 void VideoWidget::updateRulerHeight(int addedHeight)
 {
+    qDebug() << "::: ADJUSTED RULER HEHGIT: " << addedHeight << "\n9999999999999999999999999999999999\n";
     m_displayRulerHeight =
         m_rulerHeight > 0 ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) + addedHeight : 0;
     resizeVideo(width(), height());
@@ -1232,7 +1245,6 @@ double VideoWidget::playSpeed() const
 
 void VideoWidget::restart()
 {
-    // why this lock?
     if (m_consumer) {
         // Make sure to delete and rebuild consumer to match profile
         m_consumer->purge();

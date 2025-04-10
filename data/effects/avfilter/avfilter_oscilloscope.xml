@@ -51,7 +51,7 @@
     </parameter>
     <parameter type="bool" name="av.st" default="1" min="0" max="1">
         <name>Print statistics</name>
-    	<comment><![CDATA[switch statistics on or off]]></comment>
+    	<comment><![CDATA[Switch statistics on or off]]></comment>
     </parameter>
     <parameter type="bool" name="av.sc" default="1" min="0" max="1">
         <name>Draw trace profile line</name>

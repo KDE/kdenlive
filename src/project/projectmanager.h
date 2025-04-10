@@ -139,6 +139,9 @@ public:
      * @param replaceAudio if true, only the audio clips will be replaced. if false, only the video parts.
      */
     void replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo);
+    /** @brief Sync the recent file list to settings file
+     */
+    void saveRecentFiles();
     void buildNotesWidget();
     /** @brief Used for testing only
      */
@@ -198,6 +201,7 @@ public Q_SLOTS:
 
     /** @brief Mute/Unmute or Hide/Show current timeline track */
     void slotSwitchTrackDisabled();
+    void slotSwitchAllTrackDisabled();
     /** @brief Un/Lock current timeline track */
     void slotSwitchTrackLock();
     void slotSwitchAllTrackLock();
@@ -255,6 +259,8 @@ protected:
     KdenliveDoc *m_project{nullptr};
 
 private:
+    static bool isSupportedArchive(const QUrl &url);
+
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url, bool newFile = false);
     /** @brief Update the sequence producer stored in the project model. */
@@ -271,7 +277,6 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QStringList m_mltWarnings;
-    void saveRecentFiles();
     /** @brief Something went wrong, stop loading file */
     void abortLoading();
     /** @brief Project loading failed, ask user if he wants to open a backup */

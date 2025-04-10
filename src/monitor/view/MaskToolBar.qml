@@ -5,13 +5,13 @@
 
 import QtQuick.Controls
 import QtQuick
-import com.enums 1.0
+
+import org.kde.kdenlive as Kdenlive
 
 MouseArea {
     id: barZone
     hoverEnabled: true
     property bool rightSide: true
-    property bool showAutoKeyframe: true
     acceptedButtons: Qt.NoButton
     width: 2.4 * fontMetrics.font.pixelSize
     height: parent.height
@@ -52,14 +52,14 @@ MouseArea {
 
         Column {
             width: parent.width
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
                 toolTipText: i18n("Switch Full Screen")
                 onClicked: controller.triggerAction('monitor_fullscreen')
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "generateFrames"
                 iconName: "media-record"
                 toolTipText: i18n("Generate Mask")
@@ -75,7 +75,7 @@ MouseArea {
                     }
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "switchOpacity"
                 iconName: "edit-opacity"
                 toolTipText: i18n("Change Opacity (0% - 25% - 50% - 100%)")
@@ -89,7 +89,7 @@ MouseArea {
                     }
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "invertMask"
                 iconName: "edit-select-invert"
                 toolTipText: i18n("Invert Mask")
@@ -97,7 +97,7 @@ MouseArea {
                     controller.maskInverted = !controller.maskInverted
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "abortMask"
                 iconName: "dialog-close"
                 toolTipText: root.maskMode != MaskModeType.MaskPreview ? i18n("Exit Mask Creation") : i18n("Exit Preview Mode")
@@ -106,30 +106,30 @@ MouseArea {
                     root.exitMaskPreview()
                 }
             }
-            /*MonitorToolButton {
+            /*Kdenlive.MonitorToolButton {
                 objectName: "nextKeyframe"
                 iconName: "keyframe-next"
                 toolTipText: i18n("Go to Next Keyframe")
                 onClicked: controller.seekToKeyframe(-1, 1);
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "prevKeyframe"
                 iconName: "keyframe-previous"
                 toolTipText: i18n("Go to Previous Keyframe")
                 onClicked: controller.seekToKeyframe(-1, -1);
             }*/
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 iconName: "zoom-in"
                 toolTipText: i18n("Zoom in")
                 onClicked: controller.triggerAction('monitor_zoomin')
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 iconName: "zoom-out"
                 toolTipText: i18n("Zoom out")
                 onClicked: controller.triggerAction('monitor_zoomout')
             }
 
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
                 toolTipText: i18n("Move Toolbar")

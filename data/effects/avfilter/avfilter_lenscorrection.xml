@@ -5,10 +5,10 @@
     <description>Correct radial lens distortion </description>
     <author>libavfilter</author>
     <parameter type="float" name="av.cx" default="0.5" min="0" max="1" format="double" decimals="2">
-        <name>Focal point relative-X cord</name>
+        <name>Focal point relative-X coord</name>
     </parameter>
     <parameter type="float" name="av.cy" default="0.5" min="0" max="1" format="double" decimals="2">
-        <name>Focal point relative-Y cord</name>
+        <name>Focal point relative-Y coord</name>
     </parameter>
     <parameter type="float" name="av.k1" default="0" min="-1" max="1" format="double" decimals="2">
         <name>Quadratic correction coeff.</name>

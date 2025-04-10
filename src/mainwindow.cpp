@@ -26,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "docktitlebarmanager.h"
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/audiolevels/audiolevelstask.h"
 #include "jobs/customjobtask.h"
 #include "jobs/scenesplittask.h"
@@ -150,8 +151,7 @@ void MainWindow::init(const QString &mltPath)
     // Load themes
     auto themeManager = new ThemeManager(actionCollection());
     actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager->menu());
-    connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged);
-    Q_EMIT pCore->updatePalette();
+    connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged, Qt::QueuedConnection);
 
     // Handle communication with the renderer app
     new RenderServer(this);
@@ -350,16 +350,23 @@ void MainWindow::init(const QString &mltPath)
     m_onlineResourcesDock->close();
 
     m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
-    connect(pCore.get(), &Core::requestShowBinEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+    connect(pCore.get(), &Core::requestShowBinEffectStack, m_assetPanel, &AssetPanel::showEffectStack, Qt::QueuedConnection);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::switchCurrentComposition, this,
             [&](int cid, const QString &compositionId) { getCurrentTimeline()->model()->switchComposition(cid, compositionId); });
     connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
-    connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
+    connect(m_timelineTabs, &TimelineTabs::showMixModel, this, [&](int cid, std::shared_ptr<AssetParameterModel> model, bool refreshOnly) {
+        m_assetPanel->showMix(cid, model, refreshOnly);
+        if (KdenliveSettings::raisepropsmixes()) {
+            m_effectStackDock->raise();
+        }
+    });
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&](int tid, std::shared_ptr<AssetParameterModel> model) {
         m_assetPanel->showTransition(tid, model);
-        m_effectStackDock->raise();
+        if (KdenliveSettings::raisepropscompositions()) {
+            m_effectStackDock->raise();
+        }
     });
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this,
             [&](const QString &clipName, std::shared_ptr<EffectStackModel> model, QSize size, bool showKeyframes) {
@@ -368,7 +375,11 @@ void MainWindow::init(const QString &mltPath)
                     return;
                 }
                 m_assetPanel->showEffectStack(clipName, model, size, showKeyframes);
-                m_effectStackDock->raise();
+                bool isClip = model && model->getOwnerId().type == KdenliveObjectType::TimelineClip;
+                bool isTrack = model && model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
+                if ((isClip && KdenliveSettings::raisepropsclips()) || (isTrack && KdenliveSettings::raisepropstracks())) {
+                    m_effectStackDock->raise();
+                }
             });
 
     connect(m_timelineTabs, &TimelineTabs::updateAssetPosition, m_assetPanel, &AssetPanel::updateAssetPosition);
@@ -887,7 +898,7 @@ void MainWindow::slotThemeChanged(const QString &name)
     // bool useDarkIcons = background.value() < 100;
 
     if (m_assetPanel) {
-        m_assetPanel->updatePalette();
+        m_assetPanel->clear();
     }
     if (m_clipMonitor) {
         m_clipMonitor->setPalette(plt);
@@ -898,9 +909,6 @@ void MainWindow::slotThemeChanged(const QString &name)
     if (m_timelineTabs) {
         m_timelineTabs->setPalette(plt);
         getCurrentTimeline()->controller()->resetView();
-    }
-    if (m_audioSpectrum) {
-        m_audioSpectrum->refreshPixmap();
     }
     Q_EMIT pCore->updatePalette();
 }
@@ -931,9 +939,33 @@ MainWindow::~MainWindow()
 // virtual
 bool MainWindow::queryClose()
 {
+    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
+    if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
+        return false;
+    }
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
-        if (waitingJobs > 0) {
+        int runningJobs = m_renderWidget->runningJobsCount();
+        if (runningJobs > 0) {
+            switch (KMessageBox::warningTwoActionsCancel(this,
+                                                         i18np("You have 1 rendering job running.\nWhat do you want to do with this job?",
+                                                               "You have %1 rendering jobs running.\nWhat do you want to do with these jobs?", runningJobs),
+                                                         QString(), KGuiItem(i18n("Continue rendering in the background")), KGuiItem(i18n("Abort rendering")),
+                                                         KStandardGuiItem::cancel(), QStringLiteral("warnOnRenderExit"))) {
+            case KMessageBox::PrimaryAction:
+                // create script with waiting jobs and start it
+                if (waitingJobs > 0 && !m_renderWidget->startWaitingRenderJobs()) {
+                    return false;
+                }
+                break;
+            case KMessageBox::SecondaryAction:
+                // Abort the jobs
+                Q_EMIT abortAllRenderJobs();
+                break;
+            default:
+                return false;
+            }
+        } else if (waitingJobs > 0) {
             switch (KMessageBox::warningTwoActionsCancel(this,
                                                          i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?",
                                                                "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?",
@@ -954,12 +986,8 @@ bool MainWindow::queryClose()
         }
     }
     saveOptions();
-    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    bool successfullClose = pCore->projectManager()->closeCurrentDocument(true, true);
-    if (successfullClose) {
-        m_windowClosing = true;
-    }
-    return successfullClose;
+    m_windowClosing = true;
+    return true;
 }
 
 void MainWindow::buildGenerator(QAction *action)
@@ -1462,32 +1490,32 @@ void MainWindow::setupActions()
     QAction *overlayInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Info Overlay"), this);
     addAction(QStringLiteral("monitor_overlay"), overlayInfo, {}, QStringLiteral("monitor"));
     overlayInfo->setCheckable(true);
-    overlayInfo->setData(0x01);
+    overlayInfo->setData(Monitor::InfoOverlay);
 
     QAction *overlayTCInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Timecode"), this);
     addAction(QStringLiteral("monitor_overlay_tc"), overlayTCInfo, {}, QStringLiteral("monitor"));
     overlayTCInfo->setCheckable(true);
-    overlayTCInfo->setData(0x02);
+    overlayTCInfo->setData(Monitor::TimecodeOverlay);
 
     QAction *overlayFpsInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Playback Fps"), this);
     addAction(QStringLiteral("monitor_overlay_fps"), overlayFpsInfo, {}, QStringLiteral("monitor"));
     overlayFpsInfo->setCheckable(true);
-    overlayFpsInfo->setData(0x20);
+    overlayFpsInfo->setData(Monitor::PlaybackFpsOverlay);
 
     QAction *overlayMarkerInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Markers"), this);
     addAction(QStringLiteral("monitor_overlay_markers"), overlayMarkerInfo, {}, QStringLiteral("monitor"));
     overlayMarkerInfo->setCheckable(true);
-    overlayMarkerInfo->setData(0x04);
+    overlayMarkerInfo->setData(Monitor::MarkersOverlay);
 
     QAction *overlayAudioInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Audio Waveform"), this);
     addAction(QStringLiteral("monitor_overlay_audiothumb"), overlayAudioInfo, {}, QStringLiteral("monitor"));
     overlayAudioInfo->setCheckable(true);
-    overlayAudioInfo->setData(0x10);
+    overlayAudioInfo->setData(Monitor::AudioWaveformOverlay);
 
     QAction *overlayClipJobs = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Clip Jobs"), this);
     addAction(QStringLiteral("monitor_overlay_clipjobs"), overlayClipJobs, {}, QStringLiteral("monitor"));
     overlayClipJobs->setCheckable(true);
-    overlayClipJobs->setData(0x40);
+    overlayClipJobs->setData(Monitor::ClipJobsOverlay);
 
     connect(overlayInfo, &QAction::toggled, this, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo, overlayClipJobs](bool toggled) {
         overlayTCInfo->setEnabled(toggled);
@@ -1966,9 +1994,11 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("switch_track_disabled"), i18n("Toggle Track Disabled"), pCore->projectManager(), SLOT(slotSwitchTrackDisabled()), QIcon(),
               Qt::SHIFT | Qt::Key_H, timelineActions);
+    addAction(QStringLiteral("switch_all_track_disabled"), i18n("Toggle All Tracks Disabled"), pCore->projectManager(), SLOT(slotSwitchAllTrackDisabled()),
+              QIcon(), Qt::CTRL | Qt::SHIFT | Qt::Key_H, timelineActions);
     addAction(QStringLiteral("switch_track_lock"), i18n("Toggle Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(),
               Qt::SHIFT | Qt::Key_L, timelineActions);
-    addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Track Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(),
+    addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Tracks Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(),
               Qt::CTRL | Qt::SHIFT | Qt::Key_L, timelineActions);
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(),
               Qt::SHIFT | Qt::Key_T, timelineActions);
@@ -2016,11 +2046,15 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("extract_frame_to_project"), i18n("Extract Frame to Project…"), pCore->monitorManager(), SLOT(slotExtractCurrentFrameToProject()),
               QIcon::fromTheme(QStringLiteral("insert-image")));
+
+    addAction(QStringLiteral("extract_frame_to_clipboard"), i18n("Extract Frame to Clipboard"), pCore->monitorManager(),
+              SLOT(slotExtractCurrentFrameToClipboard()), QIcon::fromTheme(QStringLiteral("insert-image")));
 }
 
 void MainWindow::saveOptions()
 {
     KdenliveSettings::self()->save();
+    pCore->projectManager()->saveRecentFiles();
 }
 
 bool MainWindow::readOptions()
@@ -2239,7 +2273,7 @@ void MainWindow::slotEditProjectSettings(int ix)
             if (!qFuzzyCompare(pCore->getCurrentProfile()->fps() - ProfileRepository::get()->getProfile(profile)->fps(), 0.)) {
                 // Fps was changed, we save the project to an xml file with updated profile and reload project
                 // Check if blank project
-                if (project->url().fileName().isEmpty() && !project->isModified()) {
+                if ((project->url().fileName().isEmpty() && !project->isModified()) || !pCore->bin()->hasUserClip()) {
                     // Trying to switch project profile from an empty project
                     pCore->setCurrentProfile(profile);
                     pCore->projectManager()->newFile(profile, false);
@@ -2304,6 +2338,8 @@ void MainWindow::slotRenderProject()
     slotCheckRenderStatus();
     if (m_renderWidget) {
         m_renderWidget->showNormal();
+        m_renderWidget->activateWindow();
+        m_renderWidget->raise();
     }
 
     // What are the following lines supposed to do?
@@ -2576,10 +2612,8 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
-    connect(dialog, &KdenliveSettingsDialog::audioThumbFormatChanged, m_timelineTabs, &TimelineTabs::audioThumbFormatChanged);
     connect(dialog, &KdenliveSettingsDialog::resetView, this, &MainWindow::resetTimelineTracks);
-    connect(dialog, &KdenliveSettingsDialog::updateMonitorBg, pCore->monitorManager(), &MonitorManager::updateBgColor);
-    connect(dialog, &KdenliveSettingsDialog::updateMonitorGrid, pCore->monitorManager(), &MonitorManager::updateGrid);
+    connect(KdenliveSettings::self(), &KdenliveSettings::window_backgroundChanged, pCore->monitorManager(), &MonitorManager::updateBgColor);
 
     dialog->show();
     if (page != Kdenlive::NoPage) {
@@ -2637,7 +2671,6 @@ void MainWindow::updateConfiguration()
 void MainWindow::slotSwitchVideoThumbs()
 {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
-    Q_EMIT m_timelineTabs->showThumbnailsChanged();
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
 
@@ -2645,14 +2678,12 @@ void MainWindow::slotSwitchAudioThumbs()
 {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->bin()->checkAudioThumbs();
-    Q_EMIT m_timelineTabs->showAudioThumbnailsChanged();
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
 
 void MainWindow::slotSwitchMarkersComments()
 {
     KdenliveSettings::setShowmarkers(!KdenliveSettings::showmarkers());
-    Q_EMIT getCurrentTimeline()->controller()->showMarkersChanged();
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
 }
 
@@ -2660,7 +2691,6 @@ void MainWindow::slotSwitchSnap()
 {
     KdenliveSettings::setSnaptopoints(!KdenliveSettings::snaptopoints());
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
-    Q_EMIT getCurrentTimeline()->controller()->snapChanged();
 }
 
 void MainWindow::slotShowTimelineTags()
@@ -2887,10 +2917,6 @@ void MainWindow::slotRemoveAllClipsInTrack()
 void MainWindow::slotSeparateAudioChannel()
 {
     KdenliveSettings::setDisplayallchannels(!KdenliveSettings::displayallchannels());
-    Q_EMIT getCurrentTimeline()->controller()->audioThumbFormatChanged();
-    if (m_clipMonitor) {
-        m_clipMonitor->refreshAudioThumbs();
-    }
 }
 
 void MainWindow::slotAutoTrackHeight(bool enable)
@@ -2902,10 +2928,6 @@ void MainWindow::slotAutoTrackHeight(bool enable)
 void MainWindow::slotNormalizeAudioChannel(bool normalize)
 {
     KdenliveSettings::setNormalizechannels(normalize);
-    Q_EMIT getCurrentTimeline()->controller()->audioThumbNormalizeChanged();
-    if (m_clipMonitor) {
-        m_clipMonitor->normalizeAudioThumbs();
-    }
 }
 
 void MainWindow::slotInsertTrack()
@@ -2988,7 +3010,6 @@ void MainWindow::slotExportGuides()
 void MainWindow::slotLockGuides(bool lock)
 {
     KdenliveSettings::setLockedGuides(lock);
-    Q_EMIT getCurrentTimeline()->controller()->guidesLockedChanged();
 }
 
 void MainWindow::slotDeleteGuide()
@@ -4263,7 +4284,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     QList<QAction *> actions = monitorOverlay->actions();
     for (QAction *ac : std::as_const(actions)) {
         int mid = ac->data().toInt();
-        if (mid == 0x010 || mid == 0x040) {
+        if (mid == Monitor::InfoOverlay || mid == Monitor::ClipJobsOverlay) {
             ac->setVisible(id == Kdenlive::ClipMonitor);
         }
         ac->setChecked(code & mid);
@@ -5179,7 +5200,6 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
     if (pCore->currentDoc()) {
         // pCore->currentDoc()->position = pCore->getTimelinePosition();
         //  disconnect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
-        // qDebug()<<"=== SETTING POSITION  FOR DOC: "<<pCore->currentDoc()->position<<" / "<<pCore->currentDoc()->uuid;
     }
     if (!onClose) {
         // Ensure the active timeline has an transparent black background for embedded compositing

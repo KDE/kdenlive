@@ -4,11 +4,10 @@
 */
 
 import QtQuick.Controls 2.15
-import Kdenlive.Controls 1.0
 import QtQuick 2.15
-import org.kde.kdenlive 1.0 as Kdenlive
+import org.kde.kdenlive as Kdenlive
 
-    // Monitor ruler
+// Monitor ruler
 Rectangle {
     id: ruler
     color: activePalette.base
@@ -290,7 +289,7 @@ Rectangle {
             color: activePalette.text
         }
     }
-    TimelinePlayhead {
+    Kdenlive.TimelinePlayhead {
         id: playhead
         visible: controller.position > -1
         height: ruler.height * 0.5

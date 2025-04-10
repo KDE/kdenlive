@@ -7,6 +7,7 @@ set(kdenlive_SRCS
   widgets/colorpickerwidget.cpp
   widgets/doublewidget.cpp
   widgets/dragvalue.cpp
+  widgets/elidedfilelinklabel.cpp
   widgets/geometrywidget.cpp
   widgets/markercategorychooser.cpp
   widgets/markercategorybutton.cpp
@@ -57,6 +58,12 @@ if (BUILD_DESIGNERPLUGIN)
         GROUP "Kdenlive Widgets"
     )
 
+    ecm_qtdesignerplugin_widget(ElidedFileLinkLabel
+        INCLUDE_FILE widgets/elidedfilelinklabel.h
+        TOOLTIP "An elided label with clickable text to open a and highlight a file in the file explorer (Kdenlive)"
+        GROUP "Kdenlive Widgets"
+    )
+
     ecm_add_qtdesignerplugin(kdenlivewidgets
         NAME KdenliveWidgets
         WIDGETS
@@ -66,6 +73,7 @@ if (BUILD_DESIGNERPLUGIN)
             MarkerCategoryChooser
             MarkerCategoryButton
             PrecisionSpinBox
+            ElidedFileLinkLabel
         LINK_LIBRARIES
             kdenliveLib
         INSTALL_DESTINATION "${KDE_INSTALL_QTPLUGINDIR}/designer"

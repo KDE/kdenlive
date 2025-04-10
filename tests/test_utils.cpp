@@ -118,7 +118,7 @@ std::unique_ptr<QDomElement> KdenliveTests::getProperty(const QDomElement &doc, 
 
 QStringList KdenliveTests::getAssetsServiceIds(const QDomDocument &doc, const QString &tagName)
 {
-    return DocumentChecker::getAssetsServiceIds(doc, tagName);
+    return DocumentChecker::getAssetsServiceIds(doc, tagName).keys();
 }
 
 void KdenliveTests::removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete)

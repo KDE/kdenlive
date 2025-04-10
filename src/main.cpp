@@ -412,7 +412,7 @@ int main(int argc, char *argv[])
                     exitCode = EXIT_FAILURE;
                     break;
                 } else {
-                    KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", job.outputPath), QPixmap());
+                    KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering %1 started", job.outputPath), QPixmap());
                 }
             }
         }
@@ -459,41 +459,6 @@ int main(int argc, char *argv[])
     KCrash::initialize();
 #endif
 
-    qmlRegisterUncreatableMetaObject(PlaylistState::staticMetaObject, // static meta object
-                                     "com.enums",                     // import statement
-                                     1, 0,                            // major and minor version of the import
-                                     "ClipState",                     // name in QML
-                                     "Error: only enums");
-    qmlRegisterUncreatableMetaObject(FileStatus::staticMetaObject, // static meta object
-                                     "com.enums",                  // import statement
-                                     1, 0,                         // major and minor version of the import
-                                     "ClipStatus",                 // name in QML
-                                     "Error: only enums");
-    qmlRegisterUncreatableMetaObject(ClipType::staticMetaObject, // static meta object
-                                     "com.enums",                // import statement
-                                     1, 0,                       // major and minor version of the import
-                                     "ProducerType",             // name in QML
-                                     "Error: only enums");
-    qmlRegisterUncreatableMetaObject(AssetListType::staticMetaObject, // static meta object
-                                     "com.enums",                     // import statement
-                                     1, 0,                            // major and minor version of the import
-                                     "AssetType",                     // name in QML
-                                     "Error: only enums");
-    qmlRegisterUncreatableMetaObject(ToolType::staticMetaObject, // static meta object
-                                     "com.enums",                // import statement
-                                     1, 0,                       // major and minor version of the import
-                                     "ProjectTool",              // name in QML
-                                     "Error: only enums");
-    qmlRegisterUncreatableMetaObject(KeyframeType::staticMetaObject, // static meta object
-                                     "com.enums",                    // import statement
-                                     1, 0,                           // major and minor version of the import
-                                     "KeyframeType",                 // name in QML
-                                     "Error: only enums");
-    qmlRegisterUncreatableMetaObject(MaskModeType::staticMetaObject, // static meta object
-                                     "com.enums",                    // import statement
-                                     1, 0,                           // major and minor version of the import
-                                     "MaskModeType",                 // name in QML
-                                     "Error: only enums");
     if (parser.value(mltLogLevelOption) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);
     } else if (parser.value(mltLogLevelOption) == QStringLiteral("debug")) {

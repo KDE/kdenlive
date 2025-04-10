@@ -1193,6 +1193,10 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_searchLine->setPlaceholderText(i18n("Search…"));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
     m_searchLine->setAccessibleName(i18n("Bin Search"));
+    QAction *findAction = KStandardAction::find(m_searchLine, SLOT(setFocus()), this);
+    addAction(findAction);
+    findAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) {
         m_proxyModel->slotSetSearchString(str);
         if (str.isEmpty()) {
@@ -1367,7 +1371,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     settingsAction->addAction(disableEffects);
     settingsAction->addAction(hoverPreview);
     settingsAction->addSeparator();
-    m_openInBin = addAction(QStringLiteral("add_bin"), i18n("Open Current Folder In New Bin"), QIcon::fromTheme(QStringLiteral("document-open")));
+    m_openInBin = addBinAction(QStringLiteral("add_bin"), i18n("Open Current Folder In New Bin"), QIcon::fromTheme(QStringLiteral("document-open")));
     connect(m_openInBin, &QAction::triggered, this, &Bin::slotOpenNewBin);
     settingsAction->addAction(m_openInBin);
 
@@ -3319,7 +3323,7 @@ void Bin::doRefreshPanel(const QString &id)
     }
 }
 
-QAction *Bin::addAction(const QString &name, const QString &text, const QIcon &icon, const QString &category)
+QAction *Bin::addBinAction(const QString &name, const QString &text, const QIcon &icon, const QString &category)
 {
     auto *action = new QAction(text, this);
     if (!icon.isNull()) {
@@ -3331,7 +3335,7 @@ QAction *Bin::addAction(const QString &name, const QString &text, const QIcon &i
 
 void Bin::setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon)
 {
-    QAction *action = addAction(name, text, icon, QStringLiteral("addclip"));
+    QAction *action = addBinAction(name, text, icon, QStringLiteral("addclip"));
     action->setData(static_cast<QVariant>(type));
     addClipMenu->addAction(action);
     connect(action, &QAction::triggered, this, &Bin::slotCreateProjectClip);
@@ -3652,7 +3656,7 @@ void Bin::setupMenu()
     auto *addClipMenu = new QMenu(this);
 
     m_addClip =
-        addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), QStringLiteral("addclip"));
+        addBinAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), QStringLiteral("addclip"));
     m_addClip->setWhatsThis(xi18nc("@info:whatsthis", "Main dialog to add source material to your project bin (videos, images, audio, titles, animations).<nl/>"
                                                       "Click on the down-arrow icon to get a list of source types to select from.<nl/>"
                                                       "Click on the media icon to open a window to select source files."));
@@ -3672,38 +3676,38 @@ void Bin::setupMenu()
     setupAddClipAction(addClipMenu, ClipType::Timeline, QStringLiteral("add_playlist_clip"), i18n("Add Sequence…"),
                        QIcon::fromTheme(QStringLiteral("list-add")));
     QAction *downloadResourceAction =
-        addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
+        addBinAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
     addClipMenu->addAction(downloadResourceAction);
     connect(downloadResourceAction, &QAction::triggered, pCore->window(), &MainWindow::slotDownloadResources);
 
-    m_locateAction = addAction(QStringLiteral("locate_clip"), i18n("Locate Clip…"), QIcon::fromTheme(QStringLiteral("find-location")));
+    m_locateAction = addBinAction(QStringLiteral("locate_clip"), i18n("Locate Clip…"), QIcon::fromTheme(QStringLiteral("find-location")));
     m_locateAction->setData("locate_clip");
     m_locateAction->setEnabled(false);
     connect(m_locateAction, &QAction::triggered, this, &Bin::slotLocateClip);
 
-    m_reloadAction = addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), QIcon::fromTheme(QStringLiteral("view-refresh")));
+    m_reloadAction = addBinAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), QIcon::fromTheme(QStringLiteral("view-refresh")));
     m_reloadAction->setData("reload_clip");
     m_reloadAction->setEnabled(false);
     connect(m_reloadAction, &QAction::triggered, this, &Bin::slotReloadClip);
 
     m_transcodeAction =
-        addAction(QStringLiteral("friendly_transcoder"), i18n("Transcode to Edit Friendly Format…"), QIcon::fromTheme(QStringLiteral("edit-copy")));
+        addBinAction(QStringLiteral("friendly_transcoder"), i18n("Transcode to Edit Friendly Format…"), QIcon::fromTheme(QStringLiteral("edit-copy")));
     m_transcodeAction->setData("transcode_clip");
     m_transcodeAction->setEnabled(false);
     connect(m_transcodeAction, &QAction::triggered, this, &Bin::requestSelectionTranscoding);
 
-    m_replaceAction = addAction(QStringLiteral("replace_clip"), i18n("Replace Clip…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
+    m_replaceAction = addBinAction(QStringLiteral("replace_clip"), i18n("Replace Clip…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
     m_replaceAction->setData("replace_clip");
     m_replaceAction->setEnabled(false);
     connect(m_replaceAction, &QAction::triggered, this, &Bin::slotReplaceClip);
 
     m_replaceInTimelineAction =
-        addAction(QStringLiteral("replace_in_timeline"), i18n("Replace Clip In Timeline…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
+        addBinAction(QStringLiteral("replace_in_timeline"), i18n("Replace Clip In Timeline…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
     m_replaceInTimelineAction->setData("replace_timeline_clip");
     m_replaceInTimelineAction->setEnabled(false);
     connect(m_replaceInTimelineAction, &QAction::triggered, this, &Bin::slotReplaceClipInTimeline);
 
-    m_duplicateAction = addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_duplicateAction = addBinAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), QIcon::fromTheme(QStringLiteral("edit-copy")));
     m_duplicateAction->setData("duplicate_clip");
     m_duplicateAction->setEnabled(false);
     connect(m_duplicateAction, &QAction::triggered, this, &Bin::slotDuplicateClip);
@@ -3715,12 +3719,12 @@ void Bin::setupMenu()
     m_proxyAction->setChecked(false);
     m_proxyAction->setEnabled(false);
 
-    m_editAction = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
+    m_editAction = addBinAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
     m_editAction->setData("clip_properties");
     m_editAction->setEnabled(false);
     connect(m_editAction, &QAction::triggered, this, static_cast<void (Bin::*)()>(&Bin::slotSwitchClipProperties));
 
-    m_openAction = addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), QIcon::fromTheme(QStringLiteral("document-open")));
+    m_openAction = addBinAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), QIcon::fromTheme(QStringLiteral("document-open")));
     m_openAction->setData("edit_clip");
     m_openAction->setEnabled(false);
     connect(m_openAction, &QAction::triggered, this, &Bin::slotOpenClipExtern);
@@ -3732,22 +3736,22 @@ void Bin::setupMenu()
         m_renameAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     }
 
-    m_deleteAction = addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), QIcon::fromTheme(QStringLiteral("edit-delete")));
+    m_deleteAction = addBinAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), QIcon::fromTheme(QStringLiteral("edit-delete")));
     m_deleteAction->setData("delete_clip");
     m_deleteAction->setEnabled(false);
     connect(m_deleteAction, &QAction::triggered, this, &Bin::slotDeleteClip);
 
     m_sequencesFolderAction =
-        addAction(QStringLiteral("sequence_folder"), i18n("Default Target Folder for Sequences"), QIcon::fromTheme(QStringLiteral("favorite")));
+        addBinAction(QStringLiteral("sequence_folder"), i18n("Default Target Folder for Sequences"), QIcon::fromTheme(QStringLiteral("favorite")));
     m_sequencesFolderAction->setCheckable(true);
     connect(m_sequencesFolderAction, &QAction::triggered, this, &Bin::setDefaultSequenceFolder);
 
     m_audioCapturesFolderAction =
-        addAction(QStringLiteral("audioCapture_folder"), i18n("Default Target Folder for Audio Captures"), QIcon::fromTheme(QStringLiteral("favorite")));
+        addBinAction(QStringLiteral("audioCapture_folder"), i18n("Default Target Folder for Audio Captures"), QIcon::fromTheme(QStringLiteral("favorite")));
     m_audioCapturesFolderAction->setCheckable(true);
     connect(m_audioCapturesFolderAction, &QAction::triggered, this, &Bin::setDefaultAudioCaptureFolder);
 
-    m_createFolderAction = addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
+    m_createFolderAction = addBinAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
     m_createFolderAction->setWhatsThis(
         xi18nc("@info:whatsthis",
                "Creates a folder in the current position in the project bin. Allows for better organization of source files. Folders can be nested."));
@@ -4699,149 +4703,6 @@ void Bin::slotOpenClipExtern()
         KMessageBox::detailedError(QApplication::activeWindow(), i18n("Cannot open file %1", clip->url()), errorString);
     }
 }
-
-/*
-void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, const stringMap &results, const stringMap &filterInfo)
-{
-    if (filterInfo.contains(QStringLiteral("finalfilter"))) {
-        if (filterInfo.contains(QStringLiteral("storedata"))) {
-            // Store returned data as clip extra data
-            std::shared_ptr<ProjectClip> clip = getBinClip(id);
-            if (clip) {
-                QString key = filterInfo.value(QStringLiteral("key"));
-                QStringList newValue = clip->updatedAnalysisData(key, results.value(key), filterInfo.value(QStringLiteral("offset")).toInt());
-                slotAddClipExtraData(id, newValue.at(0), newValue.at(1));
-            }
-        }
-        if (startPos == -1) {
-            // Processing bin clip
-            std::shared_ptr<ProjectClip> currentItem = m_itemModel->getClipByBinID(id);
-            if (!currentItem) {
-                return;
-            }
-            std::shared_ptr<ClipController> ctl = std::static_pointer_cast<ClipController>(currentItem);
-            EffectsList list = ctl->effectList();
-            QDomElement effect = list.effectById(filterInfo.value(QStringLiteral("finalfilter")));
-            QDomDocument doc;
-            QDomElement e = doc.createElement(QStringLiteral("test"));
-            doc.appendChild(e);
-            e.appendChild(doc.importNode(effect, true));
-            if (!effect.isNull()) {
-                QDomElement newEffect = effect.cloneNode().toElement();
-                QMap<QString, QString>::const_iterator i = results.constBegin();
-                while (i != results.constEnd()) {
-                    EffectsList::setParameter(newEffect, i.key(), i.value());
-                    ++i;
-                }
-                ctl->updateEffect(newEffect, effect.attribute(QStringLiteral("kdenlive_ix")).toInt());
-                Q_EMIT requestClipShow(currentItem);
-                // TODO use undo / redo for bin clip edit effect
-                //
-                EditEffectCommand *command = new EditEffectCommand(this, clip->track(), clip->startPos(), effect, newEffect, clip->selectedEffectIndex(),
-                true, true);
-                m_commandStack->push(command);
-                Q_EMIT clipItemSelected(clip);
-            }
-
-            // Q_EMIT gotFilterJobResults(id, startPos, track, results, filterInfo);
-            return;
-        }
-        // This is a timeline filter, forward results
-        Q_EMIT gotFilterJobResults(id, startPos, track, results, filterInfo);
-        return;
-    }
-    // Currently, only the first value of results is used
-    std::shared_ptr<ProjectClip> clip = getBinClip(id);
-    if (!clip) {
-        return;
-    }
-    // Check for return value
-    int markersType = -1;
-    if (filterInfo.contains(QStringLiteral("addmarkers"))) {
-        markersType = filterInfo.value(QStringLiteral("addmarkers")).toInt();
-    }
-    if (results.isEmpty()) {
-        Q_EMIT displayBinMessage(i18n("No data returned from clip analysis"), KMessageWidget::Warning);
-        return;
-    }
-    bool dataProcessed = false;
-    QString label = filterInfo.value(QStringLiteral("label"));
-    QString key = filterInfo.value(QStringLiteral("key"));
-    int offset = filterInfo.value(QStringLiteral("offset")).toInt();
-    QStringList value = results.value(key).split(QLatin1Char(';'), Qt::SkipEmptyParts);
-    // qCDebug(KDENLIVE_LOG)<<"// RESULT; "<<key<<" = "<<value;
-    if (filterInfo.contains(QStringLiteral("resultmessage"))) {
-        QString mess = filterInfo.value(QStringLiteral("resultmessage"));
-        mess.replace(QLatin1String("%count"), QString::number(value.count()));
-        Q_EMIT displayBinMessage(mess, KMessageWidget::Information);
-    } else {
-        Q_EMIT displayBinMessage(i18n("Processing data analysis"), KMessageWidget::Information);
-    }
-    if (filterInfo.contains(QStringLiteral("cutscenes"))) {
-        // Check if we want to cut scenes from returned data
-        dataProcessed = true;
-        int cutPos = 0;
-        auto *command = new QUndoCommand();
-        command->setText(i18n("Auto Split Clip"));
-        for (const QString &pos : value) {
-            if (!pos.contains(QLatin1Char('='))) {
-                continue;
-            }
-            int newPos = pos.section(QLatin1Char('='), 0, 0).toInt();
-            // Don't use scenes shorter than 1 second
-            if (newPos - cutPos < 24) {
-                continue;
-            }
-            new AddBinClipCutCommand(this, id, cutPos + offset, newPos + offset, true, command);
-            cutPos = newPos;
-        }
-        if (command->childCount() == 0) {
-            delete command;
-        } else {
-            m_doc->commandStack()->push(command);
-        }
-    }
-    if (markersType >= 0) {
-        // Add markers from returned data
-        dataProcessed = true;
-        int cutPos = 0;
-        int index = 1;
-        bool simpleList = false;
-        double sourceFps = clip->getOriginalFps();
-        if (qFuzzyIsNull(sourceFps)) {
-            sourceFps = pCore->getCurrentFps();
-        }
-        if (filterInfo.contains(QStringLiteral("simplelist"))) {
-            // simple list
-            simpleList = true;
-        }
-        for (const QString &pos : value) {
-            if (simpleList) {
-                clip->getMarkerModel()->addMarker(GenTime((int)(pos.toInt() * pCore->getCurrentFps() / sourceFps), pCore->getCurrentFps()), label + pos,
-                                                  markersType);
-                index++;
-                continue;
-            }
-            if (!pos.contains(QLatin1Char('='))) {
-                continue;
-            }
-            int newPos = pos.section(QLatin1Char('='), 0, 0).toInt();
-            // Don't use scenes shorter than 1 second
-            if (newPos - cutPos < 24) {
-                continue;
-            }
-            clip->getMarkerModel()->addMarker(GenTime(newPos + offset, pCore->getCurrentFps()), label + QString::number(index), markersType);
-            index++;
-            cutPos = newPos;
-        }
-    }
-    if (!dataProcessed || filterInfo.contains(QStringLiteral("storedata"))) {
-        // Store returned data as clip extra data
-        QStringList newValue = clip->updatedAnalysisData(key, results.value(key), offset);
-        slotAddClipExtraData(id, newValue.at(0), newValue.at(1));
-    }
-}
-*/
 
 // TODO: move title editing into a better place...
 void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
@@ -6365,10 +6226,17 @@ void Bin::applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetI
 void Bin::removeEffectFromGroup(int bid, const QString &assetId, int eid)
 {
     QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    if (clips.isEmpty()) {
+        auto clp = m_itemModel->getClipByBinID(QString::number(bid));
+        if (clp) {
+            clips << clp;
+        }
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     QString effectName;
     int assetRow = -1;
+    bool foundEffect = false;
     for (auto &c : clips) {
         if (c->binId().toInt() == bid) {
             assetRow = c->getEffectStack()->effectRow(assetId, eid);
@@ -6377,9 +6245,12 @@ void Bin::removeEffectFromGroup(int bid, const QString &assetId, int eid)
         }
         if (assetRow > -1) {
             c->getEffectStack()->removeEffectWithUndo(assetId, effectName, assetRow, undo, redo);
+            foundEffect = true;
         }
     }
-    pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+    if (foundEffect) {
+        pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+    }
 }
 
 void Bin::disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo)

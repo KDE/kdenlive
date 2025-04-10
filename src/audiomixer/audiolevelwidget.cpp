@@ -20,7 +20,6 @@ AudioLevelWidget::AudioLevelWidget(int width, int sliderHandle, QWidget *parent)
     : QWidget(parent)
     , audioChannels(pCore->audioChannels())
     , m_width(width)
-    , m_offset(fontMetrics().boundingRect(QStringLiteral("-45")).width() + 4)
     , m_channelWidth(width / 2)
     , m_channelDistance(2)
     , m_channelFillWidth(m_channelWidth)
@@ -31,6 +30,7 @@ AudioLevelWidget::AudioLevelWidget(int width, int sliderHandle, QWidget *parent)
     QFont ft(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     ft.setPointSizeF(ft.pointSize() * 0.8);
     setFont(ft);
+    m_offset = fontMetrics().boundingRect(QStringLiteral("-45")).width() + 4;
     setMinimumWidth(4);
 }
 

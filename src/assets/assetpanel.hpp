@@ -50,8 +50,6 @@ public:
     /** @brief Clear the panel so that it doesn't display anything */
     void clear();
 
-    /** @brief This method should be called when the style changes */
-    void updatePalette();
     /** @brief Returns the object type / id of effectstack owner */
     ObjectId effectStackOwner();
     /** @brief Add an effect to the current stack owner */
@@ -78,8 +76,6 @@ public Q_SLOTS:
     void updateAssetPosition(int itemId, const QUuid uuid);
 
 protected:
-    /** @brief Return the stylesheet used to display the panel (based on current palette). */
-    static const QString getStyleSheet();
     QVBoxLayout *m_lay;
     KSqueezedTextLabel *m_assetTitle;
     QWidget *m_container;

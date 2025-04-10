@@ -6,7 +6,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQml.Models 2.15
-import com.enums 1.0
+
+import org.kde.kdenlive as Kdenlive
 
 Row {
     id: thumbRow
@@ -14,10 +15,10 @@ Row {
     visible: !isAudio
     clip: true
     property real initialSpeed: 1
-    opacity: clipState === ClipState.Disabled ? 0.2 : 1
-    property bool fixedThumbs: clipRoot.itemType === ProducerType.Image || clipRoot.itemType === ProducerType.Text || clipRoot.itemType === ProducerType.TextTemplate
+    opacity: clipState === Kdenlive.PlaylistState.Disabled ? 0.2 : 1
+    property bool fixedThumbs: clipRoot.itemType === Kdenlive.ClipType.Image || clipRoot.itemType === Kdenlive.ClipType.Text || clipRoot.itemType === Kdenlive.ClipType.TextTemplate
     property int thumbWidth: container.height * root.dar
-    property bool enableCache: clipRoot.itemType === ProducerType.Video || clipRoot.itemType === ProducerType.AV
+    property bool enableCache: clipRoot.itemType === Kdenlive.ClipType.Video || clipRoot.itemType === Kdenlive.ClipType.AV
 
     Repeater {
         id: thumbRepeater

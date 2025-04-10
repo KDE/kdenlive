@@ -325,6 +325,7 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("blipflash")) {
         // Mostly used for testing
         m_clipType = ClipType::AV;
+        audioIndex = 0;
     } else if (m_service == QLatin1String("glaxnimate")) {
         // Mostly used for testing
         m_clipType = ClipType::Animation;
@@ -1152,10 +1153,23 @@ const QString ClipController::getOriginalUrl()
     return path;
 }
 
+bool ClipController::supportsProxy() const
+{
+    switch (clipType()) {
+    case ClipType::Video:
+    case ClipType::AV:
+    case ClipType::Image:
+    case ClipType::Playlist:
+    case ClipType::SlideShow:
+        return true;
+    default:
+        return false;
+    }
+}
+
 bool ClipController::hasProxy() const
 {
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    // qDebug()<<"::: PROXY: "<<proxy<<" = "<<getProducerProperty(QStringLiteral("resource"));
     return proxy.size() > 2 && proxy == getProducerProperty(QStringLiteral("resource"));
 }
 

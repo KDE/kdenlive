@@ -6,6 +6,7 @@
 import QtQuick.Controls 2.15
 import QtQuick 2.15
 
+import org.kde.kdenlive as Kdenlive
 
 MouseArea {
     id: barZone
@@ -49,7 +50,7 @@ MouseArea {
 
         Column {
             width: parent.width
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 id: fullscreenButton
                 objectName: "fullScreen"
                 iconName: "view-fullscreen"
@@ -59,7 +60,7 @@ MouseArea {
                     controller.triggerAction('monitor_fullscreen')
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 iconName: "zoom-in"
                 toolTipText: i18n("Zoom in")
                 onClicked: {
@@ -67,7 +68,7 @@ MouseArea {
                     controller.triggerAction('monitor_zoomin')
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 iconName: "zoom-out"
                 toolTipText: i18n("Zoom out")
                 onClicked: {
@@ -75,7 +76,7 @@ MouseArea {
                     controller.triggerAction('monitor_zoomout')
                 }
             }
-            MonitorToolButton {
+            Kdenlive.MonitorToolButton {
                 objectName: "moveBar"
                 iconName: "transform-move-horizontal"
                 toolTipText: i18n("Move Toolbar")

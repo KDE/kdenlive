@@ -73,6 +73,7 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMEnableSanitizers)
 include(ECMAddQch)
 include(ECMDeprecationSettings)
+include(ECMQmlModule)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
 # MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
 if(NOT MSVC)
@@ -87,6 +88,7 @@ endif()
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}
     REQUIRED COMPONENTS
+    I18n
     Archive
     Bookmarks
     Codecs
@@ -128,6 +130,8 @@ find_package(Qt${QT_MAJOR_VERSION}
     Multimedia
     NetworkAuth
     SvgWidgets
+    Xml
+#    Test
 )
 
 if(USE_DBUS)
@@ -169,7 +173,7 @@ else()
     set_package_properties(OpenTimelineIO PROPERTIES
         DESCRIPTION "API and interchange format for editorial timeline information"
         URL "http://opentimeline.io/"
-        PURPOSE "Required for OpenTimielineIO import and export")
+        PURPOSE "Required for OpenTimelineIO import and export")
 endif()
 
 # Windows

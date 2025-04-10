@@ -95,7 +95,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
     }
     if (!voskModelFolder.isEmpty()) {
-        modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
+        modelV_folder_label->setLink(voskModelFolder);
         modelV_folder_label->setVisible(true);
 #if defined(Q_OS_WIN)
         // KIO::directorySize doesn't work on Windows
@@ -115,11 +115,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     } else {
         modelV_folder_label->setVisible(false);
     }
-    connect(modelV_folder_label, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    connect(whisper_folder_label, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    connect(seamless_folder_label, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    connect(sam_folder_label, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    connect(sam_venv_label, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
     QButtonGroup *speechEngineSelection = new QButtonGroup(this);
     speechEngineSelection->addButton(engine_vosk);
     speechEngineSelection->addButton(engine_whisper);
@@ -438,7 +433,7 @@ void PluginsSettings::checkSamEnvironement(bool afterInstall)
         m_samInterface->checkDependencies(false);
         QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
         if (pluginDir.cd(m_samInterface->getVenvPath())) {
-            sam_venv_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(pluginDir.absolutePath(), i18n("Plugin size")));
+            sam_venv_label->setLink(pluginDir.absolutePath());
         }
         if (combo_sam_device->count() == 0) {
             m_samInterface->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
@@ -657,7 +652,7 @@ void PluginsSettings::checkSamFolderSize()
         sam_folder_label->setVisible(false);
     } else {
         const QString path = modelsFolder.absolutePath();
-        sam_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(path, QStringLiteral("Models folder")));
+        sam_folder_label->setLink(path);
         sam_folder_label->setVisible(true);
 #if defined(Q_OS_WIN)
         // KIO::directorySize doesn't work on Windows
@@ -686,7 +681,7 @@ void PluginsSettings::checkWhisperFolderSize()
         downloadButton->setText(i18n("Install a model"));
     } else {
         const QString path = modelsFolder.absolutePath();
-        whisper_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(path, QStringLiteral("Whisper")));
+        whisper_folder_label->setLink(path);
         whisper_folder_label->setVisible(true);
 #if defined(Q_OS_WIN)
         // KIO::directorySize doesn't work on Windows
@@ -719,7 +714,7 @@ void PluginsSettings::checkWhisperFolderSize()
     if (folder2.isEmpty() || !seamlessFolder.exists()) {
         seamless_folder_label->setVisible(false);
     } else {
-        seamless_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(seamlessFolder.absolutePath(), QStringLiteral("Seamless")));
+        seamless_folder_label->setLink(seamlessFolder.absolutePath());
         seamless_folder_label->setVisible(true);
 #if defined(Q_OS_WIN)
         // KIO::directorySize doesn't work on Windows
@@ -895,7 +890,7 @@ void PluginsSettings::slotParseVoskDictionaries()
         doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
     }
     if (!voskModelFolder.isEmpty()) {
-        modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
+        modelV_folder_label->setLink(voskModelFolder);
         modelV_folder_label->setVisible(true);
 #if defined(Q_OS_WIN)
         // KIO::directorySize doesn't work on Windows

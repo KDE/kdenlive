@@ -304,6 +304,7 @@ public Q_SLOTS:
     @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
     void loadSubClips(const QString &id, const QString &clipData, bool logUndo);
     void loadSubSequences(const QString &id, const sequenceMap &dataMap);
+    bool requestBinClipDeletionById(const QString &id);
 
 private Q_SLOTS:
     /** @brief Check how many invalid clips we have. */

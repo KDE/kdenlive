@@ -425,7 +425,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             }
             return;
         }
-        // qDebug()<<"=== MOVING MOUSE: "<<pos<<" = "<<m_currentKeyframe<<", MOVE KFMODE: "<<m_moveKeyframeMode;
         if ((m_currentKeyframe.second == pos + m_inFrame && m_moveKeyframeMode == TopMove) ||
             (m_currentKeyframe.first == pos + m_inFrame && m_moveKeyframeMode == BottomMove)) {
             return;
@@ -453,7 +452,6 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                         if (i.key() < m_currentKeyframe.first) {
                             continue;
                         }
-                        // qDebug()<<"=== MOVING KFR: "<<i.key()<<" > "<<(i.key() + delta);
                         // m_keyframes.insert(i.key() + delta, i.value());
                         updated.insert(i.key() + delta, i.value());
                         m_keyframes.remove(i.key());
@@ -1453,7 +1451,6 @@ void RemapView::paintEvent(QPaintEvent *event)
      */
     p.setPen(m_colKeyframe);
     // Top timeline
-    // qDebug()<<"=== MAX KFR WIDTH: "<<maxWidth<<", DURATION SCALED: "<<(m_duration * m_scale)<<", POS: "<<(m_position * m_scale);
     int maxPos = maxWidth + m_offset - 1;
     p.drawLine(m_offset, m_lineHeight, maxPos, m_lineHeight);
     p.drawLine(m_offset, m_lineHeight - m_lineHeight / 4, m_offset, m_lineHeight + m_lineHeight / 4);

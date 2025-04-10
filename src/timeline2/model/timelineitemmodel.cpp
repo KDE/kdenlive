@@ -200,7 +200,6 @@ QModelIndex TimelineItemModel::makeTrackIndexFromID(int trackId) const
 QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
 {
     READ_LOCK();
-    // qDebug() << "TimelineItemModel::parent"<< index;
     if (index == QModelIndex()) {
         return index;
     }
@@ -306,7 +305,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
 {
     READ_LOCK();
     if (!m_tractor || !index.isValid()) {
-        // qDebug() << "DATA abort. Index validity="<<index.isValid();
         return QVariant();
     }
     const int id = int(index.internalId());
@@ -320,7 +318,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     if (isClip(id)) {
-        // qDebug() << "REQUESTING DATA "<<roleNames()[role]<<index;
         std::shared_ptr<ClipModel> clip = m_allClips.at(id);
         // Get data for a clip
         switch (role) {
@@ -426,7 +423,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             break;
         }
     } else if (isTrack(id)) {
-        // qDebug() << "DATA REQUESTED FOR TRACK "<< id;
         switch (role) {
         case NameRole:
         case Qt::DisplayRole: {
@@ -435,10 +431,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case TypeRole:
             return QVariant::fromValue(ClipType::ProducerType::Track);
         case DurationRole:
-            // qDebug() << "DATA yielding duration" << m_tractor->get_playtime();
             return getTrackById_const(id)->trackDuration();
         case IsDisabledRole:
-            // qDebug() << "DATA yielding mute" << 0;
             return getTrackById_const(id)->isAudioTrack() ? getTrackById_const(id)->isMute() : getTrackById_const(id)->isHidden();
         case IsAudioRole:
             return getTrackById_const(id)->isAudioTrack();
@@ -452,7 +446,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
                 return collapsed;
             }
             int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
-            // qDebug() << "DATA yielding height" << height;
             return (height > 0 ? height : KdenliveSettings::trackheight());
         }
         case ThumbsFormatRole:
@@ -634,31 +627,16 @@ QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name) const
     return getTrackById_const(tid)->getProperty(name);
 }
 
-int TimelineItemModel::getFirstVideoTrackIndex() const
+QList<int> TimelineItemModel::getActiveAudioTrackIndexes() const
 {
-    int trackId = -1;
-    auto it = m_allTracks.cbegin();
-    while (it != m_allTracks.cend()) {
-        trackId = (*it)->getId();
-        if (!(*it)->isAudioTrack()) {
-            break;
+    QList<int> trackIds;
+    std::list<std::shared_ptr<TrackModel>>::const_reverse_iterator it;
+    for (it = m_allTracks.rbegin(); it != m_allTracks.rend(); it++) {
+        if ((*it)->isAudioTrack() && (*it)->shouldReceiveTimelineOp()) {
+            trackIds << (*it)->getId();
         }
-        ++it;
     }
-    return trackId;
-}
-
-int TimelineItemModel::getFirstAudioTrackIndex() const
-{
-    int trackId = -1;
-    auto it = m_allTracks.cbegin();
-    while (it != m_allTracks.cend()) {
-        if ((*it)->isAudioTrack()) {
-            trackId = (*it)->getId();
-        }
-        ++it;
-    }
-    return trackId;
+    return trackIds;
 }
 
 std::shared_ptr<SubtitleModel> TimelineItemModel::createSubtitleModel()
@@ -870,22 +848,18 @@ void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelInd
 
 void TimelineItemModel::_beginRemoveRows(const QModelIndex &i, int j, int k)
 {
-    // qDebug()<<"FORWARDING beginRemoveRows"<<i<<j<<k;
     beginRemoveRows(i, j, k);
 }
 void TimelineItemModel::_beginInsertRows(const QModelIndex &i, int j, int k)
 {
-    // qDebug()<<"FORWARDING beginInsertRows"<<i<<j<<k;
     beginInsertRows(i, j, k);
 }
 void TimelineItemModel::_endRemoveRows()
 {
-    // qDebug()<<"FORWARDING endRemoveRows";
     endRemoveRows();
 }
 void TimelineItemModel::_endInsertRows()
 {
-    // qDebug()<<"FORWARDING endinsertRows";
     endInsertRows();
 }
 

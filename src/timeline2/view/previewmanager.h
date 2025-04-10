@@ -145,6 +145,7 @@ public Q_SLOTS:
 protected:
     QVariantList m_renderedChunks;
     QVariantList m_dirtyChunks;
+    QList<int> m_dirtyChunksToRemove;
     mutable QMutex m_dirtyMutex;
     /** @brief: Re-enable timeline preview track. */
     void enable();

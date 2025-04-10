@@ -10,17 +10,17 @@
 import QtQuick 2.15
 import QtQml.Models 2.15
 import QtQuick.Controls 2.15
-import Kdenlive.Controls 1.0
-import 'Timeline.js' as Logic
-import com.enums 1.0
-import org.kde.kdenlive 1.0 as Kdenlive
+
+import org.kde.kdenlive as K
+import 'TimelineLogic.js' as Logic
+
 
 Rectangle {
     id: root
     objectName: "timelineview"
     SystemPalette { id: activePalette }
     color: activePalette.window
-    property bool debugmode: false
+    property bool debugmode: K.KdenliveSettings.uiDebugMode
     property bool validMenu: false
     property bool subtitleMoving: false
     property var subtitleItem
@@ -188,13 +188,13 @@ Rectangle {
                 root.wheelAccumulatedDelta = 0;
             }
         } else if (wheel.modifiers & Qt.ShiftModifier) {
-            if (scrollVertically || rubberSelect.visible) {
+            if (K.KdenliveSettings.scrollvertically || rubberSelect.visible) {
                 horizontalScroll(wheel)
             } else {
                 verticalScroll(wheel)
             }
         } else {
-            if (scrollVertically) {
+            if (K.KdenliveSettings.scrollvertically) {
                 verticalScroll(wheel)
             } else {
                 horizontalScroll(wheel)
@@ -392,7 +392,7 @@ Rectangle {
             tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), false)
         }
 
-        if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y)) && root.activeTool !== ProjectTool.SpacerTool) {
+        if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y)) && root.activeTool !== K.ToolType.SpacerTool) {
             dragProxy.draggedItem = tentativeClip.clipId
             var tk = controller.getItemTrackId(tentativeClip.clipId)
             dragProxy.x = tentativeClip.x
@@ -428,7 +428,7 @@ Rectangle {
     function animateLockButton(trackId){
         // TODO: fix then multiple subtitles track is implemented
         if (trackId == -2) {
-            flashLock.restart()
+            subtitleTrackHeader.animateLock()
         } else {
             Logic.getTrackHeaderById(trackId).animateLock()
         }
@@ -466,7 +466,7 @@ Rectangle {
         }
     }
 
-    property int activeTool: ProjectTool.SelectTool
+    property int activeTool: K.ToolType.SelectTool
     property int baseUnit: Math.max(12, fontMetrics.font.pixelSize)
     property int minClipWidthForViews: 1.5 * baseUnit
     property real fontUnit: fontMetrics.font.pointSize
@@ -487,8 +487,6 @@ Rectangle {
     property color lockedColor: timeline.lockedColor
     property color selectionColor: timeline.selectionColor
     property color groupColor: timeline.groupColor
-    property color thumbColor1: timeline.thumbColor1
-    property color thumbColor2: timeline.thumbColor2
     property int doubleClickInterval: timeline.doubleClickInterval()
     property int mainItemId: -1
     property int clickFrame: -1
@@ -505,7 +503,7 @@ Rectangle {
     property int spacerClickFrame: -1
     property bool spacerGuides: false
     property real timeScale: timeline.scaleFactor
-    property int snapping: (timeline.snap && (root.timeScale < 2 * baseUnit)) ? Math.floor(baseUnit / (root.timeScale > 3 ? root.timeScale / 2 : root.timeScale)) : -1
+    property int snapping: (K.KdenliveSettings.snaptopoints && (root.timeScale < 2 * baseUnit)) ? Math.floor(baseUnit / (root.timeScale > 3 ? root.timeScale / 2 : root.timeScale)) : -1
     property var timelineSelection: timeline.selection
     property int selectedMix: timeline.selectedMix
     property var selectedGuides: []
@@ -529,7 +527,6 @@ Rectangle {
     property bool subtitlesDisabled: timeline.subtitlesDisabled
     property int maxSubLayer: timeline.maxSubLayer
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
-    property bool scrollVertically: timeline.scrollVertically
     property int spacerMinPos: 0
     property int spacerMaxPos: -1
 
@@ -610,10 +607,10 @@ Rectangle {
     }
 
     onActiveToolChanged: {
-        if (root.activeTool === ProjectTool.SpacerTool) {
+        if (root.activeTool === K.ToolType.SpacerTool) {
             // Spacer activated
             endDrag()
-        } else if (root.activeTool === ProjectTool.SelectTool) {
+        } else if (root.activeTool === K.ToolType.SelectTool) {
             var tk = getMouseTrack()
             if (tk < 0) {
                 return
@@ -644,7 +641,7 @@ Rectangle {
         property int sameCutPos: -1
         property int fakeFrame: -1
         property int fakeTrack: -1
-        keys: 'kdenlive/composition'
+        keys: ['kdenlive/composition']
         function moveDrop(offset, voffset)
         {
             if (clipBeingDroppedId >= 0) {
@@ -778,7 +775,7 @@ Rectangle {
         height: root.height - ruler.height
         y: ruler.height
         x: headerWidth
-        keys: 'text/producerslist'
+        keys: ['text/producerslist']
         enabled: !compoArea.containsDrag
         function moveDrop(offset, voffset)
         {
@@ -879,6 +876,7 @@ Rectangle {
             }
         }
         onExited: {
+            timeline.keepAudioTargets(false)
             if (clipBeingDroppedId != -1 && (lastDragPos.y < lastDragPos.x || (clipDropArea.height - lastDragPos.y < lastDragPos.x))) {
                 // If we exit on top or bottom, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
@@ -928,6 +926,7 @@ Rectangle {
         }
         onDropped: {
             processDrop()
+            timeline.keepAudioTargets(false)
         }
     }
     DropArea { //Drop area for urls (direct drop from file manager)
@@ -939,7 +938,7 @@ Rectangle {
         height: root.height - ruler.height
         y: ruler.height
         x: headerWidth
-        keys: 'text/uri-list'
+        keys: ['text/uri-list']
         onEntered: drag => {
             drag.accepted = true
             droppedUrls.length = 0
@@ -1011,25 +1010,26 @@ Rectangle {
                         timeline.showMasterEffects()
                     }
                     DropArea { //Drop area for tracks
+                        id: trackEffectDrop
                         anchors.fill: parent
-                        keys: 'kdenlive/effect'
+                        keys: ['kdenlive/effect']
                         property string dropData
                         property string dropSource
                         onEntered: drag => {
                             dropData = drag.getDataAsString('kdenlive/effect')
                             dropSource = drag.getDataAsString('kdenlive/effectsource')
-                            drag.acceptProposedAction
+                            drag.acceptProposedAction()
                         }
                         onDropped: drag => {
-                            console.log("Add effect: ", dropData)
+                            console.log("Add effect: ", trackEffectDrop.dropData)
                             if (dropSource == '') {
                                 // drop from effects list
-                                controller.addTrackEffect(-1, dropData);
+                                controller.addTrackEffect(-1, trackEffectDrop.dropData);
                             } else {
-                                controller.copyTrackEffect(-1, dropSource);
+                                controller.copyTrackEffect(-1, trackEffectDrop.dropSource);
                             }
                             dropSource = ''
-                            drag.acceptProposedAction
+                            drag.acceptProposedAction()
                         }
                     }
                 }
@@ -1049,209 +1049,19 @@ Rectangle {
                     height: trackHeaders.height + subtitleTrackHeader.height
                     acceptedButtons: Qt.NoButton
                     onWheel: wheel => {
-                        verticalScroll(wheel)
+                        root.verticalScroll(wheel)
                         wheel.accepted = true
                     }
                 }
-                Rectangle {
+                K.SubtitleTrackHead {
                     id: subtitleTrackHeader
                     width: trackHeaders.width
                     height: subtitleTrack.height
-                    border.color: frameColor
-                    border.width: 1
-                    property bool collapsed: subtitleTrack.height == root.collapsedHeight
-                    visible: height > 0
-                    color: (controller && controller.isSubtitleTrack(timeline.activeTrack)) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            timeline.activeTrack = -2
-                        }
-                    }
-                    ToolButton {
-                        id: expandSubButton
-                        focusPolicy: Qt.NoFocus
-                        property var modifier: 0
-                        anchors.left: parent.left
-                        anchors.leftMargin: 1.5 * root.baseUnit
-                        width: root.collapsedHeight
-                        height: root.collapsedHeight
-                        contentItem: Item {
-                            Image {
-                                source: subtitleTrackHeader.collapsed ? "image://icon/go-next" : "image://icon/go-down"
-                                anchors.centerIn: parent
-                                width: root.collapsedHeight - 4
-                                height: root.collapsedHeight - 4
-                                cache: root.paletteUnchanged
-                            }
-                        }
-                        onClicked: {
-                            if (subtitleTrack.height > root.collapsedHeight) {
-                                subtitleTrack.height = root.collapsedHeight
-                            } else {
-                                subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
-                            }
-                        }
-                    }
-                    ComboBox {
-                        id: subLabel
-                        model: timeline.subtitlesList
-                        property int subIndex: timeline.activeSubPosition
-                        onSubIndexChanged: {
-                            subLabel.currentIndex = subIndex
-                        }
-                        anchors.right: parent.right
-                        anchors.top: expandSubButton.bottom
-                        anchors.left: subtitleLayerIndicator.right
-                        visible: (subtitleTrack.visible && subtitleTrack.height != root.collapsedHeight)
-                        flat: true
-                        onActivated: index => {
-                            timeline.subtitlesMenuActivatedAsync(index)
-                        }
-                    }
 
-                    Row {
-                        id: subButtonsRow
-                        width: childrenRect.width
-                        x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
-                        spacing: 0
-                        ToolButton {
-                            id: warningButton
-                            visible: subtitlesWarning
-                            focusPolicy: Qt.NoFocus
-                            contentItem: Item {
-                                Image {
-                                    source: "image://icon/data-warning"
-                                    anchors.centerIn: parent
-                                    width: root.collapsedHeight - 4
-                                    height: root.collapsedHeight - 4
-                                    cache: root.paletteUnchanged
-                                }
-                            }
-                            width: root.collapsedHeight
-                            height: root.collapsedHeight
-                            onClicked: timeline.subtitlesWarningDetails()
-                            ToolTip {
-                                visible: warningButton.hovered
-                                font: miniFont
-                                delay: 1500
-                                timeout: 5000
-                                background: Rectangle {
-                                    color: activePalette.alternateBase
-                                    border.color: activePalette.light
-                                }
-                                contentItem: Label {
-                                    color: activePalette.text
-                                    text: i18n("Click to see details")
-                                }
-                            }
-                        }
-                        ToolButton {
-                            id: analyseButton
-                            focusPolicy: Qt.NoFocus
-                            contentItem: Item {
-                                Image {
-                                    source: "image://icon/text-speak"
-                                    anchors.centerIn: parent
-                                    width: root.collapsedHeight - 4
-                                    height: root.collapsedHeight - 4
-                                    cache: root.paletteUnchanged
-                                }
-                            }
-                            width: root.collapsedHeight
-                            height: root.collapsedHeight
-                            onClicked: timeline.triggerAction('audio_recognition')
-                            ToolTip.visible: hovered
-                            ToolTip.delay: 1500
-                            ToolTip.timeout: 5000
-                            ToolTip.text: i18n("Speech recognition")
-                        }
-                        ToolButton {
-                            id: muteButton
-                            focusPolicy: Qt.NoFocus
-                            contentItem: Item {
-                                Image {
-                                    source: root.subtitlesDisabled ? "image://icon/view-hidden" : "image://icon/view-visible"
-                                    anchors.centerIn: parent
-                                    width: root.collapsedHeight - 4
-                                    height: root.collapsedHeight - 4
-                                    cache: root.paletteUnchanged
-                                }
-                            }
-                            width: root.collapsedHeight
-                            height: root.collapsedHeight
-                            onClicked: timeline.triggerAction('disable_subtitle')
-                            ToolTip.visible: hovered
-                            ToolTip.delay: 1500
-                            ToolTip.timeout: 5000
-                            ToolTip.text: root.subtitlesDisabled? i18n("Show") : i18n("Hide")
-                        }
-
-                        ToolButton {
-                            id: lockButton
-                            width: root.collapsedHeight
-                            height: root.collapsedHeight
-                            focusPolicy: Qt.NoFocus
-                            contentItem: Rectangle {
-                                id: bgRect
-                                anchors.fill: parent
-                                color: "transparent"
-                                Image {
-                                    source: root.subtitlesLocked ? "image://icon/lock" : "image://icon/unlock"
-                                    anchors.centerIn: parent
-                                    width: root.collapsedHeight - 4
-                                    height: root.collapsedHeight - 4
-                                    cache: root.paletteUnchanged
-                                }
-                            }
-                            onClicked: timeline.triggerAction('lock_subtitle')
-                            ToolTip.visible: hovered
-                            ToolTip.delay: 1500
-                            ToolTip.timeout: 5000
-                            ToolTip.text: root.subtitlesLocked? i18n("Unlock track") : i18n("Lock track")
-                            SequentialAnimation {
-                                id: flashLock
-                                loops: 3
-                                ParallelAnimation {
-                                    ScaleAnimator {target: lockButton; from: 1; to: 1.2; duration: 120}
-                                    PropertyAnimation {target: bgRect;property: "color"; from: "transparent"; to: "darkred"; duration: 100}
-                                }
-                                ParallelAnimation {
-                                    ScaleAnimator {target: lockButton; from: 1.6; to: 1; duration: 120}
-                                    PropertyAnimation {target: bgRect;property: "color"; from: "darkred"; to: "transparent"; duration: 120}
-                                }
-                            }
-                        }
-                    }
-                    Column {
-                        id: subtitleLayerIndicator
-                        width: root.trackTagWidth
-                        height: parent.height
-                        anchors.left: expandSubButton.right
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        property color bgColor: Qt.darker(getTrackColor(false, true), 0.55)
-                        visible: maxSubLayer > 0
-
-                        Repeater {
-                            model: maxSubLayer + 1
-                            id: subLayerRepeater
-                            delegate: Rectangle {
-                                height: parent.height / subLayerRepeater.count
-                                width: parent.width
-                                color: subtitleLayerIndicator.bgColor
-                                visible: (subtitleTrack.visible && subtitleTrack.height != root.collapsedHeight)
-                                border.color: root.frameColor
-                                Text {
-                                    id: name
-                                    font: miniFont
-                                    text: "S" + index
-                                    color: activePalette.text
-                                    anchors.centerIn: parent
-                                }
-                            }
-                        }
-                    }
+                    isDisabled: root.subtitlesDisabled
+                    isLocked: root.subtitlesLocked
+                    collapsedHeight: root.collapsedHeight
+                    collapsed: subtitleTrack.height === subtitleTrackHeader.collapsedHeight
                 }
                 Column {
                     id: trackHeaders
@@ -1353,12 +1163,12 @@ Rectangle {
             acceptedButtons: Qt.AllButtons
             cursorShape: {
                 switch(root.activeTool) {
-                case ProjectTool.SelectTool:
-                case ProjectTool.RollTool:
+                case K.ToolType.SelectTool:
+                case K.ToolType.RollTool:
                     return Qt.ArrowCursor;
-                case ProjectTool.RazorTool:
+                case K.ToolType.RazorTool:
                     return Qt.IBeamCursor;
-                case ProjectTool.RippleTool:
+                case K.ToolType.RippleTool:
                     return Qt.SplitHCursor;
                 default:
                     return Qt.SizeHorCursor;
@@ -1367,7 +1177,7 @@ Rectangle {
             onWheel: wheel => {
                 if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
                     zoomByWheel(wheel)
-                } else if (root.activeTool !== ProjectTool.SlipTool) {
+                } else if (root.activeTool !== K.ToolType.SlipTool) {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
                     proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, timeline.fullDuration - 1)
                 }
@@ -1375,7 +1185,7 @@ Rectangle {
             onPressed: mouse => {
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
-                let selectLikeTool = root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                let selectLikeTool = root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
                 if (mouse.buttons === Qt.MiddleButton || (selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
@@ -1392,7 +1202,7 @@ Rectangle {
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
-                    if (root.activeTool === ProjectTool.RazorTool) {
+                    if (root.activeTool === K.ToolType.RazorTool) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
@@ -1401,7 +1211,7 @@ Rectangle {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, -2)
                         }
                     }
-                    if(root.activeTool === ProjectTool.SlipTool) {
+                    if(root.activeTool === K.ToolType.SlipTool) {
                         //slip tool
                         if (mouse.y > ruler.height) {
                             var tk = getMouseTrack()
@@ -1425,7 +1235,7 @@ Rectangle {
                             return
                         }
                     }
-                    if (root.activeTool === ProjectTool.SpacerTool && mouse.y > ruler.height) {
+                    if (root.activeTool === K.ToolType.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height + scrollView.contentY
                         var frame = (scrollView.contentX + mouse.x) / root.timeScale
@@ -1444,7 +1254,7 @@ Rectangle {
                             }
                         }
 
-                        if((mouse.modifiers & Qt.ShiftModifier) || !timeline.guidesLocked) {
+                        if((mouse.modifiers & Qt.ShiftModifier) || !K.KdenliveSettings.lockedGuides) {
                             //spacer tool and shift modifier
                             spacerGuides = true;
                         }
@@ -1505,7 +1315,7 @@ Rectangle {
                 timeline.showTimelineToolInfo(true)
             }
             onDoubleClicked: mouse => {
-                if (mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height) {
+                if (mouse.buttons === Qt.LeftButton && root.activeTool === K.ToolType.SelectTool && mouse.y > ruler.height) {
                     if (root.showSubtitles && mouse.y < (ruler.height + subtitleTrack.height)) {
                         subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale, (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1)))
                         timeline.activeTrack = -2
@@ -1518,7 +1328,7 @@ Rectangle {
                 }
             }
             onPositionChanged: mouse => {
-                let selectLikeTool = root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                let selectLikeTool = root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
                 if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
@@ -1530,12 +1340,12 @@ Rectangle {
                     return
                 }
                 var mouseXPos = getMouseFrame()
-                if (root.activeTool === ProjectTool.SlipTool && pressed && mouse.y > ruler.height) {
+                if (root.activeTool === K.ToolType.SlipTool && pressed && mouse.y > ruler.height) {
                     var frame = mouseXPos
                     trimmingOffset = frame - trimmingClickFrame
                     timeline.slipPosChanged(trimmingOffset);
                 }
-                if (!pressed && !rubberSelect.visible && root.activeTool === ProjectTool.RazorTool) {
+                if (!pressed && !rubberSelect.visible && root.activeTool === K.ToolType.RazorTool) {
                     cutLine.x = mouseXPos * root.timeScale - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         // Seek
@@ -1570,9 +1380,9 @@ Rectangle {
                     }
                     continuousScrolling(newX, newY)
                 } else if ((pressedButtons & Qt.LeftButton) && (!shiftPress || spacerGuides)) {
-                    if (selectLikeTool || (mouse.y < ruler.height && root.activeTool !== ProjectTool.SlipTool && (root.activeTool !== ProjectTool.SpacerTool || spacerGroup == -1))) {
+                    if (selectLikeTool || (mouse.y < ruler.height && root.activeTool !== K.ToolType.SlipTool && (root.activeTool !== K.ToolType.SpacerTool || spacerGroup == -1))) {
                         proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / root.timeScale, timeline.fullDuration - 1))
-                    } else if (root.activeTool === ProjectTool.SpacerTool && spacerGroup > -1) {
+                    } else if (root.activeTool === K.ToolType.SpacerTool && spacerGroup > -1) {
                         // Spacer tool, move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var lastPos = 0;
@@ -1605,7 +1415,7 @@ Rectangle {
                 }
             }
             onReleased: mouse => {
-                if((mouse.button & Qt.LeftButton) && root.activeTool === ProjectTool.SlipTool) {
+                if((mouse.button & Qt.LeftButton) && root.activeTool === K.ToolType.SlipTool) {
                     // slip tool
                     controller.requestSlipSelection(trimmingOffset, true)
                     trimmingOffset = 0;
@@ -1648,7 +1458,7 @@ Rectangle {
                     }
                     rubberSelect.y = -1
                 } else if (shiftPress && !spacerGuides) {
-                    if (root.activeTool === ProjectTool.RazorTool) {
+                    if (root.activeTool === K.ToolType.RazorTool) {
                         // Shift click, process seek
                         proxy.position = Math.min((scrollView.contentX + mouse.x) / root.timeScale, timeline.fullDuration - 1)
                     } else if (dragProxy.draggedItem > -1) {
@@ -1730,7 +1540,7 @@ Rectangle {
                         id: ruler
                         width: rulercontainer.contentWidth
                         height: parent.height
-                        TimelinePlayhead {
+                        K.TimelinePlayhead {
                             id: playhead
                             height: Math.round(root.baseUnit * .8)
                             width: Math.round(root.baseUnit * 1.2)
@@ -1846,7 +1656,7 @@ Rectangle {
                                 hoverEnabled: true
                                 onWheel: wheel => zoomByWheel(wheel)
                                 onEntered: {
-                                    if (root.activeTool === ProjectTool.SelectTool) {
+                                    if (root.activeTool === K.ToolType.SelectTool) {
                                         timeline.showKeyBinding(i18n("<b>Double click</b> to add a subtitle"))
                                     }
                                 }
@@ -1891,12 +1701,12 @@ Rectangle {
                                     property int snapping: root.snapping
                                     property bool moveMirrorTracks: true
                                     cursorShape: {
-                                        if (root.activeTool === ProjectTool.SelectTool) {
+                                        if (root.activeTool === K.ToolType.SelectTool) {
                                             return dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
                                         }
                                         return tracksArea.cursorShape
                                     }
-                                    enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                                    enabled: root.activeTool === K.ToolType.SelectTool || root.activeTool === K.ToolType.RippleTool
                                     onPressed: mouse => {
                                         if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
                                             mouse.accepted = false
@@ -2073,11 +1883,11 @@ Rectangle {
                                         } else {
                                             clipBeingMovedId = -1
                                             timeline.ungrabHack()
-                                            if(dragProxy.masterObject.itemType === ProducerType.Timeline) {
+                                            if(dragProxy.masterObject.itemType === K.ClipType.Timeline) {
                                                 timeline.focusTimelineSequence(dragProxy.draggedItem)
-                                            } else if(dragProxy.masterObject.itemType === ProducerType.Text || dragProxy.masterObject.itemType === ProducerType.TextTemplate) {
+                                            } else if(dragProxy.masterObject.itemType === K.ClipType.Text || dragProxy.masterObject.itemType === K.ClipType.TextTemplate) {
                                                 timeline.editTitleClip(dragProxy.draggedItem)
-                                            } else if (dragProxy.masterObject.itemType === ProducerType.Animation) {
+                                            } else if (dragProxy.masterObject.itemType === K.ClipType.Animation) {
                                                 timeline.editAnimationClip(dragProxy.draggedItem)
                                             } else {
                                                 timeline.editItemDuration()
@@ -2153,7 +1963,7 @@ Rectangle {
                                 model: Math.ceil(recordPlaceHolder.width / recordPlaceHolder.maxWidth)
                                 property bool repaintNodes: false
                                 anchors.fill: parent
-                                TimelineRecWaveform {
+                                K.TimelineRecWaveform {
                                     id: recWave
                                     width: recordPlaceHolder.maxWidth < recordPlaceHolder.width ? index == recordPlaceHolder.totalChunks - 1 ? recordPlaceHolder.width % recordPlaceHolder.maxWidth : recordPlaceHolder.maxWidth : Math.round(recordPlaceHolder.width)
                                     height: recordPlaceHolder.height
@@ -2162,7 +1972,7 @@ Rectangle {
                                     isFirstChunk: index == 0
                                     isOpaque: true
                                     scaleFactor: root.timeScale
-                                    format: timeline.audioThumbFormat
+                                    format: K.KdenliveSettings.displayallchannels
                                     waveInPoint: Math.round((index * recordPlaceHolder.maxWidth / root.timeScale) * recordPlaceHolder.channels)
                                     waveOutPoint: waveInPoint + Math.round(width / root.timeScale) * recordPlaceHolder.channels
                                     fillColor0: Qt.rgba(1, 0, 0, 0.3)
@@ -2203,7 +2013,7 @@ Rectangle {
                             x: Math.round(root.consumerPosition * root.timeScale)
                         }
                     }
-                    Kdenlive.ZoomBar {
+                    K.ZoomBar {
                         id: horZoomBar
                         visible: scrollView.visibleArea.widthRatio < 1
                         anchors {
@@ -2232,7 +2042,7 @@ Rectangle {
             }
             Rectangle {
                 id: cutLine
-                visible: root.activeTool === ProjectTool.RazorTool && (tracksArea.mouseY > ruler.height || subtitleMouseArea.containsMouse)
+                visible: root.activeTool === K.ToolType.RazorTool && (tracksArea.mouseY > ruler.height || subtitleMouseArea.containsMouse)
                 color: 'red'
                 width: 1
                 opacity: 1
@@ -2257,7 +2067,7 @@ Rectangle {
             }
             Rectangle {
                 id: multicamLine
-                visible: root.activeTool === ProjectTool.MulticamTool && timeline.multicamIn > -1
+                visible: root.activeTool === K.ToolType.MulticamTool && timeline.multicamIn > -1
                 color: 'purple'
                 width: 3
                 opacity: 1
@@ -2296,8 +2106,8 @@ Rectangle {
         height: bubbleHelpLabel.height + 6
         radius: 3
         states: [
-            State { name: 'invisible'; PropertyChanges { target: bubbleHelp; opacity: 0} },
-            State { name: 'visible'; PropertyChanges { target: bubbleHelp; opacity: 0.8} }
+            State { name: 'invisible'; PropertyChanges { bubbleHelp.opacity: 0} },
+            State { name: 'visible'; PropertyChanges { bubbleHelp.opacity: 0.8} }
         ]
         state: 'invisible'
         transitions: [

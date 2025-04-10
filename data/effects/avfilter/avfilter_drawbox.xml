@@ -25,7 +25,7 @@
     <parameter type="fixedcolor" name="av.color" default="0x0000FF" alpha="1">
         <name>Color</name>
     	<comment><![CDATA[Select a color for the line.<br>
-    	Use the <em>Alpha<em> value to make the line semi-transparent.]]></comment>
+    	Use the <em>Alpha</em> value to make the line semi-transparent.]]></comment>
     </parameter>
     <parameter type="animated" name="av.t" default="3" min="0" max="%height" factor="1">
         <name>Thickness (px)</name>

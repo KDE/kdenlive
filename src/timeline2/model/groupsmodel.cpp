@@ -30,7 +30,6 @@ void GroupsModel::promoteToGroup(int gid, GroupType type)
 
     auto ptr = m_parent.lock();
     if (ptr) {
-        // qDebug() << "Registering group" << gid << "of type" << groupTypeToStr(getType(gid));
         ptr->registerGroup(gid);
     } else {
         qDebug() << "Impossible to create group because the timeline is not available anymore";
@@ -43,7 +42,6 @@ void GroupsModel::downgradeToLeaf(int gid)
     Q_ASSERT(m_downLink.at(gid).size() == 0);
     auto ptr = m_parent.lock();
     if (ptr) {
-        // qDebug() << "Deregistering group" << gid << "of type" << groupTypeToStr(getType(gid));
         ptr->deregisterGroup(gid);
         m_groupIds.erase(gid);
     } else {

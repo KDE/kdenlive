@@ -93,6 +93,10 @@ GuidesList::GuidesList(QWidget *parent)
     settingsMenu->addAction(categories);
     guides_settings->setMenu(settingsMenu);
 
+    QAction *findAction = KStandardAction::find(filter_line, SLOT(setFocus()), this);
+    addAction(findAction);
+    findAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
     // Sort menu
     m_sortGroup = new QActionGroup(this);
     QMenu *sortMenu = new QMenu(this);

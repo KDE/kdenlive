@@ -64,6 +64,14 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
                                  Q_EMIT ptr2->dataChanged(ix, ix, roles);
                              }
                          });
+        QObject::connect(m_effectStack.get(), &EffectStackModel::customDataChanged, m_effectStack.get(),
+                         [&](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
+                             if (auto ptr2 = m_parent.lock()) {
+                                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
+                                 qDebug() << "==== TRACK ZONES CHANGED";
+                                 Q_EMIT ptr2->dataChanged(ix, ix, roles);
+                             }
+                         });
     } else {
         qDebug() << "Error : construction of track failed because parent timeline is not available anymore";
         Q_ASSERT(false);
@@ -175,10 +183,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         Q_ASSERT(ptr->getClipPtr(clipId)->getCurrentTrackId() == -1);
         target_playlist = ptr->getClipPtr(clipId)->getSubPlaylistIndex();
         length = ptr->getClipPtr(clipId)->getPlaytime() - 1;
-        /*if (target_playlist == 1 && ptr->getClipPtr(clipId)->getMixDuration() == 0) {
-            target_playlist = 0;
-        }*/
-        // qDebug()<<"==== GOT TRARGET PLAYLIST: "<<target_playlist;
     } else {
         qDebug() << "impossible to get parent timeline";
         Q_ASSERT(false);
@@ -482,7 +486,6 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
         timelineUuid = ptr->uuid();
     }
     int old_position = old_clip->getPosition();
-    // qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
     int duration = finalMove ? trackDuration() : 0;
     if (finalDeletion) {
         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::TimelineClip, clipId, timelineUuid));
@@ -2477,7 +2480,6 @@ void TrackModel::syncronizeMixes(bool finalMove)
 {
     QList<int> toDelete;
     for (const auto &n : m_sameCompositions) {
-        // qDebug() << "Key:[" << n.first << "] Value:[" << n.second << "]\n";
         int secondClipId = n.first;
         int firstClip = m_mixList.key(secondClipId, -1);
         Q_ASSERT(firstClip > -1);

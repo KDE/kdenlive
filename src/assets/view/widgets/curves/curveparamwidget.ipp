@@ -124,13 +124,14 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     // construct and fill layout
     auto *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     layout->addWidget(m_edit);
     m_edit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-
     auto *widget = new QWidget(this);
     widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_ui.setupUi(widget);
+    widget->setFixedHeight(widget->minimumHeight());
     layout->addWidget(widget);
 
     // set up icons and initial button states

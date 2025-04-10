@@ -78,6 +78,7 @@ TimelineController::TimelineController(QObject *parent)
         m_autotrackHeight = enable;
         Q_EMIT autotrackHeightChanged();
     });
+    connect(KdenliveSettings::self(), &KdenliveSettings::waveformScalerChanged, this, &TimelineController::audioZoomTextChanged);
 }
 
 TimelineController::~TimelineController() {}
@@ -194,7 +195,7 @@ void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString>
         return;
     }
     if (m_targetTrackInfo.keep) {
-        // Wer are gradding a clip, don't update timeline target tracks
+        // Wer are dragging a clip, don't update timeline target tracks
         m_targetTrackInfo.needsToBeApplied = true;
         m_targetTrackInfo.hasVideo = hasVideo;
         m_targetTrackInfo.audioTargets = audioTargets;
@@ -207,7 +208,7 @@ void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString>
     m_hasVideoTarget = hasVideo;
     m_hasAudioTarget = audioTargets.size();
     if (m_hasVideoTarget) {
-        videoTrack = m_model->getFirstVideoTrackIndex();
+        videoTrack = m_model->getTopVideoTrackIndex();
     }
     if (m_hasAudioTarget > 0) {
         if (m_lastAudioTarget.count() == audioTargets.count()) {
@@ -342,18 +343,35 @@ void TimelineController::checkDuration()
     }
 }
 
-void TimelineController::hideTrack(int trackId, bool hide)
+void TimelineController::hideTrack(int trackId, bool hide, bool allTracks)
 {
     bool isAudio = m_model->isAudioTrack(trackId);
     QString state = hide ? (isAudio ? "1" : "2") : "3";
     QString previousState = m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString();
-    Fun undo_lambda = [this, trackId, previousState]() {
-        m_model->setTrackProperty(trackId, QStringLiteral("hide"), previousState);
+    QMap<int, QString> targetTracks;
+    if (allTracks) {
+        auto it = m_model->m_allTracks.cbegin();
+        while (it != m_model->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            if (m_model->getTrackById_const(target_track)->isAudioTrack() == isAudio) {
+                targetTracks.insert(target_track, m_model->getTrackProperty(target_track, QStringLiteral("hide")).toString());
+            }
+            ++it;
+        }
+    } else {
+        targetTracks.insert(trackId, m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString());
+    }
+    Fun undo_lambda = [this, targetTracks, previousState]() {
+        for (auto i = targetTracks.cbegin(), end = targetTracks.cend(); i != end; ++i) {
+            m_model->setTrackProperty(i.key(), QStringLiteral("hide"), i.value());
+        }
         m_model->updateDuration();
         return true;
     };
-    Fun redo_lambda = [this, trackId, state]() {
-        m_model->setTrackProperty(trackId, QStringLiteral("hide"), state);
+    Fun redo_lambda = [this, targetTracks, state]() {
+        for (auto i = targetTracks.cbegin(), end = targetTracks.cend(); i != end; ++i) {
+            m_model->setTrackProperty(i.key(), QStringLiteral("hide"), state);
+        }
         m_model->updateDuration();
         return true;
     };
@@ -474,11 +492,6 @@ void TimelineController::resetView()
         QMetaObject::invokeMethod(m_root, "updatePalette");
     }
     Q_EMIT colorsChanged();
-}
-
-bool TimelineController::snap()
-{
-    return KdenliveSettings::snaptopoints();
 }
 
 bool TimelineController::ripple()
@@ -896,36 +909,6 @@ QString TimelineController::simplifiedTC(int frames) const
     }
     QString s = m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
     return s.startsWith(QLatin1String("00:")) ? s.remove(0, 3) : s;
-}
-
-bool TimelineController::showThumbnails() const
-{
-    return KdenliveSettings::videothumbnails();
-}
-
-bool TimelineController::showAudioThumbnails() const
-{
-    return KdenliveSettings::audiothumbnails();
-}
-
-bool TimelineController::showMarkers() const
-{
-    return KdenliveSettings::showmarkers();
-}
-
-bool TimelineController::audioThumbFormat() const
-{
-    return KdenliveSettings::displayallchannels();
-}
-
-bool TimelineController::audioThumbNormalize() const
-{
-    return KdenliveSettings::normalizechannels();
-}
-
-bool TimelineController::showWaveforms() const
-{
-    return KdenliveSettings::audiothumbnails();
 }
 
 void TimelineController::beginAddTrack(int tid)
@@ -2661,11 +2644,6 @@ bool TimelineController::useRuler() const
     return pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1;
 }
 
-bool TimelineController::scrollVertically() const
-{
-    return KdenliveSettings::scrollvertically() == 1;
-}
-
 void TimelineController::resetPreview()
 {
     if (m_model->hasTimelinePreview()) {
@@ -2727,7 +2705,8 @@ void TimelineController::insertSpace(int trackId, int frame)
         return;
     }
     int start = m_model->getItemPosition(cid);
-    requestSpacerEndOperation(cid, start, start + spaceDuration, affectAllTracks ? -1 : trackId);
+    requestSpacerEndOperation(cid, start, start + spaceDuration, affectAllTracks ? -1 : trackId, {},
+                              KdenliveSettings::lockedGuides() || !affectAllTracks ? -1 : start);
 }
 
 void TimelineController::removeSpace(int trackId, int frame, bool affectAllTracks)
@@ -2983,45 +2962,44 @@ void TimelineController::extract(int clipId, bool singleSelectionMode)
     QVector<int> tracks = {tid};
     int clipToUngroup = -1;
     std::unordered_set<int> clipsToRegroup;
-    if (m_model->m_groups->isInGroup(clipId)) {
-        if (singleSelectionMode) {
-            // Remove item from group
-            clipsToRegroup = m_model->m_groups->getLeaves(m_model->m_groups->getRootId(clipId));
-            clipToUngroup = clipId;
-            clipsToRegroup.erase(clipToUngroup);
-            m_model->requestClearSelection();
-        } else {
-            int targetRoot = m_model->m_groups->getRootId(clipId);
-            if (m_model->isGroup(targetRoot)) {
-                std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetRoot);
-                for (int current_id : sub) {
-                    if (current_id == clipId) {
-                        continue;
+    if (!m_model->m_groups->isInGroup(clipId)) {
+        TimelineFunctions::extractZone(m_model, tracks, QPoint(in, out), false, clipToUngroup, clipsToRegroup);
+        return;
+    }
+    if (singleSelectionMode) {
+        // Remove item from group
+        clipsToRegroup = m_model->m_groups->getLeaves(m_model->m_groups->getRootId(clipId));
+        clipToUngroup = clipId;
+        clipsToRegroup.erase(clipToUngroup);
+        m_model->requestClearSelection();
+        TimelineFunctions::extractZone(m_model, tracks, QPoint(in, out), false, clipToUngroup, clipsToRegroup);
+    } else {
+        int targetRoot = m_model->m_groups->getRootId(clipId);
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+        if (m_model->isGroup(targetRoot)) {
+            std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetRoot);
+            // Create one command per clip
+            for (int current_id : sub) {
+                if (m_model->isClip(current_id)) {
+                    int newIn = m_model->getClipPosition(current_id);
+                    int newOut = newIn + m_model->getClipPlaytime(current_id);
+                    int tk = m_model->getClipTrackId(current_id);
+                    std::pair<MixInfo, MixInfo> cMixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
+                    if (cMixData.first.firstClipId > -1) {
+                        // Clip has a start mix, adjust in point
+                        newIn += (cMixData.first.firstClipInOut.second - cMixData.first.secondClipInOut.first - cMixData.first.mixOffset);
                     }
-                    if (m_model->isClip(current_id)) {
-                        int newIn = m_model->getClipPosition(current_id);
-                        int newOut = newIn + m_model->getClipPlaytime(current_id);
-                        int tk = m_model->getClipTrackId(current_id);
-                        std::pair<MixInfo, MixInfo> cMixData = m_model->getTrackById_const(tk)->getMixInfo(current_id);
-                        if (cMixData.first.firstClipId > -1) {
-                            // Clip has a start mix, adjust in point
-                            newIn += (cMixData.first.firstClipInOut.second - cMixData.first.secondClipInOut.first - cMixData.first.mixOffset);
-                        }
-                        if (cMixData.second.firstClipId > -1) {
-                            // Clip has end mix, adjust out point
-                            newOut -= cMixData.second.mixOffset;
-                        }
-                        in = qMin(in, newIn);
-                        out = qMax(out, newOut);
-                        if (!tracks.contains(tk)) {
-                            tracks << tk;
-                        }
+                    if (cMixData.second.firstClipId > -1) {
+                        // Clip has end mix, adjust out point
+                        newOut -= cMixData.second.mixOffset;
                     }
+                    TimelineFunctions::extractZoneWithUndo(m_model, {tk}, QPoint(newIn, newOut), false, clipToUngroup, clipsToRegroup, undo, redo);
                 }
             }
         }
+        pCore->pushUndo(undo, redo, i18n("Extract zone"));
     }
-    TimelineFunctions::extractZone(m_model, tracks, QPoint(in, out), false, clipToUngroup, clipsToRegroup);
 }
 
 void TimelineController::saveZone(int clipId)
@@ -3311,25 +3289,17 @@ bool TimelineController::splitAV()
         if (clip->clipState() == PlaylistState::AudioOnly) {
             return TimelineFunctions::requestSplitVideo(m_model, cid, videoTarget());
         } else {
-            QVariantList aTargets = audioTarget();
-            int targetTrack = aTargets.isEmpty() ? -1 : aTargets.first().toInt();
-            return TimelineFunctions::requestSplitAudio(m_model, cid, targetTrack);
+            // Check the available tracks
+            QList<int> availableAudioTracks = m_model->getActiveAudioTrackIndexes();
+            if (availableAudioTracks.isEmpty()) {
+                pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage, 500);
+                return false;
+            }
+            return TimelineFunctions::requestSplitAudio(m_model, cid, availableAudioTracks);
         }
     }
     pCore->displayMessage(i18n("No clip found to perform AV split operation"), ErrorMessage, 500);
     return false;
-}
-
-void TimelineController::splitAudio(int clipId)
-{
-    QVariantList aTargets = audioTarget();
-    int targetTrack = aTargets.isEmpty() ? -1 : aTargets.first().toInt();
-    TimelineFunctions::requestSplitAudio(m_model, clipId, targetTrack);
-}
-
-void TimelineController::splitVideo(int clipId)
-{
-    TimelineFunctions::requestSplitVideo(m_model, clipId, videoTarget());
 }
 
 void TimelineController::setAudioRef(int clipId)
@@ -3445,8 +3415,6 @@ void TimelineController::zoomWaveform()
 {
     if (KdenliveSettings::normalizechannels()) {
         KdenliveSettings::setNormalizechannels(false);
-        pCore->monitorManager()->clipMonitor()->normalizeAudioThumbs();
-        Q_EMIT audioThumbNormalizeChanged();
     }
     if (KdenliveSettings::waveformScaler() < 5) {
         KdenliveSettings::setWaveformScaler(KdenliveSettings::waveformScaler() * 2);
@@ -3503,7 +3471,7 @@ void TimelineController::makeAllTrackActive()
     m_activeSnaps.clear();
 }
 
-void TimelineController::switchTrackDisabled()
+void TimelineController::switchTrackDisabled(bool allTracks)
 {
 
     if (m_model->isSubtitleTrack(m_activeTrack)) {
@@ -3512,7 +3480,7 @@ void TimelineController::switchTrackDisabled()
     } else {
         bool isAudio = m_model->getTrackById_const(m_activeTrack)->isAudioTrack();
         bool enabled = isAudio ? m_model->getTrackById_const(m_activeTrack)->isMute() : m_model->getTrackById_const(m_activeTrack)->isHidden();
-        hideTrack(m_activeTrack, enabled);
+        hideTrack(m_activeTrack, enabled, allTracks);
     }
 }
 
@@ -4681,16 +4649,6 @@ QColor TimelineController::imageColor() const
     return scheme.foreground(KColorScheme::NeutralText).color();
 }
 
-QColor TimelineController::thumbColor1() const
-{
-    return KdenliveSettings::thumbColor1();
-}
-
-QColor TimelineController::thumbColor2() const
-{
-    return KdenliveSettings::thumbColor2();
-}
-
 QColor TimelineController::slideshowColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
@@ -5229,11 +5187,6 @@ bool TimelineController::subtitlesLocked() const
         return m_model->getSubtitleModel()->isLocked();
     }
     return false;
-}
-
-bool TimelineController::guidesLocked() const
-{
-    return KdenliveSettings::lockedGuides();
 }
 
 void TimelineController::showToolTip(const QString &info) const

@@ -331,7 +331,6 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
             QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
 #endif
         m_audioSource->setVolume(linearVolume);
-        // qDebug()<<"START AREC: "<<m_path<<"\n; CODECS: "<<m_audioRecorder->supportedAudioCodecs();
         connect(m_mediaRecorder.get(), &QMediaRecorder::errorChanged, this, &MediaCapture::displayErrorMessage);
 
         // audioSettings.setCodec("audio/x-flac");

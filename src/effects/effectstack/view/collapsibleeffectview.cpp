@@ -20,6 +20,7 @@
 #include "widgets/dragvalue.h"
 
 #include "kdenlive_debug.h"
+#include <QComboBox>
 #include <QDialog>
 #include <QFileDialog>
 #include <QFontDatabase>
@@ -36,12 +37,13 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 
+#include <KColorScheme>
+#include <KColorUtils>
 #include <KDualAction>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KSqueezedTextLabel>
-#include <QComboBox>
 
 CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
@@ -58,6 +60,23 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     buttonDown->setToolTip(i18n("Move effect down"));
     buttonDown->setWhatsThis(xi18nc(
         "@info:whatsthis", "Moves the effect below the one right below it. Effects are handled sequentially from top to bottom so sequence is important."));
+
+    QPalette pal = palette();
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
+    m_bgColor = pal.color(QPalette::Active, QPalette::Window);
+    m_bgColorTitle = pal.color(QPalette::Active, QPalette::AlternateBase);
+    // scheme.background(KColorScheme::AlternateBackground).color();
+    // palette().color(QPalette::Active, QPalette::Window);
+    QColor selected_bg = scheme.decoration(KColorScheme::FocusColor).color();
+    m_hoverColor = KColorUtils::mix(m_bgColor, selected_bg, 0.07);
+    m_hoverColorTitle = KColorUtils::mix(m_bgColor, selected_bg, 0.1);
+    QColor hoverColor = scheme.decoration(KColorScheme::HoverColor).color();
+    m_activeColor = KColorUtils::mix(m_bgColor, hoverColor, 0.2);
+    m_activeColorTitle = KColorUtils::mix(m_bgColor, hoverColor, 0.3);
+
+    pal.setColor(QPalette::Inactive, QPalette::Text, pal.shadow().color());
+    pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
+    border_frame->setPalette(pal);
 
     if (effectId == QLatin1String("speed")) {
         // Speed effect is a "pseudo" effect, cannot be moved
@@ -93,6 +112,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         m_collapse->setInactiveIcon(QIcon::fromTheme(QStringLiteral("arrow-down")));
     }
 
+    frame->setAutoFillBackground(true);
     auto *l = static_cast<QHBoxLayout *>(frame->layout());
     title = new KSqueezedTextLabel(this);
     title->setToolTip(effectName);
@@ -227,7 +247,9 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);
 
     title->setText(effectName);
-    title->setStyleSheet("font-weight: bold");
+    auto ft = font();
+    ft.setBold(true);
+    title->setFont(ft);
 
     m_view = new AssetParameterView(this);
     const std::shared_ptr<AssetParameterModel> effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
@@ -235,7 +257,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
     connect(m_view, &AssetParameterView::activateEffect, this, [this]() {
         qDebug() << "///// TRYING TO ACTIVATE EFFECT....";
-        if (!decoframe->property("active").toBool() || !m_model->isAssetEnabled()) {
+        if (!m_isActive || !m_model->isAssetEnabled()) {
             // Activate effect if not already active
             Q_EMIT activateEffect(m_model->row());
             qDebug() << "///// TRYING TO ACTIVATE EFFECT.... DONE";
@@ -350,8 +372,11 @@ void CollapsibleEffectView::updateGroupedInstances()
     if (groupedInstances > 1) {
         auto *l = static_cast<QHBoxLayout *>(frame->layout());
         m_effectInstances = new QLabel(this);
-        int h = (buttonUp->height() - 4) / 3;
-        m_effectInstances->setStyleSheet(QStringLiteral("margin: 2px; padding: 0px; border-radius: %1px; background: #885500; color: #FFFFFF;").arg(h));
+        QPalette pal = m_effectInstances->palette();
+        KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
+        const QColor bg = scheme.background(KColorScheme::LinkBackground).color();
+        pal.setColor(QPalette::Active, QPalette::Base, bg);
+        m_effectInstances->setPalette(pal);
         m_effectInstances->setText(QString::number(groupedInstances));
         m_effectInstances->setToolTip(i18n("%1 instances of this effect in the group", groupedInstances));
         m_effectInstances->setMargin(4);
@@ -401,8 +426,6 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
         return QWidget::eventFilter(o, e);
     }
     if (e->type() == QEvent::Enter) {
-        frame->setProperty("mouseover", true);
-        frame->setStyleSheet(frame->styleSheet());
         return QWidget::eventFilter(o, e);
     }
     if (e->type() == QEvent::Wheel) {
@@ -469,7 +492,7 @@ QDomElement CollapsibleEffectView::effectForSave() const
 
 bool CollapsibleEffectView::isActive() const
 {
-    return decoframe->property("active").toBool();
+    return m_isActive;
 }
 
 bool CollapsibleEffectView::isEnabled() const
@@ -479,24 +502,34 @@ bool CollapsibleEffectView::isEnabled() const
 
 void CollapsibleEffectView::slotSetTargetEffect(bool active)
 {
+    QPalette pal = border_frame->palette();
     if (active) {
-        decoframe->setProperty("target", true);
+        pal.setColor(QPalette::Active, QPalette::Text, pal.highlight().color());
     } else {
-        decoframe->setProperty("target", {});
+        pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
     }
-    decoframe->setStyleSheet(decoframe->styleSheet());
+    border_frame->setPalette(pal);
 }
 
 void CollapsibleEffectView::slotActivateEffect(bool active)
 {
-    decoframe->setProperty("active", active);
-    decoframe->setStyleSheet(decoframe->styleSheet());
+    m_isActive = active;
+    QPalette pal = palette();
     if (active) {
+        pal.setColor(QPalette::Active, QPalette::Base, m_activeColor);
+        decoframe->setPalette(pal);
+        pal.setColor(QPalette::Active, QPalette::Base, m_activeColorTitle);
+        frame->setPalette(pal);
         qDebug() << "=============\nSHOWING MONITOR SCENE: " << needsMonitorEffectScene() << ", ACTIVE: " << active;
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
         if (m_view->keyframesAllowed() && m_view->hasMultipleKeyframes()) {
             active = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
         }
+    } else {
+        pal.setColor(QPalette::Active, QPalette::Base, m_bgColor);
+        decoframe->setPalette(pal);
+        pal.setColor(QPalette::Active, QPalette::Base, m_bgColorTitle);
+        frame->setPalette(pal);
     }
     Q_EMIT m_view->initKeyframeView(active, active);
     if (m_inOutButton->isChecked()) {
@@ -518,12 +551,28 @@ void CollapsibleEffectView::wheelEvent(QWheelEvent *e)
 void CollapsibleEffectView::leaveEvent(QEvent *event)
 {
     QWidget::leaveEvent(event);
+    if (!m_isActive) {
+        qDebug() << "::::::::::::::::::::\nLeave EFFECT\n:::::::::::::::::::\n";
+        QPalette pal = palette();
+        pal.setColor(QPalette::Active, QPalette::Base, m_bgColor);
+        decoframe->setPalette(pal);
+        pal.setColor(QPalette::Active, QPalette::Base, m_bgColorTitle);
+        frame->setPalette(pal);
+    }
     pCore->setWidgetKeyBinding(QString());
 }
 
 void CollapsibleEffectView::enterEvent(QEnterEvent *event)
 {
     QWidget::enterEvent(event);
+    if (!m_isActive) {
+        qDebug() << "::::::::::::::::::::\nENBTER EFFECT\n:::::::::::::::::::\n";
+        QPalette pal = palette();
+        pal.setColor(QPalette::Active, QPalette::Base, m_hoverColorTitle);
+        frame->setPalette(pal);
+        pal.setColor(QPalette::Active, QPalette::Base, m_hoverColor);
+        decoframe->setPalette(pal);
+    }
     pCore->setWidgetKeyBinding(
         i18nc("@info:status",
               "<b>Drag</b> effect to another timeline clip, track or project clip to copy it. <b>Alt Drag</b> to copy it to a single item in a group."));
@@ -735,7 +784,8 @@ void CollapsibleEffectView::updateHeight()
         return;
     }
     widgetFrame->setFixedHeight(m_collapse->isActive() ? 0 : m_view->height());
-    setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
+    setFixedHeight(widgetFrame->height() + border_frame->minimumHeight() + frame->minimumHeight() + zoneFrame->minimumHeight() +
+                   2 * (contentsMargins().top() + decoframe->lineWidth()));
     Q_EMIT switchHeight(m_model, height());
 }
 
@@ -750,7 +800,8 @@ void CollapsibleEffectView::slotSwitch(bool collapse)
 {
     widgetFrame->setFixedHeight(collapse ? 0 : m_view->sizeHint().height());
     zoneFrame->setFixedHeight(collapse || !m_inOutButton->isChecked() ? 0 : frame->height());
-    setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->height() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
+    setFixedHeight(widgetFrame->height() + border_frame->minimumHeight() + frame->minimumHeight() + zoneFrame->height() +
+                   2 * (contentsMargins().top() + decoframe->lineWidth()));
     m_model->setCollapsed(collapse);
     keyframesButton->setVisible(!collapse);
     inOutButton->setVisible(!collapse);
@@ -844,7 +895,6 @@ void CollapsibleEffectView::updateTimecodeFormat()
 
 void CollapsibleEffectView::slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/)
 {
-    // qCDebug(KDENLIVE_LOG)<<"// EMIT CHANGE SUBEFFECT.....:";
     Q_EMIT parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 
@@ -880,14 +930,16 @@ void CollapsibleEffectView::resizeEvent(QResizeEvent *event)
 
 void CollapsibleEffectView::dragLeaveEvent(QDragLeaveEvent * /*event*/)
 {
-    frame->setProperty("target", false);
-    frame->setStyleSheet(frame->styleSheet());
+    QPalette pal = border_frame->palette();
+    pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
+    border_frame->setPalette(pal);
 }
 
 void CollapsibleEffectView::dropEvent(QDropEvent *event)
 {
-    frame->setProperty("target", false);
-    frame->setStyleSheet(frame->styleSheet());
+    QPalette pal = border_frame->palette();
+    pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
+    border_frame->setPalette(pal);
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
     // event->acceptProposedAction();
     QDomDocument doc;

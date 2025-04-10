@@ -274,7 +274,6 @@ void MediaBrowser::detectShortcutConflicts()
             a->setEnabled(false);
         }
     }
-    // qDebug()<<"::: FOUND BROWSER SHORTCUTS: "<<shortcutsList<<"\n__________________________";
     QList<QAction *> appActions = pCore->window()->actionCollection()->actions();
     for (auto &a : appActions) {
         QKeySequence sh = a->shortcut();

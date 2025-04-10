@@ -30,6 +30,7 @@ MySpinBox::MySpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
+    setMinimumHeight(lineEdit()->sizeHint().height() + 4);
 }
 
 bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -162,6 +163,7 @@ MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
+    setMinimumHeight(lineEdit()->sizeHint().height() + 4);
 }
 
 bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -337,6 +339,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setAlignment(Qt::AlignCenter);
         m_intEdit->setRange((int)m_minimum, (int)m_maximum);
         m_intEdit->setValue((int)m_default);
+        QPalette pal = m_intEdit->palette();
+        pal.setColor(QPalette::Active, QPalette::Base, pal.mid().color());
+        m_intEdit->setAutoFillBackground(true);
+        m_intEdit->setPalette(pal);
         // Try to have all spin boxes of the same size
         m_intEdit->setMinimumWidth(charWidth * 9);
         minWidth += m_intEdit->sizeHint().width();
@@ -360,6 +366,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         m_doubleEdit->setKeyboardTracking(false);
         m_doubleEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        QPalette pal = m_doubleEdit->palette();
+        pal.setColor(QPalette::Active, QPalette::Base, pal.mid().color());
+        m_doubleEdit->setAutoFillBackground(true);
+        m_doubleEdit->setPalette(pal);
         m_doubleEdit->setAlignment(Qt::AlignCenter);
         m_doubleEdit->setRange(m_minimum, m_maximum);
         double factor = 100;
@@ -386,9 +396,9 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     setLayout(l);
     int minimumHeight = 0;
     if (m_intEdit) {
-        minimumHeight = m_intEdit->sizeHint().height();
+        minimumHeight = m_intEdit->minimumHeight();
     } else {
-        minimumHeight = m_doubleEdit->sizeHint().height();
+        minimumHeight = m_doubleEdit->minimumHeight();
     }
     if (m_label) {
         m_label->setFixedHeight(minimumHeight);

@@ -201,9 +201,13 @@ void TranscodeTask::run()
         // Make sure we keep the stream order
         parameters << QStringLiteral("-sn") << QStringLiteral("-dn");
         if (!m_transcodeParams.contains(QStringLiteral("-map ")) && !m_transcodeParams.contains(QStringLiteral(" amerge="))) {
-            // Use 0:V to drop cover art streams
-            parameters << QStringLiteral("-map") << QStringLiteral("0:V");
-            parameters << QStringLiteral("-map") << QStringLiteral("0:a");
+            if (!m_transcodeParams.contains(QStringLiteral("-vn "))) {
+                // Use 0:V to drop cover art streams
+                parameters << QStringLiteral("-map") << QStringLiteral("0:V");
+            }
+            if (!m_transcodeParams.contains(QStringLiteral("-an "))) {
+                parameters << QStringLiteral("-map") << QStringLiteral("0:a");
+            }
         }
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
         for (const QString &s : std::as_const(params)) {

@@ -134,7 +134,6 @@ public:
         SequenceFolder
     };
 
-    virtual void setClipStatus(FileStatus::ClipStatus status);
     FileStatus::ClipStatus clipStatus() const;
     bool statusReady() const;
 
@@ -193,6 +192,9 @@ public:
     virtual void setRating(uint rating);
     const QString &tags() const;
     void setTags(const QString &tags);
+
+public Q_SLOTS:
+    virtual void setClipStatus(FileStatus::ClipStatus status);
 
 Q_SIGNALS:
     void childAdded(AbstractProjectItem *child);

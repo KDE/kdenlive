@@ -136,6 +136,8 @@ protected:
      */
     int setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position);
     int setProducer(const QString &file);
+    /** @brief Prevent monitor refresh while processing a change in the displayed clip */
+    void refreshRect();
     QString frameToTime(int frames) const;
 
 public Q_SLOTS:

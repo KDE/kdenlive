@@ -3,7 +3,7 @@
 <effect tag="avfilter.crystalizer" id="avfilter.crystalizer" type="audio">
     <name>Crystalizer</name>
     <description>Simple algorithm for audio noise sharpening.
-This filter linearly increases differences betweeen each audio sample.</description>
+This filter linearly increases differences between each audio sample.</description>
     <author>libavfilter</author>
     <parameter type="constant" name="av.i" default="2" min="-10" max="10" decimals="2">
         <name>Intensity</name>

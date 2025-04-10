@@ -5,6 +5,8 @@
 
 import QtQuick 2.15
 
+import org.kde.kdenlive as K
+
 Item {
     id: root
     objectName: "rootcornerscene"
@@ -17,7 +19,6 @@ Item {
     property rect framesize
     property point profile: controller.profile
     property int overlayType: controller.overlayType
-    property color overlayColor: controller.overlayColor
     property point center
     property double scalex
     property double scaley
@@ -46,6 +47,10 @@ Item {
     property double timeScale: 1
     property var centerPoints: []
     signal effectPolygonChanged()
+    Component.onCompleted: {
+        // adjust monitor image size if audio thumb is displayed
+        controller.rulerHeight = root.zoomOffset
+    }
 
     function updatePoints(types, points) {
         if (global.pressed) {
@@ -181,6 +186,7 @@ Item {
         return Qt.point(x,y);
     }
   }
+
     Rectangle {
         id: frame
         objectName: "referenceframe"
@@ -191,25 +197,11 @@ Item {
         y: root.center.y - height / 2 - root.offsety
         color: "transparent"
         border.color: "#ffffff00"
-        Loader {
-            anchors.fill: parent
-            source: {
-                switch(root.overlayType)
-                {
-                    case 0:
-                        return '';
-                    case 1:
-                        return "OverlayStandard.qml";
-                    case 2:
-                        return "OverlayMinimal.qml";
-                    case 3:
-                        return "OverlayCenter.qml";
-                    case 4:
-                        return "OverlayCenterDiagonal.qml";
-                    case 5:
-                        return "OverlayThirds.qml";
-                }
-            }
+
+        K.MonitorOverlay {
+            anchors.fill: frame
+            color: K.KdenliveSettings.overlayColor
+            overlayType: root.overlayType
         }
     }
     MouseArea {

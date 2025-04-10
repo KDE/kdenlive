@@ -12,6 +12,8 @@
 class TimelineWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
+    QML_ELEMENT
+
     Q_PROPERTY(QColor bgColorEven MEMBER m_bgColorEven NOTIFY needRedraw)
     Q_PROPERTY(QColor bgColorOdd MEMBER m_bgColorOdd NOTIFY needRedraw)
     Q_PROPERTY(QColor fgColorEven MEMBER m_fgColorEven NOTIFY needRedraw)

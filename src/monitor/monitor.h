@@ -66,6 +66,16 @@ public:
 
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor() override;
+
+    enum MonitorOverlay {
+        InfoOverlay = 0x01,
+        TimecodeOverlay = 0x02,
+        MarkersOverlay = 0x04,
+        AudioWaveformOverlay = 0x10,
+        PlaybackFpsOverlay = 0x20,
+        ClipJobsOverlay = 0x40
+    };
+
     QTimer refreshMonitorTimer;
     bool locked{false};
     void resetProfile();
@@ -124,7 +134,7 @@ public:
     void clearDisplay();
     void reconfigure();
     /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
-    void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
+    void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false, bool toClipboard = false);
     /** @brief Zoom in active monitor */
     void slotZoomIn();
     /** @brief Zoom out active monitor */
@@ -140,10 +150,6 @@ public:
     /** @brief Returns true if monitor is currently fullscreen */
     bool monitorIsFullScreen() const;
     void reloadActiveStream();
-    /** @brief Trigger a refresh of audio thumbs colors */
-    void refreshAudioThumbs();
-    /** @brief Trigger a refresh of audio thumbs on notrmalization change */
-    void normalizeAudioThumbs();
     /** @brief Returns true if monitor is playing */
     bool isPlaying() const;
     /** @brief Enables / disables effect scene*/
@@ -274,7 +280,7 @@ private:
     QString m_activeControllerId;
 
 protected:
-    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());
+    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant(), bool resetProperties = false);
 
 private Q_SLOTS:
     void slotSetThumbFrame();
@@ -392,7 +398,7 @@ public Q_SLOTS:
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
     /** @brief Stop displaying a  mask as overlay to the clip */
-    void abortPreviewMask();
+    void abortPreviewMask(bool rebuildProducer = true);
 
 Q_SIGNALS:
     void screenChanged(int screenIndex);

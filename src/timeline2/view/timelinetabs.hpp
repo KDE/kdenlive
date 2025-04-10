@@ -63,21 +63,6 @@ protected:
     void connectTimeline(TimelineWidget *timeline);
 
 Q_SIGNALS:
-    /** @brief Request repaint of audio thumbs
-        This is an input signal, forwarded to the timelines
-     */
-    void audioThumbFormatChanged();
-
-    /** @brief The parameter controlling whether we show video thumbnails has changed
-        This is an input signal, forwarded to the timelines
-    */
-    void showThumbnailsChanged();
-
-    /** @brief The parameter controlling whether we show audio thumbnails has changed
-        This is an input signal, forwarded to the timelines
-    */
-    void showAudioThumbnailsChanged();
-
     /** @brief Change the level of zoom
         This is an input signal, forwarded to the timelines
      */

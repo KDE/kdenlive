@@ -3,7 +3,13 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include <QtVersionChecks>
+#include <ki18n_version.h>
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+#include <KLocalizedQmlContext>
+#else
 #include <KLocalizedContext>
+#endif
 
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
@@ -19,12 +25,9 @@
 #include "mainwindow.h"
 #include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
-#include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"
-#include "utils/clipboardproxy.hpp"
 
-#include <KQuickIconProvider>
 #include <QAction>
 #include <QActionGroup>
 #include <QFontDatabase>
@@ -42,10 +45,12 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     , timelineController(this)
     , m_uuid(uuid)
 {
-    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#if KI18N_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    KLocalization::setupLocalizedContext(engine());
+#else
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
+#endif
     setClearColor(palette().window().color());
-    registerTimelineItems();
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     setVisible(false);
@@ -180,7 +185,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
                                                      {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
                                                      {"documentId", QVariant::fromValue(model->uuid())},
                                                      {"audiorec", QVariant::fromValue(m_audioRec.get())},
-                                                     {"clipboard", QVariant::fromValue(new ClipboardProxy(this))},
                                                      {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
                                                      {"proxy", QVariant()}};
     if (model->getSubtitleModel()) {
@@ -189,7 +193,9 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
         propertyList.append({"subtitleModel", QVariant()});
     }
     rootContext()->setContextProperties(propertyList);
-    setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
+
+    setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Timeline.qml")));
+
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     connect(rootObject(), SIGNAL(mousePosChanged(int)), this, SLOT(emitMousePos(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
@@ -570,14 +576,12 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
 {
     qDebug() << "root context get sub model new function";
     if (!model()->hasSubtitleModel()) {
-        // qDebug()<<"null ptr here at root context";
         return;
-    } else {
-        // qDebug()<<"null ptr NOT here at root context";
-        rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
-        if (firstConnect) {
-            rootContext()->setContextProperty("subtitleModel", model()->getSubtitleModel().get());
-            QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
-        }
+    }
+
+    rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
+    if (firstConnect) {
+        rootContext()->setContextProperty("subtitleModel", model()->getSubtitleModel().get());
+        QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
     }
 }

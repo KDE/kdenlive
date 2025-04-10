@@ -54,7 +54,7 @@ KisCurveWidget::~KisCurveWidget() = default;
 
 QSize KisCurveWidget::sizeHint() const
 {
-    return {500, 500};
+    return minimumSize();
 }
 
 void KisCurveWidget::addPointInTheMiddle()

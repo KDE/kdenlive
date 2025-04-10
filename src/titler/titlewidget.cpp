@@ -521,7 +521,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     graphicsView->show();
     graphicsView->setInteractive(true);
-    // qCDebug(KDENLIVE_LOG) << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << 'x' << graphicsView->viewport()->height();
     m_startViewport = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     // Setting data at -1 so that the item is recognized as undeletable by graphicsscenerectmove
     m_startViewport->setData(-1, -1);
@@ -1235,8 +1234,6 @@ void TitleWidget::selectionChanged()
         return;
     }
 
-    // qCDebug(KDENLIVE_LOG) << "Number of selected items: " << graphicsView->scene()->selectedItems().length() << '\n';
-
     QList<QGraphicsItem *> l;
 
     // mbt 1607: One text item might have grabbed the keyboard.
@@ -1290,7 +1287,6 @@ void TitleWidget::selectionChanged()
                 break;
             }
         }
-        // qCDebug(KDENLIVE_LOG) << "All equal? " << allEqual << ".\n";
         if (allEqual) {
             prepareTools(l.at(0));
         } else {
@@ -1337,7 +1333,6 @@ void TitleWidget::slotValueChanged(int type)
     */
 
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    // qCDebug(KDENLIVE_LOG) << l.size() << " items to be resized\n";
 
     // Get the updated value here already to do less coding afterwards
     int val = 0;
@@ -1357,8 +1352,6 @@ void TitleWidget::slotValueChanged(int type)
     }
 
     for (int k = 0; k < l.size(); ++k) {
-        // qCDebug(KDENLIVE_LOG) << "Type of item " << k << ": " << l.at(k)->type() << '\n';
-
         if (l.at(k)->type() == TEXTITEM) {
             // Just update the position. We don't allow setting width/height for text items yet.
             switch (type) {
@@ -1457,8 +1450,6 @@ void TitleWidget::slotValueChanged(int type)
                 qtrans.rotate(t.rotatey, Qt::YAxis);
                 qtrans.rotate(t.rotatez, Qt::ZAxis);
                 i->setTransform(qtrans);
-                // qCDebug(KDENLIVE_LOG) << "scale is: " << scale << '\n';
-                // qCDebug(KDENLIVE_LOG) << i->boundingRect().width() << ": new width\n";
                 m_transformations[i] = t;
 
                 if (l.size() == 1) {
@@ -1499,7 +1490,6 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_h->setValue(int(i->sceneBoundingRect().height()));
     } else if (i->type() == RECTITEM || i->type() == ELLIPSEITEM) {
         auto *r = static_cast<QGraphicsRectItem *>(i);
-        // qCDebug(KDENLIVE_LOG) << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
         value_w->setValue(int(r->rect().width()));
         value_h->setValue(int(r->rect().height()));
     } else if (i->type() == TEXTITEM) {
@@ -2802,14 +2792,10 @@ void TitleWidget::slotZIndexTop()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     qreal max = zIndexBounds(true, false);
-    // qCDebug(KDENLIVE_LOG) << "Max z-index is " << max << ".\n";
     for (auto &i : l) {
         qreal currentZ = i->zValue();
         if (currentZ <= max) {
-            // qCDebug(KDENLIVE_LOG) << "Updating item " << i << ", is " << currentZ << ".\n";
             i->setZValue(max + 1);
-        } else {
-            // qCDebug(KDENLIVE_LOG) << "Not updating " << i << ", is " << currentZ << ".\n";
         }
     }
     // Update the z index value in the GUI
@@ -2938,7 +2924,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     value_h->blockSignals(true);
 
     if (referenceItem == nullptr) {
-        // qCDebug(KDENLIVE_LOG) << "nullptr item.\n";
         origin_x_left->setChecked(false);
         origin_y_top->setChecked(false);
         updateTextOriginX();

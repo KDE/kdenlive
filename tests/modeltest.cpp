@@ -1118,7 +1118,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
-        REQUIRE(TimelineFunctions::cloneClip(timeline, cid6, newId, PlaylistState::VideoOnly, undo, redo));
+        REQUIRE(TimelineFunctions::cloneClip(timeline, cid6, newId, PlaylistState::VideoOnly, -1, undo, redo));
         REQUIRE(timeline->getClipBinId(cid6) == timeline->getClipBinId(newId));
         // TODO check effects
     }

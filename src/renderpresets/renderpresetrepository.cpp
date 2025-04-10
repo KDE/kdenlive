@@ -173,16 +173,14 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
             QDomElement profile = node.toElement();
 
             std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(profile, exportFile, editable));
-
             if (m_profiles.count(model->name()) == 0) {
                 m_groups.append(model->groupName());
-                m_groups.removeDuplicates();
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
-
             node = doc.elementsByTagName(QStringLiteral("profile")).at(count);
             count++;
         }
+        m_groups.removeDuplicates();
         return;
     }
 
@@ -190,7 +188,13 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
 
     while (!groups.item(i).isNull()) {
         documentElement = groups.item(i).toElement();
-        QString groupName = documentElement.attribute(QStringLiteral("name"), i18nc("Attribute Name", "Custom"));
+        QString groupName = documentElement.attribute(QStringLiteral("name"));
+        if (groupName.isEmpty()) {
+            groupName = i18nc("Attribute Name", "Custom");
+        } else {
+            // Ensure render categories are translated
+            groupName = i18n(groupName.toUtf8().constData());
+        }
         QString renderer = documentElement.attribute(QStringLiteral("renderer"), QString());
 
         QDomNode n = groups.item(i).firstChild();
@@ -200,18 +204,16 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
                 continue;
             }
             QDomElement profile = n.toElement();
-
             std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(profile, exportFile, editable, groupName, renderer));
             if (m_profiles.count(model->name()) == 0) {
                 m_groups.append(model->groupName());
-                m_groups.removeDuplicates();
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
             n = n.nextSibling();
         }
-
         ++i;
     }
+    m_groups.removeDuplicates();
 }
 
 void RenderPresetRepository::parseMltPresets()
@@ -230,19 +232,17 @@ void RenderPresetRepository::parseMltPresets()
                 new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QStringLiteral("properties=lossless/%1").arg(prof), true));
             if (m_profiles.count(model->name()) == 0) {
                 m_groups.append(model->groupName());
-                m_groups.removeDuplicates();
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
         }
     }
     if (root.cd(QStringLiteral("../stills"))) {
-        QString groupName = i18nc("Category Name", "Images sequence");
+        QString groupName = i18n("Images sequence");
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : std::as_const(profiles)) {
             std::unique_ptr<RenderPresetModel> model(
                 new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QStringLiteral("properties=stills/%1").arg(prof), false));
             m_groups.append(model->groupName());
-            m_groups.removeDuplicates();
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));
         }
         // Add GIF as image sequence
@@ -251,10 +251,10 @@ void RenderPresetRepository::parseMltPresets()
             new RenderPresetModel(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"), QStringLiteral("properties=GIF"), false));
         if (m_profiles.count(model->name()) == 0) {
             m_groups.append(model->groupName());
-            m_groups.removeDuplicates();
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));
         }
     }
+    m_groups.removeDuplicates();
 }
 
 QVector<QString> RenderPresetRepository::getAllPresets() const

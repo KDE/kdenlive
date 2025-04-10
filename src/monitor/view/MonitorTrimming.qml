@@ -5,8 +5,9 @@
 
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
-import Kdenlive.Controls 1.0
 import QtQuick 2.15
+
+import org.kde.kdenlive as Kdenlive
 
 Item {
     id: root
@@ -77,7 +78,7 @@ Item {
             controller.setWidgetKeyBinding();
         }
     }
-    SceneToolBar {
+    Kdenlive.SceneToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right

@@ -11,7 +11,7 @@
         <name>Constant skirt gain</name>
     </parameter>
     <parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
-        <paramlistdisplay>Hz,Q-FActor,Octave,Slope,KHz</paramlistdisplay>
+        <paramlistdisplay>Hz,Q-Factor,Octave,Slope,KHz</paramlistdisplay>
         <name>Method</name>
     </parameter>
     <parameter type="constant" name="av.w" default="0.5" min="1" max="9999" decimals="1">

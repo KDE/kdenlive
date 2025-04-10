@@ -6,6 +6,8 @@
 import QtQuick 2.15
 import QtQuick.Shapes 1.15
 
+import org.kde.kdenlive as K
+
 Item {
     id: root
     objectName: "rooteffectscene"
@@ -19,7 +21,6 @@ Item {
     property rect adjustedFrame
     property point profile: controller.profile
     property int overlayType: controller.overlayType
-    property color overlayColor: controller.overlayColor
     property point center
     property double scalex
     property double scaley
@@ -44,12 +45,16 @@ Item {
     property bool iskeyframe
     property bool cursorOutsideEffect: true
     property bool disableHandles: root.cursorOutsideEffect && root.centerPoints.length > 1
-    property bool showHandles: (root.iskeyframe || controller.autoKeyframe) && !disableHandles
+    property bool showHandles: (root.iskeyframe || K.KdenliveSettings.autoKeyframe) && !disableHandles
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
     signal effectChanged(rect frame)
     signal centersChanged()
+    Component.onCompleted: {
+      // adjust monitor image size if audio thumb is displayed
+        controller.rulerHeight = root.zoomOffset
+    }
 
     function updateEffectRect(rect) {
       if (moveArea.pressed) {
@@ -74,8 +79,8 @@ Item {
       }
       var deltax = Math.round(position.x / root.scalex)
       var deltay = Math.round(position.y / root.scaley)
-      deltax = Math.round(deltax / controller.gridH) * controller.gridH
-      deltay = Math.round(deltay / controller.gridV) * controller.gridV
+      deltax = Math.round(deltax / K.KdenliveSettings.monitorGridH) * K.KdenliveSettings.monitorGridH
+      deltay = Math.round(deltay / K.KdenliveSettings.monitorGridV) * K.KdenliveSettings.monitorGridV
       return Qt.point(deltax * root.scalex, deltay * root.scaley)
     }
 
@@ -194,46 +199,33 @@ Item {
         y: root.center.y - height / 2 - root.offsety;
         color: "transparent"
         border.color: "#ffffff00"
-        Loader {
-            anchors.fill: parent
-            source: {
-                switch(root.overlayType)
-                {
-                    case 0:
-                        return '';
-                    case 1:
-                        return "OverlayStandard.qml";
-                    case 2:
-                        return "OverlayMinimal.qml";
-                    case 3:
-                        return "OverlayCenter.qml";
-                    case 4:
-                        return "OverlayCenterDiagonal.qml";
-                    case 5:
-                        return "OverlayThirds.qml";
-                }
-            }
+
+        K.MonitorOverlay {
+            anchors.fill: frame
+            color: K.KdenliveSettings.overlayColor
+            overlayType: root.overlayType
         }
+
         Repeater {
-          model: controller.showGrid ? Math.floor(root.profile.x / controller.gridH) : 0
+          model: controller.showGrid ? Math.floor(root.profile.x / K.KdenliveSettings.monitorGridH) : 0
           Rectangle {
             required property int index
             opacity: 0.3
             color: root.overlayColor
             height: frame.height - 1
             width: 1
-            x: ((index + 1) * controller.gridH * root.scalex)
+            x: ((index + 1) * K.KdenliveSettings.monitorGridH * root.scalex)
           }
         }
         Repeater {
-          model: controller.showGrid ? Math.floor(root.profile.y / controller.gridV) : 0
+          model: controller.showGrid ? Math.floor(root.profile.y / K.KdenliveSettings.monitorGridV) : 0
           Rectangle {
             required property int index
             opacity: 0.3
             color: root.overlayColor
             height: 1
             width: frame.width - 1
-            y: ((index + 1) * controller.gridV * root.scaley)
+            y: ((index + 1) * K.KdenliveSettings.monitorGridV * root.scaley)
           }
         }
     }
@@ -327,7 +319,7 @@ Item {
         y: frame.y + root.framesize.y * root.scaley
         width: root.framesize.width * root.scalex
         height: root.framesize.height * root.scaley
-        enabled: root.iskeyframe || controller.autoKeyframe
+        enabled: root.iskeyframe || K.KdenliveSettings.autoKeyframe
         color: "transparent"
         border.color: root.disableHandles ? 'transparent' : "#ff0000"
         Shape {
@@ -424,7 +416,7 @@ Item {
                 var adjustedMouse = getSnappedPos(delta)
                 framesize.x = adjustedMouse.x / root.scalex;
                 framesize.y = adjustedMouse.y / root.scaley;
-                if (root.iskeyframe == false && controller.autoKeyframe) {
+                if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                   controller.addRemoveKeyframe();
                 }
                 root.effectChanged(root.framesize)
@@ -496,7 +488,7 @@ Item {
                       adjustedFrame.height -= (framesize.height - adjustedFrame.height)
                   }
                   framesize = adjustedFrame
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
                   root.effectChanged(root.framesize)
@@ -578,7 +570,7 @@ Item {
                       adjustedFrame.height -= (framesize.height - adjustedFrame.height)
                   }
                   framesize = adjustedFrame
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
                   root.effectChanged(root.framesize)
@@ -648,7 +640,7 @@ Item {
                       adjustedFrame.height -= yOffset
                   }
                   framesize = adjustedFrame
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
                   root.effectChanged(root.framesize)
@@ -720,7 +712,7 @@ Item {
                       adjustedFrame.height -= yOffset
                   }
                   framesize = adjustedFrame
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
                   root.effectChanged(root.framesize)
@@ -793,7 +785,7 @@ Item {
 
                   }
                   framesize = adjustedFrame
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
                   root.effectChanged(root.framesize)
@@ -863,7 +855,7 @@ Item {
                       adjustedFrame.height -= (framesize.height - adjustedFrame.height)
                   }
                   framesize = adjustedFrame
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
                   root.effectChanged(root.framesize)
@@ -933,7 +925,7 @@ Item {
                       adjustedFrame.height -= yOffset
                   }
                   framesize = adjustedFrame
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
                   root.effectChanged(root.framesize)
@@ -1014,7 +1006,7 @@ Item {
                       adjustedFrame.height -= yOffset
                   }
                   framesize = adjustedFrame
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                  if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
                     controller.addRemoveKeyframe();
                   }
                   root.effectChanged(root.framesize)

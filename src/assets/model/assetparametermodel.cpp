@@ -436,7 +436,6 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
             }
         }
     }
-    // qDebug() << " = = SET EFFECT PARAM: " << name << " = " << m_asset->get(name.toLatin1().constData());
 }
 
 const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
@@ -718,7 +717,6 @@ const QString AssetParameterModel::framesToTime(int t) const
 
 int AssetParameterModel::rowCount(const QModelIndex &parent) const
 {
-    // qDebug() << "===================================================== Requested rowCount" << parent << m_rows.size();
     if (parent.isValid()) return 0;
     return m_rows.size();
 }

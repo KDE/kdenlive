@@ -325,7 +325,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
         };
         state();
 
-        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid4));
+        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, {tid4}));
         int splitted1 = timeline->getClipByPosition(tid4, 3);
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -358,9 +358,9 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
         // We also make sure that clips that are audio only cannot be further splitted
         REQUIRE(timeline->requestClipMove(cid1, tid1, l + 30));
         // This is a color clip, shouldn't be splittable
-        REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, cid1, tid2));
+        REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, cid1, {tid2}));
         // Check we cannot split audio on a video track
-        REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid2));
+        REQUIRE_FALSE(TimelineFunctions::requestSplitAudio(timeline, audio1, {tid2}));
     }
     SECTION("Split audio on a selection")
     {
@@ -393,7 +393,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
         };
         state();
 
-        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, tid4));
+        REQUIRE(TimelineFunctions::requestSplitAudio(timeline, audio1, {tid4}));
         int splitted1 = timeline->getClipByPosition(tid4, 0);
         int splitted2 = timeline->getClipByPosition(tid4, l);
         int splitted3 = timeline->getClipByPosition(tid4, 2 * l);

@@ -12,6 +12,10 @@ class KdenliveDoc;
 class ProjectManager;
 class QDockWidget;
 class QToolBar;
+class QFrame;
+class QLineEdit;
+class QToolButton;
+class QAction;
 
 /** @class NotesPlugin
     @brief Handles connection of NotesWidget
@@ -36,9 +40,21 @@ private Q_SLOTS:
     void slotReAssign(const QStringList &anchors, const QList <QPoint> &points);
     /** @brief Insert the given text into the widget. */
     void slotInsertText(const QString &text);
+    /** @brief Show / hide the find toolbar. */
+    void find();
+    /** @brief Find next occurence of a search. */
+    void findNext();
+    /** @brief Find previous occurence of a search. */
+    void findPrevious();
 
 private:
     NotesWidget *m_widget;
     QDockWidget *m_notesDock;
     QToolBar *m_tb;
+    QFrame *m_searchFrame;
+    QLineEdit *m_searchLine;
+    QToolButton *m_button_next;
+    QToolButton *m_button_prev;
+    QToolButton *m_showSearch;
+    QAction *m_findAction;
 };
