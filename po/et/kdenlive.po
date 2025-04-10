@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 02:38+0000\n"
+"POT-Creation-Date: 2025-04-10 02:31+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -30012,14 +30012,14 @@ msgstr "Muuda klipi kiirust"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "Raja lukustamine"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
 msgstr "Raja lukustuse eemaldamine"
@@ -30352,14 +30352,14 @@ msgid "Speech recognition"
 msgstr "Vali üleminek"
 
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Show"
 msgstr "Näita"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:430 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Peida"
@@ -30397,30 +30397,30 @@ msgstr " Kestus:"
 msgid "Adjusting speed"
 msgstr "Kiiruse kohandamine"
 
-#: src/timeline2/view/qml/TrackHead.qml:188
+#: src/timeline2/view/qml/TrackHead.qml:171
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:275
+#: src/timeline2/view/qml/TrackHead.qml:257
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Minimize"
 msgstr "Minimeeri"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Expand"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:334
+#: src/timeline2/view/qml/TrackHead.qml:299
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -30429,41 +30429,41 @@ msgstr ""
 "Klõpsa raja muutmiseks aktiivseks või mitteaktiivseks. Ainult aktiivsed "
 "rajad reageerivad muutmistoimingutele"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, fuzzy, kde-format
 #| msgid "Disable Bin Effects"
 msgid "Disable track effects"
 msgstr "Puuefektide keelamine"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable track effects"
 msgstr "Luba efekt"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, fuzzy, kde-format
 #| msgid "Track %1 effects"
 msgid "Toggle track effects"
 msgstr "Raja %1 efektid"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Unmute"
 msgstr "Heli tagasi"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Mute"
 msgstr "Vaigistamine"
 
-#: src/timeline2/view/qml/TrackHead.qml:590
+#: src/timeline2/view/qml/TrackHead.qml:528
 #, kde-format
 msgid "Edit track name"
 msgstr "Muuda raja nime"
 
-#: src/timeline2/view/qml/TrackHead.qml:663
+#: src/timeline2/view/qml/TrackHead.qml:593
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""

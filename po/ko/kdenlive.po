@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 02:38+0000\n"
+"POT-Creation-Date: 2025-04-10 02:31+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -29722,14 +29722,14 @@ msgstr "클립 속도 변경"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "트랙 잠금"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
 msgstr "트랙 잠금 해제"
@@ -30048,14 +30048,14 @@ msgid "Speech recognition"
 msgstr "음성 인식"
 
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Show"
 msgstr "표시"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:430 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "숨기기"
@@ -30092,7 +30092,7 @@ msgstr "%1%2, 재생 시간 = %3"
 msgid "Adjusting speed"
 msgstr "속도 조정 중"
 
-#: src/timeline2/view/qml/TrackHead.qml:188
+#: src/timeline2/view/qml/TrackHead.qml:171
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -30101,24 +30101,24 @@ msgstr ""
 "대상 트랙 여부를 전환하려면 클릭하십시오. 대상 트랙에 삽입된 클립이 추가됩니"
 "다"
 
-#: src/timeline2/view/qml/TrackHead.qml:275
+#: src/timeline2/view/qml/TrackHead.qml:257
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Shift</b> 키를 눌러 동일한 형식의 모든 트랙을 축소/확장(오디오/동영상)"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Minimize"
 msgstr "최소화"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Expand"
 msgstr "펼치기"
 
-#: src/timeline2/view/qml/TrackHead.qml:334
+#: src/timeline2/view/qml/TrackHead.qml:299
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -30127,37 +30127,37 @@ msgstr ""
 "트랙의 활성/비활성 상태를 전환하려면 클릭하십시오. 활성 트랙은 편집 작업에 반"
 "응합니다"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Disable track effects"
 msgstr "트랙 효과 비활성화"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Enable track effects"
 msgstr "트랙 효과 활성화"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Toggle track effects"
 msgstr "트랙 효과 전환"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Unmute"
 msgstr "음소거 해제"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Mute"
 msgstr "음소거"
 
-#: src/timeline2/view/qml/TrackHead.qml:590
+#: src/timeline2/view/qml/TrackHead.qml:528
 #, kde-format
 msgid "Edit track name"
 msgstr "트랙 이름 편집"
 
-#: src/timeline2/view/qml/TrackHead.qml:663
+#: src/timeline2/view/qml/TrackHead.qml:593
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""

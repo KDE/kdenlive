@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 02:38+0000\n"
+"POT-Creation-Date: 2025-04-10 02:31+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -29470,14 +29470,14 @@ msgstr "Ubah kecepatan klip"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "Gembok trek"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
 msgstr "Lepas gembok trek"
@@ -29792,14 +29792,14 @@ msgid "Speech recognition"
 msgstr "Pengenalan lisan"
 
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Show"
 msgstr "Tampilkan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:430 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Sembunyikan"
@@ -29835,7 +29835,7 @@ msgstr "%1%2, Durasi: = %3"
 msgid "Adjusting speed"
 msgstr "Sesuaikan kecepatan"
 
-#: src/timeline2/view/qml/TrackHead.qml:188
+#: src/timeline2/view/qml/TrackHead.qml:171
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -29844,7 +29844,7 @@ msgstr ""
 "Klik untuk menjungkitkan trek sebagai target. Trek target akan menerima klip "
 "yang disisipkan"
 
-#: src/timeline2/view/qml/TrackHead.qml:275
+#: src/timeline2/view/qml/TrackHead.qml:257
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -29852,17 +29852,17 @@ msgstr ""
 "<b>Shift</b> untuk membentangkan/menciutkan semua trek pada tipe yang sama "
 "(audio/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Minimize"
 msgstr "Minimalkan"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Expand"
 msgstr "Bentangkan"
 
-#: src/timeline2/view/qml/TrackHead.qml:334
+#: src/timeline2/view/qml/TrackHead.qml:299
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -29871,37 +29871,37 @@ msgstr ""
 "Klik untuk membuat aktif/nonaktif trek. Trek yang aktif akan bereaksi untuk "
 "operasi pengeditan"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Disable track effects"
 msgstr "Nonaktifkan efek trek"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Enable track effects"
 msgstr "Aktifkan efek trek"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Jungkit efek trek"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Unmute"
 msgstr "Bunyikan"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Mute"
 msgstr "Senyapkan"
 
-#: src/timeline2/view/qml/TrackHead.qml:590
+#: src/timeline2/view/qml/TrackHead.qml:528
 #, kde-format
 msgid "Edit track name"
 msgstr "Edit nama trek"
 
-#: src/timeline2/view/qml/TrackHead.qml:663
+#: src/timeline2/view/qml/TrackHead.qml:593
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""

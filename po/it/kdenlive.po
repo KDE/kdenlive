@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 02:38+0000\n"
+"POT-Creation-Date: 2025-04-10 02:31+0000\n"
 "PO-Revision-Date: 2025-03-30 14:43+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -29317,14 +29317,14 @@ msgstr "Cambia la velocità della clip"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "Blocca traccia"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
 msgstr "Sblocca traccia"
@@ -29640,14 +29640,14 @@ msgid "Speech recognition"
 msgstr "Riconoscimento vocale"
 
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Show"
 msgstr "Mostra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:430 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Nascondi"
@@ -29683,7 +29683,7 @@ msgstr "%1%2, Durata = %3"
 msgid "Adjusting speed"
 msgstr "Regolazione velocità"
 
-#: src/timeline2/view/qml/TrackHead.qml:188
+#: src/timeline2/view/qml/TrackHead.qml:171
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -29692,7 +29692,7 @@ msgstr ""
 "Fai clic per attivare o meno la traccia come destinazione. Le tracce di "
 "destinazione riceveranno le clip inserite"
 
-#: src/timeline2/view/qml/TrackHead.qml:275
+#: src/timeline2/view/qml/TrackHead.qml:257
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -29700,17 +29700,17 @@ msgstr ""
 "<b>Maiusc</b> per contrarre/espandere tutte le tracce dello stesso tipo "
 "(audio/video)"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Minimize"
 msgstr "Minimizza"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Expand"
 msgstr "Espandi"
 
-#: src/timeline2/view/qml/TrackHead.qml:334
+#: src/timeline2/view/qml/TrackHead.qml:299
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -29719,37 +29719,37 @@ msgstr ""
 "Fai clic per rendere la traccia attiva o disattiva; le tracce attive "
 "reagiranno alle operazioni di modifica"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Disable track effects"
 msgstr "Disabilita gli effetti nella traccia"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Enable track effects"
 msgstr "Abilita gli effetti nella traccia"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Abilita/disabilita gli effetti nella traccia"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Unmute"
 msgstr "Attiva l'audio"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Mute"
 msgstr "Silenzia"
 
-#: src/timeline2/view/qml/TrackHead.qml:590
+#: src/timeline2/view/qml/TrackHead.qml:528
 #, kde-format
 msgid "Edit track name"
 msgstr "Modifica il nome della traccia"
 
-#: src/timeline2/view/qml/TrackHead.qml:663
+#: src/timeline2/view/qml/TrackHead.qml:593
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""

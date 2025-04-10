@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 02:38+0000\n"
-"PO-Revision-Date: 2025-03-14 17:16+0300\n"
+"POT-Creation-Date: 2025-04-10 02:31+0000\n"
+"PO-Revision-Date: 2025-04-09 17:25+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -58,7 +58,7 @@ msgstr "Баланс"
 #: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
-msgstr "Отрегулировать баланс левого и правого каналов"
+msgstr "Регулировка баланса левого и правого каналов"
 
 #: data/effects/audiolevel.xml:4
 #, kde-format
@@ -300,7 +300,7 @@ msgstr "Панорамирование"
 #: data/effects/audiopan.xml:5
 #, kde-format
 msgid "Adjust the left/right spread of a channel"
-msgstr "Отрегулировать распределение звука по левому и правому каналам"
+msgstr "Регулировка распределения звука по левому и правому каналам"
 
 #: data/effects/audiopan.xml:8 data/effects/channelcopy.xml:8
 #: data/effects/channelcopy.xml:12
@@ -1083,27 +1083,27 @@ msgstr ""
 #: data/effects/avfilter/avfilter_atadenoise.xml:11
 #, kde-format
 msgid "B threshold for 1st plane"
-msgstr ""
+msgstr "Порог B для первой плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:14
 #, kde-format
 msgid "A threshold for 2nd plane"
-msgstr ""
+msgstr "Порог A для второй плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:17
 #, kde-format
 msgid "B threshold for 2nd plane"
-msgstr ""
+msgstr "Порог B для второй плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:20
 #, kde-format
 msgid "A threshold for 3rd plane"
-msgstr ""
+msgstr "Порог A для третьей плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:23
 #, kde-format
 msgid "B threshold for 3rd plane"
-msgstr ""
+msgstr "Порог B для третьей плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
 #, fuzzy, kde-format
@@ -1158,7 +1158,7 @@ msgstr "Красный,Зелёный,Синий,Яркость"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:22
 #, kde-format
 msgid "Planes"
-msgstr ""
+msgstr "Плоскости"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, fuzzy, kde-format
@@ -1292,10 +1292,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Luma Radius"
-msgstr "Радиус размытия"
+msgstr "Радиус яркости"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
@@ -1303,22 +1302,20 @@ msgid "Radius of the luma blurring box"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Power"
-msgstr "Яркостный режим"
+msgstr "Мощность яркости"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
-msgstr ""
+msgstr "Сколько раз следует применить размытие по рамке к яркости"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Chroma Radius"
-msgstr "Радиус размытия"
+msgstr "Радиус насыщенности"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
@@ -1326,10 +1323,9 @@ msgid "Radius of the chroma blurring box"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
-#, fuzzy, kde-format
-#| msgid "Chroma Keep"
+#, kde-format
 msgid "Chroma Power"
-msgstr "Удержание цвета"
+msgstr "Мощность насыщенности"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
@@ -1589,10 +1585,9 @@ msgid "Distance"
 msgstr "Танцевальный"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
-#, fuzzy, kde-format
-#| msgid "Max shift"
+#, kde-format
 msgid "Chroma shift"
-msgstr "Максимальное смещение"
+msgstr "Смещение насыщенности"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
 #, fuzzy, kde-format
@@ -1772,15 +1767,14 @@ msgid "Blue-Blue"
 msgstr "Крутизна кривой синего канала"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Color Contrast"
-msgstr "Контраст"
+msgstr "Цветовой контраст"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
 msgid "Adjust color contrast between RGB components."
-msgstr ""
+msgstr "Регулировка цветового контраста между компонентами RGB"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
 #, fuzzy, kde-format
@@ -4407,12 +4401,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:4
 #, kde-format
 msgid "Kirsch"
-msgstr ""
+msgstr "Кирш"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:5
 #, kde-format
 msgid "Apply kirsch operator."
-msgstr ""
+msgstr "Применить оператор Кирша"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
@@ -5170,12 +5164,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
 msgid "Prewitt"
-msgstr ""
+msgstr "Прюитт"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:5
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
-msgstr ""
+msgstr "Применить оператор Прюитт к входному видеопотоку"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, fuzzy, kde-format
@@ -5307,12 +5301,12 @@ msgstr "Коррекция по краю"
 #: data/effects/avfilter/avfilter_roberts.xml:4
 #, kde-format
 msgid "Roberts"
-msgstr ""
+msgstr "Робертс"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
 msgid "Apply roberts cross operator to input video stream"
-msgstr ""
+msgstr "Применить перекрёстный оператор Робертса к входному видеопотоку"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5531,28 +5525,24 @@ msgid "Reorder and/or duplicate video planes"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:8
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "1st Output Plane"
-msgstr "Выходной язык"
+msgstr "Первая выходная плоскость"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:11
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "2nd Output Plane"
-msgstr "Выходной язык"
+msgstr "Вторая выходная плоскость"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:14
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "3rd Output Plane"
-msgstr "Выходной язык"
+msgstr "Третья выходная плоскость"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:17
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "4th Output Plane"
-msgstr "Выходной язык"
+msgstr "Четвёртая выходная плоскость"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, fuzzy, kde-format
@@ -5698,15 +5688,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
-#, fuzzy, kde-format
-#| msgid "Sobel filter"
+#, kde-format
 msgid "Sobel with planes"
-msgstr "Фильтр Собеля"
+msgstr "Собель с плоскостями"
 
 #: data/effects/avfilter/avfilter_sobel.xml:5
 #, kde-format
 msgid "Apply sobel operator to input video stream."
-msgstr ""
+msgstr "Применить оператор Собеля к входному видеопотоку"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
 #, fuzzy, kde-format
@@ -12547,7 +12536,7 @@ msgstr "Транспонирование на октаву (Rubberband)"
 #: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
 msgid "Adjust the audio pitch using the Rubberband library."
-msgstr "Регулирование высоты звука с использованием библиотеки Rubberband."
+msgstr "Регулировка высоты звука с использованием библиотеки Rubberband"
 
 #: data/effects/rboctaveshift.xml:8
 #, kde-format
@@ -13573,7 +13562,7 @@ msgstr "Громкость"
 #: data/effects/volume.xml:5
 #, kde-format
 msgid "Adjust audio volume with keyframes"
-msgstr "Регулировать уровень звука по ключевым кадрам"
+msgstr "Регулировка уровня звука по ключевым кадрам"
 
 #: data/effects/wave.xml:4
 #, kde-format
@@ -17638,13 +17627,13 @@ msgstr "Линейный, по вертикали"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
-msgstr "Билинейный, по-горизонтали"
+msgstr "Билинейный, по горизонтали"
 
 #: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
-msgstr "Билинейный, по-вертикали"
+msgstr "Билинейный, по вертикали"
 
 #: src/core.cpp:403
 #, kde-format
@@ -29680,14 +29669,14 @@ msgstr "Изменить скорость клипа"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокировать дорожку"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/timeline.qml:1213
-#: src/timeline2/view/qml/TrackHead.qml:516
+#: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
 msgstr "Разблокировать дорожку"
@@ -30001,14 +29990,14 @@ msgid "Speech recognition"
 msgstr "Распознать речь"
 
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Show"
 msgstr "Показать"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/timeline.qml:1189
-#: src/timeline2/view/qml/TrackHead.qml:482 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:430 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Скрыть"
@@ -30044,7 +30033,7 @@ msgstr "%1%2, Длительность = %3"
 msgid "Adjusting speed"
 msgstr "Регулировка скорости"
 
-#: src/timeline2/view/qml/TrackHead.qml:188
+#: src/timeline2/view/qml/TrackHead.qml:171
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -30053,23 +30042,23 @@ msgstr ""
 "Включить или отключить целевую дорожку. На целевых дорожках производится "
 "вставка клипов"
 
-#: src/timeline2/view/qml/TrackHead.qml:275
+#: src/timeline2/view/qml/TrackHead.qml:257
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b>: свернуть/развернуть все дорожки одного типа (звук/видео)"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Minimize"
 msgstr "Свернуть"
 
-#: src/timeline2/view/qml/TrackHead.qml:295
+#: src/timeline2/view/qml/TrackHead.qml:269
 #, kde-format
 msgid "Expand"
 msgstr "Развернуть"
 
-#: src/timeline2/view/qml/TrackHead.qml:334
+#: src/timeline2/view/qml/TrackHead.qml:299
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -30078,37 +30067,37 @@ msgstr ""
 "Щелчок активирует/деактивирует дорожку. Активные дорожки работают с "
 "операциями правки"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Disable track effects"
 msgstr "Отключить эффекты дорожки"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Enable track effects"
 msgstr "Включить эффекты дорожки"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:398
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Включить или отключить эффекты дорожки"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Unmute"
 msgstr "Включить звук"
 
-#: src/timeline2/view/qml/TrackHead.qml:482
+#: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Mute"
 msgstr "Отключить звук"
 
-#: src/timeline2/view/qml/TrackHead.qml:590
+#: src/timeline2/view/qml/TrackHead.qml:528
 #, kde-format
 msgid "Edit track name"
 msgstr "Изменить имя дорожки"
 
-#: src/timeline2/view/qml/TrackHead.qml:663
+#: src/timeline2/view/qml/TrackHead.qml:593
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr "Нажмите для цикличного перехода по списку масштабов звукового спектра"
