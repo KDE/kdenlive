@@ -4611,12 +4611,12 @@ bool TimelineModel::requestClipUngroup(int itemId, bool logUndo)
     return result;
 }
 
-bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo, bool onDeletion)
 {
     QWriteLocker locker(&m_lock);
     bool isSelection = m_groups->getType(m_groups->getRootId(itemId)) == GroupType::Selection;
     if (!isSelection) {
-        requestClearSelection();
+        requestClearSelection(onDeletion);
     }
     bool res = m_groups->ungroupItem(itemId, undo, redo);
     if (res && !isSelection) {
