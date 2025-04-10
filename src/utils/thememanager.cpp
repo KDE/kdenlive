@@ -40,12 +40,7 @@ ThemeManager::ThemeManager(QObject *parent)
     }
     activateScheme(indexForScheme(scheme));
     m_menu = KColorSchemeMenu::createMenu(this, this);
-
-    connect(m_menu->menu(), &QMenu::triggered, this, [this](QAction *action) {
-        QModelIndex schemeIndex = indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
-        const QString path = model()->data(schemeIndex, Qt::UserRole).toString();
-        slotSchemeChanged(path);
-    });
+    connect(m_menu->menu(), &QMenu::triggered, this, &ThemeManager::schemeActionTriggered);
 }
 
 QString ThemeManager::loadCurrentPath() const
@@ -63,8 +58,10 @@ void ThemeManager::saveCurrentScheme(const QString &path)
     cg.sync();
 }
 
-void ThemeManager::slotSchemeChanged(const QString &path)
+void ThemeManager::schemeActionTriggered(QAction *action)
 {
+    QModelIndex schemeIndex = indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
+    const QString path = model()->data(schemeIndex, Qt::UserRole).toString();
     saveCurrentScheme(QFileInfo(path).fileName());
     Q_EMIT themeChanged(path);
 }
