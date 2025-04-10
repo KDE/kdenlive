@@ -896,7 +896,7 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     int endClipId = timeline->getClipByPosition(trackId, zone.y());
     if (endClipId > -1) {
         // There is a clip, cut it
-        if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
+        if (timeline->getItemEnd(endClipId) > zone.y() && timeline->getItemPosition(endClipId) < zone.y()) {
             // Check if we have a mix
             std::pair<MixInfo, MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(endClipId);
             bool abortCut = false;
@@ -920,7 +920,9 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, zone.x(), zone.y());
     for (const auto &clipId : clips) {
-        timeline->requestClipUngroup(clipId, undo, redo);
+        if (timeline->isInGroup(clipId)) {
+            timeline->requestClipUngroup(clipId, undo, redo, true);
+        }
         timeline->requestItemDeletion(clipId, undo, redo);
     }
     return true;

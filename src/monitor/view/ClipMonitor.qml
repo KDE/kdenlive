@@ -62,7 +62,7 @@ Item {
     property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
     Component.onCompleted: {
         // adjust monitor image size if audio thumb is displayed
-        if (audioThumb.stateVisible && audioThumb.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -110,7 +110,7 @@ Item {
         }
 
         // adjust monitor image size if audio thumb is displayed
-        if (audioThumb.stateVisible && audioThumb.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -118,7 +118,7 @@ Item {
     }
 
     onZoomOffsetChanged: {
-        if (audioThumb.stateVisible && audioThumb.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -126,7 +126,7 @@ Item {
     }
 
     onHeightChanged: {
-        if (audioThumb.stateVisible && audioThumb.visible) {
+        if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
             controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight) / 6) + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
@@ -258,7 +258,7 @@ Item {
                 }
                 onStateVisibleChanged: {
                     // adjust monitor image size
-                    if (stateVisible && audioThumb.visible) {
+                    if (K.KdenliveSettings.alwaysShowMonitorAudio && audioThumb.visible) {
                         controller.rulerHeight = audioThumb.height + root.zoomOffset
                     } else {
                         controller.rulerHeight = root.zoomOffset

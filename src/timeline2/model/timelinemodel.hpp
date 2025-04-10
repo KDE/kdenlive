@@ -665,7 +665,7 @@ public:
     */
     bool requestClipUngroup(int itemId, bool logUndo = true);
     /** Same function, but accumulates undo and redo @see requestClipUngroup*/
-    bool requestClipUngroup(int itemId, Fun &undo, Fun &redo);
+    bool requestClipUngroup(int itemId, Fun &undo, Fun &redo, bool onDeletion = false);
     /** Remove an item from a group*/
     bool requestRemoveFromGroup(int itemId, Fun &undo, Fun &redo);
     /** @brief convenience functions for several ids at the same time */
