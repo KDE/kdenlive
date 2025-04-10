@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 00:41+0000\n"
+"POT-Creation-Date: 2025-04-10 00:40+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -28798,7 +28798,7 @@ msgstr "रंग उलट करा (&I)"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Lock track"
@@ -28806,7 +28806,7 @@ msgstr "ट्रॅक"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Unlock track"
@@ -29112,7 +29112,7 @@ msgid "Speech recognition"
 msgstr "निवड साधन (&S)"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Show"
@@ -29120,7 +29120,7 @@ msgstr "ट्रॅक"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:406 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr ""
@@ -29163,76 +29163,76 @@ msgstr "कालावधी"
 msgid "Adjusting speed"
 msgstr "ट्रॅक"
 
-#: src/timeline2/view/qml/TrackHead.qml:183
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Minimize"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Expand"
 msgstr "परिणाम नाही"
 
-#: src/timeline2/view/qml/TrackHead.qml:321
+#: src/timeline2/view/qml/TrackHead.qml:286
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable track effects"
 msgstr "परिणाम नाही"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable track effects"
 msgstr "परिणाम नाही"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 msgid "Toggle track effects"
 msgstr "परिणाम :"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:397
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Unmute"
 msgstr "संयोजना"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, fuzzy, kde-format
 msgid "Mute"
 msgstr "मौन"
 
-#: src/timeline2/view/qml/TrackHead.qml:553
+#: src/timeline2/view/qml/TrackHead.qml:491
 #, fuzzy, kde-format
 msgid "Edit track name"
 msgstr "माऊसचा मागोवा घ्या"
 
-#: src/timeline2/view/qml/TrackHead.qml:626
+#: src/timeline2/view/qml/TrackHead.qml:556
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""

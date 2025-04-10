@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 00:41+0000\n"
+"POT-Creation-Date: 2025-04-10 00:40+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -29982,14 +29982,14 @@ msgstr "Ændr kliphastighed"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Lås spor"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Lås spor op"
@@ -30335,14 +30335,14 @@ msgid "Speech recognition"
 msgstr "Markér overgang"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Show"
 msgstr "Vis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:406 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Skjul"
@@ -30390,75 +30390,75 @@ msgstr ""
 msgid "Adjusting speed"
 msgstr "Justerer hastighed"
 
-#: src/timeline2/view/qml/TrackHead.qml:183
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Minimize"
 msgstr "Minimer"
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Expand"
 msgstr "Udfold"
 
-#: src/timeline2/view/qml/TrackHead.qml:321
+#: src/timeline2/view/qml/TrackHead.qml:286
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
 "operations"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 #| msgid "Disable Bin Effects"
 msgid "Disable track effects"
 msgstr "Deaktivér kurv-effekter"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable track effects"
 msgstr "Aktivér effekt"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 #| msgid "Toggle Track Target"
 msgid "Toggle track effects"
 msgstr "Spormål til/fra"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:397
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "Lydløs fra"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "Lydløs"
 
-#: src/timeline2/view/qml/TrackHead.qml:553
+#: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format
 msgid "Edit track name"
 msgstr "Redigér spornavn"
 
-#: src/timeline2/view/qml/TrackHead.qml:626
+#: src/timeline2/view/qml/TrackHead.qml:556
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""

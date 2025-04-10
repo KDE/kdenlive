@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 00:41+0000\n"
+"POT-Creation-Date: 2025-04-10 00:40+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -29889,14 +29889,14 @@ msgstr "クリップタイプの変更"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "トラックの施錠"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "トラックの解錠"
@@ -30215,14 +30215,14 @@ msgid "Speech recognition"
 msgstr "遷移効果の選択(E)"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Show"
 msgstr "表示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:406 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "隠す"
@@ -30266,7 +30266,7 @@ msgstr ""
 msgid "Adjusting speed"
 msgstr "スピードの調整"
 
-#: src/timeline2/view/qml/TrackHead.qml:183
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -30275,24 +30275,24 @@ msgstr ""
 "クリックしてトラックのターゲットを切り替えます。クリップの挿入はターゲットに"
 "されたトラックに対して行われます。"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Minimize"
 msgstr "最小化"
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, fuzzy, kde-format
 #| msgid "Edit Clip"
 msgid "Expand"
 msgstr "クリップの編集(E)"
 
-#: src/timeline2/view/qml/TrackHead.qml:321
+#: src/timeline2/view/qml/TrackHead.qml:286
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -30301,45 +30301,45 @@ msgstr ""
 "クリックしてトラックをアクティブ/非アクティブにします。アクティブなトラックに"
 "は編集操作が適用されます。"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Disable track effects"
 msgstr "効果の保存"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Enable track effects"
 msgstr "効果の保存"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, fuzzy, kde-format
 #| msgid "Overlay effect"
 msgid "Toggle track effects"
 msgstr "オーバーレイ効果"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:397
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "ミュートを解除"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "ミュート"
 
-#: src/timeline2/view/qml/TrackHead.qml:553
+#: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format
 msgid "Edit track name"
 msgstr "トラック名を編集"
 
-#: src/timeline2/view/qml/TrackHead.qml:626
+#: src/timeline2/view/qml/TrackHead.qml:556
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""

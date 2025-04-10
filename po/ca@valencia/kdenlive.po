@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 00:41+0000\n"
+"POT-Creation-Date: 2025-04-10 00:40+0000\n"
 "PO-Revision-Date: 2025-04-01 09:34+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -29527,14 +29527,14 @@ msgstr "Canvia la velocitat del clip"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Bloqueja la pista"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Desbloqueja la pista"
@@ -29843,14 +29843,14 @@ msgid "Speech recognition"
 msgstr "Reconeixement de la veu"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Show"
 msgstr "Mostra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:406 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Oculta"
@@ -29891,7 +29891,7 @@ msgstr "%1%2, Duració = %3"
 msgid "Adjusting speed"
 msgstr "Ajust de la velocitat"
 
-#: src/timeline2/view/qml/TrackHead.qml:183
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -29900,7 +29900,7 @@ msgstr ""
 "Feu clic per a canviar la pista com a destinació. Les pistes de destinació "
 "rebran els clips inserits"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -29908,17 +29908,17 @@ msgstr ""
 "<b>Maj</b> per a contraure/expandir totes les pistes del mateix tipus (àudio/"
 "vídeo)"
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Minimize"
 msgstr "Minimitza"
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Expand"
 msgstr "Expandix"
 
-#: src/timeline2/view/qml/TrackHead.qml:321
+#: src/timeline2/view/qml/TrackHead.qml:286
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -29927,44 +29927,44 @@ msgstr ""
 "Feu clic per a fer activa o inactiva la pista. Les pistes actives "
 "reaccionaran a les operacions d'edició"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Disable track effects"
 msgstr "Desactiva els efectes de la pista"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Enable track effects"
 msgstr "Activa els efectes de la pista"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Alterna els efectes de la pista"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:397
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
 "<b>Maj</b> per a mostrar/ocultar totes les pistes del mateix tipus (àudio/"
 "vídeo)"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "Activa el so"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "Silenci"
 
-#: src/timeline2/view/qml/TrackHead.qml:553
+#: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format
 msgid "Edit track name"
 msgstr "Edita el nom de la pista"
 
-#: src/timeline2/view/qml/TrackHead.qml:626
+#: src/timeline2/view/qml/TrackHead.qml:556
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr "Cliqueu per a circular pel zoom de les formes d'ona d'àudio"

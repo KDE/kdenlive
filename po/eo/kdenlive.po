@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 00:41+0000\n"
+"POT-Creation-Date: 2025-04-10 00:40+0000\n"
 "PO-Revision-Date: 2025-03-22 22:36+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -29215,14 +29215,14 @@ msgstr "Ŝanĝi tondaĵan rapidecon"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Ŝlosi trakon"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Malŝlosi trakon"
@@ -29526,14 +29526,14 @@ msgid "Speech recognition"
 msgstr "Parola rekono"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Show"
 msgstr "Montri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:406 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Kaŝi"
@@ -29574,7 +29574,7 @@ msgstr "%1%2, Daŭro = %3"
 msgid "Adjusting speed"
 msgstr "Ĝustigante rapidecon"
 
-#: src/timeline2/view/qml/TrackHead.qml:183
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -29583,7 +29583,7 @@ msgstr ""
 "Klaku por ŝanĝi trakon kiel celon. Celaj trakoj ricevos la enmetitajn "
 "tondaĵojn"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -29591,17 +29591,17 @@ msgstr ""
 "<b>Shift</b> por kolapsi/vastigi ĉiujn trakojn de la sama tipo (aŭdio/"
 "vidbendo)"
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Minimize"
 msgstr "Minimumigi"
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Expand"
 msgstr "Vastigi"
 
-#: src/timeline2/view/qml/TrackHead.qml:321
+#: src/timeline2/view/qml/TrackHead.qml:286
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -29610,22 +29610,22 @@ msgstr ""
 "Klaku por fari trakon aktiva/neaktiva. Aktivaj aŭtoveturejoj reagos al "
 "redaktaj operacioj"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Disable track effects"
 msgstr "Malebligi spurajn efikojn"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Enable track effects"
 msgstr "Ebligi trakajn efikojn"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Ŝalti trakajn efikojn"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:397
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
@@ -29634,22 +29634,22 @@ msgstr ""
 "<b>Shift</b> por kolapsi/vastigi ĉiujn trakojn de la sama tipo (aŭdio/"
 "vidbendo)"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "Malsilentigi"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "Silentigi"
 
-#: src/timeline2/view/qml/TrackHead.qml:553
+#: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format
 msgid "Edit track name"
 msgstr "Redakti trakonomon"
 
-#: src/timeline2/view/qml/TrackHead.qml:626
+#: src/timeline2/view/qml/TrackHead.qml:556
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr "Klaku por tracikli zomon de aŭdaj ondformoj"

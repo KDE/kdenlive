@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-08 00:41+0000\n"
-"PO-Revision-Date: 2025-03-14 17:16+0300\n"
+"POT-Creation-Date: 2025-04-10 00:40+0000\n"
+"PO-Revision-Date: 2025-04-09 17:25+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -58,7 +58,7 @@ msgstr "Баланс"
 #: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
-msgstr "Отрегулировать баланс левого и правого каналов"
+msgstr "Регулировка баланса левого и правого каналов"
 
 #: data/effects/audiolevel.xml:4
 #, kde-format
@@ -300,7 +300,7 @@ msgstr "Панорамирование"
 #: data/effects/audiopan.xml:5
 #, kde-format
 msgid "Adjust the left/right spread of a channel"
-msgstr "Отрегулировать распределение звука по левому и правому каналам"
+msgstr "Регулировка распределения звука по левому и правому каналам"
 
 #: data/effects/audiopan.xml:8 data/effects/channelcopy.xml:8
 #: data/effects/channelcopy.xml:12
@@ -515,20 +515,17 @@ msgstr "Канал для рисования"
 
 #: data/effects/avfilter/acompressor.xml:4
 #, fuzzy, kde-format
-#| msgid "Compressed archive:"
 msgid "Compressor (avfilter)"
 msgstr "Сжатый архив:"
 
 #: data/effects/avfilter/acompressor.xml:5
 #, fuzzy, kde-format
-#| msgid "Audio Codecs"
 msgid "Audio Compressor"
 msgstr "Звуковые кодеки"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
 #, fuzzy, kde-format
-#| msgid "Input gain (dB)"
 msgid "Input Gain"
 msgstr "Усиление на входе (дБ)"
 
@@ -548,7 +545,6 @@ msgstr "Порог"
 
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
 #, fuzzy, kde-format
-#| msgid "Rotation"
 msgid "Ratio"
 msgstr "Вращение"
 
@@ -563,7 +559,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_alimiter.xml:20
 #: data/effects/avfilter/avfilter_aphaser.xml:20
 #, fuzzy, kde-format
-#| msgid "Release time (s)"
 msgid "Release"
 msgstr "Время восстановления (с)"
 
@@ -584,7 +579,6 @@ msgstr ""
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
 #, fuzzy, kde-format
-#| msgid "Type"
 msgid "Link Type"
 msgstr "Тип"
 
@@ -595,7 +589,6 @@ msgstr ""
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
 #, fuzzy, kde-format
-#| msgid "Direction"
 msgid "Detection"
 msgstr "Направление"
 
@@ -623,19 +616,16 @@ msgstr "Смешивание"
 
 #: data/effects/avfilter/aecho.xml:4
 #, fuzzy, kde-format
-#| msgid "EQ and filters"
 msgid "Echo (avfilter)"
 msgstr "Эквалайзеры и фильтры"
 
 #: data/effects/avfilter/aecho.xml:5
 #, fuzzy, kde-format
-#| msgid "Add Effect"
 msgid "Add Echo"
 msgstr "Добавить эффект"
 
 #: data/effects/avfilter/aecho.xml:11
 #, fuzzy, kde-format
-#| msgid "Output file"
 msgid "Output Gain"
 msgstr "Выходной файл"
 
@@ -658,13 +648,11 @@ msgstr "Распад"
 
 #: data/effects/avfilter/agate.xml:4
 #, fuzzy, kde-format
-#| msgid "Rate Scaler"
 msgid "Gate (avfilter)"
 msgstr "Изменить темп"
 
 #: data/effects/avfilter/agate.xml:5
 #, fuzzy, kde-format
-#| msgid "Audio Wave"
 msgid "Audio Gate"
 msgstr "Звуковой график"
 
@@ -700,7 +688,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_acrusher.xml:5
 #, fuzzy, kde-format
-#| msgid "Render at Preview Resolution"
 msgid "Reduce audio bit resolution."
 msgstr "Сборка с разрешением для предпросмотра"
 
@@ -710,7 +697,6 @@ msgstr "Сборка с разрешением для предпросмотра
 #: data/effects/avfilter/avfilter_apulsator.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:22
 #, fuzzy, kde-format
-#| msgid "Input gain (dB)"
 msgid "Input gain"
 msgstr "Усиление на входе (дБ)"
 
@@ -720,7 +706,6 @@ msgstr "Усиление на входе (дБ)"
 #: data/effects/avfilter/avfilter_apulsator.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:25
 #, fuzzy, kde-format
-#| msgid "Output file"
 msgid "Output gain"
 msgstr "Выходной файл"
 
@@ -732,14 +717,12 @@ msgstr "Ограничитель"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:17
 #, fuzzy, kde-format
-#| msgid "Direction"
 msgid "Bit reduction"
 msgstr "Направление"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:23
 #: data/effects/avfilter/avfilter_histogram.xml:18
 #, fuzzy, kde-format
-#| msgid "Logarithmic"
 msgid "Linear,Logarithmic"
 msgstr "Логарифмическая"
 
@@ -762,25 +745,21 @@ msgstr "Режим"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:27
 #, fuzzy, kde-format
-#| msgid "C"
 msgid "DC"
 msgstr "C"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:30
 #, fuzzy, kde-format
-#| msgid "Initialising..."
 msgid "Anti-aliasing"
 msgstr "Инициализация..."
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
 #, fuzzy, kde-format
-#| msgid "Save Selection"
 msgid "Sample reduction"
 msgstr "Сохранить выбранное"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
 #, fuzzy, kde-format
-#| msgid "Enable"
 msgid "Enable LFO"
 msgstr "Включить"
 
@@ -791,7 +770,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
 #, fuzzy, kde-format
-#| msgid "Frame rate"
 msgid "LFO rate"
 msgstr "Кадровая частота"
 
@@ -809,25 +787,21 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
 #, fuzzy, kde-format
-#| msgid "Enable"
 msgid "Enable ASC"
 msgstr "Включить"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
 #, fuzzy, kde-format
-#| msgid "Audio levels"
 msgid "ASC level"
 msgstr "Уровни звука"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
 #, fuzzy, kde-format
-#| msgid "Normalize"
 msgid "Normalize to 0dB"
 msgstr "Нормализация"
 
 #: data/effects/avfilter/avfilter_allpass.xml:4
 #, fuzzy, kde-format
-#| msgid "2 pass"
 msgid "Allpass"
 msgstr "Два прохода"
 
@@ -847,7 +821,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowpass.xml:8
 #: data/effects/avfilter/avfilter_lowshelf.xml:8
 #, fuzzy, kde-format
-#| msgid "Center Frequency"
 msgid "Central frequency"
 msgstr "Центральная частота"
 
@@ -870,7 +843,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, fuzzy, kde-format
-#| msgid "Wipe Method"
 msgid "Method"
 msgstr "Метод вытеснения"
 
@@ -883,7 +855,6 @@ msgstr "Метод вытеснения"
 #: data/effects/avfilter/avfilter_lowpass.xml:15
 #: data/effects/avfilter/avfilter_lowshelf.xml:15
 #, fuzzy, kde-format
-#| msgid "Feather width"
 msgid "Filter-width"
 msgstr "Ширина растушёвки"
 
@@ -938,7 +909,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowpass.xml:29
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
 #, fuzzy, kde-format
-#| msgid "Transform"
 msgid "Transform type"
 msgstr "Трансформация"
 
@@ -963,7 +933,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowpass.xml:33
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
 #, fuzzy, kde-format
-#| msgid "File Extension"
 msgid "Filter precision"
 msgstr "Расширение файла"
 
@@ -975,32 +944,27 @@ msgstr "Фейзер"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:14
 #, fuzzy, kde-format
-#| msgid "Duration (seconds)"
 msgid "Delay in milliseconds"
 msgstr "Длительность (в секундах)"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
 #: data/effects/avfilter/avfilter_flanger.xml:28
 #, fuzzy, kde-format
-#| msgid "Triangular window"
 msgid "Triangular,Sinusoidal"
 msgstr "Треугольное окно"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:24
 #, fuzzy, kde-format
-#| msgid "Modulators"
 msgid "Modulation type"
 msgstr "Модуляторы"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:4
 #, fuzzy, kde-format
-#| msgid "Modulators"
 msgid "Pulsator"
 msgstr "Модуляторы"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:5
 #, fuzzy, kde-format
-#| msgid "Audio stream"
 msgid " Audio pulsator."
 msgstr "Звуковой поток"
 
@@ -1011,25 +975,21 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_apulsator.xml:18
 #, fuzzy, kde-format
-#| msgid "Modulators"
 msgid "Modulation"
 msgstr "Модуляторы"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:21
 #, fuzzy, kde-format
-#| msgid "Offset X"
 msgid "Offset L"
 msgstr "Смещение по X"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:24
 #, fuzzy, kde-format
-#| msgid "Offset Red"
 msgid "Offset R"
 msgstr "Смещение красного канала"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:27
 #, fuzzy, kde-format
-#| msgid "Outline width"
 msgid "Pulse width"
 msgstr "Толщина контура"
 
@@ -1040,13 +1000,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, fuzzy, kde-format
-#| msgid "Dimming"
 msgid "Timing"
 msgstr "Затемнение"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
 #, fuzzy, kde-format
-#| msgid "RPM"
 msgid "BPM"
 msgstr "Оборотов в минуту"
 
@@ -1057,7 +1015,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_apulsator.xml:40
 #, fuzzy, kde-format
-#| msgid "Frequency"
 msgid "Frequency in Hz"
 msgstr "Частота"
 
@@ -1084,37 +1041,35 @@ msgstr ""
 #: data/effects/avfilter/avfilter_atadenoise.xml:11
 #, kde-format
 msgid "B threshold for 1st plane"
-msgstr ""
+msgstr "Порог B для первой плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:14
 #, kde-format
 msgid "A threshold for 2nd plane"
-msgstr ""
+msgstr "Порог A для второй плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:17
 #, kde-format
 msgid "B threshold for 2nd plane"
-msgstr ""
+msgstr "Порог B для второй плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:20
 #, kde-format
 msgid "A threshold for 3rd plane"
-msgstr ""
+msgstr "Порог A для третьей плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:23
 #, kde-format
 msgid "B threshold for 3rd plane"
-msgstr ""
+msgstr "Порог B для третьей плоскости"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
 #, fuzzy, kde-format
-#| msgid "Number of frames for lowpass filtering"
 msgid "Number of frames for averaging"
 msgstr "Количество кадров для низкочастотной фильтрации"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:4
 #, fuzzy, kde-format
-#| msgid "Average Bitrate"
 msgid "Average Blur"
 msgstr "Средний битовый поток"
 
@@ -1137,7 +1092,6 @@ msgstr "Высота"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
 #, fuzzy, kde-format
-#| msgid "Red,Green,Blue,Luma"
 msgid "Alpha,Y,U,V,Red,Green,Blue,All"
 msgstr "Красный,Зелёный,Синий,Яркость"
 
@@ -1159,11 +1113,10 @@ msgstr "Красный,Зелёный,Синий,Яркость"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:22
 #, kde-format
 msgid "Planes"
-msgstr ""
+msgstr "Плоскости"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, fuzzy, kde-format
-#| msgid "Pan, low-pass"
 msgid "Band-pass"
 msgstr "Панорамирование, низкие частоты"
 
@@ -1179,13 +1132,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bandpass.xml:8
 #: data/effects/avfilter/avfilter_equalizer.xml:8
 #, fuzzy, kde-format
-#| msgid "Center Frequency"
 msgid "Central Frequency"
 msgstr "Центральная частота"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
 #, fuzzy, kde-format
-#| msgid "Don't ask again"
 msgid "Constant skirt gain"
 msgstr "Больше не спрашивать"
 
@@ -1204,7 +1155,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, fuzzy, kde-format
-#| msgid "Sox Bass"
 msgid "Bass"
 msgstr "Низкие частоты (SoX)"
 
@@ -1250,7 +1200,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, fuzzy, kde-format
-#| msgid "Spatial"
 msgid "Spatial sigma"
 msgstr "По пространству"
 
@@ -1273,13 +1222,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_cas.xml:12
 #: data/effects/avfilter/avfilter_kirsch.xml:16
 #, fuzzy, kde-format
-#| msgid "Red,Green,Blue,Luma"
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
 msgstr "Красный,Зелёный,Синий,Яркость"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, fuzzy, kde-format
-#| msgid "Square Blur"
 msgid "Planes Blur"
 msgstr "Квадратное размывание"
 
@@ -1292,10 +1239,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Luma Radius"
-msgstr "Радиус размытия"
+msgstr "Радиус яркости"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
@@ -1303,22 +1249,20 @@ msgid "Radius of the luma blurring box"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Luma Power"
-msgstr "Яркостный режим"
+msgstr "Мощность яркости"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
-msgstr ""
+msgstr "Сколько раз следует применить размытие по рамке к яркости"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Chroma Radius"
-msgstr "Радиус размытия"
+msgstr "Радиус насыщенности"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
@@ -1326,10 +1270,9 @@ msgid "Radius of the chroma blurring box"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
-#, fuzzy, kde-format
-#| msgid "Chroma Keep"
+#, kde-format
 msgid "Chroma Power"
-msgstr "Удержание цвета"
+msgstr "Мощность насыщенности"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
@@ -1338,7 +1281,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
 #, fuzzy, kde-format
-#| msgid "Blur Radius"
 msgid "Alpha Radius"
 msgstr "Радиус размытия"
 
@@ -1349,7 +1291,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:28
 #, fuzzy, kde-format
-#| msgid "alphaover"
 msgid "Alpha Power"
 msgstr "Альфа Over"
 
@@ -1360,7 +1301,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:4
 #, fuzzy, kde-format
-#| msgid "Stereo to mono"
 msgid "Stereo to binaural"
 msgstr "Стерео в моно"
 
@@ -1383,19 +1323,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bs2b.xml:12
 #, fuzzy, kde-format
-#| msgid "Low frequency"
 msgid "Lowpass Cut frequency"
 msgstr "Низкие частоты"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:15
 #, fuzzy, kde-format
-#| msgid "Audio levels"
 msgid "Feed level"
 msgstr "Уровни звука"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:4
 #, fuzzy, kde-format
-#| msgid "Deinterlacer"
 msgid "Bob Weaver Deinterlacer"
 msgstr "Деинтерлейсер"
 
@@ -1413,7 +1350,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
 #, fuzzy, kde-format
-#| msgid "Bottom field first"
 msgid "Top field first,Bottomfield first,Auto"
 msgstr "Сначала нижнее поле"
 
@@ -1432,7 +1368,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
 #, fuzzy, kde-format
-#| msgid "Deinterlacer"
 msgid "Deinterlace"
 msgstr "Деинтерлейсер"
 
@@ -1453,7 +1388,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_normalize.xml:20
 #, fuzzy, kde-format
-#| msgid "Stretch"
 msgid "Strength"
 msgstr "Растягивание"
 
@@ -1501,7 +1435,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
 #, fuzzy, kde-format
-#| msgid "Blend mode"
 msgid "Blend"
 msgstr "Режим смешивания"
 
@@ -1515,7 +1448,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, fuzzy, kde-format
-#| msgid "Key color"
 msgid "YUV color"
 msgstr "Ключевой цвет"
 
@@ -1536,43 +1468,36 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
 #, fuzzy, kde-format
-#| msgid "Use Threshold"
 msgid "Y+U+V Threshold"
 msgstr "Использовать порог"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:11
 #, fuzzy, kde-format
-#| msgid "Horizontal Flip"
 msgid "Horizontal size"
 msgstr "Отражение по горизонтали"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:14
 #, fuzzy, kde-format
-#| msgid "Vertical Flip"
 msgid "Vertical size"
 msgstr "Отражение по вертикали"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:17
 #, fuzzy, kde-format
-#| msgid "Horizontal scatter"
 msgid "Horizontal step"
 msgstr "Разброс по X"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:20
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "Y threshold"
 msgstr "Порог"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:23
 #, fuzzy, kde-format
-#| msgid "Use Threshold"
 msgid "U threshold"
 msgstr "Использовать порог"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:26
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "V threshold"
 msgstr "Порог"
 
@@ -1583,19 +1508,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
 #, fuzzy, kde-format
-#| msgid "Dance"
 msgid "Distance"
 msgstr "Танцевальный"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
-#, fuzzy, kde-format
-#| msgid "Max shift"
+#, kde-format
 msgid "Chroma shift"
-msgstr "Максимальное смещение"
+msgstr "Смещение насыщенности"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
 #, fuzzy, kde-format
-#| msgid "Box blur (separate horizontal and vertical blur)"
 msgid "Shift chroma pixels horizontally and/or vertically. "
 msgstr "Размытие по рамке (горизонтальное и вертикальное отдельно)"
 
@@ -1635,7 +1557,6 @@ msgstr "Режим края"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, fuzzy, kde-format
-#| msgid "Color Space"
 msgid "Color balance"
 msgstr "Цветовое пространство"
 
@@ -1647,19 +1568,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
 #, fuzzy, kde-format
-#| msgid "Shadow"
 msgid "Red Shadow"
 msgstr "Тень"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:11
 #, fuzzy, kde-format
-#| msgid "Drop Shadow"
 msgid "Green Shadow"
 msgstr "Отбрасываемая тень"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:14
 #, fuzzy, kde-format
-#| msgid "Shadow"
 msgid "Blue Shadow"
 msgstr "Тень"
 
@@ -1670,7 +1588,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
 #, fuzzy, kde-format
-#| msgid "Green Tint"
 msgid "Green Midtones"
 msgstr "Зелёный оттенок"
 
@@ -1681,32 +1598,27 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
 #, fuzzy, kde-format
-#| msgid "Highlight peaks"
 msgid "Red Highlights"
 msgstr "Подсвечивать пики"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:29
 #, fuzzy, kde-format
-#| msgid "Highlight peaks"
 msgid "Green Highlights"
 msgstr "Подсвечивать пики"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:32
 #, fuzzy, kde-format
-#| msgid "Highlight peaks"
 msgid "Blue Highlights"
 msgstr "Подсвечивать пики"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:35
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
 #, fuzzy, kde-format
-#| msgid "Preserve alpha"
 msgid "Preserve lightness"
 msgstr "Сохранить альфа-канал"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
 #, fuzzy, kde-format
-#| msgid "Color Clip"
 msgid "Color Channel Mixer"
 msgstr "Цветовой клип"
 
@@ -1724,84 +1636,71 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:11
 #, fuzzy, kde-format
-#| msgid "Green"
 msgid "Red-Green"
 msgstr "Зелёный"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:14
 #, fuzzy, kde-format
-#| msgid "Blue"
 msgid "Red-Blue"
 msgstr "Синий"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:17
 #, fuzzy, kde-format
-#| msgid "Green"
 msgid "Green-Red"
 msgstr "Зелёный"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:20
 #, fuzzy, kde-format
-#| msgid "Gain: Green"
 msgid "Green-Green"
 msgstr "Свет: зелёный"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:23
 #, fuzzy, kde-format
-#| msgid "Green"
 msgid "Green-Blue"
 msgstr "Зелёный"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:26
 #, fuzzy, kde-format
-#| msgid "Blue"
 msgid "Blue-Red"
 msgstr "Синий"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:29
 #, fuzzy, kde-format
-#| msgid "Green"
 msgid "Blue-Green"
 msgstr "Зелёный"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:32
 #, fuzzy, kde-format
-#| msgid "Slope Blue"
 msgid "Blue-Blue"
 msgstr "Крутизна кривой синего канала"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Color Contrast"
-msgstr "Контраст"
+msgstr "Цветовой контраст"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
 msgid "Adjust color contrast between RGB components."
-msgstr ""
+msgstr "Регулировка цветового контраста между компонентами RGB"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
 #, fuzzy, kde-format
-#| msgid "Min. contrast"
 msgid "Red-Cyan contrast"
 msgstr "Минимальный контраст"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:11
 #, fuzzy, kde-format
-#| msgid "Min. contrast"
 msgid "Green-Magenta contrast"
 msgstr "Минимальный контраст"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:14
 #, fuzzy, kde-format
-#| msgid "Blue/Yellow axis"
 msgid "Blue-Yellow contrast"
 msgstr "Ось синий/жёлтый"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:17
 #, fuzzy, kde-format
-#| msgid "Font weight"
 msgid "Red-Cyan weight"
 msgstr "Насыщенность шрифта"
 
@@ -1812,19 +1711,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:23
 #, fuzzy, kde-format
-#| msgid "Blue/Yellow axis"
 msgid "Blue-Yellow weight"
 msgstr "Ось синий/жёлтый"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:26
 #, fuzzy, kde-format
-#| msgid "Background lightness"
 msgid "Preserving lightness"
 msgstr "Яркость фона"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
 #, fuzzy, kde-format
-#| msgid "Color Effect"
 msgid "Color Correct"
 msgstr "Цветовой эффект"
 
@@ -1847,7 +1743,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:14
 #, fuzzy, kde-format
-#| msgid "Highlight peaks"
 msgid "Red highlight spot"
 msgstr "Подсвечивать пики"
 
@@ -1876,13 +1771,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
 #, fuzzy, kde-format
-#| msgid "Analyze"
 msgid "Analyze mode"
 msgstr "Анализ"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
 #, fuzzy, kde-format
-#| msgid "Color Model"
 msgid "Color Hold"
 msgstr "Цветовая модель"
 
@@ -1894,7 +1787,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, fuzzy, kde-format
-#| msgid "Color key"
 msgid "Color Overlay"
 msgstr "Ключевой цвет"
 
@@ -1916,7 +1808,6 @@ msgstr "Свет"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:4
 #, fuzzy, kde-format
-#| msgid "Color Model"
 msgid "Color levels"
 msgstr "Цветовая модель"
 
@@ -1937,43 +1828,36 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:14
 #, fuzzy, kde-format
-#| msgid "Black output"
 msgid "Red black output"
 msgstr "Уровень чёрного на выходе"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:17
 #, fuzzy, kde-format
-#| msgid "White output"
 msgid "Red white output"
 msgstr "Уровень белого на выходе"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:20
 #, fuzzy, kde-format
-#| msgid "Green Tint"
 msgid "Green black input"
 msgstr "Зелёный оттенок"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:23
 #, fuzzy, kde-format
-#| msgid "Green Tint"
 msgid "Green white input"
 msgstr "Зелёный оттенок"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:26
 #, fuzzy, kde-format
-#| msgid "Black output"
 msgid "Green black output"
 msgstr "Уровень чёрного на выходе"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:29
 #, fuzzy, kde-format
-#| msgid "White output"
 msgid "Green white output"
 msgstr "Уровень белого на выходе"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:32
 #, fuzzy, kde-format
-#| msgid "Black output"
 msgid "Blue black input"
 msgstr "Уровень чёрного на выходе"
 
@@ -1984,25 +1868,21 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:38
 #, fuzzy, kde-format
-#| msgid "Black output"
 msgid "Blue black output"
 msgstr "Уровень чёрного на выходе"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:41
 #, fuzzy, kde-format
-#| msgid "White output"
 msgid "Blue white output"
 msgstr "Уровень белого на выходе"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
 #, fuzzy, kde-format
-#| msgid "Color Bars"
 msgid "Color Matrix"
 msgstr "Цветные полосы"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
 #, fuzzy, kde-format
-#| msgid "Invert colors"
 msgid "Convert color matrix."
 msgstr "Инверсия цвета"
 
@@ -2014,13 +1894,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
 #, fuzzy, kde-format
-#| msgid "Source Color"
 msgid "Source color Matrix"
 msgstr "Цвет источника"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
 #, fuzzy, kde-format
-#| msgid "Destination Folder"
 msgid "Destination color Matrix"
 msgstr "Папка назначения"
 
@@ -2047,7 +1925,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
 #, fuzzy, kde-format
-#| msgid "Force properties"
 msgid "Color properties"
 msgstr "Форсировать свойства"
 
@@ -2060,7 +1937,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #, fuzzy, kde-format
-#| msgid "Color Space"
 msgid "Output Color Space"
 msgstr "Цветовое пространство"
 
@@ -2088,7 +1964,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, fuzzy, kde-format
-#| msgid "Output time"
 msgid "Output Color Primaries"
 msgstr "Время вывода"
 
@@ -2120,7 +1995,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
 #, fuzzy, kde-format
-#| msgid "version"
 msgid "Fast Conversion"
 msgstr "версия"
 
@@ -2131,7 +2005,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
 #, fuzzy, kde-format
-#| msgid "View Mode"
 msgid "Dithering Mode"
 msgstr "Режим просмотра"
 
@@ -2154,7 +2027,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:48
 #, fuzzy, kde-format
-#| msgid "Force colorspace"
 msgid "Override input colorspace"
 msgstr "Принудительно задать цветовое пространство"
 
@@ -2170,7 +2042,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:60
 #, fuzzy, kde-format
-#| msgid "Render full color range"
 msgid "Override input color range"
 msgstr "Сборка с полным цветовым диапазоном"
 
@@ -2190,13 +2061,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
 #, fuzzy, kde-format
-#| msgid "Color Temperature"
 msgid "Temperature"
 msgstr "Цветовая температура"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
 #, fuzzy, kde-format
-#| msgid "Collapse/Expand Item"
 msgid "Compressor/Expander"
 msgstr "Показать/Скрыть элемент"
 
@@ -2227,13 +2096,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_compand.xml:12
 #, fuzzy, kde-format
-#| msgid "Decay"
 msgid "Decays"
 msgstr "Распад"
 
 #: data/effects/avfilter/avfilter_compand.xml:16
 #, fuzzy, kde-format
-#| msgid "Softness"
 msgid "Soft-Knee"
 msgstr "Плавность"
 
@@ -2251,7 +2118,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_compand.xml:24
 #, fuzzy, kde-format
-#| msgid "Initial Zoom"
 msgid "Initial volume"
 msgstr "Начальное увеличение"
 
@@ -2267,7 +2133,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, fuzzy, kde-format
-#| msgid "Pitch compensation"
 msgid "Compensation Delay"
 msgstr "Компенсация высоты звука"
 
@@ -2294,7 +2159,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, fuzzy, kde-format
-#| msgid "Vertical split distance"
 msgid "Millimeter distance"
 msgstr "Расстояние вертикального рассеивания"
 
@@ -2306,7 +2170,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:15
 #, fuzzy, kde-format
-#| msgid "Center balance"
 msgid "Centimeter distance"
 msgstr "Баланс центра"
 
@@ -2318,7 +2181,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
 #, fuzzy, kde-format
-#| msgid "Weight on distance"
 msgid "Meter distance"
 msgstr "Вес на расстоянии"
 
@@ -2330,7 +2192,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
 #, fuzzy, kde-format
-#| msgid "Mix amount"
 msgid "Dry amount"
 msgstr "Количество смешивания"
 
@@ -2341,7 +2202,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
 #, fuzzy, kde-format
-#| msgid "Tint amount"
 msgid "Wet amount"
 msgstr "Интенсивность тонирования"
 
@@ -2393,7 +2253,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
 #, fuzzy, kde-format
-#| msgid "Equalizer"
 msgid "Crystalizer"
 msgstr "Эквалайзер"
 
@@ -2427,19 +2286,16 @@ msgstr ""
 #: data/effects/avfilter/avfilter_crystalizer.xml:15
 #: data/effects/avfilter/avfilter_extrastereo.xml:14
 #, fuzzy, kde-format
-#| msgid "Enable clip"
 msgid "Enable clipping"
 msgstr "Включить клип"
 
 #: data/effects/avfilter/avfilter_datascope.xml:4
 #, fuzzy, kde-format
-#| msgid "Scopes"
 msgid "DataScope"
 msgstr "Приборы"
 
 #: data/effects/avfilter/avfilter_datascope.xml:5
 #, fuzzy, kde-format
-#| msgid "Processing data analysis"
 msgid "Video data analysis"
 msgstr "Выполняется анализ данных"
 
@@ -2465,13 +2321,11 @@ msgstr "Размер"
 
 #: data/effects/avfilter/avfilter_datascope.xml:12
 #, fuzzy, kde-format
-#| msgid "X Offset"
 msgid "X offset"
 msgstr "Смещение по X"
 
 #: data/effects/avfilter/avfilter_datascope.xml:15
 #, fuzzy, kde-format
-#| msgid "Y Offset"
 msgid "Y offset"
 msgstr "Смещение по Y"
 
@@ -2488,7 +2342,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_datascope.xml:23
 #, fuzzy, kde-format
-#| msgid "Show All"
 msgid "Show Axis"
 msgstr "Показать все"
 
@@ -2517,19 +2370,16 @@ msgstr "Формат"
 
 #: data/effects/avfilter/avfilter_dblur.xml:4
 #, fuzzy, kde-format
-#| msgid "Direction"
 msgid "Directional Blur"
 msgstr "Направление"
 
 #: data/effects/avfilter/avfilter_dblur.xml:5
 #, fuzzy, kde-format
-#| msgid "Apply duration to all items"
 msgid "Apply directional blur filter"
 msgstr "Применить длительность ко всем элементам"
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Sets the angle for the direction]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -2543,7 +2393,6 @@ msgstr "Радиус"
 
 #: data/effects/avfilter/avfilter_dblur.xml:13
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Sets the radius for the direction]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -2556,20 +2405,17 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #, fuzzy, kde-format
-#| msgid "Edge glow filter"
 msgid "Planes to filter"
 msgstr "Фильтр свечения краёв"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:4
 #: data/effects/avfilter/avfilter_dcshift.xml:10
 #, fuzzy, kde-format
-#| msgid "Max shift"
 msgid "DC shift"
 msgstr "Максимальное смещение"
 
@@ -2604,7 +2450,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:4
 #, fuzzy, kde-format
-#| msgid "Denoiser"
 msgid "DCT Denoiser"
 msgstr "Шумоподавление"
 
@@ -2623,14 +2468,12 @@ msgstr "Сигма"
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:11
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:22
 #, fuzzy, kde-format
-#| msgid "Overlay:"
 msgid "Overlap"
 msgstr "Наложение:"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:14
 #: data/effects/avfilter/avfilter_deblock.xml:12
 #, fuzzy, kde-format
-#| msgid "Block Size X"
 msgid "Block size"
 msgstr "Ширина блока"
 
@@ -2648,25 +2491,21 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:8
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "1st plane threshold"
 msgstr "Изменить порог"
 
 #: data/effects/avfilter/avfilter_deband.xml:11
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "2nd plane threshold"
 msgstr "Изменить порог"
 
 #: data/effects/avfilter/avfilter_deband.xml:14
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "3rd plane threshold"
 msgstr "Изменить порог"
 
 #: data/effects/avfilter/avfilter_deband.xml:17
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "4th plane threshold"
 msgstr "Изменить порог"
 
@@ -2694,8 +2533,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Clock"
 msgid "DeBlock"
 msgstr "Часы"
 
@@ -2711,32 +2548,27 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:9
 #, fuzzy, kde-format
-#| msgid "Glow strength"
 msgid "Filter strength"
 msgstr "Сила свечения"
 
 #: data/effects/avfilter/avfilter_deblock.xml:15
 #: data/effects/avfilter/avfilter_smartblur.xml:48
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "Alpha threshold"
 msgstr "Изменить порог"
 
 #: data/effects/avfilter/avfilter_deblock.xml:18
 #, fuzzy, kde-format
-#| msgid "Use Threshold"
 msgid "Beta threshold"
 msgstr "Использовать порог"
 
 #: data/effects/avfilter/avfilter_deblock.xml:21
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "Gamma threshold"
 msgstr "Изменить порог"
 
 #: data/effects/avfilter/avfilter_deblock.xml:24
 #, fuzzy, kde-format
-#| msgid "Level Threshold"
 msgid "Delta threshold"
 msgstr "Пороговый уровень"
 
@@ -2768,13 +2600,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:12
 #, fuzzy, kde-format
-#| msgid "Saturation threshold"
 msgid "Spatial Luma threshold"
 msgstr "Порог насыщенности"
 
 #: data/effects/avfilter/avfilter_dedot.xml:15
 #, fuzzy, kde-format
-#| msgid "Difference Sum Threshold"
 msgid "Temporal Luma Threshold"
 msgstr "Сумма разницы и порога"
 
@@ -2785,7 +2615,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dedot.xml:21
 #, fuzzy, kde-format
-#| msgid "Level Threshold"
 msgid "Temporal Chroma Threshold"
 msgstr "Пороговый уровень"
 
@@ -2806,7 +2635,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
 #, fuzzy, kde-format
-#| msgid "Missing"
 msgid "Max deessing"
 msgstr "Отсутствует"
 
@@ -2837,7 +2665,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_deesser.xml:21
 #, fuzzy, kde-format
-#| msgid "Output time"
 msgid "Output mode"
 msgstr "Время вывода"
 
@@ -2848,85 +2675,71 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
 #, fuzzy, kde-format
-#| msgid "Template"
 msgid "Deflate"
 msgstr "Шаблон"
 
 #: data/effects/avfilter/avfilter_deflate.xml:5
 #, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
 msgid "Apply deflate effect to the video"
 msgstr "Наложение текста с GPS-информацией на видеоизображение."
 
 #: data/effects/avfilter/avfilter_deflate.xml:8
 #, fuzzy, kde-format
-#| msgid "Threshold value"
 msgid "Threshold for 1st plane"
 msgstr "Значение порога"
 
 #: data/effects/avfilter/avfilter_deflate.xml:11
 #, fuzzy, kde-format
-#| msgid "Threshold value"
 msgid "Threshold for 2nd plane"
 msgstr "Значение порога"
 
 #: data/effects/avfilter/avfilter_deflate.xml:14
 #, fuzzy, kde-format
-#| msgid "Threshold value"
 msgid "Threshold for 3rd plane"
 msgstr "Значение порога"
 
 #: data/effects/avfilter/avfilter_deflate.xml:17
 #, fuzzy, kde-format
-#| msgid "Threshold value"
 msgid "Threshold for 4th plane"
 msgstr "Значение порога"
 
 #: data/effects/avfilter/avfilter_delogo.xml:4
 #, fuzzy, kde-format
-#| msgid "Logo"
 msgid "DeLogo"
 msgstr "Логотип"
 
 #: data/effects/avfilter/avfilter_delogo.xml:5
 #, fuzzy, kde-format
-#| msgid "Remove from favorites"
 msgid "Remove logo from input video"
 msgstr "Удалить из избранного"
 
 #: data/effects/avfilter/avfilter_delogo.xml:8
 #, fuzzy, kde-format
-#| msgid "X position"
 msgid "Logo X Position"
 msgstr "Позиция по X"
 
 #: data/effects/avfilter/avfilter_delogo.xml:11
 #, fuzzy, kde-format
-#| msgid "Y position"
 msgid "Logo Y Position"
 msgstr "Позиция по Y"
 
 #: data/effects/avfilter/avfilter_delogo.xml:14
 #, fuzzy, kde-format
-#| msgid "Width"
 msgid "Logo Width"
 msgstr "Ширина"
 
 #: data/effects/avfilter/avfilter_delogo.xml:17
 #, fuzzy, kde-format
-#| msgid "Height"
 msgid "Logo Height"
 msgstr "Высота"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
 #, fuzzy, kde-format
-#| msgid "Show Grid"
 msgid "Show borders"
 msgstr "Показать сетку"
 
 #: data/effects/avfilter/avfilter_derain.xml:4
 #, fuzzy, kde-format
-#| msgid "Removal"
 msgid "AI Rain removal"
 msgstr "Удалить"
 
@@ -2946,14 +2759,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
 #, fuzzy, kde-format
-#| msgid "Audio Backend:"
 msgid "DNN Backend"
 msgstr "Модуль обработки звука:"
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
 #, fuzzy, kde-format
-#| msgid "Luma mode"
 msgid "Load model"
 msgstr "Яркостный режим"
 
@@ -2971,7 +2782,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_despill.xml:9
 #, fuzzy, kde-format
-#| msgid "Screen Capture"
 msgid "Screen type"
 msgstr "Захват с экрана"
 
@@ -2987,19 +2797,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_despill.xml:18
 #, fuzzy, kde-format
-#| msgid "Rate Scaler"
 msgid "Set Red Scale"
 msgstr "Изменить темп"
 
 #: data/effects/avfilter/avfilter_despill.xml:21
 #, fuzzy, kde-format
-#| msgid "Rate Scaler"
 msgid "Set Green Scale"
 msgstr "Изменить темп"
 
 #: data/effects/avfilter/avfilter_despill.xml:24
 #, fuzzy, kde-format
-#| msgid "Rate Scaler"
 msgid "Set Blue Scale"
 msgstr "Изменить темп"
 
@@ -3015,41 +2822,35 @@ msgstr "Яркость"
 
 #: data/effects/avfilter/avfilter_dilation.xml:4
 #, fuzzy, kde-format
-#| msgid "Duration"
 msgid "Dilation"
 msgstr "Длительность"
 
 #: data/effects/avfilter/avfilter_dilation.xml:5
 #, fuzzy, kde-format
-#| msgid "Problem editing effect"
 msgid "Apply dilation effect"
 msgstr "Проблема с редактирование эффекта"
 
 #: data/effects/avfilter/avfilter_dilation.xml:8
 #: data/effects/avfilter/avfilter_erosion.xml:8
 #, fuzzy, kde-format
-#| msgid "Use Threshold"
 msgid "1st Plane Threshold"
 msgstr "Использовать порог"
 
 #: data/effects/avfilter/avfilter_dilation.xml:11
 #: data/effects/avfilter/avfilter_erosion.xml:11
 #, fuzzy, kde-format
-#| msgid "Use Threshold"
 msgid "2nd Plane Threshold"
 msgstr "Использовать порог"
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
 #, fuzzy, kde-format
-#| msgid "3-level Threshold"
 msgid "3rd Plane Threshold"
 msgstr "Трёхуровневый порог"
 
 #: data/effects/avfilter/avfilter_dilation.xml:17
 #: data/effects/avfilter/avfilter_erosion.xml:17
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "4th Plane Threshold"
 msgstr "Изменить порог"
 
@@ -3074,20 +2875,17 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fieldorder.xml:8
 #: data/effects/avfilter/avfilter_mcdeint.xml:12
 #, fuzzy, kde-format
-#| msgid "Bottom field first"
 msgid "Top field first,Bottom field first"
 msgstr "Сначала нижнее поле"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:9
 #: data/effects/avfilter/avfilter_weave.xml:9
 #, fuzzy, kde-format
-#| msgid "First frame"
 msgid "First Field"
 msgstr "Первый кадр"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:4
 #, fuzzy, kde-format
-#| msgid "Draw axis"
 msgid "Draw Box"
 msgstr "Показывать ось"
 
@@ -3099,7 +2897,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/frei0r/frei0r_c0rners.xml:8
 #, fuzzy, kde-format
-#| msgid "Top left"
 msgid "Top-left X"
 msgstr "Слева сверху"
 
@@ -3111,7 +2908,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
 #, fuzzy, kde-format
-#| msgid "Top left"
 msgid "Top-left Y"
 msgstr "Слева сверху"
 
@@ -3122,7 +2918,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
 #, fuzzy, kde-format
-#| msgid "Width"
 msgid "Width (px)"
 msgstr "Ширина"
 
@@ -3135,7 +2930,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
 #, fuzzy, kde-format
-#| msgid "Height"
 msgid "Height (px)"
 msgstr "Высота"
 
@@ -3166,20 +2960,17 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
 #, fuzzy, kde-format
-#| msgid "Line Thickness (px)"
 msgid "Thickness (px)"
 msgstr "Толщина линий (пкс)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:32
 #, fuzzy, kde-format
-#| msgid "Sets the thickness of the line graph in pixels."
 msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
 msgstr "Устанавливает толщину линий в пикселах"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
 #, fuzzy, kde-format
-#| msgid "Replace clip"
 msgid "Replace color and alpha"
 msgstr "Заменить клип"
 
@@ -3195,7 +2986,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
 #, fuzzy, kde-format
-#| msgid "Draw grid"
 msgid "Draw Grid"
 msgstr "Показывать сетку"
 
@@ -3266,7 +3056,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, fuzzy, kde-format
-#| msgid "Sets the thickness of the line graph in pixels."
 msgid "<![CDATA[Sets the thickness for the grid lines in pixels]]>"
 msgstr "Устанавливает толщину линий в пикселах"
 
@@ -3282,7 +3071,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
 #, fuzzy, kde-format
-#| msgid "Edges correction"
 msgid "Edge detection"
 msgstr "Коррекция по краю"
 
@@ -3294,13 +3082,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:8
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "Low threshold"
 msgstr "Порог"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:11
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "High threshold"
 msgstr "Изменить порог"
 
@@ -3311,7 +3097,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:15
 #, fuzzy, kde-format
-#| msgid "Mode"
 msgid "Modes"
 msgstr "Режим"
 
@@ -3345,19 +3130,16 @@ msgstr ""
 #: data/effects/avfilter/avfilter_elbg.xml:11
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
 #, fuzzy, kde-format
-#| msgid "Stepsize"
 msgid "Steps"
 msgstr "Размер шага"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
 #, fuzzy, kde-format
-#| msgid "X scale"
 msgid "EPX Scaler"
 msgstr "Масштаб по X"
 
 #: data/effects/avfilter/avfilter_epx.xml:5
 #, fuzzy, kde-format
-#| msgid "Select blurring algorithm"
 msgid "Scale the input using EPX algorithm."
 msgstr "Выбрать алгоритм размывания"
 
@@ -3368,13 +3150,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_epx.xml:9
 #, fuzzy, kde-format
-#| msgid "Blur factor"
 msgid "Scale factor"
 msgstr "Коэффициент размытия"
 
 #: data/effects/avfilter/avfilter_eq.xml:4
 #, fuzzy, kde-format
-#| msgid "Equalizer"
 msgid "Video Equalizer"
 msgstr "Эквалайзер"
 
@@ -3394,31 +3174,26 @@ msgstr "Гамма"
 
 #: data/effects/avfilter/avfilter_eq.xml:20
 #, fuzzy, kde-format
-#| msgid "Gamma"
 msgid "Red Gamma"
 msgstr "Гамма"
 
 #: data/effects/avfilter/avfilter_eq.xml:23
 #, fuzzy, kde-format
-#| msgid "Green 2"
 msgid "Green Gamma"
 msgstr "Зелёный 2"
 
 #: data/effects/avfilter/avfilter_eq.xml:26
 #, fuzzy, kde-format
-#| msgid "Gamma"
 msgid "Blue Gamma"
 msgstr "Гамма"
 
 #: data/effects/avfilter/avfilter_eq.xml:29
 #, fuzzy, kde-format
-#| msgid "Gamma: Red"
 msgid "Gamma Weight"
 msgstr "Полутона: красный"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:4
 #, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
 msgid "Audio Equalizer (avfilter)"
 msgstr "Фильтр звукового спектра"
 
@@ -3429,7 +3204,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, fuzzy, kde-format
-#| msgid "Width"
 msgid "Width Type"
 msgstr "Ширина"
 
@@ -3440,13 +3214,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, fuzzy, kde-format
-#| msgid "Border Width"
 msgid "Band Width"
 msgstr "Ширина рамки"
 
 #: data/effects/avfilter/avfilter_erosion.xml:4
 #, fuzzy, kde-format
-#| msgid "version"
 msgid "Erosion"
 msgstr "версия"
 
@@ -3458,7 +3230,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
 #, fuzzy, kde-format
-#| msgid "Exported:"
 msgid "Exposure"
 msgstr "Выполнен экспорт:"
 
@@ -3469,7 +3240,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:4
 #, fuzzy, kde-format
-#| msgid "Extract to"
 msgid "Extrastereo"
 msgstr "Извлечь в"
 
@@ -3491,7 +3261,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:4
 #, fuzzy, kde-format
-#| msgid "Denoiser"
 msgid "3D FFT Denoiser"
 msgstr "Шумоподавление"
 
@@ -3526,20 +3295,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Clock"
 msgid "Block"
 msgstr "Часы"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set size of block in pixels]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:23
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
 msgid "<![CDATA[Set block overlap]]>"
 msgstr "<![CDATA[Смещение вдоль оси Y]]>"
 
@@ -3550,7 +3315,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
 msgid "<![CDATA[Set denoising method]]>"
 msgstr "<![CDATA[Смещение вдоль оси X]]>"
 
@@ -3588,7 +3352,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:8
 #, fuzzy, kde-format
-#| msgid "YUV Y plane"
 msgid "Gain in Y plane"
 msgstr "Плоскость YUV Y"
 
@@ -3619,20 +3382,16 @@ msgstr "Светимость"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
 #, fuzzy, kde-format
-#| msgid "First frame"
 msgid "init,frame"
 msgstr "Первый кадр"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
 #, fuzzy, kde-format
-#| msgctxt "transitions Name"
-#| msgid "value"
 msgid "Evaluate"
 msgstr "Значение"
 
 #: data/effects/avfilter/avfilter_field.xml:4
 #, fuzzy, kde-format
-#| msgid "Extract to"
 msgid "Field Extractor"
 msgstr "Извлечь в"
 
@@ -3644,13 +3403,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_field.xml:9
 #: data/effects/avfilter/avfilter_fieldorder.xml:9
 #, fuzzy, kde-format
-#| msgid "Top Field First"
 msgid "Field priority"
 msgstr "Сначала верхнее поле"
 
 #: data/effects/avfilter/avfilter_fieldorder.xml:4
 #, fuzzy, kde-format
-#| msgid "Force field order"
 msgid "Interlace field order"
 msgstr "Принудительно задать порядок полей"
 
@@ -3661,7 +3418,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fillborders.xml:4
 #, fuzzy, kde-format
-#| msgid "Field order:"
 msgid "Fill borders"
 msgstr "Порядок полей:"
 
@@ -3716,7 +3472,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_flanger.xml:4
 #, fuzzy, kde-format
-#| msgid "Sox Flanger"
 msgid "Flanger"
 msgstr "Флэнжер (SoX)"
 
@@ -3834,13 +3589,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_framestep.xml:4
 #, fuzzy, kde-format
-#| msgid "Frames step"
 msgid "Framestep"
 msgstr "Шаг кадров"
 
 #: data/effects/avfilter/avfilter_framestep.xml:5
 #, fuzzy, kde-format
-#| msgid "Delete all keyframes"
 msgid "Select one frame every N frames"
 msgstr "Удалить все ключевые кадры"
 
@@ -3866,7 +3619,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:9
 #, fuzzy, kde-format
-#| msgid "Quality:"
 msgid "Quality"
 msgstr "Качество:"
 
@@ -3877,13 +3629,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_fspp.xml:18
 #, fuzzy, kde-format
-#| msgid "In Frame"
 msgid "QP on B-Frames"
 msgstr "Первый кадр"
 
 #: data/effects/avfilter/avfilter_gblur.xml:4
 #, fuzzy, kde-format
-#| msgid "Gaussian radius"
 msgid "Gaussian Blur"
 msgstr "Радиус по Гауссу"
 
@@ -3899,13 +3649,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_gblur.xml:12
 #, fuzzy, kde-format
-#| msgid "Stepsize"
 msgid "StepsX"
 msgstr "Размер шага"
 
 #: data/effects/avfilter/avfilter_gblur.xml:19
 #, fuzzy, kde-format
-#| msgid "Vertical margin"
 msgid "Vertical Sigma"
 msgstr "Вертикальное поле"
 
@@ -3945,7 +3693,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
 #, fuzzy, kde-format
-#| msgid "Graph position"
 msgid "Graph Monitor"
 msgstr "Расположение графика"
 
@@ -3973,7 +3720,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
 #, fuzzy, kde-format
-#| msgid "Video Resolution"
 msgid "Video Ratio"
 msgstr "Разрешение видео"
 
@@ -3993,19 +3739,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:9
 #, fuzzy, kde-format
-#| msgid "Levels"
 msgid "Level in"
 msgstr "Уровни"
 
 #: data/effects/avfilter/avfilter_haas.xml:12
 #, fuzzy, kde-format
-#| msgid "Level of trip"
 msgid "Level out"
 msgstr "Уровень срабатывания"
 
 #: data/effects/avfilter/avfilter_haas.xml:15
 #, fuzzy, kde-format
-#| msgid "Mid gain"
 msgid "Side gain"
 msgstr "Среднее усиление"
 
@@ -4016,7 +3759,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:19
 #, fuzzy, kde-format
-#| msgid "Online Resources"
 msgid "Middle source"
 msgstr "Онлайн-ресурсы"
 
@@ -4027,19 +3769,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:25
 #, fuzzy, kde-format
-#| msgid "Video delay"
 msgid "Left delay"
 msgstr "Задержка видео"
 
 #: data/effects/avfilter/avfilter_haas.xml:28
 #, fuzzy, kde-format
-#| msgid "Center balance"
 msgid "Left balance"
 msgstr "Баланс центра"
 
 #: data/effects/avfilter/avfilter_haas.xml:31
 #, fuzzy, kde-format
-#| msgid "Left margin"
 msgid "Left Gain"
 msgstr "Левое поле"
 
@@ -4050,43 +3789,36 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:37
 #, fuzzy, kde-format
-#| msgid "Video delay"
 msgid "Right delay"
 msgstr "Задержка видео"
 
 #: data/effects/avfilter/avfilter_haas.xml:40
 #, fuzzy, kde-format
-#| msgid "3 point balance"
 msgid "Right balance"
 msgstr "Баланс по трём точкам"
 
 #: data/effects/avfilter/avfilter_haas.xml:43
 #, fuzzy, kde-format
-#| msgid "Right margin"
 msgid "Right Gain"
 msgstr "Правое поле"
 
 #: data/effects/avfilter/avfilter_haas.xml:46
 #, fuzzy, kde-format
-#| msgid "Right"
 msgid "Right phase"
 msgstr "Справа"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
 #, fuzzy, kde-format
-#| msgid "Horizontal"
 msgid "Flip Horizontally"
 msgstr "По горизонтали"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
 #, fuzzy, kde-format
-#| msgid "Horizontal guides."
 msgid "Horizontally flip the input video."
 msgstr "Горизонтальные направляющие"
 
 #: data/effects/avfilter/avfilter_highpass.xml:4
 #, fuzzy, kde-format
-#| msgid "High"
 msgid "High-pass"
 msgstr "Высокое"
 
@@ -4121,7 +3853,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_histeq.xml:4
 #, fuzzy, kde-format
-#| msgid "Histogram"
 msgid "Histogram Equalizer"
 msgstr "Гистограмма"
 
@@ -4185,13 +3916,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_histogram.xml:23
 #, fuzzy, kde-format
-#| msgid "Components:"
 msgid "Components to display"
 msgstr "Компоненты:"
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
 #, fuzzy, kde-format
-#| msgid "Background opacity"
 msgid "Foreground Opacity"
 msgstr "Непрозрачность фона"
 
@@ -4199,19 +3928,16 @@ msgstr "Непрозрачность фона"
 #: data/effects/avfilter/avfilter_vectorscope.xml:36
 #: data/effects/avfilter/avfilter_waveform.xml:64
 #, fuzzy, kde-format
-#| msgid "Background opacity"
 msgid "Background Opacity"
 msgstr "Непрозрачность фона"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
 msgid "High precision/quality 3d denoiser"
 msgstr "Высококачественное подавление шума в 3D"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
 #, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
 msgid "Apply a High Quality 3D Denoise"
 msgstr "Высококачественное подавление шума в 3D"
 
@@ -4237,7 +3963,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:4
 #, fuzzy, kde-format
-#| msgid "Interpolator"
 msgid "Hq*x Interpolator"
 msgstr "Интерполяция"
 
@@ -4254,14 +3979,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqx.xml:9
 #: data/effects/avfilter/avfilter_xbr.xml:9
 #, fuzzy, kde-format
-#| msgid "Interpolation"
 msgid "Interpolation factor"
 msgstr "Интерполяция"
 
 #: data/effects/avfilter/avfilter_hqx.xml:12
 #: data/effects/avfilter/avfilter_xbr.xml:12
 #, fuzzy, kde-format
-#| msgid "Maximal number of dust"
 msgid "Maximum number of threads"
 msgstr "Максимальное количество пыли"
 
@@ -4274,7 +3997,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_hqx.xml:16
 #: data/effects/avfilter/avfilter_xbr.xml:16
 #, fuzzy, kde-format
-#| msgid "End position for the mask file."
 msgid "Position to set the filter"
 msgstr "Конечная позиция для файла маски."
 
@@ -4292,43 +4014,36 @@ msgstr ""
 #: data/effects/avfilter/avfilter_il.xml:12
 #: data/effects/avfilter/avfilter_il.xml:16
 #, fuzzy, kde-format
-#| msgid "Force Deinterlace Overlay"
 msgid "None,Deinterleave,Interleave"
 msgstr "Принудительное устранение чересстрочности наложением"
 
 #: data/effects/avfilter/avfilter_il.xml:9
 #, fuzzy, kde-format
-#| msgid "Luma mode"
 msgid "Luma Mode"
 msgstr "Яркостный режим"
 
 #: data/effects/avfilter/avfilter_il.xml:13
 #, fuzzy, kde-format
-#| msgid "Chroma Hold"
 msgid "Chroma Mode"
 msgstr "Удержание цвета"
 
 #: data/effects/avfilter/avfilter_il.xml:17
 #, fuzzy, kde-format
-#| msgid "Alpha trace"
 msgid "Alpha Mode"
 msgstr "Кривая альфа-канала"
 
 #: data/effects/avfilter/avfilter_il.xml:20
 #, fuzzy, kde-format
-#| msgid "Luma Files"
 msgid "Swap Luma Fields"
 msgstr "Файлы каше"
 
 #: data/effects/avfilter/avfilter_il.xml:23
 #, fuzzy, kde-format
-#| msgid "Swap Channels"
 msgid "Swap Chroma Fields"
 msgstr "Поменять каналы местами"
 
 #: data/effects/avfilter/avfilter_il.xml:26
 #, fuzzy, kde-format
-#| msgid "Swap channels"
 msgid "Swap Alpha Fields"
 msgstr "Поменять каналы местами"
 
@@ -4346,31 +4061,26 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "threshold0"
 msgstr "Порог"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "threshold1"
 msgstr "Порог"
 
 #: data/effects/avfilter/avfilter_inflate.xml:14
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "threshold2"
 msgstr "Порог"
 
 #: data/effects/avfilter/avfilter_inflate.xml:17
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "threshold3"
 msgstr "Порог"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
 #, fuzzy, kde-format
-#| msgid "Deinterlacer"
 msgid "Kernel Deinterlacer"
 msgstr "Деинтерлейсер"
 
@@ -4389,7 +4099,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:14
 #, fuzzy, kde-format
-#| msgid "Show fields"
 msgid "Swap fields"
 msgstr "Отобразить поля"
 
@@ -4406,12 +4115,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:4
 #, kde-format
 msgid "Kirsch"
-msgstr ""
+msgstr "Кирш"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:5
 #, kde-format
 msgid "Apply kirsch operator."
-msgstr ""
+msgstr "Применить оператор Кирша"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
@@ -4433,7 +4142,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_roberts.xml:15
 #: data/effects/avfilter/avfilter_sobel.xml:15
 #, fuzzy, kde-format
-#| msgid "Y-Delta"
 msgid "Delta"
 msgstr "Сдвиг по вертикали"
 
@@ -4454,7 +4162,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, fuzzy, kde-format
-#| msgid "Lens Correction"
 msgid "Lens correction"
 msgstr "Коррекция дисторсии"
 
@@ -4475,7 +4182,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:14
 #, fuzzy, kde-format
-#| msgid "Audio correction"
 msgid "Quadratic correction coeff."
 msgstr "Коррекция звука"
 
@@ -4579,7 +4285,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lowpass.xml:4
 #, fuzzy, kde-format
-#| msgid "Low pass"
 msgid "Low-pass"
 msgstr "Низкие частоты"
 
@@ -4600,7 +4305,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:4
 #, fuzzy, kde-format
-#| msgid "Apply"
 msgid "Apply LUT"
 msgstr "Применить"
 
@@ -4620,7 +4324,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, fuzzy, kde-format
-#| msgid "Interpolation"
 msgid "Interpolation Mode"
 msgstr "Интерполяция"
 
@@ -4651,14 +4354,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:16
 #, fuzzy, kde-format
-#| msgctxt "@label The first letter of Proxy, used as abbreviation"
-#| msgid "P"
 msgid "QP"
 msgstr "П"
 
 #: data/effects/avfilter/avfilter_median.xml:4
 #, fuzzy, kde-format
-#| msgid "MediaInfo:"
 msgid "Median"
 msgstr "MediaInfo:"
 
@@ -4670,19 +4370,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:8
 #, fuzzy, kde-format
-#| msgid "Horizontal End"
 msgid "Horizontal radius"
 msgstr "Конец по горизонтали"
 
 #: data/effects/avfilter/avfilter_median.xml:9
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
 msgid "<![CDATA[Set median radius]]>"
 msgstr "<![CDATA[Смещение вдоль оси Y]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
 #, fuzzy, kde-format
-#| msgid "Vertical End"
 msgid "Vertical radius"
 msgstr "Конец по вертикали"
 
@@ -4713,7 +4410,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, fuzzy, kde-format
-#| msgid "Make monochrome clip"
 msgid "Monochrome"
 msgstr "Создание двухцветного чёрно-белого клипа"
 
@@ -4724,43 +4420,36 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_monochrome.xml:8
 #, fuzzy, kde-format
-#| msgid "Chroma Keep"
 msgid "Chroma blue spot"
 msgstr "Удержание цвета"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:11
 #, fuzzy, kde-format
-#| msgid "Chroma Keep"
 msgid "Chroma red spot"
 msgstr "Удержание цвета"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:14
 #, fuzzy, kde-format
-#| msgid "Clear center size"
 msgid "Color filter size"
 msgstr "Размер центральной области"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:17
 #, fuzzy, kde-format
-#| msgid "Highlight peaks"
 msgid "Highlights strength"
 msgstr "Подсвечивать пики"
 
 #: data/effects/avfilter/avfilter_negate.xml:4
 #, fuzzy, kde-format
-#| msgid "Hue gate"
 msgid "Negate"
 msgstr "Диапазон оттенков"
 
 #: data/effects/avfilter/avfilter_negate.xml:5
 #, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
 msgid "Negate (invert) the input video or its alpha channel."
 msgstr "Использовать значение, обратное значению альфа-канала."
 
 #: data/effects/avfilter/avfilter_negate.xml:8
 #, fuzzy, kde-format
-#| msgid "Feather Alpha"
 msgid "Negate alpha"
 msgstr "Растушёвка альфа-канала"
 
@@ -4781,55 +4470,46 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_noise.xml:11
 #, fuzzy, kde-format
-#| msgid "Amount of noise added."
 msgid "Component #0 noise seed"
 msgstr "Количество добавленного шума."
 
 #: data/effects/avfilter/avfilter_noise.xml:14
 #, fuzzy, kde-format
-#| msgid "Amount of noise added."
 msgid "Component #1 noise seed"
 msgstr "Количество добавленного шума."
 
 #: data/effects/avfilter/avfilter_noise.xml:17
 #, fuzzy, kde-format
-#| msgid "Amount of noise added."
 msgid "Component #2 noise seed"
 msgstr "Количество добавленного шума."
 
 #: data/effects/avfilter/avfilter_noise.xml:20
 #, fuzzy, kde-format
-#| msgid "Amount of noise added."
 msgid "Component #3 noise seed"
 msgstr "Количество добавленного шума."
 
 #: data/effects/avfilter/avfilter_noise.xml:23
 #, fuzzy, kde-format
-#| msgid "Glow strength"
 msgid "All component strength"
 msgstr "Сила свечения"
 
 #: data/effects/avfilter/avfilter_noise.xml:26
 #, fuzzy, kde-format
-#| msgid "Components:"
 msgid "Component #0 strength"
 msgstr "Компоненты:"
 
 #: data/effects/avfilter/avfilter_noise.xml:29
 #, fuzzy, kde-format
-#| msgid "Components:"
 msgid "Component #1 strength"
 msgstr "Компоненты:"
 
 #: data/effects/avfilter/avfilter_noise.xml:32
 #, fuzzy, kde-format
-#| msgid "Components:"
 msgid "Component #2 strength"
 msgstr "Компоненты:"
 
 #: data/effects/avfilter/avfilter_noise.xml:35
 #, fuzzy, kde-format
-#| msgid "Components:"
 msgid "Component #3 strength"
 msgstr "Компоненты:"
 
@@ -4869,7 +4549,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, fuzzy, kde-format
-#| msgid "Normal view"
 msgid "Normalize RGB video"
 msgstr "Обычный просмотр"
 
@@ -4902,7 +4581,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:4
 #, fuzzy, kde-format
-#| msgid "Oscilloscope"
 msgid "Oscilloscope (avfilter)"
 msgstr "Осциллоскоп"
 
@@ -4914,31 +4592,26 @@ msgstr "Двухмерный осциллоскоп"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:8
 #, fuzzy, kde-format
-#| msgid "X position"
 msgid "Trace X position"
 msgstr "Позиция по X"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
 msgid "<![CDATA[X position of the trace profile]]>"
 msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
 #, fuzzy, kde-format
-#| msgid "Y position"
 msgid "Trace Y position"
 msgstr "Позиция по Y"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
 msgid "<![CDATA[Y position of the trace profile]]>"
 msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:17
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Size/length of the trace profile in pixel]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -4960,74 +4633,62 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Opacity of the scope display]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
 #, fuzzy, kde-format
-#| msgid "X position"
 msgid "Scope X position"
 msgstr "Позиция по X"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
 msgid "<![CDATA[X position of the scope display]]>"
 msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
 #, fuzzy, kde-format
-#| msgid "Y position"
 msgid "Scope Y position"
 msgstr "Позиция по Y"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
 msgid "<![CDATA[Y position of the scope display]]>"
 msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
 #, fuzzy, kde-format
-#| msgid "Shape width"
 msgid "Scope width"
 msgstr "Ширина рамки"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
 msgid "<![CDATA[Width of the scope display]]>"
 msgstr "<![CDATA[Смещение вдоль оси X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
 #, fuzzy, kde-format
-#| msgid "Bump height"
 msgid "Scope height"
 msgstr "Высота рельефа"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
 msgid "<![CDATA[Height of the scope display]]>"
 msgstr "<![CDATA[Смещение вдоль оси X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
 #, fuzzy, kde-format
-#| msgid "Components:"
 msgid "Components"
 msgstr "Компоненты:"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Select the components to be traced]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, fuzzy, kde-format
-#| msgid "Draw grid"
 msgid "Draw scope grid"
 msgstr "Показывать сетку"
 
@@ -5038,13 +4699,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, fuzzy, kde-format
-#| msgid "Show brightness statistics"
 msgid "Print statistics"
 msgstr "Показать статистику яркости"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
 msgid "<![CDATA[Switch statistics on or off]]>"
 msgstr "<![CDATA[Смещение вдоль оси Y]]>"
 
@@ -5077,7 +4736,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, fuzzy, kde-format
-#| msgid "Sensitivity"
 msgid "Photosensitivity"
 msgstr "Чувствительность"
 
@@ -5088,13 +4746,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
 #, fuzzy, kde-format
-#| msgid "Frames step"
 msgid "Frames to use"
 msgstr "Шаг кадров"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:9
 #, fuzzy, kde-format
-#| msgid "Show last frame over video"
 msgid "Set how many frames to use."
 msgstr "Показать последний кадр поверх видео"
 
@@ -5110,13 +4766,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
 #, fuzzy, kde-format
-#| msgid "Seek to clip when adding effect"
 msgid "Set pixels to skip when sampling frames"
 msgstr "Перейти к клипу при добавлении эффекта"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:20
 #, fuzzy, kde-format
-#| msgid "2 pass"
 msgid "Bypass"
 msgstr "Два прохода"
 
@@ -5127,19 +4781,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, fuzzy, kde-format
-#| msgid "Pixelize input image."
 msgid "Pixelize (avfilter)"
 msgstr "Пикселизация оригинального изображения."
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
 #, fuzzy, kde-format
-#| msgid "Pixelize"
 msgid "Pixelize video"
 msgstr "Пикселизация"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
 #, fuzzy, kde-format
-#| msgid "Macroblock width"
 msgid "Block width"
 msgstr "Ширина макроблока"
 
@@ -5152,7 +4803,6 @@ msgstr "Высота макроблока"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
 #, fuzzy, kde-format
-#| msgid "Pixelize"
 msgid "Pixelize mode"
 msgstr "Пикселизация"
 
@@ -5164,16 +4814,15 @@ msgstr ""
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
 msgid "Prewitt"
-msgstr ""
+msgstr "Прюитт"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:5
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
-msgstr ""
+msgstr "Применить оператор Прюитт к входному видеопотоку"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, fuzzy, kde-format
-#| msgid "Random Seed"
 msgid "Random"
 msgstr "Случайное начальное значение"
 
@@ -5186,19 +4835,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_random.xml:8
 #, fuzzy, kde-format
-#| msgid "Number of values per channel."
 msgid "Number of frames in cache"
 msgstr "Количество значений на канал."
 
 #: data/effects/avfilter/avfilter_random.xml:11
 #, fuzzy, kde-format
-#| msgid "Seed:"
 msgid "Seed"
 msgstr "Скорость:"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:4
 #, fuzzy, kde-format
-#| msgid "Removal"
 msgid "Grain Removal"
 msgstr "Удалить"
 
@@ -5229,7 +4875,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:4
 #, fuzzy, kde-format
-#| msgid "Shift"
 msgid "RGBA Shift"
 msgstr "Транспонировать"
 
@@ -5240,73 +4885,58 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
 #, fuzzy, kde-format
-#| msgid "Horizontal Flip"
 msgid "Red Horizontal shift"
 msgstr "Отражение по горизонтали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:11
 #, fuzzy, kde-format
-#| msgid "Vertical scatter"
 msgid "Red Vertical shift"
 msgstr "Разброс по Y"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:14
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
 msgid "Green Horizontal shift"
 msgstr "Линейный, по горизонтали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:17
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
 msgid "Green Vertical shift"
 msgstr "Линейный, по вертикали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:20
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
 msgid "Blue Horizontal shift"
 msgstr "Линейный, по горизонтали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:23
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
 msgid "Blue Vertical shift"
 msgstr "Линейный, по вертикали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:26
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
 msgid "Alpha Horizontal shift"
 msgstr "Линейный, по горизонтали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:29
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
 msgid "Alpha Vertical shift"
 msgstr "Линейный, по вертикали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
 #, fuzzy, kde-format
-#| msgid "Edges correction"
 msgid "Edge operation"
 msgstr "Коррекция по краю"
 
 #: data/effects/avfilter/avfilter_roberts.xml:4
 #, kde-format
 msgid "Roberts"
-msgstr ""
+msgstr "Робертс"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
 msgid "Apply roberts cross operator to input video stream"
-msgstr ""
+msgstr "Применить перекрёстный оператор Робертса к входному видеопотоку"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5321,7 +4951,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_sab.xml:14
 #, fuzzy, kde-format
-#| msgid "Length"
 msgid "Luma Strength"
 msgstr "Длина"
 
@@ -5332,7 +4961,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_sab.xml:23
 #, fuzzy, kde-format
-#| msgid "Glow strength"
 msgid "Chroma Strength"
 msgstr "Сила свечения"
 
@@ -5344,26 +4972,21 @@ msgstr "Прокрутка"
 
 #: data/effects/avfilter/avfilter_scroll.xml:8
 #, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
 msgid "Horizontal scrolling speed"
 msgstr "Горизонтальные жалюзи"
 
 #: data/effects/avfilter/avfilter_scroll.xml:11
 #, fuzzy, kde-format
-#| msgid "Vertical Flip"
 msgid "Vertical scrolling speed"
 msgstr "Отражение по вертикали"
 
 #: data/effects/avfilter/avfilter_scroll.xml:14
 #, fuzzy, kde-format
-#| msgid "Histogram position"
 msgid "Initial horizontal position"
 msgstr "Позиция гистограммы"
 
 #: data/effects/avfilter/avfilter_scroll.xml:17
 #, fuzzy, kde-format
-#| msgid "Inverted Position"
 msgid "Initial vertical position"
 msgstr "Инвертированная позиция"
 
@@ -5379,13 +5002,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
 #, fuzzy, kde-format
-#| msgid "Re&lative"
 msgid "Absolute,Relative"
 msgstr "От&носительный"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:9
 #, fuzzy, kde-format
-#| msgid "Image Selection Method"
 msgid "Correction Method"
 msgstr "Способ выбора изображений"
 
@@ -5396,55 +5017,46 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:15
 #, fuzzy, kde-format
-#| msgid "Yellow"
 msgid "Yellows"
 msgstr "Жёлтый"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:18
 #, fuzzy, kde-format
-#| msgid "Green"
 msgid "Greens"
 msgstr "Зелёный"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:21
 #, fuzzy, kde-format
-#| msgid "Cyan"
 msgid "Cyans"
 msgstr "Бирюзовый"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:24
 #, fuzzy, kde-format
-#| msgid "Blue"
 msgid "Blues"
 msgstr "Синий"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
 #, fuzzy, kde-format
-#| msgid "Magenta"
 msgid "Magentas"
 msgstr "Пурпурный"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:30
 #, fuzzy, kde-format
-#| msgid "White"
 msgid "Whites"
 msgstr "Белый"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:33
 #, fuzzy, kde-format
-#| msgid "Neutral Color"
 msgid "Neutrals"
 msgstr "Нейтральный цвет"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:36
 #, fuzzy, kde-format
-#| msgid "Black"
 msgid "Blacks"
 msgstr "Чёрный"
 
 #: data/effects/avfilter/avfilter_separatefields.xml:4
 #, fuzzy, kde-format
-#| msgid "Separate Channels"
 msgid "Separate field"
 msgstr "Разделять каналы"
 
@@ -5458,7 +5070,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
 #, fuzzy, kde-format
-#| msgid "Set Zone"
 msgid "Set Range"
 msgstr "Установка участка"
 
@@ -5474,8 +5085,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, fuzzy, kde-format
-#| msgctxt "Affine Transform Effect Name"
-#| msgid "Shear"
 msgid "Shear"
 msgstr "Наклон"
 
@@ -5486,31 +5095,26 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_shear.xml:8
 #, fuzzy, kde-format
-#| msgid "Blur factor"
 msgid "X shear factor"
 msgstr "Коэффициент размытия"
 
 #: data/effects/avfilter/avfilter_shear.xml:11
 #, fuzzy, kde-format
-#| msgid "Blur factor"
 msgid "Y shear factor"
 msgstr "Коэффициент размытия"
 
 #: data/effects/avfilter/avfilter_shear.xml:14
 #, fuzzy, kde-format
-#| msgid "Background Color"
 msgid "Background fill color"
 msgstr "Цвет фона"
 
 #: data/effects/avfilter/avfilter_shear.xml:17
 #, fuzzy, kde-format
-#| msgid "Nearest-Neighbor,Bilinear"
 msgid "Nearest,Bilinear"
 msgstr "Ближайшее соседнее,Билинейное"
 
 #: data/effects/avfilter/avfilter_shear.xml:18
 #, fuzzy, kde-format
-#| msgid "Interpolation"
 msgid "Interpolation mode"
 msgstr "Интерполяция"
 
@@ -5525,32 +5129,27 @@ msgid "Reorder and/or duplicate video planes"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:8
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "1st Output Plane"
-msgstr "Выходной язык"
+msgstr "Первая выходная плоскость"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:11
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "2nd Output Plane"
-msgstr "Выходной язык"
+msgstr "Вторая выходная плоскость"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:14
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "3rd Output Plane"
-msgstr "Выходной язык"
+msgstr "Третья выходная плоскость"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:17
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "4th Output Plane"
-msgstr "Выходной язык"
+msgstr "Четвёртая выходная плоскость"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, fuzzy, kde-format
-#| msgid "Square blur"
 msgid "Smartblur"
 msgstr "Квадратное размывание"
 
@@ -5561,7 +5160,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:8
 #, fuzzy, kde-format
-#| msgid "radius"
 msgid "Luma radius"
 msgstr "радиус"
 
@@ -5576,7 +5174,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
 #, fuzzy, kde-format
-#| msgid "Glow strength"
 msgid "Luma strength"
 msgstr "Сила свечения"
 
@@ -5590,7 +5187,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "Luma threshold"
 msgstr "Изменить порог"
 
@@ -5605,7 +5201,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
 #, fuzzy, kde-format
-#| msgid "Circle radius"
 msgid "Chroma radius"
 msgstr "Радиус окружности"
 
@@ -5621,7 +5216,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
 #, fuzzy, kde-format
-#| msgid "Glow strength"
 msgid "Chroma strength"
 msgstr "Сила свечения"
 
@@ -5636,7 +5230,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "Chroma threshold"
 msgstr "Изменить порог"
 
@@ -5652,7 +5245,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, fuzzy, kde-format
-#| msgid "Alpha operations"
 msgid "Alpha radius"
 msgstr "Операции с альфа"
 
@@ -5668,7 +5260,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
 #, fuzzy, kde-format
-#| msgid "Alpha strobing"
 msgid "Alpha strength"
 msgstr "Стробирование альфа-канала"
 
@@ -5692,19 +5283,17 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
-#, fuzzy, kde-format
-#| msgid "Sobel filter"
+#, kde-format
 msgid "Sobel with planes"
-msgstr "Фильтр Собеля"
+msgstr "Собель с плоскостями"
 
 #: data/effects/avfilter/avfilter_sobel.xml:5
 #, kde-format
 msgid "Apply sobel operator to input video stream."
-msgstr ""
+msgstr "Применить оператор Собеля к входному видеопотоку"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
 #, fuzzy, kde-format
-#| msgid "Stylize"
 msgid "SOFAlizer"
 msgstr "Стилизация"
 
@@ -5720,7 +5309,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
 #, fuzzy, kde-format
-#| msgid "Asset file"
 msgid "SOFA file"
 msgstr "Файл ресурса"
 
@@ -5737,25 +5325,21 @@ msgstr "Вращение"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:17
 #, fuzzy, kde-format
-#| msgid "Operation"
 msgid "Elevation"
 msgstr "Операция"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
 #, fuzzy, kde-format
-#| msgid "Frequency"
 msgid "Frequency,Time"
 msgstr "Частота"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:27
 #, fuzzy, kde-format
-#| msgid "End Gain"
 msgid "LFE Gain"
 msgstr "Усиление в конце"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:30
 #, fuzzy, kde-format
-#| msgid "Frame size"
 msgid "Framesize"
 msgstr "Размер кадра"
 
@@ -5766,19 +5350,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
 #, fuzzy, kde-format
-#| msgid "Interpolator"
 msgid "Interpolate"
 msgstr "Интерполяция"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
 #, fuzzy, kde-format
-#| msgid "Phase"
 msgid "Minphase"
 msgstr "Фаза"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:43
 #, fuzzy, kde-format
-#| msgid "Angle"
 msgid "Anglestep"
 msgstr "Угол"
 
@@ -5795,7 +5376,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_sr.xml:4
 #, fuzzy, kde-format
-#| msgid "Use project resolution"
 msgid "AI Super resolution"
 msgstr "Использовать разрешение проекта"
 
@@ -5813,7 +5393,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:4
 #, fuzzy, kde-format
-#| msgid "Stereo "
 msgid "Stereoscopic 3D"
 msgstr "Стерео "
 
@@ -5832,7 +5411,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, fuzzy, kde-format
-#| msgid "Capture format"
 msgid "Input format"
 msgstr "Формат захвата"
 
@@ -5853,13 +5431,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
 #, fuzzy, kde-format
-#| msgid "Output file"
 msgid "Output format"
 msgstr "Выходной файл"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, fuzzy, kde-format
-#| msgid "Stereo to mono"
 msgid "Stereo tools"
 msgstr "Стерео в моно"
 
@@ -5873,7 +5449,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:8
 #, fuzzy, kde-format
-#| msgid "Levels"
 msgid "Level IN"
 msgstr "Уровни"
 
@@ -5887,14 +5462,12 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
 #, fuzzy, kde-format
-#| msgid "Levels"
 msgid "Level OUT"
 msgstr "Уровни"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:18
 #: data/effects/avfilter/avfilter_stereotools.xml:86
 #, fuzzy, kde-format
-#| msgid "Balance"
 msgid "Balance IN"
 msgstr "Баланс"
 
@@ -5909,13 +5482,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereotools.xml:22
 #: data/effects/avfilter/avfilter_stereotools.xml:96
 #, fuzzy, kde-format
-#| msgid "Balance"
 msgid "Balance OUT"
 msgstr "Баланс"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:26
 #, fuzzy, kde-format
-#| msgid "Source clip"
 msgid "Softclip"
 msgstr "Исходный клип"
 
@@ -5928,37 +5499,31 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:30
 #, fuzzy, kde-format
-#| msgid "Center Left"
 msgid "Mute Left"
 msgstr "По центру слева"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:33
 #, fuzzy, kde-format
-#| msgid "Center Right"
 msgid "Mute Right"
 msgstr "По центру справа"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:36
 #, fuzzy, kde-format
-#| msgid "Phase"
 msgid "Phase Left"
 msgstr "Фаза"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:37
 #, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
 msgid "Change the phase of the left channel."
 msgstr "Использовать значение, обратное значению альфа-канала."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:40
 #, fuzzy, kde-format
-#| msgid "Right"
 msgid "Phase Right"
 msgstr "Справа"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:41
 #, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
 msgid "Change the phase of the right channel."
 msgstr "Использовать значение, обратное значению альфа-канала."
 
@@ -5973,13 +5538,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
 #, fuzzy, kde-format
-#| msgid "Stereo depth"
 msgid "Stereo Mode"
 msgstr "Глубина стерео"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
 #, fuzzy, kde-format
-#| msgid "Mic level"
 msgid "Side Level"
 msgstr "Уровень микрофона"
 
@@ -5991,7 +5554,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:52
 #, fuzzy, kde-format
-#| msgid "White Balance"
 msgid "Side Balance"
 msgstr "Баланс белого"
 
@@ -6003,7 +5565,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
 #, fuzzy, kde-format
-#| msgid "Mic level"
 msgid "Mid Level"
 msgstr "Уровень микрофона"
 
@@ -6016,7 +5577,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
 #, fuzzy, kde-format
-#| msgid "Mid gain"
 msgid "Mid Pan"
 msgstr "Среднее усиление"
 
@@ -6027,7 +5587,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
 #, fuzzy, kde-format
-#| msgid "Stereo "
 msgid "Stereo base"
 msgstr "Стерео "
 
@@ -6047,13 +5606,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
 #, fuzzy, kde-format
-#| msgid "Mic level"
 msgid "S/C level"
 msgstr "Уровень микрофона"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:75
 #, fuzzy, kde-format
-#| msgid "Stereo depth"
 msgid "Stereo phase"
 msgstr "Глубина стерео"
 
@@ -6083,7 +5640,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
 #, fuzzy, kde-format
-#| msgid "Stereo depth"
 msgid "Stereo widener"
 msgstr "Глубина стерео"
 
@@ -6103,7 +5659,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
 #, fuzzy, kde-format
-#| msgid "Feedback"
 msgid "Feedback Gain"
 msgstr "Обратная связь"
 
@@ -6145,19 +5700,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_tmix.xml:5
 #, fuzzy, kde-format
-#| msgid "Exporting video frames"
 msgid "Mix successive video frames"
 msgstr "Экспорт видеокадров"
 
 #: data/effects/avfilter/avfilter_tmix.xml:8
 #, fuzzy, kde-format
-#| msgid "Frames step"
 msgid "Frames to mix"
 msgstr "Шаг кадров"
 
 #: data/effects/avfilter/avfilter_transpose.xml:4
 #, fuzzy, kde-format
-#| msgid "Transcode"
 msgid "Transpose"
 msgstr "Перекодирование"
 
@@ -6178,13 +5730,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_transpose.xml:13
 #, fuzzy, kde-format
-#| msgid "Overwrite"
 msgid "Override if"
 msgstr "Заменить"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:5
 #, fuzzy, kde-format
-#| msgid "Sharpness"
 msgid "Sharp/Unsharp"
 msgstr "Резкость"
 
@@ -6195,25 +5745,21 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:9
 #, fuzzy, kde-format
-#| msgid "Horizontal scatter"
 msgid "Luma horizontal matrix"
 msgstr "Разброс по X"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:10
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the luma matrix horizontal size]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:13
 #, fuzzy, kde-format
-#| msgid "Vertical margin"
 msgid "Luma vertical matrix"
 msgstr "Вертикальное поле"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:14
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
 msgid "<![CDATA[Set the luma matrix vertical size]]>"
 msgstr "<![CDATA[Смещение вдоль оси X]]>"
 
@@ -6228,25 +5774,21 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
 #, fuzzy, kde-format
-#| msgid "Crop mode horizontal"
 msgid "Chroma horizontal matrix"
 msgstr "Режим кадрирования по горизонтали"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:23
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
 #, fuzzy, kde-format
-#| msgid "Crop mode vertical"
 msgid "Chroma vertical matrix"
 msgstr "Режим кадрирования по вертикали"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:27
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the chroma matrix vertical size]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -6261,25 +5803,21 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
 #, fuzzy, kde-format
-#| msgid "Horizontal scatter"
 msgid "Alpha horizontal matrix"
 msgstr "Разброс по X"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:36
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:39
 #, fuzzy, kde-format
-#| msgid "Vertical margin"
 msgid "Alpha vertical matrix"
 msgstr "Вертикальное поле"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:40
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the alpha matrix vertical size]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -6294,7 +5832,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, fuzzy, kde-format
-#| msgid "Denoiser"
 msgid "Wavelet Denoiser"
 msgstr "Шумоподавление"
 
@@ -6316,7 +5853,6 @@ msgstr "Процентов"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:4
 #, fuzzy, kde-format
-#| msgid "Vectorscope"
 msgid "Vectorscope (Advanced)"
 msgstr "Вектороскоп"
 
@@ -6360,13 +5896,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vectorscope.xml:22
 #: data/effects/avfilter/avfilter_waveform.xml:36
 #, fuzzy, kde-format
-#| msgid "Slope"
 msgid "Envelope"
 msgstr "Спад"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:25
 #, fuzzy, kde-format
-#| msgid "Foreground color"
 msgid "none,green,color"
 msgstr "Цвет переднего плана"
 
@@ -6384,19 +5918,16 @@ msgstr "Начать с"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:32
 #, fuzzy, kde-format
-#| msgid "White Balance"
 msgid "White,Black,Name"
 msgstr "Баланс белого"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "Low Threshold"
 msgstr "Порог"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:42
 #, fuzzy, kde-format
-#| msgid "Threshold"
 msgid "High Threshold"
 msgstr "Порог"
 
@@ -6412,7 +5943,6 @@ msgstr "Цветовое пространство"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, fuzzy, kde-format
-#| msgid "Vertical"
 msgid "Flip Vertically"
 msgstr "По вертикали"
 
@@ -6423,7 +5953,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_vibrance.xml:4
 #, fuzzy, kde-format
-#| msgid "Variance"
 msgid "Vibrance"
 msgstr "Отклонение"
 
@@ -6434,37 +5963,31 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_vibrance.xml:11
 #, fuzzy, kde-format
-#| msgid "Center balance"
 msgid "Red balance"
 msgstr "Баланс центра"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:14
 #, fuzzy, kde-format
-#| msgid "Center balance"
 msgid "Green balance"
 msgstr "Баланс центра"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:17
 #, fuzzy, kde-format
-#| msgid "Balance"
 msgid "Blue balance"
 msgstr "Баланс"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:20
 #, fuzzy, kde-format
-#| msgid "Keep luma"
 msgid "Red luma"
 msgstr "Сохранить яркость"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
 #, fuzzy, kde-format
-#| msgid "Keep luma"
 msgid "Green luma"
 msgstr "Сохранить яркость"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
 #, fuzzy, kde-format
-#| msgid "Keep luma"
 msgid "Blue luma"
 msgstr "Сохранить яркость"
 
@@ -6480,13 +6003,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_vibrato.xml:5
 #, fuzzy, kde-format
-#| msgid "Paste effect"
 msgid "Vibrato effect."
 msgstr "Вставить эффект"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
 #, fuzzy, kde-format
-#| msgid "Deinterlacer"
 msgid "w3fdif Deinterlacer"
 msgstr "Деинтерлейсер"
 
@@ -6504,7 +6025,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, fuzzy, kde-format
-#| msgid "Co-efficient"
 msgid "Filter coefficients"
 msgstr "Коэффициент"
 
@@ -6515,13 +6035,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
 #, fuzzy, kde-format
-#| msgid "Force Interlaced"
 msgid "Frames to deinterlace"
 msgstr "Принудительно задать чересстрочною развёртку"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
 msgid "Video waveform monitor"
 msgstr "Фильтр звукового спектра"
 
@@ -6535,7 +6053,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #, fuzzy, kde-format
-#| msgid "Columns"
 msgid "Row,Column"
 msgstr "Столбцы"
 
@@ -6566,19 +6083,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Select the components to be displayed]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the envelope mode]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -6598,7 +6112,6 @@ msgstr "Фильтр"
 
 #: data/effects/avfilter/avfilter_waveform.xml:42
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the filter mode]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -6614,7 +6127,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the opacity of the graticule]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -6625,7 +6137,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
 msgid "<![CDATA[Set graticule flags]]>"
 msgstr "<![CDATA[Смещение вдоль оси Y]]>"
 
@@ -6641,7 +6152,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the background opacity]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -6666,25 +6176,21 @@ msgstr "Тонирование"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, fuzzy, kde-format
-#| msgid "Resize"
 msgid "None,Size"
 msgstr "Размер"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
 #, fuzzy, kde-format
-#| msgid "Paint mode:"
 msgid "Fit mode"
 msgstr "Цвет графика:"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Set the fit mode]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, fuzzy, kde-format
-#| msgid "Deinterlacer"
 msgid "Weave interlacer"
 msgstr "Деинтерлейсер"
 
@@ -6698,13 +6204,11 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_weave.xml:8
 #, fuzzy, kde-format
-#| msgid "Top To Bottom"
 msgid "Top,Bottom"
 msgstr "Сверху вниз"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
 #, fuzzy, kde-format
-#| msgid "Interpolator"
 msgid "xBR Interpolator"
 msgstr "Интерполяция"
 
@@ -6723,7 +6227,6 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
 #, fuzzy, kde-format
-#| msgid "Deinterlacer"
 msgid "Yadif Deinterlacer"
 msgstr "Деинтерлейсер"
 
@@ -6741,19 +6244,16 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_yadif.xml:12
 #, fuzzy, kde-format
-#| msgid "Bottom field first"
 msgid "Top field first,Bottom field first,Auto"
 msgstr "Сначала нижнее поле"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
 #, fuzzy, kde-format
-#| msgid "Zoom In"
 msgid "Zoom Pan"
 msgstr "Увеличить масштаб"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:5
 #, fuzzy, kde-format
-#| msgid "Sox band audio effect"
 msgid "Apply Zoom and Pan effect"
 msgstr "Полосный фильтр SoX"
 
@@ -6788,13 +6288,11 @@ msgstr "Субтитры"
 
 #: data/effects/avfilter/subtitles.xml:5
 #, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
 msgid "Render subtitles onto the video"
 msgstr "Наложение таймера на видеоизображение"
 
 #: data/effects/avfilter/subtitles.xml:8
 #, fuzzy, kde-format
-#| msgid "Subtitle file:"
 msgid "Subtitle file to apply"
 msgstr "Файл с субтитрами:"
 
@@ -7350,7 +6848,6 @@ msgstr "Вращение кадров в трёхмерном пространс
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:8
 #, fuzzy, kde-format
-#| msgid "Y axis rotation"
 msgid "X axis rotation"
 msgstr "Вращение по Y"
 
@@ -7411,19 +6908,16 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, fuzzy, kde-format
-#| msgid "Create a video Grid"
 msgid "Create an analog video echo"
 msgstr "Создание сетки из видео"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
 #, fuzzy, kde-format
-#| msgid "Factor"
 msgid "Fade factor"
 msgstr "Коэффициент"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
 msgid "<![CDATA[Disappearance Rate of the echo]]>"
 msgstr "<![CDATA[Угол наклона вокруг оси X]]>"
 
@@ -7439,7 +6933,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:17
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
 msgid "<![CDATA[Influence on Red channel]]>"
 msgstr "<![CDATA[Влияние среднего значения в пикселях, > 32 = 0]]>"
 
@@ -7450,7 +6943,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:21
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
 msgid "<![CDATA[Influence on Green channel]]>"
 msgstr "<![CDATA[Влияние среднего значения в пикселях, > 32 = 0]]>"
 
@@ -7461,13 +6953,11 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:25
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
 msgid "<![CDATA[Influence on Blue channel]]>"
 msgstr "<![CDATA[Влияние среднего значения в пикселях, > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
 #, fuzzy, kde-format
-#| msgid "Stroke width"
 msgid "Strobe period"
 msgstr "Толщина контура"
 
@@ -7552,7 +7042,6 @@ msgstr "Сжать/Растянуть/Размыть"
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
 #, fuzzy, kde-format
-#| msgid "Alpha trace"
 msgid "Alpha gradient"
 msgstr "Кривая альфа-канала"
 
@@ -7595,7 +7084,6 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:17
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
 msgid "<![CDATA[Angle for the gradient.]]>"
 msgstr "<![CDATA[Угол вращения вдоль оси X]]>"
 
@@ -7638,7 +7126,6 @@ msgstr "Фигуры в альфа"
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
 #: data/effects/frei0r/frei0r_alphaspot.xml:5
 #, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
 msgid "Draws simple shapes into the alpha channel"
 msgstr "Использовать значение, обратное значению альфа-канала."
 
@@ -7679,13 +7166,11 @@ msgstr "Высота"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:20
 #, fuzzy, kde-format
-#| msgid "Transparency clip"
 msgid "Transparency top"
 msgstr "Прозрачность клипа"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:24
 #, fuzzy, kde-format
-#| msgid "Transparency:"
 msgid "Transparency bottom"
 msgstr "Прозрачность:"
 
@@ -7780,7 +7265,6 @@ msgstr "Вычитание фона"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:5
 #, fuzzy, kde-format
-#| msgid "Remove background using AI model"
 msgid "Remove the background of a static video"
 msgstr "Удалить фон с помощью модели ИИ"
 
@@ -7819,7 +7303,6 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #, fuzzy, kde-format
-#| msgid "Vertical margin"
 msgid "Vertical Start"
 msgstr "Вертикальное поле"
 
@@ -7881,7 +7364,6 @@ msgstr "тангаж"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:14
 #, fuzzy, kde-format
-#| msgid "Scroll"
 msgid "roll"
 msgstr "Прокрутка"
 
@@ -7897,7 +7379,6 @@ msgstr "рыбий глаз"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, fuzzy, kde-format
-#| msgid "VR360 Equirectangular to Rectilinear"
 msgid "VR360 Equirectangular to Stereo"
 msgstr "Эквидистантный VR360 в прямоугольный"
 
@@ -7910,13 +7391,11 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
 #, fuzzy, kde-format
-#| msgid "yaw"
 msgid "Yaw"
 msgstr "рыскание"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
 #, fuzzy, kde-format
-#| msgid "pitch"
 msgid "Pitch"
 msgstr "тангаж"
 
@@ -7932,7 +7411,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
 #, fuzzy, kde-format
-#| msgid "Nearest-Neighbor,Bilinear"
 msgid "Nearest-neighbor,Bilinear"
 msgstr "Ближайшее соседнее,Билинейное"
 
@@ -7953,7 +7431,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:8
 #, fuzzy, kde-format
-#| msgid "Alignment"
 msgid "Alignment Yaw"
 msgstr "Выравнивание"
 
@@ -8108,7 +7585,6 @@ msgstr "Сглаживание тангажа"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:41
 #, fuzzy, kde-format
-#| msgid "Yaw Time Bias"
 msgid "Pitch Time Bias"
 msgstr "Смещение рыскания по времени"
 
@@ -8161,43 +7637,36 @@ msgstr "Отрисовка геометрии по четырём углам"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
 #, fuzzy, kde-format
-#| msgid "Top right"
 msgid "Top-right X"
 msgstr "Справа сверху"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:17
 #, fuzzy, kde-format
-#| msgid "Top right"
 msgid "Top-right Y"
 msgstr "Справа сверху"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:20
 #, fuzzy, kde-format
-#| msgid "Bottom right"
 msgid "Bottom-right X"
 msgstr "Справа снизу"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:23
 #, fuzzy, kde-format
-#| msgid "Bottom right"
 msgid "Bottom-right Y"
 msgstr "Справа снизу"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:26
 #, fuzzy, kde-format
-#| msgid "Bottom left"
 msgid "Bottom-left X"
 msgstr "Слева снизу"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:29
 #, fuzzy, kde-format
-#| msgid "Bottom left"
 msgid "Bottom-left Y"
 msgstr "Слева снизу"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:32
 #, fuzzy, kde-format
-#| msgid "Stretch Y"
 msgid "Stretch X"
 msgstr "Растягивание по Y"
 
@@ -8269,13 +7738,11 @@ msgstr "Линейная"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:9
 #, fuzzy, kde-format
-#| msgid "Patterns"
 msgid "Pattern"
 msgstr "Штампы"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:12
 #, fuzzy, kde-format
-#| msgid "1st Color"
 msgid "Start Color"
 msgstr "Первый цвет"
 
@@ -8515,7 +7982,6 @@ msgstr "Мощность цвета тонируемого изображени�
 
 #: data/effects/frei0r/frei0r_colorize.xml:18
 #, fuzzy, kde-format
-#| msgid "Color shade of the colorized image."
 msgid "Lightness of the colorized image."
 msgstr "Оттенок цвета тонируемого изображения."
 
@@ -8713,7 +8179,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_defish0r.xml:28
 #, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
 msgid "Scale Y to affect aspect ratio"
 msgstr "Сохранять соотношение сторон"
 
@@ -8780,7 +8245,6 @@ msgstr "Амплитуда"
 
 #: data/effects/frei0r/frei0r_dither.xml:5
 #, fuzzy, kde-format
-#| msgid "Other"
 msgctxt "Dither Effect Name"
 msgid "Dither"
 msgstr "Другой"
@@ -8929,7 +8393,6 @@ msgstr "Минимальное количество прямоугольнико
 #: data/effects/frei0r/frei0r_facebl0r.xml:16
 #: data/effects/frei0r/frei0r_facedetect.xml:16
 #, fuzzy, kde-format
-#| msgid "Small"
 msgid "Smallest"
 msgstr "Малая"
 
@@ -8941,7 +8404,6 @@ msgstr "Минимальный размер окна в пикселях."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:20
 #, fuzzy, kde-format
-#| msgid "Large"
 msgid "Largest"
 msgstr "Большая"
 
@@ -9021,7 +8483,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_facedetect.xml:36
 #, fuzzy, kde-format
-#| msgid "Italian"
 msgid "Antialias"
 msgstr "Итальянский"
 
@@ -9051,7 +8512,6 @@ msgstr "Цвет 2"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:49
 #, fuzzy, kde-format
-#| msgid "Set the shape color of the third detected face."
 msgid "Set the shape color of the second detected face."
 msgstr "Установить цвет фигуры третьего найденного лица."
 
@@ -9087,7 +8547,6 @@ msgstr "Установить цвет фигуры пятого найденно
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, fuzzy, kde-format
-#| msgid "Flip"
 msgid "Flippo"
 msgstr "Отражение"
 
@@ -9233,19 +8692,16 @@ msgstr "Включить режим заполнения краёв"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, fuzzy, kde-format
-#| msgid "Vectorscope"
 msgid "Kaleidoscope"
 msgstr "Вектороскоп"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
 #, fuzzy, kde-format
-#| msgid "Select a clip to compare effect"
 msgid "Applies a kaleidoscope effect"
 msgstr "Выберите клип для сравнения эффектов"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:8
 #, fuzzy, kde-format
-#| msgid "Original Color"
 msgid "Origin X"
 msgstr "Исходный цвет"
 
@@ -9256,7 +8712,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:12
 #, fuzzy, kde-format
-#| msgid "Original Color"
 msgid "Origin Y"
 msgstr "Исходный цвет"
 
@@ -9267,7 +8722,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:16
 #, fuzzy, kde-format
-#| msgid "Regeneration"
 msgid "Segmentation"
 msgstr "Регенерация"
 
@@ -9293,7 +8747,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
 #, fuzzy, kde-format
-#| msgid "Source time"
 msgid "Source segment"
 msgstr "Исходное время"
 
@@ -9307,25 +8760,21 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, fuzzy, kde-format
-#| msgid "Counter Clockwise"
 msgid "None,Counter Clockwise,Clockwise"
 msgstr "Против часовой стрелки"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
 #, fuzzy, kde-format
-#| msgid "Animation duration"
 msgid "Segmentation direction"
 msgstr "Длительность анимации"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
 #, fuzzy, kde-format
-#| msgid "Direction of the color gradient."
 msgid "Direction of the segmentation."
 msgstr "Направление градиента цвета."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, fuzzy, kde-format
-#| msgid "Selected Items:"
 msgid "Reflect edges"
 msgstr "Выбранные элементы:"
 
@@ -9339,7 +8788,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
 #, fuzzy, kde-format
-#| msgid "Change threshold"
 msgid "Edge threshold"
 msgstr "Изменить порог"
 
@@ -9352,7 +8800,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
 #, fuzzy, kde-format
-#| msgid "Top Left,Top Right,Bottom Left,Bottom Right"
 msgid "Top right,Top left,Bottom left,Bottom right"
 msgstr "Вверху слева,Вверху справа,Внизу слева,Внизу справа"
 
@@ -9370,7 +8817,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
 #, fuzzy, kde-format
-#| msgid "Bin Search"
 msgid "Corner Search"
 msgstr "Поиск в корзине"
 
@@ -9383,7 +8829,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
 #, fuzzy, kde-format
-#| msgid "Background Color"
 msgid "Background color"
 msgstr "Цвет фона"
 
@@ -9396,7 +8841,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
 #, fuzzy, kde-format
-#| msgid "Opaque background"
 msgid "Use alpha background"
 msgstr "Непрозрачный фон"
 
@@ -9425,7 +8869,6 @@ msgstr "Ключевой цвет"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:11
 #, fuzzy, kde-format
-#| msgid "Text color"
 msgid "Target color"
 msgstr "Цвет текста"
 
@@ -9499,7 +8942,6 @@ msgstr "Маску в альфа-канал"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
 #, fuzzy, kde-format
-#| msgid "Lens Correction"
 msgid "Lens Correction  (keyframable)"
 msgstr "Коррекция дисторсии"
 
@@ -9510,13 +8952,11 @@ msgstr "Коррекция дисторсии объектива"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:8
 #, fuzzy, kde-format
-#| msgid "Horizontal scatter"
 msgid "Horizontal center"
 msgstr "Разброс по X"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:11
 #, fuzzy, kde-format
-#| msgid "Vertical scatter"
 msgid "Vertical center"
 msgstr "Разброс по Y"
 
@@ -9551,7 +8991,6 @@ msgstr "Ширина рамки"
 #: data/effects/frei0r/frei0r_timeout.xml:14
 #: data/effects/frei0r/frei0r_transparency.xml:8
 #, fuzzy, kde-format
-#| msgid "Transparency:"
 msgid "Transparency"
 msgstr "Прозрачность:"
 
@@ -9749,7 +9188,6 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:40
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:112
 #, fuzzy, kde-format
-#| msgid "Background lightness"
 msgid "Background Weight"
 msgstr "Яркость фона"
 
@@ -9922,7 +9360,6 @@ msgstr "Создание прямоугольной маски альфа-кан
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, fuzzy, kde-format
-#| msgid "MediaInfo:"
 msgid "Medians"
 msgstr "MediaInfo:"
 
@@ -10007,7 +9444,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
 #, fuzzy, kde-format
-#| msgid "Macroblock height"
 msgid "Minimum block height"
 msgstr "Высота макроблока"
 
@@ -10020,7 +9456,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
 #, fuzzy, kde-format
-#| msgid "Macroblock height"
 msgid "Maximum block height"
 msgstr "Высота макроблока"
 
@@ -10038,19 +9473,16 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_posterize.xml:5
 #, fuzzy, kde-format
-#| msgid "Dithers the image and reduces the number of available colors"
 msgid "Posterizes image by reducing the number of colors used in image"
 msgstr "Размывает изображение и уменьшает количество доступных цветов"
 
 #: data/effects/frei0r/frei0r_posterize.xml:9
 #, fuzzy, kde-format
-#| msgid "Number of values per channel."
 msgid "Number of (color) values per channel"
 msgstr "Количество значений на канал."
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, fuzzy, kde-format
-#| msgid "Video Files"
 msgid "Video values"
 msgstr "Видеофайлы"
 
@@ -10087,7 +9519,6 @@ msgstr "Большое окно"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
 #, fuzzy, kde-format
-#| msgid "Oscilloscope"
 msgid "Oscilloscope (Advanced)"
 msgstr "Осциллоскоп"
 
@@ -10103,7 +9534,6 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:17
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
 msgid "<![CDATA[Tilting of the profile]]>"
 msgstr "<![CDATA[Смещение вдоль оси X]]>"
 
@@ -10114,7 +9544,6 @@ msgstr "Длина"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:21
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
 msgid "<![CDATA[Length of the profile in pixel]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
@@ -10130,13 +9559,11 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
 #, fuzzy, kde-format
-#| msgid "Marker 2"
 msgid "Marker 1"
 msgstr "Маркер 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
 msgid "<![CDATA[Position of marker 1]]>"
 msgstr "<![CDATA[Смещение вдоль оси Y]]>"
 
@@ -10147,7 +9574,6 @@ msgstr "Маркер 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:34
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
 msgid "<![CDATA[Position of marker 2]]>"
 msgstr "<![CDATA[Смещение вдоль оси Y]]>"
 
@@ -10228,7 +9654,6 @@ msgstr "Показывать среднее значение"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:66
 #, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
 msgid "<![CDATA[Show average on scope]]>"
 msgstr "<![CDATA[Угол наклона вокруг оси X]]>"
 
@@ -10274,7 +9699,6 @@ msgstr "CCIR рек. 601,CCIR рек. 709"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:86
 #, fuzzy, kde-format
-#| msgid "PCM encoding"
 msgid "Color encoding"
 msgstr "Кодирование PCM"
 
@@ -10317,7 +9741,6 @@ msgstr "<![CDATA[Влияние среднего значения в пиксе�
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, fuzzy, kde-format
-#| msgid "Channel to draw"
 msgid "Channel Extractor RED"
 msgstr "Канал для рисования"
 
@@ -10640,9 +10063,6 @@ msgstr "Режим смешивания"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
 #, fuzzy, kde-format
-#| msgid ""
-#| "Blend mode used to blend highlight blur with input image. 0 - 0.33 - "
-#| "screen, 0.33 - 0.66 - overlay, 0.66 - 1.0 - add."
 msgid "Blend mode used to blend highlight blur with input image."
 msgstr ""
 "Режим смешения, используемый для смешения размытых светлых областей с "
@@ -10768,7 +10188,6 @@ msgstr "Мощность зелёного канала"
 #: data/effects/frei0r/frei0r_sopsat.xml:44
 #: data/effects/frei0r/frei0r_sopsat.xml:94
 #, fuzzy, kde-format
-#| msgid "Power Red"
 msgid "Power Blue"
 msgstr "Мощность красного канала"
 
@@ -10834,13 +10253,11 @@ msgstr "Балансировка цвета по трём точкам"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
 #, fuzzy, kde-format
-#| msgid "BackColor"
 msgid "Black color"
 msgstr "Цвет фона"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
 #, fuzzy, kde-format
-#| msgid "Key color"
 msgid "Gray color"
 msgstr "Ключевой цвет"
 
@@ -10886,7 +10303,6 @@ msgstr "Цвет индикатора"
 
 #: data/effects/frei0r/frei0r_timeout.xml:11
 #, fuzzy, kde-format
-#| msgid "Timer"
 msgid "Time"
 msgstr "Таймер"
 
@@ -10910,7 +10326,6 @@ msgstr "Распределить между чёрным и"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:11
 #, fuzzy, kde-format
-#| msgid "Map hint"
 msgid "Map white to"
 msgstr "Подсказка на карте"
 
@@ -10921,14 +10336,12 @@ msgstr "Интенсивность тонирования"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
 #, fuzzy, kde-format
-#| msgid "Transparency:"
 msgctxt "Transparency"
 msgid "Transparency"
 msgstr "Прозрачность:"
 
 #: data/effects/frei0r/frei0r_transparency.xml:5
 #, fuzzy, kde-format
-#| msgid "Use the inverse of the alpha channel."
 msgid "Tunes the alpha channel."
 msgstr "Использовать значение, обратное значению альфа-канала."
 
@@ -10952,7 +10365,6 @@ msgstr "Вектороскоп"
 
 #: data/effects/frei0r/frei0r_vectorscope.xml:5
 #, fuzzy, kde-format
-#| msgid "Display a histogram of R, G and B components of the video data"
 msgid "Display a vectorscope of the video data"
 msgstr "Отображение гистограммы R, G и B компонентов видеоданных"
 
@@ -10992,7 +10404,6 @@ msgstr "Естественный эффект виньетирования"
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
 #, fuzzy, kde-format
-#| msgid "Aspect ratio:"
 msgid "Aspect ratio"
 msgstr "Соотношение сторон:"
 
@@ -11769,7 +11180,6 @@ msgstr "10000 Гц"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
 #, fuzzy, kde-format
-#| msgid "10000 Hz"
 msgid "20000 Hz"
 msgstr "10000 Гц"
 
@@ -11785,7 +11195,6 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
 #, fuzzy, no-c-format, kde-format
-#| msgid "Threshold"
 msgid "VAD Threshold (%)"
 msgstr "Порог"
 
@@ -11847,7 +11256,6 @@ msgstr "Интенсивность"
 
 #: data/effects/ladspa/ladspa_pitch.xml:4
 #, fuzzy, kde-format
-#| msgid "Sox Pitch Shift"
 msgid "Pitch Shift"
 msgstr "Транспонирование (SoX)"
 
@@ -11863,7 +11271,6 @@ msgstr "Транспонировать"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:4
 #, fuzzy, kde-format
-#| msgid "Pitch Scale"
 msgid "Pitch Scaler"
 msgstr "Транспонирование"
 
@@ -12539,7 +11946,7 @@ msgstr "Транспонирование на октаву (Rubberband)"
 #: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
 msgid "Adjust the audio pitch using the Rubberband library."
-msgstr "Регулирование высоты звука с использованием библиотеки Rubberband."
+msgstr "Регулировка высоты звука с использованием библиотеки Rubberband"
 
 #: data/effects/rboctaveshift.xml:8
 #, kde-format
@@ -12900,13 +12307,11 @@ msgstr ""
 
 #: data/effects/sox/sox.xml:5
 #, fuzzy, kde-format
-#| msgid "Problem editing effect"
 msgid "Process audio using a SoX effect"
 msgstr "Проблема с редактирование эффекта"
 
 #: data/effects/sox/sox.xml:8
 #, fuzzy, kde-format
-#| msgid "Analysis"
 msgid "Analysis,Apply"
 msgstr "Обработать"
 
@@ -12918,31 +12323,26 @@ msgstr "Эффект"
 
 #: data/effects/sox/sox.xml:12
 #, fuzzy, kde-format
-#| msgid "Normalize"
 msgid "Normalization level "
 msgstr "Нормализация"
 
 #: data/effects/sox/sox.xml:15
 #, fuzzy, kde-format
-#| msgid "Normalize"
 msgid "Gain to normalize"
 msgstr "Нормализация"
 
 #: data/effects/sox/sox.xml:18
 #, fuzzy, kde-format
-#| msgid "Use Luma"
 msgid "Use peak"
 msgstr "Использовать каше"
 
 #: data/effects/sox/sox.xml:21
 #, fuzzy, kde-format
-#| msgid "Dynamically normalise the audio volume"
 msgid "Dynamic normalization"
 msgstr "Динамическая нормализация громкости звука"
 
 #: data/effects/sox/sox.xml:24
 #, fuzzy, kde-format
-#| msgid "Hamming window"
 msgid "Smoothing window size "
 msgstr "Окно Хемминга"
 
@@ -12988,7 +12388,6 @@ msgstr "Усиление на входе"
 
 #: data/effects/sox/sox_echo.xml:11 data/effects/sox/sox_phaser.xml:11
 #, fuzzy, kde-format
-#| msgid "Gain In"
 msgid "Gain Out"
 msgstr "Усиление на входе"
 
@@ -13565,7 +12964,7 @@ msgstr "Громкость"
 #: data/effects/volume.xml:5
 #, kde-format
 msgid "Adjust audio volume with keyframes"
-msgstr "Регулировать уровень звука по ключевым кадрам"
+msgstr "Регулировка уровня звука по ключевым кадрам"
 
 #: data/effects/wave.xml:4
 #, kde-format
@@ -13978,7 +13377,6 @@ msgstr "Сделать заполнение прозрачным"
 
 #: data/transitions/frei0r/frei0r_addition.xml:4
 #, fuzzy, kde-format
-#| msgid "addition"
 msgid "Addition"
 msgstr "Прибавление"
 
@@ -14002,13 +13400,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
 #, fuzzy, kde-format
-#| msgid "Alpha"
 msgid "Alpha ATOP"
 msgstr "Альфа"
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:5
 #, fuzzy, kde-format
-#| msgid "the alpha ATOP operation"
 msgid "The alpha ATOP operation"
 msgstr ""
 "Растворяет нижний клип с альфа-каналом\n"
@@ -14016,13 +13412,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphain.xml:4
 #, fuzzy, kde-format
-#| msgid "Alpha"
 msgid "Alpha IN"
 msgstr "Альфа"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:5
 #, fuzzy, kde-format
-#| msgid "the alpha IN operation"
 msgid "The alpha IN operation"
 msgstr ""
 "Отображает содержимое нижнего клипа в верхнем\n"
@@ -14031,13 +13425,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:4
 #, fuzzy, kde-format
-#| msgid "Alpha"
 msgid "Alpha OUT"
 msgstr "Альфа"
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:5
 #, fuzzy, kde-format
-#| msgid "the alpha OUT operation"
 msgid "The alpha OUT operation"
 msgstr ""
 "Отображает содержимое нижнего клипа в альфа-канале\n"
@@ -14046,13 +13438,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:4
 #, fuzzy, kde-format
-#| msgid "Alpha"
 msgid "Alpha OVER"
 msgstr "Альфа"
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:5
 #, fuzzy, kde-format
-#| msgid "the alpha OVER operation"
 msgid "The alpha OVER operation"
 msgstr ""
 "Накладывает нижний клип с альфа-каналом на\n"
@@ -14060,13 +13450,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:4
 #, fuzzy, kde-format
-#| msgid "Alpha"
 msgid "Alpha XOR"
 msgstr "Альфа"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:5
 #, fuzzy, kde-format
-#| msgid "the alpha XOR operation"
 msgid "The alpha XOR operation"
 msgstr ""
 "Отображает непрозрачную маску нижнего клипа\n"
@@ -14154,7 +13542,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_color_only.xml:4
 #, fuzzy, kde-format
-#| msgid "Color key"
 msgid "Color Only"
 msgstr "Ключевой цвет"
 
@@ -14170,7 +13557,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
 #, fuzzy, kde-format
-#| msgid "darken"
 msgid "Darken"
 msgstr "Затемнение"
 
@@ -14185,7 +13571,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, fuzzy, kde-format
-#| msgid "difference"
 msgid "Difference"
 msgstr "Разница"
 
@@ -14196,15 +13581,11 @@ msgstr "Выполняет RGB[A] операцию разности между �
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
 #, fuzzy, kde-format
-#| msgid "divide"
 msgid "Divide"
 msgstr "Деление"
 
 #: data/transitions/frei0r/frei0r_divide.xml:5
 #, fuzzy, kde-format
-#| msgid ""
-#| "Perform an RGB[A] divide operation between the pixel sources: input1 is "
-#| "the numerator, input2 the denominator"
 msgid ""
 "Perform an RGB[A] divide operation between the pixel sources: input1 is the "
 "numerator, input2 the denominator."
@@ -14215,7 +13596,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_dodge.xml:4
 #, fuzzy, kde-format
-#| msgid "dodge"
 msgid "Dodge"
 msgstr "Осветление"
 
@@ -14231,7 +13611,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
 #, fuzzy, kde-format
-#| msgid "grain_extract"
 msgid "Grain Extract"
 msgstr "Вытяжка зерна"
 
@@ -14244,7 +13623,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
 #, fuzzy, kde-format
-#| msgid "grain_merge"
 msgid "Grain Merge"
 msgstr "Слияние зерна"
 
@@ -14257,13 +13635,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
 #, fuzzy, kde-format
-#| msgid "hardlight"
 msgid "Hardlight"
 msgstr "Жёсткий свет"
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:5
 #, fuzzy, kde-format
-#| msgid "Perform an RGB[A] hardlight operation between the pixel sources"
 msgid "Perform an RGB[A] hardlight operation between the pixel sources."
 msgstr ""
 "Выполняет RGB[A] операцию жёсткий свет\n"
@@ -14280,7 +13656,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
 #, fuzzy, kde-format
-#| msgid "lighten"
 msgid "Lighten"
 msgstr "Замена светлым"
 
@@ -14295,7 +13670,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
 #, fuzzy, kde-format
-#| msgid "multiply"
 msgid "Multiply"
 msgstr "Умножение"
 
@@ -14308,7 +13682,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
 #, fuzzy, kde-format
-#| msgid "Overlay:"
 msgid "Overlay"
 msgstr "Наложение:"
 
@@ -14324,7 +13697,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
 #, fuzzy, kde-format
-#| msgid "Pushto"
 msgid "Push Down"
 msgstr "Пушту"
 
@@ -14338,13 +13710,11 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_push-right.xml:8
 #: data/transitions/frei0r/frei0r_push-up.xml:8
 #, fuzzy, kde-format
-#| msgid "Y position"
 msgid "Push position"
 msgstr "Позиция по Y"
 
 #: data/transitions/frei0r/frei0r_push-left.xml:4
 #, fuzzy, kde-format
-#| msgid "Pushto"
 msgid "Push Left"
 msgstr "Пушту"
 
@@ -14355,7 +13725,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_push-right.xml:4
 #, fuzzy, kde-format
-#| msgid "Right"
 msgid "Push Right"
 msgstr "Справа"
 
@@ -14366,7 +13735,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_push-up.xml:4
 #, fuzzy, kde-format
-#| msgid "Pushto"
 msgid "Push Up"
 msgstr "Пушту"
 
@@ -14386,7 +13754,6 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_screen.xml:4
 #, fuzzy, kde-format
-#| msgid "screen"
 msgid "Screen"
 msgstr "Экранирование"
 
@@ -14402,13 +13769,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
 #, fuzzy, kde-format
-#| msgid "Slideshow"
 msgid "Slide Down"
 msgstr "Слайд-шоу"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:5
 #, fuzzy, kde-format
-#| msgid "Align item to bottom."
 msgid "Slide from top to bottom."
 msgstr "Выровнять по нижнему краю"
 
@@ -14417,49 +13782,41 @@ msgstr "Выровнять по нижнему краю"
 #: data/transitions/frei0r/frei0r_slide-right.xml:8
 #: data/transitions/frei0r/frei0r_slide-up.xml:8
 #, fuzzy, kde-format
-#| msgid "Set Position"
 msgid "Slide position"
 msgstr "Установить позицию"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:4
 #, fuzzy, kde-format
-#| msgid " Slide "
 msgid "Slide Left"
 msgstr "Слайд-шоу"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:5
 #, fuzzy, kde-format
-#| msgid "Align item to left."
 msgid "Slide from right to left."
 msgstr "Выровнять по левому краю"
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:4
 #, fuzzy, kde-format
-#| msgid " Slide "
 msgid "Slide Up"
 msgstr "Слайд-шоу"
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:5
 #, fuzzy, kde-format
-#| msgid "Align item to top."
 msgid "Slide from bottom to top."
 msgstr "Выровнять по верхнему краю"
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:4
 #, fuzzy, kde-format
-#| msgid " Slide "
 msgid "Slide Right"
 msgstr "Слайд-шоу"
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:5
 #, fuzzy, kde-format
-#| msgid "Align item to right."
 msgid "Slide from left to right."
 msgstr "Выровнять по правому краю"
 
 #: data/transitions/frei0r/frei0r_softlight.xml:4
 #, fuzzy, kde-format
-#| msgid "softlight"
 msgid "Softlight"
 msgstr "Мягкий свет"
 
@@ -14493,7 +13850,6 @@ msgstr "УФ-преобразование"
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:5
 #, fuzzy, kde-format
-#| msgid "Uses Input 1 as UV Map to distort Input 2"
 msgid "Uses Input 1 as UV Map to distort Input 2."
 msgstr ""
 "Использует первый вход в качестве УФ-карты\n"
@@ -14516,38 +13872,32 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
 #, fuzzy, kde-format
-#| msgid "Horizontal Flip"
 msgid "Horizontal Barn Door Wipe"
 msgstr "Отражение по горизонтали"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:5
 #, fuzzy, kde-format
-#| msgid "Horizontal End"
 msgid "Horizontal barn door wipe."
 msgstr "Конец по горизонтали"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:8
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:8
 #, fuzzy, kde-format
-#| msgid "Y position"
 msgid "Edges position"
 msgstr "Позиция по Y"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:4
 #, fuzzy, kde-format
-#| msgid "Vertical margin"
 msgid "Vertical Barn Door Wipe"
 msgstr "Вертикальное поле"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:5
 #, fuzzy, kde-format
-#| msgid "Vertical margin"
 msgid "Vertical barn door wipe."
 msgstr "Вертикальное поле"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:4
 #, fuzzy, kde-format
-#| msgid "Circle"
 msgid "Circle Wipe"
 msgstr "Круг"
 
@@ -14558,19 +13908,16 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
 #, fuzzy, kde-format
-#| msgid "File size"
 msgid "Circle size"
 msgstr "Размер файла"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
 #, fuzzy, kde-format
-#| msgid "Wipe Softness"
 msgid "Wipe Down"
 msgstr "Мягкость вытеснения"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
 #, fuzzy, kde-format
-#| msgid "Align item to bottom."
 msgid "Wipe from top to bottom."
 msgstr "Выровнять по нижнему краю"
 
@@ -14579,25 +13926,21 @@ msgstr "Выровнять по нижнему краю"
 #: data/transitions/frei0r/frei0r_wipe-right.xml:8
 #: data/transitions/frei0r/frei0r_wipe-up.xml:8
 #, fuzzy, kde-format
-#| msgid "Y position"
 msgid "Edge position"
 msgstr "Позиция по Y"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
 #, fuzzy, kde-format
-#| msgid "Top Left"
 msgid "Wipe Left"
 msgstr "Вверху слева"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
 #, fuzzy, kde-format
-#| msgid "Align item to left."
 msgid "Wipe from right to left."
 msgstr "Выровнять по левому краю"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:4
 #, fuzzy, kde-format
-#| msgid "Rectangular window"
 msgid "Rectangular Wipe"
 msgstr "Прямоугольное окно"
 
@@ -14608,13 +13951,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
 #, fuzzy, kde-format
-#| msgid "Rectangle"
 msgid "Rectangle size"
 msgstr "Прямоугольник"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
 #, fuzzy, kde-format
-#| msgid "Top Right"
 msgid "Wipe Right"
 msgstr "Вверху справа"
 
@@ -14625,13 +13966,11 @@ msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
 #, fuzzy, kde-format
-#| msgid "Wipe"
 msgid "Wipe Up"
 msgstr "Вытеснение"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
 #, fuzzy, kde-format
-#| msgid "Raise object to top"
 msgid "Wipe from bottom to top."
 msgstr "Поднять объект наверх"
 
@@ -17630,13 +16969,13 @@ msgstr "Линейный, по вертикали"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
-msgstr "Билинейный, по-горизонтали"
+msgstr "Билинейный, по горизонтали"
 
 #: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
-msgstr "Билинейный, по-вертикали"
+msgstr "Билинейный, по вертикали"
 
 #: src/core.cpp:402
 #, kde-format
@@ -18854,7 +18193,6 @@ msgstr "Звук без видеодорожки"
 
 #: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
 #, fuzzy, kde-format
-#| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
 msgstr "Сборка <i>%1</i> запущена"
 
@@ -21159,9 +20497,6 @@ msgstr "Обновление версии проекта…"
 
 #: src/doc/documentvalidator.cpp:194
 #, fuzzy, kde-format
-#| msgid ""
-#| "This project type is unsupported (version %1) and cannot be loaded.\n"
-#| "Please consider upgrading your Kdenlive version."
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
 "what this Kdenlive release supports (version %2 and older).\n"
@@ -23369,12 +22704,6 @@ msgstr "Загрузка проекта"
 
 #: src/mainwindow.cpp:955
 #, fuzzy, kde-format
-#| msgid ""
-#| "You have 1 rendering job waiting in the queue.\n"
-#| "What do you want to do with this job?"
-#| msgid_plural ""
-#| "You have %1 rendering jobs waiting in the queue.\n"
-#| "What do you want to do with these jobs?"
 msgid ""
 "You have 1 rendering job running.\n"
 "What do you want to do with this job?"
@@ -23396,13 +22725,11 @@ msgstr[3] ""
 
 #: src/mainwindow.cpp:957
 #, fuzzy, kde-format
-#| msgid "Creating menu background"
 msgid "Continue rendering in the background"
 msgstr "Создание фона меню"
 
 #: src/mainwindow.cpp:957
 #, fuzzy, kde-format
-#| msgid "Abort processing"
 msgid "Abort rendering"
 msgstr "Прервать обработку"
 
@@ -24510,7 +23837,6 @@ msgstr "Включить или отключить отключение доро
 
 #: src/mainwindow.cpp:2001
 #, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
 msgid "Toggle All Tracks Disabled"
 msgstr "Включить или отключить отключение дорожки"
 
@@ -24521,7 +23847,6 @@ msgstr "Включить или отключить блокировку доро
 
 #: src/mainwindow.cpp:2005
 #, fuzzy, kde-format
-#| msgid "Toggle All Track Lock"
 msgid "Toggle All Tracks Lock"
 msgstr "Включить или отключить блокировку всех дорожек"
 
@@ -24582,7 +23907,6 @@ msgstr "Извлечь кадр в проект…"
 
 #: src/mainwindow.cpp:2054
 #, fuzzy, kde-format
-#| msgid "Extract Frame to Project…"
 msgid "Extract Frame to Clipboard"
 msgstr "Извлечь кадр в проект…"
 
@@ -25165,7 +24489,6 @@ msgstr "%1 (по умолчанию)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:666
 #, fuzzy, kde-format
-#| msgid "Rotate"
 msgid "Rotate:"
 msgstr "Вращение"
 
@@ -25398,7 +24721,6 @@ msgstr "Количество изображений:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1442
 #, fuzzy, kde-format
-#| msgid "Video stream"
 msgid "Video streams:"
 msgstr "Видеопоток"
 
@@ -29717,14 +29039,14 @@ msgstr "Изменить скорость клипа"
 
 #: src/timeline2/model/timelinemodel.cpp:6903
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокировать дорожку"
 
 #: src/timeline2/model/timelinemodel.cpp:6908
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
-#: src/timeline2/view/qml/TrackHead.qml:481
+#: src/timeline2/view/qml/TrackHead.qml:420
 #, kde-format
 msgid "Unlock track"
 msgstr "Разблокировать дорожку"
@@ -30033,14 +29355,14 @@ msgid "Speech recognition"
 msgstr "Распознать речь"
 
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Show"
 msgstr "Показать"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:115
-#: src/timeline2/view/qml/TrackHead.qml:458 src/ui/configcapture_ui.ui:405
+#: src/timeline2/view/qml/TrackHead.qml:406 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Скрыть"
@@ -30081,7 +29403,7 @@ msgstr "%1%2, Длительность = %3"
 msgid "Adjusting speed"
 msgstr "Регулировка скорости"
 
-#: src/timeline2/view/qml/TrackHead.qml:183
+#: src/timeline2/view/qml/TrackHead.qml:166
 #, kde-format
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
@@ -30090,23 +29412,23 @@ msgstr ""
 "Включить или отключить целевую дорожку. На целевых дорожках производится "
 "вставка клипов"
 
-#: src/timeline2/view/qml/TrackHead.qml:262
+#: src/timeline2/view/qml/TrackHead.qml:244
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b>: свернуть/развернуть все дорожки одного типа (звук/видео)"
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Minimize"
 msgstr "Свернуть"
 
-#: src/timeline2/view/qml/TrackHead.qml:282
+#: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
 msgid "Expand"
 msgstr "Развернуть"
 
-#: src/timeline2/view/qml/TrackHead.qml:321
+#: src/timeline2/view/qml/TrackHead.qml:286
 #, kde-format
 msgid ""
 "Click to make track active/inactive. Active tracks will react to editing "
@@ -30115,44 +29437,42 @@ msgstr ""
 "Щелчок активирует/деактивирует дорожку. Активные дорожки работают с "
 "операциями правки"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Disable track effects"
 msgstr "Отключить эффекты дорожки"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Enable track effects"
 msgstr "Включить эффекты дорожки"
 
-#: src/timeline2/view/qml/TrackHead.qml:419
+#: src/timeline2/view/qml/TrackHead.qml:376
 #, kde-format
 msgid "Toggle track effects"
 msgstr "Включить или отключить эффекты дорожки"
 
-#: src/timeline2/view/qml/TrackHead.qml:441
+#: src/timeline2/view/qml/TrackHead.qml:397
 #, fuzzy, kde-format
-#| msgid ""
-#| "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr "<b>Shift</b>: свернуть/развернуть все дорожки одного типа (звук/видео)"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Unmute"
 msgstr "Включить звук"
 
-#: src/timeline2/view/qml/TrackHead.qml:458
+#: src/timeline2/view/qml/TrackHead.qml:406
 #, kde-format
 msgid "Mute"
 msgstr "Отключить звук"
 
-#: src/timeline2/view/qml/TrackHead.qml:553
+#: src/timeline2/view/qml/TrackHead.qml:491
 #, kde-format
 msgid "Edit track name"
 msgstr "Изменить имя дорожки"
 
-#: src/timeline2/view/qml/TrackHead.qml:626
+#: src/timeline2/view/qml/TrackHead.qml:556
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr "Нажмите для цикличного перехода по списку масштабов звукового спектра"
@@ -32956,7 +32276,6 @@ msgstr "Перейти к клипу при добавлении эффекта"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configtimeline_ui.ui:94
 #, fuzzy, kde-format
-#| msgid "Selection"
 msgid "On Selection:"
 msgstr "Выбрать"
 
@@ -33032,21 +32351,18 @@ msgstr "Проверять, содержится ли в проекте дост
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configtimeline_ui.ui:211
 #, fuzzy, kde-format
-#| msgid "Slope"
 msgid "Developer:"
 msgstr "Спад"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_uiDebugMode)
 #: src/ui/configtimeline_ui.ui:218
 #, fuzzy, kde-format
-#| msgid "Enable video"
 msgid "Enable debug mode"
 msgstr "Включить видео"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:238
 #, fuzzy, kde-format
-#| msgid "Effect/Composition Stack"
 msgid "Raise Effects/Composition Stack for"
 msgstr "Стек эффектов/композиций"
 
@@ -33059,7 +32375,6 @@ msgstr "Клипы"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsmixes)
 #: src/ui/configtimeline_ui.ui:265
 #, fuzzy, kde-format
-#| msgid "Mixes:"
 msgid "Mixes"
 msgstr "Соединения:"
 
@@ -35805,12 +35120,10 @@ msgstr "%1ч"
 #~ msgstr "Нет доступной звуковой дорожки для восстановления"
 
 #, fuzzy
-#~| msgid "Threshold"
 #~ msgid "Theshold"
 #~ msgstr "Порог"
 
 #, fuzzy
-#~| msgid "Intensity"
 #~ msgid "Intenstiy"
 #~ msgstr "Интенсивность"
 
