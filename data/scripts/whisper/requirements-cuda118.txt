@@ -1,3 +1,5 @@
 --index-url https://download.pytorch.org/whl/cu118
-torch==2.5.1+cu118
+torch
+torchvision
+triton
 torchaudio
