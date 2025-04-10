@@ -22,7 +22,7 @@ public:
     KActionMenu *menu() { return m_menu; };
 
 private Q_SLOTS:
-    void slotSchemeChanged(const QString &path);
+    void schemeActionTriggered(QAction *action);
 
 private:
     KActionMenu *m_menu;

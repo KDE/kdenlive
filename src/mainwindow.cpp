@@ -151,8 +151,7 @@ void MainWindow::init(const QString &mltPath)
     // Load themes
     auto themeManager = new ThemeManager(actionCollection());
     actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager->menu());
-    connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged);
-    Q_EMIT pCore->updatePalette();
+    connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged, Qt::QueuedConnection);
 
     // Handle communication with the renderer app
     new RenderServer(this);
@@ -910,9 +909,6 @@ void MainWindow::slotThemeChanged(const QString &name)
     if (m_timelineTabs) {
         m_timelineTabs->setPalette(plt);
         getCurrentTimeline()->controller()->resetView();
-    }
-    if (m_audioSpectrum) {
-        m_audioSpectrum->refreshPixmap();
     }
     Q_EMIT pCore->updatePalette();
 }
