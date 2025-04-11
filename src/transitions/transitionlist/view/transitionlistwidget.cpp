@@ -104,16 +104,23 @@ void TransitionListWidget::exportCustomEffect(const QModelIndex &) {}
 
 void TransitionListWidget::generatePreviews()
 {
-    // script path is hardcoded for now
-    QString scriptPath = QStringLiteral("/home/mr-swastik/kde/src/kdenlive/scripts/generate_transition_previews.py");
+    // Find the script in the standard install location
+    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/generate_transition_previews.py"));
 
-    // If not found, try standard locations
-    if (!QFile::exists(scriptPath)) {
-        scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/generate_transition_previews.py"));
+    // If not found, try fallback locations
+    if (scriptPath.isEmpty()) {
+        // Try development environment location
+        QString devPath = QString::fromLocal8Bit(qgetenv("KDENLIVE_SOURCE_DIR"));
+        if (!devPath.isEmpty()) {
+            scriptPath = devPath + QStringLiteral("/data/scripts/generate_transition_previews.py");
+            if (!QFile::exists(scriptPath)) {
+                scriptPath.clear();
+            }
+        }
 
         // If still not found, try relative to application directory
         if (scriptPath.isEmpty()) {
-            scriptPath = QCoreApplication::applicationDirPath() + QStringLiteral("/../scripts/generate_transition_previews.py");
+            scriptPath = QCoreApplication::applicationDirPath() + QStringLiteral("/../share/kdenlive/scripts/generate_transition_previews.py");
             if (!QFile::exists(scriptPath)) {
                 scriptPath = QCoreApplication::applicationDirPath() + QStringLiteral("/scripts/generate_transition_previews.py");
             }
@@ -123,10 +130,35 @@ void TransitionListWidget::generatePreviews()
     qDebug() << "Using script path:" << scriptPath;
 
     // If still not found, show error
-    if (!QFile::exists(scriptPath)) {
+    if (scriptPath.isEmpty() || !QFile::exists(scriptPath)) {
         KMessageBox::error(this, i18n("Could not find the preview generation script. Please make sure it is installed correctly."));
         return;
     }
+
+    // Find the transition parameters file
+    QString paramFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("transitions/parameters.txt"));
+
+    // If not found, try fallback locations
+    if (paramFile.isEmpty()) {
+        // Try development environment location
+        QString devPath = QString::fromLocal8Bit(qgetenv("KDENLIVE_SOURCE_DIR"));
+        if (!devPath.isEmpty()) {
+            paramFile = devPath + QStringLiteral("/data/transitions/parameters.txt");
+            if (!QFile::exists(paramFile)) {
+                paramFile.clear();
+            }
+        }
+
+        // Try relative to app directory
+        if (paramFile.isEmpty()) {
+            paramFile = QCoreApplication::applicationDirPath() + QStringLiteral("/../share/kdenlive/transitions/parameters.txt");
+            if (!QFile::exists(paramFile)) {
+                paramFile = QCoreApplication::applicationDirPath() + QStringLiteral("/transitions/parameters.txt");
+            }
+        }
+    }
+
+    qDebug() << "Using parameters file:" << (paramFile.isEmpty() ? "not found" : paramFile);
 
     // Create output directory
     QString outputDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/transitions/previews");
@@ -164,6 +196,11 @@ void TransitionListWidget::generatePreviews()
     args << QStringLiteral("--output-dir") << outputDir;
     args << QStringLiteral("--width") << QStringLiteral("320");
     args << QStringLiteral("--height") << QStringLiteral("180");
+
+    // Add parameter file if found
+    if (!paramFile.isEmpty()) {
+        args << QStringLiteral("--param-file") << paramFile;
+    }
 
     process->start(QStringLiteral("python3"), QStringList() << scriptPath << args);
 

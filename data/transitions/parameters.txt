@@ -1,0 +1,26 @@
+# Transition Parameters for Preview Generation
+# Format: transition_id=parameters
+# Each line maps a transition ID to its specific parameters
+
+# Slide transitions
+frei0r.sleid0r_slide-left=position="0=0;-1=1"
+frei0r.sleid0r_slide-right=position="0=1;-1=0"
+frei0r.sleid0r_slide-up=position="0=0;-1=1"
+frei0r.sleid0r_slide-down=position="0=1;-1=0"
+
+# Wipe transitions
+frei0r.cairoaffineblend=blend_mode=0 operator=0 start_x="0=0;-1=1" start_y=0 end_x="0=0;-1=1" end_y=1
+
+# Composite transitions
+composite=operator=0 progressive=1 softness=0.5 distort=0
+
+# Affine transitions
+affine=transition.fix_rotate_x="0=0;-1=360"
+
+# Fade transitions
+luma=softness=0.5 invert=0
+
+# Mix transitions
+mix=start="0=0;-1=1"
+
+# Add more transitions as needed 
