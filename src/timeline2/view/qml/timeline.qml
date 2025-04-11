@@ -30,6 +30,7 @@ Rectangle {
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
+
     Timer {
         id: doubleClickTimer
         interval: root.doubleClickInterval
@@ -37,7 +38,6 @@ Rectangle {
     }
 
     signal clipClicked()
-    signal mousePosChanged(int position)
     signal showClipMenu(int cid)
     signal showMixMenu(int cid)
     signal showCompositionMenu()
@@ -49,6 +49,7 @@ Rectangle {
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
     signal showSubtitleClipMenu()
+    signal updateTimelineMousePos(int frame, int duration)
 
     readonly property font miniFont: ({
         pixelSize: miniFontSize
@@ -265,14 +266,10 @@ Rectangle {
         }
     }
 
-    function getMouseOffset()
-    {
-        return scrollView.contentX - trackHeaders.width
-    }
-
     function getMouseFrame() {
         return getMousePos() / root.timeScale
     }
+
     function getMousePos() {
         var posInWidget = timeline.getMousePosInTimeline()
         return Math.max(0, scrollView.contentX + posInWidget.x - trackHeaders.width)
@@ -378,7 +375,6 @@ Rectangle {
         var mouseYPos = (mousePos.y - ruler.height + scrollView.contentY) - sourceTrack.y
         var allowComposition = mouseYPos > sourceTrack.height / 2
         var tentativeClip = undefined
-        root.mousePosChanged(scrollView.contentX - trackHeaders.width)
         if (allowComposition) {
             tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), true)
             if (tentativeClip) {
@@ -585,7 +581,7 @@ Rectangle {
             // update dragged item pos
             dragProxy.masterObject.updateDrag()
         }
-        root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+        timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
     }
 
     onConsumerPositionChanged: {
@@ -636,10 +632,10 @@ Rectangle {
 
     DropArea { //Drop area for compositions
         id: compoArea
-        width: root.width - headerWidth
+        width: root.width - root.headerWidth
         height: root.height - ruler.height
         y: ruler.height
-        x: headerWidth
+        x: root.headerWidth
         property bool isAudioDrag
         property int sameCutPos: -1
         property int fakeFrame: -1
@@ -675,7 +671,7 @@ Rectangle {
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 }
                 if (offset != 0) {
-                    root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+                    timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                 }
             }
         }
@@ -698,6 +694,8 @@ Rectangle {
             }
         }
         onPositionChanged: drag => {
+            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            root.updateTimelineMousePos(frame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 if (clipBeingDroppedId >= 0) {
                     moveDrop(0, 0)
@@ -708,7 +706,6 @@ Rectangle {
                     }
                     var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track !== -1 && controller.isAudioTrack(track) == isAudioDrag) {
-                        var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
@@ -774,10 +771,10 @@ Rectangle {
 
         property int fakeFrame: -1
         property int fakeTrack: -1
-        width: root.width - headerWidth
+        width: root.width - root.headerWidth
         height: root.height - ruler.height
         y: ruler.height
-        x: headerWidth
+        x: root.headerWidth
         keys: 'text/producerslist'
         enabled: !compoArea.containsDrag
         function moveDrop(offset, voffset)
@@ -799,7 +796,7 @@ Rectangle {
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 }
                 if (offset != 0) {
-                    root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+                    timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                 }
             }
         }
@@ -840,6 +837,7 @@ Rectangle {
                 if (clipDropArea.containsDrag) {
                     regainFocus(clipDropArea.mapToItem(root, drag.x, drag.y))
                 }
+                //root.updateTimelineMousePos(frame, timeline.duration)
             }
         }
         onEntered: drag => {
@@ -894,6 +892,8 @@ Rectangle {
         }
         onPositionChanged: drag => {
             lastDragPos = Qt.point(drag.x, drag.y)
+            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            root.updateTimelineMousePos(frame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 if (clipBeingDroppedId > -1) {
                     moveDrop(0, 0)
@@ -905,7 +905,6 @@ Rectangle {
                     var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track >= 0  && track < tracksRepeater.count) {
                         var targetTrack = tracksRepeater.itemAt(track).trackInternalId
-                        var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (controller.normalEdit()) {
                             timeline.activeTrack = targetTrack
@@ -937,10 +936,10 @@ Rectangle {
         property int fakeFrame: -1
         property var droppedUrls: []
         enabled: !clipDropArea.containsDrag && !compoArea.containsDrag
-        width: root.width - headerWidth
+        width: root.width - root.headerWidth
         height: root.height - ruler.height
         y: ruler.height
-        x: headerWidth
+        x: root.headerWidth
         keys: 'text/uri-list'
         onEntered: drag => {
             drag.accepted = true
@@ -960,6 +959,8 @@ Rectangle {
             clearDropData()
         }
         onPositionChanged: drag => {
+            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            root.updateTimelineMousePos(frame, timeline.duration)
             if (clipBeingMovedId == -1) {
                 var yOffset = 0
                 if (root.showSubtitles) {
@@ -985,7 +986,7 @@ Rectangle {
     Row {
         Column {
             id: headerContainer
-            width: headerWidth
+            width: root.headerWidth
             z: 1
             Item {
                 // Padding between toolbar and track headers.
@@ -1280,7 +1281,7 @@ Rectangle {
                             showAudioRecord: model.audioRecord
                             effectNames: model.effectNames
                             isStackEnabled: model.isStackEnabled
-                            width: headerWidth
+                            width: root.headerWidth
                             current: item === timeline.activeTrack
                             trackId: item
                             height: model.trackHeight
@@ -1326,13 +1327,14 @@ Rectangle {
                             onReleased: {
                                 root.blockAutoScroll = false
                                 parent.opacity = 0
+                                timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                             }
                             onEntered: parent.opacity = 0.5
                             onExited: parent.opacity = 0
                             onPositionChanged: mouse => {
                                 if (mouse.buttons === Qt.LeftButton) {
                                     parent.opacity = 0.5
-                                    headerWidth = Math.max( root.minHeaderWidth, mapToItem(null, x, y).x + 2)
+                                    root.headerWidth = Math.max( root.minHeaderWidth, mapToItem(null, x, y).x + 2)
                                     timeline.setHeaderWidth(headerWidth)
                                 }
                             }
@@ -1719,7 +1721,7 @@ Rectangle {
                 Flickable {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
-                    width: root.width - headerWidth
+                    width: root.width - root.headerWidth
                     height: Math.round(root.baseUnit * 2.5) + ruler.guideLabelHeight
                     contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
@@ -1771,7 +1773,7 @@ Rectangle {
 
                 Item {
                     id: baseContainer
-                    width: root.width - headerWidth
+                    width: root.width - root.headerWidth
                     height: root.height - ruler.height
                     y: ruler.height
                     clip: true
@@ -1817,7 +1819,7 @@ Rectangle {
                         interactive: false
                         pixelAligned: true
                         onContentXChanged: {
-                            root.mousePosChanged(scrollView.contentX - trackHeaders.width)
+                            timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
                         }
                         /*
                          // Replaced by our custom ZoomBar

@@ -756,6 +756,7 @@ public Q_SLOTS:
     void enableBuildInTransform();
     /** @brief Open the Subtitle Manager */
     void showSubtitleManager(int page = 0);
+    Q_INVOKABLE void setTimelineMouseOffset(int offset);
 
 private Q_SLOTS:
     void updateVideoTarget();
@@ -775,6 +776,7 @@ public:
     int multicamIn;
     /** @brief Set the in point for a multicam operation and trigger necessary signals */
     void setMulticamIn(int pos);
+    int timelineMouseOffset() { return m_timelineMouseOffset; };
 
 private:
     int m_duration;
@@ -785,6 +787,7 @@ private:
     int m_audioTarget;
     int m_videoTarget;
     int m_audioRef;
+    int m_timelineMouseOffset{0};
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};
     int m_lastVideoTarget {-1};
@@ -834,6 +837,7 @@ Q_SIGNALS:
     void lastAudioTargetChanged();
     void autoScrollChanged();
     void lastVideoTargetChanged();
+    void timelineMouseOffsetChanged(int);
     void activeTrackChanged();
     void activeSubLayerChanged();
     void trimmingMainClipChanged();

@@ -2382,21 +2382,22 @@ void MainWindow::slotCleanProject()
 
 void MainWindow::slotUpdateMousePosition(int pos, int duration)
 {
-    if (pCore->currentDoc()) {
-        if (duration < 0) {
-            duration = getCurrentTimeline()->controller()->duration();
-        }
-        if (pos >= 0) {
-            m_mousePosition = pos;
-        }
-        switch (m_timeFormatButton->currentItem()) {
-        case 0:
-            m_timeFormatButton->setText(pCore->currentDoc()->timecode().getTimecodeFromFrames(m_mousePosition) + QStringLiteral(" / ") +
-                                        pCore->currentDoc()->timecode().getTimecodeFromFrames(duration));
-            break;
-        default:
-            m_timeFormatButton->setText(QStringLiteral("%1 / %2").arg(m_mousePosition, 6, 10, QLatin1Char('0')).arg(duration, 6, 10, QLatin1Char('0')));
-        }
+    if (!pCore->currentDoc()) {
+        return;
+    }
+    if (duration < 0) {
+        duration = getCurrentTimeline()->controller()->duration();
+    }
+    if (pos >= 0) {
+        m_mousePosition = pos;
+    }
+    switch (m_timeFormatButton->currentItem()) {
+    case 0:
+        m_timeFormatButton->setText(pCore->currentDoc()->timecode().getTimecodeFromFrames(m_mousePosition) + QStringLiteral(" / ") +
+                                    pCore->currentDoc()->timecode().getTimecodeFromFrames(duration));
+        break;
+    default:
+        m_timeFormatButton->setText(QStringLiteral("%1 / %2").arg(m_mousePosition, 6, 10, QLatin1Char('0')).arg(duration, 6, 10, QLatin1Char('0')));
     }
 }
 

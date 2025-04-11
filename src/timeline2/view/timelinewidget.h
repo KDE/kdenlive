@@ -83,7 +83,7 @@ private Q_SLOTS:
     void showRulerMenu();
     void showHeaderMenu();
     void showSubtitleClipMenu();
-    void emitMousePos(int offset);
+    void emitMousePos(int);
 
 private:
     TimelineController timelineController;

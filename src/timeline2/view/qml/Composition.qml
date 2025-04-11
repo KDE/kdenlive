@@ -186,12 +186,6 @@ Item {
         border.color: grouped ? root.groupColor : mouseArea.containsMouse ? activePalette.highlight : borderColor
         border.width: isGrabbed ? 8 : 2
         opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.5 : 1.0
-        onWidthChanged: {
-            console.log('TRIM AREA ENABLED: ',trimOutMouseArea.enabled)
-        }
-
-        /*Drag.active: mouseArea.drag.active
-        Drag.proposedAction: Qt.MoveAction*/
 
         states: [
             State {
