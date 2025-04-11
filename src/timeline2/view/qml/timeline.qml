@@ -1533,13 +1533,13 @@ Rectangle {
                     clickY = mouseY
                     return
                 }
-                var mouseXPos = getMouseFrame()
                 if (root.activeTool === ProjectTool.SlipTool && pressed && mouse.y > ruler.height) {
-                    var frame = mouseXPos
+                    var frame = getMouseFrame()
                     trimmingOffset = frame - trimmingClickFrame
                     timeline.slipPosChanged(trimmingOffset);
                 }
                 if (!pressed && !rubberSelect.visible && root.activeTool === ProjectTool.RazorTool) {
+                    var mouseXPos = getMouseFrame()
                     cutLine.x = mouseXPos * root.timeScale - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         // Seek

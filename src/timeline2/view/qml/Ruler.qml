@@ -115,7 +115,6 @@ Item {
                 color: guideRoot.activated ? Qt.lighter(model.color, 1.3) : model.color
                 property int markerId: model.id
                 Rectangle {
-                    
                     visible: timeline.showMarkers
                     width: mlabel.contentWidth + 4 - guidesRepeater.radiusSize
                     height: guideLabelHeight
