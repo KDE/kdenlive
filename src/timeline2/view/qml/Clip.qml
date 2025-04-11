@@ -76,7 +76,7 @@ Rectangle {
     property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * root.timeScale)
     visible: scrollView.width + clipRoot.scrollStart >= 0 && clipRoot.scrollStart < clipRoot.width
-    property bool hideClipViews: visible || clipRoot.width < root.minClipWidthForViews
+    property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
     property int mouseXPos: mouseArea.mouseX
     width : Math.round(clipDuration * timeScale)
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
