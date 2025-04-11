@@ -2003,9 +2003,7 @@ const QPoint TimelineController::getMousePosInTimeline() const
 int TimelineController::getMousePos()
 {
     QVariant returnedValue;
-    int posInWidget = getMousePosInTimeline().x();
-    QMetaObject::invokeMethod(m_root, "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-    posInWidget += returnedValue.toInt();
+    int posInWidget = m_timelineMouseOffset + getMousePosInTimeline().x();
     return posInWidget / m_scale;
 }
 
@@ -5541,4 +5539,10 @@ void TimelineController::showSubtitleManager(int page)
     ManageSubtitles *d = new ManageSubtitles(m_model->getSubtitleModel(), this, currentIx, qApp->activeWindow());
     d->tabWidget->setCurrentIndex(page);
     d->exec();
+}
+
+void TimelineController::setTimelineMouseOffset(int offset)
+{
+    m_timelineMouseOffset = offset;
+    Q_EMIT timelineMouseOffsetChanged(offset);
 }

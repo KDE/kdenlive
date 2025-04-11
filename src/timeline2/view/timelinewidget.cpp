@@ -174,6 +174,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 {
     loading = true;
     Q_ASSERT(model != nullptr);
+    connect(&timelineController, &TimelineController::timelineMouseOffsetChanged, this, &TimelineWidget::emitMousePos, Qt::QueuedConnection);
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
@@ -197,7 +198,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Timeline.qml")));
 
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
-    connect(rootObject(), SIGNAL(mousePosChanged(int)), this, SLOT(emitMousePos(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
@@ -211,6 +211,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(showHeaderMenu()), this, SLOT(showHeaderMenu()));
     connect(rootObject(), SIGNAL(showTargetMenu(int)), this, SLOT(showTargetMenu(int)));
     connect(rootObject(), SIGNAL(showSubtitleClipMenu()), this, SLOT(showSubtitleClipMenu()));
+    connect(rootObject(), SIGNAL(updateTimelineMousePos(int, int)), pCore->window(), SLOT(slotUpdateMousePosition(int, int)));
     timelineController.setRoot(rootObject());
     setVisible(true);
     loading = false;
@@ -219,7 +220,8 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 
 void TimelineWidget::emitMousePos(int offset)
 {
-    pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / timelineController.scaleFactor()));
+    pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / timelineController.scaleFactor()),
+                                             timelineController.duration());
 }
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
@@ -232,9 +234,7 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 void TimelineWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (isEnabled()) {
-        QVariant returnedValue;
-        QMetaObject::invokeMethod(rootObject(), "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-        emitMousePos(returnedValue.toInt());
+        emitMousePos(timelineController.timelineMouseOffset());
     }
     QQuickWidget::mouseMoveEvent(event);
 }

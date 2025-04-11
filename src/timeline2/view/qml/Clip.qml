@@ -76,7 +76,7 @@ Rectangle {
     property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * root.timeScale)
     visible: scrollView.width + clipRoot.scrollStart >= 0 && clipRoot.scrollStart < clipRoot.width
-    property bool hideClipViews: !visible || clipRoot.width < root.minClipWidthForViews
+    property bool hideClipViews: visible || clipRoot.width < root.minClipWidthForViews
     property int mouseXPos: mouseArea.mouseX
     width : Math.round(clipDuration * timeScale)
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
@@ -98,6 +98,7 @@ Rectangle {
         if (!clipRoot.visible) {
             return
         }
+        //console.log('SCROLL START: ', clipRoot.scrollStart, '; VISIBLE: ', clipRoot.visible)
         updateLabelOffset()
         if (isAudio && thumbsLoader.item) {
             thumbsLoader.item.reload(1)
@@ -213,14 +214,10 @@ Rectangle {
             }
         }
     }
-    
     function updateLabelOffset()
     {
         nameContainer.anchors.leftMargin = clipRoot.scrollStart > 0 ? (mixContainer.width + labelRect.width > clipRoot.width ? mixContainer.width : Math.max(clipRoot.scrollStart, mixContainer.width + mixBackground.border.width)) : mixContainer.width + mixBackground.border.width
     }
-
-    /*border.color: (clipStatus === K.FileStatus.StatusMissing || clipStatus === K.FileStatus.StatusWaiting || clipStatus === K.FileStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
-    border.width: isGrabbed ? 8 : 2*/
 
     function updateDrag() {
         var itemPos = mapToItem(tracksContainerArea, 0, 0, clipRoot.width, clipRoot.height)
@@ -262,16 +259,6 @@ Rectangle {
         return isAudio? root.audioColor : root.videoColor
     }
 
-/*    function reparent(track) {
-        console.log('TrackId: ',trackId)
-        parent = track
-        height = track.height
-        parentTrack = track
-        trackId = parentTrack.trackId
-        console.log('Reparenting clip to Track: ', trackId)
-        //generateWaveform()
-    }
-*/
     property bool noThumbs: (isAudio || itemType === K.ClipType.Color || mltService === '')
     property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + clipThumbId
 
@@ -483,7 +470,7 @@ Rectangle {
             anchors.margins: itemBorder.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
-            property bool handleVisible: clipRoot.width - width > 3 * root.baseUnit / 2 || width > 3 * root.baseUnit / 2
+            property bool handleVisible: width > 3 * root.baseUnit / 2
             
             Item {
                 // Mix indicator
@@ -509,9 +496,7 @@ Rectangle {
                     visible: clipRoot.mixDuration > 0
                     color: mixSelected ? root.selectionColor : "mediumpurple"
                     Loader {
-                        id: shapeLoader
-                        source: clipRoot.mixDuration > 0 ? "MixShape.qml" : ""
-                        property bool valid: item !== null
+                        source: container.handleVisible && mixContainer.width > 2 * root.baseUnit ? "MixShape.qml" : ""
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || mixSelected ? 1 : 0.7
@@ -644,35 +629,44 @@ Rectangle {
                 }
                 
             }
-
-            Repeater {
-                // Clip markers
-                model: markers
-                delegate:
-                Item {
-                    visible: markerBase.x >= 0 && markerBase.x < clipRoot.width
+            Component {
+                id: markerComponent
+                Rectangle {
+                    id: markerBase
+                    property string markerText
+                    property color markerColor
+                    property int position
+                    width: 1
+                    height: container.height
+                    x: clipRoot.speed < 0
+                    ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(position / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
+                    : (Math.round(position / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
+                    color: markerColor
                     Rectangle {
-                        id: markerBase
-                        width: 1
-                        height: container.height
-                        x: clipRoot.speed < 0
-                           ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(model.frame / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
-                           : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
-                        color: model.color
-                        ToolTip.visible: markerArea.containsMouse
-                        ToolTip.text: textMetrics.text
-                        ToolTip.delay: 1000
-                        ToolTip.timeout: 5000
-                    }
-                    Rectangle {
-                        visible: mlabel.visible
-                        opacity: 0.7
-                        x: markerBase.x
-                        radius: 2
-                        width: mlabel.width + 4
-                        height: mlabel.height
-                        y: mlabel.y
-                        color: model.color
+                        width: mlabel.contentWidth + 4
+                        height: mlabel.contentHeight
+                        color: markerBase.markerColor
+                        visible: K.KdenliveSettings.showmarkers
+                        anchors {
+                            top: parent.top
+                            left: parent.left
+                        }
+                        TextMetrics {
+                            id: textMetrics
+                            font: miniFont
+                            text: markerBase.markerText
+                            elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
+                            elideWidth: root.maxLabelWidth
+                        }
+                        Text {
+                            id: mlabel
+                            text: textMetrics.elidedText
+                            topPadding: -1
+                            leftPadding: 2
+                            rightPadding: 2
+                            font: miniFont
+                            color: '#FFF'
+                        }
                         MouseArea {
                             z: 10
                             id: markerArea
@@ -680,27 +674,53 @@ Rectangle {
                             acceptedButtons: Qt.LeftButton
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
+                            ToolTip.visible: containsMouse
+                            ToolTip.text: markerBase.markerText
+                            ToolTip.delay: 1000
+                            ToolTip.timeout: 5000
+                            onDoubleClicked: timeline.editMarker(clipRoot.clipId, markerBase.position)
                             onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0
-                                                                               ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(model.frame / clipRoot.speed))
-                                                                               : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
+                            ? clipRoot.maxDuration - clipRoot.inPoint + (Math.round(markerBase.position / clipRoot.speed))
+                            : (Math.round(markerBase.position / clipRoot.speed) - clipRoot.inPoint))
                         }
                     }
-                    TextMetrics {
-                        id: textMetrics
-                        font: miniFont
-                        text: model.comment
-                        elide: clipRoot.timeScale > 1 ? Text.ElideNone : Text.ElideRight
-                        elideWidth: root.maxLabelWidth
+                }
+            }
+
+            Repeater {
+                // Clip markers
+                id: markersContainer
+                model: container.width > 3 * root.baseUnit ? markers : 0
+                anchors.fill: container
+                delegate: Loader {
+                    id: loader
+                    required property var modelData
+                    property bool isInside: modelData.frame > clipRoot.inPoint && modelData.frame < clipRoot.outPoint
+                    asynchronous: true
+                    Binding {
+                        target: loader.item
+                        property: "position"
+                        value: modelData.frame
+                        when: isInside && loader.status == Loader.Ready
                     }
-                    Text {
-                        id: mlabel
-                        visible: K.KdenliveSettings.showmarkers && textMetrics.elideWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
-                        text: textMetrics.elidedText
-                        font: miniFont
-                        x: markerBase.x + 1
-                        y: Math.min(label.height, container.height - height)
-                        color: 'white'
+                    Binding {
+                        target: loader.item
+                        property: "markerText"
+                        value: modelData.comment
+                        when: isInside && loader.status == Loader.Ready
+                    }
+                    Binding {
+                        target: loader.item
+                        property: "markerColor"
+                        value: modelData.color
+                        when: isInside && loader.status == Loader.Ready
+                    }
+                    sourceComponent: {
+                        if (isInside) {
+                            return markerComponent;
+                        } else {
+                            return null;
+                        }
                     }
                 }
             }
@@ -942,6 +962,7 @@ Rectangle {
                 curveType: clipRoot.fadeInMethod
                 width: Math.min(clipRoot.fadeIn * clipRoot.timeScale, container.width)
                 height: parent.height
+                visible: width > 2
                 anchors.left: parent.left
                 anchors.top: parent.top
                 opacity: 0.4
@@ -956,6 +977,7 @@ Rectangle {
                 height: parent.height
                 anchors.right: parent.right
                 anchors.top: parent.top
+                visible: width > 2
                 endFade: true
                 opacity: 0.4
                 transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2 }
