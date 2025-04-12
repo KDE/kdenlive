@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2024 KDE Community
+    SPDX-FileCopyrightText: 2025 KDE Community
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
@@ -94,7 +94,7 @@ void TransitionIconDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     }
 
     // Draw transition name
-    QString name = index.data(Qt::DisplayRole).toString();
+    const QString name = index.data(Qt::DisplayRole).toString();
     QFont font = option.font;
 
     // Make favorite items bold
@@ -149,41 +149,40 @@ QMovie *TransitionIconDelegate::getMovie(const QString &transitionId) const
     QString filePath = QDir(m_previewDirectory).filePath(transitionId + QStringLiteral(".gif"));
     qDebug() << "Looking for transition preview at:" << filePath;
 
-    if (QFileInfo::exists(filePath)) {
-        qDebug() << "Found preview for transition:" << transitionId;
-        QMovie *movie = new QMovie(filePath);
-        movie->setCacheMode(QMovie::CacheAll);
-        movie->start();
+    if (!QFileInfo::exists(filePath)) {
+        qDebug() << "No preview found for transition:" << transitionId;
+        return nullptr;
+    }
 
-        // Connect to frameChanged to trigger repaint
-        connect(movie, &QMovie::frameChanged, [this, movie, transitionId]() {
-            // Find all list views using this delegate
-            for (QWidget *widget : QApplication::allWidgets()) {
-                QListView *listView = qobject_cast<QListView *>(widget);
-                if (listView && listView->itemDelegate() == this) {
-                    // Force update of the view
-                    QAbstractItemModel *model = listView->model();
-                    if (model) {
-                        for (int row = 0; row < model->rowCount(); row++) {
-                            QModelIndex idx = model->index(row, 0);
-                            QString id = idx.data(AssetTreeModel::IdRole).toString();
-                            if (id == transitionId) {
-                                listView->update(idx);
-                                break;
-                            }
+    qDebug() << "Found preview for transition:" << transitionId;
+    QMovie *movie = new QMovie(filePath);
+    movie->setCacheMode(QMovie::CacheAll);
+    movie->start();
+
+    // Connect to frameChanged to trigger repaint
+    connect(movie, &QMovie::frameChanged, [this, movie, transitionId]() {
+        // Find all list views using this delegate
+        for (QWidget *widget : QApplication::allWidgets()) {
+            QListView *listView = qobject_cast<QListView *>(widget);
+            if (listView && listView->itemDelegate() == this) {
+                // Force update of the view
+                QAbstractItemModel *model = listView->model();
+                if (model) {
+                    for (int row = 0; row < model->rowCount(); row++) {
+                        QModelIndex idx = model->index(row, 0);
+                        QString id = idx.data(AssetTreeModel::IdRole).toString();
+                        if (id == transitionId) {
+                            listView->update(idx);
+                            break;
                         }
                     }
                 }
             }
-        });
+        }
+    });
 
-        m_movies[transitionId] = movie;
-        return movie;
-    } else {
-        qDebug() << "No preview found for transition:" << transitionId;
-    }
-
-    return nullptr;
+    m_movies[transitionId] = movie;
+    return movie;
 }
 
 QPixmap TransitionIconDelegate::getStaticPreview(const QString &transitionId) const

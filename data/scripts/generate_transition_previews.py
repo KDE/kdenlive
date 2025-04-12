@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-SPDX-FileCopyrightText: 2024 KDE Community
+SPDX-FileCopyrightText: 2025 KDE Community
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 Script to generate animated GIF previews for Kdenlive transitions.
@@ -26,13 +26,15 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class TransitionPreviewGenerator:
-    def __init__(self, output_dir, param_file=None, size=(320, 180), duration=30, mix_duration=15):
+    def __init__(self, output_dir, param_file=None, image_path1=None, image_path2=None, size=(320, 180), duration=30, mix_duration=15):
         """
         Initialize the preview generator
         
         Args:
             output_dir (str): Directory to store generated previews
             param_file (str): Path to the transition parameters file
+            image_path1 (str): Path to first image (optional)
+            image_path2 (str): Path to second image (optional)
             size (tuple): Width and height of preview (default: 320x180)
             duration (int): Duration of each clip in frames
             mix_duration (int): Duration of transition in frames
@@ -42,6 +44,8 @@ class TransitionPreviewGenerator:
         self.duration = duration
         self.mix_duration = mix_duration
         self.transition_params = {}
+        self.image_path1 = image_path1
+        self.image_path2 = image_path2
         
         # Create output directory
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -145,45 +149,50 @@ class TransitionPreviewGenerator:
             command = [
                 'melt',
                 '-profile', self.profile,
-                
-                # First clip - red with "A"
-                'color:red', f'out={self.duration}',
-                
-                # Second clip - blue with "B"
-                'color:blue', f'out={self.duration}',
-                
-                # Apply transition
-                '-mix', str(self.mix_duration),
-                '-mixer', transition_id,
             ]
+            
+            # First clip
+            if self.image_path1 is None:
+                command.extend(['color:red', f'out={self.duration}'])
+            else:
+                command.extend([self.image_path1, f'out={self.duration}'])
+            
+            # Second clip
+            if self.image_path2 is None:
+                command.extend(['color:blue', f'out={self.duration}'])
+            else:
+                command.extend([self.image_path2, f'out={self.duration}'])
+            
+            # Apply transition
+            command.extend(['-mix', str(self.mix_duration), '-mixer', transition_id])
             
             # Add transition-specific parameters if available
             if transition_id in self.transition_params:
                 command.append(self.transition_params[transition_id])
                 logger.info(f"Using custom parameters for {transition_id}: {self.transition_params[transition_id]}")
             
-            # Add text overlay
-            command.extend([
-                # Text overlay track
-                '-track',
-                f'qtext:+A', 'weight=800', f'out={self.duration}',
-                f'qtext:+B', 'weight=800', f'out={self.duration}',
+            # Only add text overlay if no images are provided
+            if self.image_path1 is None and self.image_path2 is None:
+                command.extend([
+                    # Text overlay track
+                    '-track',
+                    f'qtext:+A', 'weight=800', f'out={self.duration}',
+                    f'qtext:+B', 'weight=800', f'out={self.duration}',
+                    
+                    # Text transition
+                    '-mix', str(self.mix_duration),
+                    '-mixer', transition_id,
+                ])
                 
-                # Text transition
-                '-mix', str(self.mix_duration),
-                '-mixer', transition_id,
-            ])
-            
-            # Add text transition parameters if available
-            if transition_id in self.transition_params:
-                command.append(self.transition_params[transition_id])
-            
-            # Add final blend and output settings
-            command.extend([
-                # Blend text with video
-                '-transition', 'qtblend',
+                # Add text transition parameters if available
+                if transition_id in self.transition_params:
+                    command.append(self.transition_params[transition_id])
                 
-                # Output settings
+                # Add text blend
+                command.extend(['-transition', 'qtblend'])
+            
+            # Add output settings
+            command.extend([
                 '-consumer', f'avformat:{output_path}',
                 f'width={self.width}',
                 f'height={self.height}',
@@ -237,6 +246,16 @@ def main():
     )
     
     parser.add_argument(
+        '--image1',
+        help='Path to first image for transition preview'
+    )
+    
+    parser.add_argument(
+        '--image2',
+        help='Path to second image for transition preview'
+    )
+    
+    parser.add_argument(
         '--width',
         type=int,
         default=320,
@@ -276,6 +295,8 @@ def main():
     generator = TransitionPreviewGenerator(
         args.output_dir,
         param_file=args.param_file,
+        image_path1=args.image1,
+        image_path2=args.image2,
         size=(args.width, args.height),
         duration=args.duration,
         mix_duration=args.mix_duration

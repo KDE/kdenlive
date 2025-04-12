@@ -202,7 +202,20 @@ void TransitionListWidget::generatePreviews()
         args << QStringLiteral("--param-file") << paramFile;
     }
 
-    process->start(QStringLiteral("python3"), QStringList() << scriptPath << args);
+#ifdef Q_OS_WIN
+    const QString pythonName = QStringLiteral("python");
+#else
+    const QString pythonName = QStringLiteral("python3");
+#endif
+    const QString pythonExe = QStandardPaths::findExecutable(pythonName);
+    if (!pythonExe.isEmpty()) {
+        args.prepend(scriptPath);
+        process->start(pythonExe, args);
+    } else {
+        KMessageBox::error(this, i18n("Python interpreter not found. Please make sure Python is installed."));
+        process->deleteLater();
+        return;
+    }
 
     KMessageBox::information(this, i18n("Generating transition previews. This may take a few minutes..."));
 }
