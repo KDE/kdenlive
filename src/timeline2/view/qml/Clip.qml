@@ -646,10 +646,14 @@ Rectangle {
                         width: mlabel.contentWidth + 4
                         height: mlabel.contentHeight
                         color: markerBase.markerColor
-                        visible: timeline.showMarkers
+                        radius: 2
+                        opacity: 0.7
+                        visible: timeline.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
+
                         anchors {
                             top: parent.top
                             left: parent.left
+                            topMargin: Math.min(label.height, container.height - height)
                         }
                         TextMetrics {
                             id: textMetrics
