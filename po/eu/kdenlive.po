@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-12 02:28+0000\n"
+"POT-Creation-Date: 2025-04-13 02:28+0000\n"
 "PO-Revision-Date: 2025-04-06 12:02+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -17234,7 +17234,7 @@ msgstr "Sekuentzia kopurua"
 msgid "Timeline sequence"
 msgstr "Denbora-lerro sekuentzia"
 
-#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1150
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1154
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -29736,7 +29736,7 @@ msgstr "Pausatuta"
 msgid "Mic level"
 msgstr "Mikrofonoaren maila"
 
-#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:944
+#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posizioa: %4, Iraupena: %5"
@@ -29768,12 +29768,12 @@ msgstr "-%1, Nahasketaren iraupena: %2"
 msgid "Mix duration: %1"
 msgstr "Nahasketaren iraupena::%1"
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:837
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Sarrera:%1, Posizioa: %2"
 
-#: src/timeline2/view/qml/Clip.qml:836 src/timeline2/view/qml/Clip.qml:934
+#: src/timeline2/view/qml/Clip.qml:840 src/timeline2/view/qml/Clip.qml:938
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -29782,54 +29782,54 @@ msgstr ""
 "<b>Ctrl arrastatu</b> abiadura aldatzeko, <b>Klik bikoitza</b> ondoko "
 "kliparekin nahasteko clip"
 
-#: src/timeline2/view/qml/Clip.qml:838
+#: src/timeline2/view/qml/Clip.qml:842
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrastatu</b> nahasketaren iraupena aldatzeko"
 
-#: src/timeline2/view/qml/Clip.qml:931
+#: src/timeline2/view/qml/Clip.qml:935
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Irteera:%1, Posizioa: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplazamendua: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplazamendua: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1057
+#: src/timeline2/view/qml/Clip.qml:1061
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "Egin <b>klik</b> klipak lerrokatzeko"
 
-#: src/timeline2/view/qml/Clip.qml:1302 src/timeline2/view/qml/Clip.qml:1339
+#: src/timeline2/view/qml/Clip.qml:1306 src/timeline2/view/qml/Clip.qml:1343
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> konposizioa gehitzeko"
 
-#: src/timeline2/view/qml/Clip.qml:1416 src/timeline2/view/qml/Clip.qml:1423
+#: src/timeline2/view/qml/Clip.qml:1420 src/timeline2/view/qml/Clip.qml:1427
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Irteera itzaltzea: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1427 src/timeline2/view/qml/Clip.qml:1534
+#: src/timeline2/view/qml/Clip.qml:1431 src/timeline2/view/qml/Clip.qml:1538
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrastatu</b>itzaltzea doitzeko, <b>Klik</b> lehenetsitako itzaltze "
 "iraupena gehitzeko"
 
-#: src/timeline2/view/qml/Clip.qml:1523 src/timeline2/view/qml/Clip.qml:1530
+#: src/timeline2/view/qml/Clip.qml:1527 src/timeline2/view/qml/Clip.qml:1534
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Sarrera itzaltzea: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1618
+#: src/timeline2/view/qml/Clip.qml:1622
 #, kde-format
 msgid "Slip Clip"
 msgstr "Higitu klipa"

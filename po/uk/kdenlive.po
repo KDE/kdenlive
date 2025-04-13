@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-12 02:28+0000\n"
-"PO-Revision-Date: 2025-03-20 10:25+0200\n"
+"POT-Creation-Date: 2025-04-13 02:28+0000\n"
+"PO-Revision-Date: 2025-04-12 12:44+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4511,21 +4511,15 @@ msgid "Apply LUT"
 msgstr "Застосування таблиці пошуку"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a Look Up Table (LUT) to the video.\n"
-#| "  <full><![CDATA[A LUT is an easy way to correct the color of a video. "
-#| "Supported formats: .3dl (AfterEffects), .cube (Iridas), .dat(DaVinci), ."
-#| "m3d (Pandora)]]></full>"
+#, kde-format
 msgid ""
 "Apply a Look Up Table (LUT) to the video. A LUT is an easy way to correct "
 "the color of a video. Supported formats: .3dl (AfterEffects), .cube "
 "(Iridas), .dat (DaVinci), .m3d (Pandora)"
 msgstr ""
-"Застосувати таблицю пошуку (LUT) до відео.\n"
-"  <full><![CDATA[LUT є простим способом виправлення кольорів відео. "
-"Підтримувані формати: .3dl (AfterEffects), .cube (Iridas), .dat(DaVinci), ."
-"m3d (Pandora)]]></full>"
+"Застосувати до відео таблицю пошуку (LUT). LUT є простим способом "
+"виправлення кольорів на відео. Підтримувані формати: .3dl (AfterEffects), ."
+"cube (Iridas), .dat (DaVinci), .m3d (Pandora)"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:8
 #, kde-format
@@ -8523,14 +8517,7 @@ msgid "Nikon D90 Stairstepping fix"
 msgstr "Виправлення ступінчастості для Nikon D90"
 
 #: data/effects/frei0r/frei0r_d90stairsteppingfix.xml:8
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
-#| "        <full><![CDATA[Sharp lines in videos from the Nikon D90 show "
-#| "steps each 8th or 9th line, assumedly\n"
-#| "        due to poor downsampling. These can be smoothed out with this "
-#| "filter if they become too annoying.]]></full>\n"
-#| "        "
+#, kde-format
 msgid ""
 "Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
 "        Sharp lines in videos from the Nikon D90 show steps each 8th or 9th "
@@ -8539,11 +8526,10 @@ msgid ""
 "if they become too annoying.\n"
 "        "
 msgstr ""
-"Вилучає зайву ступінчастість з відео у форматі 720p Nikon D90.<full><!"
-"[CDATA[На яскравих лініях відео, створених за допомогою Nikon D90, помітна "
-"ступінчастість на кожному 8-му або 9-му рядку, ймовірно через помилки у "
-"масштабуванні. Цю ступінчастість можна усунути за допомогою фільтра, якщо "
-"вона псує зображення.]]></full>\n"
+"Вилучає сходинкові викривлення з відео 720p Nikon D90. Різкі лінії видно на "
+"відео з Nikon D90 на кожній восьмій чи дев'ятій лінії. Причиною, ймовірно, є "
+"помилкове зменшення розмірності. Ці різкі лінії може бути згладжено за "
+"допомогою цього фільтра, якщо вони надмірно спотворюють зображення.\n"
 "        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
@@ -9488,21 +9474,16 @@ msgid "Light Graffiti"
 msgstr "Світлове графіті"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:8
-#, fuzzy, kde-format
-#| msgid ""
-#| "Light Graffiti effect.\n"
-#| "        <full><![CDATA[This effect allows one to do Light Painting (i.e. "
-#| "painting with light sources on a photo by keeping the shutter\n"
-#| "        opened for a while), but for video.]]></full>"
+#, kde-format
 msgid ""
 "Light Graffiti effect.\n"
 "        This effect allows one to do Light Painting (i.e. painting with "
 "light sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
-"Ефект світлового графіті.<full><![CDATA[За допомогою цього ефекту можна "
-"малювати джерелом світла (щось подібне до вишкрібання зображення на "
-"негативі) на відеозображенні.]]></full>"
+"Ефект світлового графіті.\n"
+"За допомогою цього ефекту можна малювати джерелом світла (щось подібне до "
+"вишкрібання зображення на негативі) на відеозображенні."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:11
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:83
@@ -9763,21 +9744,16 @@ msgstr ""
 "позначте пункт відновлення, а потім знову зніміть з нього позначку."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "Light Graffiti effect.\n"
-#| "        <full><![CDATA[This effect allows to do Light Painting (i.e. "
-#| "painting with light sources on a photo by keeping the shutter\n"
-#| "        opened for a while), but for video.]]></full>"
+#, kde-format
 msgid ""
 "Light Graffiti effect.\n"
 "        This effect allows to do Light Painting (i.e. painting with light "
 "sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
-"Ефект світлового графіті.<full><![CDATA[За допомогою цього ефекту можна "
-"малювати джерелом світла (щось подібне до вишкрібання зображення на "
-"негативі) на відеозображенні.]]></full>"
+"Ефект світлового графіті.\n"
+"За допомогою цього ефекту можна малювати джерелом світла (щось подібне до "
+"вишкрібання зображення на негативі) на відеозображенні."
 
 #: data/effects/frei0r/frei0r_luminance.xml:4
 #, kde-format
@@ -17088,7 +17064,7 @@ msgstr "Лічильник у послідовності"
 msgid "Timeline sequence"
 msgstr "Послідовність монтажного столу"
 
-#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1150
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1154
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -18941,12 +18917,7 @@ msgid "JogShuttle"
 msgstr "Ручка керування"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
-#| "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
@@ -18954,7 +18925,7 @@ msgid ""
 "a>."
 msgstr ""
 "Щодо налаштовування пристрою див. <a href=\"https://docs.kdenlive.org/"
-"user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
+"getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
 "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">нашу документацію</"
 "a>."
 
@@ -28450,9 +28421,7 @@ msgid "Lossless/HQ"
 msgstr "Без втрат/HQ"
 
 #: src/renderpresets/renderpresetrepository.cpp:240
-#, fuzzy, kde-format
-#| msgctxt "Category Name"
-#| msgid "Images sequence"
+#, kde-format
 msgid "Images sequence"
 msgstr "Послідовність зображень"
 
@@ -29704,7 +29673,7 @@ msgstr "Призупинено"
 msgid "Mic level"
 msgstr "Рівень мікрофона"
 
-#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:944
+#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2–%3), позиція: %4, тривалість: %5"
@@ -29736,12 +29705,12 @@ msgstr "-%1, тривалість мікшування: %2"
 msgid "Mix duration: %1"
 msgstr "Тривалість мікшування: %1"
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:837
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Вхід: %1, позиція: %2"
 
-#: src/timeline2/view/qml/Clip.qml:836 src/timeline2/view/qml/Clip.qml:934
+#: src/timeline2/view/qml/Clip.qml:840 src/timeline2/view/qml/Clip.qml:938
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -29750,54 +29719,54 @@ msgstr ""
 "<b>Ctrl + перетягування</b> — змінити швидкість, <b>подвійне клацання</b> — "
 "мікшувати із сусіднім кліпом"
 
-#: src/timeline2/view/qml/Clip.qml:838
+#: src/timeline2/view/qml/Clip.qml:842
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Перетягніть</b>, щоб змінити тривалість мікшування"
 
-#: src/timeline2/view/qml/Clip.qml:931
+#: src/timeline2/view/qml/Clip.qml:935
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Вихід: %1, позиція: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Зміщення: –%1"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: %1"
 msgstr "Зміщення: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1057
+#: src/timeline2/view/qml/Clip.qml:1061
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Клацніть</b>, щоб вирівняти кліпи"
 
-#: src/timeline2/view/qml/Clip.qml:1302 src/timeline2/view/qml/Clip.qml:1339
+#: src/timeline2/view/qml/Clip.qml:1306 src/timeline2/view/qml/Clip.qml:1343
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Клацніть</b>, щоб додати композицію"
 
-#: src/timeline2/view/qml/Clip.qml:1416 src/timeline2/view/qml/Clip.qml:1423
+#: src/timeline2/view/qml/Clip.qml:1420 src/timeline2/view/qml/Clip.qml:1427
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Зменшення гучності: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1427 src/timeline2/view/qml/Clip.qml:1534
+#: src/timeline2/view/qml/Clip.qml:1431 src/timeline2/view/qml/Clip.qml:1538
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Перетягування</b> — коригування згасання, <b>клацання</b> — додавання "
 "згасання із типовою тривалістю"
 
-#: src/timeline2/view/qml/Clip.qml:1523 src/timeline2/view/qml/Clip.qml:1530
+#: src/timeline2/view/qml/Clip.qml:1527 src/timeline2/view/qml/Clip.qml:1534
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Збільшення гучності: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1618
+#: src/timeline2/view/qml/Clip.qml:1622
 #, kde-format
 msgid "Slip Clip"
 msgstr "Зсунути кліп"

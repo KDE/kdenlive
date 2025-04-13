@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-12 02:28+0000\n"
-"PO-Revision-Date: 2025-04-11 10:08+0200\n"
+"POT-Creation-Date: 2025-04-13 02:28+0000\n"
+"PO-Revision-Date: 2025-04-12 13:44+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -2751,12 +2751,14 @@ msgstr "De-esser"
 #: data/effects/avfilter/avfilter_deesser.xml:5
 #, kde-format
 msgid "Apply de-essing to the audio samples."
-msgstr ""
+msgstr "De-essing uitvoeren op de audio-samples"
 
 #: data/effects/avfilter/avfilter_deesser.xml:9
 #, kde-format
 msgid "Set intensity for triggering de-essing. Allowed range is from 0 to 1."
 msgstr ""
+"Intensiteit voor activeren van de-essing instellen. Toegestane reeks is van "
+"0 tot 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
 #, kde-format
@@ -2768,6 +2770,8 @@ msgstr "Max de-essing"
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
+"Stelt de hoeveelheid ducking in van het treble (hoge tonen) gedeelte van het "
+"geluid. De toegestane reeks gaat van 0 tot 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
@@ -2782,11 +2786,13 @@ msgid ""
 "How much of original frequency content to keep when de-essing. Allowed range "
 "is from 0 to 1."
 msgstr ""
+"Hoeveel van de originele frequentie-inhoud bewaart mag blijven bij het de-"
+"essen. De toegestane reeks gaat van 0 naar 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:20
 #, kde-format
 msgid "Input,Output,Ess only"
-msgstr ""
+msgstr "Invoer,Uitvoer,alleen Ess"
 
 #: data/effects/avfilter/avfilter_deesser.xml:21
 #, kde-format
@@ -2874,12 +2880,14 @@ msgid ""
 "Remove the rain in the input image/video by applying the derain methods "
 "based on convolutional neural networks"
 msgstr ""
+"De regen in de invoerafbeelding/video verwijderen door de derain-methoden "
+"toe te passen gebaseerd op evolutionele neurale netwerken"
 
 #: data/effects/avfilter/avfilter_derain.xml:8
 #: data/effects/avfilter/avfilter_sr.xml:8
 #, kde-format
 msgid "Native,Tensorflow"
-msgstr ""
+msgstr "Inheems,Tensorflow"
 
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
@@ -2904,6 +2912,8 @@ msgid ""
 "Remove unwanted contamination of foreground colors, caused by reflected "
 "color of greenscreen or bluescreen"
 msgstr ""
+"Ongewenste contaminatie van voorgrondkleuren verwijderen, veroorzaakt door "
+"gereflecteerde kleuren van groenscherm of blauwscherm"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
 #, kde-format
@@ -2988,12 +2998,12 @@ msgstr "Coördinaten"
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
 msgid "Doubleweave"
-msgstr ""
+msgstr "Dubbelgolf"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:5
 #, kde-format
 msgid "Weave input video fields into double number of frames"
-msgstr ""
+msgstr "Weef invoervideovelden in dubbel aantal frames"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:8
 #: data/effects/avfilter/avfilter_field.xml:8
@@ -16740,7 +16750,7 @@ msgstr "Aantal in sequentie"
 msgid "Timeline sequence"
 msgstr "Volgorde (sequentie) in tijdlijn"
 
-#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1150
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1154
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -29239,7 +29249,7 @@ msgstr "Gepauzeerd"
 msgid "Mic level"
 msgstr "Microfoonniveau"
 
-#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:944
+#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), positie: %4, duur: %5"
@@ -29271,12 +29281,12 @@ msgstr "-%1, Mixduur: %2"
 msgid "Mix duration: %1"
 msgstr "Mixduur: %1"
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:837
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "In:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:836 src/timeline2/view/qml/Clip.qml:934
+#: src/timeline2/view/qml/Clip.qml:840 src/timeline2/view/qml/Clip.qml:938
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -29285,54 +29295,54 @@ msgstr ""
 "<b>Ctrl slepen</b> om snelheid te wijzigen, <b>Dubbelklik</b> om met "
 "naastgelegen clip te mengen"
 
-#: src/timeline2/view/qml/Clip.qml:838
+#: src/timeline2/view/qml/Clip.qml:842
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Slepen</b> om duur van mengen te wijzigen"
 
-#: src/timeline2/view/qml/Clip.qml:931
+#: src/timeline2/view/qml/Clip.qml:935
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Uit:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Verschuiving: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: %1"
 msgstr "Verschuiving: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1057
+#: src/timeline2/view/qml/Clip.qml:1061
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Klik</b> om clips uit te lijnen"
 
-#: src/timeline2/view/qml/Clip.qml:1302 src/timeline2/view/qml/Clip.qml:1339
+#: src/timeline2/view/qml/Clip.qml:1306 src/timeline2/view/qml/Clip.qml:1343
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> om een compositie toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1416 src/timeline2/view/qml/Clip.qml:1423
+#: src/timeline2/view/qml/Clip.qml:1420 src/timeline2/view/qml/Clip.qml:1427
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Vervagen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1427 src/timeline2/view/qml/Clip.qml:1534
+#: src/timeline2/view/qml/Clip.qml:1431 src/timeline2/view/qml/Clip.qml:1538
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Slepen</b> om vervagen aan te passen, <b>Klik</b> om standaard duur van "
 "vervagen toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1523 src/timeline2/view/qml/Clip.qml:1530
+#: src/timeline2/view/qml/Clip.qml:1527 src/timeline2/view/qml/Clip.qml:1534
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Opkomen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1618
+#: src/timeline2/view/qml/Clip.qml:1622
 #, kde-format
 msgid "Slip Clip"
 msgstr "Clip slippen"
