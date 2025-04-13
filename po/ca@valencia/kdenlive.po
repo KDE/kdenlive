@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-12 00:40+0000\n"
-"PO-Revision-Date: 2025-04-01 09:34+0200\n"
+"POT-Creation-Date: 2025-04-13 00:40+0000\n"
+"PO-Revision-Date: 2025-04-11 09:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4548,21 +4548,15 @@ msgid "Apply LUT"
 msgstr "Aplica la LUT"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:5
-#, fuzzy, kde-format
-#| msgid ""
-#| "Apply a Look Up Table (LUT) to the video.\n"
-#| "  <full><![CDATA[A LUT is an easy way to correct the color of a video. "
-#| "Supported formats: .3dl (AfterEffects), .cube (Iridas), .dat (DaVinci), ."
-#| "m3d (Pandora)]]></full>"
+#, kde-format
 msgid ""
 "Apply a Look Up Table (LUT) to the video. A LUT is an easy way to correct "
 "the color of a video. Supported formats: .3dl (AfterEffects), .cube "
 "(Iridas), .dat (DaVinci), .m3d (Pandora)"
 msgstr ""
-"Aplica una LUT (Look Up Table) al vídeo.\n"
-"  <full><![CDATA[Una LUT és una manera senzilla de corregir el color d'un "
-"vídeo. Formats acceptats: .3dl (AfterEffects), .cube (Iridas), .dat "
-"(DaVinci), .m3d (Pandora)]]></full>"
+"Aplica una LUT (Look Up Table) al vídeo. Una LUT és una manera senzilla de "
+"corregir el color d'un vídeo. Formats acceptats: .3dl (AfterEffects), .cube "
+"(Iridas), .dat (DaVinci), .m3d (Pandora)"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:8
 #, kde-format
@@ -8554,14 +8548,7 @@ msgid "Nikon D90 Stairstepping fix"
 msgstr "Correcció dels esglaons de la Nikon D90"
 
 #: data/effects/frei0r/frei0r_d90stairsteppingfix.xml:8
-#, fuzzy, kde-format
-#| msgid ""
-#| "Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
-#| "        <full><![CDATA[Sharp lines in videos from the Nikon D90 show "
-#| "steps each 8th or 9th line, assumedly\n"
-#| "        due to poor downsampling. These can be smoothed out with this "
-#| "filter if they become too annoying.]]></full>\n"
-#| "        "
+#, kde-format
 msgid ""
 "Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
 "        Sharp lines in videos from the Nikon D90 show steps each 8th or 9th "
@@ -8571,10 +8558,10 @@ msgid ""
 "        "
 msgstr ""
 "Elimina els defectes d'esglaons dels vídeos a 720p de la Nikon D90.\n"
-"        <full><![CDATA[Les línies aguditzades en els vídeos de la Nikon D90 "
-"mostren passos cada 8a o 9a línia,\n"
+"        Les línies aguditzades en els vídeos de la Nikon D90 mostren passos "
+"cada 8a o 9a línia,\n"
 "        suposadament a causa d'un mostreig roín. Es poden suavitzar amb este "
-"filtre si es tornen massa molestes.]]></full>\n"
+"filtre si es tornen massa molestes.\n"
 "        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
@@ -9513,12 +9500,7 @@ msgid "Light Graffiti"
 msgstr "Grafit clar"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:8
-#, fuzzy, kde-format
-#| msgid ""
-#| "Light Graffiti effect.\n"
-#| "        <full><![CDATA[This effect allows one to do Light Painting (i.e. "
-#| "painting with light sources on a photo by keeping the shutter\n"
-#| "        opened for a while), but for video.]]></full>"
+#, kde-format
 msgid ""
 "Light Graffiti effect.\n"
 "        This effect allows one to do Light Painting (i.e. painting with "
@@ -9526,9 +9508,9 @@ msgid ""
 "        opened for a while), but for video."
 msgstr ""
 "Efecte de grafit clar.\n"
-"        <full><![CDATA[Este efecte permet fer una pintada clara (és a dir, "
-"pintar amb fonts de llum en una foto mantenint l'obturador\n"
-"        obert durant una estona), però en vídeo.]]></full>"
+"        Este efecte permet fer una pintada clara (és a dir, pintar amb fonts "
+"de llum en una foto mantenint l'obturador\n"
+"        obert durant una estona), però en vídeo."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:11
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:83
@@ -9790,12 +9772,7 @@ msgstr ""
 "desmarqueu-la de nou."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "Light Graffiti effect.\n"
-#| "        <full><![CDATA[This effect allows to do Light Painting (i.e. "
-#| "painting with light sources on a photo by keeping the shutter\n"
-#| "        opened for a while), but for video.]]></full>"
+#, kde-format
 msgid ""
 "Light Graffiti effect.\n"
 "        This effect allows to do Light Painting (i.e. painting with light "
@@ -9803,9 +9780,9 @@ msgid ""
 "        opened for a while), but for video."
 msgstr ""
 "Efecte de grafit clar.\n"
-"        <full><![CDATA[Este efecte permet fer una pintada clara (és a dir, "
-"pintar amb fonts de llum en una foto mantenint l'obturador\n"
-"        obert durant una estona), però en vídeo.]]></full>"
+"        Este efecte permet fer una pintada clara (és a dir, pintar amb fonts "
+"de llum en una foto mantenint l'obturador\n"
+"        obert durant una estona), però en vídeo."
 
 #: data/effects/frei0r/frei0r_luminance.xml:4
 #, kde-format
@@ -15774,7 +15751,7 @@ msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
-"<b>Maj+busca</b> miniatures per a establir la miniatura predeterminada, "
+"<b>Majús+busca</b> miniatures per a establir la miniatura predeterminada, "
 "<b>F2</b> per a canviar el nom de l'element seleccionat"
 
 #: src/bin/bin.cpp:807 src/bin/bin.cpp:917
@@ -17119,7 +17096,7 @@ msgstr "Comptador de seqüències"
 msgid "Timeline sequence"
 msgstr "Seqüència de la línia de temps"
 
-#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1148
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1152
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -18961,12 +18938,7 @@ msgid "JogShuttle"
 msgstr "Jog Shuttle"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
-#| "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
@@ -18974,7 +18946,7 @@ msgid ""
 "a>."
 msgstr ""
 "Per a la configuració de dispositius, vegeu la <a href=\"https://docs."
-"kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive."
+"kdenlive.org/getting_started/configure_kdenlive/configuration_jogshuttle."
 "html#windows?mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings"
 "\">nostra documentació</a>."
 
@@ -22231,7 +22203,7 @@ msgstr "S'està transcodificant"
 #, kde-format
 msgctxt "%1 button id"
 msgid "No action applied for jog shuttle button %1"
-msgstr "No s'ha aplicat cap acció al botó %1 de Jog Shuttle"
+msgstr "No s'ha aplicat cap acció al botó «%1» de Jog Shuttle"
 
 #. i18n: ectx: Menu (go)
 #: src/kdenliveui.rc:19
@@ -24563,10 +24535,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
-"<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Meta"
-"+arrossega</shortcut> per a moure un clip agrupat cap a una altra pista, "
-"<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
+"<shortcut>Majús+arrossega</shortcut> per a una selecció de banda elàstica, "
+"<shortcut>Majús+fes clic</shortcut> per a una selecció múltiple, "
+"<shortcut>Meta+arrossega</shortcut> per a moure un clip agrupat cap a una "
+"altra pista, <shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3448
 #, kde-kuit-format
@@ -24577,10 +24549,10 @@ msgid ""
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
 "shortcut> to pan"
 msgstr ""
-"<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
-"<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Meta"
-"+Alt+arrossega</shortcut> per a moure un clip agrupat cap a una altra pista, "
-"<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
+"<shortcut>Majús+arrossega</shortcut> per a una selecció de banda elàstica, "
+"<shortcut>Majús+fes clic</shortcut> per a una selecció múltiple, "
+"<shortcut>Meta+Alt+arrossega</shortcut> per a moure un clip agrupat cap a "
+"una altra pista, <shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3451
 #, kde-format
@@ -24591,7 +24563,7 @@ msgstr "Selecciona"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
-msgstr "<shortcut>Maj</shortcut> per a previsualitzar el fotograma retallat"
+msgstr "<shortcut>Majús</shortcut> per a previsualitzar el fotograma retallat"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: src/mainwindow.cpp:3454 src/ui/configtools_ui.ui:21
@@ -24607,8 +24579,8 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 "<shortcut>Ctrl</shortcut> per a només aplicar sobre la pista actual, "
-"<shortcut>Maj</shortcut> per a també moure les guies. Podeu combinar ambdós "
-"modificadors."
+"<shortcut>Majús</shortcut> per a també moure les guies. Podeu combinar "
+"ambdós modificadors."
 
 #: src/mainwindow.cpp:3459
 #, kde-format
@@ -24622,7 +24594,7 @@ msgid ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 msgstr ""
-"Feu <shortcut>clic</shortcut> sobre un element per a lliscar, <shortcut>Maj"
+"Feu <shortcut>clic</shortcut> sobre un element per a lliscar, <shortcut>Majús"
 "+fes clic</shortcut> per a una selecció múltiple"
 
 #: src/mainwindow.cpp:3462
@@ -24639,10 +24611,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut>Maj+arrossega</shortcut> per a una selecció de banda elàstica, "
-"<shortcut>Maj+fes clic</shortcut> per a una selecció múltiple, <shortcut>Alt"
-"+fes clic</shortcut> per a seleccionar un element en un grup, <shortcut>Ctrl"
-"+arrossega</shortcut> per a desplaçar"
+"<shortcut>Majús+arrossega</shortcut> per a una selecció de banda elàstica, "
+"<shortcut>Majús+fes clic</shortcut> per a una selecció múltiple, "
+"<shortcut>Alt+fes clic</shortcut> per a seleccionar un element en un grup, "
+"<shortcut>Ctrl+arrossega</shortcut> per a desplaçar"
 
 #: src/mainwindow.cpp:3469
 #, kde-format
@@ -25895,7 +25867,7 @@ msgid ""
 msgstr ""
 "Feu clic en un objecte o dibuixeu un quadro\n"
 "per a iniciar una màscara.\n"
-"«Maj+clic» per a incloure una altra zona.\n"
+"«Majús+clic» per a incloure una altra zona.\n"
 "«Ctrl+fer clic» per a excloure una zona."
 
 #: src/monitor/view/MonitorAutomask.qml:398
@@ -25936,7 +25908,7 @@ msgid ""
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
 "Feu <shortcut>doble clic</shortcut> per a afegir un fotograma clau, "
-"<shortcut>Maj+arrossega</shortcut> per a convertir a una escala "
+"<shortcut>Majús+arrossega</shortcut> per a convertir a una escala "
 "proporcional, <shortcut>Ctrl+arrossega</shortcut> per a convertir a una "
 "escala basada en el centre, <shortcut>aneu cap a la dreta</shortcut> per a "
 "la barra d'eines, feu <shortcut>clic</shortcut> sobre un centre per a buscar "
@@ -25996,8 +25968,8 @@ msgid ""
 "to first / last frame"
 msgstr ""
 "Utilitzeu la <shortcut>roda del ratolí</shortcut> o les <shortcut>fletxes "
-"del teclat</shortcut> per a buscar 1 fotograma, <shortcut>Maj</shortcut> per "
-"a buscar 1 segon, <shortcut>Alt</shortcut> per a buscar el marcador, "
+"del teclat</shortcut> per a buscar 1 fotograma, <shortcut>Majús</shortcut> "
+"per a buscar 1 segon, <shortcut>Alt</shortcut> per a buscar el marcador, "
 "<shortcut>Inici</shortcut> / <shortcut>Fi</shortcut> per a anar fins al "
 "primer / últim fotograma"
 
@@ -26009,7 +25981,7 @@ msgid ""
 "shortcut> to seek while adjusting zone in"
 msgstr ""
 "<shortcut>Arrossegar</shortcut> per a establir el punt de la zona d'entrada, "
-"<shortcut>Maj+arrossega</shortcut> per a buscar mentre s'ajusta la zona "
+"<shortcut>Majús+arrossega</shortcut> per a buscar mentre s'ajusta la zona "
 "d'entrada"
 
 #: src/monitor/view/MonitorRuler.qml:387
@@ -26020,7 +25992,7 @@ msgid ""
 "shortcut> to seek while adjusting zone out"
 msgstr ""
 "<shortcut>Arrossegar</shortcut> per a establir el punt de la zona d'eixida, "
-"<shortcut>Maj+arrossega</shortcut> per a buscar mentre s'ajusta la zona "
+"<shortcut>Majús+arrossega</shortcut> per a buscar mentre s'ajusta la zona "
 "d'eixida"
 
 #: src/monitor/view/ProjectMonitor.qml:101
@@ -28471,9 +28443,7 @@ msgid "Lossless/HQ"
 msgstr "Sense pèrdua/HQU"
 
 #: src/renderpresets/renderpresetrepository.cpp:240
-#, fuzzy, kde-format
-#| msgctxt "Category Name"
-#| msgid "Images sequence"
+#, kde-format
 msgid "Images sequence"
 msgstr "Seqüència d'imatges"
 
@@ -29725,7 +29695,7 @@ msgstr "En pausa"
 msgid "Mic level"
 msgstr "Nivell del micròfon"
 
-#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:944
+#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posició: %4, Duració: %5"
@@ -29757,12 +29727,12 @@ msgstr "-%1, duració de la mescla: %2"
 msgid "Mix duration: %1"
 msgstr "Duració de la mescla: %1"
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:837
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "A:%1, Posició:%2"
 
-#: src/timeline2/view/qml/Clip.qml:836 src/timeline2/view/qml/Clip.qml:934
+#: src/timeline2/view/qml/Clip.qml:840 src/timeline2/view/qml/Clip.qml:938
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -29771,54 +29741,54 @@ msgstr ""
 "<b>Ctrl+arrossega</b> per a canviar la velocitat, feu <b>doble clic</b> per "
 "a mesclar amb el clip adjacent"
 
-#: src/timeline2/view/qml/Clip.qml:838
+#: src/timeline2/view/qml/Clip.qml:842
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrossegueu</b> per a canviar la duració de la mescla"
 
-#: src/timeline2/view/qml/Clip.qml:931
+#: src/timeline2/view/qml/Clip.qml:935
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Eixida:%1, Posició:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplaçament: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplaçament: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1057
+#: src/timeline2/view/qml/Clip.qml:1061
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " Feu <b>clic</b> per a alinear els clips"
 
-#: src/timeline2/view/qml/Clip.qml:1300 src/timeline2/view/qml/Clip.qml:1337
+#: src/timeline2/view/qml/Clip.qml:1304 src/timeline2/view/qml/Clip.qml:1341
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "Feu <b>clic</b> per a afegir una composició"
 
-#: src/timeline2/view/qml/Clip.qml:1414 src/timeline2/view/qml/Clip.qml:1421
+#: src/timeline2/view/qml/Clip.qml:1418 src/timeline2/view/qml/Clip.qml:1425
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fosa d'eixida: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1425 src/timeline2/view/qml/Clip.qml:1532
+#: src/timeline2/view/qml/Clip.qml:1429 src/timeline2/view/qml/Clip.qml:1536
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrossega</b> per a ajustar l'esvaniment, feu <b>clic</b> per a afegir la "
 "duració predeterminada de l'esvaniment"
 
-#: src/timeline2/view/qml/Clip.qml:1521 src/timeline2/view/qml/Clip.qml:1528
+#: src/timeline2/view/qml/Clip.qml:1525 src/timeline2/view/qml/Clip.qml:1532
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fosa d'entrada: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1616
+#: src/timeline2/view/qml/Clip.qml:1620
 #, kde-format
 msgid "Slip Clip"
 msgstr "Desplaça el clip"
@@ -29933,8 +29903,8 @@ msgstr ""
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
-"<b>Maj</b> per a contraure/expandir totes les pistes del mateix tipus (àudio/"
-"vídeo)"
+"<b>Majús</b> per a contraure/expandir totes les pistes del mateix tipus "
+"(àudio/vídeo)"
 
 #: src/timeline2/view/qml/TrackHead.qml:256
 #, kde-format
@@ -29974,7 +29944,7 @@ msgstr "Alterna els efectes de la pista"
 #, kde-format
 msgid "<b>Shift</b> to show/hide all tracks of the same type (audio/video)"
 msgstr ""
-"<b>Maj</b> per a mostrar/ocultar totes les pistes del mateix tipus (àudio/"
+"<b>Majús</b> per a mostrar/ocultar totes les pistes del mateix tipus (àudio/"
 "vídeo)"
 
 #: src/timeline2/view/qml/TrackHead.qml:406
@@ -32813,7 +32783,7 @@ msgstr "Desplaçament automàtic durant la reproducció"
 msgid ""
 "Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel"
 msgstr ""
-"Desplaça verticalment amb la roda de desplaçament, horitzontalment amb «Maj"
+"Desplaça verticalment amb la roda de desplaçament, horitzontalment amb «Majús"
 "+Roda de desplaçament»"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showmarkers)
@@ -35524,7 +35494,7 @@ msgstr "Mostra %1 en la línia de temps"
 #: src/widgets/dragvalue.cpp:755
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr "«Maj+arrossega» per a ajustar el valor un a un."
+msgstr "«Majús+arrossega» per a ajustar el valor un a un."
 
 #: src/widgets/geometrywidget.cpp:32
 #, kde-format

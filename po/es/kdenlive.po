@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-12 00:40+0000\n"
+"POT-Creation-Date: 2025-04-13 00:40+0000\n"
 "PO-Revision-Date: 2025-04-11 20:29+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -17225,7 +17225,7 @@ msgstr "Cantidad de secuencias"
 msgid "Timeline sequence"
 msgstr "Secuencia"
 
-#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1148
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1152
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -29795,7 +29795,7 @@ msgstr "Pausado"
 msgid "Mic level"
 msgstr "Nivel del micrófono"
 
-#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:944
+#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posición: %4, Duración: %5"
@@ -29827,12 +29827,12 @@ msgstr "-%1, Duración de mezcla: %2"
 msgid "Mix duration: %1"
 msgstr "Duración de mezcla: %1"
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:837
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Entrada:%1, Posición:%2"
 
-#: src/timeline2/view/qml/Clip.qml:836 src/timeline2/view/qml/Clip.qml:934
+#: src/timeline2/view/qml/Clip.qml:840 src/timeline2/view/qml/Clip.qml:938
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -29841,54 +29841,54 @@ msgstr ""
 "<b>Ctrl+arrastrar</b> para cambiar la velocidad, <b>Doble clic</b> para "
 "mezclar con clip adyacente"
 
-#: src/timeline2/view/qml/Clip.qml:838
+#: src/timeline2/view/qml/Clip.qml:842
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrastrar</b> para cambiar la duración de la mezcla"
 
-#: src/timeline2/view/qml/Clip.qml:931
+#: src/timeline2/view/qml/Clip.qml:935
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Salida:%1, Posición:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplazamiento: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplazamiento: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1057
+#: src/timeline2/view/qml/Clip.qml:1061
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Clic</b> para alinear clips"
 
-#: src/timeline2/view/qml/Clip.qml:1300 src/timeline2/view/qml/Clip.qml:1337
+#: src/timeline2/view/qml/Clip.qml:1304 src/timeline2/view/qml/Clip.qml:1341
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Clic</b> para agregar un método de composición"
 
-#: src/timeline2/view/qml/Clip.qml:1414 src/timeline2/view/qml/Clip.qml:1421
+#: src/timeline2/view/qml/Clip.qml:1418 src/timeline2/view/qml/Clip.qml:1425
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fundido saliente: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1425 src/timeline2/view/qml/Clip.qml:1532
+#: src/timeline2/view/qml/Clip.qml:1429 src/timeline2/view/qml/Clip.qml:1536
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrastrar</b> para ajustar fundido, <b>Clic</b> para agregar un fundido "
 "de duración predeterminada"
 
-#: src/timeline2/view/qml/Clip.qml:1521 src/timeline2/view/qml/Clip.qml:1528
+#: src/timeline2/view/qml/Clip.qml:1525 src/timeline2/view/qml/Clip.qml:1532
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fundido entrante: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1616
+#: src/timeline2/view/qml/Clip.qml:1620
 #, kde-format
 msgid "Slip Clip"
 msgstr "Desplazar clip"

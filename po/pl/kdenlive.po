@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-12 00:40+0000\n"
-"PO-Revision-Date: 2025-04-05 11:52+0200\n"
+"POT-Creation-Date: 2025-04-13 00:40+0000\n"
+"PO-Revision-Date: 2025-04-12 11:43+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -500,10 +500,9 @@ msgstr "Pakowanie dźwięku"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input Gain"
-msgstr "Wzmocnienie na wejściu (dB)"
+msgstr "Wzmocnienie na wejściu"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
@@ -556,10 +555,9 @@ msgid "Average,Maximum"
 msgstr ""
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Link Type"
-msgstr "Rodzaj"
+msgstr "Rodzaj łącza"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
@@ -567,10 +565,9 @@ msgid "Peak,Rms"
 msgstr ""
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Detection"
-msgstr "Kierunek"
+msgstr "Wykrywanie"
 
 #: data/effects/avfilter/acompressor.xml:37
 #, fuzzy, kde-format
@@ -607,10 +604,9 @@ msgid "Add Echo"
 msgstr "Dodaj efekt"
 
 #: data/effects/avfilter/aecho.xml:11
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output Gain"
-msgstr "Plik wynikowy"
+msgstr "Wzmocnienie wyjścia"
 
 #: data/effects/avfilter/aecho.xml:14
 #: data/effects/avfilter/avfilter_flanger.xml:8
@@ -638,10 +634,9 @@ msgid "Gate (avfilter)"
 msgstr "Skalowanie próbkowania"
 
 #: data/effects/avfilter/agate.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Wave"
+#, kde-format
 msgid "Audio Gate"
-msgstr "Fala dźwięku"
+msgstr "Brama dźwięku"
 
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
@@ -683,20 +678,18 @@ msgstr "Zmniejsz rozdzielczość bitową dźwięku."
 #: data/effects/avfilter/avfilter_aphaser.xml:8
 #: data/effects/avfilter/avfilter_apulsator.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:22
-#, fuzzy, kde-format
-#| msgid "Input gain (dB)"
+#, kde-format
 msgid "Input gain"
-msgstr "Wzmocnienie na wejściu (dB)"
+msgstr "Wzmocnienie na wejściu"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:11
 #: data/effects/avfilter/avfilter_alimiter.xml:11
 #: data/effects/avfilter/avfilter_aphaser.xml:11
 #: data/effects/avfilter/avfilter_apulsator.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:25
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output gain"
-msgstr "Plik wynikowy"
+msgstr "Wzmocnienie wyjścia"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:14
 #: data/effects/avfilter/avfilter_alimiter.xml:14
@@ -785,10 +778,9 @@ msgid "Enable ASC"
 msgstr "Włącz ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "ASC level"
-msgstr "Poziomy dźwięku"
+msgstr "Poziom ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
 #, kde-format
@@ -991,10 +983,9 @@ msgid "Offset R"
 msgstr "Odsunięcie czerwonego"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:27
-#, fuzzy, kde-format
-#| msgid "Outline width"
+#, kde-format
 msgid "Pulse width"
-msgstr "Szerokość obrysu"
+msgstr "Szerokość pulsu"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
@@ -1257,10 +1248,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
-#, fuzzy, kde-format
-#| msgid "Blur Radius"
+#, kde-format
 msgid "Luma Radius"
-msgstr "Promień rozmycia"
+msgstr "Promień lumy"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
@@ -1309,10 +1299,9 @@ msgid "Radius of the alpha blurring box"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:28
-#, fuzzy, kde-format
-#| msgid "Alpha operation"
+#, kde-format
 msgid "Alpha Power"
-msgstr "Działanie alfy"
+msgstr "Moc alfy"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:29
 #, kde-format
@@ -1322,12 +1311,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bs2b.xml:4
 #, kde-format
 msgid "Stereo to binaural"
-msgstr "Stereo na dwuuszny"
+msgstr "Stereo na binaural"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:5
 #, kde-format
 msgid "Bauer stereo to binaural transformation."
-msgstr ""
+msgstr "Przekształcenie sterea Bauer na binaural."
 
 #: data/effects/avfilter/avfilter_bs2b.xml:8
 #, kde-format
@@ -1387,8 +1376,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Deinterlace"
 msgstr "Usuwanie przeplotu"
 
@@ -1419,10 +1407,9 @@ msgid "Set the sharpening strength."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
-#, fuzzy, kde-format
-#| msgid "Chroma Hold"
+#, kde-format
 msgid "Chroma Hold"
-msgstr "Zatrzymanie chromy"
+msgstr "Zachowanie chromy"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
@@ -1471,10 +1458,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
-#, fuzzy, kde-format
-#| msgid "Key color"
+#, kde-format
 msgid "YUV color"
-msgstr "Kolor klucza"
+msgstr "Barwa YUV"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
@@ -1512,22 +1498,19 @@ msgid "Horizontal step"
 msgstr "Krok w poziomie"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:20
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Y threshold"
-msgstr "Próg"
+msgstr "Próg Y"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:23
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "U threshold"
-msgstr "Użyj progu"
+msgstr "Próg U"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:26
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "V threshold"
-msgstr "Próg"
+msgstr "Próg V"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
@@ -1606,10 +1589,9 @@ msgid "Green Shadow"
 msgstr "Zielony cień"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:14
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Blue Shadow"
-msgstr "Cień"
+msgstr "Niebieski cień"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
@@ -1646,7 +1628,7 @@ msgstr "Podświetlenie niebieskiego"
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
 #, kde-format
 msgid "Preserve lightness"
-msgstr "Zachowaj jasność"
+msgstr "Zachowaj światłość"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
 #, kde-format
@@ -1666,10 +1648,9 @@ msgid "Red-Red"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:11
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Red-Green"
-msgstr "Zielony"
+msgstr "Czerwony-Zielony"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:14
 #, fuzzy, kde-format
@@ -1678,16 +1659,14 @@ msgid "Red-Blue"
 msgstr "Niebieski"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:17
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Red"
-msgstr "Zielony"
+msgstr "Zielony-Czerwony"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:20
-#, fuzzy, kde-format
-#| msgid "Gain: Green"
+#, kde-format
 msgid "Green-Green"
-msgstr "Wzmocnienie: Zielony"
+msgstr "Zielony-Zielony"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:23
 #, kde-format
@@ -1706,10 +1685,9 @@ msgid "Blue-Green"
 msgstr "Niebieski-Zielony"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:32
-#, fuzzy, kde-format
-#| msgid "Slope Blue"
+#, kde-format
 msgid "Blue-Blue"
-msgstr "Nachylenie niebieskiego"
+msgstr "Niebieski-Niebieski"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
 #, kde-format
@@ -1754,7 +1732,7 @@ msgstr "Waga niebieski-żółty"
 #: data/effects/avfilter/avfilter_colorcontrast.xml:26
 #, kde-format
 msgid "Preserving lightness"
-msgstr "Zachowanie jasności"
+msgstr "Zachowanie światłości"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
 #, kde-format
@@ -1814,10 +1792,9 @@ msgid "Analyze mode"
 msgstr "Tryb analizy"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Model"
+#, kde-format
 msgid "Color Hold"
-msgstr "Model barw"
+msgstr "Przytrzymanie barwy"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:5
 #, kde-format
@@ -1842,10 +1819,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness"
-msgstr "Jasność"
+msgstr "Światłość"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:4
 #, kde-format
@@ -2111,10 +2087,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
-#, fuzzy, kde-format
-#| msgid "Color Temperature"
+#, kde-format
 msgid "Temperature"
-msgstr "Temperatura kolorów"
+msgstr "Temperatura"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
 #, kde-format
@@ -2211,6 +2186,22 @@ msgid ""
 "delay tolerance depends on sample rate, too. Higher sample rates will give "
 "more tolerance. "
 msgstr ""
+"Linia Opóźnienia Kompensacji jest opóźnieniem metrycznym do kompensowania "
+"różnych położeń mikrofonów lub głośników.\n"
+"Na przykład, masz nagraną gitarę dwoma mikrofonami z różnych miejsc. "
+"Ponieważ czoło fali dźwiękowej ma stałą szybkość w zwyczajnych warunkach, "
+"przesunięcie w fazie mikrofonów może się różnić i zależy od ich położenia i "
+"nakładania się na siebie. Najlepsze współgranie dźwięków można uzyskać, gdy "
+"te mikrofony są w fazie (są zsynchronizowane). Wiedz, że odległość ~30 cm "
+"pomiędzy mikrofonami sprawia, że jeden z nich nagrywa w antyfazie do "
+"drugiego. Czyni to końcowe połączenie dźwięków nieoczekiwanym. Filtr jest w "
+"stanie pomóc na kłopoty z przesunięciem w fazie, dodając różne przesunięcie "
+"do każdego mikrofonu, aby utrzymać je zsynchronizowanymi.\n"
+"\n"
+"Najlepszy wynik można osiągnąć po przypisaniu jednej ścieżki jako podstawy i "
+"próbować zsynchronizować do niej pozostałe. Wiedz, że tolerancja "
+"synchronizacji/opóźnienia zależy także od próbkowania. Wyższe próbkowanie da "
+"więcej tolerancji. "
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, fuzzy, kde-format
@@ -2310,10 +2301,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
-#, fuzzy, kde-format
-#| msgid "Equalizer"
+#, kde-format
 msgid "Crystalizer"
-msgstr "Korektor graficzny"
+msgstr "Krystalizator"
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:6
 #, kde-format
@@ -2542,10 +2532,9 @@ msgstr "Nakładka:"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:14
 #: data/effects/avfilter/avfilter_deblock.xml:12
-#, fuzzy, kde-format
-#| msgid "Block Size X"
+#, kde-format
 msgid "Block size"
-msgstr "Rozmiar bloku X"
+msgstr "Rozmiar bloku"
 
 #: data/effects/avfilter/avfilter_deband.xml:4
 #, kde-format
@@ -2738,10 +2727,9 @@ msgid "Input,Output,Ess only"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deesser.xml:21
-#, fuzzy, kde-format
-#| msgid "Output time"
+#, kde-format
 msgid "Output mode"
-msgstr "Czas wyjściowy"
+msgstr "Tryb wyjścia"
 
 #: data/effects/avfilter/avfilter_deesser.xml:22
 #, kde-format
@@ -2801,16 +2789,14 @@ msgid "Logo Y Position"
 msgstr "Położenie loga w Y"
 
 #: data/effects/avfilter/avfilter_delogo.xml:14
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Logo Width"
-msgstr "Szerokość"
+msgstr "Szerokość loga"
 
 #: data/effects/avfilter/avfilter_delogo.xml:17
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Logo Height"
-msgstr "Wysokość"
+msgstr "Wysokość loga"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
 #, kde-format
@@ -2837,17 +2823,15 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
-#, fuzzy, kde-format
-#| msgid "Audio Backend:"
+#, kde-format
 msgid "DNN Backend"
-msgstr "Silnik dźwięku:"
+msgstr "Silnik DNN"
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Load model"
-msgstr "Tryb luminacji"
+msgstr "Wczytaj model"
 
 #: data/effects/avfilter/avfilter_despill.xml:4
 #, kde-format
@@ -2862,10 +2846,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Screen Capture"
+#, kde-format
 msgid "Screen type"
-msgstr "Nagrywanie ekranu"
+msgstr "Rodzaj ekranu"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
@@ -2966,10 +2949,9 @@ msgstr "Najpierw górne pole,Najpierw dolne pole"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:9
 #: data/effects/avfilter/avfilter_weave.xml:9
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First Field"
-msgstr "Pierwsza klatka"
+msgstr "Pierwsze pole"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:4
 #, fuzzy, kde-format
@@ -2984,10 +2966,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/frei0r/frei0r_c0rners.xml:8
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top-left X"
-msgstr "Górny, lewy"
+msgstr "Górny lewy X"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:9
 #, kde-format
@@ -2996,10 +2977,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top-left Y"
-msgstr "Górny, lewy"
+msgstr "Górny lewy Y"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:13
 #, kde-format
@@ -3007,10 +2987,9 @@ msgid "<![CDATA[Y coordinate of top-left corner]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width (px)"
-msgstr "Szerokość"
+msgstr "Szerokość (px)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:18
 #, kde-format
@@ -3020,10 +2999,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height (px)"
-msgstr "Wysokość"
+msgstr "Wysokość (px)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:23
 #, kde-format
@@ -3229,10 +3207,9 @@ msgid "Steps"
 msgstr "Rozmiar kroku"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
-#, fuzzy, kde-format
-#| msgid "X scale"
+#, kde-format
 msgid "EPX Scaler"
-msgstr "Skala X"
+msgstr "Skalowanie EPX"
 
 #: data/effects/avfilter/avfilter_epx.xml:5
 #, fuzzy, kde-format
@@ -3276,16 +3253,14 @@ msgid "Red Gamma"
 msgstr "Gamma"
 
 #: data/effects/avfilter/avfilter_eq.xml:23
-#, fuzzy, kde-format
-#| msgid "Green 2"
+#, kde-format
 msgid "Green Gamma"
-msgstr "Zielony 2"
+msgstr "Gamma zielonego"
 
 #: data/effects/avfilter/avfilter_eq.xml:26
-#, fuzzy, kde-format
-#| msgid "Gamma"
+#, kde-format
 msgid "Blue Gamma"
-msgstr "Gamma"
+msgstr "Gamma niebieskiego"
 
 #: data/effects/avfilter/avfilter_eq.xml:29
 #, kde-format
@@ -3303,10 +3278,9 @@ msgid "Apply two-pole peaking equalization (EQ) filter"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width Type"
-msgstr "Szerokość"
+msgstr "Rodzaj szerokości"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
 #, kde-format
@@ -3314,10 +3288,9 @@ msgid "Hertz,Q-Factor,Octave,Slope,None"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
-#, fuzzy, kde-format
-#| msgid "Border Width"
+#, kde-format
 msgid "Band Width"
-msgstr "Szerokość pasa"
+msgstr "Szerokość pasma"
 
 #: data/effects/avfilter/avfilter_erosion.xml:4
 #, fuzzy, kde-format
@@ -3343,10 +3316,9 @@ msgid "Adjust exposure of the video stream."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:4
-#, fuzzy, kde-format
-#| msgid "Extract to"
+#, kde-format
 msgid "Extrastereo"
-msgstr "Wypakuj do"
+msgstr "Extrastereo"
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:5
 #, kde-format
@@ -3492,10 +3464,9 @@ msgid "Luminance V plane"
 msgstr "Płaszczyzna V luminancji"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "init,frame"
-msgstr "Pierwsza klatka"
+msgstr "początkowy,klatka"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
 #, fuzzy, kde-format
@@ -3794,6 +3765,14 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands</b>.]]>"
 msgstr ""
+"<![CDATA[Szybko usuwa pasma z obrazu przy użyciu gradientów.<br>\n"
+"    Napraw zakłócenia w postaci pasm, które pojawiają się czasami na niemal "
+"płaskich obszarach i są spowodowane przycięciem 8-bitowej głębi barw.<br>\n"
+"    Interpoluje gradienty, które powinny pojawić się tam, gdzie znajdują się "
+"pasma i rozprasza je.<br>\n"
+"    <b>Stworzone tylko do odtwarzania. Nie używaj tego przed pakowaniem "
+"stratnym, bo pakowanie powoduje utratę rozpraszania, co przywraca pasma</"
+"b>.]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -3839,10 +3818,9 @@ msgid "Flags"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
-#, fuzzy, kde-format
-#| msgid "Video Resolution"
+#, kde-format
 msgid "Video Ratio"
-msgstr "Rozdzielczość obrazu"
+msgstr "Stosunek obrazu"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
@@ -3914,10 +3892,9 @@ msgid "Left phase"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_haas.xml:37
-#, fuzzy, kde-format
-#| msgid "Video delay"
+#, kde-format
 msgid "Right delay"
-msgstr "Opóźnienie filmu"
+msgstr "Opóźnienie po prawej"
 
 #: data/effects/avfilter/avfilter_haas.xml:40
 #, kde-format
@@ -3925,16 +3902,14 @@ msgid "Right balance"
 msgstr "Stosunek prawy"
 
 #: data/effects/avfilter/avfilter_haas.xml:43
-#, fuzzy, kde-format
-#| msgid "Right margin"
+#, kde-format
 msgid "Right Gain"
-msgstr "Prawy margines"
+msgstr "Wzmocnienie po prawej"
 
 #: data/effects/avfilter/avfilter_haas.xml:46
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Right phase"
-msgstr "Po prawej"
+msgstr "Faza po prawej"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
 #, kde-format
@@ -4157,16 +4132,14 @@ msgid "Luma Mode"
 msgstr "Tryb luminacji"
 
 #: data/effects/avfilter/avfilter_il.xml:13
-#, fuzzy, kde-format
-#| msgid "Chroma Hold"
+#, kde-format
 msgid "Chroma Mode"
-msgstr "Zatrzymanie chromy"
+msgstr "Tryb chromy"
 
 #: data/effects/avfilter/avfilter_il.xml:17
-#, fuzzy, kde-format
-#| msgid "Alpha trace"
+#, kde-format
 msgid "Alpha Mode"
-msgstr "Ślad alfa"
+msgstr "Tryb alfy"
 
 #: data/effects/avfilter/avfilter_il.xml:20
 #, kde-format
@@ -4196,28 +4169,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold0r"
+#, kde-format
 msgid "threshold0"
-msgstr "Threshold0r"
+msgstr "próg0"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold1"
-msgstr "Próg"
+msgstr "próg1"
 
 #: data/effects/avfilter/avfilter_inflate.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold2"
-msgstr "Próg"
+msgstr "próg2"
 
 #: data/effects/avfilter/avfilter_inflate.xml:17
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "threshold3"
-msgstr "Próg"
+msgstr "próg3"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
 #, kde-format
@@ -4238,10 +4207,9 @@ msgid "Paint in white pixels exceeding the threshold"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:14
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Swap fields"
-msgstr "Pokaż pola"
+msgstr "Zamień pola"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:17
 #, kde-format
@@ -4411,10 +4379,9 @@ msgid "Measured threshold of input file"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:29
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset gain"
-msgstr "Przesunięcie X"
+msgstr "Wzmocnienie odsunięcia"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:32
 #, kde-format
@@ -4554,10 +4521,9 @@ msgid "<![CDATA[Select which planes to process]]>"
 msgstr "<![CDATA[Zaznacz płaszczyzny do przetworzenia]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
-#, fuzzy, kde-format
-#| msgid "Make monochrome clip"
+#, kde-format
 msgid "Monochrome"
-msgstr "Uczyń wycinek monochromatycznym"
+msgstr "Monochromatyczny"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:5
 #, kde-format
@@ -4830,10 +4796,9 @@ msgstr "<![CDATA[Wysokość wyświetlacza]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Components"
-msgstr "Składniki:"
+msgstr "Składniki"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
@@ -4888,6 +4853,12 @@ msgid ""
 "field flags and transfer unknown or varying,Both capture and transfer "
 "unknown or varying"
 msgstr ""
+"Opóźnij dolne pole,Opóźnij górne pole,Zachowaj kolejność pól,Sam pobierz "
+"kolejność pól i prześlij odwrotnie,Pobierz nieznane lub zmieniające się i "
+"prześlij odwrotnie,Pobierz górne-pierwsze i prześlij nieznane lub "
+"zmieniające się,Pobierz dolne-pierwsze i prześlij nieznane lub zmieniające "
+"się,Pobierz określone przez flagi pól i i prześlij nieznane lub zmieniające "
+"się,Pobierz i prześlij nieznane lub zmieniające się"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, fuzzy, kde-format
@@ -4948,10 +4919,9 @@ msgid "Pixelize video"
 msgstr "Spikselizuj obraz"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
-#, fuzzy, kde-format
-#| msgid "Macroblock width"
+#, kde-format
 msgid "Block width"
-msgstr "Szerokość makrobloku"
+msgstr "Szerokość bloku"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
@@ -5336,10 +5306,9 @@ msgid "Blur the input video without impacting the outlines. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:8
-#, fuzzy, kde-format
-#| msgid "radius"
+#, kde-format
 msgid "Luma radius"
-msgstr "promień"
+msgstr "Promień lumy"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:10
 #, kde-format
@@ -5487,6 +5456,12 @@ msgid ""
 "http://www.sofacoustics.org/ for a database). SOFAlizer is developed at the "
 "Acoustics Research Institute (ARI) of the Austrian Academy of Sciences. "
 msgstr ""
+"SOFAlizer używa funkcji przesyłania na podstawie czoła (HRTF czyli head-"
+"related transfer functions) do utworzenia wirtualnych głośników wokół "
+"użytkownika do słuchania nagrań binaural przez słuchawki (obsługiwane są "
+"formaty dźwięku aż do 9 kanałów). HRTFy są przechowywane w plikach SOFA (na "
+"http://www.sofacoustics.org/ znajduje się baza danych). SOFAlizer jest "
+"rozwijany w Instytucie Badawczym Akustyki (ARI) Austriackiej Akademii Nauk."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
 #, fuzzy, kde-format
@@ -5534,10 +5509,9 @@ msgid "Use if option ‘type’ is set to freq."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "Interpolate"
-msgstr "Interpolator"
+msgstr "Interpolacja"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
 #, fuzzy, kde-format
@@ -5616,6 +5590,18 @@ msgid ""
 "first,checkerboard right eye first,interleaved columns left eye first,"
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
+"obok siebie równolegle,obok siebie na krzyż,powyżej-poniżej lewy górny,"
+"powyżej-poniżej prawy górny,przeplecione wiersze (lewy górny),przeplecione "
+"wiersze (prawy górny),anaglif czerwony/niebieski szary,anaglif czerwony/"
+"zielony szary,anaglif red/cyan gray,anaglif red/cyan half colored,anaglif "
+"czerwony/cyjan barwa,anaglif czerwony/cyjan dubois,anaglif zielony/magenta "
+"szary,anaglif zielony/magenta na wpół zabarwiony,anaglif zielony/magenta "
+"zabarwiony,anaglif zielony/magenta dubois,anaglif żółty/niebieski szary,"
+"anaglif żółty/niebieski na wpół zabarwiony,anaglif żółty/niebieski "
+"zabarwiony,anaglif żółty/niebieski dubois,wyjście mono po lewej,wyjście mono "
+"po prawej,szachownica lewe oko pierwsze,szachownica prawe oko pierwsze,"
+"przeplatane kolumny lewe oko pierwsze,przeplatane kolumny prawe oko "
+"pierwsze, paczka klatek HDMI"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
 #, kde-format
@@ -5695,10 +5681,9 @@ msgid "Mute Left"
 msgstr "Na środku, w lewo"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:33
-#, fuzzy, kde-format
-#| msgid "Center Right"
+#, kde-format
 msgid "Mute Right"
-msgstr "Na środku, w prawo"
+msgstr "Wycisz po prawej"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:36
 #, fuzzy, kde-format
@@ -5712,10 +5697,9 @@ msgid "Change the phase of the left channel."
 msgstr "Zmień fazę lewego kanału."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:40
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Phase Right"
-msgstr "Po prawej"
+msgstr "Faza po prawej"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:41
 #, kde-format
@@ -5732,16 +5716,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
-#, fuzzy, kde-format
-#| msgid "Stereo depth"
+#, kde-format
 msgid "Stereo Mode"
-msgstr "Głębia Stereo"
+msgstr "Tryb stereo"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Side Level"
-msgstr "Poziomy mikrofonu"
+msgstr "Poziom boku"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:49
 #, kde-format
@@ -5785,10 +5767,9 @@ msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo base"
-msgstr "Stereo "
+msgstr "Podstawa stereo"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:65
 #, kde-format
@@ -5932,10 +5913,9 @@ msgid "None,Portrait,Landscape"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_transpose.xml:13
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "Override if"
-msgstr "Zastąp"
+msgstr "Zastąp jeśli"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:5
 #, kde-format
@@ -6146,8 +6126,7 @@ msgid "Auto,601,709"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
-#, fuzzy, kde-format
-#| msgid "Colorspace"
+#, kde-format
 msgid "Colorspace"
 msgstr "Przestrzeń barw"
 
@@ -6194,10 +6173,9 @@ msgid "Red luma"
 msgstr "Zachowaj lumę"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
-#, fuzzy, kde-format
-#| msgid "Keep luma"
+#, kde-format
 msgid "Green luma"
-msgstr "Zachowaj lumę"
+msgstr "Luma zielonego"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
 #, fuzzy, kde-format
@@ -7874,16 +7852,14 @@ msgid "Four corners geometry engine"
 msgstr "Silnik geometrii czterech narożników"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Top-right X"
-msgstr "Górny prawy"
+msgstr "Górny prawy X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:17
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Top-right Y"
-msgstr "Górny prawy"
+msgstr "Górny prawy Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:20
 #, kde-format
@@ -7981,10 +7957,9 @@ msgid "Pattern"
 msgstr "Wzorce"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:12
-#, fuzzy, kde-format
-#| msgid "1st Color"
+#, kde-format
 msgid "Start Color"
-msgstr "1. barwa"
+msgstr "Barwa początkowa"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:15
 #, kde-format
@@ -7998,10 +7973,9 @@ msgid "End Color"
 msgstr "2. barwa"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:21
-#, fuzzy, kde-format
-#| msgid "Opacity"
+#, kde-format
 msgid "End Opacity"
-msgstr "Nieprzezroczystość"
+msgstr "Nieprzezroczystość na końcu"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:24
 #, fuzzy, kde-format
@@ -8049,16 +8023,14 @@ msgstr ""
 "światło,Różnica,Wykluczenie,Odcień HSL,Nasycenie HSL,Barwa HSL,Luminancja HSL"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:40
-#, fuzzy, kde-format
-#| msgid "Blend mode"
+#, kde-format
 msgid "Blend Mode"
-msgstr "Tryb mieszania"
+msgstr "Tryb przenikania"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:4
-#, fuzzy, kde-format
-#| msgid "Video grid"
+#, kde-format
 msgid "Video grid"
-msgstr "Siatka filmów"
+msgstr "Siatka obrazów"
 
 #: data/effects/frei0r/frei0r_cairoimagegrid.xml:5
 #, kde-format
@@ -8219,10 +8191,9 @@ msgid "Colorize"
 msgstr "Zabarwienie"
 
 #: data/effects/frei0r/frei0r_colorize.xml:6
-#, fuzzy, kde-format
-#| msgid "Colorizes image to selected hue, saturation and lightness"
+#, kde-format
 msgid "Colorizes image to selected hue, saturation and lightness"
-msgstr "Zabarwia obraz na wybrany odcień, nasycenie oraz jasność"
+msgstr "Zabarwia obraz wg wybranego odcienia, nasycenia oraz światłości"
 
 #: data/effects/frei0r/frei0r_colorize.xml:9
 #: data/effects/frei0r/frei0r_hueshift0r.xml:8
@@ -8247,7 +8218,7 @@ msgstr "Ilość koloru w zabarwionym obrazie."
 #: data/effects/frei0r/frei0r_colorize.xml:18
 #, kde-format
 msgid "Lightness of the colorized image."
-msgstr "Jasność barwionego obrazu."
+msgstr "Światłość barwionego obrazu."
 
 #: data/effects/frei0r/frei0r_colortap.xml:4
 #, kde-format
@@ -8494,10 +8465,9 @@ msgid "Square,PAL DV,NTSC DV,HDV,Manual"
 msgstr "Kwadrat,PAL DV,NTSC DV,HDV,Ręcznie"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:39
-#, fuzzy, kde-format
-#| msgid "Aspect type"
+#, kde-format
 msgid "Aspect type"
-msgstr "Współczynnik kształtu:"
+msgstr "Rodzaj współczynnika kształtu"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:42
 #, fuzzy, kde-format
@@ -8512,10 +8482,9 @@ msgid "delay0r"
 msgstr "delay0r"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Video delay"
+#, kde-format
 msgid "Video delay"
-msgstr "Opóźnienie filmu"
+msgstr "Opóźnienie obrazu"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:8
 #, fuzzy, kde-format
@@ -8648,18 +8617,17 @@ msgstr "Kąt kierunku światła."
 #: data/effects/frei0r/frei0r_emboss.xml:13
 #, kde-format
 msgid "Background lightness"
-msgstr "Jasność tła"
+msgstr "Światłość tła"
 
 #: data/effects/frei0r/frei0r_emboss.xml:14
 #, kde-format
 msgid "Background lightness (0 to 90)."
-msgstr "Jasność tła (od 0 do 90)."
+msgstr "Światłość tła (od 0 do 90)."
 
 #: data/effects/frei0r/frei0r_emboss.xml:17
-#, fuzzy, kde-format
-#| msgid "Bump height"
+#, kde-format
 msgid "Bump height"
-msgstr "Wysokość wypukłości"
+msgstr "Podbij wysokość"
 
 #: data/effects/frei0r/frei0r_emboss.xml:18
 #, fuzzy, kde-format
@@ -8788,8 +8756,7 @@ msgid "Draw a blue ellipse around the face area?"
 msgstr "Czy narysować niebieską elipsę wokół obszaru twarzy?"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:4
-#, fuzzy, kde-format
-#| msgid "Face detect"
+#, kde-format
 msgid "Face detect"
 msgstr "Wykrywanie twarzy"
 
@@ -8805,8 +8772,7 @@ msgid "circle,ellipse,rectangle,random"
 msgstr "okrąg,elipsa,prostokąt,losowo"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:28
-#, fuzzy, kde-format
-#| msgid "Stroke width"
+#, kde-format
 msgid "Stroke width"
 msgstr "Szerokość kreski"
 
@@ -9305,8 +9271,7 @@ msgid "None, De-Key, Target, Desaturate, Luma adjust"
 msgstr "Brak, De-Klucz, Cel, Zmniejszenie nasycenia, Dostosowanie Lumy"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
-#, fuzzy, kde-format
-#| msgid "Operation 1"
+#, kde-format
 msgid "Operation 1"
 msgstr "Działanie 1"
 
@@ -9317,8 +9282,7 @@ msgid "Amount 1"
 msgstr "Ilość 1"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:38
-#, fuzzy, kde-format
-#| msgid "Operation 2"
+#, kde-format
 msgid "Operation 2"
 msgstr "Działanie 2"
 
@@ -9480,15 +9444,7 @@ msgstr "Próg jasności"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:13
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:85
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order "
-#| "to be recognized as a light source?<br/>\n"
-#| "            Increasing this threshold requires brighter light sources (i."
-#| "e. more white or less color, respectively) but prevents some «false "
-#| "alarms» where semi-bright parts, e.g. hands where colors can change quite "
-#| "a lot compared to the background, are incorrectly recognized as light "
-#| "source.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order to "
 "be recognized as a light source?<br/>\n"
@@ -9497,13 +9453,12 @@ msgid ""
 "where semi-bright parts, e.g. hands where colors can change quite a lot "
 "compared to the background, are incorrectly recognized as light source.]]>"
 msgstr ""
-"<![CDATA[How bright (<code>R+G+B</code>) czy piksel musi być ustawiony w "
-"pewnym porządku, aby być rozpoznany jako źródło światła?<br/>\n"
-"            Zwiększenie wartości tego progu wymaga od źródeł światła, żeby "
-"były jaśniejsze (tj. odpowiednio bardziej białe, lub mniej barwne), lecz "
-"powodje niewrażliwość na niektóre «fałszywe alarmy» gdy na wpół jasne "
-"zakresy, np. ręce, których barwa może zmieniać się często względem tła, są "
-"niepoprawnie rozpoznawane jako źródła światła.]]>"
+"<![CDATA[Jak jasny (<code>R+G+B</code>) musi być piksel, aby został uznany "
+"za źródło światła?<br/>\n"
+"            Zwiększenie tego progu wymaga jaśniejszych źródeł światła (tj. "
+"więcej białego lub mniej barwy) lecz zapobiega pewnym «fałszywym alarmom», "
+"gdzie na wpół jasne części, np. ręce, na których barwa może zmienić się "
+"znacznie w porównaniu do tła są uznawane jako źródła światła.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:16
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:88
@@ -9513,14 +9468,7 @@ msgstr "Próg różnicy"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:18
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:90
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[How much does the strongest color channel of a pixel have to "
-#| "change, compared to the background image (<code>max(dR, dG, dB)</code>), "
-#| "in order to be recognized as light source? <br/>\n"
-#| "            Increasing this threshold makes it harder for light sources "
-#| "to be accepted on bright backgrounds, but decreases the danger of noise "
-#| "or generally bright spots counting as light source.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[How much does the strongest color channel of a pixel have to "
 "change, compared to the background image (<code>max(dR, dG, dB)</code>), in "
@@ -9529,12 +9477,12 @@ msgid ""
 "be accepted on bright backgrounds, but decreases the danger of noise or "
 "generally bright spots counting as light source.]]>"
 msgstr ""
-"<![CDATA[Jak bardzo najsilniejszy kanał barwy musi się zmienić względem "
-"obrazu tła. (<code>max(dR, dG, dB)</code>), aby zostać rozpoznanym jako "
+"<![CDATA[Jak dużo kanał najsilniejszej barwy piksela musi ulec zmianie, "
+"względem obrazu tła (<code>max(dR, dG, dB)</code>), aby został uznany za "
 "źródło światła? <br/>\n"
-"            Zwiększenie wartości tego progu, czyni trudnym rozpoznanie "
-"źródeł światła na jasnych tłach, lecz zmniejsza zagrożenie szumu lub ogólnie "
-"jasnych miejsc zaliczanych jako źródło światła.]]>"
+"            Zwiększenie tego progu utrudnia źródłom światła bycie uznanym za "
+"takie na jasnych tłach, lecz zmniejsza także zagrożenie szumem lub uznania "
+"ogólnie jasnych punktów za źródła światła.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:21
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:93
@@ -9567,8 +9515,7 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:26
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:98
-#, fuzzy, kde-format
-#| msgid "Sensitivity"
+#, kde-format
 msgid "Sensitivity"
 msgstr "Czułość"
 
@@ -9702,14 +9649,7 @@ msgstr "Pokaż statystyki jasności"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:55
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:127
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[The stats switches allow easy and accurate adjustment of the "
-#| "threshold parameters.<br/>\n"
-#| "            Example: To adjust the brightness threshold, check this box "
-#| "and adjust the threshold until the whole light source is highlighted. "
-#| "Repeat the same with the other parameters. Only parts that are "
-#| "highlighted in <em>all</em> thresholds will count as light source.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[The stats switches allow easy and accurate adjustment of the "
 "threshold parameters.<br/>\n"
@@ -9719,11 +9659,11 @@ msgid ""
 "em> thresholds will count as light source.]]>"
 msgstr ""
 "<![CDATA[Przełączniki statystyk umożliwiają łatwe i dokładne dostosowanie "
-"wartości progów.<br/>\n"
+"parametrów progów.<br/>\n"
 "            Przykład: Aby dostosować próg jasności, zaznacz to pole i "
-"dopasuj próg do chwili podświetlenia źródła światła w całości. Czynność tę "
-"powtórz z innymi wartościami. Do źródeł światła zostaną zaliczone zakresy, "
-"które zostaną podświetlone we <em>wszystkich</em> progach.]]>"
+"dostosuj próg, aż do chwili podświetlenia całego źródła światła. Powtórz to "
+"samo z pozostałymi parametrami. Tylko części, które są podświetlone we "
+"<em>wszystkich</em> progach zostaną uznane za źródła światła.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:58
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:130
@@ -9777,14 +9717,7 @@ msgstr "Wyzeruj"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:73
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "Resets the light mask and the background image. This is necessary e.g. if "
-#| "you apply this effect to a clip in the timeline and then move the "
-#| "timeline cursor from outside of the clip to the middle of it. The effect "
-#| "receives this frame in the middle as first frame and uses it as "
-#| "background image. For proper threshold adjusting move the timeline cursor "
-#| "to the beginning of the clip, check the Reset box and uncheck it again."
+#, kde-format
 msgid ""
 "Resets the light mask and the background image. This is necessary e.g. if "
 "you apply this effect to a clip in the timeline and then move the timeline "
@@ -9793,12 +9726,12 @@ msgid ""
 "proper threshold adjusting move the timeline cursor to the beginning of the "
 "clip, check the Reset box and uncheck it again."
 msgstr ""
-"Zeruje maskę światła i obraz tła. Jest to niezbędne, np. gdy stosujesz ten "
-"efekt na wycinku leżącym na osi czasu, a następnie przesuniesz wskaźnik osi "
-"czasu spoza wycinka na jego środek. Efekt ten ustawia klatkę ze środka jako "
-"pierwszą klatkę i używa jej jako obrazu tła. Dla poprawnego dostosowania "
-"progu, przesuń wskaźnik osi czasu na początek wycinka, zaznacz pole Zeruj, a "
-"następnie je odznacz."
+"Czyści maskę światła i obraz w tle. Jest to potrzebne gdy np. nałożysz ten "
+"efekt na wycinek na osi czasu, a następnie przesuniesz kursor osi czasu "
+"spoza wycinka do jego środka. Efekt przyjmuję tę klatkę w środku jako swoją "
+"pierwszą i używa jej jako obrazu w tle. Aby właściwe dostosować próg, "
+"przesuń kursor osi czasu na początek wycinka, zaznacz pole Czyszczenia i "
+"ponownie je odznacz."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:80
 #, fuzzy, kde-format
@@ -9995,10 +9928,9 @@ msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:9
-#, fuzzy, kde-format
-#| msgid "Measurement Window"
+#, kde-format
 msgid "Measurement"
-msgstr "Okno pomiaru"
+msgstr "Pomiar"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:81
@@ -10008,14 +9940,12 @@ msgid "256 scale"
 msgstr "Skala 256"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:27
-#, fuzzy, kde-format
-#| msgid "Show alpha"
+#, kde-format
 msgid "Show alpha"
 msgstr "Pokaż alfę"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:30
-#, fuzzy, kde-format
-#| msgid "Big window"
+#, kde-format
 msgid "Big window"
 msgstr "Duże okno"
 
@@ -10150,10 +10080,9 @@ msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
 msgstr "<![CDATA[Pokaż ślad Pb (różnica niebieskiego) na wyświetlaczu]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:61
-#, fuzzy, kde-format
-#| msgid "Alpha trace"
+#, kde-format
 msgid "Alpha trace"
-msgstr "Ślad alfa"
+msgstr "Ślad alfy"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:62
 #, kde-format
@@ -10334,9 +10263,7 @@ msgid "Horizontal split distance"
 msgstr "Odległość podziału w poziomie"
 
 #: data/effects/frei0r/frei0r_saturat0r.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Saturation Effect Name"
-#| msgid "Saturation"
+#, kde-format
 msgctxt "Saturation Effect Name"
 msgid "Saturation"
 msgstr "Nasycenie"
@@ -10612,8 +10539,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_softglow.xml:22
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
 #: data/transitions/frei0r/frei0r_cairoblend.xml:12
-#, fuzzy, kde-format
-#| msgid "Blend mode"
+#, kde-format
 msgid "Blend mode"
 msgstr "Tryb mieszania"
 
@@ -10887,10 +10813,9 @@ msgid "Map black to"
 msgstr "Mapuj czarny do"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Map hint"
+#, kde-format
 msgid "Map white to"
-msgstr "Wskazówki na mapie"
+msgstr "Zmapuj biały do"
 
 #: data/effects/frei0r/frei0r_tint0r.xml:14
 #, fuzzy, kde-format
@@ -10899,11 +10824,10 @@ msgid "Tint amount"
 msgstr "Ilość zabarwienia"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgctxt "Transparency"
 msgid "Transparency"
-msgstr "Przezroczystość:"
+msgstr "Przezroczystość"
 
 #: data/effects/frei0r/frei0r_transparency.xml:5
 #, kde-format
@@ -10973,8 +10897,7 @@ msgid "Natural lens vignetting effect"
 msgstr "Efekt winietowania naturalną soczewką"
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
-#, fuzzy, kde-format
-#| msgid "Aspect ratio"
+#, kde-format
 msgid "Aspect ratio"
 msgstr "Współczynnik kształtu"
 
@@ -11936,8 +11859,7 @@ msgid "Spread"
 msgstr "Rozpiętość"
 
 #: data/effects/ladspa/ladspa_pitch.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Shift"
+#, kde-format
 msgid "Pitch Shift"
 msgstr "Przesunięcie tonu"
 
@@ -11954,8 +11876,7 @@ msgid "Shift"
 msgstr "Przesunięcie"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Scale"
+#, kde-format
 msgid "Pitch Scaler"
 msgstr "Skalowanie tonu"
 
@@ -11971,10 +11892,9 @@ msgid "Co-efficient"
 msgstr "Współczynnik"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:4
-#, fuzzy, kde-format
-#| msgid "Rate Scaler"
+#, kde-format
 msgid "Rate Scaler"
-msgstr "Skalowanie próbkowania"
+msgstr "Skalowanie szybkości"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:5
 #, kde-format
@@ -12001,8 +11921,7 @@ msgid "LADSPA reverb audio effect"
 msgstr "Efekt dźwiękowy pogłosu LADSPA"
 
 #: data/effects/ladspa/ladspa_reverb.xml:8
-#, fuzzy, kde-format
-#| msgid "Reverb time"
+#, kde-format
 msgid "Reverb time"
 msgstr "Czas pogłosu"
 
@@ -13140,8 +13059,7 @@ msgid "Time window (ms)"
 msgstr "Okno czasowe (ms)"
 
 #: data/effects/sox/sox_reverb.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Reverb"
+#, kde-format
 msgid "Sox Reverb"
 msgstr "Pogłos Sox"
 
@@ -13151,8 +13069,7 @@ msgid "Sox reverb audio effect"
 msgstr "Efekt dźwiękowy pogłosu Sox"
 
 #: data/effects/sox/sox_reverb.xml:8
-#, fuzzy, kde-format
-#| msgid "Reverberance"
+#, kde-format
 msgid "Reverberance"
 msgstr "Pogłos"
 
@@ -13162,16 +13079,14 @@ msgid "High frequency damping"
 msgstr "Tłumienie wysokich częstotliwości"
 
 #: data/effects/sox/sox_reverb.xml:14
-#, fuzzy, kde-format
-#| msgid "Room scale"
+#, kde-format
 msgid "Room scale"
 msgstr "Skala pokoju"
 
 #: data/effects/sox/sox_reverb.xml:17
-#, fuzzy, kde-format
-#| msgid "Stereo depth"
+#, kde-format
 msgid "Stereo depth"
-msgstr "Głębia Stereo"
+msgstr "Głębokość stereo"
 
 #: data/effects/sox/sox_reverb.xml:20
 #, fuzzy, kde-format
@@ -13186,8 +13101,7 @@ msgid "Wet gain"
 msgstr "Wzmocnienie mokrego dźwięku"
 
 #: data/effects/sox/sox_stretch.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox Stretch"
+#, kde-format
 msgid "Sox Stretch"
 msgstr "Rozciągnięcie Sox"
 
@@ -13899,7 +13813,7 @@ msgstr "Narzędzia"
 #: data/kdenliveeffectscategory.rc:91
 #, kde-format
 msgid "Stereo and Binaural Images"
-msgstr "Obrazy stereo oraz dwuuszne"
+msgstr "Obrazy stereo oraz binaural"
 
 #: data/kdenliveeffectscategory.rc:94
 #, kde-format
@@ -14235,10 +14149,9 @@ msgstr ""
 "użytkownika tryb nieprzezroczystości i przenikania."
 
 #: data/transitions/frei0r/frei0r_color_only.xml:4
-#, fuzzy, kde-format
-#| msgid "Color key"
+#, kde-format
 msgid "Color Only"
-msgstr "Barwa kluczowania"
+msgstr "Tylko barwa"
 
 #: data/transitions/frei0r/frei0r_color_only.xml:5
 #, kde-format
@@ -14307,10 +14220,9 @@ msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
-#, fuzzy, kde-format
-#| msgid "Grain over the image"
+#, kde-format
 msgid "Grain Merge"
-msgstr "Wzmocnienie obrazu"
+msgstr "Scalenie ziarnowe"
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:5
 #, kde-format
@@ -14404,10 +14316,9 @@ msgid "Push from right to left."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_push-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Right"
+#, kde-format
 msgid "Push Right"
-msgstr "Po prawej"
+msgstr "Pchnięcie od prawej"
 
 #: data/transitions/frei0r/frei0r_push-right.xml:5
 #, kde-format
@@ -14446,10 +14357,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Slideshow"
+#, kde-format
 msgid "Slide Down"
-msgstr "Pokaz obrazów"
+msgstr "Wślizg w dół"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:5
 #, kde-format
@@ -14465,10 +14375,9 @@ msgid "Slide position"
 msgstr "Położenie slajdu"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:4
-#, fuzzy, kde-format
-#| msgid " Slide "
+#, kde-format
 msgid "Slide Left"
-msgstr " Wślizg "
+msgstr "Wślizg w lewo"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:5
 #, kde-format
@@ -14487,10 +14396,9 @@ msgid "Slide from bottom to top."
 msgstr "Wślizg z dołu do góry."
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:4
-#, fuzzy, kde-format
-#| msgid " Slide "
+#, kde-format
 msgid "Slide Right"
-msgstr " Wślizg "
+msgstr "Wślizg od prawej"
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:5
 #, kde-format
@@ -14571,10 +14479,9 @@ msgid "Vertical barn door wipe."
 msgstr "Przetarcie w pionie jak drzwiami stodoły."
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:4
-#, fuzzy, kde-format
-#| msgid "Circle"
+#, kde-format
 msgid "Circle Wipe"
-msgstr "Okrąg"
+msgstr "Przetarcie po okręgu"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:5
 #, kde-format
@@ -14582,10 +14489,9 @@ msgid "Wipe from center to edge in a circle."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
-#, fuzzy, kde-format
-#| msgid "File size"
+#, kde-format
 msgid "Circle size"
-msgstr "Rozmiar pliku"
+msgstr "Rozmiar okręgu"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
 #, fuzzy, kde-format
@@ -14633,10 +14539,9 @@ msgid "Rectangle size"
 msgstr "Rozmiar prostokąta"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Right"
+#, kde-format
 msgid "Wipe Right"
-msgstr "Prawy górny"
+msgstr "Przetarcie w prawo"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
@@ -17266,7 +17171,7 @@ msgstr "Liczba w szeregu"
 msgid "Timeline sequence"
 msgstr "Odcinek na osi czasu"
 
-#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1148
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1152
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -29815,7 +29720,7 @@ msgstr "Wstrzymano"
 msgid "Mic level"
 msgstr "Poziomy mikrofonu"
 
-#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:944
+#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Położenie: %4, Czas trwania: %5"
@@ -29847,12 +29752,12 @@ msgstr "-%1, Czas trwania połączenia: %2"
 msgid "Mix duration: %1"
 msgstr "Czas trwania połączenia: %1"
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:837
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Wejście:%1, Położenie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:836 src/timeline2/view/qml/Clip.qml:934
+#: src/timeline2/view/qml/Clip.qml:840 src/timeline2/view/qml/Clip.qml:938
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -29861,54 +29766,54 @@ msgstr ""
 "<b>Ctrl+przeciągnięcie</b>, aby zmienić szybkość, <b>Kliknij dwukrotnie</b>, "
 "aby wymieszać z sąsiednim wycinkiem"
 
-#: src/timeline2/view/qml/Clip.qml:838
+#: src/timeline2/view/qml/Clip.qml:842
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Przeciągnij</b>, aby zmienić czas trwania złożenia"
 
-#: src/timeline2/view/qml/Clip.qml:931
+#: src/timeline2/view/qml/Clip.qml:935
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Wyjście:%1, Położenie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Przesunięcie: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: %1"
 msgstr "Przesuniecie: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1057
+#: src/timeline2/view/qml/Clip.qml:1061
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Naciśnij</b>, aby wyrównać wycinki"
 
-#: src/timeline2/view/qml/Clip.qml:1300 src/timeline2/view/qml/Clip.qml:1337
+#: src/timeline2/view/qml/Clip.qml:1304 src/timeline2/view/qml/Clip.qml:1341
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Kliknij</b>, aby dodać złożenie"
 
-#: src/timeline2/view/qml/Clip.qml:1414 src/timeline2/view/qml/Clip.qml:1421
+#: src/timeline2/view/qml/Clip.qml:1418 src/timeline2/view/qml/Clip.qml:1425
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Zanikanie: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1425 src/timeline2/view/qml/Clip.qml:1532
+#: src/timeline2/view/qml/Clip.qml:1429 src/timeline2/view/qml/Clip.qml:1536
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Przeciągnij</b>, aby dostosować zanikanie, <b>Kliknij</b>, aby dodać czas "
 "trwania zanikania/wyłaniania"
 
-#: src/timeline2/view/qml/Clip.qml:1521 src/timeline2/view/qml/Clip.qml:1528
+#: src/timeline2/view/qml/Clip.qml:1525 src/timeline2/view/qml/Clip.qml:1532
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Wyłanianie: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1616
+#: src/timeline2/view/qml/Clip.qml:1620
 #, kde-format
 msgid "Slip Clip"
 msgstr "Nałóż wycinek"

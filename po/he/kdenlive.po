@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-12 00:40+0000\n"
-"PO-Revision-Date: 2025-04-03 21:29+0300\n"
+"POT-Creation-Date: 2025-04-13 00:40+0000\n"
+"PO-Revision-Date: 2025-04-12 11:58+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -665,7 +665,7 @@ msgstr "ניגוד"
 #: data/effects/avfilter/avfilter_acrusher.xml:4
 #, kde-format
 msgid "Crusher"
-msgstr ""
+msgstr "מרסק"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:5
 #, fuzzy, kde-format
@@ -879,7 +879,7 @@ msgstr "נרמול"
 #: data/effects/avfilter/avfilter_lowshelf.xml:21
 #, kde-format
 msgid "1,2"
-msgstr ""
+msgstr "1,2"
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
 #, fuzzy, kde-format
@@ -897,7 +897,7 @@ msgstr "מסגרת"
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
 #, kde-format
 msgid "di,dii,tdii,latt"
-msgstr ""
+msgstr "di,dii,tdii,latt"
 
 #: data/effects/avfilter/avfilter_allpass.xml:29
 #: data/effects/avfilter/avfilter_bandpass.xml:28
@@ -922,7 +922,7 @@ msgstr "התמרה"
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
 #, kde-format
 msgid "Auto,s16,s32,f32,f64"
-msgstr ""
+msgstr "אוטו׳,s16,s32,f32,f64"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -976,7 +976,7 @@ msgstr "רצועת שמע"
 #: data/effects/avfilter/avfilter_apulsator.xml:14
 #, kde-format
 msgid "sine,triangle,square,sawup,sawdown"
-msgstr ""
+msgstr "סינוס,משולש,ריבוע,שינון מעלה,שינון מטה"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:18
 #, fuzzy, kde-format
@@ -1005,7 +1005,7 @@ msgstr "רוחב מתאר"
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
 msgid "bpm,ms,Hz"
-msgstr ""
+msgstr "פעימות בדקה,מ״ש,הרץ"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, kde-format
@@ -1032,7 +1032,7 @@ msgstr "תדר"
 #: data/effects/avfilter/avfilter_apulsator.xml:41
 #, kde-format
 msgid "Only used if timing is set to hz."
-msgstr ""
+msgstr "בשימוש רק עם התזמון מוגדר להרץ."
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
@@ -16761,7 +16761,7 @@ msgstr "כמות רצפים"
 msgid "Timeline sequence"
 msgstr "רצף ציר הזמן"
 
-#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1148
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1152
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -29142,7 +29142,7 @@ msgstr "מושהה"
 msgid "Mic level"
 msgstr "רמת מיקרופון"
 
-#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:944
+#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), מקום: %4, משך: %5"
@@ -29174,12 +29174,12 @@ msgstr "‎-%1, משך ערבוב: %2"
 msgid "Mix duration: %1"
 msgstr "‫משך ערבוב: %1"
 
-#: src/timeline2/view/qml/Clip.qml:833
+#: src/timeline2/view/qml/Clip.qml:837
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "כניסה:%1, מקום:%2"
 
-#: src/timeline2/view/qml/Clip.qml:836 src/timeline2/view/qml/Clip.qml:934
+#: src/timeline2/view/qml/Clip.qml:840 src/timeline2/view/qml/Clip.qml:938
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -29188,54 +29188,54 @@ msgstr ""
 "<b>Ctrl וגרירה</b> כדי לשנות מהירות, <b>לחיצה כפולה</b> כדי לערבב עם סרטונים "
 "סמוכים"
 
-#: src/timeline2/view/qml/Clip.qml:838
+#: src/timeline2/view/qml/Clip.qml:842
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "יש <b>לגרור</b> כדי לשנות את משך הערבוב"
 
-#: src/timeline2/view/qml/Clip.qml:931
+#: src/timeline2/view/qml/Clip.qml:935
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "יציאה:%1, מקום:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: -%1"
 msgstr "היסט: ‎-%1"
 
-#: src/timeline2/view/qml/Clip.qml:1056
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: %1"
 msgstr "היסט: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1057
+#: src/timeline2/view/qml/Clip.qml:1061
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>לחיצה</b> תיישר את הסרטונים"
 
-#: src/timeline2/view/qml/Clip.qml:1300 src/timeline2/view/qml/Clip.qml:1337
+#: src/timeline2/view/qml/Clip.qml:1304 src/timeline2/view/qml/Clip.qml:1341
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "יש <b>ללחוץ</b> כדי להוסיף תרכובת"
 
-#: src/timeline2/view/qml/Clip.qml:1414 src/timeline2/view/qml/Clip.qml:1421
+#: src/timeline2/view/qml/Clip.qml:1418 src/timeline2/view/qml/Clip.qml:1425
 #, kde-format
 msgid "Fade out: %1"
 msgstr "יציאה מעומעמת: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1425 src/timeline2/view/qml/Clip.qml:1532
+#: src/timeline2/view/qml/Clip.qml:1429 src/timeline2/view/qml/Clip.qml:1536
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "יש <b>לגרור</b> כדי לשנות את העמעום, או <b>ללחוץ</b> כדי להוסיף את משך "
 "העמעום כברירת המחדל"
 
-#: src/timeline2/view/qml/Clip.qml:1521 src/timeline2/view/qml/Clip.qml:1528
+#: src/timeline2/view/qml/Clip.qml:1525 src/timeline2/view/qml/Clip.qml:1532
 #, kde-format
 msgid "Fade in: %1"
 msgstr "כניסה מעומעמת: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1616
+#: src/timeline2/view/qml/Clip.qml:1620
 #, kde-format
 msgid "Slip Clip"
 msgstr "החלקת קטע"
