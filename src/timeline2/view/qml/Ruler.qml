@@ -204,7 +204,7 @@ Item {
                         drag.smoothed: false
                         onDoubleClicked: timeline.editGuide(model.frame)
                         onClicked: mouse => {
-                            if (root.activeTool !== Kdenlive.ToolType.SlipTool) {
+                            if (root.activeTool !== K.ToolType.SlipTool) {
                                 proxy.position = model.frame
                             }
                             if (mouse.button == Qt.RightButton) {
