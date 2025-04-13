@@ -1049,10 +1049,13 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         return requestClipMix(mixId, mInfo.clips, mInfo.durations, mInfo.selectedTrack, mInfo.mixPosition, true, true, true, undo, redo, false);
     };
 
+    int foundClips = 0;
+    int inactiveTracks = 0;
     for (int s : clipIds) {
         if (!isClip(s)) {
             continue;
         }
+        foundClips++;
         mixStructure mixInfo;
         mixInfo.clipId = s;
         mixInfo.clips = {-1, -1};
@@ -1061,6 +1064,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         mixInfo.mixPosition = 0;
         mixInfo.selectedTrack = getClipTrackId(s);
         if (mixInfo.selectedTrack == -1 || !isTrack(mixInfo.selectedTrack) || !getTrackById_const(mixInfo.selectedTrack)->shouldReceiveTimelineOp()) {
+            inactiveTracks++;
             continue;
         }
         mixInfo.mixPosition = getItemPosition(s);
@@ -1192,7 +1196,11 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         if (noSpaceInClip > 0) {
             pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", noSpaceInClip == 1 ? i18n("start") : i18n("end")), ErrorMessage, 500);
         } else {
-            pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
+            if (foundClips > 0 && inactiveTracks == foundClips) {
+                pCore->displayMessage(i18n("No active track"), ErrorMessage, 500);
+            } else {
+                pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
+            }
         }
         return false;
     }
