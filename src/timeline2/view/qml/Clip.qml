@@ -648,8 +648,7 @@ Rectangle {
                         color: markerBase.markerColor
                         radius: 2
                         opacity: 0.7
-                        visible: timeline.showmarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
-
+                        visible: timeline.showMarkers && root.maxLabelWidth > root.baseUnit && height < container.height && (markerBase.x > mlabel.width || container.height > 2 * height)
                         anchors {
                             top: parent.top
                             left: parent.left
