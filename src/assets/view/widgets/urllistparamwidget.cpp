@@ -230,9 +230,9 @@ void UrlListParamWidget::slotRefresh()
         m_listType = LUTLIST;
         // check for Kdenlive installed luts files
         QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-        const QString path = KRecentDirs::dir(QStringLiteral(":KdenliveUrlLutParamFolder"));
-        if (!path.isEmpty()) {
-            customLuts << path;
+        const QString lastUsedPath = KRecentDirs::dir(QStringLiteral(":KdenliveUrlLutParamFolder"));
+        if (!lastUsedPath.isEmpty()) {
+            customLuts << lastUsedPath;
         }
         customLuts.removeDuplicates();
         for (const QString &folderpath : std::as_const(customLuts)) {
@@ -240,7 +240,8 @@ void UrlListParamWidget::slotRefresh()
             if (!dir.exists()) {
                 continue;
             }
-            QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
+            QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files,
+                            folderpath == lastUsedPath ? QDirIterator::NoIteratorFlags : QDirIterator::Subdirectories);
             while (it.hasNext()) {
                 const QString path = it.next();
                 listValues.insert(QFileInfo(path).baseName(), path);
