@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-13 02:28+0000\n"
-"PO-Revision-Date: 2025-03-30 14:43+0200\n"
+"POT-Creation-Date: 2025-04-14 02:32+0000\n"
+"PO-Revision-Date: 2025-04-10 18:41+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -4871,7 +4871,7 @@ msgstr "Disegna griglia nel visore"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
 #, kde-format
 msgid "<![CDATA[Switch grid on or off]]>"
-msgstr "<![CDATAAttiva o disattiva la griglia]]>"
+msgstr "<![CDATA[Attiva o disattiva la griglia]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
@@ -4983,7 +4983,7 @@ msgstr "Larghezza del blocco"
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block height"
-msgstr "Blocca altezza"
+msgstr "Altezza del blocco"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
 #, kde-format
@@ -5476,6 +5476,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Imposta la forza di alfa.<br>\n"
+"            Il valore configura la sfocatura. Un valore positivo sfocherà "
+"l'immagine, mentre uno negativo ne aumenterà la nitidezza. Se non è "
+"specificato sarà uguale al valore impostato della <em>Forza Luma</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5486,6 +5490,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Imposta la soglia di alfa usata come coefficiente<br>\n"
+"            per determinare se un pixel verrà sfocato o no. Un valore di 0 "
+"filtrerà tutta l'immagine, uno positivo solo le aree piatte, mentre uno "
+"negativo filtrerà solo i bordi. Se non è specificato sarà uguale al valore "
+"impostato della <em>Soglia Luma</em>]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -5861,6 +5870,14 @@ msgid ""
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
 msgstr ""
+"«bilanciamento»\n"
+"La modalità di bilanciamento classica. Attenua un canale alla volta. Il "
+"guadagno viene aumentato fino a 1.\n"
+"«ampiezza»\n"
+"Simile alla modalità classica di cui sopra, ma il guadagno viene aumentato "
+"fino a 2.\n"
+"«potenza»\n"
+"Distribuzione equa della potenza, da -6dB a +6dB."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
 #, kde-format
@@ -5899,6 +5916,9 @@ msgid ""
 "Gives a delay effect of left signal in right output and vice versa which "
 "gives widening effect."
 msgstr ""
+"Quantità di guadagno del segnale ritardato verso destra, e viceversa.\n"
+"Fornisce un effetto di ritardo del segnale di sinistra nell'uscita di "
+"destra, e viceversa. Ciò gli conferisce un effetto di allargamento."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:17
 #, kde-format
@@ -6317,6 +6337,9 @@ msgid ""
 "<![CDATA[Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
+"<![CDATA[I valori più piccoli sono utili per scoprire quanti valori<br>\n"
+"       \tdella stessa luminanza sono distribuiti nelle righe/colonne di "
+"ingresso.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
 #, kde-format
@@ -7152,10 +7175,9 @@ msgid "Aech0r"
 msgstr "Aech0r"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Create a video Grid"
+#, kde-format
 msgid "Create an analog video echo"
-msgstr "Crea una griglia video"
+msgstr "Crea una eco video analogico"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
 #, kde-format
@@ -7163,10 +7185,9 @@ msgid "Fade factor"
 msgstr "Fattore di dissolvenza"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Disappearance Rate of the echo]]>"
-msgstr "<![CDATA[Angolo di deformazione intorno all'asse X]]>"
+msgstr "<![CDATA[Tasso di scomparsa dell'eco]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
@@ -7212,7 +7233,7 @@ msgstr "Larghezza del tratto"
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
 msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
-msgstr ""
+msgstr "<![CDATA[Frequenza dello stroboscopio (da 0 a 8 fotogrammi)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:30
@@ -7327,7 +7348,7 @@ msgstr "Larghezza della transizione"
 #: data/effects/frei0r/frei0r_alphagrad.xml:13
 #, kde-format
 msgid "<![CDATA[Define the width of the transition between the densities.]]>"
-msgstr ""
+msgstr "<![CDATA[Definisci l'ampiezza della transizione tra le densità.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:17
@@ -8436,10 +8457,9 @@ msgid "Fix camera scaling between 4:3 and 16:9"
 msgstr "Fix camera scaling between 4:3 and 16:9"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:28
-#, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
+#, kde-format
 msgid "Scale Y to affect aspect ratio"
-msgstr "Mantieni il rapporto d'aspetto"
+msgstr "Scala Y per influenzare il rapporto d'aspetto"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:31
 #, kde-format
@@ -8452,10 +8472,9 @@ msgid "Square,PAL DV,NTSC DV,HDV,Manual"
 msgstr "Quadrata,PAL DV,NTSC DV,HDV,Manuale"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:39
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect type"
-msgstr "Proporzioni:"
+msgstr "Tipo di aspetto"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:42
 #, kde-format
@@ -8744,10 +8763,9 @@ msgstr ""
 "completamente opaco."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:36
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Antialias"
-msgstr "Italiano"
+msgstr "Anti-alias"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:37
 #, kde-format
@@ -8774,10 +8792,9 @@ msgid "Color 2"
 msgstr "Colore 2"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:49
-#, fuzzy, kde-format
-#| msgid "Set the shape color of the third detected face."
+#, kde-format
 msgid "Set the shape color of the second detected face."
-msgstr "Imposta il colore della forma del terzo volto individuato."
+msgstr "Imposta il colore della forma del secondo volto rilevato."
 
 #: data/effects/frei0r/frei0r_facedetect.xml:53 data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -8810,10 +8827,9 @@ msgid "Set the shape color of the fifth detected face."
 msgstr "Imposta il colore della forma del quinto volto individuato."
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
-#, fuzzy, kde-format
-#| msgid "Flip"
+#, kde-format
 msgid "Flippo"
-msgstr "Ribalta"
+msgstr "Flippo"
 
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
@@ -9001,7 +9017,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
 #, kde-format
 msgid "Specify source segment"
-msgstr ""
+msgstr "Specifica il segmento sorgente"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
 #, kde-format
@@ -9010,12 +9026,14 @@ msgid ""
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
+"<![CDATA[Se è selezionato, l'angolo sorgente <br>\n"
+"        viene letto dal <em>segmento sorgente</em>, altrimenti viene "
+"calcolato automaticamente.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
-#, fuzzy, kde-format
-#| msgid "Source time"
+#, kde-format
 msgid "Source segment"
-msgstr "Tempo originale"
+msgstr "Segmento sorgente"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
 #, kde-format
@@ -9024,6 +9042,9 @@ msgid ""
 "Segment</em> is checked. <br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Centro del segmento sorgente. Da usare solamente se è stato "
+"spuntato <em>Specifica il segmento sorgente</em>. <br>\n"
+"        0 è in +x, e ruota in senso antiorario.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, kde-format
@@ -9052,6 +9073,9 @@ msgid ""
 "into it. <br>\n"
 "        Otherwise the specified background color is used.]]>"
 msgstr ""
+"<![CDATA[Se l'opzione è selezionata, le riflessioni che finiscono "
+"all'esterno della sorgente si riflettono al suo interno. <br>\n"
+"        Diversamente viene usato il colore specificato per lo sfondo.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
 #, kde-format
@@ -9094,6 +9118,8 @@ msgid ""
 "<![CDATA[If checked, search clockwise for furthest corner.<br>\n"
 "        Otherwise search counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Se è selezionato, cerca l'angolo più lontano in senso orario.<br>\n"
+"        Diversamente cercalo in senso antiorario.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
 #, kde-format
@@ -9106,6 +9132,8 @@ msgid ""
 "<![CDATA[Color to use if reflection lies <br>outside of the source image and "
 "not reflecting back in.]]>"
 msgstr ""
+"<![CDATA[Colore da utilizzare se il riflesso si trova <br>all'esterno "
+"dell'immagine di origine, e non si riflette all'interno.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
 #, kde-format
@@ -9462,10 +9490,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:40
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:112
-#, fuzzy, kde-format
-#| msgid "Background lightness"
+#, kde-format
 msgid "Background Weight"
-msgstr "Luminosità dello sfondo"
+msgstr "Peso dello sfondo"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:41
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:113
@@ -9686,12 +9713,12 @@ msgstr "HSync"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
 msgid "Pixelize"
-msgstr "Effetto pixel"
+msgstr "Mosaico"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
 msgid "Pixelize input image."
-msgstr "Applica l'effetto pixel all'immagine in ingresso."
+msgstr "Applica l'effetto Mosaico all'immagine in ingresso."
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
 #, kde-format
@@ -9711,7 +9738,7 @@ msgstr "Pixs0r"
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
 msgid "Glitch image shifting rows to and fro."
-msgstr ""
+msgstr "Immagine anomala che sposta le righe da una parte all'altra."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
@@ -9734,6 +9761,8 @@ msgid ""
 "<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
 "minimum block height.]]>"
 msgstr ""
+"<![CDATA[Se l'<em>Altezza del blocco</em> è 0 (casuale), <br>questo "
+"determina l'altezza minima del blocco.]]>"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
 #, kde-format
@@ -9746,6 +9775,8 @@ msgid ""
 "<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
 "maximum block height.]]>"
 msgstr ""
+"<![CDATA[Se l'<em>Altezza del blocco</em> è 0 (casuale), <br>questo "
+"determina l'altezza massima del blocco.]]>"
 
 #: data/effects/frei0r/frei0r_posterize.xml:4
 #, kde-format
@@ -9753,10 +9784,10 @@ msgid "Posterize"
 msgstr "Posterizza"
 
 #: data/effects/frei0r/frei0r_posterize.xml:5
-#, fuzzy, kde-format
-#| msgid "Dithers the image and reduces the number of available colors"
+#, kde-format
 msgid "Posterizes image by reducing the number of colors used in image"
-msgstr "Retina l'immagine e riduce il numero di colori disponibili"
+msgstr ""
+"Posterizza l'immagine riducendo il numero dei colori usati nell'immagine"
 
 #: data/effects/frei0r/frei0r_posterize.xml:9
 #, fuzzy, kde-format
@@ -9806,22 +9837,19 @@ msgid "Oscilloscope (Advanced)"
 msgstr "Oscilloscopio (avanzato)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[X coordinate of the profile]]>"
-msgstr "<![CDATA[Fattore di scala applicato all'asse X]]>"
+msgstr "<![CDATA[Coordinata X del profilo]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Y coordinate of the profile]]>"
-msgstr "<![CDATA[Fattore di scala applicato all'asse X]]>"
+msgstr "<![CDATA[Coordinata Y del profilo]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Tilting of the profile]]>"
-msgstr "<![CDATA[Scostamento lungo l'asse X]]>"
+msgstr "<![CDATA[Inclinazione del profilo]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:20
 #, kde-format
@@ -9829,10 +9857,9 @@ msgid "Length"
 msgstr "Lunghezza"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Length of the profile in pixel]]>"
-msgstr "<![CDATA[Imposta l'opacità dell'immagine di sfondo]]>"
+msgstr "<![CDATA[Lunghezza del profilo in pixel]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:24
 #, kde-format
@@ -9842,7 +9869,7 @@ msgstr "R,G,B,Y',Pr,Pb,Alfa"
 #: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
 msgid "<![CDATA[Channel to numerically display]]>"
-msgstr ""
+msgstr "<![CDATA[Canale da visualizzare numericamente]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
 #, kde-format
@@ -9850,10 +9877,9 @@ msgid "Marker 1"
 msgstr "Marcatore 1"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[Scostamento lungo l'asse Y]]>"
+msgstr "<![CDATA[Posizione del marcatore 1]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:33
 #, kde-format
@@ -9861,10 +9887,9 @@ msgid "Marker 2"
 msgstr "Marcatore 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:34
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[Scostamento lungo l'asse Y]]>"
+msgstr "<![CDATA[Posizione del marcatore 2]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:37
 #, kde-format
@@ -9874,7 +9899,7 @@ msgstr "Traccia R"
 #: data/effects/frei0r/frei0r_pr0file.xml:38
 #, kde-format
 msgid "<![CDATA[Show R trace (red) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra la traccia R (red) sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:41
 #, kde-format
@@ -9884,7 +9909,7 @@ msgstr "Traccia G"
 #: data/effects/frei0r/frei0r_pr0file.xml:42
 #, kde-format
 msgid "<![CDATA[Show G trace (green) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra la traccia G (green) sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:45
 #, kde-format
@@ -9894,7 +9919,7 @@ msgstr "Traccia B"
 #: data/effects/frei0r/frei0r_pr0file.xml:46
 #, kde-format
 msgid "<![CDATA[Show B trace (blue) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra la traccia B (blue) sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:49
 #, kde-format
@@ -9904,7 +9929,7 @@ msgstr "Traccia Y"
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
 msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra la traccia Y (luma) sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:53
 #, kde-format
@@ -9914,7 +9939,7 @@ msgstr "Traccia Pr"
 #: data/effects/frei0r/frei0r_pr0file.xml:54
 #, kde-format
 msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra la traccia Pr (red_difference) sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:57
 #, kde-format
@@ -9924,7 +9949,7 @@ msgstr "Traccia Pb"
 #: data/effects/frei0r/frei0r_pr0file.xml:58
 #, kde-format
 msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra la traccia Pb (blue_difference) sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:61
 #, kde-format
@@ -9934,7 +9959,7 @@ msgstr "Traccia canale alfa"
 #: data/effects/frei0r/frei0r_pr0file.xml:62
 #, kde-format
 msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra la traccia alfa sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:65
 #, kde-format
@@ -9942,10 +9967,9 @@ msgid "Display average"
 msgstr "Visualizza la media"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:66
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Shear angle around the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Show average on scope]]>"
-msgstr "<![CDATA[Angolo di deformazione intorno all'asse X]]>"
+msgstr "<![CDATA[Mostra il valore medio sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:69
 #, kde-format
@@ -9955,7 +9979,7 @@ msgstr "Visualizza il valore efficace"
 #: data/effects/frei0r/frei0r_pr0file.xml:70
 #, kde-format
 msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra il valore efficace sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:73
 #, kde-format
@@ -9965,7 +9989,7 @@ msgstr "Visualizza il minimo"
 #: data/effects/frei0r/frei0r_pr0file.xml:74
 #, kde-format
 msgid "<![CDATA[Show minimum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra il minimo sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:77
 #, kde-format
@@ -9975,12 +9999,12 @@ msgstr "Visualizza il massimo"
 #: data/effects/frei0r/frei0r_pr0file.xml:78
 #, kde-format
 msgid "<![CDATA[Show maximum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Mostra il massimo sul visore]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:82
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
+msgstr "<![CDATA[Usa una scala 0-255 invece di 0.0-1.0]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:85
 #, kde-format
@@ -9995,7 +10019,7 @@ msgstr "Codifica colore"
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[Seleziona tra interlacciato (601) o progressivo (709)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:90
 #, kde-format
@@ -10005,7 +10029,7 @@ msgstr "Colore del mirino"
 #: data/effects/frei0r/frei0r_pr0file.xml:91
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr ""
+msgstr "<![CDATA[Scegli il colore del mirino/della linea del profilo]]>"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -10030,15 +10054,14 @@ msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
 msgstr "<![CDATA[Influenza del valore medio di px, > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
-#, fuzzy, kde-format
-#| msgid "Channel to draw"
+#, kde-format
 msgid "Channel Extractor RED"
-msgstr "Canale da disegnare"
+msgstr "Estrattore del canale ROSSO"
 
 #: data/effects/frei0r/frei0r_R.xml:5
 #, kde-format
 msgid "Extracts Red from Image"
-msgstr ""
+msgstr "Estrae il rosso dall'immagine"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:5
 #, kde-format
@@ -14091,10 +14114,9 @@ msgstr "Diapositiva dall'alto in basso."
 #: data/transitions/frei0r/frei0r_slide-left.xml:8
 #: data/transitions/frei0r/frei0r_slide-right.xml:8
 #: data/transitions/frei0r/frei0r_slide-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Set Position"
+#, kde-format
 msgid "Slide position"
-msgstr "Imposta la posizione"
+msgstr "Posizione della diapositiva"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:4
 #, kde-format
@@ -15401,12 +15423,12 @@ msgstr "Nessuno (Dissolvi)"
 msgid "Create or edit a mask for this clip"
 msgstr "Crea o modifica una maschera per questa clip"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:336
+#: src/assets/view/widgets/urllistparamwidget.cpp:337
 #, kde-format
 msgid "Custom…"
 msgstr "Personalizzato…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:465
+#: src/assets/view/widgets/urllistparamwidget.cpp:466
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "File LUT %1 non valido"
@@ -16070,7 +16092,7 @@ msgid "Create bin folder"
 msgstr "Crea cartella contenitore"
 
 #: src/bin/bin.cpp:2727 src/bin/bin.cpp:2740 src/bin/bin.cpp:3739
-#: src/timeline2/model/timelinemodel.cpp:2163
+#: src/timeline2/model/timelinemodel.cpp:2171
 #, kde-format
 msgid "Delete Clip"
 msgstr "Elimina clip"
@@ -16824,13 +16846,13 @@ msgid "Cut clip"
 msgstr "Taglia clip"
 
 #: src/bin/model/subtitlemodel.cpp:850 src/bin/model/subtitlemodel.cpp:1623
-#: src/timeline2/model/timelinemodel.cpp:3973
+#: src/timeline2/model/timelinemodel.cpp:3981
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Ridimensiona sottotitolo"
 
 #: src/bin/model/subtitlemodel.cpp:1048
-#: src/timeline2/model/timelinemodel.cpp:1349
+#: src/timeline2/model/timelinemodel.cpp:1357
 #, kde-format
 msgid "Move subtitle"
 msgstr "Sposta sottotitolo"
@@ -16900,7 +16922,7 @@ msgstr "Conteggio sequenza"
 msgid "Timeline sequence"
 msgstr "Sequenza di linea temporale"
 
-#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1154
+#: src/bin/projectclip.cpp:542 src/timeline2/view/qml/Clip.qml:1153
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -21309,7 +21331,7 @@ msgstr "L'effetto %1 non può essere aggiunto due volte."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:676
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5087
+#: src/timeline2/model/timelinemodel.cpp:5095
 #, kde-format
 msgid "Add effect %1"
 msgstr "Aggiungi effetto %1"
@@ -23844,11 +23866,9 @@ msgid "Clip in Project Bin"
 msgstr "Clip nel contenitore del progetto"
 
 #: src/mainwindow.cpp:1759
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "Search pending…"
+#, kde-format
 msgid "Search Bin Clip…"
-msgstr "Ricerca in attesa…"
+msgstr "Cerca contenitore della clip…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1761 src/ui/cutjobdialog_ui.ui:18
@@ -24076,7 +24096,7 @@ msgstr "Importa file di sottotitoli…"
 msgid "Export Subtitle File…"
 msgstr "Esporta file di sottotitoli…"
 
-#: src/mainwindow.cpp:1918 src/timeline2/model/timelinemodel.cpp:2167
+#: src/mainwindow.cpp:1918 src/timeline2/model/timelinemodel.cpp:2175
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Elimina sottotitolo"
@@ -25304,10 +25324,9 @@ msgid "No clip selected in Clip Monitor"
 msgstr "Nessuna clip selezionata nel Controllo del progetto"
 
 #: src/monitor/monitor.cpp:3115
-#, fuzzy, kde-format
-#| msgid "Cannot get duration for file %1"
+#, kde-format
 msgid "Cannot get producer for Clip Monitor"
-msgstr "Impossibile ottenere la durata del file %1"
+msgstr "Impossibile ottenere il produttore del controllo della clip"
 
 #: src/monitor/monitormanager.cpp:214
 #, kde-format
@@ -25681,6 +25700,10 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"Sei al di fuori della zona temporale definita\n"
+"per il mascheramento, e non puoi aggiungere fotogrammi chiave.\n"
+"\n"
+"\n"
 
 #: src/monitor/view/kdenlivemonitorautomask.qml:419
 #, kde-format
@@ -29060,7 +29083,7 @@ msgid "Delete clips on track"
 msgstr "Elimina le clip sulla traccia"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4664
+#: src/timeline2/model/timelinemodel.cpp:4672
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -29117,143 +29140,149 @@ msgid "Replace clip"
 msgstr "Sostituisci clip"
 
 #: src/timeline2/model/timelinemodel.cpp:978
-#: src/timeline2/model/timelinemodel.cpp:1195
+#: src/timeline2/model/timelinemodel.cpp:1202
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "Seleziona una clip da per applicare il mescolamento"
 
 # viene sostituito a %1 nella frase "Not enough frames at clip %1 to apply the mix"
-#: src/timeline2/model/timelinemodel.cpp:1193
+#: src/timeline2/model/timelinemodel.cpp:1197
 #, kde-format
 msgid "start"
 msgstr "iniziale"
 
 # viene sostituito a %1 nella frase "Not enough frames at clip %1 to apply the mix"
-#: src/timeline2/model/timelinemodel.cpp:1193
+#: src/timeline2/model/timelinemodel.cpp:1197
 #, kde-format
 msgid "end"
 msgstr "finale"
 
-#: src/timeline2/model/timelinemodel.cpp:1193
+#: src/timeline2/model/timelinemodel.cpp:1197
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 "Non ci sono abbastanza fotogrammi nella clip %1 per applicare il mescolamento"
 
-#: src/timeline2/model/timelinemodel.cpp:1199
+#: src/timeline2/model/timelinemodel.cpp:1200
+#: src/timeline2/view/timelinecontroller.cpp:1708
+#, kde-format
+msgid "No active track"
+msgstr "Nessuna traccia attiva"
+
+#: src/timeline2/model/timelinemodel.cpp:1207
 #, kde-format
 msgid "Create mix"
 msgstr "Crea mescolamento"
 
-#: src/timeline2/model/timelinemodel.cpp:1274
-#: src/timeline2/model/timelinemodel.cpp:1309
+#: src/timeline2/model/timelinemodel.cpp:1282
+#: src/timeline2/model/timelinemodel.cpp:1317
 #, kde-format
 msgid "Move clip"
 msgstr "Sposta clip"
 
-#: src/timeline2/model/timelinemodel.cpp:1840
-#: src/timeline2/model/timelinemodel.cpp:1930
-#: src/timeline2/model/timelinemodel.cpp:1953
-#: src/timeline2/model/timelinemodel.cpp:1976
+#: src/timeline2/model/timelinemodel.cpp:1848
+#: src/timeline2/model/timelinemodel.cpp:1938
+#: src/timeline2/model/timelinemodel.cpp:1961
+#: src/timeline2/model/timelinemodel.cpp:1984
 #: src/timeline2/view/timelinecontroller.cpp:3332
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Non ci sono tracce disponibili per l'operazione di inserimento"
 
-#: src/timeline2/model/timelinemodel.cpp:1845
+#: src/timeline2/model/timelinemodel.cpp:1853
 #, kde-format
 msgid "Insert Clip"
 msgstr "Inserisci clip"
 
-#: src/timeline2/model/timelinemodel.cpp:1898
+#: src/timeline2/model/timelinemodel.cpp:1906
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Non puoi inserire una sequenza che contiene se stessa"
 
-#: src/timeline2/model/timelinemodel.cpp:1946
-#: src/timeline2/model/timelinemodel.cpp:1968
+#: src/timeline2/model/timelinemodel.cpp:1954
+#: src/timeline2/model/timelinemodel.cpp:1976
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Non ci sono abbastanza tracce audio per tutti i flussi (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2052
+#: src/timeline2/model/timelinemodel.cpp:2060
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Non ci sono tracce disponibili per l'operazione di separazione"
 
-#: src/timeline2/model/timelinemodel.cpp:2089
+#: src/timeline2/model/timelinemodel.cpp:2097
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Separazione audio non riuscita: nessuna traccia percorribile"
 
-#: src/timeline2/model/timelinemodel.cpp:2097
+#: src/timeline2/model/timelinemodel.cpp:2105
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Separazione audio non riuscita: impossibile creare clip audio"
 
-#: src/timeline2/model/timelinemodel.cpp:2160
+#: src/timeline2/model/timelinemodel.cpp:2168
 #, kde-format
 msgid "Remove group"
 msgstr "Rimuovi gruppo"
 
-#: src/timeline2/model/timelinemodel.cpp:2165
+#: src/timeline2/model/timelinemodel.cpp:2173
 #, kde-format
 msgid "Delete Composition"
 msgstr "Elimina composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:2404
-#: src/timeline2/model/timelinemodel.cpp:2694
+#: src/timeline2/model/timelinemodel.cpp:2412
+#: src/timeline2/model/timelinemodel.cpp:2702
 #: src/timeline2/view/timelinecontroller.cpp:4276
 #, kde-format
 msgid "Move group"
 msgstr "Sposta gruppo"
 
-#: src/timeline2/model/timelinemodel.cpp:3388
+#: src/timeline2/model/timelinemodel.cpp:3396
 #, kde-format
 msgid "Resize group"
 msgstr "Ridimensiona gruppo"
 
-#: src/timeline2/model/timelinemodel.cpp:3512
+#: src/timeline2/model/timelinemodel.cpp:3520
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Ridimensiona la velocità della clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3671
+#: src/timeline2/model/timelinemodel.cpp:3679
 #, kde-format
 msgid "Remove mix"
 msgstr "Rimuovi mescolamento"
 
-#: src/timeline2/model/timelinemodel.cpp:3673
+#: src/timeline2/model/timelinemodel.cpp:3681
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Rimozione del mescolamento non riuscita"
 
-#: src/timeline2/model/timelinemodel.cpp:3969
+#: src/timeline2/model/timelinemodel.cpp:3977
 #, kde-format
 msgid "Resize clip"
 msgstr "Ridimensiona clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3971
+#: src/timeline2/model/timelinemodel.cpp:3979
 #, kde-format
 msgid "Resize composition"
 msgstr "Ridimensiona composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:4290
+#: src/timeline2/model/timelinemodel.cpp:4298
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Ridimensiona clip con scarto"
 
-#: src/timeline2/model/timelinemodel.cpp:4292
+#: src/timeline2/model/timelinemodel.cpp:4300
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Ridimensiona composizione con scarto"
 
-#: src/timeline2/model/timelinemodel.cpp:4294
+#: src/timeline2/model/timelinemodel.cpp:4302
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Ridimensiona sottotitolo con scarto"
 
-#: src/timeline2/model/timelinemodel.cpp:4437
+#: src/timeline2/model/timelinemodel.cpp:4445
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -29261,137 +29290,137 @@ msgid_plural "Slip clips"
 msgstr[0] "Fai scivolare clip"
 msgstr[1] "Fai scivolare clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4472
+#: src/timeline2/model/timelinemodel.cpp:4480
 #, kde-format
 msgid "Slip clip"
 msgstr "Fai scivolare clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4507
+#: src/timeline2/model/timelinemodel.cpp:4515
 #, kde-format
 msgid "Group clips"
 msgstr "Raggruppa clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4592
-#: src/timeline2/model/timelinemodel.cpp:4608
+#: src/timeline2/model/timelinemodel.cpp:4600
+#: src/timeline2/model/timelinemodel.cpp:4616
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Separa gruppo di clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4773
+#: src/timeline2/model/timelinemodel.cpp:4781
 #: src/timeline2/view/timelinecontroller.cpp:982
 #, kde-format
 msgid "Delete Track"
 msgstr "Elimina traccia"
 
-#: src/timeline2/model/timelinemodel.cpp:4783
+#: src/timeline2/model/timelinemodel.cpp:4791
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Impossibile eliminare l'ultima traccia dalla linea temporale"
 
-#: src/timeline2/model/timelinemodel.cpp:5008
+#: src/timeline2/model/timelinemodel.cpp:5016
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Impossibile aggiungere l'effetto %1 alla traccia principale"
 
-#: src/timeline2/model/timelinemodel.cpp:5015
+#: src/timeline2/model/timelinemodel.cpp:5023
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Impossibile aggiungere l'effetto %1 alla traccia selezionata"
 
-#: src/timeline2/model/timelinemodel.cpp:5036
+#: src/timeline2/model/timelinemodel.cpp:5044
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Impossibile incollare l'effetto sulla clip principale"
 
-#: src/timeline2/model/timelinemodel.cpp:5042
+#: src/timeline2/model/timelinemodel.cpp:5050
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Impossibile incollare l'effetto sulla clip selezionata"
 
-#: src/timeline2/model/timelinemodel.cpp:5090
+#: src/timeline2/model/timelinemodel.cpp:5098
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Impossibile aggiungere l'effetto %1 alla clip selezionata"
 
-#: src/timeline2/model/timelinemodel.cpp:5114
+#: src/timeline2/model/timelinemodel.cpp:5122
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Regola dissolvenza"
 
-#: src/timeline2/model/timelinemodel.cpp:5479
+#: src/timeline2/model/timelinemodel.cpp:5487
 #, kde-format
 msgid "Insert Composition"
 msgstr "Inserisci composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:5700
+#: src/timeline2/model/timelinemodel.cpp:5708
 #, kde-format
 msgid "Move composition"
 msgstr "Sposta composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:6371
+#: src/timeline2/model/timelinemodel.cpp:6379
 #, kde-format
 msgid "Enable time remap"
 msgstr "Abilita modifica tempo"
 
-#: src/timeline2/model/timelinemodel.cpp:6445
+#: src/timeline2/model/timelinemodel.cpp:6453
 #, kde-format
 msgid "Change speed failed"
 msgstr "Modifica della velocità non riuscita"
 
-#: src/timeline2/model/timelinemodel.cpp:6455
+#: src/timeline2/model/timelinemodel.cpp:6463
 #, kde-format
 msgid "Change clip speed"
 msgstr "Cambia la velocità della clip"
 
-#: src/timeline2/model/timelinemodel.cpp:6903
+#: src/timeline2/model/timelinemodel.cpp:6911
 #: src/timeline2/view/qml/timeline.qml:1214
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "Blocca traccia"
 
-#: src/timeline2/model/timelinemodel.cpp:6908
+#: src/timeline2/model/timelinemodel.cpp:6916
 #: src/timeline2/view/qml/timeline.qml:1214
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
 msgstr "Sblocca traccia"
 
-#: src/timeline2/model/timelinemodel.cpp:6942
-#: src/timeline2/model/timelinemodel.cpp:7004
+#: src/timeline2/model/timelinemodel.cpp:6950
+#: src/timeline2/model/timelinemodel.cpp:7012
 #, kde-format
 msgid "Change composition"
 msgstr "Modifica composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:6956
+#: src/timeline2/model/timelinemodel.cpp:6964
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Impossibile operare sulle composizioni raggruppate, annulla il raggruppamento"
 
 # , kde-format
-#: src/timeline2/model/timelinemodel.cpp:7151
-#: src/timeline2/model/timelinemodel.cpp:7188
-#: src/timeline2/model/timelinemodel.cpp:7221
-#: src/timeline2/model/timelinemodel.cpp:7300
+#: src/timeline2/model/timelinemodel.cpp:7159
+#: src/timeline2/model/timelinemodel.cpp:7196
+#: src/timeline2/model/timelinemodel.cpp:7229
+#: src/timeline2/model/timelinemodel.cpp:7308
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Impossibile ridimensionare il mescolamento a meno di un fotogramma"
 
-#: src/timeline2/model/timelinemodel.cpp:7162
-#: src/timeline2/model/timelinemodel.cpp:7196
-#: src/timeline2/model/timelinemodel.cpp:7238
-#: src/timeline2/model/timelinemodel.cpp:7324
+#: src/timeline2/model/timelinemodel.cpp:7170
+#: src/timeline2/model/timelinemodel.cpp:7204
+#: src/timeline2/model/timelinemodel.cpp:7246
+#: src/timeline2/model/timelinemodel.cpp:7332
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Impossibile ridimensionare il mescolamento"
 
-#: src/timeline2/model/timelinemodel.cpp:7338
+#: src/timeline2/model/timelinemodel.cpp:7346
 #, kde-format
 msgid "Resize mix"
 msgstr "Ridimensiona mescolamento"
 
-#: src/timeline2/model/timelinemodel.cpp:7458
+#: src/timeline2/model/timelinemodel.cpp:7466
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Errore nell'inizializzazione dell'anteprima nella linea temporale"
@@ -29518,7 +29547,7 @@ msgstr "In pausa"
 msgid "Mic level"
 msgstr "Livello del microfono"
 
-#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
+#: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:947
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posizione: %4, Durata: %5"
@@ -29550,12 +29579,12 @@ msgstr "-%1, durata del mescolamento: %2"
 msgid "Mix duration: %1"
 msgstr "Durata del mescolamento: %1"
 
-#: src/timeline2/view/qml/Clip.qml:837
+#: src/timeline2/view/qml/Clip.qml:836
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Attacco:%1, posizione:%2"
 
-#: src/timeline2/view/qml/Clip.qml:840 src/timeline2/view/qml/Clip.qml:938
+#: src/timeline2/view/qml/Clip.qml:839 src/timeline2/view/qml/Clip.qml:937
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -29564,54 +29593,54 @@ msgstr ""
 "<b>Ctrl e trascina</b> per modificare la velocità, <b>Doppio clic</b> per "
 "mescolare con la clip adiacente"
 
-#: src/timeline2/view/qml/Clip.qml:842
+#: src/timeline2/view/qml/Clip.qml:841
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Trascina</b> per cambiare la durata del mescolamento"
 
-#: src/timeline2/view/qml/Clip.qml:935
+#: src/timeline2/view/qml/Clip.qml:934
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Stacco:%1, posizione:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1060
+#: src/timeline2/view/qml/Clip.qml:1059
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Scostamento: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1060
+#: src/timeline2/view/qml/Clip.qml:1059
 #, kde-format
 msgid "Offset: %1"
 msgstr "Scostamento: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1061
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Clic</b> per allineare le clip"
 
-#: src/timeline2/view/qml/Clip.qml:1306 src/timeline2/view/qml/Clip.qml:1343
+#: src/timeline2/view/qml/Clip.qml:1305 src/timeline2/view/qml/Clip.qml:1342
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Clic</b> per aggiungere una composizione"
 
-#: src/timeline2/view/qml/Clip.qml:1420 src/timeline2/view/qml/Clip.qml:1427
+#: src/timeline2/view/qml/Clip.qml:1419 src/timeline2/view/qml/Clip.qml:1426
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Dissolvenza in uscita: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1431 src/timeline2/view/qml/Clip.qml:1538
+#: src/timeline2/view/qml/Clip.qml:1430 src/timeline2/view/qml/Clip.qml:1537
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Trascina</b> per regolare la dissolvenza, <b>Clic</b> per aggiungere una "
 "dissolvenza di durata predefinita"
 
-#: src/timeline2/view/qml/Clip.qml:1527 src/timeline2/view/qml/Clip.qml:1534
+#: src/timeline2/view/qml/Clip.qml:1526 src/timeline2/view/qml/Clip.qml:1533
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Dissolvenza in entrata: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1622
+#: src/timeline2/view/qml/Clip.qml:1621
 #, kde-format
 msgid "Slip Clip"
 msgstr "Fai scivolare clip"
@@ -29781,6 +29810,8 @@ msgstr "Modifica il nome della traccia"
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""
+"Fai clic per passare ciclicamente tra gli ingrandimenti dei formati d'onda "
+"audio"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
@@ -29845,11 +29876,6 @@ msgstr "Seleziona almeno 2 elementi da raggruppare"
 #, kde-format
 msgid "guide"
 msgstr "guida"
-
-#: src/timeline2/view/timelinecontroller.cpp:1708
-#, kde-format
-msgid "No active track"
-msgstr "Nessuna traccia attiva"
 
 #: src/timeline2/view/timelinecontroller.cpp:1792
 #, kde-format
@@ -32451,6 +32477,9 @@ msgid ""
 "your system. For advanced users only, as you will have to properly setup "
 "everything by yourself."
 msgstr ""
+"Quando è abilitata, Kdenlive utilizzerà i pacchetti per il riconoscimento "
+"vocale installati nel sistema. Solo per utenti esperti, dato che bisogna "
+"installare correttamente tutto da soli."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:610
