@@ -191,10 +191,13 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
             // Note that the OTIO generator "kind" and "parameters" are not
             // standardized, so we use the "kdenlive" namespace/prefix to
             // indicate these values are specific to kdenlive.
+            OTIO_NS::AnyDictionary otioParameters;
+#if !defined(Q_OS_MAC)
+            // TODO: Writing OTIO metadata on macOS is causing a crash?
             OTIO_NS::AnyDictionary parameters;
             parameters["color"] = QFileInfo(projectClip->getProducerProperty("resource")).fileName().toStdString();
-            OTIO_NS::AnyDictionary otioParameters;
             otioParameters["kdenlive"] = parameters;
+#endif
             otioMediaReference = new OTIO_NS::GeneratorReference(projectClip->name().toStdString(), "kdenlive:SolidColor", otioAvailableRange, otioParameters);
         }
     }
@@ -233,9 +236,12 @@ void OtioExport::exportMarker(const CommentedTime &marker, const OTIO_NS::TimeRa
     otioMarker->set_comment(marker.comment().toStdString());
     otioMarker->set_marked_range(otioRange);
     otioMarker->set_color(toOtioMarkerColor(marker.markerType()));
+#if !defined(Q_OS_MAC)
+    // TODO: Writing OTIO metadata on macOS is causing a crash?
     OTIO_NS::AnyDictionary otioMetadata;
     otioMetadata["type"] = static_cast<int64_t>(marker.markerType());
     otioMarker->metadata()["kdenlive"] = otioMetadata;
+#endif
     otioItem->markers().push_back(otioMarker);
 }
 
