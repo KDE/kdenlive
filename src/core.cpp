@@ -163,12 +163,6 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
     connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties);
     m_mainWindow->addBin(bin, QString(), false);
 
-    // Secondary bins
-    for (int i = 1; i < KdenliveSettings::binsCount(); i++) {
-        bin = new Bin(m_projectItemModel, m_mainWindow, false);
-        m_mainWindow->addBin(bin, QString(), false);
-    }
-
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin(), &Bin::refreshPanel);
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshClip, m_mainWindow->activeBin(), &Bin::refreshClip);
     connect(m_projectItemModel.get(), &ProjectItemModel::itemDropped, m_mainWindow->activeBin(), &Bin::slotItemDropped, Qt::QueuedConnection);
@@ -195,6 +189,13 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         // Open connection with Mlt
         m_mainWindow->init(MltPath);
     }
+
+    // Secondary bins
+    for (int i = 1; i < KdenliveSettings::binsCount(); i++) {
+        bin = new Bin(m_projectItemModel, m_mainWindow, false);
+        m_mainWindow->addBin(bin, QString(), false);
+    }
+
     m_projectItemModel->buildPlaylist(QUuid());
     // load the profiles from disk
     ProfileRepository::get()->refresh();
