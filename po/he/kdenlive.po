@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-14 00:40+0000\n"
-"PO-Revision-Date: 2025-04-12 11:58+0300\n"
+"PO-Revision-Date: 2025-04-14 08:24+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4613,9 +4613,9 @@ msgid "<![CDATA[Set median radius]]>"
 msgstr "<![CDATA[היסט לאורך ציר Y]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Vertical radius"
-msgstr "מרכז אנכי"
+msgstr "רדיוס אנכי"
 
 #: data/effects/avfilter/avfilter_median.xml:14
 #, kde-format
@@ -4638,16 +4638,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:24
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr "<![CDATA[מקדם קנה מידה שחל על ציר X]]>"
+msgstr "<![CDATA[בחירת מישורים לעיבוד]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
-#, fuzzy, kde-format
-#| msgid "Make monochrome clip"
+#, kde-format
 msgid "Monochrome"
-msgstr "יצירת סרטון חדגוני"
+msgstr "צבע אחיד"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:5
 #, kde-format
@@ -4667,9 +4665,9 @@ msgid "Chroma red spot"
 msgstr "שמירה על כרומה"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color filter size"
-msgstr "גודל ליבה"
+msgstr "גודל מסנן צבע"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:17
 #, fuzzy, kde-format
@@ -4680,7 +4678,7 @@ msgstr "הדגשת פסגות"
 #: data/effects/avfilter/avfilter_negate.xml:4
 #, kde-format
 msgid "Negate"
-msgstr ""
+msgstr "ניגוד"
 
 #: data/effects/avfilter/avfilter_negate.xml:5
 #, fuzzy, kde-format
@@ -4696,12 +4694,12 @@ msgstr "הסט אלפא"
 #: data/effects/avfilter/avfilter_noise.xml:4
 #, kde-format
 msgid "Video Noise generator"
-msgstr ""
+msgstr "מחולל רעש בווידאו"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
 #, kde-format
 msgid "Add noise on video input frame"
-msgstr ""
+msgstr "הוספת רעש על תמונית קלט וידאו"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
 #, kde-format
@@ -4937,16 +4935,14 @@ msgstr "<![CDATA[היסט לאורך ציר X]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Components"
-msgstr "רכיבים:"
+msgstr "רכיבים"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr "<![CDATA[הגדרת אטימות תמונת הרקע]]>"
+msgstr "<![CDATA[נא לבחור את הרכיבים למעקב]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, fuzzy, kde-format
@@ -4965,10 +4961,9 @@ msgid "Print statistics"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Position of marker 1]]>"
+#, kde-format
 msgid "<![CDATA[Switch statistics on or off]]>"
-msgstr "<![CDATA[מקום סמן 1]]>"
+msgstr "<![CDATA[הפעלת או כיבוי הסטטיסטיקה]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
@@ -4998,9 +4993,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Photosensitivity"
-msgstr "עוצמה"
+msgstr "רגישות לאור"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
 #, kde-format
@@ -5008,10 +5003,9 @@ msgid "Filter out photosensitive epilepsy seizure-inducing flashes."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames step"
+#, kde-format
 msgid "Frames to use"
-msgstr "צעדי תמוניות"
+msgstr "תמוניות לשימוש"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:9
 #, kde-format
@@ -5029,16 +5023,14 @@ msgid "Skip"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
-#, fuzzy, kde-format
-#| msgid "Seek to clip when adding effect"
+#, kde-format
 msgid "Set pixels to skip when sampling frames"
-msgstr "לחתור לסרטון עם הוספת אפקט"
+msgstr "הגדרת פיקסלים לדילוג בעת דגימת תמוניות"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:20
-#, fuzzy, kde-format
-#| msgid "2 pass"
+#, kde-format
 msgid "Bypass"
-msgstr "2 מעברים"
+msgstr "מעקף"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:21
 #, kde-format
@@ -5052,9 +5044,9 @@ msgid "Pixelize (avfilter)"
 msgstr "קנה־מידה פיקסלים"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pixelize video"
-msgstr "אפקט פיקסל"
+msgstr "פיקסול הסרטון"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
 #, fuzzy, kde-format
@@ -5069,9 +5061,9 @@ msgid "Block height"
 msgstr "גובה ערוץ"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pixelize mode"
-msgstr "אפקט פיקסל"
+msgstr "מצב פיקסול"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
@@ -5258,29 +5250,24 @@ msgid "Scroll"
 msgstr "גלילה"
 
 #: data/effects/avfilter/avfilter_scroll.xml:8
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal scrolling speed"
-msgstr "תריסים אופקיים"
+msgstr "מהירות גלילה אופקית"
 
 #: data/effects/avfilter/avfilter_scroll.xml:11
-#, fuzzy, kde-format
-#| msgid "Vertical Flip"
+#, kde-format
 msgid "Vertical scrolling speed"
-msgstr "היפוך אנכי"
+msgstr "מהירות גלילה אנכית"
 
 #: data/effects/avfilter/avfilter_scroll.xml:14
-#, fuzzy, kde-format
-#| msgid "Histogram position"
+#, kde-format
 msgid "Initial horizontal position"
-msgstr "מיקום היסטורגרמה"
+msgstr "נקודת התחלה אופקית"
 
 #: data/effects/avfilter/avfilter_scroll.xml:17
-#, fuzzy, kde-format
-#| msgid "Inverted Position"
+#, kde-format
 msgid "Initial vertical position"
-msgstr "מקום הפוך"
+msgstr "נקודת התחלה אנכית"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:4
 #, kde-format
@@ -5298,10 +5285,9 @@ msgid "Absolute,Relative"
 msgstr "הפוך מעבר"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Image Selection Method"
+#, kde-format
 msgid "Correction Method"
-msgstr "שיטת ברירת תמונות"
+msgstr "שיטת תיקון"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:12
 #, kde-format
@@ -5349,10 +5335,9 @@ msgid "Blacks"
 msgstr "שחורים"
 
 #: data/effects/avfilter/avfilter_separatefields.xml:4
-#, fuzzy, kde-format
-#| msgid "Separate Channels"
+#, kde-format
 msgid "Separate field"
-msgstr "הפרדת ערוצים"
+msgstr "שדה נפרד"
 
 #: data/effects/avfilter/avfilter_separatefields.xml:5
 #, kde-format
@@ -5427,33 +5412,29 @@ msgid "Reorder and/or duplicate video planes"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:8
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "1st Output Plane"
-msgstr "שפת הפלט"
+msgstr "מישור פלט ראשון"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:11
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "2nd Output Plane"
-msgstr "שפת הפלט"
+msgstr "מישור פלט שני"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:14
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "3rd Output Plane"
-msgstr "שפת הפלט"
+msgstr "מישור פלט שלישי"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:17
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "4th Output Plane"
-msgstr "שפת הפלט"
+msgstr "מישור פלט רביעי"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Smartblur"
-msgstr "טישטוש ריבועי"
+msgstr "טשטוש חכם"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:5
 #, kde-format
@@ -5616,10 +5597,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
-#, fuzzy, kde-format
-#| msgid "Asset file"
+#, kde-format
 msgid "SOFA file"
-msgstr "קובץ נכס"
+msgstr "קובץ SOFA"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/avfilter/avfilter_sofalizer.xml:14
@@ -5661,9 +5641,9 @@ msgid "Use if option ‘type’ is set to freq."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
-#, fuzzy, kde-format
+#, kde-format
 msgid "Interpolate"
-msgstr "בין"
+msgstr "ערבול"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
 #, fuzzy, kde-format
@@ -5725,9 +5705,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Input format"
-msgstr "תסדיר לכידה"
+msgstr "תסדיר קלט"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:12
 #, kde-format
@@ -5745,16 +5725,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output format"
-msgstr "קובץ פלט"
+msgstr "תסדיר פלט"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo to mono"
+#, kde-format
 msgid "Stereo tools"
-msgstr "סטריאו למונו"
+msgstr "כלי סטריאו"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:5
 #, kde-format
@@ -5820,16 +5798,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:30
-#, fuzzy, kde-format
-#| msgid "Center Left"
+#, kde-format
 msgid "Mute Left"
-msgstr "במרכז משמאל"
+msgstr "השתקת שמאל"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:33
-#, fuzzy, kde-format
-#| msgid "Center Right"
+#, kde-format
 msgid "Mute Right"
-msgstr "במרכז מימין"
+msgstr "השתקת ימין"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:36
 #, fuzzy, kde-format
@@ -9807,9 +9783,9 @@ msgid "Big window"
 msgstr "חלון גדול"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Oscilloscope (Advanced)"
-msgstr "משקף תנודות וידאו בשני ממדים"
+msgstr "משקף תנודות (מתקדם)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:9
 #, kde-format
@@ -10305,16 +10281,15 @@ msgid "Sobel"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sobel.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sobel filter"
-msgstr "קובץ סרט"
+msgstr "מסנן סובל"
 
 #: data/effects/frei0r/frei0r_softglow.xml:5
-#, fuzzy, kde-format
-#| msgid "Glow"
+#, kde-format
 msgctxt "Soft Glow Effect Name"
 msgid "Soft Glow"
-msgstr "זוהר"
+msgstr "זוהר רך"
 
 #: data/effects/frei0r/frei0r_softglow.xml:6
 #, kde-format

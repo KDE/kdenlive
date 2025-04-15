@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-14 00:40+0000\n"
-"PO-Revision-Date: 2025-04-11 17:23+0300\n"
+"PO-Revision-Date: 2025-04-14 17:29+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -397,7 +397,7 @@ msgstr "Отрисовка точек начинается с самой выс�
 #: data/effects/audiospectrum.xml:46
 #, kde-format
 msgid "Line Tension"
-msgstr "Напряжённость строки"
+msgstr "Натяжение линии"
 
 #: data/effects/audiospectrum.xml:47
 #, kde-format
@@ -759,23 +759,23 @@ msgid "Sample reduction"
 msgstr "Сохранить выбранное"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable LFO"
-msgstr "Включить"
+msgstr "Включить НЧ-модулятор"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
 msgid "LFO depth"
-msgstr ""
+msgstr "Глубина НЧ-модулятора"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
-#, fuzzy, kde-format
+#, kde-format
 msgid "LFO rate"
-msgstr "Кадровая частота"
+msgstr "Частота НЧ-модулятора"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Limiter"
 msgstr "Ограничитель"
 
@@ -783,17 +783,17 @@ msgstr "Ограничитель"
 #: data/effects/avfilter/avfilter_aphaser.xml:5
 #, kde-format
 msgid "Audio lookahead limiter."
-msgstr ""
+msgstr "Ограничитель опережающего анализа звука"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable ASC"
-msgstr "Включить"
+msgstr "Включить ASC (адаптивное управление звуком)"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "ASC level"
-msgstr "Уровни звука"
+msgstr "Уровень ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
 #, fuzzy, kde-format
@@ -943,9 +943,9 @@ msgid "Phaser"
 msgstr "Фейзер"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delay in milliseconds"
-msgstr "Длительность (в секундах)"
+msgstr "Задержка в миллисекундах"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
 #: data/effects/avfilter/avfilter_flanger.xml:28
@@ -1455,6 +1455,7 @@ msgstr "Ключевой цвет"
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
 msgstr ""
+"<![CDATA[Выберите этот пункт, если клип содержит данные YUV вместо RGB.]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -2060,9 +2061,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "Temperature"
-msgstr "Цветовая температура"
+msgstr "Температура"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
 #, fuzzy, kde-format
@@ -2132,9 +2133,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Compensation Delay"
-msgstr "Компенсация высоты звука"
+msgstr "Компенсационная задержка"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:8
 #, kde-format
@@ -2160,55 +2161,61 @@ msgstr ""
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, fuzzy, kde-format
 msgid "Millimeter distance"
-msgstr "Расстояние вертикального рассеивания"
+msgstr "Расстояние в миллиметрах"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:12
 #, kde-format
 msgid ""
 "Set millimeters distance. This is compensation distance for fine tuning."
 msgstr ""
+"Установить расстояние в миллиметрах. Это компенсационное расстояние для "
+"тонкой настройки."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:15
-#, fuzzy, kde-format
+#, kde-format
 msgid "Centimeter distance"
-msgstr "Баланс центра"
+msgstr "Расстояние в сантиметрах"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:16
 #, kde-format
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
 msgstr ""
+"Установить расстояние в сантиметрах. Это компенсационное расстояние для "
+"плотной дистанционной конфигурации."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
-#, fuzzy, kde-format
+#, kde-format
 msgid "Meter distance"
-msgstr "Вес на расстоянии"
+msgstr "Расстояние в метрах"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:20
 #, kde-format
 msgid ""
 "Set meters distance. This is compensation distance for hard distance setup."
 msgstr ""
+"Установить расстояние в метрах. Это компенсационное расстояние для жёсткой "
+"дистанционной конфигурации."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dry amount"
-msgstr "Количество смешивания"
+msgstr "Количество «сухого»"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:24
 #, kde-format
 msgid "Set dry amount. Amount of unprocessed (dry) signal."
-msgstr ""
+msgstr "Установить количество необработанного («сухого») сигнала."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wet amount"
-msgstr "Интенсивность тонирования"
+msgstr "Количество «мокрого»"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:28
 #, kde-format
 msgid "Set wet amount. Amount of processed (wet) signal."
-msgstr ""
+msgstr "Установить количество обработанного («мокрого») сигнала."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:32
 #, kde-format
@@ -2642,17 +2649,21 @@ msgstr "Применить деэссер к звуку."
 #, kde-format
 msgid "Set intensity for triggering de-essing. Allowed range is from 0 to 1."
 msgstr ""
+"Установить интенсивность для активации деэссера. Допустимый диапазон: от 0 "
+"до 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Max deessing"
-msgstr "Отсутствует"
+msgstr "Макс. деэссинг"
 
 #: data/effects/avfilter/avfilter_deesser.xml:13
 #, kde-format
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
+"Установить уровень приглушения высокочастотной составляющей звука. "
+"Допустимый диапазон: от 0 до 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
@@ -2961,11 +2972,14 @@ msgid "Color"
 msgstr "Цвет"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:28
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
 msgstr ""
+"<![CDATA[Выбор цвета для линии.<br>\n"
+"    \tУстановите значение <em>Альфа<em>, чтобы сделать линию "
+"полупрозрачной.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
@@ -3058,11 +3072,14 @@ msgid "<![CDATA[Distance between horizontal lines in pixel]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
 msgstr ""
+"<![CDATA[Выбор цвета для линий сетки.<br>\n"
+"    \tУстановите значение <em>Альфа<em>, чтобы сделать сетку "
+"полупрозрачной.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, fuzzy, kde-format
@@ -3573,9 +3590,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_flanger.xml:37
-#, fuzzy, kde-format
+#, kde-format
 msgid "Linear,Quadratic"
-msgstr "Линейная"
+msgstr "Линейная,Квадратичная"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: data/effects/avfilter/avfilter_flanger.xml:38
@@ -3595,7 +3612,7 @@ msgstr "Интерполяция"
 #: data/effects/avfilter/avfilter_flanger.xml:39
 #, kde-format
 msgid "Set delay-line interpolation, linear or quadratic."
-msgstr ""
+msgstr "Установить интерполяцию линии задержки, линейную или квадратичную."
 
 #: data/effects/avfilter/avfilter_framestep.xml:4
 #, fuzzy, kde-format
@@ -3620,7 +3637,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fspp.xml:5
 #, kde-format
 msgid "Fast and simple postprocessing"
-msgstr ""
+msgstr "Простая и быстрая постобработка"
 
 #: data/effects/avfilter/avfilter_fspp.xml:8
 #, kde-format
@@ -3977,9 +3994,9 @@ msgid "Temporal Chroma Strength"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hq*x Interpolator"
-msgstr "Интерполяция"
+msgstr "Интерполятор Hq*x"
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
 #, kde-format
@@ -3993,9 +4010,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:9
 #: data/effects/avfilter/avfilter_xbr.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Interpolation factor"
-msgstr "Интерполяция"
+msgstr "Коэффициент интерполяции"
 
 #: data/effects/avfilter/avfilter_hqx.xml:12
 #: data/effects/avfilter/avfilter_xbr.xml:12
@@ -4176,14 +4193,14 @@ msgid "Slowly update darker pixels."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens correction"
-msgstr "Коррекция дисторсии"
+msgstr "Коррекция объектива"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:5
 #, kde-format
 msgid "Correct radial lens distortion "
-msgstr ""
+msgstr "Коррекция радиальной дисторсии объектива "
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, kde-format
@@ -4196,14 +4213,14 @@ msgid "Focal point relative-Y coord"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Quadratic correction coeff."
-msgstr "Коррекция звука"
+msgstr "Коэффициент квадратичной поправки."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:17
 #, kde-format
 msgid "DoubleQuadratic correction coeff."
-msgstr ""
+msgstr "Коэффициент двойной квадратичной поправки."
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -4337,9 +4354,9 @@ msgid "LUT file to apply"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Interpolation Mode"
-msgstr "Интерполяция"
+msgstr "Режим интерполяции"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, kde-format
@@ -4420,7 +4437,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_median.xml:24
 #, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr ""
+msgstr "<![CDATA[Выбор плоскостей для обработки]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, fuzzy, kde-format
@@ -4697,9 +4714,9 @@ msgid "Components"
 msgstr "Компоненты:"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Выбор компонентов для трассировки]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, fuzzy, kde-format
@@ -5020,9 +5037,9 @@ msgid "Absolute,Relative"
 msgstr "От&носительный"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Correction Method"
-msgstr "Способ выбора изображений"
+msgstr "Метод коррекции"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:12
 #, kde-format
@@ -5128,9 +5145,9 @@ msgid "Nearest,Bilinear"
 msgstr "Ближайшее соседнее,Билинейное"
 
 #: data/effects/avfilter/avfilter_shear.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Interpolation mode"
-msgstr "Интерполяция"
+msgstr "Режим интерполяции"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -5363,9 +5380,9 @@ msgid "Use if option ‘type’ is set to freq."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
-#, fuzzy, kde-format
+#, kde-format
 msgid "Interpolate"
-msgstr "Интерполяция"
+msgstr "Интерполировать"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
 #, fuzzy, kde-format
@@ -5381,7 +5398,7 @@ msgstr "Угол"
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
 #, kde-format
 msgid "Only used if option interpolate is enabled."
-msgstr ""
+msgstr "Используется только в том случае, если включена опция интерполяции."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
@@ -5551,36 +5568,40 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "Stereo Mode"
-msgstr "Глубина стерео"
+msgstr "Режим стерео"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Side Level"
-msgstr "Уровень микрофона"
+msgstr "Уровень бокового сигнала"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:49
 #, kde-format
 msgid ""
 "Set level of side signal. Default is 1. Allowed range is from 0.015625 to 64."
 msgstr ""
+"Установить уровень бокового сигнала. По умолчанию: 1. Допустимый диапазон: "
+"от 0.015625 до 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:52
-#, fuzzy, kde-format
+#, kde-format
 msgid "Side Balance"
-msgstr "Баланс белого"
+msgstr "Баланс бокового сигнала"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:53
 #, kde-format
 msgid ""
 "Set balance of side signal. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Установить баланс бокового сигнала. По умолчанию: 0. Допустимый диапазон: от "
+"-1 до 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "Mid Level"
-msgstr "Уровень микрофона"
+msgstr "Уровень среднего сигнала"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:57
 #, kde-format
@@ -5588,16 +5609,20 @@ msgid ""
 "Set level of the middle signal. Default is 1. Allowed range is from 0.015625 "
 "to 64."
 msgstr ""
+"Установить уровень среднего сигнала. По умолчанию: 1. Допустимый диапазон: "
+"от 0.015625 до 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
-#, fuzzy, kde-format
+#, kde-format
 msgid "Mid Pan"
-msgstr "Среднее усиление"
+msgstr "Панорамирование среднего сигнала"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:61
 #, kde-format
 msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Установить панорамирование среднего сигнала. По умолчанию: 0. Допустимый "
+"диапазон: от -1 до 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
 #, fuzzy, kde-format
@@ -6105,9 +6130,9 @@ msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Выбор компонентов для отображения]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
 #, fuzzy, kde-format
@@ -6226,9 +6251,9 @@ msgid "Top,Bottom"
 msgstr "Сверху вниз"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "xBR Interpolator"
-msgstr "Интерполяция"
+msgstr "Интерполятор xBR"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -6266,14 +6291,14 @@ msgid "Top field first,Bottom field first,Auto"
 msgstr "Сначала нижнее поле"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Zoom Pan"
-msgstr "Увеличить масштаб"
+msgstr "Масштабирование с панорамированием"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply Zoom and Pan effect"
-msgstr "Полосный фильтр SoX"
+msgstr "Применить эффект масштабирования с панорамированием"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
@@ -7643,7 +7668,7 @@ msgid "Adjusts the brightness of a source image"
 msgstr "Коррекция яркости оригинального изображения"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Corners Effect Name"
 msgid "Corners"
 msgstr "Углы"
@@ -8826,7 +8851,7 @@ msgstr "Вверху слева,Вверху справа,Внизу слева,
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
 #, kde-format
 msgid "Preferred corner"
-msgstr ""
+msgstr "Предпочитаемый угол"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
 #, kde-format
@@ -8836,9 +8861,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
-#, fuzzy, kde-format
+#, kde-format
 msgid "Corner Search"
-msgstr "Поиск в корзине"
+msgstr "Поиск угла"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:54
 #, kde-format
@@ -8848,7 +8873,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
-#, fuzzy, kde-format
+#, kde-format
 msgid "Background color"
 msgstr "Цвет фона"
 
@@ -8961,9 +8986,9 @@ msgid "Mask to Alpha"
 msgstr "Маску в альфа-канал"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lens Correction  (keyframable)"
-msgstr "Коррекция дисторсии"
+msgstr "Коррекция объектива (по ключевым кадрам)"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:5
 #, kde-format
@@ -9720,14 +9745,14 @@ msgid "CCIR rec. 601,CCIR rec. 709"
 msgstr "CCIR рек. 601,CCIR рек. 709"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:86
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color encoding"
-msgstr "Кодирование PCM"
+msgstr "Кодирование цветов"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[Выбор между чересстрочным (601) или прогрессивным (709)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:90
 #, kde-format
@@ -10105,7 +10130,8 @@ msgid ""
 "Saturation, according to the ASC CDL (Color Decision List)."
 msgstr ""
 "Изменяет крутизну кривых, смещение и мощность цветовых каналов, а также "
-"общую насыщенность в соответствии с ASC CDL (Color Decision List)."
+"общую насыщенность в соответствии с форматом ASC CDL (список решений по "
+"цвету Американского общества кинематографистов)."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:9
 #: data/effects/frei0r/frei0r_sopsat.xml:59
@@ -10526,6 +10552,12 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[Количество точек GPS для сглаживания с целью устранения ошибок GPS."
+"<br>\n"
+"    \tПри значении «1» сглаживание расположений не выполняется, а только "
+"вычисляются дополнительные поля (скорость, расстояние и так далее). Кроме "
+"того, интерполируются отсутствующие значения для частоты сокращений сердца и "
+"высоты.]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -11201,9 +11233,9 @@ msgid "10000 Hz"
 msgstr "10000 Гц"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "20000 Hz"
-msgstr "10000 Гц"
+msgstr "20000 Гц"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:4
 #, kde-format
@@ -12328,9 +12360,9 @@ msgid "SoX"
 msgstr "SoX"
 
 #: data/effects/sox/sox.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Process audio using a SoX effect"
-msgstr "Проблема с редактирование эффекта"
+msgstr "Обработка звука с использованием эффекта SoX"
 
 #: data/effects/sox/sox.xml:8
 #, fuzzy, kde-format
@@ -12344,9 +12376,9 @@ msgid "Effect"
 msgstr "Эффект"
 
 #: data/effects/sox/sox.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Normalization level "
-msgstr "Нормализация"
+msgstr "Уровень нормализация "
 
 #: data/effects/sox/sox.xml:15
 #, fuzzy, kde-format
@@ -12354,9 +12386,9 @@ msgid "Gain to normalize"
 msgstr "Нормализация"
 
 #: data/effects/sox/sox.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use peak"
-msgstr "Использовать каше"
+msgstr "Использовать пик"
 
 #: data/effects/sox/sox.xml:21
 #, kde-format
@@ -12364,9 +12396,9 @@ msgid "Dynamic normalization"
 msgstr "Динамическая нормализация"
 
 #: data/effects/sox/sox.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Smoothing window size "
-msgstr "Окно Хемминга"
+msgstr "Размер окна сглаживания "
 
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
