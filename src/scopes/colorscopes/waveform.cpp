@@ -24,8 +24,10 @@ const int Waveform::m_paddingBottom(20);
 
 Waveform::Waveform(QWidget *parent)
     : AbstractGfxScopeWidget(true, parent)
-
 {
+    // overwrite custom scopes palette from AbstractScopeWidget with global app palette to respect users theme preference
+    setPalette(QPalette());
+
     m_ui = new Ui::Waveform_UI();
     m_ui->setupUi(this);
 
@@ -48,6 +50,7 @@ Waveform::Waveform(QWidget *parent)
     connect(this, &Waveform::signalMousePositionChanged, this, &Waveform::forceUpdateHUD);
     connect(m_aRec601, &QAction::toggled, this, &Waveform::forceUpdateScope);
     connect(m_aRec709, &QAction::toggled, this, &Waveform::forceUpdateScope);
+    connect(pCore.get(), &Core::updatePalette, this, [this]() { forceUpdate(true); });
 
     init();
     m_waveformGenerator = new WaveformGenerator();
@@ -125,7 +128,7 @@ QImage Waveform::renderHUD(uint)
         qDebug() << "Could not initialise QPainter for Waveform HUD.";
         return hud;
     }
-    davinci.setPen(penLight);
+    davinci.setPen(palette().text().color());
 
     //    qCDebug(KDENLIVE_LOG) << values.value("width");
 
@@ -189,7 +192,7 @@ QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
     ITURec rec = m_aRec601->isChecked() ? ITURec::Rec_601 : ITURec::Rec_709;
     qreal scalingFactor = devicePixelRatioF();
     QImage wave = m_waveformGenerator->calculateWaveform((scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom)), scalingFactor, qimage,
-                                                         WaveformGenerator::PaintMode(paintmode), true, rec, accelFactor);
+                                                         WaveformGenerator::PaintMode(paintmode), true, rec, accelFactor, palette());
 
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), 1);
     return wave;

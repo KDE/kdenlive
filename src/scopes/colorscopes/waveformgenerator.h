@@ -7,8 +7,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include <QObject>
 #include "colorconstants.h"
+#include <QObject>
+#include <QPalette>
 
 class QImage;
 class QSize;
@@ -23,6 +24,6 @@ public:
     WaveformGenerator();
     ~WaveformGenerator() override;
 
-    QImage calculateWaveform(const QSize &waveformSize, qreal scalingFactor, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
-                             const ITURec rec, uint accelFactor = 1);
+    QImage calculateWaveform(const QSize &waveformSize, qreal scalingFactor, const QImage &image, const WaveformGenerator::PaintMode paintMode, bool drawAxis,
+                             const ITURec rec, uint accelFactor = 1, const QPalette &palette = QPalette());
 };
