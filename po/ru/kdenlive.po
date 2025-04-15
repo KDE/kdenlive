@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-14 02:32+0000\n"
-"PO-Revision-Date: 2025-04-11 17:23+0300\n"
+"POT-Creation-Date: 2025-04-15 02:32+0000\n"
+"PO-Revision-Date: 2025-04-14 17:29+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -397,7 +397,7 @@ msgstr "Отрисовка точек начинается с самой выс�
 #: data/effects/audiospectrum.xml:46
 #, kde-format
 msgid "Line Tension"
-msgstr "Напряжённость строки"
+msgstr "Натяжение линии"
 
 #: data/effects/audiospectrum.xml:47
 #, kde-format
@@ -775,25 +775,23 @@ msgid "Sample reduction"
 msgstr "Сохранить выбранное"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable LFO"
-msgstr "Включить"
+msgstr "Включить НЧ-модулятор"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
 msgid "LFO depth"
-msgstr ""
+msgstr "Глубина НЧ-модулятора"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
-#, fuzzy, kde-format
-#| msgid "Frame rate"
+#, kde-format
 msgid "LFO rate"
-msgstr "Кадровая частота"
+msgstr "Частота НЧ-модулятора"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Limiter"
 msgstr "Ограничитель"
 
@@ -801,19 +799,17 @@ msgstr "Ограничитель"
 #: data/effects/avfilter/avfilter_aphaser.xml:5
 #, kde-format
 msgid "Audio lookahead limiter."
-msgstr ""
+msgstr "Ограничитель опережающего анализа звука"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable ASC"
-msgstr "Включить"
+msgstr "Включить ASC (адаптивное управление звуком)"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "ASC level"
-msgstr "Уровни звука"
+msgstr "Уровень ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
 #, fuzzy, kde-format
@@ -967,10 +963,9 @@ msgid "Phaser"
 msgstr "Фейзер"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:14
-#, fuzzy, kde-format
-#| msgid "Duration (seconds)"
+#, kde-format
 msgid "Delay in milliseconds"
-msgstr "Длительность (в секундах)"
+msgstr "Задержка в миллисекундах"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
 #: data/effects/avfilter/avfilter_flanger.xml:28
@@ -1502,6 +1497,7 @@ msgstr "Ключевой цвет"
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
 msgstr ""
+"<![CDATA[Выберите этот пункт, если клип содержит данные YUV вместо RGB.]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
@@ -2166,10 +2162,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
-#, fuzzy, kde-format
-#| msgid "Color Temperature"
+#, kde-format
 msgid "Temperature"
-msgstr "Цветовая температура"
+msgstr "Температура"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
 #, fuzzy, kde-format
@@ -2243,10 +2238,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch compensation"
+#, kde-format
 msgid "Compensation Delay"
-msgstr "Компенсация высоты звука"
+msgstr "Компенсационная задержка"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:8
 #, kde-format
@@ -2270,62 +2264,63 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
-#, fuzzy, kde-format
-#| msgid "Vertical split distance"
+#, kde-format
 msgid "Millimiter distance"
-msgstr "Расстояние вертикального рассеивания"
+msgstr "Расстояние в миллиметрах"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:12
 #, kde-format
 msgid ""
 "Set millimeters distance. This is compensation distance for fine tuning."
 msgstr ""
+"Установить расстояние в миллиметрах. Это компенсационное расстояние для "
+"тонкой настройки."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:15
-#, fuzzy, kde-format
-#| msgid "Center balance"
+#, kde-format
 msgid "Centimeter distance"
-msgstr "Баланс центра"
+msgstr "Расстояние в сантиметрах"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:16
 #, kde-format
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
 msgstr ""
+"Установить расстояние в сантиметрах. Это компенсационное расстояние для "
+"плотной дистанционной конфигурации."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
-#, fuzzy, kde-format
-#| msgid "Weight on distance"
+#, kde-format
 msgid "Meter distance"
-msgstr "Вес на расстоянии"
+msgstr "Расстояние в метрах"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:20
 #, kde-format
 msgid ""
 "Set meters distance. This is compensation distance for hard distance setup."
 msgstr ""
+"Установить расстояние в метрах. Это компенсационное расстояние для жёсткой "
+"дистанционной конфигурации."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
-#, fuzzy, kde-format
-#| msgid "Mix amount"
+#, kde-format
 msgid "Dry amount"
-msgstr "Количество смешивания"
+msgstr "Количество «сухого»"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:24
 #, kde-format
 msgid "Set dry amount. Amount of unprocessed (dry) signal."
-msgstr ""
+msgstr "Установить количество необработанного («сухого») сигнала."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Wet amount"
-msgstr "Интенсивность тонирования"
+msgstr "Количество «мокрого»"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:28
 #, kde-format
 msgid "Set wet amount. Amount of processed (wet) signal."
-msgstr ""
+msgstr "Установить количество обработанного («мокрого») сигнала."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:32
 #, kde-format
@@ -2783,18 +2778,21 @@ msgstr "Применить деэссер к звуку."
 #, kde-format
 msgid "Set intensity for triggering de-essing. Allowed range is from 0 to 1."
 msgstr ""
+"Установить интенсивность для активации деэссера. Допустимый диапазон: от 0 "
+"до 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
-#, fuzzy, kde-format
-#| msgid "Missing"
+#, kde-format
 msgid "Max deessing"
-msgstr "Отсутствует"
+msgstr "Макс. деэссинг"
 
 #: data/effects/avfilter/avfilter_deesser.xml:13
 #, kde-format
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
+"Установить уровень приглушения высокочастотной составляющей звука. "
+"Допустимый диапазон: от 0 до 1."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
@@ -3120,7 +3118,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
 #: data/effects/avfilter/avfilter_fillborders.xml:24
-#: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2502
+#: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2504
 #: src/layoutmanagement.cpp:36
 #: src/mltcontroller/clippropertiescontroller.cpp:353
 #, kde-format
@@ -3133,6 +3131,9 @@ msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha<em> value to make the line semi-transparent.]]>"
 msgstr ""
+"<![CDATA[Выбор цвета для линии.<br>\n"
+"    \tУстановите значение <em>Альфа<em>, чтобы сделать линию "
+"полупрозрачной.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
@@ -3234,6 +3235,9 @@ msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha<em> value to make the grid semi-transparent.]]>"
 msgstr ""
+"<![CDATA[Выбор цвета для линий сетки.<br>\n"
+"    \tУстановите значение <em>Альфа<em>, чтобы сделать сетку "
+"полупрозрачной.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, fuzzy, kde-format
@@ -3778,9 +3782,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_flanger.xml:37
-#, fuzzy, kde-format
+#, kde-format
 msgid "Linear,Quadratic"
-msgstr "Линейная"
+msgstr "Линейная,Квадратичная"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: data/effects/avfilter/avfilter_flanger.xml:38
@@ -3800,7 +3804,7 @@ msgstr "Интерполяция"
 #: data/effects/avfilter/avfilter_flanger.xml:39
 #, kde-format
 msgid "Set delay-line interpolation, linear or quadratic."
-msgstr ""
+msgstr "Установить интерполяцию линии задержки, линейную или квадратичную."
 
 #: data/effects/avfilter/avfilter_framestep.xml:4
 #, fuzzy, kde-format
@@ -3827,7 +3831,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fspp.xml:5
 #, kde-format
 msgid "Fast and simple postprocessing"
-msgstr ""
+msgstr "Простая и быстрая постобработка"
 
 #: data/effects/avfilter/avfilter_fspp.xml:8
 #, kde-format
@@ -4077,7 +4081,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #: data/effects/frei0r/frei0r_defish0r.xml:15
 #: data/effects/frei0r/frei0r_iirblur.xml:13
-#: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1294
+#: data/effects/frei0r/frei0r_medians.xml:9 src/bin/bin.cpp:1296
 #: src/bin/projectitemmodel.cpp:334
 #, kde-format
 msgid "Type"
@@ -4211,10 +4215,9 @@ msgid "Temporal Chroma Strength"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:4
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "Hq*x Interpolator"
-msgstr "Интерполяция"
+msgstr "Интерполятор Hq*x"
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
 #, kde-format
@@ -4228,10 +4231,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_hqx.xml:9
 #: data/effects/avfilter/avfilter_xbr.xml:9
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation factor"
-msgstr "Интерполяция"
+msgstr "Коэффициент интерполяции"
 
 #: data/effects/avfilter/avfilter_hqx.xml:12
 #: data/effects/avfilter/avfilter_xbr.xml:12
@@ -4427,15 +4429,14 @@ msgid "Slowly update darker pixels."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens Correction"
+#, kde-format
 msgid "Lens correction"
-msgstr "Коррекция дисторсии"
+msgstr "Коррекция объектива"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:5
 #, kde-format
 msgid "Correct radial lens distortion "
-msgstr ""
+msgstr "Коррекция радиальной дисторсии объектива "
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:8
 #, kde-format
@@ -4448,15 +4449,14 @@ msgid "Focal point relative-Y cord"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:14
-#, fuzzy, kde-format
-#| msgid "Audio correction"
+#, kde-format
 msgid "Quadratic correction coeff."
-msgstr "Коррекция звука"
+msgstr "Коэффициент квадратичной поправки."
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:17
 #, kde-format
 msgid "DoubleQuadratic correction coeff."
-msgstr ""
+msgstr "Коэффициент двойной квадратичной поправки."
 
 #: data/effects/avfilter/avfilter_limiter.xml:5
 #, kde-format
@@ -4592,10 +4592,9 @@ msgid "LUT file to apply"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation Mode"
-msgstr "Интерполяция"
+msgstr "Режим интерполяции"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, kde-format
@@ -4682,7 +4681,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_median.xml:24
 #, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr ""
+msgstr "<![CDATA[Выбор плоскостей для обработки]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, fuzzy, kde-format
@@ -4993,10 +4992,9 @@ msgid "Components"
 msgstr "Компоненты:"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Выбор компонентов для трассировки]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, fuzzy, kde-format
@@ -5361,10 +5359,9 @@ msgid "Absolute,Relative"
 msgstr "От&носительный"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Image Selection Method"
+#, kde-format
 msgid "Correction Method"
-msgstr "Способ выбора изображений"
+msgstr "Метод коррекции"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:12
 #, kde-format
@@ -5486,10 +5483,9 @@ msgid "Nearest,Bilinear"
 msgstr "Ближайшее соседнее,Билинейное"
 
 #: data/effects/avfilter/avfilter_shear.xml:18
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation mode"
-msgstr "Интерполяция"
+msgstr "Режим интерполяции"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
@@ -5736,10 +5732,9 @@ msgid "Use if option ‘type’ is set to freq."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "Interpolate"
-msgstr "Интерполяция"
+msgstr "Интерполировать"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:40
 #, fuzzy, kde-format
@@ -5757,7 +5752,7 @@ msgstr "Угол"
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
 #, kde-format
 msgid "Only used if option interpolate is enabled."
-msgstr ""
+msgstr "Используется только в том случае, если включена опция интерполяции."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
@@ -5943,40 +5938,40 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
-#, fuzzy, kde-format
-#| msgid "Stereo depth"
+#, kde-format
 msgid "Stereo Mode"
-msgstr "Глубина стерео"
+msgstr "Режим стерео"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Side Level"
-msgstr "Уровень микрофона"
+msgstr "Уровень бокового сигнала"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:49
 #, kde-format
 msgid ""
 "Set level of side signal. Default is 1. Allowed range is from 0.015625 to 64."
 msgstr ""
+"Установить уровень бокового сигнала. По умолчанию: 1. Допустимый диапазон: "
+"от 0.015625 до 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:52
-#, fuzzy, kde-format
-#| msgid "White Balance"
+#, kde-format
 msgid "Side Balance"
-msgstr "Баланс белого"
+msgstr "Баланс бокового сигнала"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:53
 #, kde-format
 msgid ""
 "Set balance of side signal. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Установить баланс бокового сигнала. По умолчанию: 0. Допустимый диапазон: от "
+"-1 до 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "Mid Level"
-msgstr "Уровень микрофона"
+msgstr "Уровень среднего сигнала"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:57
 #, kde-format
@@ -5984,17 +5979,20 @@ msgid ""
 "Set level of the middle signal. Default is 1. Allowed range is from 0.015625 "
 "to 64."
 msgstr ""
+"Установить уровень среднего сигнала. По умолчанию: 1. Допустимый диапазон: "
+"от 0.015625 до 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Mid Pan"
-msgstr "Среднее усиление"
+msgstr "Панорамирование среднего сигнала"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:61
 #, kde-format
 msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Установить панорамирование среднего сигнала. По умолчанию: 0. Допустимый "
+"диапазон: от -1 до 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
 #, fuzzy, kde-format
@@ -6551,10 +6549,9 @@ msgid "<![CDATA[Set the display mode]]>"
 msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Выбор компонентов для отображения]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
 #, fuzzy, kde-format
@@ -6570,8 +6567,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1395
-#: src/bin/bin.cpp:1400 src/bin/bin.cpp:2360
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1397
+#: src/bin/bin.cpp:1402 src/bin/bin.cpp:2362
 #, kde-format
 msgid "Filter"
 msgstr "Фильтр"
@@ -6682,10 +6679,9 @@ msgid "Top,Bottom"
 msgstr "Сверху вниз"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
-#, fuzzy, kde-format
-#| msgid "Interpolator"
+#, kde-format
 msgid "xBR Interpolator"
-msgstr "Интерполяция"
+msgstr "Интерполятор xBR"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -6718,16 +6714,14 @@ msgid "Send frame,Send field,Send frame nospatial,Send field nospatil"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
-#, fuzzy, kde-format
-#| msgid "Zoom In"
+#, kde-format
 msgid "Zoom Pan"
-msgstr "Увеличить масштаб"
+msgstr "Масштабирование с панорамированием"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:5
-#, fuzzy, kde-format
-#| msgid "Sox band audio effect"
+#, kde-format
 msgid "Apply Zoom and Pan effect"
-msgstr "Полосный фильтр SoX"
+msgstr "Применить эффект масштабирования с панорамированием"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
@@ -6741,7 +6735,7 @@ msgstr "Масштаб"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:172
-#: src/bin/bin.cpp:1298 src/bin/projectitemmodel.cpp:340
+#: src/bin/bin.cpp:1300 src/bin/projectitemmodel.cpp:340
 #: src/timeline2/view/dialogs/speeddialog.cpp:57
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
@@ -8121,7 +8115,7 @@ msgid "Adjusts the brightness of a source image"
 msgstr "Коррекция яркости оригинального изображения"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Corners Effect Name"
 msgid "Corners"
 msgstr "Углы"
@@ -9339,7 +9333,7 @@ msgstr "Вверху слева,Вверху справа,Внизу слева,
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
 #, kde-format
 msgid "Preferred corner"
-msgstr ""
+msgstr "Предпочитаемый угол"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
 #, kde-format
@@ -9349,10 +9343,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
-#, fuzzy, kde-format
-#| msgid "Bin Search"
+#, kde-format
 msgid "Corner Search"
-msgstr "Поиск в корзине"
+msgstr "Поиск угла"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:54
 #, kde-format
@@ -9362,8 +9355,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background color"
 msgstr "Цвет фона"
 
@@ -9478,10 +9470,9 @@ msgid "Mask to Alpha"
 msgstr "Маску в альфа-канал"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:4
-#, fuzzy, kde-format
-#| msgid "Lens Correction"
+#, kde-format
 msgid "Lens Correction  (keyframable)"
-msgstr "Коррекция дисторсии"
+msgstr "Коррекция объектива (по ключевым кадрам)"
 
 #: data/effects/frei0r/frei0r_lenscorrection.xml:5
 #, kde-format
@@ -10264,15 +10255,14 @@ msgid "CCIR rec. 601,CCIR rec. 709"
 msgstr "CCIR рек. 601,CCIR рек. 709"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:86
-#, fuzzy, kde-format
-#| msgid "PCM encoding"
+#, kde-format
 msgid "Color encoding"
-msgstr "Кодирование PCM"
+msgstr "Кодирование цветов"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[Выбор между чересстрочным (601) или прогрессивным (709)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:90
 #, kde-format
@@ -10653,7 +10643,8 @@ msgid ""
 "Saturation, according to the ASC CDL (Color Decision List)."
 msgstr ""
 "Изменяет крутизну кривых, смещение и мощность цветовых каналов, а также "
-"общую насыщенность в соответствии с ASC CDL (Color Decision List)."
+"общую насыщенность в соответствии с форматом ASC CDL (список решений по "
+"цвету Американского общества кинематографистов)."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:9
 #: data/effects/frei0r/frei0r_sopsat.xml:59
@@ -11082,6 +11073,12 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[Количество точек GPS для сглаживания с целью устранения ошибок GPS."
+"<br>\n"
+"    \tПри значении «1» сглаживание расположений не выполняется, а только "
+"вычисляются дополнительные поля (скорость, расстояние и так далее). Кроме "
+"того, интерполируются отсутствующие значения для частоты сокращений сердца и "
+"высоты.]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -11757,10 +11754,9 @@ msgid "10000 Hz"
 msgstr "10000 Гц"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
-#, fuzzy, kde-format
-#| msgid "10000 Hz"
+#, kde-format
 msgid "20000 Hz"
-msgstr "10000 Гц"
+msgstr "20000 Гц"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:4
 #, kde-format
@@ -12889,10 +12885,9 @@ msgid "SoX"
 msgstr "SoX"
 
 #: data/effects/sox/sox.xml:5
-#, fuzzy, kde-format
-#| msgid "Problem editing effect"
+#, kde-format
 msgid "Process audio using a SoX effect"
-msgstr "Проблема с редактирование эффекта"
+msgstr "Обработка звука с использованием эффекта SoX"
 
 #: data/effects/sox/sox.xml:8
 #, fuzzy, kde-format
@@ -12907,10 +12902,9 @@ msgid "Effect"
 msgstr "Эффект"
 
 #: data/effects/sox/sox.xml:12
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Normalization level "
-msgstr "Нормализация"
+msgstr "Уровень нормализация "
 
 #: data/effects/sox/sox.xml:15
 #, fuzzy, kde-format
@@ -12919,10 +12913,9 @@ msgid "Gain to normalize"
 msgstr "Нормализация"
 
 #: data/effects/sox/sox.xml:18
-#, fuzzy, kde-format
-#| msgid "Use Luma"
+#, kde-format
 msgid "Use peak"
-msgstr "Использовать каше"
+msgstr "Использовать пик"
 
 #: data/effects/sox/sox.xml:21
 #, kde-format
@@ -12930,10 +12923,9 @@ msgid "Dynamic normalization"
 msgstr "Динамическая нормализация"
 
 #: data/effects/sox/sox.xml:24
-#, fuzzy, kde-format
-#| msgid "Hamming window"
+#, kde-format
 msgid "Smoothing window size "
-msgstr "Окно Хемминга"
+msgstr "Размер окна сглаживания "
 
 #: data/effects/sox/sox_band.xml:4
 #, kde-format
@@ -14917,7 +14909,7 @@ msgstr "Показать/Скрыть описание эффектов"
 msgid "Show/hide description of the compositions"
 msgstr "Показать/Скрыть описание композиций"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1193
+#: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1195
 #, kde-format
 msgid "Search…"
 msgstr "Найти…"
@@ -15653,7 +15645,7 @@ msgid "Limit automatic keyframes"
 msgstr "Ограничить автоматические ключевые кадры"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:229 src/bin/bin.cpp:1347
+#: src/assets/view/widgets/keyframewidget.cpp:229 src/bin/bin.cpp:1349
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -15910,82 +15902,82 @@ msgstr[1] "%1 задания в очереди"
 msgstr[2] "%1 заданий в очереди"
 msgstr[3] "%1 задание в очереди"
 
-#: src/bin/bin.cpp:1195
+#: src/bin/bin.cpp:1197
 #, kde-format
 msgid "Bin Search"
 msgstr "Поиск в корзине"
 
-#: src/bin/bin.cpp:1241
+#: src/bin/bin.cpp:1243
 #, kde-format
 msgid "View Mode"
 msgstr "Режим просмотра"
 
-#: src/bin/bin.cpp:1244
+#: src/bin/bin.cpp:1246
 #, kde-format
 msgid "Tree View"
 msgstr "В виде дерева"
 
-#: src/bin/bin.cpp:1251
+#: src/bin/bin.cpp:1253
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr "Скорректировать профиль по текущему клипу"
 
-#: src/bin/bin.cpp:1255
+#: src/bin/bin.cpp:1257
 #, kde-format
 msgid "Icon View"
 msgstr "В виде миниатюр"
 
-#: src/bin/bin.cpp:1263 src/project/dialogs/guideslist.cpp:109
+#: src/bin/bin.cpp:1265 src/project/dialogs/guideslist.cpp:109
 #, kde-format
 msgid "Descending"
 msgstr "По убыванию"
 
-#: src/bin/bin.cpp:1279
+#: src/bin/bin.cpp:1281
 #, kde-format
 msgid "Sort By"
 msgstr "Сортировка"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1284 src/bin/projectitemmodel.cpp:325
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Имя"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1286 src/bin/projectitemmodel.cpp:328
+#: src/bin/bin.cpp:1288 src/bin/projectitemmodel.cpp:328
 #: src/project/dialogs/projectsettings.cpp:249 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Дата"
 
-#: src/bin/bin.cpp:1290 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1292 src/bin/projectitemmodel.cpp:331
 #, kde-format
 msgid "Description"
 msgstr "Описание"
 
-#: src/bin/bin.cpp:1302
+#: src/bin/bin.cpp:1304
 #, kde-format
 msgid "Insert Order"
 msgstr "Порядок вставки"
 
-#: src/bin/bin.cpp:1306 src/bin/projectitemmodel.cpp:346
+#: src/bin/bin.cpp:1308 src/bin/projectitemmodel.cpp:346
 #, kde-format
 msgid "Rating"
 msgstr "Оценка"
 
-#: src/bin/bin.cpp:1330
+#: src/bin/bin.cpp:1332
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr "Отключить эффекты корзины"
 
-#: src/bin/bin.cpp:1338
+#: src/bin/bin.cpp:1340
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
 msgstr "Предварительный просмотр видео в миниатюрах"
 
-#: src/bin/bin.cpp:1348
+#: src/bin/bin.cpp:1350
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15995,32 +15987,32 @@ msgstr ""
 "Открывает меню для настройки параметров корзины проекта (например, режим "
 "просмотра, сортировка, отображение оценки)."
 
-#: src/bin/bin.cpp:1355
+#: src/bin/bin.cpp:1357
 #, kde-format
 msgid "Show Date"
 msgstr "Показать дату"
 
-#: src/bin/bin.cpp:1359
+#: src/bin/bin.cpp:1361
 #, kde-format
 msgid "Show Description"
 msgstr "Показать описание"
 
-#: src/bin/bin.cpp:1363
+#: src/bin/bin.cpp:1365
 #, kde-format
 msgid "Show Rating"
 msgstr "Показать оценку"
 
-#: src/bin/bin.cpp:1374
+#: src/bin/bin.cpp:1376
 #, kde-format
 msgid "Open Current Folder In New Bin"
 msgstr "Открыть текущую папку в новой корзине"
 
-#: src/bin/bin.cpp:1379
+#: src/bin/bin.cpp:1381
 #, kde-format
 msgid "Tags Panel"
 msgstr "Панель меток"
 
-#: src/bin/bin.cpp:1401
+#: src/bin/bin.cpp:1403
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16032,52 +16024,52 @@ msgstr ""
 "применение. Щелчок по значку стрелки выводит список параметров настройки "
 "фильтра."
 
-#: src/bin/bin.cpp:1436
+#: src/bin/bin.cpp:1438
 #, kde-format
 msgid "Close Current Bin"
 msgstr "Закрыть текущую корзину"
 
-#: src/bin/bin.cpp:1448
+#: src/bin/bin.cpp:1450
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "Отменить все задания"
 
-#: src/bin/bin.cpp:1450
+#: src/bin/bin.cpp:1452
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "Отменить текущие задания"
 
-#: src/bin/bin.cpp:1452
+#: src/bin/bin.cpp:1454
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr "Отменить задания в очереди"
 
-#: src/bin/bin.cpp:1493
+#: src/bin/bin.cpp:1495
 #, kde-format
 msgid "Bin Clip Properties"
 msgstr "Свойства клипа в корзине"
 
-#: src/bin/bin.cpp:1803
+#: src/bin/bin.cpp:1805
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr "Нельзя удалить все последовательности в проекте"
 
-#: src/bin/bin.cpp:1806
+#: src/bin/bin.cpp:1808
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr "Удаление последовательностей невозможно отменить"
 
-#: src/bin/bin.cpp:1813
+#: src/bin/bin.cpp:1815
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr "С монтажного стола будут удалены все выбранные клипы"
 
-#: src/bin/bin.cpp:1816
+#: src/bin/bin.cpp:1818
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "Всё содержимое папки будет удалено"
 
-#: src/bin/bin.cpp:1833
+#: src/bin/bin.cpp:1835
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
@@ -16085,17 +16077,17 @@ msgstr ""
 "Не удалось удалить некоторые элементы. Может быть имеются экземпляры на "
 "заблокированных дорожках?"
 
-#: src/bin/bin.cpp:1835
+#: src/bin/bin.cpp:1837
 #, kde-format
 msgid "Delete bin Clips"
 msgstr "Удалить клипы из корзины"
 
-#: src/bin/bin.cpp:1860 src/effects/effectstack/view/maskmanager.cpp:251
+#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:251
 #, kde-format
 msgid "Missing source clip"
 msgstr "Отсутствует исходный клип"
 
-#: src/bin/bin.cpp:1880 src/bin/bin.cpp:2564
+#: src/bin/bin.cpp:1882 src/bin/bin.cpp:2566
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:426
@@ -16103,7 +16095,7 @@ msgstr "Отсутствует исходный клип"
 msgid "Unable to write to file %1"
 msgstr "Не удалось осуществить запись в файл «%1»"
 
-#: src/bin/bin.cpp:1887 src/bin/bin.cpp:2570 src/doc/kdenlivedoc.cpp:753
+#: src/bin/bin.cpp:1889 src/bin/bin.cpp:2572 src/doc/kdenlivedoc.cpp:753
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -16112,17 +16104,17 @@ msgstr ""
 "Файл проекта был изменён приложением Kdenlive.\n"
 "Во избежание потери данных создана резервная копия с именем «%1»."
 
-#: src/bin/bin.cpp:1893
+#: src/bin/bin.cpp:1895
 #, kde-format
 msgid "Unable to parse file %1"
 msgstr "Не удалось обработать файл «%1»"
 
-#: src/bin/bin.cpp:1904
+#: src/bin/bin.cpp:1906
 #, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr "Не удалось заменить клип на недопустимый файл «%1»"
 
-#: src/bin/bin.cpp:1930 src/bin/bin.cpp:2151
+#: src/bin/bin.cpp:1932 src/bin/bin.cpp:2153
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -16133,18 +16125,18 @@ msgstr ""
 "стать причиной возникновения проблем на монтажном столе.\n"
 "В заменяющем клипе количество кадров меньше на %1."
 
-#: src/bin/bin.cpp:1937 src/bin/bin.cpp:2157
+#: src/bin/bin.cpp:1939 src/bin/bin.cpp:2159
 #: src/bin/model/subtitlemodel.cpp:428
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Выбран недопустимый файл «%1»."
 
-#: src/bin/bin.cpp:1943
+#: src/bin/bin.cpp:1945
 #, kde-format
 msgid "Cannot find original clip to be replaced"
 msgstr "Не удалось найти исходный клип для замены"
 
-#: src/bin/bin.cpp:1967
+#: src/bin/bin.cpp:1969
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
@@ -16153,25 +16145,25 @@ msgstr ""
 "Для замены на монтажном столе необходимо выбрать 2 клипа (заменяющий клип и "
 "исходный клип)."
 
-#: src/bin/bin.cpp:1973
+#: src/bin/bin.cpp:1975
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr ""
 "Текущий клип <b>%1</b> не вставлен на выделенную дорожку монтажного стола."
 
-#: src/bin/bin.cpp:1978
+#: src/bin/bin.cpp:1980
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr "Нельзя вставить последовательность <b>%1</b> в саму себя."
 
-#: src/bin/bin.cpp:1997
+#: src/bin/bin.cpp:1999
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
 "Выбранные клипы %1 и %2 не совпадают, невозможно заменить аудио или видео"
 
-#: src/bin/bin.cpp:2008
+#: src/bin/bin.cpp:2010
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
@@ -16181,7 +16173,7 @@ msgstr ""
 "стола\n"
 "на клип <b>%3</b> (%4)"
 
-#: src/bin/bin.cpp:2013
+#: src/bin/bin.cpp:2015
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -16191,17 +16183,17 @@ msgstr ""
 "стола\n"
 "на клип <b>%2</b>"
 
-#: src/bin/bin.cpp:2015 src/timeline2/model/timelineitemmodel.cpp:983
+#: src/bin/bin.cpp:2017 src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace audio"
 msgstr "Заменить звук"
 
-#: src/bin/bin.cpp:2018 src/timeline2/model/timelineitemmodel.cpp:983
+#: src/bin/bin.cpp:2020 src/timeline2/model/timelineitemmodel.cpp:983
 #, kde-format
 msgid "Replace video"
 msgstr "Заменить видео"
 
-#: src/bin/bin.cpp:2028
+#: src/bin/bin.cpp:2030
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
@@ -16210,18 +16202,18 @@ msgstr ""
 "Заменяющий клип короче исходного клипа.<br><b>Некоторые клипы на монтажном "
 "столе может не получиться заменить</b>"
 
-#: src/bin/bin.cpp:2031
+#: src/bin/bin.cpp:2033
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr "Длительность заменяющего клипа превышает длительность исходного клипа"
 
-#: src/bin/bin.cpp:2067
+#: src/bin/bin.cpp:2069
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "Открытие замены для %1"
 
-#: src/bin/bin.cpp:2108
+#: src/bin/bin.cpp:2110
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
@@ -16230,7 +16222,7 @@ msgstr ""
 "Заменяющий клип не содержит видеопоток. Заменить только аудио этого клипа на "
 "выделенной дорожке монтажного стола?"
 
-#: src/bin/bin.cpp:2113
+#: src/bin/bin.cpp:2115
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
@@ -16239,7 +16231,7 @@ msgstr ""
 "Заменяющий клип не содержит аудиопоток. Заменить только видео этого клипа на "
 "выделенной дорожке монтажного стола?"
 
-#: src/bin/bin.cpp:2117 src/bin/bin.cpp:2143
+#: src/bin/bin.cpp:2119 src/bin/bin.cpp:2145
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
@@ -16247,60 +16239,60 @@ msgid ""
 msgstr ""
 "Нельзя заменить клип на клип другого типа (не соответствует звук или видео)"
 
-#: src/bin/bin.cpp:2120
+#: src/bin/bin.cpp:2122
 #, kde-format
 msgid "Replace in timeline"
 msgstr "Заменить на монтажном столе"
 
-#: src/bin/bin.cpp:2141 src/bin/bin.cpp:5880 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2143 src/bin/bin.cpp:5882 src/bin/clipcreator.cpp:324
 #: src/effects/effectstack/view/maskmanager.cpp:626
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Добавить клип"
 
-#: src/bin/bin.cpp:2189
+#: src/bin/bin.cpp:2191
 #, kde-format
 msgid "Could not locate %1"
 msgstr "Не удалось найти %1"
 
-#: src/bin/bin.cpp:2243
+#: src/bin/bin.cpp:2245
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "Не удалось создать временный файл в %1"
 
-#: src/bin/bin.cpp:2251
+#: src/bin/bin.cpp:2253
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr "Не удалось продублировать последовательность"
 
-#: src/bin/bin.cpp:2264
+#: src/bin/bin.cpp:2266
 #, kde-format
 msgid "%1 (copy)"
 msgstr "%1 (копия)"
 
-#: src/bin/bin.cpp:2269 src/bin/bin.cpp:2290
+#: src/bin/bin.cpp:2271 src/bin/bin.cpp:2292
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Дублировать клип"
 
-#: src/bin/bin.cpp:2282
+#: src/bin/bin.cpp:2284
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (копия)"
 
-#: src/bin/bin.cpp:2412
+#: src/bin/bin.cpp:2414
 #, kde-format
 msgid "Clear Filters"
 msgstr "Снять фильтры"
 
-#: src/bin/bin.cpp:2418
+#: src/bin/bin.cpp:2420
 #, kde-format
 msgid "No Tags"
 msgstr "Без меток"
 
-#: src/bin/bin.cpp:2437
+#: src/bin/bin.cpp:2439
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
@@ -16309,37 +16301,37 @@ msgstr[1] "%1 звезды"
 msgstr[2] "%1 звёзд"
 msgstr[3] "%1 звезда"
 
-#: src/bin/bin.cpp:2444
+#: src/bin/bin.cpp:2446
 #, kde-format
 msgid "Filter by Usage"
 msgstr "Фильтр по использованию"
 
-#: src/bin/bin.cpp:2447
+#: src/bin/bin.cpp:2449
 #, kde-format
 msgid "All Clips"
 msgstr "Все клипы"
 
-#: src/bin/bin.cpp:2452
+#: src/bin/bin.cpp:2454
 #, kde-format
 msgid "Unused Clips"
 msgstr "Неиспользуемые клипы"
 
-#: src/bin/bin.cpp:2456
+#: src/bin/bin.cpp:2458
 #, kde-format
 msgid "Used Clips"
 msgstr "Используемые клипы"
 
-#: src/bin/bin.cpp:2463
+#: src/bin/bin.cpp:2465
 #, kde-format
 msgid "Filter by Type"
 msgstr "Фильтр по типу"
 
-#: src/bin/bin.cpp:2466
+#: src/bin/bin.cpp:2468
 #, kde-format
 msgid "AV Clip"
 msgstr "Аудиовидеоклип"
 
-#: src/bin/bin.cpp:2470
+#: src/bin/bin.cpp:2472
 #, kde-format
 msgid "Mute Video"
 msgstr "Видео без звука"
@@ -16349,7 +16341,7 @@ msgstr "Видео без звука"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2474 src/effects/effectlist/model/effecttreemodel.cpp:65
+#: src/bin/bin.cpp:2476 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layoutmanagement.cpp:34 src/lib/audio/audioStreamInfo.cpp:25
 #: src/lib/audio/audioStreamInfo.cpp:31 src/monitor/recmanager.cpp:46
 #: src/onlineresources/resourcewidget.cpp:589 src/ui/clipjobmanager_ui.ui:388
@@ -16360,58 +16352,58 @@ msgstr "Видео без звука"
 msgid "Audio"
 msgstr "Звук"
 
-#: src/bin/bin.cpp:2478 src/mltcontroller/clippropertiescontroller.cpp:453
+#: src/bin/bin.cpp:2480 src/mltcontroller/clippropertiescontroller.cpp:453
 #, kde-format
 msgid "Image"
 msgstr "Изображение"
 
-#: src/bin/bin.cpp:2482
+#: src/bin/bin.cpp:2484
 #, kde-format
 msgid "Slideshow"
 msgstr "Слайд-шоу"
 
-#: src/bin/bin.cpp:2486
+#: src/bin/bin.cpp:2488
 #, kde-format
 msgid "Playlist"
 msgstr "Список воспроизведения"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2490 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
+#: src/bin/bin.cpp:2492 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
 #: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1592
 #: src/project/projectmanager.cpp:1594 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Последовательности"
 
-#: src/bin/bin.cpp:2494 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2496 src/project/dialogs/projectsettings.cpp:217
 #, kde-format
 msgid "Title"
 msgstr "Титры"
 
-#: src/bin/bin.cpp:2498
+#: src/bin/bin.cpp:2500
 #, kde-format
 msgid "Title Template"
 msgstr "Шаблоны титров"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2591 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2593 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Папка"
 
-#: src/bin/bin.cpp:2592
+#: src/bin/bin.cpp:2594
 #, kde-format
 msgid "Create bin folder"
 msgstr "Создать папку корзины"
 
-#: src/bin/bin.cpp:2727 src/bin/bin.cpp:2740 src/bin/bin.cpp:3739
+#: src/bin/bin.cpp:2729 src/bin/bin.cpp:2742 src/bin/bin.cpp:3741
 #: src/timeline2/model/timelinemodel.cpp:2171
 #, kde-format
 msgid "Delete Clip"
 msgstr "Удалить клип"
 
-#: src/bin/bin.cpp:2729 src/bin/bin.cpp:2742
+#: src/bin/bin.cpp:2731 src/bin/bin.cpp:2744
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16420,37 +16412,37 @@ msgid ""
 msgstr ""
 "Удаляет выделенные клипы из корзины проекта, а также из монтажного стола."
 
-#: src/bin/bin.cpp:2730 src/bin/bin.cpp:2743 src/bin/bin.cpp:3715
+#: src/bin/bin.cpp:2732 src/bin/bin.cpp:2745 src/bin/bin.cpp:3717
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Прокси-клип"
 
-#: src/bin/bin.cpp:2734
+#: src/bin/bin.cpp:2736
 #, kde-format
 msgid "Delete Folder"
 msgstr "Удалить папку"
 
-#: src/bin/bin.cpp:2735
+#: src/bin/bin.cpp:2737
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Папка прокси-файлов"
 
-#: src/bin/bin.cpp:2994
+#: src/bin/bin.cpp:2996
 #, kde-format
 msgid "Edit rating"
 msgstr "Изменить оценку"
 
-#: src/bin/bin.cpp:2996
+#: src/bin/bin.cpp:2998
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Не удалось оценить данный элемент"
 
-#: src/bin/bin.cpp:3659
+#: src/bin/bin.cpp:3661
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Добавить клип или папку…"
 
-#: src/bin/bin.cpp:3660
+#: src/bin/bin.cpp:3662
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16464,97 +16456,97 @@ msgstr ""
 "стрелкой вниз для выбора из списка типов исходных данных.<nl/>Щелкните по "
 "значку мультимедиа для открытия окна выбора исходных файлов."
 
-#: src/bin/bin.cpp:3666
+#: src/bin/bin.cpp:3668
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Добавить цветовой клип…"
 
-#: src/bin/bin.cpp:3668
+#: src/bin/bin.cpp:3670
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Добавить серию изображений…"
 
-#: src/bin/bin.cpp:3670
+#: src/bin/bin.cpp:3672
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Добавить клип титров…"
 
-#: src/bin/bin.cpp:3672
+#: src/bin/bin.cpp:3674
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Добавить шаблон титров…"
 
-#: src/bin/bin.cpp:3674
+#: src/bin/bin.cpp:3676
 #, kde-format
 msgid "Create Animation…"
 msgstr "Создать анимацию…"
 
-#: src/bin/bin.cpp:3676
+#: src/bin/bin.cpp:3678
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Добавить последовательность…"
 
-#: src/bin/bin.cpp:3679 src/mainwindow.cpp:330
+#: src/bin/bin.cpp:3681 src/mainwindow.cpp:330
 #, kde-format
 msgid "Online Resources"
 msgstr "Онлайн-ресурсы"
 
-#: src/bin/bin.cpp:3683
+#: src/bin/bin.cpp:3685
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Найти клип…"
 
-#: src/bin/bin.cpp:3688
+#: src/bin/bin.cpp:3690
 #, kde-format
 msgid "Reload Clip"
 msgstr "Перезагрузить клип"
 
-#: src/bin/bin.cpp:3694
+#: src/bin/bin.cpp:3696
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Перекодировать в редактируемый формат…"
 
-#: src/bin/bin.cpp:3699
+#: src/bin/bin.cpp:3701
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Заменить клип…"
 
-#: src/bin/bin.cpp:3705
+#: src/bin/bin.cpp:3707
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Заменить клип на монтажном столе…"
 
-#: src/bin/bin.cpp:3710
+#: src/bin/bin.cpp:3712
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Дублировать клип"
 
-#: src/bin/bin.cpp:3722 src/bin/bin.cpp:3777
+#: src/bin/bin.cpp:3724 src/bin/bin.cpp:3779
 #, kde-format
 msgid "Clip Properties"
 msgstr "Свойства клипа"
 
-#: src/bin/bin.cpp:3727 src/mltcontroller/clippropertiescontroller.cpp:282
+#: src/bin/bin.cpp:3729 src/mltcontroller/clippropertiescontroller.cpp:282
 #, kde-format
 msgid "Edit Clip"
 msgstr "Изменить клип"
 
-#: src/bin/bin.cpp:3745
+#: src/bin/bin.cpp:3747
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Целевая папка по умолчанию для последовательностей"
 
-#: src/bin/bin.cpp:3750
+#: src/bin/bin.cpp:3752
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Целевая папка по умолчанию для захвата звука"
 
-#: src/bin/bin.cpp:3754
+#: src/bin/bin.cpp:3756
 #, kde-format
 msgid "Create Folder"
 msgstr "Создать папку"
 
-#: src/bin/bin.cpp:3757
+#: src/bin/bin.cpp:3759
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16564,7 +16556,7 @@ msgstr ""
 "Создаёт папку в текущей позиции корзины проекта. Обеспечивает лучшую "
 "организацию исходных файлов. Поддерживает вложенные папки."
 
-#: src/bin/bin.cpp:3832 src/dialogs/speechdialog.cpp:51
+#: src/bin/bin.cpp:3834 src/dialogs/speechdialog.cpp:51
 #: src/dialogs/textbasededit.cpp:762
 #: src/effects/effectstack/view/maskmanager.cpp:116
 #: src/monitor/recmanager.cpp:42
@@ -16572,24 +16564,24 @@ msgstr ""
 msgid "Show log"
 msgstr "Показать журнал"
 
-#: src/bin/bin.cpp:3835 src/dialogs/textbasededit.cpp:763
+#: src/bin/bin.cpp:3837 src/dialogs/textbasededit.cpp:763
 #: src/effects/effectstack/view/maskmanager.cpp:118
 #, kde-format
 msgid "Detailed log"
 msgstr "Подробный журнал"
 
-#: src/bin/bin.cpp:3895 src/bin/bin.cpp:3928
+#: src/bin/bin.cpp:3897 src/bin/bin.cpp:3930
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Создать новую последовательность"
 
-#: src/bin/bin.cpp:3898 src/bin/bin.cpp:3901 src/bin/bin.cpp:3931
+#: src/bin/bin.cpp:3900 src/bin/bin.cpp:3903 src/bin/bin.cpp:3933
 #, kde-format
 msgid "Sequence %1"
 msgstr "Последовательность %1"
 
-#: src/bin/bin.cpp:3962
+#: src/bin/bin.cpp:3964
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
@@ -16598,44 +16590,44 @@ msgstr[1] "Переместить клипы"
 msgstr[2] "Переместить клипы"
 msgstr[3] "Переместить клип"
 
-#: src/bin/bin.cpp:4004
+#: src/bin/bin.cpp:4006
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Отсутствуют допустимые для вставки клипы"
 
-#: src/bin/bin.cpp:4017 src/timeline2/view/timelinecontroller.cpp:1568
+#: src/bin/bin.cpp:4019 src/timeline2/view/timelinecontroller.cpp:1568
 #: src/timeline2/view/timelinecontroller.cpp:3447
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Для применения эффекта выберите клип"
 
-#: src/bin/bin.cpp:4028
+#: src/bin/bin.cpp:4030
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Не удалось добавить эффекты в папки"
 
-#: src/bin/bin.cpp:4056 src/effects/effectstack/model/effectstackmodel.cpp:704
-#: src/effects/effectstack/model/effectstackmodel.cpp:710
+#: src/bin/bin.cpp:4058 src/effects/effectstack/model/effectstackmodel.cpp:718
+#: src/effects/effectstack/model/effectstackmodel.cpp:724
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Не удалось добавить эффект к клипу"
 
-#: src/bin/bin.cpp:4094 src/effects/effectstack/model/effectstackmodel.cpp:660
+#: src/bin/bin.cpp:4096 src/effects/effectstack/model/effectstackmodel.cpp:674
 #, kde-format
 msgid "Paste effect"
 msgstr "Вставить эффект"
 
-#: src/bin/bin.cpp:4131 src/bin/bin.cpp:4138
+#: src/bin/bin.cpp:4133 src/bin/bin.cpp:4140
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Для добавления метки выберите клип"
 
-#: src/bin/bin.cpp:4277
+#: src/bin/bin.cpp:4279
 #, kde-format
 msgid "Edit Tags"
 msgstr "Изменить метки"
 
-#: src/bin/bin.cpp:4600 src/bin/projectclip.cpp:188
+#: src/bin/bin.cpp:4602 src/bin/projectclip.cpp:188
 #: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
@@ -16643,31 +16635,31 @@ msgstr "Изменить метки"
 msgid "Unnamed"
 msgstr "Без имени"
 
-#: src/bin/bin.cpp:4664
+#: src/bin/bin.cpp:4666
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Введите путь к своему приложению для редактирования изображений"
 
-#: src/bin/bin.cpp:4676
+#: src/bin/bin.cpp:4678
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
 "файлов изображений"
 
-#: src/bin/bin.cpp:4681
+#: src/bin/bin.cpp:4683
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Введите путь к своему приложению для редактирования звука"
 
-#: src/bin/bin.cpp:4693
+#: src/bin/bin.cpp:4695
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
 "звуковых файлов"
 
-#: src/bin/bin.cpp:4703 src/core.cpp:327 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4705 src/core.cpp:327 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:92
 #: src/jobs/filtertask.cpp:129 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -16676,12 +16668,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Не удалось открыть файл «%1»"
 
-#: src/bin/bin.cpp:4883 src/dialogs/profilesdialog.cpp:235
+#: src/bin/bin.cpp:4885 src/dialogs/profilesdialog.cpp:235
 #, kde-format
 msgid "(copy)"
 msgstr "(копия)"
 
-#: src/bin/bin.cpp:4893
+#: src/bin/bin.cpp:4895
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -16690,75 +16682,75 @@ msgstr ""
 "Выполняется редактирование внешнего клипа титров (%1). Сохранить изменения в "
 "файл с титрами или применить изменения только к этому проекту?"
 
-#: src/bin/bin.cpp:4896 src/titler/titlewidget.cpp:2259
+#: src/bin/bin.cpp:4898 src/titler/titlewidget.cpp:2259
 #, kde-format
 msgid "Save Title"
 msgstr "Сохранить титры"
 
-#: src/bin/bin.cpp:4896
+#: src/bin/bin.cpp:4898
 #, kde-format
 msgid "Save to title file"
 msgstr "Сохранить в файл с титрами"
 
-#: src/bin/bin.cpp:4897
+#: src/bin/bin.cpp:4899
 #, kde-format
 msgid "Save in project only"
 msgstr "Сохранить только в проекте"
 
-#: src/bin/bin.cpp:4920 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4922 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Клип титров"
 
-#: src/bin/bin.cpp:4970
+#: src/bin/bin.cpp:4972
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Недопустимый клип — будет удалён из проекта."
 
-#: src/bin/bin.cpp:4974
+#: src/bin/bin.cpp:4976
 #, kde-format
 msgid "Invalid clip"
 msgstr "Недопустимый клип"
 
-#: src/bin/bin.cpp:5088
+#: src/bin/bin.cpp:5090
 #, kde-format
 msgid "Enable proxies"
 msgstr "Включить прокси"
 
-#: src/bin/bin.cpp:5088
+#: src/bin/bin.cpp:5090
 #, kde-format
 msgid "Disable proxies"
 msgstr "Отключить прокси"
 
-#: src/bin/bin.cpp:5263
+#: src/bin/bin.cpp:5265
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Пересоздать прокси"
 
-#: src/bin/bin.cpp:5497
+#: src/bin/bin.cpp:5499
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Корзина проекта"
 
-#: src/bin/bin.cpp:5513
+#: src/bin/bin.cpp:5515
 #, kde-format
 msgid "Add Tracks"
 msgstr "Добавить дорожки"
 
-#: src/bin/bin.cpp:5515
+#: src/bin/bin.cpp:5517
 #, kde-format
 msgid "Edit Streams"
 msgstr "Редактировать потоки"
 
-#: src/bin/bin.cpp:5531
+#: src/bin/bin.cpp:5533
 #, kde-format
 msgid "Don't ask again"
 msgstr "Больше не спрашивать"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5535
+#: src/bin/bin.cpp:5537
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -16767,27 +16759,27 @@ msgstr ""
 "Для обработки всех потоков проекту необходимо большее количество звуковых "
 "дорожек. Добавить звуковых дорожек: %1?"
 
-#: src/bin/bin.cpp:5547 src/mainwindow.cpp:2717
+#: src/bin/bin.cpp:5549 src/mainwindow.cpp:2717
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Не удалось найти клип для добавления маркера"
 
-#: src/bin/bin.cpp:5640
+#: src/bin/bin.cpp:5642
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Не удалось найти мастер-клип"
 
-#: src/bin/bin.cpp:5902
+#: src/bin/bin.cpp:5904
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "Клипы: <b>%1</b> | "
 
-#: src/bin/bin.cpp:5904
+#: src/bin/bin.cpp:5906
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "Клипы: <b>%1</b> (выбрано %2) | "
 
-#: src/bin/bin.cpp:5971 src/bin/bin.cpp:6048
+#: src/bin/bin.cpp:5973 src/bin/bin.cpp:6050
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -16796,12 +16788,12 @@ msgstr[1] "Добавить дополнительные потоки для к�
 msgstr[2] "Добавить дополнительные потоки для клипа"
 msgstr[3] "Добавить дополнительный поток для клипа"
 
-#: src/bin/bin.cpp:5992
+#: src/bin/bin.cpp:5994
 #, kde-format
 msgid "Import selected clips"
 msgstr "Импорт выбранных клипов"
 
-#: src/bin/bin.cpp:5994
+#: src/bin/bin.cpp:5996
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -16810,51 +16802,51 @@ msgstr ""
 "Дополнительные потоки для клипа\n"
 "%1"
 
-#: src/bin/bin.cpp:6007 src/mltcontroller/clippropertiescontroller.cpp:680
+#: src/bin/bin.cpp:6009 src/mltcontroller/clippropertiescontroller.cpp:680
 #, kde-format
 msgid "Video stream %1"
 msgstr "Видеопоток %1"
 
-#: src/bin/bin.cpp:6022
+#: src/bin/bin.cpp:6024
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Звуковой поток %1"
 
-#: src/bin/bin.cpp:6075
+#: src/bin/bin.cpp:6077
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Удалить маркеры клипа"
 
-#: src/bin/bin.cpp:6235
+#: src/bin/bin.cpp:6237
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Рекомендуется сохранить проект перед операцией перекодирования"
 
-#: src/bin/bin.cpp:6236
+#: src/bin/bin.cpp:6238
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Сохранить проект"
 
-#: src/bin/bin.cpp:6237
+#: src/bin/bin.cpp:6239
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Перекодировать без сохранения"
 
-#: src/bin/bin.cpp:6395 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6397 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Удалить эффект %1"
 
-#: src/bin/bin.cpp:6461 src/mainwindow.cpp:323
+#: src/bin/bin.cpp:6463 src/mainwindow.cpp:323
 #, kde-format
 msgid "Project Bin"
 msgstr "Корзина проекта"
 
-#: src/bin/bin.cpp:6464 src/bin/bin.cpp:6467 src/mainwindow.cpp:4827
+#: src/bin/bin.cpp:6466 src/bin/bin.cpp:6469 src/mainwindow.cpp:4827
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Корзина проекта %1"
@@ -21639,26 +21631,26 @@ msgid "Copy effect"
 msgstr "Копировать эффект"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:579
-#: src/effects/effectstack/model/effectstackmodel.cpp:690
-#: src/effects/effectstack/model/effectstackmodel.cpp:1485
+#: src/effects/effectstack/model/effectstackmodel.cpp:580
+#: src/effects/effectstack/model/effectstackmodel.cpp:704
+#: src/effects/effectstack/model/effectstackmodel.cpp:1499
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Эффект %1 нельзя добавить дважды."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:676
+#: src/effects/effectstack/model/effectstackmodel.cpp:690
 #: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5095
 #, kde-format
 msgid "Add effect %1"
 msgstr "Добавить эффект %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:686
+#: src/effects/effectstack/model/effectstackmodel.cpp:700
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "Эффект %1 можно добавить только в мастер"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1241
+#: src/effects/effectstack/model/effectstackmodel.cpp:1255
 #, kde-format
 msgid "Move effect %1"
 msgstr "Переместить эффект %1"
