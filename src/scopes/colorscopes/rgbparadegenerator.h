@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QObject>
+#include <QPalette>
 
 class QColor;
 class QImage;
@@ -20,11 +21,7 @@ public:
 
     RGBParadeGenerator();
     QImage calculateRGBParade(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const RGBParadeGenerator::PaintMode paintMode, bool drawAxis,
-                              bool drawGradientRef, uint accelFactor = 1);
-
-    static const QColor colHighlight;
-    static const QColor colLight;
-    static const QColor colSoft;
+                              bool drawGradientRef, uint accelFactor = 1, const QPalette &palette = QPalette());
 
     static const uchar distRight;
     static const uchar distBottom;

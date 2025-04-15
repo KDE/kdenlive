@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPainter>
 #include <QRect>
 
+#include "core.h"
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -19,6 +20,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 RGBParade::RGBParade(QWidget *parent)
     : AbstractGfxScopeWidget(true, parent)
 {
+    // overwrite custom scopes palette from AbstractScopeWidget with global app palette to respect users theme preference
+    setPalette(QPalette());
+
     m_ui = new Ui::RGBParade_UI();
     m_ui->setupUi(this);
 
@@ -38,6 +42,7 @@ RGBParade::RGBParade(QWidget *parent)
 
     connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RGBParade::forceUpdateScope);
     connect(this, &RGBParade::signalMousePositionChanged, this, &RGBParade::forceUpdateHUD);
+    connect(pCore.get(), &Core::updatePalette, this, &RGBParade::forceUpdateScope);
 
     m_rgbParadeGenerator = new RGBParadeGenerator();
     init();
@@ -98,7 +103,7 @@ QImage RGBParade::renderHUD(uint)
         qDebug() << "Could not initialise QPainter for RGB Parade HUD.";
         return hud;
     }
-    davinci.setPen(penLight);
+    davinci.setPen(palette().text().color());
 
     int x = scopeRect().width() - 30;
 
@@ -141,7 +146,7 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
 
     int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
     QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), devicePixelRatioF(), qimage, RGBParadeGenerator::PaintMode(paintmode),
-                                                             m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor);
+                                                             m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor, palette());
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
     return parade;
 }
