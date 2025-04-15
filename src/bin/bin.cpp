@@ -1173,6 +1173,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         m_videoIcon = QImage(iconSize, iconSize, QImage::Format_ARGB32_Premultiplied);
         m_folderIcon = QIcon::fromTheme(QStringLiteral("folder"));
         m_sequenceFolderIcon = QIcon::fromTheme(QStringLiteral("folder-yellow"));
+        // Ensure icons are correctly created
+        slotUpdatePalette();
     }
 
     // Tags panel

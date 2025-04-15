@@ -573,13 +573,27 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
             return false;
         }
     }
+    bool alreadyHasEffects = rootItem->childCount() > 0;
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
     if (m_ownerId.type == KdenliveObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasFilter(effectId)) {
         pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
         return false;
     }
+    bool builtIn = sourceEffect->isBuiltIn();
     bool enabled = sourceEffect->isAssetEnabled();
+    if (alreadyHasEffects && builtIn) {
+        // Check if the built in effect already exists
+        auto destEffect = getBuiltInEffect(effectId);
+        if (destEffect) {
+            // Effect already exists, pass parameters
+            destEffect->setParameters(sourceEffect->getAllParameters());
+            if (!enabled) {
+                destEffect->filter().set("disable", 1);
+            }
+            return true;
+        }
+    }
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), enabled);
     effect->setParameters(sourceEffect->getAllParameters());
     if (sourceEffect->isBuiltIn()) {
@@ -1852,6 +1866,17 @@ bool EffectStackModel::hasBuiltInEffect(const QString effectId) const
     return false;
 }
 
+std::shared_ptr<EffectItemModel> EffectStackModel::getBuiltInEffect(const QString effectId)
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effect->isBuiltIn() && effect->getAssetId() == effectId) {
+            return effect;
+        }
+    }
+    return nullptr;
+}
+
 QStringList EffectStackModel::externalFiles() const
 {
     QStringList urls;
@@ -2119,7 +2144,7 @@ void EffectStackModel::appendAudioBuildInEffects()
 
 void EffectStackModel::appendVideoBuildInEffects()
 {
-    if (m_ownerId.type == KdenliveObjectType::TimelineClip || m_ownerId.type == KdenliveObjectType::BinClip) {
+    if (m_ownerId.type == KdenliveObjectType::TimelineClip || m_ownerId.type == KdenliveObjectType::BinClip || m_ownerId.type == KdenliveObjectType::Master) {
         if (rootItem->childCount() > 0) {
             for (int i = 0; i < rootItem->childCount(); i++) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
@@ -2129,7 +2154,6 @@ void EffectStackModel::appendVideoBuildInEffects()
                 }
             }
         }
-        qDebug() << "=======APPENDING VIDEO EFFECTS!!!!";
         QWriteLocker locker(&m_lock);
         std::shared_ptr<EffectItemModel> effect = EffectItemModel::construct(QStringLiteral("qtblend"), shared_from_this(), false);
         effect->prepareKeyframes();
@@ -2147,7 +2171,6 @@ void EffectStackModel::appendVideoBuildInEffects()
 
 void EffectStackModel::setBuildInSize(const QSize size)
 {
-    qDebug() << "/// ADJUSTING EFFECT SIZE TO: " << size;
     plugBuiltinEffects();
     if (rootItem->childCount() == 0) {
         // No built-in effects, abort

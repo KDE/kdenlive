@@ -122,6 +122,7 @@ public:
     bool hasEffects() const;
     /** @brief Returns true there is an active built in effect with this MLT id */
     bool hasBuiltInEffect(const QString effectId) const;
+    std::shared_ptr<EffectItemModel> getBuiltInEffect(const QString effectId);
 
     /** @brief Returns a list of external file urls used by the effects (e.g. LUTs) */
     QStringList externalFiles() const;
