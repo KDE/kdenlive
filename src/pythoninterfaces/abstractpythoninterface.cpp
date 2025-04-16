@@ -257,7 +257,11 @@ QString AbstractPythonInterface::systemPythonExec()
         deps.close();
     }
 #endif
-    const QString path = QStandardPaths::findExecutable(pythonName);
+    QStringList paths;
+    if (pCore->packageType() == LinuxPackageType::AppImage) {
+        paths << qApp->applicationDirPath();
+    }
+    const QString path = QStandardPaths::findExecutable(pythonName, paths);
     if (path.isEmpty()) {
         setStatus(Broken);
         Q_EMIT setupError(i18n("Cannot find %1, please install it on your system.\n"
