@@ -17,7 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 HistogramGenerator::HistogramGenerator() = default;
 
 QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const int &components, ITURec rec,
-                                              bool unscaled, bool logScale, uint accelFactor) const
+                                              bool unscaled, bool logScale, uint accelFactor, const QPalette &palette) const
 {
     if (paradeSize.height() <= 0 || paradeSize.width() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
@@ -103,47 +103,49 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, qreal sca
         qDebug() << "Could not initialise QPainter for Histogram.";
         return histogram;
     }
-    davinci.setPen(QColor(220, 220, 220, 255));
+    davinci.setPen(palette.text().color());
     histogram.fill(qRgba(0, 0, 0, 0));
 
-    QColor neutralColor(220, 220, 210, 255);
-    QColor redColor(255, 128, 0, 255);
-    QColor greenColor(128, 255, 0, 255);
-    QColor blueColor(0, 128, 255, 255);
+    QColor neutralColor = palette.text().color();
+    QColor redColor = Qt::red;
+    QColor greenColor = Qt::green;
+    QColor blueColor = QColor(51, 51, 255);
+    QColor backgroundColor = palette.base().color();
 
     int wy = 0; // Drawing position
 
     if (drawY) {
-        drawComponentFull(&davinci, y, scaling, QRect(0, wy, ww, partH + dist), neutralColor, dist, unscaled, logScale, 256);
+        drawComponentFull(&davinci, y, scaling, QRect(0, wy, ww, partH + dist), neutralColor, backgroundColor, dist, unscaled, logScale, 256);
         wy += partH + d;
     }
 
     if (drawSum) {
-        drawComponentFull(&davinci, s, scaling / 3, QRect(0, wy, ww, partH + dist), neutralColor, dist, unscaled, logScale, 256);
+        drawComponentFull(&davinci, s, scaling / 3, QRect(0, wy, ww, partH + dist), neutralColor, backgroundColor, dist, unscaled, logScale, 256);
         wy += partH + d;
     }
 
     if (drawR) {
-        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), redColor, dist, unscaled, logScale, 256);
+        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), redColor, backgroundColor, dist, unscaled, logScale, 256);
         wy += partH + d;
     }
 
     if (drawG) {
-        drawComponentFull(&davinci, g, scaling, QRect(0, wy, ww, partH + dist), greenColor, dist, unscaled, logScale, 256);
+        drawComponentFull(&davinci, g, scaling, QRect(0, wy, ww, partH + dist), greenColor, backgroundColor, dist, unscaled, logScale, 256);
         wy += partH + d;
     }
 
     if (drawB) {
-        drawComponentFull(&davinci, b, scaling, QRect(0, wy, ww, partH + dist), blueColor, dist, unscaled, logScale, 256);
+        drawComponentFull(&davinci, b, scaling, QRect(0, wy, ww, partH + dist), blueColor, backgroundColor, dist, unscaled, logScale, 256);
     }
 
     return histogram;
 }
 
-QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, bool unscaled, bool logScale, int max)
+QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, const QColor &backgroundColor,
+                                         bool unscaled, bool logScale, int max)
 {
     QImage component(max, size.height(), QImage::Format_ARGB32);
-    component.fill(qRgba(0, 0, 0, 255));
+    component.fill(backgroundColor);
     Q_ASSERT(scaling != INFINITY);
 
     const int partH = size.height();
@@ -177,10 +179,10 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
     return component.scaled(size, Qt::IgnoreAspectRatio, Qt::FastTransformation);
 }
 
-void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect, const QColor &color, int textSpace,
-                                           bool unscaled, bool logScale, int max)
+void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect, const QColor &color,
+                                           const QColor &backgroundColor, int textSpace, bool unscaled, bool logScale, int max)
 {
-    QImage component = drawComponent(y, rect.size() - QSize(0, textSpace), scaling, color, unscaled, logScale, max);
+    QImage component = drawComponent(y, rect.size() - QSize(0, textSpace), scaling, color, backgroundColor, unscaled, logScale, max);
     davinci->drawImage(rect.topLeft(), component);
 
     int min = 0;

@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "histogramgenerator.h"
 #include <QElapsedTimer>
 
+#include "core.h"
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
@@ -18,6 +19,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 Histogram::Histogram(QWidget *parent)
     : AbstractGfxScopeWidget(false, parent)
 {
+    // overwrite custom scopes palette from AbstractScopeWidget with global app palette to respect users theme preference
+    setPalette(QPalette());
+
     m_ui = new Ui::Histogram_UI();
     m_ui->setupUi(this);
 
@@ -51,6 +55,7 @@ Histogram::Histogram(QWidget *parent)
     connect(m_aRec601, &QAction::toggled, this, &Histogram::forceUpdateScope);
     connect(m_aRec709, &QAction::toggled, this, &Histogram::forceUpdateScope);
     connect(m_ui->rbLogarithmic, &QAbstractButton::toggled, this, &Histogram::forceUpdateScope);
+    connect(pCore.get(), &Core::updatePalette, this, &Histogram::forceUpdateScope);
 
     init();
     m_histogramGenerator = new HistogramGenerator();
@@ -139,7 +144,7 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 
     qreal scalingFactor = devicePixelRatioF();
     QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), scalingFactor, qimage, componentFlags, rec, m_aUnscaled->isChecked(),
-                                                                m_ui->rbLogarithmic->isChecked(), accelFactor);
+                                                                m_ui->rbLogarithmic->isChecked(), accelFactor, palette());
 
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelFactor);
     return histogram;
