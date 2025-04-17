@@ -9,6 +9,7 @@ if (FETCH_OTIO)
     include(FetchContent)
     set(OTIO_INSTALL_COMMANDLINE_TOOLS OFF)
     set(OTIO_SHARED_LIBS OFF)
+    set(OTIO_CXX_INSTALL OFF)
     set(BUILD_TESTING OFF)
     FetchContent_Declare(
         OTIO
