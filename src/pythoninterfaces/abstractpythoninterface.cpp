@@ -257,10 +257,16 @@ QString AbstractPythonInterface::systemPythonExec()
         deps.close();
     }
 #endif
+
+    // On Windows, Mac and AppImage, use our packaged python
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+    QStringList paths = {qApp->applicationDirPath()};
+#else
     QStringList paths;
     if (pCore->packageType() == LinuxPackageType::AppImage) {
         paths << qApp->applicationDirPath();
     }
+#endif
     const QString path = QStandardPaths::findExecutable(pythonName, paths);
     if (path.isEmpty()) {
         setStatus(Broken);
@@ -412,7 +418,8 @@ bool AbstractPythonInterface::setupVenv()
     QProcess envProcess;
     // For some reason, this fails in AppImage, but when extracting the Appimage it works...
     // No workaround found yet for AppImage
-    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(getVenvPath())};
+    QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absoluteFilePath(getVenvPath()), QStringLiteral("--upgrade-deps"),
+                        QStringLiteral("--copies")};
     envProcess.start(pythonExec, args);
     envProcess.waitForStarted();
     envProcess.waitForFinished(-1);
