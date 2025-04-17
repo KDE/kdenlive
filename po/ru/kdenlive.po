@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-16 02:31+0000\n"
-"PO-Revision-Date: 2025-04-15 17:24+0300\n"
+"PO-Revision-Date: 2025-04-16 17:24+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -626,10 +626,9 @@ msgid "Echo (avfilter)"
 msgstr "Эквалайзеры и фильтры"
 
 #: data/effects/avfilter/aecho.xml:5
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Echo"
-msgstr "Добавить эффект"
+msgstr "Добавление эха"
 
 #: data/effects/avfilter/aecho.xml:11
 #, fuzzy, kde-format
@@ -1437,7 +1436,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
 msgid "Chroma Hold"
-msgstr "Удержание цвета"
+msgstr "Удержание насыщенности"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
@@ -1454,13 +1453,13 @@ msgstr "Ключевой цвет"
 #: data/effects/avfilter/avfilter_chromahold.xml:9
 #, kde-format
 msgid "The color which will not be replaced with neutral chroma"
-msgstr ""
+msgstr "Цвет, который не будет заменён нейтральным"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:12
 #: data/effects/avfilter/avfilter_colorhold.xml:11
 #, kde-format
 msgid "Similarity"
-msgstr ""
+msgstr "Схожесть"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:14
 #, kde-format
@@ -1472,10 +1471,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
-#, fuzzy, kde-format
-#| msgid "Blend mode"
+#, kde-format
 msgid "Blend"
-msgstr "Режим смешивания"
+msgstr "Смешивание"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:19
 #, kde-format
@@ -1486,10 +1484,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
-#, fuzzy, kde-format
-#| msgid "Key color"
+#, kde-format
 msgid "YUV color"
-msgstr "Ключевой цвет"
+msgstr "Цвет YUV"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
@@ -1505,7 +1502,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_chromanr.xml:5
 #, kde-format
 msgid "Reduce chrominance noise."
-msgstr ""
+msgstr "Уменьшение шума цветности"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
 #, kde-format
@@ -1551,10 +1548,9 @@ msgid "Manhattan,Euclidean"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
-#, fuzzy, kde-format
-#| msgid "Dance"
+#, kde-format
 msgid "Distance"
-msgstr "Танцевальный"
+msgstr "Расстояние"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, kde-format
@@ -1602,10 +1598,9 @@ msgid "Edge mode"
 msgstr "Режим края"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color balance"
-msgstr "Цветовое пространство"
+msgstr "Цветовой баланс"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:5
 #, kde-format
@@ -1673,10 +1668,9 @@ msgid "Preserve lightness"
 msgstr "Сохранить альфа-канал"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Channel Mixer"
-msgstr "Цветовой клип"
+msgstr "Смешивание цветовых каналов"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
@@ -1684,6 +1678,8 @@ msgid ""
 "Modifies a color channel by adding the values associated to the other "
 "channels of the same pixels"
 msgstr ""
+"Изменяет цветовой канал путём добавления значений, связанных с другими "
+"каналами тех же пикселов"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
@@ -1848,10 +1844,9 @@ msgid "Analyze mode"
 msgstr "Анализ"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Model"
+#, kde-format
 msgid "Color Hold"
-msgstr "Цветовая модель"
+msgstr "Удержание цвета"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:5
 #, kde-format
@@ -1860,10 +1855,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
-#, fuzzy, kde-format
-#| msgid "Color key"
+#, kde-format
 msgid "Color Overlay"
-msgstr "Ключевой цвет"
+msgstr "Наложение цвета"
 
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
@@ -1882,10 +1876,9 @@ msgid "Lightness"
 msgstr "Свет"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Model"
+#, kde-format
 msgid "Color levels"
-msgstr "Цветовая модель"
+msgstr "Цветовые уровни"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
@@ -1962,16 +1955,14 @@ msgid "Blue white output"
 msgstr "Уровень белого на выходе"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Bars"
+#, kde-format
 msgid "Color Matrix"
-msgstr "Цветные полосы"
+msgstr "Цветовая матрица"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
-#, fuzzy, kde-format
-#| msgid "Invert colors"
+#, kde-format
 msgid "Convert color matrix."
-msgstr "Инверсия цвета"
+msgstr "Преобразование цветовой матрицы"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:8
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
@@ -1980,16 +1971,14 @@ msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
-#, fuzzy, kde-format
-#| msgid "Source Color"
+#, kde-format
 msgid "Source color Matrix"
-msgstr "Цвет источника"
+msgstr "Исходная цветовая матрица"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
-#, fuzzy, kde-format
-#| msgid "Destination Folder"
+#, kde-format
 msgid "Destination color Matrix"
-msgstr "Папка назначения"
+msgstr "Итоговая цветовая матрица"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: src/scopes/colorscopes/vectorscope.cpp:94
@@ -2003,6 +1992,8 @@ msgid ""
 "Convert colorspace, transfer characteristics or color primaries. Input video "
 "needs to have an even size."
 msgstr ""
+"Преобразование цветового пространства, перенос характеристик или основных "
+"цветов. Входное видео должно быть равного размера."
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
 #: data/effects/avfilter/avfilter_colorspace.xml:43
@@ -2011,12 +2002,13 @@ msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
 "BT.2020"
 msgstr ""
+"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
+"BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
-#, fuzzy, kde-format
-#| msgid "Force properties"
+#, kde-format
 msgid "Color properties"
-msgstr "Форсировать свойства"
+msgstr "Свойства цветов"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:12
 #: data/effects/avfilter/avfilter_colorspace.xml:47
@@ -2026,10 +2018,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Output Color Space"
-msgstr "Цветовое пространство"
+msgstr "Выходное цветовое пространство"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #: data/effects/avfilter/avfilter_colorspace.xml:55
@@ -2043,7 +2034,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
 msgid "Output transfer characteristicse"
-msgstr ""
+msgstr "Выходные характеристики переноса"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
@@ -2068,9 +2059,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
-#, fuzzy, kde-format
+#, kde-format
 msgid "Output Color Range"
-msgstr "Цветовое пространство"
+msgstr "Выходной цветовой диапазон"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:28
 #, kde-format
@@ -2117,29 +2108,27 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
 msgid "Override all input properties at once"
-msgstr ""
+msgstr "Переопределить сразу все входные свойства"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:48
-#, fuzzy, kde-format
-#| msgid "Force colorspace"
+#, kde-format
 msgid "Override input colorspace"
-msgstr "Принудительно задать цветовое пространство"
+msgstr "Переопределить входное цветовое пространство"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:52
 #, kde-format
 msgid "Override input color primaries"
-msgstr ""
+msgstr "Переопределить входные основные цвета"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:56
 #, kde-format
 msgid "Override input transfer characteristics"
-msgstr ""
+msgstr "Переопределить входные характеристики переноса"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:60
-#, fuzzy, kde-format
-#| msgid "Render full color range"
+#, kde-format
 msgid "Override input color range"
-msgstr "Сборка с полным цветовым диапазоном"
+msgstr "Переопределить входной цветовой диапазон"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:4
 #: data/effects/frei0r/frei0r_colgate.xml:11
@@ -2532,10 +2521,11 @@ msgid "Planes to filter"
 msgstr "Плоскости для фильтрации"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr ""
+"<![CDATA[Устанавливает плоскость цветового пространства для применения "
+"эффекта]]>"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:4
 #: data/effects/avfilter/avfilter_dcshift.xml:10
@@ -3273,10 +3263,9 @@ msgid "Wires,Colormix,Canny"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:15
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Modes"
-msgstr "Режим"
+msgstr "Режимы"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:18
 #: data/effects/avfilter/avfilter_gblur.xml:15
@@ -6083,7 +6072,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereowiden.xml:22
 #, kde-format
 msgid "Drymix"
-msgstr ""
+msgstr "«Сухое» смешивание"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:23
 #, kde-format
@@ -6132,10 +6121,9 @@ msgid "None,Portrait,Landscape"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_transpose.xml:13
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "Override if"
-msgstr "Заменить"
+msgstr "Переопределить, если"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:5
 #, fuzzy, kde-format
@@ -8420,8 +8408,8 @@ msgid ""
 "Calculates the distance between the selected color and the current pixel and "
 "uses that value as new pixel value"
 msgstr ""
-"Расчёт разницы между выбранным цветом и цветом текущего пикселя и "
-"использование полученного числа в качестве нового значения пикселя"
+"Расчёт разницы между выбранным цветом и цветом текущего пиксела и "
+"использование полученного числа в качестве нового значения пиксела"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:8
 #, kde-format
@@ -8888,7 +8876,7 @@ msgstr "Малая"
 #: data/effects/frei0r/frei0r_facedetect.xml:17
 #, kde-format
 msgid "The minimum window size in pixels."
-msgstr "Минимальный размер окна в пикселях."
+msgstr "Минимальный размер окна в пикселах."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:20
 #, fuzzy, kde-format
@@ -8902,7 +8890,7 @@ msgid ""
 "The largest size face in pixels - both horizontally and vertically (square "
 "window)."
 msgstr ""
-"Наибольший размер лица в пикселях — по горизонтали и вертикали (квадратное "
+"Наибольший размер лица в пикселах — по горизонтали и вертикали (квадратное "
 "окно)."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:24
@@ -9497,13 +9485,12 @@ msgstr "Ширина рамки"
 #: data/effects/frei0r/frei0r_letterb0xed.xml:11
 #: data/effects/frei0r/frei0r_timeout.xml:14
 #: data/effects/frei0r/frei0r_transparency.xml:8
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgid "Transparency"
-msgstr "Прозрачность:"
+msgstr "Прозрачность"
 
 #: data/effects/frei0r/frei0r_levels.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Levels Effect Name"
 msgid "Levels"
 msgstr "Уровни"
@@ -9591,13 +9578,13 @@ msgid ""
 "where semi-bright parts, e.g. hands where colors can change quite a lot "
 "compared to the background, are incorrectly recognized as light source.]]>"
 msgstr ""
-"<![CDATA[Насколько ярким (<code>R+G+B</code>) должен быть пиксель для его "
+"<![CDATA[Насколько ярким (<code>R+G+B</code>) должен быть пиксел для его "
 "распознавания как источника света?<br/>\n"
 "            Увеличение порога требует наличия более яркого источника света "
 "(то есть больше белого или меньше цвета, соответственно), но предотвращает "
-"«ложные срабатывания», когда полублестящие элементы, например, руки, чей "
-"цвет может сильно отличаться от цвета фона, неверно воспринимаются как "
-"источники света.]]>"
+"«ложные срабатывания», когда полуяркие элементы, например, руки, чей цвет "
+"может сильно отличаться от цвета фона, неверно воспринимаются как источники "
+"света.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:16
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:88
@@ -9616,9 +9603,9 @@ msgid ""
 "be accepted on bright backgrounds, but decreases the danger of noise or "
 "generally bright spots counting as light source.]]>"
 msgstr ""
-"<![CDATA[Насколько самый интенсивный цветовой канал пикселя должен "
+"<![CDATA[Насколько самый интенсивный цветовой канал пиксела должен "
 "отличаться от фонового изображения (<code>макс(dR, dG, dB)</code>), чтобы "
-"пиксель распознавался как источник света? <br/>\n"
+"пиксел распознавался как источник света? <br/>\n"
 "            При увеличении этого порога распознавание источников света на "
 "ярких фонах усложняется, но зато снижается вероятность принятия шума или "
 "обычных ярких пятен за источник света.]]>"
@@ -9640,7 +9627,7 @@ msgid ""
 "objects lit by the light source are added to the light mask.]]>"
 msgstr ""
 "<![CDATA[Насколько суммарно все цветовые каналы должны отличаться <em>от "
-"фонового изображения</em> (<code>dR + dG + dB</code>), чтобы пиксель "
+"фонового изображения</em> (<code>dR + dG + dB</code>), чтобы пиксел "
 "распознавался как источник света?<br/>\n"
 "            В некоторых случаях увеличение этого значения помогает избежать "
 "ситуации, когда светлые объекты, освещённые источником света, добавляются к "
@@ -10270,7 +10257,7 @@ msgstr "Коэффициент"
 #: data/effects/frei0r/frei0r_primaries.xml:9
 #, kde-format
 msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
-msgstr "<![CDATA[Влияние среднего значения в пикселях, > 32 = 0]]>"
+msgstr "<![CDATA[Влияние среднего значения в пикселах, > 32 = 0]]>"
 
 #: data/effects/frei0r/frei0r_R.xml:4
 #, kde-format
@@ -10585,7 +10572,7 @@ msgstr "Резкость бликов светлых областей."
 #: data/effects/frei0r/frei0r_softglow.xml:21
 #, kde-format
 msgid "Screen,Overlay,Add"
-msgstr ""
+msgstr "Экранирование,Наложение,Добавление"
 
 #: data/effects/frei0r/frei0r_softglow.xml:22
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
@@ -10638,10 +10625,10 @@ msgid ""
 "                All effects can be observed well when applied on a greyscale "
 "gradient and looking at the RGB Parade monitor.]]>"
 msgstr ""
-"<![CDATA[Изменение крутизны канала — увеличение значения пикселей на "
-"константное значение. Чёрные пиксели останутся чёрнымими, в то время как "
-"более яркие пиксели будут изменены.<br/>\n"
-"                Все эффекты лучше видны, если их применить к градиенту в "
+"<![CDATA[Изменение крутизны канала — увеличение значения пикселов на "
+"константное значение. Чёрные пикселы останутся чёрнымими, в то время как "
+"более яркие пикселы будут изменены.<br/>\n"
+"                Все эффекты хорошо видны, если их применить к градиенту в "
 "оттенках серого и наблюдать на мониторе «Парад RGB».]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:14
@@ -10675,7 +10662,7 @@ msgid ""
 "Changing the offset lifts (or lowers) the brightness of each pixel by the "
 "given value."
 msgstr ""
-"Изменение смещения канала повышает (или снижает) яркость каждого пикселя на "
+"Изменение смещения канала повышает (или снижает) яркость каждого пиксела на "
 "указанное значение."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:27
@@ -10712,9 +10699,9 @@ msgid ""
 "pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
 msgstr ""
 "<![CDATA[Изменить значение гаммы выбранного канала. Значения чёрных и белых "
-"пикселей не меняются.<br/>\n"
+"пикселов не меняются.<br/>\n"
 "                С точки зрения математики происходит возведение значений "
-"яркости пикселей в степень <code>[0,1]</code> по значению гаммы.]]>"
+"яркости пикселов в степень <code>[0,1]</code> по значению гаммы.]]>"
 
 #: data/effects/frei0r/frei0r_sopsat.xml:41
 #: data/effects/frei0r/frei0r_sopsat.xml:91
@@ -13940,7 +13927,7 @@ msgstr "Прибавление"
 #: data/transitions/frei0r/frei0r_addition.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition operation of the pixel sources."
-msgstr "Выполняет RGB[A] операцию сложения источников пикселей."
+msgstr "Выполняет RGB[A] операцию сложения источников пикселов."
 
 # #Ниже строки для Linux Rosa, они не смогут войти в апстрим##
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:4
@@ -13951,7 +13938,7 @@ msgstr "Добавление альфа"
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition_alpha operation of the pixel sources."
-msgstr "Выполняет RGB[A] операцию добавления альфа источников пикселей."
+msgstr "Выполняет RGB[A] операцию добавления альфа источников пикселов."
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
 #, fuzzy, kde-format
@@ -14037,8 +14024,8 @@ msgid ""
 "generalised algorithm: D = saturation of 255 or depletion of 0, of ((255 - "
 "A) * 256) / (B + 1)"
 msgstr ""
-"Выполняет RGB [A] операцию осветления между источниками\n"
-"пикселей, с использованием обобщенного алгоритма:\n"
+"Выполняет RGB[A] операцию осветления между источниками\n"
+"пикселов, с использованием обобщенного алгоритма:\n"
 "D = насыщенность 255 или истощение 0, из ((255 - А) * 256) / (B + 1)"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
@@ -14133,7 +14120,7 @@ msgid ""
 "sources)."
 msgstr ""
 "Сравнивает два источника и заменяет значения\n"
-"светлых пикселей значениями тёмных."
+"светлых пикселов значениями тёмных."
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, fuzzy, kde-format
@@ -14144,7 +14131,7 @@ msgstr "Разница"
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
 msgid "Perform an RGB[A] difference operation between the pixel sources."
-msgstr "Выполняет RGB[A] операцию разности между источниками пикселей."
+msgstr "Выполняет RGB[A] операцию разности между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
 #, fuzzy, kde-format
@@ -14159,7 +14146,7 @@ msgid ""
 "numerator, input2 the denominator."
 msgstr ""
 "Выполняет RGB[A] операцию деления между\n"
-"источниками пикселей: вход1 является\n"
+"источниками пикселов: вход1 является\n"
 "числителем, вход2 — знаменателем."
 
 #: data/transitions/frei0r/frei0r_dodge.xml:4
@@ -14173,8 +14160,8 @@ msgid ""
 "Perform an RGB[A] dodge operation between the pixel sources, using the "
 "generalised algorithm: D = saturation of 255 or (A * 256) / (256 - B)"
 msgstr ""
-"Выполняет RGB [A] операцию осветления между источниками\n"
-"пикселей, с использованием обобщенного алгоритма:\n"
+"Выполняет RGB[A] операцию осветления между источниками\n"
+"пикселов, используя обобщенный алгоритм:\n"
 "D = насыщенность 255 или (А * 256) / (256 - B)"
 
 #: data/transitions/frei0r/frei0r_grain_extract.xml:4
@@ -14187,7 +14174,7 @@ msgstr "Извлечение зерна"
 msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
 msgstr ""
 "Выполняет RGB[A] операцию извлечения зерна\n"
-"между источниками пикселей."
+"между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
 #, fuzzy, kde-format
@@ -14200,7 +14187,7 @@ msgstr "Слияние зерна"
 msgid "Perform an RGB[A] grain-merge operation between the pixel sources."
 msgstr ""
 "Выполняет RGB[A] операцию слияния зерна\n"
-"между источниками пикселей."
+"между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
 #, fuzzy, kde-format
@@ -14213,7 +14200,7 @@ msgstr "Жёсткий свет"
 msgid "Perform an RGB[A] hardlight operation between the pixel sources."
 msgstr ""
 "Выполняет RGB[A] операцию жёсткого света\n"
-"между источниками пикселей."
+"между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_hue.xml:5
 #, kde-format
@@ -14250,13 +14237,12 @@ msgstr "Умножение"
 msgid "Perform an RGB[A] multiply operation between the pixel sources."
 msgstr ""
 "Выполняет RGB[A] операцию умножения\n"
-"между источниками пикселей."
+"между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_overlay.xml:4
-#, fuzzy, kde-format
-#| msgid "Overlay:"
+#, kde-format
 msgid "Overlay"
-msgstr "Наложение:"
+msgstr "Наложение"
 
 #: data/transitions/frei0r/frei0r_overlay.xml:5
 #, kde-format
@@ -14265,8 +14251,8 @@ msgid ""
 "generalised algorithm: D = A * (B + (2 * B) * (255 - A))"
 msgstr ""
 "Выполняет RGB[A] операцию наложения между\n"
-"источниками пикселей, с использованием обобщенного\n"
-"алгоритма: D = A * (B + (2 * B) * (255 - А))"
+"источниками пикселов, используя обобщенный\n"
+"алгоритм: D = A * (B + (2 * B) * (255 - А))"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
 #, fuzzy, kde-format
@@ -14342,7 +14328,7 @@ msgid ""
 "generalised algorithm: D = 255 - (255 - A) * (255 - B)"
 msgstr ""
 "Выполняет RGB[A] операцию экранирования между\n"
-"источниками пикселей, используя обобщенный\n"
+"источниками пикселов, используя обобщенный\n"
 "алгоритм: D = 255 - (255 - А) * (255 - B)"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
@@ -14413,7 +14399,7 @@ msgstr "Мягкий свет"
 msgid "Perform an RGB[A] softlight operation between the pixel sources."
 msgstr ""
 "Выполняет RGB[A] операцию мягкого света\n"
-"между источниками пикселей."
+"между источниками пикселов."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: data/transitions/frei0r/frei0r_subtract.xml:4
@@ -14427,7 +14413,7 @@ msgstr "Вычитание"
 msgid ""
 "Perform an RGB[A] subtract operation of the pixel source input2 from input1."
 msgstr ""
-"Выполняет RGB[A] операцию вычитания источника пикселей вход2 из входа1."
+"Выполняет RGB[A] операцию вычитания источника пикселов вход2 из входа1."
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:4
 #, kde-format
