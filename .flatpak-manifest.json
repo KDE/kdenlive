@@ -4,7 +4,7 @@
   "runtime": "org.kde.Platform",
   "runtime-version": "6.9",
   "sdk": "org.kde.Sdk",
-  "sdk-extensions" : [ "org.freedesktop.Sdk.Extension.llvm18" ],
+  "sdk-extensions" : [ "org.freedesktop.Sdk.Extension.llvm19" ],
   "command": "kdenlive",
   "rename-icon": "kdenlive",
   "desktop-file-name-suffix": " (Nightly)",
@@ -28,7 +28,7 @@
   "add-extensions": {
     "org.freedesktop.LinuxAudio.Plugins": {
       "directory": "extensions/Plugins",
-      "version": "23.08",
+      "version": "24.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "subdirectories": true,
@@ -36,7 +36,7 @@
     },
     "org.freedesktop.LinuxAudio.Plugins.swh": {
       "directory": "extensions/Plugins/swh",
-      "version": "23.08",
+      "version": "24.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "autodelete": false,
@@ -44,7 +44,7 @@
     },
     "org.freedesktop.LinuxAudio.Plugins.TAP": {
       "directory": "extensions/Plugins/TAP",
-      "version": "23.08",
+      "version": "24.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "autodelete": false,
