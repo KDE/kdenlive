@@ -269,6 +269,7 @@ private:
     std::shared_ptr<TimelineItemModel> m_activeTimelineModel;
     QElapsedTimer m_lastSave;
     QTimer m_autoSaveTimer;
+    int m_autoSaveChangeCount{0};
     QUrl m_startUrl;
     QString m_loadClipsOnOpen;
     QMap<QString, QString> m_replacementPattern;

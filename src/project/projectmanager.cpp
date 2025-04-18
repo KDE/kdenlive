@@ -155,7 +155,7 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
     m_autoSaveTimer.setSingleShot(true);
-    m_autoSaveTimer.setInterval(3000);
+    m_autoSaveTimer.setInterval(60000);
     connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
 }
 
@@ -440,6 +440,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     // Disable autosave
     m_autoSaveTimer.stop();
+    m_autoSaveChangeCount = 0;
     if ((m_project != nullptr) && m_project->isModified() && saveChanges) {
         QString message;
         if (m_project->url().fileName().isEmpty()) {
@@ -528,6 +529,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
 {
     // Disable autosave while saving
     m_autoSaveTimer.stop();
+    m_autoSaveChangeCount = 0;
     pCore->monitorManager()->pauseActiveMonitor();
     QString oldProjectFolder =
         m_project->url().isEmpty() ? QString() : QFileInfo(m_project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
@@ -1204,12 +1206,13 @@ KRecentFilesAction *ProjectManager::recentFilesAction()
 
 void ProjectManager::slotStartAutoSave()
 {
-    if (m_lastSave.elapsed() > 300000) {
-        // If the project was not saved in the last 5 minute, force save
+    m_autoSaveChangeCount++;
+    if (m_autoSaveChangeCount > 25 && m_lastSave.elapsed() > 30000) {
+        // If the project was modified a lot, force save
         m_autoSaveTimer.stop();
         slotAutoSave();
-    } else {
-        m_autoSaveTimer.start(); // will trigger slotAutoSave() in 3 seconds
+    } else if (!m_autoSaveTimer.isActive()) {
+        m_autoSaveTimer.start(); // will trigger slotAutoSave() in 1 minute
     }
 }
 
@@ -1219,6 +1222,7 @@ void ProjectManager::slotAutoSave()
         // Dont start autosave if the project is still loading
         return;
     }
+    m_lastSave.invalidate();
     prepareSave();
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
     QString scene = projectSceneList(saveFolder).first;
@@ -1235,6 +1239,7 @@ void ProjectManager::slotAutoSave()
         return;
     }
     m_project->slotAutoSave(scene);
+    m_autoSaveChangeCount = 0;
     m_lastSave.start();
 }
 
@@ -1971,7 +1976,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         if (xmlProd == nullptr || !xmlProd->is_valid()) {
             qDebug() << "::: LOADING EXTRA TIMELINE ERROR\n\nXXXXXXXXXXXXXXXXXXXXXXX";
             Q_EMIT pCore->displayBinMessage(i18n("Cannot create a timeline from this clip:\n%1", clip->url()), KMessageWidget::Information);
-            if (m_project->isModified()) {
+            if (m_project->isModified() && KdenliveSettings::crashrecovery()) {
                 m_autoSaveTimer.start();
             }
             return false;
@@ -2062,7 +2067,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
             // if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             //  TODO: act on project load failure
             qDebug() << "// Project failed to load!!";
-            if (m_project->isModified()) {
+            if (m_project->isModified() && KdenliveSettings::crashrecovery()) {
                 m_autoSaveTimer.start();
             }
             return false;
@@ -2130,7 +2135,7 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
     }*/
     pCore->window()->raiseTimeline(timeline->getUuid());
     pCore->bin()->updateTargets();
-    if (m_project->isModified()) {
+    if (m_project->isModified() && KdenliveSettings::crashrecovery()) {
         m_autoSaveTimer.start();
     }
     return true;
