@@ -1,5 +1,5 @@
 numba==0.60
 numpy==2.0.*
-torch==2.5.1
+torch==2.6.0+cu126
 openai-whisper==20240930
 srt
