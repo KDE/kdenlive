@@ -1724,11 +1724,11 @@ void MainWindow::setupActions()
     addMarker->setData('P');
 
     QAction *delMarker = addAction(QStringLiteral("delete_clip_marker"), i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()),
-                                   QIcon::fromTheme(QStringLiteral("edit-delete")), QKeySequence(), clipActionCategory);
+                                   QIcon::fromTheme(QStringLiteral("bookmark-remove")), QKeySequence(), clipActionCategory);
     delMarker->setData('P');
 
     QAction *editClipMarker = addAction(QStringLiteral("edit_clip_marker"), i18n("Edit Marker…"), this, SLOT(slotEditClipMarker()),
-                                        QIcon::fromTheme(QStringLiteral("document-properties")), QKeySequence(), clipActionCategory);
+                                        QIcon::fromTheme(QStringLiteral("bookmark-edit")), QKeySequence(), clipActionCategory);
     editClipMarker->setObjectName(QStringLiteral("edit_marker"));
     editClipMarker->setData('P');
 
@@ -1920,9 +1920,9 @@ void MainWindow::setupActions()
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
-    addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
-    addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
+    addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("bookmarks")), Qt::Key_G);
+    addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("bookmark-remove")));
+    addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("bookmark-edit")));
     addAction(QStringLiteral("search_guide"), i18n("Search Guide…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
     addAction(QStringLiteral("export_guides"), i18n("Export Guides…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
 
@@ -2011,7 +2011,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()), {},
               {}, timelineActions);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
-              QIcon::fromTheme(QStringLiteral("bookmark-new")), {}, timelineActions);
+              QIcon::fromTheme(QStringLiteral("note")), {}, timelineActions);
 
     // Build activate track shortcut sequences
     QList<int> keysequence{Qt::Key_1, Qt::Key_2, Qt::Key_3, Qt::Key_4, Qt::Key_5, Qt::Key_6, Qt::Key_7, Qt::Key_8, Qt::Key_9};

@@ -90,7 +90,7 @@ MouseArea {
             }
             Kdenlive.MonitorToolButton {
                 objectName: "addMarker"
-                iconName: "list-add"
+                iconName: "bookmark-new"
                 toolTipText: root.isClipMonitor ? i18n("Add Marker") : i18n("Add Guide")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
@@ -99,7 +99,7 @@ MouseArea {
             }
             Kdenlive.MonitorToolButton {
                 objectName: "removeMarker"
-                iconName: "list-remove"
+                iconName: "bookmark-remove"
                 toolTipText: root.isClipMonitor ? i18n("Remove Marker") : i18n("Remove Guide")
                 onClicked: {
                     controller.activateClipMonitor(root.isClipMonitor)
