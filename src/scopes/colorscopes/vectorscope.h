@@ -15,7 +15,7 @@ class ColorTools;
 class Vectorscope_UI;
 class VectorscopeGenerator;
 
-enum BACKGROUND_MODE { BG_NONE = 0, BG_YUV = 1, BG_CHROMA = 2, BG_YPbPr = 3 };
+enum BACKGROUND_MODE { BG_DARK = 0, BG_YUV = 1, BG_CHROMA = 2, BG_YPbPr = 3 };
 
 /**
  *  @brief Displays the vectorscope of a frame.

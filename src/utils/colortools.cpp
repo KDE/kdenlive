@@ -8,6 +8,7 @@
 
 #include <QColor>
 #include <QDebug>
+#include <QPainter>
 #include <cmath>
 
 //#define DEBUG_CT
@@ -371,4 +372,24 @@ QImage ColorTools::hsvCurvePlane(const QSize &size, const QColor &baseColor, con
     }
 
     return plane;
+}
+
+QImage ColorTools::FixedColorCircle(const QSize &size, QRgb color)
+{
+    QImage circle(size, QImage::Format_ARGB32);
+    if (size.width() == 0 || size.height() == 0) {
+        qCritical() << "ERROR: Size of the color circle must not be 0!";
+        return circle;
+    }
+
+    // Fill with transparent color
+    circle.fill(qRgba(0, 0, 0, 0));
+
+    QPainter p(&circle);
+    p.setPen(Qt::NoPen);
+    p.setBrush(QColor(color));
+    p.drawEllipse(QRect(0, 0, size.width(), size.height()));
+    p.end();
+
+    return circle;
 }

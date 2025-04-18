@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/colortools.h"
 #include "vectorscopegenerator.h"
 
+#include "core.h"
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -39,6 +40,9 @@ Vectorscope::Vectorscope(QWidget *parent)
     : AbstractGfxScopeWidget(true, parent)
 
 {
+    // overwrite custom scopes palette from AbstractScopeWidget with global app palette to respect users theme preference
+    setPalette(QPalette());
+
     m_ui = new Ui::Vectorscope_UI();
     m_ui->setupUi(this);
 
@@ -52,7 +56,7 @@ Vectorscope::Vectorscope(QWidget *parent)
     m_ui->paintMode->addItem(i18n("YUV"), QVariant(VectorscopeGenerator::PaintMode_YUV));
     m_ui->paintMode->addItem(i18n("Original Color"), QVariant(VectorscopeGenerator::PaintMode_Original));
 
-    m_ui->backgroundMode->addItem(i18n("None"), QVariant(BG_NONE));
+    m_ui->backgroundMode->addItem(i18n("Black"), QVariant(BG_DARK)); // TODO: Should rename this to "Dark"
     m_ui->backgroundMode->addItem(i18n("YUV"), QVariant(BG_YUV));
     m_ui->backgroundMode->addItem(i18n("Modified YUV (Chroma)"), QVariant(BG_CHROMA));
     m_ui->backgroundMode->addItem(i18n("YPbPr"), QVariant(BG_YPbPr));
@@ -64,6 +68,7 @@ Vectorscope::Vectorscope(QWidget *parent)
     connect(m_ui->sliderGain, &QAbstractSlider::valueChanged, this, &Vectorscope::slotGainChanged);
     connect(m_ui->paintMode, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &Vectorscope::forceUpdateScope);
     connect(this, &Vectorscope::signalMousePositionChanged, this, &Vectorscope::forceUpdateHUD);
+    connect(pCore.get(), &Core::updatePalette, this, [this]() { forceUpdate(true); });
     m_ui->sliderGain->setValue(0);
 
     ///// Build context menu /////
@@ -240,7 +245,7 @@ QImage Vectorscope::renderHUD(uint)
         float percent = 100.f * r / float(VectorscopeGenerator::scaling) / m_gain / (reference.x() - widgetCenterPoint.x());
 
         switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
-        case BG_NONE:
+        case BG_DARK:
             davinci.setPen(penLight);
             break;
         default:
@@ -258,7 +263,6 @@ QImage Vectorscope::renderHUD(uint)
         float angle = float(copysignf(std::acos(dx / r) * 180.f / float(M_PI), dy));
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));
 
-        //        m_circleEnabled = false;
     } else {
         hud = QImage(0, 0, QImage::Format_ARGB32);
     }
@@ -324,6 +328,10 @@ QImage Vectorscope::renderBackground(uint)
         colorPlane = m_colorTools->yPbPrColorWheel(m_scopeRect.size(), 128, 1 / float(VectorscopeGenerator::scaling), true);
         davinci.drawImage(0, 0, colorPlane);
         break;
+    case BG_DARK:
+        colorPlane = m_colorTools->FixedColorCircle(m_scopeRect.size(), qRgba(25, 25, 23, 255));
+        davinci.drawImage(0, 0, colorPlane);
+        break;
     }
 
     // Draw I/Q lines (from the YIQ color space; Skin tones lie on the I line)
@@ -331,7 +339,7 @@ QImage Vectorscope::renderBackground(uint)
     if (m_aIQLines->isChecked()) {
 
         switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
-        case BG_NONE:
+        case BG_DARK:
             davinci.setPen(penLightDots);
             break;
         default:
@@ -352,7 +360,7 @@ QImage Vectorscope::renderBackground(uint)
         davinci.drawText(vinciPoint - QPoint(11, 5), QStringLiteral("I"));
 
         switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
-        case BG_NONE:
+        case BG_DARK:
             davinci.setPen(penLightDots);
             break;
         default:
@@ -429,7 +437,7 @@ QImage Vectorscope::renderBackground(uint)
     }
 
     switch (m_ui->backgroundMode->itemData(m_ui->backgroundMode->currentIndex()).toInt()) {
-    case BG_NONE:
+    case BG_DARK:
         davinci.setPen(penLight);
         break;
     default:
@@ -533,7 +541,7 @@ void Vectorscope::slotBackgroundChanged()
         }
         break;
 
-    case BG_NONE:
+    case BG_DARK:
         if (m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt() == VectorscopeGenerator::PaintMode_Black) {
             index = m_ui->paintMode->findData(QVariant(VectorscopeGenerator::PaintMode_Green2));
             m_ui->paintMode->setCurrentIndex(index);
