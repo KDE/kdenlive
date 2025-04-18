@@ -72,12 +72,14 @@ libkf6solid-dev libkf6textwidgets-dev libkf6widgetsaddons-dev libkf6xmlgui-dev
 # Multimedia stack
 sudo apt install frei0r-plugins ffmpeg mediainfo
 
+# Additional multimedia libraries
+sudo apt install libavformat-dev libavcodec-dev libswresample-dev libavutil-dev
+
 # MLT, except if you want to build it manually
 sudo apt install libmlt++-dev libmlt-dev melt
 
 # Dependencies for localization
 sudo apt install ruby subversion gnupg2 gettext
-
 ```
 
 #### Clone the repositories
