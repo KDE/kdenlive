@@ -80,7 +80,7 @@ Item {
     }
 
     onMaskModeChanged: {
-        if (maskMode == K.MaskModeType.MaskPreview) {
+        if (root.maskMode == K.MaskModeType.MaskPreview) {
             generateLabel.visible = false
         }
     }
@@ -203,7 +203,7 @@ Item {
                 property real yPos: 0
                 onPressed: mouse => {
                     console.log('GOT FRAME HEIGHT: ', frame.height)
-                    if (maskMode != K.MaskModeType.MaskPreview) {
+                    if (root.maskMode != K.MaskModeType.MaskPreview) {
                         shiftClick = mouse.modifiers & Qt.ShiftModifier
                         ctrlClick = mouse.modifiers & Qt.ControlModifier
                         clickPointX = mouseX
@@ -218,7 +218,7 @@ Item {
                     handleEvent = mouse.button == Qt.LeftButton
                 }
                 onPositionChanged: mouse => {
-                    if (pressed && !isPanEvent && maskMode < 2 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
+                    if (pressed && !isPanEvent && root.maskMode < 2 && ctrlClick && (Math.abs(mouseX - selectionRect.x) + Math.abs(mouseY - selectionRect.y) > Qt.styleHints.startDragDistance)) {
                         isPanEvent = true
                         mouse.accepted = true;
                     } else if (!isPanEvent) {
@@ -251,7 +251,7 @@ Item {
                 }
                 onReleased: mouse => {
                     console.log("Monitor SCENE RELEASED...")
-                    if (maskMode == 2) {
+                    if (root.maskMode == 2) {
                         mouse.accepted = false
                         handleEvent = false
                         return;
@@ -276,7 +276,7 @@ Item {
                     handleEvent = false
                 }
                 /*onClicked: mouse => {
-                    if (maskMode == 1) {
+                    if (root.maskMode == 1) {
                         mouse.accepted = false;
                         return;
                     }
@@ -287,6 +287,16 @@ Item {
                         generateLabel.visible = true
                     }
                 }*/
+                onEntered: {
+                    if (root.maskMode === K.MaskModeType.MaskPreview) {
+                        controller.setWidgetKeyBinding();
+                        return
+                    }
+                    controller.setWidgetKeyBinding(xi18nc("@info:whatsthis","<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a mask, <shortcut>Shift+click</shortcut> to include another zone, <shortcut>Ctrl+click</shortcut> to exclude a zone."));
+                }
+                onExited: {
+                    controller.setWidgetKeyBinding();
+                }
                 Rectangle {
                     id: selectionRect
                     color: '#66ffffff'
@@ -297,10 +307,10 @@ Item {
             Image {
                 id: maskPreview
                 anchors.fill: frame
-                source: maskMode != K.MaskModeType.MaskPreview ? controller.previewOverlay : ''
+                source: root.maskMode != K.MaskModeType.MaskPreview ? controller.previewOverlay : ''
                 asynchronous: true
                 opacity: controller.maskOpacity / 100
-                visible: maskMode != K.MaskModeType.MaskPreview
+                visible: root.maskMode != K.MaskModeType.MaskPreview
                 onSourceChanged: {
                     generateLabel.visible = false
                     if (opacity == 0 && source != '') {
@@ -384,7 +394,7 @@ Item {
         anchors.leftMargin: 10
         anchors.topMargin: 10
         padding: 5
-        text: keyframes.length == 0 ? i18n("Select an object in the image first") : maskMode != K.MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
+        text: keyframes.length == 0 ? i18n("Select an object in the image first") : root.maskMode != K.MaskModeType.MaskPreview ? i18n("Generating image mask") : i18n("Generating video mask")
         visible: false
         background: Rectangle {
             color: keyframes.length == 0 ? "darkred" : Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
@@ -395,7 +405,7 @@ Item {
         id: infoLabel
         anchors.centerIn: parent
         padding: 5
-        text: maskMode != K.MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
+        text: root.maskMode != K.MaskModeType.MaskPreview ? i18n("Click on an object or draw a box to start a mask.\nShift+click to include another zone.\nCtrl+click to exclude a zone.") : i18n("Previewing video mask")
         visible: root.centerPoints.length == 0 && !frameBox.visible && !frameArea.containsMouse && !generateLabel.visible && !outsideLabel.visible && keyframes.length == 0
         background: Rectangle {
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.8)
