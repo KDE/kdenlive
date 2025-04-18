@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 00:41+0000\n"
-"PO-Revision-Date: 2025-04-13 18:50+0100\n"
+"POT-Creation-Date: 2025-04-18 00:41+0000\n"
+"PO-Revision-Date: 2025-04-17 11:46+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -14942,7 +14942,7 @@ msgstr "Aplicar sólo a efectos con el mismo valor"
 #: src/assets/assetpanel.cpp:90
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr "Aplicar cambio en efecto a todos los clips del grupo…"
+msgstr "Aplicar cambios en un efecto a todos los clips del grupo…"
 
 #: src/assets/assetpanel.cpp:92
 #, kde-kuit-format
@@ -18327,7 +18327,7 @@ msgstr "Exportar subtítulos"
 #: src/dialogs/managesubtitles.cpp:439
 #, kde-format
 msgid "Layer "
-msgstr "Capa "
+msgstr "Capa S"
 
 #: src/dialogs/managesubtitles.cpp:439
 #, kde-format
@@ -18978,7 +18978,7 @@ msgstr "Captura"
 #: src/effects/effectlist/model/effecttreemodel.cpp:64
 #, kde-format
 msgid "Misc"
-msgstr "General"
+msgstr "Varios"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:209
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:789
@@ -20125,7 +20125,7 @@ msgid ""
 "frame."
 msgstr ""
 "Crea un nuevo subtítulo de duración predeterminada (definida en "
-"<interface>Preferencias->Configurar Kdenlive…->General</interface>) en la "
+"<interface>Preferencias->Configurar Kdenlive…->Varios </interface>) en la "
 "posición actual del cursor de tiempo."
 
 #: src/dialogs/subtitleedit.cpp:286
@@ -21461,7 +21461,7 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 "No se encontró un perfil para el clip %1.\n"
-"¿Crear y cambiar a un nuevo perfil (%2x%3, %4fps)?%5"
+"¿Crear y cambiar a un nuevo perfil (%2×%3, %4fps)?%5"
 
 #: src/doc/kdenlivedoc.cpp:2488 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
@@ -21472,7 +21472,7 @@ msgstr "Rojo"
 #: src/doc/kdenlivedoc.cpp:2489 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
-#: src/scopes/colorscopes/waveform.cpp:34
+#: src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Green"
 msgstr "Verde"
@@ -21483,7 +21483,7 @@ msgstr "Verde"
 msgid "Blue"
 msgstr "Azul"
 
-#: src/doc/kdenlivedoc.cpp:2491 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2491 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Amarillo"
@@ -22344,7 +22344,7 @@ msgstr "&Proyecto"
 #: src/kdenliveui.rc:28
 #, kde-format
 msgid "Generators"
-msgstr "Generados"
+msgstr "Generar"
 
 #. i18n: ectx: Menu (tool)
 #: src/kdenliveui.rc:58
@@ -24830,22 +24830,22 @@ msgstr "Predeterminado"
 #: src/mainwindow.cpp:4365 src/mainwindow.cpp:4393
 #, kde-format
 msgid "Small (%1x%2)"
-msgstr "Pequeño (%1x%2)"
+msgstr "Pequeño (%1×%2)"
 
 #: src/mainwindow.cpp:4367 src/mainwindow.cpp:4395
 #, kde-format
 msgid "Medium (%1x%2)"
-msgstr "Medio (%1x%2)"
+msgstr "Medio (%1×%2)"
 
 #: src/mainwindow.cpp:4369 src/mainwindow.cpp:4397
 #, kde-format
 msgid "Large (%1x%2)"
-msgstr "Grande (%1x%2)"
+msgstr "Grande (%1×%2)"
 
 #: src/mainwindow.cpp:4371 src/mainwindow.cpp:4399
 #, kde-format
 msgid "Huge (%1x%2)"
-msgstr "Muy grande (%1x%2)"
+msgstr "Muy grande (%1×%2)"
 
 #: src/mainwindow.cpp:4455
 #, kde-format
@@ -25466,8 +25466,8 @@ msgid "Black"
 msgstr "Negro"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
-#: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
+#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
+#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "Blanco"
@@ -26208,7 +26208,7 @@ msgstr "Creado por %1"
 #: src/onlineresources/resourcewidget.cpp:397
 #, kde-format
 msgid "Size: %1 x %2"
-msgstr "Tamaño: %1 x %2"
+msgstr "Tamaño: %1 × %2"
 
 #: src/onlineresources/resourcewidget.cpp:400
 #, kde-format
@@ -26472,7 +26472,7 @@ msgstr " entrelazado"
 #: src/profiles/profilemodel.cpp:170
 #, kde-format
 msgid "The project profile is invalid (%1x%2), it was adjusted to %3x%4."
-msgstr "El perfil del proyecto es inválido (%1x%2), fue ajustado a %3x%4."
+msgstr "El perfil del proyecto es inválido (%1×%2), fue ajustado a %3×%4."
 
 #: src/profiles/tree/profiletreemodel.cpp:46
 #, kde-format
@@ -27046,7 +27046,7 @@ msgstr "Opciones de video"
 #: src/project/dialogs/profilewidget.cpp:196
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
-msgstr "Tamaño de fotograma: %1 x %2 (%3:%4)"
+msgstr "Tamaño de fotograma: %1 × %2 (%3:%4)"
 
 #: src/project/dialogs/profilewidget.cpp:197
 #, kde-format
@@ -28770,65 +28770,65 @@ msgstr "Luma"
 msgid "HSV Value"
 msgstr "TSV Valor"
 
-#: src/scopes/colorscopes/histogram.cpp:24
+#: src/scopes/colorscopes/histogram.cpp:28
 #, kde-format
 msgid "Unscaled"
 msgstr "Tamaño original"
 
-#: src/scopes/colorscopes/histogram.cpp:27
-#: src/scopes/colorscopes/waveform.cpp:36
+#: src/scopes/colorscopes/histogram.cpp:31
+#: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/scopes/colorscopes/histogram.cpp:29
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/histogram.cpp:33
+#: src/scopes/colorscopes/waveform.cpp:40
 #, kde-format
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/scopes/colorscopes/histogram.cpp:37
-#: src/scopes/colorscopes/waveform.cpp:43
+#: src/scopes/colorscopes/histogram.cpp:41
+#: src/scopes/colorscopes/waveform.cpp:45
 #, kde-format
 msgid "Luma mode"
 msgstr "Modo de luma"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:205
+#: src/scopes/colorscopes/histogramgenerator.cpp:207
 #, kde-format
 msgid "min"
 msgstr "mín"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:208
+#: src/scopes/colorscopes/histogramgenerator.cpp:210
 #, kde-format
 msgid "max"
 msgstr "máx"
 
-#: src/scopes/colorscopes/rgbparade.cpp:25
+#: src/scopes/colorscopes/rgbparade.cpp:29
 #, kde-format
 msgid "RGB"
 msgstr "RVA"
 
-#: src/scopes/colorscopes/rgbparade.cpp:29
+#: src/scopes/colorscopes/rgbparade.cpp:33
 #: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Draw axis"
 msgstr "Mostrar ejes"
 
-#: src/scopes/colorscopes/rgbparade.cpp:34
+#: src/scopes/colorscopes/rgbparade.cpp:38
 #, kde-format
 msgid "Gradient reference line"
 msgstr "Línea de referencia del gradiente"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:165
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:171
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:177
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:169
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:175
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:181
 #, kde-format
 msgid "min: "
 msgstr "mín: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:191
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:197
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:189
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:195
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:201
 #, kde-format
 msgid "max: "
 msgstr "máx: "
@@ -30572,7 +30572,7 @@ msgstr "Sólo mantener seleccionados los elementos de texto"
 #: src/titler/titlewidget.cpp:339
 #, kde-format
 msgid "Keep only rect items selected"
-msgstr "Sólo mantener seleccionados los elementos rect"
+msgstr "Sólo mantener seleccionados los elementos rectangulares"
 
 #: src/titler/titlewidget.cpp:346
 #, kde-format
@@ -31748,7 +31748,7 @@ msgstr "Tamaño:"
 #: src/ui/configcapture_ui.ui:115
 #, kde-format
 msgid "720x576"
-msgstr "720 x 576"
+msgstr "720 × 576"
 
 #. i18n: ectx: property (text), widget (QLabel, p_fps)
 #: src/ui/configcapture_ui.ui:129
@@ -34548,7 +34548,7 @@ msgstr ":data/kdenlive_renderprofiles.knsrc"
 #: src/ui/renderwidget_ui.ui:262
 #, kde-format
 msgid "Save current preset as new custom preset"
-msgstr "Guardar el preajuste actual como un nuevo ajuste personalizado"
+msgstr "Guardar el preajuste actual como un nuevo preajuste personalizado"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:265
@@ -34766,7 +34766,7 @@ msgstr "<a href=\"#\">Editar metadatos</a>"
 #: src/ui/renderwidget_ui.ui:859
 #, kde-format
 msgid "Embed subtitles instead of burning them"
-msgstr "Subtítulos en una pista, en vez de estampados"
+msgstr "Subtítulos en una pista, en vez de estamparlos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
 #: src/ui/renderwidget_ui.ui:866

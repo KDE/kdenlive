@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 00:41+0000\n"
-"PO-Revision-Date: 2025-04-16 17:24+0300\n"
+"POT-Creation-Date: 2025-04-18 00:41+0000\n"
+"PO-Revision-Date: 2025-04-17 17:22+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1280,9 +1280,9 @@ msgid "How many times should the boxblur be applied to chroma"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha Radius"
-msgstr "Радиус размытия"
+msgstr "Радиус альфа"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
@@ -2411,9 +2411,9 @@ msgid "Radius"
 msgstr "Радиус"
 
 #: data/effects/avfilter/avfilter_dblur.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Sets the radius for the direction]]>"
-msgstr "<![CDATA[Устанавливает непрозрачность для фонового изображения]]>"
+msgstr "<![CDATA[Устанавливает радиус для направления]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #, kde-format
@@ -3105,9 +3105,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edge detection"
-msgstr "Коррекция по краю"
+msgstr "Обнаружение краёв"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:5
 #, kde-format
@@ -3145,7 +3145,7 @@ msgstr "Режимы"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:21
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
-msgstr ""
+msgstr "Нет,Y,U,YU,V,YV,UV,YUV,Альфа"
 
 #: data/effects/avfilter/avfilter_elbg.xml:4
 #, kde-format
@@ -4100,24 +4100,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_inflate.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "threshold0"
-msgstr "Порог"
+msgstr "порог0"
 
 #: data/effects/avfilter/avfilter_inflate.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "threshold1"
-msgstr "Порог"
+msgstr "порог1"
 
 #: data/effects/avfilter/avfilter_inflate.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "threshold2"
-msgstr "Порог"
+msgstr "порог2"
 
 #: data/effects/avfilter/avfilter_inflate.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "threshold3"
-msgstr "Порог"
+msgstr "порог3"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
 #, kde-format
@@ -4405,30 +4405,33 @@ msgstr "MediaInfo:"
 #: data/effects/avfilter/avfilter_scroll.xml:5
 #, kde-format
 msgid "Pick median pixel from certain rectangle defined by radius."
-msgstr ""
+msgstr "Выбор медианного пиксела из прямоугольника, определяемого радиусом"
 
 #: data/effects/avfilter/avfilter_median.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Horizontal radius"
-msgstr "Конец по горизонтали"
+msgstr "Радиус по горизонтали"
 
 #: data/effects/avfilter/avfilter_median.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "<![CDATA[Set median radius]]>"
-msgstr "<![CDATA[Смещение вдоль оси Y]]>"
+msgstr "<![CDATA[Установка медианного радиуса]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
-#, fuzzy, kde-format
+#, kde-format
 msgid "Vertical radius"
-msgstr "Конец по вертикали"
+msgstr "Радиус по вертикали"
 
 #: data/effects/avfilter/avfilter_median.xml:14
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Set median vertical radius.<br>\n"
 "       \tIf it is 0, value will be picked from <em>Horizontal radius</em> "
 "parameter.]]>"
 msgstr ""
+"<![CDATA[Установка медианного радиуса по вертикали.<br>\n"
+"       \tЕсли этот радиус равен нулю, будет использоваться значение "
+"параметра <em>Радиус по горизонтали<em>.]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:17
 #, kde-format
@@ -4922,47 +4925,47 @@ msgstr "Смещение RGBA"
 #: data/effects/avfilter/avfilter_rgbashift.xml:5
 #, kde-format
 msgid "Shift R/G/B/A pixels horizontally and/or vertically"
-msgstr ""
+msgstr "Смещение пикселов R/G/B/A по горизонтали и/или вертикали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Red Horizontal shift"
-msgstr "Отражение по горизонтали"
+msgstr "Смещение красного по горизонтали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Red Vertical shift"
-msgstr "Разброс по Y"
+msgstr "Смещение красного по вертикали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Green Horizontal shift"
-msgstr "Линейный, по горизонтали"
+msgstr "Смещение зелёного по горизонтали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Green Vertical shift"
-msgstr "Линейный, по вертикали"
+msgstr "Смещение зелёного по вертикали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Blue Horizontal shift"
-msgstr "Линейный, по горизонтали"
+msgstr "Смещение синего по горизонтали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Blue Vertical shift"
-msgstr "Линейный, по вертикали"
+msgstr "Смещение синего по вертикали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha Horizontal shift"
-msgstr "Линейный, по горизонтали"
+msgstr "Смещение альфа по горизонтали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha Vertical shift"
-msgstr "Линейный, по вертикали"
+msgstr "Смещение альфа по вертикали"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
 #, fuzzy, kde-format
@@ -5200,9 +5203,9 @@ msgid "Blur the input video without impacting the outlines. "
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Luma radius"
-msgstr "радиус"
+msgstr "Радиус яркости"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:10
 #, kde-format
@@ -5227,9 +5230,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Luma threshold"
-msgstr "Изменить порог"
+msgstr "Порог яркости"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:20
 #, kde-format
@@ -5241,9 +5244,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Chroma radius"
-msgstr "Радиус окружности"
+msgstr "Радиус насыщенности"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:25
 #, kde-format
@@ -5270,9 +5273,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
-#, fuzzy, kde-format
+#, kde-format
 msgid "Chroma threshold"
-msgstr "Изменить порог"
+msgstr "Порог насыщенности"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:35
 #, kde-format
@@ -5285,9 +5288,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha radius"
-msgstr "Операции с альфа"
+msgstr "Радиус альфа"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:40
 #, kde-format
@@ -6531,7 +6534,7 @@ msgstr "В"
 #: data/effects/crop.xml:4
 #, kde-format
 msgid "Edge Crop"
-msgstr "Кадрирование"
+msgstr "Краевое кадрирование"
 
 #: data/effects/crop.xml:5
 #, kde-format
@@ -11316,12 +11319,12 @@ msgstr "Обратная связь"
 #: data/effects/ladspa/ladspa_phaser.xml:17
 #, kde-format
 msgid "Spread"
-msgstr "Интенсивность"
+msgstr "Распределение"
 
 #: data/effects/ladspa/ladspa_pitch.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pitch Shift"
-msgstr "Транспонирование (SoX)"
+msgstr "Изменение высоты тона (SoX)"
 
 #: data/effects/ladspa/ladspa_pitch.xml:5
 #, kde-format
@@ -11331,17 +11334,17 @@ msgstr "Изменение высоты тона (эффект LADSPA)"
 #: data/effects/ladspa/ladspa_pitch.xml:8 data/effects/sox/sox_pitch.xml:8
 #, kde-format
 msgid "Shift"
-msgstr "Транспонировать"
+msgstr "Сдвиг"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pitch Scaler"
-msgstr "Транспонирование"
+msgstr "Шкала высоты тона"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:5
 #, kde-format
 msgid "LADSPA pitch scale audio effect"
-msgstr "Шкала транспонирования (эффект LADSPA)"
+msgstr "Шкала высоты тона звука (эффект LADSPA)"
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:8
 #, kde-format
@@ -11692,9 +11695,9 @@ msgid ""
 "Convert alpha or luma values below this level as opaque and above this level "
 "as transparent. This is mostly useful for luma wipe images."
 msgstr ""
-"Преобразование значений альфа или каше ниже этого уровня в непрозрачные, а "
-"выше этого уровня — в прозрачные. Полезно для вытеснения изображений с "
-"помощью файлов каше."
+"Преобразование значений альфа или яркости ниже этого уровня в непрозрачные, "
+"а выше этого уровня — в прозрачные. Полезно для изображений с вытеснением по "
+"яркости."
 
 #: data/effects/mask_start_shape.xml:19 data/effects/shape.xml:16
 #, kde-format
@@ -12005,7 +12008,7 @@ msgstr "Цвет фоновой заливки"
 #: data/effects/rboctaveshift.xml:4
 #, kde-format
 msgid "Rubberband Octave Shift"
-msgstr "Транспонирование на октаву (Rubberband)"
+msgstr "Октавное смещение (Rubberband)"
 
 #: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
@@ -12015,7 +12018,7 @@ msgstr "Регулировка высоты звука с использован
 #: data/effects/rboctaveshift.xml:8
 #, kde-format
 msgid "Octave Shift"
-msgstr "Транспонирование на октаву"
+msgstr "Октавное смещение"
 
 #: data/effects/rboctaveshift.xml:9
 #, kde-format
@@ -12027,13 +12030,12 @@ msgid ""
 "less than one for downwards) is: o = log(f) / log(2). Ignored if pitchscale "
 "is set."
 msgstr ""
-"Транспонирование на октаву. Обеспечивает транспонирование на октаву от "
-"исходной частоты. Например, сдвиг на +1 увеличивает частоту в два раза; "
-"сдвиг на -1 уменьшает частоту в два раза, а 0 оставляет высоту без "
-"изменения. Если выразить это в единицах частоты, то сдвиг частоты f (где f "
-"больше единицы для сдвига вверх и меньше единицы для сдвига вниз) можно "
-"выразить следующим образом: o = log(f) / log(2). Данный параметр "
-"игнорируется если задан параметр эффекта «Транспонирование»."
+"Октавное смещение исходной частоты. Например, сдвиг на +1 увеличивает "
+"частоту в два раза; сдвиг на -1 уменьшает частоту в два раза, а 0 оставляет "
+"высоту без изменения. Если выразить это в единицах частоты, то сдвиг частоты "
+"f (где f больше единицы для сдвига вверх и меньше единицы для сдвига вниз) "
+"можно выразить следующим образом: o = log(f) / log(2). Данный параметр "
+"игнорируется, если задан параметр шкалы высоты тона."
 
 #: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
 #, kde-format
@@ -12063,12 +12065,12 @@ msgstr "Величина задержки от входа до выхода дл
 #: data/effects/rbpitchscale.xml:4
 #, kde-format
 msgid "Rubberband Pitch Scale"
-msgstr "Транспонирование (Rubberband)"
+msgstr "Шкала высоты тона (Rubberband)"
 
 #: data/effects/rbpitchscale.xml:8
 #, kde-format
 msgid "Pitch Scale"
-msgstr "Транспонирование"
+msgstr "Шкала высоты тона"
 
 #: data/effects/rbpitchscale.xml:9
 #, kde-format
@@ -12080,14 +12082,13 @@ msgid ""
 "(where o is positive for an upwards shift and negative for downwards) is: f "
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
-"Транспонирование высоты звука. Это отношение целевой частоты к исходной."
+"Коэффициент изменения высоты звука. Это отношение целевой частоты к исходной."
 "Например, при соотношении 2.0 высота звука поднимается на одну октаву вверх; "
 "при 0.5 — опускается на одну октаву вниз; а при 1.0 — остаётся без "
 "изменений. С точки зрения теории музыки изменение звуковой высоты, "
-"соответствующее транспонированию на o октав (где o является положительным "
-"числом для сдвига вверх и отрицательным числом для сдвига вниз), можно "
-"выразить в виде: f = pow(2.0, o). Данный эффект имеет приоритет над эффектом "
-"«Транспонирование на октаву»."
+"соответствующее сдвигу на o октав (где o является положительным числом для "
+"сдвига вверх и отрицательным числом для сдвига вниз), можно выразить в виде: "
+"f = pow(2.0, o). Данный эффект имеет приоритет над эффектом сдвига на октаву."
 
 #: data/effects/rotate-3-way.xml:4
 #, kde-format
@@ -12488,7 +12489,7 @@ msgstr "Эффект фейзера SoX"
 #: data/effects/sox/sox_pitch.xml:4
 #, kde-format
 msgid "Sox Pitch Shift"
-msgstr "Транспонирование (SoX)"
+msgstr "Изменение высоты тона (SoX)"
 
 #: data/effects/sox/sox_pitch.xml:5
 #, kde-format
@@ -13461,66 +13462,54 @@ msgid "Perform an RGB[A] addition_alpha operation of the pixel sources."
 msgstr "Выполняет RGB[A] операцию добавления альфа источников пикселов."
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha ATOP"
-msgstr "Альфа"
+msgstr "Альфа ATOP"
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "The alpha ATOP operation"
-msgstr ""
-"Растворяет нижний клип с альфа-каналом\n"
-"в верхнем"
+msgstr "Операция ATOP с альфа-каналом"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha IN"
-msgstr "Альфа"
+msgstr "Альфа IN"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "The alpha IN operation"
-msgstr ""
-"Отображает содержимое нижнего клипа в верхнем\n"
-"клипе с альфа-каналом, при этом накладывает\n"
-"непрозрачную маску на альфа-канал."
+msgstr "Операция IN с альфа-каналом"
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha OUT"
-msgstr "Альфа"
+msgstr "Альфа OUT"
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "The alpha OUT operation"
-msgstr ""
-"Отображает содержимое нижнего клипа в альфа-канале\n"
-"верхнего клипа, при этом накладывает непрозрачную\n"
-" маску на верхний клип."
+msgstr "Операция OUT с альфа-каналом"
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha OVER"
-msgstr "Альфа"
+msgstr "Альфа OVER"
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "The alpha OVER operation"
-msgstr ""
-"Накладывает нижний клип с альфа-каналом на\n"
-"верхний используя полупрозрачную маску клипа"
+msgstr "Операция OVER с альфа-каналом"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha XOR"
-msgstr "Альфа"
+msgstr "Альфа XOR"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "The alpha XOR operation"
-msgstr ""
-"Отображает непрозрачную маску нижнего клипа\n"
-"с альфа-каналом в верхнем"
+msgstr "Операция XOR с альфа-каналом"
 
 #: data/transitions/frei0r/frei0r_burn.xml:4
 #, kde-format
@@ -13603,9 +13592,9 @@ msgstr ""
 "пользователем параметров режима смешивания и непрозрачности."
 
 #: data/transitions/frei0r/frei0r_color_only.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color Only"
-msgstr "Ключевой цвет"
+msgstr "Только цвет"
 
 #: data/transitions/frei0r/frei0r_color_only.xml:5
 #, kde-format
@@ -13617,7 +13606,7 @@ msgstr ""
 "используя значения оттенка и насыщенности входа2."
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Darken"
 msgstr "Затемнение"
 
@@ -13631,7 +13620,7 @@ msgstr ""
 "светлых пикселов значениями тёмных."
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Difference"
 msgstr "Разница"
 
@@ -13641,7 +13630,7 @@ msgid "Perform an RGB[A] difference operation between the pixel sources."
 msgstr "Выполняет RGB[A] операцию разности между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Divide"
 msgstr "Деление"
 
@@ -13683,7 +13672,7 @@ msgstr ""
 "между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Grain Merge"
 msgstr "Слияние зерна"
 
@@ -13695,7 +13684,7 @@ msgstr ""
 "между источниками пикселов."
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hardlight"
 msgstr "Жёсткий свет"
 
@@ -13716,9 +13705,9 @@ msgstr ""
 "используя оттенок входа2."
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lighten"
-msgstr "Замена светлым"
+msgstr "Осветление"
 
 #: data/transitions/frei0r/frei0r_lighten.xml:5
 #, kde-format
@@ -13730,7 +13719,7 @@ msgstr ""
 "источниками (максимальное значение как в источниках)."
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Multiply"
 msgstr "Умножение"
 
@@ -13829,55 +13818,55 @@ msgstr ""
 "алгоритм: D = 255 - (255 - А) * (255 - B)"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide Down"
-msgstr "Слайд-шоу"
+msgstr "Скольжение вниз"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide from top to bottom."
-msgstr "Выровнять по нижнему краю"
+msgstr "Скольжение сверху вниз"
 
 #: data/transitions/frei0r/frei0r_slide-down.xml:8
 #: data/transitions/frei0r/frei0r_slide-left.xml:8
 #: data/transitions/frei0r/frei0r_slide-right.xml:8
 #: data/transitions/frei0r/frei0r_slide-up.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide position"
-msgstr "Установить позицию"
+msgstr "Позиция скольжения"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide Left"
-msgstr "Слайд-шоу"
+msgstr "Скольжение влево"
 
 #: data/transitions/frei0r/frei0r_slide-left.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide from right to left."
-msgstr "Выровнять по левому краю"
+msgstr "Скольжение справа налево"
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide Up"
-msgstr "Слайд-шоу"
+msgstr "Скольжение вверх"
 
 #: data/transitions/frei0r/frei0r_slide-right.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide from bottom to top."
-msgstr "Выровнять по верхнему краю"
+msgstr "Скольжение снизу вверх"
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide Right"
-msgstr "Слайд-шоу"
+msgstr "Скольжение вправо"
 
 #: data/transitions/frei0r/frei0r_slide-up.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Slide from left to right."
-msgstr "Выровнять по правому краю"
+msgstr "Скольжение слева направо"
 
 #: data/transitions/frei0r/frei0r_softlight.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Softlight"
 msgstr "Мягкий свет"
 
@@ -13930,108 +13919,108 @@ msgstr ""
 "используя значение входа2."
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Horizontal Barn Door Wipe"
-msgstr "Отражение по горизонтали"
+msgstr "Вытеснение «ворота» по горизонтали"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Horizontal barn door wipe."
-msgstr "Конец по горизонтали"
+msgstr "Вытеснение «ворота» по горизонтали"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-h.xml:8
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edges position"
-msgstr "Позиция по Y"
+msgstr "Позиция краёв"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Vertical Barn Door Wipe"
-msgstr "Вертикальное поле"
+msgstr "Вытеснение «ворота» по вертикали"
 
 #: data/transitions/frei0r/frei0r_wipe-barn-door-v.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Vertical barn door wipe."
-msgstr "Вертикальное поле"
+msgstr "Вытеснение «ворота» по вертикали"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Circle Wipe"
-msgstr "Круг"
+msgstr "Круговое вытеснение"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:5
 #, kde-format
 msgid "Wipe from center to edge in a circle."
-msgstr ""
+msgstr "Вытеснение от центра к краю в круге"
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Circle size"
-msgstr "Размер файла"
+msgstr "Размер круга"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wipe Down"
-msgstr "Мягкость вытеснения"
+msgstr "Вытеснение вниз"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wipe from top to bottom."
-msgstr "Выровнять по нижнему краю"
+msgstr "Вытеснение сверху вниз"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:8
 #: data/transitions/frei0r/frei0r_wipe-left.xml:8
 #: data/transitions/frei0r/frei0r_wipe-right.xml:8
 #: data/transitions/frei0r/frei0r_wipe-up.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edge position"
-msgstr "Позиция по Y"
+msgstr "Краевая позиция"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wipe Left"
-msgstr "Вверху слева"
+msgstr "Вытеснение влево"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wipe from right to left."
-msgstr "Выровнять по левому краю"
+msgstr "Вытеснение справа налево"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rectangular Wipe"
-msgstr "Прямоугольное окно"
+msgstr "Прямоугольное вытеснение"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:5
 #, kde-format
 msgid "Wipe from center to edge in a rectangle."
-msgstr ""
+msgstr "Вытеснение от центра к краю в прямоугольнике"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rectangle size"
-msgstr "Прямоугольник"
+msgstr "Размер прямоугольника"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wipe Right"
-msgstr "Вверху справа"
+msgstr "Вытеснение вправо"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
 msgid "Wipe from left to right."
-msgstr ""
+msgstr "Вытеснение слева направо"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wipe Up"
-msgstr "Вытеснение"
+msgstr "Вытеснение вверх"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wipe from bottom to top."
-msgstr "Поднять объект наверх"
+msgstr "Вытеснение снизу вверх"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -14116,12 +14105,12 @@ msgstr "Принудительное устранение чересстрочн
 #, kde-format
 msgctxt "Slide Transition Name"
 msgid "Slide"
-msgstr "Слайд"
+msgstr "Скольжение"
 
 #: data/transitions/slide.xml:5
 #, kde-format
 msgid "Slide image from one side to another."
-msgstr "Смена изображения перемещением слайда с одной стороны в другую."
+msgstr "Скольжение изображения с одной стороны на другую."
 
 #: data/transitions/vqm.xml:4
 #, kde-format
@@ -17028,25 +17017,25 @@ msgstr "Линейный, по вертикали"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
-msgstr "Билинейный, по горизонтали"
+msgstr "Ворота по горизонтали"
 
 #: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
-msgstr "Билинейный, по вертикали"
+msgstr "Ворота по вертикали"
 
 #: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
-msgstr "Билинейный, по диагонали снизу слева направо вверх"
+msgstr "Ворота по диагонали с юго-запада на северо-восток"
 
 #: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
-msgstr "Билинейный, по диагонали сверху слева направо вниз"
+msgstr "Ворота по диагонали с северо-запада на юго-восток"
 
 #: src/core.cpp:405
 #, kde-format
@@ -20919,7 +20908,7 @@ msgstr "Красный"
 #: src/doc/kdenlivedoc.cpp:2489 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
-#: src/scopes/colorscopes/waveform.cpp:34
+#: src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Green"
 msgstr "Зелёный"
@@ -20930,7 +20919,7 @@ msgstr "Зелёный"
 msgid "Blue"
 msgstr "Синий"
 
-#: src/doc/kdenlivedoc.cpp:2491 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2491 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Жёлтый"
@@ -24935,8 +24924,8 @@ msgid "Black"
 msgstr "Чёрный"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
-#: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
+#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
+#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "Белый"
@@ -28244,65 +28233,65 @@ msgstr "Каше"
 msgid "HSV Value"
 msgstr "Значение в HSV"
 
-#: src/scopes/colorscopes/histogram.cpp:24
+#: src/scopes/colorscopes/histogram.cpp:28
 #, kde-format
 msgid "Unscaled"
 msgstr "Без масштабирования"
 
-#: src/scopes/colorscopes/histogram.cpp:27
-#: src/scopes/colorscopes/waveform.cpp:36
+#: src/scopes/colorscopes/histogram.cpp:31
+#: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Rec. 601"
 msgstr "Рек. 601"
 
-#: src/scopes/colorscopes/histogram.cpp:29
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/histogram.cpp:33
+#: src/scopes/colorscopes/waveform.cpp:40
 #, kde-format
 msgid "Rec. 709"
 msgstr "Рек. 709"
 
-#: src/scopes/colorscopes/histogram.cpp:37
-#: src/scopes/colorscopes/waveform.cpp:43
+#: src/scopes/colorscopes/histogram.cpp:41
+#: src/scopes/colorscopes/waveform.cpp:45
 #, kde-format
 msgid "Luma mode"
 msgstr "Яркостный режим"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:205
+#: src/scopes/colorscopes/histogramgenerator.cpp:207
 #, kde-format
 msgid "min"
 msgstr "мин"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:208
+#: src/scopes/colorscopes/histogramgenerator.cpp:210
 #, kde-format
 msgid "max"
 msgstr "макс"
 
-#: src/scopes/colorscopes/rgbparade.cpp:25
+#: src/scopes/colorscopes/rgbparade.cpp:29
 #, kde-format
 msgid "RGB"
 msgstr "RGB"
 
-#: src/scopes/colorscopes/rgbparade.cpp:29
+#: src/scopes/colorscopes/rgbparade.cpp:33
 #: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Draw axis"
 msgstr "Показывать ось"
 
-#: src/scopes/colorscopes/rgbparade.cpp:34
+#: src/scopes/colorscopes/rgbparade.cpp:38
 #, kde-format
 msgid "Gradient reference line"
 msgstr "Линия привязки градиента"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:165
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:171
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:177
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:169
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:175
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:181
 #, kde-format
 msgid "min: "
 msgstr "мин: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:191
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:197
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:189
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:195
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:201
 #, kde-format
 msgid "max: "
 msgstr "макс: "

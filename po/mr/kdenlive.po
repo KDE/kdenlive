@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 00:41+0000\n"
+"POT-Creation-Date: 2025-04-18 00:41+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -20805,7 +20805,7 @@ msgstr "लाल"
 #: src/doc/kdenlivedoc.cpp:2489 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
-#: src/scopes/colorscopes/waveform.cpp:34
+#: src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Green"
 msgstr "हिरवा"
@@ -20816,7 +20816,7 @@ msgstr "हिरवा"
 msgid "Blue"
 msgstr "निळा"
 
-#: src/doc/kdenlivedoc.cpp:2491 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2491 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "पिवळा"
@@ -24803,8 +24803,8 @@ msgid "Black"
 msgstr "काळा"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
-#: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:128
+#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
+#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:128
 #, kde-format
 msgid "White"
 msgstr "पांढरा"
@@ -27947,66 +27947,66 @@ msgstr ""
 msgid "HSV Value"
 msgstr ""
 
-#: src/scopes/colorscopes/histogram.cpp:24
+#: src/scopes/colorscopes/histogram.cpp:28
 #, kde-format
 msgid "Unscaled"
 msgstr ""
 
-#: src/scopes/colorscopes/histogram.cpp:27
-#: src/scopes/colorscopes/waveform.cpp:36
+#: src/scopes/colorscopes/histogram.cpp:31
+#: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Rec. 601"
 msgstr ""
 
-#: src/scopes/colorscopes/histogram.cpp:29
-#: src/scopes/colorscopes/waveform.cpp:38
+#: src/scopes/colorscopes/histogram.cpp:33
+#: src/scopes/colorscopes/waveform.cpp:40
 #, kde-format
 msgid "Rec. 709"
 msgstr ""
 
-#: src/scopes/colorscopes/histogram.cpp:37
-#: src/scopes/colorscopes/waveform.cpp:43
+#: src/scopes/colorscopes/histogram.cpp:41
+#: src/scopes/colorscopes/waveform.cpp:45
 #, kde-format
 msgid "Luma mode"
 msgstr ""
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:205
+#: src/scopes/colorscopes/histogramgenerator.cpp:207
 #, fuzzy, kde-format
 msgid "min"
 msgstr "मिनिटे"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:208
+#: src/scopes/colorscopes/histogramgenerator.cpp:210
 #, fuzzy, kde-format
 #| msgid "Max"
 msgid "max"
 msgstr "कमाल"
 
-#: src/scopes/colorscopes/rgbparade.cpp:25
+#: src/scopes/colorscopes/rgbparade.cpp:29
 #, kde-format
 msgid "RGB"
 msgstr ""
 
-#: src/scopes/colorscopes/rgbparade.cpp:29
+#: src/scopes/colorscopes/rgbparade.cpp:33
 #: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Draw axis"
 msgstr ""
 
-#: src/scopes/colorscopes/rgbparade.cpp:34
+#: src/scopes/colorscopes/rgbparade.cpp:38
 #, kde-format
 msgid "Gradient reference line"
 msgstr ""
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:165
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:171
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:177
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:169
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:175
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:181
 #, kde-format
 msgid "min: "
 msgstr ""
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:191
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:197
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:189
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:195
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:201
 #, kde-format
 msgid "max: "
 msgstr ""
