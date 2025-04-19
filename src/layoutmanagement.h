@@ -7,8 +7,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include <QObject>
 #include <QMap>
+#include <QObject>
+#include <QTimer>
 
 class KSelectAction;
 class KActionCategory;
@@ -16,6 +17,7 @@ class QAction;
 class QButtonGroup;
 class QAbstractButton;
 class QHBoxLayout;
+class QFrame;
 
 class LayoutManagement : public QObject
 {
@@ -39,6 +41,10 @@ private Q_SLOTS:
     void slotDockAreaRows();
     /** @brief Arrange the Qt::DockWidgetAreas in columns. */
     void slotDockAreaColumns();
+    /** @brief Hide the autosave indicator . */
+    void hideAutoSave();
+    /** @brief Show the autosave indicator for 2 seconds. */
+    void startAutoSave();
 
 private:
     /** @brief Saves the given layout asking the user for a name.
@@ -53,6 +59,8 @@ private:
     QWidget *m_container;
     QButtonGroup *m_containerGrp;
     QHBoxLayout *m_containerLayout;
+    QFrame *m_autosaveLabel{nullptr};
+    QTimer m_autosaveDisplayTimer;
     KSelectAction *m_loadLayout;
     QList <QAction *> m_layoutActions;
     QMap <QString, QString> m_translatedNames;

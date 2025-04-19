@@ -61,6 +61,14 @@
       <label>Enable autosave.</label>
       <default>true</default>
     </entry>
+    <entry name="autosave_time" type="Int">
+      <label>Autosave frequency in seconds.</label>
+      <default>60</default>
+    </entry>
+    <entry name="autosave_ops" type="Int">
+      <label>Autosave when we reach this count of undo entries.</label>
+      <default>25</default>
+    </entry>
     <entry name="tabposition" type="Int">
       <label>Select tab position in dockwidgets.</label>
       <default>1</default>
@@ -351,6 +359,10 @@
     </entry>
     <entry name="autopreview" type="Bool">
       <label>Automatically regenerate dirty zones of timeline preview.</label>
+      <default>false</default>
+    </entry>
+    <entry name="draginprogress" type="Bool">
+      <label>True when a timeline drag operation is in progress.</label>
       <default>false</default>
     </entry>
     <entry name="proxypreview" type="Bool">

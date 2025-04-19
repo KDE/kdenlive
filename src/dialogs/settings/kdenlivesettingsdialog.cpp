@@ -20,6 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 #include "project/dialogs/guidecategories.h"
 #include "project/dialogs/profilewidget.h"
+#include "project/projectmanager.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 
@@ -1181,6 +1182,12 @@ void KdenliveSettingsDialog::updateSettings()
     string = m_tlPreviewProfiles->currentExtension();
     if (string != KdenliveSettings::previewextension()) {
         KdenliveSettings::setPreviewextension(string);
+    }
+
+    // Autosave
+    if (m_configMisc.kcfg_autosave_time->value() != KdenliveSettings::autosave_time()) {
+        KdenliveSettings::setAutosave_time(m_configMisc.kcfg_autosave_time->value());
+        pCore->projectManager()->updateAutoSaveTimer();
     }
 
     if (updateLibrary) {

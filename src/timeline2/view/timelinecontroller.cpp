@@ -684,7 +684,7 @@ void TimelineController::slotFlashLock(int trackId)
 
 void TimelineController::deleteSelectedClips()
 {
-    if (dragOperationRunning()) {
+    if (KdenliveSettings::draginprogress()) {
         // Don't allow timeline operation while drag in progress
         pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
         return;
@@ -1088,7 +1088,7 @@ void TimelineController::gotoPreviousGuide()
 
 void TimelineController::groupSelection()
 {
-    if (dragOperationRunning()) {
+    if (KdenliveSettings::draginprogress()) {
         // Don't allow timeline operation while drag in progress
         pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
         return;
@@ -1105,7 +1105,7 @@ void TimelineController::groupSelection()
 
 void TimelineController::unGroupSelection(int cid)
 {
-    if (dragOperationRunning()) {
+    if (KdenliveSettings::draginprogress()) {
         // Don't allow timeline operation while drag in progress
         pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
         return;
@@ -1121,13 +1121,6 @@ void TimelineController::unGroupSelection(int cid)
     }
 }
 
-bool TimelineController::dragOperationRunning()
-{
-    QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "isDragging", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-    return returnedValue.toBool();
-}
-
 bool TimelineController::trimmingActive()
 {
     ToolType::ProjectTool tool = pCore->window()->getCurrentTimeline()->activeTool();
@@ -1136,7 +1129,7 @@ bool TimelineController::trimmingActive()
 
 void TimelineController::setInPoint(bool ripple)
 {
-    if (dragOperationRunning()) {
+    if (KdenliveSettings::draginprogress()) {
         // Don't allow timeline operation while drag in progress
         pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
         qDebug() << "Cannot operate while dragging";
@@ -1216,7 +1209,7 @@ void TimelineController::setInPoint(bool ripple)
 
 void TimelineController::setOutPoint(bool ripple)
 {
-    if (dragOperationRunning()) {
+    if (KdenliveSettings::draginprogress()) {
         // Don't allow timeline operation while drag in progress
         pCore->displayMessage(i18n("Cannot perform operation while dragging in timeline"), ErrorMessage);
         qDebug() << "Cannot operate while dragging";

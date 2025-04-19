@@ -508,6 +508,8 @@ Q_SIGNALS:
     /** Show / hide the automask panel */
     void switchMaskPanel(bool show);
     void transcodeProgress(ObjectId id, int progress);
+    /** Inform of an autosave starting operation */
+    void startAutoSave();
     /** @brief display a user info/warning message in the project bin */
     void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
                            BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);

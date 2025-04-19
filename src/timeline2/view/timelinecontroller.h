@@ -627,8 +627,6 @@ public:
     bool grabIsActive() const;
     /** @brief Returns keys for all used thumbnails */
     const std::unordered_map<QString, std::vector<int>> getThumbKeys();
-    /** @brief Returns true if a drag operation is currently running in timeline */
-    bool dragOperationRunning();
     /** @brief Returns true if the timeline is in trimming mode (slip, slide, ripple, rolle) */
     bool trimmingActive();
     /** @brief Disconnect some stuff before closing project */

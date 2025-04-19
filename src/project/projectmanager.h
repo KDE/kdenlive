@@ -150,6 +150,10 @@ public:
     void testSetActiveTimeline(std::shared_ptr<TimelineItemModel> timeline = nullptr);
     void testSetDocument(KdenliveDoc *doc);
 
+    /** @brief Update default interval for autosave
+     */
+    void updateAutoSaveTimer();
+
 public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);
     void newFile(bool showProjectSettings = true);

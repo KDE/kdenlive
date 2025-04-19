@@ -155,7 +155,7 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
 
     m_autoSaveTimer.setSingleShot(true);
-    m_autoSaveTimer.setInterval(60000);
+    m_autoSaveTimer.setInterval(1000 * KdenliveSettings::autosave_time());
     connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
 }
 
@@ -1207,7 +1207,7 @@ KRecentFilesAction *ProjectManager::recentFilesAction()
 void ProjectManager::slotStartAutoSave()
 {
     m_autoSaveChangeCount++;
-    if (m_autoSaveChangeCount > 25 && m_lastSave.elapsed() > 30000) {
+    if (m_autoSaveChangeCount >= KdenliveSettings::autosave_ops() && m_lastSave.elapsed() > 5000) {
         // If the project was modified a lot, force save
         m_autoSaveTimer.stop();
         slotAutoSave();
@@ -1216,12 +1216,23 @@ void ProjectManager::slotStartAutoSave()
     }
 }
 
+void ProjectManager::updateAutoSaveTimer()
+{
+    m_autoSaveTimer.setInterval(KdenliveSettings::autosave_time() * 1000);
+}
+
 void ProjectManager::slotAutoSave()
 {
     if (m_project->loading || m_project->closing) {
         // Dont start autosave if the project is still loading
         return;
     }
+    if (!pCore->window()->m_commandStack->activeStack()->canUndo()) {
+        // An operation is in progress, wait for its completion
+        m_autoSaveChangeCount = KdenliveSettings::autosave_ops();
+        return;
+    }
+    Q_EMIT pCore->startAutoSave();
     m_lastSave.invalidate();
     prepareSave();
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();

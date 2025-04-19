@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QFileDialog>
+#include <QFrame>
 #include <QInputDialog>
 #include <QListWidget>
 #include <QMenu>
@@ -71,23 +72,47 @@ LayoutManagement::LayoutManagement(QObject *parent)
     m_container = new QWidget(main);
     m_containerGrp = new QButtonGroup(m_container);
     connect(m_containerGrp, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this, &LayoutManagement::activateLayout);
-    auto *l1 = new QVBoxLayout;
+    auto *l1 = new QHBoxLayout;
     l1->addStretch();
+    l1->setContentsMargins(6, 0, 0, 0);
+    l1->setSpacing(0);
     m_containerLayout = new QHBoxLayout;
     m_containerLayout->setSpacing(0);
     m_containerLayout->setContentsMargins(0, 0, 0, 0);
+
+    m_autosaveLabel = new QFrame(main);
+    m_autosaveLabel->setAutoFillBackground(false);
+    QPalette pal = m_autosaveLabel->palette();
+    int iconSize = main->style()->pixelMetric(QStyle::PM_SmallIconSize);
+    m_autosaveLabel->setFixedSize(iconSize, iconSize);
+    pal.setColor(QPalette::Active, QPalette::Button, QColor(80, 250, 80));
+    m_autosaveLabel->setPalette(pal);
+    l1->addWidget(m_autosaveLabel);
     l1->addLayout(m_containerLayout);
     m_container->setLayout(l1);
     KColorScheme scheme(main->palette().currentColorGroup(), KColorScheme::Button);
     QColor bg = scheme.background(KColorScheme::AlternateBackground).color();
-    QString style = QStringLiteral("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);")
-                        .arg(bg.red())
-                        .arg(bg.green())
-                        .arg(bg.blue())
-                        .arg(main->fontInfo().pixelSize() / 2);
-    m_container->setStyleSheet(style);
+    pal = m_container->palette();
+    pal.setColor(QPalette::Active, QPalette::Button, bg);
+    m_container->setPalette(pal);
+    m_container->setAutoFillBackground(true);
     main->menuBar()->setCornerWidget(m_container, Qt::TopRightCorner);
+    m_autosaveDisplayTimer.setInterval(2000);
+    m_autosaveDisplayTimer.setSingleShot(true);
+    connect(&m_autosaveDisplayTimer, &QTimer::timeout, this, &LayoutManagement::hideAutoSave);
+    connect(pCore.get(), &Core::startAutoSave, this, &LayoutManagement::startAutoSave);
     initializeLayouts();
+}
+
+void LayoutManagement::startAutoSave()
+{
+    m_autosaveLabel->setAutoFillBackground(true);
+    m_autosaveDisplayTimer.start();
+}
+
+void LayoutManagement::hideAutoSave()
+{
+    m_autosaveLabel->setAutoFillBackground(false);
 }
 
 void LayoutManagement::initializeLayouts()
@@ -155,6 +180,7 @@ void LayoutManagement::initializeLayouts()
         }
         config->reparseConfiguration();
     }
+
     for (int i = 1; i <= entries.count(); i++) {
         const QString layoutName = entries.at(i - 1);
         QAction *load = nullptr;
