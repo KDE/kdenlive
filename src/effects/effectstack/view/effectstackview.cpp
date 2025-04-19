@@ -506,9 +506,8 @@ void EffectStackView::loadEffects()
         if (effectModel->getAssetId() == QLatin1String("lift_gamma_gain")) {
             hasLift = true;
         }
-        if (!effectModel->isAssetEnabled() && !KdenliveSettings::enableBuiltInEffects() && effectModel->filter().get_int("disable") == 1 &&
-            effectModel->filter().get_int("kdenlive:builtin") == 1) {
-            // Disabled built in effect, don't display
+        if (effectModel->hideFromStack()) {
+            // Effect should not be shown in stack, skip
             continue;
         }
         const QString assetName = EffectsRepository::get()->getName(effectModel->getAssetId());

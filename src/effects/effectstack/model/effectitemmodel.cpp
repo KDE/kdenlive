@@ -391,3 +391,19 @@ bool EffectItemModel::isHiddenBuiltIn() const
 {
     return m_asset->get_int("kdenlive:hiddenbuiltin") == 1;
 }
+
+bool EffectItemModel::hideFromStack() const
+{
+    if (isHiddenBuiltIn()) {
+        return true;
+    }
+
+    bool disabledBuildin = !KdenliveSettings::enableBuiltInEffects() && isBuiltIn();
+
+    if (disabledBuildin && !isAssetEnabled() && filter().get_int("disable") == 1) {
+        // Disabled built in effect, don't display
+        return true;
+    }
+
+    return false;
+}
