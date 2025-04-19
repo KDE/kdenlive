@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-18 00:41+0000\n"
+"POT-Creation-Date: 2025-04-19 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -1976,7 +1976,7 @@ msgid "Destination color Matrix"
 msgstr "نىشان قىسقۇچ"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
-#: src/scopes/colorscopes/vectorscope.cpp:94
+#: src/scopes/colorscopes/vectorscope.cpp:99
 #, kde-format
 msgid "Color Space"
 msgstr ""
@@ -13645,7 +13645,7 @@ msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1402
-#: src/scopes/colorscopes/vectorscope.cpp:71
+#: src/scopes/colorscopes/vectorscope.cpp:76
 #, kde-format
 msgid "Tools"
 msgstr "قوراللار"
@@ -16259,8 +16259,8 @@ msgstr "قويۇش تىزىمى"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2492 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1600
-#: src/project/projectmanager.cpp:1602 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1605
+#: src/project/projectmanager.cpp:1607 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequences"
@@ -17401,7 +17401,7 @@ msgid ""
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:259 src/project/projectmanager.cpp:831
+#: src/core.cpp:259 src/project/projectmanager.cpp:833
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Loading project…"
@@ -18101,7 +18101,7 @@ msgstr "ئىمپورت قىل"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1899 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1904 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5116
@@ -18171,7 +18171,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1789
+#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1794
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, fuzzy, kde-format
 #| msgid "Error opening file"
@@ -18617,7 +18617,6 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
-#: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "يوق"
@@ -21173,8 +21172,8 @@ msgstr ""
 msgid "Invalid file path"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/doc/kdenlivedoc.cpp:206 src/project/projectmanager.cpp:816
-#: src/project/projectmanager.cpp:858
+#: src/doc/kdenlivedoc.cpp:206 src/project/projectmanager.cpp:818
+#: src/project/projectmanager.cpp:860
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr ""
@@ -21241,8 +21240,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:936 src/project/projectmanager.cpp:1474
-#: src/project/projectmanager.cpp:1510
+#: src/doc/kdenlivedoc.cpp:936 src/project/projectmanager.cpp:1479
+#: src/project/projectmanager.cpp:1515
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder: %1"
@@ -21250,7 +21249,7 @@ msgstr "ھۆججەت ئېچىش خاتالىقى"
 
 #: src/doc/kdenlivedoc.cpp:1126 src/doc/kdenlivedoc.cpp:2449
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1730
+#: src/project/projectmanager.cpp:1735
 #, kde-format
 msgid "Untitled"
 msgstr "ماۋزۇسىز"
@@ -21404,7 +21403,7 @@ msgstr "قىزىل"
 
 #: src/doc/kdenlivedoc.cpp:2489 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
-#: src/scopes/colorscopes/vectorscope.cpp:49
+#: src/scopes/colorscopes/vectorscope.cpp:53
 #: src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Green"
@@ -24600,12 +24599,12 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2259 src/project/projectmanager.cpp:618
+#: src/mainwindow.cpp:2259 src/project/projectmanager.cpp:620
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2264 src/project/projectmanager.cpp:624
+#: src/mainwindow.cpp:2264 src/project/projectmanager.cpp:626
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -25454,7 +25453,7 @@ msgstr ""
 msgid "Audio volume"
 msgstr "ئۈن ئاۋاز مىقدارى"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:256
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:261
 #, kde-format
 msgid "%1%"
 msgstr ""
@@ -25552,7 +25551,8 @@ msgid "Free Resize"
 msgstr "كاندۇك چوڭلۇقى"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:54
+#: src/scopes/colorscopes/vectorscope.cpp:59
 #: src/timeline2/view/timelinecontroller.cpp:283 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
@@ -26068,22 +26068,31 @@ msgstr "بەلگە قەلىمى"
 msgid "Exit Preview Mode"
 msgstr "ئالدىن كۆزەت"
 
-#: src/monitor/view/MonitorAutomask.qml:387
+#: src/monitor/view/MonitorAutomask.qml:295
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a "
+"mask, <shortcut>Shift+click</shortcut> to include another zone, "
+"<shortcut>Ctrl+click</shortcut> to exclude a zone."
+msgstr ""
+
+#: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
 msgid "Select an object in the image first"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:387
+#: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
 msgid "Generating image mask"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:387
+#: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
 msgid "Generating video mask"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:398
+#: src/monitor/view/MonitorAutomask.qml:408
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -26091,13 +26100,13 @@ msgid ""
 "Ctrl+click to exclude a zone."
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:398
+#: src/monitor/view/MonitorAutomask.qml:408
 #, fuzzy, kde-format
 #| msgid "Folder"
 msgid "Previewing video mask"
 msgstr "قىسقۇچ"
 
-#: src/monitor/view/MonitorAutomask.qml:409
+#: src/monitor/view/MonitorAutomask.qml:419
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -26106,12 +26115,12 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:419
+#: src/monitor/view/MonitorAutomask.qml:429
 #, kde-format
 msgid "Go to mask start"
 msgstr ""
 
-#: src/monitor/view/MonitorAutomask.qml:431
+#: src/monitor/view/MonitorAutomask.qml:441
 #, kde-format
 msgid "Go to mask end"
 msgstr ""
@@ -27659,29 +27668,29 @@ msgstr ""
 msgid "Open Backup File…"
 msgstr ""
 
-#: src/project/projectmanager.cpp:446
+#: src/project/projectmanager.cpp:447
 #, kde-format
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:448 src/project/projectmanager.cpp:1729
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1734
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
 "Do you want to save your changes?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:560
+#: src/project/projectmanager.cpp:562
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:593
+#: src/project/projectmanager.cpp:595
 #, kde-format
 msgid "Saving successful"
 msgstr ""
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:608
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -27689,39 +27698,39 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:647
+#: src/project/projectmanager.cpp:649
 #, fuzzy, kde-format
 #| msgid "Save As"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "باشقا ئاتتا ساقلا"
 
-#: src/project/projectmanager.cpp:753
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:753
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "File Recovery"
 msgstr ""
 
-#: src/project/projectmanager.cpp:754 src/project/projectmanager.cpp:846
+#: src/project/projectmanager.cpp:756 src/project/projectmanager.cpp:848
 #, kde-format
 msgid "Recover"
 msgstr "ئەسلىگە كەلتۈر"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "Do not recover"
 msgstr ""
 
-#: src/project/projectmanager.cpp:810
+#: src/project/projectmanager.cpp:812
 #, kde-format
 msgid "Opening file %1"
 msgstr ""
 
-#: src/project/projectmanager.cpp:845
+#: src/project/projectmanager.cpp:847
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -27729,46 +27738,46 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:846 src/project/projectmanager.cpp:1080
+#: src/project/projectmanager.cpp:848 src/project/projectmanager.cpp:1082
 #, kde-format
 msgid "Error opening file"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/project/projectmanager.cpp:846 src/project/projectmanager.cpp:1081
+#: src/project/projectmanager.cpp:848 src/project/projectmanager.cpp:1083
 #, kde-format
 msgid "Open Backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:862
+#: src/project/projectmanager.cpp:864
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Could not open the backup project file."
 msgstr "سەپلەك ئۆچۈر"
 
-#: src/project/projectmanager.cpp:877
+#: src/project/projectmanager.cpp:879
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:879
+#: src/project/projectmanager.cpp:881
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:950
+#: src/project/projectmanager.cpp:952
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Loading timeline…"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/project/projectmanager.cpp:968
+#: src/project/projectmanager.cpp:970
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Building sequences…"
 msgstr "سۈرەت چوڭلۇقى"
 
-#: src/project/projectmanager.cpp:1107
+#: src/project/projectmanager.cpp:1109
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid ""
@@ -27776,70 +27785,70 @@ msgid ""
 "%1\n"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/project/projectmanager.cpp:1147
+#: src/project/projectmanager.cpp:1149
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1148
+#: src/project/projectmanager.cpp:1150
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1234
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1452
+#: src/project/projectmanager.cpp:1457
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/project/projectmanager.cpp:1488
+#: src/project/projectmanager.cpp:1493
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Moving project folder"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/project/projectmanager.cpp:1579 src/project/projectmanager.cpp:1634
-#: src/project/projectmanager.cpp:1638
+#: src/project/projectmanager.cpp:1584 src/project/projectmanager.cpp:1639
+#: src/project/projectmanager.cpp:1643
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequence 1"
 msgstr "سۈرەت چوڭلۇقى"
 
-#: src/project/projectmanager.cpp:1590
+#: src/project/projectmanager.cpp:1595
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1735 src/project/projectmanager.cpp:1740
-#: src/project/projectmanager.cpp:1750 src/project/projectmanager.cpp:1764
+#: src/project/projectmanager.cpp:1740 src/project/projectmanager.cpp:1745
+#: src/project/projectmanager.cpp:1755 src/project/projectmanager.cpp:1769
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1887
+#: src/project/projectmanager.cpp:1892
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1909
+#: src/project/projectmanager.cpp:1914
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Project profile changed"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/project/projectmanager.cpp:1973
+#: src/project/projectmanager.cpp:1978
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid ""
@@ -27847,18 +27856,18 @@ msgid ""
 "%1"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/project/projectmanager.cpp:2056
+#: src/project/projectmanager.cpp:2061
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2246
+#: src/project/projectmanager.cpp:2251
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select a clip to create sequence"
 msgstr "تاللاش"
 
-#: src/project/projectmanager.cpp:2284
+#: src/project/projectmanager.cpp:2289
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Create Sequence Clip"
@@ -28734,8 +28743,8 @@ msgid "YUV Y plane"
 msgstr ""
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:29
-#: src/scopes/colorscopes/vectorscope.cpp:51
-#: src/scopes/colorscopes/vectorscope.cpp:57
+#: src/scopes/colorscopes/vectorscope.cpp:55
+#: src/scopes/colorscopes/vectorscope.cpp:61
 #, kde-format
 msgid "Modified YUV (Chroma)"
 msgstr ""
@@ -28762,7 +28771,7 @@ msgid "HSV Saturation"
 msgstr ""
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:259
+#: src/scopes/colorscopes/vectorscope.cpp:264
 #, kde-format
 msgid "%1°"
 msgstr ""
@@ -28856,7 +28865,7 @@ msgid "RGB"
 msgstr "RGB"
 
 #: src/scopes/colorscopes/rgbparade.cpp:33
-#: src/scopes/colorscopes/vectorscope.cpp:84
+#: src/scopes/colorscopes/vectorscope.cpp:89
 #, kde-format
 msgid "Draw axis"
 msgstr ""
@@ -28880,45 +28889,45 @@ msgstr ""
 msgid "max: "
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:48
+#: src/scopes/colorscopes/vectorscope.cpp:52
 #, kde-format
 msgid "Green 2"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:52
 #: src/scopes/colorscopes/vectorscope.cpp:56
-#: src/scopes/colorscopes/vectorscope.cpp:97
+#: src/scopes/colorscopes/vectorscope.cpp:60
+#: src/scopes/colorscopes/vectorscope.cpp:102
 #, kde-format
 msgid "YUV"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:53
+#: src/scopes/colorscopes/vectorscope.cpp:57
 #, kde-format
 msgid "Original Color"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:58
-#: src/scopes/colorscopes/vectorscope.cpp:95
+#: src/scopes/colorscopes/vectorscope.cpp:62
+#: src/scopes/colorscopes/vectorscope.cpp:100
 #, kde-format
 msgid "YPbPr"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:73
+#: src/scopes/colorscopes/vectorscope.cpp:78
 #, kde-format
 msgid "Export background"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:77
+#: src/scopes/colorscopes/vectorscope.cpp:82
 #, kde-format
 msgid "Drawing options"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:79
+#: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "75% box"
 msgstr ""
 
-#: src/scopes/colorscopes/vectorscope.cpp:89
+#: src/scopes/colorscopes/vectorscope.cpp:94
 #, kde-format
 msgid "Draw I/Q lines"
 msgstr ""

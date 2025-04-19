@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-18 00:41+0000\n"
+"POT-Creation-Date: 2025-04-19 00:41+0000\n"
 "PO-Revision-Date: 2025-04-11 09:14+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -1917,7 +1917,7 @@ msgid "Destination color Matrix"
 msgstr "Матриця кольорів призначення"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
-#: src/scopes/colorscopes/vectorscope.cpp:94
+#: src/scopes/colorscopes/vectorscope.cpp:99
 #, kde-format
 msgid "Color Space"
 msgstr "Простір кольорів"
@@ -13685,7 +13685,7 @@ msgstr "Вилучення шумів та відновлення звуку"
 
 #: data/kdenliveeffectscategory.rc:88
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1402
-#: src/scopes/colorscopes/vectorscope.cpp:71
+#: src/scopes/colorscopes/vectorscope.cpp:76
 #, kde-format
 msgid "Tools"
 msgstr "Інструменти"
@@ -16199,8 +16199,8 @@ msgstr "Список відтворення"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2492 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1600
-#: src/project/projectmanager.cpp:1602 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1605
+#: src/project/projectmanager.cpp:1607 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Послідовності"
@@ -17299,7 +17299,7 @@ msgstr ""
 "Вказаний профіль є некоректним. Повертаємося до типового профілю «dv_pal». "
 "Ви можете змінити цей профіль за допомогою панелі параметрів Kdenlive."
 
-#: src/core.cpp:259 src/project/projectmanager.cpp:831
+#: src/core.cpp:259 src/project/projectmanager.cpp:833
 #, kde-format
 msgid "Loading project…"
 msgstr "Завантаження проєкту…"
@@ -17993,7 +17993,7 @@ msgstr "Експортування даних напрямних"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1899 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1904 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5116
@@ -18060,7 +18060,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "якщо не певні, скористайтеся таким:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1789
+#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1794
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -18487,7 +18487,6 @@ msgstr "BWDIF (найкращий)"
 #: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
-#: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Немає"
@@ -21075,8 +21074,8 @@ msgstr "З проєкту було вилучено такі фільтри і �
 msgid "Invalid file path"
 msgstr "Некоректний шлях до файла"
 
-#: src/doc/kdenlivedoc.cpp:206 src/project/projectmanager.cpp:816
-#: src/project/projectmanager.cpp:858
+#: src/doc/kdenlivedoc.cpp:206 src/project/projectmanager.cpp:818
+#: src/project/projectmanager.cpp:860
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не вдалося відновити пошкоджений файл."
@@ -21154,15 +21153,15 @@ msgstr ""
 "Файл вашого проєкту було оновлено до поточної версії формату документів "
 "Kdenlive, але створення резервної копії %1 було неможливим."
 
-#: src/doc/kdenlivedoc.cpp:936 src/project/projectmanager.cpp:1474
-#: src/project/projectmanager.cpp:1510
+#: src/doc/kdenlivedoc.cpp:936 src/project/projectmanager.cpp:1479
+#: src/project/projectmanager.cpp:1515
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Помилка під час спроби пересунути теку проєкту: %1"
 
 #: src/doc/kdenlivedoc.cpp:1126 src/doc/kdenlivedoc.cpp:2449
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1730
+#: src/project/projectmanager.cpp:1735
 #, kde-format
 msgid "Untitled"
 msgstr "Без назви"
@@ -21337,7 +21336,7 @@ msgstr "Червоний"
 
 #: src/doc/kdenlivedoc.cpp:2489 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
-#: src/scopes/colorscopes/vectorscope.cpp:49
+#: src/scopes/colorscopes/vectorscope.cpp:53
 #: src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Green"
@@ -24413,12 +24412,12 @@ msgstr ""
 "У результаті усі тимчасові файли буде пересунуто з<br/><b>%1</b> до <b>%2</"
 "b>,<br/>потім файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2259 src/project/projectmanager.cpp:618
+#: src/mainwindow.cpp:2259 src/project/projectmanager.cpp:620
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Не вдалося виконати дію, некоректний ідентифікатор документа: %1"
 
-#: src/mainwindow.cpp:2264 src/project/projectmanager.cpp:624
+#: src/mainwindow.cpp:2264 src/project/projectmanager.cpp:626
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не вдалося виконати дію, каталог призначення вже існує: %1"
@@ -25235,7 +25234,7 @@ msgstr "Відкриття даних аналізу"
 msgid "Audio volume"
 msgstr "Гучність звуку"
 
-#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:256
+#: src/monitor/monitor.cpp:94 src/scopes/colorscopes/vectorscope.cpp:261
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -25337,7 +25336,8 @@ msgid "Free Resize"
 msgstr "Довільна зміна розмірів"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:54
+#: src/scopes/colorscopes/vectorscope.cpp:59
 #: src/timeline2/view/timelinecontroller.cpp:283 src/ui/titlewidget_ui.ui:123
 #, kde-format
 msgid "Black"
@@ -25842,22 +25842,38 @@ msgstr "Вийти зі створення маски"
 msgid "Exit Preview Mode"
 msgstr "Вийти з режиму перегляду"
 
-#: src/monitor/view/MonitorAutomask.qml:387
+#: src/monitor/view/MonitorAutomask.qml:295
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "Click on an object or draw a box to start a mask.\n"
+#| "Shift+click to include another zone.\n"
+#| "Ctrl+click to exclude a zone."
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a "
+"mask, <shortcut>Shift+click</shortcut> to include another zone, "
+"<shortcut>Ctrl+click</shortcut> to exclude a zone."
+msgstr ""
+"Клацніть на об'єкті або намалюйте прямокутник, щоб започаткувати маску.\n"
+"Shift+клацніть, щоб включити іншу ділянку.\n"
+"Ctrl+клацніть, щоб виключити ділянку."
+
+#: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
 msgid "Select an object in the image first"
 msgstr "Спочатку виберіть об'єкт на зображенні"
 
-#: src/monitor/view/MonitorAutomask.qml:387
+#: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
 msgid "Generating image mask"
 msgstr "Створюємо маску зображення"
 
-#: src/monitor/view/MonitorAutomask.qml:387
+#: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
 msgid "Generating video mask"
 msgstr "Створення відеомаски"
 
-#: src/monitor/view/MonitorAutomask.qml:398
+#: src/monitor/view/MonitorAutomask.qml:408
 #, kde-format
 msgid ""
 "Click on an object or draw a box to start a mask.\n"
@@ -25868,12 +25884,12 @@ msgstr ""
 "Shift+клацніть, щоб включити іншу ділянку.\n"
 "Ctrl+клацніть, щоб виключити ділянку."
 
-#: src/monitor/view/MonitorAutomask.qml:398
+#: src/monitor/view/MonitorAutomask.qml:408
 #, kde-format
 msgid "Previewing video mask"
 msgstr "Попередній перегляд відеомаски"
 
-#: src/monitor/view/MonitorAutomask.qml:409
+#: src/monitor/view/MonitorAutomask.qml:419
 #, kde-format
 msgid ""
 "You are outside of the time zone defined\n"
@@ -25886,12 +25902,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/monitor/view/MonitorAutomask.qml:419
+#: src/monitor/view/MonitorAutomask.qml:429
 #, kde-format
 msgid "Go to mask start"
 msgstr "Перейти до початку маски"
 
-#: src/monitor/view/MonitorAutomask.qml:431
+#: src/monitor/view/MonitorAutomask.qml:441
 #, kde-format
 msgid "Go to mask end"
 msgstr "Перейти до кінця маски"
@@ -27486,12 +27502,12 @@ msgstr "Зберегти копію…"
 msgid "Open Backup File…"
 msgstr "Відкриття файла резервної копії…"
 
-#: src/project/projectmanager.cpp:446
+#: src/project/projectmanager.cpp:447
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Зберегти зміни у документі?"
 
-#: src/project/projectmanager.cpp:448 src/project/projectmanager.cpp:1729
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1734
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -27500,17 +27516,17 @@ msgstr ""
 "До проєкту <b>«%1»</b> було внесено зміни.\n"
 "Бажаєте зберегти внесені зміни?"
 
-#: src/project/projectmanager.cpp:560
+#: src/project/projectmanager.cpp:562
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Не вдалося зберегти файл проєкту <br><b>%1</B>"
 
-#: src/project/projectmanager.cpp:593
+#: src/project/projectmanager.cpp:595
 #, kde-format
 msgid "Saving successful"
 msgstr "Успішно збережено"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:608
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -27522,39 +27538,39 @@ msgstr ""
 "результаті усі тимчасові файли буде пересунуто з <b>%1</b> до <b>%2</b>, "
 "потім файл проєкту буде перезавантажено."
 
-#: src/project/projectmanager.cpp:647
+#: src/project/projectmanager.cpp:649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Збереження копії"
 
-#: src/project/projectmanager.cpp:753
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr ""
 "Виявлено файл автоматичного збереження. Бажаєте відновити дані за цим файлом?"
 
-#: src/project/projectmanager.cpp:753
+#: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "File Recovery"
 msgstr "Відновлення файлів"
 
-#: src/project/projectmanager.cpp:754 src/project/projectmanager.cpp:846
+#: src/project/projectmanager.cpp:756 src/project/projectmanager.cpp:848
 #, kde-format
 msgid "Recover"
 msgstr "Відновити"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "Do not recover"
 msgstr "Не відновлювати"
 
-#: src/project/projectmanager.cpp:810
+#: src/project/projectmanager.cpp:812
 #, kde-format
 msgid "Opening file %1"
 msgstr "Відкривається файл %1"
 
-#: src/project/projectmanager.cpp:845
+#: src/project/projectmanager.cpp:847
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -27565,29 +27581,29 @@ msgstr ""
 "%1\n"
 "Хочете відкрити файл резервної копії?"
 
-#: src/project/projectmanager.cpp:846 src/project/projectmanager.cpp:1080
+#: src/project/projectmanager.cpp:848 src/project/projectmanager.cpp:1082
 #, kde-format
 msgid "Error opening file"
 msgstr "Помилка під час відкриття файла"
 
-#: src/project/projectmanager.cpp:846 src/project/projectmanager.cpp:1081
+#: src/project/projectmanager.cpp:848 src/project/projectmanager.cpp:1083
 #, kde-format
 msgid "Open Backup"
 msgstr "Відкрити резервну копію"
 
-#: src/project/projectmanager.cpp:862
+#: src/project/projectmanager.cpp:864
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Не вдалося відкрити резервну копію файла проєкту."
 
-#: src/project/projectmanager.cpp:877
+#: src/project/projectmanager.cpp:879
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Ваш проєкт оновлено, резервну копію буде створено під час наступного "
 "збереження"
 
-#: src/project/projectmanager.cpp:879
+#: src/project/projectmanager.cpp:881
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -27595,17 +27611,17 @@ msgstr ""
 "Ваш проєкт було змінено при відкритті, резервну копію буде створено під час "
 "наступного збереження"
 
-#: src/project/projectmanager.cpp:950
+#: src/project/projectmanager.cpp:952
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Завантаження монтажного столу…"
 
-#: src/project/projectmanager.cpp:968
+#: src/project/projectmanager.cpp:970
 #, kde-format
 msgid "Building sequences…"
 msgstr "Побудова послідовностей…"
 
-#: src/project/projectmanager.cpp:1107
+#: src/project/projectmanager.cpp:1109
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -27614,7 +27630,7 @@ msgstr ""
 "Не вдалося відкрити файл проєкту. Помилка:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1147
+#: src/project/projectmanager.cpp:1149
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -27623,12 +27639,12 @@ msgstr ""
 "Буде вилучено всі зміни, внесені з часу останнього зберігання вашого "
 "проєкту. Ви справді бажаєте виконати цю дію?"
 
-#: src/project/projectmanager.cpp:1148
+#: src/project/projectmanager.cpp:1150
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Повернутися до останньої збереженої версії"
 
-#: src/project/projectmanager.cpp:1234
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -27638,25 +27654,25 @@ msgstr ""
 "знову відкрийте ваш файл проєкту, щоб відновити дані з останньої резервної "
 "копії."
 
-#: src/project/projectmanager.cpp:1452
+#: src/project/projectmanager.cpp:1457
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Помилка під час спроби пересунути теку проєкту, не вдалося отримати доступ "
 "до теки кешу"
 
-#: src/project/projectmanager.cpp:1488
+#: src/project/projectmanager.cpp:1493
 #, kde-format
 msgid "Moving project folder"
 msgstr "Пересуваємо теку проєкту"
 
-#: src/project/projectmanager.cpp:1579 src/project/projectmanager.cpp:1634
-#: src/project/projectmanager.cpp:1638
+#: src/project/projectmanager.cpp:1584 src/project/projectmanager.cpp:1639
+#: src/project/projectmanager.cpp:1643
 #, kde-format
 msgid "Sequence 1"
 msgstr "Послідовність 1"
 
-#: src/project/projectmanager.cpp:1590
+#: src/project/projectmanager.cpp:1595
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -27664,13 +27680,13 @@ msgstr ""
 "Файл проєкту пошкоджено — не вдалося завантажити доріжки. Спробувати знайти "
 "резервний файл?"
 
-#: src/project/projectmanager.cpp:1735 src/project/projectmanager.cpp:1740
-#: src/project/projectmanager.cpp:1750 src/project/projectmanager.cpp:1764
+#: src/project/projectmanager.cpp:1740 src/project/projectmanager.cpp:1745
+#: src/project/projectmanager.cpp:1755 src/project/projectmanager.cpp:1769
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Перервано зміну профілю проєкту"
 
-#: src/project/projectmanager.cpp:1887
+#: src/project/projectmanager.cpp:1892
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -27679,12 +27695,12 @@ msgstr ""
 "Файл виводу даних %1 вже існує.\n"
 "Перезаписати його?"
 
-#: src/project/projectmanager.cpp:1909
+#: src/project/projectmanager.cpp:1914
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профіль проєкту змінено"
 
-#: src/project/projectmanager.cpp:1973
+#: src/project/projectmanager.cpp:1978
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -27693,17 +27709,17 @@ msgstr ""
 "Не вдалося створити вміст монтажного стола з цього кліпу:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2056
+#: src/project/projectmanager.cpp:2061
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Імпорт кліпу послідовності, у поточній версії у стані експерименту"
 
-#: src/project/projectmanager.cpp:2246
+#: src/project/projectmanager.cpp:2251
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Виберіть кліп для створення послідовності"
 
-#: src/project/projectmanager.cpp:2284
+#: src/project/projectmanager.cpp:2289
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Створити кліп послідовності"
@@ -28591,8 +28607,8 @@ msgid "YUV Y plane"
 msgstr "Площина Y YUV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:29
-#: src/scopes/colorscopes/vectorscope.cpp:51
-#: src/scopes/colorscopes/vectorscope.cpp:57
+#: src/scopes/colorscopes/vectorscope.cpp:55
+#: src/scopes/colorscopes/vectorscope.cpp:61
 #, kde-format
 msgid "Modified YUV (Chroma)"
 msgstr "Змінена YUV (насиченість)"
@@ -28619,7 +28635,7 @@ msgid "HSV Saturation"
 msgstr "Насиченість HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:259
+#: src/scopes/colorscopes/vectorscope.cpp:264
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -28710,7 +28726,7 @@ msgid "RGB"
 msgstr "RGB"
 
 #: src/scopes/colorscopes/rgbparade.cpp:33
-#: src/scopes/colorscopes/vectorscope.cpp:84
+#: src/scopes/colorscopes/vectorscope.cpp:89
 #, kde-format
 msgid "Draw axis"
 msgstr "Показувати вісі"
@@ -28734,45 +28750,45 @@ msgstr "мін.: "
 msgid "max: "
 msgstr "макс.: "
 
-#: src/scopes/colorscopes/vectorscope.cpp:48
+#: src/scopes/colorscopes/vectorscope.cpp:52
 #, kde-format
 msgid "Green 2"
 msgstr "Зелений 2"
 
-#: src/scopes/colorscopes/vectorscope.cpp:52
 #: src/scopes/colorscopes/vectorscope.cpp:56
-#: src/scopes/colorscopes/vectorscope.cpp:97
+#: src/scopes/colorscopes/vectorscope.cpp:60
+#: src/scopes/colorscopes/vectorscope.cpp:102
 #, kde-format
 msgid "YUV"
 msgstr "YUV"
 
-#: src/scopes/colorscopes/vectorscope.cpp:53
+#: src/scopes/colorscopes/vectorscope.cpp:57
 #, kde-format
 msgid "Original Color"
 msgstr "Початковий колір"
 
-#: src/scopes/colorscopes/vectorscope.cpp:58
-#: src/scopes/colorscopes/vectorscope.cpp:95
+#: src/scopes/colorscopes/vectorscope.cpp:62
+#: src/scopes/colorscopes/vectorscope.cpp:100
 #, kde-format
 msgid "YPbPr"
 msgstr "YPbPr"
 
-#: src/scopes/colorscopes/vectorscope.cpp:73
+#: src/scopes/colorscopes/vectorscope.cpp:78
 #, kde-format
 msgid "Export background"
 msgstr "Експортувати тло"
 
-#: src/scopes/colorscopes/vectorscope.cpp:77
+#: src/scopes/colorscopes/vectorscope.cpp:82
 #, kde-format
 msgid "Drawing options"
 msgstr "Параметри малювання"
 
-#: src/scopes/colorscopes/vectorscope.cpp:79
+#: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "75% box"
 msgstr "75%-блок"
 
-#: src/scopes/colorscopes/vectorscope.cpp:89
+#: src/scopes/colorscopes/vectorscope.cpp:94
 #, kde-format
 msgid "Draw I/Q lines"
 msgstr "Малювати лінії I/Q"
