@@ -53,6 +53,7 @@ public:
     bool isValid() const;
     bool isBuiltIn() const;
     bool isHiddenBuiltIn() const;
+    bool hideFromStack() const;
     QPair<int, int> getInOut() const;
     void setInOut(const QString &effectName, QPair<int, int> bounds, bool enabled, bool withUndo);
     /** @brief This is a built-in asset */
