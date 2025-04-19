@@ -303,88 +303,10 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     // m_testModel.reset(new QAbstractItemModelTester(m_model.get(), QAbstractItemModelTester::FailureReportingMode::Fatal, this));
     if (KdenliveSettings::enableBuiltInEffects() && currentState != newState) {
         // Rebuilt the builtin effect stack
-        QLayout *lay = m_builtStack->layout();
-        if (lay) {
-            while (QLayoutItem *item = lay->takeAt(0)) {
-                delete item;
-            }
-            delete m_flipLabel;
-            delete m_flipH;
-            delete m_flipV;
-            delete m_removeBg;
-            delete m_samProgressBar;
-            delete m_samAbortButton;
-            m_flipLabel = nullptr;
-            m_flipH = nullptr;
-            m_flipV = nullptr;
-            m_removeBg = nullptr;
-            m_samProgressBar = nullptr;
-            m_samAbortButton = nullptr;
-            delete lay;
-        }
+        destroyBuildinWidget();
+
         if (newState.first != PlaylistState::AudioOnly && newState.second != ClipType::Color) {
-            // Add Flip widget
-            QFormLayout *layout = new QFormLayout(m_builtStack);
-            m_flipH = new QPushButton(this);
-            m_flipH->setToolTip(i18n("Horizontal Flip"));
-            m_flipH->setIcon(QIcon::fromTheme("object-flip-horizontal"));
-            m_flipH->setCheckable(true);
-            m_flipH->setFlat(true);
-            m_flipV = new QPushButton(this);
-            m_flipV->setToolTip(i18n("Vertical Flip"));
-            m_flipV->setIcon(QIcon::fromTheme("object-flip-vertical"));
-            m_flipV->setCheckable(true);
-            m_flipV->setFlat(true);
-            QHBoxLayout *lay = new QHBoxLayout;
-            lay->addWidget(m_flipH);
-            lay->addWidget(m_flipV);
-            // Add background remover
-            lay->addStretch(10);
-            m_removeBg = new QPushButton(i18n("Remove Background"), this);
-            m_removeBg->setToolTip(i18n("Remove background using AI model"));
-            m_removeBg->setCheckable(true);
-            m_samProgressBar = new QProgressBar(this);
-            m_samProgressBar->setVisible(false);
-            m_samAbortButton = new QToolButton(this);
-            m_samAbortButton->setAutoRaise(true);
-            m_samAbortButton->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
-            m_samAbortButton->setVisible(false);
-            lay->addWidget(m_removeBg);
-            lay->addWidget(m_samAbortButton);
-            lay->addWidget(m_samProgressBar);
-            m_flipLabel = new QLabel(i18n("Flip"));
-            layout->addRow(m_flipLabel, lay);
-            m_builtStack->setVisible(true);
-            connect(m_flipH, &QPushButton::clicked, this, [this](bool checked) {
-                if (checked) {
-                    QMap<QString, QString> params;
-                    params.insert(QStringLiteral("kdenlive:builtin"), QStringLiteral("1"));
-                    params.insert(QStringLiteral("kdenlive:hiddenbuiltin"), QStringLiteral("1"));
-                    m_model->appendEffect(QStringLiteral("avfilter.hflip"), false, params);
-                } else {
-                    auto item = m_model->getAssetModelById("avfilter.hflip");
-                    if (item) {
-                        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(item);
-                        m_model->removeEffect(sourceEffect);
-                    }
-                }
-            });
-            connect(m_flipV, &QPushButton::clicked, this, [this](bool checked) {
-                if (checked) {
-                    QMap<QString, QString> params;
-                    params.insert(QStringLiteral("kdenlive:builtin"), QStringLiteral("1"));
-                    params.insert(QStringLiteral("kdenlive:hiddenbuiltin"), QStringLiteral("1"));
-                    m_model->appendEffect(QStringLiteral("avfilter.vflip"), false, params);
-                } else {
-                    auto item = m_model->getAssetModelById("avfilter.vflip");
-                    if (item) {
-                        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(item);
-                        m_model->removeEffect(sourceEffect);
-                    }
-                }
-            });
-            connect(m_removeBg, &QPushButton::clicked, this, &EffectStackView::launchObjectMask);
-            connect(m_samAbortButton, &QToolButton::clicked, this, &EffectStackView::abortSam);
+            constructBuildinWidget();
         } else {
             m_builtStack->setVisible(false);
         }
@@ -716,27 +638,8 @@ void EffectStackView::unsetModel(bool reset)
             m_model.reset();
             m_effectsTree->setModel(nullptr);
         }
-        if (!KdenliveSettings::enableBuiltInEffects() && m_builtStack) {
-            QLayout *lay = m_builtStack->layout();
-            if (lay) {
-                while (QLayoutItem *item = lay->takeAt(0)) {
-                    delete item;
-                }
-                delete m_flipLabel;
-                delete m_flipH;
-                delete m_flipV;
-                delete m_removeBg;
-                delete m_samProgressBar;
-                delete m_samAbortButton;
-                m_flipLabel = nullptr;
-                m_flipH = nullptr;
-                m_flipV = nullptr;
-                m_removeBg = nullptr;
-                m_samProgressBar = nullptr;
-                m_samAbortButton = nullptr;
-                delete lay;
-                m_builtStack->setVisible(false);
-            }
+        if (!KdenliveSettings::enableBuiltInEffects()) {
+            destroyBuildinWidget();
         }
         pCore->getMonitor(id)->slotShowEffectScene(MonitorSceneDefault);
     }
@@ -1009,4 +912,107 @@ void EffectStackView::transcodeProgress(ObjectId owner, int progress)
             m_removeBg->setText(i18n("Abort Mask Creation"));
         }
     }
+}
+
+void EffectStackView::destroyBuildinWidget()
+{
+    if(!m_builtStack) {
+        return;
+    }
+
+    QLayout *lay = m_builtStack->layout();
+    if (!lay) {
+        return;
+    }
+
+    while (QLayoutItem *item = lay->takeAt(0)) {
+        delete item;
+    }
+
+    delete m_flipLabel;
+    m_flipLabel = nullptr;
+
+    delete m_flipH;
+    m_flipH = nullptr;
+
+    delete m_flipV;
+    m_flipV = nullptr;
+
+    delete m_removeBg;
+    m_removeBg = nullptr;
+
+    delete m_samProgressBar;
+    m_samProgressBar = nullptr;
+
+    delete m_samAbortButton;
+    m_samAbortButton = nullptr;
+
+    delete lay;
+
+    m_builtStack->setVisible(false);
+}
+
+void EffectStackView::constructBuildinWidget()
+{
+    // Add Flip widget
+    m_flipH = new QPushButton(this);
+    m_flipH->setToolTip(i18n("Horizontal Flip"));
+    m_flipH->setIcon(QIcon::fromTheme("object-flip-horizontal"));
+    m_flipH->setCheckable(true);
+    m_flipH->setFlat(true);
+
+    m_flipV = new QPushButton(this);
+    m_flipV->setToolTip(i18n("Vertical Flip"));
+    m_flipV->setIcon(QIcon::fromTheme("object-flip-vertical"));
+    m_flipV->setCheckable(true);
+    m_flipV->setFlat(true);
+
+    QHBoxLayout *lay = new QHBoxLayout;
+    lay->addWidget(m_flipH);
+    lay->addWidget(m_flipV);
+
+    // Add background remover
+    lay->addStretch(10);
+    m_removeBg = new QPushButton(i18n("Remove Background"), this);
+    m_removeBg->setToolTip(i18n("Remove background using AI model"));
+    m_removeBg->setCheckable(true);
+    m_samProgressBar = new QProgressBar(this);
+    m_samProgressBar->setVisible(false);
+    m_samAbortButton = new QToolButton(this);
+    m_samAbortButton->setAutoRaise(true);
+    m_samAbortButton->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
+    m_samAbortButton->setVisible(false);
+    lay->addWidget(m_removeBg);
+    lay->addWidget(m_samAbortButton);
+    lay->addWidget(m_samProgressBar);
+
+    QFormLayout *layout = new QFormLayout(m_builtStack);
+    m_flipLabel = new QLabel(i18n("Flip"));
+    layout->addRow(m_flipLabel, lay);
+
+    auto flipToggled = [this](bool checked, const QString &effectName){
+        if (checked) {
+            QMap<QString, QString> params;
+            params.insert(QStringLiteral("kdenlive:builtin"), QStringLiteral("1"));
+            params.insert(QStringLiteral("kdenlive:hiddenbuiltin"), QStringLiteral("1"));
+            m_model->appendEffect(effectName, false, params);
+        } else {
+            auto item = m_model->getAssetModelById(effectName);
+            if (item) {
+                std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(item);
+                m_model->removeEffect(sourceEffect);
+            }
+        }
+    };
+
+    connect(m_flipH, &QPushButton::clicked, this, [flipToggled](bool checked) {
+        flipToggled(checked, QStringLiteral("avfilter.hflip"));
+    });
+    connect(m_flipV, &QPushButton::clicked, this, [flipToggled](bool checked) {
+        flipToggled(checked, QStringLiteral("avfilter.vflip"));
+    });
+    connect(m_removeBg, &QPushButton::clicked, this, &EffectStackView::launchObjectMask);
+    connect(m_samAbortButton, &QToolButton::clicked, this, &EffectStackView::abortSam);
+
+    m_builtStack->setVisible(true);
 }

@@ -123,6 +123,9 @@ private:
     /** @brief Start drag operation on a CollapsibleEffectView */
     void startDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget = false);
 
+    void destroyBuildinWidget();
+    void constructBuildinWidget();
+
 private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     void slotCollapseAllEffects(bool collapse);
