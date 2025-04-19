@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 02:31+0000\n"
+"POT-Creation-Date: 2025-04-19 02:33+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -16313,8 +16313,8 @@ msgstr "प्लेलिस्ट"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2492 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1592
-#: src/project/projectmanager.cpp:1594 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1597
+#: src/project/projectmanager.cpp:1599 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "दृश्यों"
@@ -17397,7 +17397,7 @@ msgstr ""
 "दी गई प्रोफ़ाइल अमान्य है। हम डिफ़ॉल्ट रूप से \"dv_pal\" प्रोफ़ाइल का उपयोग करते हैं, "
 "लेकिन आप इसे Kdenlive के सेटिंग पैनल से बदल सकते हैं"
 
-#: src/core.cpp:259 src/project/projectmanager.cpp:828
+#: src/core.cpp:259 src/project/projectmanager.cpp:830
 #, kde-format
 msgid "Loading project…"
 msgstr "प्रोजेक्ट लोड हो रहा है…"
@@ -18079,7 +18079,7 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1891 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5167
@@ -18146,7 +18146,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "यदि अनिश्चित हों तो प्रयास करें:<br/> <b>यूनिकोड (UTF-8)</b> ."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1781
+#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1786
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -21099,8 +21099,8 @@ msgstr "परियोजना से निम्नलिखित फ़ि
 msgid "Invalid file path"
 msgstr "अमान्य फ़ाइल पथ"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:813
-#: src/project/projectmanager.cpp:855
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:815
+#: src/project/projectmanager.cpp:857
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "दूषित फ़ाइल पुनर्प्राप्त नहीं की जा सकी."
@@ -21176,15 +21176,15 @@ msgstr ""
 "आपकी प्रोजेक्ट फ़ाइल को नवीनतम Kdenlive दस्तावेज़ संस्करण में अपग्रेड कर दिया गया था, "
 "लेकिन बैकअप प्रतिलिपि %1 बनाना संभव नहीं था।"
 
-#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1466
-#: src/project/projectmanager.cpp:1502
+#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1471
+#: src/project/projectmanager.cpp:1507
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाते समय त्रुटि: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2457
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1722
+#: src/project/projectmanager.cpp:1727
 #, kde-format
 msgid "Untitled"
 msgstr "शीर्षकहीन"
@@ -24353,12 +24353,12 @@ msgstr ""
 "इससे सभी अस्थायी फ़ाइलें स्थानांतरित हो जाएंगी<br/> <b>%1</b> से <b>%2</b> ,<br/> फिर "
 "प्रोजेक्ट फ़ाइल पुनः लोड हो जाएगी"
 
-#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:619
+#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:621
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "कार्रवाई नहीं की जा सकती, अवैध दस्तावेज़ आईडी: %1"
 
-#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:627
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ऑपरेशन निष्पादित नहीं किया जा सकता, लक्ष्य निर्देशिका पहले से मौजूद है: %1"
@@ -27373,12 +27373,12 @@ msgstr "सहेजें प्रतिलिपि…"
 msgid "Open Backup File…"
 msgstr "बैकअप फ़ाइल खोलें…"
 
-#: src/project/projectmanager.cpp:447
+#: src/project/projectmanager.cpp:448
 #, kde-format
 msgid "Save changes to document?"
 msgstr "दस्तावेज़ में परिवर्तन सहेजें?"
 
-#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1721
+#: src/project/projectmanager.cpp:450 src/project/projectmanager.cpp:1726
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -27386,17 +27386,17 @@ msgid ""
 msgstr ""
 "प्रोजेक्ट <b>&quot;%1&quot;</b> बदल दिया गया है। क्या आप अपने परिवर्तन सहेजना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:561
+#: src/project/projectmanager.cpp:563
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "प्रोजेक्ट फ़ाइल सहेजा जा रहा है<br> <b>%1</b> विफल"
 
-#: src/project/projectmanager.cpp:594
+#: src/project/projectmanager.cpp:596
 #, kde-format
 msgid "Saving successful"
 msgstr "सहेजना सफल रहा"
 
-#: src/project/projectmanager.cpp:607
+#: src/project/projectmanager.cpp:609
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -27407,38 +27407,38 @@ msgstr ""
 "स्थान का उपयोग करना चुना है। इससे सभी अस्थायी फ़ाइलें <b>%1</b> से <b>%2</b> पर चली "
 "जाएँगी, फिर प्रोजेक्ट फ़ाइल को फिर से लोड किया जाएगा"
 
-#: src/project/projectmanager.cpp:648
+#: src/project/projectmanager.cpp:650
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "सहेजें प्रतिलिपि"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "स्वतः सहेजी गई फ़ाइल मौजूद है। क्या आप अभी पुनर्प्राप्त करना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "File Recovery"
 msgstr "फ़ाइल पुनर्प्राप्ति"
 
-#: src/project/projectmanager.cpp:755 src/project/projectmanager.cpp:843
+#: src/project/projectmanager.cpp:757 src/project/projectmanager.cpp:845
 #, kde-format
 msgid "Recover"
 msgstr "वापस पाना"
 
-#: src/project/projectmanager.cpp:755
+#: src/project/projectmanager.cpp:757
 #, kde-format
 msgid "Do not recover"
 msgstr "ठीक न होना"
 
-#: src/project/projectmanager.cpp:807
+#: src/project/projectmanager.cpp:809
 #, kde-format
 msgid "Opening file %1"
 msgstr "फ़ाइल %1 खोली जा रही है"
 
-#: src/project/projectmanager.cpp:842
+#: src/project/projectmanager.cpp:844
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -27449,44 +27449,44 @@ msgstr ""
 "%1\n"
 "क्या आप बैकअप फ़ाइल खोलना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1077
+#: src/project/projectmanager.cpp:845 src/project/projectmanager.cpp:1079
 #, kde-format
 msgid "Error opening file"
 msgstr "फ़ाइल खोलने में त्रुटि"
 
-#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1078
+#: src/project/projectmanager.cpp:845 src/project/projectmanager.cpp:1080
 #, kde-format
 msgid "Open Backup"
 msgstr "बैकअप खोलें"
 
-#: src/project/projectmanager.cpp:859
+#: src/project/projectmanager.cpp:861
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "बैकअप प्रोजेक्ट फ़ाइल नहीं खोली जा सकी."
 
-#: src/project/projectmanager.cpp:874
+#: src/project/projectmanager.cpp:876
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "आपका प्रोजेक्ट अपग्रेड हो गया है, अगली बार सेव करने पर बैकअप बनाया जाएगा"
 
-#: src/project/projectmanager.cpp:876
+#: src/project/projectmanager.cpp:878
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "आपका प्रोजेक्ट खोलते समय संशोधित किया गया था, अगली बार सहेजने पर एक बैकअप बनाया जाएगा"
 
-#: src/project/projectmanager.cpp:947
+#: src/project/projectmanager.cpp:949
 #, kde-format
 msgid "Loading timeline…"
 msgstr "टाइमलाइन लोड हो रही है…"
 
-#: src/project/projectmanager.cpp:965
+#: src/project/projectmanager.cpp:967
 #, kde-format
 msgid "Building sequences…"
 msgstr "अनुक्रम निर्माण…"
 
-#: src/project/projectmanager.cpp:1104
+#: src/project/projectmanager.cpp:1106
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -27495,7 +27495,7 @@ msgstr ""
 "प्रोजेक्ट फ़ाइल नहीं खोली जा सकी। त्रुटि:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1144
+#: src/project/projectmanager.cpp:1146
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -27504,12 +27504,12 @@ msgstr ""
 "इससे आपके द्वारा अपना प्रोजेक्ट अंतिम बार सहेजे जाने के बाद किए गए सभी परिवर्तन मिट "
 "जाएँगे। क्या आप वाकई जारी रखना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:1145
+#: src/project/projectmanager.cpp:1147
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "अंतिम सहेजे गए संस्करण पर वापस लौटें"
 
-#: src/project/projectmanager.cpp:1231
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -27518,47 +27518,47 @@ msgstr ""
 "प्रोजेक्ट दूषित हो गया है, बैकअप नहीं लिया जा सकता। कृपया अंतिम बैकअप प्राप्त करने के लिए "
 "अपनी प्रोजेक्ट फ़ाइल को बंद करके पुनः खोलें"
 
-#: src/project/projectmanager.cpp:1444
+#: src/project/projectmanager.cpp:1449
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाने में त्रुटि, कैश फ़ोल्डर तक पहुँच नहीं पा रहा"
 
-#: src/project/projectmanager.cpp:1480
+#: src/project/projectmanager.cpp:1485
 #, kde-format
 msgid "Moving project folder"
 msgstr "प्रोजेक्ट फ़ोल्डर ले जाना"
 
-#: src/project/projectmanager.cpp:1571 src/project/projectmanager.cpp:1626
-#: src/project/projectmanager.cpp:1630
+#: src/project/projectmanager.cpp:1576 src/project/projectmanager.cpp:1631
+#: src/project/projectmanager.cpp:1635
 #, kde-format
 msgid "Sequence 1"
 msgstr "अनुक्रम 1"
 
-#: src/project/projectmanager.cpp:1582
+#: src/project/projectmanager.cpp:1587
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "प्रोजेक्ट फ़ाइल दूषित है - ट्रैक लोड करने में विफल। बैकअप फ़ाइल ढूँढने का प्रयास करें?"
 
-#: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1732
-#: src/project/projectmanager.cpp:1742 src/project/projectmanager.cpp:1756
+#: src/project/projectmanager.cpp:1732 src/project/projectmanager.cpp:1737
+#: src/project/projectmanager.cpp:1747 src/project/projectmanager.cpp:1761
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "प्रोजेक्ट प्रोफ़ाइल परिवर्तन निरस्त किया गया"
 
-#: src/project/projectmanager.cpp:1879
+#: src/project/projectmanager.cpp:1884
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr "आउटपुट फ़ाइल %1 पहले से मौजूद है। क्या आप इसे अधिलेखित करना चाहते हैं?"
 
-#: src/project/projectmanager.cpp:1901
+#: src/project/projectmanager.cpp:1906
 #, kde-format
 msgid "Project profile changed"
 msgstr "प्रोजेक्ट प्रोफ़ाइल परिवर्तित"
 
-#: src/project/projectmanager.cpp:1965
+#: src/project/projectmanager.cpp:1970
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -27567,17 +27567,17 @@ msgstr ""
 "इस क्लिप से टाइमलाइन नहीं बनाई जा सकती:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2048
+#: src/project/projectmanager.cpp:2053
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "अनुक्रम क्लिप आयात किया जा रहा है, यह वर्तमान में प्रायोगिक अवस्था में है"
 
-#: src/project/projectmanager.cpp:2238
+#: src/project/projectmanager.cpp:2243
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "अनुक्रम बनाने के लिए एक क्लिप चुनें"
 
-#: src/project/projectmanager.cpp:2276
+#: src/project/projectmanager.cpp:2281
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "अनुक्रम क्लिप बनाएँ"

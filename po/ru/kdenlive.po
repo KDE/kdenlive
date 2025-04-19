@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 02:31+0000\n"
-"PO-Revision-Date: 2025-04-17 17:22+0300\n"
+"POT-Creation-Date: 2025-04-19 02:33+0000\n"
+"PO-Revision-Date: 2025-04-18 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -475,12 +475,12 @@ msgid ""
 "performed as a sliding window so that the most recent samples are always "
 "transformed."
 msgstr ""
-"Количество сэмплов, на которых будет выполнено БПФ. Если размер окна меньше "
-"количества сэмплов в кадре, то дополнительные сэмплы будут игнорироваться. "
-"Если размер окна больше, чем количество сэмплов в кадре, то сэмплы будут "
+"Количество семплов, на которых будет выполнено БПФ. Если размер окна меньше "
+"количества семплов в кадре, то дополнительные семплы будут игнорироваться. "
+"Если размер окна больше, чем количество семплов в кадре, то семплы будут "
 "буферизованы из предыдущих кадров для заполнения окна. Буферизация "
-"выполняется в виде движущегося окна, чтобы преобразование самых последних "
-"сэмплов всегда обеспечивалось."
+"выполняется в виде движущегося окна, чтобы обеспечить преобразование самых "
+"последних семплов."
 
 #: data/effects/audiowave.xml:4
 #, kde-format
@@ -768,10 +768,9 @@ msgid "Anti-aliasing"
 msgstr "Инициализация..."
 
 #: data/effects/avfilter/avfilter_acrusher.xml:33
-#, fuzzy, kde-format
-#| msgid "Save Selection"
+#, kde-format
 msgid "Sample reduction"
-msgstr "Сохранить выбранное"
+msgstr "Уменьшение семпла"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
 #, kde-format
@@ -2750,7 +2749,7 @@ msgstr "Деэссер"
 #: data/effects/avfilter/avfilter_deesser.xml:5
 #, kde-format
 msgid "Apply de-essing to the audio samples."
-msgstr "Применить деэссер к звуку."
+msgstr "Применение деэссера к звуковым семплам"
 
 #: data/effects/avfilter/avfilter_deesser.xml:9
 #, kde-format
@@ -2834,52 +2833,44 @@ msgid "Threshold for 4th plane"
 msgstr "Порог для четвёртой плоскости"
 
 #: data/effects/avfilter/avfilter_delogo.xml:4
-#, fuzzy, kde-format
-#| msgid "Logo"
+#, kde-format
 msgid "DeLogo"
-msgstr "Логотип"
+msgstr "Удаление логотипа"
 
 #: data/effects/avfilter/avfilter_delogo.xml:5
-#, fuzzy, kde-format
-#| msgid "Remove from favorites"
+#, kde-format
 msgid "Remove logo from input video"
-msgstr "Удалить из избранного"
+msgstr "Удаление логотипа из входного видео"
 
 #: data/effects/avfilter/avfilter_delogo.xml:8
-#, fuzzy, kde-format
-#| msgid "X position"
+#, kde-format
 msgid "Logo X Position"
-msgstr "Позиция по X"
+msgstr "Позиция логотипа по X"
 
 #: data/effects/avfilter/avfilter_delogo.xml:11
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Logo Y Position"
-msgstr "Позиция по Y"
+msgstr "Позиция логотипа по Y"
 
 #: data/effects/avfilter/avfilter_delogo.xml:14
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Logo Width"
-msgstr "Ширина"
+msgstr "Ширина логотипа"
 
 #: data/effects/avfilter/avfilter_delogo.xml:17
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Logo Height"
-msgstr "Высота"
+msgstr "Высота логотипа"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
-#, fuzzy, kde-format
-#| msgid "Show Grid"
+#, kde-format
 msgid "Show borders"
-msgstr "Показать сетку"
+msgstr "Показать границы"
 
 #: data/effects/avfilter/avfilter_derain.xml:4
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "AI Rain removal"
-msgstr "Удалить"
+msgstr "Удаление дождя с помощью ИИ"
 
 #: data/effects/avfilter/avfilter_derain.xml:5
 #, kde-format
@@ -2887,19 +2878,20 @@ msgid ""
 "Remove the rain in the input image/video by applying the derain methods "
 "based on convolutional neural networks"
 msgstr ""
+"Удаление дождя на входном изображении или видео путём применения методов на "
+"основе свёрточных нейронных сетей"
 
 #: data/effects/avfilter/avfilter_derain.xml:8
 #: data/effects/avfilter/avfilter_sr.xml:8
 #, kde-format
 msgid "Native,Tensorflow"
-msgstr ""
+msgstr "Встроенный,Tensorflow"
 
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
-#, fuzzy, kde-format
-#| msgid "Audio Backend:"
+#, kde-format
 msgid "DNN Backend"
-msgstr "Модуль обработки звука:"
+msgstr "Модуль обработки глубинной нейронной сети"
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
@@ -2919,6 +2911,8 @@ msgid ""
 "Remove unwanted contamination of foreground colors, caused by reflected "
 "color of greenscreen or bluescreen"
 msgstr ""
+"Удаление нежелательного загрязнения цветов переднего плана, вызванного "
+"отражённым цветом зелёного или синего экрана"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
 #, fuzzy, kde-format
@@ -3530,17 +3524,17 @@ msgstr ""
 #, kde-format
 msgid "FTT-based FIR"
 msgstr ""
+"Фильтр с конечным импульсным откликом на основе быстрого преобразования Фурье"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:5
 #, kde-format
 msgid "Apply arbitrary expressions to samples in frequency domain"
-msgstr ""
+msgstr "Применение произвольных выражений к семплам в частотной области"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:8
-#, fuzzy, kde-format
-#| msgid "YUV Y plane"
+#, kde-format
 msgid "Gain in Y plane"
-msgstr "Плоскость YUV Y"
+msgstr "Усиление в плоскости Y"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:11
 #, kde-format
@@ -3568,17 +3562,14 @@ msgid "Luminance V plane"
 msgstr "Плоскость яркости V"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "init,frame"
-msgstr "Первый кадр"
+msgstr "инициализация,кадр"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
-#, fuzzy, kde-format
-#| msgctxt "transitions Name"
-#| msgid "value"
+#, kde-format
 msgid "Evaluate"
-msgstr "Значение"
+msgstr "Вычисление"
 
 #: data/effects/avfilter/avfilter_field.xml:4
 #, kde-format
@@ -4068,13 +4059,12 @@ msgstr "Высокочастотная полка"
 #: data/effects/avfilter/avfilter_highshelf.xml:5
 #, kde-format
 msgid "Apply a high shelf filter."
-msgstr ""
+msgstr "Применение высокочастотного полочного фильтра"
 
 #: data/effects/avfilter/avfilter_histeq.xml:4
-#, fuzzy, kde-format
-#| msgid "Histogram"
+#, kde-format
 msgid "Histogram Equalizer"
-msgstr "Гистограмма"
+msgstr "Выравнивание гистограммы"
 
 #: data/effects/avfilter/avfilter_histeq.xml:5
 #, kde-format
@@ -4082,6 +4072,8 @@ msgid ""
 "This filter applies a global color histogram equalization on a per-frame "
 "basis"
 msgstr ""
+"Этот фильтр применяет глобальное выравнивание гистограммы цветов на "
+"покадровой основе "
 
 #: data/effects/avfilter/avfilter_histeq.xml:14
 #, kde-format
@@ -4142,16 +4134,14 @@ msgid "Components to display"
 msgstr "Компоненты:"
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
-#, fuzzy, kde-format
-#| msgid "Background opacity"
+#, kde-format
 msgid "Foreground Opacity"
-msgstr "Непрозрачность фона"
+msgstr "Непрозрачность переднего плана"
 
 #: data/effects/avfilter/avfilter_histogram.xml:29
 #: data/effects/avfilter/avfilter_vectorscope.xml:36
 #: data/effects/avfilter/avfilter_waveform.xml:64
-#, fuzzy, kde-format
-#| msgid "Background opacity"
+#, kde-format
 msgid "Background Opacity"
 msgstr "Непрозрачность фона"
 
@@ -4326,6 +4316,9 @@ msgid ""
 "deinterling. Work on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
+"Устранение чересстрочности входного видео путём применения адаптивного "
+"ядерного деинтерлейсера Дональда Графта. Работа с чересстрочными частями "
+"видео для создания построчных кадров. "
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:11
 #, kde-format
@@ -4539,7 +4532,7 @@ msgstr "Низкочастотная полка"
 #: data/effects/avfilter/avfilter_lowshelf.xml:5
 #, kde-format
 msgid "Apply a low shelf filter."
-msgstr ""
+msgstr "Применение низкочастотного полочного фильтра"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:4
 #, fuzzy, kde-format
@@ -5153,6 +5146,8 @@ msgstr "Удалить"
 #, kde-format
 msgid "The removegrain filter is a spatial denoiser for progressive video"
 msgstr ""
+"Фильтр устранения зернистости — пространственный шумоподавитель для "
+"построчного видео"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:8
 #, kde-format
@@ -5942,10 +5937,9 @@ msgstr ""
 "диапазон: от -1 до 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
-#, fuzzy, kde-format
-#| msgid "Stereo "
+#, kde-format
 msgid "Stereo base"
-msgstr "Стерео "
+msgstr "Стереобаза"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:65
 #, kde-format
@@ -5953,6 +5947,8 @@ msgid ""
 "Set stereo base between mono and inverted channels. Default is 0. Allowed "
 "range is from -1 to 1."
 msgstr ""
+"Установить стереобазу между каналами моно и инверсии. По умолчанию: 0. "
+"Допустимый диапазон: от -1 до 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:69
 #, kde-format
@@ -5960,6 +5956,8 @@ msgid ""
 "Set delay in milliseconds how much to delay left from right channel and vice "
 "versa. Default is 0. Allowed range is from -20 to 20."
 msgstr ""
+"Установить задержку в секундах для отставания левого канала от правого и "
+"наоборот. По умолчанию: 0. Допустимый диапазон: от -20 до 20."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
 #, fuzzy, kde-format
@@ -5970,18 +5968,18 @@ msgstr "Уровень микрофона"
 #: data/effects/avfilter/avfilter_stereotools.xml:75
 #, kde-format
 msgid "Stereo phase"
-msgstr "Фаза стерео"
+msgstr "Стереофаза"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:76
 #, kde-format
 msgid "Set the stereo phase in degrees."
-msgstr ""
+msgstr "Установить стереофазу в градусах."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:79
 #: data/effects/avfilter/avfilter_stereotools.xml:89
 #, kde-format
 msgid "balance,amplitude,power"
-msgstr ""
+msgstr "баланс,амплитуда,мощность"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:85
 #: data/effects/avfilter/avfilter_stereotools.xml:95
@@ -5995,12 +5993,18 @@ msgid ""
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
 msgstr ""
+"«баланс»\n"
+"Классический режим балансировки. Одновременно ослабляется только один канал. "
+"Усиление поднимается до 1.\n"
+"«амплитуда»\n"
+"Аналогичного классическому режиму выше, но усиление поднимается до 2.\n"
+"«мощность»\n"
+"Равное распределение мощности в диапазоне от -6 дБ до +6 дБ."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo depth"
+#, kde-format
 msgid "Stereo widener"
-msgstr "Глубина стерео"
+msgstr "Расширение стерео"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:5
 #, kde-format
@@ -6009,6 +6013,9 @@ msgid ""
 "channels and by delaying the signal of left into right and vice versa, "
 "thereby widening the stereo effect."
 msgstr ""
+"Этот фильтр улучшает стереоэффект путём подавления общего для обоих каналов "
+"сигнала и задержки сигнала левого канала в правый канал и наоборот, что "
+"приводит к расширению стереоэффекта."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:9
 #, kde-format
@@ -6017,10 +6024,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback Gain"
-msgstr "Обратная связь"
+msgstr "Усиление обратной связи"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:14
 #, kde-format
@@ -6033,7 +6039,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_stereowiden.xml:17
 #, kde-format
 msgid "Cross feed"
-msgstr ""
+msgstr "Перекрёстное сочетание"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:19
 #, kde-format
@@ -10199,7 +10205,7 @@ msgstr "Кодирование цветов"
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr "<![CDATA[Выбор между чересстрочным (601) или прогрессивным (709)]]>"
+msgstr "<![CDATA[Выбор между чересстрочным (601) или построчным (709)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:90
 #, kde-format
@@ -16243,8 +16249,8 @@ msgstr "Список воспроизведения"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2492 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1592
-#: src/project/projectmanager.cpp:1594 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1597
+#: src/project/projectmanager.cpp:1599 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Последовательности"
@@ -17343,7 +17349,7 @@ msgstr ""
 "Указан недопустимый профиль. По умолчанию используется профиль «dv_pal», но "
 "его можно изменить в окне настройки параметров Kdenlive"
 
-#: src/core.cpp:259 src/project/projectmanager.cpp:828
+#: src/core.cpp:259 src/project/projectmanager.cpp:830
 #, kde-format
 msgid "Loading project…"
 msgstr "Загрузка проекта…"
@@ -18035,7 +18041,7 @@ msgstr "Экспорт данных направляющих"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1891 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5167
@@ -18104,7 +18110,7 @@ msgstr ""
 "(UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1781
+#: src/project/dialogs/guideslist.cpp:183 src/project/projectmanager.cpp:1786
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -21123,8 +21129,8 @@ msgstr "Следующие фильтры/переходы были удален
 msgid "Invalid file path"
 msgstr "Некорректный путь к файлу"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:813
-#: src/project/projectmanager.cpp:855
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:815
+#: src/project/projectmanager.cpp:857
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не удалось восстановить повреждённый файл."
@@ -21202,15 +21208,15 @@ msgstr ""
 "Файл проекта Kdenlive обновлён до самой последней версии, однако создать "
 "резервную копию %1 не удалось."
 
-#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1466
-#: src/project/projectmanager.cpp:1502
+#: src/doc/kdenlivedoc.cpp:940 src/project/projectmanager.cpp:1471
+#: src/project/projectmanager.cpp:1507
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
 
 #: src/doc/kdenlivedoc.cpp:1130 src/doc/kdenlivedoc.cpp:2457
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1722
+#: src/project/projectmanager.cpp:1727
 #, kde-format
 msgid "Untitled"
 msgstr "Безымянный"
@@ -24432,13 +24438,13 @@ msgstr ""
 "Все временные файлы будут перемещены из<br/><b>%1</b> в <b>%2</b>,<br/>а "
 "затем файл проекта будет перезагружен"
 
-#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:619
+#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:621
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Не удалось выполнить операцию, недопустимый идентификатор документа: %1"
 
-#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:625
+#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:627
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не удалось выполнить операцию, целевая папка уже существует: %1"
@@ -27485,12 +27491,12 @@ msgstr "Сохранить копию…"
 msgid "Open Backup File…"
 msgstr "Открыть резервную копию…"
 
-#: src/project/projectmanager.cpp:447
+#: src/project/projectmanager.cpp:448
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Сохранить изменения в документе?"
 
-#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1721
+#: src/project/projectmanager.cpp:450 src/project/projectmanager.cpp:1726
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -27499,17 +27505,17 @@ msgstr ""
 "Проект <b>%1</b> был изменён.\n"
 "Сохранить изменения?"
 
-#: src/project/projectmanager.cpp:561
+#: src/project/projectmanager.cpp:563
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Не удалось сохранить файл проекта <br><b>%1</B>"
 
-#: src/project/projectmanager.cpp:594
+#: src/project/projectmanager.cpp:596
 #, kde-format
 msgid "Saving successful"
 msgstr "Успешное сохранение"
 
-#: src/project/projectmanager.cpp:607
+#: src/project/projectmanager.cpp:609
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -27520,38 +27526,38 @@ msgstr ""
 "файлов. Все временные файлы будут перенесены из <b>%1</b> в <b>%2</b>. Затем "
 "файл проекта будет перезагружен"
 
-#: src/project/projectmanager.cpp:648
+#: src/project/projectmanager.cpp:650
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Сохранение копии файла"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Найден файл автосохранения. Восстановить данные с его помощью?"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:756
 #, kde-format
 msgid "File Recovery"
 msgstr "Восстановление файла"
 
-#: src/project/projectmanager.cpp:755 src/project/projectmanager.cpp:843
+#: src/project/projectmanager.cpp:757 src/project/projectmanager.cpp:845
 #, kde-format
 msgid "Recover"
 msgstr "Восстановить"
 
-#: src/project/projectmanager.cpp:755
+#: src/project/projectmanager.cpp:757
 #, kde-format
 msgid "Do not recover"
 msgstr "Не восстанавливать"
 
-#: src/project/projectmanager.cpp:807
+#: src/project/projectmanager.cpp:809
 #, kde-format
 msgid "Opening file %1"
 msgstr "Открытие файла %1"
 
-#: src/project/projectmanager.cpp:842
+#: src/project/projectmanager.cpp:844
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -27562,28 +27568,28 @@ msgstr ""
 "%1\n"
 "Открыть резервную копию файла?"
 
-#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1077
+#: src/project/projectmanager.cpp:845 src/project/projectmanager.cpp:1079
 #, kde-format
 msgid "Error opening file"
 msgstr "Ошибка при открытии файла"
 
-#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1078
+#: src/project/projectmanager.cpp:845 src/project/projectmanager.cpp:1080
 #, kde-format
 msgid "Open Backup"
 msgstr "Открыть резервную копию"
 
-#: src/project/projectmanager.cpp:859
+#: src/project/projectmanager.cpp:861
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Не удалось открыть резервную копию проекта."
 
-#: src/project/projectmanager.cpp:874
+#: src/project/projectmanager.cpp:876
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Проект был обновлён, резервная копия будет создана при следующем сохранении"
 
-#: src/project/projectmanager.cpp:876
+#: src/project/projectmanager.cpp:878
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -27591,17 +27597,17 @@ msgstr ""
 "Проект был изменён при открытии, резервная копия будет создана при следующем "
 "сохранении"
 
-#: src/project/projectmanager.cpp:947
+#: src/project/projectmanager.cpp:949
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Загрузка монтажного стола…"
 
-#: src/project/projectmanager.cpp:965
+#: src/project/projectmanager.cpp:967
 #, kde-format
 msgid "Building sequences…"
 msgstr "Построение последовательностей…"
 
-#: src/project/projectmanager.cpp:1104
+#: src/project/projectmanager.cpp:1106
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -27610,7 +27616,7 @@ msgstr ""
 "Не удалось открыть файл проекта. Ошибка:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1144
+#: src/project/projectmanager.cpp:1146
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -27619,12 +27625,12 @@ msgstr ""
 "Все изменения, внесённые после последнего сохранения проекта, будут "
 "потеряны. Продолжить?"
 
-#: src/project/projectmanager.cpp:1145
+#: src/project/projectmanager.cpp:1147
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Вернуться к последней сохранённой версии"
 
-#: src/project/projectmanager.cpp:1231
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -27633,23 +27639,23 @@ msgstr ""
 "Проект повреждён, резервное копирование невозможно. Закройте и снова "
 "откройте файл проекта, чтобы восстановить данные из последней резервной копии"
 
-#: src/project/projectmanager.cpp:1444
+#: src/project/projectmanager.cpp:1449
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Ошибка при перемещении папки проекта, нет доступа к папке кэша"
 
-#: src/project/projectmanager.cpp:1480
+#: src/project/projectmanager.cpp:1485
 #, kde-format
 msgid "Moving project folder"
 msgstr "Перемещение папки проекта"
 
-#: src/project/projectmanager.cpp:1571 src/project/projectmanager.cpp:1626
-#: src/project/projectmanager.cpp:1630
+#: src/project/projectmanager.cpp:1576 src/project/projectmanager.cpp:1631
+#: src/project/projectmanager.cpp:1635
 #, kde-format
 msgid "Sequence 1"
 msgstr "Последовательность 1"
 
-#: src/project/projectmanager.cpp:1582
+#: src/project/projectmanager.cpp:1587
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -27657,13 +27663,13 @@ msgstr ""
 "Файл проекта повреждён — не удалось загрузить дорожки. Выполнить поиск файла "
 "резервной копии?"
 
-#: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1732
-#: src/project/projectmanager.cpp:1742 src/project/projectmanager.cpp:1756
+#: src/project/projectmanager.cpp:1732 src/project/projectmanager.cpp:1737
+#: src/project/projectmanager.cpp:1747 src/project/projectmanager.cpp:1761
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Изменение профиля проекта прервано"
 
-#: src/project/projectmanager.cpp:1879
+#: src/project/projectmanager.cpp:1884
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -27672,12 +27678,12 @@ msgstr ""
 "Выходной файл %1 уже существует.\n"
 "Перезаписать его?"
 
-#: src/project/projectmanager.cpp:1901
+#: src/project/projectmanager.cpp:1906
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профиль проекта изменён"
 
-#: src/project/projectmanager.cpp:1965
+#: src/project/projectmanager.cpp:1970
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -27686,19 +27692,19 @@ msgstr ""
 "Не удалось создать монтажный стол из этого клипа:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2048
+#: src/project/projectmanager.cpp:2053
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Импорт клипа последовательности, в данный момент функция работает в "
 "экспериментальном режиме"
 
-#: src/project/projectmanager.cpp:2238
+#: src/project/projectmanager.cpp:2243
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Выберите клип для создания последовательности"
 
-#: src/project/projectmanager.cpp:2276
+#: src/project/projectmanager.cpp:2281
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Создать клип последовательности"
@@ -28508,7 +28514,7 @@ msgstr "Окно Хемминга"
 #: src/scopes/audioscopes/spectrogram.cpp:70
 #, kde-format
 msgid "The maximum window size is limited by the number of samples per frame."
-msgstr "Максимальный размер окна ограничен числом выборок на кадр."
+msgstr "Максимальный размер окна ограничен числом семплов на кадр."
 
 #: src/scopes/audioscopes/audiospectrum.cpp:82
 #: src/scopes/audioscopes/spectrogram.cpp:71
