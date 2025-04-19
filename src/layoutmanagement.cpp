@@ -82,6 +82,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
 
     m_autosaveLabel = new QFrame(main);
     m_autosaveLabel->setAutoFillBackground(false);
+    m_autosaveLabel->setToolTip(i18n("Auto Save"));
     QPalette pal = m_autosaveLabel->palette();
     int iconSize = main->style()->pixelMetric(QStyle::PM_SmallIconSize);
     m_autosaveLabel->setFixedSize(iconSize, iconSize);
