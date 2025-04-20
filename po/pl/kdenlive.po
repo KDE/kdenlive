@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 02:33+0000\n"
-"PO-Revision-Date: 2025-04-12 11:43+0200\n"
+"POT-Creation-Date: 2025-04-20 02:31+0000\n"
+"PO-Revision-Date: 2025-04-19 11:45+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -799,6 +799,10 @@ msgid ""
 "and filter-width width. An all-pass filter changes the audio’s frequency to "
 "phase relationship without changing its frequency to amplitude relationship."
 msgstr ""
+"Nałóż dwubiegunowy wszystkoprzepuszczający filtr o częstotliwości środkowej "
+"(w Hz) jako frequency i szerokości filtra jako width. "
+"Wszystkoprzepuszczający filtr zmienia stosunek częstotliwości dźwięku do "
+"fazy bez zmiany stosunku jego częstotliwości do amplitudy."
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandreject.xml:8
@@ -1316,7 +1320,7 @@ msgstr "Stereo na binaural"
 #: data/effects/avfilter/avfilter_bs2b.xml:5
 #, kde-format
 msgid "Bauer stereo to binaural transformation."
-msgstr "Przekształcenie sterea Bauer na binaural."
+msgstr "Przekształcenie stereo Bauer na binaural."
 
 #: data/effects/avfilter/avfilter_bs2b.xml:8
 #, kde-format
@@ -2014,6 +2018,10 @@ msgid ""
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
+"YUV płaszczyzna 4:2:0 8-bitowa,YUV płaszczyzna 4:2:0 10-bitowa,YUV "
+"płaszczyzna 4:2:0 12-bitowa,YUV płaszczyzna 4:2:2 8-bitowa,YUV płaszczyzna "
+"4:2:2 10-bitowa,YUV płaszczyzna 4:2:2 12-bitowa,YUV płaszczyzna 4:4:4 8-"
+"bitowa,YUV płaszczyzna 4:4:4 10-bitowa,YUV płaszczyzna 4:4:4 12-bitowa"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
@@ -2170,6 +2178,11 @@ msgid ""
 "before the companding has begun to operate. A typical value for audio which "
 "is initially quiet is -90 dB."
 msgstr ""
+"Ustaw początkową głośność, w dB, zakładaną dla każdego kanału po rozpoczęciu "
+"filtrowania. Umożliwia to użytkownikowi podanie nominalnego poziomu na "
+"początku, tak aby np. bardzo duże wzmocnienie nie zostało nałożone na "
+"początkowe poziomy sygnału, zanim nie zacznie działać kompandor. Typowa "
+"wartość dla dźwięku, który na początku jest cichy to -90 dB."
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, kde-format
@@ -2290,6 +2303,12 @@ msgid ""
 "low frequencies.\n"
 "The intent is to produce more speaker like sound to the listener."
 msgstr ""
+"Zastosuj filtr słuchawkowy międzykanałowy.\n"
+"Międzykanałowość to proces przenikania lewego i prawego kanału stereo w "
+"nagraniu dźwiękowym. Stosowany głównie do ograniczenia skrajnego oddzielenia "
+"w stereo niskich częstotliwości.\n"
+"Zamiarem jest dostarczenie słuchaczowi dźwięku bardziej przypominającego "
+"dźwięk z głośników."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:13
 #, kde-format
@@ -2309,6 +2328,11 @@ msgid ""
 "Default is cut off near 1550 Hz. With range set to 1 cut off frequency is "
 "set to 2100 Hz. "
 msgstr ""
+"Ustaw szerokość sceny dźwiękowej.\n"
+"Domyślnie na 0,5. Możliwy zakres od 0 do 1. Ustawia to częstotliwość "
+"odcięcia filtra niskopółkowego.\n"
+"Domyślnie odcinane jest około 1550 Hz. Z zakresem ustawionym na 1 "
+"częstotliwość odcięcia jest ustawiona na 2100 Hz. "
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
 #, kde-format
@@ -2491,6 +2515,11 @@ msgid ""
 "The effect of a DC offset is reduced headroom and hence volume. The astats "
 "filter can be used to determine if a signal has a DC offset."
 msgstr ""
+"Zastosuje przesunięcie DC na dźwięku.\n"
+"Użyteczne do usuwania przesunięcia DC (spowodowanego prawdopodobnie przez "
+"błąd sprzętowy w łańcuchu nagrywania) z dźwięku.\n"
+"Skutkiem przesunięcia DC jest ograniczona przestrzeń od góry, a przez to "
+"głośność. Do ustalenia czy sygnał ma przesunięte DC można użyć filtra astats."
 
 #: data/effects/avfilter/avfilter_dcshift.xml:11
 #, kde-format
@@ -3061,6 +3090,10 @@ msgid ""
 "    \tBy default, the box will be composited onto the input, leaving the "
 "video's alpha intact.]]>"
 msgstr ""
+"<![CDATA[Jeśli na wejściu jest alfa, to zaznaczenie tegobr>\n"
+"    \tzastąpi barwę nagrania i piksele alfa pikselami namalowanego pola<br>\n"
+"    \tDomyślnie, pole zostanie nałożone na wejście, pozostawiając alfa "
+"nagrania nieruszonym.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
 #, fuzzy, kde-format
@@ -3147,6 +3180,10 @@ msgid ""
 "    \tBy default, the grid lines will be composited onto the input, leaving "
 "the video's alpha intact.]]>"
 msgstr ""
+"<![CDATA[Jeśli na wejściu jest alfa, to zaznaczenie tego<br>\n"
+"    \tzastąpi barwę nagrania i piksele alfa pikselami linii siatki.<br>\n"
+"    \tDomyślnie, linie siatki zostaną nałożone na wejście, pozostawiając "
+"alfa nagrania nieruszonym.]]>"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
 #, kde-format
@@ -5361,6 +5398,10 @@ msgid ""
 "of 0 will filter all the image, positive values will filter flat areas, "
 "negative values will filter edges.]]>"
 msgstr ""
+"<![CDATA[Ustaw próg lumy używany jako współczynnik<br>\n"
+"            do określenia, czy piksel powinien zostać rozmyty, czy nie. "
+"Wartość równa 0 odfiltruje cały obraz, wartości dodatnie odfiltrują płaskie "
+"obszary, a ujemne krawędzie.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:23
 #, kde-format
@@ -5375,6 +5416,10 @@ msgid ""
 "blur the image (slower if larger). If not specified ,it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Ustaw promień chromy.<br>\n"
+"            Wartość ta określa wariancję filtra Gaussa używaną do rozmycia "
+"obrazu (wolniejsza, gdy większy). Domyślnie przyjmuj wartość ustawioną dla "
+"<em>Promienia Lumy</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
 #: data/effects/avfilter/avfilter_unsharp.xml:30
@@ -5390,6 +5435,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Ustaw siłę chromy.<br>\n"
+"            Wartość ustawia rozmycie. Wartość dodatnia rozmyj obraz, a "
+"ujemna wyostrzy go. Domyślnie przyjmuje wartość ustawioną dla <em>Siły Lumy</"
+"em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -5405,6 +5454,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Ustaw próg chromy używany jako współczynnik<br>\n"
+"            do określenia, czy piksel powinien zostać rozmyty, czy nie. "
+"Wartość równa 0 odfiltruje cały obraz, wartości dodatnie odfiltrują płaskie "
+"obszary, a ujemne krawędzie. Domyślnie przyjmuje wartość z <em>Progu Lumy</"
+"em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -5419,6 +5473,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Ustaw promień alfy.<br>\n"
+"            Wartość ta określa wariancję filtra Gaussa używaną do rozmycia "
+"obrazu (wolniejsza, gdy większy). Domyślnie przyjmuj wartość ustawioną dla "
+"<em>Promienia Lumy</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -5434,6 +5492,10 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Ustaw siłę alfy.<br>\n"
+"            Wartość ustawia rozmycie. Wartość dodatnia rozmyj obraz, a "
+"ujemna wyostrzy go. Domyślnie przyjmuje wartość ustawioną dla <em>Siły Lumy</"
+"em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5444,6 +5506,11 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Ustaw próg alfy używany jako współczynnik<br>\n"
+"            do określenia, czy piksel powinien zostać rozmyty, czy nie. "
+"Wartość równa 0 odfiltruje cały obraz, wartości dodatnie odfiltrują płaskie "
+"obszary, a ujemne krawędzie. Domyślnie przyjmuje wartość z <em>Progu Lumy</"
+"em>]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, fuzzy, kde-format
@@ -5585,6 +5652,10 @@ msgid ""
 "below (right above),interleaved rows (left top),interleaved rows (right top),"
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
+"obok siebie równolegle,obok siebie skrzyżowane oczy,powyżej-poniżej (po lewo "
+"powyżej),powyżej-poniżej (po prawo powyżej),przeplatane wiersze (lewo "
+"powyżej),przeplatane wiersze (prawo powyżej),przeplatane kolumny lewe oko "
+"pierwsze,przeplatane kolumny prawe oko pierwsze"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, kde-format
@@ -5729,6 +5800,11 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
+"Lewy/Prawy na Lewy/Prawy,Lewy/Prawy na Środkowy/Boczny,Środkowy/Boczny na "
+"Lewy/Prawy,Lewy/Prawy na Lewy/Lewy,Lewy/Prawy na Prawy/Prawy,Lewy/Prawy na "
+"Lewy + Prawy,Lewy/Prawy na Prawy/Lewy,Środkowy/Boczny na Lewy/Lewy,Środkowy/"
+"Boczny na Prawy/Prawy,Środkowy/Boczny na Prawy/Lewy,Lewy/Prawy na Lewy - "
+"Prawy"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
 #, kde-format
@@ -5834,6 +5910,13 @@ msgid ""
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
 msgstr ""
+"‘balance’\n"
+"Klasyczny tryb balansu. Wzmocnij jeden kanał na raz. Wzmocnienie wzrasta do "
+"1.\n"
+"‘amplitude’\n"
+"Podobny jak w trybie klasycznym z tym, że wzmocnienie wzrasta do 2.\n"
+"‘power’\n"
+"Równy rozkład mocy, w zakresie od -6dB do +6dB."
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
 #, kde-format
@@ -5970,6 +6053,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of 0 "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Ustaw siłę efektu lumy.<br>\n"
+"            Rozsądne wartości znajdują się między -1,5 a 1,5. Ujemne "
+"wartości rozmyją nagranie wejściowe, a dodatnie wyostrzą je. Wartość równa 0 "
+"wyłączy efekt.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
 #, kde-format
@@ -5999,6 +6086,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Ustaw siłę efektu chromy.<br>\n"
+"            Rozsądne wartości znajdują się między -1,5 a 1,5. Ujemne "
+"wartości rozmyją nagranie wejściowe, a dodatnie wyostrzą je. Wartość równa 0 "
+"wyłączy efekt.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
 #, kde-format
@@ -6028,6 +6119,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Ustaw siłę efektu alfy.<br>\n"
+"            Rozsądne wartości znajdują się między -1,5 a 1,5. Ujemne "
+"wartości rozmyją nagranie wejściowe, a dodatnie wyostrzą je. Wartość równa 0 "
+"wyłączy efekt.]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, fuzzy, kde-format
@@ -9508,13 +9603,7 @@ msgstr "Próg sumy różnicy"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:23
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:95
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[How much does the sum of all color channels <em>relative to the "
-#| "background image</em> (<code>dR + dG + dB</code>) have to change until a "
-#| "pixel is recognized as a light source?<br/>\n"
-#| "            Raising this value might, in some cases, avoid that some "
-#| "light objects lit by the light source are added to the light mask.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[How much does the sum of all color channels <em>relative to the "
 "background image</em> (<code>dR + dG + dB</code>) have to change until a "
@@ -9522,12 +9611,11 @@ msgid ""
 "            Raising this value might, in some cases, avoid that some light "
 "objects lit by the light source are added to the light mask.]]>"
 msgstr ""
-"<![CDATA[Jak bardzo suma wszystkich kanałów barw <em>względem obrazu tła</"
-"em> (<code>dR + dG + dB</code>) musi się zmienić zanim piksel zostanie "
-"rozpoznany jako źródło światła?<br/>\n"
-"            Zwiększenie tej wartości może, w niektórych przypadkach, "
-"zapobiec dodaniu do maski światła niektórych obiektów oświetlonych przez "
-"źródło światła.]]>"
+"<![CDATA[Ile suma wszystkich kanałów barw <em>względem obrazu tła</em> "
+"(<code>dR + dG + dB</code>) musi ulec zmianie zanim piksel zostanie uznany "
+"za źródło światła?<br/>\n"
+"            Zwiększenie tej wartości może w niektórych przypadkach uniknąć "
+"dodania obiektów oświetlonych przez źródło światła do maski świetlnej.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:26
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:98
@@ -9602,21 +9690,16 @@ msgstr "Waga tła"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:41
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:113
-#, fuzzy, kde-format
-#| msgid ""
-#| "Strength of the (calculated) background image. Setting it to 100 paints "
-#| "the light mask directly over the background, without the painting person "
-#| "in the image if the video starts with a «clean» background image. (See "
-#| "the α parameter.)"
+#, kde-format
 msgid ""
 "Strength of the (calculated) background image. Setting it to 100 paints the "
 "light mask directly over the background, without the painting person in the "
 "image if the video starts with a «clean» background image. (See the α "
 "parameter.)"
 msgstr ""
-"Siła (obliczonego) obrazu w tle. Ustawienie jej na 100 rysuje jasną maskę "
-"bezpośrednio na tle, bez rysowania osoby na obrazie, jeśli obraz zaczyna się "
-"od obrazu tła «clean». (Zobacz parametr α.)"
+"Siła (obliczonego) obrazu tła. Ustawienie tego na 100 namaluje maskę "
+"świetlną bezpośrednio na tle bez malowania osoby na obrazie, jeśli nagrania "
+"zaczyna się od «czystego» obrazu tła. (Przeczytaj więcej o parametrze α.)"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:44
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:116
@@ -9627,14 +9710,7 @@ msgstr "α"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:46
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:118
-#, fuzzy, kde-format
-#| msgid ""
-#| "<![CDATA[Determines how the effect tries to adapt to background changes. "
-#| "<br/>\n"
-#| "            The Light Graffiti effect remembers the first frame of the "
-#| "clip it is applied to, so the clip should <em>always</em> start with the "
-#| "painter outside of the video. If the background constantly changes, e.g. "
-#| "on a street, try to set α > 0 to calculate an average background image.]]>"
+#, kde-format
 msgid ""
 "<![CDATA[Determines how the effect tries to adapt to background changes. <br/"
 ">\n"
@@ -9643,11 +9719,12 @@ msgid ""
 "outside of the video. If the background constantly changes, e.g. on a "
 "street, try to set α > 0 to calculate an average background image.]]>"
 msgstr ""
-"<![CDATA[Określa jak efekt próbuje dostosować się do zmian tła. <br/>\n"
-"            Efekt graffiti świetlnego zapamiętuje pierwszą klatkę wycinka, "
-"do którego jest stosowany, tak aby wycinek <em>zawsze</em> zaczynał się "
-"start z malarzem poza obrazem. Jeśli tło ciągle się zmienia, np. na ulicy, "
-"spróbuj ustawić α > 0, aby obliczyć uśredniony obraz tła.]]>"
+"<![CDATA[Określa sposób w jaki efekt próbuje dostosować się do zmian w tle. "
+"<br/>\n"
+"            Efekt Graffiti Świetlnego pamięta pierwszą klatkę wycinka, na "
+"którą został nałożony więc klatka powinna <em>zawsze</em> zaczynać z "
+"malowaniem poza obrazem. Jeśli tło nieustannie się zmienia, np. na ulicy, to "
+"spróbuj ustawić α > 0, aby obliczyć średni obraz tła.]]>"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:50
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:122
@@ -17125,7 +17202,7 @@ msgstr "Przesuń napisy"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:861
+#: src/effects/effectstack/view/effectstackview.cpp:860
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -18107,7 +18184,7 @@ msgstr "Wyeksportuj dane prowadnic"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:899
+#: src/effects/effectstack/view/effectstackview.cpp:898
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18412,38 +18489,38 @@ msgid ""
 msgstr ""
 "Nie można zmienić profilu bieżącego projektu, gdy projekt jest otwarty."
 
-#: src/dialogs/proxytest.cpp:31
+#: src/dialogs/proxytest.cpp:32
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
 msgstr "Porównaj profile pośrednie"
 
-#: src/dialogs/proxytest.cpp:32
+#: src/dialogs/proxytest.cpp:33
 #, kde-format
 msgid "Test Proxy Profiles"
 msgstr "Wypróbuj profile pośrednie"
 
-#: src/dialogs/proxytest.cpp:35
+#: src/dialogs/proxytest.cpp:36
 #, kde-format
 msgid "Failing profiles"
 msgstr "Zawodzące profile"
 
-#: src/dialogs/proxytest.cpp:50
+#: src/dialogs/proxytest.cpp:51
 #, kde-format
 msgid "Starting process"
 msgstr "Rozpoczynanie czynności"
 
-#: src/dialogs/proxytest.cpp:115 src/dialogs/proxytest.cpp:152
+#: src/dialogs/proxytest.cpp:116 src/dialogs/proxytest.cpp:153
 #, kde-format
 msgid "Cannot create temporary files"
 msgstr "Nie można tworzyć plików tymczasowych"
 
-#: src/dialogs/proxytest.cpp:121
+#: src/dialogs/proxytest.cpp:122
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
 msgstr "Wytwarzanie 60 sekundowego próbnego obrazu %1"
 
-#: src/dialogs/proxytest.cpp:145
+#: src/dialogs/proxytest.cpp:146
 #, kde-format
 msgid "Processing %1"
 msgstr "Przetwarzanie %1"
@@ -21802,7 +21879,7 @@ msgstr "Odbij w pionie"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #: src/effects/effectstack/view/effectstackview.cpp:429
-#: src/effects/effectstack/view/effectstackview.cpp:987
+#: src/effects/effectstack/view/effectstackview.cpp:986
 #, kde-format
 msgid "Remove Background"
 msgstr "Usuń tło"
@@ -21822,47 +21899,47 @@ msgstr "Odbij"
 msgid "Exporting…"
 msgstr "Eksportowanie…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:779
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Włącz stos efektów"
 
-#: src/effects/effectstack/view/effectstackview.cpp:779
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Wyłącz stos efektów"
 
-#: src/effects/effectstack/view/effectstackview.cpp:818
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgid "No effect selected."
 msgstr "Nie wybrano żadnego efektu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:824
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Zapisz bieżący stos efektów"
 
-#: src/effects/effectstack/view/effectstackview.cpp:829
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nazwa dla zapisanego stosu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:830
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Opis:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:842
+#: src/effects/effectstack/view/effectstackview.cpp:841
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Nie wpisano żadnej nazwy, więc nie zapisano stosu efektów."
 
-#: src/effects/effectstack/view/effectstackview.cpp:849
+#: src/effects/effectstack/view/effectstackview.cpp:848
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21871,8 +21948,8 @@ msgstr ""
 "Nie podano żadnego opisu.\n"
 "Czy zapisać efekt bez niego?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:984
-#: src/effects/effectstack/view/effectstackview.cpp:1010
+#: src/effects/effectstack/view/effectstackview.cpp:983
+#: src/effects/effectstack/view/effectstackview.cpp:1009
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Przerwij tworzenie maski"

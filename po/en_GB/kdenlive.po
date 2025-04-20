@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 02:33+0000\n"
+"POT-Creation-Date: 2025-04-20 02:31+0000\n"
 "PO-Revision-Date: 2024-11-16 12:52+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -17148,7 +17148,7 @@ msgstr "Move subtitle"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:861
+#: src/effects/effectstack/view/effectstackview.cpp:860
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -18127,7 +18127,7 @@ msgstr "Export Guides Data"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:899
+#: src/effects/effectstack/view/effectstackview.cpp:898
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18430,38 +18430,38 @@ msgstr ""
 "The profile of the current project cannot be edited while the project is "
 "open."
 
-#: src/dialogs/proxytest.cpp:31
+#: src/dialogs/proxytest.cpp:32
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
 msgstr "Compare Proxy Profile"
 
-#: src/dialogs/proxytest.cpp:32
+#: src/dialogs/proxytest.cpp:33
 #, kde-format
 msgid "Test Proxy Profiles"
 msgstr "Test Proxy Profiles"
 
-#: src/dialogs/proxytest.cpp:35
+#: src/dialogs/proxytest.cpp:36
 #, kde-format
 msgid "Failing profiles"
 msgstr "Failing profiles"
 
-#: src/dialogs/proxytest.cpp:50
+#: src/dialogs/proxytest.cpp:51
 #, kde-format
 msgid "Starting process"
 msgstr "Starting process"
 
-#: src/dialogs/proxytest.cpp:115 src/dialogs/proxytest.cpp:152
+#: src/dialogs/proxytest.cpp:116 src/dialogs/proxytest.cpp:153
 #, kde-format
 msgid "Cannot create temporary files"
 msgstr "Cannot create temporary files"
 
-#: src/dialogs/proxytest.cpp:121
+#: src/dialogs/proxytest.cpp:122
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
 msgstr "Generating a 60 seconds test video %1"
 
-#: src/dialogs/proxytest.cpp:145
+#: src/dialogs/proxytest.cpp:146
 #, kde-format
 msgid "Processing %1"
 msgstr "Processing %1"
@@ -21798,7 +21798,7 @@ msgstr "Vertical Flip"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #: src/effects/effectstack/view/effectstackview.cpp:429
-#: src/effects/effectstack/view/effectstackview.cpp:987
+#: src/effects/effectstack/view/effectstackview.cpp:986
 #, fuzzy, kde-format
 #| msgid "Remove group"
 msgid "Remove Background"
@@ -21821,47 +21821,47 @@ msgstr "Flip"
 msgid "Exporting…"
 msgstr "Extracting…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:779
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Enable Effect Stack"
 
-#: src/effects/effectstack/view/effectstackview.cpp:779
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Disable Effect Stack"
 
-#: src/effects/effectstack/view/effectstackview.cpp:818
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgid "No effect selected."
 msgstr "No effect selected."
 
-#: src/effects/effectstack/view/effectstackview.cpp:824
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Save current Effect Stack"
 
-#: src/effects/effectstack/view/effectstackview.cpp:829
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Name for saved stack:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:830
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Description:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:842
+#: src/effects/effectstack/view/effectstackview.cpp:841
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "No name provided, effect stack not saved."
 
-#: src/effects/effectstack/view/effectstackview.cpp:849
+#: src/effects/effectstack/view/effectstackview.cpp:848
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21870,8 +21870,8 @@ msgstr ""
 "No description provided. \n"
 "Save effect with no description?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:984
-#: src/effects/effectstack/view/effectstackview.cpp:1010
+#: src/effects/effectstack/view/effectstackview.cpp:983
+#: src/effects/effectstack/view/effectstackview.cpp:1009
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Abort Mask Creation"

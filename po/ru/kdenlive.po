@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 02:33+0000\n"
+"POT-Creation-Date: 2025-04-20 02:31+0000\n"
 "PO-Revision-Date: 2025-04-18 17:28+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -17047,7 +17047,7 @@ msgstr "Переместить субтитр"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:861
+#: src/effects/effectstack/view/effectstackview.cpp:860
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -18034,7 +18034,7 @@ msgstr "Экспорт данных направляющих"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:899
+#: src/effects/effectstack/view/effectstackview.cpp:898
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18337,38 +18337,38 @@ msgid ""
 "open."
 msgstr "Профиль текущего проекта нельзя изменить, пока проект открыт."
 
-#: src/dialogs/proxytest.cpp:31
+#: src/dialogs/proxytest.cpp:32
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
 msgstr "Сравнение профилей прокси"
 
-#: src/dialogs/proxytest.cpp:32
+#: src/dialogs/proxytest.cpp:33
 #, kde-format
 msgid "Test Proxy Profiles"
 msgstr "Проверить профили прокси"
 
-#: src/dialogs/proxytest.cpp:35
+#: src/dialogs/proxytest.cpp:36
 #, kde-format
 msgid "Failing profiles"
 msgstr "Профили с ошибками"
 
-#: src/dialogs/proxytest.cpp:50
+#: src/dialogs/proxytest.cpp:51
 #, kde-format
 msgid "Starting process"
 msgstr "Запуск процесса"
 
-#: src/dialogs/proxytest.cpp:115 src/dialogs/proxytest.cpp:152
+#: src/dialogs/proxytest.cpp:116 src/dialogs/proxytest.cpp:153
 #, kde-format
 msgid "Cannot create temporary files"
 msgstr "Не удалось создать временные файлы"
 
-#: src/dialogs/proxytest.cpp:121
+#: src/dialogs/proxytest.cpp:122
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
 msgstr "Создание тестового видеоролика %1 продолжительностью 60 секунд"
 
-#: src/dialogs/proxytest.cpp:145
+#: src/dialogs/proxytest.cpp:146
 #, kde-format
 msgid "Processing %1"
 msgstr "Обработка %1"
@@ -21761,7 +21761,7 @@ msgstr "Отражение по вертикали"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #: src/effects/effectstack/view/effectstackview.cpp:429
-#: src/effects/effectstack/view/effectstackview.cpp:987
+#: src/effects/effectstack/view/effectstackview.cpp:986
 #, kde-format
 msgid "Remove Background"
 msgstr "Удалить фон"
@@ -21781,47 +21781,47 @@ msgstr "Отражение"
 msgid "Exporting…"
 msgstr "Экспорт…"
 
-#: src/effects/effectstack/view/effectstackview.cpp:779
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Включить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:779
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Отключить стек эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:818
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, kde-format
 msgid "No effect selected."
 msgstr "Эффект не выбран."
 
-#: src/effects/effectstack/view/effectstackview.cpp:824
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Сохранение текущего стека эффектов"
 
-#: src/effects/effectstack/view/effectstackview.cpp:829
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Имя сохраняемого стека:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:830
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Описание:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:842
+#: src/effects/effectstack/view/effectstackview.cpp:841
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Имя не было указано, стек эффектов не сохранён."
 
-#: src/effects/effectstack/view/effectstackview.cpp:849
+#: src/effects/effectstack/view/effectstackview.cpp:848
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21830,8 +21830,8 @@ msgstr ""
 "Описание отсутствует. \n"
 "Сохранить эффект без описания?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:984
-#: src/effects/effectstack/view/effectstackview.cpp:1010
+#: src/effects/effectstack/view/effectstackview.cpp:983
+#: src/effects/effectstack/view/effectstackview.cpp:1009
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Прервать создание маски"

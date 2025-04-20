@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 02:33+0000\n"
+"POT-Creation-Date: 2025-04-20 02:31+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -17023,7 +17023,7 @@ msgstr "サブタイトルの移動"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:861
+#: src/effects/effectstack/view/effectstackview.cpp:860
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -18052,7 +18052,7 @@ msgstr "マーカーの編集(E)"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:899
+#: src/effects/effectstack/view/effectstackview.cpp:898
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18372,42 +18372,42 @@ msgid ""
 "open."
 msgstr ""
 
-#: src/dialogs/proxytest.cpp:31
+#: src/dialogs/proxytest.cpp:32
 #, fuzzy, kde-format
 #| msgid "Manage Project Profiles"
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
 msgstr "プロジェクトプロファイルの管理(M)"
 
-#: src/dialogs/proxytest.cpp:32
+#: src/dialogs/proxytest.cpp:33
 #, fuzzy, kde-format
 #| msgid "Manage Project Profiles"
 msgid "Test Proxy Profiles"
 msgstr "プロジェクトプロファイルの管理(M)"
 
-#: src/dialogs/proxytest.cpp:35
+#: src/dialogs/proxytest.cpp:36
 #, fuzzy, kde-format
 #| msgid "Editing profiles for"
 msgid "Failing profiles"
 msgstr "下記のプロファイルを編集しています"
 
-#: src/dialogs/proxytest.cpp:50
+#: src/dialogs/proxytest.cpp:51
 #, kde-format
 msgid "Starting process"
 msgstr ""
 
-#: src/dialogs/proxytest.cpp:115 src/dialogs/proxytest.cpp:152
+#: src/dialogs/proxytest.cpp:116 src/dialogs/proxytest.cpp:153
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot create temporary files"
 msgstr "一時ファイルを作成できません"
 
-#: src/dialogs/proxytest.cpp:121
+#: src/dialogs/proxytest.cpp:122
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
 msgstr "60秒のテストビデオを作成中です %1"
 
-#: src/dialogs/proxytest.cpp:145
+#: src/dialogs/proxytest.cpp:146
 #, kde-format
 msgid "Processing %1"
 msgstr "%1を処理中"
@@ -21884,7 +21884,7 @@ msgstr "垂直方向"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #: src/effects/effectstack/view/effectstackview.cpp:429
-#: src/effects/effectstack/view/effectstackview.cpp:987
+#: src/effects/effectstack/view/effectstackview.cpp:986
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove Background"
@@ -21906,60 +21906,60 @@ msgstr ""
 msgid "Exporting…"
 msgstr "出力しています..."
 
-#: src/effects/effectstack/view/effectstackview.cpp:779
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "効果の有効化"
 
-#: src/effects/effectstack/view/effectstackview.cpp:779
+#: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Disable Effect Stack"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/effectstackview.cpp:818
+#: src/effects/effectstack/view/effectstackview.cpp:817
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No effect selected."
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/effects/effectstack/view/effectstackview.cpp:824
+#: src/effects/effectstack/view/effectstackview.cpp:823
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/effectstackview.cpp:829
+#: src/effects/effectstack/view/effectstackview.cpp:828
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "保存したスタックの名前: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:830
+#: src/effects/effectstack/view/effectstackview.cpp:829
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Description:"
 msgstr "説明"
 
-#: src/effects/effectstack/view/effectstackview.cpp:842
+#: src/effects/effectstack/view/effectstackview.cpp:841
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "名前がありません、効果は保存されませんでした。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:849
+#: src/effects/effectstack/view/effectstackview.cpp:848
 #, kde-format
 msgid ""
 "No description provided. \n"
 "Save effect with no description?"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:984
-#: src/effects/effectstack/view/effectstackview.cpp:1010
+#: src/effects/effectstack/view/effectstackview.cpp:983
+#: src/effects/effectstack/view/effectstackview.cpp:1009
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Abort Mask Creation"
