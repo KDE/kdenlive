@@ -9,7 +9,7 @@ Currently supported GNU/Linux distributions are:
 * Ubuntu 24.10 Oracular Oriolea and derivatives, or later.
 * Arch Linux
 
-But it should work no any platforms fulfilling the requirements described below
+But it should work on any platforms fulfilling the requirements described below
 
 The minimum required dependencies are:
 - [Qt](https://doc.qt.io/) >= 6.6.0 (Kdenlive droped Qt5 support with version 24.12)
@@ -78,10 +78,10 @@ sudo apt install ruby subversion gnupg2 gettext
 ```bash
 INSTALL_PREFIX=$HOME/.local # or any other choice, the easiest would be to leave it empty ("")
 ```
-Please note that even if you specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
-going be installed in non-user-writable system paths to make them work. If you really do not want to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
+Please note that even if you have specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
+going to be installed in non-user-writable system paths to make them work. If you really do not want to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
 
-- You can also you can set the `JOBS` variable to the number of threads your CPU can offer for builds.
+- You can also set the `JOBS` variable to the number of threads your CPU can offer for builds.
 
 ```bash
 JOBS=8
