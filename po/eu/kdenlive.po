@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-20 02:31+0000\n"
-"PO-Revision-Date: 2025-04-06 12:02+0200\n"
+"PO-Revision-Date: 2025-04-21 00:42+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -556,11 +556,10 @@ msgstr ""
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
 msgid "Average,Maximum"
-msgstr ""
+msgstr "Batezbestekoa,Maximoa"
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Link Type"
 msgstr "Esteka-mota"
 
@@ -917,8 +916,7 @@ msgstr "Auto,s16,s32,f32,f64"
 #: data/effects/avfilter/avfilter_highshelf.xml:36
 #: data/effects/avfilter/avfilter_lowpass.xml:33
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
-#, fuzzy, kde-format
-#| msgid "File Extension"
+#, kde-format
 msgid "Filter precision"
 msgstr "Iragazkiaren zehaztasuna"
 
@@ -979,10 +977,9 @@ msgid "Offset R"
 msgstr "Gorriaren desplazamendua"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:27
-#, fuzzy, kde-format
-#| msgid "Outline width"
+#, kde-format
 msgid "Pulse width"
-msgstr "Kanpoko lerroaren zabalera"
+msgstr "Pultsuaren zabalera"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
@@ -1028,32 +1025,32 @@ msgstr ""
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
 #, kde-format
 msgid "A threshold for 1st plane"
-msgstr ""
+msgstr "1. planorako A atalasea"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:11
 #, kde-format
 msgid "B threshold for 1st plane"
-msgstr ""
+msgstr "1. planorako B atalasea"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:14
 #, kde-format
 msgid "A threshold for 2nd plane"
-msgstr ""
+msgstr "2. planorako A atalasea"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:17
 #, kde-format
 msgid "B threshold for 2nd plane"
-msgstr ""
+msgstr "1. planorako B atalasea"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:20
 #, kde-format
 msgid "A threshold for 3rd plane"
-msgstr ""
+msgstr "3. planorako A atalasea"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:23
 #, kde-format
 msgid "B threshold for 3rd plane"
-msgstr ""
+msgstr "3. planorako B atalasea"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
 #, fuzzy, kde-format
@@ -1062,10 +1059,9 @@ msgid "Number of frames for averaging"
 msgstr "Pausu baxuko iragazkirako fotograma kopurua"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Average Bitrate"
+#, kde-format
 msgid "Average Blur"
-msgstr "Batazbesteko bit-emaria"
+msgstr "Batezbesteko lausotzea"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:5
 #, kde-format
@@ -1107,7 +1103,7 @@ msgstr "Alfa,Y,U,V,Gorria,Berdea,Urdina,dena"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:22
 #, kde-format
 msgid "Planes"
-msgstr ""
+msgstr "Planoak"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, fuzzy, kde-format
@@ -1188,7 +1184,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bilateral.xml:4
 #, kde-format
 msgid "Bilateral"
-msgstr ""
+msgstr "Bilaterala"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
@@ -10254,7 +10250,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_pr0file.xml:82
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
+msgstr "<![CDATA[Erabili 0-255 eskala bat 0.0-1.0 erabili ordez]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:85
 #, kde-format
@@ -10262,10 +10258,9 @@ msgid "CCIR rec. 601,CCIR rec. 709"
 msgstr "CCIR rec. 601,CCIR rec. 709"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:86
-#, fuzzy, kde-format
-#| msgid "PCM encoding"
+#, kde-format
 msgid "Color encoding"
-msgstr "PCM kodetzea"
+msgstr "Kolore-kodeketa"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
@@ -10822,16 +10817,14 @@ msgid "Balances colors along with 3 points"
 msgstr "Koloreak orekatzen ditu 3 puntuekin batera"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:8
-#, fuzzy, kde-format
-#| msgid "BackColor"
+#, kde-format
 msgid "Black color"
-msgstr "HodoKolorea"
+msgstr "Kolore beltza"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:11
-#, fuzzy, kde-format
-#| msgid "Key color"
+#, kde-format
 msgid "Gray color"
-msgstr "Gako kolorea"
+msgstr "Kolore grisa"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:14
 #, kde-format
@@ -10908,11 +10901,10 @@ msgid "Tint amount"
 msgstr "Tinta kopurua"
 
 #: data/effects/frei0r/frei0r_transparency.xml:4
-#, fuzzy, kde-format
-#| msgid "Transparency:"
+#, kde-format
 msgctxt "Transparency"
 msgid "Transparency"
-msgstr "Gardentasuna:"
+msgstr "Gardentasuna"
 
 #: data/effects/frei0r/frei0r_transparency.xml:5
 #, fuzzy, kde-format
@@ -10977,10 +10969,9 @@ msgid "Natural lens vignetting effect"
 msgstr "Lente naturalaren bineta efektua"
 
 #: data/effects/frei0r/frei0r_vignette.xml:8
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect ratio"
-msgstr "Aspektu-erlazioa:"
+msgstr "Aspektu-erlazioa"
 
 #: data/effects/frei0r/frei0r_vignette.xml:11
 #, kde-format
@@ -11839,10 +11830,9 @@ msgid "10000 Hz"
 msgstr "10000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
-#, fuzzy, kde-format
-#| msgid "10000 Hz"
+#, kde-format
 msgid "20000 Hz"
-msgstr "10000 Hz"
+msgstr "20000 Hz"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:4
 #, kde-format
@@ -14105,16 +14095,14 @@ msgid "The alpha OVER operation"
 msgstr "Alfa eragiketa"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha"
+#, kde-format
 msgid "Alpha XOR"
-msgstr "Alfa"
+msgstr "Alfa XOR"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha operation"
+#, kde-format
 msgid "The alpha XOR operation"
-msgstr "Alfa eragiketa"
+msgstr "Alfa XOR eragiketa"
 
 #: data/transitions/frei0r/frei0r_burn.xml:4
 #, kde-format
@@ -14207,10 +14195,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Darken"
-msgstr "Markatzailea"
+msgstr "Ilundu"
 
 #: data/transitions/frei0r/frei0r_darken.xml:5
 #, kde-format
@@ -14220,10 +14207,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
-#, fuzzy, kde-format
-#| msgid "Difference space"
+#, kde-format
 msgid "Difference"
-msgstr "Diferentzia espazioa"
+msgstr "Diferentzia"
 
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
@@ -14296,11 +14282,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_lighten.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Light"
+#, kde-format
 msgid "Lighten"
-msgstr "Arina"
+msgstr "Argitu"
 
 #: data/transitions/frei0r/frei0r_lighten.xml:5
 #, kde-format
@@ -14310,10 +14294,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_multiply.xml:4
-#, fuzzy, kde-format
-#| msgid "Multicam"
+#, kde-format
 msgid "Multiply"
-msgstr "Kamera-anitz"
+msgstr "Biderkatu"
 
 #: data/transitions/frei0r/frei0r_multiply.xml:5
 #, kde-format
@@ -14476,23 +14459,24 @@ msgstr ""
 #: src/ui/exportguidesdialog_ui.ui:130
 #, kde-format
 msgid "Subtract"
-msgstr "Erauzi"
+msgstr "Kendu"
 
 #: data/transitions/frei0r/frei0r_subtract.xml:5
 #, kde-format
 msgid ""
 "Perform an RGB[A] subtract operation of the pixel source input2 from input1."
 msgstr ""
+"Sarrera1-etik sarrera2 pixel-iturburuaren RGB[A] kenketa eragiketa bat egin."
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:4
 #, kde-format
 msgid "UV Map"
-msgstr ""
+msgstr "UV mapa"
 
 #: data/transitions/frei0r/frei0r_uvmap.xml:5
 #, kde-format
 msgid "Uses Input 1 as UV Map to distort Input 2."
-msgstr ""
+msgstr "1. sarrera UV mapa gisa erabiltzen du 2. sarrera desitxuratzeko."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: data/transitions/frei0r/frei0r_value.xml:4 src/ui/managesubtitles_ui.ui:544
@@ -14550,10 +14534,9 @@ msgid "Wipe from center to edge in a circle."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-circle.xml:8
-#, fuzzy, kde-format
-#| msgid "File size"
+#, kde-format
 msgid "Circle size"
-msgstr "Fitxategiaren tamaina"
+msgstr "Zirkuluaren neurria"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
 #, fuzzy, kde-format
@@ -14600,10 +14583,9 @@ msgid "Wipe from center to edge in a rectangle."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Rectangle size"
-msgstr "Laukizuzena"
+msgstr "Laukizuzenaren neurria"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
 #, fuzzy, kde-format
@@ -17283,13 +17265,12 @@ msgstr "Gehitu korronte efektua"
 #: src/bin/projectclip.cpp:2861
 #, kde-format
 msgid "Remove stream effect"
-msgstr "Ezabatu korronte efektua"
+msgstr "Kendu korronte efektua"
 
 #: src/bin/projectclip.cpp:3176
-#, fuzzy, kde-format
-#| msgid "Mask clip"
+#, kde-format
 msgid "Mask added to clip"
-msgstr "Kliparen maskara"
+msgstr "Klipean maskara gehitu da"
 
 #: src/bin/projectclip.cpp:3180
 #, fuzzy, kde-format
@@ -18823,10 +18804,9 @@ msgid "Audio without video track"
 msgstr "Bideoa-pistarik gabeko audioa"
 
 #: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
-#, fuzzy, kde-format
-#| msgid "Rendering <i>%1</i> started"
+#, kde-format
 msgid "Rendering %1 started"
-msgstr "Rendering %1 started"
+msgstr "%1 errendatzen hasi da"
 
 #: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
 #, kde-format
@@ -19076,20 +19056,15 @@ msgid "JogShuttle"
 msgstr "Jog/Shuttle"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
-#| "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
 "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
 "a>."
 msgstr ""
-"Gailua konfiguratzeko begiratu <a href=\"https://docs.kdenlive.org/"
-"user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
+"Gailua konfiguratzeko begiratu<a href=\"https://docs.kdenlive.org/"
+"getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
 "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">gure "
 "dokumentazioa</a>."
 
@@ -19420,6 +19395,8 @@ msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
+"%1(e)rako Nvidia GPU euskarria\n"
+"Hautatu instalatu beharreko CUDAren bertsioa."
 
 #: src/dialogs/settings/pluginssettings.cpp:1005
 #, kde-format
@@ -25520,10 +25497,9 @@ msgid "Export image using source resolution"
 msgstr "Esportatu irudia iturburuaren bereizmena erabiliz"
 
 #: src/monitor/monitor.cpp:1877
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Exit Mask Mode ?"
-msgstr "Irten maskara sorreratik"
+msgstr "Maskara modutik irten?"
 
 #: src/monitor/monitor.cpp:1975 src/monitor/monitor.cpp:2107
 #, kde-format
@@ -26047,7 +26023,7 @@ msgstr "Irten maskara sorreratik"
 #: src/monitor/view/MaskToolBar.qml:103
 #, kde-format
 msgid "Exit Preview Mode"
-msgstr "Irten aurreikuspegi modutik"
+msgstr "Irten aurreikuspen modutik"
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -27911,10 +27887,9 @@ msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #: src/pythoninterfaces/abstractpythoninterface.cpp:684
-#, fuzzy, kde-format
-#| msgid "Internal Error: Cannot find dependency list"
+#, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
-msgstr "Barne errorea: ezin izan da dependentzia-zerrenda aurkitu"
+msgstr "Instalazio auzia: Ezin du %1(e)rako mendekotasun-zerrenda aurkitu"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:590
 #, kde-format
@@ -27949,7 +27924,7 @@ msgstr "Ez dago bertsioari buruzko informazio erabilgarririk."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:708
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
-msgstr ""
+msgstr "Instalazio auzia: Ezin du aurkitu %2(e)rako %1 aurkitu"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:743
 #, kde-format
@@ -28499,11 +28474,9 @@ msgid "Lossless/HQ"
 msgstr "Galerarik gabe/HQ"
 
 #: src/renderpresets/renderpresetrepository.cpp:240
-#, fuzzy, kde-format
-#| msgctxt "Category Name"
-#| msgid "Images sequence"
+#, kde-format
 msgid "Images sequence"
-msgstr "Irudi-sekuentzia"
+msgstr "Irudien sekuentzia"
 
 #: src/renderpresets/renderpresetrepository.cpp:345
 #, kde-format
