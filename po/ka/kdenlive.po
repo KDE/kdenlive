@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:40+0000\n"
-"PO-Revision-Date: 2025-04-19 04:13+0200\n"
+"POT-Creation-Date: 2025-04-21 00:40+0000\n"
+"PO-Revision-Date: 2025-04-20 04:17+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -18590,7 +18590,7 @@ msgstr "არქივის გაშლა…"
 msgid "New dictionary installed."
 msgstr "ახალი ლექსიკონი დაყენებულია."
 
-#: src/dialogs/settings/pluginssettings.cpp:996
+#: src/dialogs/settings/pluginssettings.cpp:998
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -18599,17 +18599,17 @@ msgstr ""
 "Nvidia GPU-ის მხარდაჭერა %1-სთვის\n"
 "აირჩიეთ დასაყენებელი CUDA-ის ვერსია."
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1002
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1013
+#: src/dialogs/settings/pluginssettings.cpp:1015
 #, kde-format
 msgid "Detected version: %1"
 msgstr "აღმოჩენილია ვერსია: %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1016
+#: src/dialogs/settings/pluginssettings.cpp:1018
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -18618,7 +18618,7 @@ msgstr ""
 "CUDA-ის ვერსიის დადგენა შეუძლებელია.\n"
 "აირჩიეთ ვერსია, რომელიც ხელმისაწვდომია თქვენს სისტემაზე."
 
-#: src/dialogs/settings/pluginssettings.cpp:1030
+#: src/dialogs/settings/pluginssettings.cpp:1032
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -21734,10 +21734,9 @@ msgstr "მისამაგრებელი ადგილების დ�
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/layoutmanagement.cpp:85 src/ui/configmisc_ui.ui:344
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgid "Auto Save"
-msgstr "&შენახვა"
+msgstr "ავტომატური შენახვა"
 
 #: src/layoutmanagement.cpp:198
 #, kde-format
@@ -31395,28 +31394,25 @@ msgstr "გაშვებისას ბოლო პროექტის გ
 #: src/ui/configmisc_ui.ui:37
 #, kde-format
 msgid "Every"
-msgstr ""
+msgstr "ყოველი"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_time)
 #: src/ui/configmisc_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Milliseconds"
+#, kde-format
 msgid " seconds"
-msgstr "მილიწამი"
+msgstr " წამი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configmisc_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Form"
+#, kde-format
 msgid "or"
-msgstr "ფორმა"
+msgstr "ან"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Alpha operations"
+#, kde-format
 msgid " operations"
-msgstr "ალფას ოპერაციები"
+msgstr " ოპერაციები"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:86

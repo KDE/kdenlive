@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:40+0000\n"
+"POT-Creation-Date: 2025-04-21 00:40+0000\n"
 "PO-Revision-Date: 2025-04-19 13:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -19383,7 +19383,7 @@ msgstr "Arşiv çıkarılıyor…"
 msgid "New dictionary installed."
 msgstr "Yeni sözlük kuruldu."
 
-#: src/dialogs/settings/pluginssettings.cpp:996
+#: src/dialogs/settings/pluginssettings.cpp:998
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -19392,17 +19392,17 @@ msgstr ""
 "%1 için Nvidia GPU desteği\n"
 "Kurulacak CUDA sürümünü seçin."
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1002
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1013
+#: src/dialogs/settings/pluginssettings.cpp:1015
 #, kde-format
 msgid "Detected version: %1"
 msgstr "Algılanan sürüm: %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1016
+#: src/dialogs/settings/pluginssettings.cpp:1018
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -19411,7 +19411,7 @@ msgstr ""
 "CUDA sürümü algılanamıyor; lütfen\n"
 "sisteminizde olan sürümü seçin."
 
-#: src/dialogs/settings/pluginssettings.cpp:1030
+#: src/dialogs/settings/pluginssettings.cpp:1032
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:40+0000\n"
+"POT-Creation-Date: 2025-04-21 00:40+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -18372,7 +18372,7 @@ msgstr "正在解压…"
 msgid "New dictionary installed."
 msgstr "新词典已安装。"
 
-#: src/dialogs/settings/pluginssettings.cpp:996
+#: src/dialogs/settings/pluginssettings.cpp:998
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -18381,17 +18381,17 @@ msgstr ""
 "%1 的 Nvidia GPU 支持\n"
 "选择要安装的 CUDA 版本。"
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1002
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1013
+#: src/dialogs/settings/pluginssettings.cpp:1015
 #, kde-format
 msgid "Detected version: %1"
 msgstr "检测到的版本：%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1016
+#: src/dialogs/settings/pluginssettings.cpp:1018
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -18400,7 +18400,7 @@ msgstr ""
 "无法确定 CUDA 版本，\n"
 "请选择本机系统中可用的版本。"
 
-#: src/dialogs/settings/pluginssettings.cpp:1030
+#: src/dialogs/settings/pluginssettings.cpp:1032
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"

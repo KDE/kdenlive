@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:40+0000\n"
+"POT-Creation-Date: 2025-04-21 00:40+0000\n"
 "PO-Revision-Date: 2025-04-10 18:41+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -19072,7 +19072,7 @@ msgstr "Estrazione dell'archivio…"
 msgid "New dictionary installed."
 msgstr "Nuovo dizionario installato."
 
-#: src/dialogs/settings/pluginssettings.cpp:996
+#: src/dialogs/settings/pluginssettings.cpp:998
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -19081,17 +19081,17 @@ msgstr ""
 "Supporto alla GPU Nvidia per %1\n"
 "Seleziona la versione CUDA da installare."
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1002
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1013
+#: src/dialogs/settings/pluginssettings.cpp:1015
 #, kde-format
 msgid "Detected version: %1"
 msgstr "Versione rilevata: %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1016
+#: src/dialogs/settings/pluginssettings.cpp:1018
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -19100,7 +19100,7 @@ msgstr ""
 "Impossibile trovare la versione CUDA,\n"
 "seleziona quella disponibile nel sistema."
 
-#: src/dialogs/settings/pluginssettings.cpp:1030
+#: src/dialogs/settings/pluginssettings.cpp:1032
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"

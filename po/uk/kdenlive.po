@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:40+0000\n"
-"PO-Revision-Date: 2025-04-19 18:47+0300\n"
+"POT-Creation-Date: 2025-04-21 00:40+0000\n"
+"PO-Revision-Date: 2025-04-20 08:34+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -19226,7 +19226,7 @@ msgstr "Видобування архіву…"
 msgid "New dictionary installed."
 msgstr "Встановлено новий словник."
 
-#: src/dialogs/settings/pluginssettings.cpp:996
+#: src/dialogs/settings/pluginssettings.cpp:998
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -19235,17 +19235,17 @@ msgstr ""
 "Підтримка графічних процесорів Nvidia для %1\n"
 "Виберіть версію CUDA, яку слід встановити."
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1002
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1013
+#: src/dialogs/settings/pluginssettings.cpp:1015
 #, kde-format
 msgid "Detected version: %1"
 msgstr "Виявлена версія: %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1016
+#: src/dialogs/settings/pluginssettings.cpp:1018
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -19254,7 +19254,7 @@ msgstr ""
 "Не вдалося визначити версію CUDA.\n"
 "Будь ласка, виберіть версію, яка доступна у вашій системі."
 
-#: src/dialogs/settings/pluginssettings.cpp:1030
+#: src/dialogs/settings/pluginssettings.cpp:1032
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -22416,10 +22416,9 @@ msgstr "Скомпонувати області панелей у стовпчи
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/layoutmanagement.cpp:85 src/ui/configmisc_ui.ui:344
-#, fuzzy, kde-format
-#| msgid "Auto Mask"
+#, kde-format
 msgid "Auto Save"
-msgstr "Автомаскування"
+msgstr "Автозбереження"
 
 #: src/layoutmanagement.cpp:198
 #, kde-format
@@ -32197,28 +32196,25 @@ msgstr "Відкривати після запуску попередній пр
 #: src/ui/configmisc_ui.ui:37
 #, kde-format
 msgid "Every"
-msgstr ""
+msgstr "Кожні"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_time)
 #: src/ui/configmisc_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Milliseconds"
+#, kde-format
 msgid " seconds"
-msgstr "Мілісекунди"
+msgstr " секунд"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configmisc_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Form"
+#, kde-format
 msgid "or"
-msgstr "Форма"
+msgstr "або"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Alpha operations"
+#, kde-format
 msgid " operations"
-msgstr "Обробка прозорості"
+msgstr " дій"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:86

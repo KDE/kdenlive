@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:40+0000\n"
-"PO-Revision-Date: 2025-04-19 15:58+0200\n"
+"POT-Creation-Date: 2025-04-21 00:40+0000\n"
+"PO-Revision-Date: 2025-04-20 16:33+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4923,7 +4923,7 @@ msgstr "Raster van scope tekenen"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
 #, kde-format
 msgid "<![CDATA[Switch grid on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Raster aan of uitschakelen]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
@@ -4938,18 +4938,19 @@ msgstr "<![CDATA[Statistieken schakelen naar aan of uit]]>"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
 msgid "Draw trace profile line"
-msgstr ""
+msgstr "Volgprofiellijn tekenen"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
 msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Tekenen van de volgprofiellijn aan of uitschakelen]]>"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
 msgid ""
 "Delay interlaced video by one field time so that the field order changes"
 msgstr ""
+"Interlaced video vertragen met één veldtijd zodat de veldvolgorde wijzigt"
 
 #: data/effects/avfilter/avfilter_phase.xml:8
 #, kde-format
@@ -4961,6 +4962,12 @@ msgid ""
 "field flags and transfer unknown or varying,Both capture and transfer "
 "unknown or varying"
 msgstr ""
+"Het onderste veld vertragen,Het bovenste veld vertragen,Veldvolgorde "
+"behouden,Vang veldvolgorde automatisch en transfer tegenovergestelde,Vang "
+"onbekend of variërend en transfer tegenovergestelde,Vang bovenste eerst en "
+"transfer onbekend of variërend,Vang onderste eerst en transfer onbekend of "
+"variërend,Vang bepaald door veldvlaggen en transfer onbekend of variërend,"
+"Beiden vangen en transfer onbekend of variërend"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
@@ -4971,6 +4978,7 @@ msgstr "Foto-sensitiviteit"
 #, kde-format
 msgid "Filter out photosensitive epilepsy seizure-inducing flashes."
 msgstr ""
+"Foto-sensitiviteit voor flitsen die epilepsie aanvallen oproepen uitfilteren."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
 #, kde-format
@@ -4985,7 +4993,7 @@ msgstr "Stel in hoeveel frames te gebruiken."
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
 msgid "Set detection threshold factor, lower is stricter"
-msgstr ""
+msgstr "Zet de detectiedrempelfactor, lager is stricter"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:16
 #, kde-format
@@ -5005,7 +5013,7 @@ msgstr "Bypass"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:21
 #, kde-format
 msgid "Leave frames unchanged"
-msgstr ""
+msgstr "Frames ongewijzigd laten"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, kde-format
@@ -5037,7 +5045,7 @@ msgstr "Modus in pixelvorm brengen"
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
 msgid "Average,Minimum,Maximum"
-msgstr ""
+msgstr "Gemiddeld,Minimum,Maximum"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
@@ -5047,7 +5055,7 @@ msgstr "Prewitt"
 #: data/effects/avfilter/avfilter_prewitt.xml:5
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
-msgstr ""
+msgstr "Prewitt-operator toepassen op invoervideostream"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -18987,7 +18995,7 @@ msgstr "Archief wordt uitgepakt…"
 msgid "New dictionary installed."
 msgstr "Nieuw woordenboek geïnstalleerd."
 
-#: src/dialogs/settings/pluginssettings.cpp:996
+#: src/dialogs/settings/pluginssettings.cpp:998
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -18996,17 +19004,17 @@ msgstr ""
 "Nvidia GPU ondersteuning voor %1\n"
 "Selecteer de CUDA versie om te installeren."
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1002
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1013
+#: src/dialogs/settings/pluginssettings.cpp:1015
 #, kde-format
 msgid "Detected version: %1"
 msgstr "Gedetailleerde versie: %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1016
+#: src/dialogs/settings/pluginssettings.cpp:1018
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -19015,7 +19023,7 @@ msgstr ""
 "Kan CUDA versie niet bepalen,\n"
 "selecteer de versie beschikbaar op uw systeem."
 
-#: src/dialogs/settings/pluginssettings.cpp:1030
+#: src/dialogs/settings/pluginssettings.cpp:1032
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -22146,10 +22154,9 @@ msgstr "Vastzetgebieden in kolommen plaatsen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/layoutmanagement.cpp:85 src/ui/configmisc_ui.ui:344
-#, fuzzy, kde-format
-#| msgid "Auto Mask"
+#, kde-format
 msgid "Auto Save"
-msgstr "Automatisch maskeren"
+msgstr "Automatisch opslaan"
 
 #: src/layoutmanagement.cpp:198
 #, kde-format
@@ -31840,28 +31847,25 @@ msgstr "Open meest recente project bij opstarten"
 #: src/ui/configmisc_ui.ui:37
 #, kde-format
 msgid "Every"
-msgstr ""
+msgstr "Iedere"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_time)
 #: src/ui/configmisc_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Milliseconds"
+#, kde-format
 msgid " seconds"
-msgstr "Milliseconden"
+msgstr " seconden"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configmisc_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Form"
+#, kde-format
 msgid "or"
-msgstr "Form"
+msgstr "of"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Alpha operations"
+#, kde-format
 msgid " operations"
-msgstr "Alfa bewerkingen"
+msgstr " bewerkingen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:86

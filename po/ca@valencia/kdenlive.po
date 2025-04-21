@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 00:40+0000\n"
-"PO-Revision-Date: 2025-04-19 11:13+0200\n"
+"POT-Creation-Date: 2025-04-21 00:40+0000\n"
+"PO-Revision-Date: 2025-04-20 09:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5670,7 +5670,7 @@ msgstr "Mida del fotograma"
 #: data/effects/avfilter/avfilter_sofalizer.xml:31
 #, kde-format
 msgid "Use if option ‘type’ is set to freq."
-msgstr "Utilitzeu si a l'opció ‘type’ s'indica «freq»."
+msgstr "Utilitzeu si a l'opció ‘type' s'indica «freq»."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
 #, kde-format
@@ -19253,7 +19253,7 @@ msgstr "S'està extraent l'arxiu…"
 msgid "New dictionary installed."
 msgstr "S'ha instal·lat un diccionari nou."
 
-#: src/dialogs/settings/pluginssettings.cpp:996
+#: src/dialogs/settings/pluginssettings.cpp:998
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -19262,17 +19262,17 @@ msgstr ""
 "Suport de GPU de Nvidia per a %1\n"
 "Seleccioneu la versió de CUDA que s'instal·larà."
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1002
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1013
+#: src/dialogs/settings/pluginssettings.cpp:1015
 #, kde-format
 msgid "Detected version: %1"
 msgstr "Versió detectada: %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1016
+#: src/dialogs/settings/pluginssettings.cpp:1018
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -19281,7 +19281,7 @@ msgstr ""
 "No s'ha pogut determinar la versió de CUDA,\n"
 "seleccioneu la versió disponible en el vostre sistema."
 
-#: src/dialogs/settings/pluginssettings.cpp:1030
+#: src/dialogs/settings/pluginssettings.cpp:1032
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -22429,10 +22429,9 @@ msgstr "Organitza les àrees d'acoblament en columnes"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/layoutmanagement.cpp:85 src/ui/configmisc_ui.ui:344
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgid "Auto Save"
-msgstr "Guarda"
+msgstr "Guardada automàtica"
 
 #: src/layoutmanagement.cpp:198
 #, kde-format
@@ -32189,28 +32188,25 @@ msgstr "Obri l'últim projecte en iniciar"
 #: src/ui/configmisc_ui.ui:37
 #, kde-format
 msgid "Every"
-msgstr ""
+msgstr "Cada"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_time)
 #: src/ui/configmisc_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Milliseconds"
+#, kde-format
 msgid " seconds"
-msgstr "Mil·lisegons"
+msgstr " segons"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configmisc_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Form"
+#, kde-format
 msgid "or"
-msgstr "Formulari"
+msgstr "o"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Alpha operations"
+#, kde-format
 msgid " operations"
-msgstr "Operacions d'alfa"
+msgstr " operacions"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:86
@@ -35635,6 +35631,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Activate crash recovery (auto save)"
-#~ msgstr "Activa la recuperació de fallada (guardada automàtica)"
