@@ -256,14 +256,14 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&]() { slotValueChanged(ValueWidth); });
 #endif
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
-    bgBox->setEnabled(KdenliveSettings::titlerShowbg());
+    bgBox->setEnabled(!KdenliveSettings::titlerShowbg());
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(displayBg, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState state) {
 #else
     connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state) {
 #endif
         KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
-        bgBox->setEnabled(KdenliveSettings::titlerShowbg());
+        bgBox->setEnabled(!KdenliveSettings::titlerShowbg());
         displayBackgroundFrame();
     });
 
