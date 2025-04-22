@@ -954,8 +954,8 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
         return true;
     }
     bool result = false;
-    timeline->requestSetSelection(clips);
     int itemId = *clips.begin();
+    timeline->requestSetSelection(clips);
     int targetTrackId = timeline->getItemTrackId(itemId);
     int targetPos = timeline->getItemPosition(itemId) + zone.x() - zone.y();
 
@@ -963,8 +963,12 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
         result = timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.x() - zone.y(), true, true, undo, redo, true, true, true,
                                             allowedTracks);
     } else if (timeline->isClip(itemId)) {
-        result = timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, undo, redo);
-    } else {
+        if (allowedTracks.contains(targetTrackId)) {
+            result = timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, undo, redo);
+        } else {
+            result = true;
+        }
+    } else if (timeline->isComposition(itemId)) {
         result =
             timeline->requestCompositionMove(itemId, targetTrackId, timeline->m_allCompositions[itemId]->getForcedTrack(), targetPos, true, true, undo, redo);
     }

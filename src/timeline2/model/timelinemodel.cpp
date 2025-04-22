@@ -2715,9 +2715,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         // this group doesn't contain the clip, abort
         return false;
     }
-    qDebug() << "=============\n\nSTARTING REAL GROUP MOVE....\n\n====================";
     bool ok = true;
     auto all_items = m_groups->getLeaves(groupId);
+    qDebug() << "=============\n\nSTARTING REAL GROUP MOVE....\n====================";
     Q_ASSERT(all_items.size() > 1);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
