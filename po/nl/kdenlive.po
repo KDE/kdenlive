@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-20 02:31+0000\n"
-"PO-Revision-Date: 2025-04-20 16:18+0200\n"
+"PO-Revision-Date: 2025-04-21 14:46+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -4933,23 +4933,24 @@ msgstr "Afdruk statistieken"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, kde-format
 msgid "<![CDATA[switch statistics on or off]]>"
-msgstr ""
+msgstr "<![CDATA[statistieken aan of uitschakelen]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
 msgid "Draw trace profile line"
-msgstr ""
+msgstr "Volgprofiellijn tekenen"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
 msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Tekenen van de volgprofiellijn aan of uitschakelen]]>"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
 msgid ""
 "Delay interlaced video by one field time so that the field order changes"
 msgstr ""
+"Interlaced video vertragen met één veldtijd zodat de veldvolgorde wijzigt"
 
 #: data/effects/avfilter/avfilter_phase.xml:8
 #, kde-format
@@ -4961,6 +4962,12 @@ msgid ""
 "field flags and transfer unknown or varying,Both capture and transfer "
 "unknown or varying"
 msgstr ""
+"Het onderste veld vertragen,Het bovenste veld vertragen,Veldvolgorde "
+"behouden,Vang veldvolgorde automatisch en transfer tegenovergestelde,Vang "
+"onbekend of variërend en transfer tegenovergestelde,Vang bovenste eerst en "
+"transfer onbekend of variërend,Vang onderste eerst en transfer onbekend of "
+"variërend,Vang bepaald door veldvlaggen en transfer onbekend of variërend,"
+"Beiden vangen en transfer onbekend of variërend"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
@@ -4971,6 +4978,7 @@ msgstr "Foto-sensitiviteit"
 #, kde-format
 msgid "Filter out photosensitive epilepsy seizure-inducing flashes."
 msgstr ""
+"Foto-sensitiviteit voor flitsen die epilepsie aanvallen oproepen uitfilteren."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
 #, kde-format
@@ -4990,7 +4998,7 @@ msgstr "Drempel"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
 msgid "Set detection threshold factor, lower is stricter"
-msgstr ""
+msgstr "Zet de detectiedrempelfactor, lager is stricter"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:16
 #, kde-format
@@ -5010,7 +5018,7 @@ msgstr "Bypass"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:21
 #, kde-format
 msgid "Leave frames unchanged"
-msgstr ""
+msgstr "Frames ongewijzigd laten"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, kde-format
@@ -5042,7 +5050,7 @@ msgstr "Modus in pixelvorm brengen"
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
 msgid "Average,Minimum,Maximum"
-msgstr ""
+msgstr "Gemiddeld,Minimum,Maximum"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
@@ -5052,7 +5060,7 @@ msgstr "Prewitt"
 #: data/effects/avfilter/avfilter_prewitt.xml:5
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
-msgstr ""
+msgstr "Prewitt-operator toepassen op invoervideostream"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
@@ -5065,6 +5073,8 @@ msgid ""
 "Flush video frames from internal cache of frames into a random order. No "
 "frame is discarded. Inspired by frei0r nervous filter."
 msgstr ""
+"Verwijdert videoframes uit de interne cache met frames in een willekeurige "
+"volgorde. Geïnspireerd door het \"nerveuze\" filter van frei0r."
 
 #: data/effects/avfilter/avfilter_random.xml:8
 #, kde-format
@@ -5085,26 +5095,28 @@ msgstr "Verwijdering van korreligheid"
 #, kde-format
 msgid "The removegrain filter is a spatial denoiser for progressive video"
 msgstr ""
+"Het filter korrel verwijderen is een ruimtelijke ruisverwijderaar voor "
+"progressieve video"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:8
 #, kde-format
 msgid "Mode for 1st plane"
-msgstr ""
+msgstr "Modus voor eerste vlak"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:11
 #, kde-format
 msgid "Mode for 2nd plane"
-msgstr ""
+msgstr "Modus voor tweede vlak"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:14
 #, kde-format
 msgid "Mode for 3rd plane"
-msgstr ""
+msgstr "Modus voor derde vlak"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:17
 #, kde-format
 msgid "Mode for 4th plane"
-msgstr ""
+msgstr "Modus voor vierde vlak"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:4
 #, kde-format
@@ -5114,7 +5126,7 @@ msgstr "RGBA-verschuiving"
 #: data/effects/avfilter/avfilter_rgbashift.xml:5
 #, kde-format
 msgid "Shift R/G/B/A pixels horizontally and/or vertically"
-msgstr ""
+msgstr "R/G/B/A pixels horizontaal en/of verticaal verschuiven"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
 #, kde-format
@@ -5169,7 +5181,7 @@ msgstr "Roberts"
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
 msgid "Apply roberts cross operator to input video stream"
-msgstr ""
+msgstr "Roberts kruisoperator toepassen op invoervideostream"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5231,7 +5243,7 @@ msgstr "CMYK-aanpassing"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:5
 #, kde-format
 msgid "Apply CMYK correction to specific color ranges"
-msgstr ""
+msgstr "CMYK-correctie toepassen op specifieke kleurreeksen"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
 #, kde-format
@@ -5300,6 +5312,9 @@ msgid ""
 "fields, producing a new half height clip with twice the frame rate and twice "
 "the frame count. "
 msgstr ""
+"Het neemt een op frames gebaseerde video-invoer en splitst elk frame in zijn "
+"componentenvelden, die een nieuwe halfhoge clip produceert met tweemaal de "
+"framesnelheid en tweemaal het aantal frames. "
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
 #, kde-format
