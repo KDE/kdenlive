@@ -256,14 +256,20 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&]() { slotValueChanged(ValueWidth); });
 #endif
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
-    bgBox->setEnabled(KdenliveSettings::titlerShowbg());
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(displayBg, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState state) {
 #else
     connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state) {
 #endif
         KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
-        bgBox->setEnabled(KdenliveSettings::titlerShowbg());
+        bgBox->setEnabled(!KdenliveSettings::titlerShowbg());
+        displayBackgroundFrame();
+    });
+
+    bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
+    bgBox->setEnabled(!KdenliveSettings::titlerShowbg());
+    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int ix) {
+        KdenliveSettings::setTitlerbg(ix);
         displayBackgroundFrame();
     });
 
@@ -406,24 +412,24 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonEllipse->setShortcut(Qt::ALT | Qt::Key_E);
     connect(m_buttonEllipse, &QAction::triggered, this, &TitleWidget::slotEllipseTool);
 
-    m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image"));
+    m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image…"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT | Qt::Key_I);
     connect(m_buttonImage, &QAction::triggered, this, &TitleWidget::slotImageTool);
 
     m_toolbar->addSeparator();
 
-    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Document"));
+    m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open  Title…"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL | Qt::Key_O);
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
-    m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save As"));
+    m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Title As…"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL | Qt::Key_S);
     connect(m_buttonSave, &QAction::triggered, this, [this]() { saveTitle(); });
 
-    m_buttonDownload = new KNSWidgets::Action(i18n("Download New Title Templates..."), QStringLiteral(":data/kdenlive_titles.knsrc"), this);
+    m_buttonDownload = new KNSWidgets::Action(i18n("Download New Title Templates…"), QStringLiteral(":data/kdenlive_titles.knsrc"), this);
     m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);
     m_toolbar->addAction(m_buttonDownload);
     connect(m_buttonDownload, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
@@ -492,12 +498,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_frameImage->setZValue(-1200);
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
-
-    bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
-    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int ix) {
-        KdenliveSettings::setTitlerbg(ix);
-        displayBackgroundFrame();
-    });
 
     connect(m_scene, &QGraphicsScene::selectionChanged, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::itemMoved, this, &TitleWidget::selectionChanged);
