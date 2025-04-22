@@ -1,43 +1,50 @@
 ![](data/pics/kdenlive-logo.png)
 
-# About Kdenlive
+# Kdenlive
 
-[Kdenlive](https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 6. It is distributed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html) or any later version that is accepted by the KDE project.
+Kdenlive is a powerful, free and open-source video editor that brings professional-grade video editing capabilities to everyone. Whether you're creating a simple family video or working on a complex project, Kdenlive provides the tools you need to bring your vision to life.
 
-# Building from source
+For more information about Kdenlive's features, tutorials, and community, please visit our [official website](https://kdenlive.org).
 
-[Instructions to build Kdenlive](dev-docs/build.md) are available in the dev-docs folder.
+There you can also find downloads for both stable releases and experimental daily builds for Kdenlive.
 
-# Testing Kdenlive via Nightly Builds
+## Contributing to Kdenlive
 
-- AppImage (Linux): https://cdn.kde.org/ci-builds/multimedia/kdenlive/master/linux/
-- Flatpak (Linux):
-  - Add the kde flatpak repository (if not already done) by typing `flatpak remote-add --if-not-exists kdeapps --from https://distribute.kde.org/kdeapps.flatpakrepo` on a command line. (This step may be optional in your version of Flatpak.)
-  - Install kdenlive nightly with `flatpak install kdeapps org.kde.kdenlive`.
-  - Use `flatpak update` to update if the nightly is already installed.
-  - _Attention! If you use the stable kdenlive flatpak already, the `*.desktop` file (e.g. responsible for start menu entry) is maybe replaced by the nightly (and vice versa). You can still run the stable version with `flatpak run org.kde.kdenlive/x86_64/stable` and the nightly with `flatpak run org.kde.kdenlive/x86_64/master` (replace `x86_64` by `aarch64` or `arm` depending on your system)_
-- Windows: https://cdn.kde.org/ci-builds/multimedia/kdenlive/master/windows/
-- macOS x86: https://cdn.kde.org/ci-builds/multimedia/kdenlive/master/macos-x86_64/
-- macOS ARM: https://cdn.kde.org/ci-builds/multimedia/kdenlive/master/macos-arm64/
+Kdenlive is a community-driven project, and we welcome contributions from everyone! There are many ways to contribute beyond coding:
 
-*Note * - nightly/daily builds are not meant to be used in production.*
+- Help translate Kdenlive into your language
+- Report and triage bugs
+- Write documentation
+- Create tutorials
+- Help other users on forums and bug trackers
 
-# Contributing to Kdenlive
+Visit [kdenlive.org](https://kdenlive.org) to learn more about non-code contributions.
 
-Please note that Kdenlive's Github repo is just a mirror: read [this explanation for more details](https://community.kde.org/Infrastructure/Github_Mirror). 
+## Developer Information
 
-The prefered way of submitting patches is a merge request on the [KDE GitLab on invent.kde.org](https://invent.kde.org/-/ide/project/multimedia/kdenlive): if you are not familar with the process there is a [step by step instruction on how to submit a merge reqest in KDE context](https://community.kde.org/Infrastructure/GitLab#Submitting_a_Merge_Request).
+### Technology Stack
 
-We welcome all feedback and offers for help!
+Kdenlive is written in C++ and is using these technologies and frameworks:
 
-* Talk about us!
-* [Report bugs](https://kdenlive.org/en/bug-reports/) you encounter (if not already done)
-* Help other users [on the forum](http://forum.kde.org/viewforum.php?f=262) and bug tracker
-* [Help to fill the manual](https://community.kde.org/Kdenlive/Workgroup/Documentation)
-* Complete and check [application and documentation translation](http://l10n.kde.org)
-* Prepare video tutorials (intro, special tricks...) in your language
-  and send us a link to add in homepage or doc
-* Detail improvement suggestions
-  we don't test every (any?) other video editor, so give precise explanations
-* Code! Help fixing bugs, improving usability, optimizing, porting...
-  register on KDE infrastructure, study its guidelines, and pick from roadmap. See [here](dev-docs/contributing.md) for more information
+- **Core Framework**: MLT for video editing functionality
+- **GUI Framework**: Qt and KDE Frameworks 6
+- **Additional Libraries**: frei0r (video effects), LADSPA (audio effects)
+
+### Getting Started
+
+1. Check out our [build instructions](dev-docs/build.md) to set up your development environment
+2. Familiarize yourself with the [architecture](dev-docs/architecture.md) and [coding guidelines](dev-docs/coding.md)
+4. If the MLT library is new to you check out [MLT Introduction](dev-docs/mlt-intro.md)
+3. Join our Matrix channel `#kdenlive-dev:kde.org` for developer discussions and support
+
+### Contributing Code
+
+Kdenlive's primary development happens on [KDE Invent](https://invent.kde.org/multimedia/kdenlive). While we maintain a GitHub mirror, all code contributions should be submitted through KDE's GitLab instance. For more information about KDE's development infrastructure, visit the [KDE GitLab documentation](https://community.kde.org/Infrastructure/GitLab).
+
+### Finding Things to Work On
+
+- Browse open issues on [KDE Invent](https://invent.kde.org/multimedia/kdenlive/-/issues)
+- Check the [KDE Bug Tracker](https://bugs.kde.org) for reported issues
+- Look for issues tagged with "good first issue" or "help wanted"
+
+Need help getting started? Join our Matrix channel `#kdenlive-dev:kde.org` - our community is friendly and always ready to help new contributors!
