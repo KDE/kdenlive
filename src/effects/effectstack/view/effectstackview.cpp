@@ -215,7 +215,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
     if (dragRow < 0) {
         return;
     }
-    QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
+    const QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
     if (event->source() == this) {
         const QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
         int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
@@ -803,20 +803,28 @@ void EffectStackView::slotFocusEffect()
 
 void EffectStackView::slotSaveStack()
 {
-    if (m_model->rowCount() == 1) {
-        int currentActive = m_model->getActiveEffect();
-        if (currentActive > -1) {
-            auto item = m_model->getEffectStackRow(currentActive);
-            QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(item));
-            auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
-            w->slotSaveEffect();
-            return;
+    // Check how many effects are enabled
+    QList<int> rowsToSave;
+    for (int i = 0; i < m_model->rowCount(); ++i) {
+        auto item = std::static_pointer_cast<EffectItemModel>(m_model->getEffectStackRow(i));
+        if (item->isBuiltIn() && !item->isAssetEnabled()) {
+            // Don't save disabled built-in
+            continue;
         }
+        rowsToSave << i;
     }
-    if (m_model->rowCount() <= 1) {
+    if (rowsToSave.isEmpty()) {
         KMessageBox::error(this, i18n("No effect selected."));
         return;
     }
+    if (rowsToSave.size() == 1) {
+        auto item = m_model->getEffectStackRow(rowsToSave.first());
+        QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(item));
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        w->slotSaveEffect();
+        return;
+    }
+
     QDialog dialog(this);
     QFormLayout form(&dialog);
 
@@ -874,21 +882,18 @@ void EffectStackView::slotSaveStack()
         
         effect.appendChild(describtionNode);
         effect.setAttribute(QStringLiteral("description"), description);
-
-        auto item = m_model->getEffectStackRow(0);
-        if (item->isAudio()) {
-            effect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
-        }
         effect.setAttribute(QStringLiteral("parentIn"), pCore->getItemIn(m_model->getOwnerId()));
         doc.appendChild(effect);
-        for (int i = 0; i < m_model->rowCount(); ++i) {
-            QModelIndex ix = m_filter->mapFromSource(m_model->index(i, 0, QModelIndex()));
-            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
-            if (w) {
-                effect.appendChild(doc.importNode(w->toXml().documentElement(), true));
-            } else {
-                qDebug() << " / / / EFFECT ROW: " << i << " NOT FOUND!!";
+        for (int i : rowsToSave) {
+            auto item = std::static_pointer_cast<EffectItemModel>(m_model->getEffectStackRow(i));
+            if (i == rowsToSave.first() && item->isAudio()) {
+                effect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
             }
+            if (item->isBuiltIn() && !item->isAssetEnabled()) {
+                // Don't save disabled built-in
+                continue;
+            }
+            effect.appendChild(doc.importNode(item->toXml().documentElement(), true));
         }
         QFile file(dir.absoluteFilePath(effectfilename));
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {

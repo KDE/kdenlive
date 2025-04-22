@@ -407,3 +407,29 @@ bool EffectItemModel::hideFromStack() const
 
     return false;
 }
+
+QDomDocument EffectItemModel::toXml() const
+{
+    QDomDocument doc;
+    // Get base effect xml
+    QString effectId = getAssetId();
+    // Adjust param values
+    QVector<QPair<QString, QVariant>> currentValues = getAllParameters();
+
+    QDomElement effect = doc.createElement(QStringLiteral("effect"));
+    doc.appendChild(effect);
+    effect.setAttribute(QStringLiteral("id"), effectId);
+    if (isBuiltIn()) {
+        effect.setAttribute(QStringLiteral("buildtin"), QStringLiteral("1"));
+    }
+    for (const auto &param : std::as_const(currentValues)) {
+        QDomElement xmlParam = doc.createElement(QStringLiteral("property"));
+        effect.appendChild(xmlParam);
+        xmlParam.setAttribute(QStringLiteral("name"), param.first);
+        QString value;
+        value = param.second.toString();
+        QDomText val = doc.createTextNode(value);
+        xmlParam.appendChild(val);
+    }
+    return doc;
+}

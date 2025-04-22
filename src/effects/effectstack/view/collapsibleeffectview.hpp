@@ -62,8 +62,6 @@ public:
     void setActiveKeyframe(int kf);
     /** @brief Returns true if effect can be moved (false for speed effect). */
     bool isMovable() const;
-    /** @brief Returns the effect in xml format for saving. */
-    QDomDocument toXml() const;
     /** @brief Update monitor scene depending on effect enabled state. */
     void updateScene();
     void updateInOut(QPair<int, int> inOut, bool withUndo);
@@ -152,7 +150,6 @@ protected:
     void enterEvent(QEnterEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
-    void dropEvent(QDropEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
 Q_SIGNALS:

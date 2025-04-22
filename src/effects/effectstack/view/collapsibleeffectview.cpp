@@ -715,6 +715,9 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
             namedId.prepend(QStringLiteral("fadeout_"));
         }
         effect.setAttribute(QStringLiteral("id"), namedId);
+        if (m_model->isBuiltIn()) {
+            effect.setAttribute(QStringLiteral("buildtin"), QStringLiteral("1"));
+        }
         effect.setAttribute(QStringLiteral("type"), m_model->isAudio() ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
 
         QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
@@ -748,29 +751,6 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
         }
         Q_EMIT reloadEffect(dir.absoluteFilePath(fileName + QStringLiteral(".xml")));
     }
-}
-
-QDomDocument CollapsibleEffectView::toXml() const
-{
-    QDomDocument doc;
-    // Get base effect xml
-    QString effectId = m_model->getAssetId();
-    // Adjust param values
-    QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
-
-    QDomElement effect = doc.createElement(QStringLiteral("effect"));
-    doc.appendChild(effect);
-    effect.setAttribute(QStringLiteral("id"), effectId);
-    for (const auto &param : std::as_const(currentValues)) {
-        QDomElement xmlParam = doc.createElement(QStringLiteral("property"));
-        effect.appendChild(xmlParam);
-        xmlParam.setAttribute(QStringLiteral("name"), param.first);
-        QString value;
-        value = param.second.toString();
-        QDomText val = doc.createTextNode(value);
-        xmlParam.appendChild(val);
-    }
-    return doc;
 }
 
 void CollapsibleEffectView::slotResetEffect()
@@ -934,52 +914,6 @@ void CollapsibleEffectView::dragLeaveEvent(QDragLeaveEvent * /*event*/)
     QPalette pal = border_frame->palette();
     pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
     border_frame->setPalette(pal);
-}
-
-void CollapsibleEffectView::dropEvent(QDropEvent *event)
-{
-    QPalette pal = border_frame->palette();
-    pal.setColor(QPalette::Active, QPalette::Text, pal.shadow().color());
-    border_frame->setPalette(pal);
-    const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
-    // event->acceptProposedAction();
-    QDomDocument doc;
-    doc.setContent(effects);
-    QDomElement e = doc.documentElement();
-    int ix = e.attribute(QStringLiteral("kdenlive_ix")).toInt();
-    int currentEffectIx = effectIndex();
-    if (ix == currentEffectIx || e.attribute(QStringLiteral("id")) == QLatin1String("speed")) {
-        // effect dropped on itself, or unmovable speed dropped, reject
-        event->ignore();
-        return;
-    }
-    if (ix == 0 || e.tagName() == QLatin1String("effectgroup")) {
-        if (e.tagName() == QLatin1String("effectgroup")) {
-            // moving a group
-            QDomNodeList subeffects = e.elementsByTagName(QStringLiteral("effect"));
-            if (subeffects.isEmpty()) {
-                event->ignore();
-                return;
-            }
-            event->setDropAction(Qt::MoveAction);
-            event->accept();
-            Q_EMIT addEffect(e);
-            return;
-        }
-        // effect dropped from effects list, add it
-        e.setAttribute(QStringLiteral("kdenlive_ix"), ix);
-        /*if (m_info.groupIndex > -1) {
-            // Dropped on a group
-            e.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
-        }*/
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
-        Q_EMIT addEffect(e);
-        return;
-    }
-    // Q_EMIT moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
-    event->setDropAction(Qt::MoveAction);
-    event->accept();
 }
 
 void CollapsibleEffectView::adjustButtons(int ix, int max)
