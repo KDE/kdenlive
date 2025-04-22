@@ -58,6 +58,8 @@ public:
     void setInOut(const QString &effectName, QPair<int, int> bounds, bool enabled, bool withUndo);
     /** @brief This is a built-in asset */
     void setBuiltIn();
+    /** @brief Returns the effect in xml format for saving. */
+    QDomDocument toXml() const;
 
 protected:
     EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,
