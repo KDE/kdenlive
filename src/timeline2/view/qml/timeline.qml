@@ -736,6 +736,7 @@ Rectangle {
                     timeline.insertNewCompositionAtPos(track, frame, clipBeingDroppedData)
                 } else {
                     // Cannot insert an audio mix composition
+                    // TODO: show warning
                 }
             }
             clearDropData()

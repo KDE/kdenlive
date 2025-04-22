@@ -103,7 +103,12 @@ QMimeData *TransitionTreeModel::mimeData(const QModelIndexList &indexes) const
     QMimeData *mimeData = new QMimeData;
     std::shared_ptr<TreeItem> item = getItemById(int(indexes.first().internalId()));
     if (item) {
-        mimeData->setData(QStringLiteral("kdenlive/composition"), item->dataColumn(AssetTreeModel::IdCol).toString().toUtf8());
+        const QString assetId = item->dataColumn(AssetTreeModel::IdCol).toString();
+        mimeData->setData(QStringLiteral("kdenlive/composition"), assetId.toUtf8());
+        AssetListType::AssetType type = TransitionsRepository::get()->getType(assetId);
+        if (type == AssetListType::AssetType::AudioTransition) {
+            mimeData->setData(QStringLiteral("type"), "audio");
+        }
     }
     return mimeData;
 }
