@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-21 00:40+0000\n"
-"PO-Revision-Date: 2025-04-19 19:45+0100\n"
+"PO-Revision-Date: 2025-04-21 12:09+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -4227,8 +4227,8 @@ msgstr "Interpolador Hq*X"
 #, kde-format
 msgid "Scale the input by 2, 3 or 4 using the hq*x magnification algorithm"
 msgstr ""
-"Permite escalar la entrada por 2, 3 o 4, usando el algoritmo de ampliación "
-"hq*x"
+"Permite escalar la imagen de un clip por 2, 3 o 4, usando el algoritmo de "
+"ampliación hq*x"
 
 #: data/effects/avfilter/avfilter_hqx.xml:8
 #, kde-format
@@ -21269,7 +21269,7 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:585 src/doc/kdenlivedoc.cpp:595
 #, kde-format
 msgid "Cannot create autosave file %1"
-msgstr "No es posible crear el archivo de autoguardado %1"
+msgstr "No es posible crear el archivo de guardado automático %1"
 
 #: src/doc/kdenlivedoc.cpp:590 src/doc/kdenlivedoc.cpp:727
 #, kde-format
@@ -22558,10 +22558,9 @@ msgstr "Ordenar áreas empotradas en columnas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/layoutmanagement.cpp:85 src/ui/configmisc_ui.ui:344
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgid "Auto Save"
-msgstr "Guardar"
+msgstr "Guardado automático"
 
 #: src/layoutmanagement.cpp:198
 #, kde-format
@@ -25970,20 +25969,16 @@ msgid "Exit Preview Mode"
 msgstr "Salir de modo de previsualización"
 
 #: src/monitor/view/MonitorAutomask.qml:295
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Click on an object or draw a box to start a mask.\n"
-#| "Shift+click to include another zone.\n"
-#| "Ctrl+click to exclude a zone."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Click</shortcut> or <shortcut>drag a box</shortcut> to start a "
 "mask, <shortcut>Shift+click</shortcut> to include another zone, "
 "<shortcut>Ctrl+click</shortcut> to exclude a zone."
 msgstr ""
-"Hacer clic sobre un objeto o dibujar un marco para iniciar una máscara.\n"
-"Mayús+clic para incluir una nueva zona.\n"
-"Ctrl+clic para excluir una zona."
+"<shortcut>Hacer clic</shortcut> o <shortcut>dibujar un marco</shortcut> para "
+"iniciar una máscara, <shortcut>Mayús+clic</shortcut> para incluir una nueva "
+"zona, <shortcut>Ctrl+clic</shortcut> para excluir una zona."
 
 #: src/monitor/view/MonitorAutomask.qml:397
 #, kde-format
@@ -26839,12 +26834,12 @@ msgstr "Recuperar archivo de respaldo"
 #: src/project/dialogs/backupwidget.cpp:22
 #, kde-format
 msgid "Showing all backup files in folder"
-msgstr "Mostrando todos los archivos de respaldo en la carpeta"
+msgstr "Se muestran todos los archivos de respaldo en la carpeta"
 
 #: src/project/dialogs/backupwidget.cpp:25
 #, kde-format
 msgid "Showing backup files for %1"
-msgstr "Mostrando archivos de respaldo de %1"
+msgstr "Se muestran los archivos de respaldo de %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
 #, kde-format
@@ -27647,7 +27642,7 @@ msgstr "Guardar copia"
 #: src/project/projectmanager.cpp:755
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
-msgstr "Existe un archivo autoguardado. ¿Recuperarlo ahora?"
+msgstr "Existe un archivo de guardado automático. ¿Recuperarlo ahora?"
 
 #: src/project/projectmanager.cpp:755
 #, kde-format
@@ -32296,28 +32291,25 @@ msgstr "Abrir el último proyecto al iniciar"
 #: src/ui/configmisc_ui.ui:37
 #, kde-format
 msgid "Every"
-msgstr ""
+msgstr "Cada"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_time)
 #: src/ui/configmisc_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Milliseconds"
+#, kde-format
 msgid " seconds"
-msgstr "Milisegundos"
+msgstr " segundos"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configmisc_ui.ui:57
-#, fuzzy, kde-format
-#| msgid "Form"
+#, kde-format
 msgid "or"
-msgstr "Forma"
+msgstr "o"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_ops)
 #: src/ui/configmisc_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Alpha operations"
+#, kde-format
 msgid " operations"
-msgstr "Operaciones de canal alfa"
+msgstr " operaciones"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:86
@@ -35740,6 +35732,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Activate crash recovery (auto save)"
-#~ msgstr "Activar recuperación ante un error (autoguardado)"

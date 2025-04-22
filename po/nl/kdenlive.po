@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-21 00:40+0000\n"
-"PO-Revision-Date: 2025-04-20 16:33+0200\n"
+"PO-Revision-Date: 2025-04-21 14:46+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5068,6 +5068,8 @@ msgid ""
 "Flush video frames from internal cache of frames into a random order. No "
 "frame is discarded. Inspired by frei0r nervous filter."
 msgstr ""
+"Verwijdert videoframes uit de interne cache met frames in een willekeurige "
+"volgorde. Geïnspireerd door het \"nerveuze\" filter van frei0r."
 
 #: data/effects/avfilter/avfilter_random.xml:8
 #, kde-format
@@ -5088,26 +5090,28 @@ msgstr "Verwijdering van korreligheid"
 #, kde-format
 msgid "The removegrain filter is a spatial denoiser for progressive video"
 msgstr ""
+"Het filter korrel verwijderen is een ruimtelijke ruisverwijderaar voor "
+"progressieve video"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:8
 #, kde-format
 msgid "Mode for 1st plane"
-msgstr ""
+msgstr "Modus voor eerste vlak"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:11
 #, kde-format
 msgid "Mode for 2nd plane"
-msgstr ""
+msgstr "Modus voor tweede vlak"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:14
 #, kde-format
 msgid "Mode for 3rd plane"
-msgstr ""
+msgstr "Modus voor derde vlak"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:17
 #, kde-format
 msgid "Mode for 4th plane"
-msgstr ""
+msgstr "Modus voor vierde vlak"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:4
 #, kde-format
@@ -5117,7 +5121,7 @@ msgstr "RGBA-verschuiving"
 #: data/effects/avfilter/avfilter_rgbashift.xml:5
 #, kde-format
 msgid "Shift R/G/B/A pixels horizontally and/or vertically"
-msgstr ""
+msgstr "R/G/B/A pixels horizontaal en/of verticaal verschuiven"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
 #, kde-format
@@ -5172,7 +5176,7 @@ msgstr "Roberts"
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
 msgid "Apply roberts cross operator to input video stream"
-msgstr ""
+msgstr "Roberts kruisoperator toepassen op invoervideostream"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
@@ -5234,7 +5238,7 @@ msgstr "CMYK-aanpassing"
 #: data/effects/avfilter/avfilter_selectivecolor.xml:5
 #, kde-format
 msgid "Apply CMYK correction to specific color ranges"
-msgstr ""
+msgstr "CMYK-correctie toepassen op specifieke kleurreeksen"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
 #, kde-format
@@ -5303,6 +5307,9 @@ msgid ""
 "fields, producing a new half height clip with twice the frame rate and twice "
 "the frame count. "
 msgstr ""
+"Het neemt een op frames gebaseerde video-invoer en splitst elk frame in zijn "
+"componentenvelden, die een nieuwe halfhoge clip produceert met tweemaal de "
+"framesnelheid en tweemaal het aantal frames. "
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
 #, kde-format
