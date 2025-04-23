@@ -27,6 +27,32 @@ GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, 
     connect(angle, &QAbstractSlider::valueChanged, this, &GradientWidget::updatePreview);
     connect(color1, &KColorButton::changed, this, &GradientWidget::updatePreview);
     connect(color2, &KColorButton::changed, this, &GradientWidget::updatePreview);
+    connect(color1_pos, &QAbstractSlider::sliderMoved, this, [this](int pos) {
+        QSignalBlocker bk(color1_spin);
+        color1_spin->setValue(pos);
+    });
+    connect(color2_pos, &QAbstractSlider::sliderMoved, this, [this](int pos) {
+        QSignalBlocker bk(color2_spin);
+        color2_spin->setValue(pos);
+    });
+    connect(angle, &QAbstractSlider::sliderMoved, this, [this](int pos) {
+        QSignalBlocker bk(angle_spin);
+        angle_spin->setValue(pos);
+    });
+
+    connect(color1_spin, &QSpinBox::valueChanged, this, [this](int value) {
+        QSignalBlocker bk(color1_pos);
+        color1_pos->setValue(value);
+    });
+    connect(color2_spin, &QSpinBox::valueChanged, this, [this](int value) {
+        QSignalBlocker bk(color2_pos);
+        color2_pos->setValue(value);
+    });
+    connect(angle_spin, &QSpinBox::valueChanged, this, [this](int value) {
+        QSignalBlocker bk(angle);
+        angle->setValue(value);
+    });
+
     connect(add_gradient, SIGNAL(clicked()), this, SLOT(saveGradient()));
     connect(remove_gradient, &QAbstractButton::clicked, this, &GradientWidget::deleteGradient);
     QFontMetrics metrics(font());
@@ -180,9 +206,9 @@ void GradientWidget::loadGradient()
     }
     color1->setColor(QColor(res.at(0)));
     color2->setColor(QColor(res.at(1)));
-    color1_pos->setValue(res.at(2).toInt());
-    color2_pos->setValue(res.at(3).toInt());
-    angle->setValue(res.at(4).toInt());
+    color1_spin->setValue(res.at(2).toInt());
+    color2_spin->setValue(res.at(3).toInt());
+    angle_spin->setValue(res.at(4).toInt());
 }
 
 QMap<QString, QString> GradientWidget::gradients() const

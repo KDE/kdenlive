@@ -34,7 +34,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <number>100</number>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
@@ -74,12 +74,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <number>100</number>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
-   </item>
-   <item row="4" column="0" colspan="5">
-    <widget class="QListWidget" name="gradient_list"/>
    </item>
    <item row="0" column="0" colspan="6">
     <widget class="QLabel" name="preview">
@@ -113,7 +110,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <number>90</number>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
@@ -137,10 +134,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="6" column="3" colspan="3">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
      </property>
     </widget>
    </item>
@@ -181,6 +178,30 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
      <property name="alphaChannelEnabled">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="5">
+    <widget class="QSpinBox" name="angle_spin">
+     <property name="maximum">
+      <number>180</number>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="6">
+    <widget class="QListWidget" name="gradient_list"/>
+   </item>
+   <item row="2" column="5">
+    <widget class="QSpinBox" name="color2_spin">
+     <property name="maximum">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5">
+    <widget class="QSpinBox" name="color1_spin">
+     <property name="maximum">
+      <number>100</number>
      </property>
     </widget>
    </item>
