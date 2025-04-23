@@ -266,6 +266,7 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         QColor outlineColor = variant.value<QColor>();
         QPen pen(outlineColor);
         pen.setWidthF(outline);
+        pen.setJoinStyle(Qt::RoundJoin);
         painter->strokePath(m_path.simplified(), pen);
     }
     if (TITLERVERSION >= 300) {
