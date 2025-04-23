@@ -87,6 +87,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUndoCommand>
 #include <QUrl>
 #include <QVBoxLayout>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include <memory>
 #include <utility>
@@ -5068,7 +5069,13 @@ void Bin::reloadAllProducers(bool reloadThumbs)
 
 void Bin::checkAudioThumbs()
 {
-    if (!KdenliveSettings::audiothumbnails() || m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0 || !isEnabled()) {
+    if (m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0 || !isEnabled()) {
+        return;
+    }
+    if (!KdenliveSettings::audiothumbnails()) {
+        // Abort all thumbs jobs if any
+        // pCore->taskManager.discardJobsByType(AbstractTask::AUDIOTHUMBJOB);
+        QtConcurrent::run(&TaskManager::discardJobsByType, &pCore->taskManager, AbstractTask::AUDIOTHUMBJOB);
         return;
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();

@@ -44,6 +44,45 @@ void TaskManager::updateConcurrency()
     m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
+void TaskManager::discardJobsByType(AbstractTask::JOBTYPE jobType)
+{
+    if (m_blockUpdates) {
+        // We are already deleting all tasks
+        return;
+    }
+    m_tasksListLock.lockForWrite();
+    m_blockUpdates = true;
+    int cnt = 0;
+    for (const auto &task : m_taskList) {
+        int ix = task.second.size() - 1;
+        cnt++;
+        while (ix >= 0) {
+            AbstractTask *t = task.second.at(ix);
+            if (t->m_type != jobType) {
+                // Ignore
+                ix--;
+                continue;
+            }
+            if (m_taskPool.tryTake(t)) {
+                // Task was not started yet, we can simply delete
+                m_taskList[task.first].erase(std::remove(m_taskList[task.first].begin(), m_taskList[task.first].end(), t), m_taskList[task.first].end());
+                delete t;
+            } else {
+                t->cancelJob();
+            }
+            ix--;
+        }
+    }
+    int count = 0;
+    for (const auto &task : m_taskList) {
+        count += task.second.size();
+    }
+    m_blockUpdates = false;
+    m_tasksListLock.unlock();
+    // Set jobs count
+    Q_EMIT jobCount(count);
+}
+
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete, const QVector<AbstractTask::JOBTYPE> exceptions)
 {
     if (m_blockUpdates) {
