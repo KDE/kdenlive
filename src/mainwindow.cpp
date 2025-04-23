@@ -145,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent)
     kdenliveCategoryMap.insert(QStringLiteral("bintags"), category);
 }
 
-void MainWindow::init(const QString &mltPath)
+void MainWindow::init()
 {
     QString desktopStyle = QApplication::style()->objectName();
     // Load themes
@@ -157,8 +157,6 @@ void MainWindow::init(const QString &mltPath)
     new RenderServer(this);
     QString defaultProfile = KdenliveSettings::default_profile();
 
-    // Initialise MLT connection
-    MltConnection::construct(mltPath);
     pCore->setCurrentProfile(defaultProfile.isEmpty() ? ProjectManager::getDefaultProjectFormat() : defaultProfile);
     m_commandStack = new QUndoGroup();
 

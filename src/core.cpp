@@ -155,6 +155,21 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
 {
     m_mainWindow = new MainWindow();
 
+    // The MLT Factory will be initiated there, all MLT classes will be usable only after this
+    bool inSandbox = m_packageType == LinuxPackageType::AppImage || m_packageType == LinuxPackageType::Flatpak || m_packageType == LinuxPackageType::Snap;
+    if (inSandbox) {
+        // In a sandbox environment we need to search some paths recursively
+        QString appPath = qApp->applicationDirPath();
+        KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
+        KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
+        KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
+        KdenliveSettings::setMeltpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
+        MltConnection::construct(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
+    } else {
+        // Open connection with Mlt
+        MltConnection::construct(MltPath);
+    }
+
     // TODO Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
@@ -174,21 +189,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
 
     m_monitorManager = new MonitorManager(this);
     projectManager()->init(Url, clipsToLoad);
-
-    // The MLT Factory will be initiated there, all MLT classes will be usable only after this
-    bool inSandbox = m_packageType == LinuxPackageType::AppImage || m_packageType == LinuxPackageType::Flatpak || m_packageType == LinuxPackageType::Snap;
-    if (inSandbox) {
-        // In a sandbox environment we need to search some paths recursively
-        QString appPath = qApp->applicationDirPath();
-        KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
-        KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
-        KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
-        KdenliveSettings::setMeltpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
-        m_mainWindow->init(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
-    } else {
-        // Open connection with Mlt
-        m_mainWindow->init(MltPath);
-    }
+    m_mainWindow->init();
 
     // Secondary bins
     for (int i = 1; i < KdenliveSettings::binsCount(); i++) {
