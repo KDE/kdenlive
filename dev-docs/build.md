@@ -65,8 +65,13 @@ libkf6solid-dev libkf6textwidgets-dev libkf6widgetsaddons-dev libkf6xmlgui-dev
 # Multimedia stack
 sudo apt install frei0r-plugins ffmpeg mediainfo
 
-# Additional multimedia libraries
-sudo apt install libavformat-dev libavcodec-dev libswresample-dev libavutil-dev
+sudo apt install  ladspa-sdk libfftw3-dev libsdl1.2-dev libxine2-dev debhelper libarchive-dev libgdk-pixbuf-2.0-dev libsdl2-dev libxml2-dev   libavdevice-dev librtaudio-dev libsox-dev frei0r-plugins-dev libdv4-dev libmovit-dev librubberband-dev libswscale-dev imagemagick libebur128-dev libopencv-dev libsamplerate0-dev libvidstab-dev  imagemagick-6.q16 libexif-dev libpango1.0-dev libsdl1.2-compat-dev libvorbis-dev libavformat-dev libavcodec-dev libswresample-dev libavutil-dev
+
+# Additionnal libraries
+
+sudo apt install chrpath debhelper dh-python libxml2-dev python3-dev swig
+
+
 
 # Dependencies for localization
 sudo apt install ruby subversion gnupg2 gettext
