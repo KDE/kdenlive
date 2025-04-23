@@ -236,42 +236,48 @@ bool MyTextItem::sceneEvent(QEvent *event)
 
 void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
 {
+    int outline = data(TitleDocument::OutlineWidth).toInt();
     if ((textInteractionFlags() & static_cast<int>((Qt::TextEditable) != 0)) != 0) {
         document()->setDocumentMargin(0);
         QGraphicsTextItem::paint(painter, option, w);
+        if (outline == 0) {
+            // If there is no outline, stop here. Otherwise we paint again with our custom
+            // code to avoid the QGraphicsTextItem issue that paints the outline over the letters
+            return;
+        }
+    }
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    QString gradientData = data(TitleDocument::Gradient).toString();
+    QTextCursor cursor(document());
+    cursor.select(QTextCursor::Document);
+    QBrush paintBrush;
+    if (gradientData.isEmpty()) {
+        paintBrush = QBrush(cursor.charFormat().foreground().color());
     } else {
-        painter->setRenderHint(QPainter::Antialiasing);
-        int outline = data(TitleDocument::OutlineWidth).toInt();
-        QString gradientData = data(TitleDocument::Gradient).toString();
-        QTextCursor cursor(document());
-        cursor.select(QTextCursor::Document);
-        QBrush paintBrush;
-        if (gradientData.isEmpty()) {
-            paintBrush = QBrush(cursor.charFormat().foreground().color());
-        } else {
-            QRectF rect = boundingRect();
-            paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height())));
-        }
-        if (TITLERVERSION < 300) {
-            painter->fillPath(m_path, paintBrush);
-        }
-        if (outline > 0) {
-            QVariant variant = data(TitleDocument::OutlineColor);
-            QColor outlineColor = variant.value<QColor>();
-            QPen pen(outlineColor);
-            pen.setWidthF(outline);
-            painter->strokePath(m_path.simplified(), pen);
-        }
-        if (TITLERVERSION >= 300) {
-            painter->fillPath(m_path, paintBrush);
-        }
-        document()->setDocumentMargin(toPlainText().isEmpty() ? 6 : 0);
-        if (isSelected() || toPlainText().isEmpty()) {
-            QPen pen(isSelected() ? Qt::red : Qt::blue);
-            pen.setStyle(Qt::DashLine);
-            painter->setPen(pen);
-            painter->drawRect(boundingRect());
-        }
+        QRectF rect = boundingRect();
+        paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height())));
+    }
+    if (TITLERVERSION < 300) {
+        painter->fillPath(m_path, paintBrush);
+    }
+    if (outline > 0) {
+        QVariant variant = data(TitleDocument::OutlineColor);
+        QColor outlineColor = variant.value<QColor>();
+        QPen pen(outlineColor);
+        pen.setWidthF(outline);
+        pen.setJoinStyle(Qt::RoundJoin);
+        painter->strokePath(m_path.simplified(), pen);
+    }
+    if (TITLERVERSION >= 300) {
+        painter->fillPath(m_path, paintBrush);
+    }
+    document()->setDocumentMargin(toPlainText().isEmpty() ? 6 : 0);
+    if (isSelected() || toPlainText().isEmpty()) {
+        QPen pen(isSelected() ? Qt::red : Qt::blue);
+        pen.setStyle(Qt::DashLine);
+        painter->setPen(pen);
+        painter->drawRect(boundingRect());
     }
 }
 
@@ -321,6 +327,7 @@ void MyTextItem::updateShadow()
     if (outline > 0) {
         QPainterPathStroker strokePath;
         strokePath.setWidth(outline);
+        strokePath.setJoinStyle(Qt::RoundJoin);
         QPainterPath stroke = strokePath.createStroke(path);
         path.addPath(stroke);
     }

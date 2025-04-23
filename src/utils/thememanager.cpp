@@ -7,6 +7,7 @@
 // Qt includes
 
 #include "thememanager.h"
+#include "core.h"
 
 #include <QFileInfo>
 #include <QMenu>
@@ -41,6 +42,10 @@ ThemeManager::ThemeManager(QObject *parent)
     activateScheme(indexForScheme(scheme));
     m_menu = KColorSchemeMenu::createMenu(this, this);
     connect(m_menu->menu(), &QMenu::triggered, this, &ThemeManager::schemeActionTriggered);
+    if (!scheme.isEmpty()) {
+        // We are not using the default color theme, ensure icons have correct color
+        Q_EMIT pCore->updatePalette();
+    }
 }
 
 QString ThemeManager::loadCurrentPath() const
