@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>1096</width>
-    <height>726</height>
+    <height>852</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -222,63 +222,44 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <property name="verticalSpacing">
        <number>0</number>
       </property>
-      <item row="0" column="8">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>82</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="10">
-       <widget class="QToolButton" name="zDown">
+      <item row="0" column="11">
+       <widget class="QToolButton" name="zBottom">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QSpinBox" name="value_x">
+      <item row="0" column="8">
+       <widget class="QToolButton" name="zUp">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7">
+       <widget class="QSpinBox" name="value_h">
         <property name="minimum">
-         <number>-99999</number>
+         <number>0</number>
         </property>
         <property name="maximum">
          <number>99999</number>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="origin_x_left">
+      <item row="0" column="10">
+       <widget class="QToolButton" name="zTop">
         <property name="text">
-         <string>+X</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
+         <string/>
         </property>
        </widget>
       </item>
-      <item row="0" column="14">
-       <widget class="QSpinBox" name="zValue">
+      <item row="0" column="3">
+       <widget class="QSpinBox" name="value_y">
         <property name="minimum">
-         <number>-5000</number>
+         <number>-99999</number>
         </property>
         <property name="maximum">
-         <number>5000</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="13">
-       <widget class="QLabel" name="label_zIndex">
-        <property name="text">
-         <string>Z-Index:</string>
+         <number>99999</number>
         </property>
        </widget>
       </item>
@@ -295,41 +276,37 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="0" column="7">
-       <widget class="QSpinBox" name="value_h">
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="value_x">
         <property name="minimum">
-         <number>0</number>
+         <number>-99999</number>
         </property>
         <property name="maximum">
          <number>99999</number>
         </property>
        </widget>
       </item>
-      <item row="0" column="6">
-       <widget class="QLabel" name="label_height">
-        <property name="text">
-         <string>H:</string>
+      <item row="0" column="13">
+       <widget class="QSpinBox" name="zValue">
+        <property name="minimum">
+         <number>-5000</number>
+        </property>
+        <property name="maximum">
+         <number>5000</number>
         </property>
        </widget>
       </item>
-      <item row="0" column="11">
-       <widget class="QToolButton" name="zTop">
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_width">
         <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="9">
-       <widget class="QToolButton" name="zUp">
-        <property name="text">
-         <string/>
+         <string>W:</string>
         </property>
        </widget>
       </item>
       <item row="0" column="12">
-       <widget class="QToolButton" name="zBottom">
+       <widget class="QLabel" name="label_zIndex">
         <property name="text">
-         <string/>
+         <string>Z-Index:</string>
         </property>
        </widget>
       </item>
@@ -343,20 +320,30 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="label_width">
+      <item row="0" column="9">
+       <widget class="QToolButton" name="zDown">
         <property name="text">
-         <string>W:</string>
+         <string/>
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QSpinBox" name="value_y">
-        <property name="minimum">
-         <number>-99999</number>
+      <item row="0" column="6">
+       <widget class="QLabel" name="label_height">
+        <property name="text">
+         <string>H:</string>
         </property>
-        <property name="maximum">
-         <number>99999</number>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="origin_x_left">
+        <property name="text">
+         <string>+X</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -832,8 +819,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>339</width>
-                    <height>674</height>
+                    <width>361</width>
+                    <height>678</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -1821,14 +1808,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>TimecodeDisplay</class>
-   <extends>QAbstractSpinBox</extends>
-   <header>widgets/timecodedisplay.h</header>
-  </customwidget>
-  <customwidget>
    <class>KColorButton</class>
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QAbstractSpinBox</extends>
+   <header>widgets/timecodedisplay.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -327,6 +327,7 @@ void MyTextItem::updateShadow()
     if (outline > 0) {
         QPainterPathStroker strokePath;
         strokePath.setWidth(outline);
+        strokePath.setJoinStyle(Qt::RoundJoin);
         QPainterPath stroke = strokePath.createStroke(path);
         path.addPath(stroke);
     }
