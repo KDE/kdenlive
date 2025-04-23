@@ -73,13 +73,13 @@ add_subdirectory(transitions)
 add_subdirectory(utils)
 add_subdirectory(widgets)
 add_subdirectory(xml)
+add_subdirectory(layouts)
 
 ## toplevel source code files
 list(APPEND kdenlive_SRCS
     core.cpp
     definitions.cpp
     docktitlebarmanager.cpp
-    layoutmanagement.cpp
     mainwindow.cpp
     mltconnection.cpp
     statusbarmessagelabel.cpp

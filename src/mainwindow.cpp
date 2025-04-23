@@ -34,7 +34,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jobs/stabilizetask.h"
 #include "jobs/transcodetask.h"
 #include "kdenlivesettings.h"
-#include "layoutmanagement.h"
+#include "layouts/layoutmanagement.h"
 #include "library/librarywidget.h"
 #include "render/renderserver.h"
 
@@ -766,7 +766,7 @@ void MainWindow::init(const QString &mltPath)
 
     if (firstRun) {
         // Load editing layout
-        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"), true);
+        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"));
     }
 
 #ifdef USE_JOGSHUTTLE
