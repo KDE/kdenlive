@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-21 00:40+0000\n"
+"POT-Creation-Date: 2025-04-23 00:41+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -6738,7 +6738,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:370
 #, kde-format
 msgid "Zoom"
 msgstr "Lähennys"
@@ -11655,7 +11655,7 @@ msgid ""
 "zoom out. 0 hides it.]]>"
 msgstr ""
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:374
 #, kde-format
 msgid "Background opacity"
 msgstr "Taustan peittävyys"
@@ -15919,7 +15919,7 @@ msgstr ""
 "\n"
 "O:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1008
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1009
 #, kde-format
 msgid "Master"
 msgstr "Taso"
@@ -16833,7 +16833,7 @@ msgstr ""
 "Muokkaat ulkoista tekstileikettä (%1). Haluatko tallentaa muutokset myös "
 "tekstitiedostoon vai ainoastaan tähän projektiin?"
 
-#: src/bin/bin.cpp:4755 src/titler/titlewidget.cpp:2249
+#: src/bin/bin.cpp:4755 src/titler/titlewidget.cpp:2243
 #, kde-format
 msgid "Save Title"
 msgstr "Tallenna teksti"
@@ -17313,7 +17313,7 @@ msgstr "Siirrä tekstitys"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:762
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17324,8 +17324,7 @@ msgstr ""
 "Tiedosto %1 on jo olemassa.\n"
 "Korvataanko?"
 
-#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:393
-#: src/titler/titlewidget.cpp:396
+#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:400
 #, kde-format
 msgid "Add Text"
 msgstr "Lisää teksti"
@@ -17407,7 +17406,7 @@ msgstr "Virheellinen"
 
 #: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1503
+#: src/timeline2/model/timelinefunctions.cpp:1507
 #, kde-format
 msgid "File already exists"
 msgstr "Tiedosto on jo olemassa"
@@ -18293,8 +18292,8 @@ msgstr "Vie opastetiedot"
 #: src/effects/effectlist/model/effecttreemodel.cpp:301
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:800
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:748
+#: src/effects/effectstack/view/effectstackview.cpp:805
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18306,7 +18305,7 @@ msgstr "Vie opastetiedot"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2262
+#: src/titler/titlewidget.cpp:2256
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Tiedostoon %1 ei voida kirjoittaa"
@@ -18595,38 +18594,38 @@ msgid ""
 "open."
 msgstr "Projektin ollessa auki sen profiilia ei voi muokata."
 
-#: src/dialogs/proxytest.cpp:31
+#: src/dialogs/proxytest.cpp:32
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
 msgstr "Vertaa välityspalvelimen profiilia"
 
-#: src/dialogs/proxytest.cpp:32
+#: src/dialogs/proxytest.cpp:33
 #, kde-format
 msgid "Test Proxy Profiles"
 msgstr "Testaa välityspalvelimen profiilia"
 
-#: src/dialogs/proxytest.cpp:35
+#: src/dialogs/proxytest.cpp:36
 #, kde-format
 msgid "Failing profiles"
 msgstr "Epäonnistuneet profiilit"
 
-#: src/dialogs/proxytest.cpp:50
+#: src/dialogs/proxytest.cpp:51
 #, kde-format
 msgid "Starting process"
 msgstr "Aloitetaan käsittelyä"
 
-#: src/dialogs/proxytest.cpp:115 src/dialogs/proxytest.cpp:152
+#: src/dialogs/proxytest.cpp:116 src/dialogs/proxytest.cpp:153
 #, kde-format
 msgid "Cannot create temporary files"
 msgstr "Väliaikaisia tiedostoja ei voitu luoda"
 
-#: src/dialogs/proxytest.cpp:121
+#: src/dialogs/proxytest.cpp:122
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
 msgstr "Luodaan 60 sekunnin testivideo %1"
 
-#: src/dialogs/proxytest.cpp:145
+#: src/dialogs/proxytest.cpp:146
 #, kde-format
 msgid "Processing %1"
 msgstr "Laskenta %1"
@@ -21927,8 +21926,8 @@ msgid "No name provided, effect not saved."
 msgstr "Nimeä ei ole annettu, tehostetta ei tallennettu."
 
 #: src/effects/effectstack/view/effectstackview.cpp:350
-#: src/effects/effectstack/view/effectstackview.cpp:888
-#: src/effects/effectstack/view/effectstackview.cpp:975
+#: src/effects/effectstack/view/effectstackview.cpp:893
+#: src/effects/effectstack/view/effectstackview.cpp:980
 #, fuzzy, kde-format
 #| msgid "Remove group"
 msgid "Remove Background"
@@ -21957,30 +21956,30 @@ msgstr "Poista tehostepino käytöstä"
 msgid "No effect selected."
 msgstr "Tehostetta ei ole valittu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:725
+#: src/effects/effectstack/view/effectstackview.cpp:733
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Tallenna tehostepino"
 
-#: src/effects/effectstack/view/effectstackview.cpp:730
+#: src/effects/effectstack/view/effectstackview.cpp:738
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Pinon nimi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:731
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Kuvaus:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:743
+#: src/effects/effectstack/view/effectstackview.cpp:751
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Nimeä ei annettu, tehostepinoa ei tallennettu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:750
+#: src/effects/effectstack/view/effectstackview.cpp:758
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21989,29 +21988,29 @@ msgstr ""
 "Kuvausta ei ole annettu.\n"
 "Tallennetaanko tehoste kuvauksetta?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:885
-#: src/effects/effectstack/view/effectstackview.cpp:911
+#: src/effects/effectstack/view/effectstackview.cpp:890
+#: src/effects/effectstack/view/effectstackview.cpp:916
 #, fuzzy, kde-format
 #| msgid "Exit Mask Creation"
 msgid "Abort Mask Creation"
 msgstr "Lopeta maskin luominen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:958
+#: src/effects/effectstack/view/effectstackview.cpp:963
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "Vaakakääntö"
 
-#: src/effects/effectstack/view/effectstackview.cpp:964
+#: src/effects/effectstack/view/effectstackview.cpp:969
 #, kde-format
 msgid "Vertical Flip"
 msgstr "Pystykääntö"
 
-#: src/effects/effectstack/view/effectstackview.cpp:976
+#: src/effects/effectstack/view/effectstackview.cpp:981
 #, kde-format
 msgid "Remove background using AI model"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:989
+#: src/effects/effectstack/view/effectstackview.cpp:994
 #, kde-format
 msgid "Flip"
 msgstr "Pyöräytä"
@@ -23568,8 +23567,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Vaihtaa tekstitysraidan aikajanalla."
 
-#: src/mainwindow.cpp:1222 src/titler/titlewidget.cpp:386
-#: src/titler/titlewidget.cpp:389
+#: src/mainwindow.cpp:1222 src/titler/titlewidget.cpp:394
 #, kde-format
 msgid "Selection Tool"
 msgstr "Valintatyökalu"
@@ -24219,7 +24217,7 @@ msgstr "Poista merkki"
 msgid "Edit Marker…"
 msgstr "Muokkaa merkkiä…"
 
-#: src/mainwindow.cpp:1735 src/timeline2/model/timelinefunctions.cpp:1220
+#: src/mainwindow.cpp:1735 src/timeline2/model/timelinefunctions.cpp:1224
 #, kde-format
 msgid "Restore Audio"
 msgstr "Palauta ääni"
@@ -24629,7 +24627,7 @@ msgstr "Luo uudelleen"
 
 #: src/mainwindow.cpp:2186 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2239
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -27381,8 +27379,7 @@ msgid_plural "%1 images found"
 msgstr[0] "1 kuva löydetty"
 msgstr[1] "%1 kuvaa löydetty"
 
-#: src/project/dialogs/projectsettings.cpp:813 src/titler/titlewidget.cpp:425
-#: src/titler/titlewidget.cpp:428
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Save As"
 msgstr "Tallenna nimellä"
@@ -29286,100 +29283,100 @@ msgstr "Aktivoi raita napsauttamalla raidan nimeä"
 msgid "No clip selected"
 msgstr "Leikettä ei ole valittu"
 
-#: src/timeline2/model/timelinefunctions.cpp:1018
+#: src/timeline2/model/timelinefunctions.cpp:1022
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Valittua ryhmää ei voi siirtää"
 
-#: src/timeline2/model/timelinefunctions.cpp:1119
 #: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1130
+#: src/timeline2/model/timelinefunctions.cpp:1127
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #: src/timeline2/view/timelinecontroller.cpp:3991
 #, kde-format
 msgid "Enable clip"
 msgstr "Käytä leikettä"
 
-#: src/timeline2/model/timelinefunctions.cpp:1119
 #: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1130
+#: src/timeline2/model/timelinefunctions.cpp:1127
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #: src/timeline2/view/timelinecontroller.cpp:3991
 #, kde-format
 msgid "Disable clip"
 msgstr "Poista leike käytöstä"
 
-#: src/timeline2/model/timelinefunctions.cpp:1172
+#: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Vähintään yhdellä leikkeellä ei ole ääntä tai ne ovat jo äänillä"
 
-#: src/timeline2/model/timelinefunctions.cpp:1197
-#: src/timeline2/model/timelinefunctions.cpp:1213
+#: src/timeline2/model/timelinefunctions.cpp:1201
+#: src/timeline2/model/timelinefunctions.cpp:1217
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Äänen palautus epäonnistui"
 
-#: src/timeline2/model/timelinefunctions.cpp:1252
+#: src/timeline2/model/timelinefunctions.cpp:1256
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Palautusta varten ei ole käytettävissä videoraitaa"
 
-#: src/timeline2/model/timelinefunctions.cpp:1260
-#: src/timeline2/model/timelinefunctions.cpp:1273
+#: src/timeline2/model/timelinefunctions.cpp:1264
+#: src/timeline2/model/timelinefunctions.cpp:1277
 #, kde-format
 msgid "Video restore failed"
 msgstr "Videon palautus epäonnistui"
 
-#: src/timeline2/model/timelinefunctions.cpp:1279
+#: src/timeline2/model/timelinefunctions.cpp:1283
 #, kde-format
 msgid "Restore Video"
 msgstr "Palauta video"
 
 # Vai keskiön, keskikohdan…?
-#: src/timeline2/model/timelinefunctions.cpp:1326
+#: src/timeline2/model/timelinefunctions.cpp:1330
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Muuta koostamisen raitaa"
 
-#: src/timeline2/model/timelinefunctions.cpp:1341
+#: src/timeline2/model/timelinefunctions.cpp:1345
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Moniraita-näkymää ei voi ottaa käyttöön yhdellä raidalla"
 
-#: src/timeline2/model/timelinefunctions.cpp:1495
+#: src/timeline2/model/timelinefunctions.cpp:1499
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Lisää leike kirjastoon"
 
-#: src/timeline2/model/timelinefunctions.cpp:1495
+#: src/timeline2/model/timelinefunctions.cpp:1499
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Anna leikkeen nimi kirjastossa"
 
-#: src/timeline2/model/timelinefunctions.cpp:1886
+#: src/timeline2/model/timelinefunctions.cpp:1890
 #, kde-format
 msgid "Paste clips"
 msgstr "Liitä leikkeitä"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
-#: src/timeline2/model/timelinefunctions.cpp:2073
-#: src/timeline2/model/timelinefunctions.cpp:2096
-#: src/timeline2/model/timelinefunctions.cpp:2133
-#: src/timeline2/model/timelinefunctions.cpp:2411
+#: src/timeline2/model/timelinefunctions.cpp:1904
+#: src/timeline2/model/timelinefunctions.cpp:2077
+#: src/timeline2/model/timelinefunctions.cpp:2100
+#: src/timeline2/model/timelinefunctions.cpp:2137
+#: src/timeline2/model/timelinefunctions.cpp:2415
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Ei tarpeeksi raitoja leikepöydän liittämiseen"
 
-#: src/timeline2/model/timelinefunctions.cpp:1969
+#: src/timeline2/model/timelinefunctions.cpp:1973
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Toinen liittäminen on meneillään"
 
-#: src/timeline2/model/timelinefunctions.cpp:1981
+#: src/timeline2/model/timelinefunctions.cpp:1985
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Leikepöydällä ei ole tietoa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2019
+#: src/timeline2/model/timelinefunctions.cpp:2023
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -29387,15 +29384,15 @@ msgstr ""
 "Ei tarpeeksi raitoja leikepöydälle liitettäväksi (vaatii %1 ääni-, %2 "
 "videoraitaa)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2151
-#: src/timeline2/model/timelinefunctions.cpp:2169
-#: src/timeline2/model/timelinefunctions.cpp:2200
-#: src/timeline2/model/timelinefunctions.cpp:2205
+#: src/timeline2/model/timelinefunctions.cpp:2155
+#: src/timeline2/model/timelinefunctions.cpp:2173
+#: src/timeline2/model/timelinefunctions.cpp:2204
+#: src/timeline2/model/timelinefunctions.cpp:2209
 #, kde-format
 msgid "Pasted clips"
 msgstr "Liitetyt leikkeet"
 
-#: src/timeline2/model/timelinefunctions.cpp:2189
+#: src/timeline2/model/timelinefunctions.cpp:2193
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -29404,45 +29401,45 @@ msgstr ""
 "Lähdeprojektin kuvanopeus (%1 fps) eroaa nykyisestä projektista.<br/"
 ">Leikkeet tai leikekehykset voivat seota."
 
-#: src/timeline2/model/timelinefunctions.cpp:2191
+#: src/timeline2/model/timelinefunctions.cpp:2195
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Liittämisvaroitus"
 
-#: src/timeline2/model/timelinefunctions.cpp:2191
+#: src/timeline2/model/timelinefunctions.cpp:2195
 #, kde-format
 msgid "Paste"
 msgstr "Liitä"
 
-#: src/timeline2/model/timelinefunctions.cpp:2273
-#: src/timeline2/model/timelinefunctions.cpp:2281
-#: src/timeline2/model/timelinefunctions.cpp:2349
+#: src/timeline2/model/timelinefunctions.cpp:2277
+#: src/timeline2/model/timelinefunctions.cpp:2285
+#: src/timeline2/model/timelinefunctions.cpp:2353
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Leikettä ei voitu lisätä"
 
-#: src/timeline2/model/timelinefunctions.cpp:2403
+#: src/timeline2/model/timelinefunctions.cpp:2407
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Kaikki leikkeitä ei onnistuttu kopioimaan"
 
-#: src/timeline2/model/timelinefunctions.cpp:2453
-#: src/timeline2/model/timelinefunctions.cpp:2634
+#: src/timeline2/model/timelinefunctions.cpp:2457
+#: src/timeline2/model/timelinefunctions.cpp:2638
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kohteita ei voitu liittää aikajanalle"
 
-#: src/timeline2/model/timelinefunctions.cpp:2654
+#: src/timeline2/model/timelinefunctions.cpp:2658
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Liitä aikajanan leikkeet"
 
-#: src/timeline2/model/timelinefunctions.cpp:2874
+#: src/timeline2/model/timelinefunctions.cpp:2878
 #, kde-format
 msgid "Remove space on track"
 msgstr "Poista välit raidalta"
 
-#: src/timeline2/model/timelinefunctions.cpp:2901
+#: src/timeline2/model/timelinefunctions.cpp:2905
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Poista leikkeet raidalta"
@@ -29895,7 +29892,7 @@ msgid "Stop"
 msgstr "Pysäytä"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/Timeline.qml:1999
+#: src/timeline2/view/qml/Timeline.qml:2000
 #, kde-format
 msgid "Paused"
 msgstr "Tauko"
@@ -30062,28 +30059,28 @@ msgstr "Näytä"
 msgid "Hide"
 msgstr "Piilota"
 
-#: src/timeline2/view/qml/Timeline.qml:1002
+#: src/timeline2/view/qml/Timeline.qml:1003
 #, kde-format
 msgid "Show master effects"
 msgstr "Näytä alkuperäiset tehosteet"
 
-#: src/timeline2/view/qml/Timeline.qml:1662
+#: src/timeline2/view/qml/Timeline.qml:1663
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Lisää tekstitys <b>napsauttamalla kahdesti</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:1829
+#: src/timeline2/view/qml/Timeline.qml:1830
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Siirtymä:%1, Paikka: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:1988
-#: src/timeline2/view/qml/Timeline.qml:1997
+#: src/timeline2/view/qml/Timeline.qml:1989
+#: src/timeline2/view/qml/Timeline.qml:1998
 #, kde-format
 msgid "Recording"
 msgstr "Nauhoitus"
 
-#: src/timeline2/view/qml/Timeline.qml:2091
+#: src/timeline2/view/qml/Timeline.qml:2092
 #, kde-format
 msgid "Multicam In"
 msgstr "Useampi kamera sisään"
@@ -30522,7 +30519,7 @@ msgid "No available stream"
 msgstr "Ei suoratoistoa saatavilla"
 
 #: src/titler/gradientwidget.cpp:141 src/titler/gradientwidget.cpp:144
-#: src/titler/titlewidget.cpp:3307 src/titler/titlewidget.cpp:3310
+#: src/titler/titlewidget.cpp:3301 src/titler/titlewidget.cpp:3304
 #, kde-format
 msgid "Gradient %1"
 msgstr "Liukuväri %1"
@@ -30591,152 +30588,152 @@ msgstr "Reunuksen leveys"
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:274
+#: src/titler/titlewidget.cpp:282
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Valo"
 
-#: src/titler/titlewidget.cpp:275
+#: src/titler/titlewidget.cpp:283
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normaali"
 
-#: src/titler/titlewidget.cpp:276
+#: src/titler/titlewidget.cpp:284
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Puolilihavointi"
 
-#: src/titler/titlewidget.cpp:277
+#: src/titler/titlewidget.cpp:285
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Lihavoitu"
 
-#: src/titler/titlewidget.cpp:278
+#: src/titler/titlewidget.cpp:286
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Musta"
 
-#: src/titler/titlewidget.cpp:279
+#: src/titler/titlewidget.cpp:287
 #, kde-format
 msgid "Font weight"
 msgstr "Fontin lihavuus"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:301
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Lisää Unicode merkki"
 
-#: src/titler/titlewidget.cpp:299
+#: src/titler/titlewidget.cpp:307
 #, kde-format
 msgid "Raise object"
 msgstr "Nosta objektia ylöspäin"
 
-#: src/titler/titlewidget.cpp:305
+#: src/titler/titlewidget.cpp:313
 #, kde-format
 msgid "Lower object"
 msgstr "Laske objektia alemmas"
 
-#: src/titler/titlewidget.cpp:313
+#: src/titler/titlewidget.cpp:321
 #, kde-format
 msgid "Raise object to top"
 msgstr "Nosta kohde ylimmäksi"
 
-#: src/titler/titlewidget.cpp:320
+#: src/titler/titlewidget.cpp:328
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Laske kohde alimmaksi"
 
-#: src/titler/titlewidget.cpp:326
+#: src/titler/titlewidget.cpp:334
 #, kde-format
 msgid "Select All"
 msgstr "Valitse kaikki"
 
-#: src/titler/titlewidget.cpp:332
+#: src/titler/titlewidget.cpp:340
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Pidä vain tekstit valittuina"
 
-#: src/titler/titlewidget.cpp:339
+#: src/titler/titlewidget.cpp:347
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Pidä vain edelliset kohteet valittuina"
 
-#: src/titler/titlewidget.cpp:346
+#: src/titler/titlewidget.cpp:354
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Pidä vain kuvat valittuina"
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:361
 #, kde-format
 msgid "Deselect"
 msgstr "Poista valinta"
 
-#: src/titler/titlewidget.cpp:358
+#: src/titler/titlewidget.cpp:366
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Käännä x-akseli ja muuta 0-pistettä"
 
-#: src/titler/titlewidget.cpp:359
+#: src/titler/titlewidget.cpp:367
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Käännä y-akseli ja muuta 0-pistettä"
 
-#: src/titler/titlewidget.cpp:360
+#: src/titler/titlewidget.cpp:368
 #, kde-format
 msgid "Select fill color"
 msgstr "Valitse täyteväri"
 
-#: src/titler/titlewidget.cpp:361
+#: src/titler/titlewidget.cpp:369
 #, kde-format
 msgid "Select border color"
 msgstr "Aseta reunuksen väri"
 
-#: src/titler/titlewidget.cpp:363
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Alkuperäinen koko (1:1)"
 
-#: src/titler/titlewidget.cpp:364
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Fit zoom"
 msgstr "Sovita kokoon"
 
-#: src/titler/titlewidget.cpp:365
+#: src/titler/titlewidget.cpp:373
 #, kde-format
 msgid "Select background color"
 msgstr "Valitse taustan väri"
 
-#: src/titler/titlewidget.cpp:367
+#: src/titler/titlewidget.cpp:375
 #, kde-format
 msgid "Select all"
 msgstr "Valitse kaikki"
 
-#: src/titler/titlewidget.cpp:368
+#: src/titler/titlewidget.cpp:376
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Valitse nykyisen valinnan tekstikohteet"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Valitse nykyisen valinnan oikaisukohteet"
 
-#: src/titler/titlewidget.cpp:370
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Valitse nykyisen valinnan kuvakohteet"
 
-#: src/titler/titlewidget.cpp:371
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Unselect all"
 msgstr "Poista valinnat"
 
-#: src/titler/titlewidget.cpp:390
+#: src/titler/titlewidget.cpp:397
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30746,43 +30743,51 @@ msgstr ""
 "Kun valittuna, resurssin painaminen aikajanalla valitsee sisällön (esim. "
 "leikkeen, koostamisen)."
 
-#: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
+#: src/titler/titlewidget.cpp:405
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Lisää suorakulmio"
 
-#: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:410
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Lisää ellipsi"
 
-#: src/titler/titlewidget.cpp:411 src/titler/titlewidget.cpp:414
-#: src/titler/titlewidget.cpp:893
-#, kde-format
-msgid "Add Image"
+#: src/titler/titlewidget.cpp:415
+#, fuzzy, kde-format
+#| msgid "Add Image"
+msgid "Add Image…"
 msgstr "Lisää kuva"
 
-#: src/titler/titlewidget.cpp:419 src/titler/titlewidget.cpp:422
-#, kde-format
-msgid "Open Document"
-msgstr "Avaa tiedosto"
+#: src/titler/titlewidget.cpp:422
+#, fuzzy, kde-format
+#| msgid "Open Backup File…"
+msgid "Open  Title…"
+msgstr "Avaa varmuuskopio…"
 
-#: src/titler/titlewidget.cpp:431 src/titler/titlewidget.cpp:433
-#, kde-format
-msgid "Download New Title Templates..."
+#: src/titler/titlewidget.cpp:427
+#, fuzzy, kde-format
+#| msgid "Save Title"
+msgid "Save Title As…"
+msgstr "Tallenna teksti"
+
+#: src/titler/titlewidget.cpp:432
+#, fuzzy, kde-format
+#| msgid "Download New Title Templates..."
+msgid "Download New Title Templates…"
 msgstr "Lataa uudet tekstimallit..."
 
-#: src/titler/titlewidget.cpp:554
+#: src/titler/titlewidget.cpp:548
 #, kde-format
 msgid "Save and add to project"
 msgstr "Tallenna ja lisää projektiin"
 
-#: src/titler/titlewidget.cpp:555
+#: src/titler/titlewidget.cpp:549
 #, kde-format
 msgid "Create Title"
 msgstr "Luo otsikko"
 
-#: src/titler/titlewidget.cpp:773
+#: src/titler/titlewidget.cpp:767
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -30790,51 +30795,56 @@ msgid ""
 msgstr ""
 "Haluatko todella ladata uuden mallin? Muutokset tähän tekstiin menetetään!"
 
-#: src/titler/titlewidget.cpp:881
+#: src/titler/titlewidget.cpp:875
 #, kde-format
 msgid "All Images"
 msgstr "Kaikki kuvat"
 
-#: src/titler/titlewidget.cpp:883
+#: src/titler/titlewidget.cpp:877
 #, kde-format
 msgid "%1 Image"
 msgstr "%1kuva"
 
-#: src/titler/titlewidget.cpp:1699
+#: src/titler/titlewidget.cpp:887
+#, kde-format
+msgid "Add Image"
+msgstr "Lisää kuva"
+
+#: src/titler/titlewidget.cpp:1693
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1701 src/ui/titlewidget_ui.ui:258
+#: src/titler/titlewidget.cpp:1695 src/ui/titlewidget_ui.ui:258
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1723
+#: src/titler/titlewidget.cpp:1717
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1725 src/ui/titlewidget_ui.ui:288
+#: src/titler/titlewidget.cpp:1719 src/ui/titlewidget_ui.ui:288
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2196
+#: src/titler/titlewidget.cpp:2190
 #, kde-format
 msgid "Load Title"
 msgstr "Avaa otsikko"
 
 # pmap: =:gen=Kdenliven:
 # pmap: =:elat=Kdenlivestä:
-#: src/titler/titlewidget.cpp:2197
+#: src/titler/titlewidget.cpp:2191
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive otsikko"
 
-#: src/titler/titlewidget.cpp:2243
+#: src/titler/titlewidget.cpp:2237
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30843,57 +30853,57 @@ msgstr ""
 "Haluatko upottaa kuvia tähän otsikkoon?\n"
 "Tätä tarvitaan eniten tekstin jakamiseen."
 
-#: src/titler/titlewidget.cpp:2244
+#: src/titler/titlewidget.cpp:2238
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Upota kuvat"
 
-#: src/titler/titlewidget.cpp:2299
+#: src/titler/titlewidget.cpp:2293
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Tästä otsikosta puuttuu 1 elementti"
 msgstr[1] "Tästä otsikosta puuttuu %1 elementtiä"
 
-#: src/titler/titlewidget.cpp:2300 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2294 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Tarkemmat tiedot"
 
-#: src/titler/titlewidget.cpp:2303
+#: src/titler/titlewidget.cpp:2297
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Poista puuttuvat elementit"
 
-#: src/titler/titlewidget.cpp:2363
+#: src/titler/titlewidget.cpp:2357
 #, kde-format
 msgid "Update Title"
 msgstr "Päivitä otsikko"
 
-#: src/titler/titlewidget.cpp:2366
+#: src/titler/titlewidget.cpp:2360
 #, kde-format
 msgid "Add as new Title"
 msgstr "Lisää uutena otsikkona"
 
-#: src/titler/titlewidget.cpp:2420
+#: src/titler/titlewidget.cpp:2414
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Seuraavat tiedostot puuttuvat:"
 
-#: src/titler/titlewidget.cpp:2614
+#: src/titler/titlewidget.cpp:2608
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Aloita näkymä"
 
-#: src/titler/titlewidget.cpp:2615
+#: src/titler/titlewidget.cpp:2609
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Lopeta näkymä"
 
-#: src/titler/titlewidget.cpp:3340
+#: src/titler/titlewidget.cpp:3334
 #, kde-format
 msgid "Gradient"
 msgstr "Liukuväri"
@@ -35810,6 +35820,9 @@ msgstr "%1 min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgid "Open Document"
+#~ msgstr "Avaa tiedosto"
 
 #~ msgid "Activate crash recovery (auto save)"
 #~ msgstr "Aktivoi kaatumisen palautus (automaattinen tallennus)"

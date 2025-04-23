@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-21 00:40+0000\n"
+"POT-Creation-Date: 2025-04-23 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6266,7 +6266,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:370
 #, kde-format
 msgid "Zoom"
 msgstr "缩放"
@@ -10794,7 +10794,7 @@ msgstr ""
 "<![CDATA[缩放背景图像 (相对于中心)，使其与上方的 GPS 轨迹匹配。<br>\n"
 "    \t数值小于 100 时将放大图像，大于 100 时将缩小图像。0 将隐藏图像。]]>"
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:374
 #, kde-format
 msgid "Background opacity"
 msgstr "背景不透明度"
@@ -14841,7 +14841,7 @@ msgstr ""
 "\n"
 "右："
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1008
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1009
 #, kde-format
 msgid "Master"
 msgstr "主"
@@ -15729,7 +15729,7 @@ msgstr ""
 "您正在编辑外部字幕剪辑 (%1)。您想要保存更改到该字幕文件，还是仅保存更改到此项"
 "目？"
 
-#: src/bin/bin.cpp:4755 src/titler/titlewidget.cpp:2249
+#: src/bin/bin.cpp:4755 src/titler/titlewidget.cpp:2243
 #, kde-format
 msgid "Save Title"
 msgstr "保存字幕"
@@ -16204,7 +16204,7 @@ msgstr "移动字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:762
+#: src/effects/effectstack/view/effectstackview.cpp:770
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -16215,8 +16215,7 @@ msgstr ""
 "文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:393
-#: src/titler/titlewidget.cpp:396
+#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:400
 #, kde-format
 msgid "Add Text"
 msgstr "添加文本"
@@ -16298,7 +16297,7 @@ msgstr "无效"
 
 #: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1503
+#: src/timeline2/model/timelinefunctions.cpp:1507
 #, kde-format
 msgid "File already exists"
 msgstr "文件已存在"
@@ -17167,8 +17166,8 @@ msgstr "导出辅助线数据…"
 #: src/effects/effectlist/model/effecttreemodel.cpp:301
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:800
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:748
+#: src/effects/effectstack/view/effectstackview.cpp:805
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -17180,7 +17179,7 @@ msgstr "导出辅助线数据…"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2262
+#: src/titler/titlewidget.cpp:2256
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "无法写入文件 %1"
@@ -17466,38 +17465,38 @@ msgid ""
 "open."
 msgstr "当前项目的编码方案在项目打开时无法编辑。"
 
-#: src/dialogs/proxytest.cpp:31
+#: src/dialogs/proxytest.cpp:32
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
 msgstr "对比代理剪辑编码方案"
 
-#: src/dialogs/proxytest.cpp:32
+#: src/dialogs/proxytest.cpp:33
 #, kde-format
 msgid "Test Proxy Profiles"
 msgstr "测试代理剪辑编码方案"
 
-#: src/dialogs/proxytest.cpp:35
+#: src/dialogs/proxytest.cpp:36
 #, kde-format
 msgid "Failing profiles"
 msgstr "出错的编码方案"
 
-#: src/dialogs/proxytest.cpp:50
+#: src/dialogs/proxytest.cpp:51
 #, kde-format
 msgid "Starting process"
 msgstr "开始处理"
 
-#: src/dialogs/proxytest.cpp:115 src/dialogs/proxytest.cpp:152
+#: src/dialogs/proxytest.cpp:116 src/dialogs/proxytest.cpp:153
 #, kde-format
 msgid "Cannot create temporary files"
 msgstr "无法创建临时文件"
 
-#: src/dialogs/proxytest.cpp:121
+#: src/dialogs/proxytest.cpp:122
 #, kde-format
 msgid "Generating a 60 seconds test video %1"
 msgstr "正在生成 60 秒测试视频 %1"
 
-#: src/dialogs/proxytest.cpp:145
+#: src/dialogs/proxytest.cpp:146
 #, kde-format
 msgid "Processing %1"
 msgstr "正在处理 %1"
@@ -20725,8 +20724,8 @@ msgid "No name provided, effect not saved."
 msgstr "未提供名称，效果未保存。"
 
 #: src/effects/effectstack/view/effectstackview.cpp:350
-#: src/effects/effectstack/view/effectstackview.cpp:888
-#: src/effects/effectstack/view/effectstackview.cpp:975
+#: src/effects/effectstack/view/effectstackview.cpp:893
+#: src/effects/effectstack/view/effectstackview.cpp:980
 #, kde-format
 msgid "Remove Background"
 msgstr "移除背景"
@@ -20753,30 +20752,30 @@ msgstr "禁用效果堆栈"
 msgid "No effect selected."
 msgstr "未选择效果。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:725
+#: src/effects/effectstack/view/effectstackview.cpp:733
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "保存当前效果堆栈"
 
-#: src/effects/effectstack/view/effectstackview.cpp:730
+#: src/effects/effectstack/view/effectstackview.cpp:738
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "保存效果堆栈名称："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:731
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "描述："
 
-#: src/effects/effectstack/view/effectstackview.cpp:743
+#: src/effects/effectstack/view/effectstackview.cpp:751
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "未提供名称，效果堆栈未保存。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:750
+#: src/effects/effectstack/view/effectstackview.cpp:758
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -20785,28 +20784,28 @@ msgstr ""
 "没有提供描述。\n"
 "您想要保存不含描述的效果吗？"
 
-#: src/effects/effectstack/view/effectstackview.cpp:885
-#: src/effects/effectstack/view/effectstackview.cpp:911
+#: src/effects/effectstack/view/effectstackview.cpp:890
+#: src/effects/effectstack/view/effectstackview.cpp:916
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "中止蒙板创建"
 
-#: src/effects/effectstack/view/effectstackview.cpp:958
+#: src/effects/effectstack/view/effectstackview.cpp:963
 #, kde-format
 msgid "Horizontal Flip"
 msgstr "水平翻转"
 
-#: src/effects/effectstack/view/effectstackview.cpp:964
+#: src/effects/effectstack/view/effectstackview.cpp:969
 #, kde-format
 msgid "Vertical Flip"
 msgstr "垂直翻转"
 
-#: src/effects/effectstack/view/effectstackview.cpp:976
+#: src/effects/effectstack/view/effectstackview.cpp:981
 #, kde-format
 msgid "Remove background using AI model"
 msgstr "使用 AI 模型移除背景"
 
-#: src/effects/effectstack/view/effectstackview.cpp:989
+#: src/effects/effectstack/view/effectstackview.cpp:994
 #, kde-format
 msgid "Flip"
 msgstr "翻转"
@@ -22324,8 +22323,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "开/关时间轴中的字幕轨道。"
 
-#: src/mainwindow.cpp:1222 src/titler/titlewidget.cpp:386
-#: src/titler/titlewidget.cpp:389
+#: src/mainwindow.cpp:1222 src/titler/titlewidget.cpp:394
 #, kde-format
 msgid "Selection Tool"
 msgstr "选择工具"
@@ -22954,7 +22952,7 @@ msgstr "删除标记"
 msgid "Edit Marker…"
 msgstr "编辑标记…"
 
-#: src/mainwindow.cpp:1735 src/timeline2/model/timelinefunctions.cpp:1220
+#: src/mainwindow.cpp:1735 src/timeline2/model/timelinefunctions.cpp:1224
 #, kde-format
 msgid "Restore Audio"
 msgstr "还原音频"
@@ -23356,7 +23354,7 @@ msgstr "重建"
 
 #: src/mainwindow.cpp:2186 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2239
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -26047,8 +26045,7 @@ msgid "1 image found"
 msgid_plural "%1 images found"
 msgstr[0] "找到 %1 张图像"
 
-#: src/project/dialogs/projectsettings.cpp:813 src/titler/titlewidget.cpp:425
-#: src/titler/titlewidget.cpp:428
+#: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Save As"
 msgstr "另存为"
@@ -27904,113 +27901,113 @@ msgstr "请点击轨道名称标签以激活轨道"
 msgid "No clip selected"
 msgstr "未选择剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:1018
+#: src/timeline2/model/timelinefunctions.cpp:1022
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "无法移动所选组合"
 
-#: src/timeline2/model/timelinefunctions.cpp:1119
 #: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1130
+#: src/timeline2/model/timelinefunctions.cpp:1127
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #: src/timeline2/view/timelinecontroller.cpp:3991
 #, kde-format
 msgid "Enable clip"
 msgstr "启用剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:1119
 #: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1130
+#: src/timeline2/model/timelinefunctions.cpp:1127
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #: src/timeline2/view/timelinecontroller.cpp:3991
 #, kde-format
 msgid "Disable clip"
 msgstr "禁用剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:1172
+#: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "一个或多个剪辑不含音频，或者它们本身是音频"
 
-#: src/timeline2/model/timelinefunctions.cpp:1197
-#: src/timeline2/model/timelinefunctions.cpp:1213
+#: src/timeline2/model/timelinefunctions.cpp:1201
+#: src/timeline2/model/timelinefunctions.cpp:1217
 #, kde-format
 msgid "Audio restore failed"
 msgstr "音频还原失败"
 
-#: src/timeline2/model/timelinefunctions.cpp:1252
+#: src/timeline2/model/timelinefunctions.cpp:1256
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "无视频轨道可用于还原操作"
 
-#: src/timeline2/model/timelinefunctions.cpp:1260
-#: src/timeline2/model/timelinefunctions.cpp:1273
+#: src/timeline2/model/timelinefunctions.cpp:1264
+#: src/timeline2/model/timelinefunctions.cpp:1277
 #, kde-format
 msgid "Video restore failed"
 msgstr "视频还原失败"
 
-#: src/timeline2/model/timelinefunctions.cpp:1279
+#: src/timeline2/model/timelinefunctions.cpp:1283
 #, kde-format
 msgid "Restore Video"
 msgstr "还原视频"
 
-#: src/timeline2/model/timelinefunctions.cpp:1326
+#: src/timeline2/model/timelinefunctions.cpp:1330
 #, kde-format
 msgid "Change Composition Track"
 msgstr "更改合成轨道"
 
-#: src/timeline2/model/timelinefunctions.cpp:1341
+#: src/timeline2/model/timelinefunctions.cpp:1345
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "无法在单轨道上启用多轨道视图"
 
-#: src/timeline2/model/timelinefunctions.cpp:1495
+#: src/timeline2/model/timelinefunctions.cpp:1499
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "添加剪辑到素材库"
 
-#: src/timeline2/model/timelinefunctions.cpp:1495
+#: src/timeline2/model/timelinefunctions.cpp:1499
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "输入该剪辑在素材库中的名称"
 
-#: src/timeline2/model/timelinefunctions.cpp:1886
+#: src/timeline2/model/timelinefunctions.cpp:1890
 #, kde-format
 msgid "Paste clips"
 msgstr "粘贴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
-#: src/timeline2/model/timelinefunctions.cpp:2073
-#: src/timeline2/model/timelinefunctions.cpp:2096
-#: src/timeline2/model/timelinefunctions.cpp:2133
-#: src/timeline2/model/timelinefunctions.cpp:2411
+#: src/timeline2/model/timelinefunctions.cpp:1904
+#: src/timeline2/model/timelinefunctions.cpp:2077
+#: src/timeline2/model/timelinefunctions.cpp:2100
+#: src/timeline2/model/timelinefunctions.cpp:2137
+#: src/timeline2/model/timelinefunctions.cpp:2415
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "没有足够的轨道来粘贴剪贴板内容"
 
-#: src/timeline2/model/timelinefunctions.cpp:1969
+#: src/timeline2/model/timelinefunctions.cpp:1973
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "另一个粘贴操作正在进行中"
 
-#: src/timeline2/model/timelinefunctions.cpp:1981
+#: src/timeline2/model/timelinefunctions.cpp:1985
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "剪贴板中不含有效数据"
 
-#: src/timeline2/model/timelinefunctions.cpp:2019
+#: src/timeline2/model/timelinefunctions.cpp:2023
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "没有足够的轨道以粘贴剪贴板内容 (需要 %1 条音频轨道，%2 条视频轨道)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2151
-#: src/timeline2/model/timelinefunctions.cpp:2169
-#: src/timeline2/model/timelinefunctions.cpp:2200
-#: src/timeline2/model/timelinefunctions.cpp:2205
+#: src/timeline2/model/timelinefunctions.cpp:2155
+#: src/timeline2/model/timelinefunctions.cpp:2173
+#: src/timeline2/model/timelinefunctions.cpp:2204
+#: src/timeline2/model/timelinefunctions.cpp:2209
 #, kde-format
 msgid "Pasted clips"
 msgstr "已粘贴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2189
+#: src/timeline2/model/timelinefunctions.cpp:2193
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -28019,45 +28016,45 @@ msgstr ""
 "源项目帧率 (%1fps) 与您的当前项目不同。<br/>剪辑或者关键帧的位置可能会因此发"
 "生混乱。"
 
-#: src/timeline2/model/timelinefunctions.cpp:2191
+#: src/timeline2/model/timelinefunctions.cpp:2195
 #, kde-format
 msgid "Pasting Warning"
 msgstr "粘贴警告"
 
-#: src/timeline2/model/timelinefunctions.cpp:2191
+#: src/timeline2/model/timelinefunctions.cpp:2195
 #, kde-format
 msgid "Paste"
 msgstr "粘贴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2273
-#: src/timeline2/model/timelinefunctions.cpp:2281
-#: src/timeline2/model/timelinefunctions.cpp:2349
+#: src/timeline2/model/timelinefunctions.cpp:2277
+#: src/timeline2/model/timelinefunctions.cpp:2285
+#: src/timeline2/model/timelinefunctions.cpp:2353
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "无法添加项目素材箱剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2403
+#: src/timeline2/model/timelinefunctions.cpp:2407
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "未成功复制所有素材"
 
-#: src/timeline2/model/timelinefunctions.cpp:2453
-#: src/timeline2/model/timelinefunctions.cpp:2634
+#: src/timeline2/model/timelinefunctions.cpp:2457
+#: src/timeline2/model/timelinefunctions.cpp:2638
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "无法粘贴项目到时间轴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2654
+#: src/timeline2/model/timelinefunctions.cpp:2658
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "粘贴时间轴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2874
+#: src/timeline2/model/timelinefunctions.cpp:2878
 #, kde-format
 msgid "Remove space on track"
 msgstr "移除轨道中的空白"
 
-#: src/timeline2/model/timelinefunctions.cpp:2901
+#: src/timeline2/model/timelinefunctions.cpp:2905
 #, kde-format
 msgid "Delete clips on track"
 msgstr "删除轨道中的剪辑"
@@ -28500,7 +28497,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/Timeline.qml:1999
+#: src/timeline2/view/qml/Timeline.qml:2000
 #, kde-format
 msgid "Paused"
 msgstr "已暂停"
@@ -28662,28 +28659,28 @@ msgstr "显示"
 msgid "Hide"
 msgstr "隐藏"
 
-#: src/timeline2/view/qml/Timeline.qml:1002
+#: src/timeline2/view/qml/Timeline.qml:1003
 #, kde-format
 msgid "Show master effects"
 msgstr "显示主效果"
 
-#: src/timeline2/view/qml/Timeline.qml:1662
+#: src/timeline2/view/qml/Timeline.qml:1663
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>双击</b> 以添加字幕"
 
-#: src/timeline2/view/qml/Timeline.qml:1829
+#: src/timeline2/view/qml/Timeline.qml:1830
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/Timeline.qml:1988
-#: src/timeline2/view/qml/Timeline.qml:1997
+#: src/timeline2/view/qml/Timeline.qml:1989
+#: src/timeline2/view/qml/Timeline.qml:1998
 #, kde-format
 msgid "Recording"
 msgstr "正在录制"
 
-#: src/timeline2/view/qml/Timeline.qml:2091
+#: src/timeline2/view/qml/Timeline.qml:2092
 #, kde-format
 msgid "Multicam In"
 msgstr "多机位入点"
@@ -29107,7 +29104,7 @@ msgid "No available stream"
 msgstr "没有可用的流"
 
 #: src/titler/gradientwidget.cpp:141 src/titler/gradientwidget.cpp:144
-#: src/titler/titlewidget.cpp:3307 src/titler/titlewidget.cpp:3310
+#: src/titler/titlewidget.cpp:3301 src/titler/titlewidget.cpp:3304
 #, kde-format
 msgid "Gradient %1"
 msgstr "渐变 %1"
@@ -29176,152 +29173,152 @@ msgstr "边框宽度"
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:274
+#: src/titler/titlewidget.cpp:282
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "细体 (Light)"
 
-#: src/titler/titlewidget.cpp:275
+#: src/titler/titlewidget.cpp:283
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "标准 (Normal)"
 
-#: src/titler/titlewidget.cpp:276
+#: src/titler/titlewidget.cpp:284
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "次粗 (Demi-Bold)"
 
-#: src/titler/titlewidget.cpp:277
+#: src/titler/titlewidget.cpp:285
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "粗体 (Bold)"
 
-#: src/titler/titlewidget.cpp:278
+#: src/titler/titlewidget.cpp:286
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "浓体 (Black)"
 
-#: src/titler/titlewidget.cpp:279
+#: src/titler/titlewidget.cpp:287
 #, kde-format
 msgid "Font weight"
 msgstr "字体粗细"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:301
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "插入 Unicode 字符"
 
-#: src/titler/titlewidget.cpp:299
+#: src/titler/titlewidget.cpp:307
 #, kde-format
 msgid "Raise object"
 msgstr "上移对象"
 
-#: src/titler/titlewidget.cpp:305
+#: src/titler/titlewidget.cpp:313
 #, kde-format
 msgid "Lower object"
 msgstr "下移对象"
 
-#: src/titler/titlewidget.cpp:313
+#: src/titler/titlewidget.cpp:321
 #, kde-format
 msgid "Raise object to top"
 msgstr "置顶对象"
 
-#: src/titler/titlewidget.cpp:320
+#: src/titler/titlewidget.cpp:328
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "置底对象"
 
-#: src/titler/titlewidget.cpp:326
+#: src/titler/titlewidget.cpp:334
 #, kde-format
 msgid "Select All"
 msgstr "全部选中"
 
-#: src/titler/titlewidget.cpp:332
+#: src/titler/titlewidget.cpp:340
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "只保留选中的文字项目"
 
-#: src/titler/titlewidget.cpp:339
+#: src/titler/titlewidget.cpp:347
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "只保留选中的矩形项目"
 
-#: src/titler/titlewidget.cpp:346
+#: src/titler/titlewidget.cpp:354
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "只保留选中的图像项目"
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:361
 #, kde-format
 msgid "Deselect"
 msgstr "取消选择"
 
-#: src/titler/titlewidget.cpp:358
+#: src/titler/titlewidget.cpp:366
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "翻转 X 轴并更改 0 点"
 
-#: src/titler/titlewidget.cpp:359
+#: src/titler/titlewidget.cpp:367
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "翻转 Y 轴并更改 0 点"
 
-#: src/titler/titlewidget.cpp:360
+#: src/titler/titlewidget.cpp:368
 #, kde-format
 msgid "Select fill color"
 msgstr "选择填充颜色"
 
-#: src/titler/titlewidget.cpp:361
+#: src/titler/titlewidget.cpp:369
 #, kde-format
 msgid "Select border color"
 msgstr "选择边框颜色"
 
-#: src/titler/titlewidget.cpp:363
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "原始大小 (1:1)"
 
-#: src/titler/titlewidget.cpp:364
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Fit zoom"
 msgstr "适合缩放"
 
-#: src/titler/titlewidget.cpp:365
+#: src/titler/titlewidget.cpp:373
 #, kde-format
 msgid "Select background color"
 msgstr "选择背景颜色"
 
-#: src/titler/titlewidget.cpp:367
+#: src/titler/titlewidget.cpp:375
 #, kde-format
 msgid "Select all"
 msgstr "全部选择"
 
-#: src/titler/titlewidget.cpp:368
+#: src/titler/titlewidget.cpp:376
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "选择当前选中范围内的文字项目"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "选择当前选中范围内的矩形项目"
 
-#: src/titler/titlewidget.cpp:370
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "选择当前选中范围内的图像项目"
 
-#: src/titler/titlewidget.cpp:371
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Unselect all"
 msgstr "取消选择"
 
-#: src/titler/titlewidget.cpp:390
+#: src/titler/titlewidget.cpp:397
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29329,92 +29326,105 @@ msgid ""
 "clip, composition)."
 msgstr "勾选时，点击时间轴中的对象时将选中该对象 (例如剪辑、合成等)。"
 
-#: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
+#: src/titler/titlewidget.cpp:405
 #, kde-format
 msgid "Add Rectangle"
 msgstr "添加矩形"
 
-#: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:410
 #, kde-format
 msgid "Add Ellipse"
 msgstr "添加椭圆"
 
-#: src/titler/titlewidget.cpp:411 src/titler/titlewidget.cpp:414
-#: src/titler/titlewidget.cpp:893
-#, kde-format
-msgid "Add Image"
+#: src/titler/titlewidget.cpp:415
+#, fuzzy, kde-format
+#| msgid "Add Image"
+msgid "Add Image…"
 msgstr "添加图像"
 
-#: src/titler/titlewidget.cpp:419 src/titler/titlewidget.cpp:422
-#, kde-format
-msgid "Open Document"
-msgstr "打开文件"
+#: src/titler/titlewidget.cpp:422
+#, fuzzy, kde-format
+#| msgid "Open Backup File…"
+msgid "Open  Title…"
+msgstr "打开备份文件…"
 
-#: src/titler/titlewidget.cpp:431 src/titler/titlewidget.cpp:433
-#, kde-format
-msgid "Download New Title Templates..."
+#: src/titler/titlewidget.cpp:427
+#, fuzzy, kde-format
+#| msgid "Save Title"
+msgid "Save Title As…"
+msgstr "保存字幕"
+
+#: src/titler/titlewidget.cpp:432
+#, fuzzy, kde-format
+#| msgid "Download New Title Templates..."
+msgid "Download New Title Templates…"
 msgstr "下载新的字幕模板..."
 
-#: src/titler/titlewidget.cpp:554
+#: src/titler/titlewidget.cpp:548
 #, kde-format
 msgid "Save and add to project"
 msgstr "保存并添加到项目"
 
-#: src/titler/titlewidget.cpp:555
+#: src/titler/titlewidget.cpp:549
 #, kde-format
 msgid "Create Title"
 msgstr "创建字幕"
 
-#: src/titler/titlewidget.cpp:773
+#: src/titler/titlewidget.cpp:767
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "您确定要加载新的模板吗？此字幕的更改将会丢失。"
 
-#: src/titler/titlewidget.cpp:881
+#: src/titler/titlewidget.cpp:875
 #, kde-format
 msgid "All Images"
 msgstr "全部图像"
 
-#: src/titler/titlewidget.cpp:883
+#: src/titler/titlewidget.cpp:877
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 图像"
 
-#: src/titler/titlewidget.cpp:1699
+#: src/titler/titlewidget.cpp:887
+#, kde-format
+msgid "Add Image"
+msgstr "添加图像"
+
+#: src/titler/titlewidget.cpp:1693
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1701 src/ui/titlewidget_ui.ui:258
+#: src/titler/titlewidget.cpp:1695 src/ui/titlewidget_ui.ui:258
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1723
+#: src/titler/titlewidget.cpp:1717
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1725 src/ui/titlewidget_ui.ui:288
+#: src/titler/titlewidget.cpp:1719 src/ui/titlewidget_ui.ui:288
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2196
+#: src/titler/titlewidget.cpp:2190
 #, kde-format
 msgid "Load Title"
 msgstr "加载字幕"
 
-#: src/titler/titlewidget.cpp:2197
+#: src/titler/titlewidget.cpp:2191
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive 字幕"
 
-#: src/titler/titlewidget.cpp:2243
+#: src/titler/titlewidget.cpp:2237
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -29423,56 +29433,56 @@ msgstr ""
 "您想要嵌入图像到此字幕文件吗？\n"
 "此操作是分享字幕所必需的。"
 
-#: src/titler/titlewidget.cpp:2244
+#: src/titler/titlewidget.cpp:2238
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "嵌入的图像"
 
-#: src/titler/titlewidget.cpp:2299
+#: src/titler/titlewidget.cpp:2293
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "此字幕有 %1 个缺失元素"
 
-#: src/titler/titlewidget.cpp:2300 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2294 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "细节"
 
-#: src/titler/titlewidget.cpp:2303
+#: src/titler/titlewidget.cpp:2297
 #, kde-format
 msgid "Delete missing elements"
 msgstr "删除缺失的元素"
 
-#: src/titler/titlewidget.cpp:2363
+#: src/titler/titlewidget.cpp:2357
 #, kde-format
 msgid "Update Title"
 msgstr "更新字幕"
 
-#: src/titler/titlewidget.cpp:2366
+#: src/titler/titlewidget.cpp:2360
 #, kde-format
 msgid "Add as new Title"
 msgstr "添加为新字幕"
 
-#: src/titler/titlewidget.cpp:2420
+#: src/titler/titlewidget.cpp:2414
 #, kde-format
 msgid "The following files are missing:"
 msgstr "缺少以下文件："
 
-#: src/titler/titlewidget.cpp:2614
+#: src/titler/titlewidget.cpp:2608
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "开始视图"
 
-#: src/titler/titlewidget.cpp:2615
+#: src/titler/titlewidget.cpp:2609
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "结束视图"
 
-#: src/titler/titlewidget.cpp:3340
+#: src/titler/titlewidget.cpp:3334
 #, kde-format
 msgid "Gradient"
 msgstr "渐变"
@@ -34338,6 +34348,9 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgid "Open Document"
+#~ msgstr "打开文件"
 
 #~ msgid "Activate crash recovery (auto save)"
 #~ msgstr "启用崩溃恢复功能 (自动保存)"
