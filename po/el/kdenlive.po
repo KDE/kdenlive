@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 02:31+0000\n"
+"POT-Creation-Date: 2025-04-23 02:34+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -6674,7 +6674,7 @@ msgstr "Sox ηχητικό εφέ band"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Zoom"
 msgstr "Εστίαση"
@@ -11341,7 +11341,7 @@ msgid ""
 "zoom out. 0 hides it.]]>"
 msgstr ""
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:368
 #, kde-format
 msgid "Background opacity"
 msgstr "Αδιαφάνεια φόντου"
@@ -15588,7 +15588,7 @@ msgid ""
 "R:"
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1011
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1012
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -16553,7 +16553,7 @@ msgstr ""
 "Επεξεργάζεστε έναν εξωτερικό τίτλο κλιπ (%1). Θέλετε να αποθηκεύσετε τις "
 "αλλαγές σας στον τίτλο αρχείου ή να τις αποθηκεύσετε για το έργο αυτό μόνο;"
 
-#: src/bin/bin.cpp:4898 src/titler/titlewidget.cpp:2259
+#: src/bin/bin.cpp:4898 src/titler/titlewidget.cpp:2253
 #, kde-format
 msgid "Save Title"
 msgstr "Αποθήκευση τίτλου"
@@ -17060,7 +17060,7 @@ msgstr "Μετακίνηση οδηγού"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:860
+#: src/effects/effectstack/view/effectstackview.cpp:868
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17071,8 +17071,7 @@ msgstr ""
 "Το αρχείο %1 υπάρχει ήδη.\n"
 "Επιθυμείτε να το αντικαταστήσετε;"
 
-#: src/bin/model/subtitlemodel.cpp:1635 src/titler/titlewidget.cpp:393
-#: src/titler/titlewidget.cpp:396
+#: src/bin/model/subtitlemodel.cpp:1635 src/titler/titlewidget.cpp:394
 #, kde-format
 msgid "Add Text"
 msgstr "Προσθήκη κειμένου"
@@ -17159,7 +17158,7 @@ msgstr "Μη έγκυρο κλιπ"
 
 #: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1503
+#: src/timeline2/model/timelinefunctions.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "File already exists"
@@ -18063,8 +18062,8 @@ msgstr "Προσθήκη δείκτη"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:898
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:748
+#: src/effects/effectstack/view/effectstackview.cpp:903
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18076,7 +18075,7 @@ msgstr "Προσθήκη δείκτη"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5167
 #: src/timeline2/view/timelinecontroller.cpp:5172
-#: src/titler/titlewidget.cpp:2272
+#: src/titler/titlewidget.cpp:2266
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Αδύνατη η εγγραφή στο αρχείο %1"
@@ -21851,7 +21850,7 @@ msgstr "Κατακόρυφη"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #: src/effects/effectstack/view/effectstackview.cpp:429
-#: src/effects/effectstack/view/effectstackview.cpp:986
+#: src/effects/effectstack/view/effectstackview.cpp:991
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove Background"
@@ -21895,40 +21894,40 @@ msgstr "Απενεργοποίηση εφέ"
 msgid "No effect selected."
 msgstr "Καμία αντιγραφή κλιπ"
 
-#: src/effects/effectstack/view/effectstackview.cpp:823
+#: src/effects/effectstack/view/effectstackview.cpp:831
 #, fuzzy, kde-format
 #| msgid "Effect Stack"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Στοίβα εφέ"
 
-#: src/effects/effectstack/view/effectstackview.cpp:828
+#: src/effects/effectstack/view/effectstackview.cpp:836
 #, fuzzy, kde-format
 #| msgid "Name for saved effect: "
 msgid "Name for saved stack:"
 msgstr "Όνομα αποθηκευμένου εφέ: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:829
+#: src/effects/effectstack/view/effectstackview.cpp:837
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Περιγραφή:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:841
+#: src/effects/effectstack/view/effectstackview.cpp:849
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:848
+#: src/effects/effectstack/view/effectstackview.cpp:856
 #, kde-format
 msgid ""
 "No description provided. \n"
 "Save effect with no description?"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:983
-#: src/effects/effectstack/view/effectstackview.cpp:1009
+#: src/effects/effectstack/view/effectstackview.cpp:988
+#: src/effects/effectstack/view/effectstackview.cpp:1014
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Abort Mask Creation"
@@ -23531,8 +23530,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Αδυναμία εισαγωγής του κλιπ στο χρονοδιάγραμμα"
 
-#: src/mainwindow.cpp:1190 src/titler/titlewidget.cpp:386
-#: src/titler/titlewidget.cpp:389
+#: src/mainwindow.cpp:1190 src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Selection Tool"
 msgstr "Εργαλείο επιλογής"
@@ -24201,7 +24199,7 @@ msgstr "Διαγραφή δείκτη"
 msgid "Edit Marker…"
 msgstr "Επεξεργασία δείκτη…"
 
-#: src/mainwindow.cpp:1703 src/timeline2/model/timelinefunctions.cpp:1220
+#: src/mainwindow.cpp:1703 src/timeline2/model/timelinefunctions.cpp:1224
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "Restore Audio"
@@ -24632,7 +24630,7 @@ msgstr "Δημιουργία ομάδας"
 
 #: src/mainwindow.cpp:2149 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2255
+#: src/titler/titlewidget.cpp:2249
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -27429,8 +27427,7 @@ msgid_plural "%1 images found"
 msgstr[0] "Βρέθηκε 1 εικόνα"
 msgstr[1] "Βρέθηκαν %1 εικόνες"
 
-#: src/project/dialogs/projectsettings.cpp:813 src/titler/titlewidget.cpp:425
-#: src/titler/titlewidget.cpp:428
+#: src/project/dialogs/projectsettings.cpp:813 src/titler/titlewidget.cpp:421
 #, kde-format
 msgid "Save As"
 msgstr "Αποθήκευση ως"
@@ -29326,178 +29323,178 @@ msgstr ""
 msgid "No clip selected"
 msgstr "Καμία αντιγραφή κλιπ"
 
-#: src/timeline2/model/timelinefunctions.cpp:1018
+#: src/timeline2/model/timelinefunctions.cpp:1022
 #, fuzzy, kde-format
 #| msgid "Cannot move effect"
 msgid "Cannot move selected group"
 msgstr "Αδυναμία μετακίνησης του εφέ"
 
-#: src/timeline2/model/timelinefunctions.cpp:1119
 #: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1130
+#: src/timeline2/model/timelinefunctions.cpp:1127
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #: src/timeline2/view/timelinecontroller.cpp:4039
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Enable clip"
 msgstr "Κλιπ τίτλου"
 
-#: src/timeline2/model/timelinefunctions.cpp:1119
 #: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1130
+#: src/timeline2/model/timelinefunctions.cpp:1127
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #: src/timeline2/view/timelinecontroller.cpp:4039
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Disable clip"
 msgstr "Κλιπ τίτλου"
 
-#: src/timeline2/model/timelinefunctions.cpp:1172
+#: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1197
-#: src/timeline2/model/timelinefunctions.cpp:1213
+#: src/timeline2/model/timelinefunctions.cpp:1201
+#: src/timeline2/model/timelinefunctions.cpp:1217
 #, fuzzy, kde-format
 msgid "Audio restore failed"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/timeline2/model/timelinefunctions.cpp:1252
+#: src/timeline2/model/timelinefunctions.cpp:1256
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1260
-#: src/timeline2/model/timelinefunctions.cpp:1273
+#: src/timeline2/model/timelinefunctions.cpp:1264
+#: src/timeline2/model/timelinefunctions.cpp:1277
 #, fuzzy, kde-format
 #| msgid "Video player"
 msgid "Video restore failed"
 msgstr "Αναπαραγωγέας βίντεο"
 
-#: src/timeline2/model/timelinefunctions.cpp:1279
+#: src/timeline2/model/timelinefunctions.cpp:1283
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Restore Video"
 msgstr "Σίγαση βιντεοκλίπ"
 
-#: src/timeline2/model/timelinefunctions.cpp:1326
+#: src/timeline2/model/timelinefunctions.cpp:1330
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change Composition Track"
 msgstr "Κεντρική θέση (Χ)"
 
-#: src/timeline2/model/timelinefunctions.cpp:1341
+#: src/timeline2/model/timelinefunctions.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Cannot remove space in a locked track"
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Αδυναμία αφαίρεσης κενού διαστήματος από ένα κλειδωμένο κομμάτι"
 
-#: src/timeline2/model/timelinefunctions.cpp:1495
+#: src/timeline2/model/timelinefunctions.cpp:1499
 #, fuzzy, kde-format
 #| msgid "Add clip to project"
 #| msgid_plural "Add clips to project"
 msgid "Add Clip to Library"
 msgstr "Προσθήκη κλιπ στο έργο"
 
-#: src/timeline2/model/timelinefunctions.cpp:1495
+#: src/timeline2/model/timelinefunctions.cpp:1499
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1886
+#: src/timeline2/model/timelinefunctions.cpp:1890
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste clips"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
-#: src/timeline2/model/timelinefunctions.cpp:2074
-#: src/timeline2/model/timelinefunctions.cpp:2097
-#: src/timeline2/model/timelinefunctions.cpp:2136
-#: src/timeline2/model/timelinefunctions.cpp:2414
+#: src/timeline2/model/timelinefunctions.cpp:1904
+#: src/timeline2/model/timelinefunctions.cpp:2078
+#: src/timeline2/model/timelinefunctions.cpp:2101
+#: src/timeline2/model/timelinefunctions.cpp:2140
+#: src/timeline2/model/timelinefunctions.cpp:2418
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "Not enough tracks to paste clipboard"
 msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
-#: src/timeline2/model/timelinefunctions.cpp:1969
+#: src/timeline2/model/timelinefunctions.cpp:1973
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1981
+#: src/timeline2/model/timelinefunctions.cpp:1985
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "No valid data in clipboard"
 msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2020
+#: src/timeline2/model/timelinefunctions.cpp:2024
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2154
-#: src/timeline2/model/timelinefunctions.cpp:2172
-#: src/timeline2/model/timelinefunctions.cpp:2203
-#: src/timeline2/model/timelinefunctions.cpp:2208
+#: src/timeline2/model/timelinefunctions.cpp:2158
+#: src/timeline2/model/timelinefunctions.cpp:2176
+#: src/timeline2/model/timelinefunctions.cpp:2207
+#: src/timeline2/model/timelinefunctions.cpp:2212
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Pasted clips"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/timeline2/model/timelinefunctions.cpp:2192
+#: src/timeline2/model/timelinefunctions.cpp:2196
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2194
+#: src/timeline2/model/timelinefunctions.cpp:2198
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2194
+#: src/timeline2/model/timelinefunctions.cpp:2198
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/timeline2/model/timelinefunctions.cpp:2276
-#: src/timeline2/model/timelinefunctions.cpp:2284
-#: src/timeline2/model/timelinefunctions.cpp:2352
+#: src/timeline2/model/timelinefunctions.cpp:2280
+#: src/timeline2/model/timelinefunctions.cpp:2288
+#: src/timeline2/model/timelinefunctions.cpp:2356
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not add bin clip"
 msgstr "Προστίθενται κλιπ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2406
+#: src/timeline2/model/timelinefunctions.cpp:2410
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2456
-#: src/timeline2/model/timelinefunctions.cpp:2637
+#: src/timeline2/model/timelinefunctions.cpp:2460
+#: src/timeline2/model/timelinefunctions.cpp:2641
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "ανανέωση τιμών στο χρονοδιάγραμμα"
 
-#: src/timeline2/model/timelinefunctions.cpp:2657
+#: src/timeline2/model/timelinefunctions.cpp:2661
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"
 msgid "Paste timeline clips"
 msgstr "Διαγραφή κλιπ χρόνου"
 
-#: src/timeline2/model/timelinefunctions.cpp:2877
+#: src/timeline2/model/timelinefunctions.cpp:2881
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "Αφαίρεση κενού διαστήματος"
 
-#: src/timeline2/model/timelinefunctions.cpp:2904
+#: src/timeline2/model/timelinefunctions.cpp:2908
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"
@@ -29825,14 +29822,14 @@ msgid "Change clip speed"
 msgstr "Τροποποίηση τύπου κλιπ"
 
 #: src/timeline2/model/timelinemodel.cpp:6911
-#: src/timeline2/view/qml/timeline.qml:1214
+#: src/timeline2/view/qml/timeline.qml:1215
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "Κλείδωμα κομματιού"
 
 #: src/timeline2/model/timelinemodel.cpp:6916
-#: src/timeline2/view/qml/timeline.qml:1214
+#: src/timeline2/view/qml/timeline.qml:1215
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
@@ -29993,7 +29990,7 @@ msgid "Stop"
 msgstr "Διακοπή"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2191
+#: src/timeline2/view/qml/timeline.qml:2192
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -30144,25 +30141,25 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1005
+#: src/timeline2/view/qml/timeline.qml:1006
 #, fuzzy, kde-format
 #| msgid "Show all profiles"
 msgid "Show master effects"
 msgstr "Εμφάνιση όλων των προφίλ"
 
-#: src/timeline2/view/qml/timeline.qml:1148
+#: src/timeline2/view/qml/timeline.qml:1149
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Click to see details"
 msgstr "Χρήση φακέλου έργου"
 
-#: src/timeline2/view/qml/timeline.qml:1170
+#: src/timeline2/view/qml/timeline.qml:1171
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Επιλογή μετάβασης"
 
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1191
 #: src/timeline2/view/qml/TrackHead.qml:430
 #, fuzzy, kde-format
 #| msgid "Show log"
@@ -30170,32 +30167,32 @@ msgid "Show"
 msgstr "Προβολή καταγραφής"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1191
 #: src/timeline2/view/qml/TrackHead.qml:430 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1854
+#: src/timeline2/view/qml/timeline.qml:1855
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Κάντε κλικ για να προσθέσετε μία μετάβαση."
 
-#: src/timeline2/view/qml/timeline.qml:2021
+#: src/timeline2/view/qml/timeline.qml:2022
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Θέση: %1"
 
-#: src/timeline2/view/qml/timeline.qml:2180
-#: src/timeline2/view/qml/timeline.qml:2189
+#: src/timeline2/view/qml/timeline.qml:2181
+#: src/timeline2/view/qml/timeline.qml:2190
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Εγγραφή"
 
-#: src/timeline2/view/qml/timeline.qml:2283
+#: src/timeline2/view/qml/timeline.qml:2284
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -30659,7 +30656,7 @@ msgid "No available stream"
 msgstr " καρέ"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3322 src/titler/titlewidget.cpp:3325
+#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -30729,154 +30726,154 @@ msgstr "Πλάτος περιγράμματος"
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:274
+#: src/titler/titlewidget.cpp:276
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Ασθενές"
 
-#: src/titler/titlewidget.cpp:275
+#: src/titler/titlewidget.cpp:277
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Κανονικό"
 
-#: src/titler/titlewidget.cpp:276
+#: src/titler/titlewidget.cpp:278
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Ημι-έντονο"
 
-#: src/titler/titlewidget.cpp:277
+#: src/titler/titlewidget.cpp:279
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Έντονο"
 
-#: src/titler/titlewidget.cpp:278
+#: src/titler/titlewidget.cpp:280
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Μαύρο"
 
-#: src/titler/titlewidget.cpp:279
+#: src/titler/titlewidget.cpp:281
 #, kde-format
 msgid "Font weight"
 msgstr "Πάχος γραμματοσειράς"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Εισαγωγή χαρακτήρα unicode"
 
-#: src/titler/titlewidget.cpp:299
+#: src/titler/titlewidget.cpp:301
 #, kde-format
 msgid "Raise object"
 msgstr "Ανύψωση αντικειμένου"
 
-#: src/titler/titlewidget.cpp:305
+#: src/titler/titlewidget.cpp:307
 #, kde-format
 msgid "Lower object"
 msgstr "Κατέβασμα αντικειμένου"
 
-#: src/titler/titlewidget.cpp:313
+#: src/titler/titlewidget.cpp:315
 #, kde-format
 msgid "Raise object to top"
 msgstr "Ανύψωση αντικειμένου στην κορυφή"
 
-#: src/titler/titlewidget.cpp:320
+#: src/titler/titlewidget.cpp:322
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Κατέβασμα αντικειμένου στη βάση"
 
-#: src/titler/titlewidget.cpp:326
+#: src/titler/titlewidget.cpp:328
 #, kde-format
 msgid "Select All"
 msgstr "Επιλογή όλων"
 
-#: src/titler/titlewidget.cpp:332
+#: src/titler/titlewidget.cpp:334
 #, kde-format
 msgid "Keep only text items selected"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:339
+#: src/titler/titlewidget.cpp:341
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:346
+#: src/titler/titlewidget.cpp:348
 #, fuzzy, kde-format
 #| msgid "Select image items in current selection"
 msgid "Keep only image items selected"
 msgstr "Επιλογή των αντικειμένων εικόνας εντός της τρέχουσας επιλογής"
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:355
 #, fuzzy, kde-format
 #| msgid "Deselect Clip"
 msgid "Deselect"
 msgstr "Αποεπιλογή κλιπ"
 
-#: src/titler/titlewidget.cpp:358
+#: src/titler/titlewidget.cpp:360
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Αντιστροφή του άξονα x και αλλαγή του σημείου 0"
 
-#: src/titler/titlewidget.cpp:359
+#: src/titler/titlewidget.cpp:361
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Αντιστροφή του άξονα y και αλλαγή του σημείου 0"
 
-#: src/titler/titlewidget.cpp:360
+#: src/titler/titlewidget.cpp:362
 #, kde-format
 msgid "Select fill color"
 msgstr "Επιλογή χρώματος γεμίσματος"
 
-#: src/titler/titlewidget.cpp:361
+#: src/titler/titlewidget.cpp:363
 #, kde-format
 msgid "Select border color"
 msgstr "Επιλογή χρώματος πλαισίου"
 
-#: src/titler/titlewidget.cpp:363
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Αρχικό μέγεθος (1:1)"
 
-#: src/titler/titlewidget.cpp:364
+#: src/titler/titlewidget.cpp:366
 #, kde-format
 msgid "Fit zoom"
 msgstr "Προσαρμοσμένη εστίαση"
 
-#: src/titler/titlewidget.cpp:365
+#: src/titler/titlewidget.cpp:367
 #, kde-format
 msgid "Select background color"
 msgstr "Επιλογή χρώματος φόντου"
 
-#: src/titler/titlewidget.cpp:367
+#: src/titler/titlewidget.cpp:369
 #, kde-format
 msgid "Select all"
 msgstr "Επιλογή όλων"
 
-#: src/titler/titlewidget.cpp:368
+#: src/titler/titlewidget.cpp:370
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Επιλογή των αντικειμένων κειμένου εντός της τρέχουσας επιλογής"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Επιλογή των αντικειμένων rect εντός της τρέχουσας επιλογής"
 
-#: src/titler/titlewidget.cpp:370
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Επιλογή των αντικειμένων εικόνας εντός της τρέχουσας επιλογής"
 
-#: src/titler/titlewidget.cpp:371
+#: src/titler/titlewidget.cpp:373
 #, kde-format
 msgid "Unselect all"
 msgstr "Αποεπιλογή όλων"
 
-#: src/titler/titlewidget.cpp:390
+#: src/titler/titlewidget.cpp:391
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30884,47 +30881,46 @@ msgid ""
 "clip, composition)."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
+#: src/titler/titlewidget.cpp:399
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Προσθήκη ορθογωνίου"
 
-#: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:404
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Add Ellipse"
 msgstr "Προσθήκη κλιπ"
 
-#: src/titler/titlewidget.cpp:411 src/titler/titlewidget.cpp:414
-#: src/titler/titlewidget.cpp:894
+#: src/titler/titlewidget.cpp:409 src/titler/titlewidget.cpp:888
 #, kde-format
 msgid "Add Image"
 msgstr "Προσθήκη εικόνας"
 
-#: src/titler/titlewidget.cpp:419 src/titler/titlewidget.cpp:422
+#: src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Open Document"
 msgstr "Άνοιγμα εγγράφου"
 
-#: src/titler/titlewidget.cpp:431 src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:426
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "Λήψη νέων προτύπων τίτλου..."
 
-#: src/titler/titlewidget.cpp:555
+#: src/titler/titlewidget.cpp:549
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgid "Save and add to project"
 msgstr "Αποθήκευση έργου DVD"
 
-#: src/titler/titlewidget.cpp:556
+#: src/titler/titlewidget.cpp:550
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Title"
 msgstr "Πρότυπο κλιπ τίτλου"
 
-#: src/titler/titlewidget.cpp:774
+#: src/titler/titlewidget.cpp:768
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -30933,52 +30929,52 @@ msgstr ""
 "Επιθυμείτε πραγματικά να φορτώσετε ένα νέο πρότυπο; Τυχόν αλλαγές στον τίτλο "
 "αυτόν θα χαθούν!"
 
-#: src/titler/titlewidget.cpp:882
+#: src/titler/titlewidget.cpp:876
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "All Images"
 msgstr "Προσθήκη εικόνας"
 
-#: src/titler/titlewidget.cpp:884
+#: src/titler/titlewidget.cpp:878
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "%1 Image"
 msgstr "Εικόνα"
 
-#: src/titler/titlewidget.cpp:1709
+#: src/titler/titlewidget.cpp:1703
 #, kde-format
 msgid "−X"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1711 src/ui/titlewidget_ui.ui:258
+#: src/titler/titlewidget.cpp:1705 src/ui/titlewidget_ui.ui:258
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1733
+#: src/titler/titlewidget.cpp:1727
 #, kde-format
 msgid "−Y"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1735 src/ui/titlewidget_ui.ui:288
+#: src/titler/titlewidget.cpp:1729 src/ui/titlewidget_ui.ui:288
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2206
+#: src/titler/titlewidget.cpp:2200
 #, kde-format
 msgid "Load Title"
 msgstr "Φόρτωση τίτλου"
 
-#: src/titler/titlewidget.cpp:2207
+#: src/titler/titlewidget.cpp:2201
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "Kdenlive"
 
-#: src/titler/titlewidget.cpp:2253
+#: src/titler/titlewidget.cpp:2247
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30987,14 +30983,14 @@ msgstr ""
 "Θέλετε να ενσωματώσετε Εικόνες σε αυτό το TitleDocument;\n"
 "Αυτό περισσότερο απαιτείται για κοινόχρηστους Τίτλους."
 
-#: src/titler/titlewidget.cpp:2254
+#: src/titler/titlewidget.cpp:2248
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Προσθήκη εικόνας"
 
-#: src/titler/titlewidget.cpp:2309
+#: src/titler/titlewidget.cpp:2303
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -31002,48 +30998,48 @@ msgid_plural "This title has %1 missing elements"
 msgstr[0] "Διαγραφή των επιλεγμένων αντικειμένων"
 msgstr[1] "Διαγραφή των επιλεγμένων αντικειμένων"
 
-#: src/titler/titlewidget.cpp:2310 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2304 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
-#: src/titler/titlewidget.cpp:2313
+#: src/titler/titlewidget.cpp:2307
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Διαγραφή των επιλεγμένων αντικειμένων"
 
-#: src/titler/titlewidget.cpp:2373
+#: src/titler/titlewidget.cpp:2367
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Ενημέρωση προφίλ"
 
-#: src/titler/titlewidget.cpp:2376
+#: src/titler/titlewidget.cpp:2370
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Προσθήκη προτύπου τίτλου"
 
-#: src/titler/titlewidget.cpp:2430
+#: src/titler/titlewidget.cpp:2424
 #, kde-format
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2624
+#: src/titler/titlewidget.cpp:2618
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Εκκίνηση σεναρίου"
 
-#: src/titler/titlewidget.cpp:2625
+#: src/titler/titlewidget.cpp:2619
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3355
+#: src/titler/titlewidget.cpp:3349
 #, fuzzy, kde-format
 #| msgid "Alpha gradient"
 msgid "Gradient"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-20 02:31+0000\n"
+"POT-Creation-Date: 2025-04-23 02:34+0000\n"
 "PO-Revision-Date: 2025-03-04 08:47+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -6765,7 +6765,7 @@ msgstr "Efecto de son Sox: banda"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
-#: src/titler/titlewidget.cpp:362
+#: src/titler/titlewidget.cpp:364
 #, kde-format
 msgid "Zoom"
 msgstr "Ampliación"
@@ -11680,7 +11680,7 @@ msgstr ""
 "    \tOs valores inferiores a 100 amplían a imaxe, e os superiores afástana. "
 "0 agóchaa.]]>"
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:368
 #, kde-format
 msgid "Background opacity"
 msgstr "Opacidade do fondo"
@@ -15883,7 +15883,7 @@ msgstr ""
 "\n"
 "D:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1011
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1012
 #, kde-format
 msgid "Master"
 msgstr "Mestre"
@@ -16807,7 +16807,7 @@ msgstr ""
 "Está a editar un fragmento de título externo (%1). Quere gardar os cambios "
 "no ficheiro do título ou gardar os cambios só para este proxecto?"
 
-#: src/bin/bin.cpp:4898 src/titler/titlewidget.cpp:2259
+#: src/bin/bin.cpp:4898 src/titler/titlewidget.cpp:2253
 #, kde-format
 msgid "Save Title"
 msgstr "Gardar o título"
@@ -17288,7 +17288,7 @@ msgstr "Mover o subtítulo"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:860
+#: src/effects/effectstack/view/effectstackview.cpp:868
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17299,8 +17299,7 @@ msgstr ""
 "O ficheiro %1 xa existe.\n"
 "Quéreo substituír?"
 
-#: src/bin/model/subtitlemodel.cpp:1635 src/titler/titlewidget.cpp:393
-#: src/titler/titlewidget.cpp:396
+#: src/bin/model/subtitlemodel.cpp:1635 src/titler/titlewidget.cpp:394
 #, kde-format
 msgid "Add Text"
 msgstr "Engadir texto"
@@ -17382,7 +17381,7 @@ msgstr "Incorrecta"
 
 #: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1503
+#: src/timeline2/model/timelinefunctions.cpp:1507
 #, kde-format
 msgid "File already exists"
 msgstr "O ficheiro xa existe"
@@ -18272,8 +18271,8 @@ msgstr "Exportar os datos das guías"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:745
-#: src/effects/effectstack/view/effectstackview.cpp:898
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:748
+#: src/effects/effectstack/view/effectstackview.cpp:903
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18285,7 +18284,7 @@ msgstr "Exportar os datos das guías"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5167
 #: src/timeline2/view/timelinecontroller.cpp:5172
-#: src/titler/titlewidget.cpp:2272
+#: src/titler/titlewidget.cpp:2266
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Non é posíbel escribir no ficheiro %1"
@@ -21982,7 +21981,7 @@ msgstr "Volteo vertical"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #: src/effects/effectstack/view/effectstackview.cpp:429
-#: src/effects/effectstack/view/effectstackview.cpp:986
+#: src/effects/effectstack/view/effectstackview.cpp:991
 #, kde-format
 msgid "Remove Background"
 msgstr "Retirar o fondo"
@@ -22019,30 +22018,30 @@ msgstr "Desactivar a morea de efectos"
 msgid "No effect selected."
 msgstr "Non se seleccionou ningún efecto."
 
-#: src/effects/effectstack/view/effectstackview.cpp:823
+#: src/effects/effectstack/view/effectstackview.cpp:831
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Gardar a morea de efectos actual"
 
-#: src/effects/effectstack/view/effectstackview.cpp:828
+#: src/effects/effectstack/view/effectstackview.cpp:836
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nome para a morea gardada:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:829
+#: src/effects/effectstack/view/effectstackview.cpp:837
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Descrición:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:841
+#: src/effects/effectstack/view/effectstackview.cpp:849
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Non forneceu un nome, a morea de efectos non se gardou."
 
-#: src/effects/effectstack/view/effectstackview.cpp:848
+#: src/effects/effectstack/view/effectstackview.cpp:856
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -22051,8 +22050,8 @@ msgstr ""
 "Non se forneceu unha descrición.\n"
 "Quere gardar o efecto sen descrición?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:983
-#: src/effects/effectstack/view/effectstackview.cpp:1009
+#: src/effects/effectstack/view/effectstackview.cpp:988
+#: src/effects/effectstack/view/effectstackview.cpp:1014
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Interromper a creación de máscara"
@@ -23563,8 +23562,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Conmuta a pista de subtítulos na cronoloxía."
 
-#: src/mainwindow.cpp:1190 src/titler/titlewidget.cpp:386
-#: src/titler/titlewidget.cpp:389
+#: src/mainwindow.cpp:1190 src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Selection Tool"
 msgstr "Ferramenta de selección"
@@ -24221,7 +24219,7 @@ msgstr "Eliminar o marcador"
 msgid "Edit Marker…"
 msgstr "Editar o marcador…"
 
-#: src/mainwindow.cpp:1703 src/timeline2/model/timelinefunctions.cpp:1220
+#: src/mainwindow.cpp:1703 src/timeline2/model/timelinefunctions.cpp:1224
 #, kde-format
 msgid "Restore Audio"
 msgstr "Restaurar o son"
@@ -24616,7 +24614,7 @@ msgstr "Crear de novo"
 
 #: src/mainwindow.cpp:2149 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2255
+#: src/titler/titlewidget.cpp:2249
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -27363,8 +27361,7 @@ msgid_plural "%1 images found"
 msgstr[0] "1 imaxe atopada"
 msgstr[1] "%1 imaxes atopadas"
 
-#: src/project/dialogs/projectsettings.cpp:813 src/titler/titlewidget.cpp:425
-#: src/titler/titlewidget.cpp:428
+#: src/project/dialogs/projectsettings.cpp:813 src/titler/titlewidget.cpp:421
 #, kde-format
 msgid "Save As"
 msgstr "Gardar como"
@@ -29315,99 +29312,99 @@ msgstr "Active unha pista facendo clic na súa etiqueta"
 msgid "No clip selected"
 msgstr "Non seleccionou ningún fragmento"
 
-#: src/timeline2/model/timelinefunctions.cpp:1018
+#: src/timeline2/model/timelinefunctions.cpp:1022
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Non é posíbel mover o grupo seleccionado"
 
-#: src/timeline2/model/timelinefunctions.cpp:1119
 #: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1130
+#: src/timeline2/model/timelinefunctions.cpp:1127
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #: src/timeline2/view/timelinecontroller.cpp:4039
 #, kde-format
 msgid "Enable clip"
 msgstr "Activar o fragmento"
 
-#: src/timeline2/model/timelinefunctions.cpp:1119
 #: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1130
+#: src/timeline2/model/timelinefunctions.cpp:1127
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #: src/timeline2/view/timelinecontroller.cpp:4039
 #, kde-format
 msgid "Disable clip"
 msgstr "Desactivar o fragmento"
 
-#: src/timeline2/model/timelinefunctions.cpp:1172
+#: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Algúns fragmentos non teñen son ou xa son de son"
 
-#: src/timeline2/model/timelinefunctions.cpp:1197
-#: src/timeline2/model/timelinefunctions.cpp:1213
+#: src/timeline2/model/timelinefunctions.cpp:1201
+#: src/timeline2/model/timelinefunctions.cpp:1217
 #, kde-format
 msgid "Audio restore failed"
 msgstr "A restauración de son fallou"
 
-#: src/timeline2/model/timelinefunctions.cpp:1252
+#: src/timeline2/model/timelinefunctions.cpp:1256
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Non hai pistas de vídeo dispoñíbeis para a operación de restauración"
 
-#: src/timeline2/model/timelinefunctions.cpp:1260
-#: src/timeline2/model/timelinefunctions.cpp:1273
+#: src/timeline2/model/timelinefunctions.cpp:1264
+#: src/timeline2/model/timelinefunctions.cpp:1277
 #, kde-format
 msgid "Video restore failed"
 msgstr "A restauración de vídeo fallou"
 
-#: src/timeline2/model/timelinefunctions.cpp:1279
+#: src/timeline2/model/timelinefunctions.cpp:1283
 #, kde-format
 msgid "Restore Video"
 msgstr "Restaurar o vídeo"
 
-#: src/timeline2/model/timelinefunctions.cpp:1326
+#: src/timeline2/model/timelinefunctions.cpp:1330
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Cambiar a pista da composición"
 
-#: src/timeline2/model/timelinefunctions.cpp:1341
+#: src/timeline2/model/timelinefunctions.cpp:1345
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Non é posíbel activar a vista de varias pistas nunha pista individual"
 
-#: src/timeline2/model/timelinefunctions.cpp:1495
+#: src/timeline2/model/timelinefunctions.cpp:1499
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Engadir o fragmento á biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1495
+#: src/timeline2/model/timelinefunctions.cpp:1499
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Insira un nome para o fragmento na biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1886
+#: src/timeline2/model/timelinefunctions.cpp:1890
 #, kde-format
 msgid "Paste clips"
 msgstr "Pegar os fragmentos"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
-#: src/timeline2/model/timelinefunctions.cpp:2074
-#: src/timeline2/model/timelinefunctions.cpp:2097
-#: src/timeline2/model/timelinefunctions.cpp:2136
-#: src/timeline2/model/timelinefunctions.cpp:2414
+#: src/timeline2/model/timelinefunctions.cpp:1904
+#: src/timeline2/model/timelinefunctions.cpp:2078
+#: src/timeline2/model/timelinefunctions.cpp:2101
+#: src/timeline2/model/timelinefunctions.cpp:2140
+#: src/timeline2/model/timelinefunctions.cpp:2418
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Non hai pistas dabondo para pegar o portapapeis"
 
-#: src/timeline2/model/timelinefunctions.cpp:1969
+#: src/timeline2/model/timelinefunctions.cpp:1973
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Hai outra operación de pegar en progreso"
 
-#: src/timeline2/model/timelinefunctions.cpp:1981
+#: src/timeline2/model/timelinefunctions.cpp:1985
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Non hai datos válidos no portapapeis"
 
-#: src/timeline2/model/timelinefunctions.cpp:2020
+#: src/timeline2/model/timelinefunctions.cpp:2024
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -29415,15 +29412,15 @@ msgstr ""
 "Non hai pistas dabondo para pegar o portapapeis (require %1 pistas de son e "
 "%2 de vídeo)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2154
-#: src/timeline2/model/timelinefunctions.cpp:2172
-#: src/timeline2/model/timelinefunctions.cpp:2203
-#: src/timeline2/model/timelinefunctions.cpp:2208
+#: src/timeline2/model/timelinefunctions.cpp:2158
+#: src/timeline2/model/timelinefunctions.cpp:2176
+#: src/timeline2/model/timelinefunctions.cpp:2207
+#: src/timeline2/model/timelinefunctions.cpp:2212
 #, kde-format
 msgid "Pasted clips"
 msgstr "Fragmentos pegados"
 
-#: src/timeline2/model/timelinefunctions.cpp:2192
+#: src/timeline2/model/timelinefunctions.cpp:2196
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -29433,45 +29430,45 @@ msgstr ""
 "proxectos actuais.<br/>\n"
 "Pode que os fragmentos e fotogramas clave se estragasen."
 
-#: src/timeline2/model/timelinefunctions.cpp:2194
+#: src/timeline2/model/timelinefunctions.cpp:2198
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Advertencia de pegado"
 
-#: src/timeline2/model/timelinefunctions.cpp:2194
+#: src/timeline2/model/timelinefunctions.cpp:2198
 #, kde-format
 msgid "Paste"
 msgstr "Pegar"
 
-#: src/timeline2/model/timelinefunctions.cpp:2276
-#: src/timeline2/model/timelinefunctions.cpp:2284
-#: src/timeline2/model/timelinefunctions.cpp:2352
+#: src/timeline2/model/timelinefunctions.cpp:2280
+#: src/timeline2/model/timelinefunctions.cpp:2288
+#: src/timeline2/model/timelinefunctions.cpp:2356
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Non foi posíbel engadir o fragmento da caixa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2406
+#: src/timeline2/model/timelinefunctions.cpp:2410
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Non se copiaron todos os fragmentos"
 
-#: src/timeline2/model/timelinefunctions.cpp:2456
-#: src/timeline2/model/timelinefunctions.cpp:2637
+#: src/timeline2/model/timelinefunctions.cpp:2460
+#: src/timeline2/model/timelinefunctions.cpp:2641
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Non foi posíbel pegar os elementos na cronoloxía"
 
-#: src/timeline2/model/timelinefunctions.cpp:2657
+#: src/timeline2/model/timelinefunctions.cpp:2661
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Pegar os fragmentos da cronoloxía"
 
-#: src/timeline2/model/timelinefunctions.cpp:2877
+#: src/timeline2/model/timelinefunctions.cpp:2881
 #, kde-format
 msgid "Remove space on track"
 msgstr "Retirar o espazo da pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:2904
+#: src/timeline2/model/timelinefunctions.cpp:2908
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Eliminar os fragmentos da pista"
@@ -29764,14 +29761,14 @@ msgid "Change clip speed"
 msgstr "Cambiar a velocidade do fragmento"
 
 #: src/timeline2/model/timelinemodel.cpp:6911
-#: src/timeline2/view/qml/timeline.qml:1214
+#: src/timeline2/view/qml/timeline.qml:1215
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "Bloquear pista"
 
 #: src/timeline2/model/timelinemodel.cpp:6916
-#: src/timeline2/view/qml/timeline.qml:1214
+#: src/timeline2/view/qml/timeline.qml:1215
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
@@ -29926,7 +29923,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2191
+#: src/timeline2/view/qml/timeline.qml:2192
 #, kde-format
 msgid "Paused"
 msgstr "En pausa"
@@ -30070,51 +30067,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Clic duplo</b> para editar o texto"
 
-#: src/timeline2/view/qml/timeline.qml:1005
+#: src/timeline2/view/qml/timeline.qml:1006
 #, kde-format
 msgid "Show master effects"
 msgstr "Amosar os efectos mestres"
 
-#: src/timeline2/view/qml/timeline.qml:1148
+#: src/timeline2/view/qml/timeline.qml:1149
 #, kde-format
 msgid "Click to see details"
 msgstr "Prema para ver os detalles"
 
-#: src/timeline2/view/qml/timeline.qml:1170
+#: src/timeline2/view/qml/timeline.qml:1171
 #, kde-format
 msgid "Speech recognition"
 msgstr "Recoñecemento de fala"
 
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1191
 #: src/timeline2/view/qml/TrackHead.qml:430
 #, kde-format
 msgid "Show"
 msgstr "Amosar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1190
+#: src/timeline2/view/qml/timeline.qml:1191
 #: src/timeline2/view/qml/TrackHead.qml:430 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Agochar"
 
-#: src/timeline2/view/qml/timeline.qml:1854
+#: src/timeline2/view/qml/timeline.qml:1855
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Clic duplo</b> para engadir un subtítulo"
 
-#: src/timeline2/view/qml/timeline.qml:2021
+#: src/timeline2/view/qml/timeline.qml:2022
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desprazamento: %1, posición: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2180
-#: src/timeline2/view/qml/timeline.qml:2189
+#: src/timeline2/view/qml/timeline.qml:2181
+#: src/timeline2/view/qml/timeline.qml:2190
 #, kde-format
 msgid "Recording"
 msgstr "Gravación"
 
-#: src/timeline2/view/qml/timeline.qml:2283
+#: src/timeline2/view/qml/timeline.qml:2284
 #, kde-format
 msgid "Multicam In"
 msgstr "Entrada de varias cámaras"
@@ -30549,7 +30546,7 @@ msgid "No available stream"
 msgstr "Non hai ningún fluxo dispoñíbel"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3322 src/titler/titlewidget.cpp:3325
+#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradación %1"
@@ -30619,152 +30616,152 @@ msgstr "Anchura do bordo"
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:274
+#: src/titler/titlewidget.cpp:276
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Luz"
 
-#: src/titler/titlewidget.cpp:275
+#: src/titler/titlewidget.cpp:277
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/titler/titlewidget.cpp:276
+#: src/titler/titlewidget.cpp:278
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Semigrosa"
 
-#: src/titler/titlewidget.cpp:277
+#: src/titler/titlewidget.cpp:279
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Negra"
 
-#: src/titler/titlewidget.cpp:278
+#: src/titler/titlewidget.cpp:280
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Negro"
 
-#: src/titler/titlewidget.cpp:279
+#: src/titler/titlewidget.cpp:281
 #, kde-format
 msgid "Font weight"
 msgstr "Grosor da fonte"
 
-#: src/titler/titlewidget.cpp:293
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Inserir un carácter unicode"
 
-#: src/titler/titlewidget.cpp:299
+#: src/titler/titlewidget.cpp:301
 #, kde-format
 msgid "Raise object"
 msgstr "Levantar o obxecto"
 
-#: src/titler/titlewidget.cpp:305
+#: src/titler/titlewidget.cpp:307
 #, kde-format
 msgid "Lower object"
 msgstr "Baixar o obxecto"
 
-#: src/titler/titlewidget.cpp:313
+#: src/titler/titlewidget.cpp:315
 #, kde-format
 msgid "Raise object to top"
 msgstr "Levantar o obxecto á parte superior"
 
-#: src/titler/titlewidget.cpp:320
+#: src/titler/titlewidget.cpp:322
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Baixar o obxecto ata o fondo"
 
-#: src/titler/titlewidget.cpp:326
+#: src/titler/titlewidget.cpp:328
 #, kde-format
 msgid "Select All"
 msgstr "Seleccionalo todo"
 
-#: src/titler/titlewidget.cpp:332
+#: src/titler/titlewidget.cpp:334
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Manter só os elementos de texto seleccionados"
 
-#: src/titler/titlewidget.cpp:339
+#: src/titler/titlewidget.cpp:341
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Manter só os elementos de rectángulo seleccionados"
 
-#: src/titler/titlewidget.cpp:346
+#: src/titler/titlewidget.cpp:348
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Manter só os elementos de imaxe seleccionados"
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:355
 #, kde-format
 msgid "Deselect"
 msgstr "Anular a selección"
 
-#: src/titler/titlewidget.cpp:358
+#: src/titler/titlewidget.cpp:360
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Inverter o eixe x e cambiar punto 0"
 
-#: src/titler/titlewidget.cpp:359
+#: src/titler/titlewidget.cpp:361
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Inverter o eixe y e cambiar punto 0"
 
-#: src/titler/titlewidget.cpp:360
+#: src/titler/titlewidget.cpp:362
 #, kde-format
 msgid "Select fill color"
 msgstr "Seleccionar a cor de recheo"
 
-#: src/titler/titlewidget.cpp:361
+#: src/titler/titlewidget.cpp:363
 #, kde-format
 msgid "Select border color"
 msgstr "Escoller a cor do bordo"
 
-#: src/titler/titlewidget.cpp:363
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Tamaño orixinal (1:1)"
 
-#: src/titler/titlewidget.cpp:364
+#: src/titler/titlewidget.cpp:366
 #, kde-format
 msgid "Fit zoom"
 msgstr "Axustar a ampliación"
 
-#: src/titler/titlewidget.cpp:365
+#: src/titler/titlewidget.cpp:367
 #, kde-format
 msgid "Select background color"
 msgstr "Escoller a cor do fondo"
 
-#: src/titler/titlewidget.cpp:367
+#: src/titler/titlewidget.cpp:369
 #, kde-format
 msgid "Select all"
 msgstr "Escoller todo"
 
-#: src/titler/titlewidget.cpp:368
+#: src/titler/titlewidget.cpp:370
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Escoller os elementos de texto da selección"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:371
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Escoller os elementos rectos da selección"
 
-#: src/titler/titlewidget.cpp:370
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Escoller os elementos de imaxe da selección"
 
-#: src/titler/titlewidget.cpp:371
+#: src/titler/titlewidget.cpp:373
 #, kde-format
 msgid "Unselect all"
 msgstr "Anular toda a selección"
 
-#: src/titler/titlewidget.cpp:390
+#: src/titler/titlewidget.cpp:391
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30774,43 +30771,42 @@ msgstr ""
 "Cando se selecciona, un clic nun activo da cronoloxía selecciona o activo "
 "(p. ex. un fragmento, unha composición)."
 
-#: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
+#: src/titler/titlewidget.cpp:399
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Engadir un rectángulo"
 
-#: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:404
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Engadir unha elipse"
 
-#: src/titler/titlewidget.cpp:411 src/titler/titlewidget.cpp:414
-#: src/titler/titlewidget.cpp:894
+#: src/titler/titlewidget.cpp:409 src/titler/titlewidget.cpp:888
 #, kde-format
 msgid "Add Image"
 msgstr "Engadir unha imaxe"
 
-#: src/titler/titlewidget.cpp:419 src/titler/titlewidget.cpp:422
+#: src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Open Document"
 msgstr "Abrir un documento"
 
-#: src/titler/titlewidget.cpp:431 src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:426
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "Descargar novos modelos de títulos…"
 
-#: src/titler/titlewidget.cpp:555
+#: src/titler/titlewidget.cpp:549
 #, kde-format
 msgid "Save and add to project"
 msgstr "Gardar e engadir ao proxecto"
 
-#: src/titler/titlewidget.cpp:556
+#: src/titler/titlewidget.cpp:550
 #, kde-format
 msgid "Create Title"
 msgstr "Crear un título"
 
-#: src/titler/titlewidget.cpp:774
+#: src/titler/titlewidget.cpp:768
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -30819,49 +30815,49 @@ msgstr ""
 "Seguro que quere cargar un modelo novo? Perderá os cambios feitos neste "
 "título!"
 
-#: src/titler/titlewidget.cpp:882
+#: src/titler/titlewidget.cpp:876
 #, kde-format
 msgid "All Images"
 msgstr "Todas as imaxes"
 
-#: src/titler/titlewidget.cpp:884
+#: src/titler/titlewidget.cpp:878
 #, kde-format
 msgid "%1 Image"
 msgstr "Imaxe %1"
 
-#: src/titler/titlewidget.cpp:1709
+#: src/titler/titlewidget.cpp:1703
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1711 src/ui/titlewidget_ui.ui:258
+#: src/titler/titlewidget.cpp:1705 src/ui/titlewidget_ui.ui:258
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1733
+#: src/titler/titlewidget.cpp:1727
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1735 src/ui/titlewidget_ui.ui:288
+#: src/titler/titlewidget.cpp:1729 src/ui/titlewidget_ui.ui:288
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2206
+#: src/titler/titlewidget.cpp:2200
 #, kde-format
 msgid "Load Title"
 msgstr "Cargar título"
 
-#: src/titler/titlewidget.cpp:2207
+#: src/titler/titlewidget.cpp:2201
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Título de Kdenlive"
 
-#: src/titler/titlewidget.cpp:2253
+#: src/titler/titlewidget.cpp:2247
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30870,57 +30866,57 @@ msgstr ""
 "Quere incorporar imaxes a este documento de título?\n"
 "Isto é moi necesario para compartir títulos."
 
-#: src/titler/titlewidget.cpp:2254
+#: src/titler/titlewidget.cpp:2248
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Incrustar as imaxes"
 
-#: src/titler/titlewidget.cpp:2309
+#: src/titler/titlewidget.cpp:2303
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Ao título fáltalle 1 elemento"
 msgstr[1] "Ao título fáltanlle %1 elementos"
 
-#: src/titler/titlewidget.cpp:2310 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2304 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detalles"
 
-#: src/titler/titlewidget.cpp:2313
+#: src/titler/titlewidget.cpp:2307
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Eliminar os elementos que faltan"
 
-#: src/titler/titlewidget.cpp:2373
+#: src/titler/titlewidget.cpp:2367
 #, kde-format
 msgid "Update Title"
 msgstr "Actualizar o título"
 
-#: src/titler/titlewidget.cpp:2376
+#: src/titler/titlewidget.cpp:2370
 #, kde-format
 msgid "Add as new Title"
 msgstr "Engadir como novo título"
 
-#: src/titler/titlewidget.cpp:2430
+#: src/titler/titlewidget.cpp:2424
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Faltan os seguintes ficheiros:"
 
-#: src/titler/titlewidget.cpp:2624
+#: src/titler/titlewidget.cpp:2618
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Área de visualización inicial"
 
-#: src/titler/titlewidget.cpp:2625
+#: src/titler/titlewidget.cpp:2619
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Área de visualización final"
 
-#: src/titler/titlewidget.cpp:3355
+#: src/titler/titlewidget.cpp:3349
 #, kde-format
 msgid "Gradient"
 msgstr "Gradación"
