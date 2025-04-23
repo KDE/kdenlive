@@ -33,6 +33,7 @@
 static QStringList m_errorMessage;
 static QStringList m_notesLog;
 std::unordered_map<QString, QString> binIdCorresp;
+static QStringList brokenBinProducers;
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, bool useMappedIds, const QString trackTag, Mlt::Tractor &track,
                             Fun &undo, Fun &redo, bool audioTrack, const QString &originalDecimalPoint);
@@ -50,10 +51,16 @@ bool loadProjectBin(Mlt::Tractor tractor, const QUuid &activeUuid)
     int zoomLevel = -1;
     binIdCorresp.clear();
     m_notesLog.clear();
-    QList<QUuid> brokenSequences = pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, extraBins, activeUuid, zoomLevel);
+    brokenBinProducers.clear();
+    const QMap<QUuid, QString> brokenSequences =
+        pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, extraBins, activeUuid, zoomLevel);
     if (!brokenSequences.isEmpty()) {
-        KMessageBox::error(qApp->activeWindow(), i18n("Found an invalid sequence clip in Bin"));
-        return false;
+        QStringList brokenUuids;
+        for (auto i = brokenSequences.cbegin(), end = brokenSequences.cend(); i != end; ++i) {
+            brokenBinProducers << i.value();
+            brokenUuids << QStringLiteral("%1=%2").arg(i.key().toString(), i.value());
+        }
+        KMessageBox::detailedError(qApp->activeWindow(), i18n("Found an invalid sequence clip in Bin"), brokenUuids.join(QLatin1Char('\n')));
     }
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
@@ -821,7 +828,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                         m_errorMessage << i18n("Project corrupted. Clip %1 (%2) not found in project bin.", clip->parent().get("id"), clipId);
                         continue;
                     }
-                } else if (binIdCorresp.count(clipId) == 0) {
+                } else if (binIdCorresp.count(clipId) == 0 || brokenBinProducers.contains(clipId)) {
                     if (clip->property_exists("kdenlive:remove")) {
                         // Clip was marked for deletion
                         continue;
@@ -829,7 +836,6 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     // Project was somehow corrupted
                     qWarning() << "can't find clip with id: " << clipId << "in bin playlist\n"
                                << "CID: " << clip->parent().get("id");
-                    exit(1);
                     QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(resource));
                     const QString tcInfo =
                         QStringLiteral("<a href=\"%1!%2?%3\">%4 %5</a>")

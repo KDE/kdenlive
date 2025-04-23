@@ -1335,12 +1335,12 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return !m_allIds.contains(id.toInt());
 }
 
-QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                               QStringList &extraBins, const QUuid &activeUuid, int &zoomLevel)
+QMap<QUuid, QString> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp,
+                                                       QStringList &expandedFolders, QStringList &extraBins, const QUuid &activeUuid, int &zoomLevel)
 {
     QWriteLocker locker(&m_lock);
     clean();
-    QList<QUuid> brokenSequences;
+    QMap<QUuid, QString> brokenSequences;
     QList<QUuid> foundSequences;
     QList<int> foundIds;
     Mlt::Properties retainList(mlt_properties(documentTractor->get_data("xml_retain")));
@@ -1458,7 +1458,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         if (foundIds.contains(id)) {
                             qWarning() << "ERROR, several Sequence Clips using the same id: " << id << ", UUID: " << uuid.toString()
                                        << "\n____________________";
-                            brokenSequences << uuid;
+                            brokenSequences.insert(uuid, QString(prod->parent().get("kdenlive:control_uuid")));
                         }
                         foundIds << id;
                         binProducers.insert(id, prod2);
@@ -1468,7 +1468,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         if (resource.endsWith(QLatin1String("<tractor>"))) {
                             // Buggy internal xml producer, drop
                             qDebug() << "/// AARGH INCORRECT SEQUENCE CLIP IN PROJECT BIN... TRY TO RECOVER";
-                            brokenSequences.append(QUuid(uuid));
+                            brokenSequences.insert(QUuid(uuid), QString(prod->parent().get("kdenlive:control_uuid")));
                         }
                     }
                     continue;
@@ -1503,7 +1503,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                     binProducers.insert(id, std::move(producer));
                     foundSequences << activeUuid;
                 } else {
-                    brokenSequences << activeUuid;
+                    brokenSequences.insert(activeUuid, QString());
                 }
             }
             // Do the real insertion

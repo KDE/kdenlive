@@ -116,8 +116,8 @@ public:
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree
      *  @return A list of invalid sequence clips found in Project Bin (can be caused by 23.04.0 bug)
      */
-    QList<QUuid> loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                 QStringList &extraBins, const QUuid &activeUuid, int &zoomLevel);
+    QMap<QUuid, QString> loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
+                                         QStringList &extraBins, const QUuid &activeUuid, int &zoomLevel);
     void loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Save document properties in MLT's bin playlist */
