@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 02:33+0000\n"
-"PO-Revision-Date: 2025-04-18 17:28+0300\n"
+"PO-Revision-Date: 2025-04-24 17:19+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -1641,22 +1641,19 @@ msgid "Blue Midtones"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Red Highlights"
-msgstr "Подсвечивать пики"
+msgstr "Красные блики"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:29
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Green Highlights"
-msgstr "Подсвечивать пики"
+msgstr "Зелёные блики"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:32
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Blue Highlights"
-msgstr "Подсвечивать пики"
+msgstr "Синие блики"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:35
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
@@ -1784,10 +1781,9 @@ msgid "Preserving lightness"
 msgstr "Яркость фона"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Effect"
+#, kde-format
 msgid "Color Correct"
-msgstr "Цветовой эффект"
+msgstr "Исправление цвета"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:5
 #, kde-format
@@ -1799,23 +1795,22 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
 msgid "Red shadow spot"
-msgstr ""
+msgstr "Область красных теней"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:11
 #, kde-format
 msgid "Blue shadow spot"
-msgstr ""
+msgstr "Область синих теней"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:14
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Red highlight spot"
-msgstr "Подсвечивать пики"
+msgstr "Область красных бликов"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:17
 #, kde-format
 msgid "Blue highlight spot"
-msgstr ""
+msgstr "Область синих бликов"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:20
 #: data/effects/avfilter/avfilter_colorize.xml:11
@@ -1836,10 +1831,9 @@ msgid "Manual,Average,Minimax,Median"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
-#, fuzzy, kde-format
-#| msgid "Analyze"
+#, kde-format
 msgid "Analyze mode"
-msgstr "Анализ"
+msgstr "Режим анализа"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
 #, kde-format
@@ -2043,10 +2037,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
-#, fuzzy, kde-format
-#| msgid "Output time"
+#, kde-format
 msgid "Output Color Primaries"
-msgstr "Время вывода"
+msgstr "Выходные основные цвета"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:24
 #: data/effects/avfilter/avfilter_colorspace.xml:59
@@ -2072,24 +2065,22 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
 msgid "Output Color Format"
-msgstr ""
+msgstr "Выходной цветовой формат"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
-#, fuzzy, kde-format
-#| msgid "version"
+#, kde-format
 msgid "Fast Conversion"
-msgstr "версия"
+msgstr "Быстрое преобразование"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
 msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
+msgstr "Без дизеринга,Дизеринг Флойда — Стейнберга"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
-#, fuzzy, kde-format
-#| msgid "View Mode"
+#, kde-format
 msgid "Dithering Mode"
-msgstr "Режим просмотра"
+msgstr "Режим дизеринга"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:39
 #, kde-format
@@ -2097,6 +2088,8 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"Адаптация точки белого Бредфорда,Адаптация точки белого фон Криса,Адаптация "
+"точки белого профиля"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
@@ -2140,6 +2133,8 @@ msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
 msgstr ""
+"Настройка цветовой температуры в видео для симуляции колебаний цветовой "
+"температуры окружающей среды "
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
@@ -3935,16 +3930,14 @@ msgstr ""
 "направленность и растянуть стереофонический образ."
 
 #: data/effects/avfilter/avfilter_haas.xml:9
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level in"
-msgstr "Уровни"
+msgstr "Уровень на входе"
 
 #: data/effects/avfilter/avfilter_haas.xml:12
-#, fuzzy, kde-format
-#| msgid "Level of trip"
+#, kde-format
 msgid "Level out"
-msgstr "Уровень срабатывания"
+msgstr "Уровень на выходе"
 
 #: data/effects/avfilter/avfilter_haas.xml:15
 #, fuzzy, kde-format
@@ -4675,10 +4668,9 @@ msgid "Color filter size"
 msgstr "Размер центральной области"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:17
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Highlights strength"
-msgstr "Подсвечивать пики"
+msgstr "Сила бликов"
 
 #: data/effects/avfilter/avfilter_negate.xml:4
 #, fuzzy, kde-format
@@ -5784,10 +5776,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:8
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level IN"
-msgstr "Уровни"
+msgstr "Уровень на входе"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:10
 #: data/effects/avfilter/avfilter_stereotools.xml:15
@@ -5798,10 +5789,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
-#, fuzzy, kde-format
-#| msgid "Levels"
+#, kde-format
 msgid "Level OUT"
-msgstr "Уровни"
+msgstr "Уровень на выходе"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:18
 #: data/effects/avfilter/avfilter_stereotools.xml:86
@@ -5960,10 +5950,9 @@ msgstr ""
 "наоборот. По умолчанию: 0. Допустимый диапазон: от -20 до 20."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
-#, fuzzy, kde-format
-#| msgid "Mic level"
+#, kde-format
 msgid "S/C level"
-msgstr "Уровень микрофона"
+msgstr "Уровень S/C"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:75
 #, kde-format
@@ -6057,7 +6046,7 @@ msgstr "«Сухое» смешивание"
 #: data/effects/avfilter/avfilter_stereowiden.xml:23
 #, kde-format
 msgid "Set level of input signal of original channel."
-msgstr ""
+msgstr "Установить уровень входного сигнала исходного канала."
 
 #: data/effects/avfilter/avfilter_tmix.xml:4
 #, kde-format
@@ -8325,7 +8314,7 @@ msgstr "Баланс белого (пространство LMS)"
 #: data/effects/frei0r/frei0r_colgate.xml:5
 #, kde-format
 msgid "Do simple color correction, in a physically meaningful way"
-msgstr "Простая коррекция цвета, заметная глазу"
+msgstr "Простое исправление цвета, заметное глазу"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:4
 #, kde-format
@@ -9061,7 +9050,7 @@ msgid "Color glitching intensity"
 msgstr "Интенсивность"
 
 #: data/effects/frei0r/frei0r_glow.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Glow Effect Name"
 msgid "Glow"
 msgstr "Свечение"
@@ -9897,7 +9886,7 @@ msgstr "Пикселизация"
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
 msgid "Pixelize input image."
-msgstr "Пикселизация оригинального изображения."
+msgstr "Пикселизация входного изображения"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
 #, kde-format
@@ -10523,7 +10512,7 @@ msgid "Sobel filter"
 msgstr "Фильтр Собеля"
 
 #: data/effects/frei0r/frei0r_softglow.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Soft Glow Effect Name"
 msgid "Soft Glow"
 msgstr "Мягкое свечение"
@@ -10536,7 +10525,7 @@ msgstr "Влияет ли эффект мягкого свечения на бл
 #: data/effects/frei0r/frei0r_softglow.xml:9
 #, kde-format
 msgid "Blur of the glow"
-msgstr ""
+msgstr "Размытие свечения"
 
 #: data/effects/frei0r/frei0r_softglow.xml:10
 #: data/effects/frei0r/frei0r_softglow.xml:14
@@ -10562,15 +10551,11 @@ msgid "Blend mode"
 msgstr "Режим смешивания"
 
 #: data/effects/frei0r/frei0r_softglow.xml:23
-#, fuzzy, kde-format
-#| msgid ""
-#| "Blend mode used to blend highlight blur with input image. 0 - 0.33 - "
-#| "screen, 0.33 - 0.66 - overlay, 0.66 - 1.0 - add."
+#, kde-format
 msgid "Blend mode used to blend highlight blur with input image."
 msgstr ""
-"Режим смешения, используемый для смешения размытых светлых областей с "
-"оригинальным изображением. 0 - 0,33 - экранирование, 0,33 - 0,66 - "
-"наложение, 0,66 - 1,0 - добавление."
+"Режим смешивания, используемый для смешивания размытых светлых областей с "
+"входным изображением."
 
 #: data/effects/frei0r/frei0r_sopsat.xml:5
 #: data/effects/frei0r/frei0r_sopsat.xml:55
@@ -10606,8 +10591,8 @@ msgid ""
 "gradient and looking at the RGB Parade monitor.]]>"
 msgstr ""
 "<![CDATA[Изменение крутизны канала — увеличение значения пикселов на "
-"константное значение. Чёрные пикселы останутся чёрнымими, в то время как "
-"более яркие пикселы будут изменены.<br/>\n"
+"константное значение. Чёрные пикселы останутся чёрными, в то время как более "
+"яркие пикселы будут изменены.<br/>\n"
 "                Все эффекты хорошо видны, если их применить к градиенту в "
 "оттенках серого и наблюдать на мониторе «Парад RGB».]]>"
 
