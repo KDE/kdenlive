@@ -2152,6 +2152,68 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
     return true;
 }
 
+bool ProjectManager::buildTimeline(const QString &binId, const QUuid &uuid)
+{
+    // Build timeline
+    std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, m_project->commandStack());
+    m_project->addTimeline(uuid, timelineModel);
+    std::unique_ptr<Mlt::Producer> xmlProd = nullptr;
+    std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
+    xmlProd.reset(new Mlt::Producer(clip->originalProducer().get()));
+    std::unique_ptr<Mlt::Tractor> tractor;
+    if (xmlProd->type() == mlt_service_tractor_type) {
+        tractor.reset(new Mlt::Tractor(*xmlProd.get()));
+    } else if (xmlProd->type() == mlt_service_producer_type) {
+        tractor.reset(new Mlt::Tractor((mlt_tractor)xmlProd->get_producer()));
+        tractor->set("id", uuid.toString().toUtf8().constData());
+    }
+    // Load sequence properties from the xml producer
+    Mlt::Properties playlistProps(xmlProd->get_properties());
+    Mlt::Properties sequenceProperties;
+    sequenceProperties.pass_values(playlistProps, "kdenlive:sequenceproperties.");
+    for (int i = 0; i < sequenceProperties.count(); i++) {
+        m_project->setSequenceProperty(uuid, qstrdup(sequenceProperties.get_name(i)), qstrdup(sequenceProperties.get(i)));
+    }
+
+    const QUuid sourceDocUuid(m_project->getSequenceProperty(uuid, QStringLiteral("documentuuid")));
+    const QString chunks = m_project->getSequenceProperty(uuid, QStringLiteral("previewchunks"));
+    const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
+    if (!constructTimelineFromTractor(timelineModel, sourceDocUuid == m_project->uuid() ? nullptr : pCore->projectItemModel(), *tractor.get(),
+                                      m_project->modifiedDecimalPoint(), chunks, dirty)) {
+        //  TODO: act on project load failure
+        qDebug() << "// Project failed to load!!";
+        return false;
+    }
+    std::pair<int, int> durations = timelineModel->durations();
+    int duration = durations.second > 0 ? durations.second : durations.first;
+    std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
+    prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
+    prod->set("kdenlive:maxduration", durations.first);
+    prod->set("length", duration);
+    prod->set("kdenlive:producer_type", ClipType::Timeline);
+    prod->set("out", duration - 1);
+    prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+    prod->set("kdenlive:description", clip->description().toUtf8().constData());
+    prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+
+    prod->parent().set("kdenlive:duration", prod->frames_to_time(duration));
+    prod->parent().set("kdenlive:maxduration", durations.first);
+    prod->parent().set("length", duration);
+    prod->parent().set("out", duration - 1);
+    prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+    prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
+    prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+    prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
+    timelineModel->setMarkerModel(clip->markerModel());
+    if (pCore->bin()) {
+        pCore->bin()->updateSequenceClip(uuid, durations, -1);
+    }
+    updateSequenceProducer(uuid, prod);
+    clip->setProducer(prod, false, false);
+    m_project->loadSequenceGroupsAndGuides(uuid);
+    return true;
+}
+
 void ProjectManager::setTimelineProperty(QUuid uuid, const QString &prop, const QString &val)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);

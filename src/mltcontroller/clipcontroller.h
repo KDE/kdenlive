@@ -43,7 +43,7 @@ public:
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    explicit ClipController(const QString &id, const std::shared_ptr<Mlt::Producer> &producer = nullptr);
+    explicit ClipController(const QString &id, const std::shared_ptr<Mlt::Producer> &producer = nullptr, const QDomElement &description = QDomElement());
 
 public:
     virtual ~ClipController();

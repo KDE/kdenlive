@@ -151,7 +151,7 @@ void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer, 
 
 ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
-    , ClipController(id)
+    , ClipController(id, nullptr, description)
     , isReloading(false)
     , m_resetTimelineOccurences(false)
     , m_uuid(QUuid::createUuid())

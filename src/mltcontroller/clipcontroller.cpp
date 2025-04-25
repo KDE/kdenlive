@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "profiles/profilemodel.hpp"
+#include "xml/xml.hpp"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -27,7 +28,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 
-ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer)
+ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer, const QDomElement &description)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
     , m_producerLock(QReadWriteLock::Recursive)
@@ -64,7 +65,12 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
         checkAudioVideo();
     } else {
         m_producerLock.lockForWrite();
-        m_controlUuid = QUuid::createUuid();
+        if (Xml::hasXmlProperty(description, QStringLiteral("kdenlive:control_uuid"))) {
+            const QString uuid = Xml::getXmlProperty(description, QStringLiteral("kdenlive:control_uuid"));
+            m_controlUuid = QUuid(uuid);
+        } else {
+            m_controlUuid = QUuid::createUuid();
+        }
     }
 }
 

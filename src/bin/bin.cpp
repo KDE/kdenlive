@@ -5435,6 +5435,9 @@ void Bin::checkMissingProxies()
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     QList<std::shared_ptr<ProjectClip>> toProxy;
     for (const auto &clip : std::as_const(clipList)) {
+        if (!clip->statusReady()) {
+            continue;
+        }
         if (clip->getProducerIntProperty(QStringLiteral("_replaceproxy")) > 0) {
             clip->resetProducerProperty(QStringLiteral("_replaceproxy"));
             toProxy << clip;
