@@ -1592,7 +1592,7 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
                     qDebug() << ":::: LOOKING FOR A MATCHING ITEM TYPE: " << matchType;
                     // Try to find matching clip
                     bool found = false;
-                    const QString uuid = clip->parent().get("kdenlive:uuid");
+                    const QString uuid = clip->parent().get("kdenlive:control_uuid");
                     if (uuid.isEmpty() || binIdCorresp.find(uuid) == binIdCorresp.end()) {
                         for (const auto &clipLoop : m_allItems) {
                             auto c = std::static_pointer_cast<AbstractProjectItem>(clipLoop.second.lock());
@@ -1612,6 +1612,11 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
                         }
                     }
                     if (!found) {
+                        qDebug() << "::::: CLIP NOT FOUND FOR RESOURCE: " << clip->parent().get("resource") << ", ID: " << cid << ", CONTROL UUID: " << uuid
+                                 << ", BIN CORRESP SIZE: " << binIdCorresp.size();
+                        for (auto kv : binIdCorresp) {
+                            qDebug() << "BIN CORRESP IDS: " << kv.first;
+                        }
                         std::shared_ptr<Mlt::Producer> clipProd(new Mlt::Producer(clip->parent()));
                         binProducers.insert(cid, clipProd);
                     }

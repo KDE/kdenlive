@@ -119,6 +119,7 @@ public:
      */
     bool openTimeline(const QString &id, int ix, const QUuid &uuid, int position = -1, bool duplicate = false,
                       std::shared_ptr<TimelineItemModel> existingModel = nullptr, bool openInMonitor = true);
+    bool buildTimeline(const QString &binId, const QUuid &uuid);
     /** @brief Set a property on timeline uuid
      */
     void setTimelineProperty(QUuid uuid, const QString &prop, const QString &val);

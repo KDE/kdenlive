@@ -818,7 +818,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     }
                     // Check that the sequence clip exists
                     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
-                    if (binClip == nullptr || binClip->getProducerIntProperty("kdenlive:producer_type") != clip->parent().get_int("kdenlive:producer_type")) {
+                    if (binClip == nullptr || (binClip->statusReady() &&
+                                               binClip->getProducerIntProperty("kdenlive:producer_type") != clip->parent().get_int("kdenlive:producer_type"))) {
                         // Sequence clip not found, error out
                         const QString tcInfo =
                             QStringLiteral("<a href=\"%1!%2?%3\">%4 %5</a>")
