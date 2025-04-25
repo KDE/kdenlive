@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 00:40+0000\n"
-"PO-Revision-Date: 2025-04-23 12:48+0200\n"
+"PO-Revision-Date: 2025-04-24 16:25+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5486,6 +5486,11 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Zet de chroma-sterkte.<br>\n"
+"            De waarde configureert de vervaging. Een positieve waarde zal de "
+"afbeelding vervagen, terwijl een negatieve waarde de afbeelding zal "
+"verscherpen. Indien niet gespecificeerd is de standaard de waarde gezet voor "
+"de <em>Luma-sterkte</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -22203,10 +22208,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "De indeling %1 bestaat al. Wilt u het vervangen?"
 
 #: src/layouts/layoutmanagerdialog.cpp:30
-#, fuzzy, kde-format
-#| msgid "Manage Layouts…"
+#, kde-format
 msgid "Manage Layouts"
-msgstr "Indelingen beheren…"
+msgstr "Indelingen beheren"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -22230,10 +22234,9 @@ msgid "Export selected"
 msgstr "Geselecteerde exporteren"
 
 #: src/layouts/layoutmanagerdialog.cpp:140
-#, fuzzy, kde-format
-#| msgid "Current Layouts"
+#, kde-format
 msgid "Reset Layouts"
-msgstr "Huidige indelingen"
+msgstr "Indelingen resetten"
 
 #: src/layouts/layoutmanagerdialog.cpp:141
 #, kde-format
@@ -22245,47 +22248,39 @@ msgstr ""
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Import Layout"
-msgstr "Indeling exporteren"
+msgstr "Indeling importeren"
 
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:211
-#, fuzzy, kde-format
-#| msgid "Kdenlive project (*.kdenlive)"
+#, kde-format
 msgid "Kdenlive Layout (*.kdenlivelayout)"
-msgstr "Kdenlive-project (*.kdenlive)"
+msgstr "Kdenlive-indeling (*.kdenlivelayout)"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
 #: src/layouts/layoutmanagerdialog.cpp:207
 #: src/layouts/layoutmanagerdialog.cpp:211
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Export Layout"
 msgstr "Indeling exporteren"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
-#, fuzzy, kde-format
-#| msgid "No layout selected"
+#, kde-format
 msgid "No layout selected."
-msgstr "Geen indeling geselecteerd"
+msgstr "Geen indeling geselecteerd."
 
 #: src/layouts/layoutmanagerdialog.cpp:207
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find layout data for %1."
-msgstr "Kan indeling %1 niet vinden"
+msgstr "Kan indelingsgegevens voor %1 niet vinden."
 
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgid "Document shared successfully"
+#, kde-format
 msgid "Layout exported successfully."
-msgstr "Document met succes gedeeld"
+msgstr "Indeling met succes geëxporteerd."
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format

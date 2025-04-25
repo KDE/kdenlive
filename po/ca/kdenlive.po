@@ -4,13 +4,13 @@
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
-# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
+# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 00:40+0000\n"
-"PO-Revision-Date: 2025-04-23 10:21+0200\n"
+"PO-Revision-Date: 2025-04-24 12:31+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -22465,10 +22465,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "La disposició %1 ja existeix. Voleu sobreescriure-la?"
 
 #: src/layouts/layoutmanagerdialog.cpp:30
-#, fuzzy, kde-format
-#| msgid "Manage Layouts…"
+#, kde-format
 msgid "Manage Layouts"
-msgstr "Gestió de les disposicions…"
+msgstr "Gestió de les disposicions"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -22492,10 +22491,9 @@ msgid "Export selected"
 msgstr "Exporta la seleccionada"
 
 #: src/layouts/layoutmanagerdialog.cpp:140
-#, fuzzy, kde-format
-#| msgid "Current Layouts"
+#, kde-format
 msgid "Reset Layouts"
-msgstr "Disposicions actuals"
+msgstr "Reinicialitza les disposicions"
 
 #: src/layouts/layoutmanagerdialog.cpp:141
 #, kde-format
@@ -22503,51 +22501,45 @@ msgid ""
 "Are you sure you want to reset all layouts to the default set? This will "
 "remove all custom layouts."
 msgstr ""
+"Segur que voleu reinicialitzar totes les disposicions als valors "
+"predeterminats? Això eliminarà totes les disposicions personalitzades."
 
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Import Layout"
-msgstr "Exporta la disposició"
+msgstr "Importa una disposició"
 
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:211
-#, fuzzy, kde-format
-#| msgid "Kdenlive project (*.kdenlive)"
+#, kde-format
 msgid "Kdenlive Layout (*.kdenlivelayout)"
-msgstr "Projecte del Kdenlive (*.kdenlive)"
+msgstr "Disposició del Kdenlive (*.kdenlivelayout)"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
 #: src/layouts/layoutmanagerdialog.cpp:207
 #: src/layouts/layoutmanagerdialog.cpp:211
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Export Layout"
 msgstr "Exporta la disposició"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
-#, fuzzy, kde-format
-#| msgid "No layout selected"
+#, kde-format
 msgid "No layout selected."
-msgstr "No s'ha seleccionat cap disposició"
+msgstr "No s'ha seleccionat cap disposició."
 
 #: src/layouts/layoutmanagerdialog.cpp:207
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find layout data for %1."
-msgstr "No s'ha pogut trobar la disposició %1"
+msgstr "No s'han pogut trobar les dades de disposició de %1."
 
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgid "Document shared successfully"
+#, kde-format
 msgid "Layout exported successfully."
-msgstr "El document s'ha compartit correctament"
+msgstr "La disposició s'ha exportat correctament."
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format

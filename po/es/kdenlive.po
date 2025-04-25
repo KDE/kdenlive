@@ -1,8 +1,8 @@
 # Spanish translations for kdenlive.po package.
 # Copyright (C) 2015-2025 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdenlive package.
-#
 # Automatically generated, 2015.
+#
 # SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Gabriel Gazzán <gabcorreo@gmail.com>
 # SPDX-FileCopyrightText: 2025 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 00:40+0000\n"
-"PO-Revision-Date: 2025-04-24 00:47+0100\n"
-"Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
+"PO-Revision-Date: 2025-04-24 16:47+0100\n"
+"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -22539,7 +22539,7 @@ msgstr "Cargar organización"
 #: src/layouts/layoutmanagement.cpp:44
 #, kde-format
 msgid "Save Layout…"
-msgstr "Guardar organización…"
+msgstr "Guardar organización actual…"
 
 #: src/layouts/layoutmanagement.cpp:48
 #, kde-format
@@ -22549,12 +22549,12 @@ msgstr "Administrar organizaciones…"
 #: src/layouts/layoutmanagement.cpp:59
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
-msgstr "Ordenar áreas empotradas en filas"
+msgstr "Distribuir áreas empotradas en filas"
 
 #: src/layouts/layoutmanagement.cpp:63
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
-msgstr "Ordenar áreas empotradas en columnas"
+msgstr "Distribuir áreas empotradas en columnas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/layouts/layoutmanagement.cpp:82 src/ui/configmisc_ui.ui:344
@@ -22584,15 +22584,14 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "La organización %1 ya existe. ¿Sobrescribirla?"
 
 #: src/layouts/layoutmanagerdialog.cpp:30
-#, fuzzy, kde-format
-#| msgid "Manage Layouts…"
+#, kde-format
 msgid "Manage Layouts"
-msgstr "Administrar organizaciones…"
+msgstr "Administrar organizaciones"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
 msgid "Current Layouts"
-msgstr "Organizaciones actuales"
+msgstr "Organizaciones disponibles"
 
 #: src/layouts/layoutmanagerdialog.cpp:58
 #, kde-format
@@ -22603,18 +22602,17 @@ msgstr "Eliminar organización."
 #: src/layouts/layoutmanagerdialog.cpp:80 src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
-msgstr "Importar"
+msgstr "Importar…"
 
 #: src/layouts/layoutmanagerdialog.cpp:86
 #, kde-format
 msgid "Export selected"
-msgstr "Exportar seleccionada"
+msgstr "Exportar seleccionada…"
 
 #: src/layouts/layoutmanagerdialog.cpp:140
-#, fuzzy, kde-format
-#| msgid "Current Layouts"
+#, kde-format
 msgid "Reset Layouts"
-msgstr "Organizaciones actuales"
+msgstr "Restablecer organizaciones"
 
 #: src/layouts/layoutmanagerdialog.cpp:141
 #, kde-format
@@ -22622,51 +22620,45 @@ msgid ""
 "Are you sure you want to reset all layouts to the default set? This will "
 "remove all custom layouts."
 msgstr ""
+"¿Restablecer todas las organizaciones al conjunto predeterminado? Esto "
+"eliminará las organizaciones personalizadas."
 
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Import Layout"
-msgstr "Exportar organización"
+msgstr "Importar organización"
 
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:211
-#, fuzzy, kde-format
-#| msgid "Kdenlive project (*.kdenlive)"
+#, kde-format
 msgid "Kdenlive Layout (*.kdenlivelayout)"
-msgstr "Proyecto de Kdenlive (*.kdenlive)"
+msgstr "Organización de Kdenlive (*.kdenlivelayout)"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
 #: src/layouts/layoutmanagerdialog.cpp:207
 #: src/layouts/layoutmanagerdialog.cpp:211
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Export Layout"
 msgstr "Exportar organización"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
-#, fuzzy, kde-format
-#| msgid "No layout selected"
+#, kde-format
 msgid "No layout selected."
-msgstr "Ninguna organización seleccionada"
+msgstr "Ninguna organización seleccionada."
 
 #: src/layouts/layoutmanagerdialog.cpp:207
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find layout data for %1."
-msgstr "No se encuentra la organización %1"
+msgstr "No se encuentran datos de organización para %1."
 
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgid "Document shared successfully"
+#, kde-format
 msgid "Layout exported successfully."
-msgstr "Documento compartido exitosamente"
+msgstr "Organización exportada exitosamente."
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -23236,7 +23228,7 @@ msgstr "Limpiar"
 #: src/mainwindow.cpp:438
 #, kde-format
 msgid "Undo History"
-msgstr "Historial de deshacer"
+msgstr "Historial"
 
 #: src/mainwindow.cpp:460 src/mainwindow.cpp:462
 #, kde-format
@@ -35781,7 +35773,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgctxt "@title:window"
-#~ msgid "Load Layout"
-#~ msgstr "Cargar organización"
