@@ -506,6 +506,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_scene, &GraphicsSceneRectMove::newRect, this, &TitleWidget::slotNewRect);
     connect(m_scene, &GraphicsSceneRectMove::newEllipse, this, &TitleWidget::slotNewEllipse);
     connect(m_scene, &GraphicsSceneRectMove::newText, this, &TitleWidget::slotNewText);
+    connect(m_scene, &GraphicsSceneRectMove::scalePixmap, this, &TitleWidget::scalePixmap);
     connect(zoom_slider, &QAbstractSlider::valueChanged, this, &TitleWidget::slotUpdateZoom);
     connect(zoom_spin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotUpdateZoom);
 
@@ -1458,6 +1459,31 @@ void TitleWidget::slotValueChanged(int type)
             }
         }
     }
+}
+
+void TitleWidget::scalePixmap(MyPixmapItem *item, double scale, GraphicsSceneRectMove::resizeModes resize)
+{
+    Transform t = m_transformations.value(item);
+    t.scalex = scale;
+    t.scaley = scale;
+    QTransform qtrans;
+    qtrans.scale(scale, scale);
+    qtrans.rotate(t.rotatex, Qt::XAxis);
+    qtrans.rotate(t.rotatey, Qt::YAxis);
+    qtrans.rotate(t.rotatez, Qt::ZAxis);
+    QRectF original = item->sceneBoundingRect();
+    QPointF pos = item->scenePos();
+    item->setTransform(qtrans);
+    if (resize == GraphicsSceneRectMove::Up || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::TopRight) {
+        pos.setY(original.bottom() - item->sceneBoundingRect().height());
+    }
+    if (resize == GraphicsSceneRectMove::Left || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::BottomLeft) {
+        pos.setX(original.right() - item->sceneBoundingRect().width());
+    }
+    item->setPos(pos);
+    m_transformations[item] = t;
+    updateDimension(item);
+    updateRotZoom(item);
 }
 
 void TitleWidget::updateDimension(QGraphicsItem *i)

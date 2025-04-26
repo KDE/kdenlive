@@ -172,6 +172,7 @@ Q_SIGNALS:
     void newRect(QGraphicsRectItem *);
     void newEllipse(QGraphicsEllipseItem *);
     void newText(MyTextItem *);
+    void scalePixmap(MyPixmapItem *item, double scale, resizeModes resize);
     void actionFinished();
     void doubleClickEvent();
 };

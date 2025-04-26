@@ -397,6 +397,7 @@ private Q_SLOTS:
     void slotPatternBtnAddClicked();
     /** @brief Pattern remove button clicked. */
     void slotPatternBtnRemoveClicked();
+    void scalePixmap(MyPixmapItem *item, double scale, GraphicsSceneRectMove::resizeModes resize);
 
 Q_SIGNALS:
     void requestBackgroundFrame(bool request);

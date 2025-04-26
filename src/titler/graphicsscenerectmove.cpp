@@ -600,6 +600,8 @@ MyPixmapItem::MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent)
     // Disabled because cache makes text cursor invisible and borders ugly
     // setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    setData(0, pixmap.width());
+    setData(1, pixmap.height());
 }
 
 QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -883,11 +885,10 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
                 QRectF r1;
                 if (m_selectedItem->type() == QGraphicsRectItem::Type) {
                     r1 = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect().normalized();
+                    r1.translate(m_selectedItem->scenePos());
                 } else {
-                    r1 = m_selectedItem->boundingRect().normalized();
+                    r1 = m_selectedItem->sceneBoundingRect().normalized();
                 }
-
-                r1.translate(m_selectedItem->scenePos());
                 switch (m_resizeMode) {
                 case BottomRight:
                 case Right:
@@ -989,11 +990,12 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             if (m_selectedItem->type() == QGraphicsRectItem::Type) {
                 newrect = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect();
             } else {
-                newrect = m_selectedItem->boundingRect();
+                newrect = m_selectedItem->sceneBoundingRect();
             }
             int xPos = (int(e->scenePos().x()) / m_gridSize) * m_gridSize;
             int yPos = (int(e->scenePos().y()) / m_gridSize) * m_gridSize;
             QPointF newpoint(xPos, yPos);
+
             switch (m_resizeMode) {
             case BottomRight:
             case BottomLeft:
@@ -1017,21 +1019,37 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                 break;
             }
 
-            if (m_selectedItem->type() == QGraphicsRectItem::Type && m_resizeMode != NoResize) {
-                auto *gi = static_cast<MyRectItem *>(m_selectedItem);
+            if ((m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsPixmapItem::Type) && m_resizeMode != NoResize) {
                 // Resize using aspect ratio
-                if (!m_selectedItem->data(0).isNull()) {
-                    // we want to keep aspect ratio
-                    double hRatio = newrect.width() / m_selectedItem->data(0).toInt();
-                    double vRatio = newrect.height() / m_selectedItem->data(1).toInt();
-                    if (hRatio < vRatio) {
-                        newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
-                    } else {
-                        newrect.setWidth(m_selectedItem->data(0).toInt() * vRatio);
+                if (m_selectedItem->type() == QGraphicsRectItem::Type) {
+                    if (!m_selectedItem->data(0).isNull()) {
+                        // we want to keep aspect ratio
+                        double hRatio = newrect.width() / m_selectedItem->data(0).toInt();
+                        double vRatio = newrect.height() / m_selectedItem->data(1).toInt();
+                        if (hRatio < vRatio) {
+                            newrect.setHeight(m_selectedItem->data(1).toInt() * hRatio);
+                        } else {
+                            newrect.setWidth(m_selectedItem->data(0).toInt() * vRatio);
+                        }
                     }
+                    auto *gi = static_cast<MyRectItem *>(m_selectedItem);
+                    gi->setPos(newrect.topLeft());
+                    gi->setRect(QRectF(QPointF(), newrect.bottomRight() - newrect.topLeft()));
+                } else if (m_selectedItem->type() == QGraphicsPixmapItem::Type) {
+                    if (m_selectedItem->data(0).isNull()) {
+                        qDebug() << "::: NO RATIO INFO!!!";
+                        return;
+                    }
+                    double scalex = newrect.width() / m_selectedItem->data(0).toInt();
+                    double scaley = newrect.height() / m_selectedItem->data(1).toInt();
+                    if (m_resizeMode == Up || m_resizeMode == Down) {
+                        scalex = scaley;
+                    } else if (m_resizeMode == Left || m_resizeMode == Right) {
+                        scaley = scalex;
+                    }
+                    auto *gi = static_cast<MyPixmapItem *>(m_selectedItem);
+                    Q_EMIT scalePixmap(gi, qMax(scalex, scaley), m_resizeMode);
                 }
-                gi->setPos(newrect.topLeft());
-                gi->setRect(QRectF(QPointF(), newrect.bottomRight() - newrect.topLeft()));
                 return;
             }
             if (m_selectedItem->type() == QGraphicsEllipseItem::Type && m_resizeMode != NoResize) {
@@ -1072,21 +1090,17 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
                 continue;
             }
-            if ((g->type() == QGraphicsSvgItem::Type || g->type() == QGraphicsPixmapItem::Type) && g->zValue() > -1000) {
+            if ((g->type() == QGraphicsSvgItem::Type) && g->zValue() > -1000) {
                 // image or svg item
                 setCursor(Qt::OpenHandCursor);
                 itemFound = true;
                 break;
-            } else if ((g->type() == QGraphicsRectItem::Type || g->type() == QGraphicsEllipseItem::Type) && g->zValue() > -1000) {
+            } else if ((g->type() == QGraphicsRectItem::Type || g->type() == QGraphicsEllipseItem::Type || g->type() == QGraphicsPixmapItem::Type) &&
+                       g->zValue() > -1000) {
                 if (view == nullptr) {
                     continue;
                 }
-                QRectF r1;
-                if (g->type() == QGraphicsRectItem::Type) {
-                    r1 = static_cast<const QGraphicsRectItem *>(g)->rect().normalized();
-                } else {
-                    r1 = static_cast<const QGraphicsEllipseItem *>(g)->rect().normalized();
-                }
+                QRectF r1 = g->boundingRect();
                 itemFound = true;
 
                 // Item mapped coordinates
