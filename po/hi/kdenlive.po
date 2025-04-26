@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-24 02:33+0000\n"
+"POT-Creation-Date: 2025-04-26 02:34+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -16189,7 +16189,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "समयरेखा में प्रतिस्थापित करें"
 
-#: src/bin/bin.cpp:2143 src/bin/bin.cpp:5882 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2143 src/bin/bin.cpp:5885 src/bin/clipcreator.cpp:324
 #: src/effects/effectstack/view/maskmanager.cpp:626
 #, kde-format
 msgctxt "@action"
@@ -16700,34 +16700,34 @@ msgstr ""
 msgid "Cannot find clip to add marker"
 msgstr "मार्कर जोड़ने के लिए क्लिप नहीं मिल सका"
 
-#: src/bin/bin.cpp:5642
+#: src/bin/bin.cpp:5645
 #, kde-format
 msgid "Could not find master clip"
 msgstr "मास्टर क्लिप नहीं मिल सका"
 
-#: src/bin/bin.cpp:5904
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> क्लिप्स | "
 
-#: src/bin/bin.cpp:5906
+#: src/bin/bin.cpp:5909
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> क्लिप्स (%2 चयनित) | "
 
-#: src/bin/bin.cpp:5973 src/bin/bin.cpp:6050
+#: src/bin/bin.cpp:5976 src/bin/bin.cpp:6053
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "क्लिप के लिए अतिरिक्त स्ट्रीम जोड़ें"
 msgstr[1] "क्लिप के लिए अतिरिक्त स्ट्रीम जोड़ें"
 
-#: src/bin/bin.cpp:5994
+#: src/bin/bin.cpp:5997
 #, kde-format
 msgid "Import selected clips"
 msgstr "चयनित क्लिप आयात करें"
 
-#: src/bin/bin.cpp:5996
+#: src/bin/bin.cpp:5999
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -16736,51 +16736,51 @@ msgstr ""
 "क्लिप के लिए अतिरिक्त स्ट्रीम\n"
 "%1"
 
-#: src/bin/bin.cpp:6009 src/mltcontroller/clippropertiescontroller.cpp:680
+#: src/bin/bin.cpp:6012 src/mltcontroller/clippropertiescontroller.cpp:680
 #, kde-format
 msgid "Video stream %1"
 msgstr "वीडियो स्ट्रीम %1"
 
-#: src/bin/bin.cpp:6024
+#: src/bin/bin.cpp:6027
 #, kde-format
 msgid "Audio stream %1"
 msgstr "ऑडियो स्ट्रीम %1"
 
-#: src/bin/bin.cpp:6077
+#: src/bin/bin.cpp:6080
 #, kde-format
 msgid "Remove clip markers"
 msgstr "क्लिप मार्कर हटाएँ"
 
-#: src/bin/bin.cpp:6237
+#: src/bin/bin.cpp:6240
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "हम अनुशंसा करते हैं कि आप ट्रांसकोड ऑपरेशन से पहले प्रोजेक्ट को सेव कर लें"
 
-#: src/bin/bin.cpp:6238
+#: src/bin/bin.cpp:6241
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "प्रोजेक्ट सहेजें"
 
-#: src/bin/bin.cpp:6239
+#: src/bin/bin.cpp:6242
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "बिना सहेजे ट्रांसकोड करें"
 
-#: src/bin/bin.cpp:6397 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6400 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1118
 #, kde-format
 msgid "Delete effect %1"
 msgstr "प्रभाव %1 मिटाएँ"
 
-#: src/bin/bin.cpp:6463 src/mainwindow.cpp:321
+#: src/bin/bin.cpp:6466 src/mainwindow.cpp:321
 #, kde-format
 msgid "Project Bin"
 msgstr "प्रोजेक्ट बिन"
 
-#: src/bin/bin.cpp:6466 src/bin/bin.cpp:6469 src/mainwindow.cpp:4825
+#: src/bin/bin.cpp:6469 src/bin/bin.cpp:6472 src/mainwindow.cpp:4825
 #, kde-format
 msgid "Project Bin %1"
 msgstr "प्रोजेक्ट बिन %1"
@@ -17079,7 +17079,7 @@ msgid "Edit subtitle"
 msgstr "उपशीर्षक संपादित करें"
 
 #: src/bin/model/subtitlemodel.cpp:688 src/bin/model/subtitlemodel.cpp:1692
-#: src/timeline2/model/timelinefunctions.cpp:233
+#: src/timeline2/model/timelinefunctions.cpp:234
 #, kde-format
 msgid "Cut clip"
 msgstr "क्लिप काटें"
@@ -17189,7 +17189,7 @@ msgstr "अमान्य"
 
 #: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1507
+#: src/timeline2/model/timelinefunctions.cpp:1508
 #, kde-format
 msgid "File already exists"
 msgstr "फ़ाइल पहले से ही मौजूद है"
@@ -17245,7 +17245,7 @@ msgstr "प्रयोग"
 
 #: src/bin/projectitemmodel.cpp:352 src/doc/documentchecker.cpp:1872
 #: src/doc/documentchecker.cpp:1902 src/doc/documentchecker.cpp:1922
-#: src/mltcontroller/clipcontroller.cpp:517 src/profiles/profileinfo.cpp:75
+#: src/mltcontroller/clipcontroller.cpp:523 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -23929,7 +23929,7 @@ msgstr "मार्कर हटाएँ"
 msgid "Edit Marker…"
 msgstr "मार्कर संपादित करें…"
 
-#: src/mainwindow.cpp:1701 src/timeline2/model/timelinefunctions.cpp:1224
+#: src/mainwindow.cpp:1701 src/timeline2/model/timelinefunctions.cpp:1225
 #, kde-format
 msgid "Restore Audio"
 msgstr "ऑडियो पुनर्स्थापित करें"
@@ -24426,14 +24426,14 @@ msgstr "संपादन मार्कर के लिए क्लिप �
 msgid "Marker category does not exist"
 msgstr "मार्कर श्रेणी मौजूद नहीं है"
 
-#: src/mainwindow.cpp:3023 src/timeline2/model/timelinefunctions.cpp:791
+#: src/mainwindow.cpp:3023 src/timeline2/model/timelinefunctions.cpp:792
 #: src/timeline2/view/timelinecontroller.cpp:3158
 #, kde-format
 msgid "Overwrite zone"
 msgstr "अधिलेखित क्षेत्र"
 
 #: src/mainwindow.cpp:3025 src/mainwindow.cpp:3044
-#: src/timeline2/model/timelinefunctions.cpp:793
+#: src/timeline2/model/timelinefunctions.cpp:794
 #: src/timeline2/view/timelinecontroller.cpp:3160
 #, kde-format
 msgid "Could not insert zone"
@@ -24444,7 +24444,7 @@ msgstr "क्षेत्र सम्मिलित नहीं किया
 msgid "No clip selected in project bin"
 msgstr "प्रोजेक्ट बिन में कोई क्लिप चयनित नहीं है"
 
-#: src/mainwindow.cpp:3042 src/timeline2/model/timelinefunctions.cpp:791
+#: src/mainwindow.cpp:3042 src/timeline2/model/timelinefunctions.cpp:792
 #: src/timeline2/view/timelinecontroller.cpp:3158
 #, kde-format
 msgid "Insert zone"
@@ -27569,12 +27569,12 @@ msgstr ""
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "अनुक्रम क्लिप आयात किया जा रहा है, यह वर्तमान में प्रायोगिक अवस्था में है"
 
-#: src/project/projectmanager.cpp:2243
+#: src/project/projectmanager.cpp:2305
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "अनुक्रम बनाने के लिए एक क्लिप चुनें"
 
-#: src/project/projectmanager.cpp:2281
+#: src/project/projectmanager.cpp:2343
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "अनुक्रम क्लिप बनाएँ"
@@ -28755,8 +28755,8 @@ msgstr "ट्रैक %1 पर %2 पर गलत मिश्रण पा�
 
 #: src/timeline2/model/builders/meltBuilder.cpp:794
 #: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:827
-#: src/timeline2/model/builders/meltBuilder.cpp:849
+#: src/timeline2/model/builders/meltBuilder.cpp:828
+#: src/timeline2/model/builders/meltBuilder.cpp:850
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "बिन संदर्भ के बिना %1 टाइमलाइन क्लिप (%2) मिली और हटा दी गई।"
@@ -28767,130 +28767,130 @@ msgid "Project corrupted. Clip %1 (%2) with invalid Id."
 msgstr "प्रोजेक्ट दूषित है। क्लिप %1 (%2) अमान्य आईडी के साथ।"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:816
-#: src/timeline2/model/builders/meltBuilder.cpp:828
-#: src/timeline2/model/builders/meltBuilder.cpp:850
+#: src/timeline2/model/builders/meltBuilder.cpp:829
+#: src/timeline2/model/builders/meltBuilder.cpp:851
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "प्रोजेक्ट दूषित है। क्लिप %1 (%2) प्रोजेक्ट बिन में नहीं मिला।"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:846
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 टाइमलाइन क्लिप (%2) गलत बिन संदर्भ सहित पाई गई और उसे पुनर्प्राप्त किया गया।"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:847
+#: src/timeline2/model/builders/meltBuilder.cpp:848
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "प्रोजेक्ट बिन में अमान्य क्लिप %1 (%2) नहीं मिली, पुनर्प्राप्त की गई."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:919
-#: src/timeline2/model/builders/meltBuilder.cpp:952
+#: src/timeline2/model/builders/meltBuilder.cpp:920
+#: src/timeline2/model/builders/meltBuilder.cpp:953
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 क्लिप (%2) जिसमें मिश्रण गायब है, मिली और उसका आकार बदला गया"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:920
-#: src/timeline2/model/builders/meltBuilder.cpp:950
+#: src/timeline2/model/builders/meltBuilder.cpp:921
+#: src/timeline2/model/builders/meltBuilder.cpp:951
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "%3 पर ट्रैक %2 पर बिना मिक्स %1 क्लिप पाई गई और उसका आकार बदला गया।"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:925
-#: src/timeline2/model/builders/meltBuilder.cpp:956
+#: src/timeline2/model/builders/meltBuilder.cpp:926
+#: src/timeline2/model/builders/meltBuilder.cpp:957
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "%3 पर ट्रैक %2 पर मिक्स %1 के बिना अमान्य क्लिप पाई गई और उसे हटा दिया गया।"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:927
-#: src/timeline2/model/builders/meltBuilder.cpp:958
+#: src/timeline2/model/builders/meltBuilder.cpp:928
+#: src/timeline2/model/builders/meltBuilder.cpp:959
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 क्लिप (%2) जिसमें मिक्स गायब है, उसे ढूंढकर हटा दिया गया"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:945
-#: src/timeline2/model/builders/meltBuilder.cpp:987
+#: src/timeline2/model/builders/meltBuilder.cpp:946
+#: src/timeline2/model/builders/meltBuilder.cpp:988
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "ट्रैक %2 पर %3 पर अमान्य क्लिप %1 मिला।"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:947
-#: src/timeline2/model/builders/meltBuilder.cpp:992
+#: src/timeline2/model/builders/meltBuilder.cpp:948
+#: src/timeline2/model/builders/meltBuilder.cpp:993
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 अमान्य क्लिप (%2) मिली और हटा दी गई"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:969
+#: src/timeline2/model/builders/meltBuilder.cpp:970
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "गलत सबट्रैक पर क्लिप %1 पाई गई और ट्रैक %2 पर %3 पर ठीक कर दी गई।"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:971
+#: src/timeline2/model/builders/meltBuilder.cpp:972
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "%1 क्लिप (%2) गलत सबट्रैक पर पाई गई और ठीक कर दी गई / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:974
+#: src/timeline2/model/builders/meltBuilder.cpp:975
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "%3 पर ट्रैक %2 पर गलत सबट्रैक पर क्लिप %1 पाया गया।"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:976
+#: src/timeline2/model/builders/meltBuilder.cpp:977
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 क्लिप (%2) गलत सबप्लेलिस्ट के साथ मिली"
 
-#: src/timeline2/model/timelinefunctions.cpp:125
+#: src/timeline2/model/timelinefunctions.cpp:126
 #, kde-format
 msgid "Insert Clips"
 msgstr "क्लिप्स डालें"
 
-#: src/timeline2/model/timelinefunctions.cpp:289
+#: src/timeline2/model/timelinefunctions.cpp:290
 #, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
 msgstr "ओवरलैपिंग उपशीर्षक नहीं काटे जा सकते"
 
-#: src/timeline2/model/timelinefunctions.cpp:360
-#: src/timeline2/model/timelinefunctions.cpp:380
+#: src/timeline2/model/timelinefunctions.cpp:361
+#: src/timeline2/model/timelinefunctions.cpp:381
 #, kde-format
 msgid "Failed to cut clip"
 msgstr "क्लिप काटने में विफल"
 
-#: src/timeline2/model/timelinefunctions.cpp:371
+#: src/timeline2/model/timelinefunctions.cpp:372
 #, kde-format
 msgid "All tracks are locked"
 msgstr "सभी ट्रैक लॉक हैं"
 
-#: src/timeline2/model/timelinefunctions.cpp:391
+#: src/timeline2/model/timelinefunctions.cpp:392
 #, kde-format
 msgid "No clips to cut"
 msgstr "काटने के लिए कोई क्लिप नहीं"
 
-#: src/timeline2/model/timelinefunctions.cpp:393
+#: src/timeline2/model/timelinefunctions.cpp:394
 #, kde-format
 msgid "Cut all clips"
 msgstr "सभी क्लिप काटें"
 
-#: src/timeline2/model/timelinefunctions.cpp:685
+#: src/timeline2/model/timelinefunctions.cpp:686
 #: src/timeline2/view/timelinecontroller.cpp:1507
 #, kde-format
 msgid "Insert space"
 msgstr "स्थान डालें"
 
-#: src/timeline2/model/timelinefunctions.cpp:687
+#: src/timeline2/model/timelinefunctions.cpp:688
 #: src/timeline2/view/timelinecontroller.cpp:1509
 #, kde-format
 msgid "Remove space"
 msgstr "स्थान हटाएं"
 
-#: src/timeline2/model/timelinefunctions.cpp:756
+#: src/timeline2/model/timelinefunctions.cpp:757
 #: src/timeline2/view/timelinecontroller.cpp:2965
 #, kde-format
 msgid "Lift zone"
 msgstr "लिफ्ट क्षेत्र"
 
-#: src/timeline2/model/timelinefunctions.cpp:756
+#: src/timeline2/model/timelinefunctions.cpp:757
 #: src/timeline2/view/timelinecontroller.cpp:747
 #: src/timeline2/view/timelinecontroller.cpp:2965
 #: src/timeline2/view/timelinecontroller.cpp:3038
@@ -28898,12 +28898,12 @@ msgstr "लिफ्ट क्षेत्र"
 msgid "Extract zone"
 msgstr "निष्कर्षण क्षेत्र"
 
-#: src/timeline2/model/timelinefunctions.cpp:827
+#: src/timeline2/model/timelinefunctions.cpp:828
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "कृपया ट्रैक के लेबल पर क्लिक करके ट्रैक सक्रिय करें"
 
-#: src/timeline2/model/timelinefunctions.cpp:953
+#: src/timeline2/model/timelinefunctions.cpp:954
 #: src/timeline2/view/timelinecontroller.cpp:1246
 #: src/timeline2/view/timelinecontroller.cpp:1326
 #: src/timeline2/view/timelinecontroller.cpp:1336
@@ -28930,99 +28930,99 @@ msgstr "कृपया ट्रैक के लेबल पर क्लि�
 msgid "No clip selected"
 msgstr "कोई क्लिप चयनित नहीं"
 
-#: src/timeline2/model/timelinefunctions.cpp:1022
+#: src/timeline2/model/timelinefunctions.cpp:1023
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "चयनित समूह को स्थानांतरित नहीं किया जा सकता"
 
-#: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1127
-#: src/timeline2/model/timelinefunctions.cpp:1134
+#: src/timeline2/model/timelinefunctions.cpp:1124
+#: src/timeline2/model/timelinefunctions.cpp:1128
+#: src/timeline2/model/timelinefunctions.cpp:1135
 #: src/timeline2/view/timelinecontroller.cpp:4039
 #, kde-format
 msgid "Enable clip"
 msgstr "क्लिप सक्षम करें"
 
-#: src/timeline2/model/timelinefunctions.cpp:1123
-#: src/timeline2/model/timelinefunctions.cpp:1127
-#: src/timeline2/model/timelinefunctions.cpp:1134
+#: src/timeline2/model/timelinefunctions.cpp:1124
+#: src/timeline2/model/timelinefunctions.cpp:1128
+#: src/timeline2/model/timelinefunctions.cpp:1135
 #: src/timeline2/view/timelinecontroller.cpp:4039
 #, kde-format
 msgid "Disable clip"
 msgstr "क्लिप अक्षम करें"
 
-#: src/timeline2/model/timelinefunctions.cpp:1176
+#: src/timeline2/model/timelinefunctions.cpp:1177
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "एक या अधिक क्लिप में ऑडियो नहीं है, या पहले से ही ऑडियो है"
 
-#: src/timeline2/model/timelinefunctions.cpp:1201
-#: src/timeline2/model/timelinefunctions.cpp:1217
+#: src/timeline2/model/timelinefunctions.cpp:1202
+#: src/timeline2/model/timelinefunctions.cpp:1218
 #, kde-format
 msgid "Audio restore failed"
 msgstr "ऑडियो पुनःस्थापना विफल"
 
-#: src/timeline2/model/timelinefunctions.cpp:1256
+#: src/timeline2/model/timelinefunctions.cpp:1257
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "पुनर्स्थापना कार्रवाई के लिए कोई वीडियो ट्रैक उपलब्ध नहीं है"
 
-#: src/timeline2/model/timelinefunctions.cpp:1264
-#: src/timeline2/model/timelinefunctions.cpp:1277
+#: src/timeline2/model/timelinefunctions.cpp:1265
+#: src/timeline2/model/timelinefunctions.cpp:1278
 #, kde-format
 msgid "Video restore failed"
 msgstr "वीडियो पुनःस्थापित करना विफल"
 
-#: src/timeline2/model/timelinefunctions.cpp:1283
+#: src/timeline2/model/timelinefunctions.cpp:1284
 #, kde-format
 msgid "Restore Video"
 msgstr "वीडियो पुनर्स्थापित करें"
 
-#: src/timeline2/model/timelinefunctions.cpp:1330
+#: src/timeline2/model/timelinefunctions.cpp:1331
 #, kde-format
 msgid "Change Composition Track"
 msgstr "रचना ट्रैक बदलें"
 
-#: src/timeline2/model/timelinefunctions.cpp:1345
+#: src/timeline2/model/timelinefunctions.cpp:1346
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "एकल ट्रैक पर मल्टीट्रैक दृश्य सक्षम नहीं किया जा सकता"
 
-#: src/timeline2/model/timelinefunctions.cpp:1499
+#: src/timeline2/model/timelinefunctions.cpp:1500
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "क्लिप को लाइब्रेरी में जोड़ें"
 
-#: src/timeline2/model/timelinefunctions.cpp:1499
+#: src/timeline2/model/timelinefunctions.cpp:1500
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "लाइब्रेरी में क्लिप के लिए नाम दर्ज करें"
 
-#: src/timeline2/model/timelinefunctions.cpp:1890
+#: src/timeline2/model/timelinefunctions.cpp:1891
 #, kde-format
 msgid "Paste clips"
 msgstr "क्लिप चिपकाएँ"
 
-#: src/timeline2/model/timelinefunctions.cpp:1904
-#: src/timeline2/model/timelinefunctions.cpp:2078
-#: src/timeline2/model/timelinefunctions.cpp:2101
-#: src/timeline2/model/timelinefunctions.cpp:2140
-#: src/timeline2/model/timelinefunctions.cpp:2418
+#: src/timeline2/model/timelinefunctions.cpp:1905
+#: src/timeline2/model/timelinefunctions.cpp:2080
+#: src/timeline2/model/timelinefunctions.cpp:2103
+#: src/timeline2/model/timelinefunctions.cpp:2142
+#: src/timeline2/model/timelinefunctions.cpp:2532
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "क्लिपबोर्ड पर चिपकाने के लिए पर्याप्त ट्रैक नहीं हैं"
 
-#: src/timeline2/model/timelinefunctions.cpp:1973
+#: src/timeline2/model/timelinefunctions.cpp:1974
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "एक और पेस्ट ऑपरेशन प्रगति पर है"
 
-#: src/timeline2/model/timelinefunctions.cpp:1985
+#: src/timeline2/model/timelinefunctions.cpp:1987
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "क्लिपबोर्ड में कोई वैध डेटा नहीं है"
 
-#: src/timeline2/model/timelinefunctions.cpp:2024
+#: src/timeline2/model/timelinefunctions.cpp:2026
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -29030,15 +29030,15 @@ msgstr ""
 "क्लिपबोर्ड पर चिपकाने के लिए पर्याप्त ट्रैक नहीं हैं (%1 ऑडियो, %2 वीडियो ट्रैक की "
 "आवश्यकता है)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2158
-#: src/timeline2/model/timelinefunctions.cpp:2176
-#: src/timeline2/model/timelinefunctions.cpp:2207
-#: src/timeline2/model/timelinefunctions.cpp:2212
+#: src/timeline2/model/timelinefunctions.cpp:2168
+#: src/timeline2/model/timelinefunctions.cpp:2186
+#: src/timeline2/model/timelinefunctions.cpp:2217
+#: src/timeline2/model/timelinefunctions.cpp:2222
 #, kde-format
 msgid "Pasted clips"
 msgstr "चिपकाए गए क्लिप"
 
-#: src/timeline2/model/timelinefunctions.cpp:2196
+#: src/timeline2/model/timelinefunctions.cpp:2206
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -29047,45 +29047,46 @@ msgstr ""
 "स्रोत प्रोजेक्ट की फ़्रेम दर (%1fps) आपकी वर्तमान प्रोजेक्ट से भिन्न है।<br/> क्लिप या "
 "कीफ़्रेम गड़बड़ हो सकते हैं."
 
-#: src/timeline2/model/timelinefunctions.cpp:2198
+#: src/timeline2/model/timelinefunctions.cpp:2208
 #, kde-format
 msgid "Pasting Warning"
 msgstr "चिपकाने की चेतावनी"
 
-#: src/timeline2/model/timelinefunctions.cpp:2198
+#: src/timeline2/model/timelinefunctions.cpp:2208
 #, kde-format
 msgid "Paste"
 msgstr "पेस्ट करें"
 
-#: src/timeline2/model/timelinefunctions.cpp:2280
-#: src/timeline2/model/timelinefunctions.cpp:2288
-#: src/timeline2/model/timelinefunctions.cpp:2356
+#: src/timeline2/model/timelinefunctions.cpp:2310
+#: src/timeline2/model/timelinefunctions.cpp:2318
+#: src/timeline2/model/timelinefunctions.cpp:2442
+#: src/timeline2/model/timelinefunctions.cpp:2470
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "बिन क्लिप नहीं जोड़ा जा सका"
 
-#: src/timeline2/model/timelinefunctions.cpp:2410
+#: src/timeline2/model/timelinefunctions.cpp:2524
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "सभी क्लिप सफलतापूर्वक कॉपी नहीं की गईं"
 
-#: src/timeline2/model/timelinefunctions.cpp:2460
-#: src/timeline2/model/timelinefunctions.cpp:2641
+#: src/timeline2/model/timelinefunctions.cpp:2574
+#: src/timeline2/model/timelinefunctions.cpp:2755
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "टाइमलाइन में आइटम चिपकाए नहीं जा सके"
 
-#: src/timeline2/model/timelinefunctions.cpp:2661
+#: src/timeline2/model/timelinefunctions.cpp:2775
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "टाइमलाइन क्लिप चिपकाएँ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2881
+#: src/timeline2/model/timelinefunctions.cpp:2995
 #, kde-format
 msgid "Remove space on track"
 msgstr "ट्रैक पर जगह हटाएं"
 
-#: src/timeline2/model/timelinefunctions.cpp:2908
+#: src/timeline2/model/timelinefunctions.cpp:3022
 #, kde-format
 msgid "Delete clips on track"
 msgstr "ट्रैक पर मौजूद क्लिप हटाएँ"
