@@ -5,8 +5,8 @@
   <project_license>GPL-3.0-only</project_license>
   <developer_name translate="no">KDE</developer_name>
   <branding>
-    <color type="primary" scheme_preference="light">#F6F5F5</color>
-    <color type="primary" scheme_preference="dark">#424242</color>
+    <color type="primary" scheme_preference="light">#CAE3FC</color>
+    <color type="primary" scheme_preference="dark">#315C7F</color>
   </branding>
   <name>Kdenlive</name>
   <name xml:lang="ar">كدنلايف</name>
