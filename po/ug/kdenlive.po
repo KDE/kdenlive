@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 02:34+0000\n"
+"POT-Creation-Date: 2025-04-27 02:36+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -22860,7 +22860,7 @@ msgstr ""
 
 #: src/main.cpp:256
 #, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr ""
 
 #: src/main.cpp:258

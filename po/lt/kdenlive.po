@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 02:34+0000\n"
+"POT-Creation-Date: 2025-04-27 02:36+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -22969,7 +22969,7 @@ msgstr "Atviro kodo video redaktorius."
 
 #: src/main.cpp:256
 #, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr ""
 
 #: src/main.cpp:258

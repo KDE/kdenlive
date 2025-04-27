@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 02:34+0000\n"
+"POT-Creation-Date: 2025-04-27 02:36+0000\n"
 "PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -22785,8 +22785,9 @@ msgid "An open source video editor."
 msgstr "Malfermfonta videoredaktilo."
 
 #: src/main.cpp:256
-#, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Kopirajto © 2007–2024 Kdenlive aŭtoroj"
 
 #: src/main.cpp:258

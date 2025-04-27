@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 02:34+0000\n"
+"POT-Creation-Date: 2025-04-27 02:36+0000\n"
 "PO-Revision-Date: 2025-04-13 05:17+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -22023,8 +22023,9 @@ msgid "An open source video editor."
 msgstr "ღია კოდის მქონე ვიდეორედაქტორი."
 
 #: src/main.cpp:256
-#, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "© 2007–2024 Kdenlive-ის ავტორები, ყველა უფლება დაცულია"
 
 #: src/main.cpp:258

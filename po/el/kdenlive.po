@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 02:34+0000\n"
+"POT-Creation-Date: 2025-04-27 02:36+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -22914,7 +22914,7 @@ msgstr "Ένας επεξεργαστής βίντεο ανοιχτού κώδι
 #: src/main.cpp:256
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2014 Kdenlive authors"
-msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Πνευματικά δικαιώματα © 2007–2014 οι δημιουργοί του Kdenlive"
 
 #: src/main.cpp:258

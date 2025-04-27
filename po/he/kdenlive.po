@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 02:34+0000\n"
+"POT-Creation-Date: 2025-04-27 02:36+0000\n"
 "PO-Revision-Date: 2025-04-14 08:24+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -1422,7 +1422,7 @@ msgstr "עוצמה"
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
 msgid "Set the sharpening strength."
-msgstr ""
+msgstr "הגדרת עוצמת החדות."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
@@ -1432,7 +1432,7 @@ msgstr "Chroma Hold"
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
 msgid "Remove all color information for all colors except for certain one. "
-msgstr ""
+msgstr "להסיר את כל פרטי הצבע לכל הצבעים למעט אחד מסוים. "
 
 #: data/effects/avfilter/avfilter_chromahold.xml:8
 #: data/effects/avfilter/avfilter_colorhold.xml:8 data/effects/chroma.xml:8
@@ -1487,12 +1487,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
 msgid "Chroma Noise Reduction"
-msgstr ""
+msgstr "הפחתת רעש כרומה"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:5
 #, kde-format
 msgid "Reduce chrominance noise."
-msgstr ""
+msgstr "הפחתת רעש שנובע מכרומתיות."
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
 #, fuzzy, kde-format
@@ -1562,22 +1562,22 @@ msgstr "טשטוש בתיבה (הפרדת טשטוש אופקי ואנכי)"
 #: data/effects/avfilter/avfilter_chromashift.xml:8
 #, kde-format
 msgid "Chroma-blue H shift"
-msgstr ""
+msgstr "הזחה אופקית לכרומה-כחול"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
 #, kde-format
 msgid "Chroma-blue V shift"
-msgstr ""
+msgstr "הזחה אנכית לכרומה-כחול"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
 #, kde-format
 msgid "Chroma-red H shift"
-msgstr ""
+msgstr "הזחה אופקית לכרומה-אדום"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
 #, kde-format
 msgid "Chroma-red V shift"
-msgstr ""
+msgstr "הזחה אנכית לכרומה-אדום"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
@@ -22279,8 +22279,9 @@ msgid "An open source video editor."
 msgstr "עורך וידאו בקוד פתוח."
 
 #: src/main.cpp:256
-#, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "כל הזכויות שמורות © 2007–2024 יוצרי Kdenlive"
 
 #: src/main.cpp:258

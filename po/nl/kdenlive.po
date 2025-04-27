@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 02:34+0000\n"
-"PO-Revision-Date: 2025-04-22 12:34+0200\n"
+"POT-Creation-Date: 2025-04-27 02:36+0000\n"
+"PO-Revision-Date: 2025-04-26 17:25+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -5491,6 +5491,11 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Zet de chroma-sterkte.<br>\n"
+"            De waarde configureert de vervaging. Een positieve waarde zal de "
+"afbeelding vervagen, terwijl een negatieve waarde de afbeelding zal "
+"verscherpen. Indien niet gespecificeerd is de standaard de waarde gezet voor "
+"de <em>Luma-sterkte</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -5506,6 +5511,12 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Zet de Chroma-drempel gebruikt als een coëfficient<br>\n"
+"            om te bepalen of een pixel vervaagd zou moeten worden of niet. "
+"Een waarde van 0 zal alles van de afbeelding filteren, positieve waarden "
+"zullen vlakke gebieden filteren, negatieve waarden zullen randen filteren. "
+"Indien niet gespecificeerd, krijgt het de waarde van die gezet voor <em>Luma-"
+"drempel</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -5535,6 +5546,11 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Zet de alfa-sterkte.<br>\n"
+"            De waarde configureert de vervaging. Een positieve waarde zal de "
+"afbeelding vervagen, terwijl een negatieve waarde de afbeelding zal "
+"verscherpen. Indien niet gespecificeerd is de standaard de waarde gezet voor "
+"de <em>Luma-sterkte</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5545,6 +5561,12 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Zet de alfa-drempel gebruikt als een coëfficient<br>\n"
+"            om te bepalen of een pixel vervaagd zou moeten worden of niet. "
+"Een waarde van 0 zal alles van de afbeelding filteren, positieve waarden "
+"zullen vlakke gebieden filteren, negatieve waarden zullen randen filteren. "
+"Indien niet gespecificeerd, krijgt het de waarde van die gezet voor <em>Luma-"
+"drempel</em>]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -5554,7 +5576,7 @@ msgstr "Sobel met vlakken"
 #: data/effects/avfilter/avfilter_sobel.xml:5
 #, kde-format
 msgid "Apply sobel operator to input video stream."
-msgstr ""
+msgstr "Sobel-operator toepassen op de invoervideostream."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
 #, kde-format
@@ -5570,6 +5592,13 @@ msgid ""
 "http://www.sofacoustics.org/ for a database). SOFAlizer is developed at the "
 "Acoustics Research Institute (ARI) of the Austrian Academy of Sciences. "
 msgstr ""
+"SOFAlizer gebruikt hoofd gerelateerde transfer functies (head-related "
+"transfer functions (HRTFs)) om virtuele luidsprekers rond de gebruiker te "
+"creëren voor binaural luisteren via een koptelefoon (audio indelingen tot "
+"aan 9 kanalen zijn mogelijk). De HRTFs worden opgeslagen in SOFA-bestanden "
+"(ga naar http://www.sofacoustics.org/ voor een database). SOFAlizer is "
+"ontwikkelt in het Acoustics Research Institute (ARI) van het Oostenrijks "
+"wetenschappelijk instituut (Austrian Academy of Sciences)."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
 #, kde-format
@@ -5610,7 +5639,7 @@ msgstr "Framegrootte"
 #: data/effects/avfilter/avfilter_sofalizer.xml:31
 #, kde-format
 msgid "Use if option ‘type’ is set to freq."
-msgstr ""
+msgstr "Gebruiken als optie ‘type’ is gezet op freq."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
 #, kde-format
@@ -5631,12 +5660,12 @@ msgstr "Hoekstap"
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
 #, kde-format
 msgid "Only used if option interpolate is enabled."
-msgstr ""
+msgstr "Alleen gebruikt als optie interpoleren is ingeschakeld."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
 msgid "Radstep"
-msgstr ""
+msgstr "Radstap"
 
 #: data/effects/avfilter/avfilter_sr.xml:4
 #, kde-format
@@ -5649,11 +5678,13 @@ msgid ""
 "Scale the input by applying one of the super-resolution methods based on "
 "convolutional neural networks. "
 msgstr ""
+"Schaal de invoer door toepassen van een van de super-resolutie methoden "
+"gebaseerd op convolutionele neurale netwerken. "
 
 #: data/effects/avfilter/avfilter_sr.xml:15
 #, kde-format
 msgid "Scale factor for SRCNN"
-msgstr ""
+msgstr "Schaalfactor voor SRCNN"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:4
 #, kde-format
@@ -5663,7 +5694,7 @@ msgstr "Stereoscopisch 3D"
 #: data/effects/avfilter/avfilter_stereo3D.xml:5
 #, kde-format
 msgid "Convert between different stereoscopic image formats. "
-msgstr ""
+msgstr "Converteer tussen verschillende stereoscopische afbeeldingsformaten. "
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:8
 #, kde-format
@@ -5710,6 +5741,10 @@ msgid ""
 "converting M/S stereo recordings to L/R signal while having control over the "
 "parameters or spreading the stereo image of master track. "
 msgstr ""
+"Dit filter heeft enkele handige functies voor het beheren van stereo "
+"signalen, voor het converteren van M/S stereo opnames naar L/R signal "
+"waarbij u parameters kan instellen voor het verspreiden van de stereo "
+"verdeling van de master track."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:8
 #, kde-format
@@ -22464,8 +22499,9 @@ msgid "An open source video editor."
 msgstr "Een open broncode video bewerkingsprogramma"
 
 #: src/main.cpp:256
-#, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2024 auteurs van Kdenlive"
 
 #: src/main.cpp:258
