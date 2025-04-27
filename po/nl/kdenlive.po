@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 00:41+0000\n"
-"PO-Revision-Date: 2025-04-24 16:25+0200\n"
+"POT-Creation-Date: 2025-04-27 00:41+0000\n"
+"PO-Revision-Date: 2025-04-26 17:25+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5506,6 +5506,12 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Zet de Chroma-drempel gebruikt als een coëfficient<br>\n"
+"            om te bepalen of een pixel vervaagd zou moeten worden of niet. "
+"Een waarde van 0 zal alles van de afbeelding filteren, positieve waarden "
+"zullen vlakke gebieden filteren, negatieve waarden zullen randen filteren. "
+"Indien niet gespecificeerd, krijgt het de waarde van die gezet voor <em>Luma-"
+"drempel</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
 #, kde-format
@@ -5535,6 +5541,11 @@ msgid ""
 "the image, whereas a negative value will sharpen the image. If not "
 "specified, it defaults to the value set for <em>Luma strength</em>.]]>"
 msgstr ""
+"<![CDATA[Zet de alfa-sterkte.<br>\n"
+"            De waarde configureert de vervaging. Een positieve waarde zal de "
+"afbeelding vervagen, terwijl een negatieve waarde de afbeelding zal "
+"verscherpen. Indien niet gespecificeerd is de standaard de waarde gezet voor "
+"de <em>Luma-sterkte</em>.]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -5545,6 +5556,12 @@ msgid ""
 "negative values will filter edges. If not specified, it defaults to the "
 "value set for <em>Luma threshold</em>]]>"
 msgstr ""
+"<![CDATA[Zet de alfa-drempel gebruikt als een coëfficient<br>\n"
+"            om te bepalen of een pixel vervaagd zou moeten worden of niet. "
+"Een waarde van 0 zal alles van de afbeelding filteren, positieve waarden "
+"zullen vlakke gebieden filteren, negatieve waarden zullen randen filteren. "
+"Indien niet gespecificeerd, krijgt het de waarde van die gezet voor <em>Luma-"
+"drempel</em>]]>"
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
 #, kde-format
@@ -5554,7 +5571,7 @@ msgstr "Sobel met vlakken"
 #: data/effects/avfilter/avfilter_sobel.xml:5
 #, kde-format
 msgid "Apply sobel operator to input video stream."
-msgstr ""
+msgstr "Sobel-operator toepassen op de invoervideostream."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
 #, kde-format
@@ -5570,6 +5587,13 @@ msgid ""
 "http://www.sofacoustics.org/ for a database). SOFAlizer is developed at the "
 "Acoustics Research Institute (ARI) of the Austrian Academy of Sciences. "
 msgstr ""
+"SOFAlizer gebruikt hoofd gerelateerde transfer functies (head-related "
+"transfer functions (HRTFs)) om virtuele luidsprekers rond de gebruiker te "
+"creëren voor binaural luisteren via een koptelefoon (audio indelingen tot "
+"aan 9 kanalen zijn mogelijk). De HRTFs worden opgeslagen in SOFA-bestanden "
+"(ga naar http://www.sofacoustics.org/ voor een database). SOFAlizer is "
+"ontwikkelt in het Acoustics Research Institute (ARI) van het Oostenrijks "
+"wetenschappelijk instituut (Austrian Academy of Sciences)."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
 #, kde-format
@@ -5610,7 +5634,7 @@ msgstr "Framegrootte"
 #: data/effects/avfilter/avfilter_sofalizer.xml:31
 #, kde-format
 msgid "Use if option ‘type’ is set to freq."
-msgstr ""
+msgstr "Gebruiken als optie ‘type’ is gezet op freq."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:37
 #, kde-format
@@ -5631,12 +5655,12 @@ msgstr "Hoekstap"
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
 #, kde-format
 msgid "Only used if option interpolate is enabled."
-msgstr ""
+msgstr "Alleen gebruikt als optie interpoleren is ingeschakeld."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
 msgid "Radstep"
-msgstr ""
+msgstr "Radstap"
 
 #: data/effects/avfilter/avfilter_sr.xml:4
 #, kde-format
@@ -5649,11 +5673,13 @@ msgid ""
 "Scale the input by applying one of the super-resolution methods based on "
 "convolutional neural networks. "
 msgstr ""
+"Schaal de invoer door toepassen van een van de super-resolutie methoden "
+"gebaseerd op convolutionele neurale netwerken. "
 
 #: data/effects/avfilter/avfilter_sr.xml:15
 #, kde-format
 msgid "Scale factor for SRCNN"
-msgstr ""
+msgstr "Schaalfactor voor SRCNN"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:4
 #, kde-format
@@ -5663,7 +5689,7 @@ msgstr "Stereoscopisch 3D"
 #: data/effects/avfilter/avfilter_stereo3D.xml:5
 #, kde-format
 msgid "Convert between different stereoscopic image formats. "
-msgstr ""
+msgstr "Converteer tussen verschillende stereoscopische afbeeldingsformaten. "
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:8
 #, kde-format
@@ -5710,6 +5736,10 @@ msgid ""
 "converting M/S stereo recordings to L/R signal while having control over the "
 "parameters or spreading the stereo image of master track. "
 msgstr ""
+"Dit filter heeft enkele handige functies voor het beheren van stereo "
+"signalen, voor het converteren van M/S stereo opnames naar L/R signal "
+"waarbij u parameters kan instellen voor het verspreiden van de stereo "
+"verdeling van de master track."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:8
 #, kde-format
@@ -6977,7 +7007,7 @@ msgstr "Verticale uitlijning"
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:926 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:927 src/ui/managesubtitles_ui.ui:216
 #: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
@@ -16320,7 +16350,7 @@ msgstr ""
 "Een externe titel clip (%1) wordt bewerkt. Moeten de veranderingen in het "
 "titel-bestand bewaard worden of alleen voor dit project?"
 
-#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2243
+#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2269
 #, kde-format
 msgid "Save Title"
 msgstr "Titel opslaan"
@@ -17803,7 +17833,7 @@ msgstr "Hulplijngegevens exporteren"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2256
+#: src/titler/titlewidget.cpp:2282
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Kan niet naar bestand %1 schrijven"
@@ -22492,8 +22522,9 @@ msgid "An open source video editor."
 msgstr "Een open broncode video bewerkingsprogramma"
 
 #: src/main.cpp:256
-#, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2024 auteurs van Kdenlive"
 
 #: src/main.cpp:258
@@ -24167,7 +24198,7 @@ msgstr "Opnieuw aanmaken"
 
 #: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2239
+#: src/titler/titlewidget.cpp:2265
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -30062,7 +30093,7 @@ msgid "No available stream"
 msgstr "Geen stream beschikbaar"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3301 src/titler/titlewidget.cpp:3304
+#: src/titler/titlewidget.cpp:3327 src/titler/titlewidget.cpp:3330
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradiënt %1"
@@ -30317,17 +30348,17 @@ msgstr "Titel opslaan als…"
 msgid "Download New Title Templates…"
 msgstr "Nieuwe titelsjablonen downloaden…"
 
-#: src/titler/titlewidget.cpp:548
+#: src/titler/titlewidget.cpp:549
 #, kde-format
 msgid "Save and add to project"
 msgstr "In/aan project opslaan en toevoegen"
 
-#: src/titler/titlewidget.cpp:549
+#: src/titler/titlewidget.cpp:550
 #, kde-format
 msgid "Create Title"
 msgstr "Titel aanmaken"
 
-#: src/titler/titlewidget.cpp:767
+#: src/titler/titlewidget.cpp:768
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -30336,54 +30367,54 @@ msgstr ""
 "Wilt u echt een nieuwe sjabloon laden? Veranderingen in deze titel zullen "
 "kwijt raken!"
 
-#: src/titler/titlewidget.cpp:875
+#: src/titler/titlewidget.cpp:876
 #, kde-format
 msgid "All Images"
 msgstr "Alle afbeeldingen"
 
-#: src/titler/titlewidget.cpp:877
+#: src/titler/titlewidget.cpp:878
 #, kde-format
 msgid "%1 Image"
 msgstr "%1-afbeelding"
 
-#: src/titler/titlewidget.cpp:887
+#: src/titler/titlewidget.cpp:888
 #, kde-format
 msgid "Add Image"
 msgstr "Afbeelding toevoegen"
 
-#: src/titler/titlewidget.cpp:1693
+#: src/titler/titlewidget.cpp:1719
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1695 src/ui/titlewidget_ui.ui:340
+#: src/titler/titlewidget.cpp:1721 src/ui/titlewidget_ui.ui:340
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1717
+#: src/titler/titlewidget.cpp:1743
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1719 src/ui/titlewidget_ui.ui:269
+#: src/titler/titlewidget.cpp:1745 src/ui/titlewidget_ui.ui:269
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2190
+#: src/titler/titlewidget.cpp:2216
 #, kde-format
 msgid "Load Title"
 msgstr "Haal titel op"
 
-#: src/titler/titlewidget.cpp:2191
+#: src/titler/titlewidget.cpp:2217
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive-titel"
 
-#: src/titler/titlewidget.cpp:2237
+#: src/titler/titlewidget.cpp:2263
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30392,57 +30423,57 @@ msgstr ""
 "Zijn afbeeldingen in deze titel document gewenst?\n"
 "Dit is het meest zinvol wanneer de titel vaker voorkomt."
 
-#: src/titler/titlewidget.cpp:2238
+#: src/titler/titlewidget.cpp:2264
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Afbeeldingen inbedden"
 
-#: src/titler/titlewidget.cpp:2293
+#: src/titler/titlewidget.cpp:2319
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Deze titel heeft 1 ontbrekend element"
 msgstr[1] "Deze titel heeft %1 ontbrekend elementen"
 
-#: src/titler/titlewidget.cpp:2294 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2320 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Details"
 
-#: src/titler/titlewidget.cpp:2297
+#: src/titler/titlewidget.cpp:2323
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Ontbrekende elementen verwijderen"
 
-#: src/titler/titlewidget.cpp:2357
+#: src/titler/titlewidget.cpp:2383
 #, kde-format
 msgid "Update Title"
 msgstr "Titel bijwerken"
 
-#: src/titler/titlewidget.cpp:2360
+#: src/titler/titlewidget.cpp:2386
 #, kde-format
 msgid "Add as new Title"
 msgstr "Als nieuwe titel toevoegen"
 
-#: src/titler/titlewidget.cpp:2414
+#: src/titler/titlewidget.cpp:2440
 #, kde-format
 msgid "The following files are missing:"
 msgstr "De volgende bestanden ontbreken:"
 
-#: src/titler/titlewidget.cpp:2608
+#: src/titler/titlewidget.cpp:2634
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start Viewport"
 
-#: src/titler/titlewidget.cpp:2609
+#: src/titler/titlewidget.cpp:2635
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Eind Viewport"
 
-#: src/titler/titlewidget.cpp:3334
+#: src/titler/titlewidget.cpp:3360
 #, kde-format
 msgid "Gradient"
 msgstr "Gradiënt"

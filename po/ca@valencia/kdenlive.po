@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 00:41+0000\n"
+"POT-Creation-Date: 2025-04-27 00:41+0000\n"
 "PO-Revision-Date: 2025-04-24 12:31+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -7146,7 +7146,7 @@ msgstr "Alineació vertical"
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:926 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:927 src/ui/managesubtitles_ui.ui:216
 #: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
@@ -16551,7 +16551,7 @@ msgstr ""
 "Esteu editant un clip de títol extern (%1). Voleu guardar els canvis en el "
 "fitxer de títol o només guardar-los per a este projecte concret?"
 
-#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2243
+#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2269
 #, kde-format
 msgid "Save Title"
 msgstr "Guarda el títol"
@@ -18031,7 +18031,7 @@ msgstr "Exporteu les dades de les guies"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2256
+#: src/titler/titlewidget.cpp:2282
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "No es pot escriure en el fitxer %1"
@@ -22744,8 +22744,9 @@ msgid "An open source video editor."
 msgstr "Un editor de vídeo de codi obert."
 
 #: src/main.cpp:256
-#, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Copyright © 2007–2024 Els autors de Kdenlive"
 
 #: src/main.cpp:258
@@ -24429,7 +24430,7 @@ msgstr "Torna'ls a crear"
 
 #: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2239
+#: src/titler/titlewidget.cpp:2265
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -30378,7 +30379,7 @@ msgid "No available stream"
 msgstr "No hi ha cap flux disponible"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3301 src/titler/titlewidget.cpp:3304
+#: src/titler/titlewidget.cpp:3327 src/titler/titlewidget.cpp:3330
 #, kde-format
 msgid "Gradient %1"
 msgstr "Degradat %1"
@@ -30633,17 +30634,17 @@ msgstr "Guarda el títol com a…"
 msgid "Download New Title Templates…"
 msgstr "Baixa plantilles de títols noves…"
 
-#: src/titler/titlewidget.cpp:548
+#: src/titler/titlewidget.cpp:549
 #, kde-format
 msgid "Save and add to project"
 msgstr "Guarda i afig al projecte"
 
-#: src/titler/titlewidget.cpp:549
+#: src/titler/titlewidget.cpp:550
 #, kde-format
 msgid "Create Title"
 msgstr "Crea un títol"
 
-#: src/titler/titlewidget.cpp:767
+#: src/titler/titlewidget.cpp:768
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -30652,54 +30653,54 @@ msgstr ""
 "Segur que voleu carregar una plantilla nova? Es perdran els canvis en este "
 "títol!"
 
-#: src/titler/titlewidget.cpp:875
+#: src/titler/titlewidget.cpp:876
 #, kde-format
 msgid "All Images"
 msgstr "Totes les imatges"
 
-#: src/titler/titlewidget.cpp:877
+#: src/titler/titlewidget.cpp:878
 #, kde-format
 msgid "%1 Image"
 msgstr "Imatge %1"
 
-#: src/titler/titlewidget.cpp:887
+#: src/titler/titlewidget.cpp:888
 #, kde-format
 msgid "Add Image"
 msgstr "Afig una imatge"
 
-#: src/titler/titlewidget.cpp:1693
+#: src/titler/titlewidget.cpp:1719
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1695 src/ui/titlewidget_ui.ui:340
+#: src/titler/titlewidget.cpp:1721 src/ui/titlewidget_ui.ui:340
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1717
+#: src/titler/titlewidget.cpp:1743
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1719 src/ui/titlewidget_ui.ui:269
+#: src/titler/titlewidget.cpp:1745 src/ui/titlewidget_ui.ui:269
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2190
+#: src/titler/titlewidget.cpp:2216
 #, kde-format
 msgid "Load Title"
 msgstr "Carrega un títol"
 
-#: src/titler/titlewidget.cpp:2191
+#: src/titler/titlewidget.cpp:2217
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Títol de Kdenlive"
 
-#: src/titler/titlewidget.cpp:2237
+#: src/titler/titlewidget.cpp:2263
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30708,57 +30709,57 @@ msgstr ""
 "Voleu incrustar les imatges en este document de títol?\n"
 "Açò és molt necessari per a compartir títols."
 
-#: src/titler/titlewidget.cpp:2238
+#: src/titler/titlewidget.cpp:2264
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Imatges incrustades"
 
-#: src/titler/titlewidget.cpp:2293
+#: src/titler/titlewidget.cpp:2319
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Falta 1 element en este títol"
 msgstr[1] "Falten %1 elements en este títol"
 
-#: src/titler/titlewidget.cpp:2294 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2320 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detalls"
 
-#: src/titler/titlewidget.cpp:2297
+#: src/titler/titlewidget.cpp:2323
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Suprimix els elements que falten"
 
-#: src/titler/titlewidget.cpp:2357
+#: src/titler/titlewidget.cpp:2383
 #, kde-format
 msgid "Update Title"
 msgstr "Actualitza el títol"
 
-#: src/titler/titlewidget.cpp:2360
+#: src/titler/titlewidget.cpp:2386
 #, kde-format
 msgid "Add as new Title"
 msgstr "Afig com a títol nou"
 
-#: src/titler/titlewidget.cpp:2414
+#: src/titler/titlewidget.cpp:2440
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Falten els fitxers següents:"
 
-#: src/titler/titlewidget.cpp:2608
+#: src/titler/titlewidget.cpp:2634
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Inici de l'àrea de visualització"
 
-#: src/titler/titlewidget.cpp:2609
+#: src/titler/titlewidget.cpp:2635
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Final de l'àrea de visualització"
 
-#: src/titler/titlewidget.cpp:3334
+#: src/titler/titlewidget.cpp:3360
 #, kde-format
 msgid "Gradient"
 msgstr "Degradat"

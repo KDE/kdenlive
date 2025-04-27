@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-26 00:41+0000\n"
-"PO-Revision-Date: 2025-04-21 10:35+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"POT-Creation-Date: 2025-04-27 00:41+0000\n"
+"PO-Revision-Date: 2025-04-26 11:18+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -40,7 +40,7 @@ msgstr "Denge"
 #: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
-msgstr "Sağ/Sol dengesini ayarla"
+msgstr "Sağ/sol dengesini ayarla"
 
 #: data/effects/audiolevel.xml:4
 #, kde-format
@@ -55,12 +55,12 @@ msgstr "Ses genliğini hesaplayın."
 #: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
-msgstr "IEC 60268-18 Ölçeği Kullan "
+msgstr "IEC 60268-18 ölçeği kullan"
 
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr "Ses Düzeyi Görselleştirme Süzgeci"
+msgstr "Ses düzeyi görselleştirme süzgeci"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
@@ -92,7 +92,7 @@ msgstr "Düzeyleri görüntüleyecek grafik türü."
 #: data/effects/timer.xml:26 src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Background Color"
-msgstr "Arka Plan Rengi"
+msgstr "Arka plan rengi"
 
 #: data/effects/audiolevelgraph.xml:14
 #, kde-format
@@ -102,7 +102,7 @@ msgstr "Tüm çerçeveye uygulanacak arka plan rengi."
 #: data/effects/audiolevelgraph.xml:17
 #, kde-format
 msgid "Gradient Color 1"
-msgstr "Gradyan Rengi 1"
+msgstr "Gradyan rengi 1"
 
 #: data/effects/audiolevelgraph.xml:18 data/effects/audiolevelgraph.xml:22
 #: data/effects/audiolevelgraph.xml:26
@@ -113,18 +113,18 @@ msgstr "Dalga biçimi gradyanının rengi."
 #: data/effects/audiolevelgraph.xml:21
 #, kde-format
 msgid "Gradient Color 2"
-msgstr "Gradyan Rengi 2"
+msgstr "Gradyan rengi 2"
 
 #: data/effects/audiolevelgraph.xml:25
 #, kde-format
 msgid "Gradient Color 3"
-msgstr "Gradyan Rengi 3"
+msgstr "Gradyan rengi 3"
 
 #: data/effects/audiolevelgraph.xml:29 data/effects/audiospectrum.xml:22
 #: data/effects/audiowaveform.xml:13
 #, kde-format
 msgid "Line Thickness"
-msgstr "Çizgi Kalınlığı"
+msgstr "Çizgi kalınlığı"
 
 #: data/effects/audiolevelgraph.xml:30
 #, kde-format
@@ -198,7 +198,7 @@ msgstr "Dikey,Yatay"
 #: data/effects/audiolevelgraph.xml:50
 #, kde-format
 msgid "Gradient Orientation"
-msgstr "Gradyan Yönelimi"
+msgstr "Gradyan yönelimi"
 
 #: data/effects/audiolevelgraph.xml:51
 #, kde-format
@@ -218,7 +218,7 @@ msgstr "Gösterilecek kanalların sayısı."
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr "Bölüt Boşluğu"
+msgstr "Bölüt boşluğu"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
@@ -228,7 +228,7 @@ msgstr "Bölütler arasındaki piksel türünden boşluk."
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
 msgid "audiomap"
-msgstr "ses eşlemi"
+msgstr "Ses eşlemi"
 
 #: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
 #: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
@@ -275,12 +275,12 @@ msgstr "CH6 kaynağı"
 #, kde-format
 msgctxt "Pan Effect Name"
 msgid "Pan"
-msgstr "Gezdir"
+msgstr "Kaydır"
 
 #: data/effects/audiopan.xml:5
 #, kde-format
 msgid "Adjust the left/right spread of a channel"
-msgstr "Kanalın sol/sağ yayılımını ayarla"
+msgstr "Kanalın sol/sağ yayılımını ayarlayın."
 
 #: data/effects/audiopan.xml:8 data/effects/channelcopy.xml:8
 #: data/effects/channelcopy.xml:12
@@ -302,12 +302,12 @@ msgstr "Kanal"
 #, kde-format
 msgctxt "Audio Pan"
 msgid "Pan"
-msgstr "Gezdir"
+msgstr "Kaydır"
 
 #: data/effects/audiospectrum.xml:5
 #, kde-format
 msgid "Audio Spectrum Filter"
-msgstr "Ses Tayfı Süzgeci"
+msgstr "Ses tayfı süzgeci"
 
 #: data/effects/audiospectrum.xml:6
 #, kde-format
@@ -335,7 +335,7 @@ msgstr "Tüm kareye uygulanacak arka plan rengi. Öntanımlı renk saydamdır."
 #: data/effects/audiospectrum.xml:18
 #, kde-format
 msgid "Foreground color"
-msgstr "Ön Alan Rengi"
+msgstr "Ön alan rengi"
 
 #: data/effects/audiospectrum.xml:19
 #, kde-format
@@ -374,7 +374,7 @@ msgstr "Önce en yüksek frekanstan başlayarak noktaları çizin."
 #: data/effects/audiospectrum.xml:46
 #, kde-format
 msgid "Line Tension"
-msgstr "Çizgi Gerginliği"
+msgstr "Çizgi gerginliği"
 
 #: data/effects/audiospectrum.xml:47
 #, kde-format
@@ -406,7 +406,7 @@ msgstr ""
 #: data/effects/audiospectrum.xml:54 data/effects/dance.xml:8
 #, kde-format
 msgid "Low Frequency"
-msgstr "Düşük Frekans"
+msgstr "Düşük frekans"
 
 #: data/effects/audiospectrum.xml:55
 #, kde-format
@@ -416,7 +416,7 @@ msgstr "Grafik için kullanılacak frekans aralığının alt sınırı."
 #: data/effects/audiospectrum.xml:58 data/effects/dance.xml:11
 #, kde-format
 msgid "High Frequency"
-msgstr "Yüksek Frekans"
+msgstr "Yüksek frekans"
 
 #: data/effects/audiospectrum.xml:59
 #, kde-format
@@ -426,7 +426,7 @@ msgstr "Grafik için kullanılacak frekans aralığının üst sınırı."
 #: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
 #, kde-format
 msgid "Level Threshold"
-msgstr "Düzey Eşiği"
+msgstr "Düzey eşiği"
 
 #: data/effects/audiospectrum.xml:63
 #, kde-format
@@ -440,7 +440,7 @@ msgstr ""
 #: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
 #, kde-format
 msgid "Window Size"
-msgstr "Pencere Boyutu"
+msgstr "Pencere boyutu"
 
 #: data/effects/audiospectrum.xml:67
 #, kde-format
@@ -461,23 +461,23 @@ msgstr ""
 #: data/effects/audiowave.xml:4
 #, kde-format
 msgid "Audio Wave"
-msgstr "Ses Dalgası"
+msgstr "Ses dalgası"
 
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr "Video yerine ses dalga biçimini görüntüle"
+msgstr "Video yerine ses dalga biçimini görüntüleyin."
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
-msgstr "Ses Dalga Biçimi Süzgeci"
+msgstr "Ses dalga biçimi süzgeci"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #: data/effects/timer.xml:23
 #, kde-format
 msgid "Foreground Color"
-msgstr "Ön Alan Rengi"
+msgstr "Ön alan rengi"
 
 #: data/effects/audiowaveform.xml:26
 #, kde-format
@@ -497,13 +497,13 @@ msgstr "Kompresör (Avfilter)"
 #: data/effects/avfilter/acompressor.xml:5
 #, kde-format
 msgid "Audio Compressor"
-msgstr "Ses Kompresörü"
+msgstr "Ses kompresörü"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
 #, kde-format
 msgid "Input Gain"
-msgstr "Giriş Kazancı"
+msgstr "Giriş kazancı"
 
 #: data/effects/avfilter/acompressor.xml:11 data/effects/avfilter/agate.xml:14
 #: data/effects/avfilter/avfilter_kerneldeint.xml:8
@@ -541,7 +541,7 @@ msgstr "Bırak"
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
 msgid "Make Up Gain"
-msgstr "Barışma Kazancı"
+msgstr "Kazanç telafisi"
 
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
@@ -556,12 +556,12 @@ msgstr "Ortalama,En Yüksek"
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
 #, kde-format
 msgid "Link Type"
-msgstr "Bağlantı Türü"
+msgstr "Bağlantı türü"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
 msgid "Peak,Rms"
-msgstr "Tavan, RMS"
+msgstr "Tavan,RMS"
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
 #, kde-format
@@ -571,7 +571,7 @@ msgstr "Algılama"
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
 msgid "Sidechain Gain"
-msgstr "Yan Zincir Kazancı"
+msgstr "Yan zincir kazancı"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -598,12 +598,12 @@ msgstr "Yankı (Avfilter)"
 #: data/effects/avfilter/aecho.xml:5
 #, kde-format
 msgid "Add Echo"
-msgstr "Yankı Ekle"
+msgstr "Yankı ekle"
 
 #: data/effects/avfilter/aecho.xml:11
 #, kde-format
 msgid "Output Gain"
-msgstr "Çıkış Kazancı"
+msgstr "Çıkış kazancı"
 
 #: data/effects/avfilter/aecho.xml:14
 #: data/effects/avfilter/avfilter_flanger.xml:8
@@ -630,7 +630,7 @@ msgstr "Kapı (Avfilter)"
 #: data/effects/avfilter/agate.xml:5
 #, kde-format
 msgid "Audio Gate"
-msgstr "Ses Kapısı"
+msgstr "Ses kapısı"
 
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
@@ -643,7 +643,7 @@ msgstr "Erim"
 #: data/effects/avfilter/avfilter_acontrast.xml:4
 #, kde-format
 msgid "Simple Compressor/Expander"
-msgstr "Basit Kompresör/Genişletici"
+msgstr "Basit kompresör/genişletici"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
@@ -700,7 +700,7 @@ msgstr "Bit azaltması"
 #: data/effects/avfilter/avfilter_histogram.xml:18
 #, kde-format
 msgid "Linear,Logarithmic"
-msgstr "Doğrusal, Logaritmik"
+msgstr "Doğrusal,Logaritmik"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:24
 #: data/effects/avfilter/avfilter_apulsator.xml:15
@@ -737,7 +737,7 @@ msgstr "Örneklem azaltımı"
 #: data/effects/avfilter/avfilter_acrusher.xml:36
 #, kde-format
 msgid "Enable LFO"
-msgstr "LFO’yu Etkinleştir"
+msgstr "LFO’yu etkinleştir"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
@@ -759,12 +759,12 @@ msgstr "Sınırlayıcı"
 #: data/effects/avfilter/avfilter_aphaser.xml:5
 #, kde-format
 msgid "Audio lookahead limiter."
-msgstr "Ses ileriye dönük sınırlayıcısı."
+msgstr "İleriye dönük ses sınırlayıcısı."
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
 #, kde-format
 msgid "Enable ASC"
-msgstr "ASC’yi Etkinleştir"
+msgstr "ASC’yi etkinleştir"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
 #, kde-format
@@ -835,7 +835,7 @@ msgstr "Yöntem"
 #: data/effects/avfilter/avfilter_lowshelf.xml:15
 #, kde-format
 msgid "Filter-width"
-msgstr "Süzgeç Genişliği"
+msgstr "Süzgeç genişliği"
 
 #: data/effects/avfilter/avfilter_allpass.xml:21
 #: data/effects/avfilter/avfilter_bandpass.xml:24
@@ -930,7 +930,7 @@ msgstr "Milisaniye türünden gecikme"
 #: data/effects/avfilter/avfilter_flanger.xml:28
 #, kde-format
 msgid "Triangular,Sinusoidal"
-msgstr "Üçgensel, Sinüzoidal"
+msgstr "Üçgensel,Sinüzoidal"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:24
 #, kde-format
@@ -1005,13 +1005,13 @@ msgstr "Zamanlama yalnızca Hz olarak ayarlanmışsa kullanılır."
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
 msgid "Adaptive Temporal Averaging Denoiser"
-msgstr "Uyarlanır Zamansal Ortalayan Gürültü Kaldırıcısı"
+msgstr "Uyarlanır zamansal ortalayan gürültü kaldırıcısı"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:5
 #, kde-format
 msgid "Apply an Adaptive Temporal Averaging Denoiser to the video input. "
 msgstr ""
-"Video girişine bir Uyarlanır Zamansal Ortalayan Gürültü Kaldırıcısı "
+"Video girişine bir uyarlanır zamansal ortalayan gürültü kaldırıcısı "
 "uygulayın."
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
@@ -1052,7 +1052,7 @@ msgstr "Ortalama için kare sayısı"
 #: data/effects/avfilter/avfilter_avgblur.xml:4
 #, kde-format
 msgid "Average Blur"
-msgstr "Ortalama Bulanıklık"
+msgstr "Ortalama bulanıklık"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:5
 #, kde-format
@@ -1099,7 +1099,7 @@ msgstr "Düzlemler"
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, kde-format
 msgid "Band-pass"
-msgstr "Bant Geçişi"
+msgstr "Bant geçişi"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
 #, kde-format
@@ -1118,7 +1118,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_equalizer.xml:8
 #, kde-format
 msgid "Central Frequency"
-msgstr "Merkezi Frekans"
+msgstr "Merkezi frekans"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
 #, kde-format
@@ -1128,7 +1128,7 @@ msgstr "Sabit etek kazancı"
 #: data/effects/avfilter/avfilter_bandreject.xml:4
 #, kde-format
 msgid "Band-Reject"
-msgstr "Bant Reddi"
+msgstr "Bant reddi"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
 #, kde-format
@@ -1181,7 +1181,7 @@ msgstr "Kutuplar"
 #: data/effects/avfilter/avfilter_bilateral.xml:4
 #, kde-format
 msgid "Bilateral"
-msgstr "Çift Yönlü"
+msgstr "Çift yönlü"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
@@ -1191,7 +1191,7 @@ msgstr "Kenarları korurken iki taraflı süzgeç, uzamsal yumuşatma uygulayın
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
 msgid "Spatial sigma"
-msgstr "Uzamsal Sigma"
+msgstr "Uzamsal sigma"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:9
 #, kde-format
@@ -1202,7 +1202,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bilateral.xml:12
 #, kde-format
 msgid "Range sigma"
-msgstr "Erim Sigması"
+msgstr "Erim sigması"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:13
 #, kde-format
@@ -1220,7 +1220,7 @@ msgstr "Alfa,Y,U,V,Kırmızı,Yeşil,Mavi,Tümü"
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, kde-format
 msgid "Planes Blur"
-msgstr "Düzlemler Bulanıklaştırması"
+msgstr "Düzlemler bulanıklaştırması"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:5
 #, kde-format
@@ -1235,7 +1235,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:8
 #, kde-format
 msgid "Luma Radius"
-msgstr "Luma Yarıçapı"
+msgstr "Luma yarıçapı"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
@@ -1245,7 +1245,7 @@ msgstr "Luma bulanıklaştırma kutusunun yarıçapı"
 #: data/effects/avfilter/avfilter_boxblur.xml:12
 #, kde-format
 msgid "Luma Power"
-msgstr "Luma Gücü"
+msgstr "Luma gücü"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
@@ -1256,7 +1256,7 @@ msgstr "Lumaya kaç kez kutu bulanıklığının uygulanması gerektiği"
 #: data/effects/avfilter/avfilter_sab.xml:17
 #, kde-format
 msgid "Chroma Radius"
-msgstr "Renk Yarıçapı"
+msgstr "Renk yarıçapı"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
@@ -1266,7 +1266,7 @@ msgstr "Renk bulanıklaştırma kutusunun yarıçapı"
 #: data/effects/avfilter/avfilter_boxblur.xml:20
 #, kde-format
 msgid "Chroma Power"
-msgstr "Renk Gücü"
+msgstr "Renk gücü"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
@@ -1276,7 +1276,7 @@ msgstr "Kutu bulanıklaştırmasının renge kaç kez uygulanması gerektiği"
 #: data/effects/avfilter/avfilter_boxblur.xml:24
 #, kde-format
 msgid "Alpha Radius"
-msgstr "Alfa Yarıçapı"
+msgstr "Alfa yarıçapı"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
@@ -1286,7 +1286,7 @@ msgstr "Alfa bulanıklaştırma kutusunun yarıçapı"
 #: data/effects/avfilter/avfilter_boxblur.xml:28
 #, kde-format
 msgid "Alpha Power"
-msgstr "Alpha Gücü"
+msgstr "Alpha gücü"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:29
 #, kde-format
@@ -1330,7 +1330,7 @@ msgstr "Besleme düzeyi"
 #: data/effects/avfilter/avfilter_bwdif.xml:4
 #, kde-format
 msgid "Bob Weaver Deinterlacer"
-msgstr "Bob Weaver Ayrıştırıcısı"
+msgstr "Bob Weaver ayrıştırıcısı"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:5
 #, kde-format
@@ -1372,12 +1372,12 @@ msgstr "Ayrıştır"
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
 msgid "Contrast Adaptive Sharpen"
-msgstr "Karşıtlığa Uyarlanır Keskinleştirme"
+msgstr "Karşıtlığa uyarlanır keskinleştirme"
 
 #: data/effects/avfilter/avfilter_cas.xml:5
 #, kde-format
 msgid "Apply Contrast Adaptive Sharpen filter to video stream."
-msgstr "Video akışına karşıtlığa uyarlanır keskinleştirme süzgeci uygula"
+msgstr "Video akışına karşıtlığa uyarlanır keskinleştirme süzgeci uygulayın."
 
 #: data/effects/avfilter/avfilter_cas.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:10
@@ -1397,7 +1397,7 @@ msgstr "Keskinleştirme gücünü ayarlayın."
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
 msgid "Chroma Hold"
-msgstr "Renk Tutumu"
+msgstr "Renk tutumu"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
@@ -1464,7 +1464,7 @@ msgstr "<![CDATA[Klipte RGB yerine YUV verileri varsa bunu seçin.]]>"
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
 msgid "Chroma Noise Reduction"
-msgstr "Renk Gürültüsü Azaltması"
+msgstr "Renk gürültüsü azaltması"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:5
 #, kde-format
@@ -1474,7 +1474,7 @@ msgstr "Renklilik gürültüsünü azaltın."
 #: data/effects/avfilter/avfilter_chromanr.xml:8
 #, kde-format
 msgid "Y+U+V Threshold"
-msgstr "Y+U+V Eşiği"
+msgstr "Y+U+V eşiği"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:11
 #, kde-format
@@ -1576,47 +1576,47 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
 #, kde-format
 msgid "Red Shadow"
-msgstr "Kırmızı Gölgesi"
+msgstr "Kırmızı gölgesi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:11
 #, kde-format
 msgid "Green Shadow"
-msgstr "Yeşil Gölgesi"
+msgstr "Yeşil gölgesi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:14
 #, kde-format
 msgid "Blue Shadow"
-msgstr "Mavi Gölgesi"
+msgstr "Mavi gölgesi"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
 msgid "Red Midtones"
-msgstr "Kırmızı Orta Tonları"
+msgstr "Kırmızı orta tonları"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
 #, kde-format
 msgid "Green Midtones"
-msgstr "Yeşil Orta Tonları"
+msgstr "Yeşil orta tonları"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:23
 #, kde-format
 msgid "Blue Midtones"
-msgstr "Mavi Orta Tonları"
+msgstr "Mavi orta tonları"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
 #, kde-format
 msgid "Red Highlights"
-msgstr "Kırmızı Vurgular"
+msgstr "Kırmızı vurgular"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:29
 #, kde-format
 msgid "Green Highlights"
-msgstr "Yeşil Vurgular"
+msgstr "Yeşil vurgular"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:32
 #, kde-format
 msgid "Blue Highlights"
-msgstr "Mavi Vurgular"
+msgstr "Mavi vurgular"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:35
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
@@ -1627,7 +1627,7 @@ msgstr "Açıklığı koru"
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
 #, kde-format
 msgid "Color Channel Mixer"
-msgstr "Renk Kanalı Karıştırıcısı"
+msgstr "Renk kanalı karıştırıcısı"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
@@ -1636,7 +1636,7 @@ msgid ""
 "channels of the same pixels"
 msgstr ""
 "Aynı piksellerin diğer kanallarıyla ilişkilendirilmiş değerleri ekleyerek "
-"bir renk kanalını değiştirir"
+"bir renk kanalını değiştirir."
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
@@ -1686,7 +1686,7 @@ msgstr "Mavi–Mavi"
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
 #, kde-format
 msgid "Color Contrast"
-msgstr "Renk Karşıtlığı"
+msgstr "Renk karşıtlığı"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
@@ -1731,7 +1731,7 @@ msgstr "Açıklığı korumak"
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
 #, kde-format
 msgid "Color Correct"
-msgstr "Renk Düzeltmesi"
+msgstr "Renk düzeltmesi"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:5
 #, kde-format
@@ -1788,7 +1788,7 @@ msgstr "Çözümleme kipi"
 #: data/effects/avfilter/avfilter_colorhold.xml:4
 #, kde-format
 msgid "Color Hold"
-msgstr "Renk Tutma"
+msgstr "Renk tutma"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:5
 #, kde-format
@@ -1801,7 +1801,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, kde-format
 msgid "Color Overlay"
-msgstr "Renk Kaplaması"
+msgstr "Renk kaplaması"
 
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
@@ -1892,7 +1892,7 @@ msgstr "Mavi–Beyaz çıktısı"
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
 #, kde-format
 msgid "Color Matrix"
-msgstr "Renk Matrisi"
+msgstr "Renk matrisi"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
 #, kde-format
@@ -1908,18 +1908,18 @@ msgstr "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
 #, kde-format
 msgid "Source color Matrix"
-msgstr "Kaynak Renk Matrisi"
+msgstr "Kaynak renk matrisi"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
 #, kde-format
 msgid "Destination color Matrix"
-msgstr "Hedef Renk Matrisi"
+msgstr "Hedef renk matrisi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: src/scopes/colorscopes/vectorscope.cpp:99
 #, kde-format
 msgid "Color Space"
-msgstr "Renk Uzayı"
+msgstr "Renk uzayı"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:5
 #, kde-format
@@ -1956,7 +1956,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #, kde-format
 msgid "Output Color Space"
-msgstr "Çıktı Renk Uzayı"
+msgstr "Çıkış renk uzayı"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #: data/effects/avfilter/avfilter_colorspace.xml:55
@@ -1973,7 +1973,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
 msgid "Output transfer characteristics"
-msgstr "Çıktı Aktarımı Karakteristikleri"
+msgstr "Çıkış aktarımı karakteristikleri"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
@@ -1988,7 +1988,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
 msgid "Output Color Primaries"
-msgstr "Çıktı Ana Renkleri"
+msgstr "Çıkış ana renkleri"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:24
 #: data/effects/avfilter/avfilter_colorspace.xml:59
@@ -2001,7 +2001,7 @@ msgstr "TV (kısıtlı erim),MPEG (kısıtlı erim),PC (TAM erim),JPEG (TAM erim
 #: data/effects/avfilter/avfilter_colorspace.xml:25
 #, kde-format
 msgid "Output Color Range"
-msgstr "Renk Erimini Çıktıla"
+msgstr "Çıkış renk erimi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:28
 #, kde-format
@@ -2018,12 +2018,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
 msgid "Output Color Format"
-msgstr "Çıktı Renk Biçimi"
+msgstr "Çıkış renk biçimi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
 #, kde-format
 msgid "Fast Conversion"
-msgstr "Hızlı Dönüştürme"
+msgstr "Hızlı dönüştürme"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
@@ -2033,7 +2033,7 @@ msgstr "Titreme yok,Floyd-Steinberg titremesi"
 #: data/effects/avfilter/avfilter_colorspace.xml:36
 #, kde-format
 msgid "Dithering Mode"
-msgstr "Titretme Kipi"
+msgstr "Titreme kipi"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:39
 #, kde-format
@@ -2052,7 +2052,7 @@ msgstr "Beyaz nokta uyarlama kipi"
 #: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
 msgid "Override all input properties at once"
-msgstr "Tüm girdi özelliklerini bir kerede geçersiz kıl"
+msgstr "Tüm girdi özelliklerini bir kerede geçersiz kılın."
 
 #: data/effects/avfilter/avfilter_colorspace.xml:48
 #, kde-format
@@ -2078,7 +2078,7 @@ msgstr "Girdi renk erimini geçersiz kıl"
 #: data/effects/frei0r/frei0r_colgate.xml:11
 #, kde-format
 msgid "Color Temperature"
-msgstr "Renk Sıcaklığı"
+msgstr "Renk sıcaklığı"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:5
 #, kde-format
@@ -2141,7 +2141,7 @@ msgstr "Azalmalar"
 #: data/effects/avfilter/avfilter_compand.xml:16
 #, kde-format
 msgid "Soft-Knee"
-msgstr "Yumuşak Diz"
+msgstr "Yumuşak diz"
 
 #: data/effects/avfilter/avfilter_compand.xml:17
 #, kde-format
@@ -2180,7 +2180,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, kde-format
 msgid "Compensation Delay"
-msgstr "Tazmin Gecikmesi"
+msgstr "Tazmin gecikmesi"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:8
 #, kde-format
@@ -2313,7 +2313,7 @@ msgid ""
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
 "Çapraz beslemenin gücünü ayarlayın.\n"
-"Öntanımlı değer 0,2’dir. İzin verilen erim 0 ila 1 arasındadır. Bu, stereo "
+"Öntanımlı değer 0,2’dir. İzin verilen erim 0 ile 1 arasındadır. Bu, stereo "
 "kalıbın yan kısmı için düşük raf süzgecinin kazanımını ayarlar.\n"
 "Öntanımlı değer −6 dB’dir. Güç 1 olarak ayarlandığında izin verilen en büyük "
 "değer −30 dB’dir."
@@ -2328,7 +2328,7 @@ msgid ""
 "set to 2100 Hz. "
 msgstr ""
 "Ses sahnesi genişliğini ayarlayın.\n"
-"Öntanımlı değer 0,5’tir. İzin verilen erim 0 ila 1 arasındadır. Bu, düşük "
+"Öntanımlı değer 0,5’tir. İzin verilen erim 0 ile 1 arasındadır. Bu, düşük "
 "raf süzgecinin kesme frekansını ayarlar.\n"
 "Öntanımlı değer 1550 Hz yakınında kesmedir. Erim 1 olarak ayarlandığında "
 "kesme frekansı 2100 Hz olarak ayarlanır."
@@ -2366,8 +2366,8 @@ msgid ""
 "effect).\n"
 "To inverse filtering use negative value. "
 msgstr ""
-"Efektin yoğunluğunu ayarlar (Öntanımlı değer: 2.0).\n"
-"−10,0 ile 0 (değişmemiş ses) ile 10.0 (en yüksek efekt) arasında olmalıdır.\n"
+"Efektin yoğunluğunu ayarlar (Öntanımlı değer: 2,0).\n"
+"−10,0 ile 0 (değişmemiş ses) ile 10,0 (en yüksek efekt) arasında olmalıdır.\n"
 "Ters süzme için negatif değer kullanın."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:15
@@ -2724,38 +2724,39 @@ msgstr "Zamansal renk eşiği"
 #: data/effects/avfilter/avfilter_deesser.xml:4
 #, kde-format
 msgid "Deesser"
-msgstr "S kaldırıcısı"
+msgstr "Sibilans kaldırıcısı"
 
 #: data/effects/avfilter/avfilter_deesser.xml:5
 #, kde-format
 msgid "Apply de-essing to the audio samples."
-msgstr "Ses örneklemlerine s kaldırma uygulayın."
+msgstr "Ses örneklemlerine sibilans kaldırma uygulayın."
 
 #: data/effects/avfilter/avfilter_deesser.xml:9
 #, kde-format
 msgid "Set intensity for triggering de-essing. Allowed range is from 0 to 1."
 msgstr ""
-"S kaldırmayı tetikleme yoğunluğunu ayarlayın. İzin verilen erim 0 ila 1 "
-"arasındadır."
+"Sibilans kaldırmayı tetikleme yoğunluğunu ayarlayın. İzin verilen erim 0 ile "
+"1 arasındadır."
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
 #, kde-format
 msgid "Max deessing"
-msgstr "En yüksek s kaldırma"
+msgstr "En yüksek sibilans kaldırma"
 
 #: data/effects/avfilter/avfilter_deesser.xml:13
 #, kde-format
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
 msgstr ""
+"Sesin tiz kısmındaki azaltma miktarını ayarlayın. İzin verilen erim 0 ile 1 "
+"arasındadır."
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
 #: data/effects/frei0r/frei0r_distort0r.xml:11 data/effects/sox/sox_bass.xml:11
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Frequency"
-msgstr "Düşük Frekans"
+msgstr "Frekans"
 
 #: data/effects/avfilter/avfilter_deesser.xml:17
 #, kde-format
@@ -2763,106 +2764,93 @@ msgid ""
 "How much of original frequency content to keep when de-essing. Allowed range "
 "is from 0 to 1."
 msgstr ""
+"Sibilans kaldırma sırasında özgün frekans içeriğinin ne kadarı korunmalıdır. "
+"İzin verilen erim 0 ile 1 arasındadır."
 
 #: data/effects/avfilter/avfilter_deesser.xml:20
 #, kde-format
 msgid "Input,Output,Ess only"
-msgstr ""
+msgstr "Giriş,Çıkış,Yalnızca Sibilans"
 
 #: data/effects/avfilter/avfilter_deesser.xml:21
-#, fuzzy, kde-format
-#| msgid "Output time"
+#, kde-format
 msgid "Output mode"
-msgstr "Çıktı zamanı"
+msgstr "Çıkış kipi"
 
 #: data/effects/avfilter/avfilter_deesser.xml:22
 #, kde-format
 msgid "Set the output mode."
-msgstr ""
+msgstr "Çıkış kipini ayarlayın."
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
-#, fuzzy, kde-format
-#| msgid "Templates"
+#, kde-format
 msgid "Deflate"
-msgstr "Şablonlar"
+msgstr "Söndür"
 
 #: data/effects/avfilter/avfilter_deflate.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Apply deflate effect to the video"
-msgstr "Video üzerine GPS ile ilgili metin koyun."
+msgstr "Videoya söndürme efekti uygulayın."
 
 #: data/effects/avfilter/avfilter_deflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 1st plane"
-msgstr "Eşik değeri"
+msgstr "1. düzlem için olan eşik"
 
 #: data/effects/avfilter/avfilter_deflate.xml:11
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 2nd plane"
-msgstr "Eşik değeri"
+msgstr "2. düzlem için olan eşik"
 
 #: data/effects/avfilter/avfilter_deflate.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 3rd plane"
-msgstr "Eşik değeri"
+msgstr "3. düzlem için olan eşik"
 
 #: data/effects/avfilter/avfilter_deflate.xml:17
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 4th plane"
-msgstr "Eşik değeri"
+msgstr "4. düzlem için olan eşik"
 
 #: data/effects/avfilter/avfilter_delogo.xml:4
-#, fuzzy, kde-format
-#| msgid "Logo"
+#, kde-format
 msgid "DeLogo"
-msgstr "Logo"
+msgstr "Logo kaldır"
 
 #: data/effects/avfilter/avfilter_delogo.xml:5
-#, fuzzy, kde-format
-#| msgid "Remove from favorites"
+#, kde-format
 msgid "Remove logo from input video"
-msgstr "Sık Kullanılanlardan Kaldır"
+msgstr "Giriş yapılan videodan logoları kaldırın."
 
 #: data/effects/avfilter/avfilter_delogo.xml:8
-#, fuzzy, kde-format
-#| msgid "X position"
+#, kde-format
 msgid "Logo X Position"
-msgstr "X konumu"
+msgstr "Logonun X konumu"
 
 #: data/effects/avfilter/avfilter_delogo.xml:11
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Logo Y Position"
-msgstr "Y konumu"
+msgstr "Logonun Y konumu"
 
 #: data/effects/avfilter/avfilter_delogo.xml:14
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Logo Width"
-msgstr "Genişlik"
+msgstr "Logo genişliği"
 
 #: data/effects/avfilter/avfilter_delogo.xml:17
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Logo Height"
-msgstr "Yükseklik"
+msgstr "Logo yüksekliği"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
-#, fuzzy, kde-format
-#| msgid "Show Grid"
+#, kde-format
 msgid "Show borders"
-msgstr "Izgarayı Göster"
+msgstr "Kenarlıkları göster"
 
 #: data/effects/avfilter/avfilter_derain.xml:4
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "AI Rain removal"
-msgstr "Kaldırma"
+msgstr "Yapay zekâ ile yağmur kaldırma"
 
 #: data/effects/avfilter/avfilter_derain.xml:5
 #, kde-format
@@ -2877,26 +2865,24 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sr.xml:8
 #, kde-format
 msgid "Native,Tensorflow"
-msgstr ""
+msgstr "Yerel,Tensorflow"
 
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
-#, fuzzy, kde-format
-#| msgid "Audio Backend:"
+#, kde-format
 msgid "DNN Backend"
-msgstr "Ses arka ucu:"
+msgstr "DNN arka ucu"
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
-#, fuzzy, kde-format
-#| msgid "Luma mode"
+#, kde-format
 msgid "Load model"
-msgstr "Luma kipi"
+msgstr "Yükleme kipi"
 
 #: data/effects/avfilter/avfilter_despill.xml:4
 #, kde-format
 msgid "Despill"
-msgstr ""
+msgstr "Renk sızmasını azalt"
 
 #: data/effects/avfilter/avfilter_despill.xml:5
 #, kde-format
@@ -2904,37 +2890,38 @@ msgid ""
 "Remove unwanted contamination of foreground colors, caused by reflected "
 "color of greenscreen or bluescreen"
 msgstr ""
+"Yeşil ekran veya mavi ekran renklerinin yansıması sonucu ön plan renklerinde "
+"oluşan istenmeyen kirlenmeyi giderin."
 
 #: data/effects/avfilter/avfilter_despill.xml:9
-#, fuzzy, kde-format
-#| msgid "Screen Capture"
+#, kde-format
 msgid "Screen type"
-msgstr "Ekran Yakalama"
+msgstr "Ekran türü"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
 msgid "Spillmap Mix"
-msgstr ""
+msgstr "Sızma haritasını karıştır"
 
 #: data/effects/avfilter/avfilter_despill.xml:15
 #, kde-format
 msgid "Spillmap Expand"
-msgstr ""
+msgstr "Sızma haritasını genişlet"
 
 #: data/effects/avfilter/avfilter_despill.xml:18
 #, kde-format
 msgid "Set Red Scale"
-msgstr ""
+msgstr "Kırmızı ölçeğini ayarla"
 
 #: data/effects/avfilter/avfilter_despill.xml:21
 #, kde-format
 msgid "Set Green Scale"
-msgstr ""
+msgstr "Yeşil ölçeğini ayarla"
 
 #: data/effects/avfilter/avfilter_despill.xml:24
 #, kde-format
 msgid "Set Blue Scale"
-msgstr ""
+msgstr "Mavi ölçeğini ayarla"
 
 #: data/effects/avfilter/avfilter_despill.xml:27
 #: data/effects/avfilter/avfilter_eq.xml:11
@@ -2947,117 +2934,105 @@ msgid "Brightness"
 msgstr "Parlaklık"
 
 #: data/effects/avfilter/avfilter_dilation.xml:4
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Dilation"
-msgstr "Süre"
+msgstr "Yayma"
 
 #: data/effects/avfilter/avfilter_dilation.xml:5
-#, fuzzy, kde-format
-#| msgid "Update effect"
+#, kde-format
 msgid "Apply dilation effect"
-msgstr "Efekti Güncelle"
+msgstr "Yayma efekti uygulayın."
 
 #: data/effects/avfilter/avfilter_dilation.xml:8
 #: data/effects/avfilter/avfilter_erosion.xml:8
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "1st Plane Threshold"
-msgstr "Eşik Kullan"
+msgstr "1. düzlem için olan eşik"
 
 #: data/effects/avfilter/avfilter_dilation.xml:11
 #: data/effects/avfilter/avfilter_erosion.xml:11
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "2nd Plane Threshold"
-msgstr "Eşik Kullan"
+msgstr "2. düzlem için olan eşik"
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "3rd Plane Threshold"
-msgstr "Eşik Kullan"
+msgstr "3. düzlem için olan eşik"
 
 #: data/effects/avfilter/avfilter_dilation.xml:17
 #: data/effects/avfilter/avfilter_erosion.xml:17
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "4th Plane Threshold"
-msgstr "Değişiklik eşiği"
+msgstr "4. düzlem için olan eşik"
 
 #: data/effects/avfilter/avfilter_dilation.xml:20
 #: data/effects/avfilter/avfilter_erosion.xml:20
 #, kde-format
 msgid "Coordinates"
-msgstr ""
+msgstr "Koordinatlar"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
 msgid "Doubleweave"
-msgstr ""
+msgstr "Çift dokuma"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:5
 #, kde-format
 msgid "Weave input video fields into double number of frames"
-msgstr ""
+msgstr "Giriş video alanlarını çift sayıda kareye dokuyun."
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:8
 #: data/effects/avfilter/avfilter_field.xml:8
 #: data/effects/avfilter/avfilter_fieldorder.xml:8
 #: data/effects/avfilter/avfilter_mcdeint.xml:12
-#, fuzzy, kde-format
-#| msgid "Bottom field first"
+#, kde-format
 msgid "Top field first,Bottom field first"
-msgstr "En alt alan en önce"
+msgstr "Önce üst alan,önce alt alan"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:9
 #: data/effects/avfilter/avfilter_weave.xml:9
-#, fuzzy, kde-format
-#| msgid "First frame"
+#, kde-format
 msgid "First Field"
-msgstr "İlk kare"
+msgstr "İlk alan"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:4
-#, fuzzy, kde-format
-#| msgid "Draw axis"
+#, kde-format
 msgid "Draw Box"
-msgstr "Eksen Çiz"
+msgstr "Çizim kutusu"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:5
 #, kde-format
 msgid "Draw a colored box on the input video"
-msgstr ""
+msgstr "Giriş videosuna renkli bir kutu çizin."
 
 #: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/frei0r/frei0r_c0rners.xml:8
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top-left X"
-msgstr "Sol üst"
+msgstr "Sol üst X"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:9
 #, kde-format
 msgid "<![CDATA[X coordinate of top-left corner]]>"
-msgstr ""
+msgstr "<![CDATA[Sol üst köşenin X koordinatı.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Top-left Y"
-msgstr "Sol üst"
+msgstr "Sol üst Y"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:13
 #, kde-format
 msgid "<![CDATA[Y coordinate of top-left corner]]>"
-msgstr ""
+msgstr "<![CDATA[Sol üst köşenin Y koordinatı.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width (px)"
-msgstr "Genişlik"
+msgstr "Genişlik (pks)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:18
 #, kde-format
@@ -3065,12 +3040,13 @@ msgid ""
 "<![CDATA[Width of the box in pixel.<br>\n"
 "    \tA width of <em>1</em> does not draw a line]]>"
 msgstr ""
+"<![CDATA[Kutunun piksel türünden genişliği.<br>\n"
+"    \t<em>1</em> genişlik değeri bir çizgi çizmez.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height (px)"
-msgstr "Yükseklik"
+msgstr "Yükseklik (pks)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:23
 #, kde-format
@@ -3078,6 +3054,8 @@ msgid ""
 "<![CDATA[Height of the box in pixel.<br>\n"
 "    \tA height of <em>1</em> does not draw a line]]>"
 msgstr ""
+"<![CDATA[Kutunun piksel türünden yüksekliği.<br>\n"
+"    \t<em>1</em> yükseklik değeri bir çizgi çizmez.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
@@ -3095,26 +3073,25 @@ msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the line semi-transparent.]]>"
 msgstr ""
+"<![CDATA[Çizgi için bir renk seçin.<br>\n"
+"    \tÇizgiyi yarısaydam yapmak için <em>Alfa</em> değerini kullanın.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
-#, fuzzy, kde-format
-#| msgid "Line Thickness (px)"
+#, kde-format
 msgid "Thickness (px)"
-msgstr "Çizgi Kalınlığı (pks)"
+msgstr "Kalınlık (pks)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:32
-#, fuzzy, kde-format
-#| msgid "Sets the thickness of the line graph in pixels."
+#, kde-format
 msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
-msgstr "Çizgi grafiğin kalınlığını piksel türünden ayarlar."
+msgstr "<![CDATA[Çizginin kalınlığını piksel türünden ayarlar.]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
-#, fuzzy, kde-format
-#| msgid "Replace clip"
+#, kde-format
 msgid "Replace color and alpha"
-msgstr "Klibi değiştir"
+msgstr "Rengi ve alfayı değiştir"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:38
 #, kde-format
@@ -3125,38 +3102,42 @@ msgid ""
 "    \tBy default, the box will be composited onto the input, leaving the "
 "video's alpha intact.]]>"
 msgstr ""
+"<![CDATA[Giriş alfa değerine sahipse<br>\n"
+"    \tbunu işaretlemek videonun rengini ve alfa piksellerini boyalı kutunun "
+"pikselleriyle değiştirir.<br>\n"
+"    \tÖntanımlı olarak, kutu girdiye yerleştirilecek ve videonun alfa değeri "
+"bozulmadan kalacaktır.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw Grid"
 msgstr "Izgara çiz"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:5
 #, kde-format
 msgid "Draw a colored grid on the input video"
-msgstr ""
+msgstr "Giriş videosuna renkli bir ızgara çizin."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:8 data/effects/dropshadow.xml:12
 #, kde-format
 msgid "X Offset"
-msgstr "X Ofseti"
+msgstr "X ofseti"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
 #, kde-format
 msgid "<![CDATA[Distance from the left edge in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Sol kenardan piksel türünden uzaklık.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
 #: data/effects/dropshadow.xml:16
 #, kde-format
 msgid "Y Offset"
-msgstr "Y Ofseti"
+msgstr "Y ofseti"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
 #, kde-format
 msgid "<![CDATA[Distance from the top edge in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Üst kenardan piksel türünden uzaklık.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
@@ -3173,7 +3154,7 @@ msgstr "Genişlik"
 #: data/effects/avfilter/avfilter_drawgrid.xml:17
 #, kde-format
 msgid "<![CDATA[Distance between vertical lines in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Dikey kenarlar arasındaki piksel türünden uzaklık.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: src/assets/view/widgets/keyframeimport.cpp:430
@@ -3188,7 +3169,7 @@ msgstr "Yükseklik"
 #: data/effects/avfilter/avfilter_drawgrid.xml:21
 #, kde-format
 msgid "<![CDATA[Distance between horizontal lines in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[Yatay kenarlar arasındaki piksel türünden uzaklık.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
 #, kde-format
@@ -3196,12 +3177,13 @@ msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha</em> value to make the grid semi-transparent.]]>"
 msgstr ""
+"<![CDATA[Izgara çizgileri için bir renk seçin.<br>\n"
+"    \tIzgarayı yarısaydam yapmak için <em>Alfa</em> değerini kullanın.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
-#, fuzzy, kde-format
-#| msgid "Sets the thickness of the line graph in pixels."
+#, kde-format
 msgid "<![CDATA[Sets the thickness for the grid lines in pixels]]>"
-msgstr "Çizgi grafiğin kalınlığını piksel türünden ayarlar."
+msgstr "<![CDATA[Izgara çizgilerinin kalınlığını piksel türünden ayarlar.]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:36
 #, kde-format
@@ -3212,42 +3194,44 @@ msgid ""
 "    \tBy default, the grid lines will be composited onto the input, leaving "
 "the video's alpha intact.]]>"
 msgstr ""
+"<![CDATA[Girişte alfa varsa bunu işaretlemek<br>\n"
+"    \tvideonun rengini ve alfa piksellerini ızgara çizgilerinin "
+"pikselleriyle değiştirir.<br>\n"
+"    \tÖntanımlı olarak, ızgara çizgileri girişe birleştirilecek ve videonun "
+"alfa değeri bozulmadan kalacaktır.]]>"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Scene Detection"
+#, kde-format
 msgid "Edge detection"
-msgstr "Sahne Algılama"
+msgstr "Kenar algılama"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:5
 #, kde-format
 msgid ""
 "Detect and draw edges. The filter uses the Canny Edge Detection algorithm. "
 msgstr ""
+"Kenarları algılayın ve çizin. Süzgeç, Canny Kenar Algılama algoritmasını "
+"kullanır."
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Low threshold"
-msgstr "Eşik"
+msgstr "Düşük eşik"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:11
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "High threshold"
-msgstr "Değişiklik eşiği"
+msgstr "Yüksek eşik"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:14
 #, kde-format
 msgid "Wires,Colormix,Canny"
-msgstr ""
+msgstr "Teller,Renk karıştırma,Canny"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:15
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Modes"
-msgstr "Kip"
+msgstr "Kipler"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:18
 #: data/effects/avfilter/avfilter_gblur.xml:15
@@ -3259,7 +3243,7 @@ msgstr "Kip"
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:21
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
-msgstr ""
+msgstr "Yok,Y,U,YU,V,YV,UV,YUV,Alfa"
 
 #: data/effects/avfilter/avfilter_elbg.xml:4
 #, kde-format
@@ -7143,7 +7127,7 @@ msgstr "Dikey Hizalama"
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:926 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:927 src/ui/managesubtitles_ui.ui:216
 #: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
@@ -11267,7 +11251,7 @@ msgstr ""
 "<![CDATA[<em>Alttan kırp</em> ve <em>Üstten kırp</em> değerlerinin nasıl "
 "yorumlanacağına karar verir.<br/>\n"
 "    \tMutlak bir değerle, bu 2 değer arasındaki yükseklikteki küçük "
-"değişiklikleri daha iyi göstermek için 100 ila 150 metre irtifaya "
+"değişiklikleri daha iyi göstermek için 100 ile 150 metre yüksekliğe "
 "yakınlaştırabilir.<br/>\n"
 "Not: Dikey tür için mutlak değerler enlem dereceleridir (konum kaynağı türü "
 "için) ve\n"
@@ -14657,7 +14641,7 @@ msgstr "Luma"
 #: data/transitions/wipe.xml:5
 #, kde-format
 msgid "Applies a stationary transition between the current and next frames."
-msgstr "Şİmdiki ve sonraki kareler arassında sabit bir geçiş uygular."
+msgstr "Geçerli ve sonraki kareler arassında sabit bir geçiş uygular."
 
 #: data/transitions/luma.xml:8 data/transitions/region.xml:27
 #: data/transitions/wipe.xml:8
@@ -16704,7 +16688,7 @@ msgstr ""
 "Harici başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık "
 "dosyasına mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
 
-#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2243
+#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2269
 #, kde-format
 msgid "Save Title"
 msgstr "Başlığı Kaydet"
@@ -18172,7 +18156,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2256
+#: src/titler/titlewidget.cpp:2282
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Dosyaya yazılamadı: %1"
@@ -22527,10 +22511,9 @@ msgstr "Rıhtım Alanlarını Sütunlar Halinde Düzenle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/layouts/layoutmanagement.cpp:82 src/ui/configmisc_ui.ui:344
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgid "Auto Save"
-msgstr "Kaydet"
+msgstr "Kendiliğinden kaydet"
 
 #: src/layouts/layoutmanagement.cpp:166
 #, kde-format
@@ -22554,10 +22537,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "%1 yerleşimi halihazırda var. Başkasıyla değiştirmek istiyor musunuz?"
 
 #: src/layouts/layoutmanagerdialog.cpp:30
-#, fuzzy, kde-format
-#| msgid "Manage Layouts…"
+#, kde-format
 msgid "Manage Layouts"
-msgstr "Yerleşimleri Yönet…"
+msgstr "Yerleşimleri Yönet"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -22581,10 +22563,9 @@ msgid "Export selected"
 msgstr "Seçilileri dışa aktar"
 
 #: src/layouts/layoutmanagerdialog.cpp:140
-#, fuzzy, kde-format
-#| msgid "Current Layouts"
+#, kde-format
 msgid "Reset Layouts"
-msgstr "Geçerli Yerleşimler"
+msgstr "Yerleşimleri Sıfırla"
 
 #: src/layouts/layoutmanagerdialog.cpp:141
 #, kde-format
@@ -22592,51 +22573,45 @@ msgid ""
 "Are you sure you want to reset all layouts to the default set? This will "
 "remove all custom layouts."
 msgstr ""
+"Tüm yerleşimleri öntanımlı ayarlara sıfırlamak istediğinizden emin misiniz? "
+"Bu, tüm özel yerleşimleri kaldıracaktır."
 
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Import Layout"
-msgstr "Yerleşimi Dışa Aktar"
+msgstr "Yerleşim İçe Aktar"
 
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:211
-#, fuzzy, kde-format
-#| msgid "Kdenlive project (*.kdenlive)"
+#, kde-format
 msgid "Kdenlive Layout (*.kdenlivelayout)"
-msgstr "Kdenlive projesi (*.kdenlive)"
+msgstr "Kdenlive yerleşimi (*.kdenlivelayout)"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
 #: src/layouts/layoutmanagerdialog.cpp:207
 #: src/layouts/layoutmanagerdialog.cpp:211
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Export Layout"
 msgstr "Yerleşimi Dışa Aktar"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
-#, fuzzy, kde-format
-#| msgid "No layout selected"
+#, kde-format
 msgid "No layout selected."
-msgstr "Seçili yerleşim yok"
+msgstr "Seçili yerleşim yok."
 
 #: src/layouts/layoutmanagerdialog.cpp:207
-#, fuzzy, kde-format
-#| msgid "Cannot find layout %1"
+#, kde-format
 msgid "Cannot find layout data for %1."
-msgstr "%1 yerleşimi bulunamıyor"
+msgstr "%1 için yerleşim verisi bulunamıyor."
 
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgid "Document shared successfully"
+#, kde-format
 msgid "Layout exported successfully."
-msgstr "Belge başarıyla paylaşıldı"
+msgstr "Yerleşim başarıyla dışa aktarıldı."
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -22848,8 +22823,9 @@ msgid "An open source video editor."
 msgstr "Açık kaynak kodlu bir video düzenleyicisi."
 
 #: src/main.cpp:256
-#, kde-format
-msgid "Copyright © 2007–2024 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2024 Kdenlive authors"
+msgid "Copyright © 2007–2025 Kdenlive authors"
 msgstr "Telif hakkı © 2007–2024 Kdenlive yazarları"
 
 #: src/main.cpp:258
@@ -24521,7 +24497,7 @@ msgstr "Yeniden Oluştur"
 
 #: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2239
+#: src/titler/titlewidget.cpp:2265
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -30392,7 +30368,7 @@ msgid "No available stream"
 msgstr "Kullanılabilir akış yok"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3301 src/titler/titlewidget.cpp:3304
+#: src/titler/titlewidget.cpp:3327 src/titler/titlewidget.cpp:3330
 #, kde-format
 msgid "Gradient %1"
 msgstr "%1 gradyan"
@@ -30627,40 +30603,36 @@ msgid "Add Ellipse"
 msgstr "Elips Ekle"
 
 #: src/titler/titlewidget.cpp:415
-#, fuzzy, kde-format
-#| msgid "Add Image"
+#, kde-format
 msgid "Add Image…"
-msgstr "Görsel Ekle"
+msgstr "Görsel Ekle…"
 
 #: src/titler/titlewidget.cpp:422
-#, fuzzy, kde-format
-#| msgid "Open Backup File…"
+#, kde-format
 msgid "Open  Title…"
-msgstr "Yedek Dosyası Aç…"
+msgstr "Başlık Aç…"
 
 #: src/titler/titlewidget.cpp:427
-#, fuzzy, kde-format
-#| msgid "Save Title"
+#, kde-format
 msgid "Save Title As…"
-msgstr "Başlığı Kaydet"
+msgstr "Başlığı Farklı Kaydet…"
 
 #: src/titler/titlewidget.cpp:432
-#, fuzzy, kde-format
-#| msgid "Download New Title Templates..."
+#, kde-format
 msgid "Download New Title Templates…"
 msgstr "Yeni Başlık Şablonları İndir…"
 
-#: src/titler/titlewidget.cpp:548
+#: src/titler/titlewidget.cpp:549
 #, kde-format
 msgid "Save and add to project"
 msgstr "Kaydet ve Projeye Ekle"
 
-#: src/titler/titlewidget.cpp:549
+#: src/titler/titlewidget.cpp:550
 #, kde-format
 msgid "Create Title"
 msgstr "Başlık Oluştur"
 
-#: src/titler/titlewidget.cpp:767
+#: src/titler/titlewidget.cpp:768
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -30669,54 +30641,54 @@ msgstr ""
 "Yeni bir şablon yüklemeyi gerçekten istiyor musunuz? Bu başlıktaki "
 "değişiklikler kaybolacak!"
 
-#: src/titler/titlewidget.cpp:875
+#: src/titler/titlewidget.cpp:876
 #, kde-format
 msgid "All Images"
 msgstr "Tüm Görseller"
 
-#: src/titler/titlewidget.cpp:877
+#: src/titler/titlewidget.cpp:878
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 Görseli"
 
-#: src/titler/titlewidget.cpp:887
+#: src/titler/titlewidget.cpp:888
 #, kde-format
 msgid "Add Image"
 msgstr "Görsel Ekle"
 
-#: src/titler/titlewidget.cpp:1693
+#: src/titler/titlewidget.cpp:1719
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1695 src/ui/titlewidget_ui.ui:340
+#: src/titler/titlewidget.cpp:1721 src/ui/titlewidget_ui.ui:340
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1717
+#: src/titler/titlewidget.cpp:1743
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1719 src/ui/titlewidget_ui.ui:269
+#: src/titler/titlewidget.cpp:1745 src/ui/titlewidget_ui.ui:269
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2190
+#: src/titler/titlewidget.cpp:2216
 #, kde-format
 msgid "Load Title"
 msgstr "Başlık Yükle"
 
-#: src/titler/titlewidget.cpp:2191
+#: src/titler/titlewidget.cpp:2217
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive başlığı"
 
-#: src/titler/titlewidget.cpp:2237
+#: src/titler/titlewidget.cpp:2263
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30725,57 +30697,57 @@ msgstr ""
 "Görselleri bu BaşlıkBelgesi’ne gömmek istiyor musunuz?\n"
 "Bu Başlıkları paylaşmak için en çok gerekli şeydir."
 
-#: src/titler/titlewidget.cpp:2238
+#: src/titler/titlewidget.cpp:2264
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Görseller Göm"
 
-#: src/titler/titlewidget.cpp:2293
+#: src/titler/titlewidget.cpp:2319
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Bu başlıkta 1 eksik öge var"
 msgstr[1] "Bu başlıkta %1 eksik öge var"
 
-#: src/titler/titlewidget.cpp:2294 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2320 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Ayrıntılar"
 
-#: src/titler/titlewidget.cpp:2297
+#: src/titler/titlewidget.cpp:2323
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Eksik ögeleri sil"
 
-#: src/titler/titlewidget.cpp:2357
+#: src/titler/titlewidget.cpp:2383
 #, kde-format
 msgid "Update Title"
 msgstr "Başlığı Güncelle"
 
-#: src/titler/titlewidget.cpp:2360
+#: src/titler/titlewidget.cpp:2386
 #, kde-format
 msgid "Add as new Title"
 msgstr "Yeni başlık olarak ekle"
 
-#: src/titler/titlewidget.cpp:2414
+#: src/titler/titlewidget.cpp:2440
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Aşağıdaki dosyalar eksik:"
 
-#: src/titler/titlewidget.cpp:2608
+#: src/titler/titlewidget.cpp:2634
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Görüş Alanını Başlat"
 
-#: src/titler/titlewidget.cpp:2609
+#: src/titler/titlewidget.cpp:2635
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Görüş Alanını Sonlandır"
 
-#: src/titler/titlewidget.cpp:3334
+#: src/titler/titlewidget.cpp:3360
 #, kde-format
 msgid "Gradient"
 msgstr "Gradyan"
@@ -32249,14 +32221,13 @@ msgstr "Başlangıçta son projeyi aç"
 #: src/ui/configmisc_ui.ui:37
 #, kde-format
 msgid "Every"
-msgstr ""
+msgstr "Her"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_autosave_time)
 #: src/ui/configmisc_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Milliseconds"
+#, kde-format
 msgid " seconds"
-msgstr "Milisaniye"
+msgstr " saniye"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configmisc_ui.ui:57
