@@ -67,7 +67,7 @@ MouseArea {
                 visible: root.maskMode != MaskModeType.MaskPreview
                 onClicked: {
                     generateLabel.visible = true
-                    if (root.keyframes.length > 0) {
+                    if (root.keyframes.length > 0 || (root.boxCoords[2] > 0 && root.boxCoords[3] > 0)) {
                         root.generateMask()
                     } else {
                         // Display the message for 3 seconds
