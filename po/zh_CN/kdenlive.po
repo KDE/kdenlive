@@ -530,37 +530,37 @@ msgstr "释放"
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
 msgid "Make Up Gain"
-msgstr ""
+msgstr "增益补偿"
 
 #: data/effects/avfilter/acompressor.xml:26 data/effects/avfilter/agate.xml:29
 #, kde-format
 msgid "Knee"
-msgstr ""
+msgstr "拐点"
 
 #: data/effects/avfilter/acompressor.xml:29 data/effects/avfilter/agate.xml:36
 #, kde-format
 msgid "Average,Maximum"
-msgstr ""
+msgstr "平均，最大值"
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
 #, kde-format
 msgid "Link Type"
-msgstr ""
+msgstr "链接类型"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
 msgid "Peak,Rms"
-msgstr ""
+msgstr "峰值,Rms"
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
 #, kde-format
 msgid "Detection"
-msgstr ""
+msgstr "检测模式"
 
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
 msgid "Sidechain Gain"
-msgstr ""
+msgstr "Sidechain Gain - 侧链增益"
 
 #: data/effects/avfilter/acompressor.xml:40
 #: data/effects/avfilter/avfilter_acrusher.xml:20
@@ -582,17 +582,17 @@ msgstr "混合"
 #: data/effects/avfilter/aecho.xml:4
 #, kde-format
 msgid "Echo (avfilter)"
-msgstr ""
+msgstr "回响 (avfilter)"
 
 #: data/effects/avfilter/aecho.xml:5
 #, kde-format
 msgid "Add Echo"
-msgstr ""
+msgstr "添加回响"
 
 #: data/effects/avfilter/aecho.xml:11
 #, kde-format
 msgid "Output Gain"
-msgstr ""
+msgstr "Output gain/输出增益"
 
 #: data/effects/avfilter/aecho.xml:14
 #: data/effects/avfilter/avfilter_flanger.xml:8
@@ -602,24 +602,24 @@ msgstr ""
 #: data/effects/sox/sox_phaser.xml:14
 #, kde-format
 msgid "Delay"
-msgstr ""
+msgstr "延迟"
 
 #: data/effects/avfilter/aecho.xml:17
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #: data/effects/sox/sox_echo.xml:17 data/effects/sox/sox_phaser.xml:17
 #, kde-format
 msgid "Decay"
-msgstr ""
+msgstr "衰减"
 
 #: data/effects/avfilter/agate.xml:4
 #, kde-format
 msgid "Gate (avfilter)"
-msgstr ""
+msgstr "门 (avfilter)"
 
 #: data/effects/avfilter/agate.xml:5
 #, kde-format
 msgid "Audio Gate"
-msgstr ""
+msgstr "音频门"
 
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
@@ -627,17 +627,17 @@ msgstr ""
 #: data/effects/avfilter/avfilter_setrange.xml:9
 #, kde-format
 msgid "Range"
-msgstr ""
+msgstr "范围"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:4
 #, kde-format
 msgid "Simple Compressor/Expander"
-msgstr ""
+msgstr "Simple Compressor/Expander - 简单压缩/扩展器"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:5
 #, kde-format
 msgid "Simple audio dynamic range compression/expansion filter."
-msgstr ""
+msgstr "简单音频动态范围压缩/扩展滤波器。"
 
 #: data/effects/avfilter/avfilter_acontrast.xml:8
 #: data/effects/avfilter/avfilter_eq.xml:8
@@ -649,12 +649,12 @@ msgstr "对比度"
 #: data/effects/avfilter/avfilter_acrusher.xml:4
 #, kde-format
 msgid "Crusher"
-msgstr ""
+msgstr "Crusher-破碎机"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:5
 #, kde-format
 msgid "Reduce audio bit resolution."
-msgstr ""
+msgstr "降低音频位分辨率。"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:8
 #: data/effects/avfilter/avfilter_alimiter.xml:8
@@ -663,7 +663,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_crossfeed.xml:22
 #, kde-format
 msgid "Input gain"
-msgstr ""
+msgstr "Input gain/输入增益"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:11
 #: data/effects/avfilter/avfilter_alimiter.xml:11
@@ -672,24 +672,24 @@ msgstr ""
 #: data/effects/avfilter/avfilter_crossfeed.xml:25
 #, kde-format
 msgid "Output gain"
-msgstr ""
+msgstr "Output gain/输出增益"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:14
 #: data/effects/avfilter/avfilter_alimiter.xml:14
 #, kde-format
 msgid "Limit"
-msgstr ""
+msgstr "限制"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:17
 #, kde-format
 msgid "Bit reduction"
-msgstr ""
+msgstr "Bit reduction/位减少"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:23
 #: data/effects/avfilter/avfilter_histogram.xml:18
 #, kde-format
 msgid "Linear,Logarithmic"
-msgstr ""
+msgstr "线性，对数"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:24
 #: data/effects/avfilter/avfilter_apulsator.xml:15
@@ -711,7 +711,7 @@ msgstr "模式"
 #: data/effects/avfilter/avfilter_acrusher.xml:27
 #, kde-format
 msgid "DC"
-msgstr ""
+msgstr "DC"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:30
 #, kde-format
@@ -721,54 +721,54 @@ msgstr "抗锯齿"
 #: data/effects/avfilter/avfilter_acrusher.xml:33
 #, kde-format
 msgid "Sample reduction"
-msgstr ""
+msgstr "Sample reduction/采样减少"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:36
 #, kde-format
 msgid "Enable LFO"
-msgstr ""
+msgstr "启用 LFO"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:39
 #, kde-format
 msgid "LFO depth"
-msgstr ""
+msgstr "LFO 深度"
 
 #: data/effects/avfilter/avfilter_acrusher.xml:42
 #, kde-format
 msgid "LFO rate"
-msgstr ""
+msgstr "LFO 速率"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:4
 #: data/effects/avfilter/avfilter_limiter.xml:4
 #, kde-format
 msgid "Limiter"
-msgstr ""
+msgstr "限制器"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:5
 #: data/effects/avfilter/avfilter_aphaser.xml:5
 #, kde-format
 msgid "Audio lookahead limiter."
-msgstr ""
+msgstr "音频查找限制器。"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
 #, kde-format
 msgid "Enable ASC"
-msgstr ""
+msgstr "启用 ASC"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:26
 #, kde-format
 msgid "ASC level"
-msgstr ""
+msgstr "ASC级别"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:29
 #, kde-format
 msgid "Normalize to 0dB"
-msgstr ""
+msgstr "标准化到0dB"
 
 #: data/effects/avfilter/avfilter_allpass.xml:4
 #, kde-format
 msgid "Allpass"
-msgstr ""
+msgstr "全通"
 
 #: data/effects/avfilter/avfilter_allpass.xml:5
 #, kde-format
@@ -777,6 +777,8 @@ msgid ""
 "and filter-width width. An all-pass filter changes the audio’s frequency to "
 "phase relationship without changing its frequency to amplitude relationship."
 msgstr ""
+"应用一个具有中心频率(Hz)和滤波宽度的双极全通滤波器。 全通滤波器会将音频的频率"
+"更改为相关系而不是振幅关系。"
 
 #: data/effects/avfilter/avfilter_allpass.xml:8
 #: data/effects/avfilter/avfilter_bandreject.xml:8
@@ -787,7 +789,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowshelf.xml:8
 #, kde-format
 msgid "Central frequency"
-msgstr ""
+msgstr "中央频率"
 
 #: data/effects/avfilter/avfilter_allpass.xml:11
 #: data/effects/avfilter/avfilter_bandpass.xml:14
@@ -799,7 +801,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowshelf.xml:11
 #, kde-format
 msgid "Hz,Q-FActor,Octave,Slope,KHz"
-msgstr ""
+msgstr "Hz,Q值,倍频程,斜率,KHz"
 
 #: data/effects/avfilter/avfilter_allpass.xml:12
 #: data/effects/avfilter/avfilter_bandpass.xml:15
@@ -809,7 +811,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
 #, kde-format
 msgid "Method"
-msgstr ""
+msgstr "方法"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -846,12 +848,12 @@ msgstr "标准化"
 #: data/effects/avfilter/avfilter_lowshelf.xml:21
 #, kde-format
 msgid "1,2"
-msgstr ""
+msgstr "1,2"
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
 #, kde-format
 msgid "Order"
-msgstr ""
+msgstr "顺序"
 
 #: data/effects/avfilter/avfilter_allpass.xml:28
 #: data/effects/avfilter/avfilter_bandpass.xml:27
@@ -863,7 +865,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowshelf.xml:31
 #, kde-format
 msgid "di,dii,tdii,latt"
-msgstr ""
+msgstr "di,dii,tdii,latt"
 
 #: data/effects/avfilter/avfilter_allpass.xml:29
 #: data/effects/avfilter/avfilter_bandpass.xml:28
@@ -875,7 +877,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowshelf.xml:32
 #, kde-format
 msgid "Transform type"
-msgstr ""
+msgstr "变换类型"
 
 #: data/effects/avfilter/avfilter_allpass.xml:32
 #: data/effects/avfilter/avfilter_bandpass.xml:31
@@ -887,7 +889,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowshelf.xml:35
 #, kde-format
 msgid "Auto,s16,s32,f32,f64"
-msgstr ""
+msgstr "自动,s16,s32,f32,f64"
 
 #: data/effects/avfilter/avfilter_allpass.xml:33
 #: data/effects/avfilter/avfilter_bandpass.xml:32
@@ -899,166 +901,166 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lowshelf.xml:36
 #, kde-format
 msgid "Filter precision"
-msgstr ""
+msgstr "过滤器精度"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:4
 #: data/effects/ladspa/ladspa_phaser.xml:4
 #, kde-format
 msgid "Phaser"
-msgstr ""
+msgstr "Phaser - 相位"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:14
 #, kde-format
 msgid "Delay in milliseconds"
-msgstr ""
+msgstr "延迟时间(毫秒)"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:23
 #: data/effects/avfilter/avfilter_flanger.xml:28
 #, kde-format
 msgid "Triangular,Sinusoidal"
-msgstr ""
+msgstr "三角波，正弦波"
 
 #: data/effects/avfilter/avfilter_aphaser.xml:24
 #, kde-format
 msgid "Modulation type"
-msgstr ""
+msgstr "调制类型"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:4
 #, kde-format
 msgid "Pulsator"
-msgstr ""
+msgstr " Pulsator - 震动器"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:5
 #, kde-format
 msgid " Audio pulsator."
-msgstr ""
+msgstr " Audio pulsator - 音频调制器。"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:14
 #, kde-format
 msgid "sine,triangle,square,sawup,sawdown"
-msgstr ""
+msgstr "正弦波,三角波,方波,上升锯齿波,下降锯齿波"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:18
 #, kde-format
 msgid "Modulation"
-msgstr ""
+msgstr "调制"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:21
 #, kde-format
 msgid "Offset L"
-msgstr ""
+msgstr "L 偏移"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:24
 #, kde-format
 msgid "Offset R"
-msgstr ""
+msgstr "R 偏移"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:27
 #, kde-format
 msgid "Pulse width"
-msgstr ""
+msgstr "脉冲宽度"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:30
 #, kde-format
 msgid "bpm,ms,Hz"
-msgstr ""
+msgstr "bpm,ms,Hz"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:31
 #, kde-format
 msgid "Timing"
-msgstr ""
+msgstr "时序"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:34
 #, kde-format
 msgid "BPM"
-msgstr ""
+msgstr "BPM"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:37
 #, kde-format
 msgid "Milliseconds"
-msgstr ""
+msgstr "亳秒"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:40
 #, kde-format
 msgid "Frequency in Hz"
-msgstr ""
+msgstr "频率(Hz)"
 
 #: data/effects/avfilter/avfilter_apulsator.xml:41
 #, kde-format
 msgid "Only used if timing is set to hz."
-msgstr ""
+msgstr "仅用于时序被设置为Hz。"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:4
 #, kde-format
 msgid "Adaptive Temporal Averaging Denoiser"
-msgstr ""
+msgstr "自适应时域平均降噪器"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:5
 #, kde-format
 msgid "Apply an Adaptive Temporal Averaging Denoiser to the video input. "
-msgstr ""
+msgstr "为视频输入片段应用一个自适应时域平均降噪器。 "
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
 #, kde-format
 msgid "A threshold for 1st plane"
-msgstr ""
+msgstr "首平面(Y通道)的A类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:11
 #, kde-format
 msgid "B threshold for 1st plane"
-msgstr ""
+msgstr "首平面(Y通道)的B类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:14
 #, kde-format
 msgid "A threshold for 2nd plane"
-msgstr ""
+msgstr "第二平面(U通道)的A类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:17
 #, kde-format
 msgid "B threshold for 2nd plane"
-msgstr ""
+msgstr "第二平面(U通道)的B类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:20
 #, kde-format
 msgid "A threshold for 3rd plane"
-msgstr ""
+msgstr "第三平面(V通道)的A类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:23
 #, kde-format
 msgid "B threshold for 3rd plane"
-msgstr ""
+msgstr "第三平面(V通道)的B类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
 #, kde-format
 msgid "Number of frames for averaging"
-msgstr ""
+msgstr "平均帧数长度"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:4
 #, kde-format
 msgid "Average Blur"
-msgstr ""
+msgstr "均值模糊"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:5
 #, kde-format
 msgid "Apply average blur filter. "
-msgstr ""
+msgstr "应用平均模糊滤波器。 "
 
 #: data/effects/avfilter/avfilter_avgblur.xml:8
 #: data/effects/frei0r/frei0r_pr0be.xml:18
 #, kde-format
 msgid "X size"
-msgstr ""
+msgstr "X 大小"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:11
 #: data/effects/frei0r/frei0r_pr0be.xml:21
 #, kde-format
 msgid "Y size"
-msgstr ""
+msgstr "Y 大小"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All"
-msgstr ""
+msgstr "Alpha,Y,U,V,Red,Green,Blue,All"
 
 #: data/effects/avfilter/avfilter_avgblur.xml:15
 #: data/effects/avfilter/avfilter_bilateral.xml:17
@@ -1078,12 +1080,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:22
 #, kde-format
 msgid "Planes"
-msgstr ""
+msgstr "平面"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, kde-format
 msgid "Band-pass"
-msgstr ""
+msgstr "带通滤波"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:5
 #, kde-format
@@ -1093,22 +1095,25 @@ msgid ""
 "(peak gain = Q) instead of the default: constant 0dB peak gain. The filter "
 "roll off at 6dB per octave (20dB per decade). "
 msgstr ""
+"应用一个具有中心频率的双极Butterworth带通滤波器(3dB-point 带宽)。csg 选项将选"
+"择一个固定的小幅增益(峰增益=Q)代替默认值 (常数 0dB 峰增益)。滤波器衰减率为每"
+"八度6分贝 (即每十倍频程20分贝)。"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:8
 #: data/effects/avfilter/avfilter_equalizer.xml:8
 #, kde-format
 msgid "Central Frequency"
-msgstr ""
+msgstr "中心频率"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:11
 #, kde-format
 msgid "Constant skirt gain"
-msgstr ""
+msgstr "固定的小幅增益"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:4
 #, kde-format
 msgid "Band-Reject"
-msgstr ""
+msgstr "带阻滤波器"
 
 #: data/effects/avfilter/avfilter_bandreject.xml:5
 #, kde-format
@@ -1117,11 +1122,13 @@ msgid ""
 "frequency, and (3dB-point) band-width width. The filter roll off at 6dB per "
 "octave (20dB per decade)."
 msgstr ""
+"应用一个具有中心频率的双极Butterworth带阻滤波器(3dB-point 带宽)。滤波器衰减率"
+"为每八度6分贝 (即每十倍频程20分贝)。"
 
 #: data/effects/avfilter/avfilter_bass.xml:4
 #, kde-format
 msgid "Bass"
-msgstr ""
+msgstr "贝斯"
 
 #: data/effects/avfilter/avfilter_bass.xml:5
 #, kde-format
@@ -1129,6 +1136,8 @@ msgid ""
 "Apply a two-pole all-pass filter with central frequency (in Hz) frequency, "
 "and filter-width width. Boost or cut lower frequencies."
 msgstr ""
+"应用一个具有中心频率(Hz)和滤波宽度的双极全通滤波器，该滤波器可提升或衰减低频"
+"信号。"
 
 #: data/effects/avfilter/avfilter_bass.xml:8
 #: data/effects/avfilter/avfilter_compand.xml:20
@@ -1152,12 +1161,12 @@ msgstr "增益"
 #: data/effects/avfilter/avfilter_lowshelf.xml:22
 #, kde-format
 msgid "Poles"
-msgstr ""
+msgstr "极点"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:4
 #, kde-format
 msgid "Bilateral"
-msgstr ""
+msgstr "Bilateral/双边"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
@@ -1228,7 +1237,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:17
 #, kde-format
 msgid "Chroma Radius"
-msgstr ""
+msgstr " Pulsator - 震动器"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
@@ -21692,10 +21701,9 @@ msgid "An open source video editor."
 msgstr "一款自由开源的视频编辑工具。"
 
 #: src/main.cpp:256
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2024 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
-msgstr "Copyright © 2007–2024 Kdenlive authors"
+msgstr ""
 
 #: src/main.cpp:258
 #, kde-format

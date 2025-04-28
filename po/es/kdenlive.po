@@ -1,16 +1,16 @@
 # Spanish translations for kdenlive.po package.
 # Copyright (C) 2015-2025 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdenlive package.
-#
 # Automatically generated, 2015.
+#
 # SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Gabriel Gazzán <gabcorreo@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-27 02:36+0000\n"
-"PO-Revision-Date: 2025-04-12 21:39+0100\n"
-"Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
+"PO-Revision-Date: 2025-04-27 05:12+0100\n"
+"Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -22801,10 +22801,9 @@ msgid "An open source video editor."
 msgstr "Editor de video de código abierto."
 
 #: src/main.cpp:256
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2024 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
-msgstr "Copyright © 2007–2024 de los autores de Kdenlive"
+msgstr "Copyright © 2007–2025 de los autores de Kdenlive"
 
 #: src/main.cpp:258
 #, kde-format
