@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-27 00:41+0000\n"
-"PO-Revision-Date: 2025-04-26 17:25+0200\n"
+"PO-Revision-Date: 2025-04-27 15:17+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5526,6 +5526,10 @@ msgid ""
 "blur the image (slower if larger). If not specified, it defaults to the "
 "value set for <em>Luma radius</em>]]>"
 msgstr ""
+"<![CDATA[Zet de alfa-straal.<br>\n"
+"            De waarde specificeert de variantie van het gaussiaanse filter "
+"gebruikt om de afbeelding te vervagen (langzamer indien groter). Indien niet "
+"gespecificeerd, krijgt het de waarde gezet voor <em>Luma-staal</em>]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
 #: data/effects/avfilter/avfilter_unsharp.xml:43
@@ -5698,6 +5702,10 @@ msgid ""
 "below (right above),interleaved rows (left top),interleaved rows (right top),"
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
+"naast elkaar parallel,naast elkaar gekruist oog,erboven-eronder (links "
+"erboven),erboven-eronder (rechts erboven),interleaved rijen (linksboven),"
+"interleaved rijen (rechtsboven),interleaved kolommen linker oog eerst, "
+"interleaved kolommen rechter oog eerst"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, kde-format
@@ -5753,6 +5761,8 @@ msgid ""
 "Set input level before filtering for both channels.\n"
 "Allowed range is from 0.015625 to 64."
 msgstr ""
+"Zet invoerniveau voor filtering voor beide kanalen.\n"
+"Toegestane reeks is van 0,015625 tot 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
 #, kde-format
@@ -5772,6 +5782,8 @@ msgid ""
 "Set input balance between both channels. Default is 0. Allowed range is from "
 "-1 to 1."
 msgstr ""
+"Zet invoerbalans tussen beide kanalen. Standaard is 0. Toegestane reeks is "
+"van -1 tot 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
 #: data/effects/avfilter/avfilter_stereotools.xml:96
@@ -5874,6 +5886,8 @@ msgid ""
 "Set level of the middle signal. Default is 1. Allowed range is from 0.015625 "
 "to 64."
 msgstr ""
+"Zet niveau van het midden signaal. Standaard is 1. Toegestane reeks is van "
+"0,015625 tot 64."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
 #, kde-format
@@ -5884,6 +5898,8 @@ msgstr "Midden rondkijken"
 #, kde-format
 msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Zet midden signaal heen-en-weer. Standaard is 0. Toegestane reeks is van -1 "
+"tot 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
 #, kde-format
@@ -5896,6 +5912,8 @@ msgid ""
 "Set stereo base between mono and inverted channels. Default is 0. Allowed "
 "range is from -1 to 1."
 msgstr ""
+"Zet stereobasis tussen mono en en omgewisselde kanalen. Standaard is 0. "
+"Toegestane reeks is van -1 tot 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:69
 #, kde-format
@@ -5903,6 +5921,9 @@ msgid ""
 "Set delay in milliseconds how much to delay left from right channel and vice "
 "versa. Default is 0. Allowed range is from -20 to 20."
 msgstr ""
+"Zet vertraging in milliseconden hoeveel het linker kanaal te vertragen vanaf "
+"het rechter kanaal en omgekeerd. Standaard is 0. Toegestane reeks is van -20 "
+"tot 20."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
 #, kde-format
@@ -22522,10 +22543,9 @@ msgid "An open source video editor."
 msgstr "Een open broncode video bewerkingsprogramma"
 
 #: src/main.cpp:256
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2024 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
-msgstr "Copyright © 2007–2024 auteurs van Kdenlive"
+msgstr "Copyright © 2007–2025 Kdenlive authors"
 
 #: src/main.cpp:258
 #, kde-format

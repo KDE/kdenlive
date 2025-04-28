@@ -22346,9 +22346,7 @@ msgstr "Progetto di Kdenlive (*.kdenlive)"
 #: src/layouts/layoutmanagerdialog.cpp:211
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Export Layout"
 msgstr "Disposizione di esportazione"
 
