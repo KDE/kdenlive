@@ -22,7 +22,8 @@ msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "AngelSherry, DuckSoft, fangzheng, Guo Yunhe, ikochina, magsom, mrwang, ovo-"
-"Tim, phone-burner, Tyson Tan, Yuchen Deng, Zhang Jie, 大宝, 潘晓宇, 阎金昭"
+"Tim, phone-burner, Tyson Tan, Wu Junjie, Yuchen Deng, Zhang Jie, 大宝, 潘晓"
+"宇, 阎金昭"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -30,8 +31,9 @@ msgid "Your emails"
 msgstr ""
 "angelsherry@kde.org, ducksoft@kde.org, fangzheng@kde.org, i@guoyunhe.me, "
 "ikochina@kde.org, magsom@kde.org, mywang@kde.org, ovo-Tim@kde.org, phone-"
-"burner@kde.org, phoxtail@kde.org, tds00@qq.com, loaden@kde.org, linux."
-"dabao@gmail.com, panxiaoyu6@kde.org, leonardyan@kde.org"
+"burner@kde.org, phoxtail@kde.org, tds00@qq.com, shiroazusa@qq.com, "
+"loaden@kde.org, zhangjie@kde.org, linux.dabao@gmail.com, panxiaoyu6@kde.org, "
+"leonardyan@kde.org"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
@@ -1171,67 +1173,67 @@ msgstr "Bilateral/双边"
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
-msgstr ""
+msgstr "应用一个双边滤波器，在保持边缘的同时实现空间平滑。"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
 msgid "Spatial sigma"
-msgstr ""
+msgstr "空间标准差"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:9
 #, kde-format
 msgid "Set sigma of gaussian function to calculate spatial weight."
-msgstr ""
+msgstr "设置高斯函数的标准差以计算空间权重。"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:12
 #, kde-format
 msgid "Range sigma"
-msgstr ""
+msgstr "范围标准差"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:13
 #, kde-format
 msgid "Set sigma of gaussian function to calculate range weight."
-msgstr ""
+msgstr "设置高斯函数的标准差以计算范围权重。"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
 #: data/effects/avfilter/avfilter_cas.xml:12
 #: data/effects/avfilter/avfilter_kirsch.xml:16
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
-msgstr ""
+msgstr "Alpha,Y,U,V,Red,Green,Blue,All,"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
 #, kde-format
 msgid "Planes Blur"
-msgstr ""
+msgstr "平面模糊"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:5
 #, kde-format
 msgid ""
 "Set an expression for the box radius in pixels used for blurring the "
 "corresponding input plane."
-msgstr ""
+msgstr "设置用于模糊相应输入平面的框半径表达式 (以像素为单位)。"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:8
 #: data/effects/avfilter/avfilter_sab.xml:8
 #, kde-format
 msgid "Luma Radius"
-msgstr ""
+msgstr "亮度半径"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:9
 #, kde-format
 msgid "Radius of the luma blurring box"
-msgstr ""
+msgstr "亮度模糊半径"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:12
 #, kde-format
 msgid "Luma Power"
-msgstr ""
+msgstr "亮度强度"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:13
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
-msgstr ""
+msgstr "亮度通道模糊迭代次数"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
@@ -1242,42 +1244,42 @@ msgstr " Pulsator - 震动器"
 #: data/effects/avfilter/avfilter_boxblur.xml:17
 #, kde-format
 msgid "Radius of the chroma blurring box"
-msgstr ""
+msgstr "色度度模糊半径"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:20
 #, kde-format
 msgid "Chroma Power"
-msgstr ""
+msgstr "色度强度"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:21
 #, kde-format
 msgid "How many times should the boxblur be applied to chroma"
-msgstr ""
+msgstr "色度通道模糊迭代次数"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:24
 #, kde-format
 msgid "Alpha Radius"
-msgstr ""
+msgstr "Alpha 半径"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:25
 #, kde-format
 msgid "Radius of the alpha blurring box"
-msgstr ""
+msgstr "Alpha模糊半径"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:28
 #, kde-format
 msgid "Alpha Power"
-msgstr ""
+msgstr "Alpha强度"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:29
 #, kde-format
 msgid "How many times should the boxblur be applied to alpha"
-msgstr ""
+msgstr "Alpha通道模糊迭代次数"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:4
 #, kde-format
 msgid "Stereo to binaural"
-msgstr ""
+msgstr "立体声转双耳声"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:5
 #, kde-format
