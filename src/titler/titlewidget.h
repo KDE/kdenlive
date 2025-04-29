@@ -181,9 +181,9 @@ private:
     void updateRotZoom(QGraphicsItem *i);
 
     /** @brief Updates the item position (position read directly from the GUI). Does not change GUI elements. */
-    void updatePosition(QGraphicsItem *i);
+    void setItemPosition(QGraphicsItem *i);
     /** @brief Updates the item position. Does not change GUI elements. */
-    void updatePosition(QGraphicsItem *i, int x, int y);
+    void setItemPosition(QGraphicsItem *i, int x, int y);
 
     void textChanged(MyTextItem *i);
     void updateAxisButtons(QGraphicsItem *i);
@@ -397,7 +397,9 @@ private Q_SLOTS:
     void slotPatternBtnAddClicked();
     /** @brief Pattern remove button clicked. */
     void slotPatternBtnRemoveClicked();
-    void scalePixmap(MyPixmapItem *item, double scale, GraphicsSceneRectMove::resizeModes resize);
+    /** @brief Triggered then aspect ratio is enabled/disabled for an item. */
+    void updateItemRatio(Qt::CheckState state);
+    void scalePixmap(QGraphicsItem *item, double scalex, double scaley, GraphicsSceneRectMove::resizeModes resize, bool center = false);
 
 Q_SIGNALS:
     void requestBackgroundFrame(bool request);

@@ -135,6 +135,8 @@ public:
     void clearTextSelection(bool reset = true);
     int gridSize() const;
     void addNewItem(QGraphicsItem *item);
+    /** @brief Get current resize mode */
+    GraphicsSceneRectMove::resizeModes resizeMode() const;
 
 public Q_SLOTS:
     void slotUpdateFontSize(int s);
@@ -172,7 +174,7 @@ Q_SIGNALS:
     void newRect(QGraphicsRectItem *);
     void newEllipse(QGraphicsEllipseItem *);
     void newText(MyTextItem *);
-    void scalePixmap(MyPixmapItem *item, double scale, resizeModes resize);
+    void scalePixmap(QGraphicsItem *item, double scalex, double scaley, resizeModes resize, bool center = false);
     void actionFinished();
     void doubleClickEvent();
 };

@@ -251,7 +251,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-    connect(preserveAspectRatio, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState) { slotValueChanged(ValueWidth); });
+    connect(preserveAspectRatio, &QCheckBox::checkStateChanged, this, &TitleWidget::updateItemRatio);
 #else
     connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&]() { slotValueChanged(ValueWidth); });
 #endif
@@ -394,7 +394,8 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
-    m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "When selected, a click on an asset in the timeline selects the asset (e.g. clip, composition)."));
+    m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "Click to select an item, Alt+Click to cycle selection. Shift+Drag to move vertically, "
+                                                           "Alt+Shift+Drag to move horizontally, Shift+Drag edge to center resize, Ctrl+Drag to pan."));
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
@@ -622,6 +623,35 @@ TitleWidget::~TitleWidget()
     delete m_scene;
 }
 
+void TitleWidget::updateItemRatio(Qt::CheckState state)
+{
+    QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
+    for (auto &l : list) {
+        switch (l->type()) {
+        case IMAGEITEM:
+            if (state == Qt::Checked) {
+                auto *gi = static_cast<MyPixmapItem *>(l);
+                gi->setData(0, gi->pixmap().width());
+                gi->setData(1, gi->pixmap().height());
+            } else {
+                l->setData(0, QVariant());
+                l->setData(1, QVariant());
+            }
+            break;
+        default:
+            if (state == Qt::Checked) {
+                l->setData(0, l->boundingRect().width());
+                l->setData(1, l->boundingRect().height());
+            } else {
+                l->setData(0, QVariant());
+                l->setData(1, QVariant());
+            }
+            break;
+        }
+    }
+    slotValueChanged(ValueWidth);
+}
+
 // static
 QStringList TitleWidget::extractImageList(const QString &xml, const QString &root)
 {
@@ -847,6 +877,7 @@ void TitleWidget::slotSelectTool()
             t = GraphicsSceneRectMove::TITLE_ELLIPSE;
             break;
         case IMAGEITEM:
+        case QGraphicsSvgItem::Type:
             t = GraphicsSceneRectMove::TITLE_IMAGE;
             break;
         }
@@ -1351,10 +1382,10 @@ void TitleWidget::slotValueChanged(int type)
             // Just update the position. We don't allow setting width/height for text items yet.
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
+                setItemPosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
+                setItemPosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             }
 
@@ -1362,10 +1393,10 @@ void TitleWidget::slotValueChanged(int type)
             auto *rec = static_cast<QGraphicsRectItem *>(l.at(k));
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
+                setItemPosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
+                setItemPosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             case ValueWidth:
                 rec->setRect(QRect(0, 0, val, int(rec->rect().height())));
@@ -1379,10 +1410,10 @@ void TitleWidget::slotValueChanged(int type)
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(l.at(k));
             switch (type) {
             case ValueX:
-                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
+                setItemPosition(l.at(k), val, int(l.at(k)->pos().y()));
                 break;
             case ValueY:
-                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
+                setItemPosition(l.at(k), int(l.at(k)->pos().x()), val);
                 break;
             case ValueWidth:
                 ellipse->setRect(QRect(0, 0, val, int(ellipse->rect().height())));
@@ -1392,13 +1423,13 @@ void TitleWidget::slotValueChanged(int type)
                 break;
             }
 
-        } else if (l.at(k)->type() == IMAGEITEM) {
+        } else if (l.at(k)->type() == IMAGEITEM || l.at(k)->type() == QGraphicsSvgItem::Type) {
 
             if (type == ValueX) {
-                updatePosition(l.at(k), val, int(l.at(k)->pos().y()));
+                setItemPosition(l.at(k), val, int(l.at(k)->pos().y()));
 
             } else if (type == ValueY) {
-                updatePosition(l.at(k), int(l.at(k)->pos().x()), val);
+                setItemPosition(l.at(k), int(l.at(k)->pos().x()), val);
 
             } else {
                 // Width/height has changed. This is more complex.
@@ -1423,7 +1454,7 @@ void TitleWidget::slotValueChanged(int type)
                 switch (type) {
                 case ValueWidth:
                     // Add 0.5 because otherwise incrementing by 1 might have no effect
-                    length = val / (cos(alpha) + 1 / phi * sin(alpha)) + 0.5;
+                    length = val / (cos(alpha) + 1 / phi * sin(alpha));
                     scalex = length / i->boundingRect().width();
                     if (preserveAspectRatio->isChecked()) {
                         scaley = scalex;
@@ -1461,27 +1492,34 @@ void TitleWidget::slotValueChanged(int type)
     }
 }
 
-void TitleWidget::scalePixmap(MyPixmapItem *item, double scale, GraphicsSceneRectMove::resizeModes resize)
+void TitleWidget::scalePixmap(QGraphicsItem *item, double scalex, double scaley, GraphicsSceneRectMove::resizeModes resize, bool center)
 {
     Transform t = m_transformations.value(item);
-    t.scalex = scale;
-    t.scaley = scale;
+    t.scalex = scalex;
+    t.scaley = scaley;
     QTransform qtrans;
-    qtrans.scale(scale, scale);
+    qtrans.scale(scalex, scaley);
     qtrans.rotate(t.rotatex, Qt::XAxis);
     qtrans.rotate(t.rotatey, Qt::YAxis);
     qtrans.rotate(t.rotatez, Qt::ZAxis);
-    QRectF original = item->sceneBoundingRect();
-    QPointF pos = item->scenePos();
+    const QRectF original = item->sceneBoundingRect();
     item->setTransform(qtrans);
-    if (resize == GraphicsSceneRectMove::Up || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::TopRight) {
-        pos.setY(original.bottom() - item->sceneBoundingRect().height());
-    }
-    if (resize == GraphicsSceneRectMove::Left || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::BottomLeft) {
-        pos.setX(original.right() - item->sceneBoundingRect().width());
+    QPointF pos = item->pos();
+    if (center) {
+        const QRectF updated = item->sceneBoundingRect();
+        QPointF delta((updated.width() - original.width()) / 2., (updated.height() - original.height()) / 2.);
+        pos -= delta;
+    } else {
+        if (resize == GraphicsSceneRectMove::Up || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::TopRight) {
+            pos.setY(original.bottom() - item->sceneBoundingRect().height());
+        }
+        if (resize == GraphicsSceneRectMove::Left || resize == GraphicsSceneRectMove::TopLeft || resize == GraphicsSceneRectMove::BottomLeft) {
+            pos.setX(original.right() - item->sceneBoundingRect().width());
+        }
     }
     item->setPos(pos);
     m_transformations[item] = t;
+    updateCoordinates(item);
     updateDimension(item);
     updateRotZoom(item);
 }
@@ -1496,7 +1534,7 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
     zValue->blockSignals(true);
 
     zValue->setValue(int(i->zValue()));
-    if (i->type() == IMAGEITEM) {
+    if (i->type() == IMAGEITEM || i->type() == QGraphicsSvgItem::Type) {
         // Get multipliers for rotation/scaling
 
         /*Transform t = m_transformations.value(i);
@@ -1585,7 +1623,7 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
             value_y->setValue(int(rec->pos().y()));
         }
 
-    } else if (i->type() == IMAGEITEM) {
+    } else if (i->type() == IMAGEITEM || i->type() == QGraphicsSvgItem::Type) {
 
         if (origin_x_left->isChecked()) {
             value_x->setValue(int(m_frameWidth - i->pos().x() - i->sceneBoundingRect().width()));
@@ -1621,12 +1659,12 @@ void TitleWidget::updateRotZoom(QGraphicsItem *i)
     itemrotatez->setValue(int(t.rotatez));
 }
 
-void TitleWidget::updatePosition(QGraphicsItem *i)
+void TitleWidget::setItemPosition(QGraphicsItem *i)
 {
-    updatePosition(i, value_x->value(), value_y->value());
+    setItemPosition(i, value_x->value(), value_y->value());
 }
 
-void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
+void TitleWidget::setItemPosition(QGraphicsItem *i, int x, int y)
 {
     if (i->type() == TEXTITEM) {
         auto *rec = static_cast<MyTextItem *>(i);
@@ -1693,7 +1731,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
 
         rec->setPos(posX, posY);
 
-    } else if (i->type() == IMAGEITEM) {
+    } else if (i->type() == IMAGEITEM || i->type() == QGraphicsSvgItem::Type) {
         int posX;
         if (origin_x_left->isChecked()) {
             // Use the sceneBoundingRect because this also regards transformations like zoom
@@ -1814,7 +1852,7 @@ void TitleWidget::textChanged(MyTextItem *i)
 
     if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
         if (!i->document()->isEmpty()) {
-            updatePosition(i);
+            setItemPosition(i);
         } else {
             /*
              * Don't do anything if the string is empty. If the position were
@@ -3238,14 +3276,20 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
         } else if (referenceItem->type() == IMAGEITEM) {
             showToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
-
             updateCoordinates(referenceItem);
             updateDimension(referenceItem);
             enableToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
             QSignalBlocker bk(preserveAspectRatio);
             Transform t = m_transformations.value(referenceItem);
             preserveAspectRatio->setChecked(qFuzzyCompare(t.scalex, t.scaley));
-
+        } else if (referenceItem->type() == QGraphicsSvgItem::Type) {
+            showToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
+            updateCoordinates(referenceItem);
+            updateDimension(referenceItem);
+            enableToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
+            QSignalBlocker bk(preserveAspectRatio);
+            Transform t = m_transformations.value(referenceItem);
+            preserveAspectRatio->setChecked(qFuzzyCompare(t.scalex, t.scaley));
         } else {
             showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
             enableToolbars(GraphicsSceneRectMove::TITLE_SELECT);
