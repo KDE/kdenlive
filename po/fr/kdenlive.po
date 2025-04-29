@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-27 00:41+0000\n"
-"PO-Revision-Date: 2025-04-21 08:30+0200\n"
+"PO-Revision-Date: 2025-04-27 13:43+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -22654,11 +22654,9 @@ msgstr "Projet Kdenlive (*.kdenlive)"
 #: src/layouts/layoutmanagerdialog.cpp:211
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/layouts/layoutmanagerdialog.cpp:222
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Export Layout"
-msgstr "Exporter une disposition."
+msgstr "Exporter la mise en page"
 
 #: src/layouts/layoutmanagerdialog.cpp:200
 #, fuzzy, kde-format
@@ -30809,28 +30807,24 @@ msgid "Add Ellipse"
 msgstr "Ajouter une ellipse"
 
 #: src/titler/titlewidget.cpp:415
-#, fuzzy, kde-format
-#| msgid "Add Image"
+#, kde-format
 msgid "Add Image…"
-msgstr "Ajouter une image"
+msgstr "Ajouter une image..."
 
 #: src/titler/titlewidget.cpp:422
-#, fuzzy, kde-format
-#| msgid "Open Backup File…"
+#, kde-format
 msgid "Open  Title…"
-msgstr "Ouvrir un fichier de sauvegarde..."
+msgstr "Ouvrir un titre..."
 
 #: src/titler/titlewidget.cpp:427
-#, fuzzy, kde-format
-#| msgid "Save Title"
+#, kde-format
 msgid "Save Title As…"
-msgstr "Enregistrer le titre"
+msgstr "Enregistrer un titre sous..."
 
 #: src/titler/titlewidget.cpp:432
-#, fuzzy, kde-format
-#| msgid "Download New Title Templates..."
+#, kde-format
 msgid "Download New Title Templates…"
-msgstr "Télécharger des nouveaux modèles de titrage"
+msgstr "Télécharger des nouveaux modèles de titres..."
 
 #: src/titler/titlewidget.cpp:549
 #, kde-format
