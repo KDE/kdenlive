@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-30 00:41+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -7184,7 +7184,7 @@ msgstr "Püstjoondus"
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:927 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
 #: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
@@ -16669,7 +16669,7 @@ msgstr ""
 "Muudad välist tiitriklippi (%1). Kas salvestada muudatused tiitriklippi või "
 "salvestada muudatused ainult selle projekti tarbeks?"
 
-#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2269
+#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2307
 #, kde-format
 msgid "Save Title"
 msgstr "Tiitri salvestamine"
@@ -17204,7 +17204,7 @@ msgstr ""
 "Fail %1 on juba olemas.\n"
 "Kas kirjutada see üle?"
 
-#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:400
+#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:401
 #, kde-format
 msgid "Add Text"
 msgstr "Lisa tekst "
@@ -18220,7 +18220,7 @@ msgstr "Impordi abijooned"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2282
+#: src/titler/titlewidget.cpp:2320
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Faili %1 kirjutamine nurjus"
@@ -24900,7 +24900,7 @@ msgstr "Rühma loomine"
 
 #: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2265
+#: src/titler/titlewidget.cpp:2303
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -30932,7 +30932,7 @@ msgid "No available stream"
 msgstr "Ühtegi voogu pole saada"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3327 src/titler/titlewidget.cpp:3330
+#: src/titler/titlewidget.cpp:3371 src/titler/titlewidget.cpp:3374
 #, kde-format
 msgid "Gradient %1"
 msgstr "Astmik %1"
@@ -31155,114 +31155,115 @@ msgstr "Eemalda kõik valikust"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
-"When selected, a click on an asset in the timeline selects the asset (e.g. "
-"clip, composition)."
+"Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
+"vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
+"resize, Ctrl+Drag to pan."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:405
+#: src/titler/titlewidget.cpp:406
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Lisa ristkülik"
 
-#: src/titler/titlewidget.cpp:410
+#: src/titler/titlewidget.cpp:411
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Add Ellipse"
 msgstr "Klipi lisamine"
 
-#: src/titler/titlewidget.cpp:415
+#: src/titler/titlewidget.cpp:416
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add Image…"
 msgstr "Lisa pilt"
 
-#: src/titler/titlewidget.cpp:422
+#: src/titler/titlewidget.cpp:423
 #, fuzzy, kde-format
 #| msgid "Open Backup File"
 msgid "Open  Title…"
 msgstr "Ava varukoopiafail"
 
-#: src/titler/titlewidget.cpp:427
+#: src/titler/titlewidget.cpp:428
 #, fuzzy, kde-format
 #| msgid "Save Title"
 msgid "Save Title As…"
 msgstr "Tiitri salvestamine"
 
-#: src/titler/titlewidget.cpp:432
+#: src/titler/titlewidget.cpp:433
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Title Templates…"
 msgstr "Uute tiitrimallide allalaadimine..."
 
-#: src/titler/titlewidget.cpp:549
+#: src/titler/titlewidget.cpp:550
 #, fuzzy, kde-format
 #| msgid "Save Image to Project"
 msgid "Save and add to project"
 msgstr "Pildi salvestamine projekti"
 
-#: src/titler/titlewidget.cpp:550
+#: src/titler/titlewidget.cpp:551
 #, fuzzy, kde-format
 #| msgid "Create Title clip"
 msgid "Create Title"
 msgstr "Tiitriklipi loomine"
 
-#: src/titler/titlewidget.cpp:768
+#: src/titler/titlewidget.cpp:798
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "Kas tõesti laadida uus mall? Kõik selle dokumendi muudatused kaovad!"
 
-#: src/titler/titlewidget.cpp:876
+#: src/titler/titlewidget.cpp:907
 #, kde-format
 msgid "All Images"
 msgstr "Kõik pildid"
 
-#: src/titler/titlewidget.cpp:878
+#: src/titler/titlewidget.cpp:909
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 pilt"
 
-#: src/titler/titlewidget.cpp:888
+#: src/titler/titlewidget.cpp:919
 #, kde-format
 msgid "Add Image"
 msgstr "Lisa pilt"
 
-#: src/titler/titlewidget.cpp:1719
+#: src/titler/titlewidget.cpp:1757
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1721 src/ui/titlewidget_ui.ui:340
+#: src/titler/titlewidget.cpp:1759 src/ui/titlewidget_ui.ui:340
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1743
+#: src/titler/titlewidget.cpp:1781
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1745 src/ui/titlewidget_ui.ui:269
+#: src/titler/titlewidget.cpp:1783 src/ui/titlewidget_ui.ui:269
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2216
+#: src/titler/titlewidget.cpp:2254
 #, kde-format
 msgid "Load Title"
 msgstr "Tiitri laadimine"
 
-#: src/titler/titlewidget.cpp:2217
+#: src/titler/titlewidget.cpp:2255
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "Kdenlive"
 
-#: src/titler/titlewidget.cpp:2263
+#: src/titler/titlewidget.cpp:2301
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -31271,61 +31272,61 @@ msgstr ""
 "Kas põimida pildid tiitridokumenti?\n"
 "Seda läheb kõige rohkem vaja tiitrite jagamisel."
 
-#: src/titler/titlewidget.cpp:2264
+#: src/titler/titlewidget.cpp:2302
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Lisa pilt"
 
-#: src/titler/titlewidget.cpp:2319
+#: src/titler/titlewidget.cpp:2357
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/titler/titlewidget.cpp:2320 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2358 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Üksikasjad"
 
-#: src/titler/titlewidget.cpp:2323
+#: src/titler/titlewidget.cpp:2361
 #, kde-format
 msgid "Delete missing elements"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2383
+#: src/titler/titlewidget.cpp:2421
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Uuenda profiili"
 
-#: src/titler/titlewidget.cpp:2386
+#: src/titler/titlewidget.cpp:2424
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Lisa malltiiter"
 
-#: src/titler/titlewidget.cpp:2440
+#: src/titler/titlewidget.cpp:2478
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Järgmised failid puuduvad:"
 
-#: src/titler/titlewidget.cpp:2634
+#: src/titler/titlewidget.cpp:2672
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Käivita skript"
 
-#: src/titler/titlewidget.cpp:2635
+#: src/titler/titlewidget.cpp:2673
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3360
+#: src/titler/titlewidget.cpp:3404
 #, kde-format
 msgid "Gradient"
 msgstr "Astmik"

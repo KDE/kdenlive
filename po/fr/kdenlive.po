@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-27 00:41+0000\n"
+"POT-Creation-Date: 2025-04-30 00:41+0000\n"
 "PO-Revision-Date: 2025-04-27 13:43+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -7181,7 +7181,7 @@ msgstr "Alignement vertical"
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:927 src/ui/managesubtitles_ui.ui:216
+#: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
 #: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
@@ -16638,7 +16638,7 @@ msgstr ""
 "modifications dans le fichier titre ou enregistrer les modifications pour ce "
 "projet seulement ?"
 
-#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2269
+#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2307
 #, kde-format
 msgid "Save Title"
 msgstr "Enregistrer le titre"
@@ -17135,7 +17135,7 @@ msgstr ""
 "Le fichier %1 existe déjà.\n"
 "Voulez-vous l'écraser ?"
 
-#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:400
+#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:401
 #, kde-format
 msgid "Add Text"
 msgstr "Ajouter du texte"
@@ -18127,7 +18127,7 @@ msgstr "Exporter des données de guides"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2282
+#: src/titler/titlewidget.cpp:2320
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Impossible d'écrire dans le fichier %1"
@@ -24590,7 +24590,7 @@ msgstr "Re-créer"
 
 #: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2265
+#: src/titler/titlewidget.cpp:2303
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -30570,7 +30570,7 @@ msgid "No available stream"
 msgstr "Aucun flux disponible"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3327 src/titler/titlewidget.cpp:3330
+#: src/titler/titlewidget.cpp:3371 src/titler/titlewidget.cpp:3374
 #, kde-format
 msgid "Gradient %1"
 msgstr "Dégradé %1"
@@ -30789,54 +30789,52 @@ msgstr "Tout dé-sélectionner"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
-"When selected, a click on an asset in the timeline selects the asset (e.g. "
-"clip, composition)."
+"Click to select an item, Alt+Click to cycle selection. Shift+Drag to move "
+"vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
+"resize, Ctrl+Drag to pan."
 msgstr ""
-"Lorsque cette option est sélectionnée, un clic sur un élément dans la frise "
-"chronologique permet de sélectionner l'élément (Par exemple, une vidéo, une "
-"composition)."
 
-#: src/titler/titlewidget.cpp:405
+#: src/titler/titlewidget.cpp:406
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Ajouter un rectangle"
 
-#: src/titler/titlewidget.cpp:410
+#: src/titler/titlewidget.cpp:411
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Ajouter une ellipse"
 
-#: src/titler/titlewidget.cpp:415
+#: src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Add Image…"
 msgstr "Ajouter une image..."
 
-#: src/titler/titlewidget.cpp:422
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Open  Title…"
 msgstr "Ouvrir un titre..."
 
-#: src/titler/titlewidget.cpp:427
+#: src/titler/titlewidget.cpp:428
 #, kde-format
 msgid "Save Title As…"
 msgstr "Enregistrer un titre sous..."
 
-#: src/titler/titlewidget.cpp:432
+#: src/titler/titlewidget.cpp:433
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "Télécharger des nouveaux modèles de titres..."
 
-#: src/titler/titlewidget.cpp:549
+#: src/titler/titlewidget.cpp:550
 #, kde-format
 msgid "Save and add to project"
 msgstr "Enregistrer et ajouter au projet"
 
-#: src/titler/titlewidget.cpp:550
+#: src/titler/titlewidget.cpp:551
 #, kde-format
 msgid "Create Title"
 msgstr "Créer un titre"
 
-#: src/titler/titlewidget.cpp:768
+#: src/titler/titlewidget.cpp:798
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -30845,54 +30843,54 @@ msgstr ""
 "Voulez-vous vraiment charger un nouveau modèle ? Les changements dans le "
 "titre actuel seront perdus !"
 
-#: src/titler/titlewidget.cpp:876
+#: src/titler/titlewidget.cpp:907
 #, kde-format
 msgid "All Images"
 msgstr "Toutes les images"
 
-#: src/titler/titlewidget.cpp:878
+#: src/titler/titlewidget.cpp:909
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 Image"
 
-#: src/titler/titlewidget.cpp:888
+#: src/titler/titlewidget.cpp:919
 #, kde-format
 msgid "Add Image"
 msgstr "Ajouter une image"
 
-#: src/titler/titlewidget.cpp:1719
+#: src/titler/titlewidget.cpp:1757
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1721 src/ui/titlewidget_ui.ui:340
+#: src/titler/titlewidget.cpp:1759 src/ui/titlewidget_ui.ui:340
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1743
+#: src/titler/titlewidget.cpp:1781
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1745 src/ui/titlewidget_ui.ui:269
+#: src/titler/titlewidget.cpp:1783 src/ui/titlewidget_ui.ui:269
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2216
+#: src/titler/titlewidget.cpp:2254
 #, kde-format
 msgid "Load Title"
 msgstr "Charger le titre"
 
-#: src/titler/titlewidget.cpp:2217
+#: src/titler/titlewidget.cpp:2255
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Titre sous Kdenlive"
 
-#: src/titler/titlewidget.cpp:2263
+#: src/titler/titlewidget.cpp:2301
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30901,57 +30899,57 @@ msgstr ""
 "Voulez-vous embarquer les images dans ce document de titrage ? Ceci est "
 "nécessaire pour partager des titrages"
 
-#: src/titler/titlewidget.cpp:2264
+#: src/titler/titlewidget.cpp:2302
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Intégrer des images"
 
-#: src/titler/titlewidget.cpp:2319
+#: src/titler/titlewidget.cpp:2357
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Il manque un élément au titre"
 msgstr[1] "Il manque %1 éléments au titre"
 
-#: src/titler/titlewidget.cpp:2320 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2358 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Détails"
 
-#: src/titler/titlewidget.cpp:2323
+#: src/titler/titlewidget.cpp:2361
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Supprimer les éléments manquants"
 
-#: src/titler/titlewidget.cpp:2383
+#: src/titler/titlewidget.cpp:2421
 #, kde-format
 msgid "Update Title"
 msgstr "Mettre à jour le titre"
 
-#: src/titler/titlewidget.cpp:2386
+#: src/titler/titlewidget.cpp:2424
 #, kde-format
 msgid "Add as new Title"
 msgstr "Ajouter comme nouveau titre"
 
-#: src/titler/titlewidget.cpp:2440
+#: src/titler/titlewidget.cpp:2478
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Les fichiers suivants manquent :"
 
-#: src/titler/titlewidget.cpp:2634
+#: src/titler/titlewidget.cpp:2672
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Démarrer Viewport"
 
-#: src/titler/titlewidget.cpp:2635
+#: src/titler/titlewidget.cpp:2673
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Fermer Viewport"
 
-#: src/titler/titlewidget.cpp:3360
+#: src/titler/titlewidget.cpp:3404
 #, kde-format
 msgid "Gradient"
 msgstr "Dégradé"
@@ -35896,6 +35894,15 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "When selected, a click on an asset in the timeline selects the asset (e."
+#~ "g. clip, composition)."
+#~ msgstr ""
+#~ "Lorsque cette option est sélectionnée, un clic sur un élément dans la "
+#~ "frise chronologique permet de sélectionner l'élément (Par exemple, une "
+#~ "vidéo, une composition)."
 
 #~ msgctxt "@title:window"
 #~ msgid "Load Layout"
