@@ -88,6 +88,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     , Ui::TitleWidget_UI()
     , m_startViewport(nullptr)
     , m_endViewport(nullptr)
+    , m_monitor(monitor)
     , m_count(0)
     , m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex))
     , m_missingMessage(nullptr)
@@ -167,6 +168,14 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     rectLineWidth->setValue(0);
     rectLineWidth->setToolTip(i18n("Border width"));
 
+    // Timecode
+    QHBoxLayout *tclay = new QHBoxLayout(timecode_frame);
+    m_timePos = new TimecodeDisplay(this);
+    tclay->addWidget(m_timePos);
+    m_timePos->setRange(0, pCore->projectDuration());
+    m_timePos->setValue(m_monitor->position());
+    connect(m_timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &TitleWidget::seekTimeline);
+
     itemzoom->setSuffix(i18n("%"));
     QSize profileSize = pCore->getCurrentFrameSize();
     m_frameWidth = qRound(profileSize.height() * pCore->getCurrentDar());
@@ -231,8 +240,8 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(origin_x_left, &QAbstractButton::clicked, this, &TitleWidget::slotOriginXClicked);
     connect(origin_y_top, &QAbstractButton::clicked, this, &TitleWidget::slotOriginYClicked);
 
-    connect(monitor, &Monitor::frameUpdated, this, &TitleWidget::slotGotBackground);
-    connect(this, &TitleWidget::requestBackgroundFrame, monitor, &Monitor::slotGetCurrentImage);
+    connect(m_monitor, &Monitor::frameUpdated, this, &TitleWidget::slotGotBackground);
+    connect(this, &TitleWidget::requestBackgroundFrame, m_monitor, &Monitor::slotGetCurrentImage);
 
     // Position and size
     connect(value_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int) { slotValueChanged(ValueWidth); });
@@ -256,6 +265,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&]() { slotValueChanged(ValueWidth); });
 #endif
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
+    m_timePos->setEnabled(KdenliveSettings::titlerShowbg());
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     connect(displayBg, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState state) {
 #else
@@ -263,6 +273,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 #endif
         KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
         bgBox->setEnabled(!KdenliveSettings::titlerShowbg());
+        m_timePos->setEnabled(KdenliveSettings::titlerShowbg());
         displayBackgroundFrame();
     });
 
@@ -593,6 +604,10 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
 TitleWidget::~TitleWidget()
 {
+    if (displayBg->isChecked()) {
+        // Ensure frames are not requested anymore
+        m_monitor->sendFrameForAnalysis(false);
+    }
     writePatterns();
     delete m_patternsModel;
 
@@ -621,6 +636,13 @@ TitleWidget::~TitleWidget()
     delete m_startViewport;
     delete m_endViewport;
     delete m_scene;
+}
+
+void TitleWidget::seekTimeline()
+{
+    m_monitor->sendFrameForAnalysis(true);
+    m_monitor->slotSeek(m_timePos->getValue());
+    // Q_EMIT requestBackgroundFrame(true);
 }
 
 void TitleWidget::updateItemRatio(Qt::CheckState state)
@@ -1015,8 +1037,9 @@ void TitleWidget::checkButton(GraphicsSceneRectMove::TITLETOOL toolType)
 
 void TitleWidget::displayBackgroundFrame()
 {
-    QRectF r = m_frameBorder->sceneBoundingRect();
     if (!displayBg->isChecked()) {
+        m_monitor->sendFrameForAnalysis(false);
+        const QRectF r = m_frameBorder->sceneBoundingRect();
         switch (KdenliveSettings::titlerbg()) {
         case 0: {
             QPixmap pattern(40, 40);
@@ -1051,9 +1074,10 @@ void TitleWidget::displayBackgroundFrame()
 
 void TitleWidget::slotGotBackground(const QImage &img)
 {
+    qDebug() << "::::::\nGOT BACKGROUND!!!";
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(m_frameWidth, m_frameHeight)));
-    Q_EMIT requestBackgroundFrame(false);
     Q_EMIT updatePatternsBackgroundFrame();
+    Q_EMIT requestBackgroundFrame(false);
 }
 
 void TitleWidget::initAnimation()

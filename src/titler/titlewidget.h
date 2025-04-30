@@ -29,6 +29,9 @@ class PatternsModel;
 class Monitor;
 class KMessageWidget;
 class TimecodeDisplay;
+class TimecodeDisplay;
+class Monitor;
+
 class TitleTemplate
 {
 public:
@@ -117,6 +120,8 @@ private:
     QGraphicsRectItem *m_frameBackground;
     QGraphicsPixmapItem *m_frameImage;
     QButtonGroup *m_textAlignGroup;
+    Monitor *m_monitor;
+    TimecodeDisplay *m_timePos;
     int m_frameWidth;
     int m_frameHeight;
     int m_count;
@@ -400,6 +405,8 @@ private Q_SLOTS:
     /** @brief Triggered then aspect ratio is enabled/disabled for an item. */
     void updateItemRatio(Qt::CheckState state);
     void scalePixmap(QGraphicsItem *item, double scalex, double scaley, GraphicsSceneRectMove::resizeModes resize, bool center = false);
+    /** @brief Seek project monitor. */
+    void seekTimeline();
 
 Q_SIGNALS:
     void requestBackgroundFrame(bool request);
