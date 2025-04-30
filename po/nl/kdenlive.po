@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-27 02:36+0000\n"
-"PO-Revision-Date: 2025-04-28 11:06+0200\n"
+"PO-Revision-Date: 2025-04-29 11:59+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: \n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6331,7 +6331,7 @@ msgstr "Verticaal spiegelen"
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
 msgid "Vertically flip the input video."
-msgstr ""
+msgstr "Klap de invoervideo verticaal om."
 
 #: data/effects/avfilter/avfilter_vibrance.xml:4
 #, kde-format
@@ -6341,7 +6341,7 @@ msgstr "Levendigheid:"
 #: data/effects/avfilter/avfilter_vibrance.xml:5
 #, kde-format
 msgid "Boost or alter saturation. "
-msgstr ""
+msgstr "Verhoog of verander de verzadiging. "
 
 #: data/effects/avfilter/avfilter_vibrance.xml:11
 #, kde-format
@@ -6399,11 +6399,13 @@ msgid ""
 "Deinterlace the input video \"w3fdif\" stands for Weston 3 Field "
 "Deinterlacing Filter"
 msgstr ""
+"Verwijder interlace uit de invoervideo \"w3fdif\" staat voor Weston 3 Field "
+"Deinterlacing Filter"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
 #, kde-format
 msgid "Simple,Complex"
-msgstr ""
+msgstr "Eenvoudig,Complex"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, kde-format
@@ -6413,7 +6415,7 @@ msgstr "Filtercoëfficiënten"
 #: data/effects/avfilter/avfilter_w3fdif.xml:12
 #, kde-format
 msgid "Deinterlace all frames,Marked as interlaced only"
-msgstr ""
+msgstr "Verwijder interlace uit alle frames, gemarkeerd als alleen interlaced"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
 #, kde-format

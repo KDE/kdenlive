@@ -1284,7 +1284,7 @@ msgstr "立体声转双耳声"
 #: data/effects/avfilter/avfilter_bs2b.xml:5
 #, kde-format
 msgid "Bauer stereo to binaural transformation."
-msgstr ""
+msgstr "Bauer立体声转双耳立体声。"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:8
 #, kde-format
@@ -1292,72 +1292,74 @@ msgid ""
 "Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
 "Meier circuit (fcut=650 feed=95)"
 msgstr ""
+"默认级别 (fcut=700 Feed=50)，Chu Moy 电路(fcut=700 Feed=60)，Jan Meier电路"
+"(fcut=650 feed=95)"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:9
 #, kde-format
 msgid "Pre-defined crossfeed level"
-msgstr ""
+msgstr "预设混音等级"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:12
 #, kde-format
 msgid "Lowpass Cut frequency"
-msgstr ""
+msgstr "低通截止频率"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:15
 #, kde-format
 msgid "Feed level"
-msgstr ""
+msgstr "馈送级别"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:4
 #, kde-format
 msgid "Bob Weaver Deinterlacer"
-msgstr ""
+msgstr "Bob-Weaver算法去隔行器"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:5
 #, kde-format
 msgid ""
 "Motion adaptive deinterlacing based on yadif with the use of w3fdif and "
 "cubic interpolation algorithms. "
-msgstr ""
+msgstr "动态三窗去隔行 (yadif+w3fdif/立方)"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:8
 #, kde-format
 msgid "Send frame,Send field"
-msgstr ""
+msgstr "发送帧,发送场"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:12
 #: data/effects/avfilter/avfilter_yadif.xml:12
 #, kde-format
 msgid "Top field first,Bottomfield first,Auto"
-msgstr ""
+msgstr "顶部场优先,底部场优先,自动"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:13
 #: data/effects/avfilter/avfilter_yadif.xml:13
 #, kde-format
 msgid "Parity"
-msgstr ""
+msgstr "场匹配"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:16
 #: data/effects/avfilter/avfilter_yadif.xml:16
 #, kde-format
 msgid "Deint all frames,Deint interlaced frames only"
-msgstr ""
+msgstr "限定所有帧,仅限交错帧"
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
 #, kde-format
 msgid "Deinterlace"
-msgstr ""
+msgstr "反交错"
 
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
 msgid "Contrast Adaptive Sharpen"
-msgstr ""
+msgstr "自适应锐化对比度"
 
 #: data/effects/avfilter/avfilter_cas.xml:5
 #, kde-format
 msgid "Apply Contrast Adaptive Sharpen filter to video stream."
-msgstr ""
+msgstr "将对比度自适应锐化滤波器应用于视频流。"
 
 #: data/effects/avfilter/avfilter_cas.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:10
@@ -1367,22 +1369,22 @@ msgstr ""
 #: data/effects/avfilter/avfilter_normalize.xml:20
 #, kde-format
 msgid "Strength"
-msgstr ""
+msgstr "强度"
 
 #: data/effects/avfilter/avfilter_cas.xml:9
 #, kde-format
 msgid "Set the sharpening strength."
-msgstr ""
+msgstr "设置锐化强度。"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
 #, kde-format
 msgid "Chroma Hold"
-msgstr ""
+msgstr "Chroma Hold - 色品保持"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:5
 #, kde-format
 msgid "Remove all color information for all colors except for certain one. "
-msgstr ""
+msgstr "删除除特定颜色外的所有颜色的所有颜色信息。 "
 
 #: data/effects/avfilter/avfilter_chromahold.xml:8
 #: data/effects/avfilter/avfilter_colorhold.xml:8 data/effects/chroma.xml:8
@@ -1394,13 +1396,13 @@ msgstr "色度键"
 #: data/effects/avfilter/avfilter_chromahold.xml:9
 #, kde-format
 msgid "The color which will not be replaced with neutral chroma"
-msgstr ""
+msgstr "不会被中性色彩替代的颜色"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:12
 #: data/effects/avfilter/avfilter_colorhold.xml:11
 #, kde-format
 msgid "Similarity"
-msgstr ""
+msgstr "相似度"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:14
 #, kde-format
@@ -1409,12 +1411,14 @@ msgid ""
 "        0.01 matches only the exact key color, while 1.0 matches "
 "everything.]]>"
 msgstr ""
+"<![CDATA[选定颜色的百分比相似度<br>\n"
+"        0.01 将精确匹配该颜色，1.0 将匹配所有颜色。]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
 #, kde-format
 msgid "Blend"
-msgstr ""
+msgstr "混合"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:19
 #, kde-format
@@ -1423,107 +1427,109 @@ msgid ""
 "at all.<br>\n"
 "        Higher values result in more preserved color.]]>"
 msgstr ""
+"<![CDATA[色彩混合比例。当设为0.0时，像素将完全灰度化或完全保留原色<br>\n"
+"        数值越高则保留的色彩信息越多]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:22
 #, kde-format
 msgid "YUV color"
-msgstr ""
+msgstr "YUV 颜色"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:23
 #, kde-format
 msgid "<![CDATA[Select this if the clip has YUV data instead of RGB.]]>"
-msgstr ""
+msgstr "<![CDATA[若片段使用 YUV 而不是 RGB 时使用该选项]]>"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:4
 #, kde-format
 msgid "Chroma Noise Reduction"
-msgstr ""
+msgstr "色度降噪"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:5
 #, kde-format
 msgid "Reduce chrominance noise."
-msgstr ""
+msgstr "减少色度噪声。"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
 #, kde-format
 msgid "Y+U+V Threshold"
-msgstr ""
+msgstr "Y+U+V 阈值"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:11
 #, kde-format
 msgid "Horizontal size"
-msgstr ""
+msgstr "水平大小"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:14
 #, kde-format
 msgid "Vertical size"
-msgstr ""
+msgstr "垂直大小"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:17
 #, kde-format
 msgid "Horizontal step"
-msgstr ""
+msgstr "水平步骤线"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:20
 #, kde-format
 msgid "Y threshold"
-msgstr ""
+msgstr "Y阈值"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:23
 #, kde-format
 msgid "U threshold"
-msgstr ""
+msgstr "U阈值"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:26
 #, kde-format
 msgid "V threshold"
-msgstr ""
+msgstr "V阈值"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
 msgid "Manhattan,Euclidean"
-msgstr ""
+msgstr "曼哈顿距离,欧几里得距离"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
 #, kde-format
 msgid "Distance"
-msgstr ""
+msgstr "距离"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
 #, kde-format
 msgid "Chroma shift"
-msgstr ""
+msgstr "色度偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
 #, kde-format
 msgid "Shift chroma pixels horizontally and/or vertically. "
-msgstr ""
+msgstr "水平和/或垂直移动色度像素。 "
 
 #: data/effects/avfilter/avfilter_chromashift.xml:8
 #, kde-format
 msgid "Chroma-blue H shift"
-msgstr ""
+msgstr "色度-蓝 水平偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:11
 #, kde-format
 msgid "Chroma-blue V shift"
-msgstr ""
+msgstr "色度-蓝 垂直偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:14
 #, kde-format
 msgid "Chroma-red H shift"
-msgstr ""
+msgstr "色度-红 水平偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:17
 #, kde-format
 msgid "Chroma-red V shift"
-msgstr ""
+msgstr "色度-红 垂直偏移"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:20
 #: data/effects/avfilter/avfilter_rgbashift.xml:32
 #, kde-format
 msgid "Smear,Wrap"
-msgstr ""
+msgstr "Smear/涂抹,Wrap/环绕"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:21
 #: data/effects/frei0r/frei0r_select0r.xml:33
@@ -1536,178 +1542,178 @@ msgstr "边缘模式"
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, kde-format
 msgid "Color balance"
-msgstr ""
+msgstr "色彩平衡"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:5
 #, kde-format
 msgid ""
 "Modify intensity of primary colors (red, green and blue) of input frames. "
-msgstr ""
+msgstr "修改输入帧的原色（红、绿、蓝）的强度。 "
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
 #, kde-format
 msgid "Red Shadow"
-msgstr ""
+msgstr "红色阴影"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:11
 #, kde-format
 msgid "Green Shadow"
-msgstr ""
+msgstr "绿色阴影"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:14
 #, kde-format
 msgid "Blue Shadow"
-msgstr ""
+msgstr "蓝色阴影"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
 msgid "Red Midtones"
-msgstr ""
+msgstr "红色中间调"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:20
 #, kde-format
 msgid "Green Midtones"
-msgstr ""
+msgstr "绿色中间调"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:23
 #, kde-format
 msgid "Blue Midtones"
-msgstr ""
+msgstr "蓝色中间调"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
 #, kde-format
 msgid "Red Highlights"
-msgstr ""
+msgstr "红色高光"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:29
 #, kde-format
 msgid "Green Highlights"
-msgstr ""
+msgstr "绿色高光"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:32
 #, kde-format
 msgid "Blue Highlights"
-msgstr ""
+msgstr "蓝色高光"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:35
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
 #, kde-format
 msgid "Preserve lightness"
-msgstr ""
+msgstr "保留亮度"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
 #, kde-format
 msgid "Color Channel Mixer"
-msgstr ""
+msgstr "颜色通道混合器"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
 msgid ""
 "Modifies a color channel by adding the values associated to the other "
 "channels of the same pixels"
-msgstr ""
+msgstr "通过添加与相同像素的其他通道关联的值来修改颜色通道"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:8
 #, kde-format
 msgid "Red-Red"
-msgstr ""
+msgstr "Red-Red"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:11
 #, kde-format
 msgid "Red-Green"
-msgstr ""
+msgstr "Red-Green"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:14
 #, kde-format
 msgid "Red-Blue"
-msgstr ""
+msgstr "Red-Blue"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:17
 #, kde-format
 msgid "Green-Red"
-msgstr ""
+msgstr "Green-Red"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:20
 #, kde-format
 msgid "Green-Green"
-msgstr ""
+msgstr "Green-Green"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:23
 #, kde-format
 msgid "Green-Blue"
-msgstr ""
+msgstr "Green-Blue"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:26
 #, kde-format
 msgid "Blue-Red"
-msgstr ""
+msgstr "Blue-Red"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:29
 #, kde-format
 msgid "Blue-Green"
-msgstr ""
+msgstr "Blue-Green"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:32
 #, kde-format
 msgid "Blue-Blue"
-msgstr ""
+msgstr "Blue-Blue"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
 #, kde-format
 msgid "Color Contrast"
-msgstr ""
+msgstr "颜色对比度"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
 msgid "Adjust color contrast between RGB components."
-msgstr ""
+msgstr "调整RGB组件之间的颜色对比度。"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
 #, kde-format
 msgid "Red-Cyan contrast"
-msgstr ""
+msgstr "Red-Cyan 对比度"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:11
 #, kde-format
 msgid "Green-Magenta contrast"
-msgstr ""
+msgstr "Green-Magenta 对比度"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:14
 #, kde-format
 msgid "Blue-Yellow contrast"
-msgstr ""
+msgstr "Blue-Yellow 对比度"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:17
 #, kde-format
 msgid "Red-Cyan weight"
-msgstr ""
+msgstr "Red-Cyan 权重"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:20
 #, kde-format
 msgid "Green-Magenta weight"
-msgstr ""
+msgstr "Green-Magenta 权重"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:23
 #, kde-format
 msgid "Blue-Yellow weight"
-msgstr ""
+msgstr "Blue-Yellow 权重"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:26
 #, kde-format
 msgid "Preserving lightness"
-msgstr ""
+msgstr "保留亮度"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
 #, kde-format
 msgid "Color Correct"
-msgstr ""
+msgstr "色彩校正"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:5
 #, kde-format
 msgid ""
 "Adjust color white balance selectively for blacks and whites.This filter "
 "operates in YUV colorspace."
-msgstr ""
+msgstr "针对黑色和白色选择性地调整颜色-白色平衡。此过滤器在YUV颜色空间中工作。"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
