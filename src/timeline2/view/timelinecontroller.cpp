@@ -3833,7 +3833,6 @@ void TimelineController::editTitleClip(int id)
         pCore->displayMessage(i18n("Item is not a title clip"), ErrorMessage, 500);
         return;
     }
-    seekToMouse();
     pCore->bin()->showTitleWidget(binClip);
 }
 
