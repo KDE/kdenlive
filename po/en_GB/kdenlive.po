@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-30 00:41+0000\n"
+"POT-Creation-Date: 2025-05-01 00:41+0000\n"
 "PO-Revision-Date: 2024-11-16 12:52+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -6753,7 +6753,7 @@ msgstr "Sox band audio effect"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
-#: src/titler/titlewidget.cpp:370
+#: src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Zoom"
 msgstr "Zoom"
@@ -8413,7 +8413,7 @@ msgstr "Simple colour adjustment"
 #. i18n: ectx: property (text), widget (QCheckBox, cbR)
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/ui/histogram_ui.ui:61
-#: src/ui/titlewidget_ui.ui:376
+#: src/ui/titlewidget_ui.ui:373
 #, kde-format
 msgid "R"
 msgstr "R"
@@ -11563,7 +11563,7 @@ msgstr ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:374
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Background opacity"
 msgstr "Background opacity"
@@ -16659,7 +16659,7 @@ msgstr ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 
-#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2307
+#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "Save Title"
@@ -16934,7 +16934,7 @@ msgstr[1] "Add clips"
 #: src/mltcontroller/clippropertiescontroller.cpp:582
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
-#: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:615
+#: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:612
 #, kde-format
 msgid "Duration:"
 msgstr "Duration:"
@@ -17152,7 +17152,7 @@ msgstr ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
 
-#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:401
+#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:412
 #, kde-format
 msgid "Add Text"
 msgstr "Add Text"
@@ -18131,7 +18131,7 @@ msgstr "Export Guides Data"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2320
+#: src/titler/titlewidget.cpp:2344
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Cannot write to file %1"
@@ -20303,7 +20303,7 @@ msgstr "Set Position X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1681 src/dialogs/subtitleedit.cpp:1695
-#: src/ui/titlewidget_ui.ui:538
+#: src/ui/titlewidget_ui.ui:535
 #, kde-format
 msgid "X:"
 msgstr "X:"
@@ -20315,7 +20315,7 @@ msgstr "Set Position Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1683 src/dialogs/subtitleedit.cpp:1697
-#: src/ui/titlewidget_ui.ui:561
+#: src/ui/titlewidget_ui.ui:558
 #, kde-format
 msgid "Y:"
 msgstr "Y:"
@@ -21380,7 +21380,7 @@ msgid "Switch"
 msgstr "Switch"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2025 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2025 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Cancel"
@@ -21461,7 +21461,9 @@ msgstr "Legacy"
 msgid "Custom"
 msgstr "Custom"
 
+#. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
 #: src/effects/effectlist/model/effecttreemodel.cpp:67
+#: src/ui/titlewidget_ui.ui:1687
 #, kde-format
 msgid "Templates"
 msgstr "Templates"
@@ -23440,7 +23442,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Toggles the subtitle track in the timeline."
 
-#: src/mainwindow.cpp:1220 src/titler/titlewidget.cpp:394
+#: src/mainwindow.cpp:1220 src/titler/titlewidget.cpp:405
 #, kde-format
 msgid "Selection Tool"
 msgstr "Selection Tool"
@@ -24498,7 +24500,7 @@ msgstr "Recreate"
 
 #: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2303
+#: src/titler/titlewidget.cpp:2327
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -24909,7 +24911,7 @@ msgstr "Displays detailed information about the file."
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
 #: src/mltcontroller/clippropertiescontroller.cpp:205
-#: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:772
+#: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:769
 #, kde-format
 msgid "Properties"
 msgstr "Properties"
@@ -25438,14 +25440,14 @@ msgstr "Free Resize"
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:54
 #: src/scopes/colorscopes/vectorscope.cpp:59
-#: src/timeline2/view/timelinecontroller.cpp:283 src/ui/titlewidget_ui.ui:123
+#: src/timeline2/view/timelinecontroller.cpp:283 src/ui/titlewidget_ui.ui:140
 #, kde-format
 msgid "Black"
 msgstr "Black"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:128
+#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "White"
@@ -30366,7 +30368,7 @@ msgid "No available stream"
 msgstr "No available stream"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3371 src/titler/titlewidget.cpp:3374
+#: src/titler/titlewidget.cpp:3395 src/titler/titlewidget.cpp:3398
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradient %1"
@@ -30397,190 +30399,190 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "Text Clips Updated"
 
-#: src/titler/titlewidget.cpp:137
+#: src/titler/titlewidget.cpp:138
 #, kde-format
 msgid "Outline width"
 msgstr "Outline width"
 
-#: src/titler/titlewidget.cpp:144
+#: src/titler/titlewidget.cpp:145
 #, kde-format
 msgid "Background color opacity"
 msgstr "Background colour opacity"
 
-#: src/titler/titlewidget.cpp:150
+#: src/titler/titlewidget.cpp:151
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Rotation around the X axis"
 
-#: src/titler/titlewidget.cpp:156
+#: src/titler/titlewidget.cpp:157
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Rotation around the Y axis"
 
-#: src/titler/titlewidget.cpp:162
+#: src/titler/titlewidget.cpp:163
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Rotation around the Z axis"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1456
+#: src/titler/titlewidget.cpp:169 src/ui/titlewidget_ui.ui:1453
 #, kde-format
 msgid "Border width"
 msgstr "Border width"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:179 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:135 src/widgets/geometrywidget.cpp:144
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:282
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Light"
 
-#: src/titler/titlewidget.cpp:283
+#: src/titler/titlewidget.cpp:294
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/titler/titlewidget.cpp:284
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Demi-Bold"
 
-#: src/titler/titlewidget.cpp:285
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Bold"
 
-#: src/titler/titlewidget.cpp:286
+#: src/titler/titlewidget.cpp:297
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Black"
 
-#: src/titler/titlewidget.cpp:287
+#: src/titler/titlewidget.cpp:298
 #, kde-format
 msgid "Font weight"
 msgstr "Font weight"
 
-#: src/titler/titlewidget.cpp:301
+#: src/titler/titlewidget.cpp:312
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Insert Unicode character"
 
-#: src/titler/titlewidget.cpp:307
+#: src/titler/titlewidget.cpp:318
 #, kde-format
 msgid "Raise object"
 msgstr "Raise object"
 
-#: src/titler/titlewidget.cpp:313
+#: src/titler/titlewidget.cpp:324
 #, kde-format
 msgid "Lower object"
 msgstr "Lower object"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:332
 #, kde-format
 msgid "Raise object to top"
 msgstr "Raise object to top"
 
-#: src/titler/titlewidget.cpp:328
+#: src/titler/titlewidget.cpp:339
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Lower object to bottom"
 
-#: src/titler/titlewidget.cpp:334
+#: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Select All"
 msgstr "Select All"
 
-#: src/titler/titlewidget.cpp:340
+#: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Keep only text items selected"
 
-#: src/titler/titlewidget.cpp:347
+#: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Keep only rect items selected"
 
-#: src/titler/titlewidget.cpp:354
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Keep only image items selected"
 
-#: src/titler/titlewidget.cpp:361
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Deselect"
 msgstr "Deselect"
 
-#: src/titler/titlewidget.cpp:366
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Invert x axis and change 0 point"
 
-#: src/titler/titlewidget.cpp:367
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Invert y axis and change 0 point"
 
-#: src/titler/titlewidget.cpp:368
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select fill color"
 msgstr "Select fill colour"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Select border color"
 msgstr "Select border colour"
 
-#: src/titler/titlewidget.cpp:371
+#: src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Original size (1:1)"
 
-#: src/titler/titlewidget.cpp:372
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Fit zoom"
 msgstr "Fit zoom"
 
-#: src/titler/titlewidget.cpp:373
+#: src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Select background color"
 msgstr "Select background colour"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select all"
 msgstr "Select all"
 
-#: src/titler/titlewidget.cpp:376
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Select text items in current selection"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Select rect items in current selection"
 
-#: src/titler/titlewidget.cpp:378
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Select image items in current selection"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:390
 #, kde-format
 msgid "Unselect all"
 msgstr "Unselect all"
 
-#: src/titler/titlewidget.cpp:397
+#: src/titler/titlewidget.cpp:408
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30589,51 +30591,51 @@ msgid ""
 "resize, Ctrl+Drag to pan."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:406
+#: src/titler/titlewidget.cpp:417
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Add Rectangle"
 
-#: src/titler/titlewidget.cpp:411
+#: src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Add Ellipse"
 
-#: src/titler/titlewidget.cpp:416
+#: src/titler/titlewidget.cpp:427
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add Image…"
 msgstr "Add Image"
 
-#: src/titler/titlewidget.cpp:423
+#: src/titler/titlewidget.cpp:434
 #, fuzzy, kde-format
 #| msgid "Open Backup File…"
 msgid "Open  Title…"
 msgstr "Open Backup File…"
 
-#: src/titler/titlewidget.cpp:428
+#: src/titler/titlewidget.cpp:439
 #, fuzzy, kde-format
 #| msgid "Save Title"
 msgid "Save Title As…"
 msgstr "Save Title"
 
-#: src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:444
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Title Templates…"
 msgstr "Download New Title Templates..."
 
-#: src/titler/titlewidget.cpp:550
+#: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Save and add to project"
 msgstr "Save and add to project"
 
-#: src/titler/titlewidget.cpp:551
+#: src/titler/titlewidget.cpp:562
 #, kde-format
 msgid "Create Title"
 msgstr "Create Title"
 
-#: src/titler/titlewidget.cpp:798
+#: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -30642,54 +30644,54 @@ msgstr ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 
-#: src/titler/titlewidget.cpp:907
+#: src/titler/titlewidget.cpp:929
 #, kde-format
 msgid "All Images"
 msgstr "All Images"
 
-#: src/titler/titlewidget.cpp:909
+#: src/titler/titlewidget.cpp:931
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 Image"
 
-#: src/titler/titlewidget.cpp:919
+#: src/titler/titlewidget.cpp:941
 #, kde-format
 msgid "Add Image"
 msgstr "Add Image"
 
-#: src/titler/titlewidget.cpp:1757
+#: src/titler/titlewidget.cpp:1781
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1759 src/ui/titlewidget_ui.ui:340
+#: src/titler/titlewidget.cpp:1783 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1781
+#: src/titler/titlewidget.cpp:1805
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1783 src/ui/titlewidget_ui.ui:269
+#: src/titler/titlewidget.cpp:1807 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2254
+#: src/titler/titlewidget.cpp:2278
 #, kde-format
 msgid "Load Title"
 msgstr "Load Title"
 
-#: src/titler/titlewidget.cpp:2255
+#: src/titler/titlewidget.cpp:2279
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive title"
 
-#: src/titler/titlewidget.cpp:2301
+#: src/titler/titlewidget.cpp:2325
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30698,57 +30700,57 @@ msgstr ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 
-#: src/titler/titlewidget.cpp:2302
+#: src/titler/titlewidget.cpp:2326
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Embed Images"
 
-#: src/titler/titlewidget.cpp:2357
+#: src/titler/titlewidget.cpp:2381
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "This title has 1 missing element"
 msgstr[1] "This title has %1 missing elements"
 
-#: src/titler/titlewidget.cpp:2358 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2382 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Details"
 
-#: src/titler/titlewidget.cpp:2361
+#: src/titler/titlewidget.cpp:2385
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Delete missing elements"
 
-#: src/titler/titlewidget.cpp:2421
+#: src/titler/titlewidget.cpp:2445
 #, kde-format
 msgid "Update Title"
 msgstr "Update Title"
 
-#: src/titler/titlewidget.cpp:2424
+#: src/titler/titlewidget.cpp:2448
 #, kde-format
 msgid "Add as new Title"
 msgstr "Add as new Title"
 
-#: src/titler/titlewidget.cpp:2478
+#: src/titler/titlewidget.cpp:2502
 #, kde-format
 msgid "The following files are missing:"
 msgstr "The following files are missing:"
 
-#: src/titler/titlewidget.cpp:2672
+#: src/titler/titlewidget.cpp:2696
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start Viewport"
 
-#: src/titler/titlewidget.cpp:2673
+#: src/titler/titlewidget.cpp:2697
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "End Viewport"
 
-#: src/titler/titlewidget.cpp:3404
+#: src/titler/titlewidget.cpp:3428
 #, kde-format
 msgid "Gradient"
 msgstr "Gradient"
@@ -31034,9 +31036,11 @@ msgid "Position:"
 msgstr "Position:"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:1518
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
+#: src/ui/titlewidget_ui.ui:1515
 #, kde-format
 msgid "Background"
 msgstr "Background"
@@ -31318,15 +31322,15 @@ msgstr "Delete current point."
 #: src/ui/textbasededit_ui.ui:273 src/ui/timeremap_ui.ui:84
 #: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
 #: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
-#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:659
-#: src/ui/titlewidget_ui.ui:672 src/ui/titlewidget_ui.ui:685
-#: src/ui/titlewidget_ui.ui:698 src/ui/titlewidget_ui.ui:711
-#: src/ui/titlewidget_ui.ui:724 src/ui/titlewidget_ui.ui:942
-#: src/ui/titlewidget_ui.ui:952 src/ui/titlewidget_ui.ui:1156
-#: src/ui/titlewidget_ui.ui:1210 src/ui/titlewidget_ui.ui:1259
-#: src/ui/titlewidget_ui.ui:1281 src/ui/titlewidget_ui.ui:1313
-#: src/ui/titlewidget_ui.ui:1402 src/ui/titlewidget_ui.ui:1720
-#: src/ui/titlewidget_ui.ui:1736 src/ui/titlewidget_ui.ui:1749
+#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:656
+#: src/ui/titlewidget_ui.ui:669 src/ui/titlewidget_ui.ui:682
+#: src/ui/titlewidget_ui.ui:695 src/ui/titlewidget_ui.ui:708
+#: src/ui/titlewidget_ui.ui:721 src/ui/titlewidget_ui.ui:939
+#: src/ui/titlewidget_ui.ui:949 src/ui/titlewidget_ui.ui:1153
+#: src/ui/titlewidget_ui.ui:1207 src/ui/titlewidget_ui.ui:1256
+#: src/ui/titlewidget_ui.ui:1278 src/ui/titlewidget_ui.ui:1310
+#: src/ui/titlewidget_ui.ui:1399 src/ui/titlewidget_ui.ui:1754
+#: src/ui/titlewidget_ui.ui:1770 src/ui/titlewidget_ui.ui:1783
 #: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
 #: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
@@ -33517,7 +33521,7 @@ msgstr "Text Options"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
-#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:906
+#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:903
 #, kde-format
 msgid "Offset:"
 msgstr "Offset:"
@@ -34436,7 +34440,7 @@ msgid "Weight:"
 msgstr "Weight:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_outline)
-#: src/ui/qtextclip_ui.ui:130 src/ui/titlewidget_ui.ui:1030
+#: src/ui/qtextclip_ui.ui:130 src/ui/titlewidget_ui.ui:1027
 #, kde-format
 msgid "Outline:"
 msgstr "Outline:"
@@ -35026,9 +35030,8 @@ msgstr "Output language"
 msgid "Input language"
 msgstr "Input language"
 
-#. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/templateclip_ui.ui:21 src/ui/titlewidget_ui.ui:149
+#: src/ui/templateclip_ui.ui:21
 #, kde-format
 msgid "Template:"
 msgstr "Template:"
@@ -35119,352 +35122,360 @@ msgid "V"
 msgstr "V"
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayBg)
-#: src/ui/titlewidget_ui.ui:110
-#, kde-format
-msgid "Show background"
-msgstr "Show background"
+#: src/ui/titlewidget_ui.ui:117
+#, fuzzy, kde-format
+#| msgid "Show %1 in timeline"
+msgid "Show timeline"
+msgstr "Show %1 in timeline"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/ui/titlewidget_ui.ui:118
+#: src/ui/titlewidget_ui.ui:135
 #, kde-format
 msgid "Checkered"
 msgstr "Checkered"
 
 #. i18n: ectx: property (text), widget (QToolButton, createButton)
-#: src/ui/titlewidget_ui.ui:176
+#: src/ui/titlewidget_ui.ui:173
 #, kde-format
 msgid "Create"
 msgstr "Create"
 
 #. i18n: ectx: property (text), widget (QLabel, label_width)
-#: src/ui/titlewidget_ui.ui:302
+#: src/ui/titlewidget_ui.ui:299
 #, kde-format
 msgid "W:"
 msgstr "W:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_zIndex)
-#: src/ui/titlewidget_ui.ui:309
+#: src/ui/titlewidget_ui.ui:306
 #, kde-format
 msgid "Z-Index:"
 msgstr "Z-Index:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_height)
-#: src/ui/titlewidget_ui.ui:333
+#: src/ui/titlewidget_ui.ui:330
 #, kde-format
 msgid "H:"
 msgstr "H:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_grid)
-#: src/ui/titlewidget_ui.ui:366
+#: src/ui/titlewidget_ui.ui:363
 #, kde-format
 msgid "Use grid"
 msgstr "Use grid"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectImages)
-#: src/ui/titlewidget_ui.ui:386
+#: src/ui/titlewidget_ui.ui:383
 #, kde-format
 msgid "I"
 msgstr "I"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectText)
-#: src/ui/titlewidget_ui.ui:396
+#: src/ui/titlewidget_ui.ui:393
 #, kde-format
 msgid "T"
 msgstr "T"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hguides)
-#: src/ui/titlewidget_ui.ui:406
+#: src/ui/titlewidget_ui.ui:403
 #, kde-format
 msgid "Horizontal guides."
 msgstr "Horizontal guides."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, vguides)
-#: src/ui/titlewidget_ui.ui:419
+#: src/ui/titlewidget_ui.ui:416
 #, kde-format
 msgid "Vertical guides."
 msgstr "Vertical guides."
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonUnselectAll)
-#: src/ui/titlewidget_ui.ui:445
+#: src/ui/titlewidget_ui.ui:442
 #, kde-format
 msgid "N"
 msgstr "N"
 
 #. i18n: ectx: property (text), widget (QCheckBox, show_guides)
-#: src/ui/titlewidget_ui.ui:465
+#: src/ui/titlewidget_ui.ui:462
 #, kde-format
 msgid "Show guides:"
 msgstr "Show guides:"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, buttonSelectAll)
-#: src/ui/titlewidget_ui.ui:472
+#: src/ui/titlewidget_ui.ui:469
 #, kde-format
 msgid "Selects all items on the canvas."
 msgstr "Selects all items on the canvas."
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectAll)
-#: src/ui/titlewidget_ui.ui:475
+#: src/ui/titlewidget_ui.ui:472
 #, kde-format
 msgid "A"
 msgstr "A"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
-#: src/ui/titlewidget_ui.ui:529
+#: src/ui/titlewidget_ui.ui:526
 #, kde-format
 msgid "Rotate"
 msgstr "Rotate"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateZ)
-#: src/ui/titlewidget_ui.ui:587
+#: src/ui/titlewidget_ui.ui:584
 #, kde-format
 msgid "Z:"
 msgstr "Z:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_itemzoom)
-#: src/ui/titlewidget_ui.ui:622
+#: src/ui/titlewidget_ui.ui:619
 #, kde-format
 msgid "Zoom:"
 msgstr "Zoom:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemleft)
-#: src/ui/titlewidget_ui.ui:656
+#: src/ui/titlewidget_ui.ui:653
 #, kde-format
 msgid "Align item to left."
 msgstr "Align item to left."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemhcenter)
-#: src/ui/titlewidget_ui.ui:669
+#: src/ui/titlewidget_ui.ui:666
 #, kde-format
 msgid "Align item horizontally."
 msgstr "Align item horizontally."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemright)
-#: src/ui/titlewidget_ui.ui:682
+#: src/ui/titlewidget_ui.ui:679
 #, kde-format
 msgid "Align item to right."
 msgstr "Align item to right."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemtop)
-#: src/ui/titlewidget_ui.ui:695
+#: src/ui/titlewidget_ui.ui:692
 #, kde-format
 msgid "Align item to top."
 msgstr "Align item to top."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemvcenter)
-#: src/ui/titlewidget_ui.ui:708
+#: src/ui/titlewidget_ui.ui:705
 #, kde-format
 msgid "Align item vertically."
 msgstr "Align item vertically."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itembottom)
-#: src/ui/titlewidget_ui.ui:721
+#: src/ui/titlewidget_ui.ui:718
 #, kde-format
 msgid "Align item to bottom."
 msgstr "Align item to bottom."
 
 #. i18n: ectx: property (title), widget (QGroupBox, shadowBox)
-#: src/ui/titlewidget_ui.ui:845
+#: src/ui/titlewidget_ui.ui:842
 #, kde-format
 msgid "Sha&dow"
 msgstr "Sha&dow"
 
 #. i18n: ectx: property (text), widget (QLabel, label_blur)
-#: src/ui/titlewidget_ui.ui:866
+#: src/ui/titlewidget_ui.ui:863
 #, kde-format
 msgid "Blur:"
 msgstr "Blur:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignCenter)
-#: src/ui/titlewidget_ui.ui:949
+#: src/ui/titlewidget_ui.ui:946
 #, kde-format
 msgid "Align center."
 msgstr "Align centre."
 
 #. i18n: ectx: property (text), widget (QLabel, label_lineSpacing)
-#: src/ui/titlewidget_ui.ui:968
+#: src/ui/titlewidget_ui.ui:965
 #, kde-format
 msgid "Line spacing:"
 msgstr "Line spacing:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_color)
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_rect)
-#: src/ui/titlewidget_ui.ui:991 src/ui/titlewidget_ui.ui:1388
+#: src/ui/titlewidget_ui.ui:988 src/ui/titlewidget_ui.ui:1385
 #, kde-format
 msgid "&Gradient:"
 msgstr "&Gradient:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
-#: src/ui/titlewidget_ui.ui:1007
+#: src/ui/titlewidget_ui.ui:1004
 #, fuzzy, kde-format
 #| msgid "So&lid color:"
 msgid "Sol&id color:"
 msgstr "So&lid colour:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, typewriterBox)
-#: src/ui/titlewidget_ui.ui:1037
+#: src/ui/titlewidget_ui.ui:1034
 #, kde-format
 msgid "&Typewriter effect"
 msgstr "&Typewriter effect"
 
 #. i18n: ectx: property (text), widget (QLabel, label_variation)
-#: src/ui/titlewidget_ui.ui:1049
+#: src/ui/titlewidget_ui.ui:1046
 #, kde-format
 msgid "Variation:"
 msgstr "Variation:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/titlewidget_ui.ui:1056
+#: src/ui/titlewidget_ui.ui:1053
 #, kde-format
 msgid "Expansion Mode"
 msgstr "Expansion Mode"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
-#: src/ui/titlewidget_ui.ui:1068
+#: src/ui/titlewidget_ui.ui:1065
 #, fuzzy, kde-format
 #| msgid "By &char"
 msgid "B&y char"
 msgstr "By &char"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_word)
-#: src/ui/titlewidget_ui.ui:1078
+#: src/ui/titlewidget_ui.ui:1075
 #, kde-format
 msgid "By &word"
 msgstr "By &word"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_line)
-#: src/ui/titlewidget_ui.ui:1085
+#: src/ui/titlewidget_ui.ui:1082
 #, kde-format
 msgid "By &line"
 msgstr "By &line"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_custom)
-#: src/ui/titlewidget_ui.ui:1092
+#: src/ui/titlewidget_ui.ui:1089
 #, kde-format
 msgid "Custo&m"
 msgstr "Custo&m"
 
 #. i18n: ectx: property (text), widget (QLabel, label_frameStep)
-#: src/ui/titlewidget_ui.ui:1102
+#: src/ui/titlewidget_ui.ui:1099
 #, kde-format
 msgid "Frame step:"
 msgstr "Frame step:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_seed)
-#: src/ui/titlewidget_ui.ui:1116
+#: src/ui/titlewidget_ui.ui:1113
 #, kde-format
 msgid "Seed:"
 msgstr "Seed:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_letterSpacing)
-#: src/ui/titlewidget_ui.ui:1223
+#: src/ui/titlewidget_ui.ui:1220
 #, kde-format
 msgid "Letter spacing:"
 msgstr "Letter spacing:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
-#: src/ui/titlewidget_ui.ui:1249
+#: src/ui/titlewidget_ui.ui:1246
 #, kde-format
 msgid "Align:"
 msgstr "Align:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignRight)
-#: src/ui/titlewidget_ui.ui:1256
+#: src/ui/titlewidget_ui.ui:1253
 #, kde-format
 msgid "Align right."
 msgstr "Align right."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignLeft)
-#: src/ui/titlewidget_ui.ui:1278
+#: src/ui/titlewidget_ui.ui:1275
 #, kde-format
 msgid "Align left."
 msgstr "Align left."
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_rect)
-#: src/ui/titlewidget_ui.ui:1354
+#: src/ui/titlewidget_ui.ui:1351
 #, kde-format
 msgid "So&lid color:"
 msgstr "So&lid colour:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_border)
-#: src/ui/titlewidget_ui.ui:1425
+#: src/ui/titlewidget_ui.ui:1422
 #, kde-format
 msgid "Border "
 msgstr "Border "
 
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/titlewidget_ui.ui:1490
+#: src/ui/titlewidget_ui.ui:1487
 #, kde-format
 msgid "Preserve aspect ratio"
 msgstr "Preserve aspect ratio"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
-#: src/ui/titlewidget_ui.ui:1576
+#: src/ui/titlewidget_ui.ui:1573
 #, kde-format
 msgid "Animation"
 msgstr "Animation"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_end)
-#: src/ui/titlewidget_ui.ui:1582
+#: src/ui/titlewidget_ui.ui:1579
 #, kde-format
 msgid "Edit end viewport"
 msgstr "Edit end viewport"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_start)
-#: src/ui/titlewidget_ui.ui:1605
+#: src/ui/titlewidget_ui.ui:1602
 #, kde-format
 msgid "Edit start viewport"
 msgstr "Edit start viewport"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_aspect)
-#: src/ui/titlewidget_ui.ui:1634
+#: src/ui/titlewidget_ui.ui:1631
 #, kde-format
 msgid "Keep aspect ratio"
 msgstr "Keep aspect ratio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/titlewidget_ui.ui:1643
+#: src/ui/titlewidget_ui.ui:1640
 #, kde-format
 msgid "Resize"
 msgstr "Resize"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize50)
-#: src/ui/titlewidget_ui.ui:1650
+#: src/ui/titlewidget_ui.ui:1647
 #, no-c-format, kde-format
 msgid "50%"
 msgstr "50%"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize100)
-#: src/ui/titlewidget_ui.ui:1657
+#: src/ui/titlewidget_ui.ui:1654
 #, no-c-format, kde-format
 msgid "100%"
 msgstr "100%"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
-#: src/ui/titlewidget_ui.ui:1664
+#: src/ui/titlewidget_ui.ui:1661
 #, no-c-format, kde-format
 msgid "200%"
 msgstr "200%"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
-#: src/ui/titlewidget_ui.ui:1690
+#. i18n: ectx: property (text), widget (QLabel, label_template)
+#: src/ui/titlewidget_ui.ui:1701
+#, fuzzy, kde-format
+#| msgid "Template:"
+msgid "Load template:"
+msgstr "Template:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/titlewidget_ui.ui:1723
 #, kde-format
 msgid "Patterns"
 msgstr "Patterns"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_add)
-#: src/ui/titlewidget_ui.ui:1717
+#: src/ui/titlewidget_ui.ui:1751
 #, kde-format
 msgid "Add pattern."
 msgstr "Add pattern."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
-#: src/ui/titlewidget_ui.ui:1733
+#: src/ui/titlewidget_ui.ui:1767
 #, kde-format
 msgid "Delete pattern."
 msgstr "Delete pattern."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
-#: src/ui/titlewidget_ui.ui:1746
+#: src/ui/titlewidget_ui.ui:1780
 #, kde-format
 msgid "Delete all patterns."
 msgstr "Delete all patterns."
@@ -35665,6 +35676,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Show background"
+#~ msgstr "Show background"
 
 #~ msgctxt "@info:whatsthis"
 #~ msgid ""

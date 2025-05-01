@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-30 00:41+0000\n"
+"POT-Creation-Date: 2025-05-01 00:41+0000\n"
 "PO-Revision-Date: 2025-04-14 08:24+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -6604,7 +6604,7 @@ msgstr "אפקט שמע - פס"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
-#: src/titler/titlewidget.cpp:370
+#: src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Zoom"
 msgstr "תקריב"
@@ -8242,7 +8242,7 @@ msgstr "כיוון עקומות צבע פשוט"
 #. i18n: ectx: property (text), widget (QCheckBox, cbR)
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/ui/histogram_ui.ui:61
-#: src/ui/titlewidget_ui.ui:376
+#: src/ui/titlewidget_ui.ui:373
 #, kde-format
 msgid "R"
 msgstr "ר"
@@ -11201,7 +11201,7 @@ msgstr ""
 "    \tערכים קטנים מ־100 יקרבו את התמונה, גודלים מ־100 ירחיקו אותה. 0 יסתיר "
 "אותה.]]>"
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:374
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:385
 #, kde-format
 msgid "Background opacity"
 msgstr "אטימות רקע"
@@ -16192,7 +16192,7 @@ msgstr ""
 "בחרת לערוך סרטון כותרת חיצוני (%1). לשמור את השינויים שלך לקובץ הכותרת או "
 "לשמור את השינויים רק למיזם הזה?"
 
-#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2307
+#: src/bin/bin.cpp:4756 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "שמירת כותר"
@@ -16467,7 +16467,7 @@ msgstr[3] "הוספת סרטונים"
 #: src/mltcontroller/clippropertiescontroller.cpp:582
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
-#: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:615
+#: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:612
 #, kde-format
 msgid "Duration:"
 msgstr "משך:"
@@ -16685,7 +16685,7 @@ msgstr ""
 "הקובץ %1 קיים.\n"
 "לדרוס אותו?"
 
-#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:401
+#: src/bin/model/subtitlemodel.cpp:1611 src/titler/titlewidget.cpp:412
 #, kde-format
 msgid "Add Text"
 msgstr "הוספת טקסט"
@@ -17656,7 +17656,7 @@ msgstr "ייצוא נתוני קווים מנחים"
 #: src/renderpresets/renderpresetrepository.cpp:432
 #: src/timeline2/view/timelinecontroller.cpp:5109
 #: src/timeline2/view/timelinecontroller.cpp:5114
-#: src/titler/titlewidget.cpp:2320
+#: src/titler/titlewidget.cpp:2344
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
@@ -19812,7 +19812,7 @@ msgstr "הגדרת מקום ב־X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1681 src/dialogs/subtitleedit.cpp:1695
-#: src/ui/titlewidget_ui.ui:538
+#: src/ui/titlewidget_ui.ui:535
 #, kde-format
 msgid "X:"
 msgstr "X:"
@@ -19824,7 +19824,7 @@ msgstr "הגדרת מקום ב־Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1683 src/dialogs/subtitleedit.cpp:1697
-#: src/ui/titlewidget_ui.ui:561
+#: src/ui/titlewidget_ui.ui:558
 #, kde-format
 msgid "Y:"
 msgstr "Y:"
@@ -20887,7 +20887,7 @@ msgid "Switch"
 msgstr "החלפה"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2025 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2025 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "ביטול"
@@ -20968,7 +20968,9 @@ msgstr "מיושן"
 msgid "Custom"
 msgstr "התאמה אישית"
 
+#. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
 #: src/effects/effectlist/model/effecttreemodel.cpp:67
+#: src/ui/titlewidget_ui.ui:1687
 #, kde-format
 msgid "Templates"
 msgstr "תבניות"
@@ -22929,7 +22931,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "מחליף את מצב רצועת הכתוביות בציר הזמן."
 
-#: src/mainwindow.cpp:1220 src/titler/titlewidget.cpp:394
+#: src/mainwindow.cpp:1220 src/titler/titlewidget.cpp:405
 #, kde-format
 msgid "Selection Tool"
 msgstr "כלי בחירה"
@@ -23968,7 +23970,7 @@ msgstr "יצירה מחדש"
 
 #: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2303
+#: src/titler/titlewidget.cpp:2327
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -24375,7 +24377,7 @@ msgstr "הצגת מידע מפורט על הקובץ."
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
 #: src/mltcontroller/clippropertiescontroller.cpp:205
-#: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:772
+#: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:769
 #, kde-format
 msgid "Properties"
 msgstr "מאפיינים"
@@ -24901,14 +24903,14 @@ msgstr "שינוי גודל חופשי"
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:54
 #: src/scopes/colorscopes/vectorscope.cpp:59
-#: src/timeline2/view/timelinecontroller.cpp:283 src/ui/titlewidget_ui.ui:123
+#: src/timeline2/view/timelinecontroller.cpp:283 src/ui/titlewidget_ui.ui:140
 #, kde-format
 msgid "Black"
 msgstr "שחור"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:30
-#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:128
+#: src/scopes/colorscopes/waveform.cpp:35 src/ui/titlewidget_ui.ui:145
 #, kde-format
 msgid "White"
 msgstr "לבן"
@@ -29795,7 +29797,7 @@ msgid "No available stream"
 msgstr "אין תזרים זמין"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3371 src/titler/titlewidget.cpp:3374
+#: src/titler/titlewidget.cpp:3395 src/titler/titlewidget.cpp:3398
 #, kde-format
 msgid "Gradient %1"
 msgstr "מדרג %1"
@@ -29826,190 +29828,190 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "סרטוני טקסט עודכנו"
 
-#: src/titler/titlewidget.cpp:137
+#: src/titler/titlewidget.cpp:138
 #, kde-format
 msgid "Outline width"
 msgstr "רוחב מתאר"
 
-#: src/titler/titlewidget.cpp:144
+#: src/titler/titlewidget.cpp:145
 #, kde-format
 msgid "Background color opacity"
 msgstr "אטימות צבע רקע"
 
-#: src/titler/titlewidget.cpp:150
+#: src/titler/titlewidget.cpp:151
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "סיבוב מסביב לציר X"
 
-#: src/titler/titlewidget.cpp:156
+#: src/titler/titlewidget.cpp:157
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "סיבוב מסביב לציר Y"
 
-#: src/titler/titlewidget.cpp:162
+#: src/titler/titlewidget.cpp:163
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "סיבוב מסביב לציר Z"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:168 src/ui/titlewidget_ui.ui:1456
+#: src/titler/titlewidget.cpp:169 src/ui/titlewidget_ui.ui:1453
 #, kde-format
 msgid "Border width"
 msgstr "רוחב מסגרת"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:170 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:179 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:135 src/widgets/geometrywidget.cpp:144
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:282
+#: src/titler/titlewidget.cpp:293
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "קליל"
 
-#: src/titler/titlewidget.cpp:283
+#: src/titler/titlewidget.cpp:294
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "רגיל"
 
-#: src/titler/titlewidget.cpp:284
+#: src/titler/titlewidget.cpp:295
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "חצי מודגש"
 
-#: src/titler/titlewidget.cpp:285
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "מודגש"
 
-#: src/titler/titlewidget.cpp:286
+#: src/titler/titlewidget.cpp:297
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "עבה מאוד"
 
-#: src/titler/titlewidget.cpp:287
+#: src/titler/titlewidget.cpp:298
 #, kde-format
 msgid "Font weight"
 msgstr "משקל גופן"
 
-#: src/titler/titlewidget.cpp:301
+#: src/titler/titlewidget.cpp:312
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "הוספת תו יוניקוד"
 
-#: src/titler/titlewidget.cpp:307
+#: src/titler/titlewidget.cpp:318
 #, kde-format
 msgid "Raise object"
 msgstr "הגבהת עצם"
 
-#: src/titler/titlewidget.cpp:313
+#: src/titler/titlewidget.cpp:324
 #, kde-format
 msgid "Lower object"
 msgstr "הנמכת עצם"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:332
 #, kde-format
 msgid "Raise object to top"
 msgstr "הגבהת עצם למעלה"
 
-#: src/titler/titlewidget.cpp:328
+#: src/titler/titlewidget.cpp:339
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "הנמכת עצם לתחתית"
 
-#: src/titler/titlewidget.cpp:334
+#: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Select All"
 msgstr "בחירה בהכול"
 
-#: src/titler/titlewidget.cpp:340
+#: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "להשאיר רק פריטי טקסט בבחירה"
 
-#: src/titler/titlewidget.cpp:347
+#: src/titler/titlewidget.cpp:358
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "להשאיר רק פרטים מרובעים בבחירה"
 
-#: src/titler/titlewidget.cpp:354
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "להשאיר רק פריטי תמונות בבחירה"
 
-#: src/titler/titlewidget.cpp:361
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Deselect"
 msgstr "ביטול בחירה"
 
-#: src/titler/titlewidget.cpp:366
+#: src/titler/titlewidget.cpp:377
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "הוספת ציר x ושינוי נקודת 0"
 
-#: src/titler/titlewidget.cpp:367
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "הוספת ציר y ושינוי נקודת 0"
 
-#: src/titler/titlewidget.cpp:368
+#: src/titler/titlewidget.cpp:379
 #, kde-format
 msgid "Select fill color"
 msgstr "בחירת צבע מילוי"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:380
 #, kde-format
 msgid "Select border color"
 msgstr "בחירת צבע מסגרת"
 
-#: src/titler/titlewidget.cpp:371
+#: src/titler/titlewidget.cpp:382
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "גודל מקורי (1:1)"
 
-#: src/titler/titlewidget.cpp:372
+#: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Fit zoom"
 msgstr "התאמת תקריב"
 
-#: src/titler/titlewidget.cpp:373
+#: src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Select background color"
 msgstr "בחירת צבע רקע"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:386
 #, kde-format
 msgid "Select all"
 msgstr "בחירה בהכול"
 
-#: src/titler/titlewidget.cpp:376
+#: src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "לבחור פריטי טקסט בבחירה הנוכחית"
 
-#: src/titler/titlewidget.cpp:377
+#: src/titler/titlewidget.cpp:388
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "לבחור פריטים מרובעים בבחירה הנוכחית"
 
-#: src/titler/titlewidget.cpp:378
+#: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "בחירת פריטי תמונות בבחירה הנוכחית"
 
-#: src/titler/titlewidget.cpp:379
+#: src/titler/titlewidget.cpp:390
 #, kde-format
 msgid "Unselect all"
 msgstr "ביטול בחירה בהכול"
 
-#: src/titler/titlewidget.cpp:397
+#: src/titler/titlewidget.cpp:408
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30018,105 +30020,105 @@ msgid ""
 "resize, Ctrl+Drag to pan."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:406
+#: src/titler/titlewidget.cpp:417
 #, kde-format
 msgid "Add Rectangle"
 msgstr "הוספת מרובע"
 
-#: src/titler/titlewidget.cpp:411
+#: src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Add Ellipse"
 msgstr "הוספת אליפסה"
 
-#: src/titler/titlewidget.cpp:416
+#: src/titler/titlewidget.cpp:427
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "Add Image…"
 msgstr "הוספת תמונה"
 
-#: src/titler/titlewidget.cpp:423
+#: src/titler/titlewidget.cpp:434
 #, fuzzy, kde-format
 #| msgid "Open Backup File…"
 msgid "Open  Title…"
 msgstr "פתיחת קובץ גיבוי…"
 
-#: src/titler/titlewidget.cpp:428
+#: src/titler/titlewidget.cpp:439
 #, fuzzy, kde-format
 #| msgid "Save Title"
 msgid "Save Title As…"
 msgstr "שמירת כותר"
 
-#: src/titler/titlewidget.cpp:433
+#: src/titler/titlewidget.cpp:444
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Title Templates…"
 msgstr "תבניות כותר חדשות מתקבלות…"
 
-#: src/titler/titlewidget.cpp:550
+#: src/titler/titlewidget.cpp:561
 #, kde-format
 msgid "Save and add to project"
 msgstr "שמירה והוספה למיזם"
 
-#: src/titler/titlewidget.cpp:551
+#: src/titler/titlewidget.cpp:562
 #, kde-format
 msgid "Create Title"
 msgstr "יצירת כותרת"
 
-#: src/titler/titlewidget.cpp:798
+#: src/titler/titlewidget.cpp:820
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "לטעון תבנית חדשה? השינויים לכותר הזה יאבדו!"
 
-#: src/titler/titlewidget.cpp:907
+#: src/titler/titlewidget.cpp:929
 #, kde-format
 msgid "All Images"
 msgstr "כל התמונות"
 
-#: src/titler/titlewidget.cpp:909
+#: src/titler/titlewidget.cpp:931
 #, kde-format
 msgid "%1 Image"
 msgstr "תמונת %1"
 
-#: src/titler/titlewidget.cpp:919
+#: src/titler/titlewidget.cpp:941
 #, kde-format
 msgid "Add Image"
 msgstr "הוספת תמונה"
 
-#: src/titler/titlewidget.cpp:1757
+#: src/titler/titlewidget.cpp:1781
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1759 src/ui/titlewidget_ui.ui:340
+#: src/titler/titlewidget.cpp:1783 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1781
+#: src/titler/titlewidget.cpp:1805
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1783 src/ui/titlewidget_ui.ui:269
+#: src/titler/titlewidget.cpp:1807 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2254
+#: src/titler/titlewidget.cpp:2278
 #, kde-format
 msgid "Load Title"
 msgstr "טעינת כותר"
 
-#: src/titler/titlewidget.cpp:2255
+#: src/titler/titlewidget.cpp:2279
 #, kde-format
 msgid "Kdenlive title"
 msgstr "כותרת Kdenlive"
 
-#: src/titler/titlewidget.cpp:2301
+#: src/titler/titlewidget.cpp:2325
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -30125,13 +30127,13 @@ msgstr ""
 "להטמיע תמונות לתוך מסמך כותרת (TitleDocument) זה?\n"
 "זה נחוץ בעיקר לשיתוף כותרות."
 
-#: src/titler/titlewidget.cpp:2302
+#: src/titler/titlewidget.cpp:2326
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "הטמעת תמונות"
 
-#: src/titler/titlewidget.cpp:2357
+#: src/titler/titlewidget.cpp:2381
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -30140,44 +30142,44 @@ msgstr[1] "חסרים שני רכיבים בכותר הזה"
 msgstr[2] "חסרים %1 רכיבים בכותר הזה"
 msgstr[3] "חסרים %1 רכיבים בכותר הזה"
 
-#: src/titler/titlewidget.cpp:2358 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2382 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "פרטים"
 
-#: src/titler/titlewidget.cpp:2361
+#: src/titler/titlewidget.cpp:2385
 #, kde-format
 msgid "Delete missing elements"
 msgstr "מחיקת רכיבים חסרים"
 
-#: src/titler/titlewidget.cpp:2421
+#: src/titler/titlewidget.cpp:2445
 #, kde-format
 msgid "Update Title"
 msgstr "עדכון כותרת"
 
-#: src/titler/titlewidget.cpp:2424
+#: src/titler/titlewidget.cpp:2448
 #, kde-format
 msgid "Add as new Title"
 msgstr "הוספת ככותרת חדשה"
 
-#: src/titler/titlewidget.cpp:2478
+#: src/titler/titlewidget.cpp:2502
 #, kde-format
 msgid "The following files are missing:"
 msgstr "הקבצים הבאים חסרים:"
 
-#: src/titler/titlewidget.cpp:2672
+#: src/titler/titlewidget.cpp:2696
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "תחילת אשנב"
 
-#: src/titler/titlewidget.cpp:2673
+#: src/titler/titlewidget.cpp:2697
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "סוף אשנב"
 
-#: src/titler/titlewidget.cpp:3404
+#: src/titler/titlewidget.cpp:3428
 #, kde-format
 msgid "Gradient"
 msgstr "מדרג"
@@ -30457,9 +30459,11 @@ msgid "Position:"
 msgstr "מקום:"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:1518
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:110
+#: src/ui/titlewidget_ui.ui:1515
 #, kde-format
 msgid "Background"
 msgstr "רקע"
@@ -30741,15 +30745,15 @@ msgstr "מחיקת הנקודה הנוכחית."
 #: src/ui/textbasededit_ui.ui:273 src/ui/timeremap_ui.ui:84
 #: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
 #: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
-#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:659
-#: src/ui/titlewidget_ui.ui:672 src/ui/titlewidget_ui.ui:685
-#: src/ui/titlewidget_ui.ui:698 src/ui/titlewidget_ui.ui:711
-#: src/ui/titlewidget_ui.ui:724 src/ui/titlewidget_ui.ui:942
-#: src/ui/titlewidget_ui.ui:952 src/ui/titlewidget_ui.ui:1156
-#: src/ui/titlewidget_ui.ui:1210 src/ui/titlewidget_ui.ui:1259
-#: src/ui/titlewidget_ui.ui:1281 src/ui/titlewidget_ui.ui:1313
-#: src/ui/titlewidget_ui.ui:1402 src/ui/titlewidget_ui.ui:1720
-#: src/ui/titlewidget_ui.ui:1736 src/ui/titlewidget_ui.ui:1749
+#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:656
+#: src/ui/titlewidget_ui.ui:669 src/ui/titlewidget_ui.ui:682
+#: src/ui/titlewidget_ui.ui:695 src/ui/titlewidget_ui.ui:708
+#: src/ui/titlewidget_ui.ui:721 src/ui/titlewidget_ui.ui:939
+#: src/ui/titlewidget_ui.ui:949 src/ui/titlewidget_ui.ui:1153
+#: src/ui/titlewidget_ui.ui:1207 src/ui/titlewidget_ui.ui:1256
+#: src/ui/titlewidget_ui.ui:1278 src/ui/titlewidget_ui.ui:1310
+#: src/ui/titlewidget_ui.ui:1399 src/ui/titlewidget_ui.ui:1754
+#: src/ui/titlewidget_ui.ui:1770 src/ui/titlewidget_ui.ui:1783
 #: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
 #: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
@@ -32925,7 +32929,7 @@ msgstr "אפשרויות טקסט"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
-#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:906
+#: src/ui/exportguidesdialog_ui.ui:59 src/ui/titlewidget_ui.ui:903
 #, kde-format
 msgid "Offset:"
 msgstr "היסט:"
@@ -33832,7 +33836,7 @@ msgid "Weight:"
 msgstr "גובה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_outline)
-#: src/ui/qtextclip_ui.ui:130 src/ui/titlewidget_ui.ui:1030
+#: src/ui/qtextclip_ui.ui:130 src/ui/titlewidget_ui.ui:1027
 #, kde-format
 msgid "Outline:"
 msgstr "מתאר:"
@@ -34422,9 +34426,8 @@ msgstr "שפת הפלט"
 msgid "Input language"
 msgstr "שפת הקלט"
 
-#. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/templateclip_ui.ui:21 src/ui/titlewidget_ui.ui:149
+#: src/ui/templateclip_ui.ui:21
 #, kde-format
 msgid "Template:"
 msgstr "תבנית:"
@@ -34515,350 +34518,358 @@ msgid "V"
 msgstr "ק"
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayBg)
-#: src/ui/titlewidget_ui.ui:110
-#, kde-format
-msgid "Show background"
-msgstr "הצגת רקע"
+#: src/ui/titlewidget_ui.ui:117
+#, fuzzy, kde-format
+#| msgid "Show %1 in timeline"
+msgid "Show timeline"
+msgstr "הצגת %1 בציר הזמן"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/ui/titlewidget_ui.ui:118
+#: src/ui/titlewidget_ui.ui:135
 #, kde-format
 msgid "Checkered"
 msgstr "משובץ"
 
 #. i18n: ectx: property (text), widget (QToolButton, createButton)
-#: src/ui/titlewidget_ui.ui:176
+#: src/ui/titlewidget_ui.ui:173
 #, kde-format
 msgid "Create"
 msgstr "יצירה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_width)
-#: src/ui/titlewidget_ui.ui:302
+#: src/ui/titlewidget_ui.ui:299
 #, kde-format
 msgid "W:"
 msgstr "ר:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_zIndex)
-#: src/ui/titlewidget_ui.ui:309
+#: src/ui/titlewidget_ui.ui:306
 #, kde-format
 msgid "Z-Index:"
 msgstr "‫אינדקס בציר Z:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_height)
-#: src/ui/titlewidget_ui.ui:333
+#: src/ui/titlewidget_ui.ui:330
 #, kde-format
 msgid "H:"
 msgstr "ג:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_grid)
-#: src/ui/titlewidget_ui.ui:366
+#: src/ui/titlewidget_ui.ui:363
 #, kde-format
 msgid "Use grid"
 msgstr "להשתמש ברשת"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectImages)
-#: src/ui/titlewidget_ui.ui:386
+#: src/ui/titlewidget_ui.ui:383
 #, kde-format
 msgid "I"
 msgstr "ת"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectText)
-#: src/ui/titlewidget_ui.ui:396
+#: src/ui/titlewidget_ui.ui:393
 #, kde-format
 msgid "T"
 msgstr "ט"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hguides)
-#: src/ui/titlewidget_ui.ui:406
+#: src/ui/titlewidget_ui.ui:403
 #, kde-format
 msgid "Horizontal guides."
 msgstr "קווים מנחים אופקיים."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, vguides)
-#: src/ui/titlewidget_ui.ui:419
+#: src/ui/titlewidget_ui.ui:416
 #, kde-format
 msgid "Vertical guides."
 msgstr "קווים מנחים אנכיים."
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonUnselectAll)
-#: src/ui/titlewidget_ui.ui:445
+#: src/ui/titlewidget_ui.ui:442
 #, kde-format
 msgid "N"
 msgstr "ב"
 
 #. i18n: ectx: property (text), widget (QCheckBox, show_guides)
-#: src/ui/titlewidget_ui.ui:465
+#: src/ui/titlewidget_ui.ui:462
 #, kde-format
 msgid "Show guides:"
 msgstr "הצגת קווים מנחים:"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, buttonSelectAll)
-#: src/ui/titlewidget_ui.ui:472
+#: src/ui/titlewidget_ui.ui:469
 #, kde-format
 msgid "Selects all items on the canvas."
 msgstr "בחירת כל הפריטים בקנבס."
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectAll)
-#: src/ui/titlewidget_ui.ui:475
+#: src/ui/titlewidget_ui.ui:472
 #, kde-format
 msgid "A"
 msgstr "כ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
-#: src/ui/titlewidget_ui.ui:529
+#: src/ui/titlewidget_ui.ui:526
 #, kde-format
 msgid "Rotate"
 msgstr "סיבוב"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateZ)
-#: src/ui/titlewidget_ui.ui:587
+#: src/ui/titlewidget_ui.ui:584
 #, kde-format
 msgid "Z:"
 msgstr "Z:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_itemzoom)
-#: src/ui/titlewidget_ui.ui:622
+#: src/ui/titlewidget_ui.ui:619
 #, kde-format
 msgid "Zoom:"
 msgstr "תקריב:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemleft)
-#: src/ui/titlewidget_ui.ui:656
+#: src/ui/titlewidget_ui.ui:653
 #, kde-format
 msgid "Align item to left."
 msgstr "יישור פריט לשמאל."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemhcenter)
-#: src/ui/titlewidget_ui.ui:669
+#: src/ui/titlewidget_ui.ui:666
 #, kde-format
 msgid "Align item horizontally."
 msgstr "יישור פריט אופקית."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemright)
-#: src/ui/titlewidget_ui.ui:682
+#: src/ui/titlewidget_ui.ui:679
 #, kde-format
 msgid "Align item to right."
 msgstr "יישור פריט לימין."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemtop)
-#: src/ui/titlewidget_ui.ui:695
+#: src/ui/titlewidget_ui.ui:692
 #, kde-format
 msgid "Align item to top."
 msgstr "יישור פריט למעלה."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemvcenter)
-#: src/ui/titlewidget_ui.ui:708
+#: src/ui/titlewidget_ui.ui:705
 #, kde-format
 msgid "Align item vertically."
 msgstr "יישור פריט אנכית."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itembottom)
-#: src/ui/titlewidget_ui.ui:721
+#: src/ui/titlewidget_ui.ui:718
 #, kde-format
 msgid "Align item to bottom."
 msgstr "יישור פריט לתחתית."
 
 #. i18n: ectx: property (title), widget (QGroupBox, shadowBox)
-#: src/ui/titlewidget_ui.ui:845
+#: src/ui/titlewidget_ui.ui:842
 #, kde-format
 msgid "Sha&dow"
 msgstr "ה&צללה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_blur)
-#: src/ui/titlewidget_ui.ui:866
+#: src/ui/titlewidget_ui.ui:863
 #, kde-format
 msgid "Blur:"
 msgstr "טשטוש:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignCenter)
-#: src/ui/titlewidget_ui.ui:949
+#: src/ui/titlewidget_ui.ui:946
 #, kde-format
 msgid "Align center."
 msgstr "יישור למרכז."
 
 #. i18n: ectx: property (text), widget (QLabel, label_lineSpacing)
-#: src/ui/titlewidget_ui.ui:968
+#: src/ui/titlewidget_ui.ui:965
 #, kde-format
 msgid "Line spacing:"
 msgstr "ריווח שורות:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_color)
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_rect)
-#: src/ui/titlewidget_ui.ui:991 src/ui/titlewidget_ui.ui:1388
+#: src/ui/titlewidget_ui.ui:988 src/ui/titlewidget_ui.ui:1385
 #, kde-format
 msgid "&Gradient:"
 msgstr "מ&דרג:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
-#: src/ui/titlewidget_ui.ui:1007
+#: src/ui/titlewidget_ui.ui:1004
 #, kde-format
 msgid "Sol&id color:"
 msgstr "צבע &אחיד:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, typewriterBox)
-#: src/ui/titlewidget_ui.ui:1037
+#: src/ui/titlewidget_ui.ui:1034
 #, kde-format
 msgid "&Typewriter effect"
 msgstr "אפקט מכונת &כתיבה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_variation)
-#: src/ui/titlewidget_ui.ui:1049
+#: src/ui/titlewidget_ui.ui:1046
 #, kde-format
 msgid "Variation:"
 msgstr "הגוון:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/titlewidget_ui.ui:1056
+#: src/ui/titlewidget_ui.ui:1053
 #, kde-format
 msgid "Expansion Mode"
 msgstr "מצב הרחבה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
-#: src/ui/titlewidget_ui.ui:1068
+#: src/ui/titlewidget_ui.ui:1065
 #, kde-format
 msgid "B&y char"
 msgstr "לפי &תו"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_word)
-#: src/ui/titlewidget_ui.ui:1078
+#: src/ui/titlewidget_ui.ui:1075
 #, kde-format
 msgid "By &word"
 msgstr "לפי &מילה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_line)
-#: src/ui/titlewidget_ui.ui:1085
+#: src/ui/titlewidget_ui.ui:1082
 #, kde-format
 msgid "By &line"
 msgstr "לפי &שורה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_custom)
-#: src/ui/titlewidget_ui.ui:1092
+#: src/ui/titlewidget_ui.ui:1089
 #, kde-format
 msgid "Custo&m"
 msgstr "התאמה &אישית"
 
 #. i18n: ectx: property (text), widget (QLabel, label_frameStep)
-#: src/ui/titlewidget_ui.ui:1102
+#: src/ui/titlewidget_ui.ui:1099
 #, kde-format
 msgid "Frame step:"
 msgstr "צעד מסגרת:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_seed)
-#: src/ui/titlewidget_ui.ui:1116
+#: src/ui/titlewidget_ui.ui:1113
 #, kde-format
 msgid "Seed:"
 msgstr "ליבה:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_letterSpacing)
-#: src/ui/titlewidget_ui.ui:1223
+#: src/ui/titlewidget_ui.ui:1220
 #, kde-format
 msgid "Letter spacing:"
 msgstr "ריווח אותיות:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
-#: src/ui/titlewidget_ui.ui:1249
+#: src/ui/titlewidget_ui.ui:1246
 #, kde-format
 msgid "Align:"
 msgstr "יישור:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignRight)
-#: src/ui/titlewidget_ui.ui:1256
+#: src/ui/titlewidget_ui.ui:1253
 #, kde-format
 msgid "Align right."
 msgstr "יישור ימינה."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignLeft)
-#: src/ui/titlewidget_ui.ui:1278
+#: src/ui/titlewidget_ui.ui:1275
 #, kde-format
 msgid "Align left."
 msgstr "יישור שמאלה."
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_rect)
-#: src/ui/titlewidget_ui.ui:1354
+#: src/ui/titlewidget_ui.ui:1351
 #, kde-format
 msgid "So&lid color:"
 msgstr "צבע &אחיד:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_border)
-#: src/ui/titlewidget_ui.ui:1425
+#: src/ui/titlewidget_ui.ui:1422
 #, kde-format
 msgid "Border "
 msgstr "מסגרת "
 
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/titlewidget_ui.ui:1490
+#: src/ui/titlewidget_ui.ui:1487
 #, kde-format
 msgid "Preserve aspect ratio"
 msgstr "שימור יחס ממדים"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
-#: src/ui/titlewidget_ui.ui:1576
+#: src/ui/titlewidget_ui.ui:1573
 #, kde-format
 msgid "Animation"
 msgstr "הנפשה"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_end)
-#: src/ui/titlewidget_ui.ui:1582
+#: src/ui/titlewidget_ui.ui:1579
 #, kde-format
 msgid "Edit end viewport"
 msgstr "עריכת אשנב סוף"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_start)
-#: src/ui/titlewidget_ui.ui:1605
+#: src/ui/titlewidget_ui.ui:1602
 #, kde-format
 msgid "Edit start viewport"
 msgstr "עריכת אשנב התחלה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_aspect)
-#: src/ui/titlewidget_ui.ui:1634
+#: src/ui/titlewidget_ui.ui:1631
 #, kde-format
 msgid "Keep aspect ratio"
 msgstr "שימור יחס ממדים"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/titlewidget_ui.ui:1643
+#: src/ui/titlewidget_ui.ui:1640
 #, kde-format
 msgid "Resize"
 msgstr "‫שינוי גודל"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize50)
-#: src/ui/titlewidget_ui.ui:1650
+#: src/ui/titlewidget_ui.ui:1647
 #, no-c-format, kde-format
 msgid "50%"
 msgstr "50%"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize100)
-#: src/ui/titlewidget_ui.ui:1657
+#: src/ui/titlewidget_ui.ui:1654
 #, no-c-format, kde-format
 msgid "100%"
 msgstr "100%"
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
-#: src/ui/titlewidget_ui.ui:1664
+#: src/ui/titlewidget_ui.ui:1661
 #, no-c-format, kde-format
 msgid "200%"
 msgstr "200%"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
-#: src/ui/titlewidget_ui.ui:1690
+#. i18n: ectx: property (text), widget (QLabel, label_template)
+#: src/ui/titlewidget_ui.ui:1701
+#, fuzzy, kde-format
+#| msgid "Template:"
+msgid "Load template:"
+msgstr "תבנית:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/titlewidget_ui.ui:1723
 #, kde-format
 msgid "Patterns"
 msgstr "דפוסים"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_add)
-#: src/ui/titlewidget_ui.ui:1717
+#: src/ui/titlewidget_ui.ui:1751
 #, kde-format
 msgid "Add pattern."
 msgstr "הוספת תבנית."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
-#: src/ui/titlewidget_ui.ui:1733
+#: src/ui/titlewidget_ui.ui:1767
 #, kde-format
 msgid "Delete pattern."
 msgstr "מחיקת תבנית."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
-#: src/ui/titlewidget_ui.ui:1746
+#: src/ui/titlewidget_ui.ui:1780
 #, kde-format
 msgid "Delete all patterns."
 msgstr "מחיקת כל התבניות."
@@ -35058,6 +35069,9 @@ msgstr "%1 דק׳"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
+
+#~ msgid "Show background"
+#~ msgstr "הצגת רקע"
 
 #~ msgctxt "@info:whatsthis"
 #~ msgid ""
