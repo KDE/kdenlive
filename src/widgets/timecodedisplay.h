@@ -93,6 +93,9 @@ public:
     /** @brief Make font bold */
     void setBold(bool enable);
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
     /** timecode for widget */
     Timecode m_timecode;
@@ -102,6 +105,13 @@ private:
     int m_maximum;
     int m_value;
     int m_offset;
+    QPointF m_clickPos;
+    QPointF m_startDragPos;
+    QPoint m_clickMouse;
+    bool m_dragging{false};
+    bool m_editing{false};
+    /** @brief the position of the lineedit cursor on mouse click */
+    int m_cursorClickPos{0};
 
 public Q_SLOTS:
     /** @brief Sets the value.
