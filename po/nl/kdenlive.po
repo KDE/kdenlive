@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-27 02:36+0000\n"
-"PO-Revision-Date: 2025-04-29 11:59+0200\n"
+"PO-Revision-Date: 2025-04-30 11:34+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -6434,6 +6434,9 @@ msgid ""
 "only. Each column of the waveform corresponds to a column of pixels in the "
 "source video. "
 msgstr ""
+"Deze golfvormmonitor plot intensiteit van kleurcomponenten. Alleen standaard "
+"lichtkracht. Elke kolom van de golfvorm komt overeen met een kolom pixels in "
+"de bronvideo. "
 
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #, kde-format
@@ -6449,6 +6452,11 @@ msgid ""
 "       \tIn column mode, the top side represents color component value = 0 "
 "and bottom side represents value = 255.]]>"
 msgstr ""
+"<![CDATA[In rijmodus representeert de grafiek aan de linkerkant<br>\n"
+"       \tkleurcomponentwaarde 0 and de rechterzijde representeert waarde = "
+"255.<br>\n"
+"       \tIn kolommodus, representeert de bovenzijde kleurcomponentwaarde = 0 "
+"en de onderzijde representeert waarde = 255.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
@@ -6456,6 +6464,8 @@ msgid ""
 "<![CDATA[Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
+"<![CDATA[Kleinere waarden zijn nuttig om te vinden hoeveel waarden<br>\n"
+"       \tvan dezelfde lichtkracht zijn verdeeld over invoerrijen/kolommen]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
 #, kde-format
@@ -6464,6 +6474,10 @@ msgid ""
 "       \ton the left side for <em>row<em> mode and at the top for "
 "<em>column<em> mode.]]>"
 msgstr ""
+"<![CDATA[In  modus gespiegeld, zullen hogere waarden gerepresenteerd "
+"worden<br>\n"
+"       \taan de linkerzijde voor <em>rij<em>modus en bovenaan voor "
+"<em>kolom<em>modus.]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
 #, kde-format
@@ -6483,7 +6497,7 @@ msgstr "<![CDATA[Stel de modus van de envelop in]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
 msgid "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
-msgstr ""
+msgstr "laagdoorlaat,vlak,avlak,xvlak,yvlak,chroma,kleur,akleur"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -6502,12 +6516,12 @@ msgstr "<![CDATA[Stel de modus van filteren in]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
 msgid "none,green,orange,invert"
-msgstr ""
+msgstr "geen,groen,oranje,geïnverteerd"
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
 msgid "<![CDATA[Set which graticule to display]]>"
-msgstr ""
+msgstr "<![CDATA[Zet welk raster te tonen]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
 #, kde-format
@@ -6517,7 +6531,7 @@ msgstr "<![CDATA[Stel de dekking van de steepplaat in]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
 msgid "numbers,dots"
-msgstr ""
+msgstr "getallen,punten"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, kde-format
@@ -6527,12 +6541,12 @@ msgstr "<![CDATA[Stel de vlaggen van de streepplaat in]]>"
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
 msgid "digital,millivolts,ire"
-msgstr ""
+msgstr "digitaal,millivolts,ire"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
 msgid "<![CDATA[Set scale used for displaying graticule]]>"
-msgstr ""
+msgstr "<![CDATA[Zet te gebruiken schaal voor het tonen van een raster]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
 #, kde-format
@@ -6551,6 +6565,8 @@ msgid ""
 "<![CDATA[Only used with lowpass filter and when display<br>\n"
 "       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
+"<![CDATA[Alleen gebruikt met laagdoorlaatfilter en wanneer scherm<br>\n"
+"       \tniet in overlay is en invoerpixelformaten niet in RGB zijn]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:73
 #, kde-format
@@ -6584,6 +6600,10 @@ msgid ""
 "fields into single frame, producing a new double height clip with half the "
 "frame rate and half the frame count."
 msgstr ""
+"De golf neemt een op veld gebaseerde video-invoer en brengen elke twee "
+"sequentiële velden samen in een enkel frame, waarmee een nieuwe clip "
+"geproduceerd wordt met dubbele hoogte en met de helft van de framesnelheid "
+"en de helft van het aantal frames."
 
 #: data/effects/avfilter/avfilter_weave.xml:8
 #, kde-format
@@ -6602,11 +6622,14 @@ msgid ""
 "art. It follows a set of edge-detection rules, see https://forums.libretro."
 "com/t/xbr-algorithm-tutorial/123"
 msgstr ""
+"Het xBR hoge-kwaliteitsvermenigvuldigingsfilter toepassen dat ontworpen is "
+"voor pixelkunst. Het volgt een set van randdetectieregels, zie https:/ "
+"forums.libretro.com/t/xbr-algorithm-tutorial/123"
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
 #, kde-format
 msgid "2xBR,3xBR,4xBR"
-msgstr ""
+msgstr "2xBR,3xBR,4xBR"
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
 #, kde-format
@@ -6619,11 +6642,15 @@ msgid ""
 "Deinterlace the input video (\"yadif\" means \"yet another deinterlacing "
 "filter\")"
 msgstr ""
+"Verwijder interlace uit de invoervideo (\"yadif\" betekent \"yet another "
+"deinterlacing filter\")"
 
 #: data/effects/avfilter/avfilter_yadif.xml:8
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatil"
 msgstr ""
+"Frame verzenden,Veld verzenden,Niet-ruimtelijk frame verzenden,Niet "
+"ruimtelijk veld verzenden"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
 #, kde-format
@@ -9102,6 +9129,9 @@ msgid ""
 "<![CDATA[Kaleidoscope segmentation / 128; <br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
+"<![CDATA[Segmentatie van kaleidoscope  / 128; <br>\n"
+"        segmentaties van 1, 2 of veelvouden van 4 werken het beste. "
+"Standaard 16]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
 #, kde-format
@@ -9115,6 +9145,9 @@ msgid ""
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
+"<![CDATA[Indien geactiveerd, wordt de bronhoek <br>\n"
+"        gelezen uit het <em>bronsegment</em>, anders wordt het automatisch "
+"berekend]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
 #, kde-format
@@ -9128,6 +9161,9 @@ msgid ""
 "Segment</em> is checked. <br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Centreer het bronsegment. Alleen gebruikt als <em>Bronsegment "
+"specificeren</em> is geactiveerd. <br>\n"
+"        0 is in +x en draait linksom.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, kde-format
@@ -9156,6 +9192,9 @@ msgid ""
 "into it. <br>\n"
 "        Otherwise the specified background color is used.]]>"
 msgstr ""
+"<![CDATA[Indien geactiveerd, reflecteren reflecties die eindigen buiten de "
+"bron er terug in. <br>\n"
+"        Anders wordt de gespecificeerde achtergrondkleur gebruikt.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
 #, kde-format

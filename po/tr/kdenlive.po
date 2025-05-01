@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-27 02:36+0000\n"
-"PO-Revision-Date: 2025-03-27 00:12+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"PO-Revision-Date: 2025-04-30 17:31+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3240,57 +3240,53 @@ msgstr ""
 #: data/effects/avfilter/avfilter_elbg.xml:4
 #, kde-format
 msgid "ELBG Posterizer"
-msgstr ""
+msgstr "ELGB posterizatörü"
 
 #: data/effects/avfilter/avfilter_elbg.xml:5
 #, kde-format
 msgid "Apply posterize effect, using the ELBG algorithm"
-msgstr ""
+msgstr "ELBG algoritmasını kullanarak posterizasyon efektini uygulayın."
 
 #: data/effects/avfilter/avfilter_elbg.xml:8
 #, kde-format
 msgid "Codebook Length"
-msgstr ""
+msgstr "Kod sayfası uzunluğu"
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
-#, fuzzy, kde-format
-#| msgid "Stepsize"
+#, kde-format
 msgid "Steps"
-msgstr "Adım boyutu"
+msgstr "Adımlar"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Scale"
+#, kde-format
 msgid "EPX Scaler"
-msgstr "Rubberband Gam Ölçeği"
+msgstr "EPX ölçeklendiricisi"
 
 #: data/effects/avfilter/avfilter_epx.xml:5
 #, kde-format
 msgid "Scale the input using EPX algorithm."
-msgstr ""
+msgstr "Girdiyi, EPX algoritmasını kullanarak ölçekleyin."
 
 #: data/effects/avfilter/avfilter_epx.xml:8
 #, kde-format
 msgid "2x,3x"
-msgstr ""
+msgstr "2x,3x"
 
 #: data/effects/avfilter/avfilter_epx.xml:9
-#, fuzzy, kde-format
-#| msgid "Blur factor"
+#, kde-format
 msgid "Scale factor"
-msgstr "Bulanıklık faktörü"
+msgstr "Ölçek çarpanı"
 
 #: data/effects/avfilter/avfilter_eq.xml:4
-#, fuzzy, kde-format
-#| msgid "Video clip"
+#, kde-format
 msgid "Video Equalizer"
-msgstr "Video klibi"
+msgstr "Video dengeleyicisi"
 
 #: data/effects/avfilter/avfilter_eq.xml:5
 #, kde-format
 msgid "Adjust Brightness, contrast, gamma, saturation"
-msgstr ""
+msgstr "Parlaklığı, karşıtlığı, gamayı, doygunluğu ayarlayın."
 
 #: data/effects/avfilter/avfilter_eq.xml:17
 #: data/effects/frei0r/frei0r_levels.xml:19
@@ -3303,85 +3299,75 @@ msgid "Gamma"
 msgstr "Gama"
 
 #: data/effects/avfilter/avfilter_eq.xml:20
-#, fuzzy, kde-format
-#| msgid "Gamma"
+#, kde-format
 msgid "Red Gamma"
-msgstr "Gama"
+msgstr "Kırmızı gama"
 
 #: data/effects/avfilter/avfilter_eq.xml:23
-#, fuzzy, kde-format
-#| msgid "Green 2"
+#, kde-format
 msgid "Green Gamma"
-msgstr "Yeşil 2"
+msgstr "Yeşil gama"
 
 #: data/effects/avfilter/avfilter_eq.xml:26
-#, fuzzy, kde-format
-#| msgid "Gamma"
+#, kde-format
 msgid "Blue Gamma"
-msgstr "Gama"
+msgstr "Mavi gama"
 
 #: data/effects/avfilter/avfilter_eq.xml:29
-#, fuzzy, kde-format
-#| msgid "Gamma: Red"
+#, kde-format
 msgid "Gamma Weight"
-msgstr "Gama: Kırmızı"
+msgstr "Gama ağırlığı"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Waveform Filter"
+#, kde-format
 msgid "Audio Equalizer (avfilter)"
-msgstr "Ses Dalga Biçimi Süzgeci"
+msgstr "Ses dengeleyicisi (avfilter)"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:5
 #, kde-format
 msgid "Apply two-pole peaking equalization (EQ) filter"
-msgstr ""
+msgstr "İki kutuplu tavan dengeleme (EQ) süzgecini uygulayın."
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width Type"
-msgstr "Genişlik"
+msgstr "Genişlik türü"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
 #, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,None"
-msgstr ""
+msgstr "Hertz,Q faktörü,Oktav,Eğim,Yok"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Band Width"
-msgstr "Genişlik"
+msgstr "Bant genişliği"
 
 #: data/effects/avfilter/avfilter_erosion.xml:4
-#, fuzzy, kde-format
-#| msgid "version"
+#, kde-format
 msgid "Erosion"
-msgstr "sürüm"
+msgstr "Erozyon"
 
 #: data/effects/avfilter/avfilter_erosion.xml:5
 #, kde-format
 msgid "Apply erosion effect"
-msgstr ""
+msgstr "Erozyon efekti uygulayın."
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Exposure"
-msgstr "Dışa aktarıldı:"
+msgstr "Açıklık"
 
 #: data/effects/avfilter/avfilter_exposure.xml:5
 #, kde-format
 msgid "Adjust exposure of the video stream."
-msgstr ""
+msgstr "Video akışının açıklığını ayarlayın."
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:4
-#, fuzzy, kde-format
-#| msgid "Extract to"
+#, kde-format
 msgid "Extrastereo"
-msgstr "Çıkarma konumu"
+msgstr "Ek stereo"
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:5
 #, kde-format
