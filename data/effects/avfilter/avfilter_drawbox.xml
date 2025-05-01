@@ -31,7 +31,7 @@
         <name>Thickness (px)</name>
     	<comment><![CDATA[Sets the thickness for the line in pixels]]></comment>
     </parameter>
-    <parameter type="bool" name="av.replace " default="0" min="0" max="1">
+    <parameter type="bool" name="av.replace" default="0" min="0" max="1">
         <name>Replace color and alpha</name>
     	<comment><![CDATA[If the input has alpha, checking this<br>
     	will overwrite the video's color and alpha pixels with the pixels of the painted box.<br>
