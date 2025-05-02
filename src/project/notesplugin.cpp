@@ -150,14 +150,17 @@ void NotesPlugin::setProject(KdenliveDoc *document)
     if (m_tb->actions().isEmpty()) {
         // initialize toolbar
         m_tb->addAction(pCore->window()->action("add_project_note"));
-        QAction *a = new QAction(QIcon::fromTheme(QStringLiteral("edit-find-replace")), i18n("Reassign selected timecodes to current Bin clip"));
+        QAction *a = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Reassign selected timecodes to current Bin clip"));
         connect(a, &QAction::triggered, m_widget, &NotesWidget::assignProjectNote);
         m_tb->addAction(a);
-        a = new QAction(QIcon::fromTheme(QStringLiteral("list-add")), i18n("Create markers from selected timecodes"));
-        a->setWhatsThis(
+        m_createFromSelection = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create markers from selected timecodes"));
+        m_createFromSelection->setWhatsThis(
             xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
-        connect(a, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
-        m_tb->addAction(a);
+        connect(m_createFromSelection, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
+        m_tb->addAction(m_createFromSelection);
+        m_createFromSelection->setEnabled(false);
+        connect(m_widget, &QTextEdit::copyAvailable, m_createFromSelection, &QAction::setEnabled);
+
         m_showSearch = new QToolButton(m_widget);
         m_showSearch->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
         m_showSearch->setCheckable(true);
@@ -245,10 +248,14 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
                 updatedLink.prepend(QStringLiteral("%1#").arg(uuid));
             }
         }
+        if (updatedLink == a) {
+            // No change requested
+            continue;
+        }
         QTextCursor cur(m_widget->textCursor());
         cur.setPosition(pt.x());
         cur.setPosition(pt.y(), QTextCursor::KeepAnchor);
-        QString pos = pCore->timecode().getTimecodeFromFrames(position);
+        const QString pos = pCore->timecode().getTimecodeFromFrames(position);
         if (!binId.isEmpty()) {
             QString clipName = pCore->bin()->getBinClipName(binId);
             cur.insertHtml(QStringLiteral("<a href=\"%1\">%2:%3</a> ").arg(updatedLink, clipName, pos));

@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QTextDocumentFragment>
 #include <QToolTip>
 #include <QUuid>
 
@@ -243,8 +244,8 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
     const QStringList sentences = source->text().split(QLatin1Char('\n'));
     for (auto &s : sentences) {
         QString pastedText = s;
-        QStringList words = s.split(QLatin1Char(' '));
-        for (const QString &w : std::as_const(words)) {
+        const QStringList words = s.split(QLatin1Char(' '));
+        for (const QString &w : words) {
             if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
                 // This is probably a timecode
                 int frames = pCore->timecode().getFrameCount(w);
@@ -270,7 +271,36 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
 
 bool NotesWidget::event(QEvent *event)
 {
-    if (event->type() == QEvent::ToolTip) {
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = dynamic_cast<QKeyEvent *>(event);
+        const auto key = keyEvent->key();
+        if (key == Qt::Key_Return || key == Qt::Key_Enter) {
+            // Check if current line contains a timecode
+            QTextCursor cur = textCursor();
+            if (!cur.hasSelection()) {
+                cur.select(QTextCursor::LineUnderCursor);
+                QTextDocumentFragment selectedText = cur.selection();
+                QString pastedText = selectedText.toPlainText();
+                const QStringList words = pastedText.split(QLatin1Char(' '));
+                bool enforceHtml = false;
+                for (const QString &w : words) {
+                    if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1 && w.count(QLatin1Char('>')) == 0) {
+                        // This is probably a timecode
+                        int frames = pCore->timecode().getFrameCount(w);
+                        if (frames > 0) {
+                            pastedText.replace(w, QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + w + QStringLiteral("</a> "));
+                            enforceHtml = true;
+                        }
+                    }
+                }
+                if (enforceHtml) {
+                    // Replace line
+                    cur.removeSelectedText();
+                    cur.insertHtml(pastedText);
+                }
+            }
+        }
+    } else if (event->type() == QEvent::ToolTip) {
         QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
         const QString anchor = anchorAt(helpEvent->pos());
         if (!anchor.isEmpty()) {

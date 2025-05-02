@@ -57,4 +57,5 @@ private:
     QToolButton *m_button_prev;
     QToolButton *m_showSearch;
     QAction *m_findAction;
+    QAction *m_createFromSelection;
 };
