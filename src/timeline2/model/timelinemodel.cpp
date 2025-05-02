@@ -2668,8 +2668,12 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             if (itemGroups.contains(gid)) {
                 ids = itemGroups.value(gid);
                 ids.insert(id);
-            } else {
+            } else if (gid > -1) {
                 groupInitialItems.insert(gid, m_groups->getLeaves(gid));
+                ids = {id};
+            } else {
+                // This is a single clip not in a group
+                gid = id;
                 ids = {id};
             }
             itemGroups.insert(gid, ids);
@@ -2683,11 +2687,18 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         int grp = m_groups->groupItems(m_currentSelection, undo, redo);
         res = requestGroupMove(itemId, grp, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
 
+        // Move items back in their respective groups
         QMapIterator<int, std::unordered_set<int>> g(itemGroups);
         while (g.hasNext()) {
             g.next();
             if (!isGroup(g.key())) {
-                m_groups->groupItems(groupInitialItems.value(g.key()), undo, redo);
+                if (groupInitialItems.contains(g.key())) {
+                    m_groups->groupItems(groupInitialItems.value(g.key()), undo, redo);
+                } else if (g.value().size() > 1 || *g.value().begin() != g.key()) {
+                    m_groups->groupItems({g.value()}, undo, redo);
+                } else {
+                    m_groups->removeFromGroup(g.key());
+                }
             } else {
                 int sibling = *(m_groups->getLeaves(g.key()).begin());
                 for (auto &id : g.value()) {
