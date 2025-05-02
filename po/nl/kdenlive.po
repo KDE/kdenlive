@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-27 02:36+0000\n"
-"PO-Revision-Date: 2025-04-30 11:34+0200\n"
+"PO-Revision-Date: 2025-05-01 10:23+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -9207,6 +9207,9 @@ msgid ""
 "<![CDATA[Edge threshold / 4, reflections <br>\n"
 "        outside the image but within this distance clamp to the edge.]]>"
 msgstr ""
+"<![CDATA[Randdrempel / 4, reflecties <br>\n"
+"        buiten de afbeelding maar binnen deze afstand vastklemmen aan de "
+"rand.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
 #, kde-format
@@ -9216,7 +9219,7 @@ msgstr "Rechtsboven,Linksboven,Linksonder,Rechtsonder"
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
 #, kde-format
 msgid "Preferred corner"
-msgstr ""
+msgstr "Hoek met voorkeur"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
 #, kde-format
@@ -9224,6 +9227,8 @@ msgid ""
 "<![CDATA[If <em>Reflect Edges</em> is not checked, <br>\n"
 "        this parameter defines the preferred corner.]]>"
 msgstr ""
+"<![CDATA[Indien <em>Randen reflecteren</em> niet is geactiveerd, <br>\n"
+"        definieert deze parameter de hoek met voorkeur.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
 #, kde-format
@@ -9236,6 +9241,8 @@ msgid ""
 "<![CDATA[If checked, search clockwise for furthest corner.<br>\n"
 "        Otherwise search counter clockwise.]]>"
 msgstr ""
+"<![CDATA[Indien geactiveerd, zoek rechtsom naar verste hoek.<br>\n"
+"        Zoek anders linksom.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
 #, kde-format
@@ -9248,6 +9255,8 @@ msgid ""
 "<![CDATA[Color to use if reflection lies <br>outside of the source image and "
 "not reflecting back in.]]>"
 msgstr ""
+"<![CDATA[Te gebruiken kleur indien reflectie <br>buiten de bronafbeelding "
+"ligt en niet terug in reflecteert.]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
 #, kde-format
@@ -9261,6 +9270,9 @@ msgid ""
 "        if reflection lies outside of the source image and not reflecting "
 "back in.]]>"
 msgstr ""
+"<![CDATA[Indien geactiveerd zal alfa gebruikt worden <br>\n"
+"        indien reflectie buiten de bronafbeelding ligt en niet terug in "
+"reflecteert.]]>"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
@@ -9850,6 +9862,7 @@ msgstr "Agressiviteit van rij/kolom-verschuiving"
 #, kde-format
 msgid "Height of each block whose shift is invariant (0 = random)"
 msgstr ""
+"Hoogte van elk blok waarvan de verschuiving niet wijzigt (0 = willekeurig)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
 #, kde-format
@@ -9862,6 +9875,8 @@ msgid ""
 "<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
 "minimum block height.]]>"
 msgstr ""
+"<![CDATA[If <em>Blokhoogte</em> is 0 (willekeurig), <br>dit bepaalt de "
+"minimale blokhoogte.]]>"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
 #, kde-format
@@ -9874,6 +9889,8 @@ msgid ""
 "<![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the "
 "maximum block height.]]>"
 msgstr ""
+"<![CDATA[If <em>Blokhoogte</em> is 0 (willekeurig), <br>dit bepaalt de "
+"maximale blokhoogte.]]>"
 
 #: data/effects/frei0r/frei0r_posterize.xml:4
 #, kde-format
@@ -9966,7 +9983,7 @@ msgstr "R,G,B,Y',Pr,Pb,Alfa"
 #: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
 msgid "<![CDATA[Channel to numerically display]]>"
-msgstr ""
+msgstr "<![CDATA[Kanaal naar numeriek scherm]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
 #, kde-format
@@ -10006,7 +10023,7 @@ msgstr "G trace"
 #: data/effects/frei0r/frei0r_pr0file.xml:42
 #, kde-format
 msgid "<![CDATA[Show G trace (green) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[G-trace (groen) op scope tonen]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:45
 #, kde-format
@@ -10016,7 +10033,7 @@ msgstr "B trace"
 #: data/effects/frei0r/frei0r_pr0file.xml:46
 #, kde-format
 msgid "<![CDATA[Show B trace (blue) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[B-trace (blauw) op scope tonen]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:49
 #, kde-format
@@ -10026,7 +10043,7 @@ msgstr "Y trace"
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
 msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Y-trace (luma) op scope tonen]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:53
 #, kde-format
@@ -10036,7 +10053,7 @@ msgstr "Pr trace"
 #: data/effects/frei0r/frei0r_pr0file.xml:54
 #, kde-format
 msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Pr-trace (rood-verschil) op scope tonen]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:57
 #, kde-format
@@ -10046,7 +10063,7 @@ msgstr "Pb trace"
 #: data/effects/frei0r/frei0r_pr0file.xml:58
 #, kde-format
 msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Pb-trace (blauw_verschil) op scope tonen]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:61
 #, kde-format
@@ -10056,7 +10073,7 @@ msgstr "Alfa-trace"
 #: data/effects/frei0r/frei0r_pr0file.xml:62
 #, kde-format
 msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Alfa-trace op scope tonen]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:65
 #, kde-format
@@ -10086,7 +10103,7 @@ msgstr "Minimum weergeven"
 #: data/effects/frei0r/frei0r_pr0file.xml:74
 #, kde-format
 msgid "<![CDATA[Show minimum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Minimum op scope tonen]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:77
 #, kde-format
@@ -10096,12 +10113,12 @@ msgstr "Maximum tonen"
 #: data/effects/frei0r/frei0r_pr0file.xml:78
 #, kde-format
 msgid "<![CDATA[Show maximum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[Maximum op scope tonen]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:82
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
+msgstr "<![CDATA[Een schaal van 0-255 gebruiken in plaats van 0,0-1,0]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:85
 #, kde-format
@@ -10116,7 +10133,7 @@ msgstr "Kleur-codering"
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[Selecteer tussen interlaced (601) of progressief (709)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:90
 #, kde-format
@@ -10126,7 +10143,7 @@ msgstr "Kleur kruisdraden"
 #: data/effects/frei0r/frei0r_pr0file.xml:91
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr ""
+msgstr "<![CDATA[Kies een kleur voor de kruisdraad/profiellijn]]>"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
@@ -10158,7 +10175,7 @@ msgstr "Kanaal-extractie ROOD"
 #: data/effects/frei0r/frei0r_R.xml:5
 #, kde-format
 msgid "Extracts Red from Image"
-msgstr ""
+msgstr "Extraheert rood uit afbeelding"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:5
 #, kde-format
@@ -10463,7 +10480,7 @@ msgstr "Scherpte van geaccentueerde gebieden."
 #: data/effects/frei0r/frei0r_softglow.xml:21
 #, kde-format
 msgid "Screen,Overlay,Add"
-msgstr ""
+msgstr "Scherm,Overlay,Toevoegen"
 
 #: data/effects/frei0r/frei0r_softglow.xml:22
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:27
@@ -11682,7 +11699,7 @@ msgstr "Ruisonderdrukker voor stemmen"
 #: data/effects/ladspa/ladspa_librnnoise.xml:5
 #, kde-format
 msgid "Microphone background noise removal filter"
-msgstr ""
+msgstr "Filter voor verwijderen van achtergrondruis van microfoon"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:8
 #, no-c-format, kde-format
@@ -11697,7 +11714,7 @@ msgstr "VAD-respijtperiode (ms)"
 #: data/effects/ladspa/ladspa_librnnoise.xml:14
 #, kde-format
 msgid "Retroactive VAD Grace Period (ms)"
-msgstr ""
+msgstr "Retroactieve VAD-respijtperiode (ms)"
 
 #: data/effects/ladspa/ladspa_limiter.xml:4
 #, kde-format
@@ -14018,6 +14035,8 @@ msgid ""
 "Perform a conversion to color only of the source input1 using the hue and "
 "saturation values of input2."
 msgstr ""
+"Doe een conversie naar kleur alleen van de broninvoer 1 met de tint en "
+"verzadigingswaarden van invoer2"
 
 #: data/transitions/frei0r/frei0r_darken.xml:4
 #, kde-format
@@ -14030,6 +14049,8 @@ msgid ""
 "Perform a darken operation between two sources (minimum value of both "
 "sources)."
 msgstr ""
+"Voer een donkerder maken bewerking uit tussen twee bronnen (minimum waarde "
+"voor beide bronnen)."
 
 #: data/transitions/frei0r/frei0r_difference.xml:4
 #, kde-format
@@ -14039,7 +14060,7 @@ msgstr "Verschil"
 #: data/transitions/frei0r/frei0r_difference.xml:5
 #, kde-format
 msgid "Perform an RGB[A] difference operation between the pixel sources."
-msgstr ""
+msgstr "Voer een RGB[A] verschilbewerking uit op de pixelbronnen."
 
 #: data/transitions/frei0r/frei0r_divide.xml:4
 #, kde-format
@@ -14074,6 +14095,7 @@ msgstr "Grain Extract"
 #, kde-format
 msgid "Perform an RGB[A] grain-extract operation between the pixel sources."
 msgstr ""
+"Voer een RGB[A] bewerking met korrel-extraheren uit tussen de pixelbronnen."
 
 #: data/transitions/frei0r/frei0r_grain_merge.xml:4
 #, kde-format
@@ -14084,6 +14106,7 @@ msgstr "Grain Merge"
 #, kde-format
 msgid "Perform an RGB[A] grain-merge operation between the pixel sources."
 msgstr ""
+"Voer een RGB[A] bewerking met korrel-mengen uit tussen de pixelbronnen."
 
 #: data/transitions/frei0r/frei0r_hardlight.xml:4
 #, kde-format
