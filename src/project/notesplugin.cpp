@@ -162,6 +162,7 @@ void NotesPlugin::setProject(KdenliveDoc *document)
         m_showSearch->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
         m_showSearch->setCheckable(true);
         m_showSearch->setAutoRaise(true);
+        m_showSearch->setToolTip(i18n("Search…"));
         m_tb->addWidget(m_showSearch);
         connect(m_showSearch, &QToolButton::toggled, this, [this](bool checked) {
             m_searchFrame->setVisible(checked);
