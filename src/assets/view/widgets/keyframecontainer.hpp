@@ -29,13 +29,13 @@ class GeometryWidget;
 class QStackedWidget;
 class QTabWidget;
 
-class KeyframeWidget : public AbstractParamWidget
+class KeyframeContainer : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout);
-    ~KeyframeWidget() override;
+    explicit KeyframeContainer(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout);
+    ~KeyframeContainer() override;
 
     /** @brief Add a new parameter to be managed using the same keyframe viewer. Also handles creation of KeyframeCurveEditor objects */
     void addParameter(const QPersistentModelIndex &index);
@@ -51,12 +51,13 @@ public:
     bool keyframesVisible() const;
     void resetKeyframes();
     int getCurrentView();
+    int minimumHeight() const;
 
 public Q_SLOTS:
-    void slotRefresh() override;
+    void slotRefresh();
     /** @brief initialize qml overlay
      */
-    void slotInitMonitor(bool active, bool) override;
+    void slotInitMonitor(bool active, bool);
     /** @brief Activate a standard action passed from the mainwindow, like copy or paste */
     void sendStandardCommand(int command);
     void slotAddRemove(bool addOnly);
@@ -96,6 +97,9 @@ private Q_SLOTS:
     void disconnectEffectStack();
 
 private:
+    std::shared_ptr<AssetParameterModel> m_model;
+    QModelIndex m_index;
+    QWidget *m_parent;
     QToolBar *m_toolbar;
     QToolButton *m_viewswitch;
     std::shared_ptr<KeyframeModelList> m_keyframes;
@@ -127,7 +131,8 @@ private:
     int m_addedHeight;
     QFormLayout *m_layout;
     std::unique_ptr<GeometryWidget> m_geom;
-    int m_curveContainerHeight = 0;
+    int m_curveContainerHeight{0};
+    int m_fixedHeight{0};
 
 Q_SIGNALS:
     void addIndex(QPersistentModelIndex ix);
@@ -138,4 +143,7 @@ Q_SIGNALS:
     void addRemove(bool addOnly = false);
     void onCurveEditorView();
     void onKeyframeView();
+    void seekToPos(int);
+    void activateEffect();
+    void updateHeight();
 };
