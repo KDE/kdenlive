@@ -9,7 +9,7 @@
 #include "assets/model/assetcommand.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/abstractparamwidget.hpp"
-#include "assets/view/widgets/keyframewidget.hpp"
+#include "assets/view/widgets/keyframecontainer.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
 
@@ -91,24 +91,37 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 m_mainKeyframeWidget->addParameter(index);
             }
         } else {
-            auto *w = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
-            connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
-            connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
-            connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
-            connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
-            connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
-            connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
-                setFixedHeight(contentHeight());
-                Q_EMIT updateHeight();
-            });
-            if (AssetParameterModel::isAnimated(type)) {
-                m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+            auto paramWidgets = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
+            AbstractParamWidget *w = paramWidgets.first;
+            if (w) {
+                connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
+                connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+                connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
+                connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
+                connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
+                connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
+                    setFixedHeight(contentHeight());
+                    Q_EMIT updateHeight();
+                });
+            }
+            if (paramWidgets.second) {
+                m_mainKeyframeWidget = paramWidgets.second;
                 keyframeRow = i;
-                connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
-                connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
-                connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
-                connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
-                minHeight += w->minimumHeight();
+                connect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &KeyframeContainer::slotInitMonitor);
+                // connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
+                // connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
+                connect(m_mainKeyframeWidget, &KeyframeContainer::seekToPos, this, &AssetParameterView::seekToPos);
+                connect(m_mainKeyframeWidget, &KeyframeContainer::activateEffect, this, &AssetParameterView::activateEffect);
+                connect(m_mainKeyframeWidget, &KeyframeContainer::updateHeight, this, [&]() {
+                    setFixedHeight(contentHeight());
+                    Q_EMIT updateHeight();
+                });
+
+                connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToNext);
+                connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToPrevious);
+                connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeContainer::addRemove);
+                connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeContainer::sendStandardCommand);
+                minHeight += m_mainKeyframeWidget->minimumHeight();
             } else if (type != ParamType::Hidden) {
                 if (keyframeRow == -1) {
                     m_lay->addRow(w->createLabel(), w);
@@ -124,7 +137,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     if (m_mainKeyframeWidget) {
         // Add keyframe widget to the bottom to have a clear seperation
         // between animated an non-animated params
-        minHeight += m_mainKeyframeWidget->minimumHeight();
+        // minHeight += m_mainKeyframeWidget->minimumHeight();
     }
     setMinimumHeight(minHeight);
     if (addSpacer) {
@@ -209,11 +222,14 @@ void AssetParameterView::commitMultipleChanges(const QList<QModelIndex> &indexes
 void AssetParameterView::disconnectKeyframeWidget()
 {
     if (m_mainKeyframeWidget) {
-        disconnect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &AbstractParamWidget::slotInitMonitor);
-        disconnect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
-        disconnect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
-        disconnect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
-        disconnect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
+        disconnect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &KeyframeContainer::slotInitMonitor);
+        disconnect(m_mainKeyframeWidget, &KeyframeContainer::seekToPos, this, &AssetParameterView::seekToPos);
+        disconnect(m_mainKeyframeWidget, &KeyframeContainer::activateEffect, this, &AssetParameterView::activateEffect);
+
+        disconnect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToNext);
+        disconnect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToPrevious);
+        disconnect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeContainer::addRemove);
+        disconnect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeContainer::sendStandardCommand);
     }
 }
 
@@ -252,7 +268,11 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     if (type == ParamType::ColorWheel) {
         // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets.
         // Should be better managed
-        m_widgets[0]->slotRefresh();
+        if (m_widgets.at(0)) {
+            m_widgets.at(0)->slotRefresh();
+        } else if (m_mainKeyframeWidget) {
+            m_mainKeyframeWidget->slotRefresh();
+        }
         return;
     }
     size_t max = m_widgets.size() - 1;
@@ -261,7 +281,11 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     }
     Q_ASSERT(max < m_widgets.size());
     for (auto i = size_t(topLeft.row()); i <= max; ++i) {
-        m_widgets.at(i)->slotRefresh();
+        if (m_widgets.at(i)) {
+            m_widgets.at(i)->slotRefresh();
+        } else if (m_mainKeyframeWidget) {
+            m_mainKeyframeWidget->slotRefresh();
+        }
     }
 }
 

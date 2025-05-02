@@ -4,7 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#include "keyframewidget.hpp"
+#include "keyframecontainer.hpp"
 #include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
@@ -49,8 +49,11 @@
 #include <QVBoxLayout>
 #include <utility>
 
-KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout)
-    : AbstractParamWidget(std::move(model), index, parent)
+KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout)
+    : QObject(parent)
+    , m_model(model)
+    , m_index(index)
+    , m_parent(parent)
     , m_monitorHelper(nullptr)
     , m_neededScene(MonitorSceneType::MonitorSceneDefault)
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
@@ -58,9 +61,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     , m_addedHeight(0)
     , m_layout(layout)
 {
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    m_editorviewcontainer = new QStackedWidget(this);
-    m_curveeditorcontainer = new QTabWidget(this);
+    m_editorviewcontainer = new QStackedWidget(parent);
+    m_curveeditorcontainer = new QTabWidget(parent);
     m_curveeditorcontainer->setTabBarAutoHide(true);
     m_isRelative = m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool();
 
@@ -69,8 +71,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     Q_ASSERT(ok);
     m_model->prepareKeyframes();
     m_keyframes = m_model->getKeyframeModel();
-    m_keyframeview = new KeyframeView(m_keyframes, duration, m_isRelative, this);
-    m_toggleViewAction = new KDualAction(this);
+    m_keyframeview = new KeyframeView(m_keyframes, duration, m_isRelative, parent);
+    m_toggleViewAction = new KDualAction(parent);
     m_toggleViewAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("measure")));
     m_toggleViewAction->setActiveText(i18n("Switch to timeline view"));
     m_toggleViewAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("tool_curve")));
@@ -78,74 +80,74 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toggleViewAction->setEnabled(false);
     // use these two icons for now
 
-    connect(m_toggleViewAction, &KDualAction::triggered, this, &KeyframeWidget::slotToggleView);
+    connect(m_toggleViewAction, &KDualAction::triggered, this, &KeyframeContainer::slotToggleView);
 
-    m_viewswitch = new QToolButton(this);
+    m_viewswitch = new QToolButton(parent);
     m_viewswitch->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    int size = QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
     m_viewswitch->setIconSize(QSize(size, size));
     m_viewswitch->setDefaultAction(m_toggleViewAction);
 
-    m_addDeleteAction = new KDualAction(this);
+    m_addDeleteAction = new KDualAction(parent);
     m_addDeleteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
     m_addDeleteAction->setActiveText(i18n("Add keyframe"));
     m_addDeleteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-remove")));
     m_addDeleteAction->setInactiveText(i18n("Delete keyframe"));
 
-    connect(m_addDeleteAction, &KDualAction::triggered, this, &KeyframeWidget::slotAddRemove);
-    connect(this, &KeyframeWidget::addRemove, this, &KeyframeWidget::slotAddRemove);
+    connect(m_addDeleteAction, &KDualAction::triggered, this, &KeyframeContainer::slotAddRemove);
+    connect(this, &KeyframeContainer::addRemove, this, &KeyframeContainer::slotAddRemove);
 
-    m_previousKFAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-previous")), i18n("Go to previous keyframe"), this);
-    connect(m_previousKFAction, &QAction::triggered, this, &KeyframeWidget::slotGoToPrev);
-    connect(this, &KeyframeWidget::goToPrevious, this, &KeyframeWidget::slotGoToPrev);
+    m_previousKFAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-previous")), i18n("Go to previous keyframe"), parent);
+    connect(m_previousKFAction, &QAction::triggered, this, &KeyframeContainer::slotGoToPrev);
+    connect(this, &KeyframeContainer::goToPrevious, this, &KeyframeContainer::slotGoToPrev);
 
-    m_nextKFAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-next")), i18n("Go to next keyframe"), this);
-    connect(m_nextKFAction, &QAction::triggered, this, &KeyframeWidget::slotGoToNext);
-    connect(this, &KeyframeWidget::goToNext, this, &KeyframeWidget::slotGoToNext);
+    m_nextKFAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-next")), i18n("Go to next keyframe"), parent);
+    connect(m_nextKFAction, &QAction::triggered, this, &KeyframeContainer::slotGoToNext);
+    connect(this, &KeyframeContainer::goToNext, this, &KeyframeContainer::slotGoToNext);
 
     // Move keyframe to cursor
-    m_centerAction = new QAction(QIcon::fromTheme(QStringLiteral("align-horizontal-center")), i18n("Move selected keyframe to cursor"), this);
+    m_centerAction = new QAction(QIcon::fromTheme(QStringLiteral("align-horizontal-center")), i18n("Move selected keyframe to cursor"), parent);
 
     // Apply current value to selected keyframes
-    m_copyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy keyframes"), this);
-    connect(m_copyAction, &QAction::triggered, this, &KeyframeWidget::slotCopySelectedKeyframes);
+    m_copyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy keyframes"), parent);
+    connect(m_copyAction, &QAction::triggered, this, &KeyframeContainer::slotCopySelectedKeyframes);
     m_copyAction->setToolTip(i18n("Copy keyframes"));
     m_copyAction->setWhatsThis(
         xi18nc("@info:whatsthis", "Copy keyframes. Copy the selected keyframes, or current parameters values if no keyframe is selected."));
 
-    m_pasteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Paste keyframe"), this);
-    connect(m_pasteAction, &QAction::triggered, this, &KeyframeWidget::slotPasteKeyframeFromClipBoard);
+    m_pasteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Paste keyframe"), parent);
+    connect(m_pasteAction, &QAction::triggered, this, &KeyframeContainer::slotPasteKeyframeFromClipBoard);
     m_pasteAction->setToolTip(i18n("Paste keyframes"));
     m_pasteAction->setWhatsThis(xi18nc("@info:whatsthis", "Paste keyframes. Paste clipboard data as keyframes at current position."));
 
-    m_applyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Apply current position value to selected keyframes"), this);
+    m_applyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Apply current position value to selected keyframes"), parent);
 
     // Keyframe type widget
-    m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), this);
+    m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), parent);
     QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles;
     const auto cmap = KeyframeModel::getKeyframeTypes();
     for (auto it = cmap.cbegin(); it != cmap.cend(); it++) { // Order is fixed due to the nature of <map>
-        QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), this);
+        QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), parent);
         tmp->setData(int(it.key()));
         tmp->setCheckable(true);
         kfTypeHandles.insert(it.key(), tmp);
         m_selectType->addAction(kfTypeHandles[it.key()]);
     }
     m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
-    connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeWidget::slotEditKeyframeType);
+    connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeContainer::slotEditKeyframeType);
     m_selectType->setToolBarMode(KSelectAction::MenuMode);
     m_selectType->setToolTip(i18n("Keyframe interpolation"));
     m_selectType->setWhatsThis(xi18nc("@info:whatsthis", "Keyframe interpolation. This defines which interpolation will be used for the current keyframe."));
 
-    m_toolbar = new QToolBar(this);
+    m_toolbar = new QToolBar(parent);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_toolbar->setIconSize(QSize(size, size));
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::DirectConnection);
-    connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeWidget::disconnectEffectStack);
+    connect(monitor, &Monitor::seekPosition, this, &KeyframeContainer::monitorSeek, Qt::DirectConnection);
+    connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeContainer::disconnectEffectStack);
 
-    m_time = new TimecodeDisplay(this);
+    m_time = new TimecodeDisplay(parent);
     m_time->setRange(0, duration - 1);
 
     m_toolbar->addAction(m_previousKFAction);
@@ -156,38 +158,38 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->addAction(m_pasteAction);
     m_toolbar->addAction(m_selectType);
 
-    QAction *seekKeyframe = new QAction(i18n("Seek to Keyframe on Select"), this);
+    QAction *seekKeyframe = new QAction(i18n("Seek to Keyframe on Select"), parent);
     seekKeyframe->setCheckable(true);
     seekKeyframe->setChecked(KdenliveSettings::keyframeseek());
     connect(seekKeyframe, &QAction::triggered, [&](bool selected) { KdenliveSettings::setKeyframeseek(selected); });
     // copy/paste keyframes from clipboard
-    QAction *copy = new QAction(i18n("Copy All Keyframes to Clipboard"), this);
-    connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
-    QAction *paste = new QAction(i18n("Import Keyframes from Clipboard…"), this);
-    connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
+    QAction *copy = new QAction(i18n("Copy All Keyframes to Clipboard"), parent);
+    connect(copy, &QAction::triggered, this, &KeyframeContainer::slotCopyKeyframes);
+    QAction *paste = new QAction(i18n("Import Keyframes from Clipboard…"), parent);
+    connect(paste, &QAction::triggered, this, &KeyframeContainer::slotImportKeyframes);
     if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel) {
         // TODO color wheel doesn't support keyframe import/export yet
         copy->setVisible(false);
         paste->setVisible(false);
     }
     // Remove keyframes
-    QAction *removeNext = new QAction(i18n("Remove all Keyframes After Cursor"), this);
-    connect(removeNext, &QAction::triggered, this, &KeyframeWidget::slotRemoveNextKeyframes);
+    QAction *removeNext = new QAction(i18n("Remove all Keyframes After Cursor"), parent);
+    connect(removeNext, &QAction::triggered, this, &KeyframeContainer::slotRemoveNextKeyframes);
 
     // Default kf interpolation
-    KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), this);
+    KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), parent);
     QAction *discrete2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Discrete)),
-                                     KeyframeModel::getKeyframeTypes().value(KeyframeType::Discrete), this);
+                                     KeyframeModel::getKeyframeTypes().value(KeyframeType::Discrete), parent);
     discrete2->setData(int(KeyframeType::Discrete));
     discrete2->setCheckable(true);
     kfType->addAction(discrete2);
     QAction *linear2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Linear)),
-                                   KeyframeModel::getKeyframeTypes().value(KeyframeType::Linear), this);
+                                   KeyframeModel::getKeyframeTypes().value(KeyframeType::Linear), parent);
     linear2->setData(int(KeyframeType::Linear));
     linear2->setCheckable(true);
     kfType->addAction(linear2);
     QAction *curve2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::CurveSmooth)),
-                                  KeyframeModel::getKeyframeTypes().value(KeyframeType::CurveSmooth), this);
+                                  KeyframeModel::getKeyframeTypes().value(KeyframeType::CurveSmooth), parent);
     curve2->setData(int(KeyframeType::CurveSmooth));
     curve2->setCheckable(true);
     kfType->addAction(curve2);
@@ -214,7 +216,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     }
 
     // Auto keyframe limit
-    QAction *autoLimit = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")), i18n("Limit automatic keyframes"), this);
+    QAction *autoLimit = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")), i18n("Limit automatic keyframes"), parent);
     autoLimit->setCheckable(true);
     autoLimit->setChecked(KdenliveSettings::limitAutoKeyframes() > 0);
     connect(autoLimit, &QAction::toggled, this, [this](bool toggled) {
@@ -226,7 +228,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     });
 
     // Menu toolbutton
-    auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
+    auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), parent);
     menuAction->setWhatsThis(
         xi18nc("@info:whatsthis", "Opens a list of further actions for managing keyframes (for example: copy to and pasting keyframes from clipboard)."));
     menuAction->setPopupMode(QToolButton::InstantPopup);
@@ -254,14 +256,14 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_layout->addRow(hlay);
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
-    connect(m_keyframeview, &KeyframeView::seekToPos, this, &KeyframeWidget::slotSeekToPos);
-    connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
-    connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
-    connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeWidget::activateEffect);
-    connect(m_keyframeview, &KeyframeView::goToNext, this, &KeyframeWidget::slotGoToNext);
-    connect(m_keyframeview, &KeyframeView::goToPrevious, this, &KeyframeWidget::slotGoToPrev);
-    connect(this, &KeyframeWidget::onKeyframeView, m_keyframeview, &KeyframeView::slotOnFocus);
-    connect(this, &KeyframeWidget::onCurveEditorView, m_keyframeview, &KeyframeView::slotLoseFocus);
+    connect(m_keyframeview, &KeyframeView::seekToPos, this, &KeyframeContainer::slotSeekToPos);
+    connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeContainer::slotAtKeyframe);
+    connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeContainer::slotRefreshParams);
+    connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeContainer::activateEffect);
+    connect(m_keyframeview, &KeyframeView::goToNext, this, &KeyframeContainer::slotGoToNext);
+    connect(m_keyframeview, &KeyframeView::goToPrevious, this, &KeyframeContainer::slotGoToPrev);
+    connect(this, &KeyframeContainer::onKeyframeView, m_keyframeview, &KeyframeView::slotOnFocus);
+    connect(this, &KeyframeContainer::onCurveEditorView, m_keyframeview, &KeyframeView::slotLoseFocus);
 
     connect(m_centerAction, &QAction::triggered, m_keyframeview, &KeyframeView::slotCenterKeyframe);
     connect(m_applyAction, &QAction::triggered, this, [this]() {
@@ -291,7 +293,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
             return;
         }
         // More than one param
-        QDialog d(this);
+        QDialog d(m_parent);
         QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
         auto *l = new QVBoxLayout;
         d.setLayout(l);
@@ -299,7 +301,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         QMultiMapIterator<QPersistentModelIndex, QString> i(paramList);
         while (i.hasNext()) {
             i.next();
-            auto *cb = new QCheckBox(i.value(), this);
+            auto *cb = new QCheckBox(i.value(), m_parent);
             cb->setProperty("index", i.key());
             l->addWidget(cb);
         }
@@ -368,22 +370,22 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     QMargins mrg = m_layout->contentsMargins();
     m_editorviewcontainer->setFixedHeight(m_editorviewcontainer->currentWidget()->height());
-    // m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
+    m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
     m_addedHeight = mrg.top() + mrg.bottom();
     addParameter(index);
-    setFixedHeight(m_baseHeight + m_addedHeight);
+    m_fixedHeight = m_baseHeight + m_addedHeight;
     Q_EMIT updateHeight();
 }
 
-KeyframeWidget::~KeyframeWidget() {}
+KeyframeContainer::~KeyframeContainer() {}
 
-void KeyframeWidget::disconnectEffectStack()
+void KeyframeContainer::disconnectEffectStack()
 {
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    disconnect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek);
+    disconnect(monitor, &Monitor::seekPosition, this, &KeyframeContainer::monitorSeek);
 }
 
-void KeyframeWidget::monitorSeek(int pos)
+void KeyframeContainer::monitorSeek(int pos)
 {
     int in = 0;
     int out = 0;
@@ -407,7 +409,7 @@ void KeyframeWidget::monitorSeek(int pos)
     }
 }
 
-void KeyframeWidget::slotEditKeyframeType(QAction *action)
+void KeyframeContainer::slotEditKeyframeType(QAction *action)
 {
     int type = action->data().toInt();
     m_keyframeview->slotEditType(type, m_index);
@@ -415,7 +417,7 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
     Q_EMIT activateEffect();
 }
 
-void KeyframeWidget::slotRefreshParams()
+void KeyframeContainer::slotRefreshParams()
 {
     int pos = getPosition();
     KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
@@ -455,11 +457,11 @@ void KeyframeWidget::slotRefreshParams()
             (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
-    if (m_monitorHelper && m_model->isActive() && isEnabled()) {
+    if (m_monitorHelper && m_model->isActive() && m_curveeditorcontainer->isEnabled()) {
         m_monitorHelper->refreshParams(pos);
     }
 }
-void KeyframeWidget::slotSetPosition(int pos, bool update)
+void KeyframeContainer::slotSetPosition(int pos, bool update)
 {
     bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
     int offset = 0;
@@ -484,12 +486,12 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
     }
 }
 
-int KeyframeWidget::getPosition() const
+int KeyframeContainer::getPosition() const
 {
     return m_time->getValue() + (m_isRelative ? 0 : pCore->getItemIn(m_model->getOwnerId()));
 }
 
-void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
+void KeyframeContainer::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe && getCurrentView() == 0);
@@ -506,7 +508,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
     }
 }
 
-void KeyframeWidget::slotRefresh()
+void KeyframeContainer::slotRefresh()
 {
     // update duration
     bool ok = false;
@@ -533,7 +535,7 @@ void KeyframeWidget::slotRefresh()
     slotRefreshParams();
 }
 
-void KeyframeWidget::setDuration(int duration)
+void KeyframeContainer::setDuration(int duration)
 {
     slotAtKeyframe(m_keyframes->hasKeyframe(getPosition()), m_keyframes->singleKeyframe());
     // Unselect keyframes that are outside range if any
@@ -555,7 +557,7 @@ void KeyframeWidget::setDuration(int duration)
         i->setDuration(duration);
     }
 }
-void KeyframeWidget::resetKeyframes()
+void KeyframeContainer::resetKeyframes()
 {
     // update duration
     bool ok = false;
@@ -571,7 +573,7 @@ void KeyframeWidget::resetKeyframes()
     slotRefreshParams();
 }
 
-void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
+void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
 {
     // Retrieve parameters from the model
     QString name = m_model->data(index, Qt::DisplayRole).toString();
@@ -601,7 +603,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
-        m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, index, MonitorSceneGeometry, this);
+        m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, index, MonitorSceneGeometry, m_parent);
         QRect rect;
         double opacity = 0;
         QStringList vals = value.split(QLatin1Char(' '));
@@ -613,7 +615,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         }
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         m_geom.reset(new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
-                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, m_layout));
+                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), m_parent, m_layout));
         connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this, index](const QString &v, int ix, int frame) {
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(frame, pCore->getCurrentFps()), QVariant(v), ix, index);
@@ -624,7 +626,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
             }
         });
     } else if (type == ParamType::ColorWheel) {
-        auto colorWheelWidget = new LumaLiftGainParam(m_model, index, this);
+        auto colorWheelWidget = new LumaLiftGainParam(m_model, index, m_parent);
         connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged, this,
                 [this, index](const QList<QModelIndex> &indexes, const QStringList &sourceList, const QStringList &list, bool createUndo) {
                     Q_EMIT activateEffect();
@@ -639,18 +641,18 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                     }
                 });
         connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h) {
-            setFixedHeight(m_baseHeight + m_addedHeight + h);
+            m_fixedHeight = m_baseHeight + m_addedHeight + h;
             Q_EMIT updateHeight();
         });
         paramWidget = colorWheelWidget;
     } else if (type == ParamType::Roto_spline) {
-        m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
+        m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, m_parent);
         m_neededScene = MonitorSceneType::MonitorSceneRoto;
     } else if (type == ParamType::Color) {
         QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
         bool alphaEnabled = m_model->data(index, AssetParameterModel::AlphaRole).toBool();
-        labelWidget = new QLabel(name, this);
-        auto colorWidget = new ChooseColorWidget(this, QColorUtils::stringToColor(value), alphaEnabled);
+        labelWidget = new QLabel(name, m_parent);
+        auto colorWidget = new ChooseColorWidget(m_parent, QColorUtils::stringToColor(value), alphaEnabled);
         colorWidget->setToolTip(comment);
         connect(colorWidget, &ChooseColorWidget::modified, this, [this, index, alphaEnabled](const QColor &color) {
             Q_EMIT activateEffect();
@@ -662,8 +664,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
             if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
                 m_neededScene = MonitorSceneType::MonitorSceneCorners;
-                m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
-                connect(this, &KeyframeWidget::addIndex, m_monitorHelper, &CornersHelper::addIndex);
+                m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, index, m_parent);
+                connect(this, &KeyframeContainer::addIndex, m_monitorHelper, &CornersHelper::addIndex);
             } else {
                 if (type == ParamType::KeyframeParam) {
                     int paramName = m_model->data(index, AssetParameterModel::NameRole).toInt();
@@ -676,8 +678,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         if (m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot"))) {
             if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
                 m_neededScene = MonitorSceneType::MonitorSceneGeometry;
-                m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
-                connect(this, &KeyframeWidget::addIndex, m_monitorHelper, &RectHelper::addIndex);
+                m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, index, m_parent);
+                connect(this, &KeyframeContainer::addIndex, m_monitorHelper, &RectHelper::addIndex);
             } else {
                 if (type == ParamType::KeyframeParam) {
                     QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
@@ -697,7 +699,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         factor = qFuzzyIsNull(factor) ? 1 : factor;
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
                                              m_model->data(index, AssetParameterModel::OddRole).toBool(),
-                                             m_model->data(index, AssetParameterModel::CompactRole).toBool(), this);
+                                             m_model->data(index, AssetParameterModel::CompactRole).toBool(), m_parent);
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), -1, index);
@@ -714,13 +716,18 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
             m_layout->addRow(paramWidget);
         }
         m_addedHeight += paramWidget->minimumHeight();
-        setFixedHeight(m_baseHeight + m_addedHeight);
+        m_fixedHeight = m_baseHeight + m_addedHeight;
     } else {
         m_parameters[index] = nullptr;
     }
 }
 
-void KeyframeWidget::slotInitMonitor(bool active, bool)
+int KeyframeContainer::minimumHeight() const
+{
+    return m_fixedHeight;
+}
+
+void KeyframeContainer::slotInitMonitor(bool active, bool)
 {
     connectMonitor(active);
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
@@ -736,29 +743,30 @@ void KeyframeWidget::slotInitMonitor(bool active, bool)
     }
 }
 
-void KeyframeWidget::connectMonitor(bool active)
+void KeyframeContainer::connectMonitor(bool active)
 {
     if (m_monitorHelper) {
         if (m_model->isActive()) {
-            connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor, Qt::UniqueConnection);
+            connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor,
+                    Qt::UniqueConnection);
             if (m_monitorHelper->connectMonitor(active)) {
                 slotRefreshParams();
             }
         } else {
             m_monitorHelper->connectMonitor(false);
-            disconnect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor);
+            disconnect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor);
         }
     }
 
     if (m_monitorActive != active) {
         Monitor *monitor = pCore->getMonitor(m_model->monitorId);
         if (active) {
-            connect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeWidget::slotAddRemove, Qt::UniqueConnection);
-            connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe, Qt::UniqueConnection);
-            connect(this, &KeyframeWidget::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe, Qt::DirectConnection);
+            connect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove, Qt::UniqueConnection);
+            connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe, Qt::UniqueConnection);
+            connect(this, &KeyframeContainer::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe, Qt::DirectConnection);
         } else {
-            disconnect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeWidget::slotAddRemove);
-            disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe);
+            disconnect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove);
+            disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe);
         }
     }
     m_monitorActive = active;
@@ -770,7 +778,7 @@ void KeyframeWidget::connectMonitor(bool active)
     }
 }
 
-void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
+void KeyframeContainer::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
     Q_EMIT activateEffect();
     if (m_keyframes->isEmpty()) {
@@ -813,18 +821,18 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
     }
 }
 
-MonitorSceneType KeyframeWidget::requiredScene() const
+MonitorSceneType KeyframeContainer::requiredScene() const
 {
     qDebug() << "// // // RESULTING REQUIRED SCENE: " << m_neededScene;
     return m_neededScene;
 }
 
-bool KeyframeWidget::keyframesVisible() const
+bool KeyframeContainer::keyframesVisible() const
 {
     return m_editorviewcontainer->isVisible();
 }
 
-void KeyframeWidget::showKeyframes(bool enable)
+void KeyframeContainer::showKeyframes(bool enable)
 {
     if (enable && m_toolbar->isVisible()) {
         return;
@@ -833,10 +841,10 @@ void KeyframeWidget::showKeyframes(bool enable)
     m_editorviewcontainer->setVisible(enable);
     m_time->setVisible(enable);
     m_viewswitch->setVisible(enable);
-    setFixedHeight(m_addedHeight + (enable ? m_baseHeight : 0));
+    m_fixedHeight = m_addedHeight + (enable ? m_baseHeight : 0);
 }
 
-void KeyframeWidget::slotCopyKeyframes()
+void KeyframeContainer::slotCopyKeyframes()
 {
     QJsonDocument effectDoc = m_model->toJson({}, false);
     if (effectDoc.isEmpty()) {
@@ -847,7 +855,7 @@ void KeyframeWidget::slotCopyKeyframes()
     pCore->displayMessage(i18n("Keyframes copied"), InformationMessage);
 }
 
-void KeyframeWidget::slotPasteKeyframeFromClipBoard()
+void KeyframeContainer::slotPasteKeyframeFromClipBoard()
 {
     QClipboard *clipboard = QApplication::clipboard();
     QString values = clipboard->text();
@@ -942,7 +950,7 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
     pCore->pushUndo(undo, redo, i18n("Paste keyframe"));
 }
 
-void KeyframeWidget::slotCopySelectedKeyframes()
+void KeyframeContainer::slotCopySelectedKeyframes()
 {
     const QVector<int> results = m_keyframeview->selectedKeyframesIndexes();
     QJsonDocument effectDoc = m_model->toJson(results, false);
@@ -955,7 +963,7 @@ void KeyframeWidget::slotCopySelectedKeyframes()
     pCore->displayMessage(i18n("Current values copied"), InformationMessage);
 }
 
-void KeyframeWidget::slotCopyValueAtCursorPos()
+void KeyframeContainer::slotCopyValueAtCursorPos()
 {
     QJsonDocument effectDoc = m_model->valueAsJson(getPosition(), false);
     if (effectDoc.isEmpty()) {
@@ -966,7 +974,7 @@ void KeyframeWidget::slotCopyValueAtCursorPos()
     pCore->displayMessage(i18n("Current values copied"), InformationMessage);
 }
 
-void KeyframeWidget::slotImportKeyframes()
+void KeyframeContainer::slotImportKeyframes()
 {
     QClipboard *clipboard = QApplication::clipboard();
     const QString values = clipboard->text();
@@ -975,7 +983,7 @@ void KeyframeWidget::slotImportKeyframes()
     if (!json.isArray()) {
         if (!values.contains(QLatin1Char('=')) || !values.contains(QLatin1Char(';'))) {
             // No valid keyframe data
-            KMessageBox::information(this, i18n("No keyframe data in clipboard"));
+            KMessageBox::information(m_parent, i18n("No keyframe data in clipboard"));
             return;
         }
     }
@@ -987,7 +995,7 @@ void KeyframeWidget::slotImportKeyframes()
         indexes << m_monitorHelper->getIndexes();
     }
     QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(),
-                                                         m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(), this);
+                                                         m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(), m_parent);
     connect(import, &KeyframeImport::updateQmlView, this, [this](QPersistentModelIndex ix, const QString animData) {
         auto kfModel = m_keyframes->getKeyModel(ix);
         if (kfModel) {
@@ -998,7 +1006,7 @@ void KeyframeWidget::slotImportKeyframes()
     import->show();
 }
 
-void KeyframeWidget::slotAddRemove(bool addOnly)
+void KeyframeContainer::slotAddRemove(bool addOnly)
 {
     Q_EMIT activateEffect();
     int position = getPosition();
@@ -1045,14 +1053,14 @@ void KeyframeWidget::slotAddRemove(bool addOnly)
         }
     }
 }
-bool KeyframeWidget::slotAddKeyframe(int pos)
+bool KeyframeContainer::slotAddKeyframe(int pos)
 {
     if (pos < 0) {
         pos = getPosition();
     }
     return m_keyframes->addKeyframe(GenTime(pos, pCore->getCurrentFps()), KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()));
 }
-void KeyframeWidget::slotRemoveKeyframe(const QVector<int> &positions)
+void KeyframeContainer::slotRemoveKeyframe(const QVector<int> &positions)
 {
     if (m_keyframes->singleKeyframe()) {
         // Don't allow zero keyframe
@@ -1071,7 +1079,7 @@ void KeyframeWidget::slotRemoveKeyframe(const QVector<int> &positions)
     pCore->pushUndo(undo, redo, i18np("Remove keyframe", "Remove keyframes", positions.size()));
 }
 
-void KeyframeWidget::slotGoToPrev()
+void KeyframeContainer::slotGoToPrev()
 {
     Q_EMIT activateEffect();
     bool ok;
@@ -1091,7 +1099,7 @@ void KeyframeWidget::slotGoToPrev()
         slotSeekToPos(0);
     }
 }
-void KeyframeWidget::slotGoToNext()
+void KeyframeContainer::slotGoToNext()
 {
     Q_EMIT activateEffect();
     bool ok;
@@ -1113,13 +1121,13 @@ void KeyframeWidget::slotGoToNext()
     }
 }
 
-void KeyframeWidget::slotRemoveNextKeyframes()
+void KeyframeContainer::slotRemoveNextKeyframes()
 {
     int pos = m_time->getValue() + m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     m_keyframes->removeNextKeyframes(GenTime(pos, pCore->getCurrentFps()));
 }
 
-void KeyframeWidget::slotSeekToKeyframe(int ix, int offset)
+void KeyframeContainer::slotSeekToKeyframe(int ix, int offset)
 {
     if (offset > 0) {
         slotGoToNext();
@@ -1132,7 +1140,7 @@ void KeyframeWidget::slotSeekToKeyframe(int ix, int offset)
     int pos = m_keyframes->getPosAtIndex(ix).frames(pCore->getCurrentFps()) - m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     slotSetPosition(pos, true);
 }
-void KeyframeWidget::slotSeekToPos(int pos)
+void KeyframeContainer::slotSeekToPos(int pos)
 {
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
     bool canHaveZone = m_model->getOwnerId().type == KdenliveObjectType::Master || m_model->getOwnerId().type == KdenliveObjectType::TimelineTrack;
@@ -1153,13 +1161,13 @@ void KeyframeWidget::slotSeekToPos(int pos)
     Q_EMIT seekToPos(pos + (canHaveZone ? in : 0));
 }
 
-int KeyframeWidget::getCurrentView()
+int KeyframeContainer::getCurrentView()
 {
     // 0 for KeyframeView, 1 for KeyframeCurveEditor
     return m_editorviewcontainer->currentIndex();
 }
 
-void KeyframeWidget::slotToggleView()
+void KeyframeContainer::slotToggleView()
 {
     int cur = m_editorviewcontainer->currentIndex();
     int height = m_editorviewcontainer->height();
@@ -1191,11 +1199,10 @@ void KeyframeWidget::slotToggleView()
     }
     m_editorviewcontainer->setFixedHeight(height);
     m_baseHeight = height + m_toolbar->sizeHint().height();
-    qDebug() << "::::::HEIGHT" << m_editorviewcontainer->currentWidget()->height() << m_editorviewcontainer->height();
-    setFixedHeight(m_addedHeight + m_baseHeight);
+    m_fixedHeight = m_addedHeight + m_baseHeight;
     Q_EMIT updateHeight();
 }
-void KeyframeWidget::sendStandardCommand(int command)
+void KeyframeContainer::sendStandardCommand(int command)
 {
     switch (command) {
     case KStandardAction::Copy:
@@ -1210,7 +1217,7 @@ void KeyframeWidget::sendStandardCommand(int command)
     }
 }
 
-void KeyframeWidget::addCurveEditor(const QPersistentModelIndex &index, QString name, int rectindex)
+void KeyframeContainer::addCurveEditor(const QPersistentModelIndex &index, QString name, int rectindex)
 {
     if (!m_toggleViewAction->isEnabled()) {
         m_toggleViewAction->setEnabled(true);
@@ -1231,14 +1238,14 @@ void KeyframeWidget::addCurveEditor(const QPersistentModelIndex &index, QString 
         min = 0;
         max = 1;
     }
-    KeyframeCurveEditor *tmpkce = new KeyframeCurveEditor(m_keyframes, duration, min, max, factor, index, rectindex, this);
+    KeyframeCurveEditor *tmpkce = new KeyframeCurveEditor(m_keyframes, duration, min, max, factor, index, rectindex, m_parent);
     m_curveeditorview.append(tmpkce);
-    connect(this, &KeyframeWidget::onCurveEditorView, m_curveeditorview.last(), &KeyframeCurveEditor::slotOnFocus);
-    connect(this, &KeyframeWidget::onKeyframeView, m_curveeditorview.last(), &KeyframeCurveEditor::slotLoseFocus);
-    connect(m_curveeditorview.last(), &KeyframeCurveEditor::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
-    connect(m_curveeditorview.last(), &KeyframeCurveEditor::modified, this, &KeyframeWidget::slotRefreshParams);
-    connect(m_curveeditorview.last(), &KeyframeCurveEditor::activateEffect, this, &KeyframeWidget::activateEffect);
-    connect(m_curveeditorview.last(), &KeyframeCurveEditor::seekToPos, this, &KeyframeWidget::slotSeekToPos);
+    connect(this, &KeyframeContainer::onCurveEditorView, m_curveeditorview.last(), &KeyframeCurveEditor::slotOnFocus);
+    connect(this, &KeyframeContainer::onKeyframeView, m_curveeditorview.last(), &KeyframeCurveEditor::slotLoseFocus);
+    connect(m_curveeditorview.last(), &KeyframeCurveEditor::atKeyframe, this, &KeyframeContainer::slotAtKeyframe);
+    connect(m_curveeditorview.last(), &KeyframeCurveEditor::modified, this, &KeyframeContainer::slotRefreshParams);
+    connect(m_curveeditorview.last(), &KeyframeCurveEditor::activateEffect, this, &KeyframeContainer::activateEffect);
+    connect(m_curveeditorview.last(), &KeyframeCurveEditor::seekToPos, this, &KeyframeContainer::slotSeekToPos);
     // NO slotCenterKeyframe
     m_curveeditorcontainer->addTab(m_curveeditorview.last(), name);
 }

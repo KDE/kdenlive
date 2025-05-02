@@ -506,8 +506,17 @@ void EffectStackView::loadEffects()
         if (effectModel->getAssetId() == QLatin1String("lift_gamma_gain")) {
             hasLift = true;
         }
+        QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(effectModel));
+        if (!ix.isValid()) {
+            continue;
+        }
         if (effectModel->hideFromStack()) {
             // Effect should not be shown in stack, skip
+            QWidget *w = new QWidget(this);
+            w->setFixedHeight(0);
+            m_effectsTree->setIndexWidget(ix, w);
+            auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
+            del->setHeight(ix, 0);
             continue;
         }
         const QString assetName = EffectsRepository::get()->getName(effectModel->getAssetId());
@@ -539,10 +548,6 @@ void EffectStackView::loadEffects()
                 view->updateInOut({p.x(), p.y()}, withUndo);
             }
         });
-        QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(effectModel));
-        if (!ix.isValid()) {
-            continue;
-        }
         if (active == i && (m_model->getActiveEffect() > -1 || !effectModel->isBuiltIn())) {
             effectModel->setActive(true);
             activeIndex = ix;

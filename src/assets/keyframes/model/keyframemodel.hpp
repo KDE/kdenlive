@@ -47,7 +47,7 @@ public:
 
     enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole };
     friend class KeyframeModelList;
-    friend class KeyframeWidget;
+    friend class KeyframeContainer;
     friend class KeyframeImport;
     friend class AssetMultiKeyframeCommand;
 

@@ -19,7 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "fontparamwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "hideparamwidget.hpp"
-#include "keyframewidget.hpp"
+#include "keyframecontainer.hpp"
 #include "keywordparamwidget.hpp"
 #include "listdependencyparamwidget.h"
 #include "listparamwidget.h"
@@ -68,14 +68,16 @@ QLabel *AbstractParamWidget::createLabel()
     return label;
 }
 
-AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize,
-                                                    QWidget *parent, QFormLayout *layout)
+std::pair<AbstractParamWidget *, KeyframeContainer *> AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model,
+                                                                                     const QModelIndex &index, QSize frameSize, QWidget *parent,
+                                                                                     QFormLayout *layout)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
 
     if (AssetParameterModel::isAnimated(type)) {
-        return new KeyframeWidget(model, index, frameSize, parent, layout);
+        auto kfrBuilder = new KeyframeContainer(model, index, frameSize, parent, layout);
+        return {nullptr, kfrBuilder};
     }
 
     AbstractParamWidget *widget = nullptr;
@@ -157,5 +159,5 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         static_cast<Unsupported *>(widget)->setText(name);
     }
 
-    return widget;
+    return {widget, nullptr};
 }

@@ -18,7 +18,7 @@ class QMenu;
 class QActionGroup;
 class AbstractParamWidget;
 class AssetParameterModel;
-class KeyframeWidget;
+class KeyframeContainer;
 
 /** @class AssetParameterView
     @brief This class is the view for a list of parameters.
@@ -76,7 +76,7 @@ protected:
     QMutex m_lock;
     std::shared_ptr<AssetParameterModel> m_model;
     std::vector<AbstractParamWidget *> m_widgets;
-    KeyframeWidget *m_mainKeyframeWidget{nullptr};
+    KeyframeContainer *m_mainKeyframeWidget{nullptr};
     QMenu *m_presetMenu;
     std::shared_ptr<QActionGroup> m_presetGroup;
 
