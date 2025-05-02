@@ -195,6 +195,8 @@ bool MaskManager::initMaskMode(bool autoAdd, bool editMode)
         }
     }
     if (m_zone.y() - m_zone.x() > 300) {
+        // TODO (SAM): Adjust this warning or remove it now that high memory consumption is fixed. Maybe we should still keep it for much longer clips (more
+        //  than a few minutes) just because it will take a long time to processs.
         if (KMessageBox::warningContinueCancel(
                 this,
                 i18n("Creating masks for clips more than a few seconds long can fail due to memory shortage. You can try to enable the <i>Offload video to "
