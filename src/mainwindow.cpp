@@ -2831,9 +2831,10 @@ void MainWindow::slotAddMarkerGuideQuickly()
     if (!getCurrentTimeline() || !pCore->currentDoc()) {
         return;
     }
-
     if (m_clipMonitor->isActive()) {
-        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), {m_clipMonitor->position()});
+        QMap<int, QString> marker;
+        marker.insert(m_clipMonitor->position(), QString());
+        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), marker);
     } else {
         int selectedClip = getCurrentTimeline()->controller()->getMainSelectedItem();
         if (selectedClip == -1) {
@@ -2868,7 +2869,9 @@ void MainWindow::slotAddMarkerWithCategory()
 
     KdenliveSettings::setDefault_marker_type(category);
     if (m_clipMonitor->isActive()) {
-        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), {m_clipMonitor->position()});
+        QMap<int, QString> marker;
+        marker.insert(m_clipMonitor->position(), QString());
+        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), marker);
     } else {
         int selectedClip = getCurrentTimeline()->controller()->getMainSelectedItem();
         if (selectedClip == -1) {

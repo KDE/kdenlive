@@ -37,7 +37,7 @@ public Q_SLOTS:
     void assignProjectNote();
 
 private:
-    void createMarker(const QStringList &anchors);
+    void createMarker(const QStringList &anchors, const QList<QPoint> &points = {});
     QPair <QStringList, QList <QPoint> > getSelectedAnchors();
 
 Q_SIGNALS:

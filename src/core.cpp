@@ -1438,15 +1438,16 @@ int Core::audioChannels()
     return 2;
 }
 
-void Core::addGuides(const QMap<QUuid, QList<int>> &guides)
+void Core::addGuides(const QMap<QUuid, QMap<int, QString>> &guides)
 {
-    QMapIterator<QUuid, QList<int>> i(guides);
+    QMapIterator<QUuid, QMap<int, QString>> i(guides);
     while (i.hasNext()) {
         i.next();
         QMap<GenTime, QString> markers;
-        for (int pos : i.value()) {
-            GenTime p(pos, pCore->getCurrentFps());
-            markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+        QMap<int, QString> values = i.value();
+        for (auto j = values.cbegin(), end = values.cend(); j != end; ++j) {
+            GenTime p(j.key(), pCore->getCurrentFps());
+            markers.insert(p, j.value().isEmpty() ? pCore->currentDoc()->timecode().getDisplayTimecode(p, false) : j.value());
         }
         auto timeline = m_mainWindow->getTimeline(i.key());
         if (timeline == nullptr) {

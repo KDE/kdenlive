@@ -1747,22 +1747,22 @@ void TextBasedEdit::addBookmark()
         return;
     }
     QMap<int, std::pair<QString, int>> zones = m_visualEditor->getMarkerZones();
+    QMap<int, QString> markers;
     if (zones.count() == 1) {
         int monitorPos = pCore->getMonitor(Kdenlive::ClipMonitor)->position();
         const auto value = zones.value(zones.firstKey());
         if (monitorPos > zones.firstKey() && monitorPos < value.second) {
             // Monitor seek is on the selection, use the current frame
-            pCore->bin()->addClipMarker(m_binId, {monitorPos}, {});
+            markers.insert(monitorPos, QString());
         } else {
-            pCore->bin()->addClipMarker(m_binId, {zones.firstKey()}, {value.first});
+            markers.insert(zones.firstKey(), value.first);
         }
     } else {
-        QStringList zonesTexts;
         for (auto i = zones.cbegin(), end = zones.cend(); i != end; ++i) {
-            zonesTexts << i.value().first;
+            markers.insert(i.key(), i.value().first);
         }
-        pCore->bin()->addClipMarker(m_binId, zones.keys(), zonesTexts);
     }
+    pCore->bin()->addClipMarker(m_binId, markers);
 }
 
 void TextBasedEdit::enableEditActions(bool enable, bool enableStart)

@@ -5406,7 +5406,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
     }
 }
 
-void Bin::addClipMarker(const QString &binId, const QList<int> &positions, const QStringList &comments)
+void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersData)
 {
     std::shared_ptr<ProjectClip> clip = getBinClip(binId);
     if (!clip) {
@@ -5415,12 +5415,12 @@ void Bin::addClipMarker(const QString &binId, const QList<int> &positions, const
     }
     QMap<GenTime, QString> markers;
     int ix = 0;
-    for (int pos : positions) {
-        GenTime p(pos, pCore->getCurrentFps());
-        if (comments.size() == positions.size()) {
-            markers.insert(p, comments.at(ix));
-        } else {
+    for (auto m = markersData.cbegin(), end = markersData.cend(); m != end; ++m) {
+        GenTime p(m.key(), pCore->getCurrentFps());
+        if (m.value().isEmpty()) {
             markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+        } else {
+            markers.insert(p, m.value());
         }
         ix++;
     }

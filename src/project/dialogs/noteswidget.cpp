@@ -58,22 +58,46 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-void NotesWidget::createMarker(const QStringList &anchors)
+void NotesWidget::createMarker(const QStringList &anchors, const QList<QPoint> &points)
 {
-    QMap<QString, QList<int>> clipMarkers;
-    QMap<QUuid, QList<int>> guides;
+    QMap<QString, QMap<int, QString>> clipMarkers;
+    QMap<QUuid, QMap<int, QString>> guides;
+    int ix = 0;
     for (const QString &anchor : anchors) {
+        // Find out marker text
+        int startPos = -1;
+        int endPos = -1;
+        QString markerText;
+        if (points.size() > ix) {
+            startPos = points.at(ix).y();
+            QTextCursor cur = textCursor();
+            cur.setPosition(startPos);
+            cur.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+            endPos = cur.position();
+            // Check if we have another anchor before line end
+            bool modified = false;
+            for (auto &p : points) {
+                if (p.x() > startPos && p.x() < endPos) {
+                    endPos = p.x() - 1;
+                    modified = true;
+                }
+            }
+            if (modified) {
+                cur.setPosition(startPos);
+                cur.setPosition(endPos, QTextCursor::KeepAnchor);
+            }
+            markerText = cur.selectedText().simplified();
+            markerText.truncate(40);
+        }
         if (anchor.contains(QLatin1Char('#'))) {
             // That's a Bin Clip reference.
             const QString uuid = anchor.section(QLatin1Char('#'), 0, 0);
             const QString binId = pCore->projectItemModel()->getBinClipIdByUuid(uuid);
-            QList<int> timecodes;
+            QMap<int, QString> timecodes;
             if (clipMarkers.contains(binId)) {
                 timecodes = clipMarkers.value(binId);
-                timecodes << anchor.section(QLatin1Char('#'), 1).toInt();
-            } else {
-                timecodes = {anchor.section(QLatin1Char('#'), 1).toInt()};
             }
+            timecodes.insert(anchor.section(QLatin1Char('#'), 1).toInt(), markerText);
             clipMarkers.insert(binId, timecodes);
         } else {
             // That is a guide
@@ -87,15 +111,16 @@ void NotesWidget::createMarker(const QStringList &anchors)
             if (anchorLink.contains(QLatin1Char('?'))) {
                 anchorLink = anchorLink.section(QLatin1Char('?'), 0, 0);
             }
-            QList<int> guidesToAdd;
+            QMap<int, QString> guidesToAdd;
             if (guides.contains(uuid)) {
                 guidesToAdd = guides.value(uuid);
             }
-            guidesToAdd << anchorLink.toInt();
+            guidesToAdd.insert(anchorLink.toInt(), markerText);
             guides.insert(uuid, guidesToAdd);
         }
+        ix++;
     }
-    QMapIterator<QString, QList<int>> i(clipMarkers);
+    QMapIterator<QString, QMap<int, QString>> i(clipMarkers);
     while (i.hasNext()) {
         i.next();
         // That's a Bin Clip reference.
@@ -103,7 +128,7 @@ void NotesWidget::createMarker(const QStringList &anchors)
     }
     if (!clipMarkers.isEmpty()) {
         const QString &binId = clipMarkers.firstKey();
-        pCore->selectBinClip(binId, true, clipMarkers.value(binId).constFirst(), QPoint());
+        pCore->selectBinClip(binId, true, clipMarkers.value(binId).firstKey(), QPoint());
     }
     if (!guides.isEmpty()) {
         pCore->addGuides(guides);
@@ -210,7 +235,7 @@ void NotesWidget::createMarkers()
     QPair<QStringList, QList<QPoint>> result = getSelectedAnchors();
     QStringList anchors = result.first;
     if (!anchors.isEmpty()) {
-        createMarker(anchors);
+        createMarker(anchors, result.second);
     } else {
         pCore->displayMessage(i18n("Select some timecodes to create markers"), ErrorMessage);
     }

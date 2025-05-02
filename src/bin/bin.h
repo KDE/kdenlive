@@ -219,8 +219,8 @@ public:
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     std::pair<PlaylistState::ClipState, ClipType::ProducerType> getClipState(int itemId) const;
 
-    /** @brief Add markers on clip \@param binId at \@param positions with @comments text if given */
-    void addClipMarker(const QString &binId, const QList<int> &positions, const QStringList &comments = {});
+    /** @brief Add markers on clip \@param binId at \@param markersData with @comments text if given */
+    void addClipMarker(const QString &binId, const QMap<int, QString> &markersData);
 
     /** @brief Get the count of all markers in all clips using this category */
     int getAllClipMarkers(int category) const;
