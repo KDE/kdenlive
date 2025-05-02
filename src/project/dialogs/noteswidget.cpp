@@ -238,25 +238,33 @@ void NotesWidget::addTextNote(const QString &text)
 
 void NotesWidget::insertFromMimeData(const QMimeData *source)
 {
-    QString pastedText = source->text();
     bool enforceHtml = false;
     // Check for timecodes
-    QStringList words = pastedText.split(QLatin1Char(' '));
-    for (const QString &w : std::as_const(words)) {
-        if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
-            // This is probably a timecode
-            int frames = pCore->timecode().getFrameCount(w);
-            if (frames > 0) {
-                pastedText.replace(w, QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + w + QStringLiteral("</a> "));
-                enforceHtml = true;
+    const QStringList sentences = source->text().split(QLatin1Char('\n'));
+    for (auto &s : sentences) {
+        QString pastedText = s;
+        QStringList words = s.split(QLatin1Char(' '));
+        for (const QString &w : std::as_const(words)) {
+            if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
+                // This is probably a timecode
+                int frames = pCore->timecode().getFrameCount(w);
+                if (frames > 0) {
+                    pastedText.replace(w, QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + w + QStringLiteral("</a> "));
+                    enforceHtml = true;
+                }
             }
         }
-    }
-    if (enforceHtml || Qt::mightBeRichText(pastedText)) {
-        pastedText.replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
-        insertHtml(pastedText);
-    } else {
-        insertPlainText(pastedText);
+        if (enforceHtml || Qt::mightBeRichText(pastedText)) {
+            if (s != sentences.last()) {
+                pastedText.append(QStringLiteral("<br/>"));
+            }
+            insertHtml(pastedText);
+        } else {
+            if (s != sentences.last()) {
+                pastedText.append(QLatin1Char('\n'));
+            }
+            insertPlainText(pastedText);
+        }
     }
 }
 
