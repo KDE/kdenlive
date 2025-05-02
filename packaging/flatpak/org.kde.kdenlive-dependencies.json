@@ -381,7 +381,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.36.0.tar.gz",
+                    "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.36.tar.gz",
                     "sha256": "4abdf1ffecbffc78bfd74a9376595d14aecfa1a419147bcaa6113cf24bb28060",
                     "x-checker-data": {
                         "type": "anitya",
