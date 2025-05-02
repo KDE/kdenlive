@@ -1,4 +1,6 @@
 # Pull SAM-2 as archive, it is not officaly available on PyPi
 # Don't use git because most users don't have it installed
-https://github.com/facebookresearch/sam2/archive/refs/heads/main.zip # SAM-2
+# We're using the latest commit as of 2025-04-18 which is 2b90b9f5ceec907a1c18123530e92e794ad901a4
+https://github.com/facebookresearch/sam2/archive/2b90b9f5ceec907a1c18123530e92e794ad901a4.zip # SAM-2
+# TODO (SAM): Should probably be opencv-python-headless
 opencv-python
