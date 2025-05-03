@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-27 02:36+0000\n"
+"POT-Creation-Date: 2025-05-03 02:31+0000\n"
 "PO-Revision-Date: 2025-04-17 07:16+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -2391,9 +2391,9 @@ msgstr "Pokaži os"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
-#: src/assets/view/widgets/keyframewidget.cpp:274
-#: src/assets/view/widgets/keyframewidget.cpp:322
-#: src/assets/view/widgets/keyframewidget.cpp:587
+#: src/assets/view/widgets/keyframecontainer.cpp:276
+#: src/assets/view/widgets/keyframecontainer.cpp:324
+#: src/assets/view/widgets/keyframecontainer.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -3091,11 +3091,11 @@ msgstr "<![CDATA[Razdalja od zgornjega roba v slikovnih točkah]]>"
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
+#: src/assets/view/widgets/keyframecontainer.cpp:279
+#: src/assets/view/widgets/keyframecontainer.cpp:336
+#: src/assets/view/widgets/keyframecontainer.cpp:587
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:814
-#: src/assets/view/widgets/keyframewidget.cpp:277
-#: src/assets/view/widgets/keyframewidget.cpp:334
-#: src/assets/view/widgets/keyframewidget.cpp:585
 #, kde-format
 msgid "Width"
 msgstr "Širina"
@@ -3106,11 +3106,11 @@ msgid "<![CDATA[Distance between vertical lines in pixel]]>"
 msgstr "<![CDATA[Razdalja med navpičnimi črtami v slikovnih točkah]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
+#: src/assets/view/widgets/keyframecontainer.cpp:278
+#: src/assets/view/widgets/keyframecontainer.cpp:330
+#: src/assets/view/widgets/keyframecontainer.cpp:587
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:822
-#: src/assets/view/widgets/keyframewidget.cpp:276
-#: src/assets/view/widgets/keyframewidget.cpp:328
-#: src/assets/view/widgets/keyframewidget.cpp:585
 #, kde-format
 msgid "Height"
 msgstr "Višina"
@@ -13787,17 +13787,17 @@ msgstr ""
 "prekrivnosti in spremembe merila."
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
-#: src/assets/view/widgets/keyframewidget.cpp:279
-#: src/assets/view/widgets/keyframewidget.cpp:340
-#: src/assets/view/widgets/keyframewidget.cpp:585
+#: src/assets/view/widgets/keyframecontainer.cpp:281
+#: src/assets/view/widgets/keyframecontainer.cpp:342
+#: src/assets/view/widgets/keyframecontainer.cpp:587
 #, kde-format
 msgid "X position"
 msgstr "Pozicija X"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
-#: src/assets/view/widgets/keyframewidget.cpp:278
-#: src/assets/view/widgets/keyframewidget.cpp:346
-#: src/assets/view/widgets/keyframewidget.cpp:585
+#: src/assets/view/widgets/keyframecontainer.cpp:280
+#: src/assets/view/widgets/keyframecontainer.cpp:348
+#: src/assets/view/widgets/keyframecontainer.cpp:587
 #, kde-format
 msgid "Y position"
 msgstr "Pozicija Y"
@@ -14558,6 +14558,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Pokaži/skrij opis sestav"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1195
+#: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Search…"
 msgstr "Poišči …"
@@ -14801,8 +14802,8 @@ msgstr "Gladko (opuščeno)"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframewidget.cpp:91 src/dialogs/timeremap.cpp:1615
-#: src/dialogs/timeremap.cpp:1640
+#: src/assets/view/widgets/keyframecontainer.cpp:93
+#: src/dialogs/timeremap.cpp:1615 src/dialogs/timeremap.cpp:1640
 #, kde-format
 msgid "Add keyframe"
 msgstr "Dodaj ključno sličico"
@@ -14816,7 +14817,8 @@ msgstr "Spremeni vrsto ključne sličice"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframewidget.cpp:93 src/dialogs/timeremap.cpp:1636
+#: src/assets/view/widgets/keyframecontainer.cpp:95
+#: src/dialogs/timeremap.cpp:1636
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Izbriši ključno sličico"
@@ -14991,7 +14993,7 @@ msgstr "Izbriše trenutno izbrano prednastavitev."
 msgid "Save effect"
 msgstr "Shrani učinek"
 
-#: src/assets/view/assetparameterview.cpp:356
+#: src/assets/view/assetparameterview.cpp:380
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
 #, kde-format
@@ -14999,7 +15001,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Vnesite ime prednastavitve"
 
-#: src/assets/view/assetparameterview.cpp:356
+#: src/assets/view/assetparameterview.cpp:380
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1425
 #, kde-format
@@ -15016,6 +15018,184 @@ msgstr "Prekini obdelavo"
 #, kde-format
 msgid "Move Keyframe"
 msgstr "Premakni ključno sličico"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:77
+#, kde-format
+msgid "Switch to timeline view"
+msgstr "Preklop na pogled časovnice"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:79
+#, kde-format
+msgid "Switch to curve editor view"
+msgstr "Preklop na pogled urejevalnika krivulj"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:100
+#: src/dialogs/timeremap.cpp:1621 src/mainwindow.cpp:1820
+#, kde-format
+msgid "Go to previous keyframe"
+msgstr "Pojdi na predhodno ključno sličico"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:104
+#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1818
+#, kde-format
+msgid "Go to next keyframe"
+msgstr "Pojdi na naslednjo ključno sličico"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:109
+#: src/dialogs/timeremap.cpp:1626 src/dialogs/timeremap.cpp:1628
+#, kde-format
+msgid "Move selected keyframe to cursor"
+msgstr "Prenesi izbrane ključne sličice za kazalcem"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:112
+#: src/assets/view/widgets/keyframecontainer.cpp:114
+#, kde-format
+msgid "Copy keyframes"
+msgstr "Kopiraj ključne sličice"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:116
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Copy keyframes. Copy the selected keyframes, or current parameters values if "
+"no keyframe is selected."
+msgstr ""
+"Kopira ključne sličice. Kopirajte izbrane ključne sličice ali trenutne "
+"vrednosti parametrov, če ni izbrana nobena ključna sličica."
+
+#: src/assets/view/widgets/keyframecontainer.cpp:118
+#: src/assets/view/widgets/keyframecontainer.cpp:950
+#, kde-format
+msgid "Paste keyframe"
+msgstr "Prilepi ključno sličico"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:120
+#, kde-format
+msgid "Paste keyframes"
+msgstr "Prilepi ključne sličice"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:121
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
+msgstr ""
+"Prilepi ključne sličice. Prilepite podatke odložišča kot ključne sličice na "
+"trenutnem položaju."
+
+#: src/assets/view/widgets/keyframecontainer.cpp:123
+#, kde-format
+msgid "Apply current position value to selected keyframes"
+msgstr "Uporabi trenutno vrednost položaja za izbrane ključne sličice"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:126
+#: src/assets/view/widgets/keyframecontainer.cpp:139
+#, kde-format
+msgid "Keyframe interpolation"
+msgstr "Interpolacija ključnih sličic"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:140
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Keyframe interpolation. This defines which interpolation will be used for "
+"the current keyframe."
+msgstr ""
+"Interpolacija ključnih sličic. To določa, katera interpolacija bo "
+"uporabljena za trenutno ključno sličico."
+
+#: src/assets/view/widgets/keyframecontainer.cpp:161
+#, kde-format
+msgid "Seek to Keyframe on Select"
+msgstr "Preišči do izbrane ključne sličice"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:166
+#, kde-format
+msgid "Copy All Keyframes to Clipboard"
+msgstr "Kopiraj vse ključne sličice na odložišče"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:168
+#, kde-format
+msgid "Import Keyframes from Clipboard…"
+msgstr "Uvozi ključne sličice iz odložišča …"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:176
+#, kde-format
+msgid "Remove all Keyframes After Cursor"
+msgstr "Odstrani vse ključne sličice za kazalcem"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:180
+#, kde-format
+msgid "Default Keyframe Type"
+msgstr "Privzeta zvrst ključne sličice"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:219
+#, kde-format
+msgid "Limit automatic keyframes"
+msgstr "Omeji samodejne ključne sličice"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/assets/view/widgets/keyframecontainer.cpp:231 src/bin/bin.cpp:1349
+#: src/ui/clipstabilize_ui.ui:37
+#, kde-format
+msgid "Options"
+msgstr "Možnosti"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:233
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Opens a list of further actions for managing keyframes (for example: copy to "
+"and pasting keyframes from clipboard)."
+msgstr ""
+"Odpre seznam nadaljnjih dejanj za upravljanje ključnih sličic (npr. "
+"kopiranje in lepljenje ključnih sličic iz odložišča)."
+
+#: src/assets/view/widgets/keyframecontainer.cpp:300
+#, kde-format
+msgid "Select parameters to copy"
+msgstr "Izberite parametre za kopiranje"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:855
+#, kde-format
+msgid "Keyframes copied"
+msgstr "Ključne sličice kopirane"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:866
+#: src/assets/view/widgets/keyframecontainer.cpp:907
+#: src/assets/view/widgets/keyframecontainer.cpp:914
+#, kde-format
+msgid "No valid keyframe data in clipboard"
+msgstr "Ni veljavnih podatkov ključnih sličic na odložišču"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:958
+#, kde-format
+msgid "Cannot copy current parameter values"
+msgstr "Ni možno kopirati trenutnih vrednosti parametrov"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:963
+#: src/assets/view/widgets/keyframecontainer.cpp:974
+#, kde-format
+msgid "Current values copied"
+msgstr "Trenutne vrednosti kopirane"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:986
+#, kde-format
+msgid "No keyframe data in clipboard"
+msgstr "Ni podatkov ključnih sličic na odložišču"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:1067
+#, kde-format
+msgid "Cannot remove the last keyframe"
+msgstr "Zadnje ključne sličice ni možno odstraniti"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:1079
+#, kde-format
+msgid "Remove keyframe"
+msgid_plural "Remove keyframes"
+msgstr[0] "Odstrani ključne sličice"
+msgstr[1] "Odstrani ključno sličico"
+msgstr[2] "Odstrani ključni sličici"
+msgstr[3] "Odstrani ključne sličice"
 
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, kde-format
@@ -15174,184 +15354,6 @@ msgstr "Y"
 #, kde-format
 msgid "Import keyframes from clipboard"
 msgstr "Uvozi ključne sličice iz odložišča"
-
-#: src/assets/view/widgets/keyframewidget.cpp:75
-#, kde-format
-msgid "Switch to timeline view"
-msgstr "Preklop na pogled časovnice"
-
-#: src/assets/view/widgets/keyframewidget.cpp:77
-#, kde-format
-msgid "Switch to curve editor view"
-msgstr "Preklop na pogled urejevalnika krivulj"
-
-#: src/assets/view/widgets/keyframewidget.cpp:98 src/dialogs/timeremap.cpp:1621
-#: src/mainwindow.cpp:1820
-#, kde-format
-msgid "Go to previous keyframe"
-msgstr "Pojdi na predhodno ključno sličico"
-
-#: src/assets/view/widgets/keyframewidget.cpp:102
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1818
-#, kde-format
-msgid "Go to next keyframe"
-msgstr "Pojdi na naslednjo ključno sličico"
-
-#: src/assets/view/widgets/keyframewidget.cpp:107
-#: src/dialogs/timeremap.cpp:1626 src/dialogs/timeremap.cpp:1628
-#, kde-format
-msgid "Move selected keyframe to cursor"
-msgstr "Prenesi izbrane ključne sličice za kazalcem"
-
-#: src/assets/view/widgets/keyframewidget.cpp:110
-#: src/assets/view/widgets/keyframewidget.cpp:112
-#, kde-format
-msgid "Copy keyframes"
-msgstr "Kopiraj ključne sličice"
-
-#: src/assets/view/widgets/keyframewidget.cpp:114
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"Copy keyframes. Copy the selected keyframes, or current parameters values if "
-"no keyframe is selected."
-msgstr ""
-"Kopira ključne sličice. Kopirajte izbrane ključne sličice ali trenutne "
-"vrednosti parametrov, če ni izbrana nobena ključna sličica."
-
-#: src/assets/view/widgets/keyframewidget.cpp:116
-#: src/assets/view/widgets/keyframewidget.cpp:942
-#, kde-format
-msgid "Paste keyframe"
-msgstr "Prilepi ključno sličico"
-
-#: src/assets/view/widgets/keyframewidget.cpp:118
-#, kde-format
-msgid "Paste keyframes"
-msgstr "Prilepi ključne sličice"
-
-#: src/assets/view/widgets/keyframewidget.cpp:119
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
-msgstr ""
-"Prilepi ključne sličice. Prilepite podatke odložišča kot ključne sličice na "
-"trenutnem položaju."
-
-#: src/assets/view/widgets/keyframewidget.cpp:121
-#, kde-format
-msgid "Apply current position value to selected keyframes"
-msgstr "Uporabi trenutno vrednost položaja za izbrane ključne sličice"
-
-#: src/assets/view/widgets/keyframewidget.cpp:124
-#: src/assets/view/widgets/keyframewidget.cpp:137
-#, kde-format
-msgid "Keyframe interpolation"
-msgstr "Interpolacija ključnih sličic"
-
-#: src/assets/view/widgets/keyframewidget.cpp:138
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"Keyframe interpolation. This defines which interpolation will be used for "
-"the current keyframe."
-msgstr ""
-"Interpolacija ključnih sličic. To določa, katera interpolacija bo "
-"uporabljena za trenutno ključno sličico."
-
-#: src/assets/view/widgets/keyframewidget.cpp:159
-#, kde-format
-msgid "Seek to Keyframe on Select"
-msgstr "Preišči do izbrane ključne sličice"
-
-#: src/assets/view/widgets/keyframewidget.cpp:164
-#, kde-format
-msgid "Copy All Keyframes to Clipboard"
-msgstr "Kopiraj vse ključne sličice na odložišče"
-
-#: src/assets/view/widgets/keyframewidget.cpp:166
-#, kde-format
-msgid "Import Keyframes from Clipboard…"
-msgstr "Uvozi ključne sličice iz odložišča …"
-
-#: src/assets/view/widgets/keyframewidget.cpp:174
-#, kde-format
-msgid "Remove all Keyframes After Cursor"
-msgstr "Odstrani vse ključne sličice za kazalcem"
-
-#: src/assets/view/widgets/keyframewidget.cpp:178
-#, kde-format
-msgid "Default Keyframe Type"
-msgstr "Privzeta zvrst ključne sličice"
-
-#: src/assets/view/widgets/keyframewidget.cpp:217
-#, kde-format
-msgid "Limit automatic keyframes"
-msgstr "Omeji samodejne ključne sličice"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:229 src/bin/bin.cpp:1349
-#: src/ui/clipstabilize_ui.ui:37
-#, kde-format
-msgid "Options"
-msgstr "Možnosti"
-
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"Opens a list of further actions for managing keyframes (for example: copy to "
-"and pasting keyframes from clipboard)."
-msgstr ""
-"Odpre seznam nadaljnjih dejanj za upravljanje ključnih sličic (npr. "
-"kopiranje in lepljenje ključnih sličic iz odložišča)."
-
-#: src/assets/view/widgets/keyframewidget.cpp:298
-#, kde-format
-msgid "Select parameters to copy"
-msgstr "Izberite parametre za kopiranje"
-
-#: src/assets/view/widgets/keyframewidget.cpp:847
-#, kde-format
-msgid "Keyframes copied"
-msgstr "Ključne sličice kopirane"
-
-#: src/assets/view/widgets/keyframewidget.cpp:858
-#: src/assets/view/widgets/keyframewidget.cpp:899
-#: src/assets/view/widgets/keyframewidget.cpp:906
-#, kde-format
-msgid "No valid keyframe data in clipboard"
-msgstr "Ni veljavnih podatkov ključnih sličic na odložišču"
-
-#: src/assets/view/widgets/keyframewidget.cpp:950
-#, kde-format
-msgid "Cannot copy current parameter values"
-msgstr "Ni možno kopirati trenutnih vrednosti parametrov"
-
-#: src/assets/view/widgets/keyframewidget.cpp:955
-#: src/assets/view/widgets/keyframewidget.cpp:966
-#, kde-format
-msgid "Current values copied"
-msgstr "Trenutne vrednosti kopirane"
-
-#: src/assets/view/widgets/keyframewidget.cpp:978
-#, kde-format
-msgid "No keyframe data in clipboard"
-msgstr "Ni podatkov ključnih sličic na odložišču"
-
-#: src/assets/view/widgets/keyframewidget.cpp:1059
-#, kde-format
-msgid "Cannot remove the last keyframe"
-msgstr "Zadnje ključne sličice ni možno odstraniti"
-
-#: src/assets/view/widgets/keyframewidget.cpp:1071
-#, kde-format
-msgid "Remove keyframe"
-msgid_plural "Remove keyframes"
-msgstr[0] "Odstrani ključne sličice"
-msgstr[1] "Odstrani ključno sličico"
-msgstr[2] "Odstrani ključni sličici"
-msgstr[3] "Odstrani ključne sličice"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:29
 #, kde-format
@@ -16789,7 +16791,7 @@ msgid "Cut clip"
 msgstr "Odreži posnetek"
 
 #: src/bin/model/subtitlemodel.cpp:850 src/bin/model/subtitlemodel.cpp:1623
-#: src/timeline2/model/timelinemodel.cpp:3981
+#: src/timeline2/model/timelinemodel.cpp:3992
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Spremeni velikost podnaslova"
@@ -16802,7 +16804,7 @@ msgstr "Premakni podnaslov"
 
 #: src/bin/model/subtitlemodel.cpp:1218
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:868
+#: src/effects/effectstack/view/effectstackview.cpp:873
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17781,7 +17783,7 @@ msgstr "Izvozi podatke vodil"
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:748
-#: src/effects/effectstack/view/effectstackview.cpp:903
+#: src/effects/effectstack/view/effectstackview.cpp:908
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -21252,7 +21254,7 @@ msgstr "Učinka %1 ni možno dodati dvakrat."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:690
 #: src/effects/effectstack/view/effectstackview.cpp:237
-#: src/timeline2/model/timelinemodel.cpp:5095
+#: src/timeline2/model/timelinemodel.cpp:5106
 #, kde-format
 msgid "Add effect %1"
 msgstr "Dodaj učinek %1"
@@ -21483,7 +21485,7 @@ msgstr "Navpično prezrcali"
 
 #: src/effects/effectstack/view/effectstackview.cpp:344
 #: src/effects/effectstack/view/effectstackview.cpp:429
-#: src/effects/effectstack/view/effectstackview.cpp:991
+#: src/effects/effectstack/view/effectstackview.cpp:996
 #, kde-format
 msgid "Remove Background"
 msgstr "Odstrani ozadje"
@@ -21503,47 +21505,47 @@ msgstr "Prezrcali"
 msgid "Exporting…"
 msgstr "Izvažanje …"
 
-#: src/effects/effectstack/view/effectstackview.cpp:778
+#: src/effects/effectstack/view/effectstackview.cpp:783
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Omogoči sklad učinkov"
 
-#: src/effects/effectstack/view/effectstackview.cpp:778
+#: src/effects/effectstack/view/effectstackview.cpp:783
 #: src/timeline2/view/timelinecontroller.cpp:3298
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Onemogoči sklad učinkov"
 
-#: src/effects/effectstack/view/effectstackview.cpp:817
+#: src/effects/effectstack/view/effectstackview.cpp:822
 #, kde-format
 msgid "No effect selected."
 msgstr "Izbran ni noben učinek."
 
-#: src/effects/effectstack/view/effectstackview.cpp:831
+#: src/effects/effectstack/view/effectstackview.cpp:836
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Shrani trenutni sklad učinkov"
 
-#: src/effects/effectstack/view/effectstackview.cpp:836
+#: src/effects/effectstack/view/effectstackview.cpp:841
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Ime za shranjeni sklad:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:837
+#: src/effects/effectstack/view/effectstackview.cpp:842
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Opis:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:849
+#: src/effects/effectstack/view/effectstackview.cpp:854
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Ime ni podano, skladovnica učinkov ni shranjena."
 
-#: src/effects/effectstack/view/effectstackview.cpp:856
+#: src/effects/effectstack/view/effectstackview.cpp:861
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21552,8 +21554,8 @@ msgstr ""
 "Noben opis ni na voljo. \n"
 "Ali želite shraniti učinek brez opisa?"
 
-#: src/effects/effectstack/view/effectstackview.cpp:988
-#: src/effects/effectstack/view/effectstackview.cpp:1014
+#: src/effects/effectstack/view/effectstackview.cpp:993
+#: src/effects/effectstack/view/effectstackview.cpp:1019
 #, kde-format
 msgid "Abort Mask Creation"
 msgstr "Prekini ustvarjanje maske"
@@ -27152,12 +27154,12 @@ msgstr ""
 "Ustvari označevalnike na časovnici iz izbranih časovnih kod (ni pomembno, "
 "ali je izbrano tudi drugo besedilo)."
 
-#: src/project/notesplugin.cpp:189
+#: src/project/notesplugin.cpp:190
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "Ni možno dodati opombe, noben posnetek v posodi projekta ni izbran"
 
-#: src/project/notesplugin.cpp:217
+#: src/project/notesplugin.cpp:218
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Ni možno izvesti dodeljevanja"
@@ -28921,7 +28923,7 @@ msgid "Delete clips on track"
 msgstr "Izbriši posnetke s steze"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4672
+#: src/timeline2/model/timelinemodel.cpp:4683
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -29067,58 +29069,58 @@ msgid "Delete Composition"
 msgstr "Izbriši sestavo"
 
 #: src/timeline2/model/timelinemodel.cpp:2412
-#: src/timeline2/model/timelinemodel.cpp:2702
+#: src/timeline2/model/timelinemodel.cpp:2713
 #: src/timeline2/view/timelinecontroller.cpp:4276
 #, kde-format
 msgid "Move group"
 msgstr "Premakni skupino"
 
-#: src/timeline2/model/timelinemodel.cpp:3396
+#: src/timeline2/model/timelinemodel.cpp:3407
 #, kde-format
 msgid "Resize group"
 msgstr "Spremeni velikost skupine"
 
-#: src/timeline2/model/timelinemodel.cpp:3520
+#: src/timeline2/model/timelinemodel.cpp:3531
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:3679
+#: src/timeline2/model/timelinemodel.cpp:3690
 #, kde-format
 msgid "Remove mix"
 msgstr "Odstrani mešanico"
 
-#: src/timeline2/model/timelinemodel.cpp:3681
+#: src/timeline2/model/timelinemodel.cpp:3692
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Odstranjevanje mešanice ni uspelo"
 
-#: src/timeline2/model/timelinemodel.cpp:3977
+#: src/timeline2/model/timelinemodel.cpp:3988
 #, kde-format
 msgid "Resize clip"
 msgstr "Spremeni velikost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:3979
+#: src/timeline2/model/timelinemodel.cpp:3990
 #, kde-format
 msgid "Resize composition"
 msgstr "Spremeni velikost sestave"
 
-#: src/timeline2/model/timelinemodel.cpp:4298
+#: src/timeline2/model/timelinemodel.cpp:4309
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Spremeni velikost posnetka z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4300
+#: src/timeline2/model/timelinemodel.cpp:4311
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Spremeni velikost sestave z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4302
+#: src/timeline2/model/timelinemodel.cpp:4313
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Spremeni velikost podnaslova z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4445
+#: src/timeline2/model/timelinemodel.cpp:4456
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -29128,135 +29130,135 @@ msgstr[1] "Podrsaj posnetek"
 msgstr[2] "Podrsaj posnetka"
 msgstr[3] "Podrsaj posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4480
+#: src/timeline2/model/timelinemodel.cpp:4491
 #, kde-format
 msgid "Slip clip"
 msgstr "Podrsaj posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4515
+#: src/timeline2/model/timelinemodel.cpp:4526
 #, kde-format
 msgid "Group clips"
 msgstr "Združi posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4600
-#: src/timeline2/model/timelinemodel.cpp:4616
+#: src/timeline2/model/timelinemodel.cpp:4611
+#: src/timeline2/model/timelinemodel.cpp:4627
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Razdruži posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4781
+#: src/timeline2/model/timelinemodel.cpp:4792
 #: src/timeline2/view/timelinecontroller.cpp:982
 #, kde-format
 msgid "Delete Track"
 msgstr "Izbriši stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:4791
+#: src/timeline2/model/timelinemodel.cpp:4802
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Zadnje steze na časovnici ni možno izbrisati"
 
-#: src/timeline2/model/timelinemodel.cpp:5016
+#: src/timeline2/model/timelinemodel.cpp:5027
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Učinka %1 ni možno dodati na glavno stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5023
+#: src/timeline2/model/timelinemodel.cpp:5034
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Učinka %1 ni možno dodati na izbrano stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5044
+#: src/timeline2/model/timelinemodel.cpp:5055
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Ni možno prilepiti učinka na glavno stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5050
+#: src/timeline2/model/timelinemodel.cpp:5061
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Ni možno prilepiti učinka na izbrano stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:5098
+#: src/timeline2/model/timelinemodel.cpp:5109
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Izbranemu posnetku ni možno dodati slikovnega učinka %1"
 
-#: src/timeline2/model/timelinemodel.cpp:5122
+#: src/timeline2/model/timelinemodel.cpp:5133
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Prilagodi pojemanje"
 
-#: src/timeline2/model/timelinemodel.cpp:5487
+#: src/timeline2/model/timelinemodel.cpp:5498
 #, kde-format
 msgid "Insert Composition"
 msgstr "Vstavi sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:5708
+#: src/timeline2/model/timelinemodel.cpp:5719
 #, kde-format
 msgid "Move composition"
 msgstr "Prenesi sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6379
+#: src/timeline2/model/timelinemodel.cpp:6390
 #, kde-format
 msgid "Enable time remap"
 msgstr "Omogoči časovno preslikavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6453
+#: src/timeline2/model/timelinemodel.cpp:6464
 #, kde-format
 msgid "Change speed failed"
 msgstr "Sprememba hitrosti ni uspela"
 
-#: src/timeline2/model/timelinemodel.cpp:6463
+#: src/timeline2/model/timelinemodel.cpp:6474
 #, kde-format
 msgid "Change clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:6911
+#: src/timeline2/model/timelinemodel.cpp:6922
 #: src/timeline2/view/qml/timeline.qml:1215
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Lock track"
 msgstr "Zakleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:6916
+#: src/timeline2/model/timelinemodel.cpp:6927
 #: src/timeline2/view/qml/timeline.qml:1215
 #: src/timeline2/view/qml/TrackHead.qml:455
 #, kde-format
 msgid "Unlock track"
 msgstr "Odkleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:6950
-#: src/timeline2/model/timelinemodel.cpp:7012
+#: src/timeline2/model/timelinemodel.cpp:6961
+#: src/timeline2/model/timelinemodel.cpp:7023
 #, kde-format
 msgid "Change composition"
 msgstr "Spremeni sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6964
+#: src/timeline2/model/timelinemodel.cpp:6975
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ni možno delovati na skupinski sestavi, najprej jo razdružite"
 
-#: src/timeline2/model/timelinemodel.cpp:7159
-#: src/timeline2/model/timelinemodel.cpp:7196
-#: src/timeline2/model/timelinemodel.cpp:7229
-#: src/timeline2/model/timelinemodel.cpp:7308
+#: src/timeline2/model/timelinemodel.cpp:7170
+#: src/timeline2/model/timelinemodel.cpp:7207
+#: src/timeline2/model/timelinemodel.cpp:7240
+#: src/timeline2/model/timelinemodel.cpp:7319
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka za manj kot 1 sličico"
 
-#: src/timeline2/model/timelinemodel.cpp:7170
-#: src/timeline2/model/timelinemodel.cpp:7204
-#: src/timeline2/model/timelinemodel.cpp:7246
-#: src/timeline2/model/timelinemodel.cpp:7332
+#: src/timeline2/model/timelinemodel.cpp:7181
+#: src/timeline2/model/timelinemodel.cpp:7215
+#: src/timeline2/model/timelinemodel.cpp:7257
+#: src/timeline2/model/timelinemodel.cpp:7343
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7346
+#: src/timeline2/model/timelinemodel.cpp:7357
 #, kde-format
 msgid "Resize mix"
 msgstr "Spremeni dolžino mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7466
+#: src/timeline2/model/timelinemodel.cpp:7477
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Napaka pri inicializiranju predogleda časovnice"
