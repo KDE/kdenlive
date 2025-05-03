@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-02 00:41+0000\n"
+"POT-Creation-Date: 2025-05-03 00:42+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -2452,9 +2452,9 @@ msgstr "All wiesen"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:24
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:23
 #: data/transitions/frei0r/frei0r_cairoblend.xml:8
-#: src/assets/view/widgets/keyframewidget.cpp:274
-#: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:586
+#: src/assets/view/widgets/keyframecontainer.cpp:276
+#: src/assets/view/widgets/keyframecontainer.cpp:323
+#: src/assets/view/widgets/keyframecontainer.cpp:588
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -3169,11 +3169,11 @@ msgstr ""
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
+#: src/assets/view/widgets/keyframecontainer.cpp:279
+#: src/assets/view/widgets/keyframecontainer.cpp:335
+#: src/assets/view/widgets/keyframecontainer.cpp:586
 #: src/assets/view/widgets/keyframeimport.cpp:427
 #: src/assets/view/widgets/keyframeimport.cpp:813
-#: src/assets/view/widgets/keyframewidget.cpp:277
-#: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "Width"
 msgstr ""
@@ -3184,11 +3184,11 @@ msgid "<![CDATA[Distance between vertical lines in pixel]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
+#: src/assets/view/widgets/keyframecontainer.cpp:278
+#: src/assets/view/widgets/keyframecontainer.cpp:329
+#: src/assets/view/widgets/keyframecontainer.cpp:586
 #: src/assets/view/widgets/keyframeimport.cpp:430
 #: src/assets/view/widgets/keyframeimport.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:276
-#: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:584
 #, kde-format
 msgid "Height"
 msgstr ""
@@ -13930,18 +13930,18 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:8
-#: src/assets/view/widgets/keyframewidget.cpp:279
-#: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:584
+#: src/assets/view/widgets/keyframecontainer.cpp:281
+#: src/assets/view/widgets/keyframecontainer.cpp:341
+#: src/assets/view/widgets/keyframecontainer.cpp:586
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "X position"
 msgstr "Övergäng"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:11
-#: src/assets/view/widgets/keyframewidget.cpp:278
-#: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:584
+#: src/assets/view/widgets/keyframecontainer.cpp:280
+#: src/assets/view/widgets/keyframecontainer.cpp:347
+#: src/assets/view/widgets/keyframecontainer.cpp:586
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Y position"
@@ -14734,6 +14734,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Beschrieven"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
+#: src/project/notesplugin.cpp:168
 #, fuzzy, kde-format
 #| msgid "Search automatically"
 msgid "Search…"
@@ -14984,8 +14985,8 @@ msgstr ""
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:134
 #: src/assets/keyframes/model/keyframemodellist.cpp:215
-#: src/assets/view/widgets/keyframewidget.cpp:91 src/dialogs/timeremap.cpp:1612
-#: src/dialogs/timeremap.cpp:1637
+#: src/assets/view/widgets/keyframecontainer.cpp:93
+#: src/dialogs/timeremap.cpp:1612 src/dialogs/timeremap.cpp:1637
 #, kde-format
 msgid "Add keyframe"
 msgstr ""
@@ -15000,7 +15001,8 @@ msgstr "Füllklöör"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:267
-#: src/assets/view/widgets/keyframewidget.cpp:93 src/dialogs/timeremap.cpp:1633
+#: src/assets/view/widgets/keyframecontainer.cpp:95
+#: src/dialogs/timeremap.cpp:1633
 #, kde-format
 msgid "Delete keyframe"
 msgstr ""
@@ -15200,7 +15202,7 @@ msgstr "Profil wegmaken"
 msgid "Save effect"
 msgstr "Effekten"
 
-#: src/assets/view/assetparameterview.cpp:356
+#: src/assets/view/assetparameterview.cpp:380
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1410
 #, fuzzy, kde-format
@@ -15209,7 +15211,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Unikode-Teken infögen"
 
-#: src/assets/view/assetparameterview.cpp:356
+#: src/assets/view/assetparameterview.cpp:380
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1410
 #, kde-format
@@ -15227,6 +15229,192 @@ msgstr ""
 #| msgid " frames"
 msgid "Move Keyframe"
 msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:77
+#, fuzzy, kde-format
+#| msgid "Image File"
+msgid "Switch to timeline view"
+msgstr "Bilddatei"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:79
+#, kde-format
+msgid "Switch to curve editor view"
+msgstr ""
+
+#: src/assets/view/widgets/keyframecontainer.cpp:100
+#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1852
+#, kde-format
+msgid "Go to previous keyframe"
+msgstr ""
+
+#: src/assets/view/widgets/keyframecontainer.cpp:104
+#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:1850
+#, kde-format
+msgid "Go to next keyframe"
+msgstr ""
+
+#: src/assets/view/widgets/keyframecontainer.cpp:109
+#: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Move selected keyframe to cursor"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:112
+#: src/assets/view/widgets/keyframecontainer.cpp:114
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Copy keyframes"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:116
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Copy keyframes. Copy the selected keyframes, or current parameters values if "
+"no keyframe is selected."
+msgstr ""
+
+#: src/assets/view/widgets/keyframecontainer.cpp:118
+#: src/assets/view/widgets/keyframecontainer.cpp:949
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Paste keyframe"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:120
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Paste keyframes"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:121
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
+msgstr ""
+
+#: src/assets/view/widgets/keyframecontainer.cpp:123
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Apply current position value to selected keyframes"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:126
+#: src/assets/view/widgets/keyframecontainer.cpp:139
+#, fuzzy, kde-format
+msgid "Keyframe interpolation"
+msgstr "Interpolater"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:140
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Keyframe interpolation. This defines which interpolation will be used for "
+"the current keyframe."
+msgstr ""
+
+#: src/assets/view/widgets/keyframecontainer.cpp:161
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Seek to Keyframe on Select"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:166
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Copy All Keyframes to Clipboard"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:168
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Import Keyframes from Clipboard…"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:176
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Remove all Keyframes After Cursor"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:180
+#, fuzzy, kde-format
+#| msgid "Frame Duration"
+msgid "Default Keyframe Type"
+msgstr "Bildduer"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:219
+#, fuzzy, kde-format
+#| msgid "Automatic"
+msgid "Limit automatic keyframes"
+msgstr "Automaatsch"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/assets/view/widgets/keyframecontainer.cpp:231 src/bin/bin.cpp:1350
+#: src/ui/clipstabilize_ui.ui:37
+#, kde-format
+msgid "Options"
+msgstr ""
+
+#: src/assets/view/widgets/keyframecontainer.cpp:233
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Opens a list of further actions for managing keyframes (for example: copy to "
+"and pasting keyframes from clipboard)."
+msgstr ""
+
+#: src/assets/view/widgets/keyframecontainer.cpp:300
+#, fuzzy, kde-format
+#| msgid "Parameters"
+msgid "Select parameters to copy"
+msgstr "Parameters"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:854
+#, fuzzy, kde-format
+msgid "Keyframes copied"
+msgstr "Interpolater"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:865
+#: src/assets/view/widgets/keyframecontainer.cpp:906
+#: src/assets/view/widgets/keyframecontainer.cpp:913
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "No valid keyframe data in clipboard"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:957
+#, fuzzy, kde-format
+#| msgid "Opening file %1"
+msgid "Cannot copy current parameter values"
+msgstr "Datei \"%1\" warrt opmaakt"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:962
+#: src/assets/view/widgets/keyframecontainer.cpp:973
+#, fuzzy, kde-format
+msgid "Current values copied"
+msgstr "Interpolater"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:985
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "No keyframe data in clipboard"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:1066
+#, fuzzy, kde-format
+#| msgid "Opening file %1"
+msgid "Cannot remove the last keyframe"
+msgstr "Datei \"%1\" warrt opmaakt"
+
+#: src/assets/view/widgets/keyframecontainer.cpp:1078
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Remove keyframe"
+msgid_plural "Remove keyframes"
+msgstr[0] " Biller"
+msgstr[1] " Biller"
 
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, fuzzy, kde-format
@@ -15401,192 +15589,6 @@ msgstr ""
 #| msgid " frames"
 msgid "Import keyframes from clipboard"
 msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:75
-#, fuzzy, kde-format
-#| msgid "Image File"
-msgid "Switch to timeline view"
-msgstr "Bilddatei"
-
-#: src/assets/view/widgets/keyframewidget.cpp:77
-#, kde-format
-msgid "Switch to curve editor view"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:98 src/dialogs/timeremap.cpp:1618
-#: src/mainwindow.cpp:1852
-#, kde-format
-msgid "Go to previous keyframe"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:102
-#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:1850
-#, kde-format
-msgid "Go to next keyframe"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:107
-#: src/dialogs/timeremap.cpp:1623 src/dialogs/timeremap.cpp:1625
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Move selected keyframe to cursor"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:110
-#: src/assets/view/widgets/keyframewidget.cpp:112
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Copy keyframes"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:114
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"Copy keyframes. Copy the selected keyframes, or current parameters values if "
-"no keyframe is selected."
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:116
-#: src/assets/view/widgets/keyframewidget.cpp:941
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Paste keyframe"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:118
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Paste keyframes"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:119
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:121
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Apply current position value to selected keyframes"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:124
-#: src/assets/view/widgets/keyframewidget.cpp:137
-#, fuzzy, kde-format
-msgid "Keyframe interpolation"
-msgstr "Interpolater"
-
-#: src/assets/view/widgets/keyframewidget.cpp:138
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"Keyframe interpolation. This defines which interpolation will be used for "
-"the current keyframe."
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:159
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Seek to Keyframe on Select"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:164
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Copy All Keyframes to Clipboard"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:166
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Import Keyframes from Clipboard…"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:174
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Remove all Keyframes After Cursor"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:178
-#, fuzzy, kde-format
-#| msgid "Frame Duration"
-msgid "Default Keyframe Type"
-msgstr "Bildduer"
-
-#: src/assets/view/widgets/keyframewidget.cpp:217
-#, fuzzy, kde-format
-#| msgid "Automatic"
-msgid "Limit automatic keyframes"
-msgstr "Automaatsch"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:229 src/bin/bin.cpp:1350
-#: src/ui/clipstabilize_ui.ui:37
-#, kde-format
-msgid "Options"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"Opens a list of further actions for managing keyframes (for example: copy to "
-"and pasting keyframes from clipboard)."
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:298
-#, fuzzy, kde-format
-#| msgid "Parameters"
-msgid "Select parameters to copy"
-msgstr "Parameters"
-
-#: src/assets/view/widgets/keyframewidget.cpp:846
-#, fuzzy, kde-format
-msgid "Keyframes copied"
-msgstr "Interpolater"
-
-#: src/assets/view/widgets/keyframewidget.cpp:857
-#: src/assets/view/widgets/keyframewidget.cpp:898
-#: src/assets/view/widgets/keyframewidget.cpp:905
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "No valid keyframe data in clipboard"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:949
-#, fuzzy, kde-format
-#| msgid "Opening file %1"
-msgid "Cannot copy current parameter values"
-msgstr "Datei \"%1\" warrt opmaakt"
-
-#: src/assets/view/widgets/keyframewidget.cpp:954
-#: src/assets/view/widgets/keyframewidget.cpp:965
-#, fuzzy, kde-format
-msgid "Current values copied"
-msgstr "Interpolater"
-
-#: src/assets/view/widgets/keyframewidget.cpp:977
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "No keyframe data in clipboard"
-msgstr " Biller"
-
-#: src/assets/view/widgets/keyframewidget.cpp:1058
-#, fuzzy, kde-format
-#| msgid "Opening file %1"
-msgid "Cannot remove the last keyframe"
-msgstr "Datei \"%1\" warrt opmaakt"
-
-#: src/assets/view/widgets/keyframewidget.cpp:1070
-#, fuzzy, kde-format
-#| msgid " frames"
-msgid "Remove keyframe"
-msgid_plural "Remove keyframes"
-msgstr[0] " Biller"
-msgstr[1] " Biller"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:29
 #, kde-format
@@ -15967,7 +15969,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Orner wegdoon"
 
-#: src/bin/bin.cpp:1863 src/effects/effectstack/view/maskmanager.cpp:251
+#: src/bin/bin.cpp:1863 src/effects/effectstack/view/maskmanager.cpp:253
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Missing source clip"
@@ -16115,7 +16117,7 @@ msgid "Replace in timeline"
 msgstr "Vöransichten warrt laadt"
 
 #: src/bin/bin.cpp:2144 src/bin/bin.cpp:5749 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:626
+#: src/effects/effectstack/view/maskmanager.cpp:628
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgctxt "@action"
@@ -16753,7 +16755,7 @@ msgstr "Keen Effekt"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6333 src/bin/bin.cpp:6336 src/mainwindow.cpp:4847
+#: src/bin/bin.cpp:6333 src/bin/bin.cpp:6336 src/mainwindow.cpp:4850
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -17078,7 +17080,7 @@ msgid "Cut clip"
 msgstr "Profil bewerken"
 
 #: src/bin/model/subtitlemodel.cpp:831 src/bin/model/subtitlemodel.cpp:1599
-#: src/timeline2/model/timelinemodel.cpp:3981
+#: src/timeline2/model/timelinemodel.cpp:3992
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Resize subtitle"
@@ -17093,7 +17095,7 @@ msgstr "Bilddatei"
 
 #: src/bin/model/subtitlemodel.cpp:1196
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:669
-#: src/effects/effectstack/view/effectstackview.cpp:770
+#: src/effects/effectstack/view/effectstackview.cpp:775
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
 #, kde-format
@@ -17672,7 +17674,7 @@ msgstr ""
 msgid "Loading clips"
 msgstr ""
 
-#: src/core.cpp:1801
+#: src/core.cpp:1802
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -17680,7 +17682,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1802
+#: src/core.cpp:1803
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Open Browser"
@@ -18104,7 +18106,7 @@ msgstr " Biller"
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:748
-#: src/effects/effectstack/view/effectstackview.cpp:805
+#: src/effects/effectstack/view/effectstackview.cpp:810
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
 #: src/project/dialogs/archivewidget.cpp:705
@@ -18917,14 +18919,14 @@ msgid "Add to Current Project"
 msgstr "Projekt"
 
 #: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:663
+#: src/effects/effectstack/view/maskmanager.cpp:665
 #: src/library/librarywidget.cpp:248
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Open Containing Folder"
 msgstr "Orner wegdoon"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:82 src/mainwindow.cpp:3970
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:82 src/mainwindow.cpp:3973
 #, kde-format
 msgid "Timeline"
 msgstr ""
@@ -21150,7 +21152,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2199 src/mainwindow.cpp:3488
+#: src/doc/documentvalidator.cpp:2199 src/mainwindow.cpp:3491
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
@@ -21564,7 +21566,7 @@ msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:690
 #: src/effects/effectstack/view/effectstackview.cpp:236
-#: src/timeline2/model/timelinemodel.cpp:5095
+#: src/timeline2/model/timelinemodel.cpp:5106
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Add effect %1"
@@ -21794,8 +21796,8 @@ msgid "No name provided, effect not saved."
 msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:350
-#: src/effects/effectstack/view/effectstackview.cpp:893
-#: src/effects/effectstack/view/effectstackview.cpp:980
+#: src/effects/effectstack/view/effectstackview.cpp:898
+#: src/effects/effectstack/view/effectstackview.cpp:985
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Remove Background"
@@ -21807,82 +21809,82 @@ msgstr "Profil sekern"
 msgid "Exporting…"
 msgstr "Vöransichten wiesen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:680
+#: src/effects/effectstack/view/effectstackview.cpp:685
 #: src/timeline2/view/timelinecontroller.cpp:3252
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable Effect Stack"
 msgstr "Utwiedern anmaken"
 
-#: src/effects/effectstack/view/effectstackview.cpp:680
+#: src/effects/effectstack/view/effectstackview.cpp:685
 #: src/timeline2/view/timelinecontroller.cpp:3252
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable Effect Stack"
 msgstr "Keen Effekt"
 
-#: src/effects/effectstack/view/effectstackview.cpp:719
+#: src/effects/effectstack/view/effectstackview.cpp:724
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "No effect selected."
 msgstr "Projekt warrt laadt"
 
-#: src/effects/effectstack/view/effectstackview.cpp:733
+#: src/effects/effectstack/view/effectstackview.cpp:738
 #, fuzzy, kde-format
 #| msgid "Effect Stack"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Effektstapel"
 
-#: src/effects/effectstack/view/effectstackview.cpp:738
+#: src/effects/effectstack/view/effectstackview.cpp:743
 #, kde-format
 msgid "Name for saved stack:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:739
+#: src/effects/effectstack/view/effectstackview.cpp:744
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Beschrieven:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:751
+#: src/effects/effectstack/view/effectstackview.cpp:756
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:758
+#: src/effects/effectstack/view/effectstackview.cpp:763
 #, kde-format
 msgid ""
 "No description provided. \n"
 "Save effect with no description?"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:890
-#: src/effects/effectstack/view/effectstackview.cpp:916
+#: src/effects/effectstack/view/effectstackview.cpp:895
+#: src/effects/effectstack/view/effectstackview.cpp:921
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Abort Mask Creation"
 msgstr "Profil bewerken"
 
-#: src/effects/effectstack/view/effectstackview.cpp:963
+#: src/effects/effectstack/view/effectstackview.cpp:968
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgid "Horizontal Flip"
 msgstr "Kimmrecht"
 
-#: src/effects/effectstack/view/effectstackview.cpp:969
+#: src/effects/effectstack/view/effectstackview.cpp:974
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical Flip"
 msgstr "Pielrecht"
 
-#: src/effects/effectstack/view/effectstackview.cpp:981
+#: src/effects/effectstack/view/effectstackview.cpp:986
 #, kde-format
 msgid "Remove background using AI model"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:994
+#: src/effects/effectstack/view/effectstackview.cpp:999
 #, kde-format
 msgid "Flip"
 msgstr ""
@@ -21899,7 +21901,7 @@ msgstr "Utsöök-Warktüüch"
 msgid "Job failed"
 msgstr "Ümkoderen"
 
-#: src/effects/effectstack/view/maskmanager.cpp:200
+#: src/effects/effectstack/view/maskmanager.cpp:202
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -21907,58 +21909,58 @@ msgid ""
 "the settings, or create several masks for shorter durations."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:231
+#: src/effects/effectstack/view/maskmanager.cpp:233
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:236
+#: src/effects/effectstack/view/maskmanager.cpp:238
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:245
+#: src/effects/effectstack/view/maskmanager.cpp:247
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot open temporary file"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/effects/effectstack/view/maskmanager.cpp:258
+#: src/effects/effectstack/view/maskmanager.cpp:260
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Cannot access project folder"
 msgstr "Ümkoderen"
 
-#: src/effects/effectstack/view/maskmanager.cpp:309
+#: src/effects/effectstack/view/maskmanager.cpp:311
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:313
+#: src/effects/effectstack/view/maskmanager.cpp:315
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Exporting video frames"
 msgstr " Biller"
 
-#: src/effects/effectstack/view/maskmanager.cpp:326
+#: src/effects/effectstack/view/maskmanager.cpp:328
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Missing source frames"
 msgstr "Ümkoderen"
 
-#: src/effects/effectstack/view/maskmanager.cpp:430
+#: src/effects/effectstack/view/maskmanager.cpp:432
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:433
+#: src/effects/effectstack/view/maskmanager.cpp:435
 #, fuzzy, kde-format
 #| msgctxt "general keyboard shortcuts"
 #| msgid "General"
 msgid "Generating mask %1"
 msgstr "Allmeen"
 
-#: src/effects/effectstack/view/maskmanager.cpp:597
+#: src/effects/effectstack/view/maskmanager.cpp:599
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -22381,13 +22383,13 @@ msgid "Add Markers by Category"
 msgstr "Profil bewerken"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3865
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3868
 #, kde-format
 msgid "Extract Audio"
 msgstr ""
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3839
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3842
 #, fuzzy, kde-format
 #| msgid "Align top"
 msgid "Clip Jobs"
@@ -23706,7 +23708,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1367 src/mainwindow.cpp:3474
+#: src/mainwindow.cpp:1367 src/mainwindow.cpp:3477
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -24734,19 +24736,19 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "Ümkoderen"
 
-#: src/mainwindow.cpp:2864
+#: src/mainwindow.cpp:2865
 #, kde-format
 msgid "Marker category does not exist"
 msgstr ""
 
-#: src/mainwindow.cpp:3045 src/timeline2/model/timelinefunctions.cpp:792
+#: src/mainwindow.cpp:3048 src/timeline2/model/timelinefunctions.cpp:792
 #: src/timeline2/view/timelinecontroller.cpp:3112
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite zone"
 msgstr "Överschrievbedrief"
 
-#: src/mainwindow.cpp:3047 src/mainwindow.cpp:3066
+#: src/mainwindow.cpp:3050 src/mainwindow.cpp:3069
 #: src/timeline2/model/timelinefunctions.cpp:794
 #: src/timeline2/view/timelinecontroller.cpp:3114
 #, fuzzy, kde-format
@@ -24754,31 +24756,31 @@ msgstr "Överschrievbedrief"
 msgid "Could not insert zone"
 msgstr "Inföögbedrief"
 
-#: src/mainwindow.cpp:3057
+#: src/mainwindow.cpp:3060
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "No clip selected in project bin"
 msgstr "Projekt warrt laadt"
 
-#: src/mainwindow.cpp:3064 src/timeline2/model/timelinefunctions.cpp:792
+#: src/mainwindow.cpp:3067 src/timeline2/model/timelinefunctions.cpp:792
 #: src/timeline2/view/timelinecontroller.cpp:3112
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert zone"
 msgstr "Inföögbedrief"
 
-#: src/mainwindow.cpp:3231
+#: src/mainwindow.cpp:3234
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Cannot add effect to active item"
 msgstr "Ümkoderen"
 
-#: src/mainwindow.cpp:3293
+#: src/mainwindow.cpp:3296
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr ""
 
-#: src/mainwindow.cpp:3442
+#: src/mainwindow.cpp:3445
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24787,7 +24789,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3446
+#: src/mainwindow.cpp:3449
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24797,25 +24799,25 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3449
+#: src/mainwindow.cpp:3452
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select"
 msgstr "Utsöök-Warktüüch"
 
-#: src/mainwindow.cpp:3451
+#: src/mainwindow.cpp:3454
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3452 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3455 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr ""
 
-#: src/mainwindow.cpp:3456
+#: src/mainwindow.cpp:3459
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24823,12 +24825,12 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3457
+#: src/mainwindow.cpp:3460
 #, kde-format
 msgid "Spacer"
 msgstr ""
 
-#: src/mainwindow.cpp:3459
+#: src/mainwindow.cpp:3462
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24836,14 +24838,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3460
+#: src/mainwindow.cpp:3463
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Utsöök-Warktüüch"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3468
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24852,14 +24854,14 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3467
+#: src/mainwindow.cpp:3470
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Dateiverwiedern:"
 
-#: src/mainwindow.cpp:3473
+#: src/mainwindow.cpp:3476
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24867,152 +24869,152 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3485
+#: src/mainwindow.cpp:3488
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert"
 msgstr "Inföögbedrief"
 
-#: src/mainwindow.cpp:3755 src/mainwindow.cpp:3757
+#: src/mainwindow.cpp:3758 src/mainwindow.cpp:3760
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3762
+#: src/mainwindow.cpp:3765
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bins"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:3858
+#: src/mainwindow.cpp:3861
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Configure Clip Jobs…"
 msgstr "Instellen"
 
-#: src/mainwindow.cpp:3864
+#: src/mainwindow.cpp:3867
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Ümkoderen"
 
-#: src/mainwindow.cpp:3924
+#: src/mainwindow.cpp:3927
 #, kde-format
 msgid "-merged"
 msgstr ""
 
-#: src/mainwindow.cpp:3927
+#: src/mainwindow.cpp:3930
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "-stream-%1"
 msgstr "Klangkanaals"
 
-#: src/mainwindow.cpp:3969
+#: src/mainwindow.cpp:3972
 #, kde-format
 msgid "Interface"
 msgstr ""
 
-#: src/mainwindow.cpp:3991
+#: src/mainwindow.cpp:3994
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Raise %1"
 msgstr "Keen Effekt"
 
-#: src/mainwindow.cpp:4058
+#: src/mainwindow.cpp:4061
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Ümkoderen"
 
-#: src/mainwindow.cpp:4190
+#: src/mainwindow.cpp:4193
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4198
+#: src/mainwindow.cpp:4201
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Archiving project"
 msgstr "Projekt warrt laadt"
 
-#: src/mainwindow.cpp:4338
+#: src/mainwindow.cpp:4341
 #, fuzzy, kde-format
 #| msgid "Font"
 msgid "Icon Size"
 msgstr "Schriftoort"
 
-#: src/mainwindow.cpp:4342
+#: src/mainwindow.cpp:4345
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Standard"
 
-#: src/mainwindow.cpp:4363 src/mainwindow.cpp:4391
+#: src/mainwindow.cpp:4366 src/mainwindow.cpp:4394
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4365 src/mainwindow.cpp:4393
+#: src/mainwindow.cpp:4368 src/mainwindow.cpp:4396
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4367 src/mainwindow.cpp:4395
+#: src/mainwindow.cpp:4370 src/mainwindow.cpp:4398
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4369 src/mainwindow.cpp:4397
+#: src/mainwindow.cpp:4372 src/mainwindow.cpp:4400
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4453
+#: src/mainwindow.cpp:4456
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4453
+#: src/mainwindow.cpp:4456
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Hide menu bar"
 msgstr " Biller"
 
-#: src/mainwindow.cpp:4716 src/timeline2/view/timelinecontroller.cpp:5066
+#: src/mainwindow.cpp:4719 src/timeline2/view/timelinecontroller.cpp:5066
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "No subtitles in current project"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:5003
+#: src/mainwindow.cpp:5006
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5008
+#: src/mainwindow.cpp:5011
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Never check again"
 msgstr "Instellen"
 
-#: src/mainwindow.cpp:5011
+#: src/mainwindow.cpp:5014
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5015
+#: src/mainwindow.cpp:5018
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5058
+#: src/mainwindow.cpp:5061
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Checking cached data size"
@@ -27172,12 +27174,12 @@ msgstr ""
 msgid "Timeline Guides"
 msgstr "Bilddatei"
 
-#: src/project/dialogs/noteswidget.cpp:33
+#: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
 msgid "Insert current timecode"
 msgstr ""
 
-#: src/project/dialogs/noteswidget.cpp:46
+#: src/project/dialogs/noteswidget.cpp:47
 #, fuzzy, kde-format
 #| msgid "Delete Folder"
 msgid "Create marker"
@@ -27185,23 +27187,23 @@ msgid_plural "create markers"
 msgstr[0] "Orner wegdoon"
 msgstr[1] "Orner wegdoon"
 
-#: src/project/dialogs/noteswidget.cpp:50
+#: src/project/dialogs/noteswidget.cpp:51
 #, kde-format
 msgid "Assign timestamps to current Bin Clip"
 msgstr ""
 
-#: src/project/dialogs/noteswidget.cpp:137
+#: src/project/dialogs/noteswidget.cpp:163
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot find project clip"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/project/dialogs/noteswidget.cpp:203
+#: src/project/dialogs/noteswidget.cpp:229
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr ""
 
-#: src/project/dialogs/noteswidget.cpp:214
+#: src/project/dialogs/noteswidget.cpp:240
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr ""
@@ -27705,13 +27707,13 @@ msgid ""
 "if other text is selected too)."
 msgstr ""
 
-#: src/project/notesplugin.cpp:189
+#: src/project/notesplugin.cpp:193
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "Projekt warrt laadt"
 
-#: src/project/notesplugin.cpp:217
+#: src/project/notesplugin.cpp:221
 #, kde-format
 msgid "Cannot perform assign"
 msgstr ""
@@ -29456,7 +29458,7 @@ msgid "Delete clips on track"
 msgstr "Bornklöör"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4672
+#: src/timeline2/model/timelinemodel.cpp:4683
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgctxt "@action"
@@ -29615,66 +29617,66 @@ msgid "Delete Composition"
 msgstr "Positschoon"
 
 #: src/timeline2/model/timelinemodel.cpp:2412
-#: src/timeline2/model/timelinemodel.cpp:2702
+#: src/timeline2/model/timelinemodel.cpp:2713
 #: src/timeline2/view/timelinecontroller.cpp:4227
 #, kde-format
 msgid "Move group"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3396
+#: src/timeline2/model/timelinemodel.cpp:3407
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Resize group"
 msgstr "Profil sekern"
 
-#: src/timeline2/model/timelinemodel.cpp:3520
+#: src/timeline2/model/timelinemodel.cpp:3531
 #, fuzzy, kde-format
 #| msgid "Fill color"
 msgid "Resize clip speed"
 msgstr "Füllklöör"
 
-#: src/timeline2/model/timelinemodel.cpp:3679
+#: src/timeline2/model/timelinemodel.cpp:3690
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Remove mix"
 msgstr "Profil sekern"
 
-#: src/timeline2/model/timelinemodel.cpp:3681
+#: src/timeline2/model/timelinemodel.cpp:3692
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Removing mix failed"
 msgstr "Profil sekern"
 
-#: src/timeline2/model/timelinemodel.cpp:3977
+#: src/timeline2/model/timelinemodel.cpp:3988
 #, kde-format
 msgid "Resize clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3979
+#: src/timeline2/model/timelinemodel.cpp:3990
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Resize composition"
 msgstr "Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:4298
+#: src/timeline2/model/timelinemodel.cpp:4309
 #, fuzzy, kde-format
 #| msgid "Source Color"
 msgid "Ripple resize clip"
 msgstr "Bornklöör"
 
-#: src/timeline2/model/timelinemodel.cpp:4300
+#: src/timeline2/model/timelinemodel.cpp:4311
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Ripple resize composition"
 msgstr "Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:4302
+#: src/timeline2/model/timelinemodel.cpp:4313
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Ripple resize subtitle"
 msgstr "Profil wegmaken"
 
-#: src/timeline2/model/timelinemodel.cpp:4445
+#: src/timeline2/model/timelinemodel.cpp:4456
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgctxt "Undo/Redo menu text"
@@ -29683,97 +29685,97 @@ msgid_plural "Slip clips"
 msgstr[0] "Dateiverwiedern:"
 msgstr[1] "Dateiverwiedern:"
 
-#: src/timeline2/model/timelinemodel.cpp:4480
+#: src/timeline2/model/timelinemodel.cpp:4491
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Slip clip"
 msgstr "Dateiverwiedern:"
 
-#: src/timeline2/model/timelinemodel.cpp:4515
+#: src/timeline2/model/timelinemodel.cpp:4526
 #, kde-format
 msgid "Group clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4600
-#: src/timeline2/model/timelinemodel.cpp:4616
+#: src/timeline2/model/timelinemodel.cpp:4611
+#: src/timeline2/model/timelinemodel.cpp:4627
 #, kde-format
 msgid "Ungroup clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4781
+#: src/timeline2/model/timelinemodel.cpp:4792
 #: src/timeline2/view/timelinecontroller.cpp:948
 #, kde-format
 msgid "Delete Track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4791
+#: src/timeline2/model/timelinemodel.cpp:4802
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5016
+#: src/timeline2/model/timelinemodel.cpp:5027
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Cannot add effect %1 to master track"
 msgstr "Ümkoderen"
 
-#: src/timeline2/model/timelinemodel.cpp:5023
+#: src/timeline2/model/timelinemodel.cpp:5034
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5044
+#: src/timeline2/model/timelinemodel.cpp:5055
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Cannot paste effect to master track"
 msgstr "Ümkoderen"
 
-#: src/timeline2/model/timelinemodel.cpp:5050
+#: src/timeline2/model/timelinemodel.cpp:5061
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5098
+#: src/timeline2/model/timelinemodel.cpp:5109
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5122
+#: src/timeline2/model/timelinemodel.cpp:5133
 #, kde-format
 msgid "Adjust Fade"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:5487
+#: src/timeline2/model/timelinemodel.cpp:5498
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Insert Composition"
 msgstr "Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:5708
+#: src/timeline2/model/timelinemodel.cpp:5719
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Move composition"
 msgstr "Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:6379
+#: src/timeline2/model/timelinemodel.cpp:6390
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable time remap"
 msgstr "Utwiedern anmaken"
 
-#: src/timeline2/model/timelinemodel.cpp:6453
+#: src/timeline2/model/timelinemodel.cpp:6464
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Change speed failed"
 msgstr "Profil bewerken"
 
-#: src/timeline2/model/timelinemodel.cpp:6463
+#: src/timeline2/model/timelinemodel.cpp:6474
 #, fuzzy, kde-format
 #| msgid "Fill color"
 msgid "Change clip speed"
 msgstr "Füllklöör"
 
-#: src/timeline2/model/timelinemodel.cpp:6911
+#: src/timeline2/model/timelinemodel.cpp:6922
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, fuzzy, kde-format
@@ -29781,7 +29783,7 @@ msgstr "Füllklöör"
 msgid "Lock track"
 msgstr " Biller"
 
-#: src/timeline2/model/timelinemodel.cpp:6916
+#: src/timeline2/model/timelinemodel.cpp:6927
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:128
 #: src/timeline2/view/qml/TrackHead.qml:420
 #, fuzzy, kde-format
@@ -29789,43 +29791,43 @@ msgstr " Biller"
 msgid "Unlock track"
 msgstr "Klangkanaals"
 
-#: src/timeline2/model/timelinemodel.cpp:6950
-#: src/timeline2/model/timelinemodel.cpp:7012
+#: src/timeline2/model/timelinemodel.cpp:6961
+#: src/timeline2/model/timelinemodel.cpp:7023
 #, fuzzy, kde-format
 #| msgid "Position X"
 msgid "Change composition"
 msgstr "X-Positschoon"
 
-#: src/timeline2/model/timelinemodel.cpp:6964
+#: src/timeline2/model/timelinemodel.cpp:6975
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7159
-#: src/timeline2/model/timelinemodel.cpp:7196
-#: src/timeline2/model/timelinemodel.cpp:7229
-#: src/timeline2/model/timelinemodel.cpp:7308
+#: src/timeline2/model/timelinemodel.cpp:7170
+#: src/timeline2/model/timelinemodel.cpp:7207
+#: src/timeline2/model/timelinemodel.cpp:7240
+#: src/timeline2/model/timelinemodel.cpp:7319
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/timeline2/model/timelinemodel.cpp:7170
-#: src/timeline2/model/timelinemodel.cpp:7204
-#: src/timeline2/model/timelinemodel.cpp:7246
-#: src/timeline2/model/timelinemodel.cpp:7332
+#: src/timeline2/model/timelinemodel.cpp:7181
+#: src/timeline2/model/timelinemodel.cpp:7215
+#: src/timeline2/model/timelinemodel.cpp:7257
+#: src/timeline2/model/timelinemodel.cpp:7343
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot resize mix"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/timeline2/model/timelinemodel.cpp:7346
+#: src/timeline2/model/timelinemodel.cpp:7357
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Resize mix"
 msgstr "Grött ännern"
 
-#: src/timeline2/model/timelinemodel.cpp:7466
+#: src/timeline2/model/timelinemodel.cpp:7477
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Error initializing timeline preview"
