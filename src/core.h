@@ -348,6 +348,8 @@ public:
     std::pair<bool, bool> assetHasAV(ObjectId id);
     /** @brief Show an item's effect stack */
     void showEffectStackFromId(ObjectId owner);
+    /** @brief Get the Bin id and position offset for the selected timeline clip */
+    std::pair<QString, int> getSelectedClipAndOffset();
 
 private:
     explicit Core(LinuxPackageType packageType);

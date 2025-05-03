@@ -5414,9 +5414,14 @@ void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersD
         return;
     }
     QMap<GenTime, QString> markers;
+    GenTime clipDuration = clip->getPlaytime();
     int ix = 0;
     for (auto m = markersData.cbegin(), end = markersData.cend(); m != end; ++m) {
         GenTime p(m.key(), pCore->getCurrentFps());
+        if (p >= clipDuration) {
+            // Don't import markers that are after clip duration
+            continue;
+        }
         if (m.value().isEmpty()) {
             markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
         } else {

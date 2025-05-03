@@ -153,6 +153,9 @@ void NotesPlugin::setProject(KdenliveDoc *document)
         QAction *a = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Reassign selected timecodes to current Bin clip"));
         connect(a, &QAction::triggered, m_widget, &NotesWidget::assignProjectNote);
         m_tb->addAction(a);
+        a = new QAction(QIcon::fromTheme(QStringLiteral("link")), i18n("Reassign selected timecodes to current timeline clip"));
+        connect(a, &QAction::triggered, m_widget, &NotesWidget::assignProjectNoteToTimelineClip);
+        m_tb->addAction(a);
         m_createFromSelection = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create markers from selected timecodes"));
         m_createFromSelection->setWhatsThis(
             xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
@@ -212,9 +215,11 @@ void NotesPlugin::slotInsertTimecode()
     }
 }
 
-void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &points)
+void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &points, QString binId, int offset)
 {
-    const QString binId = pCore->monitorManager()->clipMonitor()->activeClipId();
+    if (binId.isEmpty()) {
+        binId = pCore->monitorManager()->clipMonitor()->activeClipId();
+    }
     int ix = 0;
     if (points.count() != anchors.count()) {
         // Something is wrong, abort
@@ -232,7 +237,8 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
         if (a.contains(QLatin1Char('#'))) {
             // Link was previously attached to another clip
             updatedLink = a.section(QLatin1Char('#'), 1);
-            position = updatedLink.toInt();
+            position = updatedLink.toInt() - offset;
+            updatedLink = QString::number(position);
             if (!uuid.isEmpty()) {
                 updatedLink.prepend(QStringLiteral("%1#").arg(uuid));
             }
@@ -243,7 +249,8 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
             if (a.contains(QLatin1Char('?'))) {
                 updatedLink = updatedLink.section(QLatin1Char('?'), 0, 0);
             }
-            position = updatedLink.toInt();
+            position = updatedLink.toInt() - offset;
+            updatedLink = QString::number(position);
             if (!uuid.isEmpty()) {
                 updatedLink.prepend(QStringLiteral("%1#").arg(uuid));
             }

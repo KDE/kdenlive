@@ -218,16 +218,33 @@ QPair<QStringList, QList<QPoint>> NotesWidget::getSelectedAnchors()
     return {anchors, anchorPoints};
 }
 
+void NotesWidget::assignProjectNoteToTimelineClip()
+{
+    QPair<QStringList, QList<QPoint>> result = getSelectedAnchors();
+    QStringList anchors = result.first;
+    QList<QPoint> anchorPoints = result.second;
+    if (anchors.isEmpty()) {
+        pCore->displayMessage(i18n("Select some timecodes to reassign"), ErrorMessage);
+        return;
+    }
+    auto clipAndOffset = pCore->getSelectedClipAndOffset();
+    if (clipAndOffset.first.isEmpty()) {
+        pCore->displayMessage(i18n("No clip selected in timeline"), ErrorMessage);
+        return;
+    }
+    Q_EMIT reAssign(anchors, anchorPoints, clipAndOffset.first, clipAndOffset.second);
+}
+
 void NotesWidget::assignProjectNote()
 {
     QPair<QStringList, QList<QPoint>> result = getSelectedAnchors();
     QStringList anchors = result.first;
     QList<QPoint> anchorPoints = result.second;
-    if (!anchors.isEmpty()) {
-        Q_EMIT reAssign(anchors, anchorPoints);
-    } else {
+    if (anchors.isEmpty()) {
         pCore->displayMessage(i18n("Select some timecodes to reassign"), ErrorMessage);
+        return;
     }
+    Q_EMIT reAssign(anchors, anchorPoints);
 }
 
 void NotesWidget::createMarkers()

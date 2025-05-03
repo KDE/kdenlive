@@ -1806,3 +1806,19 @@ void Core::openDocumentationLink(const QUrl &link)
     }
     QDesktopServices::openUrl(link);
 }
+
+std::pair<QString, int> Core::getSelectedClipAndOffset()
+{
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline()->controller()) {
+        return {};
+    }
+    int cid = m_mainWindow->getCurrentTimeline()->controller()->getMainSelectedClip();
+    if (cid == -1) {
+        // No selected clip
+        return {};
+    }
+    // Get position and in point
+    ObjectId id(KdenliveObjectType::TimelineClip, cid, m_mainWindow->getCurrentTimeline()->getUuid());
+    int offset = getItemPosition(id) - getItemIn(id);
+    return {getTimelineClipBinId(id), offset};
+}

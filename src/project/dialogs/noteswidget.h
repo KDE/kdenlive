@@ -35,6 +35,7 @@ protected:
 public Q_SLOTS:
     void createMarkers();
     void assignProjectNote();
+    void assignProjectNoteToTimelineClip();
 
 private:
     void createMarker(const QStringList &anchors, const QList<QPoint> &points = {});
@@ -44,5 +45,5 @@ Q_SIGNALS:
     void insertNotesTimecode();
     void insertTextNote(const QString &text);
     void seekProject(const QString);
-    void reAssign(QStringList anchors, QList <QPoint> points);
+    void reAssign(const QStringList anchors, const QList<QPoint> points, QString bid = QString(), int offset = 0);
 };

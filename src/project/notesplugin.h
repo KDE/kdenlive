@@ -37,7 +37,7 @@ private Q_SLOTS:
     /** @brief Insert current timecode/cursor position into the widget. */
     void slotInsertTimecode();
     /** @brief Re-assign timestamps to current Bin Clip. */
-    void slotReAssign(const QStringList &anchors, const QList <QPoint> &points);
+    void slotReAssign(const QStringList &anchors, const QList<QPoint> &points, QString binId = QString(), int offset = 0);
     /** @brief Insert the given text into the widget. */
     void slotInsertText(const QString &text);
     /** @brief Show / hide the find toolbar. */
