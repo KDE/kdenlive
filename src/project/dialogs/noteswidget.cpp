@@ -168,6 +168,20 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
     e->setAccepted(true);
 }
 
+bool NotesWidget::selectionHasAnchors() const
+{
+    int startPos = textCursor().selectionStart();
+    int endPos = textCursor().selectionEnd();
+    QTextCursor cur = textCursor();
+    for (int p = startPos; p <= endPos; ++p) {
+        cur.setPosition(p, QTextCursor::MoveAnchor);
+        if (!anchorAt(cursorRect(cur).center()).isEmpty()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 QPair<QStringList, QList<QPoint>> NotesWidget::getSelectedAnchors()
 {
     int startPos = textCursor().selectionStart();
@@ -321,17 +335,25 @@ bool NotesWidget::event(QEvent *event)
             QTextCursor cur = textCursor();
             if (!cur.hasSelection()) {
                 cur.select(QTextCursor::LineUnderCursor);
+                int startPos = cur.selectionStart();
                 QTextDocumentFragment selectedText = cur.selection();
                 QString pastedText = selectedText.toPlainText();
                 const QStringList words = pastedText.split(QLatin1Char(' '));
                 bool enforceHtml = false;
                 for (const QString &w : words) {
-                    if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1 && w.count(QLatin1Char('>')) == 0) {
+                    if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
                         // This is probably a timecode
-                        int frames = pCore->timecode().getFrameCount(w);
-                        if (frames > 0) {
-                            pastedText.replace(w, QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + w + QStringLiteral("</a> "));
-                            enforceHtml = true;
+                        // Check if it already has a link
+                        int wordPosition = pastedText.indexOf(w) + 2;
+                        QTextCursor cur2 = cur;
+                        cur2.setPosition(startPos + wordPosition);
+                        if (anchorAt(cursorRect(cur2).center()).isEmpty()) {
+                            int frames = pCore->timecode().getFrameCount(w);
+                            if (frames > 0) {
+                                pastedText.replace(w, QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + w +
+                                                          QStringLiteral("</a> "));
+                                enforceHtml = true;
+                            }
                         }
                     }
                 }

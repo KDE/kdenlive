@@ -24,6 +24,7 @@ public:
      * @param text the text
     */
     void addTextNote(const QString &text);
+    bool selectionHasAnchors() const;
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;

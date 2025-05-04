@@ -150,19 +150,21 @@ void NotesPlugin::setProject(KdenliveDoc *document)
     if (m_tb->actions().isEmpty()) {
         // initialize toolbar
         m_tb->addAction(pCore->window()->action("add_project_note"));
-        QAction *a = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Reassign selected timecodes to current Bin clip"));
-        connect(a, &QAction::triggered, m_widget, &NotesWidget::assignProjectNote);
-        m_tb->addAction(a);
-        a = new QAction(QIcon::fromTheme(QStringLiteral("link")), i18n("Reassign selected timecodes to current timeline clip"));
-        connect(a, &QAction::triggered, m_widget, &NotesWidget::assignProjectNoteToTimelineClip);
-        m_tb->addAction(a);
+        m_reassingToBin = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Reassign selected timecodes to current Bin clip"));
+        connect(m_reassingToBin, &QAction::triggered, m_widget, &NotesWidget::assignProjectNote);
+        m_tb->addAction(m_reassingToBin);
+        m_reassingToBin->setEnabled(false);
+        m_reassingToTimeline = new QAction(QIcon::fromTheme(QStringLiteral("link")), i18n("Reassign selected timecodes to current timeline clip"));
+        connect(m_reassingToTimeline, &QAction::triggered, m_widget, &NotesWidget::assignProjectNoteToTimelineClip);
+        m_tb->addAction(m_reassingToTimeline);
+        m_reassingToTimeline->setEnabled(false);
         m_createFromSelection = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Create markers from selected timecodes"));
         m_createFromSelection->setWhatsThis(
             xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
         connect(m_createFromSelection, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
         m_tb->addAction(m_createFromSelection);
         m_createFromSelection->setEnabled(false);
-        connect(m_widget, &QTextEdit::copyAvailable, m_createFromSelection, &QAction::setEnabled);
+        connect(m_widget, &QTextEdit::selectionChanged, this, &NotesPlugin::checkSelection);
 
         m_showSearch = new QToolButton(m_widget);
         m_showSearch->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
@@ -183,6 +185,14 @@ void NotesPlugin::showDock()
 {
     m_notesDock->show();
     m_notesDock->raise();
+}
+
+void NotesPlugin::checkSelection()
+{
+    bool hasTimeCode = m_widget->selectionHasAnchors();
+    m_reassingToBin->setEnabled(hasTimeCode);
+    m_reassingToTimeline->setEnabled(hasTimeCode);
+    m_createFromSelection->setEnabled(hasTimeCode);
 }
 
 void NotesPlugin::slotInsertTimecode()

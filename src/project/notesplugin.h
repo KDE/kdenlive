@@ -46,6 +46,8 @@ private Q_SLOTS:
     void findNext();
     /** @brief Find previous occurence of a search. */
     void findPrevious();
+    /** @brief Check if editor has a selection and timecodes in it. */
+    void checkSelection();
 
 private:
     NotesWidget *m_widget;
@@ -58,4 +60,6 @@ private:
     QToolButton *m_showSearch;
     QAction *m_findAction;
     QAction *m_createFromSelection;
+    QAction *m_reassingToBin;
+    QAction *m_reassingToTimeline;
 };
