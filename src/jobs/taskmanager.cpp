@@ -249,7 +249,9 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
             if (m_taskList.find(task.first) != m_taskList.end()) {
                 // If so, then just add ourselves to be notified upon completion.
                 qDebug() << "** CLOSING 1 TASK : " << taskType;
-                t->cancelJob();
+                if (t->m_progress < 100) {
+                    t->cancelJob();
+                }
                 t->m_runMutex.lock();
                 t->m_runMutex.unlock();
                 t->deleteLater();
