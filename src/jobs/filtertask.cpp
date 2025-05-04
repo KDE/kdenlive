@@ -272,9 +272,9 @@ void FilterTask::run()
 
     // Step 2: process the xml file and save in another .mlt file
     const QStringList args({QStringLiteral("-loglevel"), QStringLiteral("error"), QStringLiteral("progress=1"), sourceFile.fileName()});
-    m_jobProcess.reset(new QProcess);
-    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &FilterTask::processLogInfo);
+    m_jobProcess = new QProcess(this);
+    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &FilterTask::processLogInfo);
     m_jobProcess->start(KdenliveSettings::meltpath(), args);
     m_jobProcess->waitForFinished(-1);
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;

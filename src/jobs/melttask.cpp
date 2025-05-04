@@ -44,9 +44,9 @@ void MeltTask::run()
     m_running = true;
 
     // TODO: check that playlist exists
-    m_jobProcess.reset(new QProcess);
-    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &MeltTask::processLogInfo);
+    m_jobProcess = new QProcess(this);
+    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &MeltTask::processLogInfo);
     m_jobArgs.prepend(QStringLiteral("error"));
     m_jobArgs.prepend(QStringLiteral("-loglevel"));
     qDebug() << "::: // STARTING MELT JOB: " << m_jobArgs << "\nFOR FILE: " << m_playlistName;

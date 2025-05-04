@@ -237,9 +237,9 @@ void CutTask::run()
                               QStringLiteral("-map"),
                               QStringLiteral("0")};
         params << m_encodingParams << m_destination;
-        m_jobProcess = std::make_unique<QProcess>(new QProcess);
-        connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &CutTask::processLogInfo);
-        connect(this, &CutTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
+        m_jobProcess = new QProcess(this);
+        connect(m_jobProcess, &QProcess::readyReadStandardError, this, &CutTask::processLogInfo);
+        connect(this, &CutTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         qDebug() << "=== STARTING CUT JOB: " << params;
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), params, QIODevice::ReadOnly);
         m_jobProcess->waitForFinished(-1);

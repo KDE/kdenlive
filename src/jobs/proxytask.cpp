@@ -25,7 +25,6 @@ ProxyTask::ProxyTask(const ObjectId &owner, QObject *object)
     : AbstractTask(owner, AbstractTask::PROXYJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
-    , m_jobProcess(nullptr)
 {
     m_description = i18n("Creating proxy");
 }
@@ -187,11 +186,11 @@ void ProxyTask::run()
         // Ask for progress reporting
         mltParameters << QStringLiteral("progress=1");
 
-        m_jobProcess.reset(new QProcess);
+        m_jobProcess = new QProcess(this);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         qDebug() << " :: STARTING PLAYLIST PROXY: " << mltParameters;
-        QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
+        QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::meltpath(), mltParameters);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
@@ -384,10 +383,10 @@ void ProxyTask::run()
             parameters << dest;
             qDebug() << "/// FULL PROXY PARAMS:\n" << parameters << "\n------";
         }
-        m_jobProcess.reset(new QProcess);
+        m_jobProcess = new QProcess(this);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
-        QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
+        QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
