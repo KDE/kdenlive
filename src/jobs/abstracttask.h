@@ -46,7 +46,7 @@ public:
 protected:
     ObjectId m_owner;
     QObject* m_object;
-    int m_progress;
+    int m_progress{0};
     QString m_description;
     bool m_successful;
     QAtomicInt m_isCanceled;
