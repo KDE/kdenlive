@@ -225,10 +225,10 @@ void SpeedTask::run()
     // Start the MLT Process
     QProcess filterProcess;
     producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("terminate_on_pause=1");
-    m_jobProcess.reset(new QProcess);
+    m_jobProcess = new QProcess(this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
-    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &SpeedTask::processLogInfo);
+    QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &SpeedTask::processLogInfo);
     qDebug() << "=== STARTING PROCESS: " << producerArgs;
     m_jobProcess->start(KdenliveSettings::meltpath(), producerArgs);
     m_jobProcess->waitForFinished(-1);

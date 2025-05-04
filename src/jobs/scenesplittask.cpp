@@ -37,7 +37,6 @@ SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int mark
     , m_markersType(markersCategory)
     , m_subClips(addSubclips)
     , m_minInterval(minDuration)
-    , m_jobProcess(nullptr)
 {
     m_description = i18n("Detecting scene change");
     qDebug() << "Threshold is" << threshold << QString::number(threshold);
@@ -144,13 +143,13 @@ void SceneSplitTask::run()
                               QStringLiteral("null"),
                               QStringLiteral("-")};
 
-    m_jobProcess.reset(new QProcess);
+    m_jobProcess = new QProcess(this);
     // m_jobProcess->setStandardErrorFile("/tmp/test_settings.txt");
     m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
     qDebug() << "=== READY TO START JOB:" << parameters;
-    QObject::connect(this, &SceneSplitTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardOutput, this, &SceneSplitTask::processLogInfo);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &SceneSplitTask::processLogErr);
+    QObject::connect(this, &SceneSplitTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardOutput, this, &SceneSplitTask::processLogInfo);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &SceneSplitTask::processLogErr);
     m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters);
     // m_jobProcess->closeReadChannel(QProcess::StandardError);
     m_jobProcess->waitForStarted();

@@ -35,7 +35,6 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const
     , m_inPoint(in)
     , m_outPoint(out)
     , m_checkProfile(checkProfile)
-    , m_jobProcess(nullptr)
 {
     m_description = i18n("Transcoding");
 }
@@ -165,10 +164,10 @@ void TranscodeTask::run()
         mltParameters.prepend(source);
         mltParameters.prepend(QStringLiteral("error"));
         mltParameters.prepend(QStringLiteral("-loglevel"));
-        m_jobProcess.reset(new QProcess);
+        m_jobProcess = new QProcess(this);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-        QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
+        QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::meltpath(), mltParameters);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
@@ -219,9 +218,9 @@ void TranscodeTask::run()
             }
         }
         qDebug() << "/// FULL TRANSCODE PARAMS:\n" << parameters << "\n------";
-        m_jobProcess.reset(new QProcess);
-        QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo, Qt::DirectConnection);
+        m_jobProcess = new QProcess(this);
+        QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);

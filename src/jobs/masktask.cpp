@@ -45,9 +45,9 @@ void MaskTask::generateMask()
     }
     const QString outFile = m_properties.value(MaskTask::OUTPUTFILE);
     const QString outFramesFolder = m_properties.value(MaskTask::OUTPUTFOLDER);
-    m_scriptJob.reset(new QProcess);
-    QObject::connect(this, &AbstractTask::jobCanceled, m_scriptJob.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_scriptJob.get(), &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);
+    m_scriptJob = new QProcess(this);
+    QObject::connect(this, &AbstractTask::jobCanceled, m_scriptJob, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_scriptJob, &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);
     m_isFfmpegJob = true;
     // Now convert frames to video
     // ffmpeg -framerate 25 -pattern_type glob -i '*.png' -c:v ffv1 -pix_fmt yuva420p output.mkv

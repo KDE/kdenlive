@@ -35,5 +35,5 @@ private:
     QStringList m_consumerArgs;
     QString m_errorMessage;
     QString m_logDetails;
-    std::unique_ptr<QProcess> m_jobProcess;
+    QProcess *m_jobProcess;
 };

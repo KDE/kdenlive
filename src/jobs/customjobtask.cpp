@@ -37,7 +37,6 @@ CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, cons
     , m_inPoint(in)
     , m_outPoint(out)
     , m_jobId(jobId)
-    , m_jobProcess(nullptr)
 {
     m_description = jobName;
     m_tmpFrameFile.setFileTemplate(QStringLiteral("%1/kdenlive-frame-.XXXXXX.png").arg(QDir::tempPath()));
@@ -296,10 +295,10 @@ void CustomJobTask::run()
     // parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
 
     qDebug() << "/// CUSTOM TASK PARAMS:\n" << parameters << "\n------";
-    m_jobProcess.reset(new QProcess);
+    m_jobProcess = new QProcess(this);
     // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-    QObject::connect(this, &CustomJobTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-    QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &CustomJobTask::processLogInfo);
+    QObject::connect(this, &CustomJobTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &CustomJobTask::processLogInfo);
     m_jobProcess->start(binary, parameters, QIODevice::ReadOnly);
     AbstractTask::setPreferredPriority(m_jobProcess->processId());
     m_jobProcess->waitForFinished(-1);

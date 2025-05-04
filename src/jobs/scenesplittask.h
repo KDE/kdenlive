@@ -29,7 +29,7 @@ private:
     int m_markersType;
     bool m_subClips;
     int m_minInterval;
-    std::unique_ptr<QProcess> m_jobProcess;
+    QProcess *m_jobProcess;
     QString m_errorMessage;
     QString m_logDetails;
     QList<double> m_results;
