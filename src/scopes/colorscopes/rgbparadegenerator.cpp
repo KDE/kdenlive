@@ -36,7 +36,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
     }
     QImage parade(paradeSize * scalingFactor, QImage::Format_ARGB32);
     parade.setDevicePixelRatio(scalingFactor);
-    parade.fill(palette.base().color());
+    parade.fill(palette.window().color());
 
     QPainter davinci;
     bool ok = davinci.begin(&parade);
