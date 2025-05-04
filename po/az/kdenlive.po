@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-03 00:42+0000\n"
+"POT-Creation-Date: 2025-05-04 00:42+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -14804,7 +14804,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Kompozisiyaların açıqlamasını göstərmək/gizlətmək"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:168
+#: src/project/notesplugin.cpp:171
 #, kde-format
 msgid "Search…"
 msgstr "Axtarış…"
@@ -16151,7 +16151,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Zaman xəttində əvəzləyin"
 
-#: src/bin/bin.cpp:2144 src/bin/bin.cpp:5749 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2144 src/bin/bin.cpp:5754 src/bin/clipcreator.cpp:324
 #: src/effects/effectstack/view/maskmanager.cpp:628
 #, kde-format
 msgctxt "@action"
@@ -16664,34 +16664,34 @@ msgstr ""
 msgid "Cannot find clip to add marker"
 msgstr "Marker əlavə etmək üçün klip tapılmadı"
 
-#: src/bin/bin.cpp:5509
+#: src/bin/bin.cpp:5514
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Əsas klip tapılmadı"
 
-#: src/bin/bin.cpp:5771
+#: src/bin/bin.cpp:5776
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klip | "
 
-#: src/bin/bin.cpp:5773
+#: src/bin/bin.cpp:5778
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klip (%2 seçildi) | "
 
-#: src/bin/bin.cpp:5840 src/bin/bin.cpp:5917
+#: src/bin/bin.cpp:5845 src/bin/bin.cpp:5922
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Klip üçün əlavə axın əlavə edin"
 msgstr[1] "Klip üçün əlavə axınlar əlavə edin"
 
-#: src/bin/bin.cpp:5861
+#: src/bin/bin.cpp:5866
 #, kde-format
 msgid "Import selected clips"
 msgstr "Seçilmiş klipləri idxal edin"
 
-#: src/bin/bin.cpp:5863
+#: src/bin/bin.cpp:5868
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -16700,53 +16700,53 @@ msgstr ""
 "%1\n"
 " klipi üçün əlavə axınlar"
 
-#: src/bin/bin.cpp:5876 src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/bin/bin.cpp:5881 src/mltcontroller/clippropertiescontroller.cpp:687
 #, kde-format
 msgid "Video stream %1"
 msgstr "%1 video axını"
 
-#: src/bin/bin.cpp:5891
+#: src/bin/bin.cpp:5896
 #, kde-format
 msgid "Audio stream %1"
 msgstr "%1 audio axını"
 
-#: src/bin/bin.cpp:5944
+#: src/bin/bin.cpp:5949
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Klip markerlərini sil"
 
-#: src/bin/bin.cpp:6104
+#: src/bin/bin.cpp:6109
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6105
+#: src/bin/bin.cpp:6110
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "DVD layihəsini saxlayın"
 
-#: src/bin/bin.cpp:6106
+#: src/bin/bin.cpp:6111
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Təkrar kodlama həyata keçirilir"
 
-#: src/bin/bin.cpp:6264 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6269 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 effektini silin"
 
-#: src/bin/bin.cpp:6330 src/mainwindow.cpp:322
+#: src/bin/bin.cpp:6335 src/mainwindow.cpp:322
 #, kde-format
 msgid "Project Bin"
 msgstr "Layihə qutusu"
 
-#: src/bin/bin.cpp:6333 src/bin/bin.cpp:6336 src/mainwindow.cpp:4850
+#: src/bin/bin.cpp:6338 src/bin/bin.cpp:6341 src/mainwindow.cpp:4850
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Layihə səbəti %1"
@@ -27093,12 +27093,19 @@ msgstr "Konteynerdəki cari klipə vaxt göstəricisi əlavə edin"
 msgid "Cannot find project clip"
 msgstr "Klip yaradıla bilmədi"
 
-#: src/project/dialogs/noteswidget.cpp:229
+#: src/project/dialogs/noteswidget.cpp:227
+#: src/project/dialogs/noteswidget.cpp:244
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Yenidən təyin etmək üçün bəzi vaxt kodlarını seçin"
 
-#: src/project/dialogs/noteswidget.cpp:240
+#: src/project/dialogs/noteswidget.cpp:232
+#, fuzzy, kde-format
+#| msgid "No item selected in timeline"
+msgid "No clip selected in timeline"
+msgstr "Zaman xəttində heç bir elemt seçilməyib"
+
+#: src/project/dialogs/noteswidget.cpp:257
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Markerlər yaratmaq üçün vaxt kodlarını seçin"
@@ -27626,11 +27633,18 @@ msgstr ""
 "Süçilmiş vaxt kodu göstəricisini qutudakı cari klipə yenidən təyin edin"
 
 #: src/project/notesplugin.cpp:156
+#, fuzzy, kde-format
+#| msgid "Reassign selected timecodes to current Bin clip"
+msgid "Reassign selected timecodes to current timeline clip"
+msgstr ""
+"Süçilmiş vaxt kodu göstəricisini qutudakı cari klipə yenidən təyin edin"
+
+#: src/project/notesplugin.cpp:159
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Seçilmiş vaxt kodu göstəricilərindən markerlər yaradın"
 
-#: src/project/notesplugin.cpp:158
+#: src/project/notesplugin.cpp:161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27640,12 +27654,12 @@ msgstr ""
 "Seçilmiş vaxt kodlarından zaman xəttində markerlər yaradır. (başqa mətnin "
 "seçilməsindən asılı olmayaraq)"
 
-#: src/project/notesplugin.cpp:193
+#: src/project/notesplugin.cpp:196
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "Qeyd əlavə edilə bilmədi, layihə qutusunda klip seçilməyib"
 
-#: src/project/notesplugin.cpp:221
+#: src/project/notesplugin.cpp:226
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Tapşırığı icra etmək mümkün olmadı"

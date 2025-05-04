@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-03 00:42+0000\n"
+"POT-Creation-Date: 2025-05-04 00:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -14867,7 +14867,7 @@ msgid "Show/hide description of the compositions"
 msgstr "रचनाओं का विवरण दिखाएँ/छिपाएँ"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:168
+#: src/project/notesplugin.cpp:171
 #, kde-format
 msgid "Search…"
 msgstr "खोजना…"
@@ -16184,7 +16184,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "समयरेखा में प्रतिस्थापित करें"
 
-#: src/bin/bin.cpp:2144 src/bin/bin.cpp:5749 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2144 src/bin/bin.cpp:5754 src/bin/clipcreator.cpp:324
 #: src/effects/effectstack/view/maskmanager.cpp:628
 #, kde-format
 msgctxt "@action"
@@ -16696,34 +16696,34 @@ msgstr ""
 msgid "Cannot find clip to add marker"
 msgstr "मार्कर जोड़ने के लिए क्लिप नहीं मिल सका"
 
-#: src/bin/bin.cpp:5509
+#: src/bin/bin.cpp:5514
 #, kde-format
 msgid "Could not find master clip"
 msgstr "मास्टर क्लिप नहीं मिल सका"
 
-#: src/bin/bin.cpp:5771
+#: src/bin/bin.cpp:5776
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> क्लिप्स | "
 
-#: src/bin/bin.cpp:5773
+#: src/bin/bin.cpp:5778
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> क्लिप्स (%2 चयनित) | "
 
-#: src/bin/bin.cpp:5840 src/bin/bin.cpp:5917
+#: src/bin/bin.cpp:5845 src/bin/bin.cpp:5922
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "क्लिप के लिए अतिरिक्त स्ट्रीम जोड़ें"
 msgstr[1] "क्लिप के लिए अतिरिक्त स्ट्रीम जोड़ें"
 
-#: src/bin/bin.cpp:5861
+#: src/bin/bin.cpp:5866
 #, kde-format
 msgid "Import selected clips"
 msgstr "चयनित क्लिप आयात करें"
 
-#: src/bin/bin.cpp:5863
+#: src/bin/bin.cpp:5868
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -16732,51 +16732,51 @@ msgstr ""
 "क्लिप के लिए अतिरिक्त स्ट्रीम\n"
 "%1"
 
-#: src/bin/bin.cpp:5876 src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/bin/bin.cpp:5881 src/mltcontroller/clippropertiescontroller.cpp:687
 #, kde-format
 msgid "Video stream %1"
 msgstr "वीडियो स्ट्रीम %1"
 
-#: src/bin/bin.cpp:5891
+#: src/bin/bin.cpp:5896
 #, kde-format
 msgid "Audio stream %1"
 msgstr "ऑडियो स्ट्रीम %1"
 
-#: src/bin/bin.cpp:5944
+#: src/bin/bin.cpp:5949
 #, kde-format
 msgid "Remove clip markers"
 msgstr "क्लिप मार्कर हटाएँ"
 
-#: src/bin/bin.cpp:6104
+#: src/bin/bin.cpp:6109
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "हम अनुशंसा करते हैं कि आप ट्रांसकोड ऑपरेशन से पहले प्रोजेक्ट को सेव कर लें"
 
-#: src/bin/bin.cpp:6105
+#: src/bin/bin.cpp:6110
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "प्रोजेक्ट सहेजें"
 
-#: src/bin/bin.cpp:6106
+#: src/bin/bin.cpp:6111
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "बिना सहेजे ट्रांसकोड करें"
 
-#: src/bin/bin.cpp:6264 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6269 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "प्रभाव %1 मिटाएँ"
 
-#: src/bin/bin.cpp:6330 src/mainwindow.cpp:322
+#: src/bin/bin.cpp:6335 src/mainwindow.cpp:322
 #, kde-format
 msgid "Project Bin"
 msgstr "प्रोजेक्ट बिन"
 
-#: src/bin/bin.cpp:6333 src/bin/bin.cpp:6336 src/mainwindow.cpp:4850
+#: src/bin/bin.cpp:6338 src/bin/bin.cpp:6341 src/mainwindow.cpp:4850
 #, kde-format
 msgid "Project Bin %1"
 msgstr "प्रोजेक्ट बिन %1"
@@ -26902,12 +26902,19 @@ msgstr "वर्तमान बिन क्लिप को टाइमस�
 msgid "Cannot find project clip"
 msgstr "प्रोजेक्ट क्लिप नहीं मिल सका"
 
-#: src/project/dialogs/noteswidget.cpp:229
+#: src/project/dialogs/noteswidget.cpp:227
+#: src/project/dialogs/noteswidget.cpp:244
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "पुनः असाइन करने के लिए कुछ टाइमकोड चुनें"
 
-#: src/project/dialogs/noteswidget.cpp:240
+#: src/project/dialogs/noteswidget.cpp:232
+#, fuzzy, kde-format
+#| msgid "No item selected in timeline"
+msgid "No clip selected in timeline"
+msgstr "टाइमलाइन में कोई आइटम चयनित नहीं है"
+
+#: src/project/dialogs/noteswidget.cpp:257
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "मार्कर बनाने के लिए कुछ टाइमकोड चुनें"
@@ -27429,11 +27436,17 @@ msgid "Reassign selected timecodes to current Bin clip"
 msgstr "चयनित टाइमकोड को वर्तमान बिन क्लिप में पुनः असाइन करें"
 
 #: src/project/notesplugin.cpp:156
+#, fuzzy, kde-format
+#| msgid "Reassign selected timecodes to current Bin clip"
+msgid "Reassign selected timecodes to current timeline clip"
+msgstr "चयनित टाइमकोड को वर्तमान बिन क्लिप में पुनः असाइन करें"
+
+#: src/project/notesplugin.cpp:159
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "चयनित टाइमकोड से मार्कर बनाएं"
 
-#: src/project/notesplugin.cpp:158
+#: src/project/notesplugin.cpp:161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27443,12 +27456,12 @@ msgstr ""
 "चयनित टाइमकोड से टाइमलाइन में मार्कर बनाता है (इससे कोई फ़र्क नहीं पड़ता कि अन्य टेक्स्ट "
 "भी चयनित है)।"
 
-#: src/project/notesplugin.cpp:193
+#: src/project/notesplugin.cpp:196
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "नोट नहीं जोड़ा जा सकता, प्रोजेक्ट बिन में कोई क्लिप चयनित नहीं है"
 
-#: src/project/notesplugin.cpp:221
+#: src/project/notesplugin.cpp:226
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "असाइन नहीं किया जा सकता"
