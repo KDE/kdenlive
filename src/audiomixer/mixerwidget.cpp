@@ -122,24 +122,11 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     m_volumeSpin->setFrame(false);
     m_volumeSpin->setKeyboardTracking(false);
 
-    connect(m_volumeSpin, &QDoubleSpinBox::editingFinished, this, [&]() {
-        double val = m_volumeSpin->value();
+    connect(m_volumeSpin, &QDoubleSpinBox::valueChanged, this, [&](double val) {
         if (m_monitor && m_monitor->isChecked()) {
             m_volumeSlider->setValue(val * 100.);
         } else {
             m_volumeSlider->setValue(fromDB(val) * 100.);
-        }
-    });
-
-    connect(m_volumeSpin, &QDoubleSpinBox::valueChanged, this, [&](double val) {
-        // Only update if the change came from mouse wheel or clicking the up/down buttons (not from typing)
-        if (!m_volumeSpin->keyboardTracking()) {
-            QSignalBlocker bk(m_volumeSlider);
-            if (m_monitor && m_monitor->isChecked()) {
-                m_volumeSlider->setValue(val * 100.);
-            } else {
-                m_volumeSlider->setValue(fromDB(val) * 100.);
-            }
         }
     });
 
