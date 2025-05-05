@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-04 00:42+0000\n"
-"PO-Revision-Date: 2025-04-27 05:09+0100\n"
-"Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
+"POT-Creation-Date: 2025-05-05 00:41+0000\n"
+"PO-Revision-Date: 2025-05-04 17:55+0100\n"
+"Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgid "Your emails"
 msgstr "gabcorreo@gmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "Balance"
@@ -14912,7 +14912,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Descripciones de métodos de composición"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:171
+#: src/project/notesplugin.cpp:173
 #, kde-format
 msgid "Search…"
 msgstr "Buscar…"
@@ -15052,7 +15052,7 @@ msgstr "Mostrar claves del clip en la línea de tiempo"
 msgid "%1 effects"
 msgstr "Efectos de %1"
 
-#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:72
 #, kde-format
 msgid "%1 parameters"
 msgstr "Parámetros de %1"
@@ -15768,13 +15768,13 @@ msgstr ""
 "Ajusta el volumen de salida de la pista de audio (afecta por igual a todos "
 "los clips presentes en la pista)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15786,62 +15786,62 @@ msgstr ""
 "hacia la izquierda, valores positivos lo harán hacia la derecha. Afecta por "
 "igual a todos los clips presentes en la pista."
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "I"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "Silenciar pista"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "Escuchar pista"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Silencia o permite escuchar la pista de sonido."
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Solo"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Silencia todas las demás pistas de audio."
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
 msgid "Monitor audio"
 msgstr "Monitorear audio"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Coloca la pista de audio en modo de grabación."
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "Mostrar canales"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15850,18 +15850,18 @@ msgstr ""
 "Alterna la visualización de los controles de la pista de audio en la vista "
 "del mezclador de sonido."
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Abrir opciones de efectos"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Abre las opciones de efectos de esta pista de audio."
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -22078,16 +22078,16 @@ msgstr "No es posible saltar en el archivo <b>%1</b>."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "El archivo <b>%1</b> tiene una frecuencia de fotogramas variable."
 
-#: src/jobs/customjobtask.cpp:173
+#: src/jobs/customjobtask.cpp:172
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr ""
 "No se encontró la aplicación %1 , por favor actualizar las preferencias de "
 "la tarea"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:238
-#: src/jobs/transcodetask.cpp:274
+#: src/jobs/customjobtask.cpp:314 src/jobs/customjobtask.cpp:334
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:237
+#: src/jobs/transcodetask.cpp:273
 #, kde-format
 msgid "Failed to create file."
 msgstr "No fue posible crear archivo."
@@ -22214,22 +22214,22 @@ msgstr "No fue posible procesar la máscara: %1"
 msgid "Failed to process playlist."
 msgstr "No fue posible procesar la lista de reproducción."
 
-#: src/jobs/proxytask.cpp:30
+#: src/jobs/proxytask.cpp:29
 #, kde-format
 msgid "Creating proxy"
 msgstr "Creando reemplazo"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:207
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "No es posible cargar la imagen %1."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:227
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Imagen demasiado pequeña para poder generarle un reemplazo."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:235 src/jobs/transcodetask.cpp:181
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -22237,41 +22237,41 @@ msgstr ""
 "No se ha encontrado FFmpeg, por favor definir su ruta de acceso en la "
 "sección Entorno de las preferencias de Kdenlive"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:402 src/jobs/proxytask.cpp:415
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "No fue posible crear clip de reemplazo."
 
-#: src/jobs/scenesplittask.cpp:42
+#: src/jobs/scenesplittask.cpp:41
 #, kde-format
 msgid "Detecting scene change"
 msgstr "Detectando cambios de escena"
 
-#: src/jobs/scenesplittask.cpp:57
+#: src/jobs/scenesplittask.cpp:56
 #, kde-format
 msgctxt "@title:window"
 msgid "Scene Detection"
 msgstr "Detección de escenas"
 
-#: src/jobs/scenesplittask.cpp:117
+#: src/jobs/scenesplittask.cpp:116
 #, kde-format
 msgid "Cannot analyse this clip type."
 msgstr "No es posible analizar este tipo de clip."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "No se ha encontrado FFmpeg, por favor definir su ruta de acceso en la "
 "sección Entorno de las preferencias de Kdenlive."
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "Escena %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "No fue posible analizar clip."
@@ -22325,7 +22325,7 @@ msgstr "Estabilizando"
 msgid "Failed to stabilize."
 msgstr "No fue posible estabilizar."
 
-#: src/jobs/transcodetask.cpp:40
+#: src/jobs/transcodetask.cpp:39
 #, kde-format
 msgid "Transcoding"
 msgstr "Transcodificando"
@@ -24674,7 +24674,7 @@ msgstr "No fue posible insertar la zona"
 #: src/mainwindow.cpp:3060
 #, kde-format
 msgid "No clip selected in project bin"
-msgstr "Ningún clip seleccionado en la bandeja del proyecto"
+msgstr "Ningún clip seleccionado en la Bandeja del proyecto"
 
 #: src/mainwindow.cpp:3067 src/timeline2/model/timelinefunctions.cpp:792
 #: src/timeline2/view/timelinecontroller.cpp:3112
@@ -27051,19 +27051,18 @@ msgstr "Asignar marcas de tiempo al clip actual de la bandeja"
 msgid "Cannot find project clip"
 msgstr "No se encuentra clip de proyecto"
 
-#: src/project/dialogs/noteswidget.cpp:227
-#: src/project/dialogs/noteswidget.cpp:244
+#: src/project/dialogs/noteswidget.cpp:241
+#: src/project/dialogs/noteswidget.cpp:258
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Seleccionar algunos códigos de tiempo para reasignarlos"
 
-#: src/project/dialogs/noteswidget.cpp:232
-#, fuzzy, kde-format
-#| msgid "No item selected in timeline"
+#: src/project/dialogs/noteswidget.cpp:246
+#, kde-format
 msgid "No clip selected in timeline"
-msgstr "No hay elementos seleccionados en la línea de tiempo"
+msgstr "Ningún clip seleccionado en la Línea de tiempo"
 
-#: src/project/dialogs/noteswidget.cpp:257
+#: src/project/dialogs/noteswidget.cpp:271
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Seleccionar algunos códigos de tiempo para crear marcadores"
@@ -27590,21 +27589,21 @@ msgstr "Notas del proyecto"
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
-"Reasignar los códigos de tiempo seleccionados al clip actual de la bandeja"
+"Reasignar códigos de tiempo seleccionados a clip actual de la Bandeja del "
+"proyecto"
 
-#: src/project/notesplugin.cpp:156
-#, fuzzy, kde-format
-#| msgid "Reassign selected timecodes to current Bin clip"
+#: src/project/notesplugin.cpp:157
+#, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr ""
-"Reasignar los códigos de tiempo seleccionados al clip actual de la bandeja"
+"Reasignar códigos de tiempo seleccionados a clip actual de la Línea de tiempo"
 
-#: src/project/notesplugin.cpp:159
+#: src/project/notesplugin.cpp:161
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Crear marcadores a partir de los códigos de tiempo seleccionados"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:163
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27614,14 +27613,14 @@ msgstr ""
 "Crea marcadores en la línea de tiempo a partir de los códigos de tiempo "
 "seleccionados (no importa si también hubieran otros textos seleccionados)."
 
-#: src/project/notesplugin.cpp:196
+#: src/project/notesplugin.cpp:206
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "No es posible agregar una nota, no hay ningún clip seleccionado en la "
-"bandeja del proyecto"
+"Bandeja del proyecto"
 
-#: src/project/notesplugin.cpp:226
+#: src/project/notesplugin.cpp:236
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "No es posible realizar la asignación"
@@ -30206,7 +30205,7 @@ msgstr "guía"
 #: src/timeline2/view/timelinecontroller.cpp:1751
 #, kde-format
 msgid "No item selected in timeline"
-msgstr "No hay elementos seleccionados en la línea de tiempo"
+msgstr "Ningún elemento seleccionado en la Línea de tiempo"
 
 #: src/timeline2/view/timelinecontroller.cpp:1889
 #, kde-format
@@ -30720,6 +30719,10 @@ msgid ""
 "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
 "resize, Ctrl+Drag to pan."
 msgstr ""
+"Clic para seleccionar un elemento, Alt+Clic seleccionar cíclicamente. Mayús"
+"+arrastrar mover verticalmente, Alt+Mayús+arrastrar mover horizontalmente, "
+"Mayús+arrastrar borde redimensionar desde el centro, Ctrl+arrastrar "
+"desplazar."
 
 #: src/titler/titlewidget.cpp:417
 #, kde-format
@@ -35247,10 +35250,9 @@ msgstr "V"
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayBg)
 #: src/ui/titlewidget_ui.ui:117
-#, fuzzy, kde-format
-#| msgid "Show %1 in timeline"
+#, kde-format
 msgid "Show timeline"
-msgstr "Mostrar %1 en la línea de tiempo"
+msgstr "Mostrar línea de tiempo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/ui/titlewidget_ui.ui:135
@@ -35573,10 +35575,9 @@ msgstr "200%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #: src/ui/titlewidget_ui.ui:1701
-#, fuzzy, kde-format
-#| msgid "Template:"
+#, kde-format
 msgid "Load template:"
-msgstr "Plantilla:"
+msgstr "Cargar plantilla:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/titlewidget_ui.ui:1723

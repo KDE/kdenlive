@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-04 00:42+0000\n"
+"POT-Creation-Date: 2025-05-05 00:41+0000\n"
 "PO-Revision-Date: 2025-04-25 17:22+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -50,7 +50,7 @@ msgstr ""
 "team@basealt.ru,translation-team@basealt.ru"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "Баланс"
@@ -14360,7 +14360,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Показать/Скрыть описание композиций"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:171
+#: src/project/notesplugin.cpp:173
 #, kde-format
 msgid "Search…"
 msgstr "Найти…"
@@ -14499,7 +14499,7 @@ msgstr "Переключает отображение ключевых кадр�
 msgid "%1 effects"
 msgstr "Эффекты %1"
 
-#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:72
 #, kde-format
 msgid "%1 parameters"
 msgstr "Параметры %1"
@@ -15218,13 +15218,13 @@ msgstr ""
 "Настраивает громкость звука аудио дорожки (одинаково воздействует на все "
 "аудио клипы)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "дБ"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15236,62 +15236,62 @@ msgstr ""
 "звука влево, положительные значения смещают баланс звука вправо. Одинаково "
 "воздействует на все аудио клипы."
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "Л"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "П"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "Отключить дорожку"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "Включить дорожку"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Отключает/включает звуковую дорожку."
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Режим соло"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Отключает все выбранные звуковые дорожки."
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
 msgid "Monitor audio"
 msgstr "Слежение за звуком"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Переводит звуковую дорожку в режим записи."
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "Показать каналы"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15300,18 +15300,18 @@ msgstr ""
 "Переключает отображение элементов управления звуковой дорожки в звуковом "
 "микшере."
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Открыть стек эффектов"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Открывает стек эффектов для звуковой дорожки."
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -21550,14 +21550,14 @@ msgstr "Позиционирование в файле <b>%1</b> невозмо�
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "В файле <b>%1</b> используется переменная кадровая частота."
 
-#: src/jobs/customjobtask.cpp:173
+#: src/jobs/customjobtask.cpp:172
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "Приложение %1 не найдено, обновите параметры задачи"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:238
-#: src/jobs/transcodetask.cpp:274
+#: src/jobs/customjobtask.cpp:314 src/jobs/customjobtask.cpp:334
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:237
+#: src/jobs/transcodetask.cpp:273
 #, kde-format
 msgid "Failed to create file."
 msgstr "Не удалось создать файл."
@@ -21685,22 +21685,22 @@ msgstr "Не удалось обработать маску %1"
 msgid "Failed to process playlist."
 msgstr "Не удалось обработать список воспроизведения."
 
-#: src/jobs/proxytask.cpp:30
+#: src/jobs/proxytask.cpp:29
 #, kde-format
 msgid "Creating proxy"
 msgstr "Создание прокси"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:207
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Не удалось загрузить изображение %1."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:227
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "Изображение слишком мало для создания прокси."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:235 src/jobs/transcodetask.cpp:181
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -21708,41 +21708,41 @@ msgstr ""
 "Не удалось найти FFmpeg, укажите правильный путь в разделе «Окружение» "
 "настройки параметров приложения Kdenlive"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:402 src/jobs/proxytask.cpp:415
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Не удалось создать прокси-клип."
 
-#: src/jobs/scenesplittask.cpp:42
+#: src/jobs/scenesplittask.cpp:41
 #, kde-format
 msgid "Detecting scene change"
 msgstr "Обнаружение изменения сцены"
 
-#: src/jobs/scenesplittask.cpp:57
+#: src/jobs/scenesplittask.cpp:56
 #, kde-format
 msgctxt "@title:window"
 msgid "Scene Detection"
 msgstr "Обнаружение сцен"
 
-#: src/jobs/scenesplittask.cpp:117
+#: src/jobs/scenesplittask.cpp:116
 #, kde-format
 msgid "Cannot analyse this clip type."
 msgstr "Не удалось проанализировать клип данного типа."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "Не удалось найти FFmpeg, укажите правильный путь в разделе «Окружение» "
 "настройки параметров приложения Kdenlive."
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "Сцена %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Не удалось провести анализ клипа."
@@ -21796,7 +21796,7 @@ msgstr "Стабилизация"
 msgid "Failed to stabilize."
 msgstr "Не удалось стабилизировать клип."
 
-#: src/jobs/transcodetask.cpp:40
+#: src/jobs/transcodetask.cpp:39
 #, kde-format
 msgid "Transcoding"
 msgstr "Перекодирование"
@@ -26559,19 +26559,19 @@ msgstr "Назначить временные метки текущему кли
 msgid "Cannot find project clip"
 msgstr "Не удалось найти клип проекта"
 
-#: src/project/dialogs/noteswidget.cpp:227
-#: src/project/dialogs/noteswidget.cpp:244
+#: src/project/dialogs/noteswidget.cpp:241
+#: src/project/dialogs/noteswidget.cpp:258
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Выделите значения тайм-кода для переназначения"
 
-#: src/project/dialogs/noteswidget.cpp:232
+#: src/project/dialogs/noteswidget.cpp:246
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No clip selected in timeline"
 msgstr "На монтажном столе ничего не выбрано"
 
-#: src/project/dialogs/noteswidget.cpp:257
+#: src/project/dialogs/noteswidget.cpp:271
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Выделите значения тайм-кода для создания маркеров"
@@ -27100,18 +27100,18 @@ msgstr "Заметки к проекту"
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr "Переназначить выделенные значения тайм-кода к текущему клипу в корзине"
 
-#: src/project/notesplugin.cpp:156
+#: src/project/notesplugin.cpp:157
 #, fuzzy, kde-format
 #| msgid "Reassign selected timecodes to current Bin clip"
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr "Переназначить выделенные значения тайм-кода к текущему клипу в корзине"
 
-#: src/project/notesplugin.cpp:159
+#: src/project/notesplugin.cpp:161
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Создать маркеры из выделенных значений тайм-кода"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:163
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27121,13 +27121,13 @@ msgstr ""
 "Создаёт маркеры на монтажном столе из выделенных значений тайм-кода "
 "(совместно с тайм-кодом может быть выделен другой текст)."
 
-#: src/project/notesplugin.cpp:196
+#: src/project/notesplugin.cpp:206
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "Невозможно добавить заметку — в корзине проекта не выбрано ни одного клипа"
 
-#: src/project/notesplugin.cpp:226
+#: src/project/notesplugin.cpp:236
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Не удалось выполнить назначение"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-04 00:42+0000\n"
+"POT-Creation-Date: 2025-05-05 00:41+0000\n"
 "PO-Revision-Date: 2025-04-09 17:40+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -28,7 +28,7 @@ msgid "Your emails"
 msgstr ",mail@kisaragi-hiu.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "平衡"
@@ -14543,7 +14543,7 @@ msgid "Show/hide description of the compositions"
 msgstr "顯示/隱藏合成方案的描述"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:171
+#: src/project/notesplugin.cpp:173
 #, kde-format
 msgid "Search…"
 msgstr "搜尋…"
@@ -14676,7 +14676,7 @@ msgstr "切換時間軸中是否顯示素材的關鍵幀"
 msgid "%1 effects"
 msgstr "%1 的效果"
 
-#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:72
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 個參數"
@@ -15379,13 +15379,13 @@ msgid ""
 "equally)."
 msgstr "調整音訊軌道的輸出音量（會同等影響所有音訊素材）。"
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15396,80 +15396,80 @@ msgstr ""
 "調整軌道的輸出左右平衡。負數代表將輸出向左移動，正數代表將輸出向右移動。會同"
 "等影響所有音訊素材。"
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "左"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "右"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "將軌道靜音"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "將軌道取消靜音"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "將音訊軌靜音或解除靜音。"
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Solo 模式"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "選取時，將其他所有音訊軌靜音。"
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
 msgid "Monitor audio"
 msgstr "監聽音訊"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "將音訊軌置於錄製模式。"
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "顯示頻道"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr "切換顯示音訊混音器檢視中的音訊軌道控制元件。"
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "開啟效果堆疊"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "開啟音訊軌的效果堆疊。"
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -21504,14 +21504,14 @@ msgstr "檔案 <b>%1</b> 是無法跳轉的。"
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "檔案 <b>%1</b> 使用可變幀率。"
 
-#: src/jobs/customjobtask.cpp:173
+#: src/jobs/customjobtask.cpp:172
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "找不到應用程式 %1，請更新工作設定"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:238
-#: src/jobs/transcodetask.cpp:274
+#: src/jobs/customjobtask.cpp:314 src/jobs/customjobtask.cpp:334
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:237
+#: src/jobs/transcodetask.cpp:273
 #, kde-format
 msgid "Failed to create file."
 msgstr "建立檔案失敗。"
@@ -21639,60 +21639,60 @@ msgstr "無法繪製遮罩 %1"
 msgid "Failed to process playlist."
 msgstr "建立代理素材失敗。"
 
-#: src/jobs/proxytask.cpp:30
+#: src/jobs/proxytask.cpp:29
 #, kde-format
 msgid "Creating proxy"
 msgstr "正在建立代理"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:207
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "無法載入圖片 %1。"
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:227
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "圖片大小太小而不適合代理。"
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:235 src/jobs/transcodetask.cpp:181
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "找不到 FFmpeg，請在 Kdenlive 的環境設定裡設定路徑"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:402 src/jobs/proxytask.cpp:415
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "建立代理素材失敗。"
 
-#: src/jobs/scenesplittask.cpp:42
+#: src/jobs/scenesplittask.cpp:41
 #, kde-format
 msgid "Detecting scene change"
 msgstr "正在偵測場景變更"
 
-#: src/jobs/scenesplittask.cpp:57
+#: src/jobs/scenesplittask.cpp:56
 #, kde-format
 msgctxt "@title:window"
 msgid "Scene Detection"
 msgstr "場景偵測"
 
-#: src/jobs/scenesplittask.cpp:117
+#: src/jobs/scenesplittask.cpp:116
 #, kde-format
 msgid "Cannot analyse this clip type."
 msgstr "無法分析這種素材。"
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr "找不到 FFmpeg，請在 Kdenlive 的環境設定裡設定路徑。"
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "場景 %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "分析素材失敗。"
@@ -21746,7 +21746,7 @@ msgstr "穩定化中"
 msgid "Failed to stabilize."
 msgstr "穩定化失敗。"
 
-#: src/jobs/transcodetask.cpp:40
+#: src/jobs/transcodetask.cpp:39
 #, kde-format
 msgid "Transcoding"
 msgstr "轉換編碼中"
@@ -26398,19 +26398,19 @@ msgstr "指派時間碼給目前的專案素材庫素材"
 msgid "Cannot find project clip"
 msgstr "找不到專案素材"
 
-#: src/project/dialogs/noteswidget.cpp:227
-#: src/project/dialogs/noteswidget.cpp:244
+#: src/project/dialogs/noteswidget.cpp:241
+#: src/project/dialogs/noteswidget.cpp:258
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "選擇一些時間碼來重新指定"
 
-#: src/project/dialogs/noteswidget.cpp:232
+#: src/project/dialogs/noteswidget.cpp:246
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No clip selected in timeline"
 msgstr "時間軸中沒有選擇任何項目"
 
-#: src/project/dialogs/noteswidget.cpp:257
+#: src/project/dialogs/noteswidget.cpp:271
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "選擇一些時間碼來建立標記"
@@ -26920,18 +26920,18 @@ msgstr "專案備註"
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr "將所選時間碼重新指派給目前的專案素材庫素材"
 
-#: src/project/notesplugin.cpp:156
+#: src/project/notesplugin.cpp:157
 #, fuzzy, kde-format
 #| msgid "Reassign selected timecodes to current Bin clip"
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr "將所選時間碼重新指派給目前的專案素材庫素材"
 
-#: src/project/notesplugin.cpp:159
+#: src/project/notesplugin.cpp:161
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "從所選時間碼建立標記"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:163
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -26939,12 +26939,12 @@ msgid ""
 "if other text is selected too)."
 msgstr "從所選的時間碼在時間軸上建立標記（不管是否有選取其他文字）。"
 
-#: src/project/notesplugin.cpp:196
+#: src/project/notesplugin.cpp:206
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "無法新增筆記，專案素材庫中沒有選取素材"
 
-#: src/project/notesplugin.cpp:226
+#: src/project/notesplugin.cpp:236
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "無法進行指派"

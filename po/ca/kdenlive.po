@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-04 00:42+0000\n"
-"PO-Revision-Date: 2025-05-01 10:23+0200\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"POT-Creation-Date: 2025-05-05 00:41+0000\n"
+"PO-Revision-Date: 2025-05-04 21:01+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -32,7 +32,7 @@ msgid "Your emails"
 msgstr "txemaq@gmail.com,orestes@tsc.upc.edu"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "Balanç"
@@ -14794,7 +14794,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Mostra/oculta la descripció de les composicions"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:171
+#: src/project/notesplugin.cpp:173
 #, kde-format
 msgid "Search…"
 msgstr "Cerca…"
@@ -14933,7 +14933,7 @@ msgstr ""
 msgid "%1 effects"
 msgstr "Efectes de %1"
 
-#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:72
 #, kde-format
 msgid "%1 parameters"
 msgstr "Paràmetres de %1"
@@ -15651,13 +15651,13 @@ msgstr ""
 "Ajusta el volum de la sortida de pista d'àudio (afecta a tots els clips "
 "d'àudio per igual)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15669,62 +15669,62 @@ msgstr ""
 "sortida cap a l'esquerra, els valors positius cap a la dreta. Afecta a tots "
 "els clips d'àudio per igual."
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "E"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "Silencia la pista"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "Activa el so de la pista"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Silencia/activa el so de la pista d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Mode individual"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Quan està seleccionat silencia totes les altres pistes d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
 msgid "Monitor audio"
 msgstr "Monitoratge de l'àudio"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Posa la pista d'àudio en mode d'enregistrament."
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "Mostra els canals"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15733,18 +15733,18 @@ msgstr ""
 "Alterna la visualització dels controls de la pista d'àudio a la vista del "
 "mesclador d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Obre la pila d'efectes"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Obre la pila d'efectes per a la pista d'àudio."
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -21962,14 +21962,14 @@ msgstr "No es pot cercar en el fitxer <b>%1</b>."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "El fitxer <b>%1</b> usa una velocitat variable dels fotogrames."
 
-#: src/jobs/customjobtask.cpp:173
+#: src/jobs/customjobtask.cpp:172
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "No s'ha trobat l'aplicació %1, actualitzeu els paràmetres del treball"
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:238
-#: src/jobs/transcodetask.cpp:274
+#: src/jobs/customjobtask.cpp:314 src/jobs/customjobtask.cpp:334
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:237
+#: src/jobs/transcodetask.cpp:273
 #, kde-format
 msgid "Failed to create file."
 msgstr "Ha fallat en crear el fitxer."
@@ -22096,22 +22096,22 @@ msgstr "Ha fallat en renderitzar la màscara %1"
 msgid "Failed to process playlist."
 msgstr "Ha fallat en processar la llista de reproducció."
 
-#: src/jobs/proxytask.cpp:30
+#: src/jobs/proxytask.cpp:29
 #, kde-format
 msgid "Creating proxy"
 msgstr "S'està creant l'intermediari"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:207
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "No s'ha pogut carregar la imatge %1."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:227
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "La imatge és massa petita perquè sigui intermediària."
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:235 src/jobs/transcodetask.cpp:181
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -22119,41 +22119,41 @@ msgstr ""
 "No s'ha trobat el FFmpeg. Cal definir el camí a la configuració de l'entorn "
 "del Kdenlive"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:402 src/jobs/proxytask.cpp:415
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "No s'ha pogut crear el clip intermediari."
 
-#: src/jobs/scenesplittask.cpp:42
+#: src/jobs/scenesplittask.cpp:41
 #, kde-format
 msgid "Detecting scene change"
 msgstr "S'està detectant el canvi d'escena"
 
-#: src/jobs/scenesplittask.cpp:57
+#: src/jobs/scenesplittask.cpp:56
 #, kde-format
 msgctxt "@title:window"
 msgid "Scene Detection"
 msgstr "Detecció d'escenes"
 
-#: src/jobs/scenesplittask.cpp:117
+#: src/jobs/scenesplittask.cpp:116
 #, kde-format
 msgid "Cannot analyse this clip type."
 msgstr "No es pot analitzar aquest tipus de clip."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "No s'ha trobat el FFmpeg. Cal definir el camí a la configuració de l'entorn "
 "del Kdenlive."
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "Escena %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Ha fallat en analitzar el clip."
@@ -22207,7 +22207,7 @@ msgstr "S'està estabilitzant"
 msgid "Failed to stabilize."
 msgstr "Ha fallat en estabilitzar."
 
-#: src/jobs/transcodetask.cpp:40
+#: src/jobs/transcodetask.cpp:39
 #, kde-format
 msgid "Transcoding"
 msgstr "S'està transcodificant"
@@ -26958,19 +26958,18 @@ msgstr "Assigna marques horàries als clips de la safata actuals"
 msgid "Cannot find project clip"
 msgstr "No s'ha pogut trobar el clip del projecte"
 
-#: src/project/dialogs/noteswidget.cpp:227
-#: src/project/dialogs/noteswidget.cpp:244
+#: src/project/dialogs/noteswidget.cpp:241
+#: src/project/dialogs/noteswidget.cpp:258
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Selecciona diversos codis de temps a reassignar"
 
-#: src/project/dialogs/noteswidget.cpp:232
-#, fuzzy, kde-format
-#| msgid "No item selected in timeline"
+#: src/project/dialogs/noteswidget.cpp:246
+#, kde-format
 msgid "No clip selected in timeline"
-msgstr "No hi ha cap element seleccionat a la línia de temps"
+msgstr "No hi ha cap clip seleccionat a la línia de temps"
 
-#: src/project/dialogs/noteswidget.cpp:257
+#: src/project/dialogs/noteswidget.cpp:271
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Selecciona diversos codis de temps per a crear marcadors"
@@ -27502,19 +27501,18 @@ msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
 "Reassigna els codis de temps seleccionats als clips de la safata actuals"
 
-#: src/project/notesplugin.cpp:156
-#, fuzzy, kde-format
-#| msgid "Reassign selected timecodes to current Bin clip"
+#: src/project/notesplugin.cpp:157
+#, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr ""
-"Reassigna els codis de temps seleccionats als clips de la safata actuals"
+"Reassigna els codis de temps seleccionats als clips de la safata actual"
 
-#: src/project/notesplugin.cpp:159
+#: src/project/notesplugin.cpp:161
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Crea marcadors a partir dels codis de temps seleccionats"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:163
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27524,14 +27522,14 @@ msgstr ""
 "Crea marcadors a la línia de temps a partir dels codis de temps seleccionats "
 "(no importa si també se selecciona altre text)."
 
-#: src/project/notesplugin.cpp:196
+#: src/project/notesplugin.cpp:206
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "No s'ha pogut afegir la nota, no s'ha seleccionat cap clip a la safata del "
 "projecte"
 
-#: src/project/notesplugin.cpp:226
+#: src/project/notesplugin.cpp:236
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "No s'ha pogut portar a terme l'assignació"

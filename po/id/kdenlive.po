@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-04 00:42+0000\n"
+"POT-Creation-Date: 2025-05-05 00:41+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -31,7 +31,7 @@ msgid "Your emails"
 msgstr "wantoyek@gmail.com,linerly@protonmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "Keseimbangan"
@@ -1885,7 +1885,8 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Lightness"
 msgid "Lightness"
 msgstr "Kecahayaan"
 
@@ -2778,7 +2779,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
 #: data/effects/frei0r/frei0r_distort0r.xml:11 data/effects/sox/sox_bass.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Frequency"
 msgid "Frequency"
 msgstr "Frekuensi"
 
@@ -4131,7 +4133,8 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps.xml:10
 #: data/effects/frei0r/frei0r_alpha0ps.xml:35
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Display"
 msgid "Display"
 msgstr "Displai"
 
@@ -7266,7 +7269,8 @@ msgid "3dflippo"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Frame rotation in 3D space"
 msgid "Frame rotation in 3D space"
 msgstr "Perotasian frame dalam ruangan 3D"
 
@@ -7304,12 +7308,14 @@ msgid "Z axis rotation rate"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:26
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Center position (X)"
 msgid "Center position (X)"
 msgstr "Posisi pusat (X)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:29
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Center position (Y)"
 msgid "Center position (Y)"
 msgstr "Posisi pusat (Y)"
 
@@ -7325,7 +7331,8 @@ msgid "Don't blank mask"
 msgstr "Jangan tanya lagi"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:38
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Fill with image or black"
 msgid "Fill with image or black"
 msgstr "Memenuhi dengan citra atau hitam"
 
@@ -7450,7 +7457,8 @@ msgid "Operation"
 msgstr "Operasi"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:23
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Shrink/grow amount"
 msgid "Shrink/grow amount"
 msgstr "Banyaknya iris/tumbuh"
 
@@ -7462,7 +7470,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:48
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Shrink/Grow/Blur amount"
 msgid "Shrink/Grow/Blur amount"
 msgstr "Banyaknya Iris/Tumbuh/Buram"
 
@@ -7626,14 +7635,16 @@ msgstr "Keseimbangan Putih"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:6
 #: data/effects/frei0r/frei0r_balanc0r.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Adjust the white balance / color temperature"
 msgid "Adjust the white balance / color temperature"
 msgstr "Sesuaikan keseimbangan putih / temperatur warna"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:9
 #: data/effects/frei0r/frei0r_balanc0r.xml:20
 #: data/effects/frei0r/frei0r_colgate.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Neutral Color"
 msgid "Neutral Color"
 msgstr "Warna Netral"
 
@@ -7645,7 +7656,8 @@ msgid "Green Tint"
 msgstr "Hijau 2"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:16
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "White Balance"
 msgid "White Balance"
 msgstr "Keseimbangan Putih"
 
@@ -7691,7 +7703,8 @@ msgstr "Rec. 601"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:14
 #: data/effects/frei0r/frei0r_curves.xml:69
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Luma formula"
 msgid "Luma formula"
 msgstr "Rumus luma"
 
@@ -7888,7 +7901,8 @@ msgid "Equidistant Fisheye"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Projection"
 msgid "Projection"
 msgstr "Proyeksi"
 
@@ -8075,7 +8089,8 @@ msgid "Brightness"
 msgstr "Kecerahan"
 
 #: data/effects/frei0r/frei0r_brightness.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Adjusts the brightness of a source image"
 msgid "Adjusts the brightness of a source image"
 msgstr "Menyesuaikan kecerahan citra sumber"
 
@@ -8087,7 +8102,8 @@ msgid "Corners"
 msgstr "Sudut"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Four corners geometry engine"
 msgid "Four corners geometry engine"
 msgstr "Empat sudut mesin geometri"
 
@@ -8134,7 +8150,8 @@ msgid "Stretch X"
 msgstr "Peregangan Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Stretch Y"
 msgid "Stretch Y"
 msgstr "Peregangan Y"
 
@@ -8145,7 +8162,8 @@ msgid "Feather Alpha"
 msgstr "Lebar bulu"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Enable Stretch"
 msgid "Enable Stretch"
 msgstr "Fungsikan Peregangan"
 
@@ -8167,7 +8185,8 @@ msgstr "Interpolasi"
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:136
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Transparent Background"
 msgid "Transparent Background"
 msgstr "Latarbelakang Transparan"
 
@@ -8365,7 +8384,8 @@ msgid "RGB adjustment"
 msgstr "Penyesuaian citra"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Simple color adjustment"
 msgid "Simple color adjustment"
 msgstr "Penyesuaian warna sederhana"
 
@@ -8395,7 +8415,8 @@ msgid "Add constant,Change gamma,Multiply"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Action"
 msgid "Action"
 msgstr "Aksi"
 
@@ -8417,7 +8438,10 @@ msgid "Color Distance"
 msgstr "Ruang warna"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Calculates the distance between the selected color and the current pixel "
+#| "and uses that value as new pixel value"
 msgid ""
 "Calculates the distance between the selected color and the current pixel and "
 "uses that value as new pixel value"
@@ -8473,7 +8497,8 @@ msgid "Color Effect"
 msgstr "Ciutkan Efek"
 
 #: data/effects/frei0r/frei0r_colortap.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Applies a pre-made color effect to image"
 msgid "Applies a pre-made color effect to image"
 msgstr "Menerapkan efek warna pra-dibuat ke citra"
 
@@ -8716,7 +8741,8 @@ msgid "Distort"
 msgstr "Distorsi"
 
 #: data/effects/frei0r/frei0r_distort0r.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Plasma"
 msgid "Plasma"
 msgstr "Plasma"
 
@@ -8800,7 +8826,8 @@ msgid "Creates embossed relief image of source image"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_emboss.xml:9
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Light direction"
 msgid "Light direction"
 msgstr "Direksi cahaya"
 
@@ -8870,7 +8897,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:12
 #: data/effects/frei0r/frei0r_facedetect.xml:12
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Neighbors"
 msgid "Neighbors"
 msgstr "Tetangga"
 
@@ -8963,7 +8991,8 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_facedetect.xml:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Alpha"
 msgid "Alpha"
 msgstr "Alpha"
 
@@ -9521,7 +9550,8 @@ msgid "Adds black borders at top and bottom for cinema look"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Border Width"
 msgid "Border Width"
 msgstr "Lebar Bingkai"
 
@@ -9659,7 +9689,8 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:26
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:98
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Sensitivity"
 msgid "Sensitivity"
 msgstr "Sensitivitas"
 
@@ -9999,7 +10030,8 @@ msgstr "Jendela Pengukuran"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:81
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "256 scale"
 msgid "256 scale"
 msgstr "Skala 256"
 
@@ -10037,7 +10069,8 @@ msgid "<![CDATA[Tilting of the profile]]>"
 msgstr "Rotasi di sekitar poros X"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:20
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Length"
 msgid "Length"
 msgstr "Panjang"
 
@@ -10524,7 +10557,8 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Brightness of image."
 msgid "Brightness of image."
 msgstr "Kecerahan citra."
 
@@ -11584,7 +11618,8 @@ msgid "LADSPA declipper audio effect"
 msgstr "Tampilkan semua efek audio"
 
 #: data/effects/ladspa/ladspa_equalizer.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Equalizer"
 msgid "Equalizer"
 msgstr "Equalizer"
 
@@ -11623,72 +11658,86 @@ msgid "LADSPA equalizer audio effect (15 band)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "50 Hz"
 msgid "50 Hz"
 msgstr "50 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:11
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "100 Hz"
 msgid "100 Hz"
 msgstr "100 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "156 Hz"
 msgid "156 Hz"
 msgstr "156 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:17
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "220 Hz"
 msgid "220 Hz"
 msgstr "220 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:20
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "311 Hz"
 msgid "311 Hz"
 msgstr "311 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:23
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "440 Hz"
 msgid "440 Hz"
 msgstr "440 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "622 Hz"
 msgid "622 Hz"
 msgstr "622 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "880 Hz"
 msgid "880 Hz"
 msgstr "880 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "1250 Hz"
 msgid "1250 Hz"
 msgstr "1250 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:35
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "1750 Hz"
 msgid "1750 Hz"
 msgstr "1750 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:38
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "2500 Hz"
 msgid "2500 Hz"
 msgstr "2500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:41
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "3500 Hz"
 msgid "3500 Hz"
 msgstr "3500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:44
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "5000 Hz"
 msgid "5000 Hz"
 msgstr "5000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:47
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "10000 Hz"
 msgid "10000 Hz"
 msgstr "10000 Hz"
 
@@ -11785,7 +11834,8 @@ msgid "LADSPA change pitch audio effect"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_pitch.xml:8 data/effects/sox/sox_pitch.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Shift"
 msgid "Shift"
 msgstr "Shift"
 
@@ -11819,7 +11869,8 @@ msgid "LADSPA rate scale audio effect"
 msgstr "Tampilkan semua efek audio"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Rate"
 msgid "Rate"
 msgstr "Laju"
 
@@ -13981,7 +14032,8 @@ msgid "The alpha XOR operation"
 msgstr "Operasi Alfa"
 
 #: data/transitions/frei0r/frei0r_burn.xml:4
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Burn"
 msgid "Burn"
 msgstr "Bakar"
 
@@ -14802,7 +14854,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Tampilkan/sembunyikan deskripsi komposisi"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:171
+#: src/project/notesplugin.cpp:173
 #, kde-format
 msgid "Search…"
 msgstr "Cari..."
@@ -14937,7 +14989,7 @@ msgstr "Jungkitan tampilan keyframe dalam klip pada linimasa"
 msgid "%1 effects"
 msgstr "%1 efek"
 
-#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:72
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parameter"
@@ -15662,13 +15714,13 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:1006
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15677,81 +15729,81 @@ msgid ""
 "equally."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "Kr"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "Kn"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "Senyapkan trek"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "Bunyikan trek"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Mode solo"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, fuzzy, kde-format
 #| msgid "Monitor audio input"
 msgid "Monitor audio"
 msgstr "Input audio monitor"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "Tampilkan kanal"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Buka Tumpukan Efek"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Buka tumpukan efek untuk trek audio."
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -21944,14 +21996,14 @@ msgstr "File <b>%1</b> bukanlah file yang dapat dijangka."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "File <b>%1</b> memiliki laju frame yang dapat bervariasi"
 
-#: src/jobs/customjobtask.cpp:173
+#: src/jobs/customjobtask.cpp:172
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr ""
 
-#: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:238
-#: src/jobs/transcodetask.cpp:274
+#: src/jobs/customjobtask.cpp:314 src/jobs/customjobtask.cpp:334
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:237
+#: src/jobs/transcodetask.cpp:273
 #, kde-format
 msgid "Failed to create file."
 msgstr "Gagal membuat file."
@@ -22086,22 +22138,22 @@ msgstr ""
 msgid "Failed to process playlist."
 msgstr "Gagal membuat klip proxy."
 
-#: src/jobs/proxytask.cpp:30
+#: src/jobs/proxytask.cpp:29
 #, kde-format
 msgid "Creating proxy"
 msgstr "Membuat proksi"
 
-#: src/jobs/proxytask.cpp:208
+#: src/jobs/proxytask.cpp:207
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Tidak bisa memuat citra %1."
 
-#: src/jobs/proxytask.cpp:228
+#: src/jobs/proxytask.cpp:227
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr ""
 
-#: src/jobs/proxytask.cpp:236 src/jobs/transcodetask.cpp:182
+#: src/jobs/proxytask.cpp:235 src/jobs/transcodetask.cpp:181
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -22109,41 +22161,41 @@ msgstr ""
 "FFmpeg tidak ditemukan, mohon atur alur pada Lingkungan yang ada di "
 "pengaturan Kdenlive"
 
-#: src/jobs/proxytask.cpp:403 src/jobs/proxytask.cpp:416
+#: src/jobs/proxytask.cpp:402 src/jobs/proxytask.cpp:415
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Gagal membuat klip proxy."
 
-#: src/jobs/scenesplittask.cpp:42
+#: src/jobs/scenesplittask.cpp:41
 #, kde-format
 msgid "Detecting scene change"
 msgstr ""
 
-#: src/jobs/scenesplittask.cpp:57
+#: src/jobs/scenesplittask.cpp:56
 #, kde-format
 msgctxt "@title:window"
 msgid "Scene Detection"
 msgstr "Deteksi Adegan"
 
-#: src/jobs/scenesplittask.cpp:117
+#: src/jobs/scenesplittask.cpp:116
 #, kde-format
 msgid "Cannot analyse this clip type."
 msgstr "Tidak bisa menganalisa tipe klip ini."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "FFmpeg tidak ditemukan, mohon atur alur pada Lingkungan yang ada di "
 "pengaturan Kdenlive."
 
-#: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
-#: src/jobs/scenesplittask.cpp:213
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "Adegan %1"
 
-#: src/jobs/scenesplittask.cpp:227
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Gagal menganalisa klip."
@@ -22197,7 +22249,7 @@ msgstr "Menstabilkan"
 msgid "Failed to stabilize."
 msgstr "Gagal menstabilkan."
 
-#: src/jobs/transcodetask.cpp:40
+#: src/jobs/transcodetask.cpp:39
 #, kde-format
 msgid "Transcoding"
 msgstr "Mentranskode"
@@ -26941,19 +26993,19 @@ msgstr "Tetapkan stempel waktu ke Klip Bin saat ini"
 msgid "Cannot find project clip"
 msgstr "Tidak bisa membuat klip"
 
-#: src/project/dialogs/noteswidget.cpp:227
-#: src/project/dialogs/noteswidget.cpp:244
+#: src/project/dialogs/noteswidget.cpp:241
+#: src/project/dialogs/noteswidget.cpp:258
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Pilih beberapa kode waktu untuk menetapkan ulang"
 
-#: src/project/dialogs/noteswidget.cpp:232
+#: src/project/dialogs/noteswidget.cpp:246
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No clip selected in timeline"
 msgstr "Tidak ada item yang dipilih di linimasa"
 
-#: src/project/dialogs/noteswidget.cpp:257
+#: src/project/dialogs/noteswidget.cpp:271
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Pilih beberapa kode waktu untuk membuat penanda"
@@ -27464,18 +27516,18 @@ msgstr "Catatan Proyek"
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr "Tetapkan ulang kode-waktu yang dipilih ke klip Bin saat ini"
 
-#: src/project/notesplugin.cpp:156
+#: src/project/notesplugin.cpp:157
 #, fuzzy, kde-format
 #| msgid "Reassign selected timecodes to current Bin clip"
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr "Tetapkan ulang kode-waktu yang dipilih ke klip Bin saat ini"
 
-#: src/project/notesplugin.cpp:159
+#: src/project/notesplugin.cpp:161
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Buat penanda dari kode-waktu yang dipilih"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:163
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27483,13 +27535,13 @@ msgid ""
 "if other text is selected too)."
 msgstr ""
 
-#: src/project/notesplugin.cpp:196
+#: src/project/notesplugin.cpp:206
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "Tidak bisa menambahkan catatan, tidak ada klip yang dipilih dalam bin proyek"
 
-#: src/project/notesplugin.cpp:226
+#: src/project/notesplugin.cpp:236
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Tidak bisa melakukan penetapan"
