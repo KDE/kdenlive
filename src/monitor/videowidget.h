@@ -53,7 +53,6 @@ typedef void *(*thread_function_t)(void *);
 class VideoWidget : public QQuickWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QRect rect READ rect NOTIFY rectChanged)
     Q_PROPERTY(float zoom READ zoom NOTIFY zoomChanged)
 
 public:
@@ -76,7 +75,7 @@ public:
     int displayHeight() const { return m_rect.height(); }
 
     QObject *videoWidget() { return this; }
-    QRect rect() const { return m_rect; }
+    QRectF rect() const { return m_rect; }
     QRect effectRect() const { return m_effectRect; }
     float zoom() const;
     QPoint offset() const;
@@ -147,8 +146,8 @@ public Q_SLOTS:
     virtual void onFrameDisplayed(const SharedFrame &frame);
     void requestSeek(int position, bool noAudioScrub = false);
     void setZoom(float zoom, bool force = false);
-    void setOffsetX(int x, int max);
-    void setOffsetY(int y, int max);
+    void setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth);
+    void setOffsetY(int verticalScrollValue, int verticalScrollMaximum, int horizontalScrollBarHeight);
     void slotZoom(bool zoomIn);
     void releaseAnalyse();
     bool switchPlay(bool play, double speed = 1.0);
@@ -168,7 +167,6 @@ Q_SIGNALS:
     void started();
     void paused();
     void playing();
-    void rectChanged();
     void zoomChanged(float zoomRatio);
     void monitorPlay();
     void switchFullScreen(bool minimizeOnly = false);
@@ -209,7 +207,7 @@ protected:
     virtual void updateRulerHeight(int addedHeight);
 
 private:
-    QRect m_rect;
+    QRectF m_rect;
     QRect m_effectRect;
     QPoint m_panStart;
     QPoint m_dragStart;
