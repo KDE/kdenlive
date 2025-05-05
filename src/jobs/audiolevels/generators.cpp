@@ -171,6 +171,13 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
     // Find and open codec for requested stream
     stream = fmt_ctx->streams[streamIdx];
 
+    // Set discard flag for all streams except our target audio stream to reduce unnecessary I/O operations
+    for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
+        if (i != streamIdx) {
+            fmt_ctx->streams[i]->discard = AVDISCARD_ALL;
+        }
+    }
+
     codec = avcodec_find_decoder(stream->codecpar->codec_id);
     if (!codec) {
         qWarning() << "No suitable decoder found for" << avcodec_get_name(stream->codecpar->codec_id);
