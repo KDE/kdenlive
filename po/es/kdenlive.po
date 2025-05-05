@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-03 02:31+0000\n"
+"POT-Creation-Date: 2025-05-05 02:36+0000\n"
 "PO-Revision-Date: 2025-04-27 05:12+0100\n"
 "Last-Translator: Gabriel Gazzan <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -30,7 +30,7 @@ msgid "Your emails"
 msgstr "gabcorreo@gmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "Balance"
@@ -15038,7 +15038,7 @@ msgctxt "@action:button"
 msgid "Abort Mask Task"
 msgstr "Abortar tarea de máscara"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:407
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:414
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -15728,13 +15728,13 @@ msgstr ""
 "Ajusta el volumen de salida de la pista de audio (afecta por igual a todos "
 "los clips presentes en la pista)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15746,62 +15746,62 @@ msgstr ""
 "hacia la izquierda, valores positivos lo harán hacia la derecha. Afecta por "
 "igual a todos los clips presentes en la pista."
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "I"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "D"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "Silenciar pista"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "Escuchar pista"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Silencia o permite escuchar la pista de sonido."
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Solo"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Silencia todas las demás pistas de audio."
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
 msgid "Monitor audio"
 msgstr "Monitorear audio"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Coloca la pista de audio en modo de grabación."
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "Mostrar canales"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15810,18 +15810,18 @@ msgstr ""
 "Alterna la visualización de los controles de la pista de audio en la vista "
 "del mezclador de sonido."
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Abrir opciones de efectos"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Abre las opciones de efectos de esta pista de audio."
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -16040,7 +16040,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Borrar clips en bandeja"
 
-#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:251
+#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:258
 #, kde-format
 msgid "Missing source clip"
 msgstr "Clip original faltante"
@@ -16204,7 +16204,7 @@ msgid "Replace in timeline"
 msgstr "Sustituir en línea de tiempo"
 
 #: src/bin/bin.cpp:2143 src/bin/bin.cpp:5885 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:626
+#: src/effects/effectstack/view/maskmanager.cpp:633
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -18903,7 +18903,7 @@ msgid "Add to Current Project"
 msgstr "Agregar al proyecto actual"
 
 #: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:663
+#: src/effects/effectstack/view/maskmanager.cpp:670
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -21888,6 +21888,7 @@ msgid "Abort Mask Creation"
 msgstr "Abortar creación de máscara"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
+#: src/effects/effectstack/view/maskmanager.cpp:188
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "El complemento SAM2 debe ser configurado"
@@ -21897,7 +21898,7 @@ msgstr "El complemento SAM2 debe ser configurado"
 msgid "Job failed"
 msgstr "Tarea fallida"
 
-#: src/effects/effectstack/view/maskmanager.cpp:200
+#: src/effects/effectstack/view/maskmanager.cpp:207
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -21909,54 +21910,54 @@ msgstr ""
 "activar la opción <i>Descargar video a la CPU</i> en las preferencias o "
 "crear varias máscaras de menor duración."
 
-#: src/effects/effectstack/view/maskmanager.cpp:231
+#: src/effects/effectstack/view/maskmanager.cpp:238
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr ""
 "Ya existe otra tarea de transcodificación ejecutándose, intentar más tarde."
 
-#: src/effects/effectstack/view/maskmanager.cpp:236
+#: src/effects/effectstack/view/maskmanager.cpp:243
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr ""
 "Ya existe otra tarea de enmascaramiento ejecutándose, intentar más tarde."
 
-#: src/effects/effectstack/view/maskmanager.cpp:245
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, kde-format
 msgid "Cannot open temporary file"
 msgstr "No es posible abrir el archivo temporal"
 
-#: src/effects/effectstack/view/maskmanager.cpp:258
+#: src/effects/effectstack/view/maskmanager.cpp:265
 #, kde-format
 msgid "Cannot access project folder"
 msgstr "No es posible acceder a la carpeta del proyecto"
 
-#: src/effects/effectstack/view/maskmanager.cpp:309
+#: src/effects/effectstack/view/maskmanager.cpp:316
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Exportando fotogramas del video para su análisis"
 
-#: src/effects/effectstack/view/maskmanager.cpp:313
+#: src/effects/effectstack/view/maskmanager.cpp:320
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Exportando fotogramas del video"
 
-#: src/effects/effectstack/view/maskmanager.cpp:326
+#: src/effects/effectstack/view/maskmanager.cpp:333
 #, kde-format
 msgid "Missing source frames"
 msgstr "Fotogramas de origen faltantes"
 
-#: src/effects/effectstack/view/maskmanager.cpp:430
+#: src/effects/effectstack/view/maskmanager.cpp:437
 #, kde-format
 msgid "mask %1"
 msgstr "máscara %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:433
+#: src/effects/effectstack/view/maskmanager.cpp:440
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Generando máscara %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:597
+#: src/effects/effectstack/view/maskmanager.cpp:604
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "

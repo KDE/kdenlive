@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-03 02:31+0000\n"
+"POT-Creation-Date: 2025-05-05 02:36+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -30,7 +30,7 @@ msgid "Your emails"
 msgstr "heiki.nooremae@gmail.com, qiilaq69@gmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "Tasakaal"
@@ -15003,7 +15003,7 @@ msgctxt "@action:button"
 msgid "Abort Mask Task"
 msgstr ""
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:407
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:414
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -15744,13 +15744,13 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15759,85 +15759,85 @@ msgid ""
 "equally."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, fuzzy, kde-format
 #| msgid "R"
 msgctxt "Right"
 msgid "R"
 msgstr "R"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "Rajal heli maha"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "Rajal heli peale"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, fuzzy, kde-format
 #| msgid "Monitor config"
 msgid "Monitor audio"
 msgstr "Monitori seadistus"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, fuzzy, kde-format
 #| msgid "Show Channels"
 msgid "Show channels"
 msgstr "Kanalite näitamine"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, fuzzy, kde-format
 #| msgid "Save Effect Stack"
 msgid "Open Effect Stack"
 msgstr "Efektipinu salvestamine"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, fuzzy, kde-kuit-format
 #| msgid "Fade in audio track"
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Heliraja sisse hajutamine"
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -16055,7 +16055,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr ""
 
-#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:251
+#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:258
 #, kde-format
 msgid "Missing source clip"
 msgstr "Lähteklipp puudub"
@@ -16216,7 +16216,7 @@ msgid "Replace in timeline"
 msgstr "Põhiajatelg"
 
 #: src/bin/bin.cpp:2143 src/bin/bin.cpp:5885 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:626
+#: src/effects/effectstack/view/maskmanager.cpp:633
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -19060,7 +19060,7 @@ msgid "Add to Current Project"
 msgstr "Lisa aktiivsesse projekti"
 
 #: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:663
+#: src/effects/effectstack/view/maskmanager.cpp:670
 #: src/library/librarywidget.cpp:248
 #, fuzzy, kde-format
 #| msgid "Destination folder"
@@ -22159,6 +22159,7 @@ msgid "Abort Mask Creation"
 msgstr "Muuda kestust"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
+#: src/effects/effectstack/view/maskmanager.cpp:188
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure the SAM2 plugin"
@@ -22170,7 +22171,7 @@ msgstr "Vali üleminek"
 msgid "Job failed"
 msgstr "Väljundfail"
 
-#: src/effects/effectstack/view/maskmanager.cpp:200
+#: src/effects/effectstack/view/maskmanager.cpp:207
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -22178,59 +22179,59 @@ msgid ""
 "the settings, or create several masks for shorter durations."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:231
+#: src/effects/effectstack/view/maskmanager.cpp:238
 #, fuzzy, kde-format
 #| msgid "Processing audio, please wait."
 msgid "Another transcode task is running, try later."
 msgstr "Heli töötlemine, palun oota."
 
-#: src/effects/effectstack/view/maskmanager.cpp:236
+#: src/effects/effectstack/view/maskmanager.cpp:243
 #, fuzzy, kde-format
 #| msgid "Processing audio, please wait."
 msgid "Another mask task is running, try later."
 msgstr "Heli töötlemine, palun oota."
 
-#: src/effects/effectstack/view/maskmanager.cpp:245
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot open temporary file"
 msgstr "Ajutise faili loomine nurjus"
 
-#: src/effects/effectstack/view/maskmanager.cpp:258
+#: src/effects/effectstack/view/maskmanager.cpp:265
 #, fuzzy, kde-format
 #| msgid "Cannot apply effects on folders"
 msgid "Cannot access project folder"
 msgstr "Efekte ei saa kataloogidele rakendada"
 
-#: src/effects/effectstack/view/maskmanager.cpp:309
+#: src/effects/effectstack/view/maskmanager.cpp:316
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:313
+#: src/effects/effectstack/view/maskmanager.cpp:320
 #, fuzzy, kde-format
 #| msgid "Import guides"
 msgid "Exporting video frames"
 msgstr "Impordi abijooned"
 
-#: src/effects/effectstack/view/maskmanager.cpp:326
+#: src/effects/effectstack/view/maskmanager.cpp:333
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "Lähteklipp puudub"
 
-#: src/effects/effectstack/view/maskmanager.cpp:430
+#: src/effects/effectstack/view/maskmanager.cpp:437
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:433
+#: src/effects/effectstack/view/maskmanager.cpp:440
 #, fuzzy, kde-format
 #| msgid "Creating menu images"
 msgid "Generating mask %1"
 msgstr "Menüüpiltide loomine"
 
-#: src/effects/effectstack/view/maskmanager.cpp:597
+#: src/effects/effectstack/view/maskmanager.cpp:604
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-03 02:31+0000\n"
+"POT-Creation-Date: 2025-05-05 02:36+0000\n"
 "PO-Revision-Date: 2025-04-14 08:24+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -34,7 +34,7 @@ msgid "Your emails"
 msgstr "kde-l10n-he@kde.org"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "איזון"
@@ -14623,7 +14623,7 @@ msgctxt "@action:button"
 msgid "Abort Mask Task"
 msgstr "ביטול גורף של משימת מסכה"
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:407
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:414
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -15308,13 +15308,13 @@ msgid ""
 "equally)."
 msgstr "מכוון את עוצמת פלט רצועת השמע (משפיע על כל מקטעי השמע ביחד)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "דציבלים"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15325,80 +15325,80 @@ msgstr ""
 "מכוון את איזון הפלט של הרצועה. ערכים שליליים מזיזים את הפלט לכיוון שמאל, "
 "ערכים חיוביים לכיוון ימין. משפיע על כל מקטעי השמע ביחד."
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "שמ׳"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "י"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "השתקת רצועה"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "השמעת רצועה"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "משתיק/מבטל את השתקת רצועת השמע."
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "מצב יחיד"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "כאשר האפשרות נבחרת כל שאר רצועות השמע מושתקות."
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
 msgid "Monitor audio"
 msgstr "מעקב שמע"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "מעביר את רצועת השמע למצב הקלטה."
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "הצגת ערוצים"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr "מחליף את תצוגת בקרי רצועת השמע בתצוגת מערבל השמע."
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "פתיחת ערמת אפקטים"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "פתיחת ערמת האפקטים על רצועת השמע."
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -15616,7 +15616,7 @@ msgstr "לא ניתן למחוק חלק מהפריטים. אולי יש מופע
 msgid "Delete bin Clips"
 msgstr "מחיקת סרטוני סל"
 
-#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:251
+#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:258
 #, kde-format
 msgid "Missing source clip"
 msgstr "סרטון מקור חסר"
@@ -15772,7 +15772,7 @@ msgid "Replace in timeline"
 msgstr "החלפה בציר הזמן"
 
 #: src/bin/bin.cpp:2143 src/bin/bin.cpp:5885 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:626
+#: src/effects/effectstack/view/maskmanager.cpp:633
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -18446,7 +18446,7 @@ msgid "Add to Current Project"
 msgstr "הוספה למיזם הנוכחי"
 
 #: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:663
+#: src/effects/effectstack/view/maskmanager.cpp:670
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -21382,6 +21382,7 @@ msgid "Abort Mask Creation"
 msgstr "ביטול יצירת מסכה"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
+#: src/effects/effectstack/view/maskmanager.cpp:188
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "נא להגדיר את תוסף SAM2"
@@ -21391,7 +21392,7 @@ msgstr "נא להגדיר את תוסף SAM2"
 msgid "Job failed"
 msgstr "המשימה נכשלה"
 
-#: src/effects/effectstack/view/maskmanager.cpp:200
+#: src/effects/effectstack/view/maskmanager.cpp:207
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -21402,52 +21403,52 @@ msgstr ""
 "אפשר לנסות להפעיל את האפשרות <i>פריקת וידאו למעבד</i> בהגדרות, או ליצור כמה "
 "מסכות לפרקי זמן קצרים יותר."
 
-#: src/effects/effectstack/view/maskmanager.cpp:231
+#: src/effects/effectstack/view/maskmanager.cpp:238
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr "פעולת התמרה אחרת רצה ברקע, נא לנסות שוב."
 
-#: src/effects/effectstack/view/maskmanager.cpp:236
+#: src/effects/effectstack/view/maskmanager.cpp:243
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr "פעולת מסכה אחרת רצה ברקע, נא לנסות שוב."
 
-#: src/effects/effectstack/view/maskmanager.cpp:245
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, kde-format
 msgid "Cannot open temporary file"
 msgstr "לא ניתן לפתוח קובץ זמני"
 
-#: src/effects/effectstack/view/maskmanager.cpp:258
+#: src/effects/effectstack/view/maskmanager.cpp:265
 #, kde-format
 msgid "Cannot access project folder"
 msgstr "לא ניתן לגשת לתיקיית המיזם"
 
-#: src/effects/effectstack/view/maskmanager.cpp:309
+#: src/effects/effectstack/view/maskmanager.cpp:316
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "תמוניות מהסרטון מיוצאות לצורכי ניתוח"
 
-#: src/effects/effectstack/view/maskmanager.cpp:313
+#: src/effects/effectstack/view/maskmanager.cpp:320
 #, kde-format
 msgid "Exporting video frames"
 msgstr "תמוניות וידאו מיוצאות"
 
-#: src/effects/effectstack/view/maskmanager.cpp:326
+#: src/effects/effectstack/view/maskmanager.cpp:333
 #, kde-format
 msgid "Missing source frames"
 msgstr "תמוניות מקור חסרות"
 
-#: src/effects/effectstack/view/maskmanager.cpp:430
+#: src/effects/effectstack/view/maskmanager.cpp:437
 #, kde-format
 msgid "mask %1"
 msgstr "מסכה %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:433
+#: src/effects/effectstack/view/maskmanager.cpp:440
 #, kde-format
 msgid "Generating mask %1"
 msgstr "נוצרת מסכה %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:597
+#: src/effects/effectstack/view/maskmanager.cpp:604
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-03 02:31+0000\n"
+"POT-Creation-Date: 2025-05-05 02:36+0000\n"
 "PO-Revision-Date: 2025-04-09 17:40+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -28,7 +28,7 @@ msgid "Your emails"
 msgstr ",mail@kisaragi-hiu.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "平衡"
@@ -14711,7 +14711,7 @@ msgctxt "@action:button"
 msgid "Abort Mask Task"
 msgstr ""
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:407
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:414
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -15388,13 +15388,13 @@ msgid ""
 "equally)."
 msgstr "調整音訊軌道的輸出音量（會同等影響所有音訊素材）。"
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15405,80 +15405,80 @@ msgstr ""
 "調整軌道的輸出左右平衡。負數代表將輸出向左移動，正數代表將輸出向右移動。會同"
 "等影響所有音訊素材。"
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "左"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "右"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "將軌道靜音"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "將軌道取消靜音"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "將音訊軌靜音或解除靜音。"
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Solo 模式"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "選取時，將其他所有音訊軌靜音。"
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
 msgid "Monitor audio"
 msgstr "監聽音訊"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "將音訊軌置於錄製模式。"
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "顯示頻道"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr "切換顯示音訊混音器檢視中的音訊軌道控制元件。"
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "開啟效果堆疊"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "開啟音訊軌的效果堆疊。"
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -15688,7 +15688,7 @@ msgstr "某些項目無法被刪除。或許它們有實體在已鎖定的軌道
 msgid "Delete bin Clips"
 msgstr "刪除素材庫的素材"
 
-#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:251
+#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:258
 #, kde-format
 msgid "Missing source clip"
 msgstr "缺乏來源素材"
@@ -15839,7 +15839,7 @@ msgid "Replace in timeline"
 msgstr "在時間軸中取代"
 
 #: src/bin/bin.cpp:2143 src/bin/bin.cpp:5885 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:626
+#: src/effects/effectstack/view/maskmanager.cpp:633
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -18479,7 +18479,7 @@ msgid "Add to Current Project"
 msgstr "加入目前專案"
 
 #: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:663
+#: src/effects/effectstack/view/maskmanager.cpp:670
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -21364,6 +21364,7 @@ msgid "Abort Mask Creation"
 msgstr "離開遮罩建立"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
+#: src/effects/effectstack/view/maskmanager.cpp:188
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "請先設定 SAM2 外掛程式"
@@ -21374,7 +21375,7 @@ msgstr "請先設定 SAM2 外掛程式"
 msgid "Job failed"
 msgstr "分割工作已失敗。"
 
-#: src/effects/effectstack/view/maskmanager.cpp:200
+#: src/effects/effectstack/view/maskmanager.cpp:207
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -21382,56 +21383,56 @@ msgid ""
 "the settings, or create several masks for shorter durations."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:231
+#: src/effects/effectstack/view/maskmanager.cpp:238
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:236
+#: src/effects/effectstack/view/maskmanager.cpp:243
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:245
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot open temporary file"
 msgstr "無法建立暫存檔"
 
-#: src/effects/effectstack/view/maskmanager.cpp:258
+#: src/effects/effectstack/view/maskmanager.cpp:265
 #, fuzzy, kde-format
 #| msgid "Cannot access dictionary folder."
 msgid "Cannot access project folder"
 msgstr "無法存取字典資料夾。"
 
-#: src/effects/effectstack/view/maskmanager.cpp:309
+#: src/effects/effectstack/view/maskmanager.cpp:316
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:313
+#: src/effects/effectstack/view/maskmanager.cpp:320
 #, fuzzy, kde-format
 #| msgid "Generating video mask"
 msgid "Exporting video frames"
 msgstr "正在建立影片遮罩"
 
-#: src/effects/effectstack/view/maskmanager.cpp:326
+#: src/effects/effectstack/view/maskmanager.cpp:333
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "缺乏來源素材"
 
-#: src/effects/effectstack/view/maskmanager.cpp:430
+#: src/effects/effectstack/view/maskmanager.cpp:437
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:433
+#: src/effects/effectstack/view/maskmanager.cpp:440
 #, kde-format
 msgid "Generating mask %1"
 msgstr "正在產生遮罩 %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:597
+#: src/effects/effectstack/view/maskmanager.cpp:604
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."

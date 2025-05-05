@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-03 02:31+0000\n"
+"POT-Creation-Date: 2025-05-05 02:36+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -35,7 +35,7 @@ msgid "Your emails"
 msgstr "translator@legisign.org, lasse.liehu@gmail.com, mrkujansuu@gmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:167
+#: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
 #, kde-format
 msgid "Balance"
 msgstr "Balanssi"
@@ -15255,7 +15255,7 @@ msgctxt "@action:button"
 msgid "Abort Mask Task"
 msgstr ""
 
-#: src/assets/keyframes/model/automask/automaskhelper.cpp:407
+#: src/assets/keyframes/model/automask/automaskhelper.cpp:414
 #, kde-format
 msgid ""
 "You must define include points in the first video frame of the sequence."
@@ -15944,13 +15944,13 @@ msgstr ""
 "Säätää ääniraidan ulostulon voimakkuutta (vaikuttaa kaikkiin "
 "äänileikkeisiin)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:544
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:945
 #, kde-format
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixerwidget.cpp:155 src/audiomixer/mixerwidget.cpp:168
+#: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15961,80 +15961,80 @@ msgstr ""
 "Säätää raidan ulostulon tasapainoa. Negatiiviset arvot siirtävät lähtöä "
 "vasemmalle, positiiviset arvot oikealle. Vaikuttaa kaikkiin äänileikkeisiin."
 
-#: src/audiomixer/mixerwidget.cpp:158
+#: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
 msgstr "V"
 
-#: src/audiomixer/mixerwidget.cpp:160
+#: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
 msgctxt "Right"
 msgid "R"
 msgstr "O"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Mute track"
 msgstr "Vaimena raita"
 
-#: src/audiomixer/mixerwidget.cpp:231
+#: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
 msgid "Unmute track"
 msgstr "Poista raidan vaimennus"
 
-#: src/audiomixer/mixerwidget.cpp:232
+#: src/audiomixer/mixerwidget.cpp:219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Vaimentaa ääniraidan tai poistaa sen vaimennuksen."
 
-#: src/audiomixer/mixerwidget.cpp:280
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Tavallinen tila"
 
-#: src/audiomixer/mixerwidget.cpp:281
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Jos valittu, kaikki muut ääniraidat vaimennetaan."
 
-#: src/audiomixer/mixerwidget.cpp:290
+#: src/audiomixer/mixerwidget.cpp:277
 #, kde-format
 msgid "Monitor audio"
 msgstr "Tarkkaile ääntä"
 
-#: src/audiomixer/mixerwidget.cpp:291
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Asettaa ääniraidan nauhoitustilaan."
 
-#: src/audiomixer/mixerwidget.cpp:307
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "Näytä kanavat"
 
-#: src/audiomixer/mixerwidget.cpp:308
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr "Vaihtaa ääniraidan säätimien näyttämistä mikserinäkymässä."
 
-#: src/audiomixer/mixerwidget.cpp:324
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Avaa tehostepino"
 
-#: src/audiomixer/mixerwidget.cpp:326
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Avaa ääniraidan tehostepinon."
 
-#: src/audiomixer/mixerwidget.cpp:328
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
@@ -16253,7 +16253,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Poista kansion leikkeet"
 
-#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:251
+#: src/bin/bin.cpp:1862 src/effects/effectstack/view/maskmanager.cpp:258
 #, kde-format
 msgid "Missing source clip"
 msgstr "Lähdeleike puuttuu"
@@ -16415,7 +16415,7 @@ msgid "Replace in timeline"
 msgstr "Korvaa aikajanalle"
 
 #: src/bin/bin.cpp:2143 src/bin/bin.cpp:5885 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:626
+#: src/effects/effectstack/view/maskmanager.cpp:633
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -19090,7 +19090,7 @@ msgid "Add to Current Project"
 msgstr "Lisää projektiin"
 
 #: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:663
+#: src/effects/effectstack/view/maskmanager.cpp:670
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -22041,6 +22041,7 @@ msgid "Abort Mask Creation"
 msgstr "Lopeta maskin luominen"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
+#: src/effects/effectstack/view/maskmanager.cpp:188
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "Määritä SAM2-laajennus"
@@ -22051,7 +22052,7 @@ msgstr "Määritä SAM2-laajennus"
 msgid "Job failed"
 msgstr "Leikkaustyö epäonnistui."
 
-#: src/effects/effectstack/view/maskmanager.cpp:200
+#: src/effects/effectstack/view/maskmanager.cpp:207
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -22059,58 +22060,58 @@ msgid ""
 "the settings, or create several masks for shorter durations."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:231
+#: src/effects/effectstack/view/maskmanager.cpp:238
 #, fuzzy, kde-format
 #| msgid "Processing audio, please wait."
 msgid "Another transcode task is running, try later."
 msgstr "Käsitellään ääntä: odota."
 
-#: src/effects/effectstack/view/maskmanager.cpp:236
+#: src/effects/effectstack/view/maskmanager.cpp:243
 #, fuzzy, kde-format
 #| msgid "Processing audio, please wait."
 msgid "Another mask task is running, try later."
 msgstr "Käsitellään ääntä: odota."
 
-#: src/effects/effectstack/view/maskmanager.cpp:245
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot open temporary file"
 msgstr "Väliaikaista tiedostoa ei voitu luoda"
 
-#: src/effects/effectstack/view/maskmanager.cpp:258
+#: src/effects/effectstack/view/maskmanager.cpp:265
 #, fuzzy, kde-format
 #| msgid "Cannot access dictionary folder."
 msgid "Cannot access project folder"
 msgstr "Ei voi käyttää sanakirjakansiota."
 
-#: src/effects/effectstack/view/maskmanager.cpp:309
+#: src/effects/effectstack/view/maskmanager.cpp:316
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:313
+#: src/effects/effectstack/view/maskmanager.cpp:320
 #, fuzzy, kde-format
 #| msgid "Generating video mask"
 msgid "Exporting video frames"
 msgstr "Luodaan videomaskia"
 
-#: src/effects/effectstack/view/maskmanager.cpp:326
+#: src/effects/effectstack/view/maskmanager.cpp:333
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "Lähdeleike puuttuu"
 
-#: src/effects/effectstack/view/maskmanager.cpp:430
+#: src/effects/effectstack/view/maskmanager.cpp:437
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:433
+#: src/effects/effectstack/view/maskmanager.cpp:440
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Luodaan maskia %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:597
+#: src/effects/effectstack/view/maskmanager.cpp:604
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will mask <b>%1</b> file:<br/>%2<br/>This operation cannot be undone."
