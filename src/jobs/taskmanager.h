@@ -82,6 +82,7 @@ public Q_SLOTS:
 private:
     QThreadPool m_taskPool;
     QThreadPool m_transcodePool;
+    /** @brief List of created tasks, in the form {owner clip id, {tasks}} */
     std::unordered_map<int, std::vector<AbstractTask*> > m_taskList;
     mutable QReadWriteLock m_tasksListLock;
     bool m_blockUpdates;

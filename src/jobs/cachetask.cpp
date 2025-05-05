@@ -106,6 +106,7 @@ void CacheTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     if (binClip) {
         generateThumbnail(binClip);

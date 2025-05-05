@@ -1904,14 +1904,17 @@ void KdenliveDoc::loadDocumentProperties()
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
 {
-    pCore->taskManager.slotCancelJobs(false, {AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
     double fps = pCore->getCurrentFps();
     double fpsChanged = m_timecode.fps() / fps;
+    if (fpsChanged) {
+        pCore->taskManager.slotCancelJobs(false);
+    } else {
+        pCore->taskManager.slotCancelJobs(false, {AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
+    }
     m_timecode.setFormat(fps);
     if (!reloadProducers) {
         return;
     }
-    Q_EMIT updateFps(fpsChanged);
     pCore->bin()->reloadAllProducers(reloadThumbs);
 }
 

@@ -106,6 +106,7 @@ void SceneSplitTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     const QString source = binClip->url();

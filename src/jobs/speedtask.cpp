@@ -169,6 +169,7 @@ void SpeedTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
     qDebug() << " + + + + + + + + STARTING SPEED TASK";
 

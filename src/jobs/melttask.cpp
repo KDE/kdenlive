@@ -41,6 +41,7 @@ void MeltTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
 
     // TODO: check that playlist exists
