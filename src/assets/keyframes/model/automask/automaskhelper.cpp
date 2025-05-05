@@ -154,6 +154,13 @@ void AutomaskHelper::addMonitorControlRect(int position, const QSize frameSize, 
     generateImage();
 }
 
+bool AutomaskHelper::pythonReady()
+{
+    SamInterface sam;
+    const QString pythonExe = sam.venvPythonExecs().python;
+    return !pythonExe.isEmpty();
+}
+
 void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const ObjectId &ownerForFilter, bool autoAdd, int previewPos)
 {
     m_ownerForFilter = ownerForFilter;

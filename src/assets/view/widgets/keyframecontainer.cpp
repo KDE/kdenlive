@@ -145,7 +145,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     connect(monitor, &Monitor::seekPosition, this, &KeyframeContainer::monitorSeek, Qt::DirectConnection);
-    connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeContainer::disconnectEffectStack);
+    connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeContainer::disconnectEffectStack, Qt::DirectConnection);
 
     m_time = new TimecodeDisplay(parent);
     m_time->setRange(0, duration - 1);

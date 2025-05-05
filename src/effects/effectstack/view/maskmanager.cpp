@@ -183,6 +183,11 @@ bool MaskManager::launchSimpleSam()
 
 bool MaskManager::initMaskMode(bool autoAdd, bool editMode)
 {
+    if (!m_maskHelper->pythonReady()) {
+        // Check our python env is working
+        KMessageBox::information(this, i18n("Please configure the SAM2 plugin"));
+        return false;
+    }
     // Define operating zone
     Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
     bool ok;
