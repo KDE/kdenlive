@@ -72,6 +72,7 @@ public Q_SLOTS:
        If pos is negative, then keyframe is added at current position
     */
     bool slotAddKeyframe(int pos = -1);
+    void disconnectEffectStack();
 
 private Q_SLOTS:
     /** @brief Update the value of the widgets to reflect keyframe change */
@@ -94,7 +95,6 @@ private Q_SLOTS:
     void slotSeekToPos(int pos);
     void slotToggleView();
     void monitorSeek(int pos);
-    void disconnectEffectStack();
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;

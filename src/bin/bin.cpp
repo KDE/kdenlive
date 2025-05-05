@@ -1826,6 +1826,10 @@ void Bin::slotDeleteClip()
     // std::sort(items.begin(), items.end(), [](std::shared_ptr<AbstractProjectItem> a, std::shared_ptr<AbstractProjectItem>b) { return a->depth() > b->depth();
     // });
     QStringList notDeleted;
+    if (items.size() > 1) {
+        // If we delete more than 1 item, ensure we won't select an item to be deleted'
+        m_proxyModel->selectionModel()->clearSelection();
+    }
     for (const auto &item : items) {
         if (!m_itemModel->requestBinClipDeletion(item, undo, redo)) {
             notDeleted << item->name();
