@@ -591,12 +591,12 @@ Monitor::~Monitor()
 
 void Monitor::setOffsetX(int x)
 {
-    m_glMonitor->setOffsetX(x, m_horizontalScroll->maximum());
+    m_glMonitor->setOffsetX(x, m_horizontalScroll->maximum(), m_verticalScroll->sizeHint().width());
 }
 
 void Monitor::setOffsetY(int y)
 {
-    m_glMonitor->setOffsetY(y, m_verticalScroll->maximum());
+    m_glMonitor->setOffsetY(y, m_verticalScroll->maximum(), m_horizontalScroll->sizeHint().height());
 }
 
 void Monitor::slotGetCurrentImage(bool request)

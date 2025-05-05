@@ -195,7 +195,7 @@ const QStringList VideoWidget::getGPUInfo()
 
 void VideoWidget::resizeVideo(int width, int height)
 {
-    int x, y, w, h;
+    double x, y, w, h;
     height -= m_displayRulerHeight;
     double this_aspect = double(width) / height;
 
@@ -208,19 +208,20 @@ void VideoWidget::resizeVideo(int width, int height)
     // Use OpenGL to normalise sample aspect ratio
     else if (height * m_dar > width) {
         w = width;
-        h = int(width / m_dar);
+        h = width / m_dar;
     } else {
-        w = int(height * m_dar);
+        w = height * m_dar;
         h = height;
     }
-    x = (width - w) / 2;
-    y = (height - h) / 2;
-    m_rect.setRect(x, y, w, h);
+    x = (width - w) / 2.0;
+    y = (height - h) / 2.0;
+    m_rect = QRectF(x, y, w, h);
+
     QQuickItem *rootQml = rootObject();
     if (rootQml) {
         QSize s = pCore->getCurrentFrameSize();
-        double scalex = double(m_rect.width() * m_zoom) / s.width();
-        double scaley = double(m_rect.height() * m_zoom) / s.height();
+        double scalex = m_rect.width() * m_zoom / s.width();
+        double scaley = m_rect.height() * m_zoom / s.height();
         rootQml->setProperty("center", m_rect.center());
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
@@ -229,7 +230,6 @@ void VideoWidget::resizeVideo(int width, int height)
             rootQml->setProperty("splitterPos", x + (rootQml->property("percentage").toDouble() * w));
         }
     }
-    Q_EMIT rectChanged();
 }
 
 void VideoWidget::resizeEvent(QResizeEvent *event)
@@ -855,7 +855,7 @@ QSize VideoWidget::profileSize() const
 
 QRect VideoWidget::displayRect() const
 {
-    return m_rect;
+    return m_rect.toRect();
 }
 
 QPoint VideoWidget::offset() const
@@ -913,20 +913,47 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
     event->accept();
 }
 
-void VideoWidget::setOffsetX(int x, int max)
+void VideoWidget::setOffsetX(int horizontalScrollValue, int horizontalScrollMaximum, int verticalScrollBarWidth)
 {
-    m_offset.setX(x);
+    m_offset.setX(horizontalScrollValue);
+
     if (rootObject()) {
-        rootObject()->setProperty("offsetx", m_zoom > 1.0f ? x - max / 2.0f + 10 * m_zoom : 0);
+        double adjustedOffset = 0.0;
+        if (m_zoom > 1.0) {
+            // Center the view and account for the zoom and scrollbar width
+            double scrollValue = static_cast<double>(horizontalScrollValue);
+            double scrollMax = static_cast<double>(horizontalScrollMaximum);
+            double scrollBarWidth = static_cast<double>(verticalScrollBarWidth);
+
+            // Center the offset, then adjust for the zoomed-in view and scrollbar width
+            double centerOffset = scrollValue - (scrollMax / 2.0);
+            double zoomAdjustment = (scrollBarWidth * m_zoom) / 2.0;
+            adjustedOffset = centerOffset + zoomAdjustment;
+        }
+        rootObject()->setProperty("offsetx", adjustedOffset);
     }
+
     quickWindow()->update();
 }
 
-void VideoWidget::setOffsetY(int y, int max)
+void VideoWidget::setOffsetY(int verticalScrollValue, int verticalScrollMaximum, int horizontalScrollBarHeight)
 {
-    m_offset.setY(y);
+    m_offset.setY(verticalScrollValue);
+
     if (rootObject()) {
-        rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0f + 10 * m_zoom : 0);
+        double adjustedOffset = 0.0;
+        if (m_zoom > 1.0) {
+            // Center the view and account for the zoom and scrollbar height
+            double scrollValue = static_cast<double>(verticalScrollValue);
+            double scrollMax = static_cast<double>(verticalScrollMaximum);
+            double scrollBarHeight = static_cast<double>(horizontalScrollBarHeight);
+
+            // Center the offset, then adjust for the zoomed-in view and scrollbar height
+            double centerOffset = scrollValue - (scrollMax / 2.0);
+            double zoomAdjustment = (scrollBarHeight * m_zoom) / 2.0;
+            adjustedOffset = centerOffset + zoomAdjustment;
+        }
+        rootObject()->setProperty("offsety", adjustedOffset);
     }
     quickWindow()->update();
 }
