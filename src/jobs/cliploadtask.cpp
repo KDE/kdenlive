@@ -298,6 +298,7 @@ void ClipLoadTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     // QThread::currentThread()->setPriority(QThread::HighestPriority);
     m_running = true;
     if (m_thumbOnly) {

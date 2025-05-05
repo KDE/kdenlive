@@ -61,6 +61,7 @@ void TranscodeTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
     ClipType::ProducerType type = binClip->clipType();

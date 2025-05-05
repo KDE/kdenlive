@@ -103,6 +103,7 @@ void MaskTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_progress = 0;
     m_running = true;
     generateMask();
     return;
