@@ -608,7 +608,7 @@ TitleWidget::~TitleWidget()
         // Ensure frames are not requested anymore
         m_monitor->sendFrameForAnalysis(false);
     }
-    writePatterns();
+    writeBaseConfig();
     delete m_patternsModel;
 
     m_scene->blockSignals(true);
@@ -2508,7 +2508,6 @@ void TitleWidget::writeChoices()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup titleConfig(config, "TitleWidget");
     // Write the entries
-    titleConfig.writeEntry("dialog_geometry", saveGeometry().toBase64());
     titleConfig.writeEntry("font_family", font_family->currentFont());
     // titleConfig.writeEntry("font_size", font_size->value());
     titleConfig.writeEntry("font_pixel_size", font_size->value());
@@ -2544,6 +2543,10 @@ void TitleWidget::readChoices()
     // read the entries
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
     restoreGeometry(QByteArray::fromBase64(geometry));
+    const QList<int> sizes = titleConfig.readEntry("splitter", QList<int>());
+    if (!sizes.isEmpty()) {
+        splitter->setSizes(sizes);
+    }
     QFont font = titleConfig.readEntry("font_family", font_family->currentFont());
     if (!QFontDatabase::families().contains(font.family())) {
         font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
@@ -3653,21 +3656,26 @@ void TitleWidget::readPatterns()
     btn_removeAll->setEnabled(m_patternsModel->rowCount(QModelIndex()) != 0);
 }
 
-void TitleWidget::writePatterns()
+void TitleWidget::writeBaseConfig()
 {
-
     KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup titleConfig(config, "TitlePatterns");
+    // save window geometry and tool panel width
+    KConfigGroup titleWidget(config, "TitleWidget");
+    titleWidget.writeEntry("dialog_geometry", saveGeometry().toBase64());
+    titleWidget.writeEntry("splitter", splitter->sizes());
 
+    KConfigGroup titleConfig(config, "TitlePatterns");
     int sf = titleConfig.readEntry("scale_factor", scaleSlider->minimum());
 
     // check whether the model was updated or scale slider differs
-    if ((!m_patternsModel->getModifiedCounter()) && (sf == scaleSlider->value())) return;
+    if ((!m_patternsModel->getModifiedCounter()) && (sf == scaleSlider->value())) {
+        config->sync();
+        return;
+    }
 
     // Write the entries
     titleConfig.writeEntry("scale_factor", scaleSlider->value());
     QByteArray ba = m_patternsModel->serialize();
     titleConfig.writeEntry("patterns", ba);
-
     config->sync();
 }
