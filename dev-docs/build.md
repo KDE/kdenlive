@@ -29,7 +29,11 @@ sudo apt update
 It is recommended to uninstall the official kdenlive packages to avoid potential conflicts.
 
 ```bash
+# Debian/Ubuntu
 sudo apt remove kdenlive kdenlive-data
+
+# Arch Linux
+sudo pacman -R kdenlive
 ```
 
 
@@ -39,9 +43,15 @@ sudo apt remove kdenlive kdenlive-data
 First, make sure you have the required tooling installed:
 
 ```bash
+# Debian/Ubuntu
 sudo apt install build-essential git cmake extra-cmake-modules libsm-dev clang-format
 # Optional for faster builds install Ninja
 sudo apt install ninja-build
+
+# Arch Linux
+sudo pacman -S base-devel git cmake extra-cmake-modules libx11
+# Optional for faster builds install Ninja
+sudo pacman -S ninja
 ```
 
 You can use your distribution packages information (if not too old) to easily get a complete build environment:
@@ -49,6 +59,8 @@ You can use your distribution packages information (if not too old) to easily ge
 ```bash
 # Debian/Ubuntu -- Enable deb-src entries /etc/apt/sources beforehand
 sudo apt build-dep mlt kdenlive
+# Arch Linux -- Install expac beforehand
+sudo pacman -S $(expac -S "%D" mlt) $(expac -S "%D" kdenlive)
 # Fedora/CentOS -- Install builddep beforehand
 dnf builddep mlt kdenlive
 # OpenSUSE
