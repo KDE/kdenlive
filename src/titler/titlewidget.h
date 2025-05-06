@@ -240,7 +240,7 @@ private:
     void readPatterns();
     /** @brief Write patterns to config file
      */
-    void writePatterns();
+    void writeBaseConfig();
 
 public Q_SLOTS:
     void slotNewText(MyTextItem *tt);
