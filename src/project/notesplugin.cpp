@@ -92,6 +92,10 @@ NotesPlugin::NotesPlugin(QObject *parent)
     m_button_prev->setDefaultAction(previous);
     container->addAction(next);
     container->addAction(previous);
+    connect(pCore->projectItemModel().get(), &ProjectItemModel::clipRenamed, this, [this](const QString &uuid, const QString &clipName) {
+        QPair<QStringList, QList<QPoint>> anchors = m_widget->getAllAnchors();
+        clipRenamed(uuid, clipName, anchors);
+    });
 }
 
 void NotesPlugin::findNext()
@@ -208,7 +212,7 @@ void NotesPlugin::slotInsertTimecode()
         }
         const QString clipName = pCore->bin()->getBinClipName(binId);
         const QString uuid = pCore->projectItemModel()->getBinClipUuid(binId);
-        m_widget->insertHtml(QStringLiteral("<a href=\"%1#%2\">%3:%4</a> ").arg(uuid, QString::number(frames), clipName, position));
+        m_widget->insertHtml(QStringLiteral("<a href=\"%1#%2\">%3 %4</a> ").arg(uuid, QString::number(frames), clipName, position));
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
@@ -275,10 +279,33 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
         const QString pos = pCore->timecode().getTimecodeFromFrames(position);
         if (!binId.isEmpty()) {
             QString clipName = pCore->bin()->getBinClipName(binId);
-            cur.insertHtml(QStringLiteral("<a href=\"%1\">%2:%3</a> ").arg(updatedLink, clipName, pos));
+            cur.insertHtml(QStringLiteral("<a href=\"%1\">%2 %3</a> ").arg(updatedLink, clipName, pos));
         } else {
             // Timestamp relative to project timeline
             cur.insertHtml(QStringLiteral("<a href=\"%1\">%2</a> ").arg(updatedLink, pos));
+        }
+        ix++;
+    }
+}
+
+void NotesPlugin::clipRenamed(const QString &uuid, const QString &newName, QPair<QStringList, QList<QPoint>> anchors)
+{
+    int ix = 0;
+    for (const QString &a : anchors.first) {
+        QPoint pt = anchors.second.at(ix);
+        const QString updatedLink = a;
+        if (a.contains(QLatin1Char('#'))) {
+            // Link was previously attached to another clip
+            const QString linkUuid = a.section(QLatin1Char('#'), 0, 0);
+            if (linkUuid == uuid) {
+                // Match
+                int position = a.section(QLatin1Char('#'), 1).toInt();
+                QTextCursor cur(m_widget->textCursor());
+                cur.setPosition(pt.x());
+                cur.setPosition(pt.y(), QTextCursor::KeepAnchor);
+                const QString pos = pCore->timecode().getTimecodeFromFrames(position);
+                cur.insertHtml(QStringLiteral("<a href=\"%1\">%2 %3</a> ").arg(updatedLink, newName, pos));
+            }
         }
         ix++;
     }

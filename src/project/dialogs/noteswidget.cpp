@@ -182,10 +182,8 @@ bool NotesWidget::selectionHasAnchors() const
     return false;
 }
 
-QPair<QStringList, QList<QPoint>> NotesWidget::getSelectedAnchors()
+QPair<QStringList, QList<QPoint>> NotesWidget::getAnchors(int startPos, int endPos)
 {
-    int startPos = textCursor().selectionStart();
-    int endPos = textCursor().selectionEnd();
     QStringList anchors;
     QList<QPoint> anchorPoints;
     if (endPos > startPos) {
@@ -230,6 +228,22 @@ QPair<QStringList, QList<QPoint>> NotesWidget::getSelectedAnchors()
         }
     }
     return {anchors, anchorPoints};
+}
+
+QPair<QStringList, QList<QPoint>> NotesWidget::getSelectedAnchors()
+{
+    int startPos = textCursor().selectionStart();
+    int endPos = textCursor().selectionEnd();
+    return getAnchors(startPos, endPos);
+}
+
+QPair<QStringList, QList<QPoint>> NotesWidget::getAllAnchors()
+{
+    int startPos = 0;
+    QTextCursor cur = textCursor();
+    cur.movePosition(QTextCursor::End);
+    int endPos = cur.position();
+    return getAnchors(startPos, endPos);
 }
 
 void NotesWidget::assignProjectNoteToTimelineClip()

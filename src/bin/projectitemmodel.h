@@ -352,4 +352,5 @@ Q_SIGNALS:
     void addTag(const QString &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
     void resetPlayOrLoopZone(const QString &id);
+    void clipRenamed(const QString &controlUuid, const QString &clipName);
 };

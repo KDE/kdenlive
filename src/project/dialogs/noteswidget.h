@@ -25,6 +25,7 @@ public:
     */
     void addTextNote(const QString &text);
     bool selectionHasAnchors() const;
+    QPair<QStringList, QList<QPoint>> getAllAnchors();
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
@@ -41,6 +42,7 @@ public Q_SLOTS:
 private:
     void createMarker(const QStringList &anchors, const QList<QPoint> &points = {});
     QPair <QStringList, QList <QPoint> > getSelectedAnchors();
+    QPair<QStringList, QList<QPoint>> getAnchors(int startPos, int endPos);
 
 Q_SIGNALS:
     void insertNotesTimecode();

@@ -62,4 +62,5 @@ private:
     QAction *m_createFromSelection;
     QAction *m_reassingToBin;
     QAction *m_reassingToTimeline;
+    void clipRenamed(const QString &uuid, const QString &newName, QPair<QStringList, QList<QPoint>> anchors);
 };

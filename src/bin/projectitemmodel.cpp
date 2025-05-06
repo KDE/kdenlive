@@ -483,6 +483,10 @@ void ProjectItemModel::onItemUpdated(const std::shared_ptr<AbstractProjectItem> 
             Q_EMIT dataChanged(index, index2, roles);
         }
     }
+    if (roles.contains(AbstractProjectItem::DataName) && item->itemType() == AbstractProjectItem::ClipItem) {
+        auto clip = std::static_pointer_cast<ProjectClip>(item);
+        Q_EMIT clipRenamed(clip->getControlUuid(), item->name());
+    }
 }
 
 void ProjectItemModel::onItemUpdated(const QString &binId, int role)
