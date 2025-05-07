@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 02:35+0000\n"
+"POT-Creation-Date: 2025-05-07 02:34+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -30309,7 +30309,7 @@ msgid "No available stream"
 msgstr "Tidak ada aliran yang tersedia"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradien %1"
@@ -30664,19 +30664,19 @@ msgstr "Tambahkan sebagai Judul baru"
 msgid "The following files are missing:"
 msgstr "File berikut ini yang hilang:"
 
-#: src/titler/titlewidget.cpp:2618
+#: src/titler/titlewidget.cpp:2621
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Awal Viewport"
 
-#: src/titler/titlewidget.cpp:2619
+#: src/titler/titlewidget.cpp:2622
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Akhir Viewport"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3352
 #, kde-format
 msgid "Gradient"
 msgstr "Gradien"

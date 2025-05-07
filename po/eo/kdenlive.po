@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 02:35+0000\n"
+"POT-Creation-Date: 2025-05-07 02:34+0000\n"
 "PO-Revision-Date: 2025-03-01 17:55+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -30288,7 +30288,7 @@ msgid "No available stream"
 msgstr "Neniu disponebla rivereto"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradiento %1"
@@ -30646,19 +30646,19 @@ msgstr "Aldoni kiel novan Titolo"
 msgid "The following files are missing:"
 msgstr "La jenaj dosieroj mankas:"
 
-#: src/titler/titlewidget.cpp:2618
+#: src/titler/titlewidget.cpp:2621
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Komenci Vidporton"
 
-#: src/titler/titlewidget.cpp:2619
+#: src/titler/titlewidget.cpp:2622
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Fini Vidfenestron"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3352
 #, kde-format
 msgid "Gradient"
 msgstr "Gradiento"

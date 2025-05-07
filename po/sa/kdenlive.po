@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 02:35+0000\n"
+"POT-Creation-Date: 2025-05-07 02:34+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -30111,7 +30111,7 @@ msgid "No available stream"
 msgstr "न उपलब्धः धारा"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
 #, kde-format
 msgid "Gradient %1"
 msgstr "ढाल %1"
@@ -30466,19 +30466,19 @@ msgstr "नूतनं शीर्षकरूपेण योजयन्त�
 msgid "The following files are missing:"
 msgstr "निम्नलिखितसञ्चिकाः अनुपलब्धाः सन्ति ।"
 
-#: src/titler/titlewidget.cpp:2618
+#: src/titler/titlewidget.cpp:2621
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Viewport आरभत"
 
-#: src/titler/titlewidget.cpp:2619
+#: src/titler/titlewidget.cpp:2622
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "दृश्यस्थानकं समाप्तं कुर्वन्तु"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3352
 #, kde-format
 msgid "Gradient"
 msgstr "ढाल"

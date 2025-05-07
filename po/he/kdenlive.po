@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 02:35+0000\n"
+"POT-Creation-Date: 2025-05-07 02:34+0000\n"
 "PO-Revision-Date: 2025-05-05 15:35+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -29695,7 +29695,7 @@ msgid "No available stream"
 msgstr "אין תזרים זמין"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
 #, kde-format
 msgid "Gradient %1"
 msgstr "מדרג %1"
@@ -30051,19 +30051,19 @@ msgstr "הוספת ככותרת חדשה"
 msgid "The following files are missing:"
 msgstr "הקבצים הבאים חסרים:"
 
-#: src/titler/titlewidget.cpp:2618
+#: src/titler/titlewidget.cpp:2621
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "תחילת אשנב"
 
-#: src/titler/titlewidget.cpp:2619
+#: src/titler/titlewidget.cpp:2622
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "סוף אשנב"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3352
 #, kde-format
 msgid "Gradient"
 msgstr "מדרג"

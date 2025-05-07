@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 02:35+0000\n"
+"POT-Creation-Date: 2025-05-07 02:34+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -29580,7 +29580,7 @@ msgid "No available stream"
 msgstr "प्रतिमा जोडा"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -29938,20 +29938,20 @@ msgstr "संचयीका बनवा"
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2618
+#: src/titler/titlewidget.cpp:2621
 #, fuzzy, kde-format
 #| msgid "Color"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "रंग"
 
-#: src/titler/titlewidget.cpp:2619
+#: src/titler/titlewidget.cpp:2622
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3352
 #, kde-format
 msgid "Gradient"
 msgstr ""

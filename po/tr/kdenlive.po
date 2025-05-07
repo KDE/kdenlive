@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 02:35+0000\n"
-"PO-Revision-Date: 2025-05-03 21:05+0300\n"
+"POT-Creation-Date: 2025-05-07 02:34+0000\n"
+"PO-Revision-Date: 2025-05-07 00:32+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4269,10 +4269,9 @@ msgid "threshold3"
 msgstr "Eşik"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Kernel Deinterlacer"
-msgstr "Ayrıştırıcı"
+msgstr "Çekirdek ayrıştırıcısı"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:5
 #, kde-format
@@ -4281,38 +4280,39 @@ msgid ""
 "deinterling. Work on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
+"Girdi videosunu, Donald Graft’ın uyarlanır çekirdek ayrıştırıcısını "
+"kullanarak ayrıştırın. İlerlemeli kareler üretmek için videonun geçmeli "
+"kısımları üzerinde çalışın."
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:11
 #, kde-format
 msgid "Paint in white pixels exceeding the threshold"
-msgstr ""
+msgstr "Eşiği aşan beyaz piksellerde boya"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:14
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Swap fields"
-msgstr "Alanları göster"
+msgstr "Alanları yer değiştir"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:17
-#, fuzzy, kde-format
-#| msgid "Enable manual editing"
+#, kde-format
 msgid "Enable additional sharpening"
-msgstr "El ile düzenlemeyi etkinleştir"
+msgstr "Ek keskinleştirmeyi etkinleştir"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:20
 #, kde-format
 msgid "Enable twoway sharpening"
-msgstr ""
+msgstr "İki yollu keskinleştirmeyi etkinleştir"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:4
 #, kde-format
 msgid "Kirsch"
-msgstr ""
+msgstr "Kirsch"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:5
 #, kde-format
 msgid "Apply kirsch operator."
-msgstr ""
+msgstr "Kirsch işlecini uygulayın."
 
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
@@ -30286,7 +30286,7 @@ msgid "No available stream"
 msgstr "Kullanılabilir akış yok"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
 #, kde-format
 msgid "Gradient %1"
 msgstr "%1 gradyan"
@@ -30643,19 +30643,19 @@ msgstr "Yeni başlık olarak ekle"
 msgid "The following files are missing:"
 msgstr "Aşağıdaki dosyalar eksik:"
 
-#: src/titler/titlewidget.cpp:2618
+#: src/titler/titlewidget.cpp:2621
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Görüş Alanını Başlat"
 
-#: src/titler/titlewidget.cpp:2619
+#: src/titler/titlewidget.cpp:2622
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Görüş Alanını Sonlandır"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3352
 #, kde-format
 msgid "Gradient"
 msgstr "Gradyan"

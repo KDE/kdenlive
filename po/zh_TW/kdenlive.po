@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 02:35+0000\n"
-"PO-Revision-Date: 2025-04-09 17:40+0900\n"
+"POT-Creation-Date: 2025-05-07 02:34+0000\n"
+"PO-Revision-Date: 2025-05-07 10:25+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /usr/share/locale/zh_TW/LC_MESSAGES\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -846,10 +846,9 @@ msgid "1,2"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_allpass.xml:25
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Order"
-msgstr "邊框"
+msgstr "順序"
 
 #: data/effects/avfilter/avfilter_allpass.xml:28
 #: data/effects/avfilter/avfilter_bandpass.xml:27
@@ -1086,7 +1085,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:22
 #, kde-format
 msgid "Planes"
-msgstr ""
+msgstr "平面"
 
 #: data/effects/avfilter/avfilter_bandpass.xml:4
 #, kde-format
@@ -1202,10 +1201,9 @@ msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_boxblur.xml:4
-#, fuzzy, kde-format
-#| msgid "Square Blur"
+#, kde-format
 msgid "Planes Blur"
-msgstr "方塊模糊"
+msgstr "平面模糊"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:5
 #, kde-format
@@ -1413,7 +1411,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorhold.xml:11
 #, kde-format
 msgid "Similarity"
-msgstr ""
+msgstr "相似度"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:14
 #, kde-format
@@ -1830,7 +1828,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
 msgid " Hue"
-msgstr ""
+msgstr " 色相"
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
@@ -2473,9 +2471,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Planes to filter"
-msgstr "邊緣發光"
+msgstr "要過濾的平面"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #, kde-format
@@ -2507,10 +2505,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
-#, fuzzy, kde-format
-#| msgid "Limiter"
+#, kde-format
 msgid "Limiter gain"
-msgstr "限制"
+msgstr "Limiter 增益"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:15
 #, kde-format
@@ -2565,28 +2562,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_deband.xml:8
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "1st plane threshold"
-msgstr "變更閥值"
+msgstr "第一平面閥值"
 
 #: data/effects/avfilter/avfilter_deband.xml:11
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "2nd plane threshold"
-msgstr "變更閥值"
+msgstr "第二平面閥值"
 
 #: data/effects/avfilter/avfilter_deband.xml:14
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "3rd plane threshold"
-msgstr "變更閥值"
+msgstr "第三平面閥值"
 
 #: data/effects/avfilter/avfilter_deband.xml:17
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "4th plane threshold"
-msgstr "變更閥值"
+msgstr "第四平面閥值"
 
 #: data/effects/avfilter/avfilter_deband.xml:23
 #: data/effects/avfilter/avfilter_transpose.xml:9
@@ -2777,28 +2770,24 @@ msgid "Apply deflate effect to the video"
 msgstr "將 GPS 相關文字覆蓋在影片上。"
 
 #: data/effects/avfilter/avfilter_deflate.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 1st plane"
-msgstr "閥值"
+msgstr "第一個平面的閥值"
 
 #: data/effects/avfilter/avfilter_deflate.xml:11
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 2nd plane"
-msgstr "閥值"
+msgstr "第二個平面的閥值"
 
 #: data/effects/avfilter/avfilter_deflate.xml:14
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 3rd plane"
-msgstr "閥值"
+msgstr "第三個平面的閥值"
 
 #: data/effects/avfilter/avfilter_deflate.xml:17
-#, fuzzy, kde-format
-#| msgid "Threshold value"
+#, kde-format
 msgid "Threshold for 4th plane"
-msgstr "閥值"
+msgstr "第四個平面的閥值"
 
 #: data/effects/avfilter/avfilter_delogo.xml:4
 #, fuzzy, kde-format
@@ -2945,30 +2934,27 @@ msgstr "更新效果"
 
 #: data/effects/avfilter/avfilter_dilation.xml:8
 #: data/effects/avfilter/avfilter_erosion.xml:8
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "1st Plane Threshold"
-msgstr "使用閥值"
+msgstr "第一平面閥值"
 
 #: data/effects/avfilter/avfilter_dilation.xml:11
 #: data/effects/avfilter/avfilter_erosion.xml:11
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "2nd Plane Threshold"
-msgstr "使用閥值"
+msgstr "第二平面閥值"
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "3rd Plane Threshold"
-msgstr "黑白索引色"
+msgstr "第三平面閥值"
 
 #: data/effects/avfilter/avfilter_dilation.xml:17
 #: data/effects/avfilter/avfilter_erosion.xml:17
-#, fuzzy, kde-format
-#| msgid "Change threshold"
+#, kde-format
 msgid "4th Plane Threshold"
-msgstr "變更閥值"
+msgstr "第四平面閥值"
 
 #: data/effects/avfilter/avfilter_dilation.xml:20
 #: data/effects/avfilter/avfilter_erosion.xml:20
@@ -3497,10 +3483,9 @@ msgid "Apply arbitrary expressions to samples in frequency domain"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:8
-#, fuzzy, kde-format
-#| msgid "YUV Y plane"
+#, kde-format
 msgid "Gain in Y plane"
-msgstr "YUV Y 平面"
+msgstr "Y 平面增益"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:11
 #, kde-format
@@ -3513,22 +3498,19 @@ msgid "Gain in V plane"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:17
-#, fuzzy, kde-format
-#| msgid "Luminance"
+#, kde-format
 msgid "Luminance Y plane"
-msgstr "光亮度"
+msgstr "光亮度 Y 平面"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:20
-#, fuzzy, kde-format
-#| msgid "Luminance"
+#, kde-format
 msgid "Luminance U plane"
-msgstr "光亮度"
+msgstr "光亮度 U 平面"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:23
-#, fuzzy, kde-format
-#| msgid "Luminance"
+#, kde-format
 msgid "Luminance V plane"
-msgstr "光亮度"
+msgstr "光亮度 V 平面"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
 #, fuzzy, kde-format
@@ -3917,10 +3899,9 @@ msgid "Level out"
 msgstr "色階"
 
 #: data/effects/avfilter/avfilter_haas.xml:15
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Side gain"
-msgstr "中等增益"
+msgstr "側邊增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:18
 #, kde-format
@@ -3950,10 +3931,9 @@ msgid "Left balance"
 msgstr "中央平衡"
 
 #: data/effects/avfilter/avfilter_haas.xml:31
-#, fuzzy, kde-format
-#| msgid "Left margin"
+#, kde-format
 msgid "Left Gain"
-msgstr "左側邊界"
+msgstr "左側增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:34
 #, kde-format
@@ -3972,10 +3952,9 @@ msgid "Right balance"
 msgstr "3 點平衡"
 
 #: data/effects/avfilter/avfilter_haas.xml:43
-#, fuzzy, kde-format
-#| msgid "Right margin"
+#, kde-format
 msgid "Right Gain"
-msgstr "右側邊界"
+msgstr "右側增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:46
 #, fuzzy, kde-format
@@ -5071,10 +5050,9 @@ msgid "Apply prewitt operator to input video stream"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_random.xml:4
-#, fuzzy, kde-format
-#| msgid "Random Seed"
+#, kde-format
 msgid "Random"
-msgstr "隨機種子"
+msgstr "隨機"
 
 #: data/effects/avfilter/avfilter_random.xml:5
 #, kde-format
@@ -5090,10 +5068,9 @@ msgid "Number of frames in cache"
 msgstr "曲線點數量"
 
 #: data/effects/avfilter/avfilter_random.xml:11
-#, fuzzy, kde-format
-#| msgid "Seed:"
+#, kde-format
 msgid "Seed"
-msgstr "種子："
+msgstr "種子"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:4
 #, fuzzy, kde-format
@@ -5293,49 +5270,42 @@ msgid "Reds"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:15
-#, fuzzy, kde-format
-#| msgid "Yellow"
+#, kde-format
 msgid "Yellows"
 msgstr "黃色"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:18
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Greens"
 msgstr "綠色"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:21
-#, fuzzy, kde-format
-#| msgid "Cyan"
+#, kde-format
 msgid "Cyans"
 msgstr "青色"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:24
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blues"
 msgstr "藍色"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
-#, fuzzy, kde-format
+#, kde-format
 msgid "Magentas"
 msgstr "洋紅色"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:30
-#, fuzzy, kde-format
-#| msgid "White"
+#, kde-format
 msgid "Whites"
 msgstr "白色"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:33
-#, fuzzy, kde-format
-#| msgid "Neutral Color"
+#, kde-format
 msgid "Neutrals"
 msgstr "中間色"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:36
-#, fuzzy, kde-format
-#| msgid "Black"
+#, kde-format
 msgid "Blacks"
 msgstr "黑色"
 
@@ -5422,28 +5392,24 @@ msgid "Reorder and/or duplicate video planes"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:8
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "1st Output Plane"
-msgstr "輸出語言"
+msgstr "第一輸出平面"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:11
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "2nd Output Plane"
-msgstr "輸出語言"
+msgstr "第二輸出平面"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:14
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "3rd Output Plane"
-msgstr "輸出語言"
+msgstr "第三輸出平面"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:17
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "4th Output Plane"
-msgstr "輸出語言"
+msgstr "第四輸出平面"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, fuzzy, kde-format
@@ -5642,10 +5608,9 @@ msgid "Frequency,Time"
 msgstr "頻率"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:27
-#, fuzzy, kde-format
-#| msgid "End Gain"
+#, kde-format
 msgid "LFE Gain"
-msgstr "結束增益"
+msgstr "LFE 增益"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:30
 #, fuzzy, kde-format
@@ -5994,10 +5959,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback Gain"
-msgstr "回饋"
+msgstr "回饋增益"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:14
 #, kde-format
@@ -6460,7 +6424,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:27
 #, kde-format
 msgid "<![CDATA[Set the display mode]]>"
-msgstr ""
+msgstr "<![CDATA[設定顯示模式]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
@@ -7730,7 +7694,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:8
 #, kde-format
 msgid "yaw"
-msgstr ""
+msgstr "偏擺"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:11
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:11
@@ -7748,7 +7712,7 @@ msgstr "捲軸"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:17
 #, kde-format
 msgid "fov"
-msgstr ""
+msgstr "視野範圍"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:20
 #, fuzzy, kde-format
@@ -7770,7 +7734,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
 #, kde-format
 msgid "Yaw"
-msgstr ""
+msgstr "偏擺"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
 #, fuzzy, kde-format
@@ -7780,12 +7744,12 @@ msgstr "切換預覽視窗"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
 #, kde-format
 msgid "Roll"
-msgstr ""
+msgstr "翻滾"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
 #, kde-format
 msgid "FOV"
-msgstr ""
+msgstr "視野範圍"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
 #, fuzzy, kde-format
@@ -7838,7 +7802,7 @@ msgstr "專案素材庫"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:21
 #, kde-format
 msgid "Lens FOV"
-msgstr ""
+msgstr "鏡頭視野範圍"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
 #, fuzzy, kde-format
@@ -12620,10 +12584,9 @@ msgid "Normalization level "
 msgstr "正規化"
 
 #: data/effects/sox/sox.xml:15
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Gain to normalize"
-msgstr "正規化"
+msgstr "要正規化的增益"
 
 #: data/effects/sox/sox.xml:18
 #, fuzzy, kde-format
@@ -12684,10 +12647,9 @@ msgid "Gain In"
 msgstr "匯入增益"
 
 #: data/effects/sox/sox_echo.xml:11 data/effects/sox/sox_phaser.xml:11
-#, fuzzy, kde-format
-#| msgid "Gain In"
+#, kde-format
 msgid "Gain Out"
-msgstr "匯入增益"
+msgstr "增益輸出"
 
 #: data/effects/sox/sox_flanger.xml:4
 #, kde-format
@@ -12772,9 +12734,9 @@ msgid "Pre-delay"
 msgstr "影印"
 
 #: data/effects/sox/sox_reverb.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wet gain"
-msgstr "高增益"
+msgstr "Wet 增益"
 
 #: data/effects/sox/sox_stretch.xml:4
 #, kde-format
@@ -13863,7 +13825,7 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_dodge.xml:4
 #, kde-format
 msgid "Dodge"
-msgstr ""
+msgstr "加亮"
 
 #: data/transitions/frei0r/frei0r_dodge.xml:5
 #, kde-format
@@ -14014,10 +13976,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_screen.xml:4
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Screen"
-msgstr "綠色"
+msgstr "濾色"
 
 #: data/transitions/frei0r/frei0r_screen.xml:5
 #, kde-format
@@ -18942,7 +18903,7 @@ msgstr ""
 #: src/dialogs/settings/pluginssettings.cpp:1005
 #, kde-format
 msgid "CUDA %1"
-msgstr ""
+msgstr "CUDA %1"
 
 #: src/dialogs/settings/pluginssettings.cpp:1018
 #, fuzzy, kde-format
@@ -21425,7 +21386,7 @@ msgstr "缺乏來源素材"
 #: src/effects/effectstack/view/maskmanager.cpp:437
 #, kde-format
 msgid "mask %1"
-msgstr ""
+msgstr "遮罩 %1"
 
 #: src/effects/effectstack/view/maskmanager.cpp:440
 #, kde-format
@@ -24804,11 +24765,9 @@ msgid "Pink"
 msgstr "粉紅"
 
 #: src/monitor/monitor.cpp:452
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Checkerboard Small"
+#, kde-format
 msgid "Checkerboard"
-msgstr "棋盤狀（小）"
+msgstr "棋盤狀"
 
 #: src/monitor/monitor.cpp:525
 #, kde-format
@@ -24890,10 +24849,9 @@ msgid "Export image using source resolution"
 msgstr "使用來源解析度匯出圖片"
 
 #: src/monitor/monitor.cpp:1877
-#, fuzzy, kde-format
-#| msgid "Exit Mask Creation"
+#, kde-format
 msgid "Exit Mask Mode ?"
-msgstr "離開遮罩建立"
+msgstr "離開遮罩模式？"
 
 #: src/monitor/monitor.cpp:1975 src/monitor/monitor.cpp:2107
 #, kde-format
@@ -29614,7 +29572,7 @@ msgid "No available stream"
 msgstr "沒有可用的串流"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
+#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
 #, kde-format
 msgid "Gradient %1"
 msgstr "漸層 %1"
@@ -29966,19 +29924,19 @@ msgstr "作為新標題加入"
 msgid "The following files are missing:"
 msgstr "缺乏以下檔案："
 
-#: src/titler/titlewidget.cpp:2618
+#: src/titler/titlewidget.cpp:2621
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "開始檢視埠"
 
-#: src/titler/titlewidget.cpp:2619
+#: src/titler/titlewidget.cpp:2622
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "結束檢視埠"
 
-#: src/titler/titlewidget.cpp:3349
+#: src/titler/titlewidget.cpp:3352
 #, kde-format
 msgid "Gradient"
 msgstr "漸層"
@@ -31859,7 +31817,7 @@ msgstr ""
 #: src/ui/configspeech_ui.ui:480 src/ui/configspeech_ui.ui:909
 #, kde-format
 msgid "GPU Support"
-msgstr ""
+msgstr "GPU 支援"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
 #: src/ui/configspeech_ui.ui:489
@@ -33252,17 +33210,15 @@ msgstr "邊框"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172
-#, fuzzy, kde-format
-#| msgid "Auto Mask"
+#, kde-format
 msgid "Abort Mask"
-msgstr "自動遮蓋"
+msgstr "中止遮罩"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/maskmanage_ui.ui:199
-#, fuzzy, kde-format
-#| msgid "Create New Mask"
+#, kde-format
 msgid "Creating Mask"
-msgstr "建立新遮罩"
+msgstr "建立遮罩"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:18
