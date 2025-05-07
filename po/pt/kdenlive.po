@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 00:41+0000\n"
+"POT-Creation-Date: 2025-05-07 00:42+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -14928,7 +14928,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Mostrar/esconder a descrição das composições"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:173
+#: src/project/notesplugin.cpp:177
 #, kde-format
 msgid "Search…"
 msgstr "Procurar…"
@@ -17358,44 +17358,44 @@ msgstr "Utilização"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/bin/projectitemmodel.cpp:669
+#: src/bin/projectitemmodel.cpp:673
 #, kde-format
 msgid "Add sub clips"
 msgstr "Adicionar os 'sub-clips'"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:49
+#: src/bin/projectitemmodel.cpp:708 src/ui/maskmanage_ui.ui:49
 #, kde-format
 msgid "Zone"
 msgstr "Zona"
 
-#: src/bin/projectitemmodel.cpp:985
+#: src/bin/projectitemmodel.cpp:989
 #, kde-format
 msgid "Add bin clip"
 msgstr "Adicionar um 'clip' do grupo"
 
-#: src/bin/projectitemmodel.cpp:1103
+#: src/bin/projectitemmodel.cpp:1107
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Adicionar um 'sub-clip'"
 
-#: src/bin/projectitemmodel.cpp:1144
+#: src/bin/projectitemmodel.cpp:1148
 #, kde-format
 msgid "Rename Folder"
 msgstr "Mudar o Nome da Pasta"
 
-#: src/bin/projectitemmodel.cpp:1188 src/mainwindow.cpp:1454
+#: src/bin/projectitemmodel.cpp:1192 src/mainwindow.cpp:1454
 #, kde-format
 msgid "Clean Project"
 msgstr "Limpar o Projecto"
 
-#: src/bin/projectitemmodel.cpp:1416
+#: src/bin/projectitemmodel.cpp:1420
 #, fuzzy, kde-format
 #| msgid "Loading project clips…"
 msgid "Reading project clips…"
 msgstr "A carregar os 'clips' do projecto…"
 
-#: src/bin/projectitemmodel.cpp:1524
+#: src/bin/projectitemmodel.cpp:1528
 #, kde-format
 msgid "Loading project clips…"
 msgstr "A carregar os 'clips' do projecto…"
@@ -27256,19 +27256,19 @@ msgstr "Atribuir datas/horas ao 'clip' do grupo actual"
 msgid "Cannot find project clip"
 msgstr "Não é possível criar o 'clip'"
 
-#: src/project/dialogs/noteswidget.cpp:241
-#: src/project/dialogs/noteswidget.cpp:258
+#: src/project/dialogs/noteswidget.cpp:255
+#: src/project/dialogs/noteswidget.cpp:272
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Seleccione alguns códigos temporais a atribuir de novo"
 
-#: src/project/dialogs/noteswidget.cpp:246
+#: src/project/dialogs/noteswidget.cpp:260
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No clip selected in timeline"
 msgstr "Nenhum item seleccionado na linha temporal"
 
-#: src/project/dialogs/noteswidget.cpp:271
+#: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Seleccione alguns códigos temporais para os quais criar marcas"
@@ -27794,25 +27794,25 @@ msgstr "Indique aqui as notas do seu projecto …"
 msgid "Project Notes"
 msgstr "Notas do Projecto"
 
-#: src/project/notesplugin.cpp:153
+#: src/project/notesplugin.cpp:157
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
 "Atribuir de novo os códigos temporais seleccionados ao 'clip' do grupo actual"
 
-#: src/project/notesplugin.cpp:157
+#: src/project/notesplugin.cpp:161
 #, fuzzy, kde-format
 #| msgid "Reassign selected timecodes to current Bin clip"
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr ""
 "Atribuir de novo os códigos temporais seleccionados ao 'clip' do grupo actual"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Criar marcadores a partir dos códigos temporais seleccionados"
 
-#: src/project/notesplugin.cpp:163
+#: src/project/notesplugin.cpp:167
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27822,14 +27822,14 @@ msgstr ""
 "Cria marcadores na linha temporal a partir dos códigos temporais "
 "seleccionados (não interessa se está outro texto seleccionado também)."
 
-#: src/project/notesplugin.cpp:206
+#: src/project/notesplugin.cpp:210
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "Não é possível adicionar a nota, por não ter nenhum 'clip' seleccionado no "
 "grupo do projecto"
 
-#: src/project/notesplugin.cpp:236
+#: src/project/notesplugin.cpp:240
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Não é possível efectuar a atribuição"
@@ -30727,7 +30727,7 @@ msgid "No available stream"
 msgstr "Nenhuma sequência disponível"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3395 src/titler/titlewidget.cpp:3398
+#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradiente %1"
@@ -31099,19 +31099,19 @@ msgstr "Adicionar como novo Título"
 msgid "The following files are missing:"
 msgstr "Faltam os seguintes ficheiros:"
 
-#: src/titler/titlewidget.cpp:2696
+#: src/titler/titlewidget.cpp:2699
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Início da Área de Visualização"
 
-#: src/titler/titlewidget.cpp:2697
+#: src/titler/titlewidget.cpp:2700
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Fim da Área de Visualização"
 
-#: src/titler/titlewidget.cpp:3428
+#: src/titler/titlewidget.cpp:3431
 #, kde-format
 msgid "Gradient"
 msgstr "Gradiente"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 00:41+0000\n"
+"POT-Creation-Date: 2025-05-07 00:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -14867,7 +14867,7 @@ msgid "Show/hide description of the compositions"
 msgstr "रचनाओं का विवरण दिखाएँ/छिपाएँ"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:173
+#: src/project/notesplugin.cpp:177
 #, kde-format
 msgid "Search…"
 msgstr "खोजना…"
@@ -17247,43 +17247,43 @@ msgstr "प्रयोग"
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: src/bin/projectitemmodel.cpp:669
+#: src/bin/projectitemmodel.cpp:673
 #, kde-format
 msgid "Add sub clips"
 msgstr "उप क्लिप जोड़ें"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:49
+#: src/bin/projectitemmodel.cpp:708 src/ui/maskmanage_ui.ui:49
 #, kde-format
 msgid "Zone"
 msgstr "क्षेत्र"
 
-#: src/bin/projectitemmodel.cpp:985
+#: src/bin/projectitemmodel.cpp:989
 #, kde-format
 msgid "Add bin clip"
 msgstr "बिन क्लिप जोड़ें"
 
-#: src/bin/projectitemmodel.cpp:1103
+#: src/bin/projectitemmodel.cpp:1107
 #, kde-format
 msgid "Add a sub clip"
 msgstr "उप क्लिप जोड़ें"
 
-#: src/bin/projectitemmodel.cpp:1144
+#: src/bin/projectitemmodel.cpp:1148
 #, kde-format
 msgid "Rename Folder"
 msgstr "फ़ोल्डर का नाम बदलें"
 
-#: src/bin/projectitemmodel.cpp:1188 src/mainwindow.cpp:1454
+#: src/bin/projectitemmodel.cpp:1192 src/mainwindow.cpp:1454
 #, kde-format
 msgid "Clean Project"
 msgstr "स्वच्छ परियोजना"
 
-#: src/bin/projectitemmodel.cpp:1416
+#: src/bin/projectitemmodel.cpp:1420
 #, kde-format
 msgid "Reading project clips…"
 msgstr "प्रोजेक्ट क्लिप्स पढ़ रहा हूँ…"
 
-#: src/bin/projectitemmodel.cpp:1524
+#: src/bin/projectitemmodel.cpp:1528
 #, kde-format
 msgid "Loading project clips…"
 msgstr "प्रोजेक्ट क्लिप लोड हो रहा है…"
@@ -26903,19 +26903,19 @@ msgstr "वर्तमान बिन क्लिप को टाइमस�
 msgid "Cannot find project clip"
 msgstr "प्रोजेक्ट क्लिप नहीं मिल सका"
 
-#: src/project/dialogs/noteswidget.cpp:241
-#: src/project/dialogs/noteswidget.cpp:258
+#: src/project/dialogs/noteswidget.cpp:255
+#: src/project/dialogs/noteswidget.cpp:272
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "पुनः असाइन करने के लिए कुछ टाइमकोड चुनें"
 
-#: src/project/dialogs/noteswidget.cpp:246
+#: src/project/dialogs/noteswidget.cpp:260
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No clip selected in timeline"
 msgstr "टाइमलाइन में कोई आइटम चयनित नहीं है"
 
-#: src/project/dialogs/noteswidget.cpp:271
+#: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "मार्कर बनाने के लिए कुछ टाइमकोड चुनें"
@@ -27431,23 +27431,23 @@ msgstr "अपने प्रोजेक्ट नोट्स यहां �
 msgid "Project Notes"
 msgstr "परियोजना नोट्स"
 
-#: src/project/notesplugin.cpp:153
+#: src/project/notesplugin.cpp:157
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr "चयनित टाइमकोड को वर्तमान बिन क्लिप में पुनः असाइन करें"
 
-#: src/project/notesplugin.cpp:157
+#: src/project/notesplugin.cpp:161
 #, fuzzy, kde-format
 #| msgid "Reassign selected timecodes to current Bin clip"
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr "चयनित टाइमकोड को वर्तमान बिन क्लिप में पुनः असाइन करें"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "चयनित टाइमकोड से मार्कर बनाएं"
 
-#: src/project/notesplugin.cpp:163
+#: src/project/notesplugin.cpp:167
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27457,12 +27457,12 @@ msgstr ""
 "चयनित टाइमकोड से टाइमलाइन में मार्कर बनाता है (इससे कोई फ़र्क नहीं पड़ता कि अन्य टेक्स्ट "
 "भी चयनित है)।"
 
-#: src/project/notesplugin.cpp:206
+#: src/project/notesplugin.cpp:210
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "नोट नहीं जोड़ा जा सकता, प्रोजेक्ट बिन में कोई क्लिप चयनित नहीं है"
 
-#: src/project/notesplugin.cpp:236
+#: src/project/notesplugin.cpp:240
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "असाइन नहीं किया जा सकता"
@@ -30275,7 +30275,7 @@ msgid "No available stream"
 msgstr "कोई स्ट्रीम उपलब्ध नहीं है"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3395 src/titler/titlewidget.cpp:3398
+#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
 #, kde-format
 msgid "Gradient %1"
 msgstr "ग्रेडिएंट %1"
@@ -30644,19 +30644,19 @@ msgstr "नए शीर्षक के रूप में जोड़ें"
 msgid "The following files are missing:"
 msgstr "निम्नलिखित फ़ाइलें गायब हैं:"
 
-#: src/titler/titlewidget.cpp:2696
+#: src/titler/titlewidget.cpp:2699
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "व्यूपोर्ट प्रारंभ करें"
 
-#: src/titler/titlewidget.cpp:2697
+#: src/titler/titlewidget.cpp:2700
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "व्यूपोर्ट समाप्त करें"
 
-#: src/titler/titlewidget.cpp:3428
+#: src/titler/titlewidget.cpp:3431
 #, kde-format
 msgid "Gradient"
 msgstr "ढाल"

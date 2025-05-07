@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 00:41+0000\n"
-"PO-Revision-Date: 2025-05-04 13:40+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"POT-Creation-Date: 2025-05-07 00:42+0000\n"
+"PO-Revision-Date: 2025-05-07 00:32+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4265,10 +4265,9 @@ msgid "threshold3"
 msgstr "eşik3"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Kernel Deinterlacer"
-msgstr "Ayrıştırıcı"
+msgstr "Çekirdek ayrıştırıcısı"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:5
 #, kde-format
@@ -4277,38 +4276,39 @@ msgid ""
 "deinterling. Work on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
+"Girdi videosunu, Donald Graft’ın uyarlanır çekirdek ayrıştırıcısını "
+"kullanarak ayrıştırın. İlerlemeli kareler üretmek için videonun geçmeli "
+"kısımları üzerinde çalışın."
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:11
 #, kde-format
 msgid "Paint in white pixels exceeding the threshold"
-msgstr ""
+msgstr "Eşiği aşan beyaz piksellerde boya"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:14
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Swap fields"
-msgstr "Alanları göster"
+msgstr "Alanları yer değiştir"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:17
-#, fuzzy, kde-format
-#| msgid "Enable manual editing"
+#, kde-format
 msgid "Enable additional sharpening"
-msgstr "El ile düzenlemeyi etkinleştir"
+msgstr "Ek keskinleştirmeyi etkinleştir"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:20
 #, kde-format
 msgid "Enable twoway sharpening"
-msgstr ""
+msgstr "İki yollu keskinleştirmeyi etkinleştir"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:4
 #, kde-format
 msgid "Kirsch"
-msgstr ""
+msgstr "Kirsch"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:5
 #, kde-format
 msgid "Apply kirsch operator."
-msgstr ""
+msgstr "Kirsch işlecini uygulayın."
 
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
@@ -14920,7 +14920,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Bileşikleştirmelerin açıklamalarını göster/gizle"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:173
+#: src/project/notesplugin.cpp:177
 #, kde-format
 msgid "Search…"
 msgstr "Ara…"
@@ -17308,43 +17308,43 @@ msgstr "Kullanım"
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: src/bin/projectitemmodel.cpp:669
+#: src/bin/projectitemmodel.cpp:673
 #, kde-format
 msgid "Add sub clips"
 msgstr "Alt klipler ekle"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:49
+#: src/bin/projectitemmodel.cpp:708 src/ui/maskmanage_ui.ui:49
 #, kde-format
 msgid "Zone"
 msgstr "Bölge"
 
-#: src/bin/projectitemmodel.cpp:985
+#: src/bin/projectitemmodel.cpp:989
 #, kde-format
 msgid "Add bin clip"
 msgstr "Kova klibi ekle"
 
-#: src/bin/projectitemmodel.cpp:1103
+#: src/bin/projectitemmodel.cpp:1107
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Bir alt klip ekle"
 
-#: src/bin/projectitemmodel.cpp:1144
+#: src/bin/projectitemmodel.cpp:1148
 #, kde-format
 msgid "Rename Folder"
 msgstr "Klasörü Yeniden Adlandır"
 
-#: src/bin/projectitemmodel.cpp:1188 src/mainwindow.cpp:1454
+#: src/bin/projectitemmodel.cpp:1192 src/mainwindow.cpp:1454
 #, kde-format
 msgid "Clean Project"
 msgstr "Projeyi Temizle"
 
-#: src/bin/projectitemmodel.cpp:1416
+#: src/bin/projectitemmodel.cpp:1420
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Proje klipleri okunuyor…"
 
-#: src/bin/projectitemmodel.cpp:1524
+#: src/bin/projectitemmodel.cpp:1528
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Proje klipleri yükleniyor…"
@@ -26982,19 +26982,19 @@ msgstr "Geçerli kova klibine zaman damgaları ata"
 msgid "Cannot find project clip"
 msgstr "Proje klibi bulunamıyor"
 
-#: src/project/dialogs/noteswidget.cpp:241
-#: src/project/dialogs/noteswidget.cpp:258
+#: src/project/dialogs/noteswidget.cpp:255
+#: src/project/dialogs/noteswidget.cpp:272
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Yeniden atamak için bazı zaman kodlarını seçin"
 
-#: src/project/dialogs/noteswidget.cpp:246
+#: src/project/dialogs/noteswidget.cpp:260
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No clip selected in timeline"
 msgstr "Zaman akışında seçili öge yok"
 
-#: src/project/dialogs/noteswidget.cpp:271
+#: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "İmleyiciler oluşturmak için birkaç zaman kodu seçin"
@@ -27511,23 +27511,23 @@ msgstr "Proje notlarınızı buraya girin…"
 msgid "Project Notes"
 msgstr "Proje Notları"
 
-#: src/project/notesplugin.cpp:153
+#: src/project/notesplugin.cpp:157
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr "Geçerli kova klibine seçili zaman kodlarını yeniden ata"
 
-#: src/project/notesplugin.cpp:157
+#: src/project/notesplugin.cpp:161
 #, fuzzy, kde-format
 #| msgid "Reassign selected timecodes to current Bin clip"
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr "Geçerli kova klibine seçili zaman kodlarını yeniden ata"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Seçili zaman kodlarından imleyiciler oluştur"
 
-#: src/project/notesplugin.cpp:163
+#: src/project/notesplugin.cpp:167
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27537,12 +27537,12 @@ msgstr ""
 "Seçili zaman kodlarından zaman akışında imleyiciler oluşturur (başka metnin "
 "seçili olup olmaması önemli değildir)."
 
-#: src/project/notesplugin.cpp:206
+#: src/project/notesplugin.cpp:210
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "Not eklenemiyor, proje kovasında seçili klip yok"
 
-#: src/project/notesplugin.cpp:236
+#: src/project/notesplugin.cpp:240
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Atama gerçekleştirilemiyor"
@@ -30370,7 +30370,7 @@ msgid "No available stream"
 msgstr "Kullanılabilir akış yok"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3395 src/titler/titlewidget.cpp:3398
+#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
 #, kde-format
 msgid "Gradient %1"
 msgstr "%1 gradyan"
@@ -30736,19 +30736,19 @@ msgstr "Yeni başlık olarak ekle"
 msgid "The following files are missing:"
 msgstr "Aşağıdaki dosyalar eksik:"
 
-#: src/titler/titlewidget.cpp:2696
+#: src/titler/titlewidget.cpp:2699
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Görüş Alanını Başlat"
 
-#: src/titler/titlewidget.cpp:2697
+#: src/titler/titlewidget.cpp:2700
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Görüş Alanını Sonlandır"
 
-#: src/titler/titlewidget.cpp:3428
+#: src/titler/titlewidget.cpp:3431
 #, kde-format
 msgid "Gradient"
 msgstr "Gradyan"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 00:41+0000\n"
+"POT-Creation-Date: 2025-05-07 00:42+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -14749,7 +14749,7 @@ msgid "Show/hide description of the compositions"
 msgstr "چۈشەندۈرۈش"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:173
+#: src/project/notesplugin.cpp:177
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -17255,49 +17255,49 @@ msgstr ""
 msgid "Unknown"
 msgstr "نامەلۇم"
 
-#: src/bin/projectitemmodel.cpp:669
+#: src/bin/projectitemmodel.cpp:673
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Add sub clips"
 msgstr "بارلىق ھۆججەتلەر"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:49
+#: src/bin/projectitemmodel.cpp:708 src/ui/maskmanage_ui.ui:49
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Zone"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/bin/projectitemmodel.cpp:985
+#: src/bin/projectitemmodel.cpp:989
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Add bin clip"
 msgstr "بارلىق ھۆججەتلەر"
 
-#: src/bin/projectitemmodel.cpp:1103
+#: src/bin/projectitemmodel.cpp:1107
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Add a sub clip"
 msgstr "بارلىق ھۆججەتلەر"
 
-#: src/bin/projectitemmodel.cpp:1144
+#: src/bin/projectitemmodel.cpp:1148
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Rename Folder"
 msgstr "قىسقۇچ قۇر"
 
-#: src/bin/projectitemmodel.cpp:1188 src/mainwindow.cpp:1454
+#: src/bin/projectitemmodel.cpp:1192 src/mainwindow.cpp:1454
 #, kde-format
 msgid "Clean Project"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:1416
+#: src/bin/projectitemmodel.cpp:1420
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Reading project clips…"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/bin/projectitemmodel.cpp:1524
+#: src/bin/projectitemmodel.cpp:1528
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Loading project clips…"
@@ -27170,19 +27170,19 @@ msgstr ""
 msgid "Cannot find project clip"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/project/dialogs/noteswidget.cpp:241
-#: src/project/dialogs/noteswidget.cpp:258
+#: src/project/dialogs/noteswidget.cpp:255
+#: src/project/dialogs/noteswidget.cpp:272
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr ""
 
-#: src/project/dialogs/noteswidget.cpp:246
+#: src/project/dialogs/noteswidget.cpp:260
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No clip selected in timeline"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/project/dialogs/noteswidget.cpp:271
+#: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr ""
@@ -27668,22 +27668,22 @@ msgstr ""
 msgid "Project Notes"
 msgstr ""
 
-#: src/project/notesplugin.cpp:153
+#: src/project/notesplugin.cpp:157
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
 
-#: src/project/notesplugin.cpp:157
+#: src/project/notesplugin.cpp:161
 #, kde-format
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr ""
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr ""
 
-#: src/project/notesplugin.cpp:163
+#: src/project/notesplugin.cpp:167
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27691,13 +27691,13 @@ msgid ""
 "if other text is selected too)."
 msgstr ""
 
-#: src/project/notesplugin.cpp:206
+#: src/project/notesplugin.cpp:210
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "قۇرۇلۇشقا قوشىدۇ"
 
-#: src/project/notesplugin.cpp:236
+#: src/project/notesplugin.cpp:240
 #, kde-format
 msgid "Cannot perform assign"
 msgstr ""
@@ -30583,7 +30583,7 @@ msgid "No available stream"
 msgstr " كاندۇك"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3395 src/titler/titlewidget.cpp:3398
+#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -30958,20 +30958,20 @@ msgstr "ئۈنسىز"
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2696
+#: src/titler/titlewidget.cpp:2699
 #, fuzzy, kde-format
 #| msgid "Color"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "رەڭ"
 
-#: src/titler/titlewidget.cpp:2697
+#: src/titler/titlewidget.cpp:2700
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3428
+#: src/titler/titlewidget.cpp:3431
 #, kde-format
 msgid "Gradient"
 msgstr ""

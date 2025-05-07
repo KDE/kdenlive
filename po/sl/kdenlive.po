@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 00:41+0000\n"
-"PO-Revision-Date: 2025-04-17 07:14+0200\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"POT-Creation-Date: 2025-05-07 00:42+0000\n"
+"PO-Revision-Date: 2025-05-05 12:59+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -2924,9 +2924,9 @@ msgid "Coordinates"
 msgstr "Koordinate"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
-#, kde-format
+#, fuzzy, kde-format
 msgid "Doubleweave"
-msgstr ""
+msgstr "Dvojno tkanje"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:5
 #, kde-format
@@ -3205,8 +3205,7 @@ msgid "Steps"
 msgstr "Koraki"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Scale"
+#, kde-format
 msgid "EPX Scaler"
 msgstr "Skalirnik EPX"
 
@@ -3221,8 +3220,7 @@ msgid "2x,3x"
 msgstr "2x,3x"
 
 #: data/effects/avfilter/avfilter_epx.xml:9
-#, fuzzy, kde-format
-#| msgid "Blur factor"
+#, kde-format
 msgid "Scale factor"
 msgstr "Faktor merila"
 
@@ -3367,23 +3365,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Clock"
+#, kde-format
 msgid "Block"
 msgstr "Blok"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set size of block in pixels]]>"
-msgstr "<![CDATA[Nastavi prekrivnost slike ozadja]]>"
+msgstr "<![CDATA[Nastavi velikost bloka v slikovnih točkah]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Set block overlap]]>"
-msgstr "<![CDATA[Odmik vzdolž osi Y]]>"
+msgstr "<![CDATA[Nastavi prekrivanje blokov]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:26
 #, kde-format
@@ -3391,10 +3385,9 @@ msgid "wiener,hard"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Set denoising method]]>"
-msgstr "<![CDATA[Odmik vzdolž osi X]]>"
+msgstr "<![CDATA[Nastavi metodo odstranjevanja šuma]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
@@ -3711,7 +3704,7 @@ msgstr "Kakovost"
 #: data/effects/avfilter/avfilter_fspp.xml:12
 #, kde-format
 msgid "Constant quantizer"
-msgstr ""
+msgstr "Konstantni kvantizator"
 
 #: data/effects/avfilter/avfilter_fspp.xml:18
 #, fuzzy, kde-format
@@ -4129,22 +4122,19 @@ msgid "Alpha Mode"
 msgstr "Način alfa"
 
 #: data/effects/avfilter/avfilter_il.xml:20
-#, fuzzy, kde-format
-#| msgid "Luma Files"
+#, kde-format
 msgid "Swap Luma Fields"
-msgstr "Datoteke svetilnosti"
+msgstr "Zamenjaj polslike lume"
 
 #: data/effects/avfilter/avfilter_il.xml:23
-#, fuzzy, kde-format
-#| msgid "Swap channels"
+#, kde-format
 msgid "Swap Chroma Fields"
-msgstr "Zamenjaj kanale"
+msgstr "Zamenjaj polslike krome"
 
 #: data/effects/avfilter/avfilter_il.xml:26
-#, fuzzy, kde-format
-#| msgid "Swap channels"
+#, kde-format
 msgid "Swap Alpha Fields"
-msgstr "Zamenjaj kanale"
+msgstr "Zamenjaj polslike alfe"
 
 #: data/effects/avfilter/avfilter_inflate.xml:4
 #, kde-format
@@ -4310,7 +4300,7 @@ msgstr "Najm."
 #: data/effects/avfilter/avfilter_limiter.xml:9
 #, kde-format
 msgid "The Min value has not to be higher than the Max value"
-msgstr ""
+msgstr "Najmanjša vrednost ne sme biti višja od največje vrednosti"
 
 #: data/effects/avfilter/avfilter_limiter.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:24
@@ -4324,7 +4314,7 @@ msgstr "Najv."
 #: data/effects/avfilter/avfilter_limiter.xml:13
 #, kde-format
 msgid "The Max value has not to be lower than the Min value"
-msgstr ""
+msgstr "Največja vrednost ne sme biti nižja od najmanjše vrednosti"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:4
 #, kde-format
@@ -4373,10 +4363,9 @@ msgid "Measured threshold of input file"
 msgstr "Izmerjeni prag vhodne datoteke"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:29
-#, fuzzy, kde-format
-#| msgid "Offset X"
+#, kde-format
 msgid "Offset gain"
-msgstr "Zamik X"
+msgstr "Ojačitev zamika"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:32
 #, kde-format
@@ -4389,10 +4378,9 @@ msgid "Treat mono input files as \"dual-mono\""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_lowpass.xml:4
-#, fuzzy, kde-format
-#| msgid "Low pass"
+#, kde-format
 msgid "Low-pass"
-msgstr "Nizki prehod"
+msgstr "Nizkopasovni filter"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
 #, kde-format
@@ -4548,7 +4536,7 @@ msgid "Highlights strength"
 msgstr "Jakost svetlih tonov"
 
 #: data/effects/avfilter/avfilter_negate.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Negate"
 msgstr "Negativ"
 
@@ -4580,22 +4568,22 @@ msgstr "Seme šuma za vse komponente"
 #: data/effects/avfilter/avfilter_noise.xml:11
 #, kde-format
 msgid "Component #0 noise seed"
-msgstr ""
+msgstr "Seme hrupa za komponento #0"
 
 #: data/effects/avfilter/avfilter_noise.xml:14
 #, kde-format
 msgid "Component #1 noise seed"
-msgstr ""
+msgstr "Seme hrupa za komponento #1"
 
 #: data/effects/avfilter/avfilter_noise.xml:17
 #, kde-format
 msgid "Component #2 noise seed"
-msgstr ""
+msgstr "Seme hrupa za komponento #2"
 
 #: data/effects/avfilter/avfilter_noise.xml:20
 #, kde-format
 msgid "Component #3 noise seed"
-msgstr ""
+msgstr "Seme hrupa za komponento #3"
 
 #: data/effects/avfilter/avfilter_noise.xml:23
 #, kde-format
@@ -4657,8 +4645,7 @@ msgid "Flag component 3"
 msgstr "Zastavica za komponento 3"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
-#, fuzzy, kde-format
-#| msgid "Normal view"
+#, kde-format
 msgid "Normalize RGB video"
 msgstr "Normaliziraj videoposnetek RGB"
 
@@ -4704,28 +4691,24 @@ msgid "2D video oscilloscope"
 msgstr "2D video osciloskop"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:8
-#, fuzzy, kde-format
-#| msgid "X position"
+#, kde-format
 msgid "Trace X position"
-msgstr "Pozicija X"
+msgstr "Sledi položaju X"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[X position of the trace profile]]>"
-msgstr "<![CDATA[Kot vrtenja vzdolž osi X]]>"
+msgstr "<![CDATA[Položaj X profila sledenja]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Trace Y position"
-msgstr "Pozicija Y"
+msgstr "Sledi položaju Y"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Angle of rotation along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Y position of the trace profile]]>"
-msgstr "<![CDATA[Kot vrtenja vzdolž osi X]]>"
+msgstr "<![CDATA[Y-položaj profila sledenja]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:17
 #, fuzzy, kde-format
@@ -4988,10 +4971,9 @@ msgid "Seed"
 msgstr "Seme"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:4
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Grain Removal"
-msgstr "Odstranitev"
+msgstr "Odstranjevanje zrnatosti"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:5
 #, kde-format
@@ -5216,8 +5198,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set Range"
 msgstr "Določi obseg"
 
@@ -5259,9 +5240,9 @@ msgid "Background fill color"
 msgstr "Barva polnila ozadja"
 
 #: data/effects/avfilter/avfilter_shear.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Nearest,Bilinear"
-msgstr "Najbližji,Bilinearna"
+msgstr "Najbližji sosed,Bilinearno"
 
 #: data/effects/avfilter/avfilter_shear.xml:18
 #, kde-format
@@ -5279,28 +5260,24 @@ msgid "Reorder and/or duplicate video planes"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:8
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "1st Output Plane"
-msgstr "Izhodni jezik"
+msgstr "1. izhodna ravnina"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:11
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "2nd Output Plane"
-msgstr "Izhodni jezik"
+msgstr "2. izhodna ravnina"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:14
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "3rd Output Plane"
-msgstr "Izhodni jezik"
+msgstr "3. izhodna ravnina"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:17
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "4th Output Plane"
-msgstr "Izhodni jezik"
+msgstr "4. izhodna ravnina"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, kde-format
@@ -5447,10 +5424,9 @@ msgid "Apply sobel operator to input video stream."
 msgstr "Uveljavite operatorje Sobel na vhodnem video toku."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
-#, fuzzy, kde-format
-#| msgid "Stylize"
+#, kde-format
 msgid "SOFAlizer"
-msgstr "sofalizer"
+msgstr "SOFAlizator"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:5
 #, kde-format
@@ -5468,10 +5444,9 @@ msgstr ""
 "na akustičnem raziskovalnem inštitutu (ARI) avstrijske akademije znanosti."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
-#, fuzzy, kde-format
-#| msgid "Asset file"
+#, kde-format
 msgid "SOFA file"
-msgstr "Datoteka sredstev"
+msgstr "Datoteka SOFA"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/avfilter/avfilter_sofalizer.xml:14
@@ -5490,25 +5465,22 @@ msgid "Elevation"
 msgstr "Dvignjenost"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:23
-#, fuzzy, kde-format
-#| msgid "Low Frequency"
+#, kde-format
 msgid "Frequency,Time"
-msgstr "Nizka frekvenca"
+msgstr "Frekvenca,Čas"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:27
-#, fuzzy, kde-format
-#| msgid "End Gain"
+#, kde-format
 msgid "LFE Gain"
-msgstr "Končna ojačitev"
+msgstr "Ojačitev LFE"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:30
-#, fuzzy, kde-format
-#| msgid "Frame size:"
+#, kde-format
 msgid "Framesize"
-msgstr "Velikost sličic:"
+msgstr "Velikost sličic"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use if option ‘type’ is set to freq."
 msgstr "Uporabite, če je možnost ‘type‘ (vrsta) nastavljena na freq."
 
@@ -5532,7 +5504,7 @@ msgstr "Kot"
 #: data/effects/avfilter/avfilter_sofalizer.xml:48
 #, kde-format
 msgid "Only used if option interpolate is enabled."
-msgstr ""
+msgstr "Uporablja se samo, če je omogočena možnost interpolacija."
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:47
 #, kde-format
@@ -5601,10 +5573,9 @@ msgid "Output format"
 msgstr "Izhodni zapis"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
-#, fuzzy, kde-format
-#| msgid "Stereo to mono"
+#, kde-format
 msgid "Stereo tools"
-msgstr "Stereo orodja (stereo_tools)"
+msgstr "Stereo orodja"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:5
 #, kde-format
@@ -5916,7 +5887,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_transpose.xml:12
 #, kde-format
 msgid "None,Portrait,Landscape"
-msgstr ""
+msgstr "Brez,Pokončno,Ležeče"
 
 #: data/effects/avfilter/avfilter_transpose.xml:13
 #, fuzzy, kde-format
@@ -6447,7 +6418,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_xbr.xml:8
 #, kde-format
 msgid "2xBR,3xBR,4xBR"
-msgstr ""
+msgstr "2xBR,3xBR,4xBR"
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
 #, fuzzy, kde-format
@@ -7126,7 +7097,7 @@ msgstr "Ne sprašuj več"
 #: data/effects/frei0r/frei0r_3dflippo.xml:38
 #, kde-format
 msgid "Fill with image or black"
-msgstr ""
+msgstr "Zapolni s sliko ali črnino"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
@@ -7136,7 +7107,7 @@ msgstr "Aech0r"
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
 msgid "Create an analog video echo"
-msgstr ""
+msgstr "Ustvarite analogni video odmev."
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
 #, kde-format
@@ -7191,7 +7162,7 @@ msgstr "Perioda utripanja"
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
 msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
-msgstr ""
+msgstr "<![CDATA[Hitrost stroboskopije (od 0 do 8 sličic)]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:30
@@ -7285,7 +7256,7 @@ msgstr "Položaj"
 #: data/effects/frei0r/frei0r_alphagrad.xml:9
 #, kde-format
 msgid "<![CDATA[Define where the gradient starts.]]>"
-msgstr ""
+msgstr "<![CDATA[Določite, kje se začne preliv.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
@@ -7300,7 +7271,7 @@ msgstr "Širina prehoda"
 #: data/effects/frei0r/frei0r_alphagrad.xml:13
 #, kde-format
 msgid "<![CDATA[Define the width of the transition between the densities.]]>"
-msgstr ""
+msgstr "<![CDATA[Določite širino prehoda med gostotami.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:17
@@ -7312,13 +7283,13 @@ msgstr "<![CDATA[Kot za preliv.]]>"
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
 #, kde-format
 msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[Določite prosojnost na vrhu preliva.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
 #, kde-format
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[Določite prosojnost na dnu preliva.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
@@ -7336,7 +7307,7 @@ msgstr "Piši na čisto,Največ,Najmanj,Dodaj,Odštej"
 #: data/effects/frei0r/frei0r_alphagrad.xml:30
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
-msgstr ""
+msgstr "<![CDATA[Določite operacijo alfa za sestavljanje.]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
@@ -7636,12 +7607,14 @@ msgid "VR360 Hemispherical to Equirectangular"
 msgstr "Hemisferno v enakokotno VR360"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:5
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Converts a video frame with two hemispherical images to a single "
 "equirectangular frame. The plugin assumes that both hemispheres are in the "
 "frame"
 msgstr ""
+"Pretvori video sličico z dvema polkroglima slikama v eno enakokotno sličico. "
+"Vstavek predpostavlja, da sta obe hemisferi v sličici"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:8
 #, kde-format
@@ -7696,12 +7669,12 @@ msgstr "NAVZGOR spredaj"
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
 #, kde-format
 msgid "Back X"
-msgstr ""
+msgstr "X zadaj"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:39
 #, kde-format
 msgid "Back Y"
-msgstr ""
+msgstr "Y zadaj"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:42
 #, kde-format
@@ -7804,7 +7777,7 @@ msgstr "Časovno odstopanje nagiba"
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
 #, kde-format
 msgid "Roll Amount"
-msgstr ""
+msgstr "Količina kotaljenja"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:47
 #, kde-format
@@ -8131,7 +8104,7 @@ msgstr "B"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:17
 #, kde-format
 msgid "Add constant,Change gamma,Multiply"
-msgstr ""
+msgstr "Prištej konstanto,Spremeni gamo,Pomnoži"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
 #, kde-format
@@ -8188,12 +8161,12 @@ msgstr "Obarvanost"
 #: data/effects/frei0r/frei0r_colorize.xml:10
 #, kde-format
 msgid "Color shade of the colorized image."
-msgstr ""
+msgstr "Barvni odtenek obarvane slike."
 
 #: data/effects/frei0r/frei0r_colorize.xml:14
 #, kde-format
 msgid "Amount of color in the colorized image."
-msgstr ""
+msgstr "Količina barve na obarvani sliki."
 
 #: data/effects/frei0r/frei0r_colorize.xml:18
 #, kde-format
@@ -8244,61 +8217,61 @@ msgstr "Število točk krivulje"
 #: data/effects/frei0r/frei0r_curves.xml:77
 #, kde-format
 msgid "Point 1 input value"
-msgstr ""
+msgstr "Vhodna vrednost točke 1"
 
 #: data/effects/frei0r/frei0r_curves.xml:25
 #: data/effects/frei0r/frei0r_curves.xml:80
 #, kde-format
 msgid "Point 1 output value"
-msgstr ""
+msgstr "Izhodna vrednost točke 1"
 
 #: data/effects/frei0r/frei0r_curves.xml:28
 #: data/effects/frei0r/frei0r_curves.xml:83
 #, kde-format
 msgid "Point 2 input value"
-msgstr ""
+msgstr "Vhodna vrednost točke 2"
 
 #: data/effects/frei0r/frei0r_curves.xml:31
 #: data/effects/frei0r/frei0r_curves.xml:86
 #, kde-format
 msgid "Point 2 output value"
-msgstr ""
+msgstr "Izhodna vrednost točke 2"
 
 #: data/effects/frei0r/frei0r_curves.xml:34
 #: data/effects/frei0r/frei0r_curves.xml:89
 #, kde-format
 msgid "Point 3 input value"
-msgstr ""
+msgstr "Vhodna vrednost točke 3"
 
 #: data/effects/frei0r/frei0r_curves.xml:37
 #: data/effects/frei0r/frei0r_curves.xml:92
 #, kde-format
 msgid "Point 3 output value"
-msgstr ""
+msgstr "Izhodna vrednost točke 3"
 
 #: data/effects/frei0r/frei0r_curves.xml:40
 #: data/effects/frei0r/frei0r_curves.xml:95
 #, kde-format
 msgid "Point 4 input value"
-msgstr ""
+msgstr "Vhodna vrednost točke 4"
 
 #: data/effects/frei0r/frei0r_curves.xml:43
 #: data/effects/frei0r/frei0r_curves.xml:98
 #, kde-format
 msgid "Point 4 output value"
-msgstr ""
+msgstr "Izhodna vrednost točke 4"
 
 #: data/effects/frei0r/frei0r_curves.xml:46
 #: data/effects/frei0r/frei0r_curves.xml:101
 #, kde-format
 msgid "Point 5 input value"
-msgstr ""
+msgstr "Vhodna vrednost točke 5"
 
 #: data/effects/frei0r/frei0r_curves.xml:49
 #: data/effects/frei0r/frei0r_curves.xml:104
 #, kde-format
 msgid "Point 5 output value"
-msgstr ""
+msgstr "Izhodna vrednost točke 5"
 
 #: data/effects/frei0r/frei0r_curves.xml:52
 #: data/effects/frei0r/frei0r_curves.xml:107
@@ -8312,7 +8285,7 @@ msgstr "Pokaži grafikon na sliki"
 #: data/effects/frei0r/frei0r_levels.xml:62
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
-msgstr ""
+msgstr "Levo zgoraj,Desno zgoraj,Levo spodaj,Desno spodaj"
 
 #: data/effects/frei0r/frei0r_curves.xml:56
 #: data/effects/frei0r/frei0r_curves.xml:111
@@ -8340,6 +8313,12 @@ msgid ""
 "if they become too annoying.\n"
 "        "
 msgstr ""
+"Odpravi artefakte koračenja iz videoposnetkov 720p fotoaparata Nikon D90.\n"
+"        Ostre črte v videoposnetkih iz Nikona D90 kažejo korake na vsaki 8. "
+"ali 9. vrstici, kar je\n"
+"        domnevno posledica slabega podvzorčenja. S tem filtrom jih lahko "
+"zgladite, če postanejo preveč moteči.\n"
+"        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
 #, fuzzy, kde-format
@@ -8350,7 +8329,7 @@ msgstr "Defish"
 #: data/effects/frei0r/frei0r_defish0r.xml:5
 #, kde-format
 msgid "Non rectilinear lens mappings"
-msgstr ""
+msgstr "Preslikave nepravokotnih objektivov"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:11
 #, fuzzy, kde-format
@@ -8423,9 +8402,9 @@ msgid "Video delay"
 msgstr "Tok videa"
 
 #: data/effects/frei0r/frei0r_delay0r.xml:8
-#, kde-format
+#, fuzzy, kde-format
 msgid "Delay time"
-msgstr ""
+msgstr "Čas zakasnitve"
 
 #: data/effects/frei0r/frei0r_delaygrab.xml:4
 #, kde-format
@@ -8598,7 +8577,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_facedetect.xml:13
 #, kde-format
 msgid "Minimum number of rectangles that determines an object."
-msgstr ""
+msgstr "Najmanjše število pravokotnikov, ki določajo predmet."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:16
 #: data/effects/frei0r/frei0r_facedetect.xml:16
@@ -8610,7 +8589,7 @@ msgstr "Najmanjša"
 #: data/effects/frei0r/frei0r_facedetect.xml:17
 #, kde-format
 msgid "The minimum window size in pixels."
-msgstr ""
+msgstr "Najmanjša velikost okna v slikovnih točkah."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:20
 #, kde-format
@@ -8623,6 +8602,8 @@ msgid ""
 "The largest size face in pixels - both horizontally and vertically (square "
 "window)."
 msgstr ""
+"Največja velikost obraza v slikovnih točkah - vodoravno in navpično "
+"(kvadratno okno)."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:24
 #: data/effects/frei0r/frei0r_facedetect.xml:20
@@ -8636,7 +8617,7 @@ msgstr "Ponovno preveri"
 msgid ""
 "How often to detect a face. In between checks, it does object motion "
 "tracking."
-msgstr ""
+msgstr "Kako pogosto zaznati obraz. Med pregledi sledi gibanju predmetov."
 
 #: data/effects/frei0r/frei0r_facebl0r.xml:28
 #, kde-format
@@ -8760,7 +8741,7 @@ msgstr "Flippo"
 #: data/effects/frei0r/frei0r_flippo.xml:5
 #, kde-format
 msgid "Flipping in X and Y axis"
-msgstr ""
+msgstr "Preobračanje osi X in Y"
 
 #: data/effects/frei0r/frei0r_flippo.xml:8
 #, kde-format
@@ -8850,10 +8831,9 @@ msgid "Amount of temporal filtering"
 msgstr "Količina časovnega filtriranja"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:4
-#, fuzzy, kde-format
-#| msgid "HSV Hue Shift"
+#, kde-format
 msgid "Hue shift"
-msgstr "Video učinki Kdenlive - Zamakni obarvanost"
+msgstr "Zamakni obarvanost"
 
 #: data/effects/frei0r/frei0r_hueshift0r.xml:5
 #, kde-format
@@ -8867,11 +8847,9 @@ msgid "Blur"
 msgstr "Zabriši"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)"
-msgstr ""
-"Zabrisanost z 2D-filtri IIR (eksponentni, nizkoprepustni, Gaussov) (|frei0r."
-"IIRblur|)."
+msgstr "Zabrisanost z 2D-filtri IIR (eksponentni, nizkoprepustni, Gaussov)"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:9
 #, kde-format
@@ -8881,7 +8859,7 @@ msgstr "Količina zabrisanosti"
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #, kde-format
 msgid "Exponential,Lowpass,Gaussian"
-msgstr ""
+msgstr "eksponentni,nizkoprepustni,Gaussov"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:14
 #, fuzzy, kde-format
@@ -9013,7 +8991,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
 #, kde-format
 msgid "Top right,Top left,Bottom left,Bottom right"
-msgstr ""
+msgstr "Desno zgoraj,Levo zgoraj,Levo spodaj,Desno spodaj"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
 #, kde-format
@@ -9380,9 +9358,9 @@ msgstr ""
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:44
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "α"
-msgstr "α: parameter Lévyjeve porazdelitve"
+msgstr "α"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:46
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:118
@@ -9483,11 +9461,10 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_luminance.xml:4
-#, fuzzy, kde-format
-#| msgid "Chrominance U"
+#, kde-format
 msgctxt "Luminance Effect Name"
 msgid "Luminance"
-msgstr "Osvetljenost"
+msgstr "Svetilnost"
 
 #: data/effects/frei0r/frei0r_luminance.xml:5
 #, kde-format
@@ -9495,22 +9472,17 @@ msgid "Creates a luminance map of the image"
 msgstr "Ustvari zemljevid svetilnosti slike"
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:4
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Alpha mask"
-msgstr ""
-":doc:`Pravokotna maska alfa </effects_and_filters/video_effects/"
-"alpha_mask_keying/rectangular_alpha_mask>`"
+msgstr "Pravokotna maska alfa"
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:5
-#, fuzzy, kde-format
-#| msgid "Create a shadow effect from the alpha channel"
+#, kde-format
 msgid "Creates an square alpha-channel mask"
-msgstr "Ustvari kvadratno masko alfa-kanala (|frei0r.mask0mate|)."
+msgstr "Ustvari kvadratno masko alfa-kanala"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
-#, fuzzy, kde-format
-#| msgid "MediaInfo:"
+#, kde-format
 msgid "Medians"
 msgstr "Mediane"
 
@@ -9552,8 +9524,7 @@ msgid "HSync"
 msgstr "V-sinh"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Pixel scale"
+#, kde-format
 msgid "Pixelize"
 msgstr "Pikseliziraj"
 
@@ -9563,14 +9534,12 @@ msgid "Pixelize input image."
 msgstr "Pikselizira vhodno sliko."
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Size X"
+#, kde-format
 msgid "Block Size X"
 msgstr "Velikost bloka X"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:11
-#, fuzzy, kde-format
-#| msgid "Size Y"
+#, kde-format
 msgid "Block Size Y"
 msgstr "Velikost bloka Y"
 
@@ -9595,10 +9564,9 @@ msgid "Height of each block whose shift is invariant (0 = random)"
 msgstr "Višina vsakega bloka, katerega premik je nespremenljiv (0 = naključno)"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:16
-#, fuzzy, kde-format
-#| msgid "Minimum scene length:"
+#, kde-format
 msgid "Minimum block height"
-msgstr "Najmanjša dolžina prizora:"
+msgstr "Najmanjša višina bloka"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:17
 #, kde-format
@@ -9608,10 +9576,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Fit to height"
+#, kde-format
 msgid "Maximum block height"
-msgstr "Prilagodi višini"
+msgstr "Največja višina bloka"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:21
 #, kde-format
@@ -9631,22 +9598,19 @@ msgid "Posterizes image by reducing the number of colors used in image"
 msgstr "Posterizira sliko z zmanjšanjem števila barv, uporabljenih v sliki"
 
 #: data/effects/frei0r/frei0r_posterize.xml:9
-#, fuzzy, kde-format
-#| msgid "number of output channels"
+#, kde-format
 msgid "Number of (color) values per channel"
-msgstr "število izhodnih kanalov"
+msgstr "Število (barvnih) vrednosti na kanal"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
-#, fuzzy, kde-format
-#| msgid "Video Files"
+#, kde-format
 msgid "Video values"
 msgstr "Vrednosti videa"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:5
-#, fuzzy, kde-format
-#| msgid "Enter Unicode value"
+#, kde-format
 msgid "Measure video values"
-msgstr "Vnesite vrednost Unicode"
+msgstr "Izmeri vrednosti videa"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:8
 #, kde-format
@@ -9654,27 +9618,23 @@ msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0be.xml:9
-#, fuzzy, kde-format
-#| msgid "Measurement Window"
+#, kde-format
 msgid "Measurement"
-msgstr "Merski sistem"
+msgstr "Meritev"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:81
-#, fuzzy, kde-format
-#| msgid "Pixel scale"
+#, kde-format
 msgid "256 scale"
 msgstr "Lestvica 256"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:27
-#, fuzzy, kde-format
-#| msgid "Show log"
+#, kde-format
 msgid "Show alpha"
 msgstr "Pokaži alfo"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:30
-#, fuzzy, kde-format
-#| msgid "Hamming window"
+#, kde-format
 msgid "Big window"
 msgstr "Veliko okno"
 
@@ -9723,34 +9683,29 @@ msgid "<![CDATA[Channel to numerically display]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Marker 1"
-msgstr "Označevalnik 1 / 2"
+msgstr "Označevalnik 1"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr "<![CDATA[Odmik vzdolž osi Y]]>"
+msgstr "<![CDATA[Položaj označevalnika 1]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:33
-#, fuzzy, kde-format
-#| msgid "Marker"
+#, kde-format
 msgid "Marker 2"
-msgstr "Označevalnik"
+msgstr "Označevalnik 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:34
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr "<![CDATA[Odmik vzdolž osi Y]]>"
+msgstr "<![CDATA[Položaj označevalnika 2]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:37
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "R trace"
-msgstr " steza"
+msgstr "Sledi R"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:38
 #, kde-format
@@ -9758,10 +9713,9 @@ msgid "<![CDATA[Show R trace (red) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:41
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "G trace"
-msgstr " steza"
+msgstr "Sledi G"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:42
 #, kde-format
@@ -9769,10 +9723,9 @@ msgid "<![CDATA[Show G trace (green) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:45
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "B trace"
-msgstr " steza"
+msgstr "Sledi B"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:46
 #, kde-format
@@ -9780,10 +9733,9 @@ msgid "<![CDATA[Show B trace (blue) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:49
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "Y trace"
-msgstr " steza"
+msgstr "Sledi Y"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
@@ -9791,10 +9743,9 @@ msgid "<![CDATA[Show Y trace (luma) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:53
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "Pr trace"
-msgstr " steza"
+msgstr "Sledi Pr"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:54
 #, kde-format
@@ -9802,10 +9753,9 @@ msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:57
-#, fuzzy, kde-format
-#| msgid " track"
+#, kde-format
 msgid "Pb trace"
-msgstr " steza"
+msgstr "Sledi Pb"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:58
 #, kde-format
@@ -9813,8 +9763,7 @@ msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pr0file.xml:61
-#, fuzzy, kde-format
-#| msgid "Alpha strobing"
+#, kde-format
 msgid "Alpha trace"
 msgstr "Sledi alfi"
 
@@ -9824,8 +9773,7 @@ msgid "<![CDATA[Show Alpha trace on scope]]>"
 msgstr "<![CDATA[Pokaže sled alfe na merilniku]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:65
-#, fuzzy, kde-format
-#| msgid "Display aspect ratio:"
+#, kde-format
 msgid "Display average"
 msgstr "Prikaži povprečje"
 
@@ -9929,10 +9877,9 @@ msgid "Extracts Red from Image"
 msgstr "Izlušči rdečo iz slike"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:5
-#, fuzzy, kde-format
-#| msgid "Noise"
+#, kde-format
 msgid "RGB Noise"
-msgstr "Šum R_GB ..."
+msgstr "Šum RGB"
 
 #: data/effects/frei0r/frei0r_rgbnoise.xml:6
 #, kde-format
@@ -9976,15 +9923,12 @@ msgid "RGB splitting and shifting"
 msgstr "Razdelilnik in zamikalnik RGB"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Vertical split distance"
 msgstr "Navpična razdalja razdelitve"
 
 #: data/effects/frei0r/frei0r_rgbsplit0r.xml:11
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal split distance"
 msgstr "Vodoravna razdalja razdelitve"
 
@@ -10046,16 +9990,14 @@ msgid "Scale Y"
 msgstr "Sprememba merila Y"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:26
-#, fuzzy, kde-format
-#| msgid "Tilt"
+#, kde-format
 msgid "Tilt X"
-msgstr "Nagni"
+msgstr "Zvrni X"
 
 #: data/effects/frei0r/frei0r_scale0tilt.xml:29
-#, fuzzy, kde-format
-#| msgid "Tilt"
+#, kde-format
 msgid "Tilt Y"
-msgstr "Nagni"
+msgstr "Zvrni Y"
 
 #: data/effects/frei0r/frei0r_scanline0r.xml:4
 #, kde-format
@@ -10159,8 +10101,7 @@ msgid "Soften"
 msgstr "Zmehčaj"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
-#, fuzzy, kde-format
-#| msgid "Sharpen"
+#, kde-format
 msgctxt "Sharpen Effect Name"
 msgid "Sharpen"
 msgstr "Izostri"
@@ -10185,15 +10126,13 @@ msgstr ""
 "Žig, Časopis ali Fotokopija"
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:10
-#, fuzzy, kde-format
-#| msgid "Brightness down"
+#, kde-format
 msgid "Brightness of image."
-msgstr "Svetlost navzdol"
+msgstr "Svetlost slike."
 
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:13
 #: data/effects/frei0r/frei0r_softglow.xml:17
-#, fuzzy, kde-format
-#| msgid "Shakiness"
+#, kde-format
 msgid "Sharpness"
 msgstr "Ostrina"
 
@@ -10208,10 +10147,9 @@ msgid "Sobel"
 msgstr "Sobel"
 
 #: data/effects/frei0r/frei0r_sobel.xml:5
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Sobel filter"
-msgstr "Datoteka s podnaslovi:"
+msgstr "Filter Sobel"
 
 #: data/effects/frei0r/frei0r_softglow.xml:5
 #, fuzzy, kde-format
@@ -14537,7 +14475,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Pokaži/skrij opis sestav"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176 src/bin/bin.cpp:1196
-#: src/project/notesplugin.cpp:173
+#: src/project/notesplugin.cpp:177
 #, kde-format
 msgid "Search…"
 msgstr "Poišči …"
@@ -16939,43 +16877,43 @@ msgstr "Uporaba"
 msgid "Unknown"
 msgstr "Neznano"
 
-#: src/bin/projectitemmodel.cpp:669
+#: src/bin/projectitemmodel.cpp:673
 #, kde-format
 msgid "Add sub clips"
 msgstr "Dodaj podposnetke"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/bin/projectitemmodel.cpp:704 src/ui/maskmanage_ui.ui:49
+#: src/bin/projectitemmodel.cpp:708 src/ui/maskmanage_ui.ui:49
 #, kde-format
 msgid "Zone"
 msgstr "Območje"
 
-#: src/bin/projectitemmodel.cpp:985
+#: src/bin/projectitemmodel.cpp:989
 #, kde-format
 msgid "Add bin clip"
 msgstr "Dodaj posnetek iz posode"
 
-#: src/bin/projectitemmodel.cpp:1103
+#: src/bin/projectitemmodel.cpp:1107
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Dodaj podposnetek"
 
-#: src/bin/projectitemmodel.cpp:1144
+#: src/bin/projectitemmodel.cpp:1148
 #, kde-format
 msgid "Rename Folder"
 msgstr "Preimenuj mapo"
 
-#: src/bin/projectitemmodel.cpp:1188 src/mainwindow.cpp:1454
+#: src/bin/projectitemmodel.cpp:1192 src/mainwindow.cpp:1454
 #, kde-format
 msgid "Clean Project"
 msgstr "Počisti projekt"
 
-#: src/bin/projectitemmodel.cpp:1416
+#: src/bin/projectitemmodel.cpp:1420
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Branje posnetkov projekta …"
 
-#: src/bin/projectitemmodel.cpp:1524
+#: src/bin/projectitemmodel.cpp:1528
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Nalaganje posnetkov projekta …"
@@ -26692,19 +26630,19 @@ msgstr "Dodeli časovno oznako trenutnemu posnetku"
 msgid "Cannot find project clip"
 msgstr "Posnetka projekta ni mogoče najti"
 
-#: src/project/dialogs/noteswidget.cpp:241
-#: src/project/dialogs/noteswidget.cpp:258
+#: src/project/dialogs/noteswidget.cpp:255
+#: src/project/dialogs/noteswidget.cpp:272
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Izberite nekaj časovnih kod za ponovno dodelitev"
 
-#: src/project/dialogs/noteswidget.cpp:246
+#: src/project/dialogs/noteswidget.cpp:260
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No clip selected in timeline"
 msgstr "V časovnici ni nič izbrano"
 
-#: src/project/dialogs/noteswidget.cpp:271
+#: src/project/dialogs/noteswidget.cpp:285
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Izberite nekaj časovnih kod za ustvarjanje oznak"
@@ -27232,23 +27170,23 @@ msgstr "Sem vnesite svoje opombe projekta …"
 msgid "Project Notes"
 msgstr "Opombe projekta"
 
-#: src/project/notesplugin.cpp:153
+#: src/project/notesplugin.cpp:157
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr "Ponovno dodeli izbrane časovne kode trenutnemu kadru iz posode"
 
-#: src/project/notesplugin.cpp:157
+#: src/project/notesplugin.cpp:161
 #, fuzzy, kde-format
 #| msgid "Reassign selected timecodes to current Bin clip"
 msgid "Reassign selected timecodes to current timeline clip"
 msgstr "Ponovno dodeli izbrane časovne kode trenutnemu kadru iz posode"
 
-#: src/project/notesplugin.cpp:161
+#: src/project/notesplugin.cpp:165
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Ustvari oznake iz izbranih časovnih kod"
 
-#: src/project/notesplugin.cpp:163
+#: src/project/notesplugin.cpp:167
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27258,12 +27196,12 @@ msgstr ""
 "Ustvari označevalnike na časovnici iz izbranih časovnih kod (ni pomembno, "
 "ali je izbrano tudi drugo besedilo)."
 
-#: src/project/notesplugin.cpp:206
+#: src/project/notesplugin.cpp:210
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "Ni možno dodati opombe, noben posnetek v posodi projekta ni izbran"
 
-#: src/project/notesplugin.cpp:236
+#: src/project/notesplugin.cpp:240
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Ni možno izvesti dodeljevanja"
@@ -30109,7 +30047,7 @@ msgid "No available stream"
 msgstr "Ni razpoložljivega toka"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3395 src/titler/titlewidget.cpp:3398
+#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
 #, kde-format
 msgid "Gradient %1"
 msgstr "Preliv %1"
@@ -30482,19 +30420,19 @@ msgstr "Dodaj kot nov naslov"
 msgid "The following files are missing:"
 msgstr "Naslednje datoteke manjkajo:"
 
-#: src/titler/titlewidget.cpp:2696
+#: src/titler/titlewidget.cpp:2699
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Začetek prikazanega"
 
-#: src/titler/titlewidget.cpp:2697
+#: src/titler/titlewidget.cpp:2700
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Konec prikazanega"
 
-#: src/titler/titlewidget.cpp:3428
+#: src/titler/titlewidget.cpp:3431
 #, kde-format
 msgid "Gradient"
 msgstr "Preliv"
@@ -35410,9 +35348,6 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
 
-#~ msgid "Show background"
-#~ msgstr "Pokaži ozadje"
-
 #~ msgctxt "@info:whatsthis"
 #~ msgid ""
 #~ "When selected, a click on an asset in the timeline selects the asset (e."
@@ -35421,12 +35356,5 @@ msgstr "%1u"
 #~ "Če je izbrano, s klikom sredstva v časovnici izberete sredstvo (npr. "
 #~ "posnetek, sestavo)."
 
-#~ msgctxt "@title:window"
-#~ msgid "Load Layout"
-#~ msgstr "Naloži postavitev"
-
-#~ msgid "Open Document"
-#~ msgstr "Odpri dokument"
-
-#~ msgid "Activate crash recovery (auto save)"
-#~ msgstr "Omogoči obnovitev po sesutju (samodejno shranjevanje)"
+#~ msgid "Show background"
+#~ msgstr "Pokaži ozadje"
