@@ -295,7 +295,6 @@ void VideoWidget::refreshRect()
 
 void VideoWidget::updateRulerHeight(int addedHeight)
 {
-    qDebug() << "::: ADJUSTED RULER HEHGIT: " << addedHeight << "\n9999999999999999999999999999999999\n";
     m_displayRulerHeight =
         m_rulerHeight > 0 ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) + addedHeight : 0;
     resizeVideo(width(), height());
