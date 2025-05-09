@@ -256,9 +256,19 @@ void TimecodeDisplay::selectAll()
     lineEdit()->selectAll();
 }
 
-void TimecodeDisplay::setOffset(int offset)
+void TimecodeDisplay::setMsOffset(int offset)
 {
     m_offset = GenTime(offset / 1000.).frames(m_timecode.fps());
+    // Update timecode display
+    if (!m_frametimecode) {
+        lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + m_value - m_minimum));
+        Q_EMIT timeCodeUpdated();
+    }
+}
+
+void TimecodeDisplay::setFrameOffset(int offset)
+{
+    m_offset = offset;
     // Update timecode display
     if (!m_frametimecode) {
         lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + m_value - m_minimum));

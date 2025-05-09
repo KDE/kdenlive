@@ -86,7 +86,9 @@ public:
     
     /** @brief Sets an offset for timecode display only, Used to show recording time instead of absolute timecode
      * @param offset the offset in msecs */
-    void setOffset(int offset);
+    void setMsOffset(int offset);
+    /** @brief  Set offset in frames */
+    void setFrameOffset(int offset);
 
     /** @brief Select all timecode text */
     void selectAll();

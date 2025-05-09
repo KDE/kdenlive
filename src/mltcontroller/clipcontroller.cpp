@@ -655,8 +655,16 @@ double ClipController::originalFps() const
     if (!m_properties) {
         return 0;
     }
-    QString propertyName = QStringLiteral("meta.media.%1.stream.frame_rate").arg(m_videoIndex);
-    return m_properties->get_double(propertyName.toUtf8().constData());
+    double fps = 0.;
+    int fps_den = m_properties->get_int("meta.media.frame_rate_den");
+    if (fps_den > 0) {
+        fps = m_properties->get_double("meta.media.frame_rate_num") / fps_den;
+    }
+    if (fps == 0. && m_videoIndex > -1) {
+        QString propertyName = QStringLiteral("meta.media.%1.stream.frame_rate").arg(m_videoIndex);
+        return m_properties->get_double(propertyName.toUtf8().constData());
+    }
+    return fps;
 }
 
 QString ClipController::videoCodecProperty(const QString &property) const

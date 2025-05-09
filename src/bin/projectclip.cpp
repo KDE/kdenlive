@@ -875,7 +875,7 @@ int ProjectClip::getStartTimecode()
         return 0;
     }
 
-    int recTime = m_masterProducer->get_int("kdenlive:record_date");
+    int recTime = m_masterProducer->get_int("kdenlive:record_start_frame");
     if (recTime > 0) {
         // the value was cached, just use it
         return recTime;
@@ -890,7 +890,7 @@ int ProjectClip::getStartTimecode()
     recTime = qMax(recTime, 0);
 
     // cache the value in a kdenlive property
-    m_masterProducer->set("kdenlive:record_date", recTime);
+    m_masterProducer->set("kdenlive:record_start_frame", recTime);
 
     return recTime;
 }
@@ -947,13 +947,12 @@ int ProjectClip::getStartTCFromMediainfo()
             recInfo = recInfo.section(QLatin1Char('-'), 0, 0);
         }
         QDateTime date = QDateTime::fromString(recInfo, "yyyy-MM-dd hh:mm:ss");
-        return date.time().msecsSinceStartOfDay();
+        return GenTime(date.time().msecsSinceStartOfDay() / 1000.).frames(pCore->getCurrentFps());
     } else {
         // Timecode Format HH:MM:SS:FF
-        double producerFps = m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
-        recInfo = Timecode::scaleTimecode(recInfo, producerFps, pCore->getCurrentFps());
+        recInfo = Timecode::scaleTimecode(recInfo, originalFps(), pCore->getCurrentFps());
 
-        return int(1000 * pCore->timecode().getFrameCount(recInfo) / pCore->getCurrentFps());
+        return pCore->timecode().getFrameCount(recInfo);
     }
     return -1;
 }
@@ -979,7 +978,6 @@ int ProjectClip::getStartTCFromProperties()
     }
 
     QString timecode = m_masterProducer->get("meta.attr.timecode.markup");
-
     if (timecode.isEmpty()) {
         timecode = m_masterProducer->get("meta.attr.0.stream.timecode.markup");
     }
@@ -987,10 +985,8 @@ int ProjectClip::getStartTCFromProperties()
     // First try to get timecode from MLT metadata
     if (!timecode.isEmpty()) {
         // Timecode Format HH:MM:SS:FF
-        double producerFps = m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
-        timecode = Timecode::scaleTimecode(timecode, producerFps, pCore->getCurrentFps());
-
-        return int(1000 * pCore->timecode().getFrameCount(timecode) / pCore->getCurrentFps());
+        timecode = Timecode::scaleTimecode(timecode, originalFps(), pCore->getCurrentFps());
+        return pCore->timecode().getFrameCount(timecode);
     }
 
     return -1;

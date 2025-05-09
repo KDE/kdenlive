@@ -270,9 +270,9 @@ public:
     /** @brief Check if the clip is included in timeline and reset its occurrences on producer reload. */
     void updateTimelineOnReload();
     /** @brief Get the timecode of the first frame (record time)
-     * @return timecode in milliseconds.
+     * @return timecode in frames.
      */
-    int getStartTimecode();
+    virtual int getStartTimecode();
     /** @brief Return maximum audio level for a stream. */
     int16_t getAudioMax(int streamIdx) const;
     /** @brief A timeline clip was modified, reload its other timeline instances. */
@@ -404,11 +404,11 @@ public Q_SLOTS:
     void removeMask(const QString &maskName);
 
     /** @brief Get the timecode of the first frame from the ffmpeg/mlt properties
-     * @return timecode in milliseconds or -1 if not found
+     * @return timecode in frames or -1 if not found
      */
     int getStartTCFromProperties();
     /** @brief Get the timecode of the first frame (record time) by calling the mediainfo cmd tool
-     * @return timecode in milliseconds or -1 if not found
+     * @return timecode in frames or -1 if not found
      */
     int getStartTCFromMediainfo();
 
