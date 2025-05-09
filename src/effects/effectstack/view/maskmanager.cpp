@@ -139,6 +139,15 @@ MaskManager::MaskManager(QWidget *parent)
         maskTools->setCurrentIndex(0);
         disconnectMonitor();
     });
+    connect(m_maskHelper, &AutomaskHelper::processCrashed, this, [this](QString errorMessage) {
+        Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
+        clipMon->abortPreviewMask();
+        buttonPreview->setChecked(false);
+        buttonEdit->setChecked(false);
+        maskTools->setCurrentIndex(0);
+        Q_EMIT pCore->processInvalidFilter(QString(), i18n("Job failed"), errorMessage);
+        disconnectMonitor();
+    });
     connect(buttonStop, &QPushButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
     connect(buttonApply, &QPushButton::clicked, this, [this]() { applyMask(); });
     connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);

@@ -477,7 +477,7 @@ void AssetPanel::slotCheckWheelEventFilter()
     Q_EMIT m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
-void AssetPanel::assetPanelWarning(const QString &service, const QString & /*id*/, const QString &message)
+void AssetPanel::assetPanelWarning(const QString &service, const QString &message, const QString &log)
 {
     QString finalMessage;
     if (!service.isEmpty() && EffectsRepository::get()->exists(service)) {
@@ -485,6 +485,12 @@ void AssetPanel::assetPanelWarning(const QString &service, const QString & /*id*
         if (!effectName.isEmpty()) {
             finalMessage = QStringLiteral("<b>") + effectName + QStringLiteral("</b><br />");
         }
+    }
+    m_infoMessage->clearActions();
+    if (!log.isEmpty()) {
+        QAction *showLog = new QAction(i18n("Show log"), m_infoMessage);
+        m_infoMessage->addAction(showLog);
+        connect(showLog, &QAction::triggered, showLog, [log]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Detailed log"), log); });
     }
     finalMessage.append(message);
     m_infoMessage->setText(finalMessage);

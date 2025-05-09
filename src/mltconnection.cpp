@@ -39,7 +39,7 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
         message.append(QString::vasprintf(format, args));
         message.replace('\n', "");
         if (!strcmp(mlt_type, "filter")) {
-            pCore->processInvalidFilter(service_name, id, message);
+            pCore->processInvalidFilter(service_name, message);
         }
     } else {
         message = QString::vasprintf(format, args);

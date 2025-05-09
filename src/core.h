@@ -258,7 +258,7 @@ public:
     /** @brief Returns a frame duration from a timecode */
     int getDurationFromString(const QString &time);
     /** @brief An error occurred within a filter, inform user */
-    void processInvalidFilter(const QString &service, const QString &id, const QString &message);
+    void processInvalidFilter(const QString &service, const QString &message, const QString &log = QString());
     /** @brief Update current project's tags */
     void updateProjectTags(int previousCount, const QMap<int, QStringList> &tags);
     /** @brief Returns the project profile */
