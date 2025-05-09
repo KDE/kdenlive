@@ -1364,9 +1364,9 @@ int Core::getDurationFromString(const QString &time)
     return m_timecode.getFrameCount(time);
 }
 
-void Core::processInvalidFilter(const QString &service, const QString &id, const QString &message)
+void Core::processInvalidFilter(const QString &service, const QString &message, const QString &log)
 {
-    if (m_guiConstructed) Q_EMIT m_mainWindow->assetPanelWarning(service, id, message);
+    if (m_guiConstructed) Q_EMIT m_mainWindow->assetPanelWarning(service, message, log);
 }
 
 void Core::updateProjectTags(int previousCount, const QMap<int, QStringList> &tags)

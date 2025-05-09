@@ -243,7 +243,7 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
             if (m_killedOnRequest) {
                 Q_EMIT showMessage(QString(), KMessageWidget::Information);
             } else if (m_samProcess.exitStatus() == QProcess::CrashExit || m_samProcess.exitCode() != 0) {
-                Q_EMIT showMessage(m_errorLog, KMessageWidget::Warning);
+                Q_EMIT processCrashed(m_errorLog);
             }
             m_maskCreationMode = false;
             Q_EMIT samJobFinished();

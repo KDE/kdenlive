@@ -218,6 +218,30 @@ AbstractPythonInterface::PythonExec AbstractPythonInterface::venvPythonExecs(boo
     const QStringList pythonPaths = {pluginDir.absolutePath()};
 
     QString pythonExe = QStandardPaths::findExecutable(pythonName, pythonPaths);
+    if (pythonExe.isEmpty()) {
+        // Try reinstalling the venv
+        QFileInfo pyPath(pluginDir.absoluteFilePath(pythonName));
+        if (pyPath.isSymLink()) {
+            // To recreate the venv, python3 must be removed
+            QFile::remove(pyPath.absoluteFilePath());
+        }
+        pluginDir.cdUp();
+        QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absolutePath(), QStringLiteral("--upgrade")};
+        const QString sPython = systemPythonExec();
+        Q_EMIT setupMessage(i18n("Installing… please be patient, this can take several minutes"), KMessageWidget::Warning);
+        QProcess envProcess;
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        envProcess.setProcessEnvironment(env);
+        envProcess.start(sPython, args);
+        envProcess.waitForStarted();
+        envProcess.waitForFinished(-1);
+        if (envProcess.exitStatus() != QProcess::NormalExit) {
+            Q_EMIT setupMessage(envProcess.readAllStandardError(), KMessageWidget::Warning);
+        } else {
+            Q_EMIT setupMessage(QString());
+        }
+    }
+    pythonExe = QStandardPaths::findExecutable(pythonName, pythonPaths);
     QString pipExe;
     if (checkPip) {
         pipExe = QStandardPaths::findExecutable(pipName, pythonPaths);
@@ -625,7 +649,7 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
         }
     }
     if (m_versions.isEmpty()) {
-        Q_EMIT setupMessage(i18nc("@label:textbox", "No version information available."), int(KMessageWidget::Warning));
+        Q_EMIT setupMessage(i18nc("@label:textbox", "No version information available."), KMessageWidget::Warning);
         qDebug() << "::: CHECKING DEPENDENCIES... NO VERSION INFO AVAILABLE";
         return;
     }

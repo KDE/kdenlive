@@ -121,7 +121,7 @@ protected:
 
 Q_SIGNALS:
     void setupError(const QString &message);
-    void setupMessage(const QString &message, int messageType);
+    void setupMessage(const QString &message, KMessageWidget::MessageType messageType = KMessageWidget::Information);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();
@@ -151,6 +151,5 @@ private:
     AbstractPythonInterface * m_interface;
     QAction *m_installAction{nullptr};
     QAction *m_abortAction{nullptr};
-    bool m_updated;
-
+    bool m_updated{false};
 };
