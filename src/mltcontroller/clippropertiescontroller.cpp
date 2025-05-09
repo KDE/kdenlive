@@ -464,10 +464,35 @@ QHBoxLayout *ClipPropertiesController::durationProperty(const QString &label, co
     connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
 #endif
     connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
-    connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
+    connect(this, SIGNAL(durationModified(int)), timePos, SLOT(setValue(int)));
 
     auto *hlay = new QHBoxLayout;
     hlay->addWidget(box);
+    hlay->addWidget(timePos);
+
+    return hlay;
+}
+
+QHBoxLayout *ClipPropertiesController::timecodeProperty(const QString &label, const QString &propertyName)
+{
+    QLabel *labelWidget = new QLabel(label, this);
+    auto *timePos = new TimecodeDisplay(this);
+    timePos->setObjectName(propertyName);
+
+    int propertyValue = 0;
+    if (propertyName.startsWith(QLatin1String("kdenlive:sequenceproperties."))) {
+        const QUuid uuid(m_properties->get("kdenlive:uuid"));
+        propertyValue = pCore->currentDoc()->getSequenceProperty(uuid, propertyName).toInt();
+    } else {
+        propertyValue = m_properties->get_int(propertyName.toUtf8().constData());
+    }
+    m_originalProperties.insert(propertyName, QString::number(propertyValue));
+    timePos->setValue(propertyValue);
+    connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotTimecodeChanged);
+    connect(this, SIGNAL(timecodeModified(int)), timePos, SLOT(setValue(int)));
+
+    auto *hlay = new QHBoxLayout;
+    hlay->addWidget(labelWidget);
     hlay->addWidget(timePos);
 
     return hlay;
@@ -566,8 +591,6 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
 
     auto *fpBox = new QVBoxLayout;
     fpBox->setSpacing(0);
-    fpBox->addStretch(10);
-
     forceProp->setLayout(fpBox);
     forcePage->setWidget(forceProp);
     forcePage->setWidgetResizable(true);
@@ -576,6 +599,11 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
         connect(editButton, &QAbstractButton::clicked, this, &ClipPropertiesController::editClip);
         fpBox->addWidget(editButton);
+    }
+    if (m_type == ClipType::Timeline) {
+        // Edit duration widget
+        auto hlay = timecodeProperty(i18n("Timecode Offset:"), QStringLiteral("kdenlive:sequenceproperties.timecodeOffset"));
+        fpBox->addLayout(hlay);
     }
     if (m_type == ClipType::Color || m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::TextTemplate) {
         // Edit duration widget
@@ -759,6 +787,7 @@ QWidget *ClipPropertiesController::constructPropertiesPage()
             m_warningMessage->hide();
         }
     }
+    fpBox->addStretch(10);
 
     return forcePage;
 }
@@ -1108,20 +1137,21 @@ void ClipPropertiesController::updateTab(int ix)
 
 void ClipPropertiesController::slotReloadProperties()
 {
-    mlt_color color;
     m_properties.reset(new Mlt::Properties(m_controller->properties()));
     m_sourceProperties.reset(new Mlt::Properties());
     m_controller->mirrorOriginalProperties(m_sourceProperties);
     m_clipLabel->setText(m_properties->get("kdenlive:clipname"));
     switch (m_type) {
-    case ClipType::Color:
+    case ClipType::Color: {
+        mlt_color color;
         m_originalProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
         m_originalProperties.insert(QStringLiteral("out"), m_properties->get("out"));
         m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
-        Q_EMIT modified(m_properties->get_int("length"));
+        Q_EMIT durationModified(m_properties->get_int("length"));
         color = m_properties->get_color("resource");
         Q_EMIT colorModified(QColor::fromRgb(color.r, color.g, color.b));
         break;
+    }
     case ClipType::TextTemplate:
         m_textEdit->setPlainText(m_properties->get("templatetext"));
         break;
@@ -1157,6 +1187,10 @@ void ClipPropertiesController::slotReloadProperties()
         QList<QStringList> propertyMap;
         propertyMap.append({i18n("Tracks:"), QString::number(tracks)});
         fillProperties();
+        const QUuid uuid(m_properties->get("kdenlive:uuid"));
+        int timecodeOffset = pCore->currentDoc()->getSequenceProperty(uuid, "kdenlive:sequenceproperties.timecodeOffset").toInt();
+        m_originalProperties.insert(QStringLiteral("kdenlive:sequenceproperties.timecodeOffset"), QString::number(timecodeOffset));
+        Q_EMIT timecodeModified(timecodeOffset);
         break;
     }
     default:
@@ -1171,6 +1205,16 @@ void ClipPropertiesController::slotColorModified(const QColor &newcolor)
     QMap<QString, QString> oldProperties;
     oldProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
     Q_EMIT updateClipProperties(m_id, oldProperties, properties);
+}
+
+void ClipPropertiesController::slotTimecodeChanged(int value)
+{
+    QMap<QString, QString> properties;
+    auto *widget = qobject_cast<QWidget *>(sender());
+    const QString objectName = widget->objectName();
+    properties.insert(objectName, QString::number(value));
+    Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);
+    m_originalProperties = properties;
 }
 
 void ClipPropertiesController::slotDurationChanged(int duration)
@@ -1453,7 +1497,6 @@ void ClipPropertiesController::fillProperties()
         }
     } else if (m_type == ClipType::Timeline) {
         int tracks = m_sourceProperties->get_int("kdenlive:sequenceproperties.tracksCount");
-        qDebug() << "============\nUPDATING TRACKS CNT: " << tracks << "\n============";
         propertyMap.append({i18n("Tracks:"), QString::number(tracks)});
     } else if (m_type == ClipType::Playlist) {
         // The sequence unique identifier

@@ -83,6 +83,7 @@ EditClipCommand::EditClipCommand(Bin *bin, QString id, QMap<QString, QString> ol
     , m_id(std::move(id))
     , m_doIt(doIt)
     , m_firstExec(true)
+    , m_stamp(QTime::currentTime())
 {
     setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm"), i18nc("@action", "Edit Clip")));
 }
@@ -101,4 +102,21 @@ void EditClipCommand::redo()
     m_doIt = true;
     m_firstExec = false;
     QUndoCommand::redo();
+}
+
+// virtual
+int EditClipCommand::id() const
+{
+    return 100;
+}
+
+bool EditClipCommand::mergeWith(const QUndoCommand *other)
+{
+    if (static_cast<const EditClipCommand *>(other)->m_id != m_id || static_cast<const EditClipCommand *>(other)->m_newparams.keys() != m_newparams.keys() ||
+        m_stamp.msecsTo(static_cast<const EditClipCommand *>(other)->m_stamp) > 3000) {
+        return false;
+    }
+    m_newparams = static_cast<const EditClipCommand *>(other)->m_newparams;
+    m_stamp = static_cast<const EditClipCommand *>(other)->m_stamp;
+    return true;
 }

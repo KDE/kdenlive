@@ -1170,6 +1170,14 @@ void RenderWidget::refreshParams()
         m_params.insert(pCore->currentDoc()->metadata());
     }
 
+    // Timeline sequence metadata
+    const QUuid uuid = pCore->currentTimelineId();
+    int timecodeOffset = pCore->currentDoc()->getSequenceProperty(uuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
+    qDebug() << "::: GOT TIMECODE OFFET: " << timecodeOffset;
+    if (timecodeOffset > 0) {
+        m_params.insert(QStringLiteral("meta.attr.TIMECODE.markup"), pCore->timecode().getDisplayTimecodeFromFrames(timecodeOffset, false));
+    }
+
     QString paramString = m_params.toString();
     if (paramString.contains(QStringLiteral("%quality")) || paramString.contains(QStringLiteral("%audioquality"))) {
         m_view.qualityGroup->setEnabled(true);

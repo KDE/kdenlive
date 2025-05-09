@@ -66,6 +66,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void slotColorModified(const QColor &newcolor);
+    void slotTimecodeChanged(int value);
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
     void slotDeleteAnalysis();
@@ -122,6 +123,7 @@ private:
     QHBoxLayout *doubleSpinboxProperty(const QString &label, const QString &propertyName, double maxValue, double defaultValue = 0);
     QHBoxLayout *proxyProperty(const QString &label, const QString &propertyName);
     QHBoxLayout *durationProperty(const QString &label, const QString &propertyName);
+    QHBoxLayout *timecodeProperty(const QString &label, const QString &propertyName);
     QHBoxLayout *aspectRatioProperty(const QString &label);
     QVBoxLayout *textProperty(const QString &label, const QString &propertyName);
 
@@ -131,7 +133,10 @@ private:
 Q_SIGNALS:
     void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);
     void colorModified(const QColor &);
-    void modified(int);
+    /** @brief Duration value needs to be reloaded. */
+    void durationModified(int);
+    /** @brief Timecode value needs to be reloaded. */
+    void timecodeModified(int);
     void updateTimeCodeFormat();
     /** @brief Seek clip monitor to a frame. */
     void seekToFrame(int);

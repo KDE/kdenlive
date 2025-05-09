@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QMap>
+#include <QTime>
 #include <QUndoCommand>
 
 class Bin;
@@ -60,6 +61,8 @@ public:
     EditClipCommand(Bin *bin, QString id, QMap<QString, QString> oldparams, QMap<QString, QString> newparams, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+    int id() const override;
+    bool mergeWith(const QUndoCommand *other) override;
 
 private:
     Bin *m_bin;
@@ -73,4 +76,5 @@ private:
     /** @brief This value is true is this is the first time we execute the command, false otherwise. This allows us to refresh the properties panel
      * only on the later executions of the command, since on the first execution, the properties panel already contains the correct info. */
     bool m_firstExec;
+    QTime m_stamp;
 };
