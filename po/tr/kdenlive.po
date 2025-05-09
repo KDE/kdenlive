@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-07 02:34+0000\n"
-"PO-Revision-Date: 2025-05-07 00:32+0300\n"
+"PO-Revision-Date: 2025-05-08 13:30+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -14611,17 +14611,14 @@ msgid "Wipe from left to right."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Wipe Transition Name"
-#| msgid "Wipe"
+#, kde-format
 msgid "Wipe Up"
-msgstr "Süpür"
+msgstr "Yukarı süpür"
 
 #: data/transitions/frei0r/frei0r_wipe-up.xml:5
-#, fuzzy, kde-format
-#| msgid "Raise object to top"
+#, kde-format
 msgid "Wipe from bottom to top."
-msgstr "Nesneyi yukarı yükselt"
+msgstr "Aşağıdan yukarı süpürüp silin."
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -22793,10 +22790,9 @@ msgid "An open source video editor."
 msgstr "Açık kaynak kodlu bir video düzenleyicisi."
 
 #: src/main.cpp:256
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2024 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2025 Kdenlive authors"
-msgstr "Telif hakkı © 2007–2024 Kdenlive yazarları"
+msgstr "© 2007–2025 Kdenlive yazarları"
 
 #: src/main.cpp:258
 #, kde-format
