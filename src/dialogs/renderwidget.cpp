@@ -1173,7 +1173,6 @@ void RenderWidget::refreshParams()
     // Timeline sequence metadata
     const QUuid uuid = pCore->currentTimelineId();
     int timecodeOffset = pCore->currentDoc()->getSequenceProperty(uuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
-    qDebug() << "::: GOT TIMECODE OFFET: " << timecodeOffset;
     if (timecodeOffset > 0) {
         m_params.insert(QStringLiteral("meta.attr.TIMECODE.markup"), pCore->timecode().getDisplayTimecodeFromFrames(timecodeOffset, false));
     }
@@ -1881,6 +1880,11 @@ void RenderWidget::updateRenderInfoMessage()
     }
     QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
     QString infoMessage = i18n("Rendered File Length: %1", stringDuration);
+    int sequenceOffset =
+        pCore->currentDoc()->getSequenceProperty(pCore->currentDoc()->activeUuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
+    if (sequenceOffset > 0) {
+        infoMessage.append(QStringLiteral("\n%1 %2").arg(i18n("Timecode Offset:"), pCore->timecode().getDisplayTimecodeFromFrames(sequenceOffset, false)));
+    }
     if (m_missingClips > 0) {
         infoMessage.append(QStringLiteral(". "));
         if (m_missingUsedClips == m_missingClips) {

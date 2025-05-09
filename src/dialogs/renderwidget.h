@@ -151,6 +151,7 @@ public Q_SLOTS:
     void updateMetadataToolTip();
     /** @brief Update missing clip info. */
     void updateMissingClipsCount(int total, int used);
+    void updateRenderInfoMessage();
 
 private Q_SLOTS:
     /**
@@ -232,7 +233,6 @@ private:
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, QString profileName, bool codecInName = false);
     RenderJobItem *createRenderJob(const RenderRequest::RenderJob &job);
-    void updateRenderInfoMessage();
 
 Q_SIGNALS:
     void abortProcess(const QString &url);

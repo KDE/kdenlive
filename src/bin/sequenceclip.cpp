@@ -226,10 +226,12 @@ const QString SequenceClip::getFileHash()
 
 void SequenceClip::setProperties(const QMap<QString, QString> &properties, bool refreshPanel)
 {
-    qDebug() << "::: SETTING SEQUENCE CLIP PROPERY_ " << properties.keys();
     for (auto i = properties.cbegin(), end = properties.cend(); i != end; ++i) {
         if (i.key().startsWith(QLatin1String("kdenlive:sequenceproperties."))) {
             pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, i.key(), i.value());
+            if (i.key() == QLatin1String("kdenlive:sequenceproperties.timecodeOffset")) {
+                Q_EMIT pCore->updateRenderInfo();
+            }
         }
     }
     ProjectClip::setProperties(properties, refreshPanel);

@@ -516,4 +516,6 @@ Q_SIGNALS:
     void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
                            BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void displayBinLogMessage(const QString &text, int type, const QString logInfo);
+    /** Some properties related to rendering changed, update */
+    void updateRenderInfo();
 };
