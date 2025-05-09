@@ -145,7 +145,7 @@ MaskManager::MaskManager(QWidget *parent)
         buttonPreview->setChecked(false);
         buttonEdit->setChecked(false);
         maskTools->setCurrentIndex(0);
-        Q_EMIT pCore->processInvalidFilter(QString(), i18n("Job failed"), errorMessage);
+        Q_EMIT pCore->processInvalidFilter(QString(), i18n("Mask plugin crashed"), errorMessage);
         disconnectMonitor();
     });
     connect(buttonStop, &QPushButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);

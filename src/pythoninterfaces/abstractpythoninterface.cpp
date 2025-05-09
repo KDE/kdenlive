@@ -228,7 +228,7 @@ AbstractPythonInterface::PythonExec AbstractPythonInterface::venvPythonExecs(boo
         pluginDir.cdUp();
         QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absolutePath(), QStringLiteral("--upgrade")};
         const QString sPython = systemPythonExec();
-        Q_EMIT setupMessage(i18n("Installing… please be patient, this can take several minutes"), KMessageWidget::Warning);
+        Q_EMIT setupMessage(i18n("Corrupted plugin, trying to reinstall…"), KMessageWidget::Warning);
         QProcess envProcess;
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         envProcess.setProcessEnvironment(env);
