@@ -31,6 +31,7 @@
 #include <KIO/JobUiDelegateFactory>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
+#include <KLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
@@ -199,6 +200,12 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
     connect(m_view.out_file, &KUrlRequester::urlSelected, this, static_cast<void (RenderWidget::*)(const QUrl &)>(&RenderWidget::slotUpdateButtons));
+    connect(m_view.out_file->lineEdit(), &KLineEdit::editingFinished, this, [this]() {
+        const QUrl url = m_view.out_file->url();
+        std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+        qDebug() << "HHHHHHHHHHHHHHH\nEDITING FINISHED; URL: " << url;
+        m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
+    });
 
     connect(m_view.guide_multi_box, &QGroupBox::toggled, this, &RenderWidget::slotRenderModeChanged);
     connect(m_view.render_guide, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
@@ -452,6 +459,7 @@ void RenderWidget::loadConfig()
 
 void RenderWidget::updateDocumentPath()
 {
+    m_view.out_file->setStartDir(QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder()));
     if (m_view.out_file->url().isEmpty()) {
         return;
     }
@@ -582,11 +590,6 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
         m_view.buttonEdit->setEnabled(profile->editable());
     }
     if (url.isValid()) {
-        if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
-            m_view.buttonRender->setEnabled(false);
-            m_view.buttonGenerateScript->setEnabled(false);
-            return;
-        }
         std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
         m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
     }
@@ -937,7 +940,10 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
     if (!url.isValid()) {
         url = QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator());
     }
-    QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
+    QDir directory(url.adjusted(QUrl::RemoveFilename).toLocalFile());
+    if (!url.isValid() || directory.isRelative()) {
+        directory = QDir(pCore->currentDoc()->projectRenderFolder());
+    }
 
     QString ext;
     if (extension.startsWith(QLatin1Char('.'))) {
@@ -963,7 +969,7 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
         }
     }
 
-    return QUrl::fromLocalFile(directory + filename);
+    return QUrl::fromLocalFile(directory.absoluteFilePath(filename));
 }
 
 void RenderWidget::slotChangeSelection(const QModelIndex &current, const QModelIndex &previous)
@@ -2007,7 +2013,7 @@ void RenderWidget::resetRenderPath(const QString &path)
         extension = m_view.out_file->url().toLocalFile().section(QLatin1Char('.'), -1);
     }
     QFileInfo updatedPath(path);
-    QString fileName = QDir(pCore->currentDoc()->projectRenderFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
+    const QString fileName = QDir(pCore->currentDoc()->projectRenderFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
     QString url = filenameWithExtension(QUrl::fromLocalFile(fileName), extension).toLocalFile();
     if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());
