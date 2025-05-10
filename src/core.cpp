@@ -627,10 +627,10 @@ bool Core::setCurrentProfile(const QString profilePath)
         m_timecode.setFormat(currentProfile->fps());
         profileChanged();
         if (m_guiConstructed) {
-            Q_EMIT m_mainWindow->updateRenderWidgetProfile();
             m_monitorManager->resetProfiles();
             Q_EMIT m_monitorManager->updatePreviewScaling();
             if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
+                Q_EMIT m_mainWindow->updateRenderWidgetProfile();
                 // m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
                 m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(currentProfile);
                 checkProfileValidity();
