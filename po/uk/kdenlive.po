@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 00:42+0000\n"
+"POT-Creation-Date: 2025-05-10 00:42+0000\n"
 "PO-Revision-Date: 2025-05-04 09:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -850,7 +850,7 @@ msgstr "Ширина фільтра"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:928
+#: src/mltcontroller/clippropertiescontroller.cpp:957
 #, kde-format
 msgid "Normalize"
 msgstr "Нормалізувати"
@@ -3073,7 +3073,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fillborders.xml:24
 #: data/effects/dropshadow.xml:20 src/bin/bin.cpp:2509
 #: src/layouts/layoutcollection.cpp:24
-#: src/mltcontroller/clippropertiescontroller.cpp:612
+#: src/mltcontroller/clippropertiescontroller.cpp:640
 #, kde-format
 msgid "Color"
 msgstr "Колір"
@@ -6763,7 +6763,7 @@ msgstr "до"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:950
+#: src/mltcontroller/clippropertiescontroller.cpp:979
 #, kde-format
 msgid "Swap channels"
 msgstr "Поміняти місцями канали"
@@ -14894,12 +14894,27 @@ msgstr "Ефекти доріжки %1"
 msgid "Bin %1 effects"
 msgstr "Ефекти контейнера %1"
 
-#: src/assets/assetpanel.cpp:572
+#: src/assets/assetpanel.cpp:491 src/bin/bin.cpp:3839
+#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:760
+#: src/effects/effectstack/view/maskmanager.cpp:116
+#: src/monitor/recmanager.cpp:42
+#, kde-format
+msgid "Show log"
+msgstr "Показати журнал"
+
+#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:3842
+#: src/dialogs/textbasededit.cpp:761
+#: src/effects/effectstack/view/maskmanager.cpp:118
+#, kde-format
+msgid "Detailed log"
+msgstr "Докладний журнал"
+
+#: src/assets/assetpanel.cpp:578
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Виконуємо завдання з маскування. Перервати його виконання?"
 
-#: src/assets/assetpanel.cpp:573
+#: src/assets/assetpanel.cpp:579
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -15598,7 +15613,7 @@ msgstr ""
 "кліпи одночасно)."
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:1006
+#: src/mltcontroller/clippropertiescontroller.cpp:1035
 #, kde-format
 msgid "dB"
 msgstr "дБ"
@@ -15916,7 +15931,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Вилучити кліп контейнера"
 
-#: src/bin/bin.cpp:1867 src/effects/effectstack/view/maskmanager.cpp:258
+#: src/bin/bin.cpp:1867 src/effects/effectstack/view/maskmanager.cpp:267
 #, kde-format
 msgid "Missing source clip"
 msgstr "Не вистачає початкового кліпу"
@@ -16076,7 +16091,7 @@ msgid "Replace in timeline"
 msgstr "Замінити на монтажному столі"
 
 #: src/bin/bin.cpp:2148 src/bin/bin.cpp:5758 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:633
+#: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -16359,7 +16374,7 @@ msgstr "Дублювати кліп"
 msgid "Clip Properties"
 msgstr "Властивості кліпу"
 
-#: src/bin/bin.cpp:3734 src/mltcontroller/clippropertiescontroller.cpp:576
+#: src/bin/bin.cpp:3734 src/mltcontroller/clippropertiescontroller.cpp:599
 #, kde-format
 msgid "Edit Clip"
 msgstr "Змінити кліп"
@@ -16388,20 +16403,6 @@ msgid ""
 msgstr ""
 "Створює теку у поточній позиції у контейнері проєкту. Забезпечує кращу "
 "організацію файлів початкових даних. Теки можна вкладати одну в одну."
-
-#: src/bin/bin.cpp:3839 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:760
-#: src/effects/effectstack/view/maskmanager.cpp:116
-#: src/monitor/recmanager.cpp:42
-#, kde-format
-msgid "Show log"
-msgstr "Показати журнал"
-
-#: src/bin/bin.cpp:3842 src/dialogs/textbasededit.cpp:761
-#: src/effects/effectstack/view/maskmanager.cpp:118
-#, kde-format
-msgid "Detailed log"
-msgstr "Докладний журнал"
 
 #: src/bin/bin.cpp:3902 src/bin/bin.cpp:3935
 #, kde-format
@@ -16632,7 +16633,7 @@ msgstr ""
 "Додаткові потоки даних для кліпу\n"
 " %1"
 
-#: src/bin/bin.cpp:5885 src/mltcontroller/clippropertiescontroller.cpp:687
+#: src/bin/bin.cpp:5885 src/mltcontroller/clippropertiescontroller.cpp:715
 #, kde-format
 msgid "Video stream %1"
 msgstr "Відеопотік %1"
@@ -16694,7 +16695,7 @@ msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Перейменувати зону"
 
-#: src/bin/bincommands.cpp:87
+#: src/bin/bincommands.cpp:88
 #, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
@@ -16788,7 +16789,7 @@ msgstr[3] "Додати кліп"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
-#: src/mltcontroller/clippropertiescontroller.cpp:582
+#: src/mltcontroller/clippropertiescontroller.cpp:610
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
 #: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:612
@@ -17981,8 +17982,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Експортування даних напрямних"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1776
-#: src/dialogs/renderwidget.cpp:1800 src/doc/kdenlivedoc.cpp:766
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1790
+#: src/dialogs/renderwidget.cpp:1814 src/doc/kdenlivedoc.cpp:766
 #: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1340
 #: src/effects/effectlist/model/effecttreemodel.cpp:301
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
@@ -18202,7 +18203,7 @@ msgid "Top Right"
 msgstr "Вгорі праворуч"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:230
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:237
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:705
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:706
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -18401,129 +18402,129 @@ msgstr ""
 "Вказані нижче параметри ні на що не впливатимуть, оскільки їх перезаписано "
 "еквівалентними параметрами в інтерфейсі користувача: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:103 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/renderwidget.cpp:104 src/dialogs/renderwidget.cpp:1619
 #, kde-format
 msgid "Waiting…"
 msgstr "Очікування…"
 
-#: src/dialogs/renderwidget.cpp:107
+#: src/dialogs/renderwidget.cpp:108
 #, kde-format
 msgid "Starting…"
 msgstr "Запуск…"
 
-#: src/dialogs/renderwidget.cpp:110
+#: src/dialogs/renderwidget.cpp:111
 #, kde-format
 msgid "Rendering finished"
 msgstr "Обробку завершено"
 
-#: src/dialogs/renderwidget.cpp:115
+#: src/dialogs/renderwidget.cpp:116
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Спроба обробки завершилася аварійно"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:121
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Обробку перервано"
 
-#: src/dialogs/renderwidget.cpp:218
+#: src/dialogs/renderwidget.cpp:225
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Найближче (швидко)"
 
-#: src/dialogs/renderwidget.cpp:219 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Білінійне (якісно)"
 
-#: src/dialogs/renderwidget.cpp:220 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Бікубічне (якісніше)"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:228
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Ланцошеве (найкраще)"
 
-#: src/dialogs/renderwidget.cpp:231
+#: src/dialogs/renderwidget.cpp:238
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "Горизонтально (16:9)"
 
-#: src/dialogs/renderwidget.cpp:232
+#: src/dialogs/renderwidget.cpp:239
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "Вертикально (9:16)"
 
-#: src/dialogs/renderwidget.cpp:233
+#: src/dialogs/renderwidget.cpp:240
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Квадрат (1:1)"
 
-#: src/dialogs/renderwidget.cpp:237 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:244 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Одне поле (швидко)"
 
-#: src/dialogs/renderwidget.cpp:238 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:245 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Лінійне змішування (швидко)"
 
-#: src/dialogs/renderwidget.cpp:239 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:246 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF, лише за часом (якісно)"
 
-#: src/dialogs/renderwidget.cpp:240
+#: src/dialogs/renderwidget.cpp:247
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (кращий)"
 
-#: src/dialogs/renderwidget.cpp:241
+#: src/dialogs/renderwidget.cpp:248
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (найкращий)"
 
-#: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:256 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #, kde-format
 msgid "None"
 msgstr "Немає"
 
-#: src/dialogs/renderwidget.cpp:250
+#: src/dialogs/renderwidget.cpp:257
 #, kde-format
 msgid "Timecode"
 msgstr "Часова позначка"
 
-#: src/dialogs/renderwidget.cpp:251
+#: src/dialogs/renderwidget.cpp:258
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Часова позначка невикидного кадру"
 
-#: src/dialogs/renderwidget.cpp:252
+#: src/dialogs/renderwidget.cpp:259
 #, kde-format
 msgid "Frame Number"
 msgstr "Номер кадру"
 
-#: src/dialogs/renderwidget.cpp:256
+#: src/dialogs/renderwidget.cpp:263
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Обробка з використанням низькоякісних проміжних кліпів"
 
-#: src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:356
 #, kde-format
 msgid "File"
 msgstr "Файл"
 
-#: src/dialogs/renderwidget.cpp:358
+#: src/dialogs/renderwidget.cpp:365
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Збережені списки відтворення"
 
-#: src/dialogs/renderwidget.cpp:371 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:378 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -18532,59 +18533,59 @@ msgstr ""
 "Не вдалося знайти програму kdenlive_render. Щось не так зі встановленим "
 "пакунком. Обробка відео не працюватиме."
 
-#: src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:407
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Працює лише для формату matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:407
+#: src/dialogs/renderwidget.cpp:414
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Під час спроби оприлюднити документ виникли проблеми: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:407 src/dialogs/renderwidget.cpp:415
+#: src/dialogs/renderwidget.cpp:414 src/dialogs/renderwidget.cpp:422
 #: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Share"
 msgstr "Оприлюднити"
 
-#: src/dialogs/renderwidget.cpp:412
+#: src/dialogs/renderwidget.cpp:419
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Документ успішно оприлюднено"
 
-#: src/dialogs/renderwidget.cpp:415
+#: src/dialogs/renderwidget.cpp:422
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Оприлюднений документ можна знайти тут: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:535
+#: src/dialogs/renderwidget.cpp:543
 #, kde-format
 msgid "Beginning"
 msgstr "Початок"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:542 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Кінець"
 
-#: src/dialogs/renderwidget.cpp:663
+#: src/dialogs/renderwidget.cpp:666
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Додати кліп до монтажного столу до обробки"
 
-#: src/dialogs/renderwidget.cpp:669
+#: src/dialogs/renderwidget.cpp:672
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Не вдалося знайти програми melt, потрібної для обробки (програма є частиною "
 "Mlt)"
 
-#: src/dialogs/renderwidget.cpp:678
+#: src/dialogs/renderwidget.cpp:681
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -18597,25 +18598,25 @@ msgstr ""
 "Рекомендуємо перекодування кліпів до якогось зручного для редагування "
 "формату."
 
-#: src/dialogs/renderwidget.cpp:687
+#: src/dialogs/renderwidget.cpp:690
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Обробити попри це"
 
-#: src/dialogs/renderwidget.cpp:693
+#: src/dialogs/renderwidget.cpp:696
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Перекодувати"
 
-#: src/dialogs/renderwidget.cpp:715 src/dialogs/renderwidget.cpp:1579
+#: src/dialogs/renderwidget.cpp:718 src/dialogs/renderwidget.cpp:1593
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Файл виводу даних вже існує. Перезаписати його?"
 
-#: src/dialogs/renderwidget.cpp:723 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:726 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -18624,12 +18625,12 @@ msgstr ""
 "Не вдалося створити каталог %1.\n"
 "Переконайтеся, що маєте потрібні права доступу."
 
-#: src/dialogs/renderwidget.cpp:764
+#: src/dialogs/renderwidget.cpp:767
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Під час спроби обробки сталися вказані нижче помилки"
 
-#: src/dialogs/renderwidget.cpp:803 src/dialogs/renderwidget.cpp:1592
+#: src/dialogs/renderwidget.cpp:806 src/dialogs/renderwidget.cpp:1606
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -18638,47 +18639,47 @@ msgstr ""
 "Файл запису завдань вже створено:<br /><b>%1</b><br />Перервіть виконання "
 "завдання, якщо бажаєте перезаписати цей файл…"
 
-#: src/dialogs/renderwidget.cpp:804 src/dialogs/renderwidget.cpp:1593
+#: src/dialogs/renderwidget.cpp:807 src/dialogs/renderwidget.cpp:1607
 #, kde-format
 msgid "Already running"
 msgstr "Вже працює"
 
-#: src/dialogs/renderwidget.cpp:826
+#: src/dialogs/renderwidget.cpp:829
 #, kde-format
 msgid "Video without audio track"
 msgstr "Відео без звукової доріжки"
 
-#: src/dialogs/renderwidget.cpp:828
+#: src/dialogs/renderwidget.cpp:831
 #, kde-format
 msgid "Audio without video track"
 msgstr "Звук без відеодоріжки"
 
-#: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:895 src/main.cpp:415
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Почато обробку %1"
 
-#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1365
+#: src/dialogs/renderwidget.cpp:960 src/monitor/monitor.cpp:1365
 #, kde-format
 msgid "untitled"
 msgstr "без назви"
 
-#: src/dialogs/renderwidget.cpp:992
+#: src/dialogs/renderwidget.cpp:998
 #, kde-format
 msgid "No preset selected"
 msgstr "Не вибрано жодного набору"
 
-#: src/dialogs/renderwidget.cpp:994
+#: src/dialogs/renderwidget.cpp:1000
 #, kde-format
 msgid "No matching preset"
 msgstr "Немає відповідного набору"
 
-#: src/dialogs/renderwidget.cpp:1006
+#: src/dialogs/renderwidget.cpp:1012
 #, kde-format
 msgid "Invalid preset"
 msgstr "Некоректний набір"
 
-#: src/dialogs/renderwidget.cpp:1129
+#: src/dialogs/renderwidget.cpp:1135
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -18686,12 +18687,12 @@ msgid ""
 msgstr ""
 "Обробка неможлива без відео і звуку. Будь ласка, увімкніть хоч щось з двох."
 
-#: src/dialogs/renderwidget.cpp:1303
+#: src/dialogs/renderwidget.cpp:1317
 #, kde-format
 msgid "Remaining time "
 msgstr "Лишилося часу "
 
-#: src/dialogs/renderwidget.cpp:1305 src/dialogs/renderwidget.cpp:1387
+#: src/dialogs/renderwidget.cpp:1319 src/dialogs/renderwidget.cpp:1401
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -18700,54 +18701,54 @@ msgstr[1] "%1 дні "
 msgstr[2] "%1 днів "
 msgstr[3] "1 день"
 
-#: src/dialogs/renderwidget.cpp:1317
+#: src/dialogs/renderwidget.cpp:1331
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (кадр %1 при %2 кд/с)"
 
-#: src/dialogs/renderwidget.cpp:1339
+#: src/dialogs/renderwidget.cpp:1353
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Лишилося менше %1 МБ доступної пам'яті."
 
-#: src/dialogs/renderwidget.cpp:1389
+#: src/dialogs/renderwidget.cpp:1403
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Обробку завершено за %1"
 
-#: src/dialogs/renderwidget.cpp:1397
+#: src/dialogs/renderwidget.cpp:1411
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Обробку %1 завершено за %2"
 
-#: src/dialogs/renderwidget.cpp:1417
+#: src/dialogs/renderwidget.cpp:1431
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr ""
 "<strong>Спроба обробки %1 завершилася у аварійному режимі</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1461 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1475 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Перервати виконання"
 
-#: src/dialogs/renderwidget.cpp:1464
+#: src/dialogs/renderwidget.cpp:1478
 #, kde-format
 msgid "Remove Job"
 msgstr "Вилучити завдання"
 
-#: src/dialogs/renderwidget.cpp:1864
+#: src/dialogs/renderwidget.cpp:1878
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Додати кліпи до монтажного столу до обробки"
 
-#: src/dialogs/renderwidget.cpp:1869
+#: src/dialogs/renderwidget.cpp:1883
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Тривалість обробленого файла: %1"
 
-#: src/dialogs/renderwidget.cpp:1873
+#: src/dialogs/renderwidget.cpp:1887
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -18756,7 +18757,7 @@ msgstr[1] "<b>Не вистачає %1 використаних у проєкт�
 msgstr[2] "<b>Не вистачає %1 використаних у проєкті кліпів.</b>"
 msgstr[3] "<b>Не вистачає одного використаного у проєкті кліпу.</b>"
 
-#: src/dialogs/renderwidget.cpp:1875
+#: src/dialogs/renderwidget.cpp:1889
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -18765,12 +18766,12 @@ msgstr[1] "%1 пропущені кліпи (не використано)."
 msgstr[2] "%1 пропущених кліпів (не використано)."
 msgstr[3] "Один пропущений кліп (не використано)."
 
-#: src/dialogs/renderwidget.cpp:1877
+#: src/dialogs/renderwidget.cpp:1891
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Не вистачає %1 кліпів (<b>у проєкті використано %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:1959
+#: src/dialogs/renderwidget.cpp:1973
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -18779,13 +18780,13 @@ msgstr ""
 "Параметри швидкості кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1979
+#: src/dialogs/renderwidget.cpp:1993
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Додати до поточного проєкту"
 
-#: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:670
+#: src/dialogs/renderwidget.cpp:2002
+#: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -18927,7 +18928,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:489
 #: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:100
-#: src/mltcontroller/clippropertiescontroller.cpp:750
+#: src/mltcontroller/clippropertiescontroller.cpp:778
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -19030,8 +19031,8 @@ msgstr "Поточні параметри"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1585
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1621
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:1638
-#: src/mltcontroller/clippropertiescontroller.cpp:644
-#: src/mltcontroller/clippropertiescontroller.cpp:1327
+#: src/mltcontroller/clippropertiescontroller.cpp:672
+#: src/mltcontroller/clippropertiescontroller.cpp:1371
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -20871,7 +20872,7 @@ msgid "Asset file"
 msgstr "Файл активів"
 
 #: src/doc/documentchecker.cpp:1891
-#: src/mltcontroller/clippropertiescontroller.cpp:634
+#: src/mltcontroller/clippropertiescontroller.cpp:662
 #, kde-format
 msgid "Proxy clip"
 msgstr "Проміжний кліп"
@@ -21776,7 +21777,7 @@ msgid "Flip"
 msgstr "Віддзеркалити"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
-#: src/effects/effectstack/view/maskmanager.cpp:188
+#: src/effects/effectstack/view/maskmanager.cpp:197
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "Будь ласка, налаштуйте додаток SAM2"
@@ -21786,7 +21787,12 @@ msgstr "Будь ласка, налаштуйте додаток SAM2"
 msgid "Job failed"
 msgstr "Завдання не виконано"
 
-#: src/effects/effectstack/view/maskmanager.cpp:207
+#: src/effects/effectstack/view/maskmanager.cpp:148
+#, kde-format
+msgid "Mask plugin crashed"
+msgstr ""
+
+#: src/effects/effectstack/view/maskmanager.cpp:216
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -21798,52 +21804,52 @@ msgstr ""
 "<i>Вивантажити відео на процесор</i> у параметрах або створити декілька "
 "масок з коротшою тривалістю."
 
-#: src/effects/effectstack/view/maskmanager.cpp:238
+#: src/effects/effectstack/view/maskmanager.cpp:247
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr "Виконуємо інше завдання з перекодування. Повторіть спробу пізніше."
 
-#: src/effects/effectstack/view/maskmanager.cpp:243
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr "Виконуємо інше завдання з маскування. Повторіть спробу пізніше."
 
-#: src/effects/effectstack/view/maskmanager.cpp:252
+#: src/effects/effectstack/view/maskmanager.cpp:261
 #, kde-format
 msgid "Cannot open temporary file"
 msgstr "Не вдалося відкрити тимчасовий файл"
 
-#: src/effects/effectstack/view/maskmanager.cpp:265
+#: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
 msgid "Cannot access project folder"
 msgstr "Не вдалося отримати доступ до теки проєкту"
 
-#: src/effects/effectstack/view/maskmanager.cpp:316
+#: src/effects/effectstack/view/maskmanager.cpp:325
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Експортування відеокадрів для аналізу"
 
-#: src/effects/effectstack/view/maskmanager.cpp:320
+#: src/effects/effectstack/view/maskmanager.cpp:329
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Експортування відеокадрів"
 
-#: src/effects/effectstack/view/maskmanager.cpp:333
+#: src/effects/effectstack/view/maskmanager.cpp:342
 #, kde-format
 msgid "Missing source frames"
 msgstr "Немає початкових кадрів"
 
-#: src/effects/effectstack/view/maskmanager.cpp:437
+#: src/effects/effectstack/view/maskmanager.cpp:446
 #, kde-format
 msgid "mask %1"
 msgstr "маска %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:440
+#: src/effects/effectstack/view/maskmanager.cpp:449
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Створюємо маску %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:604
+#: src/effects/effectstack/view/maskmanager.cpp:613
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -24828,8 +24834,8 @@ msgstr ""
 "Не вдалося знайти сховища профілів MLT, будь ласка, вкажіть його адресу"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:133
-#: src/mltcontroller/clippropertiescontroller.cpp:1322
-#: src/mltcontroller/clippropertiescontroller.cpp:1384
+#: src/mltcontroller/clippropertiescontroller.cpp:1366
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -24914,25 +24920,31 @@ msgstr "Відтворити проміжний кліп"
 msgid "Copy file location to clipboard"
 msgstr "Копіювати розташування файла до буфера обміну даними"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:555
+#: src/mltcontroller/clippropertiescontroller.cpp:580
 #, kde-format
 msgid "Apply"
 msgstr "Застосувати"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:590
+#: src/mltcontroller/clippropertiescontroller.cpp:605
+#, fuzzy, kde-format
+#| msgid "Time offset:"
+msgid "Timecode Offset:"
+msgstr "Зсув часу:"
+
+#: src/mltcontroller/clippropertiescontroller.cpp:618
 #, kde-format
 msgid "Disable autorotate"
 msgstr "Вимкнути автообертання"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:605
+#: src/mltcontroller/clippropertiescontroller.cpp:633
 #, kde-format
 msgid "Enter template text here"
 msgstr "Введіть сюди текст шаблона"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:628
-#: src/mltcontroller/clippropertiescontroller.cpp:1340
+#: src/mltcontroller/clippropertiescontroller.cpp:656
+#: src/mltcontroller/clippropertiescontroller.cpp:1384
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -24941,9 +24953,9 @@ msgstr "Співвідношення розмірів пікселя:"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:640
-#: src/mltcontroller/clippropertiescontroller.cpp:1309
-#: src/mltcontroller/clippropertiescontroller.cpp:1314
+#: src/mltcontroller/clippropertiescontroller.cpp:668
+#: src/mltcontroller/clippropertiescontroller.cpp:1353
+#: src/mltcontroller/clippropertiescontroller.cpp:1358
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:287
 #, kde-format
@@ -24953,8 +24965,8 @@ msgstr "Частота кадрів:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:644
-#: src/mltcontroller/clippropertiescontroller.cpp:1327
+#: src/mltcontroller/clippropertiescontroller.cpp:672
+#: src/mltcontroller/clippropertiescontroller.cpp:1371
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -24963,160 +24975,160 @@ msgstr "Черезрядкове"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:645
-#: src/mltcontroller/clippropertiescontroller.cpp:1327
+#: src/mltcontroller/clippropertiescontroller.cpp:673
+#: src/mltcontroller/clippropertiescontroller.cpp:1371
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
 msgstr "Сканування:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:649
+#: src/mltcontroller/clippropertiescontroller.cpp:677
 #, kde-format
 msgid "Bottom First"
 msgstr "Нижнє перше"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:649
+#: src/mltcontroller/clippropertiescontroller.cpp:677
 #, kde-format
 msgid "Top First"
 msgstr "Верхнє перше"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:650
+#: src/mltcontroller/clippropertiescontroller.cpp:678
 #: src/ui/profiledialog_ui.ui:217
 #, kde-format
 msgid "Field order:"
 msgstr "Порядок полів:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:661
+#: src/mltcontroller/clippropertiescontroller.cpp:689
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1 (типовий)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:666
+#: src/mltcontroller/clippropertiescontroller.cpp:694
 #, kde-format
 msgid "Rotate:"
 msgstr "Обертання:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:675
+#: src/mltcontroller/clippropertiescontroller.cpp:703
 #, kde-format
 msgid "Disable video"
 msgstr "Вимкнути відео"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:675
+#: src/mltcontroller/clippropertiescontroller.cpp:703
 #, kde-format
 msgid "Enable video"
 msgstr "Увімкнути відео"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:683
+#: src/mltcontroller/clippropertiescontroller.cpp:711
 #, kde-format
 msgid "Video stream"
 msgstr "Відеопотік"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:735
+#: src/mltcontroller/clippropertiescontroller.cpp:763
 #, kde-format
 msgid "Color space:"
 msgstr "Простір кольорів:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:739
+#: src/mltcontroller/clippropertiescontroller.cpp:767
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Обмежений для трансляції (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:740
+#: src/mltcontroller/clippropertiescontroller.cpp:768
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Повний (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:744
+#: src/mltcontroller/clippropertiescontroller.cpp:772
 #, kde-format
 msgid "Color range:"
 msgstr "Діапазон кольорів:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:749
+#: src/mltcontroller/clippropertiescontroller.cpp:777
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "У файлі використано змінну частоту кадрів. Не рекомендуємо такі файли."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:787
+#: src/mltcontroller/clippropertiescontroller.cpp:816
 #, kde-format
 msgid "Disable audio"
 msgstr "Вимкнути звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:787
+#: src/mltcontroller/clippropertiescontroller.cpp:816
 #, kde-format
 msgid "Enable audio"
 msgstr "Увімкнути звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:795
+#: src/mltcontroller/clippropertiescontroller.cpp:824
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "Аудіопотоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:817
+#: src/mltcontroller/clippropertiescontroller.cpp:846
 #: src/monitor/monitor.cpp:2028
 #, kde-format
 msgid "Merge all streams"
 msgstr "Об'єднати усі потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:972
+#: src/mltcontroller/clippropertiescontroller.cpp:1001
 #, kde-format
 msgid "Copy channel:"
 msgstr "Копіювати канал:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:973
+#: src/mltcontroller/clippropertiescontroller.cpp:1002
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:974
+#: src/mltcontroller/clippropertiescontroller.cpp:1003
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1003
+#: src/mltcontroller/clippropertiescontroller.cpp:1032
 #, kde-format
 msgid "Gain:"
 msgstr "Підсилення:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1030
+#: src/mltcontroller/clippropertiescontroller.cpp:1059
 #, kde-format
 msgid "Audio sync:"
 msgstr "Синхронізація звуку:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1032
+#: src/mltcontroller/clippropertiescontroller.cpp:1061
 #, kde-format
 msgid "ms"
 msgstr "мс"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1081
+#: src/mltcontroller/clippropertiescontroller.cpp:1110
 #, kde-format
 msgid "Analysis data"
 msgstr "Дані аналізу"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1113
 #, kde-format
 msgid "Delete analysis"
 msgstr "Вилучити дані аналізу"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1085
+#: src/mltcontroller/clippropertiescontroller.cpp:1114
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Вилучає набори даних."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1086
+#: src/mltcontroller/clippropertiescontroller.cpp:1115
 #, kde-format
 msgid "Export analysis…"
 msgstr "Експортувати дані аналізу…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1087
+#: src/mltcontroller/clippropertiescontroller.cpp:1116
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
@@ -25124,12 +25136,12 @@ msgstr ""
 "Відкриває діалогове вікно вибору файлів для експортування або збереження "
 "даних аналізу."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1088
+#: src/mltcontroller/clippropertiescontroller.cpp:1117
 #, kde-format
 msgid "Import analysis…"
 msgstr "Імпортувати дані аналізу…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1089
+#: src/mltcontroller/clippropertiescontroller.cpp:1118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
@@ -25137,137 +25149,137 @@ msgstr ""
 "Відкриває діалогове вікно вибору файлів для імпортування або завантаження "
 "даних аналізу."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1158
-#: src/mltcontroller/clippropertiescontroller.cpp:1457
+#: src/mltcontroller/clippropertiescontroller.cpp:1188
+#: src/mltcontroller/clippropertiescontroller.cpp:1500
 #, kde-format
 msgid "Tracks:"
 msgstr "Доріжки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1297
+#: src/mltcontroller/clippropertiescontroller.cpp:1341
 #, kde-format
 msgid "Video codec:"
 msgstr "Відеокодек:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1303
+#: src/mltcontroller/clippropertiescontroller.cpp:1347
 #, kde-format
 msgid "Frame size:"
 msgstr "Розмір кадру:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1322
+#: src/mltcontroller/clippropertiescontroller.cpp:1366
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Бітова швидкість відео:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1344
+#: src/mltcontroller/clippropertiescontroller.cpp:1388
 #, kde-format
 msgid "Pixel format:"
 msgstr "Розміри у пікселях:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1349
+#: src/mltcontroller/clippropertiescontroller.cpp:1393
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Простір кольорів:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1353
+#: src/mltcontroller/clippropertiescontroller.cpp:1397
 #, kde-format
 msgid "B frames:"
 msgstr "B-кадрів:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1353
+#: src/mltcontroller/clippropertiescontroller.cpp:1397
 #, kde-format
 msgid "Yes"
 msgstr "Так"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1353
+#: src/mltcontroller/clippropertiescontroller.cpp:1397
 #, kde-format
 msgid "No"
 msgstr "Ні"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1367
+#: src/mltcontroller/clippropertiescontroller.cpp:1411
 #, kde-format
 msgid "Audio codec:"
 msgstr "Звуковий кодек:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1373
+#: src/mltcontroller/clippropertiescontroller.cpp:1417
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Звукові канали:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
+#: src/mltcontroller/clippropertiescontroller.cpp:1422
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Частота звукових даних:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1378
+#: src/mltcontroller/clippropertiescontroller.cpp:1422
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Гц"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1384
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Бітова швидкість звуку:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1412
+#: src/mltcontroller/clippropertiescontroller.cpp:1456
 #, kde-format
 msgid "Image size:"
 msgstr "Розмір зображення:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1415
+#: src/mltcontroller/clippropertiescontroller.cpp:1459
 #, kde-format
 msgid "Image duration:"
 msgstr "Тривалість зображення:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:1466
 #, kde-format
 msgid "Image count:"
 msgstr "Кількість зображень:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1486
 #, kde-format
 msgid "Video streams:"
 msgstr "Відеопотоки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1449
+#: src/mltcontroller/clippropertiescontroller.cpp:1493
 #, kde-format
 msgid "Audio streams:"
 msgstr "Аудіопотоки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1471
+#: src/mltcontroller/clippropertiescontroller.cpp:1514
 #, kde-format
 msgid "File size:"
 msgstr "Розмір файла:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1616
+#: src/mltcontroller/clippropertiescontroller.cpp:1659
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1643
+#: src/mltcontroller/clippropertiescontroller.cpp:1686
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1684
+#: src/mltcontroller/clippropertiescontroller.cpp:1727
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Збереження даних аналізу"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1685
-#: src/mltcontroller/clippropertiescontroller.cpp:1698
+#: src/mltcontroller/clippropertiescontroller.cpp:1728
+#: src/mltcontroller/clippropertiescontroller.cpp:1741
 #: src/project/dialogs/projectsettings.cpp:813
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "текстовий файл (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1697
+#: src/mltcontroller/clippropertiescontroller.cpp:1740
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -27843,7 +27855,12 @@ msgstr "Перевірити оновлення"
 msgid "Checking configuration…"
 msgstr "Перевіряємо налаштування…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:251
+#: src/pythoninterfaces/abstractpythoninterface.cpp:231
+#, kde-format
+msgid "Corrupted plugin, trying to reinstall…"
+msgstr ""
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:275
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -27854,7 +27871,7 @@ msgstr ""
 "%1\n"
 "Будь ласка, встановіть її у вашій системі.\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:263
+#: src/pythoninterfaces/abstractpythoninterface.cpp:287
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -27865,7 +27882,7 @@ msgstr ""
 "Якщо пакунки вже встановлено, перевірте, чи встановлено програми у каталог "
 "зі списку у змінній середовища PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:297
+#: src/pythoninterfaces/abstractpythoninterface.cpp:321
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -27874,7 +27891,7 @@ msgstr ""
 "Не вдалося знайти python3 у venv kdenlive.\n"
 "Спробуйте вилучити, а потім знову встановити додаток."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:305
+#: src/pythoninterfaces/abstractpythoninterface.cpp:329
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -27883,12 +27900,12 @@ msgstr ""
 "Не вдалося знайти pip3 у venv kdenlive.\n"
 "Спробуйте вилучити, а потім знову встановити додаток."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#: src/pythoninterfaces/abstractpythoninterface.cpp:421
 #, kde-format
 msgid "Cannot find system python"
 msgstr "Не вдалося знайти у системі python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:427
+#: src/pythoninterfaces/abstractpythoninterface.cpp:451
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -27897,23 +27914,23 @@ msgstr ""
 "Не вдалося створити віртуальне середовище python:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:445
+#: src/pythoninterfaces/abstractpythoninterface.cpp:469
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 "Не знайдено скрипту %1. Перевірте, чи належними чином встановлено програми."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:520
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Потрібен модуль Python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:533
+#: src/pythoninterfaces/abstractpythoninterface.cpp:557
 #, kde-format
 msgid "Using python from %1"
 msgstr "Використовуємо python з %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:556
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -27924,18 +27941,18 @@ msgstr ""
 "необхідних залежностей. Після цього обробка відбуватиметься без потреби в "
 "інтернет-з'єднанні."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:575
-#: src/pythoninterfaces/abstractpythoninterface.cpp:684
+#: src/pythoninterfaces/abstractpythoninterface.cpp:599
+#: src/pythoninterfaces/abstractpythoninterface.cpp:708
 #, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr "Проблема зі встановленням: не вдалося знайти список залежностей для %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:590
+#: src/pythoninterfaces/abstractpythoninterface.cpp:614
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Помилка під час спроби перевірити версію модуля %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:594
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -27943,39 +27960,39 @@ msgstr ""
 "Слід встановити принаймні версію %1 модуля %2. Поточною встановленою версією "
 "є %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:598
+#: src/pythoninterfaces/abstractpythoninterface.cpp:622
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Вам варто оновити вашу конфігурацію пакунків."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:620
+#: src/pythoninterfaces/abstractpythoninterface.cpp:644
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "не встановлено (не є обов'язковою)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:628
+#: src/pythoninterfaces/abstractpythoninterface.cpp:652
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Немає даних щодо версії."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:708
+#: src/pythoninterfaces/abstractpythoninterface.cpp:732
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr "Проблема зі встановленням: не вдалося знайти %1 для %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:743
+#: src/pythoninterfaces/abstractpythoninterface.cpp:767
 #, kde-format
 msgid "Python exec not found"
 msgstr "Не знайдено виконуваного файла Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:747
+#: src/pythoninterfaces/abstractpythoninterface.cpp:771
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Не вдалося знайти файл скрипту %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:786
+#: src/pythoninterfaces/abstractpythoninterface.cpp:810
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -27986,7 +28003,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:821
+#: src/pythoninterfaces/abstractpythoninterface.cpp:845
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Встановити потрібні залежності"
