@@ -2137,13 +2137,6 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         // Timeline effects are disabled
         timeline->model()->setTimelineEffectsEnabled(false);
     }
-    /*if (m_renderWidget) {
-        slotCheckRenderStatus();
-        m_renderWidget->setGuides(m_project->getGuideModel());
-        m_renderWidget->updateDocumentPath();
-        m_renderWidget->setRenderProfile(m_project->getRenderProperties());
-        m_renderWidget->updateMetadataToolTip();
-    }*/
     pCore->window()->raiseTimeline(timeline->getUuid());
     pCore->bin()->updateTargets();
     if (m_project->isModified() && KdenliveSettings::crashrecovery()) {
@@ -2412,6 +2405,6 @@ void ProjectManager::updateSequenceOffset(const QUuid &uuid)
         pCore->window()->getCurrentTimeline()->controller()->setTimecodeOffset(offset);
         pCore->guidesList()->setTimecodeOffset(offset);
         // Update info in render dialog
-        Q_EMIT pCore->updateRenderInfo();
+        Q_EMIT pCore->updateRenderOffset();
     }
 }

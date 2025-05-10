@@ -529,8 +529,8 @@ void RenderWidget::reloadGuides()
     QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
     m_view.guide_end->clear();
-
     if (auto ptr = m_guidesModel.lock()) {
+        int sequenceOffset = pCore->currentTimelineOffset();
         m_view.guideCategoryChooser->setMarkerModel(ptr.get());
         QList<CommentedTime> markers = ptr->getAllMarkers();
         double fps = pCore->getCurrentFps();
@@ -543,7 +543,7 @@ void RenderWidget::reloadGuides()
             m_view.guide_start->addItem(i18n("Beginning"), 0);
             for (const auto &marker : std::as_const(markers)) {
                 GenTime pos = marker.time();
-                const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
+                const QString guidePos = Timecode::getStringTimecode(pos.frames(fps) + sequenceOffset, fps);
                 m_view.guide_start->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
                 m_view.guide_end->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
             }
@@ -553,7 +553,7 @@ void RenderWidget::reloadGuides()
                 m_view.guide_start->setCurrentIndex(ix);
             }
             if (!endData.isNull()) {
-                int ix = qMax(m_view.guide_start->currentIndex() + 1, m_view.guide_end->findData(endData));
+                int ix = qMax(m_view.guide_start->currentIndex(), m_view.guide_end->findData(endData));
                 m_view.guide_end->setCurrentIndex(ix);
             }
         } else {
@@ -1171,8 +1171,7 @@ void RenderWidget::refreshParams()
     }
 
     // Timeline sequence metadata
-    const QUuid uuid = pCore->currentTimelineId();
-    int timecodeOffset = pCore->currentDoc()->getSequenceProperty(uuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
+    int timecodeOffset = pCore->currentTimelineOffset();
     if (timecodeOffset > 0) {
         m_params.insert(QStringLiteral("meta.attr.TIMECODE.markup"), pCore->timecode().getDisplayTimecodeFromFrames(timecodeOffset, false));
     }
@@ -1870,6 +1869,13 @@ void RenderWidget::zoneDurationChanged()
     showRenderDuration();
 }
 
+void RenderWidget::updateRenderOffset()
+{
+    updateRenderInfoMessage();
+    // Update guides if duration or timecode offset changed
+    reloadGuides();
+}
+
 void RenderWidget::updateRenderInfoMessage()
 {
     m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
@@ -1880,8 +1886,7 @@ void RenderWidget::updateRenderInfoMessage()
     }
     QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
     QString infoMessage = i18n("Rendered File Length: %1", stringDuration);
-    int sequenceOffset =
-        pCore->currentDoc()->getSequenceProperty(pCore->currentDoc()->activeUuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
+    int sequenceOffset = pCore->currentTimelineOffset();
     if (sequenceOffset > 0) {
         infoMessage.append(QStringLiteral("\n%1 %2").arg(i18n("Timecode Offset:"), pCore->timecode().getDisplayTimecodeFromFrames(sequenceOffset, false)));
     }

@@ -519,5 +519,5 @@ Q_SIGNALS:
                            BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void displayBinLogMessage(const QString &text, int type, const QString logInfo);
     /** Some properties related to rendering changed, update */
-    void updateRenderInfo();
+    void updateRenderOffset();
 };

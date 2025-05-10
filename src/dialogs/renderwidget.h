@@ -152,6 +152,7 @@ public Q_SLOTS:
     /** @brief Update missing clip info. */
     void updateMissingClipsCount(int total, int used);
     void updateRenderInfoMessage();
+    void updateRenderOffset();
 
 private Q_SLOTS:
     /**
