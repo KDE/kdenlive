@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 02:34+0000\n"
+"POT-Creation-Date: 2025-05-10 02:36+0000\n"
 "PO-Revision-Date: 2025-04-17 07:16+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -14711,12 +14711,27 @@ msgstr "Učinki steze %1"
 msgid "Bin %1 effects"
 msgstr "Učinki posode %1"
 
-#: src/assets/assetpanel.cpp:572
+#: src/assets/assetpanel.cpp:491 src/bin/bin.cpp:3838
+#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:762
+#: src/effects/effectstack/view/maskmanager.cpp:116
+#: src/monitor/recmanager.cpp:42
+#, kde-format
+msgid "Show log"
+msgstr "Pokaži dnevnik"
+
+#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:3841
+#: src/dialogs/textbasededit.cpp:763
+#: src/effects/effectstack/view/maskmanager.cpp:118
+#, kde-format
+msgid "Detailed log"
+msgstr "Podroben dnevnik"
+
+#: src/assets/assetpanel.cpp:578
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Izvaja se opravilo maske. Ali želite prekiniti opravilo?"
 
-#: src/assets/assetpanel.cpp:573
+#: src/assets/assetpanel.cpp:579
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -15725,7 +15740,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Izbriši posnetke posode"
 
-#: src/bin/bin.cpp:1866 src/effects/effectstack/view/maskmanager.cpp:258
+#: src/bin/bin.cpp:1866 src/effects/effectstack/view/maskmanager.cpp:267
 #, kde-format
 msgid "Missing source clip"
 msgstr "Manjkajoči izvorni posnetek"
@@ -15888,7 +15903,7 @@ msgid "Replace in timeline"
 msgstr "Zamenjaj na časovnici"
 
 #: src/bin/bin.cpp:2147 src/bin/bin.cpp:5889 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:633
+#: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -16198,20 +16213,6 @@ msgid ""
 msgstr ""
 "Ustvari mapo na trenutnem mestu v projektni posodi. Omogoča boljšo "
 "organizacijo izvornih datotek. Mape lahko gnezdite."
-
-#: src/bin/bin.cpp:3838 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:762
-#: src/effects/effectstack/view/maskmanager.cpp:116
-#: src/monitor/recmanager.cpp:42
-#, kde-format
-msgid "Show log"
-msgstr "Pokaži dnevnik"
-
-#: src/bin/bin.cpp:3841 src/dialogs/textbasededit.cpp:763
-#: src/effects/effectstack/view/maskmanager.cpp:118
-#, kde-format
-msgid "Detailed log"
-msgstr "Podroben dnevnik"
 
 #: src/bin/bin.cpp:3901 src/bin/bin.cpp:3934
 #, kde-format
@@ -17776,8 +17777,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Izvozi podatke vodil"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1776
-#: src/dialogs/renderwidget.cpp:1800 src/doc/kdenlivedoc.cpp:770
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1782
+#: src/dialogs/renderwidget.cpp:1806 src/doc/kdenlivedoc.cpp:770
 #: src/doc/kdenlivedoc.cpp:778 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
@@ -17997,7 +17998,7 @@ msgid "Top Right"
 msgstr "Desno zgoraj"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:230
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:237
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -18194,92 +18195,92 @@ msgstr ""
 "Naslednji parametri ne bodo imeli učinka, ker jih bodo prepisale enakovredne "
 "možnosti uporabniškega vmesnika: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:103 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/renderwidget.cpp:104 src/dialogs/renderwidget.cpp:1611
 #, kde-format
 msgid "Waiting…"
 msgstr "Čakanje …"
 
-#: src/dialogs/renderwidget.cpp:107
+#: src/dialogs/renderwidget.cpp:108
 #, kde-format
 msgid "Starting…"
 msgstr "Začenjanje …"
 
-#: src/dialogs/renderwidget.cpp:110
+#: src/dialogs/renderwidget.cpp:111
 #, kde-format
 msgid "Rendering finished"
 msgstr "Izrisovanje končano"
 
-#: src/dialogs/renderwidget.cpp:115
+#: src/dialogs/renderwidget.cpp:116
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Izrisovanje se je sesulo"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:121
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Izrisovanje prekinjeno"
 
-#: src/dialogs/renderwidget.cpp:218
+#: src/dialogs/renderwidget.cpp:225
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Najbližji sosed (hitro)"
 
-#: src/dialogs/renderwidget.cpp:219 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilinearno (dobro)"
 
-#: src/dialogs/renderwidget.cpp:220 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bikubično (boljše)"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:228
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Lanczos (najboljše)"
 
-#: src/dialogs/renderwidget.cpp:231
+#: src/dialogs/renderwidget.cpp:238
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "Vodoravno (16:9)"
 
-#: src/dialogs/renderwidget.cpp:232
+#: src/dialogs/renderwidget.cpp:239
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "Navpično (9:16)"
 
-#: src/dialogs/renderwidget.cpp:233
+#: src/dialogs/renderwidget.cpp:240
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Kvadratno (1:1)"
 
-#: src/dialogs/renderwidget.cpp:237 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:244 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Eno polje (hitro)"
 
-#: src/dialogs/renderwidget.cpp:238 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:245 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Premo zlitje (hitro)"
 
-#: src/dialogs/renderwidget.cpp:239 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:246 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - le začasno (dobro)"
 
-#: src/dialogs/renderwidget.cpp:240
+#: src/dialogs/renderwidget.cpp:247
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (boljše)"
 
-#: src/dialogs/renderwidget.cpp:241
+#: src/dialogs/renderwidget.cpp:248
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (najboljše)"
 
-#: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:256 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -18287,37 +18288,37 @@ msgstr "BWDIF (najboljše)"
 msgid "None"
 msgstr "Brez"
 
-#: src/dialogs/renderwidget.cpp:250
+#: src/dialogs/renderwidget.cpp:257
 #, kde-format
 msgid "Timecode"
 msgstr "Časovna koda"
 
-#: src/dialogs/renderwidget.cpp:251
+#: src/dialogs/renderwidget.cpp:258
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Časovna koda z neizpuščenimi sličicami"
 
-#: src/dialogs/renderwidget.cpp:252
+#: src/dialogs/renderwidget.cpp:259
 #, kde-format
 msgid "Frame Number"
 msgstr "Številka sličice"
 
-#: src/dialogs/renderwidget.cpp:256
+#: src/dialogs/renderwidget.cpp:263
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Izrisovanje z uporabo posrednega posnetka nizke kakovosti"
 
-#: src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:356
 #, kde-format
 msgid "File"
 msgstr "Datoteka"
 
-#: src/dialogs/renderwidget.cpp:358
+#: src/dialogs/renderwidget.cpp:365
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Shranjeni seznami predvajanja"
 
-#: src/dialogs/renderwidget.cpp:371 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:378 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -18326,58 +18327,58 @@ msgstr ""
 "Ni možno najti programa kdenlive_render, nekaj ni v redu z namestitvijo. "
 "Izrisovanje ne bo delovalo"
 
-#: src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:407
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Deluje samo za zapis matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:407
+#: src/dialogs/renderwidget.cpp:414
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Med deljenjem datoteke je prišlo do napake: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:407 src/dialogs/renderwidget.cpp:415
+#: src/dialogs/renderwidget.cpp:414 src/dialogs/renderwidget.cpp:422
 #: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Share"
 msgstr "Deli"
 
-#: src/dialogs/renderwidget.cpp:412
+#: src/dialogs/renderwidget.cpp:419
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Dokument uspešno deljen"
 
-#: src/dialogs/renderwidget.cpp:415
+#: src/dialogs/renderwidget.cpp:422
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Deljen dokument lahko najdete na: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:535
+#: src/dialogs/renderwidget.cpp:543
 #, kde-format
 msgid "Beginning"
 msgstr "Začetek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:542 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Konec"
 
-#: src/dialogs/renderwidget.cpp:663
+#: src/dialogs/renderwidget.cpp:666
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Pred izrisovanjem dodaj posnetek na časovnico"
 
-#: src/dialogs/renderwidget.cpp:669
+#: src/dialogs/renderwidget.cpp:672
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Programa melt, zahtevanega za izrisovanje, ni možno najti (sicer del MLT)."
 
-#: src/dialogs/renderwidget.cpp:678
+#: src/dialogs/renderwidget.cpp:681
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -18389,25 +18390,25 @@ msgstr ""
 "nesinhronosti zvoka in slike.\n"
 "Priporočamo, da jih prekodirate v montaži prijazen zapis."
 
-#: src/dialogs/renderwidget.cpp:687
+#: src/dialogs/renderwidget.cpp:690
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Izriši vseeno"
 
-#: src/dialogs/renderwidget.cpp:693
+#: src/dialogs/renderwidget.cpp:696
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Prekodiraj"
 
-#: src/dialogs/renderwidget.cpp:715 src/dialogs/renderwidget.cpp:1579
+#: src/dialogs/renderwidget.cpp:718 src/dialogs/renderwidget.cpp:1585
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Izhodna datoteka že obstaja. Ali jo želite prepisati?"
 
-#: src/dialogs/renderwidget.cpp:723 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:726 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -18416,12 +18417,12 @@ msgstr ""
 "Mape %1 ni možon ustvariti.\n"
 "Prepričajte se, da imate zahtevana dovoljenja."
 
-#: src/dialogs/renderwidget.cpp:764
+#: src/dialogs/renderwidget.cpp:767
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Pri poskusu izrisa je prišlo do naslednjih napak"
 
-#: src/dialogs/renderwidget.cpp:803 src/dialogs/renderwidget.cpp:1592
+#: src/dialogs/renderwidget.cpp:806 src/dialogs/renderwidget.cpp:1598
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -18430,47 +18431,47 @@ msgstr ""
 "Posel pisanja v datoteko že obstaja:<br /><b>%1</b><br />Prekinite ta posel, "
 "če jo želite prepisati…"
 
-#: src/dialogs/renderwidget.cpp:804 src/dialogs/renderwidget.cpp:1593
+#: src/dialogs/renderwidget.cpp:807 src/dialogs/renderwidget.cpp:1599
 #, kde-format
 msgid "Already running"
 msgstr "Že teče"
 
-#: src/dialogs/renderwidget.cpp:826
+#: src/dialogs/renderwidget.cpp:829
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video brez zvočne steze"
 
-#: src/dialogs/renderwidget.cpp:828
+#: src/dialogs/renderwidget.cpp:831
 #, kde-format
 msgid "Audio without video track"
 msgstr "Zvok brez video steze"
 
-#: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:895 src/main.cpp:415
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Izrisovanje %1 se je pričelo"
 
-#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
+#: src/dialogs/renderwidget.cpp:960 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "neimenovano"
 
-#: src/dialogs/renderwidget.cpp:992
+#: src/dialogs/renderwidget.cpp:998
 #, kde-format
 msgid "No preset selected"
 msgstr "Izbrana ni nobena prednastavitev"
 
-#: src/dialogs/renderwidget.cpp:994
+#: src/dialogs/renderwidget.cpp:1000
 #, kde-format
 msgid "No matching preset"
 msgstr "Brez ujemajoče prednastavitve"
 
-#: src/dialogs/renderwidget.cpp:1006
+#: src/dialogs/renderwidget.cpp:1012
 #, kde-format
 msgid "Invalid preset"
 msgstr "Neveljavna prednastavitev"
 
-#: src/dialogs/renderwidget.cpp:1129
+#: src/dialogs/renderwidget.cpp:1135
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -18478,12 +18479,12 @@ msgid ""
 msgstr ""
 "Izrisovanja brez zvoka in videa ne deluje. Omogočite vsaj enega od obeh."
 
-#: src/dialogs/renderwidget.cpp:1303
+#: src/dialogs/renderwidget.cpp:1309
 #, kde-format
 msgid "Remaining time "
 msgstr "Preostali čas "
 
-#: src/dialogs/renderwidget.cpp:1305 src/dialogs/renderwidget.cpp:1387
+#: src/dialogs/renderwidget.cpp:1311 src/dialogs/renderwidget.cpp:1393
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -18492,53 +18493,53 @@ msgstr[1] "%1 dan "
 msgstr[2] "%1 dneva "
 msgstr[3] "%1 dni "
 
-#: src/dialogs/renderwidget.cpp:1317
+#: src/dialogs/renderwidget.cpp:1323
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (sličica %1 @ %2 sl/s)"
 
-#: src/dialogs/renderwidget.cpp:1339
+#: src/dialogs/renderwidget.cpp:1345
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Na voljo ostaja manj kot %1 MB pomnilnika."
 
-#: src/dialogs/renderwidget.cpp:1389
+#: src/dialogs/renderwidget.cpp:1395
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Izrisovanje končano v %1"
 
-#: src/dialogs/renderwidget.cpp:1397
+#: src/dialogs/renderwidget.cpp:1403
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Izrisovanje %1 končano v %2"
 
-#: src/dialogs/renderwidget.cpp:1417
+#: src/dialogs/renderwidget.cpp:1423
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Izrisovanje %1 se je sesulo</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1461 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1467 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Prekini posel"
 
-#: src/dialogs/renderwidget.cpp:1464
+#: src/dialogs/renderwidget.cpp:1470
 #, kde-format
 msgid "Remove Job"
 msgstr "Odstrani posel"
 
-#: src/dialogs/renderwidget.cpp:1864
+#: src/dialogs/renderwidget.cpp:1870
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Pred izrisovanjem dodaj posnetke s časovnice"
 
-#: src/dialogs/renderwidget.cpp:1869
+#: src/dialogs/renderwidget.cpp:1875
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Trajanje izrisane datoteke: %1"
 
-#: src/dialogs/renderwidget.cpp:1873
+#: src/dialogs/renderwidget.cpp:1879
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -18547,7 +18548,7 @@ msgstr[1] "<b>Manjka %1 v projektu uporabljen posnetek.</b>"
 msgstr[2] "<b>Manjkata %1 v projektu uporabljena posnetka.</b>"
 msgstr[3] "<b>Manjkajo %1 v projektu uporabljeni posnetki.</b>"
 
-#: src/dialogs/renderwidget.cpp:1875
+#: src/dialogs/renderwidget.cpp:1881
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -18556,12 +18557,12 @@ msgstr[1] "%1 manjkajoč posnetek (neuporabljen)."
 msgstr[2] "%1 manjkajoča posnetka (neuporabljena)."
 msgstr[3] "%1 manjkajoči posnetki (neuporabljeni)."
 
-#: src/dialogs/renderwidget.cpp:1877
+#: src/dialogs/renderwidget.cpp:1883
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 manjkajočih posnetkov (<b>v projektu jih je uporabljenih %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:1959
+#: src/dialogs/renderwidget.cpp:1965
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -18570,13 +18571,13 @@ msgstr ""
 "Parametri hitrosti kodeka:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1979
+#: src/dialogs/renderwidget.cpp:1985
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Dodaj trenutnemu projektu"
 
-#: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:670
+#: src/dialogs/renderwidget.cpp:1994
+#: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -21561,17 +21562,18 @@ msgid "Abort Mask Creation"
 msgstr "Prekini ustvarjanje maske"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
-#: src/effects/effectstack/view/maskmanager.cpp:188
+#: src/effects/effectstack/view/maskmanager.cpp:197
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "Nastavite vstavek SAM2"
 
 #: src/effects/effectstack/view/maskmanager.cpp:115
+#: src/effects/effectstack/view/maskmanager.cpp:148
 #, kde-format
 msgid "Job failed"
 msgstr "Posel je spodletel"
 
-#: src/effects/effectstack/view/maskmanager.cpp:207
+#: src/effects/effectstack/view/maskmanager.cpp:216
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -21583,52 +21585,52 @@ msgstr ""
 "<i>Prepusti video CPE za prihranek pomnilnika GPE</i> ali ustvarite več mask "
 "za krajše obdobje."
 
-#: src/effects/effectstack/view/maskmanager.cpp:238
+#: src/effects/effectstack/view/maskmanager.cpp:247
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr "Izvaja se še ena opravilo prekodiranja, poskusite kasneje."
 
-#: src/effects/effectstack/view/maskmanager.cpp:243
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr "Izvaja se še eno opravilo maske, poskusite kasneje."
 
-#: src/effects/effectstack/view/maskmanager.cpp:252
+#: src/effects/effectstack/view/maskmanager.cpp:261
 #, kde-format
 msgid "Cannot open temporary file"
 msgstr "Ni možno odpreti začasne datoteke"
 
-#: src/effects/effectstack/view/maskmanager.cpp:265
+#: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
 msgid "Cannot access project folder"
 msgstr "Ni možno dostopati do mape projekta"
 
-#: src/effects/effectstack/view/maskmanager.cpp:316
+#: src/effects/effectstack/view/maskmanager.cpp:325
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Izvažanje video sličic za analizo"
 
-#: src/effects/effectstack/view/maskmanager.cpp:320
+#: src/effects/effectstack/view/maskmanager.cpp:329
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Izvažanje video sličic"
 
-#: src/effects/effectstack/view/maskmanager.cpp:333
+#: src/effects/effectstack/view/maskmanager.cpp:342
 #, kde-format
 msgid "Missing source frames"
 msgstr "Manjkajoče izvorne sličice"
 
-#: src/effects/effectstack/view/maskmanager.cpp:437
+#: src/effects/effectstack/view/maskmanager.cpp:446
 #, kde-format
 msgid "mask %1"
 msgstr "maska %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:440
+#: src/effects/effectstack/view/maskmanager.cpp:449
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Tvorjenje maske %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:604
+#: src/effects/effectstack/view/maskmanager.cpp:613
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -27433,6 +27435,7 @@ msgid "Abort installation"
 msgstr "Prekini namestitev"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:53
+#: src/pythoninterfaces/abstractpythoninterface.cpp:231
 #, kde-format
 msgid "Installing… please be patient, this can take several minutes"
 msgstr ""
@@ -27473,7 +27476,7 @@ msgstr "Preverjanje za posodobitvami"
 msgid "Checking configuration…"
 msgstr "Preverjanje nastavitve…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:251
+#: src/pythoninterfaces/abstractpythoninterface.cpp:275
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -27484,7 +27487,7 @@ msgstr ""
 "%1\n"
 "Namestite ga v svoj sistem.\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:263
+#: src/pythoninterfaces/abstractpythoninterface.cpp:287
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -27495,7 +27498,7 @@ msgstr ""
 "Če je že nameščen, preverite, ali je nameščen v mapi, ki se nahaja na "
 "seznamu spremenljivke okolja PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:297
+#: src/pythoninterfaces/abstractpythoninterface.cpp:321
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -27504,7 +27507,7 @@ msgstr ""
 "V kdenlive venv ni mogoče najti python3.\n"
 "Poskusite odstraniti vstavek in ga nato znova namestiti."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:305
+#: src/pythoninterfaces/abstractpythoninterface.cpp:329
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -27513,12 +27516,12 @@ msgstr ""
 "V kdenlive venv ni mogoče najti pip3.\n"
 "Poskusite odstraniti vstavek in ga nato znova namestiti."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#: src/pythoninterfaces/abstractpythoninterface.cpp:421
 #, kde-format
 msgid "Cannot find system python"
 msgstr "Ni možno najti sistemskega pythona"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:427
+#: src/pythoninterfaces/abstractpythoninterface.cpp:451
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -27527,22 +27530,22 @@ msgstr ""
 "Navideznega okolja python ni možno ustvariti:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:445
+#: src/pythoninterfaces/abstractpythoninterface.cpp:469
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Skripta %1 ni možno najti, preverite svojo namestitev."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:520
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Potreben je modul python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:533
+#: src/pythoninterfaces/abstractpythoninterface.cpp:557
 #, kde-format
 msgid "Using python from %1"
 msgstr "Uporaba pythona iz %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:556
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -27553,57 +27556,57 @@ msgstr ""
 "potrebne pakete,\n"
 "od katerih je paket odvisen. Po tem bo vsa obdelava potekala brez povezave."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:575
-#: src/pythoninterfaces/abstractpythoninterface.cpp:684
+#: src/pythoninterfaces/abstractpythoninterface.cpp:599
+#: src/pythoninterfaces/abstractpythoninterface.cpp:708
 #, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr "Težava z namestitvijo: Ni mogoče najti seznama odvisnosti za %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:590
+#: src/pythoninterfaces/abstractpythoninterface.cpp:614
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Napaka pri preverjanju različice modula %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:594
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Potrebna je vsaj različica %1 modula %2, vendar je trenutna različica %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:598
+#: src/pythoninterfaces/abstractpythoninterface.cpp:622
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Razmislite o posodobitvi svoje namestitve."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:620
+#: src/pythoninterfaces/abstractpythoninterface.cpp:644
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "manjka (neobvezno)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:628
+#: src/pythoninterfaces/abstractpythoninterface.cpp:652
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Ni podatkov o različici."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:708
+#: src/pythoninterfaces/abstractpythoninterface.cpp:732
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr "Težava z namestitvijo: ni mogoče najti %1 za %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:743
+#: src/pythoninterfaces/abstractpythoninterface.cpp:767
 #, kde-format
 msgid "Python exec not found"
 msgstr "Izvršilne datoteke Python ni mogoče najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:747
+#: src/pythoninterfaces/abstractpythoninterface.cpp:771
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Ni bilo mogoče najti skriptne datoteke %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:786
+#: src/pythoninterfaces/abstractpythoninterface.cpp:810
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -27614,7 +27617,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:821
+#: src/pythoninterfaces/abstractpythoninterface.cpp:845
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Namesti manjkajoče odvisne dele programja"

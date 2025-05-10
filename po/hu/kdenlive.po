@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 02:34+0000\n"
+"POT-Creation-Date: 2025-05-10 02:36+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -15068,12 +15068,28 @@ msgstr "Takaró effekt"
 msgid "Bin %1 effects"
 msgstr "%1 effektusai"
 
-#: src/assets/assetpanel.cpp:572
+#: src/assets/assetpanel.cpp:491 src/bin/bin.cpp:3838
+#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:762
+#: src/effects/effectstack/view/maskmanager.cpp:116
+#: src/monitor/recmanager.cpp:42
+#, kde-format
+msgid "Show log"
+msgstr "Napló megjelenítése"
+
+#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:3841
+#: src/dialogs/textbasededit.cpp:763
+#: src/effects/effectstack/view/maskmanager.cpp:118
+#, fuzzy, kde-format
+#| msgid "Details"
+msgid "Detailed log"
+msgstr "Részletek"
+
+#: src/assets/assetpanel.cpp:578
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:573
+#: src/assets/assetpanel.cpp:579
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -16165,7 +16181,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Klip törlése"
 
-#: src/bin/bin.cpp:1866 src/effects/effectstack/view/maskmanager.cpp:258
+#: src/bin/bin.cpp:1866 src/effects/effectstack/view/maskmanager.cpp:267
 #, kde-format
 msgid "Missing source clip"
 msgstr "Hiányzó forrásklip"
@@ -16331,7 +16347,7 @@ msgid "Replace in timeline"
 msgstr "Klipek betöltése"
 
 #: src/bin/bin.cpp:2147 src/bin/bin.cpp:5889 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:633
+#: src/effects/effectstack/view/maskmanager.cpp:642
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -16669,21 +16685,6 @@ msgid ""
 "Creates a folder in the current position in the project bin. Allows for "
 "better organization of source files. Folders can be nested."
 msgstr ""
-
-#: src/bin/bin.cpp:3838 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:762
-#: src/effects/effectstack/view/maskmanager.cpp:116
-#: src/monitor/recmanager.cpp:42
-#, kde-format
-msgid "Show log"
-msgstr "Napló megjelenítése"
-
-#: src/bin/bin.cpp:3841 src/dialogs/textbasededit.cpp:763
-#: src/effects/effectstack/view/maskmanager.cpp:118
-#, fuzzy, kde-format
-#| msgid "Details"
-msgid "Detailed log"
-msgstr "Részletek"
 
 #: src/bin/bin.cpp:3901 src/bin/bin.cpp:3934
 #, fuzzy, kde-format
@@ -18367,8 +18368,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Jelölők betöltése"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1776
-#: src/dialogs/renderwidget.cpp:1800 src/doc/kdenlivedoc.cpp:770
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1782
+#: src/dialogs/renderwidget.cpp:1806 src/doc/kdenlivedoc.cpp:770
 #: src/doc/kdenlivedoc.cpp:778 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
@@ -18607,7 +18608,7 @@ msgid "Top Right"
 msgstr "Copyright"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:230
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:237
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -18815,100 +18816,100 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:103 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/renderwidget.cpp:104 src/dialogs/renderwidget.cpp:1611
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
 msgstr "Várakozás…"
 
-#: src/dialogs/renderwidget.cpp:107
+#: src/dialogs/renderwidget.cpp:108
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Starting…"
 msgstr "Várakozás…"
 
-#: src/dialogs/renderwidget.cpp:110
+#: src/dialogs/renderwidget.cpp:111
 #, kde-format
 msgid "Rendering finished"
 msgstr "Leképzés befejeződött"
 
-#: src/dialogs/renderwidget.cpp:115
+#: src/dialogs/renderwidget.cpp:116
 #, kde-format
 msgid "Rendering crashed"
 msgstr "A leképzés összeomlott"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:121
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Leképzés megszakítva"
 
-#: src/dialogs/renderwidget.cpp:218
+#: src/dialogs/renderwidget.cpp:225
 #, fuzzy, kde-format
 #| msgid "Nearest Neighbor (fast)"
 msgid "Nearest (fast)"
 msgstr "Legközelebbi szomszéd (gyors)"
 
-#: src/dialogs/renderwidget.cpp:219 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilineáris (jó)"
 
-#: src/dialogs/renderwidget.cpp:220 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bikubikus (jobb)"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:228
 #, fuzzy, kde-format
 #| msgid "Hyper/Lanczos (best)"
 msgid "Lanczos (best)"
 msgstr "Hyper/Lanczos (legjobb)"
 
-#: src/dialogs/renderwidget.cpp:231
+#: src/dialogs/renderwidget.cpp:238
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgid "Horizontal (16:9)"
 msgstr "Vízszintes"
 
-#: src/dialogs/renderwidget.cpp:232
+#: src/dialogs/renderwidget.cpp:239
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical (9:16)"
 msgstr "Függőleges"
 
-#: src/dialogs/renderwidget.cpp:233
+#: src/dialogs/renderwidget.cpp:240
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgid "Square (1:1)"
 msgstr "Szögletes elmosás"
 
-#: src/dialogs/renderwidget.cpp:237 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:244 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Egy mező (gyors)"
 
-#: src/dialogs/renderwidget.cpp:238 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:245 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Lineáris keverő (gyors)"
 
-#: src/dialogs/renderwidget.cpp:239 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:246 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - csak átmeneti (jó)"
 
-#: src/dialogs/renderwidget.cpp:240
+#: src/dialogs/renderwidget.cpp:247
 #, fuzzy, kde-format
 #| msgid "Bicubic (better)"
 msgid "YADIF (better)"
 msgstr "Bikubikus (jobb)"
 
-#: src/dialogs/renderwidget.cpp:241
+#: src/dialogs/renderwidget.cpp:248
 #, kde-format
 msgid "BWDIF (best)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:256 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -18916,42 +18917,42 @@ msgstr ""
 msgid "None"
 msgstr "Nincs"
 
-#: src/dialogs/renderwidget.cpp:250
+#: src/dialogs/renderwidget.cpp:257
 #, fuzzy, kde-format
 #| msgid "Timecode overlay"
 msgid "Timecode"
 msgstr "Időkód megjelenítése"
 
-#: src/dialogs/renderwidget.cpp:251
+#: src/dialogs/renderwidget.cpp:258
 #, fuzzy, kde-format
 #| msgid "Real time (drop frames)"
 msgid "Timecode Non Drop Frame"
 msgstr "Valósidejű (képkockák eldobásával)"
 
-#: src/dialogs/renderwidget.cpp:252
+#: src/dialogs/renderwidget.cpp:259
 #, fuzzy, kde-format
 #| msgid "Limit keyframes number"
 msgid "Frame Number"
 msgstr "Kulcsképkockák számának korlátozása"
 
-#: src/dialogs/renderwidget.cpp:256
+#: src/dialogs/renderwidget.cpp:263
 #, fuzzy, kde-format
 #| msgid "Render using proxy clips"
 msgid "Rendering using low quality proxy"
 msgstr "Leképezés a proxy klipek használatával"
 
-#: src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:356
 #, kde-format
 msgid "File"
 msgstr "Fájl"
 
-#: src/dialogs/renderwidget.cpp:358
+#: src/dialogs/renderwidget.cpp:365
 #, fuzzy, kde-format
 #| msgid "Playlist"
 msgid "Stored Playlists"
 msgstr "Lejátszólista"
 
-#: src/dialogs/renderwidget.cpp:371 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:378 src/timeline2/view/previewmanager.cpp:49
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not create the video preview window.\n"
@@ -18965,62 +18966,62 @@ msgstr ""
 "Valami probléma lehet a Kdenlive telepítéssel. \n"
 "A program futása most befejeződik…"
 
-#: src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:407
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:407
+#: src/dialogs/renderwidget.cpp:414
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was a problem sharing the document: %1"
 msgstr "Hiba történt a fájlok másolása közben: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:407 src/dialogs/renderwidget.cpp:415
+#: src/dialogs/renderwidget.cpp:414 src/dialogs/renderwidget.cpp:422
 #: src/ui/renderwidget_ui.ui:911
 #, fuzzy, kde-format
 #| msgid "Sharpen"
 msgid "Share"
 msgstr "Élesítés"
 
-#: src/dialogs/renderwidget.cpp:412
+#: src/dialogs/renderwidget.cpp:419
 #, kde-format
 msgid "Document shared successfully"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:415
+#: src/dialogs/renderwidget.cpp:422
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:535
+#: src/dialogs/renderwidget.cpp:543
 #, kde-format
 msgid "Beginning"
 msgstr "Kezdet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:542 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Leállítás"
 
-#: src/dialogs/renderwidget.cpp:663
+#: src/dialogs/renderwidget.cpp:666
 #, fuzzy, kde-format
 #| msgid "Add clip to timeline"
 msgid "Add a clip to timeline before rendering"
 msgstr "Klip hozzáadása az idővonalhoz"
 
-#: src/dialogs/renderwidget.cpp:669
+#: src/dialogs/renderwidget.cpp:672
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "A leképzéshez szüksége melt program nem található. A melt program az MLT "
 "csomag része."
 
-#: src/dialogs/renderwidget.cpp:678
+#: src/dialogs/renderwidget.cpp:681
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -19029,27 +19030,27 @@ msgid ""
 "We recommend to transcode to an edit friendly format."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:687
+#: src/dialogs/renderwidget.cpp:690
 #, fuzzy, kde-format
 #| msgid "Render Timeline"
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Renderelés Idővonal"
 
-#: src/dialogs/renderwidget.cpp:693
+#: src/dialogs/renderwidget.cpp:696
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Átkódolás"
 
-#: src/dialogs/renderwidget.cpp:715 src/dialogs/renderwidget.cpp:1579
+#: src/dialogs/renderwidget.cpp:718 src/dialogs/renderwidget.cpp:1585
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: src/dialogs/renderwidget.cpp:723 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:726 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -19058,12 +19059,12 @@ msgstr ""
 "A(z) „%1” mappa nem hozható létre.\n"
 "Bizonyosodjon meg róla, hogy rendelkezik a szükséges jogosultságokkal."
 
-#: src/dialogs/renderwidget.cpp:764
+#: src/dialogs/renderwidget.cpp:767
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:803 src/dialogs/renderwidget.cpp:1592
+#: src/dialogs/renderwidget.cpp:806 src/dialogs/renderwidget.cpp:1598
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -19075,65 +19076,65 @@ msgstr ""
 "Már van feladat a következő fájl írásához:<br />„<b>%1</b>”<br />Szakítsa "
 "meg a feladatot, ha felül kívánja írni a fájlt…"
 
-#: src/dialogs/renderwidget.cpp:804 src/dialogs/renderwidget.cpp:1593
+#: src/dialogs/renderwidget.cpp:807 src/dialogs/renderwidget.cpp:1599
 #, kde-format
 msgid "Already running"
 msgstr "A program már fut."
 
-#: src/dialogs/renderwidget.cpp:826
+#: src/dialogs/renderwidget.cpp:829
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video hangsáv nélkül"
 
-#: src/dialogs/renderwidget.cpp:828
+#: src/dialogs/renderwidget.cpp:831
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "Video hangsáv nélkül"
 
-#: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:895 src/main.cpp:415
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
 msgstr "<i>%1</i> leképzése elkezdődött"
 
-#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
+#: src/dialogs/renderwidget.cpp:960 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "névtelen"
 
-#: src/dialogs/renderwidget.cpp:992
+#: src/dialogs/renderwidget.cpp:998
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No preset selected"
 msgstr "Nincs elérhető klip kiválasztva"
 
-#: src/dialogs/renderwidget.cpp:994
+#: src/dialogs/renderwidget.cpp:1000
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "Nincs illeszkedő profil"
 
-#: src/dialogs/renderwidget.cpp:1006
+#: src/dialogs/renderwidget.cpp:1012
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid preset"
 msgstr "Érvénytelen klip"
 
-#: src/dialogs/renderwidget.cpp:1129
+#: src/dialogs/renderwidget.cpp:1135
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1303
+#: src/dialogs/renderwidget.cpp:1309
 #, fuzzy, kde-format
 #| msgid "Remaining time"
 msgid "Remaining time "
 msgstr "Hátralévő idő"
 
-#: src/dialogs/renderwidget.cpp:1305 src/dialogs/renderwidget.cpp:1387
+#: src/dialogs/renderwidget.cpp:1311 src/dialogs/renderwidget.cpp:1393
 #, fuzzy, kde-format
 #| msgid "%1 dB"
 msgid "%1 day "
@@ -19141,55 +19142,55 @@ msgid_plural "%1 days "
 msgstr[0] "%1 dB"
 msgstr[1] "%1 dB"
 
-#: src/dialogs/renderwidget.cpp:1317
+#: src/dialogs/renderwidget.cpp:1323
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1339
+#: src/dialogs/renderwidget.cpp:1345
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1389
+#: src/dialogs/renderwidget.cpp:1395
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Leképzés befejeződött %1 idő alatt"
 
-#: src/dialogs/renderwidget.cpp:1397
+#: src/dialogs/renderwidget.cpp:1403
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 leképzése, hátralévő idő: %2"
 
-#: src/dialogs/renderwidget.cpp:1417
+#: src/dialogs/renderwidget.cpp:1423
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 leképezése összeomlott</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1461 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1467 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Feladat megszakítása"
 
-#: src/dialogs/renderwidget.cpp:1464
+#: src/dialogs/renderwidget.cpp:1470
 #, kde-format
 msgid "Remove Job"
 msgstr "Feladat eltávolítása"
 
-#: src/dialogs/renderwidget.cpp:1864
+#: src/dialogs/renderwidget.cpp:1870
 #, fuzzy, kde-format
 #| msgid "Add clip to timeline"
 msgid "Add clips in timeline before rendering"
 msgstr "Klip hozzáadása az idővonalhoz"
 
-#: src/dialogs/renderwidget.cpp:1869
+#: src/dialogs/renderwidget.cpp:1875
 #, fuzzy, kde-format
 #| msgid "Rendering %1"
 msgid "Rendered File Length: %1"
 msgstr "%1 leképzése"
 
-#: src/dialogs/renderwidget.cpp:1873
+#: src/dialogs/renderwidget.cpp:1879
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -19198,7 +19199,7 @@ msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "%1 hiányzó klipje van a projektben."
 msgstr[1] "%1 hiányzó klipje van a projektben."
 
-#: src/dialogs/renderwidget.cpp:1875
+#: src/dialogs/renderwidget.cpp:1881
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip (unused)."
@@ -19206,14 +19207,14 @@ msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Hiányzó klipek ellenőrzése"
 msgstr[1] "Hiányzó klipek ellenőrzése"
 
-#: src/dialogs/renderwidget.cpp:1877
+#: src/dialogs/renderwidget.cpp:1883
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 hiányzó klipje van a projektben."
 
-#: src/dialogs/renderwidget.cpp:1959
+#: src/dialogs/renderwidget.cpp:1965
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -19221,14 +19222,14 @@ msgid ""
 "%1"
 msgstr "FFmpeg paraméterek"
 
-#: src/dialogs/renderwidget.cpp:1979
+#: src/dialogs/renderwidget.cpp:1985
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add to Current Project"
 msgstr "Hozzáadás a projekthez"
 
-#: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:670
+#: src/dialogs/renderwidget.cpp:1994
+#: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248
 #, fuzzy, kde-format
 #| msgid "Destination folder"
@@ -22309,19 +22310,20 @@ msgid "Abort Mask Creation"
 msgstr "Kilépés"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
-#: src/effects/effectstack/view/maskmanager.cpp:188
+#: src/effects/effectstack/view/maskmanager.cpp:197
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure the SAM2 plugin"
 msgstr "Átmenet kiválasztása"
 
 #: src/effects/effectstack/view/maskmanager.cpp:115
+#: src/effects/effectstack/view/maskmanager.cpp:148
 #, fuzzy, kde-format
 #| msgid "Output file"
 msgid "Job failed"
 msgstr "Kimeneti fájl"
 
-#: src/effects/effectstack/view/maskmanager.cpp:207
+#: src/effects/effectstack/view/maskmanager.cpp:216
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -22329,59 +22331,59 @@ msgid ""
 "the settings, or create several masks for shorter durations."
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:238
+#: src/effects/effectstack/view/maskmanager.cpp:247
 #, fuzzy, kde-format
 #| msgid "Processing audio, please wait."
 msgid "Another transcode task is running, try later."
 msgstr "Hang feldolgozása, kérem várjon."
 
-#: src/effects/effectstack/view/maskmanager.cpp:243
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, fuzzy, kde-format
 #| msgid "Processing audio, please wait."
 msgid "Another mask task is running, try later."
 msgstr "Hang feldolgozása, kérem várjon."
 
-#: src/effects/effectstack/view/maskmanager.cpp:252
+#: src/effects/effectstack/view/maskmanager.cpp:261
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot open temporary file"
 msgstr "Nem hozható létre átmeneti fájl"
 
-#: src/effects/effectstack/view/maskmanager.cpp:265
+#: src/effects/effectstack/view/maskmanager.cpp:274
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access project folder"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/effects/effectstack/view/maskmanager.cpp:316
+#: src/effects/effectstack/view/maskmanager.cpp:325
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:320
+#: src/effects/effectstack/view/maskmanager.cpp:329
 #, fuzzy, kde-format
 #| msgid "Generating audio thumb"
 msgid "Exporting video frames"
 msgstr "Hang-minta előállítása"
 
-#: src/effects/effectstack/view/maskmanager.cpp:333
+#: src/effects/effectstack/view/maskmanager.cpp:342
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing source frames"
 msgstr "Hiányzó forrásklip"
 
-#: src/effects/effectstack/view/maskmanager.cpp:437
+#: src/effects/effectstack/view/maskmanager.cpp:446
 #, kde-format
 msgid "mask %1"
 msgstr ""
 
-#: src/effects/effectstack/view/maskmanager.cpp:440
+#: src/effects/effectstack/view/maskmanager.cpp:449
 #, fuzzy, kde-format
 #| msgid "Generating audio thumb"
 msgid "Generating mask %1"
 msgstr "Hang-minta előállítása"
 
-#: src/effects/effectstack/view/maskmanager.cpp:604
+#: src/effects/effectstack/view/maskmanager.cpp:613
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -28503,6 +28505,7 @@ msgid "Abort installation"
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:53
+#: src/pythoninterfaces/abstractpythoninterface.cpp:231
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Installing… please be patient, this can take several minutes"
@@ -28546,7 +28549,7 @@ msgstr "Közvetlen frissítés"
 msgid "Checking configuration…"
 msgstr "Eszközbeállítás"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:251
+#: src/pythoninterfaces/abstractpythoninterface.cpp:275
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -28554,7 +28557,7 @@ msgid ""
 "Please install it on your system.\n"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:263
+#: src/pythoninterfaces/abstractpythoninterface.cpp:287
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -28562,27 +28565,27 @@ msgid ""
 "environment variable"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:297
+#: src/pythoninterfaces/abstractpythoninterface.cpp:321
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:305
+#: src/pythoninterfaces/abstractpythoninterface.cpp:329
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#: src/pythoninterfaces/abstractpythoninterface.cpp:421
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to cut"
 msgid "Cannot find system python"
 msgstr "Nem találom a klipet, amit meg kellene vágni"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:427
+#: src/pythoninterfaces/abstractpythoninterface.cpp:451
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid ""
@@ -28590,23 +28593,23 @@ msgid ""
 "%1"
 msgstr "Nem hozható létre átmeneti fájl"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:445
+#: src/pythoninterfaces/abstractpythoninterface.cpp:469
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:520
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:533
+#: src/pythoninterfaces/abstractpythoninterface.cpp:557
 #, fuzzy, kde-format
 #| msgid "MLT version: %1"
 msgid "Using python from %1"
 msgstr "MLT verzió: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:556
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -28614,61 +28617,61 @@ msgid ""
 "happen offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:575
-#: src/pythoninterfaces/abstractpythoninterface.cpp:684
+#: src/pythoninterfaces/abstractpythoninterface.cpp:599
+#: src/pythoninterfaces/abstractpythoninterface.cpp:708
 #, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:590
+#: src/pythoninterfaces/abstractpythoninterface.cpp:614
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:594
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:598
+#: src/pythoninterfaces/abstractpythoninterface.cpp:622
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please consider to update your setup."
 msgstr "Átmenet kiválasztása"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:620
+#: src/pythoninterfaces/abstractpythoninterface.cpp:644
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Rajzolási beállítások"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:628
+#: src/pythoninterfaces/abstractpythoninterface.cpp:652
 #, fuzzy, kde-format
 #| msgid "No clip in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Nincs klip a vágólapon"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:708
+#: src/pythoninterfaces/abstractpythoninterface.cpp:732
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:743
+#: src/pythoninterfaces/abstractpythoninterface.cpp:767
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgid "Python exec not found"
 msgstr "Sorozat nem található"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:747
+#: src/pythoninterfaces/abstractpythoninterface.cpp:771
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Nem sikerült létrehozni a fájlt."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:786
+#: src/pythoninterfaces/abstractpythoninterface.cpp:810
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -28676,7 +28679,7 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:821
+#: src/pythoninterfaces/abstractpythoninterface.cpp:845
 #, kde-format
 msgid "Install missing dependencies"
 msgstr ""

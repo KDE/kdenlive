@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-07 02:34+0000\n"
+"POT-Creation-Date: 2025-05-10 02:36+0000\n"
 "PO-Revision-Date: 2025-05-02 16:34+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -15023,14 +15023,29 @@ msgstr "Effets de a piste %1"
 msgid "Bin %1 effects"
 msgstr "Effets pour la source %1"
 
-#: src/assets/assetpanel.cpp:572
+#: src/assets/assetpanel.cpp:491 src/bin/bin.cpp:3838
+#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:762
+#: src/effects/effectstack/view/maskmanager.cpp:116
+#: src/monitor/recmanager.cpp:42
+#, kde-format
+msgid "Show log"
+msgstr "Afficher le log"
+
+#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:3841
+#: src/dialogs/textbasededit.cpp:763
+#: src/effects/effectstack/view/maskmanager.cpp:118
+#, kde-format
+msgid "Detailed log"
+msgstr "Journal détaillé"
+
+#: src/assets/assetpanel.cpp:578
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr ""
 "Vous avez une tâche de masque en cours d'exécution. Voulez-vous vraiment "
 "annuler la tâche ?"
 
-#: src/assets/assetpanel.cpp:573
+#: src/assets/assetpanel.cpp:579
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -16041,7 +16056,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Supprimer les clips sources"
 
-#: src/bin/bin.cpp:1866 src/effects/effectstack/view/maskmanager.cpp:258
+#: src/bin/bin.cpp:1866 src/effects/effectstack/view/maskmanager.cpp:267
 #, kde-format
 msgid "Missing source clip"
 msgstr "Clip source manquant"
@@ -16212,7 +16227,7 @@ msgid "Replace in timeline"
 msgstr "Remplacer dans la frise chronologique"
 
 #: src/bin/bin.cpp:2147 src/bin/bin.cpp:5889 src/bin/clipcreator.cpp:324
-#: src/effects/effectstack/view/maskmanager.cpp:633
+#: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -16523,20 +16538,6 @@ msgstr ""
 "Crée un dossier dans la position actuelle dans le dossier du projet. Permet "
 "une meilleure organisation des fichiers sources. Les dossiers peuvent être "
 "imbriqués."
-
-#: src/bin/bin.cpp:3838 src/dialogs/speechdialog.cpp:51
-#: src/dialogs/textbasededit.cpp:762
-#: src/effects/effectstack/view/maskmanager.cpp:116
-#: src/monitor/recmanager.cpp:42
-#, kde-format
-msgid "Show log"
-msgstr "Afficher le log"
-
-#: src/bin/bin.cpp:3841 src/dialogs/textbasededit.cpp:763
-#: src/effects/effectstack/view/maskmanager.cpp:118
-#, kde-format
-msgid "Detailed log"
-msgstr "Journal détaillé"
 
 #: src/bin/bin.cpp:3901 src/bin/bin.cpp:3934
 #, kde-format
@@ -18117,8 +18118,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exporter des données de guides"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1776
-#: src/dialogs/renderwidget.cpp:1800 src/doc/kdenlivedoc.cpp:770
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1782
+#: src/dialogs/renderwidget.cpp:1806 src/doc/kdenlivedoc.cpp:770
 #: src/doc/kdenlivedoc.cpp:778 src/doc/kdenlivedoc.cpp:1345
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
@@ -18341,7 +18342,7 @@ msgid "Top Right"
 msgstr "En haut et à droite"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:230
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:237
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:710
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:711
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
@@ -18542,92 +18543,92 @@ msgstr ""
 "Les paramètres suivants n'auront pas d'effet. En effet, ils sont écrasés par "
 "les options équivalentes de l'interface utilisateur : <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:103 src/dialogs/renderwidget.cpp:1605
+#: src/dialogs/renderwidget.cpp:104 src/dialogs/renderwidget.cpp:1611
 #, kde-format
 msgid "Waiting…"
 msgstr "En attente..."
 
-#: src/dialogs/renderwidget.cpp:107
+#: src/dialogs/renderwidget.cpp:108
 #, kde-format
 msgid "Starting…"
 msgstr "En cours de démarrage..."
 
-#: src/dialogs/renderwidget.cpp:110
+#: src/dialogs/renderwidget.cpp:111
 #, kde-format
 msgid "Rendering finished"
 msgstr "Rendu terminé"
 
-#: src/dialogs/renderwidget.cpp:115
+#: src/dialogs/renderwidget.cpp:116
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Le rendu a planté"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:121
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Le rendu a été interrompu"
 
-#: src/dialogs/renderwidget.cpp:218
+#: src/dialogs/renderwidget.cpp:225
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Le plus proche (Rapide)"
 
-#: src/dialogs/renderwidget.cpp:219 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilinéaire (bon)"
 
-#: src/dialogs/renderwidget.cpp:220 src/monitor/monitormanager.cpp:641
+#: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bicubique (meilleur)"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:228
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Lanczos (Le meilleur)"
 
-#: src/dialogs/renderwidget.cpp:231
+#: src/dialogs/renderwidget.cpp:238
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "Horizontal (16:9)"
 
-#: src/dialogs/renderwidget.cpp:232
+#: src/dialogs/renderwidget.cpp:239
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "Vertical (9:16)"
 
-#: src/dialogs/renderwidget.cpp:233
+#: src/dialogs/renderwidget.cpp:240
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Carré (1:1)"
 
-#: src/dialogs/renderwidget.cpp:237 src/monitor/monitormanager.cpp:621
+#: src/dialogs/renderwidget.cpp:244 src/monitor/monitormanager.cpp:621
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Une ligne (rapide)"
 
-#: src/dialogs/renderwidget.cpp:238 src/monitor/monitormanager.cpp:622
+#: src/dialogs/renderwidget.cpp:245 src/monitor/monitormanager.cpp:622
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Mélange linéaire (rapide)"
 
-#: src/dialogs/renderwidget.cpp:239 src/monitor/monitormanager.cpp:623
+#: src/dialogs/renderwidget.cpp:246 src/monitor/monitormanager.cpp:623
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - temporel seulement (bon)"
 
-#: src/dialogs/renderwidget.cpp:240
+#: src/dialogs/renderwidget.cpp:247
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (Meilleur)"
 
-#: src/dialogs/renderwidget.cpp:241
+#: src/dialogs/renderwidget.cpp:248
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (Le meilleur)"
 
-#: src/dialogs/renderwidget.cpp:249 src/dialogs/subtitleedit.cpp:1552
+#: src/dialogs/renderwidget.cpp:256 src/dialogs/subtitleedit.cpp:1552
 #: src/dialogs/subtitleedit.cpp:1569 src/dialogs/subtitleedit.cpp:1583
 #: src/dialogs/subtitleedit.cpp:1623 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -18635,37 +18636,37 @@ msgstr "BWDIF (Le meilleur)"
 msgid "None"
 msgstr "Aucun(e)"
 
-#: src/dialogs/renderwidget.cpp:250
+#: src/dialogs/renderwidget.cpp:257
 #, kde-format
 msgid "Timecode"
 msgstr "Horodatage"
 
-#: src/dialogs/renderwidget.cpp:251
+#: src/dialogs/renderwidget.cpp:258
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Horodater une trame non perdue"
 
-#: src/dialogs/renderwidget.cpp:252
+#: src/dialogs/renderwidget.cpp:259
 #, kde-format
 msgid "Frame Number"
 msgstr "Numéro de trame"
 
-#: src/dialogs/renderwidget.cpp:256
+#: src/dialogs/renderwidget.cpp:263
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Rendu utilisant les intermédiaires de basse qualité"
 
-#: src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:356
 #, kde-format
 msgid "File"
 msgstr "Fichier"
 
-#: src/dialogs/renderwidget.cpp:358
+#: src/dialogs/renderwidget.cpp:365
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Listes de lecture enregistrées"
 
-#: src/dialogs/renderwidget.cpp:371 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:378 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -18674,58 +18675,58 @@ msgstr ""
 "Impossible de trouver l'application de rendu pour Kdenlive. Quelque chose "
 "est incorrecte dans votre installation. Le rendu ne pourra pas fonctionner."
 
-#: src/dialogs/renderwidget.cpp:400
+#: src/dialogs/renderwidget.cpp:407
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Ne fonctionne pas pour le format « matroska » (mkv)"
 
-#: src/dialogs/renderwidget.cpp:407
+#: src/dialogs/renderwidget.cpp:414
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Un problème est survenu lors du partage du document : %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:407 src/dialogs/renderwidget.cpp:415
+#: src/dialogs/renderwidget.cpp:414 src/dialogs/renderwidget.cpp:422
 #: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Share"
 msgstr "Partager"
 
-#: src/dialogs/renderwidget.cpp:412
+#: src/dialogs/renderwidget.cpp:419
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Document partagé avec succès"
 
-#: src/dialogs/renderwidget.cpp:415
+#: src/dialogs/renderwidget.cpp:422
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Vous pouvez trouver le document partagé sur : <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:535
+#: src/dialogs/renderwidget.cpp:543
 #, kde-format
 msgid "Beginning"
 msgstr "Début"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:542 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Fin"
 
-#: src/dialogs/renderwidget.cpp:663
+#: src/dialogs/renderwidget.cpp:666
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Ajouter une vidéo à la frise chronologique avant le rendu"
 
-#: src/dialogs/renderwidget.cpp:669
+#: src/dialogs/renderwidget.cpp:672
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Impossible de trouver le programme « melt » pour le rendu (Partie de MLT)"
 
-#: src/dialogs/renderwidget.cpp:678
+#: src/dialogs/renderwidget.cpp:681
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -18738,25 +18739,25 @@ msgstr ""
 "Nous vous recommandons d'effectuer une conversion dans un format plus "
 "convivial."
 
-#: src/dialogs/renderwidget.cpp:687
+#: src/dialogs/renderwidget.cpp:690
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Effectuer malgré tout un rendu"
 
-#: src/dialogs/renderwidget.cpp:693
+#: src/dialogs/renderwidget.cpp:696
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Convertir"
 
-#: src/dialogs/renderwidget.cpp:715 src/dialogs/renderwidget.cpp:1579
+#: src/dialogs/renderwidget.cpp:718 src/dialogs/renderwidget.cpp:1585
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Le fichier de sortie existe déjà. Voulez-vous l'écraser ?"
 
-#: src/dialogs/renderwidget.cpp:723 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:726 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -18765,13 +18766,13 @@ msgstr ""
 "Impossible de créer le dossier %1.\n"
 "Veuillez vérifier que vous avez les droits nécessaires."
 
-#: src/dialogs/renderwidget.cpp:764
+#: src/dialogs/renderwidget.cpp:767
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr ""
 "Les erreurs suivantes ont été rencontrées lors de la tentative de rendu."
 
-#: src/dialogs/renderwidget.cpp:803 src/dialogs/renderwidget.cpp:1592
+#: src/dialogs/renderwidget.cpp:806 src/dialogs/renderwidget.cpp:1598
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -18780,47 +18781,47 @@ msgstr ""
 "Il y a déjà une tâche en cours d'écriture d'un fichier : <br /><b>%1</b><br /"
 ">Annulez cette tâche si vous voulez l'écraser..."
 
-#: src/dialogs/renderwidget.cpp:804 src/dialogs/renderwidget.cpp:1593
+#: src/dialogs/renderwidget.cpp:807 src/dialogs/renderwidget.cpp:1599
 #, kde-format
 msgid "Already running"
 msgstr "En cours d'exécution"
 
-#: src/dialogs/renderwidget.cpp:826
+#: src/dialogs/renderwidget.cpp:829
 #, kde-format
 msgid "Video without audio track"
 msgstr "Vidéo sans piste audio"
 
-#: src/dialogs/renderwidget.cpp:828
+#: src/dialogs/renderwidget.cpp:831
 #, kde-format
 msgid "Audio without video track"
 msgstr "Audio sans piste vidéo"
 
-#: src/dialogs/renderwidget.cpp:892 src/main.cpp:415
+#: src/dialogs/renderwidget.cpp:895 src/main.cpp:415
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Le rendu de %1 a débuté."
 
-#: src/dialogs/renderwidget.cpp:954 src/monitor/monitor.cpp:1316
+#: src/dialogs/renderwidget.cpp:960 src/monitor/monitor.cpp:1316
 #, kde-format
 msgid "untitled"
 msgstr "Sans titre"
 
-#: src/dialogs/renderwidget.cpp:992
+#: src/dialogs/renderwidget.cpp:998
 #, kde-format
 msgid "No preset selected"
 msgstr "Aucun préréglage sélectionné"
 
-#: src/dialogs/renderwidget.cpp:994
+#: src/dialogs/renderwidget.cpp:1000
 #, kde-format
 msgid "No matching preset"
 msgstr "Aucun préréglage correspondant"
 
-#: src/dialogs/renderwidget.cpp:1006
+#: src/dialogs/renderwidget.cpp:1012
 #, kde-format
 msgid "Invalid preset"
 msgstr "Préréglage non valable"
 
-#: src/dialogs/renderwidget.cpp:1129
+#: src/dialogs/renderwidget.cpp:1135
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -18829,85 +18830,85 @@ msgstr ""
 "Le rendu sans audio et vidéo ne fonctionne pas. Veuillez activer au moins "
 "l'un des deux."
 
-#: src/dialogs/renderwidget.cpp:1303
+#: src/dialogs/renderwidget.cpp:1309
 #, kde-format
 msgid "Remaining time "
 msgstr "Temps restant"
 
-#: src/dialogs/renderwidget.cpp:1305 src/dialogs/renderwidget.cpp:1387
+#: src/dialogs/renderwidget.cpp:1311 src/dialogs/renderwidget.cpp:1393
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 jour "
 msgstr[1] "%1 jours "
 
-#: src/dialogs/renderwidget.cpp:1317
+#: src/dialogs/renderwidget.cpp:1323
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (trame %1 @ %2 FPS)"
 
-#: src/dialogs/renderwidget.cpp:1339
+#: src/dialogs/renderwidget.cpp:1345
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Il reste moins de %1 Mo de mémoire disponible."
 
-#: src/dialogs/renderwidget.cpp:1389
+#: src/dialogs/renderwidget.cpp:1395
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Rendu terminé en %1"
 
-#: src/dialogs/renderwidget.cpp:1397
+#: src/dialogs/renderwidget.cpp:1403
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Rendu de %1 terminé en %2"
 
-#: src/dialogs/renderwidget.cpp:1417
+#: src/dialogs/renderwidget.cpp:1423
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr ""
 "Le <strong>rendu de %1 a été interrompu par une erreur fatale</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1461 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1467 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Interrompre la tâche"
 
-#: src/dialogs/renderwidget.cpp:1464
+#: src/dialogs/renderwidget.cpp:1470
 #, kde-format
 msgid "Remove Job"
 msgstr "Supprimer la tâche"
 
-#: src/dialogs/renderwidget.cpp:1864
+#: src/dialogs/renderwidget.cpp:1870
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Ajouter des séquences à la frise chronologique avant le rendu"
 
-#: src/dialogs/renderwidget.cpp:1869
+#: src/dialogs/renderwidget.cpp:1875
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Longueur du fichier de rendu : %1"
 
-#: src/dialogs/renderwidget.cpp:1873
+#: src/dialogs/renderwidget.cpp:1879
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Une vidéo manquante utilisée dans le projet.</b>"
 msgstr[1] "<b>%1 vidéos manquantes utilisées dans le projet.</b>"
 
-#: src/dialogs/renderwidget.cpp:1875
+#: src/dialogs/renderwidget.cpp:1881
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Une vidéo manquante (Inutilisée)."
 msgstr[1] "%1 vidéos manquantes (Inutilisées)"
 
-#: src/dialogs/renderwidget.cpp:1877
+#: src/dialogs/renderwidget.cpp:1883
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 vidéos manquante (<b>%2 utilisées dans le projet</b>)."
 
-#: src/dialogs/renderwidget.cpp:1959
+#: src/dialogs/renderwidget.cpp:1965
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -18916,13 +18917,13 @@ msgstr ""
 "Paramètres de vitesse du codec :\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1979
+#: src/dialogs/renderwidget.cpp:1985
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Ajouter au projet courant"
 
-#: src/dialogs/renderwidget.cpp:1988
-#: src/effects/effectstack/view/maskmanager.cpp:670
+#: src/dialogs/renderwidget.cpp:1994
+#: src/effects/effectstack/view/maskmanager.cpp:679
 #: src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
@@ -21943,17 +21944,18 @@ msgid "Abort Mask Creation"
 msgstr "Annuler la création du masque"
 
 #: src/effects/effectstack/view/maskmanager.cpp:76
-#: src/effects/effectstack/view/maskmanager.cpp:188
+#: src/effects/effectstack/view/maskmanager.cpp:197
 #, kde-format
 msgid "Please configure the SAM2 plugin"
 msgstr "Veuillez configurer le module externe « SAM2 »."
 
 #: src/effects/effectstack/view/maskmanager.cpp:115
+#: src/effects/effectstack/view/maskmanager.cpp:148
 #, kde-format
 msgid "Job failed"
 msgstr "Échec de la tâche"
 
-#: src/effects/effectstack/view/maskmanager.cpp:207
+#: src/effects/effectstack/view/maskmanager.cpp:216
 #, kde-format
 msgid ""
 "Creating masks for clips more than a few seconds long can fail due to memory "
@@ -21965,56 +21967,56 @@ msgstr ""
 "l'option <i>Décharger la vidéo vers le processeur</i> dans les paramètres ou "
 "créer plusieurs masques pour des durées plus courtes."
 
-#: src/effects/effectstack/view/maskmanager.cpp:238
+#: src/effects/effectstack/view/maskmanager.cpp:247
 #, kde-format
 msgid "Another transcode task is running, try later."
 msgstr ""
 "Une autre tâche de transcodage est en cours d'exécution. Veuillez essayer "
 "plus tard."
 
-#: src/effects/effectstack/view/maskmanager.cpp:243
+#: src/effects/effectstack/view/maskmanager.cpp:252
 #, kde-format
 msgid "Another mask task is running, try later."
 msgstr ""
 "Une autre tâche de masque est en cours d'exécution. Veuillez essayer plus "
 "tard."
 
-#: src/effects/effectstack/view/maskmanager.cpp:252
+#: src/effects/effectstack/view/maskmanager.cpp:261
 #, kde-format
 msgid "Cannot open temporary file"
 msgstr "Impossible d'ouvrir le fichier temporaire"
 
-#: src/effects/effectstack/view/maskmanager.cpp:265
+#: src/effects/effectstack/view/maskmanager.cpp:274
 #, kde-format
 msgid "Cannot access project folder"
 msgstr "Impossible d'accéder au dossier du projet."
 
-#: src/effects/effectstack/view/maskmanager.cpp:316
+#: src/effects/effectstack/view/maskmanager.cpp:325
 #, kde-format
 msgid "Exporting video frames for analysis"
 msgstr "Exportation en cours de trames vidéo pour analyse"
 
-#: src/effects/effectstack/view/maskmanager.cpp:320
+#: src/effects/effectstack/view/maskmanager.cpp:329
 #, kde-format
 msgid "Exporting video frames"
 msgstr "Exportation des trames vidéo en cours"
 
-#: src/effects/effectstack/view/maskmanager.cpp:333
+#: src/effects/effectstack/view/maskmanager.cpp:342
 #, kde-format
 msgid "Missing source frames"
 msgstr "Trames sources manquantes"
 
-#: src/effects/effectstack/view/maskmanager.cpp:437
+#: src/effects/effectstack/view/maskmanager.cpp:446
 #, kde-format
 msgid "mask %1"
 msgstr "masque %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:440
+#: src/effects/effectstack/view/maskmanager.cpp:449
 #, kde-format
 msgid "Generating mask %1"
 msgstr "Génération en cours du masque %1"
 
-#: src/effects/effectstack/view/maskmanager.cpp:604
+#: src/effects/effectstack/view/maskmanager.cpp:613
 #, kde-format
 msgid ""
 "This will delete mask <b>%1</b> file:<br/>%2<br/>This operation cannot be "
@@ -27877,6 +27879,7 @@ msgid "Abort installation"
 msgstr "Annuler l'installation"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:53
+#: src/pythoninterfaces/abstractpythoninterface.cpp:231
 #, kde-format
 msgid "Installing… please be patient, this can take several minutes"
 msgstr ""
@@ -27918,7 +27921,7 @@ msgstr "Vérifier la présence de mises à jour"
 msgid "Checking configuration…"
 msgstr "Vérification de configuration…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:251
+#: src/pythoninterfaces/abstractpythoninterface.cpp:275
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -27929,7 +27932,7 @@ msgstr ""
 "%1\n"
 "Veuillez l'installer sur votre système.\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:263
+#: src/pythoninterfaces/abstractpythoninterface.cpp:287
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -27941,7 +27944,7 @@ msgstr ""
 "faisant partie de la liste des dossiers de la variable d'environnement "
 "« PATH »."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:297
+#: src/pythoninterfaces/abstractpythoninterface.cpp:321
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -27952,7 +27955,7 @@ msgstr ""
 "Veuillez essayer une désinstallation puis une ré-installation du module "
 "externe."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:305
+#: src/pythoninterfaces/abstractpythoninterface.cpp:329
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -27963,12 +27966,12 @@ msgstr ""
 "Veuillez essayer une désinstallation puis une ré-installation du module "
 "externe."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:397
+#: src/pythoninterfaces/abstractpythoninterface.cpp:421
 #, kde-format
 msgid "Cannot find system python"
 msgstr "Impossible de trouver Python sur le système"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:427
+#: src/pythoninterfaces/abstractpythoninterface.cpp:451
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -27977,24 +27980,24 @@ msgstr ""
 "Impossible de créer l'environnement virtuel sous Python : \n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:445
+#: src/pythoninterfaces/abstractpythoninterface.cpp:469
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 "Il a été impossible de trouver le script %1. Veuillez vérifier votre "
 "installation."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:520
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Le module python <application>%1</application> est nécessaire."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:533
+#: src/pythoninterfaces/abstractpythoninterface.cpp:557
 #, kde-format
 msgid "Using python from %1"
 msgstr "Utilisation de Python à partir de %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:556
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -28005,20 +28008,20 @@ msgstr ""
 "télécharger toutes les dépendances nécessaires. Après cela, tout le "
 "traitement se fera hors ligne."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:575
-#: src/pythoninterfaces/abstractpythoninterface.cpp:684
+#: src/pythoninterfaces/abstractpythoninterface.cpp:599
+#: src/pythoninterfaces/abstractpythoninterface.cpp:708
 #, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr ""
 "Problème d'installation : impossible de trouver la liste des dépendances "
 "pour %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:590
+#: src/pythoninterfaces/abstractpythoninterface.cpp:614
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Erreur lors de la vérification de la version du module %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:594
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -28026,39 +28029,39 @@ msgstr ""
 "La version minimale requise pour le module %2 est %1. Cependant, votre "
 "version actuelle est %3."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:598
+#: src/pythoninterfaces/abstractpythoninterface.cpp:622
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Veuillez envisager de mettre à jour votre installation."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:620
+#: src/pythoninterfaces/abstractpythoninterface.cpp:644
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Manquant (Optionnel)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:628
+#: src/pythoninterfaces/abstractpythoninterface.cpp:652
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Aucune information de version disponible."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:708
+#: src/pythoninterfaces/abstractpythoninterface.cpp:732
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr "Problème d'installation : impossible de trouver %1 pour %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:743
+#: src/pythoninterfaces/abstractpythoninterface.cpp:767
 #, kde-format
 msgid "Python exec not found"
 msgstr "Impossible de trouver l'exécutable pour Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:747
+#: src/pythoninterfaces/abstractpythoninterface.cpp:771
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Impossible de trouver le fichier de script %1."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:786
+#: src/pythoninterfaces/abstractpythoninterface.cpp:810
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -28069,7 +28072,7 @@ msgstr ""
 "%1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:821
+#: src/pythoninterfaces/abstractpythoninterface.cpp:845
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Installer les dépendances manquantes"
