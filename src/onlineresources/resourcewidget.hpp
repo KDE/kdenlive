@@ -10,12 +10,14 @@
 #include "ui_resourcewidget_ui.h"
 
 #include <KJob>
+#include <QElapsedTimer>
 #include <QListWidgetItem>
 #include <QMutex>
 #include <QNetworkReply>
 #include <QProcess>
+#include <QSet>
 #include <QSlider>
-#include <QTemporaryFile>
+#include <QTimer>
 #include <QUrl>
 #include <QWidget>
 
@@ -65,18 +67,22 @@ private Q_SLOTS:
 private:
     std::unique_ptr<ProviderModel> *m_currentProvider{nullptr};
     QListWidgetItem *m_currentItem{nullptr};
-    QTemporaryFile *m_tmpThumbFile;
     QStringList m_imagesUrl;
     QMutex m_imageLock;
     /** @brief Default icon size for the views. */
     QSize m_iconSize;
     int wheelAccumulatedDelta;
     bool m_showloadingWarning;
+    QSet<QNetworkReply *> m_activeImageReplies;
+    QSet<QTimer *> m_imageBackoffTimers;
+    int m_backoff = 0;
+    QElapsedTimer m_backoffCooldownTimer;
     ResourceItemInfo getItemById(const QString &id);
     void loadConfig();
     void saveConfig();
     void blockUI(bool block);
     QString licenseNameFromUrl(const QString &licenseUrl, const bool shortName);
+    void downloadImage(QNetworkAccessManager *manager, const QString &url, QSharedPointer<QMap<QString, int>> retryCount);
 
 Q_SIGNALS:
     void addClip(const QUrl &, const QString &);
