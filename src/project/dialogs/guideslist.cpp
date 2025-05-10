@@ -46,22 +46,19 @@ bool GuideFilterEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-class GuidesProxyModel : public QIdentityProxyModel
+GuidesProxyModel::GuidesProxyModel(QObject *parent)
+    : QIdentityProxyModel(parent)
 {
-public:
-    explicit GuidesProxyModel(QObject *parent = nullptr)
-        : QIdentityProxyModel(parent)
-    {
+}
+
+QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
+{
+    if (role == Qt::DisplayRole) {
+        int frames = timecodeOffset + QIdentityProxyModel::data(index, MarkerListModel::FrameRole).toInt();
+        return QStringLiteral("%1 %2").arg(pCore->timecode().getDisplayTimecodeFromFrames(frames, false), QIdentityProxyModel::data(index, role).toString());
     }
-    QVariant data(const QModelIndex &index, int role) const override
-    {
-        if (role == Qt::DisplayRole) {
-            return QStringLiteral("%1 %2").arg(QIdentityProxyModel::data(index, MarkerListModel::TCRole).toString(),
-                                               QIdentityProxyModel::data(index, role).toString());
-        }
-        return sourceModel()->data(mapToSource(index), role);
-    }
-};
+    return sourceModel()->data(mapToSource(index), role);
+}
 
 GuidesList::GuidesList(QWidget *parent)
     : QWidget(parent)
@@ -148,6 +145,13 @@ GuidesList::GuidesList(QWidget *parent)
         xi18nc("@info:whatsthis", "Filter guide categories. This allows you to show or hide selected guide categories in this dialog and in the timeline."));
     default_category->setToolTip(i18n("Default guide category."));
     default_category->setWhatsThis(xi18nc("@info:whatsthis", "Default guide category. The category used for newly created guides."));
+}
+
+void GuidesList::setTimecodeOffset(int offset)
+{
+    guides_list->hide();
+    m_proxy->timecodeOffset = offset;
+    guides_list->show();
 }
 
 void GuidesList::configureGuides()

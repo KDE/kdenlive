@@ -230,7 +230,7 @@ void SequenceClip::setProperties(const QMap<QString, QString> &properties, bool 
         if (i.key().startsWith(QLatin1String("kdenlive:sequenceproperties."))) {
             pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, i.key(), i.value());
             if (i.key() == QLatin1String("kdenlive:sequenceproperties.timecodeOffset")) {
-                Q_EMIT pCore->updateRenderInfo();
+                pCore->projectManager()->updateSequenceOffset(m_sequenceUuid);
             }
         }
     }

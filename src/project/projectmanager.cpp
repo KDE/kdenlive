@@ -2399,3 +2399,19 @@ void ProjectManager::showTrackEffectStack(int tid)
 {
     Q_EMIT m_activeTimelineModel->showTrackEffectStack(tid);
 }
+
+void ProjectManager::updateSequenceOffset(const QUuid &uuid)
+{
+    if (uuid == m_project->activeUuid) {
+        // Update project monitor timecode offset
+        int offset = m_project->getSequenceProperty(uuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
+        if (KdenliveSettings::rectimecode()) {
+            pCore->monitorManager()->clipMonitor()->slotSwitchRecTimecode(true);
+        }
+        pCore->monitorManager()->projectMonitor()->setTimecodeOffset(offset);
+        pCore->window()->getCurrentTimeline()->controller()->setTimecodeOffset(offset);
+        pCore->guidesList()->setTimecodeOffset(offset);
+        // Update info in render dialog
+        Q_EMIT pCore->updateRenderInfo();
+    }
+}

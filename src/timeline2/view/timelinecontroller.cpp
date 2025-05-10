@@ -5538,3 +5538,9 @@ void TimelineController::setTimelineMouseOffset(int offset)
     m_timelineMouseOffset = offset;
     Q_EMIT timelineMouseOffsetChanged(offset);
 }
+
+void TimelineController::setTimecodeOffset(int offset)
+{
+    m_timecodeOffset = offset;
+    Q_EMIT timecodeOffsetChanged();
+}

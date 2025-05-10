@@ -33,6 +33,15 @@ Q_SIGNALS:
     void clearSearchLine();
 };
 
+class GuidesProxyModel : public QIdentityProxyModel
+{
+    Q_OBJECT
+public:
+    explicit GuidesProxyModel(QObject *parent = nullptr);
+    int timecodeOffset{0};
+    QVariant data(const QModelIndex &index, int role) const override;
+};
+
 /** @class GuidesList
     @brief A widget listing project guides and allowing some advanced editing.
     @author Jean-Baptiste Mardelle
@@ -47,6 +56,8 @@ public:
     void setClipMarkerModel(std::shared_ptr<ProjectClip> clip);
     /** @brief Reset all filters. */
     void reset();
+    /** @brief Set a timecode offset for this list. */
+    void setTimecodeOffset(int offset);
 
 public Q_SLOTS:
     void removeGuide();
@@ -71,7 +82,7 @@ private Q_SLOTS:
 private:
     /** @brief Set the marker model that will be displayed. */
     std::weak_ptr<MarkerListModel> m_model;
-    QIdentityProxyModel *m_proxy{nullptr};
+    GuidesProxyModel *m_proxy{nullptr};
     MarkerSortModel *m_sortModel{nullptr};
     std::shared_ptr<ProjectClip> m_clip;
     QButtonGroup *catGroup{nullptr};

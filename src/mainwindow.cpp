@@ -5182,6 +5182,7 @@ void MainWindow::connectTimeline()
     KdenliveSettings::setShowSubtitles(showSubs && hasSubtitleModel);
     getCurrentTimeline()->connectSubtitleModel(hasSubtitleModel);
     m_buttonSubtitleEditTool->setChecked(showSubs && hasSubtitleModel);
+    pCore->projectManager()->updateSequenceOffset(uuid);
     if (hasSubtitleModel) {
         // Restore style
         getCurrentTimeline()->model()->getSubtitleModel()->loadProperties({});

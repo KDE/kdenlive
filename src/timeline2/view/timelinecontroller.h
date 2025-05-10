@@ -74,6 +74,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QPoint effectZone MEMBER m_effectZone NOTIFY effectZoneChanged)
     Q_PROPERTY(int trimmingMainClip READ trimmingMainClip NOTIFY trimmingMainClipChanged)
     Q_PROPERTY(int multicamIn MEMBER multicamIn NOTIFY multicamInChanged)
+    Q_PROPERTY(int timecodeOffset MEMBER m_timecodeOffset NOTIFY timecodeOffsetChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -686,6 +687,8 @@ public:
     int activeSubLayer() const;
     /** @brief Set the active subtitle layer */
     void setActiveSubLayer(int layer);
+    /** @brief Set the timecode offset for this sequence */
+    void setTimecodeOffset(int offset);
 
 public Q_SLOTS:
     void updateClipActions();
@@ -787,6 +790,7 @@ private:
     int m_trimmingMainClip;
     /** @brief The position of the active subtitle in the menu list*/
     int m_activeSubPosition{-1};
+    int m_timecodeOffset{0};
 
     int getMenuOrTimelinePos() const;
     /** @brief Prepare the preview manager */
@@ -850,4 +854,7 @@ Q_SIGNALS:
     void updateAssetPosition(int itemId, const QUuid uuid);
     void stopAudioRecord();
     void activeSubtitlePositionChanged();
+    /** @brief TimecodeOffset for this sequence
+     */
+    void timecodeOffsetChanged();
 };

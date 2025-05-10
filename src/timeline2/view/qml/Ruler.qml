@@ -21,6 +21,7 @@ Item {
     property real tickSpacing: timeline.scaleFactor
     property alias rulerZone : zone
     property int workingPreview : timeline.workingPreview
+    property int timecodeOffset : timeline.timecodeOffset
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
     property int zoneHeight: Math.ceil(root.baseUnit / 2) + 1
@@ -250,7 +251,7 @@ Item {
             Label {
                 visible: parent.showText
                 anchors.top: parent.top
-                text: timeline.timecode(parent.realPos)
+                text: timeline.timecode(parent.realPos + rulerRoot.timecodeOffset)
                 font: miniFont
                 color: rulerRoot.dimmedColor
             }

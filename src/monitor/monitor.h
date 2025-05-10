@@ -158,6 +158,8 @@ public:
     void updateDocumentUuid();
     /** @brief Focus the timecode to allow editing*/
     void focusTimecode();
+    /** @brief Set a timecode offset for current timeline*/
+    void setTimecodeOffset(int offset);
     /** @brief Ensure the video widget has focus to make keyboard shortcuts work */
     void fixFocus();
     /** @brief Show a rec countdown over the monitor **/
@@ -315,8 +317,6 @@ private Q_SLOTS:
     void processSeek(int pos, bool noAudioScrub = false);
     /** @brief Check and display dropped frames */
     void checkDrops();
-    /** @brief En/Disable the show record timecode feature in clip monitor */
-    void slotSwitchRecTimecode(bool enable);
     void addControlPoint(double x, double y, bool extend, bool exclude);
     void moveControlPoint(int ix, double x, double y);
     void addControlRect(double x, double y, double width, double height, bool extend);
@@ -386,6 +386,8 @@ public Q_SLOTS:
     void slotGetCurrentImage(bool request);
     /** @brief Enable/disable display of monitor's audio levels widget */
     void slotSwitchAudioMonitor();
+    /** @brief En/Disable the show record timecode feature in clip monitor */
+    void slotSwitchRecTimecode(bool enable);
     /** @brief Request seeking */
     void requestSeek(int pos);
     /** @brief Request seeking only if monitor is visible*/

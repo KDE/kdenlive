@@ -154,6 +154,9 @@ public:
     /** @brief Update default interval for autosave
      */
     void updateAutoSaveTimer();
+    /** @brief A sequence timecode offset changed, update display in the UI
+     */
+    void updateSequenceOffset(const QUuid &uuid);
 
 public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);

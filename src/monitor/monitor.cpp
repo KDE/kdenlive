@@ -3030,16 +3030,19 @@ void Monitor::updateMultiTrackView(int tid)
 
 void Monitor::slotSwitchRecTimecode(bool enable)
 {
-    qDebug() << "=== SLOT SWITCH REC: " << enable;
     KdenliveSettings::setRectimecode(enable);
     if (!enable) {
         m_timePos->setFrameOffset(0);
         return;
     }
     if (m_controller) {
-        qDebug() << "=== GOT TIMECODE OFFSET: " << m_controller->getStartTimecode();
         m_timePos->setFrameOffset(m_controller->getStartTimecode());
     }
+}
+
+void Monitor::setTimecodeOffset(int offset)
+{
+    m_timePos->setFrameOffset(offset);
 }
 
 void Monitor::focusTimecode()

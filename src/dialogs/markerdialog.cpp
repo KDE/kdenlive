@@ -72,6 +72,7 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
         }
         connect(m_in, &TimecodeDisplay::timeCodeEditingFinished, this, &MarkerDialog::updateThumb);
     } else {
+        m_in->setFrameOffset(pCore->currentTimelineOffset());
         clip_thumb->setHidden(true);
         label_category->setHidden(true);
     }

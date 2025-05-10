@@ -166,6 +166,7 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
         m_maxPos = maximumOffset + m_firstItemInfo.position + m_firstItemInfo.playTime;
     }
     m_pos->setValue(GenTime(pos, m_fps));
+    m_pos->setFrameOffset(pCore->currentTimelineOffset());
     m_dur->setValue(GenTime(duration, m_fps));
     m_cropStart->setValue(itemIn);
     m_cropEnd->setValue(GenTime(maxLength - (itemIn + duration), m_fps));

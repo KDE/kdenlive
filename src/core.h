@@ -350,6 +350,8 @@ public:
     void showEffectStackFromId(ObjectId owner);
     /** @brief Get the Bin id and position offset for the selected timeline clip */
     std::pair<QString, int> getSelectedClipAndOffset();
+    /** @brief Get the current offset for active timeline */
+    int currentTimelineOffset();
 
 private:
     explicit Core(LinuxPackageType packageType);

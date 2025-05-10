@@ -1822,3 +1822,8 @@ std::pair<QString, int> Core::getSelectedClipAndOffset()
     int offset = getItemPosition(id) - getItemIn(id);
     return {getTimelineClipBinId(id), offset};
 }
+
+int Core::currentTimelineOffset()
+{
+    return currentDoc()->getSequenceProperty(currentDoc()->activeUuid, QStringLiteral("kdenlive:sequenceproperties.timecodeOffset")).toInt();
+}
