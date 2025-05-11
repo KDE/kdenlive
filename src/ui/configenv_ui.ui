@@ -172,17 +172,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="4" column="1">
         <widget class="KUrlRequester" name="rendererpathurl"/>
        </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>MediaInfo:</string>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="1">
-        <widget class="KUrlRequester" name="mediainfourl"/>
-       </item>
-       <item row="6" column="1">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Orientation::Vertical</enum>
@@ -489,7 +479,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>ffprobeurl</tabstop>
   <tabstop>mltpathurl</tabstop>
   <tabstop>rendererpathurl</tabstop>
-  <tabstop>mediainfourl</tabstop>
   <tabstop>tmppathurl</tabstop>
   <tabstop>kcfg_capturetoprojectfolder</tabstop>
   <tabstop>kcfg_captureprojectsubfolder</tabstop>

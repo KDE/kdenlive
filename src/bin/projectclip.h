@@ -407,10 +407,6 @@ public Q_SLOTS:
      * @return timecode in frames or -1 if not found
      */
     int getStartTCFromProperties();
-    /** @brief Get the timecode of the first frame (record time) by calling the mediainfo cmd tool
-     * @return timecode in frames or -1 if not found
-     */
-    int getStartTCFromMediainfo();
 
 private Q_SLOTS:
     void refreshIconOverlay();

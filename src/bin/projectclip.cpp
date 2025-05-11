@@ -882,79 +882,12 @@ int ProjectClip::getStartTimecode()
     }
 
     recTime = getStartTCFromProperties();
-
-    if (recTime < 0) {
-        recTime = getStartTCFromMediainfo();
-    }
-
     recTime = qMax(recTime, 0);
 
     // cache the value in a kdenlive property
     m_masterProducer->set("kdenlive:record_start_frame", recTime);
 
     return recTime;
-}
-
-int ProjectClip::getStartTCFromMediainfo()
-{
-    if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
-        // Try to find binary
-        const QStringList mltpath({QFileInfo(KdenliveSettings::meltpath()).canonicalPath(), qApp->applicationDirPath()});
-        QString mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), mltpath);
-        if (mediainfopath.isEmpty()) {
-            mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
-        }
-        if (!mediainfopath.isEmpty()) {
-            KdenliveSettings::setMediainfopath(mediainfopath);
-        }
-    }
-
-    if (KdenliveSettings::mediainfopath().isEmpty()) {
-        return -1;
-    }
-
-    QProcess extractInfo;
-    extractInfo.start(KdenliveSettings::mediainfopath(), {url(), QStringLiteral("--output=XML")});
-    extractInfo.waitForFinished();
-    if (extractInfo.exitStatus() != QProcess::NormalExit || extractInfo.exitCode() != 0) {
-        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot extract metadata from %1\n%2", url(), QString(extractInfo.readAllStandardError())));
-        return 0;
-    }
-    QDomDocument doc;
-    doc.setContent(extractInfo.readAllStandardOutput());
-    bool dateFormat = false;
-    QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
-    if (nodes.isEmpty()) {
-        nodes = doc.documentElement().elementsByTagName(QStringLiteral("Recorded_Date"));
-        dateFormat = true;
-    }
-
-    if (nodes.isEmpty()) {
-        return -1;
-    }
-
-    // Parse recorded time (HH:MM:SS)
-    QString recInfo = nodes.at(0).toElement().text();
-
-    if (!recInfo.isEmpty()) {
-        return -1;
-    }
-
-    if (dateFormat) {
-        if (recInfo.contains(QLatin1Char('+'))) {
-            recInfo = recInfo.section(QLatin1Char('+'), 0, 0);
-        } else if (recInfo.contains(QLatin1Char('-'))) {
-            recInfo = recInfo.section(QLatin1Char('-'), 0, 0);
-        }
-        QDateTime date = QDateTime::fromString(recInfo, "yyyy-MM-dd hh:mm:ss");
-        return GenTime(date.time().msecsSinceStartOfDay() / 1000.).frames(pCore->getCurrentFps());
-    } else {
-        // Timecode Format HH:MM:SS:FF
-        recInfo = Timecode::scaleTimecode(recInfo, originalFps(), pCore->getCurrentFps());
-
-        return pCore->timecode().getFrameCount(recInfo);
-    }
-    return -1;
 }
 
 int ProjectClip::getStartTCFromProperties()

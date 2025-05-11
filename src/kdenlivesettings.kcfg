@@ -651,11 +651,6 @@
       <default></default>
     </entry>
 
-    <entry name="mediainfopath" type="Path">
-      <label>mediaInfo binary path.</label>
-      <default></default>
-    </entry>
-
     <entry name="processingthreads" type="Int">
       <label>Processing thread count.</label>
       <default>4</default>

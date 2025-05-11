@@ -305,7 +305,6 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_configEnv.ffmpegurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffmpegpath"));
     m_configEnv.ffplayurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffplaypath"));
     m_configEnv.ffprobeurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffprobepath"));
-    m_configEnv.mediainfourl->lineEdit()->setObjectName(QStringLiteral("kcfg_mediainfopath"));
     m_configEnv.tmppathurl->setMode(KFile::Directory);
     m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
@@ -1004,9 +1003,6 @@ void KdenliveSettingsDialog::updateSettings()
         m_configEnv.ffmpegurl->setText(KdenliveSettings::ffmpegpath());
         m_configEnv.ffplayurl->setText(KdenliveSettings::ffplaypath());
         m_configEnv.ffprobeurl->setText(KdenliveSettings::ffprobepath());
-    }
-    if (m_configEnv.mediainfourl->text().isEmpty()) {
-        m_configEnv.mediainfourl->setText(KdenliveSettings::mediainfopath());
     }
 
     if (m_configTimeline.kcfg_trackheight->value() == 0) {
