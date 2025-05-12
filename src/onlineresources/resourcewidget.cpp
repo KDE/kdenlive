@@ -46,6 +46,9 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 
     message_line->hide();
 
+    m_stopAction = new QAction(i18n("Abort"), this);
+    connect(m_stopAction, &QAction::triggered, this, &ResourceWidget::abortDownload);
+
     for (const QPair<QString, QString> &provider : ProvidersRepository::get()->getAllProviers()) {
         QIcon icon;
         switch (ProvidersRepository::get()->getProvider(provider.second)->type()) {
@@ -229,9 +232,10 @@ void ResourceWidget::slotStartSearch()
         timer->deleteLater();
     }
     m_imageBackoffTimers.clear();
-
+    message_line->clearActions();
     message_line->setText(i18nc("@info:status", "Search pending…"));
     message_line->setMessageType(KMessageWidget::Information);
+    message_line->addAction(m_stopAction);
     message_line->show();
 
     blockUI(true);
@@ -333,6 +337,14 @@ void ResourceWidget::slotShowPixmap(const QString &url, const QPixmap &pixmap)
     }
 }
 
+void ResourceWidget::abortDownload()
+{
+    message_line->clearActions();
+    slotSearchFinished({}, 1);
+    delete m_networkManager;
+    m_networkManager = nullptr;
+}
+
 void ResourceWidget::slotLoadImages()
 {
     if (!m_imageLock.tryLock()) {
@@ -344,10 +356,9 @@ void ResourceWidget::slotLoadImages()
         m_imageLock.unlock();
         return;
     }
-
+    delete m_networkManager;
+    m_networkManager = new QNetworkAccessManager(this);
     qDebug() << "Starting image download for" << m_imagesUrl.size() << "URLs";
-
-    QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
     QSharedPointer<QMap<QString, int>> retryCount(new QMap<QString, int>());
 
     // Make a copy of the URLs before we start processing
@@ -359,20 +370,20 @@ void ResourceWidget::slotLoadImages()
     // Start downloads for all URLs
     for (const QString &url : urls) {
         retryCount->insert(url, 0);
-        downloadImage(networkManager, url, retryCount);
+        downloadImage(url, retryCount);
     }
 }
 
-void ResourceWidget::downloadImage(QNetworkAccessManager *manager, const QString &url, QSharedPointer<QMap<QString, int>> retryCount)
+void ResourceWidget::downloadImage(const QString &url, QSharedPointer<QMap<QString, int>> retryCount)
 {
     // Apply delay if needed (for handling rate limiting)
     if (m_backoff > 0) {
         QTimer *timer = new QTimer(this);
         timer->setSingleShot(true);
-        connect(timer, &QTimer::timeout, this, [this, manager, url, retryCount, timer]() {
+        connect(timer, &QTimer::timeout, this, [this, url, retryCount, timer]() {
             m_imageBackoffTimers.remove(timer);
             timer->deleteLater();
-            downloadImage(manager, url, retryCount);
+            downloadImage(url, retryCount);
         });
         m_imageBackoffTimers.insert(timer);
         timer->start(m_backoff);
@@ -380,12 +391,12 @@ void ResourceWidget::downloadImage(QNetworkAccessManager *manager, const QString
     }
 
     QNetworkRequest request(QUrl::fromUserInput(url));
-    QNetworkReply *reply = manager->get(request);
+    QNetworkReply *reply = m_networkManager->get(request);
     m_activeImageReplies.insert(reply);
 
     connect(
         reply, &QNetworkReply::finished, this,
-        [this, reply, url, manager, retryCount]() {
+        [this, reply, url, retryCount]() {
             m_activeImageReplies.remove(reply);
             if (reply->error() == QNetworkReply::NoError) {
                 QByteArray imageData = reply->readAll();
@@ -420,7 +431,7 @@ void ResourceWidget::downloadImage(QNetworkAccessManager *manager, const QString
                         qDebug() << "Backoff not increased due to recent increase, current backoff:" << m_backoff;
                     }
                     qDebug() << "Rate limited, retrying URL:" << url << "attempt:" << attempts + 1 << "with delay:" << m_backoff;
-                    downloadImage(manager, url, retryCount);
+                    downloadImage(url, retryCount);
                 } else {
                     qDebug() << "Maximum retry attempts reached for URL:" << url << "giving up";
                 }

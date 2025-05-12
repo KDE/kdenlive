@@ -4438,7 +4438,10 @@ const QString Bin::slotUrlsDropped(const QList<QUrl> urls, const QModelIndex par
         while (parentItem->itemType() != AbstractProjectItem::FolderItem) {
             parentItem = parentItem->parent();
         }
-        parentFolder = parentItem->clipId();
+        // Never drop in the sequences folder
+        if (parentItem->clipId() != QString::number(m_itemModel->defaultSequencesFolder())) {
+            parentFolder = parentItem->clipId();
+        }
     }
     const QString id = ClipCreator::createClipsFromList(urls, true, parentFolder, m_itemModel);
     if (!id.isEmpty()) {

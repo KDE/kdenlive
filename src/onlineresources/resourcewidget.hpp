@@ -63,6 +63,7 @@ private Q_SLOTS:
     void slotSaveItem(const QString &originalUrl = QString(), const QString &accessToken = QString());
     void slotGotFile(KJob *job);
     void slotAccessTokenReceived(const QString &accessToken);
+    void abortDownload();
 
 private:
     std::unique_ptr<ProviderModel> *m_currentProvider{nullptr};
@@ -77,12 +78,14 @@ private:
     QSet<QTimer *> m_imageBackoffTimers;
     int m_backoff = 0;
     QElapsedTimer m_backoffCooldownTimer;
+    QAction *m_stopAction;
+    QNetworkAccessManager *m_networkManager{nullptr};
     ResourceItemInfo getItemById(const QString &id);
     void loadConfig();
     void saveConfig();
     void blockUI(bool block);
     QString licenseNameFromUrl(const QString &licenseUrl, const bool shortName);
-    void downloadImage(QNetworkAccessManager *manager, const QString &url, QSharedPointer<QMap<QString, int>> retryCount);
+    void downloadImage(const QString &url, QSharedPointer<QMap<QString, int>> retryCount);
 
 Q_SIGNALS:
     void addClip(const QUrl &, const QString &);
