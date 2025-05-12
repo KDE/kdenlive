@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-10 02:36+0000\n"
-"PO-Revision-Date: 2025-05-08 13:30+0300\n"
+"PO-Revision-Date: 2025-05-11 18:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4892,51 +4892,45 @@ msgid "Scope width"
 msgstr "Şekil genişliği"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Width of the scope display]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Kapsam görüntüsünün genişliği]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Scope height"
-msgstr "Sağ üst"
+msgstr "Kapsam yüksekliği"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Height of the scope display]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Kapsam görüntüsünün yüksekliği]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Components"
-msgstr "Bileşenler:"
+msgstr "Bileşenler"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[İzlenecek bileşenleri seçin.]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw scope grid"
-msgstr "Izgara çiz"
+msgstr "Kapsam ızgarasını çiz"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
 #, kde-format
 msgid "<![CDATA[Switch grid on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Izgarayı açın veya kapatın.]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
 msgid "Print statistics"
-msgstr ""
+msgstr "İstatistikleri yazdır"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, kde-format
@@ -4946,12 +4940,12 @@ msgstr ""
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
 msgid "Draw trace profile line"
-msgstr ""
+msgstr "İz profili çizgisini çiz"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
 msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
-msgstr ""
+msgstr "<![CDATA[İz profili çizgisini açın veya kapatın.]]>"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format

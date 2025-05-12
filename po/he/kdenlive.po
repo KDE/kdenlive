@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-10 02:36+0000\n"
-"PO-Revision-Date: 2025-05-05 15:35+0300\n"
+"PO-Revision-Date: 2025-05-11 19:27+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1046,32 +1046,32 @@ msgstr ""
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
 #, kde-format
 msgid "A threshold for 1st plane"
-msgstr ""
+msgstr "סף א׳ למישור הראשון"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:11
 #, kde-format
 msgid "B threshold for 1st plane"
-msgstr ""
+msgstr "סף ב׳ למישור הראשון"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:14
 #, kde-format
 msgid "A threshold for 2nd plane"
-msgstr ""
+msgstr "סף א׳ למישור השני"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:17
 #, kde-format
 msgid "B threshold for 2nd plane"
-msgstr ""
+msgstr "סף ב׳ למישור השני"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:20
 #, kde-format
 msgid "A threshold for 3rd plane"
-msgstr ""
+msgstr "סף א׳ למישור השלישי"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:23
 #, kde-format
 msgid "B threshold for 3rd plane"
-msgstr ""
+msgstr "סף ב׳ למישור השלישי"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
 #, fuzzy, kde-format
@@ -1201,7 +1201,7 @@ msgstr "שבח"
 #: data/effects/avfilter/avfilter_lowshelf.xml:22
 #, kde-format
 msgid "Poles"
-msgstr ""
+msgstr "קטבים"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:4
 #, kde-format
