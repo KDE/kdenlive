@@ -34,7 +34,6 @@ public:
         @returns wether all checks succeeded.
     */
     ~AbstractPythonInterface() override;
-    bool checkSetup(bool requestInstall = false, bool *newInstall = nullptr);
     /** @brief Check if the Python venv is setup correctly, if not create it if requested.
      *  @returns true if the venv is setup properly or was created sucessfully, otherwiese false
      */
@@ -96,6 +95,7 @@ public Q_SLOTS:
     void checkVersionsConcurrently();
     /** @brief Ensure all dependenciew are installed. */
     bool installMissingDependencies();
+    bool checkSetup(bool requestInstall = false, bool *newInstall = nullptr);
 
 private:
     QStringList m_missing;

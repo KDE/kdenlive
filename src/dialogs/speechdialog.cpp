@@ -68,13 +68,13 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     adjustSize();
 
-    QButtonGroup *buttonGroup = new QButtonGroup(this);
-    buttonGroup->addButton(timeline_full, 1);
-    buttonGroup->addButton(timeline_zone, 2);
-    buttonGroup->addButton(timeline_track, 3);
-    buttonGroup->addButton(timeline_clips, 4);
-    connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this,
-            [=, selectedTrack = tid, sourceZone = zone, bg = buttonGroup](QAbstractButton *button) {
+    m_buttonGroup = new QButtonGroup(this);
+    m_buttonGroup->addButton(timeline_full, 1);
+    m_buttonGroup->addButton(timeline_zone, 2);
+    m_buttonGroup->addButton(timeline_track, 3);
+    m_buttonGroup->addButton(timeline_clips, 4);
+    connect(m_buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this,
+            [=, selectedTrack = tid, sourceZone = zone, bg = m_buttonGroup](QAbstractButton *button) {
                 if (speech_info->messageType() == KMessageWidget::Information) {
                     speech_info->animatedHide();
                 }
@@ -141,10 +141,10 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
                     m_zone = sourceZone;
                 }
             });
-    QAbstractButton *button = buttonGroup->button(KdenliveSettings::subtitleMode());
+    QAbstractButton *button = m_buttonGroup->button(KdenliveSettings::subtitleMode());
     if (button) {
         button->setChecked(true);
-        Q_EMIT buttonGroup->buttonClicked(button);
+        Q_EMIT m_buttonGroup->buttonClicked(button);
     }
     connect(speech_model, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]() {
         if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
@@ -163,15 +163,35 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
         }
     });
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    QTimer::singleShot(200, this, &SpeechDialog::checkDeps);
+    connect(m_stt, &SpeechToText::installStatusChanged, this, &SpeechDialog::checkDeps);
+    qDebug() << "SAM INTERFASCE STATUS: " << m_stt->status();
+    if (m_stt->status() == AbstractPythonInterface::Installed) {
+        checkDeps();
+    } else {
+        QTimer::singleShot(200, this, [&]() { m_stt->checkSetup(); });
+    }
 }
 
 SpeechDialog::~SpeechDialog() {}
 
 void SpeechDialog::checkDeps()
 {
-    if (m_stt->checkDependencies(false, true)) {
+    if (m_stt->status() == AbstractPythonInterface::Installed) {
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+        QList<QAbstractButton *> buttons = m_buttonGroup->buttons();
+        for (auto &b : buttons) {
+            b->setEnabled(true);
+        }
+    } else {
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        speech_info->setText(i18n("Please configure speech to text."));
+        speech_info->addAction(m_speechConfig);
+        speech_info->setMessageType(KMessageWidget::Warning);
+        speech_info->animatedShow();
+        QList<QAbstractButton *> buttons = m_buttonGroup->buttons();
+        for (auto &b : buttons) {
+            b->setEnabled(false);
+        }
     }
     // Only enable subtitle max size if srt_equalizer is found
     bool equalizerAvailable = m_stt->optionalDependencyAvailable(QLatin1String("srt_equalizer"));
@@ -264,16 +284,11 @@ void SpeechDialog::slotProcessSpeech()
     speech_info->setText(i18nc("@label:textbox", "Checking setup…"));
     speech_info->show();
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    QStringList missingDeps = m_stt->missingDependencies();
-    if (!KdenliveSettings::speech_system_python() && (!m_stt->checkSetup() || !missingDeps.isEmpty())) {
+    if (!KdenliveSettings::speech_system_python()) {
         speech_info->setMessageType(KMessageWidget::Warning);
-        if (!missingDeps.isEmpty()) {
-            speech_info->setText(i18n("Please configure speech to text, missing dependencies: %1", missingDeps.join(QLatin1String(", "))));
-        } else {
-            speech_info->setText(i18n("Please configure speech to text."));
-        }
-        speech_info->animatedShow();
+        speech_info->setText(i18n("Please configure speech to text."));
         speech_info->addAction(m_speechConfig);
+        speech_info->animatedShow();
         return;
     }
     speech_info->removeAction(m_speechConfig);
