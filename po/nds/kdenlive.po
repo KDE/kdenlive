@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-11 00:42+0000\n"
+"POT-Creation-Date: 2025-05-12 00:41+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -16244,7 +16244,7 @@ msgstr "Bülghööchde"
 #: src/bin/bin.cpp:2481 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layouts/layoutcollection.cpp:22 src/lib/audio/audioStreamInfo.cpp:25
 #: src/lib/audio/audioStreamInfo.cpp:31 src/monitor/recmanager.cpp:46
-#: src/onlineresources/resourcewidget.cpp:589 src/ui/clipjobmanager_ui.ui:388
+#: src/onlineresources/resourcewidget.cpp:673 src/ui/clipjobmanager_ui.ui:388
 #: src/ui/configcapture_ui.ui:533 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
 #: src/ui/renderwidget_ui.ui:628
@@ -16533,9 +16533,9 @@ msgid "Edit Tags"
 msgstr "Vöransichten wiesen"
 
 #: src/bin/bin.cpp:4607 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
-#: src/onlineresources/resourcewidget.cpp:599
-#: src/onlineresources/resourcewidget.cpp:614
+#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:287
+#: src/onlineresources/resourcewidget.cpp:683
+#: src/onlineresources/resourcewidget.cpp:698
 #, fuzzy, kde-format
 #| msgid "Profile name"
 msgid "Unnamed"
@@ -21516,7 +21516,7 @@ msgid "Comments : "
 msgstr ""
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
-#: src/onlineresources/resourcewidget.cpp:595
+#: src/onlineresources/resourcewidget.cpp:679
 #, kde-format
 msgid "All Files"
 msgstr "All Dateien"
@@ -24657,7 +24657,7 @@ msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Nieg Profil opstellen"
 
-#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:694
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2327
 #, kde-format
@@ -25952,7 +25952,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:591
+#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:675
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:487
@@ -26310,242 +26310,242 @@ msgctxt "@title:window"
 msgid "Error Loading Data"
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/onlineresources/resourcewidget.cpp:83
+#: src/onlineresources/resourcewidget.cpp:84
 #, kde-format
 msgid ""
 "Login is required to download this item.\n"
 "You will be redirected to the login page now."
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:186
+#: src/onlineresources/resourcewidget.cpp:190
 #, kde-format
 msgid "Media provided by %1"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:216
+#: src/onlineresources/resourcewidget.cpp:233
 #, fuzzy, kde-format
 #| msgid "Search automatically"
 msgctxt "@info:status"
 msgid "Search pending…"
 msgstr "Automaatsch söken"
 
-#: src/onlineresources/resourcewidget.cpp:236
+#: src/onlineresources/resourcewidget.cpp:253
 #, fuzzy, kde-format
 #| msgid "Search automatically"
 msgid "Search failed! %1"
 msgstr "Automaatsch söken"
 
-#: src/onlineresources/resourcewidget.cpp:256
+#: src/onlineresources/resourcewidget.cpp:273
 #, fuzzy, kde-format
 #| msgid "Fit to height"
 msgctxt "@info"
 msgid "No items found."
 msgstr "Op Hööchd topassen"
 
-#: src/onlineresources/resourcewidget.cpp:267
+#: src/onlineresources/resourcewidget.cpp:284
 #, kde-format
 msgctxt "@info:progress"
 msgid "Parsing item %1 of %2…"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:270
+#: src/onlineresources/resourcewidget.cpp:287
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgctxt "Created by author name"
 msgid "Created by %1"
 msgstr "Nieg Profil opstellen"
 
-#: src/onlineresources/resourcewidget.cpp:377
+#: src/onlineresources/resourcewidget.cpp:461
 #, kde-format
 msgctxt "the url link pointing to a web page"
 msgid "link"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:383
+#: src/onlineresources/resourcewidget.cpp:467
 #, kde-format
 msgid "Created by <a href=\"%1\">"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:387
+#: src/onlineresources/resourcewidget.cpp:471
 #: src/project/dialogs/projectsettings.cpp:224
 #, fuzzy, kde-format
 #| msgid "dvdauthor"
 msgid "Author"
 msgstr "dvdauthor"
 
-#: src/onlineresources/resourcewidget.cpp:391
+#: src/onlineresources/resourcewidget.cpp:475
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Created by %1"
 msgstr "Nieg Profil opstellen"
 
-#: src/onlineresources/resourcewidget.cpp:397
+#: src/onlineresources/resourcewidget.cpp:481
 #, kde-format
 msgid "Size: %1 x %2"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:400
+#: src/onlineresources/resourcewidget.cpp:484
 #, fuzzy, kde-format
 #| msgid "Frame Duration"
 msgid "Duration: %1 sec"
 msgstr "Bildduer"
 
-#: src/onlineresources/resourcewidget.cpp:428
+#: src/onlineresources/resourcewidget.cpp:512
 #, fuzzy, kde-format
 #| msgid "Scaling"
 msgctxt "Creative Commons License"
 msgid "CC Sampling+"
 msgstr "Grött topassen"
 
-#: src/onlineresources/resourcewidget.cpp:430
+#: src/onlineresources/resourcewidget.cpp:514
 #, fuzzy, kde-format
 #| msgid "Position"
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution"
 msgstr "Positschoon"
 
-#: src/onlineresources/resourcewidget.cpp:431
+#: src/onlineresources/resourcewidget.cpp:515
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:433
+#: src/onlineresources/resourcewidget.cpp:517
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NoDerivs"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:434
+#: src/onlineresources/resourcewidget.cpp:518
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-ND"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:436
+#: src/onlineresources/resourcewidget.cpp:520
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-ShareAlike"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:437
+#: src/onlineresources/resourcewidget.cpp:521
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-SA"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:439
+#: src/onlineresources/resourcewidget.cpp:523
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-ShareAlike"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:440
+#: src/onlineresources/resourcewidget.cpp:524
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-SA"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:442
+#: src/onlineresources/resourcewidget.cpp:526
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:443
+#: src/onlineresources/resourcewidget.cpp:527
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:445
+#: src/onlineresources/resourcewidget.cpp:529
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-NoDerivs"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:446
+#: src/onlineresources/resourcewidget.cpp:530
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-ND"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:448
+#: src/onlineresources/resourcewidget.cpp:532
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgctxt "Creative Commons License"
 msgid "Creative Commons 0"
 msgstr "Nieg Profil opstellen"
 
-#: src/onlineresources/resourcewidget.cpp:449
+#: src/onlineresources/resourcewidget.cpp:533
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC 0"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:451
+#: src/onlineresources/resourcewidget.cpp:535
 #, kde-format
 msgctxt "License"
 msgid "Public Domain"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:453
+#: src/onlineresources/resourcewidget.cpp:537
 #, kde-format
 msgctxt "Short for: Unknown Creative Commons License"
 msgid "Unknown CC License"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:454
+#: src/onlineresources/resourcewidget.cpp:538
 #, kde-format
 msgid "Unknown Creative Commons License"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:474
+#: src/onlineresources/resourcewidget.cpp:558
 #, kde-format
 msgid "Pexels License"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:476
+#: src/onlineresources/resourcewidget.cpp:560
 #, kde-format
 msgid "Pixabay License"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:479
+#: src/onlineresources/resourcewidget.cpp:563
 #, fuzzy, kde-format
 #| msgid "Unknown"
 msgid "Unknown License"
 msgstr "Nich begäng"
 
-#: src/onlineresources/resourcewidget.cpp:516
+#: src/onlineresources/resourcewidget.cpp:600
 #, kde-format
 msgid "It maybe takes a while until the preview is loaded"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:524
+#: src/onlineresources/resourcewidget.cpp:608
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Online Resources Preview"
 msgstr "Bilddatei"
 
-#: src/onlineresources/resourcewidget.cpp:546
+#: src/onlineresources/resourcewidget.cpp:630
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose File Version"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:546
+#: src/onlineresources/resourcewidget.cpp:630
 #, kde-format
 msgid "Please choose the version you want to download"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:593 src/ui/clipjobmanager_ui.ui:395
+#: src/onlineresources/resourcewidget.cpp:677 src/ui/clipjobmanager_ui.ui:395
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Images"
 msgstr "Bilddatei"
 
-#: src/onlineresources/resourcewidget.cpp:608
+#: src/onlineresources/resourcewidget.cpp:692
 #, kde-format
 msgid ""
 "Be aware that the usage of the resource is maybe restricted by license terms "
@@ -26553,12 +26553,12 @@ msgid ""
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:611
+#: src/onlineresources/resourcewidget.cpp:695
 #, kde-format
 msgid "Remember this decision"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:697
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -26566,35 +26566,35 @@ msgid ""
 "this license, visit %5"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:654
+#: src/onlineresources/resourcewidget.cpp:738
 #, kde-format
 msgid "%1 Try again."
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:654
-#: src/onlineresources/resourcewidget.cpp:656
+#: src/onlineresources/resourcewidget.cpp:738
+#: src/onlineresources/resourcewidget.cpp:740
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error Loading Data"
 msgstr "Fehler bi't Opmaken vun en Datei"
 
-#: src/onlineresources/resourcewidget.cpp:665
+#: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
 msgid "Resource saved to %1"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:665
+#: src/onlineresources/resourcewidget.cpp:749
 #, fuzzy, kde-format
 #| msgid "import"
 msgid "Data Imported"
 msgstr "Importeren"
 
-#: src/onlineresources/resourcewidget.cpp:693
+#: src/onlineresources/resourcewidget.cpp:777
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:694
+#: src/onlineresources/resourcewidget.cpp:778
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error Getting Access Token from %1."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-11 00:42+0000\n"
+"POT-Creation-Date: 2025-05-12 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -16297,7 +16297,7 @@ msgstr "वीडियो म्यूट करें"
 #: src/bin/bin.cpp:2481 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layouts/layoutcollection.cpp:22 src/lib/audio/audioStreamInfo.cpp:25
 #: src/lib/audio/audioStreamInfo.cpp:31 src/monitor/recmanager.cpp:46
-#: src/onlineresources/resourcewidget.cpp:589 src/ui/clipjobmanager_ui.ui:388
+#: src/onlineresources/resourcewidget.cpp:673 src/ui/clipjobmanager_ui.ui:388
 #: src/ui/configcapture_ui.ui:533 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
 #: src/ui/renderwidget_ui.ui:628
@@ -16564,9 +16564,9 @@ msgid "Edit Tags"
 msgstr "जोड़ संपादित करें"
 
 #: src/bin/bin.cpp:4607 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
-#: src/onlineresources/resourcewidget.cpp:599
-#: src/onlineresources/resourcewidget.cpp:614
+#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:287
+#: src/onlineresources/resourcewidget.cpp:683
+#: src/onlineresources/resourcewidget.cpp:698
 #, kde-format
 msgid "Unnamed"
 msgstr "अज्ञात"
@@ -21420,7 +21420,7 @@ msgid "Comments : "
 msgstr "टिप्पणियाँ :"
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
-#: src/onlineresources/resourcewidget.cpp:595
+#: src/onlineresources/resourcewidget.cpp:679
 #, kde-format
 msgid "All Files"
 msgstr "सभी फाइलें"
@@ -24420,7 +24420,7 @@ msgctxt "@action:button"
 msgid "Recreate"
 msgstr "बहलाना"
 
-#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:694
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2327
 #, kde-format
@@ -25671,7 +25671,7 @@ msgstr "पूर्व दर्शन"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:591
+#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:675
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:487
@@ -26057,7 +26057,7 @@ msgctxt "@title:window"
 msgid "Error Loading Data"
 msgstr "डेटा लोड करते समय त्रुटि"
 
-#: src/onlineresources/resourcewidget.cpp:83
+#: src/onlineresources/resourcewidget.cpp:84
 #, kde-format
 msgid ""
 "Login is required to download this item.\n"
@@ -26066,222 +26066,222 @@ msgstr ""
 "इस आइटम को डाउनलोड करने के लिए लॉगिन आवश्यक है।\n"
 "अब आपको लॉगिन पेज पर पुनः निर्देशित किया जाएगा।"
 
-#: src/onlineresources/resourcewidget.cpp:186
+#: src/onlineresources/resourcewidget.cpp:190
 #, kde-format
 msgid "Media provided by %1"
 msgstr "मीडिया %1 द्वारा प्रदान किया गया"
 
-#: src/onlineresources/resourcewidget.cpp:216
+#: src/onlineresources/resourcewidget.cpp:233
 #, kde-format
 msgctxt "@info:status"
 msgid "Search pending…"
 msgstr "खोज लंबित…"
 
-#: src/onlineresources/resourcewidget.cpp:236
+#: src/onlineresources/resourcewidget.cpp:253
 #, kde-format
 msgid "Search failed! %1"
 msgstr "खोज विफल! %1"
 
-#: src/onlineresources/resourcewidget.cpp:256
+#: src/onlineresources/resourcewidget.cpp:273
 #, kde-format
 msgctxt "@info"
 msgid "No items found."
 msgstr "कोई आइटम नहीं मिला।"
 
-#: src/onlineresources/resourcewidget.cpp:267
+#: src/onlineresources/resourcewidget.cpp:284
 #, kde-format
 msgctxt "@info:progress"
 msgid "Parsing item %1 of %2…"
 msgstr "%2 में से आइटम %1 को पार्स किया जा रहा है…"
 
-#: src/onlineresources/resourcewidget.cpp:270
+#: src/onlineresources/resourcewidget.cpp:287
 #, kde-format
 msgctxt "Created by author name"
 msgid "Created by %1"
 msgstr "%1 द्वारा निर्मित"
 
-#: src/onlineresources/resourcewidget.cpp:377
+#: src/onlineresources/resourcewidget.cpp:461
 #, kde-format
 msgctxt "the url link pointing to a web page"
 msgid "link"
 msgstr "जोड़ना"
 
-#: src/onlineresources/resourcewidget.cpp:383
+#: src/onlineresources/resourcewidget.cpp:467
 #, kde-format
 msgid "Created by <a href=\"%1\">"
 msgstr "के द्वारा बनाई गई<a href=\"%1\">"
 
-#: src/onlineresources/resourcewidget.cpp:387
+#: src/onlineresources/resourcewidget.cpp:471
 #: src/project/dialogs/projectsettings.cpp:224
 #, kde-format
 msgid "Author"
 msgstr "लेखक"
 
-#: src/onlineresources/resourcewidget.cpp:391
+#: src/onlineresources/resourcewidget.cpp:475
 #, kde-format
 msgid "Created by %1"
 msgstr "%1 द्वारा निर्मित"
 
-#: src/onlineresources/resourcewidget.cpp:397
+#: src/onlineresources/resourcewidget.cpp:481
 #, kde-format
 msgid "Size: %1 x %2"
 msgstr "आकारः %1 x %2"
 
-#: src/onlineresources/resourcewidget.cpp:400
+#: src/onlineresources/resourcewidget.cpp:484
 #, kde-format
 msgid "Duration: %1 sec"
 msgstr "अवधि: %1 सेकंड"
 
-#: src/onlineresources/resourcewidget.cpp:428
+#: src/onlineresources/resourcewidget.cpp:512
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "CC Sampling+"
 msgstr "सीसी सैंपलिंग+"
 
-#: src/onlineresources/resourcewidget.cpp:430
+#: src/onlineresources/resourcewidget.cpp:514
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution"
 msgstr "सामान्य आरोप बनाएं"
 
-#: src/onlineresources/resourcewidget.cpp:431
+#: src/onlineresources/resourcewidget.cpp:515
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY"
 msgstr "सीसी बाय"
 
-#: src/onlineresources/resourcewidget.cpp:433
+#: src/onlineresources/resourcewidget.cpp:517
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NoDerivs"
 msgstr "क्रिएटिव कॉमन्स एट्रिब्यूशन-नोडेरीव्स"
 
-#: src/onlineresources/resourcewidget.cpp:434
+#: src/onlineresources/resourcewidget.cpp:518
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-ND"
 msgstr "सीसी बाय-एनडी"
 
-#: src/onlineresources/resourcewidget.cpp:436
+#: src/onlineresources/resourcewidget.cpp:520
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-ShareAlike"
 msgstr "क्रिएटिव कॉमन्स एट्रिब्यूशन-नॉन कमर्शियल-शेयरअलाइक"
 
-#: src/onlineresources/resourcewidget.cpp:437
+#: src/onlineresources/resourcewidget.cpp:521
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-SA"
 msgstr "सीसी बाय-एनसी-एसए"
 
-#: src/onlineresources/resourcewidget.cpp:439
+#: src/onlineresources/resourcewidget.cpp:523
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-ShareAlike"
 msgstr "क्रिएटिव कॉमन्स एट्रिब्यूशन-शेयरअलाइक"
 
-#: src/onlineresources/resourcewidget.cpp:440
+#: src/onlineresources/resourcewidget.cpp:524
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-SA"
 msgstr "सीसी बाय-एसए"
 
-#: src/onlineresources/resourcewidget.cpp:442
+#: src/onlineresources/resourcewidget.cpp:526
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial"
 msgstr "क्रिएटिव कॉमन्स एट्रिब्यूशन-नॉन-कमर्शियल"
 
-#: src/onlineresources/resourcewidget.cpp:443
+#: src/onlineresources/resourcewidget.cpp:527
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC"
 msgstr "सीसी बाय-एनसी"
 
-#: src/onlineresources/resourcewidget.cpp:445
+#: src/onlineresources/resourcewidget.cpp:529
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-NoDerivs"
 msgstr "क्रिएटिव कॉमन्स एट्रिब्यूशन-नॉनकमर्शियल-नोडेरिवेटिव्स"
 
-#: src/onlineresources/resourcewidget.cpp:446
+#: src/onlineresources/resourcewidget.cpp:530
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-ND"
 msgstr "CC BY-एनसी-एनडी"
 
-#: src/onlineresources/resourcewidget.cpp:448
+#: src/onlineresources/resourcewidget.cpp:532
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons 0"
 msgstr "क्रिएटिव कॉमन्स 0"
 
-#: src/onlineresources/resourcewidget.cpp:449
+#: src/onlineresources/resourcewidget.cpp:533
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC 0"
 msgstr "सीसी 0"
 
-#: src/onlineresources/resourcewidget.cpp:451
+#: src/onlineresources/resourcewidget.cpp:535
 #, kde-format
 msgctxt "License"
 msgid "Public Domain"
 msgstr "पब्लिक डोमेन"
 
-#: src/onlineresources/resourcewidget.cpp:453
+#: src/onlineresources/resourcewidget.cpp:537
 #, kde-format
 msgctxt "Short for: Unknown Creative Commons License"
 msgid "Unknown CC License"
 msgstr "अज्ञात CC लाइसेंस"
 
-#: src/onlineresources/resourcewidget.cpp:454
+#: src/onlineresources/resourcewidget.cpp:538
 #, kde-format
 msgid "Unknown Creative Commons License"
 msgstr "अज्ञात क्रिएटिव कॉमन्स लाइसेंस"
 
-#: src/onlineresources/resourcewidget.cpp:474
+#: src/onlineresources/resourcewidget.cpp:558
 #, kde-format
 msgid "Pexels License"
 msgstr "Pexels लाइसेंस"
 
-#: src/onlineresources/resourcewidget.cpp:476
+#: src/onlineresources/resourcewidget.cpp:560
 #, kde-format
 msgid "Pixabay License"
 msgstr "पिक्साबे लाइसेंस"
 
-#: src/onlineresources/resourcewidget.cpp:479
+#: src/onlineresources/resourcewidget.cpp:563
 #, kde-format
 msgid "Unknown License"
 msgstr "अज्ञात लाइसेंस"
 
-#: src/onlineresources/resourcewidget.cpp:516
+#: src/onlineresources/resourcewidget.cpp:600
 #, kde-format
 msgid "It maybe takes a while until the preview is loaded"
 msgstr "पूर्वावलोकन लोड होने में कुछ समय लग सकता है"
 
-#: src/onlineresources/resourcewidget.cpp:524
+#: src/onlineresources/resourcewidget.cpp:608
 #, kde-format
 msgid "Online Resources Preview"
 msgstr "ऑनलाइन संसाधन पूर्वावलोकन"
 
-#: src/onlineresources/resourcewidget.cpp:546
+#: src/onlineresources/resourcewidget.cpp:630
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose File Version"
 msgstr "फ़ाइल संस्करण चुनें"
 
-#: src/onlineresources/resourcewidget.cpp:546
+#: src/onlineresources/resourcewidget.cpp:630
 #, kde-format
 msgid "Please choose the version you want to download"
 msgstr "कृपया वह संस्करण चुनें जिसे आप डाउनलोड करना चाहते हैं"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:593 src/ui/clipjobmanager_ui.ui:395
+#: src/onlineresources/resourcewidget.cpp:677 src/ui/clipjobmanager_ui.ui:395
 #, kde-format
 msgid "Images"
 msgstr "इमेजिस"
 
-#: src/onlineresources/resourcewidget.cpp:608
+#: src/onlineresources/resourcewidget.cpp:692
 #, kde-format
 msgid ""
 "Be aware that the usage of the resource is maybe restricted by license terms "
@@ -26291,12 +26291,12 @@ msgstr ""
 "ध्यान रखें कि संसाधन का उपयोग लाइसेंस शर्तों या कानून द्वारा प्रतिबंधित हो सकता है! क्या "
 "आप अपने प्रोजेक्ट नोट्स में लाइसेंस एट्रिब्यूशन जोड़ना चाहते हैं?"
 
-#: src/onlineresources/resourcewidget.cpp:611
+#: src/onlineresources/resourcewidget.cpp:695
 #, kde-format
 msgid "Remember this decision"
 msgstr "इस निर्णय को याद रखें"
 
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:697
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -26306,33 +26306,33 @@ msgstr ""
 "यह वीडियो %4 के अंतर्गत लाइसेंस प्राप्त \"%3\" द्वारा \"%1\" (%2) का उपयोग करता है। "
 "इस लाइसेंस की एक प्रति देखने के लिए, %5 पर जाएँ"
 
-#: src/onlineresources/resourcewidget.cpp:654
+#: src/onlineresources/resourcewidget.cpp:738
 #, kde-format
 msgid "%1 Try again."
 msgstr "%1 पुनः प्रयास करें."
 
-#: src/onlineresources/resourcewidget.cpp:654
-#: src/onlineresources/resourcewidget.cpp:656
+#: src/onlineresources/resourcewidget.cpp:738
+#: src/onlineresources/resourcewidget.cpp:740
 #, kde-format
 msgid "Error Loading Data"
 msgstr "डेटा लोड करते समय त्रुटि"
 
-#: src/onlineresources/resourcewidget.cpp:665
+#: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
 msgid "Resource saved to %1"
 msgstr "संसाधन %1 में सहेजा गया"
 
-#: src/onlineresources/resourcewidget.cpp:665
+#: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
 msgid "Data Imported"
 msgstr "डेटा आयातित"
 
-#: src/onlineresources/resourcewidget.cpp:693
+#: src/onlineresources/resourcewidget.cpp:777
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr "नया कनेक्शन प्राप्त करने के लिए पुनः आयात करने का प्रयास करें"
 
-#: src/onlineresources/resourcewidget.cpp:694
+#: src/onlineresources/resourcewidget.cpp:778
 #, kde-format
 msgid "Error Getting Access Token from %1."
 msgstr "%1 से एक्सेस टोकन प्राप्त करने में त्रुटि."

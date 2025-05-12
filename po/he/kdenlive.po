@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-11 00:42+0000\n"
-"PO-Revision-Date: 2025-05-05 15:35+0300\n"
+"POT-Creation-Date: 2025-05-12 00:41+0000\n"
+"PO-Revision-Date: 2025-05-11 19:27+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1047,32 +1047,32 @@ msgstr ""
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
 #, kde-format
 msgid "A threshold for 1st plane"
-msgstr ""
+msgstr "סף א׳ למישור הראשון"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:11
 #, kde-format
 msgid "B threshold for 1st plane"
-msgstr ""
+msgstr "סף ב׳ למישור הראשון"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:14
 #, kde-format
 msgid "A threshold for 2nd plane"
-msgstr ""
+msgstr "סף א׳ למישור השני"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:17
 #, kde-format
 msgid "B threshold for 2nd plane"
-msgstr ""
+msgstr "סף ב׳ למישור השני"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:20
 #, kde-format
 msgid "A threshold for 3rd plane"
-msgstr ""
+msgstr "סף א׳ למישור השלישי"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:23
 #, kde-format
 msgid "B threshold for 3rd plane"
-msgstr ""
+msgstr "סף ב׳ למישור השלישי"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
 #, fuzzy, kde-format
@@ -1201,7 +1201,7 @@ msgstr "שבח"
 #: data/effects/avfilter/avfilter_lowshelf.xml:22
 #, kde-format
 msgid "Poles"
-msgstr ""
+msgstr "קטבים"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:4
 #, kde-format
@@ -15873,7 +15873,7 @@ msgstr "השתקת וידאו"
 #: src/bin/bin.cpp:2481 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layouts/layoutcollection.cpp:22 src/lib/audio/audioStreamInfo.cpp:25
 #: src/lib/audio/audioStreamInfo.cpp:31 src/monitor/recmanager.cpp:46
-#: src/onlineresources/resourcewidget.cpp:589 src/ui/clipjobmanager_ui.ui:388
+#: src/onlineresources/resourcewidget.cpp:673 src/ui/clipjobmanager_ui.ui:388
 #: src/ui/configcapture_ui.ui:533 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
 #: src/ui/renderwidget_ui.ui:628
@@ -16141,9 +16141,9 @@ msgid "Edit Tags"
 msgstr "עריכת תגיות"
 
 #: src/bin/bin.cpp:4607 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
-#: src/onlineresources/resourcewidget.cpp:599
-#: src/onlineresources/resourcewidget.cpp:614
+#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:287
+#: src/onlineresources/resourcewidget.cpp:683
+#: src/onlineresources/resourcewidget.cpp:698
 #, kde-format
 msgid "Unnamed"
 msgstr "ללא שם"
@@ -18398,10 +18398,9 @@ msgstr "אורך קובץ לאחר תיצוג: %1"
 
 #: src/dialogs/renderwidget.cpp:1891
 #: src/mltcontroller/clippropertiescontroller.cpp:605
-#, fuzzy, kde-format
-#| msgid "Time offset:"
+#, kde-format
 msgid "Timecode Offset:"
-msgstr "הפרש זמן:"
+msgstr "הפרש קוד זמן:"
 
 #: src/dialogs/renderwidget.cpp:1896
 #, kde-format
@@ -21007,7 +21006,7 @@ msgid "Comments : "
 msgstr "הערות: "
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
-#: src/onlineresources/resourcewidget.cpp:595
+#: src/onlineresources/resourcewidget.cpp:679
 #, kde-format
 msgid "All Files"
 msgstr "כל הקבצים"
@@ -22032,10 +22031,9 @@ msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr "הפריסה %1 כבר קיימת. להחליף אותה?"
 
 #: src/layouts/layoutmanagerdialog.cpp:30
-#, fuzzy, kde-format
-#| msgid "Manage Layouts…"
+#, kde-format
 msgid "Manage Layouts"
-msgstr "ניהול פריסות…"
+msgstr "ניהול פריסות"
 
 #: src/layouts/layoutmanagerdialog.cpp:32
 #, kde-format
@@ -22059,10 +22057,9 @@ msgid "Export selected"
 msgstr "ייצוא הנבחרת"
 
 #: src/layouts/layoutmanagerdialog.cpp:140
-#, fuzzy, kde-format
-#| msgid "Current Layouts"
+#, kde-format
 msgid "Reset Layouts"
-msgstr "פריסות נוכחיות"
+msgstr "איפוס פריסות"
 
 #: src/layouts/layoutmanagerdialog.cpp:141
 #, kde-format
@@ -22074,11 +22071,9 @@ msgstr ""
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Export Layout"
+#, kde-format
 msgid "Import Layout"
-msgstr "ייצוא פריסה"
+msgstr "ייבוא פריסה"
 
 #: src/layouts/layoutmanagerdialog.cpp:154
 #: src/layouts/layoutmanagerdialog.cpp:211
@@ -23972,7 +23967,7 @@ msgctxt "@action:button"
 msgid "Recreate"
 msgstr "יצירה מחדש"
 
-#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:694
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2327
 #, kde-format
@@ -25211,7 +25206,7 @@ msgstr "תצוגה מקדימה"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:591
+#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:675
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:487
@@ -25592,7 +25587,7 @@ msgctxt "@title:window"
 msgid "Error Loading Data"
 msgstr "שגיאה בטעינת נתונים"
 
-#: src/onlineresources/resourcewidget.cpp:83
+#: src/onlineresources/resourcewidget.cpp:84
 #, kde-format
 msgid ""
 "Login is required to download this item.\n"
@@ -25601,222 +25596,222 @@ msgstr ""
 "צריך להיכנס כדי להוריד את הפריט הזה.\n"
 "כעת תתבצע הפניה לעמוד הכניסה."
 
-#: src/onlineresources/resourcewidget.cpp:186
+#: src/onlineresources/resourcewidget.cpp:190
 #, kde-format
 msgid "Media provided by %1"
 msgstr "מדיה סופקה על ידי %1"
 
-#: src/onlineresources/resourcewidget.cpp:216
+#: src/onlineresources/resourcewidget.cpp:233
 #, kde-format
 msgctxt "@info:status"
 msgid "Search pending…"
 msgstr "החיפוש ממתין…"
 
-#: src/onlineresources/resourcewidget.cpp:236
+#: src/onlineresources/resourcewidget.cpp:253
 #, kde-format
 msgid "Search failed! %1"
 msgstr "החיפוש נכשל! %1"
 
-#: src/onlineresources/resourcewidget.cpp:256
+#: src/onlineresources/resourcewidget.cpp:273
 #, kde-format
 msgctxt "@info"
 msgid "No items found."
 msgstr "לא נמצאו פריטים."
 
-#: src/onlineresources/resourcewidget.cpp:267
+#: src/onlineresources/resourcewidget.cpp:284
 #, kde-format
 msgctxt "@info:progress"
 msgid "Parsing item %1 of %2…"
 msgstr "מפוענח פריט %1 מתוך %2…"
 
-#: src/onlineresources/resourcewidget.cpp:270
+#: src/onlineresources/resourcewidget.cpp:287
 #, kde-format
 msgctxt "Created by author name"
 msgid "Created by %1"
 msgstr "נוצר על ידי %1"
 
-#: src/onlineresources/resourcewidget.cpp:377
+#: src/onlineresources/resourcewidget.cpp:461
 #, kde-format
 msgctxt "the url link pointing to a web page"
 msgid "link"
 msgstr "קישור"
 
-#: src/onlineresources/resourcewidget.cpp:383
+#: src/onlineresources/resourcewidget.cpp:467
 #, kde-format
 msgid "Created by <a href=\"%1\">"
 msgstr "נוצר על ידי <a href=\"%1\">"
 
-#: src/onlineresources/resourcewidget.cpp:387
+#: src/onlineresources/resourcewidget.cpp:471
 #: src/project/dialogs/projectsettings.cpp:224
 #, kde-format
 msgid "Author"
 msgstr "יוצר"
 
-#: src/onlineresources/resourcewidget.cpp:391
+#: src/onlineresources/resourcewidget.cpp:475
 #, kde-format
 msgid "Created by %1"
 msgstr "נוצר על ידי %1"
 
-#: src/onlineresources/resourcewidget.cpp:397
+#: src/onlineresources/resourcewidget.cpp:481
 #, kde-format
 msgid "Size: %1 x %2"
 msgstr "גודל: %1 × %2"
 
-#: src/onlineresources/resourcewidget.cpp:400
+#: src/onlineresources/resourcewidget.cpp:484
 #, kde-format
 msgid "Duration: %1 sec"
 msgstr "משך: %1 שניות"
 
-#: src/onlineresources/resourcewidget.cpp:428
+#: src/onlineresources/resourcewidget.cpp:512
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "CC Sampling+"
 msgstr "CC דגימה+‏ (לא בשימוש)"
 
-#: src/onlineresources/resourcewidget.cpp:430
+#: src/onlineresources/resourcewidget.cpp:514
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution"
 msgstr "Creative Commons ייחוס"
 
-#: src/onlineresources/resourcewidget.cpp:431
+#: src/onlineresources/resourcewidget.cpp:515
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY"
 msgstr "CC BY"
 
-#: src/onlineresources/resourcewidget.cpp:433
+#: src/onlineresources/resourcewidget.cpp:517
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NoDerivs"
 msgstr "Creative Commons ייחוס-ללא נגזרות"
 
-#: src/onlineresources/resourcewidget.cpp:434
+#: src/onlineresources/resourcewidget.cpp:518
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-ND"
 msgstr "CC BY-ND"
 
-#: src/onlineresources/resourcewidget.cpp:436
+#: src/onlineresources/resourcewidget.cpp:520
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-ShareAlike"
 msgstr "Creative Commons ייחוס-לא מסחרי-שיתוף זהה"
 
-#: src/onlineresources/resourcewidget.cpp:437
+#: src/onlineresources/resourcewidget.cpp:521
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-SA"
 msgstr "CC BY-NC-SA"
 
-#: src/onlineresources/resourcewidget.cpp:439
+#: src/onlineresources/resourcewidget.cpp:523
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-ShareAlike"
 msgstr "Creative Commons ייחוס-שיתוף זהה"
 
-#: src/onlineresources/resourcewidget.cpp:440
+#: src/onlineresources/resourcewidget.cpp:524
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-SA"
 msgstr "CC BY-SA"
 
-#: src/onlineresources/resourcewidget.cpp:442
+#: src/onlineresources/resourcewidget.cpp:526
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial"
 msgstr "Creative Commons ייחוס-לא מסחרי"
 
-#: src/onlineresources/resourcewidget.cpp:443
+#: src/onlineresources/resourcewidget.cpp:527
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC"
 msgstr "CC BY-NC"
 
-#: src/onlineresources/resourcewidget.cpp:445
+#: src/onlineresources/resourcewidget.cpp:529
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-NoDerivs"
 msgstr "Creative Commons ייחוס-לא מסחרי-ללא נגזרות"
 
-#: src/onlineresources/resourcewidget.cpp:446
+#: src/onlineresources/resourcewidget.cpp:530
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-ND"
 msgstr "CC BY-NC-ND"
 
-#: src/onlineresources/resourcewidget.cpp:448
+#: src/onlineresources/resourcewidget.cpp:532
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons 0"
 msgstr "Creative Commons 0"
 
-#: src/onlineresources/resourcewidget.cpp:449
+#: src/onlineresources/resourcewidget.cpp:533
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC 0"
 msgstr "CC 0"
 
-#: src/onlineresources/resourcewidget.cpp:451
+#: src/onlineresources/resourcewidget.cpp:535
 #, kde-format
 msgctxt "License"
 msgid "Public Domain"
 msgstr "נחלת הכלל"
 
-#: src/onlineresources/resourcewidget.cpp:453
+#: src/onlineresources/resourcewidget.cpp:537
 #, kde-format
 msgctxt "Short for: Unknown Creative Commons License"
 msgid "Unknown CC License"
 msgstr "רישיון CC לא ידוע"
 
-#: src/onlineresources/resourcewidget.cpp:454
+#: src/onlineresources/resourcewidget.cpp:538
 #, kde-format
 msgid "Unknown Creative Commons License"
 msgstr "רישיון Creative Commons לא ידוע"
 
-#: src/onlineresources/resourcewidget.cpp:474
+#: src/onlineresources/resourcewidget.cpp:558
 #, kde-format
 msgid "Pexels License"
 msgstr "רישיון Pexels"
 
-#: src/onlineresources/resourcewidget.cpp:476
+#: src/onlineresources/resourcewidget.cpp:560
 #, kde-format
 msgid "Pixabay License"
 msgstr "רישיון Pixabay"
 
-#: src/onlineresources/resourcewidget.cpp:479
+#: src/onlineresources/resourcewidget.cpp:563
 #, kde-format
 msgid "Unknown License"
 msgstr "רישיון לא ידוע"
 
-#: src/onlineresources/resourcewidget.cpp:516
+#: src/onlineresources/resourcewidget.cpp:600
 #, kde-format
 msgid "It maybe takes a while until the preview is loaded"
 msgstr "יכול לקחת זמן עד שהתצוגה המקדימה תיטען"
 
-#: src/onlineresources/resourcewidget.cpp:524
+#: src/onlineresources/resourcewidget.cpp:608
 #, kde-format
 msgid "Online Resources Preview"
 msgstr "תצוגה מקדימה של משאבים מקוונים"
 
-#: src/onlineresources/resourcewidget.cpp:546
+#: src/onlineresources/resourcewidget.cpp:630
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose File Version"
 msgstr "נא לבחור גרסת קובץ"
 
-#: src/onlineresources/resourcewidget.cpp:546
+#: src/onlineresources/resourcewidget.cpp:630
 #, kde-format
 msgid "Please choose the version you want to download"
 msgstr "נא לבחור את הגרסה להורדה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:593 src/ui/clipjobmanager_ui.ui:395
+#: src/onlineresources/resourcewidget.cpp:677 src/ui/clipjobmanager_ui.ui:395
 #, kde-format
 msgid "Images"
 msgstr "תמונות"
 
-#: src/onlineresources/resourcewidget.cpp:608
+#: src/onlineresources/resourcewidget.cpp:692
 #, kde-format
 msgid ""
 "Be aware that the usage of the resource is maybe restricted by license terms "
@@ -25826,12 +25821,12 @@ msgstr ""
 "נא לשים לב שהשימוש במשאב הזה יכול להיות מוגבל ברישיון או בחוק!\n"
 "להוסיף הגדרת רשיון להערות המיזם?"
 
-#: src/onlineresources/resourcewidget.cpp:611
+#: src/onlineresources/resourcewidget.cpp:695
 #, kde-format
 msgid "Remember this decision"
 msgstr "לזכור את ההחלטה הזאת"
 
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:697
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -25841,33 +25836,33 @@ msgstr ""
 "הווידאו הזה משתמש ב־„%1” (%2) מאת „%3” שכפוף לרישיון %4. כדי לצפות בעותק של "
 "הרישיון ניתן לבקר בכתובת %5"
 
-#: src/onlineresources/resourcewidget.cpp:654
+#: src/onlineresources/resourcewidget.cpp:738
 #, kde-format
 msgid "%1 Try again."
 msgstr "%1 לנסות שוב."
 
-#: src/onlineresources/resourcewidget.cpp:654
-#: src/onlineresources/resourcewidget.cpp:656
+#: src/onlineresources/resourcewidget.cpp:738
+#: src/onlineresources/resourcewidget.cpp:740
 #, kde-format
 msgid "Error Loading Data"
 msgstr "שגיאה בטעינת הנתונים"
 
-#: src/onlineresources/resourcewidget.cpp:665
+#: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
 msgid "Resource saved to %1"
 msgstr "המשאב נשמר אל %1"
 
-#: src/onlineresources/resourcewidget.cpp:665
+#: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
 msgid "Data Imported"
 msgstr "הנתונים יובאו"
 
-#: src/onlineresources/resourcewidget.cpp:693
+#: src/onlineresources/resourcewidget.cpp:777
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr "כדי לנסות לייבא שוב כדי למשוך חיבור חדש"
 
-#: src/onlineresources/resourcewidget.cpp:694
+#: src/onlineresources/resourcewidget.cpp:778
 #, kde-format
 msgid "Error Getting Access Token from %1."
 msgstr "שגיאה במשיכת אסימון הגישה מתוך %1."

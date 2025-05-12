@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-11 00:42+0000\n"
-"PO-Revision-Date: 2025-05-08 21:37+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"POT-Creation-Date: 2025-05-12 00:41+0000\n"
+"PO-Revision-Date: 2025-05-11 18:35+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.07.70\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4864,67 +4864,60 @@ msgid "Scope width"
 msgstr "Kapsam genişliği"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Width of the scope display]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Kapsam görüntüsünün genişliği]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Scope height"
-msgstr "Sağ üst"
+msgstr "Kapsam yüksekliği"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along the X axis]]>"
+#, kde-format
 msgid "<![CDATA[Height of the scope display]]>"
-msgstr "<![CDATA[X eksenindeki ofset]]>"
+msgstr "<![CDATA[Kapsam görüntüsünün yüksekliği]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
-#, fuzzy, kde-format
-#| msgid "Components:"
+#, kde-format
 msgid "Components"
-msgstr "Bileşenler:"
+msgstr "Bileşenler"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[İzlenecek bileşenleri seçin.]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw scope grid"
-msgstr "Izgara çiz"
+msgstr "Kapsam ızgarasını çiz"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
 #, kde-format
 msgid "<![CDATA[Switch grid on or off]]>"
-msgstr ""
+msgstr "<![CDATA[Izgarayı açın veya kapatın.]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
 msgid "Print statistics"
-msgstr ""
+msgstr "İstatistikleri yazdır"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Offset along Y axis]]>"
+#, kde-format
 msgid "<![CDATA[Switch statistics on or off]]>"
-msgstr "<![CDATA[Y eksenindeki ofset]]>"
+msgstr "<![CDATA[İstatistikleri açın veya kapatın.]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
 msgid "Draw trace profile line"
-msgstr ""
+msgstr "İz profili çizgisini çiz"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
 msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
-msgstr ""
+msgstr "<![CDATA[İz profili çizgisini açın veya kapatın.]]>"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
@@ -16328,7 +16321,7 @@ msgstr "Video Sesini Kapat"
 #: src/bin/bin.cpp:2481 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layouts/layoutcollection.cpp:22 src/lib/audio/audioStreamInfo.cpp:25
 #: src/lib/audio/audioStreamInfo.cpp:31 src/monitor/recmanager.cpp:46
-#: src/onlineresources/resourcewidget.cpp:589 src/ui/clipjobmanager_ui.ui:388
+#: src/onlineresources/resourcewidget.cpp:673 src/ui/clipjobmanager_ui.ui:388
 #: src/ui/configcapture_ui.ui:533 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
 #: src/ui/renderwidget_ui.ui:628
@@ -16597,9 +16590,9 @@ msgid "Edit Tags"
 msgstr "Künyeleri Düzenle"
 
 #: src/bin/bin.cpp:4607 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:270
-#: src/onlineresources/resourcewidget.cpp:599
-#: src/onlineresources/resourcewidget.cpp:614
+#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:287
+#: src/onlineresources/resourcewidget.cpp:683
+#: src/onlineresources/resourcewidget.cpp:698
 #, kde-format
 msgid "Unnamed"
 msgstr "Adsız"
@@ -21475,7 +21468,7 @@ msgid "Comments : "
 msgstr "Açıklamalar:"
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
-#: src/onlineresources/resourcewidget.cpp:595
+#: src/onlineresources/resourcewidget.cpp:679
 #, kde-format
 msgid "All Files"
 msgstr "Tüm Dosyalar"
@@ -24469,7 +24462,7 @@ msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Yeniden Oluştur"
 
-#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:610
+#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:694
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2327
 #, kde-format
@@ -25725,7 +25718,7 @@ msgstr "Önizleme"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:591
+#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:675
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:487
@@ -26110,7 +26103,7 @@ msgctxt "@title:window"
 msgid "Error Loading Data"
 msgstr "Veri Yüklenirken Hata"
 
-#: src/onlineresources/resourcewidget.cpp:83
+#: src/onlineresources/resourcewidget.cpp:84
 #, kde-format
 msgid ""
 "Login is required to download this item.\n"
@@ -26119,222 +26112,222 @@ msgstr ""
 "Bu ögeyi indirmek için oturum açmanız gerekiyor.\n"
 "Şimdi oturum açma sayfasına yönlendirileceksiniz."
 
-#: src/onlineresources/resourcewidget.cpp:186
+#: src/onlineresources/resourcewidget.cpp:190
 #, kde-format
 msgid "Media provided by %1"
 msgstr "Ortam %1 tarafından sağlanıyor"
 
-#: src/onlineresources/resourcewidget.cpp:216
+#: src/onlineresources/resourcewidget.cpp:233
 #, kde-format
 msgctxt "@info:status"
 msgid "Search pending…"
 msgstr "Arama bekliyor…"
 
-#: src/onlineresources/resourcewidget.cpp:236
+#: src/onlineresources/resourcewidget.cpp:253
 #, kde-format
 msgid "Search failed! %1"
 msgstr "Arama başarısız oldu! %1"
 
-#: src/onlineresources/resourcewidget.cpp:256
+#: src/onlineresources/resourcewidget.cpp:273
 #, kde-format
 msgctxt "@info"
 msgid "No items found."
 msgstr "Öge bulunamadı."
 
-#: src/onlineresources/resourcewidget.cpp:267
+#: src/onlineresources/resourcewidget.cpp:284
 #, kde-format
 msgctxt "@info:progress"
 msgid "Parsing item %1 of %2…"
 msgstr "%1/%2 öge ayrıştırılıyor…"
 
-#: src/onlineresources/resourcewidget.cpp:270
+#: src/onlineresources/resourcewidget.cpp:287
 #, kde-format
 msgctxt "Created by author name"
 msgid "Created by %1"
 msgstr "%1 tarafından oluşturuldu"
 
-#: src/onlineresources/resourcewidget.cpp:377
+#: src/onlineresources/resourcewidget.cpp:461
 #, kde-format
 msgctxt "the url link pointing to a web page"
 msgid "link"
 msgstr "bağlantı"
 
-#: src/onlineresources/resourcewidget.cpp:383
+#: src/onlineresources/resourcewidget.cpp:467
 #, kde-format
 msgid "Created by <a href=\"%1\">"
 msgstr "<a href=\"%1\"> tarafından oluşturuldu"
 
-#: src/onlineresources/resourcewidget.cpp:387
+#: src/onlineresources/resourcewidget.cpp:471
 #: src/project/dialogs/projectsettings.cpp:224
 #, kde-format
 msgid "Author"
 msgstr "Yazar"
 
-#: src/onlineresources/resourcewidget.cpp:391
+#: src/onlineresources/resourcewidget.cpp:475
 #, kde-format
 msgid "Created by %1"
 msgstr "%1 tarafından oluşturuldu"
 
-#: src/onlineresources/resourcewidget.cpp:397
+#: src/onlineresources/resourcewidget.cpp:481
 #, kde-format
 msgid "Size: %1 x %2"
 msgstr "Boyut: %1 × %2"
 
-#: src/onlineresources/resourcewidget.cpp:400
+#: src/onlineresources/resourcewidget.cpp:484
 #, kde-format
 msgid "Duration: %1 sec"
 msgstr "Süre: %1 saniye"
 
-#: src/onlineresources/resourcewidget.cpp:428
+#: src/onlineresources/resourcewidget.cpp:512
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "CC Sampling+"
 msgstr "CC Örnekleme+"
 
-#: src/onlineresources/resourcewidget.cpp:430
+#: src/onlineresources/resourcewidget.cpp:514
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution"
 msgstr "Creative Commons Attribution"
 
-#: src/onlineresources/resourcewidget.cpp:431
+#: src/onlineresources/resourcewidget.cpp:515
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY"
 msgstr "CC BY"
 
-#: src/onlineresources/resourcewidget.cpp:433
+#: src/onlineresources/resourcewidget.cpp:517
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NoDerivs"
 msgstr "Atıf-Türetilemez 3.0 Yerelleştirilmemiş"
 
-#: src/onlineresources/resourcewidget.cpp:434
+#: src/onlineresources/resourcewidget.cpp:518
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-ND"
 msgstr "CC BY-ND"
 
-#: src/onlineresources/resourcewidget.cpp:436
+#: src/onlineresources/resourcewidget.cpp:520
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-ShareAlike"
 msgstr "Atıf-GayriTicari-AynıLisanslaPaylaş 3.0 Yerelleştirilmemiş"
 
-#: src/onlineresources/resourcewidget.cpp:437
+#: src/onlineresources/resourcewidget.cpp:521
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-SA"
 msgstr "CC BY-NC-SA"
 
-#: src/onlineresources/resourcewidget.cpp:439
+#: src/onlineresources/resourcewidget.cpp:523
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-ShareAlike"
 msgstr "Atıf-AynıLisanslaPaylaş 4.0 Uluslararası"
 
-#: src/onlineresources/resourcewidget.cpp:440
+#: src/onlineresources/resourcewidget.cpp:524
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-SA"
 msgstr "CC BY-SA"
 
-#: src/onlineresources/resourcewidget.cpp:442
+#: src/onlineresources/resourcewidget.cpp:526
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial"
 msgstr "Atıf-GayriTicari 3.0 Yerelleştirilmemiş"
 
-#: src/onlineresources/resourcewidget.cpp:443
+#: src/onlineresources/resourcewidget.cpp:527
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC"
 msgstr "CC BY-NC"
 
-#: src/onlineresources/resourcewidget.cpp:445
+#: src/onlineresources/resourcewidget.cpp:529
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-NoDerivs"
 msgstr "Atıf-GayriTicari-Türetilemez 3.0 Yerelleştirilmemiş"
 
-#: src/onlineresources/resourcewidget.cpp:446
+#: src/onlineresources/resourcewidget.cpp:530
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-ND"
 msgstr "CC BY-NC-ND"
 
-#: src/onlineresources/resourcewidget.cpp:448
+#: src/onlineresources/resourcewidget.cpp:532
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons 0"
 msgstr "Creative Commons 0"
 
-#: src/onlineresources/resourcewidget.cpp:449
+#: src/onlineresources/resourcewidget.cpp:533
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC 0"
 msgstr "CC 0"
 
-#: src/onlineresources/resourcewidget.cpp:451
+#: src/onlineresources/resourcewidget.cpp:535
 #, kde-format
 msgctxt "License"
 msgid "Public Domain"
 msgstr "Kamuya Açık"
 
-#: src/onlineresources/resourcewidget.cpp:453
+#: src/onlineresources/resourcewidget.cpp:537
 #, kde-format
 msgctxt "Short for: Unknown Creative Commons License"
 msgid "Unknown CC License"
 msgstr "Bilinmeyen CC Lisansı"
 
-#: src/onlineresources/resourcewidget.cpp:454
+#: src/onlineresources/resourcewidget.cpp:538
 #, kde-format
 msgid "Unknown Creative Commons License"
 msgstr "Bilinmeyen Creative Commons Lisansı"
 
-#: src/onlineresources/resourcewidget.cpp:474
+#: src/onlineresources/resourcewidget.cpp:558
 #, kde-format
 msgid "Pexels License"
 msgstr "Pexels Lisansı"
 
-#: src/onlineresources/resourcewidget.cpp:476
+#: src/onlineresources/resourcewidget.cpp:560
 #, kde-format
 msgid "Pixabay License"
 msgstr "Pixabay Lisansı"
 
-#: src/onlineresources/resourcewidget.cpp:479
+#: src/onlineresources/resourcewidget.cpp:563
 #, kde-format
 msgid "Unknown License"
 msgstr "Bilinmeyen Lisans"
 
-#: src/onlineresources/resourcewidget.cpp:516
+#: src/onlineresources/resourcewidget.cpp:600
 #, kde-format
 msgid "It maybe takes a while until the preview is loaded"
 msgstr "Önizleme yüklenene kadar biraz vakit geçebilir"
 
-#: src/onlineresources/resourcewidget.cpp:524
+#: src/onlineresources/resourcewidget.cpp:608
 #, kde-format
 msgid "Online Resources Preview"
 msgstr "Çevrimiçi Özkaynaklar Önizlemesi"
 
-#: src/onlineresources/resourcewidget.cpp:546
+#: src/onlineresources/resourcewidget.cpp:630
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose File Version"
 msgstr "Dosya Sürümünü Seç"
 
-#: src/onlineresources/resourcewidget.cpp:546
+#: src/onlineresources/resourcewidget.cpp:630
 #, kde-format
 msgid "Please choose the version you want to download"
 msgstr "Lütfen indirmek istediğiniz sürümü seçin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:593 src/ui/clipjobmanager_ui.ui:395
+#: src/onlineresources/resourcewidget.cpp:677 src/ui/clipjobmanager_ui.ui:395
 #, kde-format
 msgid "Images"
 msgstr "Görseller"
 
-#: src/onlineresources/resourcewidget.cpp:608
+#: src/onlineresources/resourcewidget.cpp:692
 #, kde-format
 msgid ""
 "Be aware that the usage of the resource is maybe restricted by license terms "
@@ -26345,12 +26338,12 @@ msgstr ""
 "olabileceğini aklınızda bulundurun!\n"
 "Proje Notlarınıza lisans yüklemi eklemek istediğinizden emin misiniz?"
 
-#: src/onlineresources/resourcewidget.cpp:611
+#: src/onlineresources/resourcewidget.cpp:695
 #, kde-format
 msgid "Remember this decision"
 msgstr "Bu kararı anımsa"
 
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:697
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -26360,33 +26353,33 @@ msgstr ""
 "Bu video, “%3” tarafından yapılmış ve %4 ile lisanslanan “%1” (%2) "
 "kullanıyor. Lisansın bir kopyasını görüntülemek için %5 adresini ziyaret edin"
 
-#: src/onlineresources/resourcewidget.cpp:654
+#: src/onlineresources/resourcewidget.cpp:738
 #, kde-format
 msgid "%1 Try again."
 msgstr "%1 Yeniden deneyin."
 
-#: src/onlineresources/resourcewidget.cpp:654
-#: src/onlineresources/resourcewidget.cpp:656
+#: src/onlineresources/resourcewidget.cpp:738
+#: src/onlineresources/resourcewidget.cpp:740
 #, kde-format
 msgid "Error Loading Data"
 msgstr "Veri Yüklenirken Hata"
 
-#: src/onlineresources/resourcewidget.cpp:665
+#: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
 msgid "Resource saved to %1"
 msgstr "Özkaynaklar, %1 konumuna kaydedildi"
 
-#: src/onlineresources/resourcewidget.cpp:665
+#: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
 msgid "Data Imported"
 msgstr "Veri İçe Aktarıldı"
 
-#: src/onlineresources/resourcewidget.cpp:693
+#: src/onlineresources/resourcewidget.cpp:777
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr "Yeni bir bağlantı sağlamak için yeniden içe aktarmayı dene"
 
-#: src/onlineresources/resourcewidget.cpp:694
+#: src/onlineresources/resourcewidget.cpp:778
 #, kde-format
 msgid "Error Getting Access Token from %1."
 msgstr "%1 Konumundan Erişim Jetonu Alırken Hata"
