@@ -22,8 +22,8 @@ msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "AngelSherry, DuckSoft, fangzheng, Guo Yunhe, ikochina, magsom, mrwang, ovo-"
-"Tim, phone-burner, Tyson Tan, Wu Junjie, Yuchen Deng, Zhang Jie, 大宝, 潘晓"
-"宇, 阎金昭"
+"Tim, phone-burner, Tyson Tan, Wu Junjie(ShiroAzusa), Yuchen Deng, Zhang Jie, "
+"大宝, 潘晓宇, 阎金昭"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -1005,32 +1005,32 @@ msgstr "为视频输入片段应用一个自适应时域平均降噪器。 "
 #: data/effects/avfilter/avfilter_atadenoise.xml:8
 #, kde-format
 msgid "A threshold for 1st plane"
-msgstr "首平面(Y通道)的A类噪声阈值"
+msgstr "第一平面的A类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:11
 #, kde-format
 msgid "B threshold for 1st plane"
-msgstr "首平面(Y通道)的B类噪声阈值"
+msgstr "第一平面的B类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:14
 #, kde-format
 msgid "A threshold for 2nd plane"
-msgstr "第二平面(U通道)的A类噪声阈值"
+msgstr "第二平面的A类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:17
 #, kde-format
 msgid "B threshold for 2nd plane"
-msgstr "第二平面(U通道)的B类噪声阈值"
+msgstr "第二平面的B类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:20
 #, kde-format
 msgid "A threshold for 3rd plane"
-msgstr "第三平面(V通道)的A类噪声阈值"
+msgstr "第三平面的A类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:23
 #, kde-format
 msgid "B threshold for 3rd plane"
-msgstr "第三平面(V通道)的B类噪声阈值"
+msgstr "第三平面的B类噪声阈值"
 
 #: data/effects/avfilter/avfilter_atadenoise.xml:26
 #, kde-format
@@ -1045,7 +1045,7 @@ msgstr "均值模糊"
 #: data/effects/avfilter/avfilter_avgblur.xml:5
 #, kde-format
 msgid "Apply average blur filter. "
-msgstr "应用平均模糊滤波器。 "
+msgstr "应用平均模糊滤镜。 "
 
 #: data/effects/avfilter/avfilter_avgblur.xml:8
 #: data/effects/frei0r/frei0r_pr0be.xml:18
@@ -1173,7 +1173,7 @@ msgstr "Bilateral/双边"
 #: data/effects/avfilter/avfilter_bilateral.xml:5
 #, kde-format
 msgid "Apply bilateral filter, spatial smoothing while preserving edges."
-msgstr "应用一个双边滤波器，在保持边缘的同时实现空间平滑。"
+msgstr "应用一个双边滤镜，在保持边缘的同时实现空间平滑。"
 
 #: data/effects/avfilter/avfilter_bilateral.xml:8
 #, kde-format
@@ -1359,7 +1359,7 @@ msgstr "自适应锐化对比度"
 #: data/effects/avfilter/avfilter_cas.xml:5
 #, kde-format
 msgid "Apply Contrast Adaptive Sharpen filter to video stream."
-msgstr "将对比度自适应锐化滤波器应用于视频流。"
+msgstr "将对比度自适应锐化滤镜应用于视频流。"
 
 #: data/effects/avfilter/avfilter_cas.xml:8
 #: data/effects/avfilter/avfilter_crossfeed.xml:10
@@ -1718,22 +1718,22 @@ msgstr "针对黑色和白色选择性地调整颜色-白色平衡。此过滤�
 #: data/effects/avfilter/avfilter_colorcorrect.xml:8
 #, kde-format
 msgid "Red shadow spot"
-msgstr ""
+msgstr "暗区红色伪影"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:11
 #, kde-format
 msgid "Blue shadow spot"
-msgstr ""
+msgstr "暗区蓝色伪影"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:14
 #, kde-format
 msgid "Red highlight spot"
-msgstr ""
+msgstr "红色高光斑点"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:17
 #, kde-format
 msgid "Blue highlight spot"
-msgstr ""
+msgstr "蓝色高光斑点"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:20
 #: data/effects/avfilter/avfilter_colorize.xml:11
@@ -1746,145 +1746,145 @@ msgstr ""
 #: data/transitions/frei0r/frei0r_saturation.xml:4
 #, kde-format
 msgid "Saturation"
-msgstr ""
+msgstr "饱和度"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
 #, kde-format
 msgid "Manual,Average,Minimax,Median"
-msgstr ""
+msgstr "手动,平均,最小值,中值"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
 #, kde-format
 msgid "Analyze mode"
-msgstr ""
+msgstr "分析模式"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
 #, kde-format
 msgid "Color Hold"
-msgstr ""
+msgstr "颜色保持"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:5
 #, kde-format
 msgid ""
 "Remove all color information for all RGB colors except for certain one. "
-msgstr ""
+msgstr "删除除特定颜色外的所有 RGB 颜色的所有颜色信息。 "
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
 #, kde-format
 msgid "Color Overlay"
-msgstr ""
+msgstr "颜色叠加"
 
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
 msgid "Overlay a solid color on the video stream with mixing feature."
-msgstr ""
+msgstr "在视频流上混合覆盖一层不透明色。"
 
 #: data/effects/avfilter/avfilter_colorize.xml:8
 #, kde-format
 msgid " Hue"
-msgstr ""
+msgstr " 色相"
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
 #, kde-format
 msgid "Lightness"
-msgstr ""
+msgstr "亮度"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:4
 #, kde-format
 msgid "Color levels"
-msgstr ""
+msgstr "颜色级别"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
 msgid "Adjust video input frames using levels. "
-msgstr ""
+msgstr "使用级别调整视频输入帧。"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:8
 #, kde-format
 msgid "Red black input"
-msgstr ""
+msgstr "红黑输入"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:11
 #, kde-format
 msgid "Red white input"
-msgstr ""
+msgstr "红白输入"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:14
 #, kde-format
 msgid "Red black output"
-msgstr ""
+msgstr "红黑输出"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:17
 #, kde-format
 msgid "Red white output"
-msgstr ""
+msgstr "红白输出"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:20
 #, kde-format
 msgid "Green black input"
-msgstr ""
+msgstr "绿黑输入"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:23
 #, kde-format
 msgid "Green white input"
-msgstr ""
+msgstr "绿白输入"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:26
 #, kde-format
 msgid "Green black output"
-msgstr ""
+msgstr "绿黑输出"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:29
 #, kde-format
 msgid "Green white output"
-msgstr ""
+msgstr "绿白输出"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:32
 #, kde-format
 msgid "Blue black input"
-msgstr ""
+msgstr "蓝黑输入"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:35
 #, kde-format
 msgid "Blue white input"
-msgstr ""
+msgstr "蓝白输入"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:38
 #, kde-format
 msgid "Blue black output"
-msgstr ""
+msgstr "蓝黑输出"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:41
 #, kde-format
 msgid "Blue white output"
-msgstr ""
+msgstr "蓝白输出"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
 #, kde-format
 msgid "Color Matrix"
-msgstr ""
+msgstr "Color Matrix(颜色矩阵)"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
 #, kde-format
 msgid "Convert color matrix."
-msgstr ""
+msgstr "转换颜色矩阵。"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:8
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
 #, kde-format
 msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
-msgstr ""
+msgstr "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
 #, kde-format
 msgid "Source color Matrix"
-msgstr ""
+msgstr "源颜色矩阵"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
 #, kde-format
 msgid "Destination color Matrix"
-msgstr ""
+msgstr "目标颜色矩阵"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: src/scopes/colorscopes/vectorscope.cpp:94
@@ -1897,7 +1897,7 @@ msgstr "色彩空间"
 msgid ""
 "Convert colorspace, transfer characteristics or color primaries. Input video "
 "needs to have an even size."
-msgstr ""
+msgstr "转换色彩空间、转移特征或原色。输入视频需要具有均匀的大小。"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
 #: data/effects/avfilter/avfilter_colorspace.xml:43
@@ -1906,11 +1906,13 @@ msgid ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
 "BT.2020"
 msgstr ""
+"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
+"BT.2020"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
 #, kde-format
 msgid "Color properties"
-msgstr ""
+msgstr "颜色属性"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:12
 #: data/effects/avfilter/avfilter_colorspace.xml:47
@@ -1918,11 +1920,12 @@ msgstr ""
 msgid ""
 "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
+"BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
 #, kde-format
 msgid "Output Color Space"
-msgstr ""
+msgstr "输出色彩空间"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #: data/effects/avfilter/avfilter_colorspace.xml:55
@@ -1932,11 +1935,14 @@ msgid ""
 "SMPTE-170M,SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 for 10-"
 "bits content, BT.2020 for 12-bits content"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,Constant gamma of 2.2,Constant gamma of 2.8,"
+"SMPTE-170M,SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 for 10-"
+"bits content, BT.2020 for 12-bits content"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:17
 #, kde-format
 msgid "Output transfer characteristicse"
-msgstr ""
+msgstr "输出阶调响应曲线特性"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
@@ -1945,11 +1951,13 @@ msgid ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phsphors"
 msgstr ""
+"BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
+"BT.2020,JEDEC P22 phsphors"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
 #, kde-format
 msgid "Output Color Primaries"
-msgstr ""
+msgstr "输出色域原色"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:24
 #: data/effects/avfilter/avfilter_colorspace.xml:59
@@ -1958,11 +1966,13 @@ msgid ""
 "TV (restricted range),MPEG (restricted range),PC (FULL range),JPEG (FULL "
 "range)"
 msgstr ""
+"TV (restricted range),MPEG (restricted range),PC (FULL range),JPEG (FULL "
+"range)"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
 #, kde-format
 msgid "Output Color Range"
-msgstr ""
+msgstr "输出颜色范围"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:28
 #, kde-format
@@ -1971,26 +1981,29 @@ msgid ""
 "YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 msgstr ""
+"YUV 4:2:0 planar 8-bits,YUV 4:2:0 planar 10-bits,YUV 4:2:0 planar 12-bits,"
+"YUV 4:2:2 planar 8-bits,YUV 4:2:2 planar 10-bits,YUV 4:2:2 planar 12-bits,"
+"YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:29
 #, kde-format
 msgid "Output Color Format"
-msgstr ""
+msgstr "输出色彩格式"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
 #, kde-format
 msgid "Fast Conversion"
-msgstr ""
+msgstr "快速转换"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
 msgid "No dithering,Floyd-Steinberg dithering"
-msgstr ""
+msgstr "无抖动,弗洛伊德-斯坦伯格 (Floyd-Steinberg) 抖动"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
 #, kde-format
 msgid "Dithering Mode"
-msgstr ""
+msgstr "抖动模式"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:39
 #, kde-format
@@ -1998,70 +2011,71 @@ msgid ""
 "Bradford whitepoint adaptation,von Kries whitepoint adaptation,Identity "
 "whitepoint adaptation"
 msgstr ""
+"布拉德福德 (Bradford) 白点适应,冯·克里斯 (von Kries) 白点适应,恒等白点适应"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:40
 #, kde-format
 msgid "Whitepoint adaptation mode"
-msgstr ""
+msgstr "白点适应模式"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:44
 #, kde-format
 msgid "Override all input properties at once"
-msgstr ""
+msgstr "覆盖所有输入属性"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:48
 #, kde-format
 msgid "Override input colorspace"
-msgstr ""
+msgstr "覆盖输入色彩空间"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:52
 #, kde-format
 msgid "Override input color primaries"
-msgstr ""
+msgstr "覆盖输入色域原色"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:56
 #, kde-format
 msgid "Override input transfer characteristics"
-msgstr ""
+msgstr "覆盖输入阶调响应曲线特性"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:60
 #, kde-format
 msgid "Override input color range"
-msgstr ""
+msgstr "覆盖输入颜色范围"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:4
 #: data/effects/frei0r/frei0r_colgate.xml:11
 #, kde-format
 msgid "Color Temperature"
-msgstr ""
+msgstr "色温"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:5
 #, kde-format
 msgid ""
 "Adjust color temperature in video to simulate variations in ambient color "
 "temperature. "
-msgstr ""
+msgstr "调整视频中的颜色温度以模拟变化的环境颜色温度。 "
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
 #, kde-format
 msgid "Temperature"
-msgstr ""
+msgstr "Temperature(温度)"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
 #, kde-format
 msgid "Compressor/Expander"
-msgstr ""
+msgstr "Compressor/Expander-压缩/扩展"
 
 #: data/effects/avfilter/avfilter_compand.xml:5
 #, kde-format
 msgid "Compress or expand the audio’s dynamic range."
-msgstr ""
+msgstr "压缩或扩展音频的动态范围。"
 
 #: data/effects/avfilter/avfilter_compand.xml:8
 #, kde-format
 msgid "Attacks"
-msgstr ""
+msgstr "Attacks/启动时间"
 
 #: data/effects/avfilter/avfilter_compand.xml:9
 #: data/effects/avfilter/avfilter_compand.xml:13
@@ -2077,21 +2091,27 @@ msgid ""
 "specified number of attacks and decays is lower than number of channels, the "
 "last set attack/decay will be used for all remaining channels."
 msgstr ""
+"此参数用于定义每个音频通道的瞬时输入信号电平被平均计算的时间长度（以秒为单"
+"位），以此确定实际音量数值。其中启动时间（Attack）对应音量增大的响应时长，释"
+"放时间（Decay）对应音量减小的响应时长。常规设置中，启动时间（典型值0.3秒）应"
+"短于释放时间（典型值0.8秒），这基于人耳对突然增大的音量比突然减弱的音量更为敏"
+"感的特性。当配置的启动/释放参数数量少于音频通道总数时，系统将自动将最后一个配"
+"置参数组应用于剩余所有通道。"
 
 #: data/effects/avfilter/avfilter_compand.xml:12
 #, kde-format
 msgid "Decays"
-msgstr ""
+msgstr "Decays/衰减"
 
 #: data/effects/avfilter/avfilter_compand.xml:16
 #, kde-format
 msgid "Soft-Knee"
-msgstr ""
+msgstr "Soft-Knee/软化削峰"
 
 #: data/effects/avfilter/avfilter_compand.xml:17
 #, kde-format
 msgid "Set the curve radius in dB for all joints."
-msgstr ""
+msgstr "设置所有结点的 dB 曲线半径。"
 
 #: data/effects/avfilter/avfilter_compand.xml:21
 #, kde-format
@@ -2099,11 +2119,13 @@ msgid ""
 "Set the additional gain in dB to be applied at all points on the transfer "
 "function. This allows for easy adjustment of the overall gain."
 msgstr ""
+"设置以分贝 (dB) 为单位的附加增益，该增益将作用于传递函数的所有节点。此参数允"
+"许用户便捷地调节整体增益水平。"
 
 #: data/effects/avfilter/avfilter_compand.xml:24
 #, kde-format
 msgid "Initial volume"
-msgstr ""
+msgstr "初始音量"
 
 #: data/effects/avfilter/avfilter_compand.xml:25
 #, kde-format
@@ -2114,11 +2136,14 @@ msgid ""
 "before the companding has begun to operate. A typical value for audio which "
 "is initially quiet is -90 dB."
 msgstr ""
+"以dB为单位设置滤波启动时各通道的初始音量值。此参数允许用户在初始阶段设定基准"
+"电平，从而避免压扩处理开始前对初始信号施加过大增益。对于初始静音音频，典型值"
+"为-90分贝。"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:4
 #, kde-format
 msgid "Compensation Delay"
-msgstr ""
+msgstr "补偿延迟"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:8
 #, kde-format
@@ -2140,71 +2165,80 @@ msgid ""
 "delay tolerance depends on sample rate, too. Higher sample rates will give "
 "more tolerance. "
 msgstr ""
+"补偿延迟线是基于物理距离的延迟调节参数，用于校正麦克风或扬声器的位置差异。例"
+"如，使用两个不同位置的麦克风录制吉他时，由于声波在常规条件下的传播速度恒定，"
+"各麦克风的相位关系会因其摆放位置及相对距离产生变化。当所有麦克风处于同相（同"
+"步）状态时，可得到最佳混音效果。需注意：当麦克风间距约30厘米时，将导致两通道"
+"信号反相叠加，使混音产生低频衰减现象。本滤波器通过为各麦克风音轨施加差异化延"
+"迟实现同步。\n"
+"\n"
+"推荐以单条音轨为基准逐条对齐以获得最好的效果。同步/延迟容差与采样率相关，使用"
+"较高的采样率将会同步提高其容量。"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:11
 #, kde-format
 msgid "Millimiter distance"
-msgstr ""
+msgstr "毫米距离"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:12
 #, kde-format
 msgid ""
 "Set millimeters distance. This is compensation distance for fine tuning."
-msgstr ""
+msgstr "设置补偿距离(mm)，用于微调距离设置。"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:15
 #, kde-format
 msgid "Centimeter distance"
-msgstr ""
+msgstr "厘米距离"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:16
 #, kde-format
 msgid ""
 "Set cm distance. This is compensation distance for tightening distance setup."
-msgstr ""
+msgstr "设置补偿距离(cm)，用于收紧校准音频设备间距配置。"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:19
 #, kde-format
 msgid "Meter distance"
-msgstr ""
+msgstr "米距离"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:20
 #, kde-format
 msgid ""
 "Set meters distance. This is compensation distance for hard distance setup."
-msgstr ""
+msgstr "设置补偿距离(m)，用于刚性物理间距配置。"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:23
 #, kde-format
 msgid "Dry amount"
-msgstr ""
+msgstr "干信号量"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:24
 #, kde-format
 msgid "Set dry amount. Amount of unprocessed (dry) signal."
-msgstr ""
+msgstr "设置干信号量。即未处理 (干) 的信号数量。"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:27
 #, kde-format
 msgid "Wet amount"
-msgstr ""
+msgstr "湿信号量"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:28
 #, kde-format
 msgid "Set wet amount. Amount of processed (wet) signal."
-msgstr ""
+msgstr "设置湿信号量。即已处理 (湿) 的信号数量。"
 
 #: data/effects/avfilter/avfilter_compensationdelay.xml:32
 #, kde-format
 msgid ""
 "Set temperature in degrees Celsius. This is the temperature of the "
 "environment."
-msgstr ""
+msgstr "以摄氏度设置环境温度。"
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:4
 #, kde-format
 msgid "Crossfeed"
-msgstr ""
+msgstr "Crossfeed - 交叉反馈"
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:7
 #, kde-format
@@ -2215,6 +2249,10 @@ msgid ""
 "low frequencies.\n"
 "The intent is to produce more speaker like sound to the listener."
 msgstr ""
+"应用耳机交叉馈送滤波器。\n"
+"交叉馈送是通过混合立体声音频录音的左右声道实现的技术，主要用于降低低频信号的"
+"极端立体声分离度。\n"
+"该滤波器让耳机使用者获得更接近扬声器播放的自然声场效果。"
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:13
 #, kde-format
@@ -2224,6 +2262,9 @@ msgid ""
 "filter for side part of stereo image.\n"
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
+"设置交叉馈送强度值。\n"
+"默认0.2，允许范围0-1。该参数用于设定立体声像侧边部分的低架滤波器增益。\n"
+"默认参数为-6dB，当强度设为1时最大允许值为-30dB。"
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:19
 #, kde-format
@@ -2234,11 +2275,14 @@ msgid ""
 "Default is cut off near 1550 Hz. With range set to 1 cut off frequency is "
 "set to 2100 Hz. "
 msgstr ""
+"设置声场宽幅值。\n"
+"默认 0.5，允许范围0-1。该参数用于调控低架滤波器的截止频率。\n"
+"默认值约 1550 Hz，当宽幅值设为 1 时，截止频率提升至 2100 Hz。"
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
 #, kde-format
 msgid "Crystalizer"
-msgstr ""
+msgstr "Crystalizer-护膜"
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:6
 #, kde-format
@@ -2246,6 +2290,8 @@ msgid ""
 "Simple algorithm for audio noise sharpening.\n"
 "This filter linearly increases differences betweeen each audio sample."
 msgstr ""
+"音频噪音锐化的简单算法。\n"
+"此过滤规则会线性增加每个音频采样之间的差异。"
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:9
 #: data/effects/avfilter/avfilter_deesser.xml:8
@@ -2264,28 +2310,31 @@ msgid ""
 "effect).\n"
 "To inverse filtering use negative value. "
 msgstr ""
+"设置效果强度(默认：2.0)。\n"
+"允许范围 -10~0(无改动)~10.0(最大效果)。\n"
+"反过滤使用负值。 "
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:15
 #: data/effects/avfilter/avfilter_extrastereo.xml:14
 #, kde-format
 msgid "Enable clipping"
-msgstr ""
+msgstr "Enable Clipping/启用剪辑"
 
 #: data/effects/avfilter/avfilter_datascope.xml:4
 #, kde-format
 msgid "DataScope"
-msgstr ""
+msgstr "数据范围"
 
 #: data/effects/avfilter/avfilter_datascope.xml:5
 #, kde-format
 msgid "Video data analysis"
-msgstr ""
+msgstr "视频数据分析"
 
 #: data/effects/avfilter/avfilter_datascope.xml:8
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #, kde-format
 msgid "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
-msgstr ""
+msgstr "128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -2304,28 +2353,28 @@ msgstr "大小"
 #: data/effects/avfilter/avfilter_datascope.xml:12
 #, kde-format
 msgid "X offset"
-msgstr ""
+msgstr "X 偏移"
 
 #: data/effects/avfilter/avfilter_datascope.xml:15
 #, kde-format
 msgid "Y offset"
-msgstr ""
+msgstr "Y 偏移"
 
 #: data/effects/avfilter/avfilter_datascope.xml:18
 #, kde-format
 msgid "mono,color,color2"
-msgstr ""
+msgstr "mono,color,color2"
 
 #: data/effects/avfilter/avfilter_datascope.xml:22
 #: data/effects/avfilter/avfilter_delogo.xml:20
 #, kde-format
 msgid "Off,On"
-msgstr ""
+msgstr "关闭,启用"
 
 #: data/effects/avfilter/avfilter_datascope.xml:23
 #, kde-format
 msgid "Show Axis"
-msgstr ""
+msgstr "显示坐标轴"
 
 #: data/effects/avfilter/avfilter_datascope.xml:26
 #: data/effects/avfilter/avfilter_graphmonitor.xml:12
@@ -2343,7 +2392,7 @@ msgstr "不透明度"
 #: data/effects/avfilter/avfilter_datascope.xml:29
 #, kde-format
 msgid "Hex,Dec"
-msgstr ""
+msgstr "十六进制,十进制"
 
 #: data/effects/avfilter/avfilter_datascope.xml:30 data/effects/timer.xml:46
 #, kde-format
@@ -2353,17 +2402,17 @@ msgstr "格式"
 #: data/effects/avfilter/avfilter_dblur.xml:4
 #, kde-format
 msgid "Directional Blur"
-msgstr ""
+msgstr "定向模糊"
 
 #: data/effects/avfilter/avfilter_dblur.xml:5
 #, kde-format
 msgid "Apply directional blur filter"
-msgstr ""
+msgstr "应用方向模糊滤镜。"
 
 #: data/effects/avfilter/avfilter_dblur.xml:9
 #, kde-format
 msgid "<![CDATA[Sets the angle for the direction]]>"
-msgstr ""
+msgstr "<![CDATA[设置方向角]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
@@ -2376,7 +2425,7 @@ msgstr "半径"
 #: data/effects/avfilter/avfilter_dblur.xml:13
 #, kde-format
 msgid "<![CDATA[Sets the radius for the direction]]>"
-msgstr ""
+msgstr "<![CDATA[设置指向半径]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
 #, kde-format
@@ -2384,22 +2433,24 @@ msgid ""
 "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
 "All"
 msgstr ""
+"Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
+"All"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
 #, kde-format
 msgid "Planes to filter"
-msgstr ""
+msgstr "应用滤镜于平面"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
 #, kde-format
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
-msgstr ""
+msgstr "<![CDATA[设置需应用特效的色彩空间平面]]>"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:4
 #: data/effects/avfilter/avfilter_dcshift.xml:10
 #, kde-format
 msgid "DC shift"
-msgstr ""
+msgstr "DC Shift/直流偏移"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:7
 #, kde-format
@@ -2410,35 +2461,38 @@ msgid ""
 "The effect of a DC offset is reduced headroom and hence volume. The astats "
 "filter can be used to determine if a signal has a DC offset."
 msgstr ""
+"对音频进行直流转换。这对于从音频中消除DC偏移（可能是由记录链中的硬件问题引起"
+"的）非常有用。DC偏移的影响是降低了净空，从而降低了音量。无定向滤波器可以用于"
+"确定信号是否具有DC偏移。"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:11
 #, kde-format
 msgid ""
 "Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift "
 "the audio."
-msgstr ""
+msgstr "设置直流偏移量，允许范围是[-1, 1]。它表示音频的偏移量。"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:14
 #, kde-format
 msgid "Limiter gain"
-msgstr ""
+msgstr "Limiter Gain/限制器增益"
 
 #: data/effects/avfilter/avfilter_dcshift.xml:15
 #, kde-format
 msgid ""
 "Optional. It should have a value much less than 1 (e.g. 0.05 or 0.02) and is "
 "used to prevent clipping."
-msgstr ""
+msgstr "可选。推荐设置为远小于1的值 (例如0.05或0.02) 以防止剪切。"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:4
 #, kde-format
 msgid "DCT Denoiser"
-msgstr ""
+msgstr "DCT去噪器"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:5
 #, kde-format
 msgid "Denoise frames using 2D DCT frequency domain filtering"
-msgstr ""
+msgstr "使用二维DCT (频域滤波) 对帧进行去噪"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
@@ -2451,18 +2505,18 @@ msgstr "总和"
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:22
 #, kde-format
 msgid "Overlap"
-msgstr ""
+msgstr "重叠"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:14
 #: data/effects/avfilter/avfilter_deblock.xml:12
 #, kde-format
 msgid "Block size"
-msgstr ""
+msgstr "块大小"
 
 #: data/effects/avfilter/avfilter_deband.xml:4
 #, kde-format
 msgid "Deband"
-msgstr ""
+msgstr "去除色带"
 
 #: data/effects/avfilter/avfilter_deband.xml:5
 #, kde-format
@@ -2470,26 +2524,27 @@ msgid ""
 "Remove banding artifacts from input video. It works by replacing banded "
 "pixels with average value of referenced pixels"
 msgstr ""
+"从输入视频中删除带状瑕疵。它的工作原理是将带状像素替换为参考像素的平均值"
 
 #: data/effects/avfilter/avfilter_deband.xml:8
 #, kde-format
 msgid "1st plane threshold"
-msgstr ""
+msgstr "第一平面阈值"
 
 #: data/effects/avfilter/avfilter_deband.xml:11
 #, kde-format
 msgid "2nd plane threshold"
-msgstr ""
+msgstr "第二平面阈值"
 
 #: data/effects/avfilter/avfilter_deband.xml:14
 #, kde-format
 msgid "3rd plane threshold"
-msgstr ""
+msgstr "第三平面阈值"
 
 #: data/effects/avfilter/avfilter_deband.xml:17
 #, kde-format
 msgid "4th plane threshold"
-msgstr ""
+msgstr "第四平面阈值"
 
 #: data/effects/avfilter/avfilter_deband.xml:23
 #: data/effects/avfilter/avfilter_transpose.xml:9
@@ -2511,286 +2566,286 @@ msgstr "模糊"
 #: data/effects/avfilter/avfilter_deband.xml:29
 #, kde-format
 msgid "Coupling"
-msgstr ""
+msgstr "通道耦合"
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
 #, kde-format
 msgid "DeBlock"
-msgstr ""
+msgstr "去除色块"
 
 #: data/effects/avfilter/avfilter_deblock.xml:5
 #, kde-format
 msgid "Remove blocking artifacts from input video."
-msgstr ""
+msgstr "从输入视频中移除伪影块。"
 
 #: data/effects/avfilter/avfilter_deblock.xml:8
 #, kde-format
 msgid "Weak,Strong"
-msgstr ""
+msgstr "弱,强"
 
 #: data/effects/avfilter/avfilter_deblock.xml:9
 #, kde-format
 msgid "Filter strength"
-msgstr ""
+msgstr "滤镜强度"
 
 #: data/effects/avfilter/avfilter_deblock.xml:15
 #: data/effects/avfilter/avfilter_smartblur.xml:48
 #, kde-format
 msgid "Alpha threshold"
-msgstr ""
+msgstr "Alpha 阈值"
 
 #: data/effects/avfilter/avfilter_deblock.xml:18
 #, kde-format
 msgid "Beta threshold"
-msgstr ""
+msgstr "Beta 阈值"
 
 #: data/effects/avfilter/avfilter_deblock.xml:21
 #, kde-format
 msgid "Gamma threshold"
-msgstr ""
+msgstr "Gamma 阈值"
 
 #: data/effects/avfilter/avfilter_deblock.xml:24
 #, kde-format
 msgid "Delta threshold"
-msgstr ""
+msgstr "Delta 阈值"
 
 #: data/effects/avfilter/avfilter_deblock.xml:27
 #, kde-format
 msgid "All,Y,U,V,Alpha,Red,Green,Blue"
-msgstr ""
+msgstr "All,Y,U,V,Alpha,Red,Green,Blue"
 
 #: data/effects/avfilter/avfilter_dedot.xml:4
 #, kde-format
 msgid "DeDot"
-msgstr ""
+msgstr "去点状伪影"
 
 #: data/effects/avfilter/avfilter_dedot.xml:5
 #, kde-format
 msgid ""
 "Reduce cross-luminance (dot-crawl) and cross-color (rainbows) from video"
-msgstr ""
+msgstr "抑制亮度串扰 (点状噪声) 与色度串扰 (彩虹纹)"
 
 #: data/effects/avfilter/avfilter_dedot.xml:8
 #, kde-format
 msgid "DotCrawl,Rainbows"
-msgstr ""
+msgstr "蠕点(点状噪声),彩虹纹"
 
 #: data/effects/avfilter/avfilter_dedot.xml:9
 #, kde-format
 msgid "color-reduction Mode"
-msgstr ""
+msgstr "色彩降噪模式"
 
 #: data/effects/avfilter/avfilter_dedot.xml:12
 #, kde-format
 msgid "Spatial Luma threshold"
-msgstr ""
+msgstr "空间光度阈值"
 
 #: data/effects/avfilter/avfilter_dedot.xml:15
 #, kde-format
 msgid "Temporal Luma Threshold"
-msgstr ""
+msgstr "时域光度阈值"
 
 #: data/effects/avfilter/avfilter_dedot.xml:18
 #, kde-format
 msgid "Temporal Chroma Variation"
-msgstr ""
+msgstr "时域色品变化"
 
 #: data/effects/avfilter/avfilter_dedot.xml:21
 #, kde-format
 msgid "Temporal Chroma Threshold"
-msgstr ""
+msgstr "时域色品阈值"
 
 #: data/effects/avfilter/avfilter_deesser.xml:4
 #, kde-format
 msgid "Deesser"
-msgstr ""
+msgstr "Deesser - 齿音消除器"
 
 #: data/effects/avfilter/avfilter_deesser.xml:5
 #, kde-format
 msgid "Apply de-essing to the audio samples."
-msgstr ""
+msgstr "对音频样本应用去齿音处理。"
 
 #: data/effects/avfilter/avfilter_deesser.xml:9
 #, kde-format
 msgid "Set intensity for triggering de-essing. Allowed range is from 0 to 1."
-msgstr ""
+msgstr "设置触发去齿音强度。允许范围0-1。"
 
 #: data/effects/avfilter/avfilter_deesser.xml:12
 #, kde-format
 msgid "Max deessing"
-msgstr ""
+msgstr "最大强度"
 
 #: data/effects/avfilter/avfilter_deesser.xml:13
 #, kde-format
 msgid ""
 "Set amount of ducking on treble part of sound. Allowed range is from 0 to 1."
-msgstr ""
+msgstr "设置声音的高频部分抑制量。允许范围0-1。"
 
 #: data/effects/avfilter/avfilter_deesser.xml:16
 #: data/effects/avfilter/avfilter_vibrato.xml:8
 #: data/effects/frei0r/frei0r_distort0r.xml:11 data/effects/sox/sox_bass.xml:11
 #, kde-format
 msgid "Frequency"
-msgstr ""
+msgstr "频率"
 
 #: data/effects/avfilter/avfilter_deesser.xml:17
 #, kde-format
 msgid ""
 "How much of original frequency content to keep when de-essing. Allowed range "
 "is from 0 to 1."
-msgstr ""
+msgstr "去齿音时保留原始频率内容数量。允许范围0-1。"
 
 #: data/effects/avfilter/avfilter_deesser.xml:20
 #, kde-format
 msgid "Input,Output,Ess only"
-msgstr ""
+msgstr "Input,Output,Ess only"
 
 #: data/effects/avfilter/avfilter_deesser.xml:21
 #, kde-format
 msgid "Output mode"
-msgstr ""
+msgstr "输出模式"
 
 #: data/effects/avfilter/avfilter_deesser.xml:22
 #, kde-format
 msgid "Set the output mode."
-msgstr ""
+msgstr "设置输出模式."
 
 #: data/effects/avfilter/avfilter_deflate.xml:4
 #, kde-format
 msgid "Deflate"
-msgstr ""
+msgstr "Deflate - 收缩"
 
 #: data/effects/avfilter/avfilter_deflate.xml:5
 #, kde-format
 msgid "Apply deflate effect to the video"
-msgstr ""
+msgstr "对视频应用收缩效果"
 
 #: data/effects/avfilter/avfilter_deflate.xml:8
 #, kde-format
 msgid "Threshold for 1st plane"
-msgstr ""
+msgstr "第一平面阈值"
 
 #: data/effects/avfilter/avfilter_deflate.xml:11
 #, kde-format
 msgid "Threshold for 2nd plane"
-msgstr ""
+msgstr "第二平面阈值"
 
 #: data/effects/avfilter/avfilter_deflate.xml:14
 #, kde-format
 msgid "Threshold for 3rd plane"
-msgstr ""
+msgstr "第三平面阈值"
 
 #: data/effects/avfilter/avfilter_deflate.xml:17
 #, kde-format
 msgid "Threshold for 4th plane"
-msgstr ""
+msgstr "第四平面阈值"
 
 #: data/effects/avfilter/avfilter_delogo.xml:4
 #, kde-format
 msgid "DeLogo"
-msgstr ""
+msgstr "去徽标(水印)"
 
 #: data/effects/avfilter/avfilter_delogo.xml:5
 #, kde-format
 msgid "Remove logo from input video"
-msgstr ""
+msgstr "从输入视频中删除徽标(或水印)"
 
 #: data/effects/avfilter/avfilter_delogo.xml:8
 #, kde-format
 msgid "Logo X Position"
-msgstr ""
+msgstr "徽标位置 X"
 
 #: data/effects/avfilter/avfilter_delogo.xml:11
 #, kde-format
 msgid "Logo Y Position"
-msgstr ""
+msgstr "徽标位置 Y"
 
 #: data/effects/avfilter/avfilter_delogo.xml:14
 #, kde-format
 msgid "Logo Width"
-msgstr ""
+msgstr "徽标宽度"
 
 #: data/effects/avfilter/avfilter_delogo.xml:17
 #, kde-format
 msgid "Logo Height"
-msgstr ""
+msgstr "徽标高度"
 
 #: data/effects/avfilter/avfilter_delogo.xml:21
 #, kde-format
 msgid "Show borders"
-msgstr ""
+msgstr "显示边界"
 
 #: data/effects/avfilter/avfilter_derain.xml:4
 #, kde-format
 msgid "AI Rain removal"
-msgstr ""
+msgstr "AI雨移除"
 
 #: data/effects/avfilter/avfilter_derain.xml:5
 #, kde-format
 msgid ""
 "Remove the rain in the input image/video by applying the derain methods "
 "based on convolutional neural networks"
-msgstr ""
+msgstr "通过应用基于神经网络的方法去除输入图像/视频中的雨"
 
 #: data/effects/avfilter/avfilter_derain.xml:8
 #: data/effects/avfilter/avfilter_sr.xml:8
 #, kde-format
 msgid "Native,Tensorflow"
-msgstr ""
+msgstr "Native,Tensorflow"
 
 #: data/effects/avfilter/avfilter_derain.xml:9
 #: data/effects/avfilter/avfilter_sr.xml:9
 #, kde-format
 msgid "DNN Backend"
-msgstr ""
+msgstr "DNN 后端程序"
 
 #: data/effects/avfilter/avfilter_derain.xml:12
 #: data/effects/avfilter/avfilter_sr.xml:12
 #, kde-format
 msgid "Load model"
-msgstr ""
+msgstr "加载模型"
 
 #: data/effects/avfilter/avfilter_despill.xml:4
 #, kde-format
 msgid "Despill"
-msgstr ""
+msgstr "Despill - 绿/蓝幕抠像补偿"
 
 #: data/effects/avfilter/avfilter_despill.xml:5
 #, kde-format
 msgid ""
 "Remove unwanted contamination of foreground colors, caused by reflected "
 "color of greenscreen or bluescreen"
-msgstr ""
+msgstr "去除由绿屏或蓝屏反射的颜色引起的前景色不必要的污染"
 
 #: data/effects/avfilter/avfilter_despill.xml:9
 #, kde-format
 msgid "Screen type"
-msgstr ""
+msgstr "屏幕类型"
 
 #: data/effects/avfilter/avfilter_despill.xml:12
 #, kde-format
 msgid "Spillmap Mix"
-msgstr ""
+msgstr "Spillmap Mix"
 
 #: data/effects/avfilter/avfilter_despill.xml:15
 #, kde-format
 msgid "Spillmap Expand"
-msgstr ""
+msgstr "Spillmap Expand"
 
 #: data/effects/avfilter/avfilter_despill.xml:18
 #, kde-format
 msgid "Set Red Scale"
-msgstr ""
+msgstr "设置红色通道比例"
 
 #: data/effects/avfilter/avfilter_despill.xml:21
 #, kde-format
 msgid "Set Green Scale"
-msgstr ""
+msgstr "设置绿色通道比例"
 
 #: data/effects/avfilter/avfilter_despill.xml:24
 #, kde-format
 msgid "Set Blue Scale"
-msgstr ""
+msgstr "设置蓝色通道比例"
 
 #: data/effects/avfilter/avfilter_despill.xml:27
 #: data/effects/avfilter/avfilter_eq.xml:11
@@ -2805,52 +2860,52 @@ msgstr "亮度"
 #: data/effects/avfilter/avfilter_dilation.xml:4
 #, kde-format
 msgid "Dilation"
-msgstr ""
+msgstr "膨胀"
 
 #: data/effects/avfilter/avfilter_dilation.xml:5
 #, kde-format
 msgid "Apply dilation effect"
-msgstr ""
+msgstr "应用膨胀效果"
 
 #: data/effects/avfilter/avfilter_dilation.xml:8
 #: data/effects/avfilter/avfilter_erosion.xml:8
 #, kde-format
 msgid "1st Plane Threshold"
-msgstr ""
+msgstr "第一平面阈值"
 
 #: data/effects/avfilter/avfilter_dilation.xml:11
 #: data/effects/avfilter/avfilter_erosion.xml:11
 #, kde-format
 msgid "2nd Plane Threshold"
-msgstr ""
+msgstr "第二平面阈值"
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
 #, kde-format
 msgid "3rd Plane Threshold"
-msgstr ""
+msgstr "第三平面阈值"
 
 #: data/effects/avfilter/avfilter_dilation.xml:17
 #: data/effects/avfilter/avfilter_erosion.xml:17
 #, kde-format
 msgid "4th Plane Threshold"
-msgstr ""
+msgstr "第四平面阈值"
 
 #: data/effects/avfilter/avfilter_dilation.xml:20
 #: data/effects/avfilter/avfilter_erosion.xml:20
 #, kde-format
 msgid "Coordinates"
-msgstr ""
+msgstr "坐标"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
 msgid "Doubleweave"
-msgstr ""
+msgstr "Doubleweave - 双场交织"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:5
 #, kde-format
 msgid "Weave input video fields into double number of frames"
-msgstr ""
+msgstr "将输入视频的隔行扫描场交织为双倍数量的逐行帧"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:8
 #: data/effects/avfilter/avfilter_field.xml:8
@@ -2858,50 +2913,50 @@ msgstr ""
 #: data/effects/avfilter/avfilter_mcdeint.xml:12
 #, kde-format
 msgid "Top field first,Bottom field first"
-msgstr ""
+msgstr "顶部场优先,底部场优先"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:9
 #: data/effects/avfilter/avfilter_weave.xml:9
 #, kde-format
 msgid "First Field"
-msgstr ""
+msgstr "首场优先"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:4
 #, kde-format
 msgid "Draw Box"
-msgstr ""
+msgstr "绘图框"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:5
 #, kde-format
 msgid "Draw a colored box on the input video"
-msgstr ""
+msgstr "在输入视频上绘制彩色方框"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:8
 #: data/effects/frei0r/frei0r_c0rners.xml:8
 #, kde-format
 msgid "Top-left X"
-msgstr ""
+msgstr "左上 X"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:9
 #, kde-format
 msgid "<![CDATA[X coordinate of top-left corner]]>"
-msgstr ""
+msgstr "<![CDATA[左上角的X坐标]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:12
 #: data/effects/frei0r/frei0r_c0rners.xml:11
 #, kde-format
 msgid "Top-left Y"
-msgstr ""
+msgstr "左上 Y"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:13
 #, kde-format
 msgid "<![CDATA[Y coordinate of top-left corner]]>"
-msgstr ""
+msgstr "<![CDATA[左上角的Y坐标]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:16
 #, kde-format
 msgid "Width (px)"
-msgstr ""
+msgstr "宽度 (px)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:18
 #, kde-format
@@ -2909,11 +2964,13 @@ msgid ""
 "<![CDATA[Width of the box in pixel.<br>\n"
 "    \tA width of <em>1</em> does not draw a line]]>"
 msgstr ""
+"<![CDATA[框宽度(px)<br>\n"
+"     将宽度设置为<em>1</em>时将不会绘制线条]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:21
 #, kde-format
 msgid "Height (px)"
-msgstr ""
+msgstr "高度 (px)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:23
 #, kde-format
@@ -2921,6 +2978,8 @@ msgid ""
 "<![CDATA[Height of the box in pixel.<br>\n"
 "    \tA height of <em>1</em> does not draw a line]]>"
 msgstr ""
+"<![CDATA[框高度(px)<br>\n"
+"     将高度设置为<em>1</em>时将不会绘制线条]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:26
 #: data/effects/avfilter/avfilter_drawgrid.xml:24
@@ -2938,23 +2997,25 @@ msgid ""
 "<![CDATA[Select a color for the line.<br>\n"
 "    \tUse the <em>Alpha<em> value to make the line semi-transparent.]]>"
 msgstr ""
+"<![CDATA[选择线条颜色<br>\n"
+"    \t使用<em>Alpha<em>通道值实现线条半透明效果]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:31
 #: data/effects/avfilter/avfilter_drawgrid.xml:29
 #, kde-format
 msgid "Thickness (px)"
-msgstr ""
+msgstr "线条粗细 (px)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:32
 #, kde-format
 msgid "<![CDATA[Sets the thickness for the line in pixels]]>"
-msgstr ""
+msgstr "<![CDATA[设置线条粗细(px)]]>"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:35
 #: data/effects/avfilter/avfilter_drawgrid.xml:33
 #, kde-format
 msgid "Replace color and alpha"
-msgstr ""
+msgstr "替换颜色和透明度"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:38
 #, kde-format
@@ -2965,16 +3026,19 @@ msgid ""
 "    \tBy default, the box will be composited onto the input, leaving the "
 "video's alpha intact.]]>"
 msgstr ""
+"<![CDATA[若输入数据存在Alpha项，请勾选此项<br>\n"
+"    勾选此项将使用绘制的方框像素覆盖视频的颜色和透明像素。<br>\n"
+"    默认情况下，方框会以合成方式叠加到输入画面上，保持视频的透明通道不变。]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
 #, kde-format
 msgid "Draw Grid"
-msgstr ""
+msgstr "绘制网格"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:5
 #, kde-format
 msgid "Draw a colored grid on the input video"
-msgstr ""
+msgstr "在输入视频上绘制彩色网格"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:8 data/effects/dropshadow.xml:12
 #, kde-format
@@ -2984,7 +3048,7 @@ msgstr "X 偏移"
 #: data/effects/avfilter/avfilter_drawgrid.xml:9
 #, kde-format
 msgid "<![CDATA[Distance from the left edge in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[距左侧边缘的距离(px)]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:12
 #: data/effects/dropshadow.xml:16
@@ -2995,7 +3059,7 @@ msgstr "Y 偏移"
 #: data/effects/avfilter/avfilter_drawgrid.xml:13
 #, kde-format
 msgid "<![CDATA[Distance from the top edge in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[距顶部边缘的距离(px)]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
@@ -3012,7 +3076,7 @@ msgstr "宽度"
 #: data/effects/avfilter/avfilter_drawgrid.xml:17
 #, kde-format
 msgid "<![CDATA[Distance between vertical lines in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[网格垂直间距(px)]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
 #: src/assets/view/widgets/keyframecontainer.cpp:278
@@ -3027,7 +3091,7 @@ msgstr "高度"
 #: data/effects/avfilter/avfilter_drawgrid.xml:21
 #, kde-format
 msgid "<![CDATA[Distance between horizontal lines in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[网格水平间距(px)]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:26
 #, kde-format
@@ -3035,11 +3099,13 @@ msgid ""
 "<![CDATA[Select a color for the grid lines.<br>\n"
 "    \tUse the <em>Alpha<em> value to make the grid semi-transparent.]]>"
 msgstr ""
+"<![CDATA[选择网格线颜色<br>\n"
+"    \t通过调整<em>Alpha<em>通道值实现网格半透明效果]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:30
 #, kde-format
 msgid "<![CDATA[Sets the thickness for the grid lines in pixels]]>"
-msgstr ""
+msgstr "<![CDATA[设置线条粗细(px)]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:36
 #, kde-format
@@ -3050,37 +3116,40 @@ msgid ""
 "    \tBy default, the grid lines will be composited onto the input, leaving "
 "the video's alpha intact.]]>"
 msgstr ""
+"<![CDATA[若输入数据存在Alpha项，请勾选此项<br>\n"
+"    勾选此项将使用绘制的网格像素覆盖视频的颜色和透明像素。<br>\n"
+"    默认情况下，网格会以合成方式叠加到输入画面上，保持视频的透明通道不变。]]>"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
 #, kde-format
 msgid "Edge detection"
-msgstr ""
+msgstr "边缘检测"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:5
 #, kde-format
 msgid ""
 "Detect and draw edges. The filter uses the Canny Edge Detection algorithm. "
-msgstr ""
+msgstr "检测和绘制边缘。该滤镜使用Canny边缘检测算法。 "
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:8
 #, kde-format
 msgid "Low threshold"
-msgstr ""
+msgstr "低阈值"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:11
 #, kde-format
 msgid "High threshold"
-msgstr ""
+msgstr "高阈值"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:14
 #, kde-format
 msgid "Wires,Colormix,Canny"
-msgstr ""
+msgstr "Wires,Colormix,Canny"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:15
 #, kde-format
 msgid "Modes"
-msgstr ""
+msgstr "模式"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:18
 #: data/effects/avfilter/avfilter_gblur.xml:15
@@ -3092,58 +3161,58 @@ msgstr ""
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:21
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV,Alpha"
-msgstr ""
+msgstr "None,Y,U,YU,V,YV,UV,YUV,Alpha"
 
 #: data/effects/avfilter/avfilter_elbg.xml:4
 #, kde-format
 msgid "ELBG Posterizer"
-msgstr ""
+msgstr "ELBG色调分离"
 
 #: data/effects/avfilter/avfilter_elbg.xml:5
 #, kde-format
 msgid "Apply posterize effect, using the ELBG algorithm"
-msgstr ""
+msgstr "应用使用ELBG算法的色调分离滤镜"
 
 #: data/effects/avfilter/avfilter_elbg.xml:8
 #, kde-format
 msgid "Codebook Length"
-msgstr ""
+msgstr "码本长度"
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
 #, kde-format
 msgid "Steps"
-msgstr ""
+msgstr "Steps"
 
 #: data/effects/avfilter/avfilter_epx.xml:4
 #, kde-format
 msgid "EPX Scaler"
-msgstr ""
+msgstr "EPX 缩放器"
 
 #: data/effects/avfilter/avfilter_epx.xml:5
 #, kde-format
 msgid "Scale the input using EPX algorithm."
-msgstr ""
+msgstr "使用EPX算法缩放输入。"
 
 #: data/effects/avfilter/avfilter_epx.xml:8
 #, kde-format
 msgid "2x,3x"
-msgstr ""
+msgstr "2x,3x"
 
 #: data/effects/avfilter/avfilter_epx.xml:9
 #, kde-format
 msgid "Scale factor"
-msgstr ""
+msgstr "缩放因子"
 
 #: data/effects/avfilter/avfilter_eq.xml:4
 #, kde-format
 msgid "Video Equalizer"
-msgstr ""
+msgstr "视频均衡器"
 
 #: data/effects/avfilter/avfilter_eq.xml:5
 #, kde-format
 msgid "Adjust Brightness, contrast, gamma, saturation"
-msgstr ""
+msgstr "调整亮度、对比度、伽玛、饱和度"
 
 #: data/effects/avfilter/avfilter_eq.xml:17
 #: data/effects/frei0r/frei0r_levels.xml:19
@@ -3158,80 +3227,80 @@ msgstr "伽玛值"
 #: data/effects/avfilter/avfilter_eq.xml:20
 #, kde-format
 msgid "Red Gamma"
-msgstr ""
+msgstr "红色伽马"
 
 #: data/effects/avfilter/avfilter_eq.xml:23
 #, kde-format
 msgid "Green Gamma"
-msgstr ""
+msgstr "绿色伽马"
 
 #: data/effects/avfilter/avfilter_eq.xml:26
 #, kde-format
 msgid "Blue Gamma"
-msgstr ""
+msgstr "蓝色伽马"
 
 #: data/effects/avfilter/avfilter_eq.xml:29
 #, kde-format
 msgid "Gamma Weight"
-msgstr ""
+msgstr "伽玛权重"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:4
 #, kde-format
 msgid "Audio Equalizer (avfilter)"
-msgstr ""
+msgstr "音频均衡器 (avfilter)"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:5
 #, kde-format
 msgid "Apply two-pole peaking equalization (EQ) filter"
-msgstr ""
+msgstr "应用双极峰值均衡（EQ）滤波器"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:11
 #, kde-format
 msgid "Width Type"
-msgstr ""
+msgstr "宽度类型"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:12
 #, kde-format
 msgid "Hertz,Q-Factor,Octave,Slope,None"
-msgstr ""
+msgstr "Hz,Q值,倍频程,斜率,None"
 
 #: data/effects/avfilter/avfilter_equalizer.xml:15
 #, kde-format
 msgid "Band Width"
-msgstr ""
+msgstr "频带宽度"
 
 #: data/effects/avfilter/avfilter_erosion.xml:4
 #, kde-format
 msgid "Erosion"
-msgstr ""
+msgstr "Erosion - 腐蚀"
 
 #: data/effects/avfilter/avfilter_erosion.xml:5
 #, kde-format
 msgid "Apply erosion effect"
-msgstr ""
+msgstr "应用腐蚀效果"
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
 #, kde-format
 msgid "Exposure"
-msgstr ""
+msgstr "曝光"
 
 #: data/effects/avfilter/avfilter_exposure.xml:5
 #, kde-format
 msgid "Adjust exposure of the video stream."
-msgstr ""
+msgstr "调整视频流的曝光."
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:4
 #, kde-format
 msgid "Extrastereo"
-msgstr ""
+msgstr "Extrastereo - 附加立体声"
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:5
 #, kde-format
 msgid ""
 "Linearly increases the difference between left and right channels which adds "
 "some sort of \"live\" effect to playback. "
-msgstr ""
+msgstr "线性增加左右通道之间的差异，从而为音频添加现场感。 "
 
 #: data/effects/avfilter/avfilter_extrastereo.xml:11
 #, kde-format
@@ -3241,16 +3310,19 @@ msgid ""
 "with 1.0 sound will be unchanged, with -1.0 left and right channels will be "
 "swapped."
 msgstr ""
+"设置差异系数 (默认：2.5)。\n"
+"0.0 会创建单声道音频(两个通道的平均值)，\n"
+"若设置为 1.0 音频将保持不变，设置为-1.0将交换左右通道。"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:4
 #, kde-format
 msgid "3D FFT Denoiser"
-msgstr ""
+msgstr "3D FFT去噪器"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:5
 #, kde-format
 msgid "Denoise frames using 3D FFT (frequency domain filtering)"
-msgstr ""
+msgstr "使用3D FFT（频域滤波）对帧进行去噪"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:10
 #, kde-format
@@ -3259,6 +3331,9 @@ msgid ""
 "       \tThis sets denoising strength. Using very high sigma with low "
 "overlap may give blocking artifacts.]]>"
 msgstr ""
+"<![CDATA[设置噪声标准差常数。<br>\n"
+"       此参数控制降噪强度。若在低重叠区域使用过高的sigma值，可能产生块状伪"
+"影。]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:13
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:20
@@ -3267,7 +3342,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_sharpness.xml:8
 #, kde-format
 msgid "Amount"
-msgstr ""
+msgstr "数量"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:15
 #, kde-format
@@ -3275,31 +3350,33 @@ msgid ""
 "<![CDATA[Set the amount of denoising.<br>\n"
 "       \tBy default all detected noise is reduced..]]>"
 msgstr ""
+"<![CDATA[设置降噪强度<br>\n"
+"       默认消除所有检测到的噪点]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
 #, kde-format
 msgid "Block"
-msgstr ""
+msgstr "块"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:19
 #, kde-format
 msgid "<![CDATA[Set size of block in pixels]]>"
-msgstr ""
+msgstr "<![CDATA[设置块大小(px)]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:23
 #, kde-format
 msgid "<![CDATA[Set block overlap]]>"
-msgstr ""
+msgstr "<![CDATA[设置块重叠比例]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:26
 #, kde-format
 msgid "wiener,hard"
-msgstr ""
+msgstr "wiener,hard"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:28
 #, kde-format
 msgid "<![CDATA[Set denoising method]]>"
-msgstr ""
+msgstr "<![CDATA[设置去噪方法]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:32
 #, kde-format
@@ -3307,6 +3384,8 @@ msgid ""
 "<![CDATA[Add <em>previous</em> frame<br>\n"
 "        for temporal denoising]]>"
 msgstr ""
+"<![CDATA[添加<em>前一帧</em>参与运算<br>\n"
+"        用于时域去噪]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:36
 #, kde-format
@@ -3314,6 +3393,8 @@ msgid ""
 "<![CDATA[Add <em>next</em> frame<br>\n"
 "        for temporal denoising]]>"
 msgstr ""
+"<![CDATA[添加<em>后一帧</em>参与运算<br>\n"
+"        用于时域去噪]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:39
 #: data/effects/avfilter/avfilter_median.xml:22
@@ -3321,88 +3402,88 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:30
 #, kde-format
 msgid "None,Y,U,YU,V,YV,UV,YUV"
-msgstr ""
+msgstr "None,Y,U,YU,V,YV,UV,YUV"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:4
 #, kde-format
 msgid "FTT-based FIR"
-msgstr ""
+msgstr "有限脉冲响应滤波器(FTT算法)"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:5
 #, kde-format
 msgid "Apply arbitrary expressions to samples in frequency domain"
-msgstr ""
+msgstr "将任意表达式应用于频域中的样本"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:8
 #, kde-format
 msgid "Gain in Y plane"
-msgstr ""
+msgstr "Y平面增益"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:11
 #, kde-format
 msgid "Gain in U plane"
-msgstr ""
+msgstr "U平面增益"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:14
 #, kde-format
 msgid "Gain in V plane"
-msgstr ""
+msgstr "V平面增益"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:17
 #, kde-format
 msgid "Luminance Y plane"
-msgstr ""
+msgstr "Y平面光度"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:20
 #, kde-format
 msgid "Luminance U plane"
-msgstr ""
+msgstr "U平面光度"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:23
 #, kde-format
 msgid "Luminance V plane"
-msgstr ""
+msgstr "V平面光度"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:26
 #, kde-format
 msgid "init,frame"
-msgstr ""
+msgstr "init,frame"
 
 #: data/effects/avfilter/avfilter_fftfilt.xml:27
 #, kde-format
 msgid "Evaluate"
-msgstr ""
+msgstr "运算"
 
 #: data/effects/avfilter/avfilter_field.xml:4
 #, kde-format
 msgid "Field Extractor"
-msgstr ""
+msgstr "场提取器"
 
 #: data/effects/avfilter/avfilter_field.xml:5
 #, kde-format
 msgid "Extract a field from the input video"
-msgstr ""
+msgstr "从输入视频中提取字段"
 
 #: data/effects/avfilter/avfilter_field.xml:9
 #: data/effects/avfilter/avfilter_fieldorder.xml:9
 #, kde-format
 msgid "Field priority"
-msgstr ""
+msgstr "场处理优先级"
 
 #: data/effects/avfilter/avfilter_fieldorder.xml:4
 #, kde-format
 msgid "Interlace field order"
-msgstr ""
+msgstr "隔行扫描场序"
 
 #: data/effects/avfilter/avfilter_fieldorder.xml:5
 #, kde-format
 msgid "Transform the field order of the input video."
-msgstr ""
+msgstr "转换输入视频的场顺序."
 
 #: data/effects/avfilter/avfilter_fillborders.xml:4
 #, kde-format
 msgid "Fill borders"
-msgstr ""
+msgstr "填充边界"
 
 #: data/effects/avfilter/avfilter_fillborders.xml:5
 #, kde-format
@@ -3411,6 +3492,7 @@ msgid ""
 "Sometimes video can have garbage at the four edges and you may not want to "
 "crop video input to keep size multiple of some number"
 msgstr ""
+"填充视频边缘区域且保持原尺寸。适用于边缘含无效数据且需维持分辨率倍数的场景"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:8 data/effects/crop.xml:11
@@ -3451,52 +3533,52 @@ msgstr "底部"
 #: data/effects/avfilter/avfilter_fillborders.xml:20
 #, kde-format
 msgid "Smear,Mirror,Fixed,Reflect,Wrap,Fade,Margins"
-msgstr ""
+msgstr "延展填充,镜像反射,固定色值,对称反射,循环填充,渐变淡出,原边保留"
 
 #: data/effects/avfilter/avfilter_flanger.xml:4
 #, kde-format
 msgid "Flanger"
-msgstr ""
+msgstr "Flanger - 翻边器"
 
 #: data/effects/avfilter/avfilter_flanger.xml:5
 #, kde-format
 msgid "Apply a flanging effect to the audio. "
-msgstr ""
+msgstr "对音频应用翻边效果. "
 
 #: data/effects/avfilter/avfilter_flanger.xml:9
 #, kde-format
 msgid "Set base delay in milliseconds. Range from 0 to 30."
-msgstr ""
+msgstr "设置基础延迟(ms) | 取值范围 0-30。"
 
 #: data/effects/avfilter/avfilter_flanger.xml:12
 #: data/effects/avfilter/avfilter_vibrato.xml:11
 #: data/effects/ladspa/ladspa_phaser.xml:11 data/effects/sox/sox_flanger.xml:11
 #, kde-format
 msgid "Depth"
-msgstr ""
+msgstr "深度"
 
 #: data/effects/avfilter/avfilter_flanger.xml:13
 #, kde-format
 msgid "Set added sweep delay in milliseconds. Range from 0 to 10."
-msgstr ""
+msgstr "设置附加扫描延迟(ms) | 取值范围 0-10"
 
 #: data/effects/avfilter/avfilter_flanger.xml:16
 #: data/effects/sox/sox_flanger.xml:14
 #, kde-format
 msgid "Regeneration"
-msgstr ""
+msgstr "反馈量"
 
 #: data/effects/avfilter/avfilter_flanger.xml:17
 #, kde-format
 msgid ""
 "Set percentage regeneration (delayed signal feedback). Range from -95 to 95."
-msgstr ""
+msgstr "设置延迟信号反馈量(%) | 取值范围 -95~95"
 
 #: data/effects/avfilter/avfilter_flanger.xml:21
 #, kde-format
 msgid ""
 "Set percentage of delayed signal mixed with original. Range from 0 to 100."
-msgstr ""
+msgstr "设置延迟信号与原始信号混合百分比 | 取值范围 0-100。"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -3513,7 +3595,7 @@ msgstr "速度"
 #: data/effects/avfilter/avfilter_flanger.xml:25
 #, kde-format
 msgid "Set sweeps per second (Hz). Range from 0.1 to 10."
-msgstr ""
+msgstr "设置调制扫描频率(Hz) | 取值范围 0.1-10"
 
 #: data/effects/avfilter/avfilter_flanger.xml:29
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:9
@@ -3531,25 +3613,25 @@ msgstr "形状"
 #: data/effects/avfilter/avfilter_flanger.xml:30
 #, kde-format
 msgid "Set swept wave shape, can be triangular or sinusoidal. "
-msgstr ""
+msgstr "设置扫描波形类型 (三角波/正弦波)"
 
 #: data/effects/avfilter/avfilter_flanger.xml:33
 #: data/effects/avfilter/avfilter_phase.xml:4
 #: data/effects/sox/sox_flanger.xml:26
 #, kde-format
 msgid "Phase"
-msgstr ""
+msgstr "相位"
 
 #: data/effects/avfilter/avfilter_flanger.xml:34
 #, kde-format
 msgid ""
 "Set swept wave percentage-shift for multi channel. Range from 0 to 100. "
-msgstr ""
+msgstr "设置多声道扫描波形相位偏移(%) | 取值范围 0-100"
 
 #: data/effects/avfilter/avfilter_flanger.xml:37
 #, kde-format
 msgid "Linear,Quadratic"
-msgstr ""
+msgstr "线性,二次曲线"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: data/effects/avfilter/avfilter_flanger.xml:38
@@ -3569,67 +3651,67 @@ msgstr "插值方式"
 #: data/effects/avfilter/avfilter_flanger.xml:39
 #, kde-format
 msgid "Set delay-line interpolation, linear or quadratic."
-msgstr ""
+msgstr "设置延迟线插值模式 (线性/二次曲线)。"
 
 #: data/effects/avfilter/avfilter_framestep.xml:4
 #, kde-format
 msgid "Framestep"
-msgstr ""
+msgstr "间隔帧提取"
 
 #: data/effects/avfilter/avfilter_framestep.xml:5
 #, kde-format
 msgid "Select one frame every N frames"
-msgstr ""
+msgstr "每隔N帧提取1帧"
 
 #: data/effects/avfilter/avfilter_framestep.xml:8
 #, kde-format
 msgid "One frame every"
-msgstr ""
+msgstr "一帧每"
 
 #: data/effects/avfilter/avfilter_fspp.xml:4
 #, kde-format
 msgid "fspp"
-msgstr ""
+msgstr "fspp"
 
 #: data/effects/avfilter/avfilter_fspp.xml:5
 #, kde-format
 msgid "Fast and simple postprocessing"
-msgstr ""
+msgstr "快速简易后处理"
 
 #: data/effects/avfilter/avfilter_fspp.xml:8
 #, kde-format
 msgid "4,5"
-msgstr ""
+msgstr "4,5"
 
 #: data/effects/avfilter/avfilter_fspp.xml:9
 #, kde-format
 msgid "Quality"
-msgstr ""
+msgstr "品质"
 
 #: data/effects/avfilter/avfilter_fspp.xml:12
 #, kde-format
 msgid "Constant quantizer"
-msgstr ""
+msgstr "恒定质量"
 
 #: data/effects/avfilter/avfilter_fspp.xml:18
 #, kde-format
 msgid "QP on B-Frames"
-msgstr ""
+msgstr "在 B 帧上的 QP"
 
 #: data/effects/avfilter/avfilter_gblur.xml:4
 #, kde-format
 msgid "Gaussian Blur"
-msgstr ""
+msgstr "高斯模糊"
 
 #: data/effects/avfilter/avfilter_gblur.xml:5
 #, kde-format
 msgid "Apply Gaussian Blur filter"
-msgstr ""
+msgstr "应用高斯模糊滤镜"
 
 #: data/effects/avfilter/avfilter_gblur.xml:11
 #, kde-format
 msgid "1,2,3,4,5,6"
-msgstr ""
+msgstr "1,2,3,4,5,6"
 
 #: data/effects/avfilter/avfilter_gblur.xml:12
 #, kde-format

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-10 02:36+0000\n"
-"PO-Revision-Date: 2025-05-02 08:40+0200\n"
+"PO-Revision-Date: 2025-05-04 23:10+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -476,12 +476,12 @@ msgstr "Formato d'onda audio"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr "Mostra il formato dell'onda audio al posto del video"
+msgstr "Mostra la forma d'onda audio al posto del video"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
-msgstr "Filtro formato d'onda audio"
+msgstr "Filtro forma d'onda audio"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #: data/effects/timer.xml:23
@@ -18944,8 +18944,8 @@ msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
-"Scarica i modelli di riconoscimento vocale da: <a href=\"https://alphacephei."
-"com/vosk/models\">https://alphacephei.com/vosk/models</a>"
+"Scarica i modelli per riconoscimento vocale da: <a href=\"https://"
+"alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"
 
 #: src/dialogs/settings/pluginssettings.cpp:280
 #: src/dialogs/settings/pluginssettings.cpp:381
@@ -20114,7 +20114,7 @@ msgstr "Il nome dello stile non può contenere «,»."
 #: src/dialogs/textbasededit.cpp:56
 #, kde-format
 msgid "Delete selection"
-msgstr "Elimina colonne"
+msgstr "Elimina selezione"
 
 #: src/dialogs/textbasededit.cpp:359 src/dialogs/textbasededit.cpp:615
 #: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1373
@@ -23208,7 +23208,7 @@ msgstr "Strumento multi-camera"
 #: src/mainwindow.cpp:1245
 #, kde-format
 msgid "Zoom Audio Waveforms"
-msgstr "Ingrandisci i formati d'onda audio"
+msgstr "Ingrandisci le forme d'onda audio"
 
 #: src/mainwindow.cpp:1249
 #, kde-format
@@ -27935,7 +27935,7 @@ msgstr "sottotitoli automatici"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:62
 #, kde-format
 msgid "Autodetect"
-msgstr "Rilevamento automatico"
+msgstr "Rileva automaticamente"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:64
 #, kde-format
@@ -29794,7 +29794,7 @@ msgstr "Modifica il nome della traccia"
 #, kde-format
 msgid "Click to cycle audio waveforms zoom"
 msgstr ""
-"Fai clic per passare ciclicamente tra gli ingrandimenti dei formati d'onda "
+"Fai clic per passare ciclicamente tra gli ingrandimenti delle forme d'onda "
 "audio"
 
 #: src/timeline2/view/timelinecontroller.cpp:279
