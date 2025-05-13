@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 00:41+0000\n"
+"POT-Creation-Date: 2025-05-13 00:41+0000\n"
 "PO-Revision-Date: 2025-05-07 10:25+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -15805,7 +15805,7 @@ msgstr "您不能將素材取代為另一種類的素材（音訊/視訊不相�
 msgid "Replace in timeline"
 msgstr "在時間軸中取代"
 
-#: src/bin/bin.cpp:2148 src/bin/bin.cpp:5758 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2148 src/bin/bin.cpp:5761 src/bin/clipcreator.cpp:324
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -15902,7 +15902,7 @@ msgstr "將影片靜音"
 #: src/bin/bin.cpp:2481 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layouts/layoutcollection.cpp:22 src/lib/audio/audioStreamInfo.cpp:25
 #: src/lib/audio/audioStreamInfo.cpp:31 src/monitor/recmanager.cpp:46
-#: src/onlineresources/resourcewidget.cpp:673 src/ui/clipjobmanager_ui.ui:388
+#: src/onlineresources/resourcewidget.cpp:684 src/ui/clipjobmanager_ui.ui:388
 #: src/ui/configcapture_ui.ui:533 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:834 src/ui/projectsettings_ui.ui:180
 #: src/ui/renderwidget_ui.ui:628
@@ -16166,35 +16166,35 @@ msgstr "選擇要加標籤的素材"
 msgid "Edit Tags"
 msgstr "編輯標籤"
 
-#: src/bin/bin.cpp:4607 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:287
-#: src/onlineresources/resourcewidget.cpp:683
-#: src/onlineresources/resourcewidget.cpp:698
+#: src/bin/bin.cpp:4610 src/bin/projectclip.cpp:188
+#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:291
+#: src/onlineresources/resourcewidget.cpp:694
+#: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
 msgid "Unnamed"
 msgstr "未命名"
 
-#: src/bin/bin.cpp:4671
+#: src/bin/bin.cpp:4674
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "輸入您的圖片編輯應用程式的路徑"
 
-#: src/bin/bin.cpp:4683
+#: src/bin/bin.cpp:4686
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "請設定開啟圖片用的預設應用程式"
 
-#: src/bin/bin.cpp:4688
+#: src/bin/bin.cpp:4691
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "輸入您的音訊編輯應用程式的路徑"
 
-#: src/bin/bin.cpp:4700
+#: src/bin/bin.cpp:4703
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "請設定用於開啟音訊檔案的應用程式"
 
-#: src/bin/bin.cpp:4710 src/core.cpp:329 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4713 src/core.cpp:329 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:483 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
@@ -16204,12 +16204,12 @@ msgstr "請設定用於開啟音訊檔案的應用程式"
 msgid "Cannot open file %1"
 msgstr "無法開啟檔案 %1"
 
-#: src/bin/bin.cpp:4747 src/dialogs/profilesdialog.cpp:235
+#: src/bin/bin.cpp:4750 src/dialogs/profilesdialog.cpp:235
 #, kde-format
 msgid "(copy)"
 msgstr "（複本）"
 
-#: src/bin/bin.cpp:4757
+#: src/bin/bin.cpp:4760
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -16218,113 +16218,113 @@ msgstr ""
 "您正在編輯外部標題素材（%1）。您希望將變更儲存到該標題檔案，還是要只為此專案"
 "儲存變更？"
 
-#: src/bin/bin.cpp:4760 src/titler/titlewidget.cpp:2331
+#: src/bin/bin.cpp:4763 src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "Save Title"
 msgstr "儲存標題"
 
-#: src/bin/bin.cpp:4760
+#: src/bin/bin.cpp:4763
 #, kde-format
 msgid "Save to title file"
 msgstr "儲存到標題檔"
 
-#: src/bin/bin.cpp:4761
+#: src/bin/bin.cpp:4764
 #, kde-format
 msgid "Save in project only"
 msgstr "只儲存於專案中"
 
-#: src/bin/bin.cpp:4784 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4787 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "標題素材"
 
-#: src/bin/bin.cpp:4834
+#: src/bin/bin.cpp:4837
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "素材無效，將從專案中移除。"
 
-#: src/bin/bin.cpp:4838
+#: src/bin/bin.cpp:4841
 #, kde-format
 msgid "Invalid clip"
 msgstr "無效的素材"
 
-#: src/bin/bin.cpp:4952
+#: src/bin/bin.cpp:4955
 #, kde-format
 msgid "Enable proxies"
 msgstr "啟用代理"
 
-#: src/bin/bin.cpp:4952
+#: src/bin/bin.cpp:4955
 #, kde-format
 msgid "Disable proxies"
 msgstr "停用代理"
 
-#: src/bin/bin.cpp:5133
+#: src/bin/bin.cpp:5136
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "重新產生代理"
 
-#: src/bin/bin.cpp:5367
+#: src/bin/bin.cpp:5370
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:5383
+#: src/bin/bin.cpp:5386
 #, kde-format
 msgid "Add Tracks"
 msgstr "新增軌道"
 
-#: src/bin/bin.cpp:5385
+#: src/bin/bin.cpp:5388
 #, kde-format
 msgid "Edit Streams"
 msgstr "編輯串流"
 
-#: src/bin/bin.cpp:5401
+#: src/bin/bin.cpp:5404
 #, kde-format
 msgid "Don't ask again"
 msgstr "不要再詢問"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5405
+#: src/bin/bin.cpp:5408
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr "您的專案需要更多音訊軌才能處理所有串流。要新增 %1 個音訊軌嗎？"
 
-#: src/bin/bin.cpp:5417 src/mainwindow.cpp:2747
+#: src/bin/bin.cpp:5420 src/mainwindow.cpp:2747
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要新增標記的素材"
 
-#: src/bin/bin.cpp:5518
+#: src/bin/bin.cpp:5521
 #, kde-format
 msgid "Could not find master clip"
 msgstr "找不到 master 素材"
 
-#: src/bin/bin.cpp:5780
+#: src/bin/bin.cpp:5783
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> 個素材 | "
 
-#: src/bin/bin.cpp:5782
+#: src/bin/bin.cpp:5785
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> 個素材（已選 %2 個）| "
 
-#: src/bin/bin.cpp:5849 src/bin/bin.cpp:5926
+#: src/bin/bin.cpp:5852 src/bin/bin.cpp:5929
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "為素材新增額外串流"
 
-#: src/bin/bin.cpp:5870
+#: src/bin/bin.cpp:5873
 #, kde-format
 msgid "Import selected clips"
 msgstr "匯入所選素材"
 
-#: src/bin/bin.cpp:5872
+#: src/bin/bin.cpp:5875
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -16333,51 +16333,51 @@ msgstr ""
 "以下素材的額外串流\n"
 " %1"
 
-#: src/bin/bin.cpp:5885 src/mltcontroller/clippropertiescontroller.cpp:715
+#: src/bin/bin.cpp:5888 src/mltcontroller/clippropertiescontroller.cpp:715
 #, kde-format
 msgid "Video stream %1"
 msgstr "視訊串流 %1"
 
-#: src/bin/bin.cpp:5900
+#: src/bin/bin.cpp:5903
 #, kde-format
 msgid "Audio stream %1"
 msgstr "音訊串流 %1"
 
-#: src/bin/bin.cpp:5953
+#: src/bin/bin.cpp:5956
 #, kde-format
 msgid "Remove clip markers"
 msgstr "移除素材標記"
 
-#: src/bin/bin.cpp:6113
+#: src/bin/bin.cpp:6116
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我們建議您在進行轉碼前先儲存專案"
 
-#: src/bin/bin.cpp:6114
+#: src/bin/bin.cpp:6117
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "儲存專案"
 
-#: src/bin/bin.cpp:6115
+#: src/bin/bin.cpp:6118
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "繼續轉換編碼而不儲存"
 
-#: src/bin/bin.cpp:6273 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1107
 #, kde-format
 msgid "Delete effect %1"
 msgstr "刪除效果 %1"
 
-#: src/bin/bin.cpp:6339 src/mainwindow.cpp:322
+#: src/bin/bin.cpp:6342 src/mainwindow.cpp:322
 #, kde-format
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:6342 src/bin/bin.cpp:6345 src/mainwindow.cpp:4851
+#: src/bin/bin.cpp:6345 src/bin/bin.cpp:6348 src/mainwindow.cpp:4851
 #, kde-format
 msgid "Project Bin %1"
 msgstr "專案素材庫 %1"
@@ -18940,50 +18940,45 @@ msgstr "選擇時間軸中的素材來進行分析"
 msgid "No audio track found"
 msgstr "找不到音訊軌"
 
-#: src/dialogs/speechdialog.cpp:188 src/dialogs/textbasededit.cpp:950
+#: src/dialogs/speechdialog.cpp:187 src/dialogs/speechdialog.cpp:289
+#: src/dialogs/textbasededit.cpp:1060 src/dialogs/textbasededit.cpp:1076
+#, kde-format
+msgid "Please configure speech to text."
+msgstr "請先設定語音轉文字。"
+
+#: src/dialogs/speechdialog.cpp:208 src/dialogs/textbasededit.cpp:950
 #: src/dialogs/textbasededit.cpp:987
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "請安裝語音辨識模型"
 
-#: src/dialogs/speechdialog.cpp:264
+#: src/dialogs/speechdialog.cpp:284
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "檢查設定…"
 
-#: src/dialogs/speechdialog.cpp:271
-#, kde-format
-msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "請先設定語音轉文字，缺乏依賴關係：%1。"
-
-#: src/dialogs/speechdialog.cpp:273 src/dialogs/textbasededit.cpp:1060
-#: src/dialogs/textbasededit.cpp:1076
-#, kde-format
-msgid "Please configure speech to text."
-msgstr "請先設定語音轉文字。"
-
-#: src/dialogs/speechdialog.cpp:281
+#: src/dialogs/speechdialog.cpp:296
 #, kde-format
 msgid "Starting audio export"
 msgstr "正在開始音訊匯出"
 
-#: src/dialogs/speechdialog.cpp:346
+#: src/dialogs/speechdialog.cpp:361
 #, kde-format
 msgid "Audio export failed"
 msgstr "音訊匯出失敗"
 
-#: src/dialogs/speechdialog.cpp:369 src/dialogs/textbasededit.cpp:1097
+#: src/dialogs/speechdialog.cpp:384 src/dialogs/textbasededit.cpp:1097
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "正在開始語音辨識"
 
-#: src/dialogs/speechdialog.cpp:432 src/dialogs/textbasededit.cpp:1281
+#: src/dialogs/speechdialog.cpp:447 src/dialogs/textbasededit.cpp:1281
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "語音辨識已中止。"
 
-#: src/dialogs/speechdialog.cpp:438
+#: src/dialogs/speechdialog.cpp:453
 #, kde-format
 msgid ""
 "Speech recognition failed:\n"
@@ -18992,420 +18987,420 @@ msgstr ""
 "語音辨識失敗：\n"
 "%1"
 
-#: src/dialogs/speechdialog.cpp:445
+#: src/dialogs/speechdialog.cpp:460
 #, kde-format
 msgid "Subtitles imported"
 msgstr "已匯入字幕"
 
-#: src/dialogs/speechdialog.cpp:477
+#: src/dialogs/speechdialog.cpp:492
 #, kde-format
 msgid "Translating text to %1"
 msgstr "正在翻譯文字成 %1"
 
-#: src/dialogs/speechdialog.cpp:479
+#: src/dialogs/speechdialog.cpp:494
 #, kde-format
 msgid "Initializing translation model"
 msgstr "翻譯模型初始化中"
 
-#: src/dialogs/speechdialog.cpp:490
+#: src/dialogs/speechdialog.cpp:505
 #: src/pythoninterfaces/speechtotextwhisper.cpp:63
 #, kde-format
 msgid "Afrikaans"
 msgstr "南非荷蘭語"
 
-#: src/dialogs/speechdialog.cpp:491
+#: src/dialogs/speechdialog.cpp:506
 #: src/pythoninterfaces/speechtotextwhisper.cpp:65
 #, kde-format
 msgid "Amharic"
 msgstr "阿姆哈拉語"
 
-#: src/dialogs/speechdialog.cpp:492
+#: src/dialogs/speechdialog.cpp:507
 #: src/pythoninterfaces/speechtotextwhisper.cpp:67
 #, kde-format
 msgid "Armenian"
 msgstr "亞美尼亞語"
 
-#: src/dialogs/speechdialog.cpp:493
+#: src/dialogs/speechdialog.cpp:508
 #: src/pythoninterfaces/speechtotextwhisper.cpp:68
 #, kde-format
 msgid "Assamese"
 msgstr "阿薩姆語"
 
-#: src/dialogs/speechdialog.cpp:494
+#: src/dialogs/speechdialog.cpp:509
 #: src/pythoninterfaces/speechtotextwhisper.cpp:71
 #, kde-format
 msgid "Basque"
 msgstr "巴斯克語"
 
-#: src/dialogs/speechdialog.cpp:495
+#: src/dialogs/speechdialog.cpp:510
 #: src/pythoninterfaces/speechtotextwhisper.cpp:72
 #, kde-format
 msgid "Belarusian"
 msgstr "白俄羅斯語"
 
-#: src/dialogs/speechdialog.cpp:496
+#: src/dialogs/speechdialog.cpp:511
 #: src/pythoninterfaces/speechtotextwhisper.cpp:73
 #, kde-format
 msgid "Bengali"
 msgstr "孟加拉語"
 
-#: src/dialogs/speechdialog.cpp:497
+#: src/dialogs/speechdialog.cpp:512
 #: src/pythoninterfaces/speechtotextwhisper.cpp:74
 #, kde-format
 msgid "Bosnian"
 msgstr "波士尼亞語"
 
-#: src/dialogs/speechdialog.cpp:498
+#: src/dialogs/speechdialog.cpp:513
 #: src/pythoninterfaces/speechtotextwhisper.cpp:76
 #, kde-format
 msgid "Bulgarian"
 msgstr "保加利亞語"
 
-#: src/dialogs/speechdialog.cpp:499
+#: src/dialogs/speechdialog.cpp:514
 #: src/pythoninterfaces/speechtotextwhisper.cpp:77
 #, kde-format
 msgid "Burmese"
 msgstr "緬甸語"
 
-#: src/dialogs/speechdialog.cpp:500
+#: src/dialogs/speechdialog.cpp:515
 #, kde-format
 msgid "Cantonese"
 msgstr "廣東話"
 
-#: src/dialogs/speechdialog.cpp:501
+#: src/dialogs/speechdialog.cpp:516
 #: src/pythoninterfaces/speechtotextwhisper.cpp:79
 #, kde-format
 msgid "Catalan"
 msgstr "加泰羅尼亞語"
 
-#: src/dialogs/speechdialog.cpp:502
+#: src/dialogs/speechdialog.cpp:517
 #, kde-format
 msgid "Cebuano"
 msgstr "宿霧語"
 
-#: src/dialogs/speechdialog.cpp:503
+#: src/dialogs/speechdialog.cpp:518
 #, kde-format
 msgid "Central Kurdish"
 msgstr "庫德語（索拉尼語）"
 
-#: src/dialogs/speechdialog.cpp:504
+#: src/dialogs/speechdialog.cpp:519
 #: src/pythoninterfaces/speechtotextwhisper.cpp:81
 #, kde-format
 msgid "Croatian"
 msgstr "克羅地亞語"
 
-#: src/dialogs/speechdialog.cpp:505
+#: src/dialogs/speechdialog.cpp:520
 #: src/pythoninterfaces/speechtotextwhisper.cpp:82
 #, kde-format
 msgid "Czech"
 msgstr "捷克語"
 
-#: src/dialogs/speechdialog.cpp:506
+#: src/dialogs/speechdialog.cpp:521
 #: src/pythoninterfaces/speechtotextwhisper.cpp:83
 #, kde-format
 msgid "Danish"
 msgstr "丹麥語"
 
-#: src/dialogs/speechdialog.cpp:507
+#: src/dialogs/speechdialog.cpp:522
 #: src/pythoninterfaces/speechtotextwhisper.cpp:84
 #, kde-format
 msgid "Dutch"
 msgstr "荷蘭語"
 
-#: src/dialogs/speechdialog.cpp:508
+#: src/dialogs/speechdialog.cpp:523
 #, kde-format
 msgid "Egyptian Arabic"
 msgstr "埃及阿拉伯語"
 
-#: src/dialogs/speechdialog.cpp:509
+#: src/dialogs/speechdialog.cpp:524
 #: src/pythoninterfaces/speechtotextwhisper.cpp:85
 #, kde-format
 msgid "English"
 msgstr "英文"
 
-#: src/dialogs/speechdialog.cpp:510
+#: src/dialogs/speechdialog.cpp:525
 #: src/pythoninterfaces/speechtotextwhisper.cpp:86
 #, kde-format
 msgid "Estonian"
 msgstr "愛沙尼亞語"
 
-#: src/dialogs/speechdialog.cpp:511
+#: src/dialogs/speechdialog.cpp:526
 #: src/pythoninterfaces/speechtotextwhisper.cpp:88
 #, kde-format
 msgid "Finnish"
 msgstr "芬蘭語"
 
-#: src/dialogs/speechdialog.cpp:512
+#: src/dialogs/speechdialog.cpp:527
 #: src/pythoninterfaces/speechtotextwhisper.cpp:90
 #, kde-format
 msgid "French"
 msgstr "法語"
 
-#: src/dialogs/speechdialog.cpp:513
+#: src/dialogs/speechdialog.cpp:528
 #: src/pythoninterfaces/speechtotextwhisper.cpp:91
 #, kde-format
 msgid "Galician"
 msgstr "加利西亞語"
 
-#: src/dialogs/speechdialog.cpp:514
+#: src/dialogs/speechdialog.cpp:529
 #, kde-format
 msgid "Ganda"
 msgstr "干達語"
 
-#: src/dialogs/speechdialog.cpp:515
+#: src/dialogs/speechdialog.cpp:530
 #: src/pythoninterfaces/speechtotextwhisper.cpp:92
 #, kde-format
 msgid "Georgian"
 msgstr "喬治亞語"
 
-#: src/dialogs/speechdialog.cpp:516
+#: src/dialogs/speechdialog.cpp:531
 #: src/pythoninterfaces/speechtotextwhisper.cpp:93
 #, kde-format
 msgid "German"
 msgstr "德語"
 
-#: src/dialogs/speechdialog.cpp:517
+#: src/dialogs/speechdialog.cpp:532
 #: src/pythoninterfaces/speechtotextwhisper.cpp:94
 #, kde-format
 msgid "Greek"
 msgstr "希臘語"
 
-#: src/dialogs/speechdialog.cpp:518
+#: src/dialogs/speechdialog.cpp:533
 #: src/pythoninterfaces/speechtotextwhisper.cpp:95
 #, kde-format
 msgid "Gujarati"
 msgstr "古吉拉特語"
 
-#: src/dialogs/speechdialog.cpp:519
+#: src/dialogs/speechdialog.cpp:534
 #, kde-format
 msgid "Halh Mongolian"
 msgstr "喀爾喀蒙古語"
 
-#: src/dialogs/speechdialog.cpp:520
+#: src/dialogs/speechdialog.cpp:535
 #: src/pythoninterfaces/speechtotextwhisper.cpp:100
 #, kde-format
 msgid "Hebrew"
 msgstr "希伯來文"
 
-#: src/dialogs/speechdialog.cpp:521
+#: src/dialogs/speechdialog.cpp:536
 #: src/pythoninterfaces/speechtotextwhisper.cpp:101
 #, kde-format
 msgid "Hindi"
 msgstr "北印度語"
 
-#: src/dialogs/speechdialog.cpp:522
+#: src/dialogs/speechdialog.cpp:537
 #: src/pythoninterfaces/speechtotextwhisper.cpp:102
 #, kde-format
 msgid "Hungarian"
 msgstr "匈牙利語"
 
-#: src/dialogs/speechdialog.cpp:523
+#: src/dialogs/speechdialog.cpp:538
 #: src/pythoninterfaces/speechtotextwhisper.cpp:103
 #, kde-format
 msgid "Icelandic"
 msgstr "冰島語"
 
-#: src/dialogs/speechdialog.cpp:524
+#: src/dialogs/speechdialog.cpp:539
 #, kde-format
 msgid "Igbo"
 msgstr "伊博語"
 
-#: src/dialogs/speechdialog.cpp:525
+#: src/dialogs/speechdialog.cpp:540
 #: src/pythoninterfaces/speechtotextwhisper.cpp:104
 #, kde-format
 msgid "Indonesian"
 msgstr "印尼語"
 
-#: src/dialogs/speechdialog.cpp:526
+#: src/dialogs/speechdialog.cpp:541
 #, kde-format
 msgid "Irish"
 msgstr "愛爾蘭語"
 
-#: src/dialogs/speechdialog.cpp:527
+#: src/dialogs/speechdialog.cpp:542
 #: src/pythoninterfaces/speechtotextwhisper.cpp:105
 #, kde-format
 msgid "Italian"
 msgstr "義大利語"
 
-#: src/dialogs/speechdialog.cpp:528
+#: src/dialogs/speechdialog.cpp:543
 #: src/pythoninterfaces/speechtotextwhisper.cpp:106
 #, kde-format
 msgid "Japanese"
 msgstr "日語"
 
-#: src/dialogs/speechdialog.cpp:529
+#: src/dialogs/speechdialog.cpp:544
 #: src/pythoninterfaces/speechtotextwhisper.cpp:107
 #, kde-format
 msgid "Javanese"
 msgstr "爪哇語"
 
-#: src/dialogs/speechdialog.cpp:530
+#: src/dialogs/speechdialog.cpp:545
 #: src/pythoninterfaces/speechtotextwhisper.cpp:108
 #, kde-format
 msgid "Kannada"
 msgstr "卡納達語"
 
-#: src/dialogs/speechdialog.cpp:531
+#: src/dialogs/speechdialog.cpp:546
 #: src/pythoninterfaces/speechtotextwhisper.cpp:109
 #, kde-format
 msgid "Kazakh"
 msgstr "哈薩克語"
 
-#: src/dialogs/speechdialog.cpp:532
+#: src/dialogs/speechdialog.cpp:547
 #: src/pythoninterfaces/speechtotextwhisper.cpp:110
 #, kde-format
 msgid "Khmer"
 msgstr "高棉語"
 
-#: src/dialogs/speechdialog.cpp:533
+#: src/dialogs/speechdialog.cpp:548
 #: src/pythoninterfaces/speechtotextwhisper.cpp:111
 #, kde-format
 msgid "Korean"
 msgstr "韓文"
 
-#: src/dialogs/speechdialog.cpp:534
+#: src/dialogs/speechdialog.cpp:549
 #, kde-format
 msgid "Kyrgyz"
 msgstr "吉爾吉斯語"
 
-#: src/dialogs/speechdialog.cpp:535
+#: src/dialogs/speechdialog.cpp:550
 #: src/pythoninterfaces/speechtotextwhisper.cpp:112
 #, kde-format
 msgid "Lao"
 msgstr "寮國語"
 
-#: src/dialogs/speechdialog.cpp:536
+#: src/dialogs/speechdialog.cpp:551
 #: src/pythoninterfaces/speechtotextwhisper.cpp:117
 #, kde-format
 msgid "Lithuanian"
 msgstr "立陶宛語"
 
-#: src/dialogs/speechdialog.cpp:537
+#: src/dialogs/speechdialog.cpp:552
 #, kde-format
 msgid "Luo"
 msgstr "盧歐語"
 
-#: src/dialogs/speechdialog.cpp:538
+#: src/dialogs/speechdialog.cpp:553
 #: src/pythoninterfaces/speechtotextwhisper.cpp:119
 #, kde-format
 msgid "Macedonian"
 msgstr "馬其頓語"
 
-#: src/dialogs/speechdialog.cpp:539
+#: src/dialogs/speechdialog.cpp:554
 #, kde-format
 msgid "Maithili"
 msgstr "邁蒂利語"
 
-#: src/dialogs/speechdialog.cpp:540
+#: src/dialogs/speechdialog.cpp:555
 #: src/pythoninterfaces/speechtotextwhisper.cpp:122
 #, kde-format
 msgid "Malayalam"
 msgstr "馬拉雅拉姆語"
 
-#: src/dialogs/speechdialog.cpp:541
+#: src/dialogs/speechdialog.cpp:556
 #: src/pythoninterfaces/speechtotextwhisper.cpp:123
 #, kde-format
 msgid "Maltese"
 msgstr "馬爾他語"
 
-#: src/dialogs/speechdialog.cpp:542 src/dialogs/speechdialog.cpp:543
+#: src/dialogs/speechdialog.cpp:557 src/dialogs/speechdialog.cpp:558
 #, kde-format
 msgid "Mandarin Chinese"
 msgstr "華語"
 
-#: src/dialogs/speechdialog.cpp:544
+#: src/dialogs/speechdialog.cpp:559
 #: src/pythoninterfaces/speechtotextwhisper.cpp:125
 #, kde-format
 msgid "Marathi"
 msgstr "馬拉提語"
 
-#: src/dialogs/speechdialog.cpp:545
+#: src/dialogs/speechdialog.cpp:560
 #, kde-format
 msgid "Meitei"
 msgstr "梅泰語"
 
-#: src/dialogs/speechdialog.cpp:546
+#: src/dialogs/speechdialog.cpp:561
 #, kde-format
 msgid "Modern Standard Arabic"
 msgstr "現代標準阿拉伯語"
 
-#: src/dialogs/speechdialog.cpp:547
+#: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "Moroccan Arabic"
 msgstr "摩洛哥阿拉伯語"
 
-#: src/dialogs/speechdialog.cpp:548
+#: src/dialogs/speechdialog.cpp:563
 #: src/pythoninterfaces/speechtotextwhisper.cpp:130
 #, kde-format
 msgid "Nepali"
 msgstr "尼泊爾語"
 
-#: src/dialogs/speechdialog.cpp:549
+#: src/dialogs/speechdialog.cpp:564
 #, kde-format
 msgid "Nigerian Fulfulde"
 msgstr "奈及利亞富拉語"
 
-#: src/dialogs/speechdialog.cpp:550
+#: src/dialogs/speechdialog.cpp:565
 #, kde-format
 msgid "North Azerbaijani"
 msgstr "北亞塞拜然語"
 
-#: src/dialogs/speechdialog.cpp:551
+#: src/dialogs/speechdialog.cpp:566
 #, kde-format
 msgid "Northern Uzbek"
 msgstr "北烏茲別克語"
 
-#: src/dialogs/speechdialog.cpp:552
+#: src/dialogs/speechdialog.cpp:567
 #, kde-format
 msgid "Norwegian Bokmål"
 msgstr "挪威語（博克馬爾語）"
 
-#: src/dialogs/speechdialog.cpp:553
+#: src/dialogs/speechdialog.cpp:568
 #, kde-format
 msgid "Norwegian Nynorsk"
 msgstr "挪威語（尼諾斯克語）"
 
-#: src/dialogs/speechdialog.cpp:554
+#: src/dialogs/speechdialog.cpp:569
 #, kde-format
 msgid "Nyanja"
 msgstr "尼揚賈語"
 
-#: src/dialogs/speechdialog.cpp:555
+#: src/dialogs/speechdialog.cpp:570
 #, kde-format
 msgid "Odia"
 msgstr "歐利亞語"
 
-#: src/dialogs/speechdialog.cpp:556
+#: src/dialogs/speechdialog.cpp:571
 #: src/pythoninterfaces/speechtotextwhisper.cpp:137
 #, kde-format
 msgid "Polish"
 msgstr "波蘭語"
 
-#: src/dialogs/speechdialog.cpp:557
+#: src/dialogs/speechdialog.cpp:572
 #: src/pythoninterfaces/speechtotextwhisper.cpp:138
 #, kde-format
 msgid "Portuguese"
 msgstr "葡萄牙語"
 
-#: src/dialogs/speechdialog.cpp:558
+#: src/dialogs/speechdialog.cpp:573
 #: src/pythoninterfaces/speechtotextwhisper.cpp:139
 #, kde-format
 msgid "Punjabi"
 msgstr "旁遮普語"
 
-#: src/dialogs/speechdialog.cpp:559
+#: src/dialogs/speechdialog.cpp:574
 #: src/pythoninterfaces/speechtotextwhisper.cpp:141
 #, kde-format
 msgid "Romanian"
 msgstr "羅馬尼亞語"
 
-#: src/dialogs/speechdialog.cpp:560
+#: src/dialogs/speechdialog.cpp:575
 #: src/pythoninterfaces/speechtotextwhisper.cpp:142
 #, kde-format
 msgid "Russian"
 msgstr "俄語"
 
-#: src/dialogs/speechdialog.cpp:561
+#: src/dialogs/speechdialog.cpp:576
 #: src/pythoninterfaces/speechtotextwhisper.cpp:144
 #, kde-format
 msgid "Serbian"
@@ -19414,146 +19409,146 @@ msgstr "塞爾維亞語"
 # PCHome (?!) 用「修納語」
 # https://24h.pchome.com.tw/books/store/DJBQ5R
 # --Kisaragi
-#: src/dialogs/speechdialog.cpp:562
+#: src/dialogs/speechdialog.cpp:577
 #: src/pythoninterfaces/speechtotextwhisper.cpp:145
 #, kde-format
 msgid "Shona"
 msgstr "修納語"
 
-#: src/dialogs/speechdialog.cpp:563
+#: src/dialogs/speechdialog.cpp:578
 #: src/pythoninterfaces/speechtotextwhisper.cpp:146
 #, kde-format
 msgid "Sindhi"
 msgstr "信德語"
 
-#: src/dialogs/speechdialog.cpp:564
+#: src/dialogs/speechdialog.cpp:579
 #: src/pythoninterfaces/speechtotextwhisper.cpp:149
 #, kde-format
 msgid "Slovak"
 msgstr "斯洛伐克語"
 
-#: src/dialogs/speechdialog.cpp:565
+#: src/dialogs/speechdialog.cpp:580
 #: src/pythoninterfaces/speechtotextwhisper.cpp:150
 #, kde-format
 msgid "Slovenian"
 msgstr "斯洛維尼亞語"
 
-#: src/dialogs/speechdialog.cpp:566
+#: src/dialogs/speechdialog.cpp:581
 #: src/pythoninterfaces/speechtotextwhisper.cpp:151
 #, kde-format
 msgid "Somali"
 msgstr "索馬利亞語"
 
-#: src/dialogs/speechdialog.cpp:567
+#: src/dialogs/speechdialog.cpp:582
 #, kde-format
 msgid "Southern Pashto"
 msgstr "南方普什圖語"
 
-#: src/dialogs/speechdialog.cpp:568
+#: src/dialogs/speechdialog.cpp:583
 #: src/pythoninterfaces/speechtotextwhisper.cpp:152
 #, kde-format
 msgid "Spanish"
 msgstr "西班牙語"
 
-#: src/dialogs/speechdialog.cpp:569
+#: src/dialogs/speechdialog.cpp:584
 #, kde-format
 msgid "Standard Latvian"
 msgstr "標準拉托維亞語"
 
-#: src/dialogs/speechdialog.cpp:570
+#: src/dialogs/speechdialog.cpp:585
 #, kde-format
 msgid "Standard Malay"
 msgstr "標準馬來語"
 
-#: src/dialogs/speechdialog.cpp:571
+#: src/dialogs/speechdialog.cpp:586
 #: src/pythoninterfaces/speechtotextwhisper.cpp:154
 #, kde-format
 msgid "Swahili"
 msgstr "斯瓦希里語"
 
-#: src/dialogs/speechdialog.cpp:572
+#: src/dialogs/speechdialog.cpp:587
 #: src/pythoninterfaces/speechtotextwhisper.cpp:155
 #, kde-format
 msgid "Swedish"
 msgstr "瑞典語"
 
-#: src/dialogs/speechdialog.cpp:573
+#: src/dialogs/speechdialog.cpp:588
 #: src/pythoninterfaces/speechtotextwhisper.cpp:156
 #, kde-format
 msgid "Tagalog"
 msgstr "塔加拉語"
 
-#: src/dialogs/speechdialog.cpp:574
+#: src/dialogs/speechdialog.cpp:589
 #: src/pythoninterfaces/speechtotextwhisper.cpp:157
 #, kde-format
 msgid "Tajik"
 msgstr "塔吉克語"
 
-#: src/dialogs/speechdialog.cpp:575
+#: src/dialogs/speechdialog.cpp:590
 #: src/pythoninterfaces/speechtotextwhisper.cpp:158
 #, kde-format
 msgid "Tamil"
 msgstr "坦米爾文"
 
-#: src/dialogs/speechdialog.cpp:576
+#: src/dialogs/speechdialog.cpp:591
 #: src/pythoninterfaces/speechtotextwhisper.cpp:160
 #, kde-format
 msgid "Telugu"
 msgstr "泰盧固語"
 
-#: src/dialogs/speechdialog.cpp:577
+#: src/dialogs/speechdialog.cpp:592
 #: src/pythoninterfaces/speechtotextwhisper.cpp:161
 #, kde-format
 msgid "Thai"
 msgstr "泰語"
 
-#: src/dialogs/speechdialog.cpp:578
+#: src/dialogs/speechdialog.cpp:593
 #: src/pythoninterfaces/speechtotextwhisper.cpp:163
 #, kde-format
 msgid "Turkish"
 msgstr "土耳其語"
 
-#: src/dialogs/speechdialog.cpp:579
+#: src/dialogs/speechdialog.cpp:594
 #: src/pythoninterfaces/speechtotextwhisper.cpp:165
 #, kde-format
 msgid "Ukrainian"
 msgstr "烏克蘭語"
 
-#: src/dialogs/speechdialog.cpp:580
+#: src/dialogs/speechdialog.cpp:595
 #: src/pythoninterfaces/speechtotextwhisper.cpp:166
 #, kde-format
 msgid "Urdu"
 msgstr "烏爾都語"
 
-#: src/dialogs/speechdialog.cpp:581
+#: src/dialogs/speechdialog.cpp:596
 #: src/pythoninterfaces/speechtotextwhisper.cpp:169
 #, kde-format
 msgid "Vietnamese"
 msgstr "越南語"
 
-#: src/dialogs/speechdialog.cpp:582
+#: src/dialogs/speechdialog.cpp:597
 #: src/pythoninterfaces/speechtotextwhisper.cpp:170
 #, kde-format
 msgid "Welsh"
 msgstr "威爾斯語"
 
-#: src/dialogs/speechdialog.cpp:583
+#: src/dialogs/speechdialog.cpp:598
 #, kde-format
 msgid "West Central Oromo"
 msgstr "中西部奧羅莫語"
 
-#: src/dialogs/speechdialog.cpp:584
+#: src/dialogs/speechdialog.cpp:599
 #, kde-format
 msgid "Western Persian"
 msgstr "西波斯語"
 
-#: src/dialogs/speechdialog.cpp:585
+#: src/dialogs/speechdialog.cpp:600
 #: src/pythoninterfaces/speechtotextwhisper.cpp:172
 #, kde-format
 msgid "Yoruba"
 msgstr "優魯巴語"
 
-#: src/dialogs/speechdialog.cpp:586
+#: src/dialogs/speechdialog.cpp:601
 #, kde-format
 msgid "Zulu"
 msgstr "祖魯語"
@@ -20101,8 +20096,9 @@ msgstr "歡迎來到 Kdenlive %1"
 msgid "Using MLT %1"
 msgstr "使用 MLT %1"
 
-#: src/dialogs/wizard.cpp:82 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:791
+#: src/dialogs/wizard.cpp:82 src/onlineresources/resourcewidget.cpp:49
+#: src/project/cliptranscode.cpp:192 src/project/cliptranscode.cpp:226
+#: src/project/dialogs/archivewidget.cpp:791
 #: src/project/dialogs/archivewidget.cpp:1216
 #, kde-format
 msgid "Abort"
@@ -20955,7 +20951,7 @@ msgid "Comments : "
 msgstr "註解："
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:135 src/filefilter.cpp:132
-#: src/onlineresources/resourcewidget.cpp:679
+#: src/onlineresources/resourcewidget.cpp:690
 #, kde-format
 msgid "All Files"
 msgstr "所有檔案"
@@ -23912,7 +23908,7 @@ msgctxt "@action:button"
 msgid "Recreate"
 msgstr "重新建立"
 
-#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:694
+#: src/mainwindow.cpp:2184 src/onlineresources/resourcewidget.cpp:705
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2327
 #, kde-format
@@ -25139,7 +25135,7 @@ msgstr "預覽"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_video)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:675
+#: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:686
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:173
 #: src/ui/renderwidget_ui.ui:487
@@ -25517,7 +25513,7 @@ msgctxt "@title:window"
 msgid "Error Loading Data"
 msgstr "載入資料出錯"
 
-#: src/onlineresources/resourcewidget.cpp:84
+#: src/onlineresources/resourcewidget.cpp:87
 #, kde-format
 msgid ""
 "Login is required to download this item.\n"
@@ -25526,222 +25522,222 @@ msgstr ""
 "需要登入才能下載此項目。\n"
 "您將被重新導向至登入頁面。"
 
-#: src/onlineresources/resourcewidget.cpp:190
+#: src/onlineresources/resourcewidget.cpp:193
 #, kde-format
 msgid "Media provided by %1"
 msgstr "由 %1 提供的媒體"
 
-#: src/onlineresources/resourcewidget.cpp:233
+#: src/onlineresources/resourcewidget.cpp:236
 #, kde-format
 msgctxt "@info:status"
 msgid "Search pending…"
 msgstr "搜尋待處理中…"
 
-#: src/onlineresources/resourcewidget.cpp:253
+#: src/onlineresources/resourcewidget.cpp:257
 #, kde-format
 msgid "Search failed! %1"
 msgstr "搜尋失敗！%1"
 
-#: src/onlineresources/resourcewidget.cpp:273
+#: src/onlineresources/resourcewidget.cpp:277
 #, kde-format
 msgctxt "@info"
 msgid "No items found."
 msgstr "找不到任何項目。"
 
-#: src/onlineresources/resourcewidget.cpp:284
+#: src/onlineresources/resourcewidget.cpp:288
 #, kde-format
 msgctxt "@info:progress"
 msgid "Parsing item %1 of %2…"
 msgstr "正在剖析項目 %1，共 %2 項…"
 
-#: src/onlineresources/resourcewidget.cpp:287
+#: src/onlineresources/resourcewidget.cpp:291
 #, kde-format
 msgctxt "Created by author name"
 msgid "Created by %1"
 msgstr "由 %1 建立"
 
-#: src/onlineresources/resourcewidget.cpp:461
+#: src/onlineresources/resourcewidget.cpp:472
 #, kde-format
 msgctxt "the url link pointing to a web page"
 msgid "link"
 msgstr "連結"
 
-#: src/onlineresources/resourcewidget.cpp:467
+#: src/onlineresources/resourcewidget.cpp:478
 #, kde-format
 msgid "Created by <a href=\"%1\">"
 msgstr "由 <a href=\"%1\"> 建立"
 
-#: src/onlineresources/resourcewidget.cpp:471
+#: src/onlineresources/resourcewidget.cpp:482
 #: src/project/dialogs/projectsettings.cpp:224
 #, kde-format
 msgid "Author"
 msgstr "作者"
 
-#: src/onlineresources/resourcewidget.cpp:475
+#: src/onlineresources/resourcewidget.cpp:486
 #, kde-format
 msgid "Created by %1"
 msgstr "由 %1 建立"
 
-#: src/onlineresources/resourcewidget.cpp:481
+#: src/onlineresources/resourcewidget.cpp:492
 #, kde-format
 msgid "Size: %1 x %2"
 msgstr "大小：%1 x %2"
 
-#: src/onlineresources/resourcewidget.cpp:484
+#: src/onlineresources/resourcewidget.cpp:495
 #, kde-format
 msgid "Duration: %1 sec"
 msgstr "時長：%1 秒"
 
-#: src/onlineresources/resourcewidget.cpp:512
+#: src/onlineresources/resourcewidget.cpp:523
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "CC Sampling+"
 msgstr "創用 CC 特別取樣"
 
-#: src/onlineresources/resourcewidget.cpp:514
+#: src/onlineresources/resourcewidget.cpp:525
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution"
 msgstr "創用 CC 姓名標示"
 
-#: src/onlineresources/resourcewidget.cpp:515
+#: src/onlineresources/resourcewidget.cpp:526
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY"
 msgstr "CC BY"
 
-#: src/onlineresources/resourcewidget.cpp:517
+#: src/onlineresources/resourcewidget.cpp:528
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NoDerivs"
 msgstr "創用 CC 姓名標示-禁止改作"
 
-#: src/onlineresources/resourcewidget.cpp:518
+#: src/onlineresources/resourcewidget.cpp:529
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-ND"
 msgstr "CC BY-ND"
 
-#: src/onlineresources/resourcewidget.cpp:520
+#: src/onlineresources/resourcewidget.cpp:531
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-ShareAlike"
 msgstr "創用 CC 姓名標示-禁止商業利用-相同方式分享"
 
-#: src/onlineresources/resourcewidget.cpp:521
+#: src/onlineresources/resourcewidget.cpp:532
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-SA"
 msgstr "CC BY-NC-SA"
 
-#: src/onlineresources/resourcewidget.cpp:523
+#: src/onlineresources/resourcewidget.cpp:534
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-ShareAlike"
 msgstr "創用 CC 姓名標示-相同方式分享"
 
-#: src/onlineresources/resourcewidget.cpp:524
+#: src/onlineresources/resourcewidget.cpp:535
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-SA"
 msgstr "CC BY-SA"
 
-#: src/onlineresources/resourcewidget.cpp:526
+#: src/onlineresources/resourcewidget.cpp:537
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial"
 msgstr "創用 CC 姓名標示-禁止商業利用"
 
-#: src/onlineresources/resourcewidget.cpp:527
+#: src/onlineresources/resourcewidget.cpp:538
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC"
 msgstr "CC BY-NC"
 
-#: src/onlineresources/resourcewidget.cpp:529
+#: src/onlineresources/resourcewidget.cpp:540
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-NoDerivs"
 msgstr "創用 CC 姓名標示-禁止商業利用-禁止改作"
 
-#: src/onlineresources/resourcewidget.cpp:530
+#: src/onlineresources/resourcewidget.cpp:541
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-ND"
 msgstr "CC BY-NC-ND"
 
-#: src/onlineresources/resourcewidget.cpp:532
+#: src/onlineresources/resourcewidget.cpp:543
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons 0"
 msgstr "創用 CC 0"
 
-#: src/onlineresources/resourcewidget.cpp:533
+#: src/onlineresources/resourcewidget.cpp:544
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC 0"
 msgstr "CC 0"
 
-#: src/onlineresources/resourcewidget.cpp:535
+#: src/onlineresources/resourcewidget.cpp:546
 #, kde-format
 msgctxt "License"
 msgid "Public Domain"
 msgstr "公眾領域"
 
-#: src/onlineresources/resourcewidget.cpp:537
+#: src/onlineresources/resourcewidget.cpp:548
 #, kde-format
 msgctxt "Short for: Unknown Creative Commons License"
 msgid "Unknown CC License"
 msgstr "未知的 CC 授權條款"
 
-#: src/onlineresources/resourcewidget.cpp:538
+#: src/onlineresources/resourcewidget.cpp:549
 #, kde-format
 msgid "Unknown Creative Commons License"
 msgstr "未知的創用 CC 授權條款"
 
-#: src/onlineresources/resourcewidget.cpp:558
+#: src/onlineresources/resourcewidget.cpp:569
 #, kde-format
 msgid "Pexels License"
 msgstr "Pexels 授權條款"
 
-#: src/onlineresources/resourcewidget.cpp:560
+#: src/onlineresources/resourcewidget.cpp:571
 #, kde-format
 msgid "Pixabay License"
 msgstr "Pixabay 授權條款"
 
-#: src/onlineresources/resourcewidget.cpp:563
+#: src/onlineresources/resourcewidget.cpp:574
 #, kde-format
 msgid "Unknown License"
 msgstr "未知的授權"
 
-#: src/onlineresources/resourcewidget.cpp:600
+#: src/onlineresources/resourcewidget.cpp:611
 #, kde-format
 msgid "It maybe takes a while until the preview is loaded"
 msgstr "預覽載入可能需要一段時間"
 
-#: src/onlineresources/resourcewidget.cpp:608
+#: src/onlineresources/resourcewidget.cpp:619
 #, kde-format
 msgid "Online Resources Preview"
 msgstr "線上資源預覽"
 
-#: src/onlineresources/resourcewidget.cpp:630
+#: src/onlineresources/resourcewidget.cpp:641
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose File Version"
 msgstr "選擇檔案版本"
 
-#: src/onlineresources/resourcewidget.cpp:630
+#: src/onlineresources/resourcewidget.cpp:641
 #, kde-format
 msgid "Please choose the version you want to download"
 msgstr "請選擇您要下載的版本"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
-#: src/onlineresources/resourcewidget.cpp:677 src/ui/clipjobmanager_ui.ui:395
+#: src/onlineresources/resourcewidget.cpp:688 src/ui/clipjobmanager_ui.ui:395
 #, kde-format
 msgid "Images"
 msgstr "圖片"
 
-#: src/onlineresources/resourcewidget.cpp:692
+#: src/onlineresources/resourcewidget.cpp:703
 #, kde-format
 msgid ""
 "Be aware that the usage of the resource is maybe restricted by license terms "
@@ -25751,12 +25747,12 @@ msgstr ""
 "請注意，該資源的使用可能必須符合授權條款或法律規範！\n"
 "您要將授權資訊加入專案備註當中嗎？"
 
-#: src/onlineresources/resourcewidget.cpp:695
+#: src/onlineresources/resourcewidget.cpp:706
 #, kde-format
 msgid "Remember this decision"
 msgstr "記住這個選擇"
 
-#: src/onlineresources/resourcewidget.cpp:697
+#: src/onlineresources/resourcewidget.cpp:708
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -25766,33 +25762,33 @@ msgstr ""
 "這個影片使用由「%3」所做的「%1」（%2），以 %4 授權條款釋出。要檢視此授權條款"
 "的副本，請造訪 %5"
 
-#: src/onlineresources/resourcewidget.cpp:738
+#: src/onlineresources/resourcewidget.cpp:749
 #, kde-format
 msgid "%1 Try again."
 msgstr "%1 請再試一次。"
 
-#: src/onlineresources/resourcewidget.cpp:738
-#: src/onlineresources/resourcewidget.cpp:740
+#: src/onlineresources/resourcewidget.cpp:749
+#: src/onlineresources/resourcewidget.cpp:751
 #, kde-format
 msgid "Error Loading Data"
 msgstr "載入資料出錯"
 
-#: src/onlineresources/resourcewidget.cpp:749
+#: src/onlineresources/resourcewidget.cpp:760
 #, kde-format
 msgid "Resource saved to %1"
 msgstr "資源已儲存到 %1"
 
-#: src/onlineresources/resourcewidget.cpp:749
+#: src/onlineresources/resourcewidget.cpp:760
 #, kde-format
 msgid "Data Imported"
 msgstr "資料已匯入"
 
-#: src/onlineresources/resourcewidget.cpp:777
+#: src/onlineresources/resourcewidget.cpp:788
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr "再次嘗試匯入來取得新的連線"
 
-#: src/onlineresources/resourcewidget.cpp:778
+#: src/onlineresources/resourcewidget.cpp:789
 #, kde-format
 msgid "Error Getting Access Token from %1."
 msgstr "從 %1 取得存取權杖時發生錯誤。"
@@ -27264,13 +27260,13 @@ msgstr ""
 "在 kdenlive 的 venv 虛擬環境中找不到 pip3。\n"
 "請嘗試將外掛程式解除安裝後重新安裝。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:421
+#: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, fuzzy, kde-format
 #| msgid "Cannot find layout %1"
 msgid "Cannot find system python"
 msgstr "找不到版面配置 %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:451
+#: src/pythoninterfaces/abstractpythoninterface.cpp:454
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -27279,22 +27275,22 @@ msgstr ""
 "無法建立 python 的 virtualenv：\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:469
+#: src/pythoninterfaces/abstractpythoninterface.cpp:472
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "找不到 %1 文稿，請檢查您的安裝。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:544
+#: src/pythoninterfaces/abstractpythoninterface.cpp:547
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "需要有 <application>%1</application> Python 模組。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:557
+#: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format
 msgid "Using python from %1"
 msgstr "使用來自 %1 的 Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:583
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -27304,57 +27300,57 @@ msgstr ""
 "這需要網際網路連線，並且需要花費幾分鐘來下載所有必要的依賴關係。\n"
 "下載完成後，所有處理都會在線下進行。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:599
-#: src/pythoninterfaces/abstractpythoninterface.cpp:708
+#: src/pythoninterfaces/abstractpythoninterface.cpp:602
+#: src/pythoninterfaces/abstractpythoninterface.cpp:711
 #, fuzzy, kde-format
 #| msgid "Internal Error: Cannot find dependency list"
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr "內部錯誤：找不到相依性清單"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:614
+#: src/pythoninterfaces/abstractpythoninterface.cpp:617
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "檢查模組 %1 版本時發生錯誤"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:621
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "至少需要模組 %2 的 %1 版，但您目前的版本是 %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:622
+#: src/pythoninterfaces/abstractpythoninterface.cpp:625
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "請考慮更新您的系統。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:644
+#: src/pythoninterfaces/abstractpythoninterface.cpp:647
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "缺乏（可選）"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:652
+#: src/pythoninterfaces/abstractpythoninterface.cpp:655
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "沒有可用的版本資訊。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:732
+#: src/pythoninterfaces/abstractpythoninterface.cpp:735
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:767
+#: src/pythoninterfaces/abstractpythoninterface.cpp:770
 #, kde-format
 msgid "Python exec not found"
 msgstr "找不到 Python 執行檔"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:771
+#: src/pythoninterfaces/abstractpythoninterface.cpp:774
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "尋找文稿檔案 %1 失敗"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:810
+#: src/pythoninterfaces/abstractpythoninterface.cpp:813
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -27365,7 +27361,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:845
+#: src/pythoninterfaces/abstractpythoninterface.cpp:848
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "安裝缺乏的依賴軟體"
@@ -34956,6 +34952,9 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小時"
+
+#~ msgid "Please configure speech to text, missing dependencies: %1"
+#~ msgstr "請先設定語音轉文字，缺乏依賴關係：%1。"
 
 #~ msgid "Show background"
 #~ msgstr "顯示背景"
