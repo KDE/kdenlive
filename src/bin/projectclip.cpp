@@ -3009,26 +3009,36 @@ void ProjectClip::updateDescription()
     }
 }
 
-QPixmap ProjectClip::pixmap(int framePosition, int width, int height)
+QImage ProjectClip::fetchPixmap(int framePosition)
 {
-    // TODO refac this should use the new thumb infrastructure
-    QReadLocker lock(&m_producerLock);
-    std::unique_ptr<Mlt::Producer> thumbProducer = getThumbProducer();
-    if (thumbProducer == nullptr) {
-        return QPixmap();
+    if (ThumbnailCache::get()->hasThumbnail(m_binId, framePosition)) {
+        return ThumbnailCache::get()->getThumbnail(m_binId, framePosition);
     }
-    thumbProducer->seek(framePosition);
-    QScopedPointer<Mlt::Frame> frame(thumbProducer->get_frame());
-    if (frame == nullptr || !frame->is_valid()) {
-        QPixmap p(width, height);
-        p.fill(QColor(Qt::red).rgb());
-        return p;
+    std::unique_ptr<Mlt::Producer> prod = getThumbProducer();
+    if (prod && prod->is_valid()) {
+        if (clipType() != ClipType::Timeline && clipType() != ClipType::Playlist) {
+            Mlt::Profile *prodProfile = &pCore->thumbProfile();
+            Mlt::Filter scaler(*prodProfile, "swscale");
+            Mlt::Filter padder(*prodProfile, "resize");
+            Mlt::Filter converter(*prodProfile, "avcolor_space");
+            prod->attach(scaler);
+            prod->attach(padder);
+            prod->attach(converter);
+        }
+        prod->seek(framePosition);
+        std::unique_ptr<Mlt::Frame> frame(prod->get_frame());
+        if (frame == nullptr || !frame->is_valid()) {
+            return QImage();
+        }
+        frame->set("consumer.deinterlacer", "onefield");
+        frame->set("consumer.top_field_first", -1);
+        frame->set("consumer.rescale", "nearest");
+        int imageHeight = pCore->thumbProfile().height();
+        int imageWidth = pCore->thumbProfile().width();
+        int fullWidth = qRound(imageHeight * pCore->getCurrentDar());
+        return KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth);
     }
-    frame->set("consumer.deinterlacer", "onefield");
-    frame->set("consumer.top_field_first", -1);
-    frame->set("consumer.rescale", "nearest");
-    QImage img = KThumb::getFrame(frame.data());
-    return QPixmap::fromImage(img /*.scaled(height, width, Qt::KeepAspectRatio)*/);
+    return QImage();
 }
 
 const QString ProjectClip::getSequenceResource()

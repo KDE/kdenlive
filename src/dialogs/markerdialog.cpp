@@ -12,12 +12,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
+#include "utils/thumbnailcache.hpp"
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>
 #include <QPushButton>
 #include <QTimer>
 #include <QWheelEvent>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include "klocalizedstring.h"
 
@@ -31,6 +33,7 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
 
     // Set  up categories
     marker_category->setCurrentCategory(t.markerType());
+    clip_thumb->setFixedSize(pCore->thumbProfile().width(), pCore->thumbProfile().height());
 
     m_in->setValue(t.time());
     if (!allowMultipleMarksers) {
@@ -38,6 +41,15 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
     }
     interval->setValue(GenTime(KdenliveSettings::multipleguidesinterval()));
     m_previewTimer = new QTimer(this);
+    connect(&m_watcher, &QFutureWatcherBase::finished, this, [this] {
+        const QImage thumb = m_watcher.result();
+        if (!thumb.isNull()) {
+            clip_thumb->setFixedSize(thumb.size());
+            clip_thumb->setPixmap(QPixmap::fromImage(thumb));
+        } else {
+            qCDebug(KDENLIVE_LOG) << "!!!!!!!!!!!  ERROR CREATING THUMB";
+        }
+    });
 
     if (m_clip != nullptr) {
         m_in->setRange(0, m_clip->getFramePlaytime());
@@ -93,14 +105,12 @@ MarkerDialog::~MarkerDialog()
 void MarkerDialog::slotUpdateThumb()
 {
     m_previewTimer->stop();
-    int pos = m_in->getValue();
-    const QPixmap p = m_clip->pixmap(pos);
-    if (!p.isNull()) {
-        clip_thumb->setFixedSize(p.width(), p.height());
-        clip_thumb->setPixmap(p);
-    } else {
-        qCDebug(KDENLIVE_LOG) << "!!!!!!!!!!!  ERROR CREATING THUMB";
+    m_position = m_in->getValue();
+    if (m_future.isRunning()) {
+        m_future.cancel();
     }
+    m_future = QtConcurrent::run(&ProjectClip::fetchPixmap, m_clip, m_position);
+    m_watcher.setFuture(m_future);
 }
 
 QImage MarkerDialog::markerImage() const
@@ -112,6 +122,14 @@ CommentedTime MarkerDialog::newMarker()
 {
     KdenliveSettings::setDefault_marker_type(marker_category->currentCategory());
     return CommentedTime(m_in->gentime(), marker_comment->text(), marker_category->currentCategory());
+}
+
+void MarkerDialog::cacheThumbnail()
+{
+    const QImage pix = markerImage();
+    if (m_clip && !pix.isNull()) {
+        ThumbnailCache::get()->storeThumbnail(m_clip->clipId(), m_position, pix, true);
+    }
 }
 
 GenTime MarkerDialog::getInterval() const

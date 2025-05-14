@@ -353,4 +353,6 @@ Q_SIGNALS:
     void addClipCut(const QString &, int, int);
     void resetPlayOrLoopZone(const QString &id);
     void clipRenamed(const QString &controlUuid, const QString &clipName);
+    /** @brief emitted when a project clip is added / removed */
+    void projectClipsModified();
 };

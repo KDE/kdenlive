@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class MarkerSortModel;
 class QActionGroup;
 class ProjectClip;
+class QConcatenateTablesProxyModel;
 
 /** @class GuideFilterEventEater
     @brief \@todo Describe class LineEventEater
@@ -78,18 +79,27 @@ private Q_SLOTS:
     void changeSortOrder(bool descending);
     void refreshDefaultCategory();
     void switchFilter(bool enable);
+    /** @brief Show markers for all clips in the project bin. */
+    void showAllMarkers(bool enable);
+    /** @brief Rebuild all markers list after a clip was added or deleted. */
+    void rebuildAllMarkers();
 
 private:
     /** @brief Set the marker model that will be displayed. */
     std::weak_ptr<MarkerListModel> m_model;
     GuidesProxyModel *m_proxy{nullptr};
     MarkerSortModel *m_sortModel{nullptr};
+    QConcatenateTablesProxyModel *m_containerProxy{nullptr};
+    std::shared_ptr<MarkerSortModel> m_markerFilterModel;
     std::shared_ptr<ProjectClip> m_clip;
     QButtonGroup *catGroup{nullptr};
     QActionGroup *m_sortGroup;
+    QAction *m_importGuides;
+    QAction *m_exportGuides;
     QList<int> m_lastSelectedGuideCategories;
     QList<int> m_lastSelectedMarkerCategories;
     bool m_markerMode;
+    bool m_multiClipsMode{false};
 
 Q_SIGNALS:
 };

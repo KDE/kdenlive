@@ -55,6 +55,7 @@ class QUndoCommand;
 class QVBoxLayout;
 class SmallJobLabel;
 class MediaBrowser;
+class MarkerListModel;
 
 namespace Mlt {
 class Producer;
@@ -381,6 +382,10 @@ public:
     void showItemEffectStack(ObjectId owner);
     /** @brief Return the bin search widget */
     QLineEdit *searchLine();
+    /** @brief Get marker models for all clips */
+    const QList<std::shared_ptr<MarkerListModel>> getAllClipsMarkers();
+    /** @brief Get the first selected clip*/
+    std::shared_ptr<ProjectClip> getFirstSelectedClip();
 
 private Q_SLOTS:
     void slotAddClip();
@@ -614,7 +619,6 @@ private:
     void setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
-    std::shared_ptr<ProjectClip> getFirstSelectedClip();
     void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
     void updateSortingAction(int ix);

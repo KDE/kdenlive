@@ -201,6 +201,8 @@ void MarkerCategoryButton::setOnlyUsed(bool onlyUsed)
     m_onlyUsed = onlyUsed;
     if (m_onlyUsed) {
         connect(m_menu, &QMenu::aboutToShow, this, &MarkerCategoryButton::changed);
+    } else {
+        disconnect(m_menu, &QMenu::aboutToShow, this, &MarkerCategoryButton::changed);
     }
     Q_EMIT changed();
 }

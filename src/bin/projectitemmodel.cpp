@@ -838,6 +838,7 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
             std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(clipItem->originalProducer()->parent()));
             storeSequence(uuid, trac, false);
         }
+        Q_EMIT projectClipsModified();
     }
 }
 
@@ -859,6 +860,7 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
                 m_extraPlaylists.erase(uuid);
             }
         }
+        Q_EMIT projectClipsModified();
     }
 }
 

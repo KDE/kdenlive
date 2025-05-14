@@ -302,13 +302,6 @@ public:
     void saveZone(QPoint zone, const QDir &dir);
     /** @brief When a sequence clip has a track change, update info and properties panel */
     void refreshTracksState(int tracksCount = -1);
-    /**
-     * @brief Returns a pixmap created from a frame of the producer.
-     * @param position frame position
-     * @param width width of the pixmap (only a guidance)
-     * @param height height of the pixmap (only a guidance)
-     */
-    QPixmap pixmap(int position = 0, int width = 0, int height = 0);
     /** @brief Returns true if this clip has a variable framerate */
     bool hasVariableFps();
     /** @brief Get the unique and unmutable uuid for this project clip */
@@ -407,6 +400,11 @@ public Q_SLOTS:
      * @return timecode in frames or -1 if not found
      */
     int getStartTCFromProperties();
+    /**
+     * @brief Returns an image created from a frame of the producer.
+     * @param position frame position
+     */
+    QImage fetchPixmap(int position = 0);
 
 private Q_SLOTS:
     void refreshIconOverlay();

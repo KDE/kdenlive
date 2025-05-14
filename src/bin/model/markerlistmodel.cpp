@@ -31,6 +31,11 @@ MarkerListModel::MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> und
     setup();
 }
 
+const QString &MarkerListModel::ownerId() const
+{
+    return m_clipId;
+}
+
 void MarkerListModel::setup()
 {
     // We connect the signals of the abstractitemmodel to a more generic one.
@@ -920,6 +925,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
         if (exists && !createOnly) {
             return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
         }
+        dialog->cacheThumbnail();
         return addMarker(marker.time(), marker.comment(), marker.markerType());
     }
     return false;

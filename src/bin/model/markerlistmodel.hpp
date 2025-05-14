@@ -46,6 +46,8 @@ public:
      */
     bool addMarker(GenTime pos, const QString &comment, int type = -1);
     bool addMarkers(const QMap<GenTime, QString> &markers, int type = -1);
+    /** @brief Returns the model's owner clip id */
+    const QString &ownerId() const;
 
 protected:
     /** @brief Same function but accumulates undo/redo */

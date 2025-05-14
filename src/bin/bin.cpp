@@ -37,6 +37,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mlt++/Mlt.h"
 #include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
+#include "model/markerlistmodel.hpp"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "playlistclip.h"
@@ -4292,6 +4293,16 @@ const QList<QString> Bin::getAllClipsWithTag(const QString &tag)
         if (clip->tags().contains(tag)) {
             list << clip->clipId();
         }
+    }
+    return list;
+}
+
+const QList<std::shared_ptr<MarkerListModel>> Bin::getAllClipsMarkers()
+{
+    QList<std::shared_ptr<MarkerListModel>> list;
+    QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
+    for (const auto &clip : std::as_const(allClipIds)) {
+        list << clip->getMarkerModel();
     }
     return list;
 }

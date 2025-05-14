@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>263</width>
+    <width>267</width>
     <height>288</height>
    </rect>
   </property>
@@ -27,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
        </property>
        <property name="popupMode">
-        <enum>QToolButton::DelayedPopup</enum>
+        <enum>QToolButton::ToolButtonPopupMode::DelayedPopup</enum>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -40,8 +40,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset theme="document-edit">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset theme="document-edit"/>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -68,7 +67,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         <string>...</string>
        </property>
        <property name="popupMode">
-        <enum>QToolButton::InstantPopup</enum>
+        <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="guide_all">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -91,7 +103,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -111,7 +123,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
        </property>
        <property name="popupMode">
-        <enum>QToolButton::InstantPopup</enum>
+        <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -123,7 +135,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="0" column="0" colspan="3">
     <widget class="KSqueezedTextLabel" name="guideslist_label">
      <property name="text">
-      <string>Guides</string>
+      <string>KSqueezedTextLabel</string>
      </property>
     </widget>
    </item>
@@ -133,11 +145,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="view-sort">
-       <normaloff>.</normaloff>.</iconset>
+      <iconset theme="view-sort"/>
      </property>
      <property name="popupMode">
-      <enum>QToolButton::InstantPopup</enum>
+      <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
      </property>
      <property name="autoRaise">
       <bool>true</bool>
@@ -168,14 +179,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MarkerCategoryButton</class>
-   <extends>QToolButton</extends>
-   <header>widgets/markercategorybutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>KSqueezedTextLabel</class>
    <extends>QLabel</extends>
    <header>ksqueezedtextlabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MarkerCategoryButton</class>
+   <extends>QToolButton</extends>
+   <header>widgets/markercategorybutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
