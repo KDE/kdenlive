@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-10 02:36+0000\n"
-"PO-Revision-Date: 2025-05-11 18:35+0300\n"
+"PO-Revision-Date: 2025-05-13 19:50+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4952,6 +4952,8 @@ msgstr "<![CDATA[İz profili çizgisini açın veya kapatın.]]>"
 msgid ""
 "Delay interlaced video by one field time so that the field order changes"
 msgstr ""
+"Geçmeli yapılan videoyu bir alan zamanıyla geciktirin ki alan sırası "
+"değişsin."
 
 #: data/effects/avfilter/avfilter_phase.xml:8
 #, kde-format
@@ -4967,23 +4969,24 @@ msgstr ""
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
 msgid "Photosensitivity"
-msgstr ""
+msgstr "Fotoduyarlılık"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
 #, kde-format
 msgid "Filter out photosensitive epilepsy seizure-inducing flashes."
 msgstr ""
+"Epilepsi krizlerine neden olabilen fotoduyarlı yanıp sönmeleri süzüp "
+"kaldırın."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames step"
+#, kde-format
 msgid "Frames to use"
-msgstr "Kare adımı"
+msgstr "Kullanılacak kareler"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:9
 #, kde-format
 msgid "Set how many frames to use."
-msgstr ""
+msgstr "Kaç tane kare kullanılacağını ayarlayın."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:12
 #, fuzzy, kde-format
@@ -4994,12 +4997,12 @@ msgstr "Eşik"
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
 msgid "Set detection threshold factor, lower is stricter"
-msgstr ""
+msgstr "Algılama eşiği çarpanını ayarlayın; daha düşük daha katıdır."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:16
 #, kde-format
 msgid "Skip"
-msgstr ""
+msgstr "Atla"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
 #, fuzzy, kde-format
@@ -6396,10 +6399,9 @@ msgid "Vibrato effect."
 msgstr "Efekti Yapıştır"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "w3fdif Deinterlacer"
-msgstr "Ayrıştırıcı"
+msgstr "w3fdif Ayrıştırıcısı"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:5
 #, kde-format

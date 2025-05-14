@@ -3716,17 +3716,17 @@ msgstr "1,2,3,4,5,6"
 #: data/effects/avfilter/avfilter_gblur.xml:12
 #, kde-format
 msgid "StepsX"
-msgstr ""
+msgstr "StepsX"
 
 #: data/effects/avfilter/avfilter_gblur.xml:19
 #, kde-format
 msgid "Vertical Sigma"
-msgstr ""
+msgstr "垂直标准差"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
 msgid "gradfun"
-msgstr ""
+msgstr "gradfun - 梯度域处理滤镜"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
 #, kde-format
@@ -3740,6 +3740,12 @@ msgid ""
 "compression, because compression tends to lose the dither and bring back the "
 "bands<b>.]]>"
 msgstr ""
+"<![CDATA[使用梯度域方法快速消除视频色带伪影。<br>\n"
+"    修复因8位色深截断在近平坦区域产生的色带伪影。<br>\n"
+"    通过插值生成色带区域的应有梯度并进行抖动处理。<br>\n"
+"    <b>本滤镜仅设计用于播放环节。请勿在无损压缩前使用，因为有损压缩会消除抖动"
+"效果并重现色带问题<b>。\n"
+"]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -3748,6 +3754,8 @@ msgid ""
 "<br>\n"
 "       \tThis is also the threshold for detecting nearly flat regions.]]>"
 msgstr ""
+"<![CDATA[滤镜修改单个像素的最大值。<br>\n"
+"       \t同时为平坦区域探测阈值。]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:18
 #, kde-format
@@ -3756,43 +3764,47 @@ msgid ""
 "       \tA larger radius makes for smoother gradients, but also prevents the "
 "filter from modifying the pixels near detailed regions.]]>"
 msgstr ""
+"<![CDATA[拟合梯度的邻域范围。<br>\n"
+"       较大半径可使梯度过渡更平滑，但也会避免滤镜修改细节区域附近的像素。]]>"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
 #, kde-format
 msgid "Graph Monitor"
-msgstr ""
+msgstr "图表监视器"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:5
 #, kde-format
 msgid "Show various filtergraph stats"
-msgstr ""
+msgstr "显示滤镜状态"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:15
 #, kde-format
 msgid "Compact,Full"
-msgstr ""
+msgstr "简略,完整"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:19
 #, kde-format
 msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
+"队列帧数,输入帧总数,输出帧总数,显示时间戳,媒体时间,时间基准,像素格式,帧尺寸,"
+"帧速率"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #: data/effects/avfilter/avfilter_vectorscope.xml:33
 #: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
 msgid "Flags"
-msgstr ""
+msgstr "标志"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
 #, kde-format
 msgid "Video Ratio"
-msgstr ""
+msgstr "宽高比"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
 msgid "Haas Stereo Enhancer"
-msgstr ""
+msgstr "立体声扩展器(哈斯效应)"
 
 #: data/effects/avfilter/avfilter_haas.xml:6
 #, kde-format
@@ -3802,96 +3814,99 @@ msgid ""
 "applied to mono signals it give some directionality and stretches its stereo "
 "image."
 msgstr ""
+"应用哈斯效应至音频信号。\n"
+"注：该效果最适合应用于单声道信号。将此滤镜应用于单声道信号可增强方向感并扩展"
+"立体声场。"
 
 #: data/effects/avfilter/avfilter_haas.xml:9
 #, kde-format
 msgid "Level in"
-msgstr ""
+msgstr "输入电平"
 
 #: data/effects/avfilter/avfilter_haas.xml:12
 #, kde-format
 msgid "Level out"
-msgstr ""
+msgstr "输出电平"
 
 #: data/effects/avfilter/avfilter_haas.xml:15
 #, kde-format
 msgid "Side gain"
-msgstr ""
+msgstr "侧边增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:18
 #, kde-format
 msgid "left,right,mid,side"
-msgstr ""
+msgstr "left,right,mid,side"
 
 #: data/effects/avfilter/avfilter_haas.xml:19
 #, kde-format
 msgid "Middle source"
-msgstr ""
+msgstr "中间源"
 
 #: data/effects/avfilter/avfilter_haas.xml:22
 #, kde-format
 msgid "Middle phase"
-msgstr ""
+msgstr "中间相位"
 
 #: data/effects/avfilter/avfilter_haas.xml:25
 #, kde-format
 msgid "Left delay"
-msgstr ""
+msgstr "左声道延迟"
 
 #: data/effects/avfilter/avfilter_haas.xml:28
 #, kde-format
 msgid "Left balance"
-msgstr ""
+msgstr "左平衡"
 
 #: data/effects/avfilter/avfilter_haas.xml:31
 #, kde-format
 msgid "Left Gain"
-msgstr ""
+msgstr "左增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:34
 #, kde-format
 msgid "Left phase"
-msgstr ""
+msgstr "左相位"
 
 #: data/effects/avfilter/avfilter_haas.xml:37
 #, kde-format
 msgid "Right delay"
-msgstr ""
+msgstr "右声道延迟"
 
 #: data/effects/avfilter/avfilter_haas.xml:40
 #, kde-format
 msgid "Right balance"
-msgstr ""
+msgstr "右平衡"
 
 #: data/effects/avfilter/avfilter_haas.xml:43
 #, kde-format
 msgid "Right Gain"
-msgstr ""
+msgstr "右增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:46
 #, kde-format
 msgid "Right phase"
-msgstr ""
+msgstr "右相位"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
 #, kde-format
 msgid "Flip Horizontally"
-msgstr ""
+msgstr "水平翻转"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
 #, kde-format
 msgid "Horizontally flip the input video."
-msgstr ""
+msgstr "水平翻转输入视频."
 
 #: data/effects/avfilter/avfilter_highpass.xml:4
 #, kde-format
 msgid "High-pass"
-msgstr ""
+msgstr "高通滤镜"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
 #, kde-format
 msgid "Apply a high-pass filter with 3dB point frequency."
-msgstr ""
+msgstr "应用3dB点频率的高通滤波器."
 
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
@@ -3910,34 +3925,34 @@ msgstr "类型"
 #: data/effects/avfilter/avfilter_highshelf.xml:4
 #, kde-format
 msgid "High-shelf"
-msgstr ""
+msgstr "高架滤波器"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
 #, kde-format
 msgid "Apply a high shelf filter."
-msgstr ""
+msgstr "应用高架滤波器."
 
 #: data/effects/avfilter/avfilter_histeq.xml:4
 #, kde-format
 msgid "Histogram Equalizer"
-msgstr ""
+msgstr "颜色均化"
 
 #: data/effects/avfilter/avfilter_histeq.xml:5
 #, kde-format
 msgid ""
 "This filter applies a global color histogram equalization on a per-frame "
 "basis"
-msgstr ""
+msgstr "此滤波器在每帧的基础上应用全局颜色直方图均衡"
 
 #: data/effects/avfilter/avfilter_histeq.xml:14
 #, kde-format
 msgid "None,Weak,Strong"
-msgstr ""
+msgstr "None,Weak,Strong"
 
 #: data/effects/avfilter/avfilter_histeq.xml:15
 #, kde-format
 msgid "Antibanding Level"
-msgstr ""
+msgstr "抗条带级别"
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
 #: src/scopes/scopemanager.cpp:296
@@ -3948,23 +3963,23 @@ msgstr "直方图"
 #: data/effects/avfilter/avfilter_histogram.xml:5
 #, kde-format
 msgid "Compute and draw a color distribution histogram for the input video"
-msgstr ""
+msgstr "计算并绘制输入视频的颜色分布直方图"
 
 #: data/effects/avfilter/avfilter_histogram.xml:8
 #, kde-format
 msgid "Level height"
-msgstr ""
+msgstr "层高度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:11
 #, kde-format
 msgid "Scale height"
-msgstr ""
+msgstr "缩放高度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:14
 #: data/effects/avfilter/avfilter_waveform.xml:25
 #, kde-format
 msgid "Overlay,Stack,Parade"
-msgstr ""
+msgstr "叠加模式,堆叠模式,分量示波器"
 
 #: data/effects/avfilter/avfilter_histogram.xml:15
 #: data/effects/avfilter/avfilter_waveform.xml:26
@@ -3973,44 +3988,44 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
 #, kde-format
 msgid "Display"
-msgstr ""
+msgstr "显示"
 
 #: data/effects/avfilter/avfilter_histogram.xml:22
 #, kde-format
 msgid "All,Y,U,YU,V,YV,UV,All,Alpha"
-msgstr ""
+msgstr "All,Y,U,YU,V,YV,UV,All,Alpha"
 
 #: data/effects/avfilter/avfilter_histogram.xml:23
 #, kde-format
 msgid "Components to display"
-msgstr ""
+msgstr "显示组件"
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
 #, kde-format
 msgid "Foreground Opacity"
-msgstr ""
+msgstr "前景透明度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:29
 #: data/effects/avfilter/avfilter_vectorscope.xml:36
 #: data/effects/avfilter/avfilter_waveform.xml:64
 #, kde-format
 msgid "Background Opacity"
-msgstr ""
+msgstr "背景透明度"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, kde-format
 msgid "High precision/quality 3d denoiser"
-msgstr ""
+msgstr "高精度/品质3d降噪器"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
 #, kde-format
 msgid "Apply a High Quality 3D Denoise"
-msgstr ""
+msgstr "应用一个高品质3D去噪器"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
 msgid "Spatial Luma Strength"
-msgstr ""
+msgstr "空间亮度强度"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:11
 #, kde-format
