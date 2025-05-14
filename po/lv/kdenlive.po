@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-13 00:41+0000\n"
+"POT-Creation-Date: 2025-05-14 00:42+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -15104,7 +15104,7 @@ msgstr "Saglabāt efektu"
 
 #: src/assets/view/assetparameterview.cpp:380
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1410
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1406
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -15112,7 +15112,7 @@ msgstr "Ierakstiet priekšiestatījuma nosaukumu"
 
 #: src/assets/view/assetparameterview.cpp:380
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1410
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1406
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Ievadiet šī priekšiestatījuma nosaukumu:"
@@ -16358,7 +16358,7 @@ msgid "Edit Tags"
 msgstr "Rediģēt birkas"
 
 #: src/bin/bin.cpp:4610 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1983 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -16968,48 +16968,39 @@ msgstr ""
 "Attēla izmērs ir mazāks par astoņiem pikseļiem.\n"
 "Video satvars to pilnībā neatbalsta."
 
-#: src/bin/projectclip.cpp:920
-#, kde-format
-msgid ""
-"Cannot extract metadata from %1\n"
-"%2"
-msgstr ""
-"Nevar izvilkt metadatus no „%1“\n"
-"%2"
-
-#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1131 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Nederīgs"
 
-#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1360 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1508
 #, kde-format
 msgid "File already exists"
 msgstr "Datne jau pastāv"
 
-#: src/bin/projectclip.cpp:2643
+#: src/bin/projectclip.cpp:2576
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Regulēt laika joslas klipus"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2765
 #, kde-format
 msgid "Add stream effect"
 msgstr "Pievienot straumes efektu"
 
-#: src/bin/projectclip.cpp:2857
+#: src/bin/projectclip.cpp:2790
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Noņemt straumes efektu"
 
-#: src/bin/projectclip.cpp:3172
+#: src/bin/projectclip.cpp:3105
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Klipam pievienota maska"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3109
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Klipam trūkst maskas"
@@ -17791,7 +17782,7 @@ msgstr "Automātisks (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:680
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:679
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -18083,8 +18074,8 @@ msgstr "Augšā pa labi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:237
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:704
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:705
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:706
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -18701,7 +18692,7 @@ msgid "Misc"
 msgstr "Dažādi"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:210
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:790
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:789
 #: src/doc/documentvalidator.cpp:2510
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
@@ -18730,66 +18721,66 @@ msgstr "Atlasīt noklusējuma profilu (priekšiestatījumus)"
 msgid "Project Defaults"
 msgstr "Projekta noklusējumi"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:314
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:339
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:313
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Izmantot noklusējuma mapi: „%1“"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:316
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:342
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1046
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1047
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1062
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1063
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:341
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1042
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1043
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1059
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Vienmēr izmantot projekta mapi: %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:318
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:344
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1059
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1054
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1055
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Vienmēr izmantot aktīvo projekta mapi"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:357
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:356
 #, kde-format
 msgid "Environment"
 msgstr "Vide"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:393
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "„Mac OS X“ sistēmām ierakstīšana vēl nav pieejama."
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 kanāls)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:404
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Stereo (2 kanāli)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:410
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:412
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:465
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:464
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:467
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
 #, fuzzy, kde-format
 #| msgid ""
 #| "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -18808,7 +18799,7 @@ msgstr ""
 "dokumentāciju</a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:489
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:100
 #: src/mltcontroller/clippropertiescontroller.cpp:778
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
@@ -18816,102 +18807,102 @@ msgstr ""
 msgid "Transcode"
 msgstr "Transkodēšana"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:523
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "GPU apstrādei nepieciešams ar „Movit“ un „Rtaudio“ moduļiem kompilēts MLT"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:686
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:688
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:741
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:740
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:689
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:688
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:690
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:689
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:691
 #, kde-format
 msgid "Esound Daemon"
 msgstr "„Esound“ dēmons"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:693
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "ARTS dēmons"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:757
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:756
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:769
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:768
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:794 src/mainwindow.cpp:277
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:793 src/mainwindow.cpp:277
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitors „%1“"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:879
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:878
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Ievadiet ceļu uz skaņas rediģēšanas programmu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:887
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:886
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Ievadiet ceļu uz attēlu rediģēšanas programmu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:895
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:894
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Ievadiet ceļu uz „Glaxnimate“ programmu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:977
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:994
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:976
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:993
 #: src/project/dialogs/projectsettings.cpp:543
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Atlasiet video profilu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1290
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1286
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "„Kdenlive“ ir jāpārstartē, lai nomainītu šo iestatījumu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1413
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1409
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Jau pastāv profils ar šādu nosaukumu"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1547
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1543
 #, kde-format
 msgid "Current settings"
 msgstr "Pašreizējie iestatījumi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1585
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1621
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1638
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1581
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1617
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1634
 #: src/mltcontroller/clippropertiescontroller.cpp:672
 #: src/mltcontroller/clippropertiescontroller.cpp:1371
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -20543,16 +20534,7 @@ msgstr ""
 "<li>Trūkst programmas: <b>„ffprobe“</b>,<br/>kas ir ieteicama papildu klipu "
 "analīzei</li>"
 
-#: src/dialogs/wizard.cpp:547
-#, kde-format
-msgid ""
-"<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
-"information</li>"
-msgstr ""
-"<li>Trūkst programmas: <b>„mediainfo“</b>,<br/>ko varat izmantot, lai iegūtu "
-"tehnisko informāciju par klipu</li>"
-
-#: src/dialogs/wizard.cpp:650
+#: src/dialogs/wizard.cpp:636
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
@@ -20560,17 +20542,17 @@ msgstr ""
 "Nevar atrast jūsu MLT instalāciju. Instalējiet MLT un pārstartējiet "
 "„Kdenlive“.\n"
 
-#: src/dialogs/wizard.cpp:654
+#: src/dialogs/wizard.cpp:640
 #, kde-format
 msgid "Fatal Error"
 msgstr "Fatāla kļūda"
 
-#: src/dialogs/wizard.cpp:834
+#: src/dialogs/wizard.cpp:820
 #, kde-format
 msgid "No hardware encoders found."
 msgstr "Nav atrasts aparatūras kodētājs."
 
-#: src/dialogs/wizard.cpp:836
+#: src/dialogs/wizard.cpp:822
 #, kde-format
 msgid "hardware encoders found and enabled (%1)."
 msgstr "atrasti un ieslēgti aparatūras kodētāji (%1)."
@@ -31741,26 +31723,20 @@ msgstr "MLT profilu mape:"
 msgid "Melt path:"
 msgstr "„Melt“ ceļš:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configenv_ui.ui:178
-#, kde-format
-msgid "MediaInfo:"
-msgstr "MediaInfo:"
-
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configenv_ui.ui:202
+#: src/ui/configenv_ui.ui:192
 #, kde-format
 msgid "Default Folders"
 msgstr "Noklusējuma mapes"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configenv_ui.ui:208
+#: src/ui/configenv_ui.ui:198
 #, kde-format
 msgid "Temporary files:"
 msgstr "Pagaidu datnes:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/configenv_ui.ui:218
+#: src/ui/configenv_ui.ui:208
 #, kde-format
 msgid "Capture folder:"
 msgstr "Ierakstīšanas mape:"
@@ -31768,64 +31744,64 @@ msgstr "Ierakstīšanas mape:"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:270
-#: src/ui/configenv_ui.ui:294
+#: src/ui/configenv_ui.ui:216 src/ui/configenv_ui.ui:260
+#: src/ui/configenv_ui.ui:284
 #, kde-format
 msgid "Use default folder"
 msgstr "Izmantot noklusējuma mapi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:299
+#: src/ui/configenv_ui.ui:221 src/ui/configenv_ui.ui:289
 #, kde-format
 msgid "Always use project folder"
 msgstr "Vienmēr izmantot projekta mapi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:304
+#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:294
 #, kde-format
 msgid "Always use custom folder"
 msgstr "Vienmēr izmantot pielāgotu mapi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
-#: src/ui/configenv_ui.ui:241
+#: src/ui/configenv_ui.ui:231
 #, kde-format
 msgid "Always use a custom subfolder of project folder"
 msgstr "Vienmēr izmantot pielāgotu projekta mapes apakšmapi"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
-#: src/ui/configenv_ui.ui:251
+#: src/ui/configenv_ui.ui:241
 #, kde-format
 msgid "Subfolder of project folder"
 msgstr "Projekta mapes apakšmapi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:263
+#: src/ui/configenv_ui.ui:253
 #, kde-format
 msgid "Library folder:"
 msgstr "Bibliotēkas mape:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:280
+#: src/ui/configenv_ui.ui:270
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
 msgstr "Mape renderēšanai, titriem un skriptiem:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:336
+#: src/ui/configenv_ui.ui:326
 #, kde-format
 msgid "Default Apps"
 msgstr "Noklusējuma programmas"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:342
+#: src/ui/configenv_ui.ui:332
 #, kde-format
 msgid "Image editing:"
 msgstr "Attēlu rediģēšana:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:351
+#: src/ui/configenv_ui.ui:341
 #, kde-format
 msgid "Path to image editing application"
 msgstr "Ceļš uz attēlu rediģēšanas programmu"
@@ -31833,50 +31809,50 @@ msgstr "Ceļš uz attēlu rediģēšanas programmu"
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:361 src/ui/configenv_ui.ui:382
-#: src/ui/configenv_ui.ui:407
+#: src/ui/configenv_ui.ui:351 src/ui/configenv_ui.ui:372
+#: src/ui/configenv_ui.ui:397
 #, kde-format
 msgid "Change…"
 msgstr "Mainīt…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:372
+#: src/ui/configenv_ui.ui:362
 #, kde-format
 msgid "Path to audio editing application"
 msgstr "Ceļš uz audio rediģēšanas programmu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:391
+#: src/ui/configenv_ui.ui:381
 #, kde-format
 msgid "Audio editing:"
 msgstr "Audio rediģēšana:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:400
+#: src/ui/configenv_ui.ui:390
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr "Ceļš uz „Glaxnimate“ izpilddatni"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:416
+#: src/ui/configenv_ui.ui:406
 #, kde-format
 msgid "Animation editing:"
 msgstr "Animāciju rediģēšana:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:437
+#: src/ui/configenv_ui.ui:427
 #, kde-format
 msgid "Mime types"
 msgstr "MIME tipi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:443
+#: src/ui/configenv_ui.ui:433
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "Papildu klipu MIME tipi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:457
+#: src/ui/configenv_ui.ui:447
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "Atbalstītie klipu MIME tipi"
@@ -35454,6 +35430,23 @@ msgstr "%1 min."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 st."
+
+#~ msgid ""
+#~ "Cannot extract metadata from %1\n"
+#~ "%2"
+#~ msgstr ""
+#~ "Nevar izvilkt metadatus no „%1“\n"
+#~ "%2"
+
+#~ msgid ""
+#~ "<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
+#~ "information</li>"
+#~ msgstr ""
+#~ "<li>Trūkst programmas: <b>„mediainfo“</b>,<br/>ko varat izmantot, lai "
+#~ "iegūtu tehnisko informāciju par klipu</li>"
+
+#~ msgid "MediaInfo:"
+#~ msgstr "MediaInfo:"
 
 #~ msgid "Please configure speech to text, missing dependencies: %1"
 #~ msgstr "Konfigurējiet runas pārvēršanu tekstā, trūkstošās atkarības: %1"

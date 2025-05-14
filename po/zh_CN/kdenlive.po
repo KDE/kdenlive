@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-13 00:41+0000\n"
+"POT-Creation-Date: 2025-05-14 00:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3715,17 +3715,17 @@ msgstr "1,2,3,4,5,6"
 #: data/effects/avfilter/avfilter_gblur.xml:12
 #, kde-format
 msgid "StepsX"
-msgstr ""
+msgstr "StepsX"
 
 #: data/effects/avfilter/avfilter_gblur.xml:19
 #, kde-format
 msgid "Vertical Sigma"
-msgstr ""
+msgstr "垂直标准差"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
 msgid "gradfun"
-msgstr ""
+msgstr "gradfun - 梯度域处理滤镜"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
 #, kde-format
@@ -3753,6 +3753,8 @@ msgid ""
 "<br>\n"
 "       \tThis is also the threshold for detecting nearly flat regions.]]>"
 msgstr ""
+"<![CDATA[滤镜修改单个像素的最大值。<br>\n"
+"       \t同时为平坦区域探测阈值。]]>"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:18
 #, kde-format
@@ -3761,43 +3763,47 @@ msgid ""
 "       \tA larger radius makes for smoother gradients, but also prevents the "
 "filter from modifying the pixels near detailed regions.]]>"
 msgstr ""
+"<![CDATA[拟合梯度的邻域范围。<br>\n"
+"       较大半径可使梯度过渡更平滑，但也会避免滤镜修改细节区域附近的像素。]]>"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:4
 #, kde-format
 msgid "Graph Monitor"
-msgstr ""
+msgstr "图表监视器"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:5
 #, kde-format
 msgid "Show various filtergraph stats"
-msgstr ""
+msgstr "显示滤镜状态"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:15
 #, kde-format
 msgid "Compact,Full"
-msgstr ""
+msgstr "简略,完整"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:19
 #, kde-format
 msgid "Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate"
 msgstr ""
+"队列帧数,输入帧总数,输出帧总数,显示时间戳,媒体时间,时间基准,像素格式,帧尺寸,"
+"帧速率"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:20
 #: data/effects/avfilter/avfilter_vectorscope.xml:33
 #: data/effects/avfilter/avfilter_waveform.xml:56
 #, kde-format
 msgid "Flags"
-msgstr ""
+msgstr "标志"
 
 #: data/effects/avfilter/avfilter_graphmonitor.xml:23
 #, kde-format
 msgid "Video Ratio"
-msgstr ""
+msgstr "宽高比"
 
 #: data/effects/avfilter/avfilter_haas.xml:4
 #, kde-format
 msgid "Haas Stereo Enhancer"
-msgstr ""
+msgstr "立体声扩展器(哈斯效应)"
 
 #: data/effects/avfilter/avfilter_haas.xml:6
 #, kde-format
@@ -3807,96 +3813,99 @@ msgid ""
 "applied to mono signals it give some directionality and stretches its stereo "
 "image."
 msgstr ""
+"应用哈斯效应至音频信号。\n"
+"注：该效果最适合应用于单声道信号。将此滤镜应用于单声道信号可增强方向感并扩展"
+"立体声场。"
 
 #: data/effects/avfilter/avfilter_haas.xml:9
 #, kde-format
 msgid "Level in"
-msgstr ""
+msgstr "输入电平"
 
 #: data/effects/avfilter/avfilter_haas.xml:12
 #, kde-format
 msgid "Level out"
-msgstr ""
+msgstr "输出电平"
 
 #: data/effects/avfilter/avfilter_haas.xml:15
 #, kde-format
 msgid "Side gain"
-msgstr ""
+msgstr "侧边增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:18
 #, kde-format
 msgid "left,right,mid,side"
-msgstr ""
+msgstr "left,right,mid,side"
 
 #: data/effects/avfilter/avfilter_haas.xml:19
 #, kde-format
 msgid "Middle source"
-msgstr ""
+msgstr "中间源"
 
 #: data/effects/avfilter/avfilter_haas.xml:22
 #, kde-format
 msgid "Middle phase"
-msgstr ""
+msgstr "中间相位"
 
 #: data/effects/avfilter/avfilter_haas.xml:25
 #, kde-format
 msgid "Left delay"
-msgstr ""
+msgstr "左声道延迟"
 
 #: data/effects/avfilter/avfilter_haas.xml:28
 #, kde-format
 msgid "Left balance"
-msgstr ""
+msgstr "左平衡"
 
 #: data/effects/avfilter/avfilter_haas.xml:31
 #, kde-format
 msgid "Left Gain"
-msgstr ""
+msgstr "左增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:34
 #, kde-format
 msgid "Left phase"
-msgstr ""
+msgstr "左相位"
 
 #: data/effects/avfilter/avfilter_haas.xml:37
 #, kde-format
 msgid "Right delay"
-msgstr ""
+msgstr "右声道延迟"
 
 #: data/effects/avfilter/avfilter_haas.xml:40
 #, kde-format
 msgid "Right balance"
-msgstr ""
+msgstr "右平衡"
 
 #: data/effects/avfilter/avfilter_haas.xml:43
 #, kde-format
 msgid "Right Gain"
-msgstr ""
+msgstr "右增益"
 
 #: data/effects/avfilter/avfilter_haas.xml:46
 #, kde-format
 msgid "Right phase"
-msgstr ""
+msgstr "右相位"
 
 #: data/effects/avfilter/avfilter_hflip.xml:4
 #, kde-format
 msgid "Flip Horizontally"
-msgstr ""
+msgstr "水平翻转"
 
 #: data/effects/avfilter/avfilter_hflip.xml:5
 #, kde-format
 msgid "Horizontally flip the input video."
-msgstr ""
+msgstr "水平翻转输入视频."
 
 #: data/effects/avfilter/avfilter_highpass.xml:4
 #, kde-format
 msgid "High-pass"
-msgstr ""
+msgstr "高通滤镜"
 
 #: data/effects/avfilter/avfilter_highpass.xml:5
 #, kde-format
 msgid "Apply a high-pass filter with 3dB point frequency."
-msgstr ""
+msgstr "应用3dB点频率的高通滤波器."
 
 #: data/effects/avfilter/avfilter_highpass.xml:12
 #: data/effects/avfilter/avfilter_highshelf.xml:12
@@ -3915,34 +3924,34 @@ msgstr "类型"
 #: data/effects/avfilter/avfilter_highshelf.xml:4
 #, kde-format
 msgid "High-shelf"
-msgstr ""
+msgstr "高架滤波器"
 
 #: data/effects/avfilter/avfilter_highshelf.xml:5
 #, kde-format
 msgid "Apply a high shelf filter."
-msgstr ""
+msgstr "应用高架滤波器."
 
 #: data/effects/avfilter/avfilter_histeq.xml:4
 #, kde-format
 msgid "Histogram Equalizer"
-msgstr ""
+msgstr "颜色均化"
 
 #: data/effects/avfilter/avfilter_histeq.xml:5
 #, kde-format
 msgid ""
 "This filter applies a global color histogram equalization on a per-frame "
 "basis"
-msgstr ""
+msgstr "此滤波器在每帧的基础上应用全局颜色直方图均衡"
 
 #: data/effects/avfilter/avfilter_histeq.xml:14
 #, kde-format
 msgid "None,Weak,Strong"
-msgstr ""
+msgstr "None,Weak,Strong"
 
 #: data/effects/avfilter/avfilter_histeq.xml:15
 #, kde-format
 msgid "Antibanding Level"
-msgstr ""
+msgstr "抗条带级别"
 
 #: data/effects/avfilter/avfilter_histogram.xml:4
 #: src/scopes/scopemanager.cpp:296
@@ -3953,23 +3962,23 @@ msgstr "直方图"
 #: data/effects/avfilter/avfilter_histogram.xml:5
 #, kde-format
 msgid "Compute and draw a color distribution histogram for the input video"
-msgstr ""
+msgstr "计算并绘制输入视频的颜色分布直方图"
 
 #: data/effects/avfilter/avfilter_histogram.xml:8
 #, kde-format
 msgid "Level height"
-msgstr ""
+msgstr "层高度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:11
 #, kde-format
 msgid "Scale height"
-msgstr ""
+msgstr "缩放高度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:14
 #: data/effects/avfilter/avfilter_waveform.xml:25
 #, kde-format
 msgid "Overlay,Stack,Parade"
-msgstr ""
+msgstr "叠加模式,堆叠模式,分量示波器"
 
 #: data/effects/avfilter/avfilter_histogram.xml:15
 #: data/effects/avfilter/avfilter_waveform.xml:26
@@ -3978,44 +3987,44 @@ msgstr ""
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:9
 #, kde-format
 msgid "Display"
-msgstr ""
+msgstr "显示"
 
 #: data/effects/avfilter/avfilter_histogram.xml:22
 #, kde-format
 msgid "All,Y,U,YU,V,YV,UV,All,Alpha"
-msgstr ""
+msgstr "All,Y,U,YU,V,YV,UV,All,Alpha"
 
 #: data/effects/avfilter/avfilter_histogram.xml:23
 #, kde-format
 msgid "Components to display"
-msgstr ""
+msgstr "显示组件"
 
 #: data/effects/avfilter/avfilter_histogram.xml:26
 #, kde-format
 msgid "Foreground Opacity"
-msgstr ""
+msgstr "前景透明度"
 
 #: data/effects/avfilter/avfilter_histogram.xml:29
 #: data/effects/avfilter/avfilter_vectorscope.xml:36
 #: data/effects/avfilter/avfilter_waveform.xml:64
 #, kde-format
 msgid "Background Opacity"
-msgstr ""
+msgstr "背景透明度"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:4
 #, kde-format
 msgid "High precision/quality 3d denoiser"
-msgstr ""
+msgstr "高精度/品质3d降噪器"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:5
 #, kde-format
 msgid "Apply a High Quality 3D Denoise"
-msgstr ""
+msgstr "应用一个高品质3D去噪器"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:8
 #, kde-format
 msgid "Spatial Luma Strength"
-msgstr ""
+msgstr "空间亮度强度"
 
 #: data/effects/avfilter/avfilter_hqdn3d.xml:11
 #, kde-format
@@ -14544,7 +14553,7 @@ msgstr "保存效果"
 
 #: src/assets/view/assetparameterview.cpp:380
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1410
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1406
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -14552,7 +14561,7 @@ msgstr "输入预设名称"
 
 #: src/assets/view/assetparameterview.cpp:380
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1410
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1406
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "输入此预设的名称："
@@ -15762,7 +15771,7 @@ msgid "Edit Tags"
 msgstr "编辑标签"
 
 #: src/bin/bin.cpp:4610 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2050 src/onlineresources/resourcewidget.cpp:291
+#: src/bin/projectclip.cpp:1983 src/onlineresources/resourcewidget.cpp:291
 #: src/onlineresources/resourcewidget.cpp:694
 #: src/onlineresources/resourcewidget.cpp:709
 #, kde-format
@@ -16365,48 +16374,39 @@ msgstr ""
 "图像尺寸小于 8 像素。\n"
 "视频程序框架尚不能正确支持此类图像。"
 
-#: src/bin/projectclip.cpp:920
-#, kde-format
-msgid ""
-"Cannot extract metadata from %1\n"
-"%2"
-msgstr ""
-"无法从 %1 提取元数据\n"
-"%2"
-
-#: src/bin/projectclip.cpp:1198 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1131 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "无效"
 
-#: src/bin/projectclip.cpp:1427 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1360 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1508
 #, kde-format
 msgid "File already exists"
 msgstr "文件已存在"
 
-#: src/bin/projectclip.cpp:2643
+#: src/bin/projectclip.cpp:2576
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "调整时间轴剪辑"
 
-#: src/bin/projectclip.cpp:2832
+#: src/bin/projectclip.cpp:2765
 #, kde-format
 msgid "Add stream effect"
 msgstr "添加流效果"
 
-#: src/bin/projectclip.cpp:2857
+#: src/bin/projectclip.cpp:2790
 #, kde-format
 msgid "Remove stream effect"
 msgstr "移除流效果"
 
-#: src/bin/projectclip.cpp:3172
+#: src/bin/projectclip.cpp:3105
 #, kde-format
 msgid "Mask added to clip"
 msgstr "蒙版已添加到剪辑"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3109
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "缺少蒙版的剪辑"
@@ -17175,7 +17175,7 @@ msgstr "自动 (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:265
 #: src/dialogs/encodingprofilesdialog.cpp:354
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:680
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:679
 #: src/project/dialogs/projectsettings.cpp:911
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -17466,8 +17466,8 @@ msgstr "右上"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/managesubtitles.cpp:528 src/dialogs/renderwidget.cpp:237
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:704
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:705
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:706
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -18070,7 +18070,7 @@ msgid "Misc"
 msgstr "常规"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:210
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:790
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:789
 #: src/doc/documentvalidator.cpp:2510
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
@@ -18098,66 +18098,66 @@ msgstr "选择默认编码方案 (预设)"
 msgid "Project Defaults"
 msgstr "项目默认值"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:314
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:339
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:313
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:338
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "使用默认文件夹：%1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:316
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:342
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1046
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1047
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1062
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1063
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:315
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:341
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1042
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1043
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1059
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "总是使用项目文件夹：%1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:318
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:344
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1058
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1059
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:343
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1054
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1055
 #, kde-format
 msgid "Always use active project folder"
 msgstr "总是使用活动项目文件夹"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:357
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:356
 #, kde-format
 msgid "Environment"
 msgstr "系统环境"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:393
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "捕获功能暂不支持 macOS。"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "单声道 (1 声道)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:404
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:403
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "立体声 (2 声道)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:410
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 赫兹"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:412
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:411
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 赫兹"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:465
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:464
 #, kde-format
 msgid "JogShuttle"
 msgstr "飞梭旋钮"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:467
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -18167,7 +18167,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:489
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:488
 #: src/dialogs/timeremap.cpp:1580 src/kdenliveui.rc:100
 #: src/mltcontroller/clippropertiescontroller.cpp:778
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
@@ -18175,101 +18175,101 @@ msgstr ""
 msgid "Transcode"
 msgstr "转码"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:523
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:522
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr "GPU 处理功能要求 MLT 在构建时带有 Movit 和 Rtaudio 模块。"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:686
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:688
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:741
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:740
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:689
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:688
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:690
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:689
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:691
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound 守护进程"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:693
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:692
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "ARTS 守护进程"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:757
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:756
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:769
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:768
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:794 src/mainwindow.cpp:277
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:793 src/mainwindow.cpp:277
 #, kde-format
 msgid "Monitor %1"
 msgstr "监视器 %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:879
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:878
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "输入音频编辑应用程序的路径"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:887
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:886
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "输入图像编辑应用程序的路径"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:895
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:894
 #: src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "输入 Glaxnimate 应用程序的路径"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:977
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:994
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:976
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:993
 #: src/project/dialogs/projectsettings.cpp:543
 #, kde-format
 msgid "Please select a video profile"
 msgstr "请选择视频编码方案"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1290
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1286
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive 必须重启才能更改此设置"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1413
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1409
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "同名编码方案已经存在"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1547
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1543
 #, kde-format
 msgid "Current settings"
 msgstr "当前设置"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1585
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1621
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1638
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1581
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1617
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1634
 #: src/mltcontroller/clippropertiescontroller.cpp:672
 #: src/mltcontroller/clippropertiescontroller.cpp:1371
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -19871,31 +19871,23 @@ msgid ""
 "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"
 msgstr "<li>缺少应用程序：<b>ffprobe</b><br/>额外剪辑分析需要此程序</li>"
 
-#: src/dialogs/wizard.cpp:547
-#, kde-format
-msgid ""
-"<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
-"information</li>"
-msgstr ""
-"<li>缺少应用程序：<b>mediainfo</b><br/>用于显示剪辑的技术信息的可选组件</li>"
-
-#: src/dialogs/wizard.cpp:650
+#: src/dialogs/wizard.cpp:636
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "无法在本机找到 MLT。请安装 MLT 并重新启动 Kdenlive。\n"
 
-#: src/dialogs/wizard.cpp:654
+#: src/dialogs/wizard.cpp:640
 #, kde-format
 msgid "Fatal Error"
 msgstr "严重错误"
 
-#: src/dialogs/wizard.cpp:834
+#: src/dialogs/wizard.cpp:820
 #, kde-format
 msgid "No hardware encoders found."
 msgstr "未找到硬件编码器。"
 
-#: src/dialogs/wizard.cpp:836
+#: src/dialogs/wizard.cpp:822
 #, kde-format
 msgid "hardware encoders found and enabled (%1)."
 msgstr "已发现并启用了硬件编码器 (%1)。"
@@ -30803,26 +30795,20 @@ msgstr "MLT 编码方案文件夹："
 msgid "Melt path:"
 msgstr "Melt 路径："
 
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configenv_ui.ui:178
-#, kde-format
-msgid "MediaInfo:"
-msgstr "MediaInfo："
-
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configenv_ui.ui:202
+#: src/ui/configenv_ui.ui:192
 #, kde-format
 msgid "Default Folders"
 msgstr "默认文件夹"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configenv_ui.ui:208
+#: src/ui/configenv_ui.ui:198
 #, kde-format
 msgid "Temporary files:"
 msgstr "临时文件："
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/configenv_ui.ui:218
+#: src/ui/configenv_ui.ui:208
 #, kde-format
 msgid "Capture folder:"
 msgstr "捕获文件夹："
@@ -30830,64 +30816,64 @@ msgstr "捕获文件夹："
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:270
-#: src/ui/configenv_ui.ui:294
+#: src/ui/configenv_ui.ui:216 src/ui/configenv_ui.ui:260
+#: src/ui/configenv_ui.ui:284
 #, kde-format
 msgid "Use default folder"
 msgstr "使用默认文件夹"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:299
+#: src/ui/configenv_ui.ui:221 src/ui/configenv_ui.ui:289
 #, kde-format
 msgid "Always use project folder"
 msgstr "总是使用项目文件夹"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:304
+#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:294
 #, kde-format
 msgid "Always use custom folder"
 msgstr "总是使用自定义文件夹"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
-#: src/ui/configenv_ui.ui:241
+#: src/ui/configenv_ui.ui:231
 #, kde-format
 msgid "Always use a custom subfolder of project folder"
 msgstr "总是使用项目文件夹中的一个自定义的子文件夹"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
-#: src/ui/configenv_ui.ui:251
+#: src/ui/configenv_ui.ui:241
 #, kde-format
 msgid "Subfolder of project folder"
 msgstr "项目文件夹的子文件夹"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:263
+#: src/ui/configenv_ui.ui:253
 #, kde-format
 msgid "Library folder:"
 msgstr "素材库文件夹："
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:280
+#: src/ui/configenv_ui.ui:270
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
 msgstr "用于导出、字幕、脚本的文件夹："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:336
+#: src/ui/configenv_ui.ui:326
 #, kde-format
 msgid "Default Apps"
 msgstr "默认应用程序"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:342
+#: src/ui/configenv_ui.ui:332
 #, kde-format
 msgid "Image editing:"
 msgstr "图像编辑器："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:351
+#: src/ui/configenv_ui.ui:341
 #, kde-format
 msgid "Path to image editing application"
 msgstr "图像编辑应用程序路径"
@@ -30895,50 +30881,50 @@ msgstr "图像编辑应用程序路径"
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:361 src/ui/configenv_ui.ui:382
-#: src/ui/configenv_ui.ui:407
+#: src/ui/configenv_ui.ui:351 src/ui/configenv_ui.ui:372
+#: src/ui/configenv_ui.ui:397
 #, kde-format
 msgid "Change…"
 msgstr "更改…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:372
+#: src/ui/configenv_ui.ui:362
 #, kde-format
 msgid "Path to audio editing application"
 msgstr "音频编辑应用程序路径"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:391
+#: src/ui/configenv_ui.ui:381
 #, kde-format
 msgid "Audio editing:"
 msgstr "音频编辑器："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:400
+#: src/ui/configenv_ui.ui:390
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr "Glaxnimate 可执行程序路径"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:416
+#: src/ui/configenv_ui.ui:406
 #, kde-format
 msgid "Animation editing:"
 msgstr "动画编辑："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:437
+#: src/ui/configenv_ui.ui:427
 #, kde-format
 msgid "Mime types"
 msgstr "MIME 类型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:443
+#: src/ui/configenv_ui.ui:433
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "额外的剪辑 MIME 类型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:457
+#: src/ui/configenv_ui.ui:447
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "支持的剪辑 MIME 类型"
@@ -34488,5 +34474,19 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
 
-#~ msgid "Please configure speech to text, missing dependencies: %1"
-#~ msgstr "请配置语音转文字功能，缺少依赖软件包：%1"
+#~ msgid ""
+#~ "Cannot extract metadata from %1\n"
+#~ "%2"
+#~ msgstr ""
+#~ "无法从 %1 提取元数据\n"
+#~ "%2"
+
+#~ msgid ""
+#~ "<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
+#~ "information</li>"
+#~ msgstr ""
+#~ "<li>缺少应用程序：<b>mediainfo</b><br/>用于显示剪辑的技术信息的可选组件</"
+#~ "li>"
+
+#~ msgid "MediaInfo:"
+#~ msgstr "MediaInfo："
