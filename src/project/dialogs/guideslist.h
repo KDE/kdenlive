@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QIdentityProxyModel>
 #include <QSortFilterProxyModel>
+#include <QUuid>
 
 class MarkerSortModel;
 class QActionGroup;
@@ -84,6 +85,8 @@ private Q_SLOTS:
     void showAllMarkers(bool enable);
     /** @brief Rebuild all markers list after a clip was added or deleted. */
     void rebuildAllMarkers();
+    /** @brief A sequence clip was renamed, update label. */
+    void renameTimeline(const QUuid &uuid, const QString &name);
 
 private:
     /** @brief Set the marker model that will be displayed. */
@@ -96,6 +99,7 @@ private:
     QActionGroup *m_sortGroup;
     QAction *m_importGuides;
     QAction *m_exportGuides;
+    QUuid m_uuid;
     QList<int> m_lastSelectedGuideCategories;
     QList<int> m_lastSelectedMarkerCategories;
     DisplayMode m_displayMode{TimelineMarkers};

@@ -75,7 +75,7 @@ GuidesList::GuidesList(QWidget *parent)
     connect(guide_edit, &QToolButton::clicked, this, &GuidesList::editGuides);
     connect(filter_line, &QLineEdit::textChanged, this, &GuidesList::filterView);
     connect(pCore.get(), &Core::updateDefaultMarkerCategory, this, &GuidesList::refreshDefaultCategory);
-    connect(guide_all, &QToolButton::toggled, this, &GuidesList::showAllMarkers);
+    connect(show_all, &QPushButton::toggled, this, &GuidesList::showAllMarkers);
     QAction *a = KStandardAction::renameFile(this, &GuidesList::editGuides, this);
     guides_list->addAction(a);
     QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
@@ -96,8 +96,7 @@ GuidesList::GuidesList(QWidget *parent)
     settingsMenu->addAction(categories);
     guides_settings->setMenu(settingsMenu);
 
-    guide_all->setIcon(QIcon::fromTheme("edit-select-all"));
-    guide_all->setToolTip(i18n("Show guides for all clips"));
+    show_all->setToolTip(i18n("Show markers for all clips in the project"));
 
     QAction *findAction = KStandardAction::find(filter_line, SLOT(setFocus()), this);
     addAction(findAction);
@@ -130,6 +129,7 @@ GuidesList::GuidesList(QWidget *parent)
     sort_guides->setMenu(sortMenu);
     connect(m_sortGroup, &QActionGroup::triggered, this, &GuidesList::sortView);
     connect(sortDescending, &QAction::triggered, this, &GuidesList::changeSortOrder);
+    connect(pCore->bin(), &Bin::updateTabName, this, &GuidesList::renameTimeline);
 
     // Filtering
     show_categories->enableFilterMode();
@@ -195,8 +195,10 @@ void GuidesList::showAllMarkers(bool enable)
             setClipMarkerModel(clip);
         } else {
             m_displayMode = TimelineMarkers;
+            m_sortModel = nullptr;
             auto project = pCore->currentDoc();
-            setModel(project->getGuideModel(project->activeUuid), project->getFilteredGuideModel(project->activeUuid));
+            const QUuid uuid = project->activeUuid;
+            setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
         }
     }
     m_importGuides->setEnabled(!enable);
@@ -447,7 +449,7 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
         return;
     }
     setEnabled(true);
-    guideslist_label->setText(i18n("Markers for %1", clip->clipName()));
+    guideslist_label->setText(clip->clipName());
     m_sortModel = clip->getFilteredMarkerModel().get();
     m_model = clip->getMarkerModel();
     m_proxy->setSourceModel(m_sortModel);
@@ -483,7 +485,7 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
     m_model = std::move(model);
     m_sortModel = viewModel.get();
     setEnabled(true);
-    guideslist_label->setText(i18n("Timeline Guides"));
+
     if (!guides_lock->defaultAction()) {
         QAction *action = pCore->window()->actionCollection()->action("lock_guides");
         guides_lock->setDefaultAction(action);
@@ -494,6 +496,12 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
     guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
     connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged, Qt::UniqueConnection);
     if (auto markerModel = m_model.lock()) {
+        const QString binId = markerModel->ownerId();
+        auto clip = pCore->projectItemModel()->getClipByBinID(binId);
+        if (clip) {
+            guideslist_label->setText(clip->clipName());
+            m_uuid = clip->getSequenceUuid();
+        }
         show_categories->setMarkerModel(markerModel.get());
         show_categories->setCurrentCategories(m_lastSelectedGuideCategories);
         switchFilter(!m_lastSelectedGuideCategories.isEmpty() && !m_lastSelectedGuideCategories.contains(-1));
@@ -649,4 +657,12 @@ void GuidesList::reset()
     m_lastSelectedMarkerCategories.clear();
     show_categories->setCurrentCategories({-1});
     filter_line->clear();
+}
+
+void GuidesList::renameTimeline(const QUuid &uuid, const QString &name)
+{
+    if (m_displayMode != TimelineMarkers || m_uuid != uuid) {
+        return;
+    }
+    guideslist_label->setText(name);
 }
