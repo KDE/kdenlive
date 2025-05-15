@@ -51,6 +51,7 @@ class GuidesList : public QWidget, public Ui::GuidesList_UI
 {
     Q_OBJECT
 public:
+    enum DisplayMode { ClipMarkers, TimelineMarkers, AllMarkers };
     explicit GuidesList(QWidget *parent = nullptr);
     ~GuidesList() override;
     void setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel);
@@ -91,15 +92,13 @@ private:
     MarkerSortModel *m_sortModel{nullptr};
     QConcatenateTablesProxyModel *m_containerProxy{nullptr};
     std::shared_ptr<MarkerSortModel> m_markerFilterModel;
-    std::shared_ptr<ProjectClip> m_clip;
     QButtonGroup *catGroup{nullptr};
     QActionGroup *m_sortGroup;
     QAction *m_importGuides;
     QAction *m_exportGuides;
     QList<int> m_lastSelectedGuideCategories;
     QList<int> m_lastSelectedMarkerCategories;
-    bool m_markerMode;
-    bool m_multiClipsMode{false};
+    DisplayMode m_displayMode{TimelineMarkers};
 
 Q_SIGNALS:
 };

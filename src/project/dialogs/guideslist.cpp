@@ -65,7 +65,6 @@ QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
 
 GuidesList::GuidesList(QWidget *parent)
     : QWidget(parent)
-    , m_markerMode(false)
 {
     setupUi(this);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -159,16 +158,15 @@ GuidesList::GuidesList(QWidget *parent)
 
 void GuidesList::showAllMarkers(bool enable)
 {
-    m_multiClipsMode = enable;
     if (enable) {
-        connect(pCore->projectItemModel().get(), &ProjectItemModel::projectClipsModified, this, &GuidesList::rebuildAllMarkers);
-        if (m_clip) {
+        if (m_displayMode == ClipMarkers) {
             // Disconnect
             if (auto markerModel = m_model.lock()) {
                 disconnect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
             }
         }
-        m_clip.reset();
+        m_displayMode = AllMarkers;
+        connect(pCore->projectItemModel().get(), &ProjectItemModel::projectClipsModified, this, &GuidesList::rebuildAllMarkers);
         m_model.reset();
         m_containerProxy = new QConcatenateTablesProxyModel(this);
         auto list = pCore->bin()->getAllClipsMarkers();
@@ -192,9 +190,11 @@ void GuidesList::showAllMarkers(bool enable)
         m_markerFilterModel.reset();
         delete m_containerProxy;
         if (pCore->monitorManager()->isActive(Kdenlive::ClipMonitor)) {
+            m_displayMode = ClipMarkers;
             std::shared_ptr<ProjectClip> clip = pCore->bin()->getFirstSelectedClip();
             setClipMarkerModel(clip);
         } else {
+            m_displayMode = TimelineMarkers;
             auto project = pCore->currentDoc();
             setModel(project->getGuideModel(project->activeUuid), project->getFilteredGuideModel(project->activeUuid));
         }
@@ -281,7 +281,7 @@ void GuidesList::editGuides()
     if (selectedIndexes.isEmpty()) {
         return;
     }
-    if (selectedIndexes.size() == 1 || m_multiClipsMode) {
+    if (selectedIndexes.size() == 1 || m_displayMode == AllMarkers) {
         editGuide(selectedIndexes.first());
         return;
     }
@@ -302,7 +302,7 @@ void GuidesList::editGuide(const QModelIndex &ix)
     if (!ix.isValid()) return;
     int frame = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
     GenTime pos(frame, pCore->getCurrentFps());
-    if (m_multiClipsMode) {
+    if (m_displayMode == AllMarkers) {
         QModelIndex ix2 = m_proxy->mapToSource(ix);
         QModelIndex ix3 = m_markerFilterModel->mapToSource(ix2);
         QModelIndex ix4 = m_containerProxy->mapToSource(ix3);
@@ -310,14 +310,19 @@ void GuidesList::editGuide(const QModelIndex &ix)
         if (sourceModel) {
             const MarkerListModel *markerModel = static_cast<const MarkerListModel *>(sourceModel);
             if (markerModel) {
-                std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(markerModel->ownerId());
+                auto clip = pCore->projectItemModel()->getClipByBinID(markerModel->ownerId());
                 if (clip) {
                     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
                 }
             }
         }
     } else if (auto markerModel = m_model.lock()) {
-        markerModel->editMarkerGui(pos, qApp->activeWindow(), false, m_clip.get());
+        ProjectClip *clip = nullptr;
+        const QString binId = markerModel->ownerId();
+        if (!binId.isEmpty()) {
+            clip = pCore->projectItemModel()->getClipByBinID(binId).get();
+        }
+        markerModel->editMarkerGui(pos, qApp->activeWindow(), false, clip);
     }
 }
 
@@ -334,7 +339,7 @@ void GuidesList::removeGuide()
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    if (m_multiClipsMode) {
+    if (m_displayMode == AllMarkers) {
         for (auto &ix : selection) {
             QModelIndex ix2 = m_proxy->mapToSource(ix);
             QModelIndex ix3 = m_markerFilterModel->mapToSource(ix2);
@@ -368,15 +373,20 @@ void GuidesList::removeGuide()
 
 void GuidesList::addGuide()
 {
-    if (m_multiClipsMode) {
+    if (m_displayMode == AllMarkers) {
         pCore->triggerAction(QStringLiteral("add_clip_marker"));
         return;
     }
-    int frame = pCore->getMonitorPosition(m_markerMode ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
+    int frame = pCore->getMonitorPosition(m_displayMode == TimelineMarkers ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor);
     if (frame >= 0) {
         GenTime pos(frame, pCore->getCurrentFps());
         if (auto markerModel = m_model.lock()) {
-            markerModel->addMultipleMarkersGui(pos, this, true, m_clip.get());
+            ProjectClip *clip = nullptr;
+            const QString binId = markerModel->ownerId();
+            if (!binId.isEmpty()) {
+                clip = pCore->projectItemModel()->getClipByBinID(binId).get();
+            }
+            markerModel->addMultipleMarkersGui(pos, this, true, clip);
         }
     }
 }
@@ -391,8 +401,7 @@ void GuidesList::selectionChanged(const QItemSelection &selected, const QItemSel
         return;
     }
     int pos = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
-    qDebug() << "::: GOT POS: " << pos;
-    if (m_multiClipsMode) {
+    if (m_displayMode == AllMarkers) {
         QModelIndex ix2 = m_proxy->mapToSource(ix);
         QModelIndex ix3 = m_markerFilterModel->mapToSource(ix2);
         QModelIndex ix4 = m_containerProxy->mapToSource(ix3);
@@ -405,7 +414,7 @@ void GuidesList::selectionChanged(const QItemSelection &selected, const QItemSel
             }
         }
     } else {
-        pCore->seekMonitor(m_markerMode ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor, pos);
+        pCore->seekMonitor(m_displayMode == TimelineMarkers ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor, pos);
     }
 }
 
@@ -413,22 +422,22 @@ GuidesList::~GuidesList() = default;
 
 void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
 {
-    if (m_multiClipsMode) {
+    if (m_displayMode == AllMarkers) {
         // We are in all markers mode, don't switch view
         return;
     }
-    m_markerMode = true;
+    m_displayMode = ClipMarkers;
     guides_lock->setVisible(false);
-    if (clip == m_clip) {
-        return;
-    }
-    if (m_clip) {
-        // Disconnect
+    if (m_displayMode == ClipMarkers) {
         if (auto markerModel = m_model.lock()) {
+            if (clip && markerModel->ownerId() == clip->clipId()) {
+                // Clip is already displayed
+                return;
+            }
+            // Disconnect
             disconnect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
         }
     }
-    m_clip = clip;
     if (clip == nullptr) {
         m_sortModel = nullptr;
         m_proxy->setSourceModel(m_sortModel);
@@ -456,18 +465,17 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
 
 void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel)
 {
-    if (m_multiClipsMode) {
+    if (m_displayMode == AllMarkers) {
         // We are in all markers mode, don't switch view
         return;
     }
-    if (m_clip) {
+    if (m_displayMode == ClipMarkers) {
         // Disconnect
         if (auto markerModel = m_model.lock()) {
             disconnect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
         }
     }
-    m_clip.reset();
-    m_markerMode = false;
+    m_displayMode = TimelineMarkers;
     if (viewModel.get() == m_sortModel) {
         // already displayed
         return;
@@ -556,7 +564,7 @@ void GuidesList::refreshDefaultCategory()
 
 void GuidesList::switchFilter(bool enable)
 {
-    QList<int> cats = m_markerMode ? m_lastSelectedMarkerCategories : m_lastSelectedGuideCategories; // show_categories->currentCategories();
+    QList<int> cats = m_displayMode == TimelineMarkers ? m_lastSelectedGuideCategories : m_lastSelectedMarkerCategories;
     if (enable && !cats.contains(-1)) {
         updateFilter(cats);
         show_categories->setChecked(true);
@@ -568,16 +576,29 @@ void GuidesList::switchFilter(bool enable)
 
 void GuidesList::updateFilter(QList<int> categories)
 {
-    if (m_markerFilterModel) {
+    switch (m_displayMode) {
+    case AllMarkers:
         m_markerFilterModel->slotSetFilters(categories);
         m_lastSelectedMarkerCategories = categories;
-    } else if (m_markerMode) {
-        m_clip->getFilteredMarkerModel()->slotSetFilters(categories);
-        m_lastSelectedMarkerCategories = categories;
-    } else if (m_sortModel) {
-        m_sortModel->slotSetFilters(categories);
-        m_lastSelectedGuideCategories = categories;
-        Q_EMIT pCore->refreshActiveGuides();
+        break;
+    case ClipMarkers: {
+        if (auto markerModel = m_model.lock()) {
+            const QString binId = markerModel->ownerId();
+            if (!binId.isEmpty()) {
+                auto clip = pCore->projectItemModel()->getClipByBinID(binId);
+                clip->getFilteredMarkerModel()->slotSetFilters(categories);
+                m_lastSelectedMarkerCategories = categories;
+            }
+        }
+        break;
+    }
+    case TimelineMarkers:
+    default:
+        if (m_sortModel) {
+            m_sortModel->slotSetFilters(categories);
+            m_lastSelectedGuideCategories = categories;
+            Q_EMIT pCore->refreshActiveGuides();
+        }
     }
 }
 
