@@ -273,14 +273,10 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
     m_asset->set(name.toLatin1().constData(), value);
     if (m_builtIn) {
         bool isDisabled = m_asset->get_int("disable") == 1;
-        bool shouldDisable = isDefault();
-        if (isDisabled != shouldDisable) {
-            if (shouldDisable) {
+        if (!isDisabled) {
+            if (isDefault()) {
                 m_asset->set("disable", 1);
-            } else {
-                m_asset->clear("disable");
             }
-            // Q_EMIT enabledChange(!shouldDisable);
         }
     }
     if (m_fixedParams.count(name) == 0) {
@@ -451,24 +447,19 @@ const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
     return mod;
 }
 
-void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, QModelIndex paramIndex)
+void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, QModelIndex paramIndex, bool groupedCommand)
 {
     if (!paramIndex.isValid()) {
         paramIndex = index(m_rows.indexOf(name), 0);
     }
     internalSetParameter(name, paramValue, paramIndex);
     QStringList paramName = {name};
-    if (m_builtIn) {
+    if (m_builtIn && !groupedCommand) {
         bool isDisabled = m_asset->get_int("disable") == 1;
-        bool shouldDisable = isDefault();
-        if (isDisabled != shouldDisable) {
-            if (shouldDisable) {
+        if (!isDisabled) {
+            if (isDefault()) {
                 m_asset->set("disable", 1);
-            } else {
-                m_asset->clear("disable");
             }
-            paramName << QStringLiteral("disable");
-            // Q_EMIT enabledChange(!shouldDisable);
         }
     }
     bool updateChildRequired = true;
@@ -1578,15 +1569,19 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         // Change itemId to NoItem to ensure we don't send any update like refreshProjectItem that would trigger monitor refreshes.
         m_ownerId.type = KdenliveObjectType::NoItem;
     }
+    bool isDisabled = m_asset->get_int("disable") == 1;
     for (const auto &param : params) {
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
-        setParameter(param.first, param.second.toString(), false, ix);
+        setParameter(param.first, param.second.toString(), false, ix, true);
         if (m_keyframes) {
             KeyframeModel *km = m_keyframes->getKeyModel(ix);
             if (km) {
                 km->refresh();
             }
         }
+    }
+    if (m_builtIn && !isDisabled && isDefault()) {
+        m_asset->set("disable", 1);
     }
     if (!update) {
         // restore itemType

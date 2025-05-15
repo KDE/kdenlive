@@ -414,9 +414,19 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             // get all properties
             QDomNodeList props = node.elementsByTagName(QStringLiteral("property"));
             QVector<QPair<QString, QVariant>> effectProps;
+            bool disableFound = false;
             for (int j = 0; j < props.count(); ++j) {
                 QDomElement prop = props.item(j).toElement();
-                effectProps.append({prop.attribute(QStringLiteral("name")), prop.firstChild().nodeValue()});
+                const QString propName = prop.attribute(QStringLiteral("name"));
+                if (!disableFound && propName == QLatin1String("disable")) {
+                    disableFound = true;
+                }
+                effectProps.append({propName, prop.firstChild().nodeValue()});
+            }
+            // Built-in effects are disabled by default. So when pasting an effect that
+            // is enabled, ensure we overwrite the disabled state
+            if (!disableFound && effectEnabled) {
+                effectProps.append({QStringLiteral("disable"), 0});
             }
             if (effectProps.isEmpty()) {
                 // Effect without params, drop
