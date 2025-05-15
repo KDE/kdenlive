@@ -147,7 +147,8 @@ public:
 
     /** @brief Set the parameter with given name to the given value
      */
-    Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, QModelIndex paramIndex = QModelIndex());
+    Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, QModelIndex paramIndex = QModelIndex(),
+                                  bool groupedCommand = false);
     void setParameter(const QString &name, int value, bool update = true);
 
     /** @brief Return all the parameters as pairs (parameter name, parameter value) */
