@@ -22,6 +22,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     KdenliveDoc document(undoStack);
     pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();

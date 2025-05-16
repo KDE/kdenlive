@@ -25,6 +25,7 @@ TEST_CASE("Open and Close Sequence", "[OCS]")
     SECTION("Create sequence, add grouped clips, close sequence and reopen")
     {
         // Create document
+        pCore->setCurrentProfile(QStringLiteral("dv_pal"));
         KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
@@ -111,6 +112,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
     SECTION("Simple insert and save")
     {
         // Create document
+        pCore->setCurrentProfile(QStringLiteral("dv_pal"));
         KdenliveDoc document(undoStack);
         pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();

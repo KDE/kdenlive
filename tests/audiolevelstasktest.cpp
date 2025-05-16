@@ -140,6 +140,7 @@ TEST_CASE("generateLibav correct output length")
 
 TEST_CASE("generateMLT correct output length")
 {
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     const auto profileFps = pCore->getCurrentFps();
     const auto output = generateMLT(0, "avformat", sourcesPath + "/dataset/mono.flac", 1, &dummyClbk, 0);
     REQUIRE(output.size() == profileFps * AUDIOLEVELS_POINTS_PER_FRAME);
@@ -165,6 +166,7 @@ TEST_CASE("generateLibav not enough frames requested")
 
 TEST_CASE("both methods on mono audio")
 {
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     const auto profileFps = pCore->getCurrentFps();
     const auto a = generateMLT(0, "avformat", sourcesPath + "/dataset/mono.flac", 1, &dummyClbk, 0);
     const auto lengthInFrames = a.size() / 1 / AUDIOLEVELS_POINTS_PER_FRAME;
@@ -176,6 +178,7 @@ TEST_CASE("both methods on mono audio")
 
 TEST_CASE("both methods on stereo audio")
 {
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     const auto profileFps = pCore->getCurrentFps();
     const auto a = generateMLT(0, "avformat", sourcesPath + "/dataset/stereo.flac", 2, &dummyClbk, 0);
     const auto lengthInFrames = a.size() / 2 / AUDIOLEVELS_POINTS_PER_FRAME;
@@ -188,6 +191,7 @@ TEST_CASE("both methods on stereo audio")
 
 TEST_CASE("both methods on multiple audio streams")
 {
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     const auto profileFps = pCore->getCurrentFps();
     SECTION("Stream 0: mono")
     {

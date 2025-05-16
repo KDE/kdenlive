@@ -18,6 +18,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     KdenliveDoc document(undoStack, {1, 3});
     pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
@@ -533,6 +534,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     KdenliveDoc document(undoStack, {0, 1});
     pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
@@ -819,6 +821,7 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     KdenliveDoc document(undoStack);
     pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
@@ -968,6 +971,7 @@ TEST_CASE("Copy/paste", "[CP]")
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     KdenliveDoc document(undoStack);
     pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
@@ -1322,6 +1326,7 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     KdenliveDoc document(undoStack, {0, 2});
     pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
@@ -1631,6 +1636,7 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
+    pCore->setCurrentProfile(QStringLiteral("dv_pal"));
     KdenliveDoc document(undoStack, {0, 2});
     pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();

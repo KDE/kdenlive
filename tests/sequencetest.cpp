@@ -23,6 +23,7 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
     SECTION("Group save")
     {
         // Create document
+        pCore->setCurrentProfile(QStringLiteral("dv_pal"));
         KdenliveDoc document(undoStack);
         pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();
@@ -99,6 +100,7 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
     {
         // Create document
         binModel->clean();
+        pCore->setCurrentProfile(QStringLiteral("dv_pal"));
         KdenliveDoc document(undoStack);
         pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();
