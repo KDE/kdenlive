@@ -14,7 +14,6 @@ ElidedFileLinkLabel::ElidedFileLinkLabel(QWidget *parent)
     : QLabel(parent)
 {
     connect(this, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    // connect(this, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
 }
 
 void ElidedFileLinkLabel::setText(const QString &text)

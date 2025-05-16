@@ -59,7 +59,7 @@ SpeechToTextEngine::EngineType SpeechToText::engineType() const
 AbstractPythonInterface::PythonExec SpeechToText::venvPythonExecs(bool checkPip)
 {
     if (KdenliveSettings::speech_system_python()) {
-// Use system python for Speech plugin
+        // Use system python for Speech plugin
 #ifdef Q_OS_WIN
         const QString pythonName = QStringLiteral("python");
         const QString pipName = QStringLiteral("pip");
