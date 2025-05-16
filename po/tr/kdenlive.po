@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-10 02:36+0000\n"
-"PO-Revision-Date: 2025-05-13 19:50+0300\n"
+"POT-Creation-Date: 2025-05-16 02:41+0000\n"
+"PO-Revision-Date: 2025-05-15 13:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -14043,10 +14043,9 @@ msgid "Alpha ATOP"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphaatop.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "The alpha ATOP operation"
-msgstr "Alpha İşlemi"
+msgstr "Alpha ATOP işlemi"
 
 #: data/transitions/frei0r/frei0r_alphain.xml:4
 #, kde-format
@@ -14054,10 +14053,9 @@ msgid "Alpha IN"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphain.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "The alpha IN operation"
-msgstr "Alpha İşlemi"
+msgstr "Alpha IN işlemi"
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:4
 #, kde-format
@@ -14065,10 +14063,9 @@ msgid "Alpha OUT"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphaout.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "The alpha OUT operation"
-msgstr "Alpha İşlemi"
+msgstr "Alpha OUT işlemi"
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:4
 #, kde-format
@@ -14076,10 +14073,9 @@ msgid "Alpha OVER"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphaover.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "The alpha OVER operation"
-msgstr "Alpha İşlemi"
+msgstr "Alpha OVER işlemi"
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:4
 #, kde-format
@@ -14087,10 +14083,9 @@ msgid "Alpha XOR"
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_alphaxor.xml:5
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "The alpha XOR operation"
-msgstr "Alpha İşlemi"
+msgstr "Alpha XOR işlemi"
 
 #: data/transitions/frei0r/frei0r_burn.xml:4
 #, kde-format
@@ -15251,7 +15246,7 @@ msgid "Delete keyframes"
 msgstr "Anahtar kareleri sil"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1570
+#: src/assets/model/assetparametermodel.cpp:1561
 #, kde-format
 msgid "Update effect"
 msgstr "Efekti Güncelle"
@@ -15327,13 +15322,13 @@ msgstr "%1 anahtar kareyi düzenle"
 msgid "Update %1"
 msgstr "%1 Güncelle"
 
-#: src/assets/model/assetparametermodel.cpp:1421
-#: src/assets/model/assetparametermodel.cpp:1468
+#: src/assets/model/assetparametermodel.cpp:1412
+#: src/assets/model/assetparametermodel.cpp:1459
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Önayar dosyası %1 açılamıyor"
 
-#: src/assets/model/assetparametermodel.cpp:1544
+#: src/assets/model/assetparametermodel.cpp:1535
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -16603,13 +16598,13 @@ msgstr "Bir efekt uygulamak için bir klip seçin"
 msgid "Cannot apply effects on folders"
 msgstr "Klasörlere efektler uygulanamaz"
 
-#: src/bin/bin.cpp:4062 src/effects/effectstack/model/effectstackmodel.cpp:718
-#: src/effects/effectstack/model/effectstackmodel.cpp:724
+#: src/bin/bin.cpp:4062 src/effects/effectstack/model/effectstackmodel.cpp:728
+#: src/effects/effectstack/model/effectstackmodel.cpp:734
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Klibe efekt eklenemez"
 
-#: src/bin/bin.cpp:4100 src/effects/effectstack/model/effectstackmodel.cpp:674
+#: src/bin/bin.cpp:4100 src/effects/effectstack/model/effectstackmodel.cpp:684
 #, kde-format
 msgid "Paste effect"
 msgstr "Efekti Yapıştır"
@@ -21559,26 +21554,26 @@ msgid "Copy effect"
 msgstr "Efekti kopyala"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:580
-#: src/effects/effectstack/model/effectstackmodel.cpp:704
-#: src/effects/effectstack/model/effectstackmodel.cpp:1499
+#: src/effects/effectstack/model/effectstackmodel.cpp:590
+#: src/effects/effectstack/model/effectstackmodel.cpp:714
+#: src/effects/effectstack/model/effectstackmodel.cpp:1509
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 efekti iki kez eklenemez."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:700
 #: src/effects/effectstack/view/effectstackview.cpp:237
 #: src/timeline2/model/timelinemodel.cpp:5106
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 efekti ekle"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:700
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "%1 efekti yalnızca ana ize eklenebilir."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1255
+#: src/effects/effectstack/model/effectstackmodel.cpp:1265
 #, kde-format
 msgid "Move effect %1"
 msgstr "%1 Efektini Taşı"
