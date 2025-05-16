@@ -162,13 +162,15 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             m_speechJob->kill();
         }
     });
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    connect(m_stt, &SpeechToText::installStatusChanged, this, &SpeechDialog::checkDeps);
-    qDebug() << "SAM INTERFASCE STATUS: " << m_stt->status();
-    if (m_stt->status() == AbstractPythonInterface::Installed) {
-        checkDeps();
-    } else {
-        QTimer::singleShot(200, this, [&]() { m_stt->checkSetup(); });
+    if (!KdenliveSettings::speech_system_python()) {
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        connect(m_stt, &SpeechToText::installStatusChanged, this, &SpeechDialog::checkDeps);
+        qDebug() << "SAM INTERFASCE STATUS: " << m_stt->status();
+        if (m_stt->status() == AbstractPythonInterface::Installed) {
+            checkDeps();
+        } else {
+            QTimer::singleShot(200, this, [&]() { m_stt->checkSetup(); });
+        }
     }
 }
 
@@ -280,18 +282,8 @@ void SpeechDialog::slotProcessSpeech()
     } else {
         KdenliveSettings::setSrtSeamlessTranslate(false);
     }
-    speech_info->setMessageType(KMessageWidget::Information);
-    speech_info->setText(i18nc("@label:textbox", "Checking setup…"));
-    speech_info->show();
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    if (!KdenliveSettings::speech_system_python()) {
-        speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("Please configure speech to text."));
-        speech_info->addAction(m_speechConfig);
-        speech_info->animatedShow();
-        return;
-    }
-    speech_info->removeAction(m_speechConfig);
+    speech_info->clearActions();
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting audio export"));
     speech_info->show();
