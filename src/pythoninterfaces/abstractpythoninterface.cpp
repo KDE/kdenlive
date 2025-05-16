@@ -280,7 +280,16 @@ QString AbstractPythonInterface::systemPythonExec()
 #else
     QString pythonName = QStringLiteral("python3");
 #endif
-    const QString path = QStandardPaths::findExecutable(pythonName);
+    // On Windows, Mac and AppImage, use our packaged python
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+    QStringList paths = {qApp->applicationDirPath()};
+#else
+    QStringList paths;
+    if (pCore->packageType() == LinuxPackageType::AppImage) {
+        paths << qApp->applicationDirPath();
+    }
+#endif
+    const QString path = QStandardPaths::findExecutable(pythonName, paths);
     if (path.isEmpty()) {
         setStatus(Broken);
         Q_EMIT setupError(i18n("Cannot find %1, please install it on your system.\n"
