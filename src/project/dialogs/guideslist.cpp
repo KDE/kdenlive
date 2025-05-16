@@ -263,6 +263,10 @@ void GuidesList::clear()
         show_all->toggle();
     }
     setClipMarkerModel(nullptr);
+    m_lastSelectedGuideCategories.clear();
+    m_lastSelectedMarkerCategories.clear();
+    show_categories->setCurrentCategories({-1});
+    filter_line->clear();
 }
 
 void GuidesList::rebuildAllMarkers()
@@ -571,6 +575,8 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
         switchFilter(!m_lastSelectedGuideCategories.isEmpty() && !m_lastSelectedGuideCategories.contains(-1));
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
         connect(markerModel.get(), &MarkerListModel::dataChanged, this, &GuidesList::checkGuideChange, Qt::UniqueConnection);
+    } else {
+        m_sortModel = nullptr;
     }
     rebuildCategories();
 }
@@ -716,14 +722,6 @@ void GuidesList::changeSortOrder(bool descending)
     }
 }
 
-void GuidesList::reset()
-{
-    m_lastSelectedGuideCategories.clear();
-    m_lastSelectedMarkerCategories.clear();
-    show_categories->setCurrentCategories({-1});
-    filter_line->clear();
-}
-
 void GuidesList::renameTimeline(const QUuid &uuid, const QString &name)
 {
     if (m_displayMode != TimelineMarkers || m_uuid != uuid) {
@@ -803,7 +801,7 @@ void GuidesList::updateJobProgress()
     }
 }
 
-void GuidesList::checkGuideChange(const QModelIndex &start, const QModelIndex &end, const QList<int> &roles)
+void GuidesList::checkGuideChange(const QModelIndex &start, const QModelIndex &, const QList<int> &roles)
 {
     if (!KdenliveSettings::guidesShowThumbs()) {
         return;

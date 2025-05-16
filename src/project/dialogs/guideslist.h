@@ -69,8 +69,6 @@ public:
     ~GuidesList() override;
     void setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel);
     void setClipMarkerModel(std::shared_ptr<ProjectClip> clip);
-    /** @brief Reset all filters. */
-    void reset();
     /** @brief Set a timecode offset for this list. */
     void setTimecodeOffset(int offset);
     void clear();

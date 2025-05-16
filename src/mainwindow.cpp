@@ -2542,7 +2542,6 @@ void MainWindow::connectDocument()
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
-    pCore->guidesList()->reset();
     // Initialize audio mixer
     getCurrentTimeline()->model()->rebuildMixer();
     getCurrentTimeline()->focusTimeline();

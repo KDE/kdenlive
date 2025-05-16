@@ -12,10 +12,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
-#include <QRunnable>
 #include <QDomElement>
-#include <QObject>
 #include <QList>
+#include <QObject>
+#include <QRunnable>
+#include <set>
 
 class ProjectClip;
 
