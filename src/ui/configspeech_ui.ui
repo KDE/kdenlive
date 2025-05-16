@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>471</width>
-    <height>759</height>
+    <height>763</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -34,7 +34,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="4" column="0" colspan="2">
         <widget class="QPlainTextEdit" name="script_log">
          <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
+          <enum>QFrame::Shape::NoFrame</enum>
          </property>
          <property name="undoRedoEnabled">
           <bool>false</bool>
@@ -63,7 +63,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <item>
           <spacer name="horizontalSpacer_11">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -104,22 +104,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <item row="6" column="0" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <widget class="ElidedFileLinkLabel" name="modelV_folder_label">
-               <property name="link">
+              <widget class="ElidedFileLinkLabel" name="modelV_folder_label" native="true">
+               <property name="link" stdset="0">
                 <string notr="true"/>
                </property>
-               <property name="text">
+               <property name="text" stdset="0">
                 <string>Models folder</string>
-               </property>
-               <property name="textElideMode">
-                <enum>Qt::ElideNone</enum>
                </property>
               </widget>
              </item>
              <item>
               <spacer name="horizontalSpacer_4">
                <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+                <enum>Qt::Orientation::Horizontal</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
@@ -170,10 +167,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               </sizepolicy>
              </property>
              <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
+              <enum>QFrame::Shape::NoFrame</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Shadow::Raised</enum>
              </property>
             </widget>
            </item>
@@ -204,7 +201,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <item row="9" column="0">
             <spacer name="verticalSpacer_3">
              <property name="orientation">
-              <enum>Qt::Vertical</enum>
+              <enum>Qt::Orientation::Vertical</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -235,7 +232,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <item>
               <spacer name="horizontalSpacer_6">
                <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+                <enum>Qt::Orientation::Horizontal</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
@@ -246,15 +243,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               </spacer>
              </item>
              <item>
-              <widget class="ElidedFileLinkLabel" name="seamless_folder_label">
-               <property name="link">
+              <widget class="ElidedFileLinkLabel" name="seamless_folder_label" native="true">
+               <property name="link" stdset="0">
                 <string notr="true"/>
                </property>
-               <property name="text">
+               <property name="text" stdset="0">
                 <string>Seamless</string>
-               </property>
-               <property name="textElideMode">
-                <enum>Qt::ElideNone</enum>
                </property>
               </widget>
              </item>
@@ -291,12 +285,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_9">
                 <item>
-                 <widget class="ElidedFileLinkLabel" name="sam_venv_label_4">
-                  <property name="text">
+                 <widget class="ElidedFileLinkLabel" name="sam_venv_label_4" native="true">
+                  <property name="text" stdset="0">
                    <string>Plugin size</string>
-                  </property>
-                  <property name="textElideMode">
-                   <enum>Qt::ElideNone</enum>
                   </property>
                  </widget>
                 </item>
@@ -320,7 +311,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 <item>
                  <spacer name="horizontalSpacer_12">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -352,19 +343,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <item row="2" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
-              <widget class="ElidedFileLinkLabel" name="sam_venv_label_3">
-               <property name="text">
+              <widget class="ElidedFileLinkLabel" name="sam_venv_label_3" native="true">
+               <property name="text" stdset="0">
                 <string>Models folder</string>
-               </property>
-               <property name="textElideMode">
-                <enum>Qt::ElideNone</enum>
                </property>
               </widget>
              </item>
              <item>
               <spacer name="horizontalSpacer_3">
                <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+                <enum>Qt::Orientation::Horizontal</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
@@ -375,21 +363,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               </spacer>
              </item>
              <item>
-              <widget class="ElidedFileLinkLabel" name="whisper_folder_label">
+              <widget class="ElidedFileLinkLabel" name="whisper_folder_label" native="true">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="link">
+               <property name="link" stdset="0">
                 <string notr="true"/>
                </property>
-               <property name="text">
+               <property name="text" stdset="0">
                 <string>Whisper</string>
-               </property>
-               <property name="textElideMode">
-                <enum>Qt::ElideNone</enum>
                </property>
               </widget>
              </item>
@@ -445,7 +430,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 <item>
                  <spacer name="horizontalSpacer_5">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -486,7 +471,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 <item>
                  <widget class="QComboBox" name="combo_wr_device">
                   <property name="sizeAdjustPolicy">
-                   <enum>QComboBox::AdjustToContents</enum>
+                   <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
                   </property>
                  </widget>
                 </item>
@@ -500,7 +485,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 <item>
                  <spacer name="horizontalSpacer_8">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -586,7 +571,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <bool>false</bool>
             </property>
             <property name="messageType">
-             <enum>KMessageWidget::Warning</enum>
+             <enum>KMessageWidget::MessageType::Warning</enum>
             </property>
            </widget>
           </item>
@@ -599,7 +584,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="5" column="1">
         <spacer name="horizontalSpacer">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -631,7 +616,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           </sizepolicy>
          </property>
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -667,7 +652,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -698,152 +683,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item row="1" column="0" colspan="2">
-        <layout class="QVBoxLayout" name="message_layout_sam">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-        </layout>
-       </item>
-       <item row="2" column="0" rowspan="3" colspan="2">
-        <widget class="QGroupBox" name="sam_venv_params">
-         <property name="title">
-          <string/>
-         </property>
-         <property name="flat">
-          <bool>true</bool>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_6">
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item row="1" column="4">
-           <spacer name="horizontalSpacer_10">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>168</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="4">
-           <spacer name="horizontalSpacer_9">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>168</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="3">
-           <widget class="QPushButton" name="deleteSamModels">
-            <property name="text">
-             <string>Delete all models</string>
-            </property>
-            <property name="icon">
-             <iconset theme="edit-delete"/>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="sam_venv_size">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="sam_model_size">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="5">
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>121</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="deleteSamVenv">
-            <property name="text">
-             <string>Uninstall plugin</string>
-            </property>
-            <property name="icon">
-             <iconset theme="edit-delete"/>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" colspan="5">
-           <widget class="QPlainTextEdit" name="script_sam_log">
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="undoRedoEnabled">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="ElidedFileLinkLabel" name="sam_folder_label">
-            <property name="text">
-             <string>Models folder</string>
-            </property>
-            <property name="textElideMode">
-             <enum>Qt::ElideNone</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="ElidedFileLinkLabel" name="sam_venv_label">
-            <property name="text">
-             <string>Plugin size</string>
-            </property>
-            <property name="textElideMode">
-             <enum>Qt::ElideNone</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="0" column="0" colspan="2">
         <widget class="QGroupBox" name="modelBox">
          <property name="title">
@@ -865,10 +704,89 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <property name="bottomMargin">
            <number>0</number>
           </property>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QComboBox" name="combo_sam_device">
+              <property name="sizeAdjustPolicy">
+               <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KContextualHelpButton" name="sam_device_info">
+              <property name="contextualHelpText">
+               <string>If your Nvidia GPU is not listed, try installing an alternative with the Nvidia GPU Support button</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="install_nvidia_sam">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>GPU Support</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
              <string>Model</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QCheckBox" name="kcfg_sam_offload_video">
+              <property name="text">
+               <string>Offload video to CPU to save GPU Memory</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KContextualHelpButton" name="kcontextualhelpbutton_3">
+              <property name="contextualHelpText">
+               <string>This offloads some of the memory used to the RAM instead of the GPU memory, allowing to process longer sequences.</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_14">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Device:</string>
             </property>
            </widget>
           </item>
@@ -900,167 +818,228 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </item>
            </layout>
           </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="4" column="0" rowspan="3" colspan="2">
+        <widget class="QGroupBox" name="sam_venv_params">
+         <property name="title">
+          <string/>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="4" column="0" colspan="5">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>121</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="4">
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>168</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Device:</string>
+           <widget class="ElidedFileLinkLabel" name="sam_folder_label" native="true">
+            <property name="text" stdset="0">
+             <string>Models folder</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_10">
-            <item>
-             <widget class="QComboBox" name="combo_sam_device">
-              <property name="sizeAdjustPolicy">
-               <enum>QComboBox::AdjustToContents</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="KContextualHelpButton" name="sam_device_info">
-              <property name="contextualHelpText">
-               <string>If your Nvidia GPU is not listed, try installing an alternative with the Nvidia GPU Support button</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="install_nvidia_sam">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="text">
-               <string>GPU Support</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="0" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QCheckBox" name="kcfg_sam_offload_video">
-              <property name="text">
-               <string>Offload video to CPU to save GPU Memory</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="KContextualHelpButton" name="kcontextualhelpbutton_3">
-              <property name="contextualHelpText">
-               <string>This offloads some of the memory used to the RAM instead of the GPU memory, allowing to process longer sequences.</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_14">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item row="3" column="0" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <item>
-             <widget class="QCheckBox" name="kcfg_sam_system_python">
-              <property name="text">
-               <string>Use system packages only</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="KContextualHelpButton" name="kcontextualhelpbutton_2">
-              <property name="contextualHelpText">
-               <string>When enabled, Kdenlive will use the SAM2 version installed on your system. For advanced users only, as you will have to properly setup everything by yourself.</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_13">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item row="4" column="0" colspan="2">
-           <widget class="QGroupBox" name="sam_system_params">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>100</height>
-             </size>
-            </property>
-            <property name="title">
+          <item row="2" column="2">
+           <widget class="QLabel" name="sam_venv_size">
+            <property name="text">
              <string/>
             </property>
-            <property name="flat">
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QPushButton" name="deleteSamVenv">
+            <property name="text">
+             <string>Uninstall plugin</string>
+            </property>
+            <property name="icon">
+             <iconset theme="edit-delete"/>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="5">
+           <widget class="QPlainTextEdit" name="script_sam_log">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="undoRedoEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
              <bool>true</bool>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="KMessageWidget" name="system_python_message">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="wordWrap">
-                <bool>true</bool>
-               </property>
-               <property name="closeButtonVisible">
-                <bool>false</bool>
-               </property>
-               <property name="messageType">
-                <enum>KMessageWidget::Warning</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="KUrlRequester" name="sam_system_python_path"/>
-             </item>
-            </layout>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>168</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="0">
+           <widget class="ElidedFileLinkLabel" name="sam_venv_label" native="true">
+            <property name="text" stdset="0">
+             <string>Plugin size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="sam_model_size">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QPushButton" name="deleteSamModels">
+            <property name="text">
+             <string>Delete all models</string>
+            </property>
+            <property name="icon">
+             <iconset theme="edit-delete"/>
+            </property>
            </widget>
           </item>
          </layout>
         </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <layout class="QVBoxLayout" name="message_layout_sam">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <widget class="QGroupBox" name="sam_system_params">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="title">
+          <string/>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="KMessageWidget" name="system_python_message">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+            <property name="closeButtonVisible">
+             <bool>false</bool>
+            </property>
+            <property name="messageType">
+             <enum>KMessageWidget::MessageType::Warning</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="KUrlRequester" name="sam_system_python_path"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <widget class="QCheckBox" name="kcfg_sam_system_python">
+           <property name="text">
+            <string>Use system packages only</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KContextualHelpButton" name="kcontextualhelpbutton_2">
+           <property name="contextualHelpText">
+            <string>When enabled, Kdenlive will use the SAM2 version installed on your system. For advanced users only, as you will have to properly setup everything by yourself.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_13">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -1070,24 +1049,24 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ElidedFileLinkLabel</class>
-   <extends></extends>
-   <header>widgets/elidedfilelinklabel.h</header>
-  </customwidget>
-  <customwidget>
    <class>KUrlRequester</class>
-   <extends></extends>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>
    <class>KContextualHelpButton</class>
-   <extends></extends>
+   <extends>QToolButton</extends>
    <header>kcontextualhelpbutton.h</header>
   </customwidget>
   <customwidget>
    <class>KMessageWidget</class>
-   <extends></extends>
+   <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ElidedFileLinkLabel</class>
+   <extends></extends>
+   <header>widgets/elidedfilelinklabel.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
