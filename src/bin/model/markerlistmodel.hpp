@@ -37,7 +37,7 @@ public:
     /** @brief Construct a marker list bound to the bin clip with given id */
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole, TCRole, clipIdRole };
+    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole, TCRole, ClipIdRole };
 
     /** @brief Adds a marker at the given position. If there is already one, the comment will be overridden
        @param pos defines the position of the marker, relative to the clip

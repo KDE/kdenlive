@@ -68,7 +68,7 @@ QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::DecorationRole && m_showThumbs) {
         int frames = QIdentityProxyModel::data(index, MarkerListModel::FrameRole).toInt();
-        const QString binId = QIdentityProxyModel::data(index, MarkerListModel::clipIdRole).toString();
+        const QString binId = QIdentityProxyModel::data(index, MarkerListModel::ClipIdRole).toString();
         int type = QIdentityProxyModel::data(index, MarkerListModel::TypeRole).toInt();
         const QColor markerColor = pCore->markerTypes.value(type).color;
         QImage thumb = ThumbnailCache::get()->getThumbnail(binId, frames);
