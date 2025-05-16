@@ -26,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "glaxnimatelauncher.h"
 #include "jobs/abstracttask.h"
 #include "jobs/audiolevels/audiolevelstask.h"
+#include "jobs/cachetask.h"
 #include "jobs/cliploadtask.h"
 #include "jobs/taskmanager.h"
 #include "jobs/transcodetask.h"
@@ -5434,7 +5435,9 @@ void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersD
     QMap<GenTime, QString> markers;
     GenTime clipDuration = clip->getPlaytime();
     int ix = 0;
+    std::set<int> missingFrames;
     for (auto m = markersData.cbegin(), end = markersData.cend(); m != end; ++m) {
+        missingFrames.insert(m.key());
         GenTime p(m.key(), pCore->getCurrentFps());
         if (p >= clipDuration) {
             // Don't import markers that are after clip duration
@@ -5448,6 +5451,9 @@ void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersD
         ix++;
     }
     clip->getMarkerModel()->addMarkers(markers, KdenliveSettings::default_marker_type());
+    if (KdenliveSettings::guidesShowThumbs()) {
+        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, 0, 0, 0, pCore->guidesList());
+    }
 }
 
 void Bin::checkMissingProxies()

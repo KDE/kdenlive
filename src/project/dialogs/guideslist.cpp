@@ -11,11 +11,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "jobs/cachetask.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
+#include "utils/thumbnailcache.hpp"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -49,13 +51,41 @@ bool GuideFilterEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-GuidesProxyModel::GuidesProxyModel(QObject *parent)
+GuidesProxyModel::GuidesProxyModel(int normalHeight, QObject *parent)
     : QIdentityProxyModel(parent)
 {
+    m_showThumbs = KdenliveSettings::guidesShowThumbs();
+    m_height = normalHeight;
+    refreshDar();
+}
+
+void GuidesProxyModel::refreshDar()
+{
+    m_width = m_height * 3 * pCore->getCurrentDar();
 }
 
 QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
 {
+    if (role == Qt::DecorationRole && m_showThumbs) {
+        int frames = QIdentityProxyModel::data(index, MarkerListModel::FrameRole).toInt();
+        const QString binId = QIdentityProxyModel::data(index, MarkerListModel::clipIdRole).toString();
+        int type = QIdentityProxyModel::data(index, MarkerListModel::TypeRole).toInt();
+        const QColor markerColor = pCore->markerTypes.value(type).color;
+        QImage thumb = ThumbnailCache::get()->getThumbnail(binId, frames);
+        QPixmap pix(m_width, 3 * m_height);
+        pix.fill(markerColor);
+        QPainter p(&pix);
+        int margin = 3;
+        p.drawImage(QRect(margin, margin, pix.width() - 2 * margin, pix.height() - 2 * margin), thumb);
+        p.end();
+        return QIcon(pix);
+    }
+    if (role == Qt::SizeHintRole) {
+        if (m_showThumbs) {
+            return QSize(50, 3 * m_height + 2);
+        }
+        return QSize(50, m_height * 1.5 + 2);
+    }
     if (role == Qt::DisplayRole) {
         int frames = timecodeOffset + QIdentityProxyModel::data(index, MarkerListModel::FrameRole).toInt();
         return QStringLiteral("%1 %2").arg(pCore->timecode().getDisplayTimecodeFromFrames(frames, false), QIdentityProxyModel::data(index, role).toString());
@@ -68,27 +98,35 @@ GuidesList::GuidesList(QWidget *parent)
 {
     setupUi(this);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    m_proxy = new GuidesProxyModel(this);
+    int fontHeight = QFontMetrics(font()).lineSpacing();
+    m_proxy = new GuidesProxyModel(fontHeight, this);
     connect(guides_list, &QListView::doubleClicked, this, &GuidesList::editGuide);
     connect(guide_delete, &QToolButton::clicked, this, &GuidesList::removeGuide);
     connect(guide_add, &QToolButton::clicked, this, &GuidesList::addGuide);
     connect(guide_edit, &QToolButton::clicked, this, &GuidesList::editGuides);
     connect(filter_line, &QLineEdit::textChanged, this, &GuidesList::filterView);
     connect(pCore.get(), &Core::updateDefaultMarkerCategory, this, &GuidesList::refreshDefaultCategory);
-    connect(show_all, &QPushButton::toggled, this, &GuidesList::showAllMarkers);
+    connect(show_all, &QToolButton::toggled, this, &GuidesList::showAllMarkers);
     QAction *a = KStandardAction::renameFile(this, &GuidesList::editGuides, this);
     guides_list->addAction(a);
     QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     fixedFont.setPointSize(font().pointSize());
     guides_list->setFont(fixedFont);
+    slotShowThumbs(KdenliveSettings::guidesShowThumbs());
     a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
     //  Settings menu
     QMenu *settingsMenu = new QMenu(this);
-    m_importGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Import..."), this);
+    QAction *showThumbs = new QAction(QIcon::fromTheme(QStringLiteral("view-preview")), i18n("Show Thumbnails"), this);
+    showThumbs->setCheckable(true);
+    showThumbs->setChecked(KdenliveSettings::guidesShowThumbs());
+    connect(showThumbs, &QAction::toggled, this, &GuidesList::slotShowThumbs);
+    settingsMenu->addAction(showThumbs);
+
+    m_importGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Import…"), this);
     connect(m_importGuides, &QAction::triggered, this, &GuidesList::importGuides);
     settingsMenu->addAction(m_importGuides);
-    m_exportGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("Export..."), this);
+    m_exportGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("Export…"), this);
     connect(m_exportGuides, &QAction::triggered, this, &GuidesList::saveGuides);
     settingsMenu->addAction(m_exportGuides);
     QAction *categories = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Categories"), this);
@@ -143,6 +181,9 @@ GuidesList::GuidesList(QWidget *parent)
     connect(leventEater, &GuideFilterEventEater::clearSearchLine, filter_line, &QLineEdit::clear);
     connect(filter_line, &QLineEdit::returnPressed, filter_line, &QLineEdit::clear);
 
+    thumbs_refresh->setToolTip(i18n("Refresh All Thumbnails"));
+    connect(thumbs_refresh, &QToolButton::clicked, this, &GuidesList::rebuildThumbs);
+
     guide_add->setToolTip(i18n("Add new guide."));
     guide_add->setWhatsThis(xi18nc("@info:whatsthis", "Add new guide. This will add a guide at the current frame position."));
     guide_delete->setToolTip(i18n("Delete guide."));
@@ -154,6 +195,15 @@ GuidesList::GuidesList(QWidget *parent)
         xi18nc("@info:whatsthis", "Filter guide categories. This allows you to show or hide selected guide categories in this dialog and in the timeline."));
     default_category->setToolTip(i18n("Default guide category."));
     default_category->setWhatsThis(xi18nc("@info:whatsthis", "Default guide category. The category used for newly created guides."));
+    connect(pCore.get(), &Core::profileChanged, m_proxy, &GuidesProxyModel::refreshDar);
+    m_markerRefreshTimer.setSingleShot(true);
+    m_markerRefreshTimer.setInterval(500);
+    connect(&m_markerRefreshTimer, &QTimer::timeout, this, &GuidesList::fetchMovedThumbs);
+}
+
+void GuidesList::refreshDar()
+{
+    m_proxy->refreshDar();
 }
 
 void GuidesList::showAllMarkers(bool enable)
@@ -166,7 +216,7 @@ void GuidesList::showAllMarkers(bool enable)
             }
         }
         m_displayMode = AllMarkers;
-        connect(pCore->projectItemModel().get(), &ProjectItemModel::projectClipsModified, this, &GuidesList::rebuildAllMarkers);
+        connect(pCore->projectItemModel().get(), &ProjectItemModel::projectClipsModified, this, &GuidesList::rebuildAllMarkers, Qt::UniqueConnection);
         m_model.reset();
         m_containerProxy = new QConcatenateTablesProxyModel(this);
         auto list = pCore->bin()->getAllClipsMarkers();
@@ -185,6 +235,7 @@ void GuidesList::showAllMarkers(bool enable)
         rebuildCategories();
         show_categories->setOnlyUsed(false);
         switchFilter(!m_lastSelectedMarkerCategories.isEmpty() && !m_lastSelectedMarkerCategories.contains(-1));
+        buildMissingThumbs();
     } else {
         disconnect(pCore->projectItemModel().get(), &ProjectItemModel::projectClipsModified, this, &GuidesList::rebuildAllMarkers);
         m_markerFilterModel.reset();
@@ -205,6 +256,15 @@ void GuidesList::showAllMarkers(bool enable)
     m_exportGuides->setEnabled(!enable);
 }
 
+void GuidesList::clear()
+{
+    if (m_displayMode == AllMarkers) {
+        // Disable all markers mode
+        show_all->toggle();
+    }
+    setClipMarkerModel(nullptr);
+}
+
 void GuidesList::rebuildAllMarkers()
 {
     QList<QAbstractItemModel *> previous = m_containerProxy->sourceModels();
@@ -222,6 +282,7 @@ void GuidesList::rebuildAllMarkers()
     if (!filter_line->text().isEmpty()) {
         filterView(filter_line->text());
     }
+    buildMissingThumbs();
 }
 
 void GuidesList::setTimecodeOffset(int offset)
@@ -430,6 +491,7 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
     }
     m_displayMode = ClipMarkers;
     guides_lock->setVisible(false);
+    thumbs_refresh->setVisible(false);
     if (m_displayMode == ClipMarkers) {
         if (auto markerModel = m_model.lock()) {
             if (clip && markerModel->ownerId() == clip->clipId()) {
@@ -463,6 +525,7 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
         switchFilter(!m_lastSelectedMarkerCategories.isEmpty() && !m_lastSelectedMarkerCategories.contains(-1));
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
     }
+    buildMissingThumbs();
 }
 
 void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel)
@@ -491,6 +554,7 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
         guides_lock->setDefaultAction(action);
     }
     guides_lock->setVisible(true);
+    thumbs_refresh->setVisible(true);
     m_proxy->setSourceModel(m_sortModel);
     guides_list->setModel(m_proxy);
     guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -506,6 +570,7 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
         show_categories->setCurrentCategories(m_lastSelectedGuideCategories);
         switchFilter(!m_lastSelectedGuideCategories.isEmpty() && !m_lastSelectedGuideCategories.contains(-1));
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
+        connect(markerModel.get(), &MarkerListModel::dataChanged, this, &GuidesList::checkGuideChange, Qt::UniqueConnection);
     }
     rebuildCategories();
 }
@@ -665,4 +730,114 @@ void GuidesList::renameTimeline(const QUuid &uuid, const QString &name)
         return;
     }
     guideslist_label->setText(name);
+}
+
+void GuidesList::slotShowThumbs(bool show)
+{
+    m_proxy->m_showThumbs = show;
+    KdenliveSettings::setGuidesShowThumbs(show);
+    int fontHeight = QFontMetrics(font()).lineSpacing();
+    if (show) {
+        fontHeight *= 3;
+        guides_list->setIconSize(QSize(fontHeight * pCore->getCurrentDar(), fontHeight));
+    } else {
+        fontHeight -= 2;
+        guides_list->setIconSize(QSize(fontHeight, fontHeight));
+    }
+    // Check for missing Thumbnails
+    buildMissingThumbs();
+}
+
+void GuidesList::buildMissingThumbs()
+{
+    if (!KdenliveSettings::guidesShowThumbs()) {
+        return;
+    };
+    if (m_displayMode == ClipMarkers) {
+        if (auto markerModel = m_model.lock()) {
+            std::vector<int> positions = markerModel->getSnapPoints();
+            const QString binId = markerModel->ownerId();
+            std::set<int> missingFrames;
+            for (auto &p : positions) {
+                if (!ThumbnailCache::get()->hasThumbnail(binId, p)) {
+                    missingFrames.insert(p);
+                }
+            }
+            if (missingFrames.size() > 0) {
+                // Generate missing thumbs
+                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, 0, 0, 0, this);
+            }
+            Q_EMIT markerModel->dataChanged(QModelIndex(), QModelIndex(), {Qt::SizeHintRole});
+        }
+    } else if (m_displayMode == AllMarkers) {
+        auto list = pCore->bin()->getAllClipsMarkers();
+        for (auto &markerModel : list) {
+            std::vector<int> positions = markerModel->getSnapPoints();
+            const QString binId = markerModel->ownerId();
+            std::set<int> missingFrames;
+            for (auto &p : positions) {
+                if (!ThumbnailCache::get()->hasThumbnail(binId, p)) {
+                    missingFrames.insert(p);
+                }
+            }
+            if (missingFrames.size() > 0) {
+                // Generate missing thumbs
+                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, 0, 0, 0, this);
+            }
+        }
+        Q_EMIT m_proxy->dataChanged(QModelIndex(), QModelIndex(), {Qt::SizeHintRole});
+    }
+}
+
+void GuidesList::updateJobProgress()
+{
+    if (m_displayMode == AllMarkers) {
+        QList<QAbstractItemModel *> previous = m_containerProxy->sourceModels();
+        for (auto &p : previous) {
+            Q_EMIT p->dataChanged(p->index(0, 0), p->index(p->rowCount() - 1, 0), {Qt::DecorationRole});
+        }
+    } else {
+        if (auto markerModel = m_model.lock()) {
+            Q_EMIT markerModel->dataChanged(markerModel->index(0), markerModel->index(markerModel->rowCount() - 1), {Qt::DecorationRole});
+        }
+    }
+}
+
+void GuidesList::checkGuideChange(const QModelIndex &start, const QModelIndex &end, const QList<int> &roles)
+{
+    if (!KdenliveSettings::guidesShowThumbs()) {
+        return;
+    }
+    if (roles.contains(MarkerListModel::FrameRole)) {
+        if (!m_indexesToRefresh.contains(start)) {
+            m_indexesToRefresh << start;
+        }
+        m_markerRefreshTimer.start();
+    }
+}
+
+void GuidesList::fetchMovedThumbs()
+{
+    if (auto markerModel = m_model.lock()) {
+        std::set<int> missingFrames;
+        while (!m_indexesToRefresh.isEmpty()) {
+            const QModelIndex ix = m_indexesToRefresh.takeFirst();
+            if (ix.isValid()) {
+                missingFrames.insert(markerModel->data(ix, MarkerListModel::FrameRole).toInt());
+            }
+        }
+        const QString binId = markerModel->ownerId();
+        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, 0, 0, 0, this);
+    }
+}
+
+void GuidesList::rebuildThumbs()
+{
+    if (auto markerModel = m_model.lock()) {
+        std::vector<int> framesToClear = markerModel->getSnapPoints();
+        std::set<int> frames(framesToClear.begin(), framesToClear.end());
+        const QString binId = markerModel->ownerId();
+        ThumbnailCache::get()->invalidateThumbsForClip(binId, frames);
+        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), frames, 0, 0, 0, this);
+    }
 }

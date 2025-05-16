@@ -1534,6 +1534,7 @@ void Core::clearTimeRemap()
 
 void Core::cleanup()
 {
+    guidesList()->clear();
     audioThumbCache.clear();
     taskManager.slotCancelJobs();
     if (timeRemapWidget()) {

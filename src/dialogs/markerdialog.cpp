@@ -63,6 +63,7 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
         case ClipType::AV:
         case ClipType::SlideShow:
         case ClipType::Playlist:
+        case ClipType::Timeline:
             QTimer::singleShot(0, this, &MarkerDialog::slotUpdateThumb);
             connect(this, &MarkerDialog::updateThumb, m_previewTimer, static_cast<void (QTimer::*)()>(&QTimer::start));
             break;
@@ -126,6 +127,9 @@ CommentedTime MarkerDialog::newMarker()
 
 void MarkerDialog::cacheThumbnail()
 {
+    if (!KdenliveSettings::guidesShowThumbs()) {
+        return;
+    }
     const QImage pix = markerImage();
     if (m_clip && !pix.isNull()) {
         ThumbnailCache::get()->storeThumbnail(m_clip->clipId(), m_position, pix, true);

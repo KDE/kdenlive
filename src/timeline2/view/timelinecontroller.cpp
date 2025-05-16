@@ -23,10 +23,12 @@
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "glaxnimatelauncher.h"
+#include "jobs/cachetask.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioEnvelope.h"
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
+#include "project/dialogs/guideslist.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
@@ -41,6 +43,7 @@
 #include "timeline2/view/previewmanager.h"
 #include "timeline2/view/timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
+#include "utils/thumbnailcache.hpp"
 
 #include <KColorScheme>
 #include <KMessageBox>
@@ -1428,7 +1431,9 @@ void TimelineController::editGuide(int frame)
     }
     auto guideModel = m_model->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
-    guideModel->editMarkerGui(pos, qApp->activeWindow(), false);
+    const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
+    auto clip = pCore->projectItemModel()->getClipByBinID(binId);
+    guideModel->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
 }
 
 void TimelineController::moveGuideById(int id, int newFrame)
@@ -1498,12 +1503,26 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
         GenTime pos(frame, pCore->getCurrentFps());
 
         if (showGui) {
-            m_model->getGuideModel()->editMarkerGui(pos, qApp->activeWindow(), true);
+            const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
+            auto clip = pCore->projectItemModel()->getClipByBinID(binId);
+            m_model->getGuideModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
         } else {
             m_model->getGuideModel()->addMarker(pos, i18n("guide"));
+            if (KdenliveSettings::guidesShowThumbs()) {
+                const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
+                std::set<int> frames;
+                frames.insert(frame);
+                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), frames, 0, 0, 0, pCore->guidesList());
+            }
         }
     } else {
         m_model->getGuideModel()->removeMarker(marker.time());
+        if (KdenliveSettings::guidesShowThumbs()) {
+            std::set<int> frames;
+            frames.insert(frame);
+            const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
+            ThumbnailCache::get()->invalidateThumbsForClip(binId, frames);
+        }
     }
 }
 

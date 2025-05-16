@@ -15,41 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="3">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="KSqueezedTextLabel" name="guideslist_label">
-       <property name="text">
-        <string>KSqueezedTextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="show_all">
-       <property name="text">
-        <string>Show All</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLineEdit" name="filter_line">
-     <property name="placeholderText">
-      <string>Search Markers</string>
-     </property>
-     <property name="clearButtonEnabled">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="MarkerCategoryButton" name="show_categories"/>
-   </item>
-   <item row="1" column="2">
+   <item row="1" column="3">
     <widget class="QToolButton" name="sort_guides">
      <property name="text">
       <string>...</string>
@@ -65,14 +31,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="QListView" name="guides_list">
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-    </widget>
+   <item row="0" column="0" colspan="4">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="KSqueezedTextLabel" name="guideslist_label">
+       <property name="text">
+        <string>KSqueezedTextLabel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="3" column="0" colspan="3">
+   <item row="3" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QToolButton" name="guide_add">
@@ -145,6 +115,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="thumbs_refresh">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="QIcon::ThemeIcon::ViewRefresh"/>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
@@ -175,6 +158,42 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="1" column="1">
+    <widget class="MarkerCategoryButton" name="show_categories"/>
+   </item>
+   <item row="2" column="0" colspan="4">
+    <widget class="QListView" name="guides_list">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLineEdit" name="filter_line">
+     <property name="placeholderText">
+      <string>Search Markers</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QToolButton" name="show_all">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="QIcon::ThemeIcon::EditSelectAll"/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -21,12 +21,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtMath>
 #include <set>
 
-CacheTask::CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QObject *object)
+CacheTask::CacheTask(const ObjectId &owner, std::set<int> frames, int thumbsCount, int in, int out, QObject *object)
     : AbstractTask(owner, AbstractTask::CACHEJOB, object)
     , m_fullWidth(qFuzzyCompare(pCore->getCurrentSar(), 1.0) ? 0 : qRound(pCore->thumbProfile().height() * pCore->getCurrentDar()))
     , m_thumbsCount(thumbsCount)
     , m_in(in)
     , m_out(out)
+    , m_frames(frames)
 {
     m_description = i18n("Video thumbs");
     if (m_fullWidth % 2 > 0) {
@@ -36,12 +37,12 @@ CacheTask::CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QO
 
 CacheTask::~CacheTask() {}
 
-void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, QObject *object, bool force)
+void CacheTask::start(const ObjectId &owner, std::set<int> frames, int thumbsCount, int in, int out, QObject *object, bool force)
 {
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::CACHEJOB)) {
         return;
     }
-    CacheTask *task = new CacheTask(owner, thumbsCount, in, out, object);
+    CacheTask *task = new CacheTask(owner, frames, thumbsCount, in, out, object);
     // Otherwise, start a new audio levels generation thread.
     task->m_isForce = force;
     pCore->taskManager.startTask(owner.itemId, task);
@@ -52,23 +53,23 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
     // Fetch thumbnail
     if (binClip->clipType() != ClipType::Audio) {
         std::unique_ptr<Mlt::Producer> thumbProd(nullptr);
-        int duration = m_out > 0 ? m_out - m_in : binClip->getFramePlaytime();
-        std::set<int> frames;
-        int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / m_thumbsCount));
-        int pos = m_in;
-        for (int i = 1; i <= m_thumbsCount && pos <= m_in + duration; ++i) {
-            frames.insert(pos);
-            pos = m_in + (steps * i);
-        }
-        int size = int(frames.size());
-        int count = 0;
-        const QString clipId = QString::number(m_owner.itemId);
-        for (int i : frames) {
-            int val = 100 * count / size;
-            if (m_progress != val) {
-                m_progress = val;
-                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+        if (m_frames.size() == 0) {
+            int duration = m_out > 0 ? m_out - m_in : binClip->getFramePlaytime();
+            int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / m_thumbsCount));
+            int pos = m_in;
+            for (int i = 1; i <= m_thumbsCount && pos <= m_in + duration; ++i) {
+                m_frames.insert(pos);
+                pos = m_in + (steps * i);
             }
+        }
+        int size = int(m_frames.size());
+        int count = 0;
+        int imageHeight = pCore->thumbProfile().height();
+        int imageWidth = pCore->thumbProfile().width();
+        int fullWidth = qRound(imageHeight * pCore->getCurrentDar());
+        const QString clipId = QString::number(m_owner.itemId);
+        for (int i : m_frames) {
+            int val = qMax(1, 100 * count / size);
             count++;
             if (m_isCanceled || pCore->taskManager.isBlocked()) {
                 break;
@@ -89,11 +90,14 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
                 frame->set("consumer.deinterlacer", "onefield");
                 frame->set("consumer.top_field_first", -1);
                 frame->set("consumer.rescale", "nearest");
-                QImage result = KThumb::getFrame(frame.data(), 0, 0, m_fullWidth);
+                const QImage result = KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth);
                 if (!result.isNull() && !m_isCanceled) {
-                    qDebug() << "==== CACHING FRAME: " << i;
                     ThumbnailCache::get()->storeThumbnail(clipId, i, result, true);
                 }
+            }
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
             }
         }
     }

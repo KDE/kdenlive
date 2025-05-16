@@ -737,7 +737,7 @@ void ProjectClip::checkProxy(bool rebuildProxy)
     }
     if (!generateProxy && KdenliveSettings::hoverPreview() &&
         (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist)) {
-        QTimer::singleShot(1000, this, [this]() { CacheTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), 30, 0, 0, this); });
+        QTimer::singleShot(1000, this, [this]() { CacheTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), {}, 30, 0, 0, this); });
     }
     if (generateProxy) {
         QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool, true), Q_ARG(QList<std::shared_ptr<ProjectClip>>, {clipToProxy}),
@@ -2672,7 +2672,7 @@ int ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
         // Generate percent thumbs
         ObjectId oid(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
         if (!pCore->taskManager.hasPendingJob(oid, AbstractTask::CACHEJOB)) {
-            CacheTask::start(oid, 30, 0, 0, this);
+            CacheTask::start(oid, {}, 30, 0, 0, this);
         }
     }
     if (storeFrame) {
@@ -3014,7 +3014,10 @@ QImage ProjectClip::fetchPixmap(int framePosition)
     if (ThumbnailCache::get()->hasThumbnail(m_binId, framePosition)) {
         return ThumbnailCache::get()->getThumbnail(m_binId, framePosition);
     }
+    qDebug() << "::: FETCH THB 1";
     std::unique_ptr<Mlt::Producer> prod = getThumbProducer();
+    int imageHeight = pCore->thumbProfile().height();
+    int imageWidth = pCore->thumbProfile().width();
     if (prod && prod->is_valid()) {
         if (clipType() != ClipType::Timeline && clipType() != ClipType::Playlist) {
             Mlt::Profile *prodProfile = &pCore->thumbProfile();
@@ -3033,8 +3036,6 @@ QImage ProjectClip::fetchPixmap(int framePosition)
         frame->set("consumer.deinterlacer", "onefield");
         frame->set("consumer.top_field_first", -1);
         frame->set("consumer.rescale", "nearest");
-        int imageHeight = pCore->thumbProfile().height();
-        int imageWidth = pCore->thumbProfile().width();
         int fullWidth = qRound(imageHeight * pCore->getCurrentDar());
         return KThumb::getFrame(frame.get(), imageWidth, imageHeight, fullWidth);
     }

@@ -2486,6 +2486,7 @@ void MainWindow::connectDocument()
     }
 
     m_clipMonitor->updateDocumentUuid();
+    pCore->guidesList()->refreshDar();
     connect(m_projectMonitor, &Monitor::multitrackView, getCurrentTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getCurrentTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
     connect(getCurrentTimeline()->controller(), &TimelineController::timelineClipSelected, this, [&](bool selected) {

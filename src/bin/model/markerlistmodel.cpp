@@ -565,6 +565,8 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
         return it->first;
     case TCRole:
         return pCore->timecode().getDisplayTimecode(it->second.time(), false);
+    case clipIdRole:
+        return m_clipId;
     }
     return QVariant();
 }
@@ -922,10 +924,10 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();
         Q_EMIT pCore->updateDefaultMarkerCategory();
+        dialog->cacheThumbnail();
         if (exists && !createOnly) {
             return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
         }
-        dialog->cacheThumbnail();
         return addMarker(marker.time(), marker.comment(), marker.markerType());
     }
     return false;
@@ -958,6 +960,7 @@ bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent,
             addMarker(startTime, marker.comment(), marker.markerType(), undo, redo);
             startTime += interval;
         }
+        dialog->cacheThumbnail();
         PUSH_UNDO(undo, redo, i18n("Add markers"));
     }
     return false;

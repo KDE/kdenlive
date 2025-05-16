@@ -22,9 +22,10 @@ class ProjectClip;
 class CacheTask : public AbstractTask
 {
 public:
-    CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QObject* object);
+    CacheTask(const ObjectId &owner, std::set<int> frames, int thumbsCount, int in, int out, QObject *object);
     ~CacheTask() override;
-    static void start(const ObjectId &owner, int thumbsCount = 30, int in = 0, int out = 0, QObject* object = nullptr, bool force = false);
+    static void start(const ObjectId &owner, std::set<int> frames = {}, int thumbsCount = 30, int in = 0, int out = 0, QObject *object = nullptr,
+                      bool force = false);
 
 protected:
     void run() override;
@@ -35,6 +36,7 @@ private:
     int m_in;
     int m_out;
     std::function<void()> m_readyCallBack;
+    std::set<int> m_frames;
     QString m_errorMessage;
     void generateThumbnail(std::shared_ptr<ProjectClip>binClip);
 };

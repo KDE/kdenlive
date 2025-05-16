@@ -57,7 +57,7 @@ public:
     void storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent = false);
 
     /** @brief Removes all the thumbnails for a given clip */
-    void invalidateThumbsForClip(const QString &binId);
+    void invalidateThumbsForClip(const QString &binId, std::set<int> frames = {});
 
     /** @brief Save all cached thumbs to disk */
     void saveCachedThumbs(const std::unordered_map<QString, std::vector<int>> &keys);

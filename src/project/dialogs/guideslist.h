@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QIdentityProxyModel>
 #include <QSortFilterProxyModel>
+#include <QTimer>
 #include <QUuid>
 
 class MarkerSortModel;
@@ -37,11 +38,22 @@ Q_SIGNALS:
 
 class GuidesProxyModel : public QIdentityProxyModel
 {
+    friend class GuidesList;
     Q_OBJECT
 public:
-    explicit GuidesProxyModel(QObject *parent = nullptr);
+    explicit GuidesProxyModel(int normalHeight, QObject *parent = nullptr);
     int timecodeOffset{0};
     QVariant data(const QModelIndex &index, int role) const override;
+
+public Q_SLOTS:
+    void refreshDar();
+
+private:
+    int m_height;
+    int m_width;
+
+protected:
+    bool m_showThumbs;
 };
 
 /** @class GuidesList
@@ -61,10 +73,13 @@ public:
     void reset();
     /** @brief Set a timecode offset for this list. */
     void setTimecodeOffset(int offset);
+    void clear();
+    void refreshDar();
 
 public Q_SLOTS:
     void removeGuide();
     void selectAll();
+    void updateJobProgress();
 
 private Q_SLOTS:
     void saveGuides();
@@ -87,6 +102,14 @@ private Q_SLOTS:
     void rebuildAllMarkers();
     /** @brief A sequence clip was renamed, update label. */
     void renameTimeline(const QUuid &uuid, const QString &name);
+    /** @brief Show/hide markers thumbnmails. */
+    void slotShowThumbs(bool show);
+    /** @brief Build all missing thumbnmails. */
+    void buildMissingThumbs();
+    /** @brief Refresh thumb if a guide is moved. */
+    void checkGuideChange(const QModelIndex &start, const QModelIndex &end, const QList<int> &roles);
+    void fetchMovedThumbs();
+    void rebuildThumbs();
 
 private:
     /** @brief Set the marker model that will be displayed. */
@@ -103,6 +126,8 @@ private:
     QList<int> m_lastSelectedGuideCategories;
     QList<int> m_lastSelectedMarkerCategories;
     DisplayMode m_displayMode{TimelineMarkers};
+    QTimer m_markerRefreshTimer;
+    QList<QModelIndex> m_indexesToRefresh;
 
 Q_SIGNALS:
 };
