@@ -114,6 +114,8 @@ GuidesList::GuidesList(QWidget *parent)
     guides_list->setFont(fixedFont);
     slotShowThumbs(KdenliveSettings::guidesShowThumbs());
     a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    guide_edit->setEnabled(false);
+    guide_delete->setEnabled(false);
 
     //  Settings menu
     QMenu *settingsMenu = new QMenu(this);
@@ -461,12 +463,18 @@ void GuidesList::addGuide()
 void GuidesList::selectionChanged(const QItemSelection &selected, const QItemSelection &)
 {
     if (selected.indexes().isEmpty()) {
+        guide_edit->setEnabled(false);
+        guide_delete->setEnabled(false);
         return;
     }
     const QModelIndex ix = selected.indexes().first();
     if (!ix.isValid()) {
+        guide_edit->setEnabled(false);
+        guide_delete->setEnabled(false);
         return;
     }
+    guide_edit->setEnabled(true);
+    guide_delete->setEnabled(true);
     int pos = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
     if (m_displayMode == AllMarkers) {
         QModelIndex ix2 = m_proxy->mapToSource(ix);
