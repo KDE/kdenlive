@@ -154,9 +154,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
 
     PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
     message_layout_wr->addWidget(msgWhisper);
-    // Also show VOSK setup messages in the python env page
-    connect(m_sttWhisper, &AbstractPythonInterface::setupMessage, this,
-            [msgWhisper](const QString message, int type) { msgWhisper->doShowMessage(message, KMessageWidget::MessageType(type)); });
     QMap<QString, QString> whisperLanguages = m_sttWhisper->speechLanguages();
     QMapIterator<QString, QString> j(whisperLanguages);
     while (j.hasNext()) {
@@ -297,12 +294,14 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         whisper_venv_params->setEnabled(false);
         reloadWhisperModels();
         script_log->setVisible(false);
+        msgWhisper->setVisible(false);
     } else {
         speech_system_params->setVisible(false);
         checkSpeechDependencies();
+        msgWhisper->setVisible(true);
     }
     connect(kcfg_speech_system_python, &QCheckBox::toggled, this, [this, msgWhisper](bool systemPackages) {
-        msgWhisper->setVisible(false);
+        msgWhisper->setVisible(systemPackages == false);
         KdenliveSettings::setSpeech_system_python(systemPackages);
         speech_system_params->setVisible(systemPackages);
         whisper_venv_params->setEnabled(systemPackages == false);
@@ -322,9 +321,6 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     // Sam
     PythonDependencyMessage *pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, false);
     message_layout_sam->addWidget(pythonSamLabel);
-    // Also show VOSK setup messages in the python env page
-    connect(m_samInterface, &AbstractPythonInterface::setupMessage, pythonSamLabel,
-            [pythonSamLabel](const QString message, int type) { pythonSamLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
     connect(m_samInterface, &AbstractPythonInterface::gotPythonSize, this, [this](const QString &label) {
         sam_venv_size->setText(label);
         deleteSamVenv->setEnabled(!label.isEmpty());
@@ -380,15 +376,17 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         // Using system packages only, disable all dependency checks
         sam_venv_params->setEnabled(false);
         script_sam_log->setVisible(false);
+        pythonSamLabel->setVisible(false);
         reloadSamModels();
     } else {
         sam_system_params->setVisible(false);
+        pythonSamLabel->setVisible(true);
         checkSamEnvironement(false);
     }
     connect(install_nvidia_wr, &QPushButton::clicked, this, [this]() { checkCuda(false); });
     connect(install_nvidia_sam, &QPushButton::clicked, this, [this]() { checkCuda(true); });
     connect(kcfg_sam_system_python, &QCheckBox::toggled, this, [this, pythonSamLabel](bool systemPackages) {
-        pythonSamLabel->setVisible(false);
+        pythonSamLabel->setVisible(systemPackages == false);
         KdenliveSettings::setSam_system_python(systemPackages);
         sam_system_params->setVisible(systemPackages);
         sam_venv_params->setEnabled(systemPackages == false);
