@@ -338,6 +338,8 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
         show_categories->setCurrentCategories(m_lastSelectedGuideCategories);
         switchFilter(!m_lastSelectedGuideCategories.isEmpty() && !m_lastSelectedGuideCategories.contains(-1));
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
+    } else {
+        m_sortModel = nullptr;
     }
     rebuildCategories();
 }
