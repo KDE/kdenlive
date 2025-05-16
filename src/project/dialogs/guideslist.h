@@ -44,15 +44,15 @@ public:
     explicit GuidesProxyModel(int normalHeight, QObject *parent = nullptr);
     int timecodeOffset{0};
     QVariant data(const QModelIndex &index, int role) const override;
+    void switchThumbs();
 
 public Q_SLOTS:
     void refreshDar();
 
 private:
     int m_height;
+    int m_baseHeight;
     int m_width;
-
-protected:
     bool m_showThumbs;
 };
 

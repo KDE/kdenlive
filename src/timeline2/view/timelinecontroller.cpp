@@ -1512,7 +1512,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
                 const QString binId = pCore->projectItemModel()->getSequenceId(m_model->uuid());
                 std::set<int> frames;
                 frames.insert(frame);
-                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), frames, 0, 0, 0, pCore->guidesList());
+                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), frames, pCore->guidesList());
             }
         }
     } else {

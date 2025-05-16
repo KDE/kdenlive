@@ -25,8 +25,10 @@ class CacheTask : public AbstractTask
 public:
     CacheTask(const ObjectId &owner, std::set<int> frames, int thumbsCount, int in, int out, QObject *object);
     ~CacheTask() override;
-    static void start(const ObjectId &owner, std::set<int> frames = {}, int thumbsCount = 30, int in = 0, int out = 0, QObject *object = nullptr,
-                      bool force = false);
+    /** @brief Method to generate a fix number of thumbnails spread over the clip's duration */
+    static void start(const ObjectId &owner, int thumbsCount = 30, int in = 0, int out = 0, QObject *object = nullptr, bool force = false);
+    /** @brief Method to generate thumbnails for a specific list of frames */
+    static void start(const ObjectId &owner, std::set<int> frames, QObject *object = nullptr, bool force = false);
 
 protected:
     void run() override;

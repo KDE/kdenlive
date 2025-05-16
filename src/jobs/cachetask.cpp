@@ -37,12 +37,23 @@ CacheTask::CacheTask(const ObjectId &owner, std::set<int> frames, int thumbsCoun
 
 CacheTask::~CacheTask() {}
 
-void CacheTask::start(const ObjectId &owner, std::set<int> frames, int thumbsCount, int in, int out, QObject *object, bool force)
+void CacheTask::start(const ObjectId &owner, std::set<int> frames, QObject *object, bool force)
 {
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::CACHEJOB)) {
         return;
     }
-    CacheTask *task = new CacheTask(owner, frames, thumbsCount, in, out, object);
+    CacheTask *task = new CacheTask(owner, frames, 0, 0, 0, object);
+    // Otherwise, start a new audio levels generation thread.
+    task->m_isForce = force;
+    pCore->taskManager.startTask(owner.itemId, task);
+}
+
+void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, QObject *object, bool force)
+{
+    if (pCore->taskManager.hasPendingJob(owner, AbstractTask::CACHEJOB)) {
+        return;
+    }
+    CacheTask *task = new CacheTask(owner, {}, thumbsCount, in, out, object);
     // Otherwise, start a new audio levels generation thread.
     task->m_isForce = force;
     pCore->taskManager.startTask(owner.itemId, task);

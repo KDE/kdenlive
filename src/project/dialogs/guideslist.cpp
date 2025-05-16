@@ -55,13 +55,20 @@ GuidesProxyModel::GuidesProxyModel(int normalHeight, QObject *parent)
     : QIdentityProxyModel(parent)
 {
     m_showThumbs = KdenliveSettings::guidesShowThumbs();
-    m_height = normalHeight;
+    m_baseHeight = normalHeight;
+    m_height = m_showThumbs ? 3 * m_baseHeight : 1.5 * m_baseHeight;
     refreshDar();
+}
+
+void GuidesProxyModel::switchThumbs()
+{
+    m_showThumbs = KdenliveSettings::guidesShowThumbs();
+    m_height = m_showThumbs ? 3 * m_baseHeight : 1.5 * m_baseHeight;
 }
 
 void GuidesProxyModel::refreshDar()
 {
-    m_width = m_height * 3 * pCore->getCurrentDar();
+    m_width = m_baseHeight * 3 * pCore->getCurrentDar();
 }
 
 QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
@@ -72,19 +79,16 @@ QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
         int type = QIdentityProxyModel::data(index, MarkerListModel::TypeRole).toInt();
         const QColor markerColor = pCore->markerTypes.value(type).color;
         QImage thumb = ThumbnailCache::get()->getThumbnail(binId, frames);
-        QPixmap pix(m_width, 3 * m_height);
+        QPixmap pix(m_width, m_height);
         pix.fill(markerColor);
         QPainter p(&pix);
-        int margin = 3;
-        p.drawImage(QRect(margin, margin, pix.width() - 2 * margin, pix.height() - 2 * margin), thumb);
+        // margin = 3;
+        p.drawImage(QRect(3, 3, pix.width() - 2 * 3, pix.height() - 2 * 3), thumb);
         p.end();
         return QIcon(pix);
     }
     if (role == Qt::SizeHintRole) {
-        if (m_showThumbs) {
-            return QSize(50, 3 * m_height + 2);
-        }
-        return QSize(50, m_height * 1.5 + 2);
+        return QSize(50, m_height + 2);
     }
     if (role == Qt::DisplayRole) {
         int frames = timecodeOffset + QIdentityProxyModel::data(index, MarkerListModel::FrameRole).toInt();
@@ -740,9 +744,9 @@ void GuidesList::renameTimeline(const QUuid &uuid, const QString &name)
 
 void GuidesList::slotShowThumbs(bool show)
 {
-    m_proxy->m_showThumbs = show;
     KdenliveSettings::setGuidesShowThumbs(show);
     int fontHeight = QFontMetrics(font()).lineSpacing();
+    m_proxy->switchThumbs();
     if (show) {
         fontHeight *= 3;
         guides_list->setIconSize(QSize(fontHeight * pCore->getCurrentDar(), fontHeight));
@@ -771,7 +775,7 @@ void GuidesList::buildMissingThumbs()
             }
             if (missingFrames.size() > 0) {
                 // Generate missing thumbs
-                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, 0, 0, 0, this);
+                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, this);
             }
             Q_EMIT markerModel->dataChanged(QModelIndex(), QModelIndex(), {Qt::SizeHintRole});
         }
@@ -788,7 +792,7 @@ void GuidesList::buildMissingThumbs()
             }
             if (missingFrames.size() > 0) {
                 // Generate missing thumbs
-                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, 0, 0, 0, this);
+                CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, this);
             }
         }
         Q_EMIT m_proxy->dataChanged(QModelIndex(), QModelIndex(), {Qt::SizeHintRole});
@@ -833,7 +837,7 @@ void GuidesList::fetchMovedThumbs()
             }
         }
         const QString binId = markerModel->ownerId();
-        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, 0, 0, 0, this);
+        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, this);
     }
 }
 
@@ -844,6 +848,6 @@ void GuidesList::rebuildThumbs()
         std::set<int> frames(framesToClear.begin(), framesToClear.end());
         const QString binId = markerModel->ownerId();
         ThumbnailCache::get()->invalidateThumbsForClip(binId, frames);
-        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), frames, 0, 0, 0, this);
+        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), frames, this);
     }
 }

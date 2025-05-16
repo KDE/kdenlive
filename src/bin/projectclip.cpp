@@ -737,7 +737,7 @@ void ProjectClip::checkProxy(bool rebuildProxy)
     }
     if (!generateProxy && KdenliveSettings::hoverPreview() &&
         (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist)) {
-        QTimer::singleShot(1000, this, [this]() { CacheTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), {}, 30, 0, 0, this); });
+        QTimer::singleShot(1000, this, [this]() { CacheTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), 30, 0, 0, this); });
     }
     if (generateProxy) {
         QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool, true), Q_ARG(QList<std::shared_ptr<ProjectClip>>, {clipToProxy}),
@@ -2672,7 +2672,7 @@ int ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
         // Generate percent thumbs
         ObjectId oid(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
         if (!pCore->taskManager.hasPendingJob(oid, AbstractTask::CACHEJOB)) {
-            CacheTask::start(oid, {}, 30, 0, 0, this);
+            CacheTask::start(oid, 30, 0, 0, this);
         }
     }
     if (storeFrame) {

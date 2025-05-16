@@ -1534,13 +1534,13 @@ void Core::clearTimeRemap()
 
 void Core::cleanup()
 {
-    guidesList()->clear();
     audioThumbCache.clear();
     taskManager.slotCancelJobs();
     if (timeRemapWidget()) {
         timeRemapWidget()->selectedClip(-1, QUuid());
     }
     if (m_mainWindow && m_mainWindow->getCurrentTimeline()) {
+        guidesList()->clear();
         disconnect(m_mainWindow->getCurrentTimeline()->controller(), &TimelineController::durationChanged, m_projectManager,
                    &ProjectManager::adjustProjectDuration);
         m_mainWindow->getCurrentTimeline()->controller()->clipActions.clear();

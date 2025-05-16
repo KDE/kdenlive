@@ -5452,7 +5452,7 @@ void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersD
     }
     clip->getMarkerModel()->addMarkers(markers, KdenliveSettings::default_marker_type());
     if (KdenliveSettings::guidesShowThumbs()) {
-        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, 0, 0, 0, pCore->guidesList());
+        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), missingFrames, pCore->guidesList());
     }
 }
 

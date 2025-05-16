@@ -199,7 +199,7 @@ void ProjectSubClip::getThumbFromPercent(int percent)
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_parentClipId, m_inPoint + framePos));
     } else {
         // Generate percent thumbs
-        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, m_parentClipId.toInt(), QUuid()), {}, 30, m_inPoint, m_outPoint, this);
+        CacheTask::start(ObjectId(KdenliveObjectType::BinClip, m_parentClipId.toInt(), QUuid()), 30, m_inPoint, m_outPoint, this);
     }
 }
 
