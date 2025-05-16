@@ -766,6 +766,11 @@
       <default>30</default>
     </entry>
 
+    <entry name="guidesShowThumbs" type="Bool">
+      <label>Display markers thumbnails in guide dialog.</label>
+      <default>false</default>
+    </entry>
+
   </group>
 
   <group name="capture">
