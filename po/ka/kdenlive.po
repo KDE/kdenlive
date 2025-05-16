@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-15 00:42+0000\n"
-"PO-Revision-Date: 2025-05-10 03:45+0200\n"
+"POT-Creation-Date: 2025-05-16 00:41+0000\n"
+"PO-Revision-Date: 2025-05-15 04:23+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -14490,7 +14490,7 @@ msgid "Delete keyframes"
 msgstr "საკვანძო კადრების წაშლა"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1568
+#: src/assets/model/assetparametermodel.cpp:1559
 #, kde-format
 msgid "Update effect"
 msgstr "ეფექტის განახლება"
@@ -14565,13 +14565,13 @@ msgstr "%1 ძირითადი კადრის ჩასწორებ�
 msgid "Update %1"
 msgstr "%1-ის განახლება"
 
-#: src/assets/model/assetparametermodel.cpp:1419
-#: src/assets/model/assetparametermodel.cpp:1466
+#: src/assets/model/assetparametermodel.cpp:1410
+#: src/assets/model/assetparametermodel.cpp:1457
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "ვერ გავხსენი პრესეტის ფაილი %1"
 
-#: src/assets/model/assetparametermodel.cpp:1542
+#: src/assets/model/assetparametermodel.cpp:1533
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -15182,7 +15182,7 @@ msgstr "პროფილის გასწრება მიმდინა�
 msgid "Icon View"
 msgstr "ხატულებით ჩვენება"
 
-#: src/bin/bin.cpp:1267 src/project/dialogs/guideslist.cpp:116
+#: src/bin/bin.cpp:1267 src/project/dialogs/guideslist.cpp:114
 #, kde-format
 msgid "Descending"
 msgstr "Დაღმავალი"
@@ -15841,13 +15841,13 @@ msgstr "აირჩიეთ კლიპი ეფექტის გადა
 msgid "Cannot apply effects on folders"
 msgstr "ეფექტს საქაღალდეებზე ვერ გადავატარებ"
 
-#: src/bin/bin.cpp:4064 src/effects/effectstack/model/effectstackmodel.cpp:718
-#: src/effects/effectstack/model/effectstackmodel.cpp:724
+#: src/bin/bin.cpp:4064 src/effects/effectstack/model/effectstackmodel.cpp:728
+#: src/effects/effectstack/model/effectstackmodel.cpp:734
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "ეფექტის კლიპზე დამატება შეუძლებელია"
 
-#: src/bin/bin.cpp:4102 src/effects/effectstack/model/effectstackmodel.cpp:674
+#: src/bin/bin.cpp:4102 src/effects/effectstack/model/effectstackmodel.cpp:684
 #, kde-format
 msgid "Paste effect"
 msgstr "ეფექტის ჩასმა"
@@ -17433,7 +17433,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "თუ დარწმუნებული არ ბრძანდებით, სცადეთ :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:262 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:264 src/project/projectmanager.cpp:1805
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -20770,26 +20770,26 @@ msgid "Copy effect"
 msgstr "ეფექტის კოპირება"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:580
-#: src/effects/effectstack/model/effectstackmodel.cpp:704
-#: src/effects/effectstack/model/effectstackmodel.cpp:1497
+#: src/effects/effectstack/model/effectstackmodel.cpp:590
+#: src/effects/effectstack/model/effectstackmodel.cpp:714
+#: src/effects/effectstack/model/effectstackmodel.cpp:1507
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "ეფექტს %1 ორჯერ ვერ დაამატებთ."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:700
 #: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5106
 #, kde-format
 msgid "Add effect %1"
 msgstr "ეფექტის დამატება: %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:700
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "ეფექტი %1, მხოლოდ, მთავარზე შეგიძლიათ, დაამატოთ"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1255
+#: src/effects/effectstack/model/effectstackmodel.cpp:1265
 #, kde-format
 msgid "Move effect %1"
 msgstr "ეფექტის გადატანა %1"
@@ -26046,48 +26046,48 @@ msgstr "ამ კატეგორიაში მყოფი %1 მარკ
 msgid "Reassign the markers to :"
 msgstr "მარკერის კატეგორიების გადაბარება :"
 
-#: src/project/dialogs/guideslist.cpp:89
+#: src/project/dialogs/guideslist.cpp:88
 #, kde-format
 msgid "Import..."
 msgstr "შემოტანა..."
 
-#: src/project/dialogs/guideslist.cpp:92
+#: src/project/dialogs/guideslist.cpp:91
 #, kde-format
 msgid "Export..."
 msgstr "გატანა..."
 
-#: src/project/dialogs/guideslist.cpp:95
+#: src/project/dialogs/guideslist.cpp:94
 #, kde-format
 msgid "Configure Categories"
 msgstr "კატეგორიების მორგება"
 
-#: src/project/dialogs/guideslist.cpp:101
+#: src/project/dialogs/guideslist.cpp:99
 #, fuzzy, kde-format
-#| msgid "Slideshow clips"
-msgid "Show guides for all clips"
-msgstr "სლაიდშოუს კლიპები"
+#| msgid "Show guides for all clips"
+msgid "Show markers for all clips in the project"
+msgstr "გიდების ჩვენება ყველა კლიპისთვის"
 
-#: src/project/dialogs/guideslist.cpp:110
+#: src/project/dialogs/guideslist.cpp:108
 #, kde-format
 msgid "Sort by Category"
 msgstr "კატეგორიით დალაგება"
 
-#: src/project/dialogs/guideslist.cpp:112
+#: src/project/dialogs/guideslist.cpp:110
 #, kde-format
 msgid "Sort by Time"
 msgstr "დროის მიხედვით დალაგება"
 
-#: src/project/dialogs/guideslist.cpp:114
+#: src/project/dialogs/guideslist.cpp:112
 #, kde-format
 msgid "Sort by Comment"
 msgstr "კომენტარით დალაგება"
 
-#: src/project/dialogs/guideslist.cpp:147
+#: src/project/dialogs/guideslist.cpp:146
 #, kde-format
 msgid "Add new guide."
 msgstr "ახალი მიმმართველის დამატება."
 
-#: src/project/dialogs/guideslist.cpp:148
+#: src/project/dialogs/guideslist.cpp:147
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
@@ -26095,23 +26095,23 @@ msgstr ""
 "ახალი მიმმართველის დამატება. ეს მიმმართველს მიმდინარე კადრის მდებარეობაზე "
 "დაამატებს."
 
-#: src/project/dialogs/guideslist.cpp:149
+#: src/project/dialogs/guideslist.cpp:148
 #, kde-format
 msgid "Delete guide."
 msgstr "მიმმართველის წაშლა."
 
-#: src/project/dialogs/guideslist.cpp:150
+#: src/project/dialogs/guideslist.cpp:149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr "მიმმართველის წაშლა. ეს ყველა მონიშნულ მიმმართველს წაშლის."
 
-#: src/project/dialogs/guideslist.cpp:151
+#: src/project/dialogs/guideslist.cpp:150
 #, kde-format
 msgid "Edit selected guide."
 msgstr "მონიშნული მიმმართველის ჩასწორება."
 
-#: src/project/dialogs/guideslist.cpp:152
+#: src/project/dialogs/guideslist.cpp:151
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -26121,12 +26121,12 @@ msgstr ""
 "მონიშნული მიმმართველის ჩასწორება. ერთზე მეტი მიმმართველის არჩევა მათი "
 "კატეგორიის ცვლილების საშუალებას მოგცემთ."
 
-#: src/project/dialogs/guideslist.cpp:153
+#: src/project/dialogs/guideslist.cpp:152
 #, kde-format
 msgid "Filter guide categories."
 msgstr "მიმმართველის კატეგორიების გაფილტვრა."
 
-#: src/project/dialogs/guideslist.cpp:155
+#: src/project/dialogs/guideslist.cpp:154
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -26136,12 +26136,12 @@ msgstr ""
 "მიმმართველის კატეგორიების გაფილტვრა. ეს საშუალებას გაძლევთ, აჩვენოთ ან "
 "დამალოთ მონიშნული მიმმართველის კატეგორიები ამ დიალოგში და დროის ხაზზე."
 
-#: src/project/dialogs/guideslist.cpp:156
+#: src/project/dialogs/guideslist.cpp:155
 #, kde-format
 msgid "Default guide category."
 msgstr "ნაგულიხმევი მიმმართველის კატეგორია."
 
-#: src/project/dialogs/guideslist.cpp:157
+#: src/project/dialogs/guideslist.cpp:156
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
@@ -26149,40 +26149,29 @@ msgstr ""
 "ნაგულისხმევი მიმმართველის კატეგორია. ეს კატეგორია ახალშექმნილი "
 "მიმმართველებისთვის იქნება გამოყენებული."
 
-#: src/project/dialogs/guideslist.cpp:184
-#, fuzzy, kde-format
-#| msgid "All Projects"
+#: src/project/dialogs/guideslist.cpp:182
+#, kde-format
 msgid "All Project Markers"
-msgstr "ყველა პროექტები"
+msgstr "ყველა პროექტის მარკერი"
 
-#: src/project/dialogs/guideslist.cpp:241
+#: src/project/dialogs/guideslist.cpp:243
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "კლიპის მარკერების ჩატვირთვა"
 
-#: src/project/dialogs/guideslist.cpp:257
+#: src/project/dialogs/guideslist.cpp:259
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "მარკერის ფაილი 1მბ-ზე დიდია. დარწმუნებული ბრძანდებით, რომ გნებავთ, "
 "შემოიტანოთ ის?"
 
-#: src/project/dialogs/guideslist.cpp:354
-#: src/project/dialogs/guideslist.cpp:365
+#: src/project/dialogs/guideslist.cpp:361
+#: src/project/dialogs/guideslist.cpp:372
 #, kde-format
 msgid "Remove guides"
 msgstr "მიმმართველების წაშლა"
-
-#: src/project/dialogs/guideslist.cpp:441
-#, kde-format
-msgid "Markers for %1"
-msgstr "სანიშნები %1-თვის"
-
-#: src/project/dialogs/guideslist.cpp:478
-#, kde-format
-msgid "Timeline Guides"
-msgstr "დროის ხაზის მიმმართველები"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -30424,14 +30413,13 @@ msgstr "მიმდინარე წერტილის წაშლა."
 #. i18n: ectx: property (text), widget (QToolButton, button_add)
 #. i18n: ectx: property (text), widget (QToolButton, button_edit)
 #. i18n: ectx: property (text), widget (QToolButton, button_download)
+#. i18n: ectx: property (text), widget (QToolButton, sort_guides)
 #. i18n: ectx: property (text), widget (QToolButton, guide_add)
 #. i18n: ectx: property (text), widget (QToolButton, guide_edit)
 #. i18n: ectx: property (text), widget (QToolButton, guide_delete)
 #. i18n: ectx: property (text), widget (QToolButton, default_category)
-#. i18n: ectx: property (text), widget (QToolButton, guide_all)
 #. i18n: ectx: property (text), widget (QToolButton, guides_lock)
 #. i18n: ectx: property (text), widget (QToolButton, guides_settings)
-#. i18n: ectx: property (text), widget (QToolButton, sort_guides)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomin)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomout)
 #. i18n: ectx: property (text), widget (QToolButton, preset_button)
@@ -30535,42 +30523,42 @@ msgstr "მიმდინარე წერტილის წაშლა."
 #: src/ui/editsub_ui.ui:644 src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:127 src/ui/gradientedit_ui.ui:147
-#: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
-#: src/ui/guideslist_ui.ui:53 src/ui/guideslist_ui.ui:67
-#: src/ui/guideslist_ui.ui:80 src/ui/guideslist_ui.ui:93
-#: src/ui/guideslist_ui.ui:119 src/ui/guideslist_ui.ui:145
-#: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:79
-#: src/ui/managecache_ui.ui:100 src/ui/managecache_ui.ui:131
-#: src/ui/managecache_ui.ui:277 src/ui/managecache_ui.ui:328
-#: src/ui/manageencodingprofile_ui.ui:48 src/ui/manageencodingprofile_ui.ui:59
-#: src/ui/manageencodingprofile_ui.ui:70 src/ui/manageencodingprofile_ui.ui:84
-#: src/ui/managesubtitles_ui.ui:79 src/ui/maskmanage_ui.ui:98
-#: src/ui/maskmanage_ui.ui:111 src/ui/maskmanage_ui.ui:124
-#: src/ui/maskmanage_ui.ui:189 src/ui/maskmanage_ui.ui:239
-#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
-#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
-#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
-#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
-#: src/ui/textbasededit_ui.ui:70 src/ui/textbasededit_ui.ui:139
-#: src/ui/textbasededit_ui.ui:162 src/ui/textbasededit_ui.ui:178
-#: src/ui/textbasededit_ui.ui:188 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:215 src/ui/textbasededit_ui.ui:225
-#: src/ui/textbasededit_ui.ui:253 src/ui/textbasededit_ui.ui:273
-#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
-#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
-#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
-#: src/ui/titlewidget_ui.ui:656 src/ui/titlewidget_ui.ui:669
-#: src/ui/titlewidget_ui.ui:682 src/ui/titlewidget_ui.ui:695
-#: src/ui/titlewidget_ui.ui:708 src/ui/titlewidget_ui.ui:721
-#: src/ui/titlewidget_ui.ui:939 src/ui/titlewidget_ui.ui:949
-#: src/ui/titlewidget_ui.ui:1153 src/ui/titlewidget_ui.ui:1207
-#: src/ui/titlewidget_ui.ui:1256 src/ui/titlewidget_ui.ui:1278
-#: src/ui/titlewidget_ui.ui:1310 src/ui/titlewidget_ui.ui:1399
-#: src/ui/titlewidget_ui.ui:1754 src/ui/titlewidget_ui.ui:1770
-#: src/ui/titlewidget_ui.ui:1783 src/ui/unicodewidget_ui.ui:201
-#: src/ui/unicodewidget_ui.ui:226 src/ui/urllistparamwidget_ui.ui:117
+#: src/ui/guideslist_ui.ui:55 src/ui/guideslist_ui.ui:80
+#: src/ui/guideslist_ui.ui:97 src/ui/guideslist_ui.ui:110
+#: src/ui/guideslist_ui.ui:124 src/ui/guideslist_ui.ui:137
+#: src/ui/guideslist_ui.ui:163 src/ui/managecache_ui.ui:65
+#: src/ui/managecache_ui.ui:79 src/ui/managecache_ui.ui:100
+#: src/ui/managecache_ui.ui:131 src/ui/managecache_ui.ui:277
+#: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
+#: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
+#: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
+#: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
+#: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:421
+#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
+#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
+#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
+#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
+#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
+#: src/ui/textbasededit_ui.ui:139 src/ui/textbasededit_ui.ui:162
+#: src/ui/textbasededit_ui.ui:178 src/ui/textbasededit_ui.ui:188
+#: src/ui/textbasededit_ui.ui:198 src/ui/textbasededit_ui.ui:215
+#: src/ui/textbasededit_ui.ui:225 src/ui/textbasededit_ui.ui:253
+#: src/ui/textbasededit_ui.ui:273 src/ui/timeremap_ui.ui:84
+#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
+#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
+#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:656
+#: src/ui/titlewidget_ui.ui:669 src/ui/titlewidget_ui.ui:682
+#: src/ui/titlewidget_ui.ui:695 src/ui/titlewidget_ui.ui:708
+#: src/ui/titlewidget_ui.ui:721 src/ui/titlewidget_ui.ui:939
+#: src/ui/titlewidget_ui.ui:949 src/ui/titlewidget_ui.ui:1153
+#: src/ui/titlewidget_ui.ui:1207 src/ui/titlewidget_ui.ui:1256
+#: src/ui/titlewidget_ui.ui:1278 src/ui/titlewidget_ui.ui:1310
+#: src/ui/titlewidget_ui.ui:1399 src/ui/titlewidget_ui.ui:1754
+#: src/ui/titlewidget_ui.ui:1770 src/ui/titlewidget_ui.ui:1783
+#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -32835,17 +32823,24 @@ msgid "Guides and Markers Categories"
 msgstr "მიმმართველისა და მარკერის კატეგორიები"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
-#: src/ui/guideslist_ui.ui:138
+#: src/ui/guideslist_ui.ui:23
 #, kde-format
 msgid "KSqueezedTextLabel"
 msgstr "KSqueezedTextLabel"
 
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
+#. i18n: ectx: property (text), widget (QPushButton, show_all)
+#: src/ui/guideslist_ui.ui:30
+#, fuzzy, kde-format
+#| msgid "Show log"
+msgid "Show All"
+msgstr "ჟურნალის ჩვენება"
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:168 src/ui/textbasededit_ui.ui:263
-#, kde-format
-msgid "Search"
-msgstr "ძებნა"
+#: src/ui/guideslist_ui.ui:42
+#, fuzzy, kde-format
+#| msgid "Search scale"
+msgid "Search Markers"
+msgstr "ძებნის მასშტაბი"
 
 #. i18n: ectx: property (text), widget (QLabel, lblComponents)
 #: src/ui/histogram_ui.ui:31
@@ -34293,6 +34288,12 @@ msgstr "მხოლოდ არჩეული ზონა"
 msgid "Transcribe"
 msgstr "ტრანსკრიბირება"
 
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
+#: src/ui/textbasededit_ui.ui:263
+#, kde-format
+msgid "Search"
+msgstr "ძებნა"
+
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:77
 #, kde-format
@@ -34906,6 +34907,12 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid "Markers for %1"
+#~ msgstr "სანიშნები %1-თვის"
+
+#~ msgid "Timeline Guides"
+#~ msgstr "დროის ხაზის მიმმართველები"
 
 #~ msgid ""
 #~ "Cannot extract metadata from %1\n"

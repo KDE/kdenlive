@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-15 00:42+0000\n"
+"POT-Creation-Date: 2025-05-16 00:41+0000\n"
 "PO-Revision-Date: 2025-05-11 19:27+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -14774,7 +14774,7 @@ msgid "Delete keyframes"
 msgstr "מחיקת תמוניות מפתח"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1568
+#: src/assets/model/assetparametermodel.cpp:1559
 #, kde-format
 msgid "Update effect"
 msgstr "עדכון אפקט"
@@ -14851,13 +14851,13 @@ msgstr "עריכת תמונית מפתח %1"
 msgid "Update %1"
 msgstr "עדכון %1"
 
-#: src/assets/model/assetparametermodel.cpp:1419
-#: src/assets/model/assetparametermodel.cpp:1466
+#: src/assets/model/assetparametermodel.cpp:1410
+#: src/assets/model/assetparametermodel.cpp:1457
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "לא ניתן לפתוח את קובץ הערכה %1"
 
-#: src/assets/model/assetparametermodel.cpp:1542
+#: src/assets/model/assetparametermodel.cpp:1533
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -15468,7 +15468,7 @@ msgstr "התאמת הפרופיל לסרטון הנוכחי"
 msgid "Icon View"
 msgstr "תצוגת סמלים"
 
-#: src/bin/bin.cpp:1267 src/project/dialogs/guideslist.cpp:116
+#: src/bin/bin.cpp:1267 src/project/dialogs/guideslist.cpp:114
 #, kde-format
 msgid "Descending"
 msgstr "יורד"
@@ -16119,13 +16119,13 @@ msgstr "נא לבחור סרטון כדי להחיל אפקט"
 msgid "Cannot apply effects on folders"
 msgstr "לא ניתן להחיל אפקטים על תיקיות"
 
-#: src/bin/bin.cpp:4064 src/effects/effectstack/model/effectstackmodel.cpp:718
-#: src/effects/effectstack/model/effectstackmodel.cpp:724
+#: src/bin/bin.cpp:4064 src/effects/effectstack/model/effectstackmodel.cpp:728
+#: src/effects/effectstack/model/effectstackmodel.cpp:734
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "לא ניתן להוסיף אפקטים לסרטון"
 
-#: src/bin/bin.cpp:4102 src/effects/effectstack/model/effectstackmodel.cpp:674
+#: src/bin/bin.cpp:4102 src/effects/effectstack/model/effectstackmodel.cpp:684
 #, kde-format
 msgid "Paste effect"
 msgstr "הדבקת אפקט"
@@ -17709,7 +17709,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "במקרה של ספק, עדיף לנסות :<br/><b>יוניקוד (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:262 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:264 src/project/projectmanager.cpp:1805
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -21029,26 +21029,26 @@ msgid "Copy effect"
 msgstr "העתקת אפקט"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:580
-#: src/effects/effectstack/model/effectstackmodel.cpp:704
-#: src/effects/effectstack/model/effectstackmodel.cpp:1497
+#: src/effects/effectstack/model/effectstackmodel.cpp:590
+#: src/effects/effectstack/model/effectstackmodel.cpp:714
+#: src/effects/effectstack/model/effectstackmodel.cpp:1507
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "אי אפשר להוסיף את האפקט %1 פעמיים."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:700
 #: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5106
 #, kde-format
 msgid "Add effect %1"
 msgstr "הוספת אפקט %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:700
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "את האפקט %1 אפשר להוסיף רק לראשי"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1255
+#: src/effects/effectstack/model/effectstackmodel.cpp:1265
 #, kde-format
 msgid "Move effect %1"
 msgstr "העברת אפקט %1"
@@ -26284,70 +26284,70 @@ msgstr "למחוק את %1 הסמנים שמשתמשים בקטגוריה הזא
 msgid "Reassign the markers to :"
 msgstr "הקצאת הסמנים מחדש אל:"
 
-#: src/project/dialogs/guideslist.cpp:89
+#: src/project/dialogs/guideslist.cpp:88
 #, kde-format
 msgid "Import..."
 msgstr "ייבוא…"
 
-#: src/project/dialogs/guideslist.cpp:92
+#: src/project/dialogs/guideslist.cpp:91
 #, kde-format
 msgid "Export..."
 msgstr "ייצוא…"
 
-#: src/project/dialogs/guideslist.cpp:95
+#: src/project/dialogs/guideslist.cpp:94
 #, kde-format
 msgid "Configure Categories"
 msgstr "הגדרת קטגוריות"
 
-#: src/project/dialogs/guideslist.cpp:101
+#: src/project/dialogs/guideslist.cpp:99
 #, fuzzy, kde-format
 #| msgid "Slideshow clips"
-msgid "Show guides for all clips"
+msgid "Show markers for all clips in the project"
 msgstr "סרטוני מצגת"
 
-#: src/project/dialogs/guideslist.cpp:110
+#: src/project/dialogs/guideslist.cpp:108
 #, kde-format
 msgid "Sort by Category"
 msgstr "סידור לפי קטגוריה"
 
-#: src/project/dialogs/guideslist.cpp:112
+#: src/project/dialogs/guideslist.cpp:110
 #, kde-format
 msgid "Sort by Time"
 msgstr "סידור לפי זמן"
 
-#: src/project/dialogs/guideslist.cpp:114
+#: src/project/dialogs/guideslist.cpp:112
 #, kde-format
 msgid "Sort by Comment"
 msgstr "מיון לפי הערה"
 
-#: src/project/dialogs/guideslist.cpp:147
+#: src/project/dialogs/guideslist.cpp:146
 #, kde-format
 msgid "Add new guide."
 msgstr "הוספת קו מנחה חדש."
 
-#: src/project/dialogs/guideslist.cpp:148
+#: src/project/dialogs/guideslist.cpp:147
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr "הוספת קו מנחה חדש. הפעולה תוסיף את מקום התמונית הנוכחי."
 
-#: src/project/dialogs/guideslist.cpp:149
+#: src/project/dialogs/guideslist.cpp:148
 #, kde-format
 msgid "Delete guide."
 msgstr "מחיקת הקו המנחה."
 
-#: src/project/dialogs/guideslist.cpp:150
+#: src/project/dialogs/guideslist.cpp:149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr "מחיקת קו מנחה. הפעולה הזאת תמחק את הקווים המנחים הנבחרים."
 
-#: src/project/dialogs/guideslist.cpp:151
+#: src/project/dialogs/guideslist.cpp:150
 #, kde-format
 msgid "Edit selected guide."
 msgstr "עריכת הקו המנחה הנבחר."
 
-#: src/project/dialogs/guideslist.cpp:152
+#: src/project/dialogs/guideslist.cpp:151
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -26356,12 +26356,12 @@ msgid ""
 msgstr ""
 "עריכת הקו המנחה הנבחר. בחירה במספר קווים מנחים מאפשרת לשנות את הקטגוריה שלהם."
 
-#: src/project/dialogs/guideslist.cpp:153
+#: src/project/dialogs/guideslist.cpp:152
 #, kde-format
 msgid "Filter guide categories."
 msgstr "סינון קטגוריות קווים מנחים."
 
-#: src/project/dialogs/guideslist.cpp:155
+#: src/project/dialogs/guideslist.cpp:154
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -26371,50 +26371,40 @@ msgstr ""
 "סינון קטגוריות קווים מנחים. מאפשר לך להציג או להסיר קטגוריות קווים מנחים "
 "נבחרות בחלונית הזאת ובציר הזמן."
 
-#: src/project/dialogs/guideslist.cpp:156
+#: src/project/dialogs/guideslist.cpp:155
 #, kde-format
 msgid "Default guide category."
 msgstr "קטגוריית קווים מנחים כברירת מחדל."
 
-#: src/project/dialogs/guideslist.cpp:157
+#: src/project/dialogs/guideslist.cpp:156
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
 "קטגוריית ברירת המחדל לקווים מנחים. הקטגוריה משמשת לקווים מנחים חדשים שנוצרים."
 
-#: src/project/dialogs/guideslist.cpp:184
+#: src/project/dialogs/guideslist.cpp:182
 #, fuzzy, kde-format
 #| msgid "All Projects"
 msgid "All Project Markers"
 msgstr "כל המיזמים"
 
-#: src/project/dialogs/guideslist.cpp:241
+#: src/project/dialogs/guideslist.cpp:243
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "טעינת סמני סרטון"
 
-#: src/project/dialogs/guideslist.cpp:257
+#: src/project/dialogs/guideslist.cpp:259
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "קובץ הסמנים גדול ממגה בית, לייבא אותו?"
 
-#: src/project/dialogs/guideslist.cpp:354
-#: src/project/dialogs/guideslist.cpp:365
+#: src/project/dialogs/guideslist.cpp:361
+#: src/project/dialogs/guideslist.cpp:372
 #, kde-format
 msgid "Remove guides"
 msgstr "הסרת קווים מנחים"
-
-#: src/project/dialogs/guideslist.cpp:441
-#, kde-format
-msgid "Markers for %1"
-msgstr "סמנים עבור %1"
-
-#: src/project/dialogs/guideslist.cpp:478
-#, kde-format
-msgid "Timeline Guides"
-msgstr "קווים מנחים בציר הזמן"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -30610,14 +30600,13 @@ msgstr "מחיקת הנקודה הנוכחית."
 #. i18n: ectx: property (text), widget (QToolButton, button_add)
 #. i18n: ectx: property (text), widget (QToolButton, button_edit)
 #. i18n: ectx: property (text), widget (QToolButton, button_download)
+#. i18n: ectx: property (text), widget (QToolButton, sort_guides)
 #. i18n: ectx: property (text), widget (QToolButton, guide_add)
 #. i18n: ectx: property (text), widget (QToolButton, guide_edit)
 #. i18n: ectx: property (text), widget (QToolButton, guide_delete)
 #. i18n: ectx: property (text), widget (QToolButton, default_category)
-#. i18n: ectx: property (text), widget (QToolButton, guide_all)
 #. i18n: ectx: property (text), widget (QToolButton, guides_lock)
 #. i18n: ectx: property (text), widget (QToolButton, guides_settings)
-#. i18n: ectx: property (text), widget (QToolButton, sort_guides)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomin)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomout)
 #. i18n: ectx: property (text), widget (QToolButton, preset_button)
@@ -30721,42 +30710,42 @@ msgstr "מחיקת הנקודה הנוכחית."
 #: src/ui/editsub_ui.ui:644 src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:127 src/ui/gradientedit_ui.ui:147
-#: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
-#: src/ui/guideslist_ui.ui:53 src/ui/guideslist_ui.ui:67
-#: src/ui/guideslist_ui.ui:80 src/ui/guideslist_ui.ui:93
-#: src/ui/guideslist_ui.ui:119 src/ui/guideslist_ui.ui:145
-#: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:79
-#: src/ui/managecache_ui.ui:100 src/ui/managecache_ui.ui:131
-#: src/ui/managecache_ui.ui:277 src/ui/managecache_ui.ui:328
-#: src/ui/manageencodingprofile_ui.ui:48 src/ui/manageencodingprofile_ui.ui:59
-#: src/ui/manageencodingprofile_ui.ui:70 src/ui/manageencodingprofile_ui.ui:84
-#: src/ui/managesubtitles_ui.ui:79 src/ui/maskmanage_ui.ui:98
-#: src/ui/maskmanage_ui.ui:111 src/ui/maskmanage_ui.ui:124
-#: src/ui/maskmanage_ui.ui:189 src/ui/maskmanage_ui.ui:239
-#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
-#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
-#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
-#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
-#: src/ui/textbasededit_ui.ui:70 src/ui/textbasededit_ui.ui:139
-#: src/ui/textbasededit_ui.ui:162 src/ui/textbasededit_ui.ui:178
-#: src/ui/textbasededit_ui.ui:188 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:215 src/ui/textbasededit_ui.ui:225
-#: src/ui/textbasededit_ui.ui:253 src/ui/textbasededit_ui.ui:273
-#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
-#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
-#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
-#: src/ui/titlewidget_ui.ui:656 src/ui/titlewidget_ui.ui:669
-#: src/ui/titlewidget_ui.ui:682 src/ui/titlewidget_ui.ui:695
-#: src/ui/titlewidget_ui.ui:708 src/ui/titlewidget_ui.ui:721
-#: src/ui/titlewidget_ui.ui:939 src/ui/titlewidget_ui.ui:949
-#: src/ui/titlewidget_ui.ui:1153 src/ui/titlewidget_ui.ui:1207
-#: src/ui/titlewidget_ui.ui:1256 src/ui/titlewidget_ui.ui:1278
-#: src/ui/titlewidget_ui.ui:1310 src/ui/titlewidget_ui.ui:1399
-#: src/ui/titlewidget_ui.ui:1754 src/ui/titlewidget_ui.ui:1770
-#: src/ui/titlewidget_ui.ui:1783 src/ui/unicodewidget_ui.ui:201
-#: src/ui/unicodewidget_ui.ui:226 src/ui/urllistparamwidget_ui.ui:117
+#: src/ui/guideslist_ui.ui:55 src/ui/guideslist_ui.ui:80
+#: src/ui/guideslist_ui.ui:97 src/ui/guideslist_ui.ui:110
+#: src/ui/guideslist_ui.ui:124 src/ui/guideslist_ui.ui:137
+#: src/ui/guideslist_ui.ui:163 src/ui/managecache_ui.ui:65
+#: src/ui/managecache_ui.ui:79 src/ui/managecache_ui.ui:100
+#: src/ui/managecache_ui.ui:131 src/ui/managecache_ui.ui:277
+#: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
+#: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
+#: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
+#: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
+#: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:421
+#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
+#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
+#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
+#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
+#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
+#: src/ui/textbasededit_ui.ui:139 src/ui/textbasededit_ui.ui:162
+#: src/ui/textbasededit_ui.ui:178 src/ui/textbasededit_ui.ui:188
+#: src/ui/textbasededit_ui.ui:198 src/ui/textbasededit_ui.ui:215
+#: src/ui/textbasededit_ui.ui:225 src/ui/textbasededit_ui.ui:253
+#: src/ui/textbasededit_ui.ui:273 src/ui/timeremap_ui.ui:84
+#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
+#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
+#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:656
+#: src/ui/titlewidget_ui.ui:669 src/ui/titlewidget_ui.ui:682
+#: src/ui/titlewidget_ui.ui:695 src/ui/titlewidget_ui.ui:708
+#: src/ui/titlewidget_ui.ui:721 src/ui/titlewidget_ui.ui:939
+#: src/ui/titlewidget_ui.ui:949 src/ui/titlewidget_ui.ui:1153
+#: src/ui/titlewidget_ui.ui:1207 src/ui/titlewidget_ui.ui:1256
+#: src/ui/titlewidget_ui.ui:1278 src/ui/titlewidget_ui.ui:1310
+#: src/ui/titlewidget_ui.ui:1399 src/ui/titlewidget_ui.ui:1754
+#: src/ui/titlewidget_ui.ui:1770 src/ui/titlewidget_ui.ui:1783
+#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "…"
@@ -33000,17 +32989,23 @@ msgid "Guides and Markers Categories"
 msgstr "קטגוריות של קווים מנחים וסמנים"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
-#: src/ui/guideslist_ui.ui:138
+#: src/ui/guideslist_ui.ui:23
 #, kde-format
 msgid "KSqueezedTextLabel"
 msgstr "KSqueezedTextLabel"
 
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
+#. i18n: ectx: property (text), widget (QPushButton, show_all)
+#: src/ui/guideslist_ui.ui:30
+#, fuzzy, kde-format
+#| msgid "Show log"
+msgid "Show All"
+msgstr "הצגת יומן"
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:168 src/ui/textbasededit_ui.ui:263
-#, kde-format
-msgid "Search"
-msgstr "חיפוש"
+#: src/ui/guideslist_ui.ui:42
+#, fuzzy, kde-format
+msgid "Search Markers"
+msgstr "חפש ידנית"
 
 #. i18n: ectx: property (text), widget (QLabel, lblComponents)
 #: src/ui/histogram_ui.ui:31
@@ -34455,6 +34450,12 @@ msgstr "הקטע הנבחר בלבד"
 msgid "Transcribe"
 msgstr "תמלול"
 
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
+#: src/ui/textbasededit_ui.ui:263
+#, kde-format
+msgid "Search"
+msgstr "חיפוש"
+
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:77
 #, kde-format
@@ -35067,6 +35068,12 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
 
+#~ msgid "Markers for %1"
+#~ msgstr "סמנים עבור %1"
+
+#~ msgid "Timeline Guides"
+#~ msgstr "קווים מנחים בציר הזמן"
+
 #~ msgid ""
 #~ "Cannot extract metadata from %1\n"
 #~ "%2"
@@ -35551,10 +35558,6 @@ msgstr "%1 שע׳"
 #, fuzzy
 #~ msgid "Recovered item"
 #~ msgstr "טען מחדש סרטון"
-
-#, fuzzy
-#~ msgid "Search aborted"
-#~ msgstr "חפש ידנית"
 
 #, fuzzy
 #~| msgid "Scanning"

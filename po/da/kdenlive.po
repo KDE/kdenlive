@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-15 00:42+0000\n"
+"POT-Creation-Date: 2025-05-16 00:41+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -15168,7 +15168,7 @@ msgid "Delete keyframes"
 msgstr "Slet keyframes"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:698
-#: src/assets/model/assetparametermodel.cpp:1568
+#: src/assets/model/assetparametermodel.cpp:1559
 #, fuzzy, kde-format
 #| msgid "Paste effects"
 msgid "Update effect"
@@ -15253,13 +15253,13 @@ msgstr "Rediger %1 keyframe"
 msgid "Update %1"
 msgstr "Opdatér %1"
 
-#: src/assets/model/assetparametermodel.cpp:1419
-#: src/assets/model/assetparametermodel.cpp:1466
+#: src/assets/model/assetparametermodel.cpp:1410
+#: src/assets/model/assetparametermodel.cpp:1457
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan ikke åbne forudindstillingsfilen %1"
 
-#: src/assets/model/assetparametermodel.cpp:1542
+#: src/assets/model/assetparametermodel.cpp:1533
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -15913,7 +15913,7 @@ msgstr "Justér profil til det nuværende klip"
 msgid "Icon View"
 msgstr "Ikonvisning"
 
-#: src/bin/bin.cpp:1267 src/project/dialogs/guideslist.cpp:116
+#: src/bin/bin.cpp:1267 src/project/dialogs/guideslist.cpp:114
 #, kde-format
 msgid "Descending"
 msgstr "Faldende"
@@ -16587,13 +16587,13 @@ msgstr "Vælg et klip der skal anvendes en effekt på"
 msgid "Cannot apply effects on folders"
 msgstr "Kan ikke anvender effekter på mapper"
 
-#: src/bin/bin.cpp:4064 src/effects/effectstack/model/effectstackmodel.cpp:718
-#: src/effects/effectstack/model/effectstackmodel.cpp:724
+#: src/bin/bin.cpp:4064 src/effects/effectstack/model/effectstackmodel.cpp:728
+#: src/effects/effectstack/model/effectstackmodel.cpp:734
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan ikke tilføje en effekt til dette klip"
 
-#: src/bin/bin.cpp:4102 src/effects/effectstack/model/effectstackmodel.cpp:674
+#: src/bin/bin.cpp:4102 src/effects/effectstack/model/effectstackmodel.cpp:684
 #, fuzzy, kde-format
 #| msgid "Paste effects"
 msgid "Paste effect"
@@ -18271,7 +18271,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:262 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:264 src/project/projectmanager.cpp:1805
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -21775,26 +21775,26 @@ msgid "Copy effect"
 msgstr "Kopiér effekt"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:402
-#: src/effects/effectstack/model/effectstackmodel.cpp:580
-#: src/effects/effectstack/model/effectstackmodel.cpp:704
-#: src/effects/effectstack/model/effectstackmodel.cpp:1497
+#: src/effects/effectstack/model/effectstackmodel.cpp:590
+#: src/effects/effectstack/model/effectstackmodel.cpp:714
+#: src/effects/effectstack/model/effectstackmodel.cpp:1507
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:690
+#: src/effects/effectstack/model/effectstackmodel.cpp:700
 #: src/effects/effectstack/view/effectstackview.cpp:236
 #: src/timeline2/model/timelinemodel.cpp:5106
 #, kde-format
 msgid "Add effect %1"
 msgstr "Tilføj effekten %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:700
+#: src/effects/effectstack/model/effectstackmodel.cpp:710
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1255
+#: src/effects/effectstack/model/effectstackmodel.cpp:1265
 #, kde-format
 msgid "Move effect %1"
 msgstr "Flyt effekten %1"
@@ -27271,79 +27271,79 @@ msgstr ""
 msgid "Reassign the markers to :"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:89
+#: src/project/dialogs/guideslist.cpp:88
 #, fuzzy, kde-format
 #| msgid "Import"
 msgid "Import..."
 msgstr "Importér"
 
-#: src/project/dialogs/guideslist.cpp:92
+#: src/project/dialogs/guideslist.cpp:91
 #, fuzzy, kde-format
 #| msgid "Import selected clips"
 msgid "Export..."
 msgstr "Importér markerede klip"
 
-#: src/project/dialogs/guideslist.cpp:95
+#: src/project/dialogs/guideslist.cpp:94
 #, fuzzy, kde-format
 #| msgid "Configure profiles"
 msgid "Configure Categories"
 msgstr "Indstil profiler"
 
-#: src/project/dialogs/guideslist.cpp:101
+#: src/project/dialogs/guideslist.cpp:99
 #, fuzzy, kde-format
 #| msgid "Slideshow clips"
-msgid "Show guides for all clips"
+msgid "Show markers for all clips in the project"
 msgstr "Diasshowklip"
 
-#: src/project/dialogs/guideslist.cpp:110
+#: src/project/dialogs/guideslist.cpp:108
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Sort by Category"
 msgstr "Kategori"
 
-#: src/project/dialogs/guideslist.cpp:112
+#: src/project/dialogs/guideslist.cpp:110
 #, fuzzy, kde-format
 #| msgid "Sort By"
 msgid "Sort by Time"
 msgstr "Sortér efter"
 
-#: src/project/dialogs/guideslist.cpp:114
+#: src/project/dialogs/guideslist.cpp:112
 #, fuzzy, kde-format
 #| msgid "Comment"
 msgid "Sort by Comment"
 msgstr "Kommentar"
 
-#: src/project/dialogs/guideslist.cpp:147
+#: src/project/dialogs/guideslist.cpp:146
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add new guide."
 msgstr "Tilføj hjælpelinje"
 
-#: src/project/dialogs/guideslist.cpp:148
+#: src/project/dialogs/guideslist.cpp:147
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:149
+#: src/project/dialogs/guideslist.cpp:148
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Delete guide."
 msgstr "Slet hjælpelinje"
 
-#: src/project/dialogs/guideslist.cpp:150
+#: src/project/dialogs/guideslist.cpp:149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:151
+#: src/project/dialogs/guideslist.cpp:150
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Edit selected guide."
 msgstr "Slet hjælpelinje"
 
-#: src/project/dialogs/guideslist.cpp:152
+#: src/project/dialogs/guideslist.cpp:151
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27351,12 +27351,12 @@ msgid ""
 "category."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:153
+#: src/project/dialogs/guideslist.cpp:152
 #, kde-format
 msgid "Filter guide categories."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:155
+#: src/project/dialogs/guideslist.cpp:154
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -27364,54 +27364,42 @@ msgid ""
 "categories in this dialog and in the timeline."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:156
+#: src/project/dialogs/guideslist.cpp:155
 #, fuzzy, kde-format
 #| msgid "Default quality"
 msgid "Default guide category."
 msgstr "Standardkvalitet"
 
-#: src/project/dialogs/guideslist.cpp:157
+#: src/project/dialogs/guideslist.cpp:156
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:184
+#: src/project/dialogs/guideslist.cpp:182
 #, fuzzy, kde-format
 #| msgid "All Projects"
 msgid "All Project Markers"
 msgstr "Alle projekter"
 
-#: src/project/dialogs/guideslist.cpp:241
+#: src/project/dialogs/guideslist.cpp:243
 #, fuzzy, kde-format
 #| msgid "Load Clip Markers"
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "Indlæs klipmarkører"
 
-#: src/project/dialogs/guideslist.cpp:257
+#: src/project/dialogs/guideslist.cpp:259
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:354
-#: src/project/dialogs/guideslist.cpp:365
+#: src/project/dialogs/guideslist.cpp:361
+#: src/project/dialogs/guideslist.cpp:372
 #, fuzzy, kde-format
 #| msgid "Remove Guide"
 msgid "Remove guides"
 msgstr "Fjern hjælpelinje"
-
-#: src/project/dialogs/guideslist.cpp:441
-#, fuzzy, kde-format
-#| msgid "Markers"
-msgid "Markers for %1"
-msgstr "Markører"
-
-#: src/project/dialogs/guideslist.cpp:478
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
-msgid "Timeline Guides"
-msgstr "Redigeringstilstand for tidslinje"
 
 #: src/project/dialogs/noteswidget.cpp:34
 #, kde-format
@@ -31770,14 +31758,13 @@ msgstr "Slet nuværende punkt"
 #. i18n: ectx: property (text), widget (QToolButton, button_add)
 #. i18n: ectx: property (text), widget (QToolButton, button_edit)
 #. i18n: ectx: property (text), widget (QToolButton, button_download)
+#. i18n: ectx: property (text), widget (QToolButton, sort_guides)
 #. i18n: ectx: property (text), widget (QToolButton, guide_add)
 #. i18n: ectx: property (text), widget (QToolButton, guide_edit)
 #. i18n: ectx: property (text), widget (QToolButton, guide_delete)
 #. i18n: ectx: property (text), widget (QToolButton, default_category)
-#. i18n: ectx: property (text), widget (QToolButton, guide_all)
 #. i18n: ectx: property (text), widget (QToolButton, guides_lock)
 #. i18n: ectx: property (text), widget (QToolButton, guides_settings)
-#. i18n: ectx: property (text), widget (QToolButton, sort_guides)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomin)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomout)
 #. i18n: ectx: property (text), widget (QToolButton, preset_button)
@@ -31881,42 +31868,42 @@ msgstr "Slet nuværende punkt"
 #: src/ui/editsub_ui.ui:644 src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:127 src/ui/gradientedit_ui.ui:147
-#: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
-#: src/ui/guideslist_ui.ui:53 src/ui/guideslist_ui.ui:67
-#: src/ui/guideslist_ui.ui:80 src/ui/guideslist_ui.ui:93
-#: src/ui/guideslist_ui.ui:119 src/ui/guideslist_ui.ui:145
-#: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:79
-#: src/ui/managecache_ui.ui:100 src/ui/managecache_ui.ui:131
-#: src/ui/managecache_ui.ui:277 src/ui/managecache_ui.ui:328
-#: src/ui/manageencodingprofile_ui.ui:48 src/ui/manageencodingprofile_ui.ui:59
-#: src/ui/manageencodingprofile_ui.ui:70 src/ui/manageencodingprofile_ui.ui:84
-#: src/ui/managesubtitles_ui.ui:79 src/ui/maskmanage_ui.ui:98
-#: src/ui/maskmanage_ui.ui:111 src/ui/maskmanage_ui.ui:124
-#: src/ui/maskmanage_ui.ui:189 src/ui/maskmanage_ui.ui:239
-#: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
-#: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
-#: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
-#: src/ui/qtextclip_ui.ui:94 src/ui/renderwidget_ui.ui:1007
-#: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
-#: src/ui/textbasededit_ui.ui:70 src/ui/textbasededit_ui.ui:139
-#: src/ui/textbasededit_ui.ui:162 src/ui/textbasededit_ui.ui:178
-#: src/ui/textbasededit_ui.ui:188 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:215 src/ui/textbasededit_ui.ui:225
-#: src/ui/textbasededit_ui.ui:253 src/ui/textbasededit_ui.ui:273
-#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
-#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
-#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
-#: src/ui/titlewidget_ui.ui:656 src/ui/titlewidget_ui.ui:669
-#: src/ui/titlewidget_ui.ui:682 src/ui/titlewidget_ui.ui:695
-#: src/ui/titlewidget_ui.ui:708 src/ui/titlewidget_ui.ui:721
-#: src/ui/titlewidget_ui.ui:939 src/ui/titlewidget_ui.ui:949
-#: src/ui/titlewidget_ui.ui:1153 src/ui/titlewidget_ui.ui:1207
-#: src/ui/titlewidget_ui.ui:1256 src/ui/titlewidget_ui.ui:1278
-#: src/ui/titlewidget_ui.ui:1310 src/ui/titlewidget_ui.ui:1399
-#: src/ui/titlewidget_ui.ui:1754 src/ui/titlewidget_ui.ui:1770
-#: src/ui/titlewidget_ui.ui:1783 src/ui/unicodewidget_ui.ui:201
-#: src/ui/unicodewidget_ui.ui:226 src/ui/urllistparamwidget_ui.ui:117
+#: src/ui/guideslist_ui.ui:55 src/ui/guideslist_ui.ui:80
+#: src/ui/guideslist_ui.ui:97 src/ui/guideslist_ui.ui:110
+#: src/ui/guideslist_ui.ui:124 src/ui/guideslist_ui.ui:137
+#: src/ui/guideslist_ui.ui:163 src/ui/managecache_ui.ui:65
+#: src/ui/managecache_ui.ui:79 src/ui/managecache_ui.ui:100
+#: src/ui/managecache_ui.ui:131 src/ui/managecache_ui.ui:277
+#: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
+#: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
+#: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
+#: src/ui/maskmanage_ui.ui:98 src/ui/maskmanage_ui.ui:111
+#: src/ui/maskmanage_ui.ui:124 src/ui/maskmanage_ui.ui:189
+#: src/ui/maskmanage_ui.ui:239 src/ui/projectsettings_ui.ui:421
+#: src/ui/projectsettings_ui.ui:501 src/ui/projectsettings_ui.ui:508
+#: src/ui/projectsettings_ui.ui:518 src/ui/projectsettings_ui.ui:589
+#: src/ui/projectsettings_ui.ui:596 src/ui/qtextclip_ui.ui:94
+#: src/ui/renderwidget_ui.ui:1007 src/ui/resourcewidget_ui.ui:214
+#: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
+#: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
+#: src/ui/textbasededit_ui.ui:139 src/ui/textbasededit_ui.ui:162
+#: src/ui/textbasededit_ui.ui:178 src/ui/textbasededit_ui.ui:188
+#: src/ui/textbasededit_ui.ui:198 src/ui/textbasededit_ui.ui:215
+#: src/ui/textbasededit_ui.ui:225 src/ui/textbasededit_ui.ui:253
+#: src/ui/textbasededit_ui.ui:273 src/ui/timeremap_ui.ui:84
+#: src/ui/timeremap_ui.ui:137 src/ui/timeremap_ui.ui:167
+#: src/ui/timeremap_ui.ui:177 src/ui/timeremap_ui.ui:187
+#: src/ui/timeremap_ui.ui:331 src/ui/titlewidget_ui.ui:656
+#: src/ui/titlewidget_ui.ui:669 src/ui/titlewidget_ui.ui:682
+#: src/ui/titlewidget_ui.ui:695 src/ui/titlewidget_ui.ui:708
+#: src/ui/titlewidget_ui.ui:721 src/ui/titlewidget_ui.ui:939
+#: src/ui/titlewidget_ui.ui:949 src/ui/titlewidget_ui.ui:1153
+#: src/ui/titlewidget_ui.ui:1207 src/ui/titlewidget_ui.ui:1256
+#: src/ui/titlewidget_ui.ui:1278 src/ui/titlewidget_ui.ui:1310
+#: src/ui/titlewidget_ui.ui:1399 src/ui/titlewidget_ui.ui:1754
+#: src/ui/titlewidget_ui.ui:1770 src/ui/titlewidget_ui.ui:1783
+#: src/ui/unicodewidget_ui.ui:201 src/ui/unicodewidget_ui.ui:226
+#: src/ui/urllistparamwidget_ui.ui:117
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -34323,18 +34310,25 @@ msgid "Guides and Markers Categories"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
-#: src/ui/guideslist_ui.ui:138
+#: src/ui/guideslist_ui.ui:23
 #, fuzzy, kde-format
 #| msgid "TextLabel"
 msgid "KSqueezedTextLabel"
 msgstr "Tekstetiket"
 
-#. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
+#. i18n: ectx: property (text), widget (QPushButton, show_all)
+#: src/ui/guideslist_ui.ui:30
+#, fuzzy, kde-format
+#| msgid "Show log"
+msgid "Show All"
+msgstr "Vis log"
+
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:168 src/ui/textbasededit_ui.ui:263
-#, kde-format
-msgid "Search"
-msgstr "Søg"
+#: src/ui/guideslist_ui.ui:42
+#, fuzzy, kde-format
+#| msgid "Search scale"
+msgid "Search Markers"
+msgstr "Søgningsskala"
 
 #. i18n: ectx: property (text), widget (QLabel, lblComponents)
 #: src/ui/histogram_ui.ui:31
@@ -35914,6 +35908,12 @@ msgstr "Valgt &zone"
 msgid "Transcribe"
 msgstr "Omkodning"
 
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
+#: src/ui/textbasededit_ui.ui:263
+#, kde-format
+msgid "Search"
+msgstr "Søg"
+
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:77
 #, kde-format
@@ -36579,6 +36579,16 @@ msgid "%1h"
 msgstr "%1t"
 
 #, fuzzy
+#~| msgid "Markers"
+#~ msgid "Markers for %1"
+#~ msgstr "Markører"
+
+#, fuzzy
+#~| msgid "Timeline Edit Mode"
+#~ msgid "Timeline Guides"
+#~ msgstr "Redigeringstilstand for tidslinje"
+
+#, fuzzy
 #~| msgid ""
 #~| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
 #~| "li>"
@@ -37052,11 +37062,6 @@ msgstr "%1t"
 #~| msgid "Relocated item"
 #~ msgid "Recovered item"
 #~ msgstr "Genfundet element"
-
-#, fuzzy
-#~| msgid "Search scale"
-#~ msgid "Search aborted"
-#~ msgstr "Søgningsskala"
 
 #, fuzzy
 #~| msgid "Scanning"
