@@ -29,6 +29,7 @@ SpeechToText::SpeechToText(SpeechToTextEngine::EngineType engineType, QObject *p
     : AbstractPythonInterface(parent)
     , m_engineType(engineType)
 {
+    m_venvPath = QStringLiteral("venv");
 }
 
 QString SpeechToText::featureName()

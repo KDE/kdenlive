@@ -27,6 +27,7 @@
 SamInterface::SamInterface(QObject *parent)
     : AbstractPythonInterface(parent)
 {
+    m_venvPath = QStringLiteral("venv-sam");
     QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/automask/requirements-sam.txt"));
     if (!scriptPath.isEmpty()) {
         m_dependencies.insert(scriptPath, QString());
@@ -78,11 +79,6 @@ QString SamInterface::subtitleScript()
 QString SamInterface::speechScript()
 {
     return QString();
-}
-
-const QString SamInterface::getVenvPath()
-{
-    return QStringLiteral("venv-sam");
 }
 
 const QString SamInterface::configForModel()

@@ -237,7 +237,7 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
 
     connect(&m_samProcess, &QProcess::stateChanged, this, [this](QProcess::ProcessState state) {
         if (state == QProcess::NotRunning) {
-            qDebug() << "===== SAM SCRIPT TERMINATED ========";
+            qDebug() << "===== SAM SCRIPT TERMINATED : " << m_samProcess.readAllStandardOutput() << " / " << m_samProcess.readAllStandardError();
             pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
             m_jobStatus = QProcess::NotRunning;
             if (m_killedOnRequest) {
@@ -286,6 +286,7 @@ void AutomaskHelper::launchSam(const QDir &previewFolder, int offset, const Obje
                 Q_EMIT updateProgress(progress);
             }
         } else {
+            qDebug() << "===== SAM SCRIPT ERROR : " << output;
             m_errorLog.append(output);
         }
     });

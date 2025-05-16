@@ -23,7 +23,6 @@ public:
     const QString modelFolder(bool mainFolder = true);
     virtual const QStringList getInstalledModels();
     virtual bool installNewModel(const QString &modelName = QString());
-    const QString getVenvPath() override;
     static const QString configForModel();
     AbstractPythonInterface::PythonExec venvPythonExecs(bool checkPip = false) override;
     bool useSystemPython() override;

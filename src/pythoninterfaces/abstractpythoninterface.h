@@ -66,8 +66,7 @@ public:
     virtual const QString installMessage() const;
     /** @brief The path to the binary location for this virtual environement. */
     const QString getVenvBinPath();
-    /** @brief The virtual enviroments dir name. */
-    virtual const QString getVenvPath();
+    const QString getVenvPath() { return m_venvPath; };
     /** @brief Add a special dependency. */
     void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
     /** @brief Get a script path ba name. */
@@ -118,6 +117,8 @@ protected:
     QMap<QString, QString> m_scripts;
     void addScript(const QString &script);
     InstallStatus m_installStatus{Unknown};
+    /** @brief The virtual enviroments dir name. */
+    QString m_venvPath;
 
 Q_SIGNALS:
     void setupError(const QString &message);
