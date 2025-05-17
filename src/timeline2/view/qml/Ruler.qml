@@ -186,6 +186,8 @@ Item {
                             if (prevFrame != destFrame) {
                                 timeline.moveGuideWithoutUndo(movingMarkerId, prevFrame)
                                 timeline.moveGuideById(movingMarkerId, destFrame)
+                            } else {
+                                root.markerActivated(prevFrame)
                             }
                             movingMarkerId = -1
                             anchors.left = parent.left

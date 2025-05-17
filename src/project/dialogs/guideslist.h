@@ -78,6 +78,8 @@ public Q_SLOTS:
     void removeGuide();
     void selectAll();
     void updateJobProgress();
+    /** @brief A marker was selected in timeline. */
+    void markerActivated(int frame);
 
 private Q_SLOTS:
     void saveGuides();

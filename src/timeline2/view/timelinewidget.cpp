@@ -25,6 +25,7 @@
 #include "mainwindow.h"
 #include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
+#include "project/dialogs/guideslist.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinewidget.h"
 
@@ -211,6 +212,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(showHeaderMenu()), this, SLOT(showHeaderMenu()));
     connect(rootObject(), SIGNAL(showTargetMenu(int)), this, SLOT(showTargetMenu(int)));
     connect(rootObject(), SIGNAL(showSubtitleClipMenu()), this, SLOT(showSubtitleClipMenu()));
+    connect(rootObject(), SIGNAL(markerActivated(int)), pCore->guidesList(), SLOT(markerActivated(int)));
     connect(rootObject(), SIGNAL(updateTimelineMousePos(int, int)), pCore->window(), SLOT(slotUpdateMousePosition(int, int)));
     timelineController.setRoot(rootObject());
     setVisible(true);

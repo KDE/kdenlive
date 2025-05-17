@@ -45,6 +45,7 @@ Rectangle {
     signal showRulerMenu()
     signal showHeaderMenu()
     signal showTargetMenu(int ix)
+    signal markerActivated(int frame)
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)

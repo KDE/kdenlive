@@ -202,6 +202,10 @@ GuidesList::GuidesList(QWidget *parent)
     default_category->setToolTip(i18n("Default guide category."));
     default_category->setWhatsThis(xi18nc("@info:whatsthis", "Default guide category. The category used for newly created guides."));
     connect(pCore.get(), &Core::profileChanged, m_proxy, &GuidesProxyModel::refreshDar);
+    connect(m_proxy, &QIdentityProxyModel::rowsInserted, this, [this](const QModelIndex parent, int first, int) {
+        QSignalBlocker bk(guides_list->selectionModel());
+        guides_list->selectionModel()->select(m_proxy->index(first, 0, parent), QItemSelectionModel::ClearAndSelect);
+    });
     m_markerRefreshTimer.setSingleShot(true);
     m_markerRefreshTimer.setInterval(500);
     connect(&m_markerRefreshTimer, &QTimer::timeout, this, &GuidesList::fetchMovedThumbs);
@@ -849,5 +853,14 @@ void GuidesList::rebuildThumbs()
         const QString binId = markerModel->ownerId();
         ThumbnailCache::get()->invalidateThumbsForClip(binId, frames);
         CacheTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), frames, this);
+    }
+}
+
+void GuidesList::markerActivated(int frame)
+{
+    QModelIndexList indexes = m_proxy->match(m_proxy->index(0, 0), MarkerListModel::FrameRole, frame);
+    if (!indexes.isEmpty()) {
+        guides_list->selectionModel()->select(indexes.first(), QItemSelectionModel::ClearAndSelect);
+        guides_list->scrollTo(indexes.first());
     }
 }
