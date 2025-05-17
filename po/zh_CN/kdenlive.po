@@ -4319,77 +4319,77 @@ msgstr "EBU R128 音量归一化"
 #: data/effects/avfilter/avfilter_loudnorm.xml:8
 #, kde-format
 msgid "Integrated loudness target"
-msgstr "平均音量目标"
+msgstr "平均响度目标"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:11
 #, kde-format
 msgid "Loudness range target"
-msgstr ""
+msgstr "响度范围目标"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:14
 #, kde-format
 msgid "Maximum true peak"
-msgstr ""
+msgstr "最大真实峰值"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:17
 #, kde-format
 msgid "Measured IL of input file"
-msgstr ""
+msgstr "输入文件 IL 测量值"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:20
 #, kde-format
 msgid "Measured LRA of input file"
-msgstr ""
+msgstr "输入文件 LRA 测量值"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:23
 #, kde-format
 msgid "Measured true peak of input file"
-msgstr ""
+msgstr "输入文件真实峰值测量值"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:26
 #, kde-format
 msgid "Measured threshold of input file"
-msgstr ""
+msgstr "输入文件阈值测量值"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:29
 #, kde-format
 msgid "Offset gain"
-msgstr ""
+msgstr "偏移增益"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:32
 #, kde-format
 msgid "Normalize by linearly scaling"
-msgstr ""
+msgstr "线性归一化"
 
 #: data/effects/avfilter/avfilter_loudnorm.xml:35
 #, kde-format
 msgid "Treat mono input files as \"dual-mono\""
-msgstr ""
+msgstr "将单声道输入文件添加一个相同通道作为双声道输入"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:4
 #, kde-format
 msgid "Low-pass"
-msgstr ""
+msgstr "低通滤波器"
 
 #: data/effects/avfilter/avfilter_lowpass.xml:5
 #, kde-format
 msgid "Apply a low-pass filter with 3dB point frequency."
-msgstr ""
+msgstr "应用3dB点频率的低通滤波器."
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:4
 #, kde-format
 msgid "Low-shelf"
-msgstr ""
+msgstr "低架滤波器"
 
 #: data/effects/avfilter/avfilter_lowshelf.xml:5
 #, kde-format
 msgid "Apply a low shelf filter."
-msgstr ""
+msgstr "应用低架滤波器."
 
 #: data/effects/avfilter/avfilter_lut3d.xml:4
 #, kde-format
 msgid "Apply LUT"
-msgstr ""
+msgstr "应用 LUT"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:5
 #, kde-format
@@ -4398,36 +4398,38 @@ msgid ""
 "the color of a video. Supported formats: .3dl (AfterEffects), .cube "
 "(Iridas), .dat (DaVinci), .m3d (Pandora)"
 msgstr ""
+"将查找表(LUT)应用于视频。LUT是校正视频颜色的一种简单方法。支持的格式：3dl "
+"(AfterEffects）、.cube (Iridas）、.dat (DaVinci)、.m3d (Pandora)"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:8
 #, kde-format
 msgid "LUT file to apply"
-msgstr ""
+msgstr "要应用的 LUT 文件"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:11
 #, kde-format
 msgid "Interpolation Mode"
-msgstr ""
+msgstr "插值模式"
 
 #: data/effects/avfilter/avfilter_lut3d.xml:12
 #, kde-format
 msgid "Nearest, Trilinear, Tetrahedral"
-msgstr ""
+msgstr "最近邻插值,三线性插值,四面体插值"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:4
 #, kde-format
 msgid "Motion compensation deinterlacer"
-msgstr ""
+msgstr "运动补偿去隔行器"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:5
 #, kde-format
 msgid "Apply motion-compensation deinterlacing"
-msgstr ""
+msgstr "应用运动补偿去隔行器"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:8
 #, kde-format
 msgid "Fast,Medium,Slow,Extra_slow"
-msgstr ""
+msgstr "Fast,Medium,Slow,Extra_slow"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:13
 #, kde-format

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-16 02:41+0000\n"
-"PO-Revision-Date: 2025-05-15 13:56+0300\n"
+"PO-Revision-Date: 2025-05-16 19:53+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -11716,16 +11716,14 @@ msgid "LADSPA equalizer audio effect (15 band)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:8
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "50 Hz"
-msgstr "44100 Hz"
+msgstr "50 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:11
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "100 Hz"
-msgstr "44100 Hz"
+msgstr "100 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
 #, kde-format
@@ -11743,10 +11741,9 @@ msgid "311 Hz"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:23
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "440 Hz"
-msgstr "44100 Hz"
+msgstr "440 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
 #, kde-format
@@ -11754,52 +11751,44 @@ msgid "622 Hz"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "880 Hz"
-msgstr "48000 Hz"
+msgstr "880 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:32
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "1250 Hz"
-msgstr "44100 Hz"
+msgstr "1250 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:35
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "1750 Hz"
-msgstr "44100 Hz"
+msgstr "1750 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:38
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "2500 Hz"
-msgstr "44100 Hz"
+msgstr "2500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:41
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "3500 Hz"
-msgstr "44100 Hz"
+msgstr "3500 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:44
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "5000 Hz"
-msgstr "48000 Hz"
+msgstr "5000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:47
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "10000 Hz"
-msgstr "48000 Hz"
+msgstr "10000 Hz"
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "20000 Hz"
-msgstr "48000 Hz"
+msgstr "20000 Hz"
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:4
 #, kde-format

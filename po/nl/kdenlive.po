@@ -24042,7 +24042,7 @@ msgstr "Ruimte verwijderen"
 #: src/mainwindow.cpp:1827
 #, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Alle spaties na de cursor verwijderen"
+msgstr "Alle ruimtes na de cursor verwijderen"
 
 #: src/mainwindow.cpp:1828
 #, kde-format
