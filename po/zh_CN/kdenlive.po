@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-17 00:41+0000\n"
+"POT-Creation-Date: 2025-05-18 00:42+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -14951,7 +14951,7 @@ msgstr ""
 "\n"
 "右："
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1009
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "主"
@@ -17329,7 +17329,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "如果不确定，请尝试：<br/><b>Unicode (UTF-8)</b>"
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:335 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:339 src/project/projectmanager.cpp:1805
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -25775,22 +25775,19 @@ msgid "Reassign the markers to :"
 msgstr "重新分配该标记到："
 
 #: src/project/dialogs/guideslist.cpp:126
-#, fuzzy, kde-format
-#| msgid "Show thumbnails"
+#, kde-format
 msgid "Show Thumbnails"
-msgstr "显示缩略图"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:132
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import…"
-msgstr "导入"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Exporting…"
+#, kde-format
 msgid "Export…"
-msgstr "正在导出…"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-format
@@ -25818,10 +25815,9 @@ msgid "Sort by Comment"
 msgstr "按评论排序"
 
 #: src/project/dialogs/guideslist.cpp:190
-#, fuzzy, kde-format
-#| msgid "Show Audio Thumbnails"
+#, kde-format
 msgid "Refresh All Thumbnails"
-msgstr "显示音频缩略图"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:193
 #, kde-format
@@ -25883,24 +25879,24 @@ msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr "默认辅助线类别。新创建的辅助线将使用此类别。"
 
-#: src/project/dialogs/guideslist.cpp:238
+#: src/project/dialogs/guideslist.cpp:242
 #, kde-format
 msgid "All Project Markers"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:314
+#: src/project/dialogs/guideslist.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "加载剪辑标记"
 
-#: src/project/dialogs/guideslist.cpp:330
+#: src/project/dialogs/guideslist.cpp:334
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "标记文件大于 1MB，您确定要导入吗？"
 
-#: src/project/dialogs/guideslist.cpp:432
-#: src/project/dialogs/guideslist.cpp:443
+#: src/project/dialogs/guideslist.cpp:436
+#: src/project/dialogs/guideslist.cpp:447
 #, kde-format
 msgid "Remove guides"
 msgstr "移除辅助线"
@@ -28638,7 +28634,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/Timeline.qml:2000
+#: src/timeline2/view/qml/Timeline.qml:2001
 #, kde-format
 msgid "Paused"
 msgstr "已暂停"
@@ -28800,28 +28796,28 @@ msgstr "显示"
 msgid "Hide"
 msgstr "隐藏"
 
-#: src/timeline2/view/qml/Timeline.qml:1003
+#: src/timeline2/view/qml/Timeline.qml:1004
 #, kde-format
 msgid "Show master effects"
 msgstr "显示主效果"
 
-#: src/timeline2/view/qml/Timeline.qml:1663
+#: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>双击</b> 以添加字幕"
 
-#: src/timeline2/view/qml/Timeline.qml:1830
+#: src/timeline2/view/qml/Timeline.qml:1831
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/Timeline.qml:1989
-#: src/timeline2/view/qml/Timeline.qml:1998
+#: src/timeline2/view/qml/Timeline.qml:1990
+#: src/timeline2/view/qml/Timeline.qml:1999
 #, kde-format
 msgid "Recording"
 msgstr "正在录制"
 
-#: src/timeline2/view/qml/Timeline.qml:2092
+#: src/timeline2/view/qml/Timeline.qml:2093
 #, kde-format
 msgid "Multicam In"
 msgstr "多机位入点"
@@ -29229,17 +29225,17 @@ msgstr "关闭 %1"
 msgid "Rename Sequence"
 msgstr "重命名序列"
 
-#: src/timeline2/view/timelinewidget.cpp:59
+#: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
 msgid "Insert an effect..."
 msgstr "插入效果..."
 
-#: src/timeline2/view/timelinewidget.cpp:60
+#: src/timeline2/view/timelinewidget.cpp:61
 #, kde-format
 msgid "Insert a composition..."
 msgstr "插入合成..."
 
-#: src/timeline2/view/timelinewidget.cpp:322
+#: src/timeline2/view/timelinewidget.cpp:324
 #, kde-format
 msgid "No available stream"
 msgstr "没有可用的流"
@@ -34496,13 +34492,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Checking setup…"
-#~ msgstr "正在检查安装情况…"
-
-#~ msgid "Import..."
-#~ msgstr "导入..."
-
-#~ msgid "Export..."
-#~ msgstr "导出..."

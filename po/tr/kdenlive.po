@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-17 00:41+0000\n"
-"PO-Revision-Date: 2025-05-16 19:53+0300\n"
+"POT-Creation-Date: 2025-05-18 00:42+0000\n"
+"PO-Revision-Date: 2025-05-17 22:53+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -14497,43 +14497,37 @@ msgid "Circle size"
 msgstr "Dosya boyutu:"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:4
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Wipe Down"
-msgstr "Aşağı"
+msgstr "Aşağı doğru sil"
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to bottom."
+#, kde-format
 msgid "Wipe from top to bottom."
-msgstr "Ögeyi aşağı hizalayın."
+msgstr "Yukarıdan aşağıya doğru silin."
 
 #: data/transitions/frei0r/frei0r_wipe-down.xml:8
 #: data/transitions/frei0r/frei0r_wipe-left.xml:8
 #: data/transitions/frei0r/frei0r_wipe-right.xml:8
 #: data/transitions/frei0r/frei0r_wipe-up.xml:8
-#, fuzzy, kde-format
-#| msgid "Y position"
+#, kde-format
 msgid "Edge position"
-msgstr "Y konumu"
+msgstr "Kenar konumu"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Wipe Left"
-msgstr "Sol Üst"
+msgstr "Sola doğru sil"
 
 #: data/transitions/frei0r/frei0r_wipe-left.xml:5
-#, fuzzy, kde-format
-#| msgid "Align item to left."
+#, kde-format
 msgid "Wipe from right to left."
-msgstr "Ögeyi sola hizalayın."
+msgstr "Sağdan sola doğru silin."
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:4
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Wipe"
-msgstr "Dikdörtgen pencere"
+msgstr "Dörtgensel sil"
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:5
 #, kde-format
@@ -14541,16 +14535,14 @@ msgid "Wipe from center to edge in a rectangle."
 msgstr ""
 
 #: data/transitions/frei0r/frei0r_wipe-rect.xml:8
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Rectangle size"
-msgstr "Dikdörtgen"
+msgstr "Dikdörtgen boyutu"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:4
-#, fuzzy, kde-format
-#| msgid "Top Right"
+#, kde-format
 msgid "Wipe Right"
-msgstr "Sağ Üst"
+msgstr "Sağa doğru sil"
 
 #: data/transitions/frei0r/frei0r_wipe-right.xml:5
 #, kde-format
@@ -15726,7 +15718,7 @@ msgstr ""
 "\n"
 "R:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1009
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "Ana"
@@ -18148,7 +18140,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Emin değilseniz şunu deneyin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:335 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:339 src/project/projectmanager.cpp:1805
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -18826,10 +18818,9 @@ msgstr "Sunulan dosya uzunluğu: %1"
 
 #: src/dialogs/renderwidget.cpp:1891
 #: src/mltcontroller/clippropertiescontroller.cpp:605
-#, fuzzy, kde-format
-#| msgid "Time offset:"
+#, kde-format
 msgid "Timecode Offset:"
-msgstr "Zaman ofseti:"
+msgstr "Zaman kodu ofseti:"
 
 #: src/dialogs/renderwidget.cpp:1896
 #, kde-format
@@ -26773,22 +26764,19 @@ msgid "Reassign the markers to :"
 msgstr "İmleyicileri şuraya yeniden ata:"
 
 #: src/project/dialogs/guideslist.cpp:126
-#, fuzzy, kde-format
-#| msgid "Show thumbnails"
+#, kde-format
 msgid "Show Thumbnails"
 msgstr "Küçük görselleri göster"
 
 #: src/project/dialogs/guideslist.cpp:132
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import…"
-msgstr "İçe Aktar"
+msgstr "İçe Aktar…"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Exporting…"
+#, kde-format
 msgid "Export…"
-msgstr "Dışa aktarılıyor…"
+msgstr "Dışa Aktar…"
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-format
@@ -26887,26 +26875,25 @@ msgid "Default guide category. The category used for newly created guides."
 msgstr ""
 "Öntanımlı kılavuz kategorisi. Yeni oluşturulan kılavuzlar için kullanılır."
 
-#: src/project/dialogs/guideslist.cpp:238
-#, fuzzy, kde-format
-#| msgid "All Projects"
+#: src/project/dialogs/guideslist.cpp:242
+#, kde-format
 msgid "All Project Markers"
-msgstr "Tüm Projeler"
+msgstr "Tüm Proje İmleyicileri"
 
-#: src/project/dialogs/guideslist.cpp:314
+#: src/project/dialogs/guideslist.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "Klip İmleyicileri Yükle"
 
-#: src/project/dialogs/guideslist.cpp:330
+#: src/project/dialogs/guideslist.cpp:334
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "İmleyici dosyası 1MB’den büyük, içe aktarmak istediğinizden emin misiniz?"
 
-#: src/project/dialogs/guideslist.cpp:432
-#: src/project/dialogs/guideslist.cpp:443
+#: src/project/dialogs/guideslist.cpp:436
+#: src/project/dialogs/guideslist.cpp:447
 #, kde-format
 msgid "Remove guides"
 msgstr "Kılavuzları kaldır"
@@ -29697,7 +29684,7 @@ msgid "Stop"
 msgstr "Durdur"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/Timeline.qml:2000
+#: src/timeline2/view/qml/Timeline.qml:2001
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
@@ -29864,28 +29851,28 @@ msgstr "Göster"
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/timeline2/view/qml/Timeline.qml:1003
+#: src/timeline2/view/qml/Timeline.qml:1004
 #, kde-format
 msgid "Show master effects"
 msgstr "Ana efektleri göster"
 
-#: src/timeline2/view/qml/Timeline.qml:1663
+#: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:1830
+#: src/timeline2/view/qml/Timeline.qml:1831
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:1989
-#: src/timeline2/view/qml/Timeline.qml:1998
+#: src/timeline2/view/qml/Timeline.qml:1990
+#: src/timeline2/view/qml/Timeline.qml:1999
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/Timeline.qml:2092
+#: src/timeline2/view/qml/Timeline.qml:2093
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"
@@ -30308,17 +30295,17 @@ msgstr "Kapat: %1"
 msgid "Rename Sequence"
 msgstr "Sekansı Yeniden Adlandır"
 
-#: src/timeline2/view/timelinewidget.cpp:59
+#: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Bir Efekt Ekle…"
 
-#: src/timeline2/view/timelinewidget.cpp:60
+#: src/timeline2/view/timelinewidget.cpp:61
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Bir Bileşikleştirme Ekle…"
 
-#: src/timeline2/view/timelinewidget.cpp:322
+#: src/timeline2/view/timelinewidget.cpp:324
 #, kde-format
 msgid "No available stream"
 msgstr "Kullanılabilir akış yok"
@@ -33551,17 +33538,15 @@ msgstr "Kılavuzlar ve İmleyiciler Kategorileri"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:39
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "MetinEtiketi"
+msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
 #: src/ui/guideslist_ui.ui:175
-#, fuzzy, kde-format
-#| msgid "Search failed! %1"
+#, kde-format
 msgid "Search Markers"
-msgstr "Arama başarısız oldu! %1"
+msgstr "Arama imleyicileri"
 
 #. i18n: ectx: property (text), widget (QLabel, lblComponents)
 #: src/ui/histogram_ui.ui:31

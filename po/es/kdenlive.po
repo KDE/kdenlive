@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-17 00:41+0000\n"
+"POT-Creation-Date: 2025-05-18 00:42+0000\n"
 "PO-Revision-Date: 2025-05-10 16:11+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -15768,7 +15768,7 @@ msgstr ""
 "\n"
 "D:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1009
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "Maestra"
@@ -18218,7 +18218,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "En caso de duda, usar :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:335 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:339 src/project/projectmanager.cpp:1805
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -27005,25 +27005,25 @@ msgstr ""
 "Categoría predeterminada para guías. La categoría usada para las nuevas "
 "guías a ser creadas."
 
-#: src/project/dialogs/guideslist.cpp:238
+#: src/project/dialogs/guideslist.cpp:242
 #, fuzzy, kde-format
 #| msgid "All Projects"
 msgid "All Project Markers"
 msgstr "Todos los proyectos"
 
-#: src/project/dialogs/guideslist.cpp:314
+#: src/project/dialogs/guideslist.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "Cargar marcadores de clip"
 
-#: src/project/dialogs/guideslist.cpp:330
+#: src/project/dialogs/guideslist.cpp:334
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "El tamaño del marcador es mayor a 1MB, ¿seguro importarlo?"
 
-#: src/project/dialogs/guideslist.cpp:432
-#: src/project/dialogs/guideslist.cpp:443
+#: src/project/dialogs/guideslist.cpp:436
+#: src/project/dialogs/guideslist.cpp:447
 #, kde-format
 msgid "Remove guides"
 msgstr "Eliminar guías"
@@ -29861,7 +29861,7 @@ msgid "Stop"
 msgstr "Detener"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/Timeline.qml:2000
+#: src/timeline2/view/qml/Timeline.qml:2001
 #, kde-format
 msgid "Paused"
 msgstr "Pausado"
@@ -30028,28 +30028,28 @@ msgstr "Mostrar"
 msgid "Hide"
 msgstr "Ocultar"
 
-#: src/timeline2/view/qml/Timeline.qml:1003
+#: src/timeline2/view/qml/Timeline.qml:1004
 #, kde-format
 msgid "Show master effects"
 msgstr "Mostrar los efectos de la pista maestra de audio"
 
-#: src/timeline2/view/qml/Timeline.qml:1663
+#: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doble clic</b> para agregar un subtítulo"
 
-#: src/timeline2/view/qml/Timeline.qml:1830
+#: src/timeline2/view/qml/Timeline.qml:1831
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desplazamiento: %1, Posición: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:1989
-#: src/timeline2/view/qml/Timeline.qml:1998
+#: src/timeline2/view/qml/Timeline.qml:1990
+#: src/timeline2/view/qml/Timeline.qml:1999
 #, kde-format
 msgid "Recording"
 msgstr "Grabando"
 
-#: src/timeline2/view/qml/Timeline.qml:2092
+#: src/timeline2/view/qml/Timeline.qml:2093
 #, kde-format
 msgid "Multicam In"
 msgstr "Inicio multicámara"
@@ -30484,17 +30484,17 @@ msgstr "Cerrar %1"
 msgid "Rename Sequence"
 msgstr "Cambiar nombre a secuencia"
 
-#: src/timeline2/view/timelinewidget.cpp:59
+#: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Insertar efecto"
 
-#: src/timeline2/view/timelinewidget.cpp:60
+#: src/timeline2/view/timelinewidget.cpp:61
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Insertar método de composición"
 
-#: src/timeline2/view/timelinewidget.cpp:322
+#: src/timeline2/view/timelinewidget.cpp:324
 #, kde-format
 msgid "No available stream"
 msgstr "No hay fuentes disponibles"

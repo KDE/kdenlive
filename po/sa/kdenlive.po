@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-17 00:41+0000\n"
+"POT-Creation-Date: 2025-05-18 00:42+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -15712,7 +15712,7 @@ msgstr ""
 "\n"
 "र:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1009
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/Timeline.qml:1010
 #, kde-format
 msgid "Master"
 msgstr "निपुण"
@@ -18123,7 +18123,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "यदि अनिश्चितः,प्रयासः : १.<br/> <b>यूनिकोड (UTF-8)</b> ."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:335 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:339 src/project/projectmanager.cpp:1805
 #: src/renderpresets/renderpresetrepository.cpp:309
 #, kde-format
 msgid "Cannot read file %1"
@@ -26828,26 +26828,26 @@ msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr "पूर्वनिर्धारित मार्गदर्शक श्रेणी। नवनिर्मितमार्गदर्शकानां कृते प्रयुक्तः वर्गः ।"
 
-#: src/project/dialogs/guideslist.cpp:238
+#: src/project/dialogs/guideslist.cpp:242
 #, fuzzy, kde-format
 #| msgid "All Projects"
 msgid "All Project Markers"
 msgstr "सर्वाणि परियोजनानि"
 
-#: src/project/dialogs/guideslist.cpp:314
+#: src/project/dialogs/guideslist.cpp:318
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "लोड क्लिप मार्कर"
 
-#: src/project/dialogs/guideslist.cpp:330
+#: src/project/dialogs/guideslist.cpp:334
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "मार्कर सञ्चिका 1MB इत्यस्मात् बृहत्तरा अस्ति, भवान् निश्चितरूपेण आयातं कर्तुम् इच्छति वा ?"
 
-#: src/project/dialogs/guideslist.cpp:432
-#: src/project/dialogs/guideslist.cpp:443
+#: src/project/dialogs/guideslist.cpp:436
+#: src/project/dialogs/guideslist.cpp:447
 #, kde-format
 msgid "Remove guides"
 msgstr "मार्गदर्शकान् निष्कासयन्तु"
@@ -29617,7 +29617,7 @@ msgid "Stop"
 msgstr "विरमतु"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/Timeline.qml:2000
+#: src/timeline2/view/qml/Timeline.qml:2001
 #, kde-format
 msgid "Paused"
 msgstr "विरामः कृतः"
@@ -29784,28 +29784,28 @@ msgstr "दर्शयतु"
 msgid "Hide"
 msgstr "गोपयतु"
 
-#: src/timeline2/view/qml/Timeline.qml:1003
+#: src/timeline2/view/qml/Timeline.qml:1004
 #, kde-format
 msgid "Show master effects"
 msgstr "मास्टर इफेक्ट्स् दर्शयतु"
 
-#: src/timeline2/view/qml/Timeline.qml:1663
+#: src/timeline2/view/qml/Timeline.qml:1664
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "उपशीर्षकं योजयितुं <b>द्विवारं क्लिक् कुर्वन्तु</b>"
 
-#: src/timeline2/view/qml/Timeline.qml:1830
+#: src/timeline2/view/qml/Timeline.qml:1831
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "ऑफसेट्: %1, स्थितिः: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:1989
-#: src/timeline2/view/qml/Timeline.qml:1998
+#: src/timeline2/view/qml/Timeline.qml:1990
+#: src/timeline2/view/qml/Timeline.qml:1999
 #, kde-format
 msgid "Recording"
 msgstr "रिकार्डिङ्ग"
 
-#: src/timeline2/view/qml/Timeline.qml:2092
+#: src/timeline2/view/qml/Timeline.qml:2093
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicam In"
@@ -30222,17 +30222,17 @@ msgstr "%1 बन्दं कुर्वन्तु"
 msgid "Rename Sequence"
 msgstr "अनुक्रमस्य नाम परिवर्तयतु"
 
-#: src/timeline2/view/timelinewidget.cpp:59
+#: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
 msgid "Insert an effect..."
 msgstr "एकं प्रभावं सम्मिलितं कुर्वन्तु..."
 
-#: src/timeline2/view/timelinewidget.cpp:60
+#: src/timeline2/view/timelinewidget.cpp:61
 #, kde-format
 msgid "Insert a composition..."
 msgstr "एकं रचनां सम्मिलितं कुर्वन्तु..."
 
-#: src/timeline2/view/timelinewidget.cpp:322
+#: src/timeline2/view/timelinewidget.cpp:324
 #, kde-format
 msgid "No available stream"
 msgstr "न उपलब्धः धारा"
