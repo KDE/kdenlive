@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-16 02:41+0000\n"
-"PO-Revision-Date: 2025-05-17 22:53+0300\n"
+"PO-Revision-Date: 2025-05-18 13:13+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5387,60 +5387,54 @@ msgid "Y shear factor"
 msgstr "Bulanıklık faktörü"
 
 #: data/effects/avfilter/avfilter_shear.xml:14
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Background fill color"
-msgstr "Arka Plan Rengi"
+msgstr "Arka plan dolgu rengi"
 
 #: data/effects/avfilter/avfilter_shear.xml:17
 #, kde-format
 msgid "Nearest,Bilinear"
-msgstr ""
+msgstr "En yakın,Çift yönlü"
 
 #: data/effects/avfilter/avfilter_shear.xml:18
-#, fuzzy, kde-format
-#| msgid "Interpolation"
+#, kde-format
 msgid "Interpolation mode"
-msgstr "Aradeğerleme"
+msgstr "Aradeğerleme kipi"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
 msgid "Shuffle planes"
-msgstr ""
+msgstr "Düzlemleri karıştır"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:5
 #, kde-format
 msgid "Reorder and/or duplicate video planes"
-msgstr ""
+msgstr "Video düzlemlerini yeniden sıralayın veya çoğaltın."
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:8
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "1st Output Plane"
-msgstr "Çıktı dili"
+msgstr "1. çıktı düzlemi"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:11
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "2nd Output Plane"
-msgstr "Çıktı dili"
+msgstr "2. çıktı düzlemi"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:14
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "3rd Output Plane"
-msgstr "Çıktı dili"
+msgstr "3. çıktı düzlemi"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:17
-#, fuzzy, kde-format
-#| msgid "Output language"
+#, kde-format
 msgid "4th Output Plane"
-msgstr "Çıktı dili"
+msgstr "4. çıktı düzlemi"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, kde-format
 msgid "Smartblur"
-msgstr ""
+msgstr "Akıllı bulanıklaştırma"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:5
 #, kde-format
