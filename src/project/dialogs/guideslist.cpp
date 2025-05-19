@@ -116,9 +116,6 @@ GuidesList::GuidesList(QWidget *parent)
     connect(show_all, &QToolButton::toggled, this, &GuidesList::showAllMarkers);
     QAction *a = KStandardAction::renameFile(this, &GuidesList::editGuides, this);
     guides_list->addAction(a);
-    QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-    fixedFont.setPointSize(font().pointSize());
-    guides_list->setFont(fixedFont);
     slotShowThumbs(KdenliveSettings::guidesShowThumbs());
     a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     guide_edit->setEnabled(false);
