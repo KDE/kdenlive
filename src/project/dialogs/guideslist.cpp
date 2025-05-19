@@ -54,15 +54,16 @@ bool GuideFilterEventEater::eventFilter(QObject *obj, QEvent *event)
 GuidesProxyModel::GuidesProxyModel(int normalHeight, QObject *parent)
     : QIdentityProxyModel(parent)
 {
-    m_showThumbs = KdenliveSettings::guidesShowThumbs();
     m_baseHeight = normalHeight;
-    m_height = m_showThumbs ? 3 * m_baseHeight : 1.5 * m_baseHeight;
+    switchThumbs();
     refreshDar();
 }
 
 void GuidesProxyModel::switchThumbs()
 {
     m_showThumbs = KdenliveSettings::guidesShowThumbs();
+    // default line height is 1.5 * font baseline height.
+    // If we show the thumbnails, double it to 3 * line height
     m_height = m_showThumbs ? 3 * m_baseHeight : 1.5 * m_baseHeight;
 }
 
