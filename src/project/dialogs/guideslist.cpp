@@ -88,6 +88,8 @@ QVariant GuidesProxyModel::data(const QModelIndex &index, int role) const
         return QIcon(pix);
     }
     if (role == Qt::SizeHintRole) {
+        // Width will anyways be adjusted to listView's width.
+        // Add 2px to the height to have some spacing betweem item thumbs
         return QSize(50, m_height + 2);
     }
     if (role == Qt::DisplayRole) {
