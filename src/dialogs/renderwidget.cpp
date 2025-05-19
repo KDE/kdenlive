@@ -1727,6 +1727,9 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     if (props.contains(QStringLiteral("renderspeed"))) {
         m_view.speed->setValue(props.value(QStringLiteral("renderspeed")).toInt());
     }
+
+    // If stemaudio is not defined, will return 0
+    m_view.stemAudioExport->setChecked(props.value(QStringLiteral("renderstemaudio")).toInt());
 }
 
 void RenderWidget::saveRenderProfile()
@@ -1744,6 +1747,7 @@ void RenderWidget::saveRenderProfile()
         mode = 2;
     }
     renderProps.insert(QStringLiteral("rendermode"), QString::number(mode));
+    renderProps.insert(QStringLiteral("renderstemaudio"), m_view.stemAudioExport->isChecked() ? QString::number(1) : QString::number(0));
     renderProps.insert(QStringLiteral("renderstartguide"), QString::number(m_view.guide_start->currentIndex()));
     renderProps.insert(QStringLiteral("renderendguide"), QString::number(m_view.guide_end->currentIndex()));
     int export_audio = 0;
