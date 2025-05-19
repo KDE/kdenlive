@@ -265,7 +265,7 @@ QString AbstractPythonInterface::systemPythonExec()
                 if (line.startsWith(QStringLiteral("#python"))) {
                     QStringList compatiblePython = line.section(QLatin1Char('#'), 1).split(QLatin1Char(','), Qt::SkipEmptyParts);
                     for (auto &p : compatiblePython) {
-                        QString compatPath = QStandardPaths::findExecutable(p);
+                        const QString compatPath = QStandardPaths::findExecutable(p);
                         if (!compatPath.isEmpty()) {
                             return compatPath;
                         }
@@ -354,7 +354,7 @@ bool AbstractPythonInterface::checkVenv(bool calculateSize, bool forceInstall)
     if (!forceInstall) {
         return false;
     }
-
+    qDebug() << "================\n\nSTARTING INSTALL\n\n=========================";
     // Setup venv
     if (!setupVenv()) {
         // setup failed
@@ -418,15 +418,15 @@ bool AbstractPythonInterface::setupVenv()
 {
     // First check if python and venv are available
     QString pythonExec = systemPythonExec();
-
     // Check that the system python is found
     if (pythonExec.isEmpty() || installInProgress) {
-        Q_EMIT setupError(i18n("Cannot find system python"));
+        if (m_installStatus != Broken) {
+            Q_EMIT setupError(i18n("Cannot find system python"));
+        }
         return false;
     }
     // Use system python to check for venv
     installInProgress = true;
-    setStatus(InProgress);
     // Ensure the message is displayed before starting the busy work
     qApp->processEvents();
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
