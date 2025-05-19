@@ -1381,8 +1381,7 @@ void TimelineController::addQuickMarker(int cid, int position)
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     GenTime pos(position, pCore->getCurrentFps());
-    CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
-    clip->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
+    clip->getMarkerModel()->addMarker(pos, i18n("Marker"), KdenliveSettings::default_marker_type());
 }
 
 void TimelineController::deleteMarker(int cid, int position)

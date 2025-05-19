@@ -5444,7 +5444,7 @@ void Bin::addClipMarker(const QString &binId, const QMap<int, QString> &markersD
             continue;
         }
         if (m.value().isEmpty()) {
-            markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+            markers.insert(p, i18n("Marker"));
         } else {
             markers.insert(p, m.value());
         }

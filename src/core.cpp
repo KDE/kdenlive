@@ -1445,9 +1445,11 @@ void Core::addGuides(const QMap<QUuid, QMap<int, QString>> &guides)
         i.next();
         QMap<GenTime, QString> markers;
         QMap<int, QString> values = i.value();
+        int ix = 1;
         for (auto j = values.cbegin(), end = values.cend(); j != end; ++j) {
             GenTime p(j.key(), pCore->getCurrentFps());
-            markers.insert(p, j.value().isEmpty() ? pCore->currentDoc()->timecode().getDisplayTimecode(p, false) : j.value());
+            markers.insert(p, j.value().isEmpty() ? i18n("Marker %1", ix) : j.value());
+            ix++;
         }
         auto timeline = m_mainWindow->getTimeline(i.key());
         if (timeline == nullptr) {
