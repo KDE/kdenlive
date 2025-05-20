@@ -116,9 +116,11 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
 
     // Prepare the vectorscope data
     const int cw = (vectorscopeSize.width() < vectorscopeSize.height()) ? vectorscopeSize.width() : vectorscopeSize.height();
-    QImage scope = QImage(cw, cw, QImage::Format_ARGB32);
-    scope.setDevicePixelRatio(scalingFactor);
-    scope.fill(qRgba(0, 0, 0, 0));
+
+    // Create base vectorscope without zoom initially
+    QImage baseScope = QImage(cw, cw, QImage::Format_ARGB32);
+    baseScope.setDevicePixelRatio(scalingFactor);
+    baseScope.fill(qRgba(0, 0, 0, 0));
 
     double dy, dr, dg, db, dmax;
     double /*y,*/ u, v;
@@ -128,10 +130,8 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     // Just an average for the number of image pixels per scope pixel.
     // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see:
     // https://doc.qt.io/qt-5/qimage.html#bytesPerLine
-    double avgPxPerPx = double(image.depth()) / 8 * (image.bytesPerLine() * image.height()) / scope.size().width() / scope.size().height() / accelFactor;
-
-    // benchmarking code
-    // const auto start = std::chrono::high_resolution_clock::now();
+    double avgPxPerPx =
+        double(image.depth()) / 8 * (image.bytesPerLine() * image.height()) / baseScope.size().width() / baseScope.size().height() / accelFactor;
 
     const auto totalPixels = image.width() * image.height();
     for (int i = 0; i < totalPixels; i += accelFactor) {
@@ -154,13 +154,11 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
             break;
         }
 
-        pt = mapToCircle(vectorscopeSize, QPointF(SCALING * double(gain) * u, SCALING * double(gain) * v));
+        pt = mapToCircle(vectorscopeSize, QPointF(SCALING * u, SCALING * v));
 
-        if (pt.x() >= scope.width() || pt.x() < 0 || pt.y() >= scope.height() || pt.y() < 0) {
-            // Point lies outside (because of scaling), don't plot it
-
+        if (pt.x() >= baseScope.width() || pt.x() < 0 || pt.y() >= baseScope.height() || pt.y() < 0) {
+            // Point lies outside, don't plot it
         } else {
-
             // Draw the pixel using the chosen draw mode.
             switch (paintMode) {
             case PaintMode_YUV:
@@ -201,7 +199,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                     db = 255;
                 }
 
-                scope.setPixel(pt, qRgba(int(dr), int(dg), int(db), 255));
+                baseScope.setPixel(pt, qRgba(int(dr), int(dg), int(db), 255));
                 break;
 
             case PaintMode_Chroma:
@@ -236,31 +234,56 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                 dg *= dmax;
                 db *= dmax;
 
-                scope.setPixel(pt, qRgba(int(dr), int(dg), int(db), 255));
+                baseScope.setPixel(pt, qRgba(int(dr), int(dg), int(db), 255));
                 break;
             case PaintMode_Original:
-                scope.setPixel(pt, pixel);
+                baseScope.setPixel(pt, pixel);
                 break;
             case PaintMode_Green:
-                px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px) + int((255 - qRed(px)) / (3 * avgPxPerPx)), qGreen(px) + int(20 * (255 - qGreen(px)) / (avgPxPerPx)),
-                                         qBlue(px) + int((255 - qBlue(px)) / (avgPxPerPx)), qAlpha(px) + int((255 - qAlpha(px)) / (avgPxPerPx))));
+                px = baseScope.pixel(pt);
+                baseScope.setPixel(pt, qRgba(qRed(px) + int((255 - qRed(px)) / (3 * avgPxPerPx)), qGreen(px) + int(20 * (255 - qGreen(px)) / (avgPxPerPx)),
+                                             qBlue(px) + int((255 - qBlue(px)) / (avgPxPerPx)), qAlpha(px) + int((255 - qAlpha(px)) / (avgPxPerPx))));
                 break;
             case PaintMode_Green2:
-                px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px) + int(ceil((255 - qRed(px)) / (4 * avgPxPerPx))), 255,
+                px = baseScope.pixel(pt);
+                baseScope.setPixel(pt,
+                                   qRgba(qRed(px) + int(ceil((255 - qRed(px)) / (4 * avgPxPerPx))), 255,
                                          qBlue(px) + int(ceil((255 - qBlue(px)) / (avgPxPerPx))), qAlpha(px) + int(ceil((255 - qAlpha(px)) / (avgPxPerPx)))));
                 break;
             case PaintMode_Black:
             default:
-                px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(0, 0, 0, qAlpha(px) + (255 - qAlpha(px)) / 20));
+                px = baseScope.pixel(pt);
+                baseScope.setPixel(pt, qRgba(0, 0, 0, qAlpha(px) + (255 - qAlpha(px)) / 20));
                 break;
             }
         }
     }
-    // const auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    // uint64_t us = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-    // qDebug() << "Vectorscope calculated in" << us << " microseconds";
-    return scope;
+
+    if (gain <= 1.0) {
+        // No scaling required, return base scope
+        return baseScope;
+    }
+
+    // Calculate the region of interest (ROI) in the original (unscaled base) scope
+    int cropSize = int(cw / gain);
+
+    // Calculate the center point
+    int centerX = baseScope.width() / 2;
+    int centerY = baseScope.height() / 2;
+
+    // Calculate the top-left corner of our ROI
+    int cropX = centerX - (cropSize / 2);
+    int cropY = centerY - (cropSize / 2);
+
+    // Ensure we don't go out of bounds
+    cropX = qBound(0, cropX, baseScope.width() - cropSize);
+    cropY = qBound(0, cropY, baseScope.height() - cropSize);
+
+    // Crop first to get the ROI
+    QImage croppedScope = baseScope.copy(cropX, cropY, cropSize, cropSize);
+
+    // Then scale it up to target size
+    QImage scaledScope = croppedScope.scaled(cw, cw, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    return scaledScope;
 }
