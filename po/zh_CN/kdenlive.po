@@ -4434,38 +4434,38 @@ msgstr "Fast,Medium,Slow,Extra_slow"
 #: data/effects/avfilter/avfilter_mcdeint.xml:13
 #, kde-format
 msgid "Picture field parity"
-msgstr ""
+msgstr "图像场奇偶性"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:16
 #, kde-format
 msgid "QP"
-msgstr ""
+msgstr "QP"
 
 #: data/effects/avfilter/avfilter_median.xml:4
 #, kde-format
 msgid "Median"
-msgstr ""
+msgstr "Median - 中值滤波"
 
 #: data/effects/avfilter/avfilter_median.xml:5
 #: data/effects/avfilter/avfilter_scroll.xml:5
 #, kde-format
 msgid "Pick median pixel from certain rectangle defined by radius."
-msgstr ""
+msgstr "从由半径定义的某个矩形中拾取中间像素。"
 
 #: data/effects/avfilter/avfilter_median.xml:8
 #, kde-format
 msgid "Horizontal radius"
-msgstr ""
+msgstr "水平半径"
 
 #: data/effects/avfilter/avfilter_median.xml:9
 #, kde-format
 msgid "<![CDATA[Set median radius]]>"
-msgstr ""
+msgstr "<![CDATA[设置中值半径]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:12
 #, kde-format
 msgid "Vertical radius"
-msgstr ""
+msgstr "垂直半径"
 
 #: data/effects/avfilter/avfilter_median.xml:14
 #, kde-format
@@ -4474,11 +4474,13 @@ msgid ""
 "       \tIf it is 0, value will be picked from <em>Horizontal radius<em> "
 "parameter.]]>"
 msgstr ""
+"<![CDATA[设置中值垂直半径<br>\n"
+"       假如该值为0,则使用<em>水平半径<em>的值代替]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:17
 #, kde-format
 msgid "Median percentile"
-msgstr ""
+msgstr "中值百分比"
 
 #: data/effects/avfilter/avfilter_median.xml:19
 #, kde-format
@@ -4486,116 +4488,118 @@ msgid ""
 "<![CDATA[Default value of 50 will pick always median values,<br>\n"
 "       \twhile 0 will pick minimum values, and 100 maximum values.]]>"
 msgstr ""
+"<![CDATA[默认值50将始终选取中值<br>\n"
+"       0选取最小值，100选取最大值。]]>"
 
 #: data/effects/avfilter/avfilter_median.xml:24
 #, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
-msgstr ""
+msgstr "<![CDATA[选择要处理的平面]]>"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
 #, kde-format
 msgid "Monochrome"
-msgstr ""
+msgstr "单色模式"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:5
 #, kde-format
 msgid "Convert video to gray using custom color filter."
-msgstr ""
+msgstr " 使用自定义滤色器将视频转换为灰色"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:8
 #, kde-format
 msgid "Chroma blue spot"
-msgstr ""
+msgstr "色品蓝色点"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:11
 #, kde-format
 msgid "Chroma red spot"
-msgstr ""
+msgstr "色品红色点"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:14
 #, kde-format
 msgid "Color filter size"
-msgstr ""
+msgstr "颜色过滤器大小"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:17
 #, kde-format
 msgid "Highlights strength"
-msgstr ""
+msgstr "高光强度"
 
 #: data/effects/avfilter/avfilter_negate.xml:4
 #, kde-format
 msgid "Negate"
-msgstr ""
+msgstr "负片"
 
 #: data/effects/avfilter/avfilter_negate.xml:5
 #, kde-format
 msgid "Negate (invert) the input video or its alpha channel."
-msgstr ""
+msgstr "负片 (反转) 输入视频或其alpha通道。"
 
 #: data/effects/avfilter/avfilter_negate.xml:8
 #, kde-format
 msgid "Negate alpha"
-msgstr ""
+msgstr "负片透明度"
 
 #: data/effects/avfilter/avfilter_noise.xml:4
 #, kde-format
 msgid "Video Noise generator"
-msgstr ""
+msgstr "视频噪声生成器"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
 #, kde-format
 msgid "Add noise on video input frame"
-msgstr ""
+msgstr "在视频输入帧上添加噪声"
 
 #: data/effects/avfilter/avfilter_noise.xml:8
 #, kde-format
 msgid "All components noise seed"
-msgstr ""
+msgstr "全局噪声种子"
 
 #: data/effects/avfilter/avfilter_noise.xml:11
 #, kde-format
 msgid "Component #0 noise seed"
-msgstr ""
+msgstr "组件 #0 噪声种子"
 
 #: data/effects/avfilter/avfilter_noise.xml:14
 #, kde-format
 msgid "Component #1 noise seed"
-msgstr ""
+msgstr "组件 #1 噪声种子"
 
 #: data/effects/avfilter/avfilter_noise.xml:17
 #, kde-format
 msgid "Component #2 noise seed"
-msgstr ""
+msgstr "组件 #2 噪声种子"
 
 #: data/effects/avfilter/avfilter_noise.xml:20
 #, kde-format
 msgid "Component #3 noise seed"
-msgstr ""
+msgstr "组件 #3 噪声种子"
 
 #: data/effects/avfilter/avfilter_noise.xml:23
 #, kde-format
 msgid "All component strength"
-msgstr ""
+msgstr "全局效果强度"
 
 #: data/effects/avfilter/avfilter_noise.xml:26
 #, kde-format
 msgid "Component #0 strength"
-msgstr ""
+msgstr "组件 #0 效果强度"
 
 #: data/effects/avfilter/avfilter_noise.xml:29
 #, kde-format
 msgid "Component #1 strength"
-msgstr ""
+msgstr "组件 #1 效果强度"
 
 #: data/effects/avfilter/avfilter_noise.xml:32
 #, kde-format
 msgid "Component #2 strength"
-msgstr ""
+msgstr "组件 #2 效果强度"
 
 #: data/effects/avfilter/avfilter_noise.xml:35
 #, kde-format
 msgid "Component #3 strength"
-msgstr ""
+msgstr "组件 #3 效果强度"
 
 #: data/effects/avfilter/avfilter_noise.xml:38
 #: data/effects/avfilter/avfilter_noise.xml:42
@@ -4604,37 +4608,37 @@ msgstr ""
 #: data/effects/avfilter/avfilter_noise.xml:54
 #, kde-format
 msgid "Average temporal noise,Mix random noise,Temporal noise,Uniform noise"
-msgstr ""
+msgstr "平均时域噪声,混合随机噪声,时域噪音,均匀噪音"
 
 #: data/effects/avfilter/avfilter_noise.xml:39
 #, kde-format
 msgid "Flag all"
-msgstr ""
+msgstr "标记所有"
 
 #: data/effects/avfilter/avfilter_noise.xml:43
 #, kde-format
 msgid "Flag component 0"
-msgstr ""
+msgstr "标记组件 0"
 
 #: data/effects/avfilter/avfilter_noise.xml:47
 #, kde-format
 msgid "Flag component 1"
-msgstr ""
+msgstr "标记组件 1"
 
 #: data/effects/avfilter/avfilter_noise.xml:51
 #, kde-format
 msgid "Flag component 2"
-msgstr ""
+msgstr "标记组件 2"
 
 #: data/effects/avfilter/avfilter_noise.xml:55
 #, kde-format
 msgid "Flag component 3"
-msgstr ""
+msgstr "标记组件 3"
 
 #: data/effects/avfilter/avfilter_normalize.xml:4
 #, kde-format
 msgid "Normalize RGB video"
-msgstr ""
+msgstr "规格化 RGB 视频"
 
 #: data/effects/avfilter/avfilter_normalize.xml:5
 #, kde-format
@@ -4642,62 +4646,64 @@ msgid ""
 "Normalize RGB video (aka histogram stretching, contrast stretching). See: "
 "https://en.wikipedia.org/wiki/Normalization_(image_processing) "
 msgstr ""
+"规格化RGB视频（也称为直方图拉伸、对比度拉伸）。参见 https://en.wikipedia.org/"
+"wiki/Normalization_(image_processing) "
 
 #: data/effects/avfilter/avfilter_normalize.xml:8
 #, kde-format
 msgid "Output darkest input color"
-msgstr ""
+msgstr "输出最深色的输入颜色"
 
 #: data/effects/avfilter/avfilter_normalize.xml:11
 #, kde-format
 msgid "Output brightest input color"
-msgstr ""
+msgstr "输出最浅色的输入颜色"
 
 #: data/effects/avfilter/avfilter_normalize.xml:14
 #, kde-format
 msgid "Temporal smoothing, to reduce flicker"
-msgstr ""
+msgstr "时域平滑，用于减少闪烁"
 
 #: data/effects/avfilter/avfilter_normalize.xml:17
 #, kde-format
 msgid "Proportion of independent"
-msgstr ""
+msgstr "独立比率"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:4
 #, kde-format
 msgid "Oscilloscope (avfilter)"
-msgstr ""
+msgstr "Oscilloscope - 示波器 (avfilter)"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:5
 #: data/effects/frei0r/frei0r_pr0file.xml:5
 #, kde-format
 msgid "2D video oscilloscope"
-msgstr ""
+msgstr "2D 视频示波器"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:8
 #, kde-format
 msgid "Trace X position"
-msgstr ""
+msgstr "轨迹 X 坐标"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:9
 #, kde-format
 msgid "<![CDATA[X position of the trace profile]]>"
-msgstr ""
+msgstr "<![CDATA[轨迹轮廓的X轴坐标]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:12
 #, kde-format
 msgid "Trace Y position"
-msgstr ""
+msgstr "轨迹 Y 坐标"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:13
 #, kde-format
 msgid "<![CDATA[Y position of the trace profile]]>"
-msgstr ""
+msgstr "<![CDATA[轨迹轮廓的Y轴坐标]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:17
 #, kde-format
 msgid "<![CDATA[Size/length of the trace profile in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[轨迹轮廓大小/长度(px)]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:20
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:16
@@ -4713,99 +4719,99 @@ msgstr "倾斜"
 #: data/effects/avfilter/avfilter_oscilloscope.xml:21
 #, kde-format
 msgid "<![CDATA[Tilting of the trace profile]]>"
-msgstr ""
+msgstr "波形轨迹倾斜调整"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:25
 #, kde-format
 msgid "<![CDATA[Opacity of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[示波器显示透明度]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:28
 #, kde-format
 msgid "Scope X position"
-msgstr ""
+msgstr "示波器 X 位置"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:29
 #, kde-format
 msgid "<![CDATA[X position of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[示波器X轴位置]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:32
 #, kde-format
 msgid "Scope Y position"
-msgstr ""
+msgstr "示波器 Y 位置"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:33
 #, kde-format
 msgid "<![CDATA[Y position of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[示波器Y轴位置]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:36
 #, kde-format
 msgid "Scope width"
-msgstr ""
+msgstr "示波器宽度"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:37
 #, kde-format
 msgid "<![CDATA[Width of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[示波器的显示宽度]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:40
 #, kde-format
 msgid "Scope height"
-msgstr ""
+msgstr "示波器高度"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:41
 #, kde-format
 msgid "<![CDATA[Height of the scope display]]>"
-msgstr ""
+msgstr "<![CDATA[示波器的显示高度]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:45
 #: data/effects/avfilter/avfilter_waveform.xml:31
 #, kde-format
 msgid "Components"
-msgstr ""
+msgstr "颜色分量"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:46
 #, kde-format
 msgid "<![CDATA[Select the components to be traced]]>"
-msgstr ""
+msgstr "<![CDATA[选择需要被追踪的颜色分量]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:49
 #, kde-format
 msgid "Draw scope grid"
-msgstr ""
+msgstr "绘制示波器网格"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:50
 #, kde-format
 msgid "<![CDATA[Switch grid on or off]]>"
-msgstr ""
+msgstr "<![CDATA[开启或关闭示波器坐标系网格]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:53
 #, kde-format
 msgid "Print statistics"
-msgstr ""
+msgstr "打印统计信息"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:54
 #, kde-format
 msgid "<![CDATA[switch statistics on or off]]>"
-msgstr ""
+msgstr "<![CDATA[开启或关闭打印统计信息]]>"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:57
 #, kde-format
 msgid "Draw trace profile line"
-msgstr ""
+msgstr "绘制轨迹线条"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:58
 #, kde-format
 msgid "<![CDATA[Switch drawing the trace profile line on or off]]>"
-msgstr ""
+msgstr "<![CDATA[开启或关闭绘制轨迹线条]]>"
 
 #: data/effects/avfilter/avfilter_phase.xml:5
 #, kde-format
 msgid ""
 "Delay interlaced video by one field time so that the field order changes"
-msgstr ""
+msgstr "将隔行扫描视频延迟一场时间，以便场顺序发生变化"
 
 #: data/effects/avfilter/avfilter_phase.xml:8
 #, kde-format
@@ -4817,88 +4823,91 @@ msgid ""
 "field flags and transfer unknown or varying,Both capture and transfer "
 "unknown or varying"
 msgstr ""
+"延迟底部场,延迟顶部场,保持场序,自动捕获场序并传输反向场序,捕获未知或变化场序"
+"并传输反向场序,捕获顶场优先并传输未知或变化场序,捕获底场优先并传输未知或变化"
+"场序,依据场标志捕获并传输未知或变化场序,捕获与传输均为未知或变化场序"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:4
 #, kde-format
 msgid "Photosensitivity"
-msgstr ""
+msgstr "Photosensitivity - 去光敏性癫痫闪光滤镜"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:5
 #, kde-format
 msgid "Filter out photosensitive epilepsy seizure-inducing flashes."
-msgstr ""
+msgstr "滤除可能引起光敏性癫痫发作的闪光."
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:8
 #, kde-format
 msgid "Frames to use"
-msgstr ""
+msgstr "使用帧"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:9
 #, kde-format
 msgid "Set how many frames to use."
-msgstr ""
+msgstr "设置要使用多少帧。"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:12
 #, kde-format
 msgid "Theshold"
-msgstr ""
+msgstr "阈值"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:13
 #, kde-format
 msgid "Set detection threshold factor, lower is stricter"
-msgstr ""
+msgstr "设置检测阈值系数，较低的值将更严格地进行检侧"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:16
 #, kde-format
 msgid "Skip"
-msgstr ""
+msgstr "跳过像素"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:17
 #, kde-format
 msgid "Set pixels to skip when sampling frames"
-msgstr ""
+msgstr "设置采样帧时跳过的像素"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:20
 #, kde-format
 msgid "Bypass"
-msgstr ""
+msgstr "绕过帧"
 
 #: data/effects/avfilter/avfilter_photosensitivity.xml:21
 #, kde-format
 msgid "Leave frames unchanged"
-msgstr ""
+msgstr "保留未更改的帧"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:4
 #, kde-format
 msgid "Pixelize (avfilter)"
-msgstr ""
+msgstr "像素化(avfilter)"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:5
 #, kde-format
 msgid "Pixelize video"
-msgstr ""
+msgstr "像素化视频"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:8
 #, kde-format
 msgid "Block width"
-msgstr ""
+msgstr "像素块宽度"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:11
 #: data/effects/frei0r/frei0r_glitch0r.xml:11
 #: data/effects/frei0r/frei0r_pixs0r.xml:12
 #, kde-format
 msgid "Block height"
-msgstr ""
+msgstr "像素块高度"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:14
 #, kde-format
 msgid "Pixelize mode"
-msgstr ""
+msgstr "像素化模式"
 
 #: data/effects/avfilter/avfilter_pixelize.xml:15
 #, kde-format
 msgid "Average,Minimum,Maximum"
-msgstr ""
+msgstr "平均,最小,最大"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
