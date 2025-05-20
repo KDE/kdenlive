@@ -337,7 +337,18 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
     QScopedPointer<TitleTemplateDialog> dia(new TitleTemplateDialog(doc->projectDataFolder(), QApplication::activeWindow()));
 
     if (dia->exec() == QDialog::Accepted) {
-        ClipCreator::createTitleTemplate(dia->selectedTemplate(), dia->selectedText(), i18n("Template title clip"), parentFolder, std::move(model));
+        QString templateClipName = dia->selectedText();
+        while (templateClipName.length() > 28 && templateClipName.contains(QLatin1Char(' '))) {
+            templateClipName = templateClipName.section(QLatin1Char(' '), 0, -2);
+        }
+        if (templateClipName.length() > 28) {
+            templateClipName.resize(25);
+            templateClipName.append(QStringLiteral("…"));
+        }
+        if (templateClipName.isEmpty()) {
+            templateClipName = i18n("Template title clip");
+        }
+        ClipCreator::createTitleTemplate(dia->selectedTemplate(), dia->selectedText(), templateClipName, parentFolder, std::move(model));
     }
 }
 

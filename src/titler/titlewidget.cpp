@@ -2343,6 +2343,9 @@ QUrl TitleWidget::saveTitle(QUrl url)
         if (!m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_duration->getValue(), embed_image)) {
             KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
         } else {
+            // Reload templates in case we saved it in the templates filder
+            refreshTitleTemplates(m_projectTitlePath);
+            refreshTemplateBoxContents();
             return url;
         }
     }

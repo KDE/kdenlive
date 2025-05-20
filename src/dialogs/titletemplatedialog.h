@@ -25,6 +25,8 @@ protected:
 
 private:
     Ui::TemplateClip_UI m_view;
+    QStringList validatedUrls;
+    QStringList brokenUrls;
 
 private Q_SLOTS:
     void updatePreview();

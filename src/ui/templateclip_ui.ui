@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
-    <height>352</height>
+    <width>576</width>
+    <height>360</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -35,12 +35,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="1" column="0" colspan="3">
     <widget class="QGroupBox" name="text_box">
      <property name="title">
-      <string>Text</string>
+      <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QTextEdit" name="description"/>
-      </item>
       <item row="0" column="1">
        <widget class="QLabel" name="preview">
         <property name="sizePolicy">
@@ -60,16 +57,36 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QTextEdit" name="description">
+        <property name="placeholderText">
+         <string>Enter the text that will replace the %s string from the template</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="KMessageWidget" name="errorMessage">
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+        <property name="closeButtonVisible">
+         <bool>false</bool>
+        </property>
+        <property name="messageType">
+         <enum>KMessageWidget::MessageType::Warning</enum>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
    <item row="2" column="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
      </property>
     </widget>
    </item>
@@ -77,15 +94,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
+   <class>KUrlComboRequester</class>
+   <extends>KUrlRequester</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KUrlComboRequester</class>
-   <extends>KUrlRequester</extends>
+   <class>KUrlRequester</class>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

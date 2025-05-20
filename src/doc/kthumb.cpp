@@ -22,8 +22,16 @@ QPixmap KThumb::getImage(const QUrl &url, int width, int height)
     return getImage(url, 0, width, height);
 }
 
+QPixmap KThumb::getImageWithParams(const QUrl &url, QMap<QString, QString> params, int width, int height)
+{
+    if (!url.isValid()) {
+        return QPixmap();
+    }
+    return getImage(url, 0, width, height, params);
+}
+
 // static
-QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
+QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height, QMap<QString, QString> params)
 {
     QScopedPointer<Mlt::Profile> profile(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
     if (height == -1) {
@@ -34,6 +42,11 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
         return pix;
     }
     Mlt::Producer *producer = new Mlt::Producer(*(profile.data()), url.toLocalFile().toUtf8().constData());
+    if (producer->is_valid()) {
+        for (auto i = params.cbegin(), end = params.cend(); i != end; ++i) {
+            producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+        }
+    }
     if (KdenliveSettings::gpu_accel()) {
         QString service = producer->get("mlt_service");
         QString res = producer->get("resource");
