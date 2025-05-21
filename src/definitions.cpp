@@ -69,6 +69,14 @@ CommentedTime::CommentedTime(const GenTime &time, QString comment, int markerTyp
 {
 }
 
+CommentedTime::CommentedTime(const GenTime &time, QString comment, int markerType, const GenTime &duration)
+    : m_time(time)
+    , m_comment(std::move(comment))
+    , m_type(markerType)
+    , m_duration(duration)
+{
+}
+
 CommentedTime::CommentedTime(const QString &hash, const GenTime &time)
     : m_time(time)
     , m_comment(hash.section(QLatin1Char(':'), 1))
@@ -441,4 +449,24 @@ QString SubtitleStyle::toString(QString name) const
         .arg(m_marginR)
         .arg(m_marginV)
         .arg(m_encoding);
+}
+
+GenTime CommentedTime::duration() const
+{
+    return m_duration;
+}
+
+void CommentedTime::setDuration(const GenTime &duration)
+{
+    m_duration = duration;
+}
+
+bool CommentedTime::hasRange() const
+{
+    return m_duration.seconds() > 0;
+}
+
+GenTime CommentedTime::endTime() const
+{
+    return m_time + m_duration;
 }

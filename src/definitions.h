@@ -372,6 +372,7 @@ class CommentedTime
 public:
     CommentedTime();
     CommentedTime(const GenTime &time, QString comment, int markerType = 0);
+    CommentedTime(const GenTime &time, QString comment, int markerType, const GenTime &duration);
     CommentedTime(const QString &hash, const GenTime &time);
 
     QString comment() const;
@@ -382,6 +383,15 @@ public:
     void setTime(const GenTime &t);
     void setMarkerType(int t);
     int markerType() const;
+
+    /** @brief Gets the duration of the marker*/
+    GenTime duration() const;
+    /** @brief Sets the duration of the marker */
+    void setDuration(const GenTime &duration);
+    /** @brief Returns true if the marker has a duration (is a range marker) */
+    bool hasRange() const;
+    /** @brief Returns the end time (position + duration) */
+    GenTime endTime() const;
 
     /* Implementation of > operator; Works identically as with basic types. */
     bool operator>(const CommentedTime &op) const;
@@ -400,6 +410,7 @@ private:
     GenTime m_time;
     QString m_comment;
     int m_type{0};
+    GenTime m_duration{GenTime(0)};
 };
 
 class SubtitleEvent
