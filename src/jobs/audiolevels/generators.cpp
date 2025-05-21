@@ -316,7 +316,7 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
                     levels.clear();
                     goto cleanup;
                 }
-                samplesPerMLTFrame = mlt_audio_calculate_frame_samples(MLTfps, dst_rate, samplesPerMLTFrame);
+                samplesPerMLTFrame = mlt_audio_calculate_frame_samples(MLTfps, dst_rate, MLTFrameCount);
             }
         }
 
