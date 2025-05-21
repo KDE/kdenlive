@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 00:42+0000\n"
+"POT-Creation-Date: 2025-05-21 00:42+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -6965,10 +6965,8 @@ msgid "Vertical Alignment"
 msgstr "Vertikalno raspršenje"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
 #: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
-#: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
@@ -16555,7 +16553,7 @@ msgstr "Mobilni uređaji"
 msgid "Loading done"
 msgstr "Cijeli projekt"
 
-#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:508
+#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:519
 #, fuzzy, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -16617,17 +16615,17 @@ msgstr "Naziv"
 msgid "Filter:"
 msgstr "Poglavlje %1"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:418
+#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:420
+#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:431
 #, fuzzy, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Ne mogu otvoriti projekt"
 
-#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16635,17 +16633,17 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:413
+#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:414
+#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:425
 #, fuzzy, kde-format
 msgid "Try to import an image sequence"
 msgstr "Automatski započni novu datoteku na rezu scene"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:416
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17430,7 +17428,7 @@ msgstr "Tekst isječak"
 msgid "Create Text clip"
 msgstr "Obriši vremenski isječak"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1200
+#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1200
 #, fuzzy, kde-format
 msgid "Template title clip"
 msgstr "Obriši vremenski isječak"
@@ -20263,6 +20261,20 @@ msgstr "Učini valove na isječku prema ključnim okvirima"
 #| msgid "Edit Keyframe"
 msgid "Edit Timeremap keyframes"
 msgstr "Uredi ključni okvir (keyframe)"
+
+#: src/dialogs/titletemplatedialog.cpp:90
+#: src/dialogs/titletemplatedialog.cpp:110
+#, kde-format
+msgid ""
+"Template %1 does not contain the <b>%s</b> keyword required to replace the "
+"text."
+msgstr ""
+
+#: src/dialogs/titletemplatedialog.cpp:98
+#, fuzzy, kde-format
+#| msgid "Cannot write to file %1"
+msgid "Cannot read file %1."
+msgstr "Ne mogu pisati u datoteku %1"
 
 #: src/dialogs/wizard.cpp:65
 #, fuzzy, kde-format
@@ -30270,7 +30282,7 @@ msgid "No available stream"
 msgstr "okviri"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
+#: src/titler/titlewidget.cpp:3401 src/titler/titlewidget.cpp:3404
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -30604,7 +30616,7 @@ msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Dodaj sliku"
 
-#: src/titler/titlewidget.cpp:2381
+#: src/titler/titlewidget.cpp:2384
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -30613,48 +30625,48 @@ msgstr[0] "Obriši odabrane stavke"
 msgstr[1] "Obriši odabrane stavke"
 msgstr[2] "Obriši odabrane stavke"
 
-#: src/titler/titlewidget.cpp:2382 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2385 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2385
+#: src/titler/titlewidget.cpp:2388
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Obriši odabrane stavke"
 
-#: src/titler/titlewidget.cpp:2445
+#: src/titler/titlewidget.cpp:2448
 #, fuzzy, kde-format
 #| msgid "Save Profile"
 msgid "Update Title"
 msgstr "Spremi profil"
 
-#: src/titler/titlewidget.cpp:2448
+#: src/titler/titlewidget.cpp:2451
 #, fuzzy, kde-format
 msgid "Add as new Title"
 msgstr "Dodaj video datoteku"
 
-#: src/titler/titlewidget.cpp:2502
+#: src/titler/titlewidget.cpp:2505
 #, kde-format
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2699
+#: src/titler/titlewidget.cpp:2702
 #, fuzzy, kde-format
 #| msgid "Start-/EndViewport"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start-/EndViewport"
 
-#: src/titler/titlewidget.cpp:2700
+#: src/titler/titlewidget.cpp:2703
 #, fuzzy, kde-format
 #| msgid "EndViewport"
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "EndViewport"
 
-#: src/titler/titlewidget.cpp:3431
+#: src/titler/titlewidget.cpp:3434
 #, kde-format
 msgid "Gradient"
 msgstr ""
@@ -35099,6 +35111,12 @@ msgstr "Promijeni"
 #: src/ui/templateclip_ui.ui:21
 #, kde-format
 msgid "Template:"
+msgstr ""
+
+#. i18n: ectx: property (placeholderText), widget (QTextEdit, description)
+#: src/ui/templateclip_ui.ui:63
+#, no-c-format, kde-format
+msgid "Enter the text that will replace the %s string from the template"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)

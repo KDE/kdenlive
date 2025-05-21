@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 00:42+0000\n"
+"POT-Creation-Date: 2025-05-21 00:42+0000\n"
 "PO-Revision-Date: 2025-04-25 22:15+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -7166,10 +7166,8 @@ msgid "Vertical Alignment"
 msgstr "Lerrokatze bertikala"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
 #: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
-#: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Testua"
@@ -16940,7 +16938,7 @@ msgstr "Gailu aldagarria"
 msgid "Loading done"
 msgstr "Kargatzea osatua"
 
-#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:508
+#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:519
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -16999,17 +16997,17 @@ msgstr "Izena:"
 msgid "Filter:"
 msgstr "Iragazkia:"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:418
+#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Ez ikusi azpikarpeten egitura"
 
-#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:420
+#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "Ez sortu azpikarpetarik proiektu-ontzian"
 
-#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17019,17 +17017,17 @@ msgstr ""
 "Gaituta dagoenan, Kdenlivek, karpetan eta bere azpikarpetetan dauden klip "
 "guztiak inportatuko ditu, Proiektu-ontzian azpikarpetak sortu gabe."
 
-#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:413
+#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "Inportatu irudi-sekuentzia"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:414
+#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "Saiatu irudi-sekuentzia bat inportatzen"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:416
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17780,7 +17778,7 @@ msgstr "Testu klipa"
 msgid "Create Text clip"
 msgstr "Sortu Testu-klipa"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1200
+#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1200
 #, kde-format
 msgid "Template title clip"
 msgstr "Txantiloi izenburu klipa"
@@ -20600,6 +20598,20 @@ msgstr "Denbora birmapatzeak ez dabiltza B fotogramak dituzten klipekin."
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Editatu denbora birmapatzeko gako-fotogramak"
+
+#: src/dialogs/titletemplatedialog.cpp:90
+#: src/dialogs/titletemplatedialog.cpp:110
+#, kde-format
+msgid ""
+"Template %1 does not contain the <b>%s</b> keyword required to replace the "
+"text."
+msgstr ""
+
+#: src/dialogs/titletemplatedialog.cpp:98
+#, fuzzy, kde-format
+#| msgid "Cannot read file %1"
+msgid "Cannot read file %1."
+msgstr "Ezin du %1 fitxategia irakurri"
 
 #: src/dialogs/wizard.cpp:65
 #, kde-format
@@ -30449,7 +30461,7 @@ msgid "No available stream"
 msgstr "Ez dago korronterik eskuragarri"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
+#: src/titler/titlewidget.cpp:3401 src/titler/titlewidget.cpp:3404
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradientea %1"
@@ -30788,51 +30800,51 @@ msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Txertatu irudiak"
 
-#: src/titler/titlewidget.cpp:2381
+#: src/titler/titlewidget.cpp:2384
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Izenburu honek elementu bat falta du"
 msgstr[1] "Izenburu honek %1 elementu falta ditu"
 
-#: src/titler/titlewidget.cpp:2382 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2385 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Xehetasunak"
 
-#: src/titler/titlewidget.cpp:2385
+#: src/titler/titlewidget.cpp:2388
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Ezabatu falta diren elementuak"
 
-#: src/titler/titlewidget.cpp:2445
+#: src/titler/titlewidget.cpp:2448
 #, kde-format
 msgid "Update Title"
 msgstr "Eguneratu izenburua"
 
-#: src/titler/titlewidget.cpp:2448
+#: src/titler/titlewidget.cpp:2451
 #, kde-format
 msgid "Add as new Title"
 msgstr "Gehitu izenburu berri moduan"
 
-#: src/titler/titlewidget.cpp:2502
+#: src/titler/titlewidget.cpp:2505
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Ondorengo fitxategiak falta dira:"
 
-#: src/titler/titlewidget.cpp:2699
+#: src/titler/titlewidget.cpp:2702
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Hasi ikuspegi azalera"
 
-#: src/titler/titlewidget.cpp:2700
+#: src/titler/titlewidget.cpp:2703
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Amaitu ikuspegi azalera"
 
-#: src/titler/titlewidget.cpp:3431
+#: src/titler/titlewidget.cpp:3434
 #, kde-format
 msgid "Gradient"
 msgstr "Gradientea"
@@ -35114,6 +35126,12 @@ msgstr "Sarrerako hizkuntza"
 #, kde-format
 msgid "Template:"
 msgstr "Txantiloia:"
+
+#. i18n: ectx: property (placeholderText), widget (QTextEdit, description)
+#: src/ui/templateclip_ui.ui:63
+#, no-c-format, kde-format
+msgid "Enter the text that will replace the %s string from the template"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:58

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 00:42+0000\n"
+"POT-Creation-Date: 2025-05-21 00:42+0000\n"
 "PO-Revision-Date: 2025-03-13 11:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -7155,10 +7155,8 @@ msgid "Vertical Alignment"
 msgstr "محاذاة العموديّة"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
 #: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
-#: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "النص"
@@ -16996,7 +16994,7 @@ msgstr "جهاز قابل للإزالة"
 msgid "Loading done"
 msgstr "تم التحميل"
 
-#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:508
+#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:519
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -17059,17 +17057,17 @@ msgstr "الاسم:"
 msgid "Filter:"
 msgstr "المرشح:"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:418
+#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "تجاهل بنية المجلد الفرعي"
 
-#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:420
+#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "لا تنشئ مجلدات فرعية في سلة المشروع"
 
-#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17079,17 +17077,17 @@ msgstr ""
 "عند التفعيل، سيستورد كدنلايف كل المقاطع الموجودة في المجلد و مجلدته الفرعية "
 "دون إنشاء مجلدات فرعية في سلة المشروع."
 
-#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:413
+#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "استورد تسلسل صور"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:414
+#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "حاول استيراد تسلسل صور"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:416
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17839,7 +17837,7 @@ msgstr "مقطع نصي"
 msgid "Create Text clip"
 msgstr "أنشئ مقطع نصي"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1200
+#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1200
 #, kde-format
 msgid "Template title clip"
 msgstr "مقطع قالب عنوان"
@@ -20625,6 +20623,20 @@ msgstr "إعادة تعيين الوقت لا تعمل على مقاطع بأط�
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "حرّر خريطة المؤقت للأطر الرئيسة"
+
+#: src/dialogs/titletemplatedialog.cpp:90
+#: src/dialogs/titletemplatedialog.cpp:110
+#, kde-format
+msgid ""
+"Template %1 does not contain the <b>%s</b> keyword required to replace the "
+"text."
+msgstr ""
+
+#: src/dialogs/titletemplatedialog.cpp:98
+#, fuzzy, kde-format
+#| msgid "Cannot read file %1"
+msgid "Cannot read file %1."
+msgstr "تعذرت قراءة الملف %1"
 
 #: src/dialogs/wizard.cpp:65
 #, kde-format
@@ -30440,7 +30452,7 @@ msgid "No available stream"
 msgstr "لا يوجد دفق"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
+#: src/titler/titlewidget.cpp:3401 src/titler/titlewidget.cpp:3404
 #, kde-format
 msgid "Gradient %1"
 msgstr "التّدرّج %1"
@@ -30775,7 +30787,7 @@ msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "ضمّن الصور"
 
-#: src/titler/titlewidget.cpp:2381
+#: src/titler/titlewidget.cpp:2384
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
@@ -30786,44 +30798,44 @@ msgstr[3] "هذا العنوان يفتقد %1 عناصر"
 msgstr[4] "هذا العنوان يفتقد %1 عنصراً"
 msgstr[5] "هذا العنوان يفتقد %1 عنصر"
 
-#: src/titler/titlewidget.cpp:2382 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2385 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "التفاصيل"
 
-#: src/titler/titlewidget.cpp:2385
+#: src/titler/titlewidget.cpp:2388
 #, kde-format
 msgid "Delete missing elements"
 msgstr "حذف عناصر  الناقصة"
 
-#: src/titler/titlewidget.cpp:2445
+#: src/titler/titlewidget.cpp:2448
 #, kde-format
 msgid "Update Title"
 msgstr "حدّث العنوان"
 
-#: src/titler/titlewidget.cpp:2448
+#: src/titler/titlewidget.cpp:2451
 #, kde-format
 msgid "Add as new Title"
 msgstr "أضف كعنوان جديد"
 
-#: src/titler/titlewidget.cpp:2502
+#: src/titler/titlewidget.cpp:2505
 #, kde-format
 msgid "The following files are missing:"
 msgstr "الملفات التالية مفقودة:"
 
-#: src/titler/titlewidget.cpp:2699
+#: src/titler/titlewidget.cpp:2702
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "ابدأ العرض"
 
-#: src/titler/titlewidget.cpp:2700
+#: src/titler/titlewidget.cpp:2703
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "أنهِ العرض"
 
-#: src/titler/titlewidget.cpp:3431
+#: src/titler/titlewidget.cpp:3434
 #, kde-format
 msgid "Gradient"
 msgstr "التّدرّج"
@@ -35077,6 +35089,12 @@ msgstr "لغة الإدخال"
 #, kde-format
 msgid "Template:"
 msgstr "القالب:"
+
+#. i18n: ectx: property (placeholderText), widget (QTextEdit, description)
+#: src/ui/templateclip_ui.ui:63
+#, no-c-format, kde-format
+msgid "Enter the text that will replace the %s string from the template"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:58

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 00:42+0000\n"
+"POT-Creation-Date: 2025-05-21 00:42+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -7120,10 +7120,8 @@ msgid "Vertical Alignment"
 msgstr "ऊर्ध्वाधर संरेखण"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
 #: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
-#: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "मूलपाठ"
@@ -16886,7 +16884,7 @@ msgstr "हटाने योग्य डिवाइस"
 msgid "Loading done"
 msgstr "लोड हो गया"
 
-#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:508
+#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:519
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -16945,17 +16943,17 @@ msgstr "नाम:"
 msgid "Filter:"
 msgstr "फ़िल्टर:"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:418
+#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "सबफ़ोल्डर संरचना को अनदेखा करें"
 
-#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:420
+#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:431
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "प्रोजेक्ट बिन में सबफ़ोल्डर न बनाएँ"
 
-#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16965,17 +16963,17 @@ msgstr ""
 "सक्षम होने पर, Kdenlive प्रोजेक्ट बिन में सबफ़ोल्डर्स बनाए बिना फ़ोल्डर और उसके सबफ़ोल्डर्स "
 "में निहित सभी क्लिप्स को आयात करेगा।"
 
-#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:413
+#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "छवि अनुक्रम आयात करें"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:414
+#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:425
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "छवि अनुक्रम आयात करने का प्रयास करें"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:416
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17724,7 +17722,7 @@ msgstr "पाठ क्लिप"
 msgid "Create Text clip"
 msgstr "टेक्स्ट क्लिप बनाएं"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1200
+#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1200
 #, kde-format
 msgid "Template title clip"
 msgstr "टेम्पलेट शीर्षक क्लिप"
@@ -20506,6 +20504,20 @@ msgstr "टाइम रीमैप B फ्रेम वाले क्लि
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "टाइमरीमैप कीफ़्रेम संपादित करें"
+
+#: src/dialogs/titletemplatedialog.cpp:90
+#: src/dialogs/titletemplatedialog.cpp:110
+#, kde-format
+msgid ""
+"Template %1 does not contain the <b>%s</b> keyword required to replace the "
+"text."
+msgstr ""
+
+#: src/dialogs/titletemplatedialog.cpp:98
+#, fuzzy, kde-format
+#| msgid "Cannot read file %1"
+msgid "Cannot read file %1."
+msgstr "फ़ाइल %1 को पढ़ा नहीं जा सका"
 
 #: src/dialogs/wizard.cpp:65
 #, kde-format
@@ -30290,7 +30302,7 @@ msgid "No available stream"
 msgstr "कोई स्ट्रीम उपलब्ध नहीं है"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
+#: src/titler/titlewidget.cpp:3401 src/titler/titlewidget.cpp:3404
 #, kde-format
 msgid "Gradient %1"
 msgstr "ग्रेडिएंट %1"
@@ -30627,51 +30639,51 @@ msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "छवियाँ एम्बेड करें"
 
-#: src/titler/titlewidget.cpp:2381
+#: src/titler/titlewidget.cpp:2384
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "इस शीर्षक में %1 तत्व लुप्त है"
 msgstr[1] "इस शीर्षक में %1 तत्व लुप्त है"
 
-#: src/titler/titlewidget.cpp:2382 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2385 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "विवरण"
 
-#: src/titler/titlewidget.cpp:2385
+#: src/titler/titlewidget.cpp:2388
 #, kde-format
 msgid "Delete missing elements"
 msgstr "गायब तत्वों को हटाएं"
 
-#: src/titler/titlewidget.cpp:2445
+#: src/titler/titlewidget.cpp:2448
 #, kde-format
 msgid "Update Title"
 msgstr "शीर्षक अपडेट करें"
 
-#: src/titler/titlewidget.cpp:2448
+#: src/titler/titlewidget.cpp:2451
 #, kde-format
 msgid "Add as new Title"
 msgstr "नए शीर्षक के रूप में जोड़ें"
 
-#: src/titler/titlewidget.cpp:2502
+#: src/titler/titlewidget.cpp:2505
 #, kde-format
 msgid "The following files are missing:"
 msgstr "निम्नलिखित फ़ाइलें गायब हैं:"
 
-#: src/titler/titlewidget.cpp:2699
+#: src/titler/titlewidget.cpp:2702
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "व्यूपोर्ट प्रारंभ करें"
 
-#: src/titler/titlewidget.cpp:2700
+#: src/titler/titlewidget.cpp:2703
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "व्यूपोर्ट समाप्त करें"
 
-#: src/titler/titlewidget.cpp:3431
+#: src/titler/titlewidget.cpp:3434
 #, kde-format
 msgid "Gradient"
 msgstr "ढाल"
@@ -34946,6 +34958,12 @@ msgstr "इनपुट भाषा"
 #, kde-format
 msgid "Template:"
 msgstr "साँचा:"
+
+#. i18n: ectx: property (placeholderText), widget (QTextEdit, description)
+#: src/ui/templateclip_ui.ui:63
+#, no-c-format, kde-format
+msgid "Enter the text that will replace the %s string from the template"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:58

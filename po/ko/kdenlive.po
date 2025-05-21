@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-20 00:42+0000\n"
+"POT-Creation-Date: 2025-05-21 00:42+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -7192,10 +7192,8 @@ msgid "Vertical Alignment"
 msgstr "수직 정렬"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
 #: src/titler/graphicsscenerectmove.cpp:990 src/ui/managesubtitles_ui.ui:216
-#: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "텍스트"
@@ -16813,7 +16811,7 @@ msgstr "이동식 장치"
 msgid "Loading done"
 msgstr "프로젝트 불러오는 중"
 
-#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:508
+#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:519
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -16876,18 +16874,18 @@ msgstr "이름:"
 msgid "Filter:"
 msgstr "필터"
 
-#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:418
+#: src/bin/mediabrowser.cpp:191 src/dialogs/clipcreationdialog.cpp:429
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "하위 폴더 구조 무시"
 
-#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:420
+#: src/bin/mediabrowser.cpp:193 src/dialogs/clipcreationdialog.cpp:431
 #, fuzzy, kde-format
 #| msgid "Insert Zone in Project Bin"
 msgid "Do not create subfolders in Project Bin"
 msgstr "프로젝트 보관함에 영역 삽입"
 
-#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:423
+#: src/bin/mediabrowser.cpp:196 src/dialogs/clipcreationdialog.cpp:434
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16895,18 +16893,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:413
+#: src/bin/mediabrowser.cpp:199 src/dialogs/clipcreationdialog.cpp:424
 #, kde-format
 msgid "Import image sequence"
 msgstr "이미지 시퀀스 가져오기"
 
-#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:414
+#: src/bin/mediabrowser.cpp:202 src/dialogs/clipcreationdialog.cpp:425
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "이미지 시퀀스 가져오기"
 
-#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:416
+#: src/bin/mediabrowser.cpp:204 src/dialogs/clipcreationdialog.cpp:427
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17686,7 +17684,7 @@ msgstr "텍스트 클립"
 msgid "Create Text clip"
 msgstr "타이틀 클립 만들기"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1200
+#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1200
 #, kde-format
 msgid "Template title clip"
 msgstr "템플릿 타이틀 클립"
@@ -20549,6 +20547,20 @@ msgstr "키프레임을 사용하여 클립에 파도 만들기"
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "타임 리매핑 키프레임 편집"
+
+#: src/dialogs/titletemplatedialog.cpp:90
+#: src/dialogs/titletemplatedialog.cpp:110
+#, kde-format
+msgid ""
+"Template %1 does not contain the <b>%s</b> keyword required to replace the "
+"text."
+msgstr ""
+
+#: src/dialogs/titletemplatedialog.cpp:98
+#, fuzzy, kde-format
+#| msgid "Cannot create filter %1"
+msgid "Cannot read file %1."
+msgstr "%1 필터를 만들 수 없음"
 
 #: src/dialogs/wizard.cpp:65
 #, kde-format
@@ -30651,7 +30663,7 @@ msgid "No available stream"
 msgstr "사용할 수 있는 스트림 없음"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3398 src/titler/titlewidget.cpp:3401
+#: src/titler/titlewidget.cpp:3401 src/titler/titlewidget.cpp:3404
 #, kde-format
 msgid "Gradient %1"
 msgstr "그라디언트 %1"
@@ -30992,50 +31004,50 @@ msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "이미지 추가"
 
-#: src/titler/titlewidget.cpp:2381
+#: src/titler/titlewidget.cpp:2384
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "타이틀에 누락된 요소 %1개가 있습니다"
 
-#: src/titler/titlewidget.cpp:2382 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2385 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "자세히"
 
-#: src/titler/titlewidget.cpp:2385
+#: src/titler/titlewidget.cpp:2388
 #, kde-format
 msgid "Delete missing elements"
 msgstr "유실된 구성 요소 삭제"
 
-#: src/titler/titlewidget.cpp:2445
+#: src/titler/titlewidget.cpp:2448
 #, kde-format
 msgid "Update Title"
 msgstr "타이틀 업데이트"
 
-#: src/titler/titlewidget.cpp:2448
+#: src/titler/titlewidget.cpp:2451
 #, kde-format
 msgid "Add as new Title"
 msgstr "새 타이틀로 추가"
 
-#: src/titler/titlewidget.cpp:2502
+#: src/titler/titlewidget.cpp:2505
 #, kde-format
 msgid "The following files are missing:"
 msgstr "다음 파일이 유실되었습니다:"
 
-#: src/titler/titlewidget.cpp:2699
+#: src/titler/titlewidget.cpp:2702
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "뷰포트 시작"
 
-#: src/titler/titlewidget.cpp:2700
+#: src/titler/titlewidget.cpp:2703
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "뷰포트 끝내기"
 
-#: src/titler/titlewidget.cpp:3431
+#: src/titler/titlewidget.cpp:3434
 #, kde-format
 msgid "Gradient"
 msgstr "그라디언트"
@@ -35578,6 +35590,12 @@ msgstr "속도 변경"
 #, kde-format
 msgid "Template:"
 msgstr "템플릿:"
+
+#. i18n: ectx: property (placeholderText), widget (QTextEdit, description)
+#: src/ui/templateclip_ui.ui:63
+#, no-c-format, kde-format
+msgid "Enter the text that will replace the %s string from the template"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:58
