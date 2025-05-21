@@ -254,7 +254,8 @@ enum MonitorSceneType {
     MonitorSceneSplit,
     MonitorSceneTrimming,
     MonitorSplitTrack,
-    MonitorSceneAutoMask
+    MonitorSceneAutoMask,
+    MonitorSceneRotatedGeometry
 };
 
 enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError, TooltipMessage };

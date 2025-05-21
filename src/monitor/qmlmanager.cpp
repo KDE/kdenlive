@@ -54,6 +54,16 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
         break;
+    case MonitorSceneRotatedGeometry:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorGeometryScene.qml")));
+        root = m_view->rootObject();
+        QObject::connect(root, SIGNAL(effectChanged(QRectF)), m_monitor, SIGNAL(effectChanged(QRectF)), Qt::UniqueConnection);
+        QObject::connect(root, SIGNAL(centersChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
+        QObject::connect(root, SIGNAL(effectRotationChanged(double)), m_monitor, SIGNAL(effectRotationChanged(double)), Qt::UniqueConnection);
+        root->setProperty("profile", QPoint(profile.width(), profile.height()));
+        root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
+        root->setProperty("rotatable", true);
+        break;
     case MonitorSceneCorners:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/MonitorCornerScene.qml")));
         root = m_view->rootObject();

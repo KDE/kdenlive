@@ -12,15 +12,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <core.h>
 #include <utility>
-KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index,
-                                             MonitorSceneType sceneType, QObject *parent)
+KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, MonitorSceneType sceneType, QObject *parent)
     : QObject(parent)
     , m_monitor(monitor)
     , m_model(std::move(model))
     , m_active(false)
     , m_requestedSceneType(sceneType)
 {
-    m_indexes << index;
+    m_rotatable = sceneType == MonitorSceneType::MonitorSceneRotatedGeometry;
 }
 
 bool KeyframeMonitorHelper::connectMonitor(bool activate)
@@ -31,9 +30,11 @@ bool KeyframeMonitorHelper::connectMonitor(bool activate)
     m_active = activate;
     if (activate) {
         connect(m_monitor, &Monitor::effectPointsChanged, this, &KeyframeMonitorHelper::slotUpdateFromMonitorData, Qt::UniqueConnection);
+        connect(m_monitor, &Monitor::effectRotationChanged, this, &KeyframeMonitorHelper::slotUpdateRotationFromMonitorData, Qt::UniqueConnection);
     } else {
         m_monitor->setEffectKeyframe(false, true);
         disconnect(m_monitor, &Monitor::effectPointsChanged, this, &KeyframeMonitorHelper::slotUpdateFromMonitorData);
+        disconnect(m_monitor, &Monitor::effectRotationChanged, this, &KeyframeMonitorHelper::slotUpdateRotationFromMonitorData);
     }
     return m_active;
 }
@@ -45,6 +46,7 @@ bool KeyframeMonitorHelper::isPlaying() const
 
 void KeyframeMonitorHelper::addIndex(const QPersistentModelIndex &index)
 {
+    QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
     m_indexes << index;
 }
 
@@ -75,33 +77,41 @@ void KeyframeMonitorHelper::refreshParams(int pos)
     QVariantList points;
     QVariantList types;
     QString rectAtPosData;
+    double rotation = 0;
     std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
     for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type != ParamType::AnimatedRect) {
+        QString name = m_model->data(ix, AssetParameterModel::NameRole).toString();
+        if (!(type == ParamType::AnimatedRect || name == QLatin1String("rotation"))) {
             continue;
         }
-        KeyframeModel *kfr = keyframes->getKeyModel(ix);
-        bool ok;
-        rectAtPosData = kfr->getInterpolatedValue(pos).toString();
-        Keyframe kf = kfr->getNextKeyframe(GenTime(-1), &ok);
-        while (ok) {
-            if (kf.second == KeyframeType::Curve) {
-                types << 1;
-            } else {
-                types << 0;
+        if (name == QLatin1String("rotation")) {
+            rotation = keyframes->getInterpolatedValue(pos, ix).toDouble();
+        } else {
+            KeyframeModel *kfr = keyframes->getKeyModel(ix);
+            bool ok;
+            rectAtPosData = kfr->getInterpolatedValue(pos).toString();
+            Keyframe kf = kfr->getNextKeyframe(GenTime(-1), &ok);
+            while (ok) {
+                if (kf.second == KeyframeType::Curve) {
+                    types << 1;
+                } else {
+                    types << 0;
+                }
+                QString rectData = kfr->getInterpolatedValue(kf.first).toString();
+                QStringList data = rectData.split(QLatin1Char(' '));
+                if (data.size() > 3) {
+                    QRectF r(data.at(0).toInt(), data.at(1).toInt(), data.at(2).toInt(), data.at(3).toInt());
+                    points.append(QVariant(r.center()));
+                }
+                kf = kfr->getNextKeyframe(kf.first, &ok);
             }
-            QString rectData = kfr->getInterpolatedValue(kf.first).toString();
-            QStringList data = rectData.split(QLatin1Char(' '));
-            if (data.size() > 3) {
-                QRectF r(data.at(0).toInt(), data.at(1).toInt(), data.at(2).toInt(), data.at(3).toInt());
-                points.append(QVariant(r.center()));
-            }
-            kf = kfr->getNextKeyframe(kf.first, &ok);
         }
-        break;
     }
     if (m_monitor) {
+        if (m_rotatable) {
+            m_monitor->setEffectSceneProperty(QStringLiteral("rotation"), rotation);
+        }
         if (!rectAtPosData.isEmpty()) {
             QStringList data = rectAtPosData.split(QLatin1Char(' '));
             if (data.size() > 3) {
@@ -152,5 +162,19 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
             i++;
         }
         break;
+    }
+}
+
+void KeyframeMonitorHelper::slotUpdateRotationFromMonitorData(double rotation)
+{
+    if (!m_indexes.isEmpty()) {
+        for (const auto &ix : std::as_const(m_indexes)) {
+            QString paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
+            if (paramName == QLatin1String("rotation")) {
+                m_model->setParameter(paramName, QString::number(rotation), true, ix);
+                Q_EMIT updateKeyframeData(ix, QVariant(rotation));
+                break;
+            }
+        }
     }
 }

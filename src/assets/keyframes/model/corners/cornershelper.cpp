@@ -14,8 +14,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QSize>
 #include <utility>
-CornersHelper::CornersHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
-    : KeyframeMonitorHelper(monitor, std::move(model), std::move(index), MonitorSceneCorners, parent)
+CornersHelper::CornersHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QObject *parent)
+    : KeyframeMonitorHelper(monitor, std::move(model), MonitorSceneCorners, parent)
 {
 }
 

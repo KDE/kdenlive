@@ -371,7 +371,6 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     m_editorviewcontainer->setFixedHeight(m_editorviewcontainer->currentWidget()->height());
     m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
     m_addedHeight = mrg.top() + mrg.bottom();
-    addParameter(index);
     m_fixedHeight = m_baseHeight + m_addedHeight;
     Q_EMIT updateHeight();
 }
@@ -429,10 +428,15 @@ void KeyframeContainer::slotRefreshParams()
         }
         i++;
     }
+    bool hasRotation = false;
     for (const auto &w : m_parameters) {
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
+        QString name = m_model->data(w.first, AssetParameterModel::NameRole).toString();
         if (type == ParamType::KeyframeParam) {
             (static_cast<DoubleWidget *>(w.second))->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
+            if (name == QLatin1String("rotation")) {
+                hasRotation = true;
+            }
         } else if (type == ParamType::AnimatedRect) {
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
             const QStringList vals = val.split(QLatin1Char(' '));
@@ -456,7 +460,7 @@ void KeyframeContainer::slotRefreshParams()
             (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
-    if (m_monitorHelper && m_model->isActive() && m_curveeditorcontainer->isEnabled()) {
+    if (m_monitorHelper && m_model->isActive() && (m_curveeditorcontainer->isEnabled() || hasRotation)) {
         m_monitorHelper->refreshParams(pos);
     }
 }
@@ -572,6 +576,43 @@ void KeyframeContainer::resetKeyframes()
     slotRefreshParams();
 }
 
+void KeyframeContainer::initNeededSceneAndHelper()
+{
+    // Loop over all parameters to determine the needed scene and helper
+    m_monitorHelper = nullptr;
+    m_neededScene = MonitorSceneType::MonitorSceneDefault;
+    for (int i = 0; i < m_model->rowCount(); ++i) {
+        QModelIndex index = m_model->index(i, 0);
+        auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+        QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
+        QString assetId = m_model->getAssetId();
+        if (assetId == QLatin1String("qtblend")) {
+            m_neededScene = MonitorSceneType::MonitorSceneRotatedGeometry;
+            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
+            break;
+        } else if (type == ParamType::Roto_spline) {
+            m_neededScene = MonitorSceneType::MonitorSceneRoto;
+            m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            break;
+        } else if (assetId == QLatin1String("frei0r.c0rners")) {
+            m_neededScene = MonitorSceneType::MonitorSceneCorners;
+            m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            break;
+        } else if (assetId.contains(QLatin1String("frei0r.alphaspot"))) {
+            m_neededScene = MonitorSceneType::MonitorSceneGeometry;
+            m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            break;
+        } else if (type == ParamType::AnimatedRect) {
+            m_neededScene = MonitorSceneType::MonitorSceneGeometry;
+            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
+            break;
+        }
+    }
+    if (m_monitorHelper) {
+        connect(this, &KeyframeContainer::addIndex, m_monitorHelper, &KeyframeMonitorHelper::addIndex);
+    }
+}
+
 void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
 {
     // Retrieve parameters from the model
@@ -597,12 +638,11 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
     // Construct object
     QLabel *labelWidget = nullptr;
     QWidget *paramWidget = nullptr;
+    QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
     if (type == ParamType::AnimatedRect) {
-        m_neededScene = MonitorSceneType::MonitorSceneGeometry;
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
-        m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, index, MonitorSceneGeometry, m_parent);
         QRect rect;
         double opacity = 0;
         QStringList vals = value.split(QLatin1Char(' '));
@@ -612,9 +652,13 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 opacity = vals.at(4).toDouble();
             }
         }
+        Q_EMIT addIndex(index);
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         m_geom.reset(new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), m_parent, m_layout));
+        if (m_neededScene == MonitorSceneType::MonitorSceneRotatedGeometry) {
+            m_geom->setRotatable(true);
+        }
         connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this, index](const QString &v, int ix, int frame) {
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(frame, pCore->getCurrentFps()), QVariant(v), ix, index);
@@ -624,6 +668,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);
             }
         });
+
     } else if (type == ParamType::ColorWheel) {
         auto colorWheelWidget = new LumaLiftGainParam(m_model, index, m_parent);
         connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged, this,
@@ -645,8 +690,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         });
         paramWidget = colorWheelWidget;
     } else if (type == ParamType::Roto_spline) {
-        m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, m_parent);
-        m_neededScene = MonitorSceneType::MonitorSceneRoto;
+        Q_EMIT addIndex(index);
     } else if (type == ParamType::Color) {
         QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
         bool alphaEnabled = m_model->data(index, AssetParameterModel::AlphaRole).toBool();
@@ -661,34 +705,30 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
 
     } else {
         if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
-            if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
-                m_neededScene = MonitorSceneType::MonitorSceneCorners;
-                m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, index, m_parent);
-                connect(this, &KeyframeContainer::addIndex, m_monitorHelper, &CornersHelper::addIndex);
-            } else {
-                if (type == ParamType::KeyframeParam) {
-                    int paramName = m_model->data(index, AssetParameterModel::NameRole).toInt();
-                    if (paramName < 8) {
-                        Q_EMIT addIndex(index);
-                    }
+            if (type == ParamType::KeyframeParam) {
+                // We're only interested in the first 8 parameters of the corners effect representing x/y coordinates of the corners.
+                // frei0r.c0rners named these params as integers, starting from 0 so we can convert then name to an int and do a int comparison.
+                int paramNameAsInt = paramName.toInt();
+                if (paramNameAsInt < 8) {
+                    Q_EMIT addIndex(index);
                 }
             }
         }
         if (m_model->getAssetId().contains(QLatin1String("frei0r.alphaspot"))) {
-            if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
-                m_neededScene = MonitorSceneType::MonitorSceneGeometry;
-                m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, index, m_parent);
-                connect(this, &KeyframeContainer::addIndex, m_monitorHelper, &RectHelper::addIndex);
-            } else {
-                if (type == ParamType::KeyframeParam) {
-                    QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
-                    if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
-                        paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {
-                        Q_EMIT addIndex(index);
-                    }
+
+            if (type == ParamType::KeyframeParam) {
+                if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
+                    paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {
+                    Q_EMIT addIndex(index);
                 }
             }
         }
+        if (m_model->getAssetId() == QLatin1String("qtblend")) {
+            if (paramName == QLatin1String("rotation")) {
+                Q_EMIT addIndex(index);
+            }
+        }
+
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
         double min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
         double max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
@@ -703,6 +743,13 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), -1, index);
         });
+        if (m_geom) {
+            connect(doubleWidget, &DoubleWidget::valueChanged, this, [this](double v) {
+                if (m_geom) {
+                    m_geom->slotUpdateRotation(v);
+                }
+            });
+        }
         doubleWidget->setDragObjectName(QString::number(index.row()));
         paramWidget = doubleWidget;
         labelWidget = doubleWidget->createLabel();

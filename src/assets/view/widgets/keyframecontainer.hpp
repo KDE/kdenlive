@@ -52,6 +52,8 @@ public:
     void resetKeyframes();
     int getCurrentView();
     int minimumHeight() const;
+    /** @brief Initialize the needed scene and monitor helper for the effect/asset. Should be called before addParameter when setting up the widget. */
+    void initNeededSceneAndHelper();
 
 public Q_SLOTS:
     void slotRefresh();

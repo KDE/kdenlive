@@ -13,6 +13,8 @@
 #include <QFormLayout>
 #include <QLabel>
 #include <QStyle>
+#include <QtMath>
+#include <cmath>
 
 GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
                                bool useOpacity, QWidget *parent, QFormLayout *layout)
@@ -212,46 +214,99 @@ void GeometryWidget::slotAdjustToSource()
 void GeometryWidget::slotAdjustToFrameSize()
 {
     double monitorDar = pCore->getCurrentDar();
-    double sourceDar = m_sourceSize.width() / m_sourceSize.height();
+    double sourceDar = (m_sourceSize.width() / (double)m_sourceSize.height()) * pCore->getCurrentSar();
     QSignalBlocker bk1(m_spinWidth);
     QSignalBlocker bk2(m_spinHeight);
-    if (sourceDar > monitorDar) {
-        // Fit to width
-        double factor = (double)m_defaultSize.width() / m_sourceSize.width() * pCore->getCurrentSar();
-        m_spinHeight->setValue(qRound(m_sourceSize.height() * factor));
-        m_spinWidth->setValue(m_defaultSize.width());
+    double aspect = sourceDar;
+    double angleRad = qDegreesToRadians(m_rotation);
+    double c = std::abs(std::cos(angleRad));
+    double s = std::abs(std::sin(angleRad));
+    double W = m_defaultSize.width();
+    double H = m_defaultSize.height();
+    double h, w;
+    if (m_rotatable && m_rotation != 0) {
+        // Fit the rotated bounding box inside the frame
+        double h1 = W / (aspect * c + s);
+        double h2 = H / (aspect * s + c);
+        h = std::min(h1, h2);
+        w = aspect * h;
     } else {
-        // Fit to height
-        double factor = (double)m_defaultSize.height() / m_sourceSize.height();
-        m_spinHeight->setValue(m_defaultSize.height());
-        m_spinWidth->setValue(qRound(m_sourceSize.width() / pCore->getCurrentSar() * factor));
+        if (sourceDar > monitorDar) {
+            // Fit to width
+            double factor = (double)m_defaultSize.width() / m_sourceSize.width() * pCore->getCurrentSar();
+            h = qRound(m_sourceSize.height() * factor);
+            w = m_defaultSize.width();
+        } else {
+            // Fit to height
+            double factor = (double)m_defaultSize.height() / m_sourceSize.height();
+            h = m_defaultSize.height();
+            w = qRound(m_sourceSize.width() / pCore->getCurrentSar() * factor);
+        }
     }
+    m_spinWidth->setValue(w);
+    m_spinHeight->setValue(h);
     // Center
     QSignalBlocker bk3(m_spinX);
     QSignalBlocker bk4(m_spinY);
-    m_spinX->setValue((m_defaultSize.width() - m_spinWidth->value()) / 2);
-    m_spinY->setValue((m_defaultSize.height() - m_spinHeight->value()) / 2);
+    if (m_rotatable && m_rotation != 0) {
+        double x = (W - w) / 2;
+        double y = (H - h) / 2;
+        QRectF bbox = rotatedBoundingRect(x, y, w, h, m_rotation);
+        double dx = (W / 2.0) - (bbox.left() + bbox.width() / 2.0);
+        double dy = (H / 2.0) - (bbox.top() + bbox.height() / 2.0);
+        m_spinX->setValue(x + dx);
+        m_spinY->setValue(y + dy);
+    } else {
+        m_spinX->setValue((m_defaultSize.width() - w) / 2);
+        m_spinY->setValue((m_defaultSize.height() - h) / 2);
+    }
     slotAdjustRectKeyframeValue();
 }
 
 void GeometryWidget::slotFitToWidth()
 {
-    double factor = (double)m_defaultSize.width() / m_sourceSize.width() * pCore->getCurrentSar();
+    double sourceDar = (m_sourceSize.width() / (double)m_sourceSize.height()) * pCore->getCurrentSar();
+    double W = m_defaultSize.width();
+    double w, h;
+    if (m_rotatable && m_rotation != 0) {
+        double angleRad = qDegreesToRadians(m_rotation);
+        double c = std::abs(std::cos(angleRad));
+        double s = std::abs(std::sin(angleRad));
+        h = W / (sourceDar * c + s);
+        w = sourceDar * h;
+    } else {
+        double factor = (double)m_defaultSize.width() / m_sourceSize.width() * pCore->getCurrentSar();
+        h = qRound(m_sourceSize.height() * factor);
+        w = m_defaultSize.width();
+    }
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinHeight->setValue(qRound(m_sourceSize.height() * factor));
-    m_spinWidth->setValue(m_defaultSize.width());
+    m_spinHeight->setValue(h);
+    m_spinWidth->setValue(w);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
 }
 void GeometryWidget::slotFitToHeight()
 {
-    double factor = (double)m_defaultSize.height() / m_sourceSize.height();
+    double sourceDar = (m_sourceSize.width() / (double)m_sourceSize.height()) * pCore->getCurrentSar();
+    double H = m_defaultSize.height();
+    double w, h;
+    if (m_rotatable && m_rotation != 0) {
+        double angleRad = qDegreesToRadians(m_rotation);
+        double c = std::abs(std::cos(angleRad));
+        double s = std::abs(std::sin(angleRad));
+        h = H / (sourceDar * s + c);
+        w = sourceDar * h;
+    } else {
+        double factor = (double)m_defaultSize.height() / m_sourceSize.height();
+        h = m_defaultSize.height();
+        w = qRound(m_sourceSize.width() / pCore->getCurrentSar() * factor);
+    }
     m_spinWidth->blockSignals(true);
     m_spinHeight->blockSignals(true);
-    m_spinHeight->setValue(m_defaultSize.height());
-    m_spinWidth->setValue(qRound(m_sourceSize.width() / pCore->getCurrentSar() * factor));
+    m_spinHeight->setValue(h);
+    m_spinWidth->setValue(w);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
@@ -276,35 +331,101 @@ void GeometryWidget::slotResize(double value)
 /** @brief Moves the rect to the left frame border (x position = 0). */
 void GeometryWidget::slotMoveLeft()
 {
-    m_spinX->setValue(0);
+    if (m_rotatable && m_rotation != 0) {
+        double x = m_spinX->value();
+        QRectF bbox = rotatedBoundingRect(x, m_spinY->value(), m_spinWidth->value(), m_spinHeight->value(), m_rotation);
+        double dx = 0 - bbox.left();
+        m_spinX->setValue(x + dx);
+    } else {
+        m_spinX->setValue(0);
+    }
 }
 /** @brief Centers the rect horizontally. */
 void GeometryWidget::slotCenterH()
 {
-    m_spinX->setValue((m_defaultSize.width() - m_spinWidth->value()) / 2);
+    if (m_rotatable && m_rotation != 0) {
+        double x = m_spinX->value();
+        QRectF bbox = rotatedBoundingRect(x, m_spinY->value(), m_spinWidth->value(), m_spinHeight->value(), m_rotation);
+        double dx = (m_defaultSize.width() / 2.0) - (bbox.left() + bbox.width() / 2.0);
+        m_spinX->setValue(x + dx);
+    } else {
+        m_spinX->setValue((m_defaultSize.width() - m_spinWidth->value()) / 2);
+    }
 }
 /** @brief Moves the rect to the right frame border (x position = frame width - rect width). */
 void GeometryWidget::slotMoveRight()
 {
-    m_spinX->setValue(m_defaultSize.width() - m_spinWidth->value());
+    if (m_rotatable && m_rotation != 0) {
+        double x = m_spinX->value();
+        QRectF bbox = rotatedBoundingRect(x, m_spinY->value(), m_spinWidth->value(), m_spinHeight->value(), m_rotation);
+        double dx = m_defaultSize.width() - bbox.right();
+        m_spinX->setValue(x + dx);
+    } else {
+        m_spinX->setValue(m_defaultSize.width() - m_spinWidth->value());
+    }
+}
+
+// Helper: returns the bounding rect of a rotated rectangle
+QRectF GeometryWidget::rotatedBoundingRect(double x, double y, double w, double h, double angleDeg) const
+{
+    QPointF center(x + w / 2.0, y + h / 2.0);
+    double angleRad = qDegreesToRadians(angleDeg);
+    QVector<QPointF> corners = {QPointF(x, y), QPointF(x + w, y), QPointF(x + w, y + h), QPointF(x, y + h)};
+    for (QPointF &pt : corners) {
+        QPointF rel = pt - center;
+        double xr = rel.x() * qCos(angleRad) - rel.y() * qSin(angleRad);
+        double yr = rel.x() * qSin(angleRad) + rel.y() * qCos(angleRad);
+        pt = QPointF(xr, yr) + center;
+    }
+    double minX = corners[0].x(), maxX = corners[0].x();
+    double minY = corners[0].y(), maxY = corners[0].y();
+    for (const QPointF &pt : corners) {
+        minX = qMin(minX, pt.x());
+        maxX = qMax(maxX, pt.x());
+        minY = qMin(minY, pt.y());
+        maxY = qMax(maxY, pt.y());
+    }
+    return QRectF(QPointF(minX, minY), QPointF(maxX, maxY));
 }
 
 /** @brief Moves the rect to the top frame border (y position = 0). */
 void GeometryWidget::slotMoveTop()
 {
-    m_spinY->setValue(0);
+    if (m_rotatable && m_rotation != 0) {
+        // Move so that the top of the bounding box is at y=0
+        double y = m_spinY->value();
+        QRectF bbox = rotatedBoundingRect(m_spinX->value(), y, m_spinWidth->value(), m_spinHeight->value(), m_rotation);
+        double dy = 0 - bbox.top();
+        m_spinY->setValue(y + dy);
+    } else {
+        m_spinY->setValue(0);
+    }
 }
 
 /** @brief Centers the rect vertically. */
 void GeometryWidget::slotCenterV()
 {
-    m_spinY->setValue((m_defaultSize.height() - m_spinHeight->value()) / 2);
+    if (m_rotatable && m_rotation != 0) {
+        double y = m_spinY->value();
+        QRectF bbox = rotatedBoundingRect(m_spinX->value(), y, m_spinWidth->value(), m_spinHeight->value(), m_rotation);
+        double dy = (m_defaultSize.height() / 2.0) - (bbox.top() + bbox.height() / 2.0);
+        m_spinY->setValue(y + dy);
+    } else {
+        m_spinY->setValue((m_defaultSize.height() - m_spinHeight->value()) / 2);
+    }
 }
 
 /** @brief Moves the rect to the bottom frame border (y position = frame height - rect height). */
 void GeometryWidget::slotMoveBottom()
 {
-    m_spinY->setValue(m_defaultSize.height() - m_spinHeight->value());
+    if (m_rotatable && m_rotation != 0) {
+        double y = m_spinY->value();
+        QRectF bbox = rotatedBoundingRect(m_spinX->value(), y, m_spinWidth->value(), m_spinHeight->value(), m_rotation);
+        double dy = m_defaultSize.height() - bbox.bottom();
+        m_spinY->setValue(y + dy);
+    } else {
+        m_spinY->setValue(m_defaultSize.height() - m_spinHeight->value());
+    }
 }
 
 /** @brief Un/Lock aspect ratio for size in effect parameter. */
@@ -474,11 +595,13 @@ void GeometryWidget::connectMonitor(bool activate, bool singleKeyframe)
     setEnabled(activate || singleKeyframe);
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
+        connect(m_monitor, &Monitor::effectRotationChanged, this, &GeometryWidget::slotUpdateRotation, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
         Q_EMIT updateMonitorGeometry(rect);
     } else {
         m_monitor->setEffectKeyframe(false, true);
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
+        disconnect(m_monitor, &Monitor::effectRotationChanged, this, &GeometryWidget::slotUpdateRotation);
     }
 }
 
@@ -493,4 +616,17 @@ void GeometryWidget::setEnabled(bool enable)
     for (auto &w : m_allWidgets) {
         w->setEnabled(enable);
     }
+}
+
+void GeometryWidget::setRotatable(bool rotatable)
+{
+    m_rotatable = rotatable;
+}
+
+void GeometryWidget::slotUpdateRotation(double rotation)
+{
+    if (!m_rotatable) {
+        return;
+    }
+    m_rotation = rotation;
 }

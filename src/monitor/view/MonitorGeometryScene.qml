@@ -38,10 +38,13 @@ Item {
     property int duration: 300
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int mouseRulerPos: 0
+    property bool rotatable: false
+    property double rotation: 0
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
+    onRotationChanged: canvas.requestPaint()
     property bool iskeyframe
     property bool cursorOutsideEffect: true
     property bool disableHandles: root.cursorOutsideEffect && root.centerPoints.length > 1
@@ -51,6 +54,8 @@ Item {
     property var centerPointsTypes: []
     signal effectChanged(rect frame)
     signal centersChanged()
+    signal effectRotationChanged(double rotation)
+
     Component.onCompleted: {
       // adjust monitor image size if audio thumb is displayed
         controller.rulerHeight = root.zoomOffset
@@ -311,10 +316,29 @@ Item {
     Rectangle {
         id: framerect
         property bool dragging: false
+        property bool isRotating: false
         property double handlesBottomMargin: root.height - clipMonitorRuler.height - framerect.y - framerect.height < root.baseUnit/2 ? 0 : -root.baseUnit/2
         property double handlesRightMargin: root.width - framerect.x - framerect.width < root.baseUnit/2 ? 0 : -root.baseUnit/2
         property double handlesTopMargin: framerect.y < root.baseUnit/2 ? 0 : -root.baseUnit/2
         property double handlesLeftMargin: framerect.x < root.baseUnit/2 ? 0 : -root.baseUnit/2
+
+        function transformPoint(x, y, source) {
+            // Convert to framerect's coordinate system
+            var point = source.mapToItem(framerect, x, y)
+            // Apply inverse rotation
+            var angle = -root.rotation * Math.PI / 180
+            var cos = Math.cos(angle)
+            var sin = Math.sin(angle)
+            var centerX = framerect.width / 2
+            var centerY = framerect.height / 2
+            var dx = point.x - centerX
+            var dy = point.y - centerY
+            var rotatedX = centerX + dx * cos - dy * sin
+            var rotatedY = centerY + dx * sin + dy * cos
+            // Map to frame coordinates
+            return framerect.mapToItem(frame, rotatedX, rotatedY)
+        }
+
         x: frame.x + root.framesize.x * root.scalex
         y: frame.y + root.framesize.y * root.scaley
         width: root.framesize.width * root.scalex
@@ -322,6 +346,11 @@ Item {
         enabled: root.iskeyframe || K.KdenliveSettings.autoKeyframe
         color: "transparent"
         border.color: root.disableHandles ? 'transparent' : "#ff0000"
+        transform: Rotation {
+            origin.x: framerect.width/2
+            origin.y: framerect.height/2
+            angle: root.rotation
+        }
         Shape {
             id: shape
             anchors.fill: parent
@@ -425,6 +454,87 @@ Item {
           }
         }
         Rectangle {
+            id: rotationHandle
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: parent.top
+                topMargin: parent.height / 4
+            }
+            width: root.baseUnit
+            height: width
+            radius: width / 2
+            color: "#99ffffff"
+            border.color: "#ff0000"
+            visible: root.rotatable && root.showHandles
+            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            
+            K.OverlayLabel {
+                id: rotationLabel
+                visible: framerect.isRotating
+                anchors {
+                    bottom: rotationHandle.top
+                    horizontalCenter: rotationHandle.horizontalCenter
+                    bottomMargin: rotationHandle.height + 10
+                }
+                text: Math.round(root.rotation) + "°"
+            }
+            
+            MouseArea {
+                property point center
+                property int oldMouseX
+                property int oldMouseY
+                id: rotateMouseArea
+                acceptedButtons: Qt.LeftButton
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                
+                onPressed: mouse => {
+                    root.captureRightClick = true
+                    framerect.dragging = false
+                    framerect.isRotating = false
+                    oldMouseX = mouseX
+                    oldMouseY = mouseY
+                    center = Qt.point(framerect.x + framerect.width/2, framerect.y + framerect.height/2)
+                }
+                
+                onPositionChanged: mouse => {
+                    if (pressed) {
+                        if (!framerect.isRotating && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                            return
+                        }
+                        framerect.isRotating = true
+
+                        var mousePos = mapToItem(null, mouse.x, mouse.y)
+                        var angle = Math.atan2(mousePos.y - center.y, mousePos.x - center.x) * (180/Math.PI)
+                        angle = (angle + 90) % 360
+
+                        root.rotation = angle
+                        
+                        if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
+                            controller.addRemoveKeyframe()
+                        }
+                        
+                        root.effectRotationChanged(root.rotation)
+                    }
+                }
+                
+                onReleased: {
+                    root.captureRightClick = false
+                    framerect.dragging = false
+                    framerect.isRotating = false
+                }
+                
+                onDoubleClicked: {
+                    // Reset rotation to 0 on double-click
+                    root.rotation = 0
+                    root.effectRotationChanged(0)
+                    if (root.iskeyframe == false && K.KdenliveSettings.autoKeyframe) {
+                        controller.addRemoveKeyframe()
+                    }
+                }
+            }
+        }
+        Rectangle {
             id: tlhandle
             anchors {
               top: parent.top
@@ -437,7 +547,7 @@ Item {
             color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            opacity: framerect.dragging || framerect.isRotating ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -445,6 +555,7 @@ Item {
               acceptedButtons: Qt.LeftButton
               anchors.fill: parent
               cursorShape: Qt.SizeFDiagCursor
+
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
@@ -459,7 +570,7 @@ Item {
                   }
                   framerect.dragging = true
                   adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var positionInFrame = framerect.transformPoint(mouse.x, mouse.y, this)
                   var adjustedMouse = getSnappedPos(positionInFrame)
                   adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
                   adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
@@ -500,10 +611,8 @@ Item {
                   handleRatio = 1
               }
             }
-            Text {
-                id: effectpos
-                objectName: "effectpos"
-                color: "red"
+            K.OverlayLabel {
+                id: effectposLabel
                 visible: moveArea.pressed
                 anchors {
                     top: parent.bottom
@@ -524,7 +633,7 @@ Item {
             color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            opacity: framerect.dragging || framerect.isRotating ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -546,7 +655,7 @@ Item {
                   }
                   framerect.dragging = true
                   adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var positionInFrame = framerect.transformPoint(mouse.x, mouse.y, this)
                   var adjustedMouse = getSnappedPos(positionInFrame)
                   adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
@@ -595,7 +704,7 @@ Item {
             color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            opacity: framerect.dragging || framerect.isRotating ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -617,7 +726,7 @@ Item {
                   }
                   framerect.dragging = true
                   adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var positionInFrame = framerect.transformPoint(mouse.x, mouse.y, this)
                   var adjustedMouse = getSnappedPos(positionInFrame)
                   adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
@@ -665,7 +774,7 @@ Item {
             color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            opacity: framerect.dragging || framerect.isRotating ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -687,7 +796,7 @@ Item {
                   }
                   framerect.dragging = true
                   adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var positionInFrame = framerect.transformPoint(mouse.x, mouse.y, this)
                   var adjustedMouse = getSnappedPos(positionInFrame)
                   adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
@@ -738,7 +847,7 @@ Item {
             color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            opacity: framerect.dragging || framerect.isRotating ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -760,7 +869,7 @@ Item {
                   }
                   framerect.dragging = true
                   adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var positionInFrame = framerect.transformPoint(mouse.x, mouse.y, this)
                   var adjustedMouse = getSnappedPos(positionInFrame)
                   adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
@@ -811,7 +920,7 @@ Item {
             color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            opacity: framerect.dragging || framerect.isRotating ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -832,7 +941,7 @@ Item {
                   }
                   framerect.dragging = true
                   adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var positionInFrame = framerect.transformPoint(mouse.x, mouse.y, this)
                   var adjustedMouse = getSnappedPos(positionInFrame)
                   adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
                   adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
@@ -881,7 +990,7 @@ Item {
             color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            opacity: framerect.dragging || framerect.isRotating ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -902,7 +1011,7 @@ Item {
                   }
                   framerect.dragging = true
                   adjustedFrame = framesize
-                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var positionInFrame = framerect.transformPoint(mouse.x, mouse.y, this)
                   var adjustedMouse = getSnappedPos(positionInFrame)
                   adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
                   adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
@@ -938,10 +1047,8 @@ Item {
               }
             }
         }
-        Text {
-            id: effectsize
-            objectName: "effectsize"
-            color: "red"
+        K.OverlayLabel {
+            id: effectsizeLabel
             visible: framerect.dragging
             anchors {
                 bottom: framerect.bottom
@@ -964,7 +1071,7 @@ Item {
             color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.showHandles
-            opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
+            opacity: framerect.dragging || framerect.isRotating ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -985,7 +1092,7 @@ Item {
                   }
                   framerect.dragging = true
                    adjustedFrame = framesize
-                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                   var positionInFrame = framerect.transformPoint(mouse.x, mouse.y, this)
                    var adjustedMouse = getSnappedPos(positionInFrame)
                    adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
                   adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
