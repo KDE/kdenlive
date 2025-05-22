@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-16 02:41+0000\n"
-"PO-Revision-Date: 2025-05-04 23:10+0200\n"
+"PO-Revision-Date: 2025-05-18 18:11+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1256,6 +1256,7 @@ msgstr "Modalità luma"
 #, kde-format
 msgid "How many times should the boxblur be applied to luma"
 msgstr ""
+"Quante volte il rettangolo di sfocatura dovrebbe essere applicato a luma"
 
 #: data/effects/avfilter/avfilter_boxblur.xml:16
 #: data/effects/avfilter/avfilter_sab.xml:17
@@ -1346,6 +1347,8 @@ msgid ""
 "Motion adaptive deinterlacing based on yadif with the use of w3fdif and "
 "cubic interpolation algorithms. "
 msgstr ""
+"Deinterlacciamento adattivo del movimento basato su yadif, usando gli "
+"algoritmi w3fdif e di interpolazione cubica."
 
 #: data/effects/avfilter/avfilter_bwdif.xml:8
 #, kde-format
@@ -5786,6 +5789,8 @@ msgstr "Bilanciamento laterale"
 msgid ""
 "Set balance of side signal. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
+"Imposta il bilanciamento del segnale laterale. Il valore predefinito è 0. I "
+"valori permessi vanno da -1 a 1."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
 #, fuzzy, kde-format
@@ -11643,7 +11648,7 @@ msgstr "Effetto audio scala l'intonazione LADSPA"
 #: data/effects/ladspa/ladspa_pitch_scale.xml:8
 #, kde-format
 msgid "Co-efficient"
-msgstr ""
+msgstr "Co-efficiente"
 
 #: data/effects/ladspa/ladspa_rate_scale.xml:4
 #, kde-format
@@ -20476,7 +20481,7 @@ msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
 "many icons used in Kdenlive. Install recommended</li>"
 msgstr ""
-"<li>Pacchetto mancante: icone <b>Breeze</b> (breeze-icon-theme)<br/>fornisce "
+"<li>Pacchetto mancante: icone <b>Brezza</b> (breeze-icon-theme)<br/>fornisce "
 "molte icone usate da Kdenlive. Installazione raccomandata</li>"
 
 #: src/dialogs/wizard.cpp:336
@@ -24098,7 +24103,7 @@ msgid ""
 "This switches between having a <emphasis>Menubar</emphasis> and having a "
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
-"Passa dalla <emphasis>barra dei menu</emphasis> a un pulsante "
+"Passa dalla <emphasis>barra del menu</emphasis> a un pulsante "
 "<interface>menu hamburger</interface> nella barra degli strumenti principale."
 
 #: src/mainwindow.cpp:1953
@@ -24541,13 +24546,13 @@ msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
-"Questa azione nasconde completamente la barra dei menu. La puoi rivedere "
+"Questa azione nasconde completamente la barra del menu. La puoi rivedere "
 "digitando Ctrl+M."
 
 #: src/mainwindow.cpp:4431
 #, kde-format
 msgid "Hide menu bar"
-msgstr "Nascondi la barra dei menu"
+msgstr "Nascondi la barra del menu"
 
 #: src/mainwindow.cpp:4694 src/timeline2/view/timelinecontroller.cpp:5125
 #, kde-format
