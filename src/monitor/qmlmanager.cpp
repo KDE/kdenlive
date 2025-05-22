@@ -37,6 +37,11 @@ void QmlManager::blockSceneChange(bool block)
     m_sceneChangeBlocked = block;
 }
 
+void QmlManager::clearSceneType()
+{
+    m_sceneType = MonitorSceneNone;
+}
+
 bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration)
 {
     if (type == m_sceneType || m_sceneChangeBlocked) {

@@ -118,6 +118,8 @@ public:
     void switchBinReference(const QString newId, const QUuid &uuid);
     /** @brief Get the asset id of the active effect, empty if none */
     const QString activeEffectId() const;
+    /** @brief Return true if this clip has a disabled built-in transform */
+    bool hasDisabledBuiltInTransform();
 
 protected:
     /** @brief helper functions that creates the lambda */

@@ -1614,3 +1614,8 @@ void ClipModel::setActiveEffect(int row)
 {
     m_effectStack->setActiveEffect(row);
 }
+
+bool ClipModel::hasDisabledBuiltInTransform()
+{
+    return m_effectStack->hasDisabledBuiltInTransform();
+}

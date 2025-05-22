@@ -2295,6 +2295,18 @@ void Monitor::setEffectSceneProperty(const QString &name, const QVariant &value)
 
 void Monitor::setEffectKeyframe(bool enable, bool outside)
 {
+    if (m_nextSceneType != MonitorSceneNone) {
+        // The scene is still loading, postpone
+        connect(m_glMonitor, &QQuickWidget::statusChanged, this, [this, enable, outside]() {
+            QQuickItem *root = m_glMonitor->rootObject();
+            if (root) {
+                root->setProperty("iskeyframe", enable);
+                root->setProperty("cursorOutsideEffect", outside);
+            }
+            QObject::disconnect(m_glMonitor, &QQuickWidget::statusChanged, this, nullptr);
+        });
+        return;
+    }
     QQuickItem *root = m_glMonitor->rootObject();
     if (root) {
         root->setProperty("iskeyframe", enable);
@@ -2582,6 +2594,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData, boo
             });
             m_qmlManager->blockSceneChange(true);
             root->deleteLater();
+            m_qmlManager->clearSceneType();
             return;
         } else if (!m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(),
                                            double(m_glMonitor->zoom()), m_glMonitor->m_maxProducerPosition)) {

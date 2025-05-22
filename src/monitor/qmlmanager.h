@@ -29,6 +29,8 @@ public:
     void setProperty(const QString &name, const QVariant &value);
     /** @brief Load a monitor scene */
     bool setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration);
+    /** @brief reset stored scene type */
+    void clearSceneType();
 
 private:
     QQuickWidget *m_view;
