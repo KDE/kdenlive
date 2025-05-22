@@ -520,7 +520,6 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
         decoframe->setPalette(pal);
         pal.setColor(QPalette::Active, QPalette::Base, m_activeColorTitle);
         frame->setPalette(pal);
-        qDebug() << "=============\nSHOWING MONITOR SCENE: " << needsMonitorEffectScene() << ", ACTIVE: " << active;
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
         if (m_view->keyframesAllowed() && m_view->hasMultipleKeyframes()) {
             active = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());

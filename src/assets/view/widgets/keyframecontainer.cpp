@@ -804,16 +804,17 @@ void KeyframeContainer::connectMonitor(bool active)
         }
     }
 
-    if (m_monitorActive != active) {
-        Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-        if (active) {
-            connect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove, Qt::UniqueConnection);
-            connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe, Qt::UniqueConnection);
-            connect(this, &KeyframeContainer::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe, Qt::DirectConnection);
-        } else {
-            disconnect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove);
-            disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe);
-        }
+    if (m_monitorActive == active) {
+        return;
+    }
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    if (active) {
+        connect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove, Qt::UniqueConnection);
+        connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe, Qt::UniqueConnection);
+        connect(this, &KeyframeContainer::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe, Qt::UniqueConnection);
+    } else {
+        disconnect(monitor, &Monitor::addRemoveKeyframe, this, &KeyframeContainer::slotAddRemove);
+        disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeContainer::slotSeekToKeyframe);
     }
     m_monitorActive = active;
     if (m_geom) {

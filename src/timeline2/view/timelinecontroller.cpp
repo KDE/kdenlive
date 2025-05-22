@@ -5522,19 +5522,38 @@ void TimelineController::switchFocusClip()
 
 void TimelineController::enableBuildInTransform()
 {
+    // First check if active track contains a clip with a disabled transform
+    if (m_model->isTrack(m_activeTrack)) {
+        int nextClip = m_model->getTrackById_const(m_activeTrack)->getClipByPosition(pCore->getMonitorPosition());
+        if (nextClip > -1) {
+            std::shared_ptr<ClipModel> clip = m_model->getClipPtr(nextClip);
+            if (clip->hasDisabledBuiltInTransform()) {
+                m_model->requestSetSelection({nextClip});
+                showAsset(nextClip);
+                Q_EMIT pCore->enableBuildInTransform();
+                return;
+            }
+        }
+    }
     int track = m_model->getTopVideoTrackIndex();
     while (m_model->isTrack(track)) {
+        if (track == m_activeTrack) {
+            track = m_model->getPreviousVideoTrackIndex(track);
+            continue;
+        }
         if (m_model->getTrackById_const(track)->isAudioTrack()) {
             // No other available track to check
             return;
         }
         int nextClip = m_model->getTrackById_const(track)->getClipByPosition(pCore->getMonitorPosition());
         if (nextClip > -1) {
-            std::shared_ptr<ClipModel> clip2 = m_model->getClipPtr(nextClip);
-            m_model->requestSetSelection({nextClip});
-            showAsset(nextClip);
-            Q_EMIT pCore->enableBuildInTransform();
-            return;
+            std::shared_ptr<ClipModel> clip = m_model->getClipPtr(nextClip);
+            if (clip->hasDisabledBuiltInTransform()) {
+                m_model->requestSetSelection({nextClip});
+                showAsset(nextClip);
+                Q_EMIT pCore->enableBuildInTransform();
+                return;
+            }
         }
         track = m_model->getPreviousVideoTrackIndex(track);
         if (track == 0) {

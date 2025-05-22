@@ -2196,3 +2196,20 @@ void EffectStackModel::setBuildInSize(const QSize size)
         }
     }
 }
+
+bool EffectStackModel::hasDisabledBuiltInTransform()
+{
+    plugBuiltinEffects();
+    for (int i = 0; i < rootItem->childCount(); i++) {
+        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effect->isBuiltIn()) {
+            if (effect->getAssetId() == QLatin1String("qtblend") && !effect->isAssetEnabled()) {
+                return true;
+            }
+        } else {
+            // Built-in effects are always first in stack
+            break;
+        }
+    }
+    return false;
+}

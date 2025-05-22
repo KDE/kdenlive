@@ -165,6 +165,8 @@ public:
     void appendAudioBuildInEffects();
     /** @brief Add default built-in video effects */
     void appendVideoBuildInEffects();
+    /** @brief Return true if this clip has a disabled built-in transform */
+    bool hasDisabledBuiltInTransform();
 
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */
