@@ -5543,7 +5543,7 @@ void TimelineController::switchFocusClip()
                     int nextClip = m_model->getTrackById_const(track)->getClipByPosition(pCore->getMonitorPosition());
                     if (nextClip > -1) {
                         std::shared_ptr<ClipModel> clip2 = m_model->getClipPtr(nextClip);
-                        int row = clip2->assetRow(assetId, -1, true);
+                        int row = clip2->assetRow(assetId, -1, false);
                         if (row > -1) {
                             Q_EMIT pCore->monitorManager()->projectMonitor()->blockSceneChange(true);
                             clip2->setActiveEffect(row);

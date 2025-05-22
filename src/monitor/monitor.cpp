@@ -2297,6 +2297,8 @@ void Monitor::setEffectKeyframe(bool enable, bool outside)
 {
     if (m_nextSceneType != MonitorSceneNone) {
         // The scene is still loading, postpone
+        // If another keyframe call is pending, discard it to only keep the last one
+        QObject::disconnect(m_glMonitor, &QQuickWidget::statusChanged, this, nullptr);
         connect(m_glMonitor, &QQuickWidget::statusChanged, this, [this, enable, outside]() {
             QQuickItem *root = m_glMonitor->rootObject();
             if (root) {
