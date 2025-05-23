@@ -1095,10 +1095,6 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
             return prod;
         }
-        if (m_audioProducers.count(trackId) > 0) {
-            m_effectStack->removeService(m_audioProducers[trackId]);
-            m_audioProducers.erase(trackId);
-        }
         if (state == PlaylistState::VideoOnly) {
             // we return the video producer
             // We need to get an video producer, if none exists
@@ -1124,10 +1120,6 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
             return std::shared_ptr<Mlt::Producer>(m_videoProducers[trackId]->cut(-1, duration > 0 ? duration - 1 : -1));
-        }
-        if (m_videoProducers.count(trackId) > 0) {
-            m_effectStack->removeService(m_videoProducers[trackId]);
-            m_videoProducers.erase(trackId);
         }
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
