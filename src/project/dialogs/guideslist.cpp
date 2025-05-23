@@ -108,6 +108,7 @@ GuidesList::GuidesList(QWidget *parent)
     int fontHeight = QFontMetrics(font()).lineSpacing();
     m_proxy = new GuidesProxyModel(fontHeight, this);
     connect(guides_list, &QListView::doubleClicked, this, &GuidesList::editGuide);
+    connect(guides_list, &QListView::pressed, this, &GuidesList::activateMarker);
     connect(guide_delete, &QToolButton::clicked, this, &GuidesList::removeGuide);
     connect(guide_add, &QToolButton::clicked, this, &GuidesList::addGuide);
     connect(guide_edit, &QToolButton::clicked, this, &GuidesList::editGuides);
@@ -481,6 +482,11 @@ void GuidesList::selectionChanged(const QItemSelection &selected, const QItemSel
         guide_delete->setEnabled(false);
         return;
     }
+    activateMarker(ix);
+}
+
+void GuidesList::activateMarker(const QModelIndex &ix)
+{
     guide_edit->setEnabled(true);
     guide_delete->setEnabled(true);
     int pos = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();

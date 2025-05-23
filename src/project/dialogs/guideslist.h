@@ -110,6 +110,8 @@ private Q_SLOTS:
     void checkGuideChange(const QModelIndex &start, const QModelIndex &end, const QList<int> &roles);
     void fetchMovedThumbs();
     void rebuildThumbs();
+    /** @brief Triggered when an item in the list is selected. */
+    void activateMarker(const QModelIndex &ix);
 
 private:
     /** @brief Set the marker model that will be displayed. */
