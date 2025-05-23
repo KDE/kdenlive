@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-16 02:41+0000\n"
+"POT-Creation-Date: 2025-05-23 02:38+0000\n"
 "PO-Revision-Date: 2025-02-22 02:39+0100\n"
 "Last-Translator: Flori G <Renner03@protonmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -15372,7 +15372,7 @@ msgstr ""
 "ausgewählt - die aktuellen Parameterwerte kopieren."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:118
-#: src/assets/view/widgets/keyframecontainer.cpp:950
+#: src/assets/view/widgets/keyframecontainer.cpp:951
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Keyframe einfügen"
@@ -15463,43 +15463,43 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Parameter"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:855
+#: src/assets/view/widgets/keyframecontainer.cpp:856
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Keyframes kopiert"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:866
-#: src/assets/view/widgets/keyframecontainer.cpp:907
-#: src/assets/view/widgets/keyframecontainer.cpp:914
+#: src/assets/view/widgets/keyframecontainer.cpp:867
+#: src/assets/view/widgets/keyframecontainer.cpp:908
+#: src/assets/view/widgets/keyframecontainer.cpp:915
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Keine gültigen Keyframe-Daten in der Zwischenablage"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:958
+#: src/assets/view/widgets/keyframecontainer.cpp:959
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary files"
 msgid "Cannot copy current parameter values"
 msgstr "Temporäre Dateien können nicht erstellt werden"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:963
-#: src/assets/view/widgets/keyframecontainer.cpp:974
+#: src/assets/view/widgets/keyframecontainer.cpp:964
+#: src/assets/view/widgets/keyframecontainer.cpp:975
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Current values copied"
 msgstr "Interpolation"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:986
+#: src/assets/view/widgets/keyframecontainer.cpp:987
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "Keine gültigen Keyframe-Daten in der Zwischenablage"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1067
+#: src/assets/view/widgets/keyframecontainer.cpp:1068
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Der letzte Keyframe kann nicht entfernt werden"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1079
+#: src/assets/view/widgets/keyframecontainer.cpp:1080
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -16940,7 +16940,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:641
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -17113,7 +17113,7 @@ msgid "Move subtitle"
 msgstr "Untertitel verschieben"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:669
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:668
 #: src/effects/effectstack/view/effectstackview.cpp:873
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
@@ -18104,7 +18104,7 @@ msgstr "Hilfsliniendaten exportieren"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:748
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:747
 #: src/effects/effectstack/view/effectstackview.cpp:908
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
@@ -21844,7 +21844,7 @@ msgstr "Löscht den Effekt aus dem Effektstapel."
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:577
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -21852,28 +21852,28 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 deaktivieren"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 aktivieren"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:638
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:637
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Effekt speichern"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
 #, kde-format
 msgid "Comments:"
 msgstr "Kommentare:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Kein Name angegeben. Effekt nicht gespeichert."
@@ -25631,12 +25631,12 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 Audio-Stream"
 msgstr[1] "%1 Audio-Streams"
 
-#: src/monitor/monitor.cpp:2414
+#: src/monitor/monitor.cpp:2428
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2456 src/monitor/monitor.cpp:2513
+#: src/monitor/monitor.cpp:2470 src/monitor/monitor.cpp:2527
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -25645,18 +25645,18 @@ msgstr ""
 "Der Filter „alphagrad“ wird für diese Funktion benötigt. Bitte installieren "
 "Sie „frei0r“ und starten Sie Kdenlive neu."
 
-#: src/monitor/monitor.cpp:2476
+#: src/monitor/monitor.cpp:2490
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Clip enthält keine Effekte"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2492
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Bitte wählen Sie einen Clip, auf den Sie einen Effekt anwenden möchten"
 
-#: src/monitor/monitor.cpp:2520
+#: src/monitor/monitor.cpp:2534
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -25665,18 +25665,18 @@ msgstr ""
 "Der Übergang „cairoblend“ wird für diese Funktion benötigt. Bitte "
 "installieren Sie „frei0r“ und starten Sie Kdenlive neu."
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2612
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:3094
+#: src/monitor/monitor.cpp:3109
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "Kein Clip im Projektinhalt ausgewählt"
 
-#: src/monitor/monitor.cpp:3115
+#: src/monitor/monitor.cpp:3130
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot get producer for Clip Monitor"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-16 02:41+0000\n"
+"POT-Creation-Date: 2025-05-23 02:38+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4912,17 +4912,17 @@ msgstr "平均,最小,最大"
 #: data/effects/avfilter/avfilter_prewitt.xml:4
 #, kde-format
 msgid "Prewitt"
-msgstr ""
+msgstr "Prewitt"
 
 #: data/effects/avfilter/avfilter_prewitt.xml:5
 #, kde-format
 msgid "Apply prewitt operator to input video stream"
-msgstr ""
+msgstr "将prewitt运算符应用于输入视频流"
 
 #: data/effects/avfilter/avfilter_random.xml:4
 #, kde-format
 msgid "Random"
-msgstr ""
+msgstr "Random - 随机"
 
 #: data/effects/avfilter/avfilter_random.xml:5
 #, kde-format
@@ -4930,137 +4930,139 @@ msgid ""
 "Flush video frames from internal cache of frames into a random order. No "
 "frame is discarded. Inspired by frei0r nervous filter."
 msgstr ""
+"将内部帧缓存中的视频帧以随机顺序输出，且不丢弃任何帧。设计灵感源自frei0r的"
+"nervous滤镜。"
 
 #: data/effects/avfilter/avfilter_random.xml:8
 #, kde-format
 msgid "Number of frames in cache"
-msgstr ""
+msgstr "缓存中的帧数"
 
 #: data/effects/avfilter/avfilter_random.xml:11
 #, kde-format
 msgid "Seed"
-msgstr ""
+msgstr "Seed - 种子"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:4
 #, kde-format
 msgid "Grain Removal"
-msgstr ""
+msgstr "颗粒移除"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:5
 #, kde-format
 msgid "The removegrain filter is a spatial denoiser for progressive video"
-msgstr ""
+msgstr "颗粒移除滤镜是针对逐行视频的空间域降噪器"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:8
 #, kde-format
 msgid "Mode for 1st plane"
-msgstr ""
+msgstr "第一平面模式"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:11
 #, kde-format
 msgid "Mode for 2nd plane"
-msgstr ""
+msgstr "第二平面模式"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:14
 #, kde-format
 msgid "Mode for 3rd plane"
-msgstr ""
+msgstr "第三平面模式"
 
 #: data/effects/avfilter/avfilter_removegrain.xml:17
 #, kde-format
 msgid "Mode for 4th plane"
-msgstr ""
+msgstr "第四平面模式"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:4
 #, kde-format
 msgid "RGBA Shift"
-msgstr ""
+msgstr "RGBA Shift - RGBA位移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:5
 #, kde-format
 msgid "Shift R/G/B/A pixels horizontally and/or vertically"
-msgstr ""
+msgstr "水平和/或垂直移动R/G/B/A像素"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:8
 #, kde-format
 msgid "Red Horizontal shift"
-msgstr ""
+msgstr "红色水平偏移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:11
 #, kde-format
 msgid "Red Vertical shift"
-msgstr ""
+msgstr "红色竖直偏移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:14
 #, kde-format
 msgid "Green Horizontal shift"
-msgstr ""
+msgstr "绿色水平偏移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:17
 #, kde-format
 msgid "Green Vertical shift"
-msgstr ""
+msgstr "绿色竖直偏移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:20
 #, kde-format
 msgid "Blue Horizontal shift"
-msgstr ""
+msgstr "蓝色水平偏移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:23
 #, kde-format
 msgid "Blue Vertical shift"
-msgstr ""
+msgstr "蓝色竖直偏移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:26
 #, kde-format
 msgid "Alpha Horizontal shift"
-msgstr ""
+msgstr "Alpha 水平偏移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:29
 #, kde-format
 msgid "Alpha Vertical shift"
-msgstr ""
+msgstr "Alpha 竖直偏移"
 
 #: data/effects/avfilter/avfilter_rgbashift.xml:33
 #, kde-format
 msgid "Edge operation"
-msgstr ""
+msgstr "边缘操作"
 
 #: data/effects/avfilter/avfilter_roberts.xml:4
 #, kde-format
 msgid "Roberts"
-msgstr ""
+msgstr "Roberts"
 
 #: data/effects/avfilter/avfilter_roberts.xml:5
 #, kde-format
 msgid "Apply roberts cross operator to input video stream"
-msgstr ""
+msgstr "将roberts交叉运算符应用于输入视频流"
 
 #: data/effects/avfilter/avfilter_sab.xml:4
 #: data/effects/avfilter/avfilter_sab.xml:5
 #, kde-format
 msgid "Shape Adaptive Blur"
-msgstr ""
+msgstr "自适应形状模糊"
 
 #: data/effects/avfilter/avfilter_sab.xml:11
 #, kde-format
 msgid "Luma pre-filter radius"
-msgstr ""
+msgstr "光度预过滤半径"
 
 #: data/effects/avfilter/avfilter_sab.xml:14
 #, kde-format
 msgid "Luma Strength"
-msgstr ""
+msgstr "光度强度"
 
 #: data/effects/avfilter/avfilter_sab.xml:20
 #, kde-format
 msgid "Chroma pre-filter radius"
-msgstr ""
+msgstr "色度预过滤半径"
 
 #: data/effects/avfilter/avfilter_sab.xml:23
 #, kde-format
 msgid "Chroma Strength"
-msgstr ""
+msgstr "色度强度"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:574
@@ -5071,92 +5073,92 @@ msgstr "滚动"
 #: data/effects/avfilter/avfilter_scroll.xml:8
 #, kde-format
 msgid "Horizontal scrolling speed"
-msgstr ""
+msgstr "水平滚动速度"
 
 #: data/effects/avfilter/avfilter_scroll.xml:11
 #, kde-format
 msgid "Vertical scrolling speed"
-msgstr ""
+msgstr "竖直滚动速度"
 
 #: data/effects/avfilter/avfilter_scroll.xml:14
 #, kde-format
 msgid "Initial horizontal position"
-msgstr ""
+msgstr "初始水平位置"
 
 #: data/effects/avfilter/avfilter_scroll.xml:17
 #, kde-format
 msgid "Initial vertical position"
-msgstr ""
+msgstr "初始竖直位置"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:4
 #, kde-format
 msgid "CMYK adjust"
-msgstr ""
+msgstr "CMYK 调整"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:5
 #, kde-format
 msgid "Apply CMYK correction to specific color ranges"
-msgstr ""
+msgstr "将CMYK校正应用于特定的颜色范围"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:8
 #, kde-format
 msgid "Absolute,Relative"
-msgstr ""
+msgstr "绝对模式,相对模式"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:9
 #, kde-format
 msgid "Correction Method"
-msgstr ""
+msgstr "校正方式"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:12
 #, kde-format
 msgid "Reds"
-msgstr ""
+msgstr "红"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:15
 #, kde-format
 msgid "Yellows"
-msgstr ""
+msgstr "黄"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:18
 #, kde-format
 msgid "Greens"
-msgstr ""
+msgstr "绿"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:21
 #, kde-format
 msgid "Cyans"
-msgstr ""
+msgstr "青"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:24
 #, kde-format
 msgid "Blues"
-msgstr ""
+msgstr "蓝"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:27
 #, kde-format
 msgid "Magentas"
-msgstr ""
+msgstr "品红"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:30
 #, kde-format
 msgid "Whites"
-msgstr ""
+msgstr "白"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:33
 #, kde-format
 msgid "Neutrals"
-msgstr ""
+msgstr "中性灰"
 
 #: data/effects/avfilter/avfilter_selectivecolor.xml:36
 #, kde-format
 msgid "Blacks"
-msgstr ""
+msgstr "黑"
 
 #: data/effects/avfilter/avfilter_separatefields.xml:4
 #, kde-format
 msgid "Separate field"
-msgstr ""
+msgstr "场分离"
 
 #: data/effects/avfilter/avfilter_separatefields.xml:5
 #, kde-format
@@ -5165,21 +5167,23 @@ msgid ""
 "fields, producing a new half height clip with twice the frame rate and twice "
 "the frame count. "
 msgstr ""
+"本滤镜接收基于帧的视频输入，将每帧拆分为组成场（fields），生成高度减半、帧率"
+"与总帧数均翻倍的新视频片段。 "
 
 #: data/effects/avfilter/avfilter_setrange.xml:4
 #, kde-format
 msgid "Set Range"
-msgstr ""
+msgstr "设置范围"
 
 #: data/effects/avfilter/avfilter_setrange.xml:5
 #, kde-format
 msgid "Force color range for the output video frame"
-msgstr ""
+msgstr "强制输出指定颜色范围的视频帧"
 
 #: data/effects/avfilter/avfilter_setrange.xml:8
 #, kde-format
 msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
-msgstr ""
+msgstr "auto,unspecified,unknowled,limited,tv,mpeg,full,pc,jpeg"
 
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, kde-format
@@ -5189,77 +5193,77 @@ msgstr "斜切"
 #: data/effects/avfilter/avfilter_shear.xml:5
 #, kde-format
 msgid "Apply shear transform to input video."
-msgstr ""
+msgstr "将斜切运算应用于输入视频"
 
 #: data/effects/avfilter/avfilter_shear.xml:8
 #, kde-format
 msgid "X shear factor"
-msgstr ""
+msgstr "X斜切因子"
 
 #: data/effects/avfilter/avfilter_shear.xml:11
 #, kde-format
 msgid "Y shear factor"
-msgstr ""
+msgstr "Y斜切因子"
 
 #: data/effects/avfilter/avfilter_shear.xml:14
 #, kde-format
 msgid "Background fill color"
-msgstr ""
+msgstr "背景填充颜色"
 
 #: data/effects/avfilter/avfilter_shear.xml:17
 #, kde-format
 msgid "Nearest,Bilinear"
-msgstr ""
+msgstr "最临近,双线性"
 
 #: data/effects/avfilter/avfilter_shear.xml:18
 #, kde-format
 msgid "Interpolation mode"
-msgstr ""
+msgstr "插值模式"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:4
 #, kde-format
 msgid "Shuffle planes"
-msgstr ""
+msgstr "随机平面"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:5
 #, kde-format
 msgid "Reorder and/or duplicate video planes"
-msgstr ""
+msgstr "重新排序或复制视频平面"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:8
 #, kde-format
 msgid "1st Output Plane"
-msgstr ""
+msgstr "第一输出平面"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:11
 #, kde-format
 msgid "2nd Output Plane"
-msgstr ""
+msgstr "第二输出平面"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:14
 #, kde-format
 msgid "3rd Output Plane"
-msgstr ""
+msgstr "第三输出平面"
 
 #: data/effects/avfilter/avfilter_shuffleplanes.xml:17
 #, kde-format
 msgid "4th Output Plane"
-msgstr ""
+msgstr "第四输出平面"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:4
 #, kde-format
 msgid "Smartblur"
-msgstr ""
+msgstr "智能模糊"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:5
 #, kde-format
 msgid "Blur the input video without impacting the outlines. "
-msgstr ""
+msgstr "模糊输入视频而不影响轮廓。 "
 
 #: data/effects/avfilter/avfilter_smartblur.xml:8
 #, kde-format
 msgid "Luma radius"
-msgstr ""
+msgstr "亮度半径"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:10
 #, kde-format
@@ -5268,12 +5272,15 @@ msgid ""
 "            The value specifies the variance of the gaussian filter used to "
 "blur the image (slower if larger).]]>"
 msgstr ""
+"<![CDATA[设置光度半径。<br>\n"
+"            该数值指定了用于模糊图像的高斯滤波器的方差（数值越大处理速度越"
+"慢）。]]>"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:13
 #: data/effects/avfilter/avfilter_unsharp.xml:17
 #, kde-format
 msgid "Luma strength"
-msgstr ""
+msgstr "光度强度"
 
 #: data/effects/avfilter/avfilter_smartblur.xml:15
 #, kde-format
@@ -5487,17 +5494,17 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sr.xml:15
 #, kde-format
 msgid "Scale factor for SRCNN"
-msgstr ""
+msgstr "SRCNN 缩放因子"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:4
 #, kde-format
 msgid "Stereoscopic 3D"
-msgstr ""
+msgstr "双图像立体3D"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:5
 #, kde-format
 msgid "Convert between different stereoscopic image formats. "
-msgstr ""
+msgstr "在不同的立体图像格式之间转换"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:8
 #, kde-format
@@ -5506,11 +5513,14 @@ msgid ""
 "below (right above),interleaved rows (left top),interleaved rows (right top),"
 "interleaved columns left eye first,interleaved columns right eye first"
 msgstr ""
+"左右并列 (平行视法),左右并列 (交叉视法),上下排列 (左眼在上),上下排列 (右眼在"
+"上),隔行交织 (左顶行),隔行交织 (右顶行),隔列交织 (左眼优先),隔列交织 (右眼优"
+"先)"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:9
 #, kde-format
 msgid "Input format"
-msgstr ""
+msgstr "输入格式"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:12
 #, kde-format
@@ -5526,16 +5536,21 @@ msgid ""
 "first,checkerboard right eye first,interleaved columns left eye first,"
 "interleaved columns right eye first,HDMI frame pack"
 msgstr ""
+"并排平行式,并排交叉视,上左/下右分屏,上右/下左分屏,隔行交错（左上起始）,隔行交"
+"错（右上起始）,红蓝灰阶立体,红绿灰阶立体,红青灰阶立体,红青半彩立体,红青全彩立"
+"体,红青dubois立体,绿品灰阶立体,绿品半彩立体,绿品全彩立体,绿品dubois立体,黄蓝"
+"灰阶立体,黄蓝半彩立体,黄蓝全彩立体,黄蓝dubois立体,左眼单输,右眼单输,棋盘格左"
+"优先,棋盘格右优先,隔列交错左优先,隔列交错右优先,HDMI帧封装"
 
 #: data/effects/avfilter/avfilter_stereo3D.xml:13
 #, kde-format
 msgid "Output format"
-msgstr ""
+msgstr "输出格式"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, kde-format
 msgid "Stereo tools"
-msgstr ""
+msgstr "立体声工具"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:5
 #, kde-format
@@ -5544,11 +5559,13 @@ msgid ""
 "converting M/S stereo recordings to L/R signal while having control over the "
 "parameters or spreading the stereo image of master track. "
 msgstr ""
+"该滤波器具有一些方便的实用程序来管理立体声信号，用于将M/S立体声记录转换为L/R"
+"信号，同时控制参数或扩展主轨道的立体声图像。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:8
 #, kde-format
 msgid "Level IN"
-msgstr ""
+msgstr "输入电平"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:10
 #: data/effects/avfilter/avfilter_stereotools.xml:15
@@ -5557,17 +5574,19 @@ msgid ""
 "Set input level before filtering for both channels.\n"
 "Allowed range is from 0.015625 to 64."
 msgstr ""
+"在两个频道过滤前设置输入级别。\n"
+"允许范围从 0.015625 到 64。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:13
 #, kde-format
 msgid "Level OUT"
-msgstr ""
+msgstr "输出电平"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:18
 #: data/effects/avfilter/avfilter_stereotools.xml:86
 #, kde-format
 msgid "Balance IN"
-msgstr ""
+msgstr "平衡输入"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:19
 #: data/effects/avfilter/avfilter_stereotools.xml:23
@@ -5575,55 +5594,55 @@ msgstr ""
 msgid ""
 "Set input balance between both channels. Default is 0. Allowed range is from "
 "-1 to 1."
-msgstr ""
+msgstr "设置两个频道之间的输入平衡。默认值为 0。允许范围 -1~1。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
 #: data/effects/avfilter/avfilter_stereotools.xml:96
 #, kde-format
 msgid "Balance OUT"
-msgstr ""
+msgstr "平衡输出"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:26
 #, kde-format
 msgid "Softclip"
-msgstr ""
+msgstr "软削波"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:27
 #, kde-format
 msgid ""
 "Enable softclipping. Results in analog distortion instead of harsh digital "
 "0dB clipping."
-msgstr ""
+msgstr "启用软削波功能。该模式将生成模拟式失真，替代生硬的数字0dB硬削波。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:30
 #, kde-format
 msgid "Mute Left"
-msgstr ""
+msgstr "左侧静音"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:33
 #, kde-format
 msgid "Mute Right"
-msgstr ""
+msgstr "右侧静音"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:36
 #, kde-format
 msgid "Phase Left"
-msgstr ""
+msgstr "左侧相位"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:37
 #, kde-format
 msgid "Change the phase of the left channel."
-msgstr ""
+msgstr "修改左侧通道的相位。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:40
 #, kde-format
 msgid "Phase Right"
-msgstr ""
+msgstr "右侧相位"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:41
 #, kde-format
 msgid "Change the phase of the right channel."
-msgstr ""
+msgstr "修改右侧通道的相位。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:44
 #, kde-format
@@ -5633,67 +5652,71 @@ msgid ""
 "Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side "
 "to Right/Left,Left/Right to Left - Right"
 msgstr ""
+"左/右声道转左/右声道,左/右声道转中置/侧边声道,中置/侧边声道转左/右声道,左/右"
+"声道转左左声道,左/右声道转右右声道,左/右声道转左右混合声道,左/右声道转右/左声"
+"道,中置/侧边声道转左左声道,中置/侧边声道转右右声道,中置/侧边声道转右/左声道,"
+"左/右声道转左右差分声道"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:45
 #, kde-format
 msgid "Stereo Mode"
-msgstr ""
+msgstr "立体声模式"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:48
 #, kde-format
 msgid "Side Level"
-msgstr ""
+msgstr "侧边等级"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:49
 #, kde-format
 msgid ""
 "Set level of side signal. Default is 1. Allowed range is from 0.015625 to 64."
-msgstr ""
+msgstr "设置侧边信号等级。默认值是1。允许范围0.015625~64。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:52
 #, kde-format
 msgid "Side Balance"
-msgstr ""
+msgstr "侧边等级"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:53
 #, kde-format
 msgid ""
 "Set balance of side signal. Default is 0. Allowed range is from -1 to 1."
-msgstr ""
+msgstr "设置侧边信号平衡。默认值是0。允许范围-1~1。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
 #, kde-format
 msgid "Mid Level"
-msgstr ""
+msgstr "中置等级"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:57
 #, kde-format
 msgid ""
 "Set level of the middle signal. Default is 1. Allowed range is from 0.015625 "
 "to 64."
-msgstr ""
+msgstr "设置中置信号等级。默认值是1。允许范围0.015625~64。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
 #, kde-format
 msgid "Mid Pan"
-msgstr ""
+msgstr "中置偏移"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:61
 #, kde-format
 msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
-msgstr ""
+msgstr "设置中置信号偏移。默认值是0。允许范围-1~1。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
 #, kde-format
 msgid "Stereo base"
-msgstr ""
+msgstr "立体声基准"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:65
 #, kde-format
 msgid ""
 "Set stereo base between mono and inverted channels. Default is 0. Allowed "
 "range is from -1 to 1."
-msgstr ""
+msgstr "设置立体声基准在单声道与反相声道间的比例。默认值为 0，有效范围-1~1。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:69
 #, kde-format
@@ -5701,27 +5724,28 @@ msgid ""
 "Set delay in milliseconds how much to delay left from right channel and vice "
 "versa. Default is 0. Allowed range is from -20 to 20."
 msgstr ""
+"设置左侧声道相对于右侧声道的延迟(ms)，反之亦然。默认是 0。允许范围 -20 ~ 20。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
 #, kde-format
 msgid "S/C level"
-msgstr ""
+msgstr "S/C 级别"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:75
 #, kde-format
 msgid "Stereo phase"
-msgstr ""
+msgstr "立体声相位"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:76
 #, kde-format
 msgid "Set the stereo phase in degrees."
-msgstr ""
+msgstr "设置立体声相位(角度)。"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:79
 #: data/effects/avfilter/avfilter_stereotools.xml:89
 #, kde-format
 msgid "balance,amplitude,power"
-msgstr ""
+msgstr "经典平衡,增强平衡,等功率"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:85
 #: data/effects/avfilter/avfilter_stereotools.xml:95
@@ -5735,11 +5759,17 @@ msgid ""
 "‘power’\n"
 "Equal power distribution, from -6dB to +6dB range."
 msgstr ""
+"\"经典平衡\"\n"
+"经典平衡模式。通过交替衰减左右声道电平实现声场平衡，增益上限为1。\n"
+"\"增强平衡\"\n"
+"类似于经典平衡模式，但增益最多可提高到2。\n"
+"\"等功率\"\n"
+"等功率模式，保证音频从-6dB 到+6dB 范围内总能量恒定。"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:4
 #, kde-format
 msgid "Stereo widener"
-msgstr ""
+msgstr "立体声场增强"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:5
 #, kde-format
@@ -5748,6 +5778,8 @@ msgid ""
 "channels and by delaying the signal of left into right and vice versa, "
 "thereby widening the stereo effect."
 msgstr ""
+"该滤波器通过抑制两个声道共用的信号以及通过将左信号延迟到右信号（反之亦然）来"
+"增强立体声效果，从而加宽立体声效果。"
 
 #: data/effects/avfilter/avfilter_stereowiden.xml:9
 #, kde-format
@@ -14624,7 +14656,7 @@ msgid ""
 msgstr "复制关键帧。复制选定的关键帧，如果未选择关键帧，则复制当前参数值。"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:118
-#: src/assets/view/widgets/keyframecontainer.cpp:950
+#: src/assets/view/widgets/keyframecontainer.cpp:951
 #, kde-format
 msgid "Paste keyframe"
 msgstr "粘贴关键帧"
@@ -14711,40 +14743,40 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "选择要复制的参数"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:855
+#: src/assets/view/widgets/keyframecontainer.cpp:856
 #, kde-format
 msgid "Keyframes copied"
 msgstr "关键帧已复制"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:866
-#: src/assets/view/widgets/keyframecontainer.cpp:907
-#: src/assets/view/widgets/keyframecontainer.cpp:914
+#: src/assets/view/widgets/keyframecontainer.cpp:867
+#: src/assets/view/widgets/keyframecontainer.cpp:908
+#: src/assets/view/widgets/keyframecontainer.cpp:915
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "剪贴板中没有有效的关键帧数据"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:958
+#: src/assets/view/widgets/keyframecontainer.cpp:959
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "无法复制当前参数值"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:963
-#: src/assets/view/widgets/keyframecontainer.cpp:974
+#: src/assets/view/widgets/keyframecontainer.cpp:964
+#: src/assets/view/widgets/keyframecontainer.cpp:975
 #, kde-format
 msgid "Current values copied"
 msgstr "当前值已复制"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:986
+#: src/assets/view/widgets/keyframecontainer.cpp:987
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "剪贴板中没有关键帧数据"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1067
+#: src/assets/view/widgets/keyframecontainer.cpp:1068
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "无法移除最后一个关键帧"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1079
+#: src/assets/view/widgets/keyframecontainer.cpp:1080
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -16126,7 +16158,7 @@ msgstr "双击时导入文件"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:641
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -16299,7 +16331,7 @@ msgid "Move subtitle"
 msgstr "移动字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1218
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:669
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:668
 #: src/effects/effectstack/view/effectstackview.cpp:873
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
@@ -17262,7 +17294,7 @@ msgstr "导出辅助线数据…"
 #: src/effects/effectlist/model/effecttreemodel.cpp:302
 #: src/effects/effectlist/model/effecttreemodel.cpp:315
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:748
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:747
 #: src/effects/effectstack/view/effectstackview.cpp:908
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
@@ -20801,7 +20833,7 @@ msgstr "删除在特效堆栈中的该效果。"
 msgid "%1 instances of this effect in the group"
 msgstr "此效果在此分组中有 %1 个实例"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:577
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -20811,28 +20843,28 @@ msgstr ""
 "<b>拖动</b>效果到另一个时间轴剪辑、轨道或者项目剪辑以复制它到目标位置。"
 "<b>Alt + 拖动</b>以将它复制到一个分组中的单独项目。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
 #, kde-format
 msgid "Disable %1"
 msgstr "禁用 %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
 #, kde-format
 msgid "Enable %1"
 msgstr "启用 %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:638
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:637
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "保存效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
 #, kde-format
 msgid "Comments:"
 msgstr "备注："
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "未提供名称，效果未保存。"
@@ -24460,12 +24492,12 @@ msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 个音频流"
 
-#: src/monitor/monitor.cpp:2414
+#: src/monitor/monitor.cpp:2428
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "无法初始化Movit 的 GLSL 管理器，请禁用 Movit"
 
-#: src/monitor/monitor.cpp:2456 src/monitor/monitor.cpp:2513
+#: src/monitor/monitor.cpp:2470 src/monitor/monitor.cpp:2527
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -24473,17 +24505,17 @@ msgid ""
 msgstr ""
 "该功能需要透明度渐变 (alphagrad) 滤镜，请安装 frei0r 并重新启动 Kdenlive"
 
-#: src/monitor/monitor.cpp:2476
+#: src/monitor/monitor.cpp:2490
 #, kde-format
 msgid "Clip has no effects"
 msgstr "剪辑没有使用效果"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2492
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "选择项目素材箱中的一段剪辑来比较效果"
 
-#: src/monitor/monitor.cpp:2520
+#: src/monitor/monitor.cpp:2534
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -24491,17 +24523,17 @@ msgid ""
 msgstr ""
 "该功能需要 Cairo 混合 (cairoblend) 滤镜，请安装 frei0r 并重新启动 Kdenlive"
 
-#: src/monitor/monitor.cpp:2597
+#: src/monitor/monitor.cpp:2612
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "启用监视器编辑模式以编辑效果"
 
-#: src/monitor/monitor.cpp:3094
+#: src/monitor/monitor.cpp:3109
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "剪辑监视器中没有选中剪辑"
 
-#: src/monitor/monitor.cpp:3115
+#: src/monitor/monitor.cpp:3130
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "无法获取剪辑监视器的生产来源"
