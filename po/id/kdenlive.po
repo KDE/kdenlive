@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-22 00:42+0000\n"
+"POT-Creation-Date: 2025-05-23 00:42+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -15375,7 +15375,7 @@ msgstr ""
 "jika tidak ada keyframe yang dipilih."
 
 #: src/assets/view/widgets/keyframecontainer.cpp:118
-#: src/assets/view/widgets/keyframecontainer.cpp:996
+#: src/assets/view/widgets/keyframecontainer.cpp:997
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Tempel keyframe"
@@ -15465,41 +15465,41 @@ msgstr ""
 msgid "Select parameters to copy"
 msgstr "Pilih parameter untuk salin"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:901
+#: src/assets/view/widgets/keyframecontainer.cpp:902
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Keyframe disalin"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:912
-#: src/assets/view/widgets/keyframecontainer.cpp:953
-#: src/assets/view/widgets/keyframecontainer.cpp:960
+#: src/assets/view/widgets/keyframecontainer.cpp:913
+#: src/assets/view/widgets/keyframecontainer.cpp:954
+#: src/assets/view/widgets/keyframecontainer.cpp:961
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Tidak ada data keyframe yang valid dalam papan klip"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1004
+#: src/assets/view/widgets/keyframecontainer.cpp:1005
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Tidak dapat menyalin nilai parameter saat ini"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1009
-#: src/assets/view/widgets/keyframecontainer.cpp:1020
+#: src/assets/view/widgets/keyframecontainer.cpp:1010
+#: src/assets/view/widgets/keyframecontainer.cpp:1021
 #, kde-format
 msgid "Current values copied"
 msgstr "Nilai saat ini disalin"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1032
+#: src/assets/view/widgets/keyframecontainer.cpp:1033
 #, fuzzy, kde-format
 #| msgid "No valid keyframe data in clipboard"
 msgid "No keyframe data in clipboard"
 msgstr "Tidak ada data keyframe yang valid dalam papan klip"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1113
+#: src/assets/view/widgets/keyframecontainer.cpp:1114
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Tidak bisa menghapus keyframe yang terakhir"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1125
+#: src/assets/view/widgets/keyframecontainer.cpp:1126
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -16918,7 +16918,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:183
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:641
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -17078,7 +17078,7 @@ msgid "Move subtitle"
 msgstr "Pindahkan subtitel"
 
 #: src/bin/model/subtitlemodel.cpp:1196
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:669
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:668
 #: src/effects/effectstack/view/effectstackview.cpp:775
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:871
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:373
@@ -18043,7 +18043,7 @@ msgstr "Ekspor Data Pancangan"
 #: src/effects/effectlist/model/effecttreemodel.cpp:301
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:748
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:747
 #: src/effects/effectstack/view/effectstackview.cpp:810
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:701
@@ -21696,7 +21696,7 @@ msgstr ""
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:577
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -21704,28 +21704,28 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
 #, kde-format
 msgid "Disable %1"
 msgstr "Nonfungsikan %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:602
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:601
 #, kde-format
 msgid "Enable %1"
 msgstr "Fungsikan %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:638
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:637
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Simpan Efek"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:643
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:642
 #, kde-format
 msgid "Comments:"
 msgstr "Komentar:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:658
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Tidak ada nama yang disediakan, efek tidak tersimpan."
@@ -25536,13 +25536,13 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 stream audio"
 msgstr[1] "%1 stream audio"
 
-#: src/monitor/monitor.cpp:2452
+#: src/monitor/monitor.cpp:2466
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Tidak bisa menginisial manajer Movit's GLSL, silakan nonfungsikan Movit"
 
-#: src/monitor/monitor.cpp:2494 src/monitor/monitor.cpp:2551
+#: src/monitor/monitor.cpp:2508 src/monitor/monitor.cpp:2565
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -25551,17 +25551,17 @@ msgstr ""
 "Filter alphagrad diperlukan untuk fitur tersebut, mohon instal frei0r dan "
 "jalankan ulang Kdenlive"
 
-#: src/monitor/monitor.cpp:2514
+#: src/monitor/monitor.cpp:2528
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip tidak memiliki efek"
 
-#: src/monitor/monitor.cpp:2516
+#: src/monitor/monitor.cpp:2530
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Pilih klip di bin proyek untuk membandingkan efek"
 
-#: src/monitor/monitor.cpp:2558
+#: src/monitor/monitor.cpp:2572
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -25570,18 +25570,18 @@ msgstr ""
 "Transisi cairoblend diperlukan untuk fitur tersebut, mohon instal frei0r dan "
 "jalankan ulang Kdenlive"
 
-#: src/monitor/monitor.cpp:2633
+#: src/monitor/monitor.cpp:2648
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Fungsikan mode edit di monitor untuk mengedit efek"
 
-#: src/monitor/monitor.cpp:3133
+#: src/monitor/monitor.cpp:3148
 #, fuzzy, kde-format
 #| msgid "No clip selected in project bin"
 msgid "No clip selected in Clip Monitor"
 msgstr "Tidak ada klip yang dipilih dalam bin proyek"
 
-#: src/monitor/monitor.cpp:3154
+#: src/monitor/monitor.cpp:3169
 #, fuzzy, kde-format
 #| msgid "Cannot get duration for file %1"
 msgid "Cannot get producer for Clip Monitor"
