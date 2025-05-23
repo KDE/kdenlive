@@ -222,7 +222,8 @@ void ClipDurationDialog::accept()
             } else {
                 ItemInfo currentInfo = m_model->getItemInfo(i);
                 if (m_model->isClip(i)) {
-                    result = m_model->requestClipMove(i, currentInfo.trackId, currentInfo.position + offset, true, true, true, true, undo, redo);
+                    result = m_model->requestClipMove(i, currentInfo.trackId, currentInfo.position + offset, true, true, true, true, undo, redo) ==
+                             TimelineModel::MoveSuccess;
                 } else if (m_model->isComposition(i)) {
                     result = m_model->requestCompositionMove(i, currentInfo.trackId, m_model->m_allCompositions[i]->getForcedTrack(),
                                                              currentInfo.position + offset, true, true, undo, redo);
@@ -302,7 +303,8 @@ void ClipDurationDialog::accept()
                 } else {
                     ItemInfo currentInfo = m_model->getItemInfo(i);
                     if (m_model->isClip(i)) {
-                        result = m_model->requestClipMove(i, currentInfo.trackId, currentInfo.position + offset, true, true, true, true, undo, redo);
+                        result = m_model->requestClipMove(i, currentInfo.trackId, currentInfo.position + offset, true, true, true, true, undo, redo) ==
+                                 TimelineModel::MoveSuccess;
                     } else if (m_model->isComposition(i)) {
                         result = m_model->requestCompositionMove(i, currentInfo.trackId, m_model->m_allCompositions[i]->getForcedTrack(),
                                                                  currentInfo.position + offset, true, true, undo, redo);

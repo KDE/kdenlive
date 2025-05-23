@@ -859,7 +859,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 clip->parent().set("kdenlive:id", binId.toUtf8().constData());
                 clip->parent().set("_kdenlive_processed", 1);
             }
-            bool ok = false;
+            TimelineModel::MoveResult ok = TimelineModel::MoveErrorOther;
             int cid = -1;
             if (pCore->projectItemModel()->getClipByBinID(binId) == nullptr) {
                 // Trying to recover clip by its resource
@@ -983,14 +983,29 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             } else {
                 qWarning() << "Really can't find bin clip" << binId << clip->get("id");
             }
-            if (!ok && cid > -1) {
+            if (ok != TimelineModel::MoveSuccess && cid > -1) {
                 timeline->requestItemDeletion(cid, false);
-                m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"),
-                                       pCore->timecode().getTimecodeFromFrames(position));
+                QString message;
+                switch (ok) {
+                case TimelineModel::MoveErrorAudio:
+                    message = i18n("Removed clip %1 with no audio found in audio track ", QFileInfo(clip->parent().get("resource")).fileName());
+                    break;
+                case TimelineModel::MoveErrorVideo:
+                    message = i18n("Removed clip %1 with no video found in video track ", QFileInfo(clip->parent().get("resource")).fileName());
+                    break;
+                case TimelineModel::MoveErrorType:
+                    message = i18n("Removed clip %1 with incorrect audio or video type on track ", QFileInfo(clip->parent().get("resource")).fileName());
+                    break;
+                default:
+                    message = i18n("Removed invalid clip %1.", QFileInfo(clip->parent().get("resource")).fileName());
+                    break;
+                }
+                m_errorMessage
+                    << message + QString(" %1, %2 (%3).").arg(track.get("id"), pCore->timecode().getTimecodeFromFrames(position), clip->parent().get("id"));
                 const QString tcInfo = QStringLiteral("<a href=\"%1!%2?%3\">%4 %5</a>")
                                            .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1),
                                                 trackTag, pCore->timecode().getTimecodeFromFrames(position));
-                m_notesLog << i18n("%1 Invalid clip (%2) found and removed", tcInfo, clip->parent().get("id"));
+                m_notesLog << message + QString(" %1 (%2)").arg(tcInfo, clip->parent().get("id"));
                 continue;
             }
             break;

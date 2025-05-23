@@ -1616,3 +1616,12 @@ bool ClipModel::hasDisabledBuiltInTransform()
 {
     return m_effectStack->hasDisabledBuiltInTransform();
 }
+
+void ClipModel::refreshAVInfo()
+{
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    if (binClip) {
+        m_canBeVideo = binClip->hasVideo();
+        m_canBeAudio = binClip->hasAudio();
+    }
+}

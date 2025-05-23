@@ -120,6 +120,8 @@ public:
     const QString activeEffectId() const;
     /** @brief Return true if this clip has a disabled built-in transform */
     bool hasDisabledBuiltInTransform();
+    /** @brief The AV info for a bin clip changed, refresh */
+    void refreshAVInfo();
 
 protected:
     /** @brief helper functions that creates the lambda */

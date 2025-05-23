@@ -179,6 +179,8 @@ public:
         EffectZonesRole     /// track only
     };
 
+    enum MoveResult { MoveSuccess, MoveErrorAudio, MoveErrorVideo, MoveErrorType, MoveErrorOther };
+
     ~TimelineModel() override;
     Mlt::Tractor *tractor() const { return m_tractor.get(); }
     /** @brief Load tracks from the current tractor, used on project opening
@@ -441,9 +443,9 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo,
-                         Fun &redo, bool revertMove = false, bool groupMove = false, const QMap<int, int> &moving_clips = QMap<int, int>(),
-                         std::pair<MixInfo, MixInfo> mixData = {});
+    MoveResult requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove,
+                               Fun &undo, Fun &redo, bool revertMove = false, bool groupMove = false, const QMap<int, int> &moving_clips = QMap<int, int>(),
+                               std::pair<MixInfo, MixInfo> mixData = {});
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /** @brief When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */

@@ -203,7 +203,7 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     if (hasEndMix) {
         timeline->m_allClips[newId]->setSubPlaylistIndex(subplaylist, trackId);
     }
-    res = res && timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo);
+    res = res && (timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo) == TimelineModel::MoveSuccess);
 
     if (durationChanged) {
         // Track length changed, check project duration
@@ -665,7 +665,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         } else {
             // only 1 clip to be moved
             if (isClip) {
-                final = timeline->requestClipMove(itemId, track, endPosition, true, true, true, true, undo, redo);
+                final = timeline->requestClipMove(itemId, track, endPosition, true, true, true, true, undo, redo) == TimelineModel::MoveSuccess;
                 timeline->m_allClips[itemId]->setFakePosition(-1);
             } else if (timeline->isComposition(itemId)) {
                 final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, true, undo, redo);
@@ -965,7 +965,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
                                             allowedTracks);
     } else if (timeline->isClip(itemId)) {
         if (allowedTracks.contains(targetTrackId)) {
-            result = timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, undo, redo);
+            result = timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, undo, redo) == TimelineModel::MoveSuccess;
         } else {
             result = true;
         }
@@ -1011,7 +1011,8 @@ bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemMod
         result = result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo,
                                                       true, true, true, allowedTracks);
     } else if (timeline->isClip(itemId)) {
-        result = result && timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, local_undo, local_redo);
+        result = result &&
+                 (timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, local_undo, local_redo) == TimelineModel::MoveSuccess);
     } else {
         result = result && timeline->requestCompositionMove(itemId, targetTrackId, timeline->m_allCompositions[itemId]->getForcedTrack(), targetPos, true, true,
                                                             local_undo, local_redo);
@@ -1050,7 +1051,8 @@ bool TimelineFunctions::requestItemCopy(const std::shared_ptr<TimelineItemModel>
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             if (timeline->isClip(id)) {
-                res = res && timeline->requestClipMove(newId, target_track, target_position, true, true, true, true, undo, redo);
+                res =
+                    res && (timeline->requestClipMove(newId, target_track, target_position, true, true, true, true, undo, redo) == TimelineModel::MoveSuccess);
             } else {
                 const QString &transitionId = timeline->m_allCompositions[id]->getAssetId();
                 std::unique_ptr<Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
@@ -1203,7 +1205,7 @@ bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemMode
                 qDebug() << "::: CLONING FAILEd.......\n\nHHHHHHHHHHHHHHHHHH";
                 return false;
             }
-            if (timeline->requestClipMove(newId, newTrack, position, true, true, false, true, undo, redo)) {
+            if (timeline->requestClipMove(newId, newTrack, position, true, true, false, true, undo, redo) == TimelineModel::MoveSuccess) {
                 inserts++;
                 newIds.insert(newId);
             }
