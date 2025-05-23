@@ -435,6 +435,19 @@ void MainWindow::init()
     m_undoView->setCleanIcon(QIcon::fromTheme(QStringLiteral("edit-clear")));
     m_undoView->setEmptyLabel(i18n("Clean"));
     m_undoView->setGroup(m_commandStack);
+    QAction *clearStack = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear-history")), i18n("Clear Undo History"), this);
+    m_undoView->addAction(clearStack);
+    connect(clearStack, &QAction::triggered, this, [this]() {
+        if (KMessageBox::warningContinueCancel(this, i18n("This will clear all undo history, you will not be able to undo any previous action.")) !=
+            KMessageBox::Continue) {
+            return;
+        }
+        QList<QUndoStack *> stacks = m_commandStack->stacks();
+        for (auto &s : stacks) {
+            s->clear();
+        }
+    });
+    m_undoView->setContextMenuPolicy(Qt::ActionsContextMenu);
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView);
 
     // Color and icon theme stuff
