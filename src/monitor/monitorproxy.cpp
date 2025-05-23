@@ -576,11 +576,11 @@ void MonitorProxy::setWidgetKeyBinding(const QString &text) const
 
 void MonitorProxy::setSpeed(double speed)
 {
-    if (qAbs(m_speed) > 1. || qAbs(speed) > 1.) {
-        // check if we have or had a speed > 1 or < -1
-        m_speed = speed;
-        Q_EMIT speedChanged();
+    if (m_speed == speed) {
+        return;
     }
+    m_speed = speed;
+    Q_EMIT speedChanged();
 }
 
 QByteArray MonitorProxy::getUuid() const

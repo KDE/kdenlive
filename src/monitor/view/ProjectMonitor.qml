@@ -273,21 +273,29 @@ Item {
                 maximumLength: 25
             }
         }
-        K.MonitorToolButton {
+        Rectangle {
+            id: transformcontainer
+            width: 2 * fontMetrics.font.pixelSize
+            height: width
             anchors.top: monitorArea.top
             anchors.left: monitorArea.left
             anchors.topMargin: 10
             anchors.leftMargin: 10
-            hoverEnabled: true
-            width: 2.4 * fontMetrics.font.pixelSize
-            height: width
-            objectName: "enableTransform"
-            iconName: "transform-crop"
-            toolTipText: i18nc("@tooltip Transform, a tool to resize", "Transform")
-            checkable: false
-            visible: controller.builtinEffectsEnabled && (barOverArea.containsMouse || hovered)
-            onClicked: {
-                controller.enableTransform()
+            color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.5)
+            visible: controller.builtinEffectsEnabled && controller.speed == 0 && (barOverArea.containsMouse || transformbutton.hovered)
+            radius: 4
+            border.color : Qt.rgba(0, 0, 0, 0.3)
+            border.width: 1
+            K.MonitorToolButton {
+                id: transformbutton
+                anchors.fill: transformcontainer
+                hoverEnabled: true
+                iconName: "transform-crop"
+                toolTipText: i18nc("@tooltip Transform, a tool to resize", "Enable Transform")
+                checkable: false
+                onClicked: {
+                    controller.enableTransform()
+                }
             }
         }
     }
