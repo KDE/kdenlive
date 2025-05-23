@@ -167,7 +167,8 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     connect(copy, &QAction::triggered, this, &KeyframeContainer::slotCopyKeyframes);
     QAction *paste = new QAction(i18n("Import Keyframes from Clipboard…"), parent);
     connect(paste, &QAction::triggered, this, &KeyframeContainer::slotImportKeyframes);
-    if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel) {
+    bool isColorWheel = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel;
+    if (isColorWheel) {
         // TODO color wheel doesn't support keyframe import/export yet
         copy->setVisible(false);
         paste->setVisible(false);
@@ -371,6 +372,9 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     m_editorviewcontainer->setFixedHeight(m_editorviewcontainer->currentWidget()->height());
     m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
     m_addedHeight = mrg.top() + mrg.bottom();
+    if (isColorWheel) {
+        addParameter(index);
+    }
     m_fixedHeight = m_baseHeight + m_addedHeight;
     Q_EMIT updateHeight();
 }
@@ -668,7 +672,6 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
                 pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);
             }
         });
-
     } else if (type == ParamType::ColorWheel) {
         auto colorWheelWidget = new LumaLiftGainParam(m_model, index, m_parent);
         connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged, this,
