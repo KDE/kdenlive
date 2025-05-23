@@ -3217,7 +3217,6 @@ void TimelineController::switchEnableState(std::unordered_set<int> selection)
 {
     if (selection.empty()) {
         selection = m_model->getCurrentSelection();
-        // clipId = getMainSelectedItem(false, false);
     }
     if (selection.empty()) {
         return;
