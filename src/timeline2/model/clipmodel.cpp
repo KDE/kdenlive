@@ -1623,5 +1623,6 @@ void ClipModel::refreshAVInfo()
     if (binClip) {
         m_canBeVideo = binClip->hasVideo();
         m_canBeAudio = binClip->hasAudio();
+        refreshProducerFromBin(m_currentTrackId);
     }
 }

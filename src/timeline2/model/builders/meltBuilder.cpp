@@ -346,13 +346,6 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         return false;
     }
     timeline->isLoading = false;
-    if (!m_errorMessage.isEmpty()) {
-        if (pCore->window()) {
-            KMessageBox::error(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
-        } else {
-            qWarning() << "++++++++++++++++\n++++++++++++++++\n\n" << m_errorMessage.join("\n") << "\n\n++++++++++++++++\n++++++++++++++++";
-        }
-    }
     return true;
 }
 
@@ -859,7 +852,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 clip->parent().set("kdenlive:id", binId.toUtf8().constData());
                 clip->parent().set("_kdenlive_processed", 1);
             }
-            TimelineModel::MoveResult ok = TimelineModel::MoveErrorOther;
+            TimelineModel::MoveResult fixStatus = TimelineModel::MoveSuccess;
+            TimelineModel::MoveResult moveStatus = TimelineModel::MoveErrorOther;
             int cid = -1;
             if (pCore->projectItemModel()->getClipByBinID(binId) == nullptr) {
                 // Trying to recover clip by its resource
@@ -873,9 +867,18 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     qDebug() << "=== FOUND POSSIBLE MATCHES: " << possibleIds;
                 }
             }
-            if (pCore->projectItemModel()->getClipByBinID(binId)) {
+            auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
+            if (binClip) {
                 PlaylistState::ClipState st = inferState(clip, audioTrack);
                 bool enforceTopPlaylist = false;
+                if (!binClip->isCompatible(st)) {
+                    qDebug() << "==================\nFOUND INCOMPATIBLE TYPE!!!\n\n===========";
+                    binClip->resetProducerProperty(QStringLiteral("kdenlive:clip_type"));
+                    binClip->checkAudioVideo();
+                    if (binClip->isCompatible(st)) {
+                        fixStatus = st == PlaylistState::AudioOnly ? TimelineModel::MoveErrorAudio : TimelineModel::MoveErrorVideo;
+                    }
+                }
                 if (playlist > 0) {
                     // Clips on playlist > 0 must have a mix or something is wrong
                     bool hasStartMix = !timeline->trackIsBlankAt(tid, position, 0);
@@ -940,8 +943,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                                     clip->set_in_and_out(currentIn, currentOut);
                                     // Move to top playlist
                                     cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, hasEndMix ? playlist : 0);
-                                    ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
-                                    if (!ok && cid > -1) {
+                                    moveStatus = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
+                                    if (moveStatus != TimelineModel::MoveSuccess && cid > -1) {
                                         timeline->requestItemDeletion(cid, false);
                                         m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"),
                                                                pCore->timecode().getTimecodeFromFrames(position));
@@ -979,14 +982,14 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     }
                 }
                 cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, enforceTopPlaylist ? 0 : playlist);
-                ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
+                moveStatus = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
             } else {
                 qWarning() << "Really can't find bin clip" << binId << clip->get("id");
             }
-            if (ok != TimelineModel::MoveSuccess && cid > -1) {
+            if (moveStatus != TimelineModel::MoveSuccess && cid > -1) {
                 timeline->requestItemDeletion(cid, false);
                 QString message;
-                switch (ok) {
+                switch (moveStatus) {
                 case TimelineModel::MoveErrorAudio:
                     message = i18n("Removed clip %1 with no audio found in audio track ", QFileInfo(clip->parent().get("resource")).fileName());
                     break;
@@ -1007,6 +1010,23 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                                                 trackTag, pCore->timecode().getTimecodeFromFrames(position));
                 m_notesLog << message + QString(" %1 (%2)").arg(tcInfo, clip->parent().get("id"));
                 continue;
+            } else if (fixStatus != TimelineModel::MoveSuccess) {
+                // The clip was autofixed, warn user
+                QString message;
+                switch (fixStatus) {
+                case TimelineModel::MoveErrorAudio:
+                    message = i18n("Repaired clip %1 tagged with no audio in track ", QFileInfo(clip->parent().get("resource")).fileName());
+                    break;
+                case TimelineModel::MoveErrorVideo:
+                    message = i18n("Repaired clip %1 tagged with no video in track ", QFileInfo(clip->parent().get("resource")).fileName());
+                    break;
+                default:
+                    break;
+                }
+                if (!message.isEmpty()) {
+                    m_errorMessage
+                        << message + QString(" %1, %2 (%3).").arg(track.get("id"), pCore->timecode().getTimecodeFromFrames(position), clip->parent().get("id"));
+                }
             }
             break;
         }

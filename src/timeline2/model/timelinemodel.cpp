@@ -735,49 +735,12 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
     Q_ASSERT(isClip(clipId));
     if (m_allClips[clipId]->clipState() == PlaylistState::Disabled) {
         if (getTrackById_const(trackId)->trackType() == PlaylistState::AudioOnly && !m_allClips[clipId]->canBeAudio()) {
-            // Perform a second check on project opening in case the clip type was incorrectly saved
-            if (isLoading) {
-                const QString bid = m_allClips[clipId]->binId();
-                auto binClip = pCore->projectItemModel()->getClipByBinID(bid);
-                if (binClip && binClip->statusReady()) {
-                    // Reset the stored type property
-                    binClip->resetProducerProperty(QStringLiteral("kdenlive:clip_type"));
-                    binClip->checkAudioVideo();
-                    if (binClip->hasAudio()) {
-                        // Bin clip was incorrectly flagged as video only, fix
-                        m_allClips[clipId]->refreshAVInfo();
-                    }
-                }
-                if (!m_allClips[clipId]->canBeAudio()) {
-                    qWarning() << "clip type mismatch 1";
-                    return MoveErrorAudio;
-                }
-            } else {
-                qWarning() << "clip type mismatch 1";
-                return MoveErrorAudio;
-            }
+            qWarning() << "clip type mismatch 1";
+            return MoveErrorAudio;
         }
         if (getTrackById_const(trackId)->trackType() == PlaylistState::VideoOnly && !m_allClips[clipId]->canBeVideo()) {
-            if (isLoading) {
-                const QString bid = m_allClips[clipId]->binId();
-                auto binClip = pCore->projectItemModel()->getClipByBinID(bid);
-                if (binClip && binClip->statusReady()) {
-                    // Reset the stored type property
-                    binClip->resetProducerProperty(QStringLiteral("kdenlive:clip_type"));
-                    binClip->checkAudioVideo();
-                    if (binClip->hasVideo()) {
-                        // Bin clip was incorrectly flagged as video only, fix
-                        m_allClips[clipId]->refreshAVInfo();
-                    }
-                }
-                if (!m_allClips[clipId]->canBeVideo()) {
-                    qWarning() << "clip type mismatch 2";
-                    return MoveErrorVideo;
-                }
-            } else {
-                qWarning() << "clip type mismatch 2";
-                return MoveErrorVideo;
-            }
+            qWarning() << "clip type mismatch 2";
+            return MoveErrorVideo;
         }
     } else if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
         // Move not allowed (audio / video mismatch)
@@ -973,7 +936,6 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
             Q_ASSERT(undone);
             qWarning() << "clip deletion failed";
             return MoveErrorOther;
-        } else {
         }
     }
     ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, old_trackId == -1,
@@ -1349,7 +1311,8 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestClipMove(clipId, trackId, position, moveMirrorTracks, updateView, invalidateTimeline, logUndo, undo, redo, revertMove) == MoveSuccess;
+    bool res = requestClipMove(clipId, trackId, position, moveMirrorTracks, updateView, invalidateTimeline, logUndo, undo, redo, revertMove) ==
+               TimelineModel::MoveSuccess;
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
@@ -1437,7 +1400,7 @@ bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position
         int delta_pos = position - m_allClips[clipId]->getPosition();
         res = requestGroupMove(clipId, groupId, delta_track, delta_pos, false, false, undo, redo, false, false);
     } else {
-        res = requestClipMove(clipId, trackId, position, true, false, false, false, undo, redo) == MoveSuccess;
+        res = requestClipMove(clipId, trackId, position, true, false, false, false, undo, redo) == TimelineModel::MoveSuccess;
     }
     if (res) {
         undo();
@@ -2037,7 +2000,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
 
         res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioStream, 1.0, false, local_undo, local_redo);
-        res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo) == MoveSuccess);
+        res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo) == TimelineModel::MoveSuccess);
         // Get mirror track
         int mirror = dropType == PlaylistState::Disabled ? getMirrorTrackId(trackId) : -1;
         if (mirror > -1 && getTrackById_const(mirror)->isLocked() && !useTargets) {
@@ -2128,7 +2091,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 res = requestClipCreation(binIdWithInOut, newId, currentDropIsAudio ? PlaylistState::AudioOnly : PlaylistState::VideoOnly,
                                           currentDropIsAudio ? mirrorAudioStream : -1, 1.0, false, audio_undo, audio_redo);
                 if (res) {
-                    res = requestClipMove(newId, target_ix, position, true, true, true, true, audio_undo, audio_redo) == MoveSuccess;
+                    res = requestClipMove(newId, target_ix, position, true, true, true, true, audio_undo, audio_redo) == TimelineModel::MoveSuccess;
                     // use lazy evaluation to group only if move was successful
                     if (!res) {
                         pCore->displayMessage(i18n("Audio split failed: no viable track"), ErrorMessage);
@@ -2163,7 +2126,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
         int audioIndex = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
         res = requestClipCreation(normalisedBinId, id, dropType, audioIndex, 1.0, false, local_undo, local_redo);
-        res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo) == MoveSuccess);
+        res = res && (requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo) == TimelineModel::MoveSuccess);
     }
     if (!res) {
         bool undone = local_undo();
@@ -3145,7 +3108,8 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int target_position = current_in + delta_pos;
             ok = requestClipMove(item.first, current_track_id, target_position, moveMirrorTracks, updateThisView, finalMove, finalMove, local_undo, local_redo,
                                  revertMove, true, oldTrackIds,
-                                 mixDataArray.contains(item.first) ? mixDataArray.value(item.first) : std::pair<MixInfo, MixInfo>()) == MoveSuccess;
+                                 mixDataArray.contains(item.first) ? mixDataArray.value(item.first) : std::pair<MixInfo, MixInfo>()) ==
+                 TimelineModel::MoveSuccess;
             if (!ok) {
                 qWarning() << "failed moving clip on track " << current_track_id;
                 break;
@@ -3192,7 +3156,8 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 int target_position = old_position[item.first] + delta_pos;
                 ok = ok && (requestClipMove(item.first, target_track, target_position, moveMirrorTracks, updateThisView, finalMove, finalMove, local_undo,
                                             local_redo, revertMove, true, oldTrackIds,
-                                            mixDataArray.contains(item.first) ? mixDataArray.value(item.first) : std::pair<MixInfo, MixInfo>()) == MoveSuccess);
+                                            mixDataArray.contains(item.first) ? mixDataArray.value(item.first) : std::pair<MixInfo, MixInfo>()) ==
+                            TimelineModel::MoveSuccess);
             } else {
                 ok = false;
             }

@@ -4380,7 +4380,8 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         int target_track = new_track_ids[item];
         int target_position = old_position[item] + delta_pos;
         if (m_model->isClip(item)) {
-            ok = ok && m_model->requestClipMove(item, target_track, target_position, true, updateView, finalMove, finalMove, undo, redo);
+            ok = ok && (m_model->requestClipMove(item, target_track, target_position, true, updateView, finalMove, finalMove, undo, redo) ==
+                        TimelineModel::MoveSuccess);
         } else if (m_model->isComposition(item)) {
             ok = ok && m_model->requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateView, finalMove, undo, redo);
         }

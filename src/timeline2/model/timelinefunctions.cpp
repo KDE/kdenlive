@@ -1270,7 +1270,7 @@ bool TimelineFunctions::requestSplitVideo(const std::shared_ptr<TimelineItemMode
         bool success = false;
         while (!success && !possibleTracks.isEmpty()) {
             int newTrack = possibleTracks.takeFirst();
-            success = timeline->requestClipMove(newId, newTrack, position, true, true, true, true, undo, redo);
+            success = timeline->requestClipMove(newId, newTrack, position, true, true, true, true, undo, redo) == TimelineModel::MoveSuccess;
         }
         TimelineFunctions::changeClipState(timeline, cid, PlaylistState::AudioOnly, undo, redo);
         success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo);
