@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-23 02:38+0000\n"
+"POT-Creation-Date: 2025-05-24 02:36+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -16434,7 +16434,7 @@ msgid "No valid clip to insert"
 msgstr "フィルタ %1 を処理すべきクリップが見つかりません"
 
 #: src/bin/bin.cpp:4023 src/timeline2/view/timelinecontroller.cpp:1568
-#: src/timeline2/view/timelinecontroller.cpp:3447
+#: src/timeline2/view/timelinecontroller.cpp:3446
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
@@ -16470,7 +16470,7 @@ msgid "Edit Tags"
 msgstr "タグを編集"
 
 #: src/bin/bin.cpp:4606 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2046 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -17117,13 +17117,13 @@ msgstr ""
 "次のメタデータを正しく展開できません %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1202 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:269
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "正しくないクリップ"
 
-#: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1423 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1508
 #, fuzzy, kde-format
@@ -17131,31 +17131,31 @@ msgstr "正しくないクリップ"
 msgid "File already exists"
 msgstr "プロファイルは既に存在しています"
 
-#: src/bin/projectclip.cpp:2647
+#: src/bin/projectclip.cpp:2639
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Adjust timeline clips"
 msgstr "プレイリスト・クリップ"
 
-#: src/bin/projectclip.cpp:2836
+#: src/bin/projectclip.cpp:2828
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "効果 %1 の編集"
 
-#: src/bin/projectclip.cpp:2861
+#: src/bin/projectclip.cpp:2853
 #, fuzzy, kde-format
 #| msgid "Reset effect"
 msgid "Remove stream effect"
 msgstr "効果をリセット"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3168
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Mask added to clip"
 msgstr "プレイリスト・クリップ"
 
-#: src/bin/projectclip.cpp:3180
+#: src/bin/projectclip.cpp:3172
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing clip for mask"
@@ -18064,8 +18064,8 @@ msgstr "マーカーの編集(E)"
 #: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
-#: src/timeline2/view/timelinecontroller.cpp:5167
-#: src/timeline2/view/timelinecontroller.cpp:5172
+#: src/timeline2/view/timelinecontroller.cpp:5166
+#: src/timeline2/view/timelinecontroller.cpp:5171
 #: src/titler/titlewidget.cpp:2266
 #, kde-format
 msgid "Cannot write to file %1"
@@ -21909,14 +21909,14 @@ msgid "Exporting…"
 msgstr "出力しています..."
 
 #: src/effects/effectstack/view/effectstackview.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3298
+#: src/timeline2/view/timelinecontroller.cpp:3297
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "効果の有効化"
 
 #: src/effects/effectstack/view/effectstackview.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3298
+#: src/timeline2/view/timelinecontroller.cpp:3297
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Disable Effect Stack"
@@ -24364,7 +24364,7 @@ msgstr "トラックを挿入..."
 msgid "Fit all Tracks in View"
 msgstr ""
 
-#: src/mainwindow.cpp:1842 src/timeline2/view/timelinecontroller.cpp:4894
+#: src/mainwindow.cpp:1842 src/timeline2/view/timelinecontroller.cpp:4893
 #, kde-format
 msgid "Master effects"
 msgstr "マスター効果"
@@ -24981,7 +24981,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "メニューバーを隠す"
 
-#: src/mainwindow.cpp:4694 src/timeline2/view/timelinecontroller.cpp:5125
+#: src/mainwindow.cpp:4694 src/timeline2/view/timelinecontroller.cpp:5124
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "現在のプロジェクトには字幕がありません"
@@ -29382,18 +29382,18 @@ msgstr "トラックのラベルをクリックしてトラックを有効化し
 #: src/timeline2/view/timelinecontroller.cpp:2333
 #: src/timeline2/view/timelinecontroller.cpp:2983
 #: src/timeline2/view/timelinecontroller.cpp:3047
-#: src/timeline2/view/timelinecontroller.cpp:3261
-#: src/timeline2/view/timelinecontroller.cpp:3306
-#: src/timeline2/view/timelinecontroller.cpp:3347
-#: src/timeline2/view/timelinecontroller.cpp:3354
-#: src/timeline2/view/timelinecontroller.cpp:3382
-#: src/timeline2/view/timelinecontroller.cpp:3707
-#: src/timeline2/view/timelinecontroller.cpp:3722
-#: src/timeline2/view/timelinecontroller.cpp:3747
-#: src/timeline2/view/timelinecontroller.cpp:3762
-#: src/timeline2/view/timelinecontroller.cpp:3821
-#: src/timeline2/view/timelinecontroller.cpp:3874
-#: src/timeline2/view/timelinecontroller.cpp:3898
+#: src/timeline2/view/timelinecontroller.cpp:3260
+#: src/timeline2/view/timelinecontroller.cpp:3305
+#: src/timeline2/view/timelinecontroller.cpp:3346
+#: src/timeline2/view/timelinecontroller.cpp:3353
+#: src/timeline2/view/timelinecontroller.cpp:3381
+#: src/timeline2/view/timelinecontroller.cpp:3706
+#: src/timeline2/view/timelinecontroller.cpp:3721
+#: src/timeline2/view/timelinecontroller.cpp:3746
+#: src/timeline2/view/timelinecontroller.cpp:3761
+#: src/timeline2/view/timelinecontroller.cpp:3820
+#: src/timeline2/view/timelinecontroller.cpp:3873
+#: src/timeline2/view/timelinecontroller.cpp:3897
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected"
@@ -29408,7 +29408,7 @@ msgstr "効果を移動できません"
 #: src/timeline2/model/timelinefunctions.cpp:1124
 #: src/timeline2/model/timelinefunctions.cpp:1128
 #: src/timeline2/model/timelinefunctions.cpp:1135
-#: src/timeline2/view/timelinecontroller.cpp:4039
+#: src/timeline2/view/timelinecontroller.cpp:4038
 #, kde-format
 msgid "Enable clip"
 msgstr "クリップを有効化"
@@ -29416,7 +29416,7 @@ msgstr "クリップを有効化"
 #: src/timeline2/model/timelinefunctions.cpp:1124
 #: src/timeline2/model/timelinefunctions.cpp:1128
 #: src/timeline2/model/timelinefunctions.cpp:1135
-#: src/timeline2/view/timelinecontroller.cpp:4039
+#: src/timeline2/view/timelinecontroller.cpp:4038
 #, kde-format
 msgid "Disable clip"
 msgstr "クリップを無効化"
@@ -29672,7 +29672,7 @@ msgstr "クリップの移動"
 #: src/timeline2/model/timelinemodel.cpp:1938
 #: src/timeline2/model/timelinemodel.cpp:1961
 #: src/timeline2/model/timelinemodel.cpp:1984
-#: src/timeline2/view/timelinecontroller.cpp:3332
+#: src/timeline2/view/timelinecontroller.cpp:3331
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "挿入操作に使えるトラックがありません"
@@ -29722,7 +29722,7 @@ msgstr "コンポジット"
 
 #: src/timeline2/model/timelinemodel.cpp:2412
 #: src/timeline2/model/timelinemodel.cpp:2713
-#: src/timeline2/view/timelinecontroller.cpp:4276
+#: src/timeline2/view/timelinecontroller.cpp:4275
 #, kde-format
 msgid "Move group"
 msgstr "グループの移動"
@@ -30363,7 +30363,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "施錠済みトラックにはスペーサーを使用できません"
 
 #: src/timeline2/view/timelinecontroller.cpp:959
-#: src/timeline2/view/timelinecontroller.cpp:5055
+#: src/timeline2/view/timelinecontroller.cpp:5054
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert track"
@@ -30444,7 +30444,7 @@ msgid "No item to edit"
 msgstr "項目を左に合わせる"
 
 #: src/timeline2/view/timelinecontroller.cpp:2939
-#: src/timeline2/view/timelinecontroller.cpp:5320
+#: src/timeline2/view/timelinecontroller.cpp:5319
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "この操作をするにはトラックのラベルをクリックして有効化してください"
@@ -30455,97 +30455,97 @@ msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 "トラックのターゲットエリアをクリックしてターゲットトラックを選択してください"
 
-#: src/timeline2/view/timelinecontroller.cpp:3273
+#: src/timeline2/view/timelinecontroller.cpp:3272
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Select a favorite composition"
 msgstr "コンポジット"
 
-#: src/timeline2/view/timelinecontroller.cpp:3338
+#: src/timeline2/view/timelinecontroller.cpp:3337
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "No clip found to perform AV split operation"
 msgstr "コピーする前のクリップを選択"
 
-#: src/timeline2/view/timelinecontroller.cpp:3366
-#: src/timeline2/view/timelinecontroller.cpp:3434
+#: src/timeline2/view/timelinecontroller.cpp:3365
+#: src/timeline2/view/timelinecontroller.cpp:3433
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot move clip to frame %1."
 msgstr "クリップを位置 %1 に移動できません"
 
-#: src/timeline2/view/timelinecontroller.cpp:3387
+#: src/timeline2/view/timelinecontroller.cpp:3386
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3571
+#: src/timeline2/view/timelinecontroller.cpp:3570
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3730
+#: src/timeline2/view/timelinecontroller.cpp:3729
 #, kde-format
 msgid "Delete effects"
 msgstr "効果の削除"
 
-#: src/timeline2/view/timelinecontroller.cpp:3768
-#: src/timeline2/view/timelinecontroller.cpp:3774
-#: src/timeline2/view/timelinecontroller.cpp:3780
+#: src/timeline2/view/timelinecontroller.cpp:3767
+#: src/timeline2/view/timelinecontroller.cpp:3773
+#: src/timeline2/view/timelinecontroller.cpp:3779
 #, kde-format
 msgid "No information in clipboard"
 msgstr "クリップボードに情報がありません"
 
-#: src/timeline2/view/timelinecontroller.cpp:3805
+#: src/timeline2/view/timelinecontroller.cpp:3804
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effects"
 msgstr "効果の貼り付け(E)"
 
-#: src/timeline2/view/timelinecontroller.cpp:3807
+#: src/timeline2/view/timelinecontroller.cpp:3806
 #, fuzzy, kde-format
 #| msgid "Cannot paste selected clips"
 msgid "Cannot paste effect on selected clip"
 msgstr "選択したクリップを貼り付けることができません"
 
-#: src/timeline2/view/timelinecontroller.cpp:3859
+#: src/timeline2/view/timelinecontroller.cpp:3858
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Open sequence"
 msgstr "イメージ・シーケンス"
 
-#: src/timeline2/view/timelinecontroller.cpp:3881
+#: src/timeline2/view/timelinecontroller.cpp:3880
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Item is not a title clip"
 msgstr "テンプレート・タイトル・クリップ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3980
+#: src/timeline2/view/timelinecontroller.cpp:3979
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 のアイテムは (%2) を選択しています |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4034
+#: src/timeline2/view/timelinecontroller.cpp:4033
 #, kde-format
 msgid "Restore video"
 msgstr "ビデオを復元"
 
-#: src/timeline2/view/timelinecontroller.cpp:4034
+#: src/timeline2/view/timelinecontroller.cpp:4033
 #, kde-format
 msgid "Restore audio"
 msgstr "オーディオを復元"
 
-#: src/timeline2/view/timelinecontroller.cpp:4255
+#: src/timeline2/view/timelinecontroller.cpp:4254
 #, kde-format
 msgid "Move item"
 msgstr "アイテムを移動"
 
-#: src/timeline2/view/timelinecontroller.cpp:4746
+#: src/timeline2/view/timelinecontroller.cpp:4745
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4757
+#: src/timeline2/view/timelinecontroller.cpp:4756
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -30554,41 +30554,41 @@ msgstr ""
 "ここにはキャプチャーできません: キャプチャーはクリップを上書きします。現在の"
 "場所以降にあるクリップを削除するか、違うトラックを選んでください"
 
-#: src/timeline2/view/timelinecontroller.cpp:4848
+#: src/timeline2/view/timelinecontroller.cpp:4847
 #, kde-format
 msgid "Record audio"
 msgstr "オーディオを録音"
 
-#: src/timeline2/view/timelinecontroller.cpp:4995
+#: src/timeline2/view/timelinecontroller.cpp:4994
 #, fuzzy, kde-format
 #| msgid "Edit Clip"
 msgid "Expand clip"
 msgstr "クリップの編集(E)"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:4997
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not expand clip"
 msgstr "クリップの追加"
 
-#: src/timeline2/view/timelinecontroller.cpp:5053
+#: src/timeline2/view/timelinecontroller.cpp:5052
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "トラックの挿入"
 
-#: src/timeline2/view/timelinecontroller.cpp:5132
+#: src/timeline2/view/timelinecontroller.cpp:5131
 #, kde-format
 msgid "Export subtitle file"
 msgstr "字幕ファイルをエクスポート"
 
-#: src/timeline2/view/timelinecontroller.cpp:5133
+#: src/timeline2/view/timelinecontroller.cpp:5132
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5147
+#: src/timeline2/view/timelinecontroller.cpp:5146
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -30597,52 +30597,52 @@ msgid ""
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5152
+#: src/timeline2/view/timelinecontroller.cpp:5151
 #, fuzzy, kde-format
 #| msgid "Scanning:"
 msgid "Warning"
 msgstr "スキャン:"
 
-#: src/timeline2/view/timelinecontroller.cpp:5190
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5207
+#: src/timeline2/view/timelinecontroller.cpp:5206
 #, fuzzy, kde-format
 #| msgid "Show Title Bars"
 msgid "Show subtitle track"
 msgstr "タイトルバーの表示(B)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5207
+#: src/timeline2/view/timelinecontroller.cpp:5206
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Hide subtitle track"
 msgstr "ガイドの削除(D)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5230
+#: src/timeline2/view/timelinecontroller.cpp:5229
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "トラックの解錠"
 
-#: src/timeline2/view/timelinecontroller.cpp:5230
+#: src/timeline2/view/timelinecontroller.cpp:5229
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
 msgstr "タイトル未定"
 
-#: src/timeline2/view/timelinecontroller.cpp:5397
-#: src/timeline2/view/timelinecontroller.cpp:5406
+#: src/timeline2/view/timelinecontroller.cpp:5396
+#: src/timeline2/view/timelinecontroller.cpp:5405
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/timeline2/view/timelinecontroller.cpp:5408
+#: src/timeline2/view/timelinecontroller.cpp:5407
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox"

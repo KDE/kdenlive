@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-23 02:38+0000\n"
+"POT-Creation-Date: 2025-05-24 02:36+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -16539,7 +16539,7 @@ msgid "No valid clip to insert"
 msgstr "डालने के लिए कोई वैध क्लिप नहीं है"
 
 #: src/bin/bin.cpp:4023 src/timeline2/view/timelinecontroller.cpp:1568
-#: src/timeline2/view/timelinecontroller.cpp:3447
+#: src/timeline2/view/timelinecontroller.cpp:3446
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "प्रभाव लागू करने के लिए क्लिप का चयन करें"
@@ -16571,7 +16571,7 @@ msgid "Edit Tags"
 msgstr "जोड़ संपादित करें"
 
 #: src/bin/bin.cpp:4606 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2046 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -17185,40 +17185,40 @@ msgstr ""
 "%1\n"
 "%2 से मेटाडेटा निकाला नहीं जा सकता"
 
-#: src/bin/projectclip.cpp:1202 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "अमान्य"
 
-#: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1423 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1508
 #, kde-format
 msgid "File already exists"
 msgstr "फ़ाइल पहले से ही मौजूद है"
 
-#: src/bin/projectclip.cpp:2647
+#: src/bin/projectclip.cpp:2639
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "टाइमलाइन क्लिप समायोजित करें"
 
-#: src/bin/projectclip.cpp:2836
+#: src/bin/projectclip.cpp:2828
 #, kde-format
 msgid "Add stream effect"
 msgstr "स्ट्रीम प्रभाव जोड़ें"
 
-#: src/bin/projectclip.cpp:2861
+#: src/bin/projectclip.cpp:2853
 #, kde-format
 msgid "Remove stream effect"
 msgstr "स्ट्रीम प्रभाव हटाएँ"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3168
 #, fuzzy, kde-format
 #| msgid "Mask clip"
 msgid "Mask added to clip"
 msgstr "मास्क क्लिप"
 
-#: src/bin/projectclip.cpp:3180
+#: src/bin/projectclip.cpp:3172
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "Missing clip for mask"
@@ -18084,8 +18084,8 @@ msgstr "गाइड डेटा निर्यात करें"
 #: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
-#: src/timeline2/view/timelinecontroller.cpp:5167
-#: src/timeline2/view/timelinecontroller.cpp:5172
+#: src/timeline2/view/timelinecontroller.cpp:5166
+#: src/timeline2/view/timelinecontroller.cpp:5171
 #: src/titler/titlewidget.cpp:2266
 #, kde-format
 msgid "Cannot write to file %1"
@@ -21738,13 +21738,13 @@ msgid "Exporting…"
 msgstr "निकाला जा रहा है…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3298
+#: src/timeline2/view/timelinecontroller.cpp:3297
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "प्रभाव स्टैक सक्षम करें"
 
 #: src/effects/effectstack/view/effectstackview.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3298
+#: src/timeline2/view/timelinecontroller.cpp:3297
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "प्रभाव स्टैक अक्षम करें"
@@ -24099,7 +24099,7 @@ msgstr "ट्रैक डालें…"
 msgid "Fit all Tracks in View"
 msgstr "सभी ट्रैक को दृश्य में फ़िट करें"
 
-#: src/mainwindow.cpp:1842 src/timeline2/view/timelinecontroller.cpp:4894
+#: src/mainwindow.cpp:1842 src/timeline2/view/timelinecontroller.cpp:4893
 #, kde-format
 msgid "Master effects"
 msgstr "मास्टर प्रभाव"
@@ -24672,7 +24672,7 @@ msgstr "इससे मेनू बार पूरी तरह छिप ज
 msgid "Hide menu bar"
 msgstr "मेनू बार छुपाएं"
 
-#: src/mainwindow.cpp:4694 src/timeline2/view/timelinecontroller.cpp:5125
+#: src/mainwindow.cpp:4694 src/timeline2/view/timelinecontroller.cpp:5124
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "वर्तमान परियोजना में कोई उपशीर्षक नहीं है"
@@ -28921,18 +28921,18 @@ msgstr "कृपया ट्रैक के लेबल पर क्लि�
 #: src/timeline2/view/timelinecontroller.cpp:2333
 #: src/timeline2/view/timelinecontroller.cpp:2983
 #: src/timeline2/view/timelinecontroller.cpp:3047
-#: src/timeline2/view/timelinecontroller.cpp:3261
-#: src/timeline2/view/timelinecontroller.cpp:3306
-#: src/timeline2/view/timelinecontroller.cpp:3347
-#: src/timeline2/view/timelinecontroller.cpp:3354
-#: src/timeline2/view/timelinecontroller.cpp:3382
-#: src/timeline2/view/timelinecontroller.cpp:3707
-#: src/timeline2/view/timelinecontroller.cpp:3722
-#: src/timeline2/view/timelinecontroller.cpp:3747
-#: src/timeline2/view/timelinecontroller.cpp:3762
-#: src/timeline2/view/timelinecontroller.cpp:3821
-#: src/timeline2/view/timelinecontroller.cpp:3874
-#: src/timeline2/view/timelinecontroller.cpp:3898
+#: src/timeline2/view/timelinecontroller.cpp:3260
+#: src/timeline2/view/timelinecontroller.cpp:3305
+#: src/timeline2/view/timelinecontroller.cpp:3346
+#: src/timeline2/view/timelinecontroller.cpp:3353
+#: src/timeline2/view/timelinecontroller.cpp:3381
+#: src/timeline2/view/timelinecontroller.cpp:3706
+#: src/timeline2/view/timelinecontroller.cpp:3721
+#: src/timeline2/view/timelinecontroller.cpp:3746
+#: src/timeline2/view/timelinecontroller.cpp:3761
+#: src/timeline2/view/timelinecontroller.cpp:3820
+#: src/timeline2/view/timelinecontroller.cpp:3873
+#: src/timeline2/view/timelinecontroller.cpp:3897
 #, kde-format
 msgid "No clip selected"
 msgstr "कोई क्लिप चयनित नहीं"
@@ -28945,7 +28945,7 @@ msgstr "चयनित समूह को स्थानांतरित �
 #: src/timeline2/model/timelinefunctions.cpp:1124
 #: src/timeline2/model/timelinefunctions.cpp:1128
 #: src/timeline2/model/timelinefunctions.cpp:1135
-#: src/timeline2/view/timelinecontroller.cpp:4039
+#: src/timeline2/view/timelinecontroller.cpp:4038
 #, kde-format
 msgid "Enable clip"
 msgstr "क्लिप सक्षम करें"
@@ -28953,7 +28953,7 @@ msgstr "क्लिप सक्षम करें"
 #: src/timeline2/model/timelinefunctions.cpp:1124
 #: src/timeline2/model/timelinefunctions.cpp:1128
 #: src/timeline2/model/timelinefunctions.cpp:1135
-#: src/timeline2/view/timelinecontroller.cpp:4039
+#: src/timeline2/view/timelinecontroller.cpp:4038
 #, kde-format
 msgid "Disable clip"
 msgstr "क्लिप अक्षम करें"
@@ -29196,7 +29196,7 @@ msgstr "क्लिप ले जाएँ"
 #: src/timeline2/model/timelinemodel.cpp:1938
 #: src/timeline2/model/timelinemodel.cpp:1961
 #: src/timeline2/model/timelinemodel.cpp:1984
-#: src/timeline2/view/timelinecontroller.cpp:3332
+#: src/timeline2/view/timelinecontroller.cpp:3331
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "सम्मिलित ऑपरेशन के लिए कोई ट्रैक उपलब्ध नहीं है"
@@ -29244,7 +29244,7 @@ msgstr "रचना हटाएं"
 
 #: src/timeline2/model/timelinemodel.cpp:2412
 #: src/timeline2/model/timelinemodel.cpp:2713
-#: src/timeline2/view/timelinecontroller.cpp:4276
+#: src/timeline2/view/timelinecontroller.cpp:4275
 #, kde-format
 msgid "Move group"
 msgstr "समूह ले जाएँ"
@@ -29848,7 +29848,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "टाइमलाइन में खींचते समय ऑपरेशन नहीं किया जा सकता"
 
 #: src/timeline2/view/timelinecontroller.cpp:959
-#: src/timeline2/view/timelinecontroller.cpp:5055
+#: src/timeline2/view/timelinecontroller.cpp:5054
 #, kde-format
 msgid "Could not insert track"
 msgstr "ट्रैक सम्मिलित नहीं किया जा सका"
@@ -29921,7 +29921,7 @@ msgid "No item to edit"
 msgstr "संपादित करने के लिए कोई आइटम नहीं"
 
 #: src/timeline2/view/timelinecontroller.cpp:2939
-#: src/timeline2/view/timelinecontroller.cpp:5320
+#: src/timeline2/view/timelinecontroller.cpp:5319
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "कृपया इस ऑपरेशन के लिए ट्रैक को उसके लेबल पर क्लिक करके सक्रिय करें"
@@ -29931,91 +29931,91 @@ msgstr "कृपया इस ऑपरेशन के लिए ट्रै�
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "कृपया ट्रैक के लक्ष्य क्षेत्र पर क्लिक करके लक्ष्य ट्रैक चुनें"
 
-#: src/timeline2/view/timelinecontroller.cpp:3273
+#: src/timeline2/view/timelinecontroller.cpp:3272
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "पसंदीदा रचना चुनें"
 
-#: src/timeline2/view/timelinecontroller.cpp:3338
+#: src/timeline2/view/timelinecontroller.cpp:3337
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "AV विभाजन ऑपरेशन करने के लिए कोई क्लिप नहीं मिली"
 
-#: src/timeline2/view/timelinecontroller.cpp:3366
-#: src/timeline2/view/timelinecontroller.cpp:3434
+#: src/timeline2/view/timelinecontroller.cpp:3365
+#: src/timeline2/view/timelinecontroller.cpp:3433
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "क्लिप को फ्रेम %1 पर नहीं ले जाया जा सकता."
 
-#: src/timeline2/view/timelinecontroller.cpp:3387
+#: src/timeline2/view/timelinecontroller.cpp:3386
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "संरेखित करने का प्रयास करने से पहले ऑडियो संदर्भ सेट करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:3571
+#: src/timeline2/view/timelinecontroller.cpp:3570
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "सभी स्ट्रीम पहले से ही असाइन की गई हैं, पहले किसी अन्य ऑडियो लक्ष्य का चयन रद्द करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:3730
+#: src/timeline2/view/timelinecontroller.cpp:3729
 #, kde-format
 msgid "Delete effects"
 msgstr "प्रभाव हटाएं"
 
-#: src/timeline2/view/timelinecontroller.cpp:3768
-#: src/timeline2/view/timelinecontroller.cpp:3774
-#: src/timeline2/view/timelinecontroller.cpp:3780
+#: src/timeline2/view/timelinecontroller.cpp:3767
+#: src/timeline2/view/timelinecontroller.cpp:3773
+#: src/timeline2/view/timelinecontroller.cpp:3779
 #, kde-format
 msgid "No information in clipboard"
 msgstr "क्लिपबोर्ड में कोई जानकारी नहीं"
 
-#: src/timeline2/view/timelinecontroller.cpp:3805
+#: src/timeline2/view/timelinecontroller.cpp:3804
 #, kde-format
 msgid "Paste effects"
 msgstr "पेस्ट प्रभाव"
 
-#: src/timeline2/view/timelinecontroller.cpp:3807
+#: src/timeline2/view/timelinecontroller.cpp:3806
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "चयनित क्लिप पर प्रभाव चिपकाया नहीं जा सकता"
 
-#: src/timeline2/view/timelinecontroller.cpp:3859
+#: src/timeline2/view/timelinecontroller.cpp:3858
 #, kde-format
 msgid "Open sequence"
 msgstr "खुला अनुक्रम"
 
-#: src/timeline2/view/timelinecontroller.cpp:3881
+#: src/timeline2/view/timelinecontroller.cpp:3880
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "आइटम शीर्षक क्लिप नहीं है"
 
-#: src/timeline2/view/timelinecontroller.cpp:3980
+#: src/timeline2/view/timelinecontroller.cpp:3979
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 आइटम चयनित (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4034
+#: src/timeline2/view/timelinecontroller.cpp:4033
 #, kde-format
 msgid "Restore video"
 msgstr "वीडियो पुनर्स्थापित करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:4034
+#: src/timeline2/view/timelinecontroller.cpp:4033
 #, kde-format
 msgid "Restore audio"
 msgstr "ऑडियो पुनर्स्थापित करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:4255
+#: src/timeline2/view/timelinecontroller.cpp:4254
 #, kde-format
 msgid "Move item"
 msgstr "आइटम ले जाएँ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4746
+#: src/timeline2/view/timelinecontroller.cpp:4745
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "लॉक किए गए ट्रैक पर कैप्चर करना असंभव है"
 
-#: src/timeline2/view/timelinecontroller.cpp:4757
+#: src/timeline2/view/timelinecontroller.cpp:4756
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -30024,39 +30024,39 @@ msgstr ""
 "यहाँ कैप्चर करना असंभव है: कैप्चर क्लिप को ओवरराइड कर सकता है। कृपया वर्तमान स्थिति के "
 "बाद क्लिप हटाएँ या कोई दूसरा ट्रैक चुनें"
 
-#: src/timeline2/view/timelinecontroller.cpp:4848
+#: src/timeline2/view/timelinecontroller.cpp:4847
 #, kde-format
 msgid "Record audio"
 msgstr "ऑडियो रिकॉर्ड करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:4995
+#: src/timeline2/view/timelinecontroller.cpp:4994
 #, kde-format
 msgid "Expand clip"
 msgstr "क्लिप विस्तृत करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:4997
 #, kde-format
 msgid "Could not expand clip"
 msgstr "क्लिप का विस्तार नहीं किया जा सका"
 
-#: src/timeline2/view/timelinecontroller.cpp:5053
+#: src/timeline2/view/timelinecontroller.cpp:5052
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "ट्रैक डालें"
 msgstr[1] "ट्रैक डालें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5132
+#: src/timeline2/view/timelinecontroller.cpp:5131
 #, kde-format
 msgid "Export subtitle file"
 msgstr "उपशीर्षक फ़ाइल निर्यात करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5133
+#: src/timeline2/view/timelinecontroller.cpp:5132
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "सब स्टेशन अल्फा v4.00+ फ़ाइल (*.ass);;सबरिप उपशीर्षक फ़ाइल (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5147
+#: src/timeline2/view/timelinecontroller.cpp:5146
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -30069,12 +30069,12 @@ msgstr ""
 "इसके परिणामस्वरूप निर्यात की गई फ़ाइल में कुछ उपशीर्षक खो सकते हैं। क्या आप जारी रखना "
 "चाहते हैं?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5152
+#: src/timeline2/view/timelinecontroller.cpp:5151
 #, kde-format
 msgid "Warning"
 msgstr "चेतावनी"
 
-#: src/timeline2/view/timelinecontroller.cpp:5190
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -30083,34 +30083,34 @@ msgstr ""
 "avfilter.subtitles फ़िल्टर ज़रूरी है, लेकिन नहीं मिला। उपशीर्षक सुविधा संभवतः "
 "अपेक्षानुसार काम नहीं करेगी।"
 
-#: src/timeline2/view/timelinecontroller.cpp:5207
+#: src/timeline2/view/timelinecontroller.cpp:5206
 #, kde-format
 msgid "Show subtitle track"
 msgstr "उपशीर्षक ट्रैक दिखाएं"
 
-#: src/timeline2/view/timelinecontroller.cpp:5207
+#: src/timeline2/view/timelinecontroller.cpp:5206
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "उपशीर्षक ट्रैक छुपाएं"
 
-#: src/timeline2/view/timelinecontroller.cpp:5230
+#: src/timeline2/view/timelinecontroller.cpp:5229
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "उपशीर्षक ट्रैक अनलॉक करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5230
+#: src/timeline2/view/timelinecontroller.cpp:5229
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "उपशीर्षक ट्रैक लॉक करें"
 
-#: src/timeline2/view/timelinecontroller.cpp:5397
-#: src/timeline2/view/timelinecontroller.cpp:5406
+#: src/timeline2/view/timelinecontroller.cpp:5396
+#: src/timeline2/view/timelinecontroller.cpp:5405
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "उपशीर्षक"
 
-#: src/timeline2/view/timelinecontroller.cpp:5408
+#: src/timeline2/view/timelinecontroller.cpp:5407
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-23 02:38+0000\n"
+"POT-Creation-Date: 2025-05-24 02:36+0000\n"
 "PO-Revision-Date: 2025-04-17 07:16+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -16240,7 +16240,7 @@ msgid "No valid clip to insert"
 msgstr "Ni veljavnega posnetka za vstavljanje"
 
 #: src/bin/bin.cpp:4023 src/timeline2/view/timelinecontroller.cpp:1568
-#: src/timeline2/view/timelinecontroller.cpp:3447
+#: src/timeline2/view/timelinecontroller.cpp:3446
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Izberite posnetek čemur želite dodati učinek"
@@ -16272,7 +16272,7 @@ msgid "Edit Tags"
 msgstr "Uredi značke"
 
 #: src/bin/bin.cpp:4606 src/bin/projectclip.cpp:188
-#: src/bin/projectclip.cpp:2054 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2046 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -16891,39 +16891,39 @@ msgstr ""
 "Ni možno izvleči metapodatkov iz %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1202 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Neveljaven"
 
-#: src/bin/projectclip.cpp:1431 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1423 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1508
 #, kde-format
 msgid "File already exists"
 msgstr "Datoteka že obstaja"
 
-#: src/bin/projectclip.cpp:2647
+#: src/bin/projectclip.cpp:2639
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Prilagodi posnetke na časovnici"
 
-#: src/bin/projectclip.cpp:2836
+#: src/bin/projectclip.cpp:2828
 #, kde-format
 msgid "Add stream effect"
 msgstr "Dodaj tokovni učinek"
 
-#: src/bin/projectclip.cpp:2861
+#: src/bin/projectclip.cpp:2853
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Odstrani tokovni učinek"
 
-#: src/bin/projectclip.cpp:3176
+#: src/bin/projectclip.cpp:3168
 #, kde-format
 msgid "Mask added to clip"
 msgstr "Maska dodana posnetku"
 
-#: src/bin/projectclip.cpp:3180
+#: src/bin/projectclip.cpp:3172
 #, kde-format
 msgid "Missing clip for mask"
 msgstr "Manjkajoči posnetek za masko"
@@ -17794,8 +17794,8 @@ msgstr "Izvozi podatke vodil"
 #: src/project/projectmanager.cpp:1896 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:376
 #: src/renderpresets/renderpresetrepository.cpp:432
-#: src/timeline2/view/timelinecontroller.cpp:5167
-#: src/timeline2/view/timelinecontroller.cpp:5172
+#: src/timeline2/view/timelinecontroller.cpp:5166
+#: src/timeline2/view/timelinecontroller.cpp:5171
 #: src/titler/titlewidget.cpp:2266
 #, kde-format
 msgid "Cannot write to file %1"
@@ -21507,13 +21507,13 @@ msgid "Exporting…"
 msgstr "Izvažanje …"
 
 #: src/effects/effectstack/view/effectstackview.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3298
+#: src/timeline2/view/timelinecontroller.cpp:3297
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Omogoči sklad učinkov"
 
 #: src/effects/effectstack/view/effectstackview.cpp:783
-#: src/timeline2/view/timelinecontroller.cpp:3298
+#: src/timeline2/view/timelinecontroller.cpp:3297
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Onemogoči sklad učinkov"
@@ -23875,7 +23875,7 @@ msgstr "Vstavi stezo …"
 msgid "Fit all Tracks in View"
 msgstr "Umeri vse steze na pogled"
 
-#: src/mainwindow.cpp:1842 src/timeline2/view/timelinecontroller.cpp:4894
+#: src/mainwindow.cpp:1842 src/timeline2/view/timelinecontroller.cpp:4893
 #, kde-format
 msgid "Master effects"
 msgstr "Glavni učinki"
@@ -24453,7 +24453,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Skrij menijsko vrstico"
 
-#: src/mainwindow.cpp:4694 src/timeline2/view/timelinecontroller.cpp:5125
+#: src/mainwindow.cpp:4694 src/timeline2/view/timelinecontroller.cpp:5124
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "V trenutnem projektu ni podnaslovov"
@@ -28749,18 +28749,18 @@ msgstr "Aktivirajte steze s klikom na oznako steze"
 #: src/timeline2/view/timelinecontroller.cpp:2333
 #: src/timeline2/view/timelinecontroller.cpp:2983
 #: src/timeline2/view/timelinecontroller.cpp:3047
-#: src/timeline2/view/timelinecontroller.cpp:3261
-#: src/timeline2/view/timelinecontroller.cpp:3306
-#: src/timeline2/view/timelinecontroller.cpp:3347
-#: src/timeline2/view/timelinecontroller.cpp:3354
-#: src/timeline2/view/timelinecontroller.cpp:3382
-#: src/timeline2/view/timelinecontroller.cpp:3707
-#: src/timeline2/view/timelinecontroller.cpp:3722
-#: src/timeline2/view/timelinecontroller.cpp:3747
-#: src/timeline2/view/timelinecontroller.cpp:3762
-#: src/timeline2/view/timelinecontroller.cpp:3821
-#: src/timeline2/view/timelinecontroller.cpp:3874
-#: src/timeline2/view/timelinecontroller.cpp:3898
+#: src/timeline2/view/timelinecontroller.cpp:3260
+#: src/timeline2/view/timelinecontroller.cpp:3305
+#: src/timeline2/view/timelinecontroller.cpp:3346
+#: src/timeline2/view/timelinecontroller.cpp:3353
+#: src/timeline2/view/timelinecontroller.cpp:3381
+#: src/timeline2/view/timelinecontroller.cpp:3706
+#: src/timeline2/view/timelinecontroller.cpp:3721
+#: src/timeline2/view/timelinecontroller.cpp:3746
+#: src/timeline2/view/timelinecontroller.cpp:3761
+#: src/timeline2/view/timelinecontroller.cpp:3820
+#: src/timeline2/view/timelinecontroller.cpp:3873
+#: src/timeline2/view/timelinecontroller.cpp:3897
 #, kde-format
 msgid "No clip selected"
 msgstr "Izbranega ni nobenega posnetka"
@@ -28773,7 +28773,7 @@ msgstr "Ni možno premakniti izbrane skupine"
 #: src/timeline2/model/timelinefunctions.cpp:1124
 #: src/timeline2/model/timelinefunctions.cpp:1128
 #: src/timeline2/model/timelinefunctions.cpp:1135
-#: src/timeline2/view/timelinecontroller.cpp:4039
+#: src/timeline2/view/timelinecontroller.cpp:4038
 #, kde-format
 msgid "Enable clip"
 msgstr "Omogoči posnetek"
@@ -28781,7 +28781,7 @@ msgstr "Omogoči posnetek"
 #: src/timeline2/model/timelinefunctions.cpp:1124
 #: src/timeline2/model/timelinefunctions.cpp:1128
 #: src/timeline2/model/timelinefunctions.cpp:1135
-#: src/timeline2/view/timelinecontroller.cpp:4039
+#: src/timeline2/view/timelinecontroller.cpp:4038
 #, kde-format
 msgid "Disable clip"
 msgstr "Onemogoči posnetek"
@@ -29026,7 +29026,7 @@ msgstr "Premakni posnetek"
 #: src/timeline2/model/timelinemodel.cpp:1938
 #: src/timeline2/model/timelinemodel.cpp:1961
 #: src/timeline2/model/timelinemodel.cpp:1984
-#: src/timeline2/view/timelinecontroller.cpp:3332
+#: src/timeline2/view/timelinecontroller.cpp:3331
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Nobene steze ni na voljo za vstavljanje"
@@ -29074,7 +29074,7 @@ msgstr "Izbriši sestavo"
 
 #: src/timeline2/model/timelinemodel.cpp:2412
 #: src/timeline2/model/timelinemodel.cpp:2713
-#: src/timeline2/view/timelinecontroller.cpp:4276
+#: src/timeline2/view/timelinecontroller.cpp:4275
 #, kde-format
 msgid "Move group"
 msgstr "Premakni skupino"
@@ -29687,7 +29687,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Opravila ni možno izvesti med vlečenjem po časovnici"
 
 #: src/timeline2/view/timelinecontroller.cpp:959
-#: src/timeline2/view/timelinecontroller.cpp:5055
+#: src/timeline2/view/timelinecontroller.cpp:5054
 #, kde-format
 msgid "Could not insert track"
 msgstr "Steze ni možno vstaviti"
@@ -29762,7 +29762,7 @@ msgid "No item to edit"
 msgstr "Ni predmeta urejanja"
 
 #: src/timeline2/view/timelinecontroller.cpp:2939
-#: src/timeline2/view/timelinecontroller.cpp:5320
+#: src/timeline2/view/timelinecontroller.cpp:5319
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Aktivirajte stezo za ta postopek s klikom na njeno oznako"
@@ -29772,91 +29772,91 @@ msgstr "Aktivirajte stezo za ta postopek s klikom na njeno oznako"
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "Izberite ciljno stezo s klikom na ciljno območje steze"
 
-#: src/timeline2/view/timelinecontroller.cpp:3273
+#: src/timeline2/view/timelinecontroller.cpp:3272
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Izberite priljubljeno sestavo"
 
-#: src/timeline2/view/timelinecontroller.cpp:3338
+#: src/timeline2/view/timelinecontroller.cpp:3337
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "Ni možno najti posnetka za izvedbo postopka razdelitve"
 
-#: src/timeline2/view/timelinecontroller.cpp:3366
-#: src/timeline2/view/timelinecontroller.cpp:3434
+#: src/timeline2/view/timelinecontroller.cpp:3365
+#: src/timeline2/view/timelinecontroller.cpp:3433
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Posnetka ni možno premakniti na sliko %1."
 
-#: src/timeline2/view/timelinecontroller.cpp:3387
+#: src/timeline2/view/timelinecontroller.cpp:3386
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Nastavi referenco zvoka pred poskusom poravnave"
 
-#: src/timeline2/view/timelinecontroller.cpp:3571
+#: src/timeline2/view/timelinecontroller.cpp:3570
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "Vsi tokovi so že dodeljeni, najprej prekličite izbor druge zvočne tarče"
 
-#: src/timeline2/view/timelinecontroller.cpp:3730
+#: src/timeline2/view/timelinecontroller.cpp:3729
 #, kde-format
 msgid "Delete effects"
 msgstr "Izbriši učinke"
 
-#: src/timeline2/view/timelinecontroller.cpp:3768
-#: src/timeline2/view/timelinecontroller.cpp:3774
-#: src/timeline2/view/timelinecontroller.cpp:3780
+#: src/timeline2/view/timelinecontroller.cpp:3767
+#: src/timeline2/view/timelinecontroller.cpp:3773
+#: src/timeline2/view/timelinecontroller.cpp:3779
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Ni informacij na odlagališču"
 
-#: src/timeline2/view/timelinecontroller.cpp:3805
+#: src/timeline2/view/timelinecontroller.cpp:3804
 #, kde-format
 msgid "Paste effects"
 msgstr "Prilepi učinke"
 
-#: src/timeline2/view/timelinecontroller.cpp:3807
+#: src/timeline2/view/timelinecontroller.cpp:3806
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Ni možno prilepiti učinka na izbrani posnetek"
 
-#: src/timeline2/view/timelinecontroller.cpp:3859
+#: src/timeline2/view/timelinecontroller.cpp:3858
 #, kde-format
 msgid "Open sequence"
 msgstr "Odpri zaporedje"
 
-#: src/timeline2/view/timelinecontroller.cpp:3881
+#: src/timeline2/view/timelinecontroller.cpp:3880
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Predmet ni posnetek naslova"
 
-#: src/timeline2/view/timelinecontroller.cpp:3980
+#: src/timeline2/view/timelinecontroller.cpp:3979
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 izbranih elementov (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4034
+#: src/timeline2/view/timelinecontroller.cpp:4033
 #, kde-format
 msgid "Restore video"
 msgstr "Obnovi video"
 
-#: src/timeline2/view/timelinecontroller.cpp:4034
+#: src/timeline2/view/timelinecontroller.cpp:4033
 #, kde-format
 msgid "Restore audio"
 msgstr "Obnovi zvok"
 
-#: src/timeline2/view/timelinecontroller.cpp:4255
+#: src/timeline2/view/timelinecontroller.cpp:4254
 #, kde-format
 msgid "Move item"
 msgstr "Premakni predmet"
 
-#: src/timeline2/view/timelinecontroller.cpp:4746
+#: src/timeline2/view/timelinecontroller.cpp:4745
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Ni možno zajemati na zaklenjeni stezi"
 
-#: src/timeline2/view/timelinecontroller.cpp:4757
+#: src/timeline2/view/timelinecontroller.cpp:4756
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -29865,22 +29865,22 @@ msgstr ""
 "Tukaj ni možno zajemati: zajem bi lahko prepisal druge posnetke. Odstranite "
 "posnetke za trenutnim položajem ali izberite drugo stezo"
 
-#: src/timeline2/view/timelinecontroller.cpp:4848
+#: src/timeline2/view/timelinecontroller.cpp:4847
 #, kde-format
 msgid "Record audio"
 msgstr "Snemaj zvok"
 
-#: src/timeline2/view/timelinecontroller.cpp:4995
+#: src/timeline2/view/timelinecontroller.cpp:4994
 #, kde-format
 msgid "Expand clip"
 msgstr "Razširi posnetek"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:4997
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Ni možno razširiti posnetka"
 
-#: src/timeline2/view/timelinecontroller.cpp:5053
+#: src/timeline2/view/timelinecontroller.cpp:5052
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -29889,19 +29889,19 @@ msgstr[1] "Vstavi stezo"
 msgstr[2] "Vstavi stezi"
 msgstr[3] "Vstavi steze"
 
-#: src/timeline2/view/timelinecontroller.cpp:5132
+#: src/timeline2/view/timelinecontroller.cpp:5131
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Izvozi datoteko s podnaslovi"
 
-#: src/timeline2/view/timelinecontroller.cpp:5133
+#: src/timeline2/view/timelinecontroller.cpp:5132
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 "Datoteka Sub Station Alpha v4.00+ (*.ass);;Datoteka s podnaslovi SubRip (*."
 "srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5147
+#: src/timeline2/view/timelinecontroller.cpp:5146
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -29914,12 +29914,12 @@ msgstr ""
 "podnaslovi iz najnižje plasti. To lahko povzroči izgubo nekaterih "
 "podnaslovov v izvoženi datoteki. Ali želite nadaljevati?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5152
+#: src/timeline2/view/timelinecontroller.cpp:5151
 #, kde-format
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: src/timeline2/view/timelinecontroller.cpp:5190
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -29928,34 +29928,34 @@ msgstr ""
 "Filter avfilter.subtitles je obvezen, vendar ga ni možno najti. Funkcija "
 "podnaslovov verjetno ne bo delovala na pričakovan način."
 
-#: src/timeline2/view/timelinecontroller.cpp:5207
+#: src/timeline2/view/timelinecontroller.cpp:5206
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Pokaži stezo za podnaslavljanje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5207
+#: src/timeline2/view/timelinecontroller.cpp:5206
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Skrij stezo za podnaslavljanje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5230
+#: src/timeline2/view/timelinecontroller.cpp:5229
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Odkleni stezo za podnaslavljanje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5230
+#: src/timeline2/view/timelinecontroller.cpp:5229
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Zakleni stezo za podnaslavljanje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5397
-#: src/timeline2/view/timelinecontroller.cpp:5406
+#: src/timeline2/view/timelinecontroller.cpp:5396
+#: src/timeline2/view/timelinecontroller.cpp:5405
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Podnaslovi"
 
-#: src/timeline2/view/timelinecontroller.cpp:5408
+#: src/timeline2/view/timelinecontroller.cpp:5407
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
