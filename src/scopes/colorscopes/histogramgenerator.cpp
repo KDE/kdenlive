@@ -150,7 +150,7 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
 
     const int partH = size.height();
 
-    const int maxBinSize = *std::max_element(&y[0], &y[max - 1]);
+    const int maxBinSize = *std::max_element(&y[0], &y[max]);
     const float logScaling = float(size.height()) / log10f(float(maxBinSize + 1));
 
     for (int x = 0; x < max; ++x) {
