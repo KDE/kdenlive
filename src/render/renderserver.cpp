@@ -91,8 +91,6 @@ void RenderServer::abortJob(const QString &job)
 
 void RenderServer::abortAllJobs()
 {
-    disconnect(this, &RenderServer::setRenderingProgress, pCore->window(), &MainWindow::setRenderingProgress);
-    disconnect(this, &RenderServer::setRenderingFinished, pCore->window(), &MainWindow::setRenderingFinished);
     for (auto i = m_jobSocket.cbegin(), end = m_jobSocket.cend(); i != end; ++i) {
         i.value()->write("abort");
         i.value()->flush();

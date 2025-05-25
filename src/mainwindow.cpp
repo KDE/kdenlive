@@ -950,10 +950,6 @@ MainWindow::~MainWindow()
 // virtual
 bool MainWindow::queryClose()
 {
-    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
-        return false;
-    }
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
         int runningJobs = m_renderWidget->runningJobsCount();
@@ -995,6 +991,10 @@ bool MainWindow::queryClose()
                 return false;
             }
         }
+    }
+    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
+    if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
+        return false;
     }
     saveOptions();
     m_windowClosing = true;
