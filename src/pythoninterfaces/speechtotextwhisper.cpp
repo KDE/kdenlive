@@ -201,7 +201,7 @@ const QString SpeechToTextWhisper::modelFolder(bool mainFolder, bool create)
             if (create) {
                 if (useXdgPath) {
                     QDir dir(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
-                    dir.mkpath("/whisper");
+                    dir.mkpath("whisper");
                 } else {
                     QDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
                     dir.mkpath(".cache/whisper");
