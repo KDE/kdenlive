@@ -393,8 +393,8 @@ QString OtioImport::resolveFile(const QString &file, const QFileInfo &timelineFi
 {
     // Check whether it is a URL or file name, and if it is
     // relative to the timeline file.
-    const QUrl url(file);
-    QFileInfo out(url.isValid() ? url.path() : file);
+    const QUrl url = QUrl::fromLocalFile(file);
+    QFileInfo out(url.isValid() ? url.toLocalFile() : file);
     if (out.isRelative()) {
         out = QFileInfo(timelineFile.path(), out.filePath());
     }
