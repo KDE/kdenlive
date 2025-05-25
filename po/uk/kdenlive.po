@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-24 00:41+0000\n"
-"PO-Revision-Date: 2025-05-21 22:43+0300\n"
+"PO-Revision-Date: 2025-05-24 10:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -23091,10 +23091,9 @@ msgid "Clean"
 msgstr "Спорожнення"
 
 #: src/mainwindow.cpp:438
-#, fuzzy, kde-format
-#| msgid "Undo History"
+#, kde-format
 msgid "Clear Undo History"
-msgstr "Журнал скасування"
+msgstr "Спорожнити журнал дій"
 
 #: src/mainwindow.cpp:441
 #, kde-format
@@ -23102,6 +23101,8 @@ msgid ""
 "This will clear all undo history, you will not be able to undo any previous "
 "action."
 msgstr ""
+"У результаті буде вилучено увесь журнал дій, ви не зможете скасувати будь-"
+"яку з попередніх дій."
 
 #: src/mainwindow.cpp:451
 #, kde-format
@@ -26071,11 +26072,10 @@ msgstr ""
 "<b>стрілки</b> — позиціювання, <b>Ctrl + коліщатко</b> — масштабування"
 
 #: src/monitor/view/ProjectMonitor.qml:294
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
-msgstr "Перетворення"
+msgstr "Увімкнути перетворення"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -29085,32 +29085,36 @@ msgstr "%1 Виявлено кліп (%2) із помилковим підлег
 #, kde-format
 msgid "Removed clip %1 with no audio found in audio track "
 msgstr ""
+"Вилучено кліп %1, у якому не знайдено звукових даних, на звуковій доріжці "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:997
 #, kde-format
 msgid "Removed clip %1 with no video found in video track "
-msgstr ""
+msgstr "Вилучено кліп %1, у якому не знайдено відеоданих, на відеодоріжці "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1000
 #, kde-format
 msgid "Removed clip %1 with incorrect audio or video type on track "
 msgstr ""
+"Вилучено кліп %1 із неправильним типом звукових даних або відеоданих на "
+"доріжці "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1003
-#, fuzzy, kde-format
-#| msgid "Remove selected clips"
+#, kde-format
 msgid "Removed invalid clip %1."
-msgstr "Вилучити позначені кліпи"
+msgstr "Вилучено некоректний кліп %1."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1018
 #, kde-format
 msgid "Repaired clip %1 tagged with no audio in track "
 msgstr ""
+"Виправлено кліп %1, який позначено як такий, що не має звуку, на доріжці "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1021
 #, kde-format
 msgid "Repaired clip %1 tagged with no video in track "
 msgstr ""
+"Виправлено кліп %1, який позначено як такий, що не має відео, на доріжці "
 
 #: src/timeline2/model/timelinefunctions.cpp:126
 #, kde-format

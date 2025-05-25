@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-24 00:41+0000\n"
-"PO-Revision-Date: 2025-05-21 11:43+0200\n"
+"PO-Revision-Date: 2025-05-24 11:13+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -23116,10 +23116,9 @@ msgid "Clean"
 msgstr "Neteja"
 
 #: src/mainwindow.cpp:438
-#, fuzzy, kde-format
-#| msgid "Undo History"
+#, kde-format
 msgid "Clear Undo History"
-msgstr "Historial de desfer"
+msgstr "Neteja l'historial de desfer"
 
 #: src/mainwindow.cpp:441
 #, kde-format
@@ -23127,6 +23126,7 @@ msgid ""
 "This will clear all undo history, you will not be able to undo any previous "
 "action."
 msgstr ""
+"Això netejarà tot l'historial de desfer, no podreu desfer cap acció anterior."
 
 #: src/mainwindow.cpp:451
 #, kde-format
@@ -26088,11 +26088,10 @@ msgstr ""
 "b> per a fer zoom"
 
 #: src/monitor/view/ProjectMonitor.qml:294
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
-msgstr "Transforma"
+msgstr "Activa la Transformació"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -29099,33 +29098,34 @@ msgstr ""
 #: src/timeline2/model/builders/meltBuilder.cpp:994
 #, kde-format
 msgid "Removed clip %1 with no audio found in audio track "
-msgstr ""
+msgstr "S'ha eliminat el clip %1 sense àudio trobat a la pista d'àudio "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:997
 #, kde-format
 msgid "Removed clip %1 with no video found in video track "
-msgstr ""
+msgstr "S'ha eliminat el clip %1 sense vídeo trobat a la pista de vídeo "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1000
 #, kde-format
 msgid "Removed clip %1 with incorrect audio or video type on track "
 msgstr ""
+"S'ha eliminat el clip %1 amb un tipus d'àudio o de vídeo incorrecte de la "
+"pista "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1003
-#, fuzzy, kde-format
-#| msgid "Invalid clip"
+#, kde-format
 msgid "Removed invalid clip %1."
-msgstr "El clip no és vàlid"
+msgstr "S'ha eliminat el clip no vàlid %1."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1018
 #, kde-format
 msgid "Repaired clip %1 tagged with no audio in track "
-msgstr ""
+msgstr "S'ha esmenat el clip %1 etiquetat sense àudio a la pista "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1021
 #, kde-format
 msgid "Repaired clip %1 tagged with no video in track "
-msgstr ""
+msgstr "S'ha esmenat el clip %1 etiquetat sense vídeo a la pista "
 
 #: src/timeline2/model/timelinefunctions.cpp:126
 #, kde-format

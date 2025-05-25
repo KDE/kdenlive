@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-24 00:41+0000\n"
-"PO-Revision-Date: 2025-05-21 15:03+0200\n"
+"PO-Revision-Date: 2025-05-24 11:31+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -23036,10 +23036,9 @@ msgid "Clean"
 msgstr "Wissen"
 
 #: src/mainwindow.cpp:438
-#, fuzzy, kde-format
-#| msgid "Undo History"
+#, kde-format
 msgid "Clear Undo History"
-msgstr "Verwijder geschiedenis"
+msgstr "Verwijder geschiedenis van ongedaan maken"
 
 #: src/mainwindow.cpp:441
 #, kde-format
@@ -23047,6 +23046,8 @@ msgid ""
 "This will clear all undo history, you will not be able to undo any previous "
 "action."
 msgstr ""
+"Dit zal de geschiedenis van ongedaan maken wissen, u zult niet meer in staat "
+"zijn een eerdere actie ongedaan te maken."
 
 #: src/mainwindow.cpp:451
 #, kde-format
@@ -25984,11 +25985,10 @@ msgstr ""
 "te zoeken, <b>Ctrl wiel</b> om te zoomen"
 
 #: src/monitor/view/ProjectMonitor.qml:294
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Enable Transform"
-msgstr "Transformeren"
+msgstr "Transformeren inschakelen"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -28969,33 +28969,32 @@ msgstr "%1 clip (%2) met onjuiste sub-afspeellijst gevonden"
 #: src/timeline2/model/builders/meltBuilder.cpp:994
 #, kde-format
 msgid "Removed clip %1 with no audio found in audio track "
-msgstr ""
+msgstr "Clip %1, zonder gevonden audio in de audio-track, verwijderd"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:997
 #, kde-format
 msgid "Removed clip %1 with no video found in video track "
-msgstr ""
+msgstr "Clip %1, zonder gevonden video in de video-track, verwijderd"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1000
 #, kde-format
 msgid "Removed clip %1 with incorrect audio or video type on track "
-msgstr ""
+msgstr "Clip %1, met onjuist type audio of video in de track, verwijderd"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1003
-#, fuzzy, kde-format
-#| msgid "Removed invalid transition: %1"
+#, kde-format
 msgid "Removed invalid clip %1."
-msgstr "Ongeldige overgang %1 verwijderd"
+msgstr "Ongeldige clip %1 verwijderd."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1018
 #, kde-format
 msgid "Repaired clip %1 tagged with no audio in track "
-msgstr ""
+msgstr "Clip %1, met tag zonder audio in track, gerepareerd"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1021
 #, kde-format
 msgid "Repaired clip %1 tagged with no video in track "
-msgstr ""
+msgstr "Clip %1, met tag zonder video in track, gerepareerd"
 
 #: src/timeline2/model/timelinefunctions.cpp:126
 #, kde-format
