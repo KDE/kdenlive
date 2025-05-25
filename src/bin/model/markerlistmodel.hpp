@@ -38,7 +38,7 @@ public:
     /** @brief Construct a marker list bound to the bin clip with given id */
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole, TCRole, ClipIdRole };
+    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole, TCRole, ClipIdRole, DurationRole, EndPosRole, HasRangeRole };
 
     /** @brief Adds a marker at the given position. If there is already one, the comment will be overridden
        @param pos defines the position of the marker, relative to the clip
@@ -47,12 +47,21 @@ public:
      */
     bool addMarker(GenTime pos, const QString &comment, int type = -1);
     bool addMarkers(const QMap<GenTime, QString> &markers, int type = -1);
+    /** @brief Adds a range marker
+       @param pos defines the position of the marker, relative to the clip
+       @param duration is the duration of the marker
+       @param comment is the text associated with the marker
+       @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
+     */
+    bool addRangeMarker(GenTime pos, GenTime duration, const QString &comment, int type = -1);
     /** @brief Returns the model's owner clip id */
     const QString &ownerId() const;
 
 protected:
     /** @brief Same function but accumulates undo/redo */
     bool addMarker(GenTime pos, const QString &comment, int type, Fun &undo, Fun &redo);
+    /** @brief Same function but for range markers and accumulates undo/redo */
+    bool addRangeMarker(GenTime pos, GenTime duration, const QString &comment, int type, Fun &undo, Fun &redo);
 
 public:
     /** @brief Removes the marker at the given position.
@@ -73,6 +82,15 @@ public:
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
     */
     bool editMarker(GenTime oldPos, GenTime pos, QString comment = QString(), int type = -1);
+
+    /** @brief Edit a marker with duration support
+       @param oldPos is the old position of the marker
+       @param pos defines the new position of the marker, relative to the clip
+       @param comment is the text associated with the marker
+       @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
+       @param duration is the duration of the marker (0 for point markers)
+    */
+    bool editMarker(GenTime oldPos, GenTime pos, QString comment, int type, GenTime duration);
 
     /** @brief Moves all markers from on to another position
        @param markers list of markers to move
@@ -197,6 +215,8 @@ protected:
 
     /** @brief Helper function that generate a lambda to add given marker */
     Fun addMarker_lambda(GenTime pos, const QString &comment, int type);
+    /** @brief Helper function that generate a lambda to add or update a given range marker */
+    Fun addOrUpdateRangeMarker_lambda(GenTime pos, GenTime duration, const QString &comment, int type, const CommentedTime *existingMarker = nullptr);
 
     /** @brief Helper function that generate a lambda to remove given marker */
     Fun deleteMarker_lambda(GenTime pos);
