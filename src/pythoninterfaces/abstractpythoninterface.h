@@ -96,6 +96,8 @@ public Q_SLOTS:
     /** @brief Ensure all dependenciew are installed. */
     bool installMissingDependencies();
     bool checkSetup(bool requestInstall = false, bool *newInstall = nullptr);
+    /** @brief Try to update the venv if something is broken */
+    void rebuildVenv();
 
 private:
     QStringList m_missing;

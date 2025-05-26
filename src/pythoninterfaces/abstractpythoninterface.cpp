@@ -183,6 +183,36 @@ const QString AbstractPythonInterface::getVenvBinPath()
     return pythonPath;
 }
 
+void AbstractPythonInterface::rebuildVenv()
+{
+#ifdef Q_OS_WIN
+    const QString pythonName = QStringLiteral("python");
+#else
+    const QString pythonName = QStringLiteral("python3");
+#endif
+    QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    QFileInfo pyPath(pluginDir.absoluteFilePath(pythonName));
+    if (!pyPath.exists()) { // && pyPath.isSymLink()) {
+        // Recreate venv with updated python path
+        QFile::remove(pyPath.absoluteFilePath());
+        QProcess envProcess;
+        if (pluginDir.cd(getVenvPath())) {
+            QStringList args = {QStringLiteral("-m"), QStringLiteral("venv"), pluginDir.absolutePath(), QStringLiteral("--upgrade")};
+            const QString pythonExec = systemPythonExec();
+            envProcess.start(pythonExec, args);
+            envProcess.waitForStarted();
+            envProcess.waitForFinished(-1);
+            if (envProcess.exitStatus() != QProcess::NormalExit) {
+                Q_EMIT setupMessage(envProcess.readAllStandardError(), KMessageWidget::Warning);
+            } else {
+                Q_EMIT setupMessage(i18n("Successfully rebuilt environment"), KMessageWidget::Positive);
+            }
+        } else {
+            qDebug() << ":::: CANNOT ENTER PLUGIN DIR: " << pluginDir.absoluteFilePath(getVenvPath());
+        }
+    }
+}
+
 void AbstractPythonInterface::deleteVenv()
 {
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));

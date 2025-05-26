@@ -866,20 +866,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item row="4" column="0" colspan="5">
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Orientation::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>121</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="4">
+          <item row="2" column="6">
            <spacer name="horizontalSpacer_10">
             <property name="orientation">
              <enum>Qt::Orientation::Horizontal</enum>
@@ -891,6 +878,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLabel" name="sam_venv_size">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+            </property>
+           </widget>
           </item>
           <item row="1" column="0">
            <widget class="ElidedFileLinkLabel" name="sam_folder_label" native="true">
@@ -905,17 +902,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="sam_venv_size">
+          <item row="1" column="4">
+           <widget class="QPushButton" name="deleteSamModels">
             <property name="text">
-             <string/>
+             <string>Delete all models</string>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+            <property name="icon">
+             <iconset theme="edit-delete"/>
             </property>
            </widget>
           </item>
-          <item row="2" column="3">
+          <item row="2" column="4">
            <widget class="QPushButton" name="deleteSamVenv">
             <property name="text">
              <string>Uninstall plugin</string>
@@ -925,28 +922,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="5">
-           <widget class="QPlainTextEdit" name="script_sam_log">
-            <property name="frameShape">
-             <enum>QFrame::Shape::NoFrame</enum>
-            </property>
-            <property name="undoRedoEnabled">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4">
-           <spacer name="horizontalSpacer_9">
+          <item row="4" column="0" colspan="7">
+           <spacer name="verticalSpacer_2">
             <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
+             <enum>Qt::Orientation::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>20</height>
+              <height>121</height>
              </size>
             </property>
            </spacer>
@@ -974,15 +958,44 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="deleteSamModels">
-            <property name="text">
-             <string>Delete all models</string>
+          <item row="3" column="0" colspan="7">
+           <widget class="QPlainTextEdit" name="script_sam_log">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
             </property>
-            <property name="icon">
-             <iconset theme="edit-delete"/>
+            <property name="undoRedoEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
+          </item>
+          <item row="2" column="5">
+           <widget class="QToolButton" name="sam_rebuild">
+            <property name="toolTip">
+             <string>Rebuild Virtual Environment</string>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="QIcon::ThemeIcon::ViewRefresh"/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5" colspan="2">
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>

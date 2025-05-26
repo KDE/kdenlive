@@ -324,6 +324,7 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     connect(m_samInterface, &AbstractPythonInterface::gotPythonSize, this, [this](const QString &label) {
         sam_venv_size->setText(label);
         deleteSamVenv->setEnabled(!label.isEmpty());
+        sam_rebuild->setEnabled(!label.isEmpty());
     });
     m_samInterface->checkVenv(true);
     connect(m_samInterface, &AbstractPythonInterface::installFeedback, this, &PluginsSettings::showSamLog, Qt::QueuedConnection);
@@ -337,6 +338,17 @@ PluginsSettings::PluginsSettings(QWidget *parent)
             [this]() { QMetaObject::invokeMethod(this, "checkSamEnvironement", Qt::QueuedConnection); });
     connect(m_samInterface, &AbstractPythonInterface::dependenciesAvailable, this, &PluginsSettings::samDependenciesChecked);
     connect(m_samInterface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &) { modelBox->setEnabled(false); });
+    connect(sam_rebuild, &QToolButton::clicked, this, [this]() {
+        if (KMessageBox::warningContinueCancel(this, i18n("This will attempt to rebuild the plugin's virtual environment. Only use if the plugin fails. If "
+                                                          "this does not work, try deleting and reinstalling the plugin.")) != KMessageBox::Continue) {
+            return;
+        }
+        sam_rebuild->setEnabled(false);
+        setCursor(Qt::WaitCursor);
+        m_samInterface->rebuildVenv();
+        setCursor(Qt::ArrowCursor);
+        sam_rebuild->setEnabled(true);
+    });
     connect(m_samInterface, &AbstractPythonInterface::scriptFeedback, this,
             [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
                 Q_UNUSED(args);
