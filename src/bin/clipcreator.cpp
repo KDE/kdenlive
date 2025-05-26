@@ -301,7 +301,7 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
 }
 
 QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo,
-                                        const std::function<void(const QString &)> &readyCallBack)
+                                        const std::function<void(const QString &)> &readyCallBack, const bool &updateShouldCheckProfile)
 {
     qDebug() << "/////////// createClipFromFile" << path << parentFolder;
     QDomDocument xml = getXmlFromUrl(path);
@@ -310,6 +310,12 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
     }
     qDebug() << "/////////// final xml" << xml.toString();
     QString id;
+
+    if (updateShouldCheckProfile) {
+        pCore->bin()->shouldCheckProfile =
+            (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && !pCore->bin()->hasUserClip();
+    }
+
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, undo, redo, readyCallBack);
     return res ? id : QStringLiteral("-1");
 }
