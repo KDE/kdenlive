@@ -44,7 +44,6 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int maskOpacity READ maskOpacity WRITE setMaskOpacity NOTIFY maskOpacityChanged)
     Q_PROPERTY(bool maskInverted READ maskInverted WRITE setMaskInverted)
     Q_PROPERTY(MaskModeType::MaskCreationMode maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
-    Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QStringList lastClips MEMBER m_lastClips NOTIFY lastClipsChanged)
     /** @brief Returns true if current clip in monitor has Audio and Video
@@ -153,7 +152,6 @@ Q_SIGNALS:
     void overlayTypeChanged();
     void maskOpacityChanged();
     void maskModeChanged();
-    void showGridChanged();
     void builtinEffectsEnabledChanged();
     void addRemoveKeyframe(bool addOnly = false);
     /** @brief Seek to an effect keyframe
@@ -194,7 +192,6 @@ private:
     int m_zoneOut;
     bool m_hasAV;
     double m_speed;
-    bool m_showGrid{false};
     QList <int> m_audioStreams;
     QList <int> m_audioChannels;
     QString m_markerComment;

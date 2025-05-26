@@ -79,7 +79,7 @@ Item {
     }
 
     function getSnappedPos(position) {
-      if (!controller.showGrid) {
+      if (!K.KdenliveSettings.showMonitorGrid) {
         return position
       }
       var deltax = Math.round(position.x / root.scalex)
@@ -212,7 +212,7 @@ Item {
         }
 
         Repeater {
-          model: controller.showGrid ? Math.floor(root.profile.x / K.KdenliveSettings.monitorGridH) : 0
+          model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.x / K.KdenliveSettings.monitorGridH) : 0
           Rectangle {
             required property int index
             opacity: 0.3
@@ -223,7 +223,7 @@ Item {
           }
         }
         Repeater {
-          model: controller.showGrid ? Math.floor(root.profile.y / K.KdenliveSettings.monitorGridV) : 0
+          model: K.KdenliveSettings.showMonitorGrid ? Math.floor(root.profile.y / K.KdenliveSettings.monitorGridV) : 0
           Rectangle {
             required property int index
             opacity: 0.3
@@ -269,7 +269,7 @@ Item {
             }
             if (root.requestedKeyFrame != -1) {
                   isMoving = true
-                  if (!controller.showGrid) {
+                  if (!K.KdenliveSettings.showMonitorGrid) {
                     root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
                     root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
                   } else {

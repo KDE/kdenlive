@@ -65,7 +65,7 @@ MouseArea {
                 iconName: "snap"
                 toolTipText: i18n("Show Grid")
                 checkable: true
-                checked: controller.showGrid
+                checked: K.KdenliveSettings.showMonitorGrid
                 onClicked: {
                     controller.switchGrid()
                 }
