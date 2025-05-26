@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-24 02:36+0000\n"
-"PO-Revision-Date: 2025-05-18 13:13+0300\n"
+"PO-Revision-Date: 2025-05-25 19:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6133,28 +6133,24 @@ msgstr ""
 "efekti devre dışı bırakır.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:22
-#, fuzzy, kde-format
-#| msgid "Crop mode horizontal"
+#, kde-format
 msgid "Chroma horizontal matrix"
-msgstr "Yatay kırpma kipi"
+msgstr "Renk yatay matrisi"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:23
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the chroma matrix horizontal size]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Renk matrisinin yatay boyutunu ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:26
-#, fuzzy, kde-format
-#| msgid "Crop mode vertical"
+#, kde-format
 msgid "Chroma vertical matrix"
-msgstr "Dikey kırpma kipi"
+msgstr "Renk dikey matrisi"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:27
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the chroma matrix vertical size]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Renk matrisinin dikey boyutunu ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:32
 #, kde-format
@@ -6164,30 +6160,30 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Renk efekti gücünü ayarlayın.<br>\n"
+"            Makul değerler −1,5 ile 1 arasındadır. Negatif değerler girdi "
+"videosunu bulanıklaştırırken, pozitif değerler keskinleştirecektir. 0 "
+"verilirse efekt devre dışı bırakılır.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:35
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Alpha horizontal matrix"
-msgstr "Yatay yayılım"
+msgstr "Alfa yatay matrisi"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:36
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Alfa matrisi yatay boyutunu ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:39
-#, fuzzy, kde-format
-#| msgid "Vertical margin"
+#, kde-format
 msgid "Alpha vertical matrix"
-msgstr "Dikey kenar boşluğu"
+msgstr "Alfa dikey matrisi"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:40
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Set the alpha matrix vertical size]]>"
-msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
+msgstr "<![CDATA[Alfa matrisi dikey boyutunu ayarlayın.]]>"
 
 #: data/effects/avfilter/avfilter_unsharp.xml:45
 #, kde-format
@@ -6197,6 +6193,10 @@ msgid ""
 "blur the input video, while positive values will sharpen it, a value of zero "
 "will disable the effect. ]]>"
 msgstr ""
+"<![CDATA[Alfa efekti gücünü ayarlayın.<br>\n"
+"            Makul değerler −1,5 ile 1 arasındadır. Negatif değerler girdi "
+"videosunu bulanıklaştırırken, pozitif değerler keskinleştirecektir. 0 "
+"verilirse efekt devre dışı bırakılır.]]>"
 
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:4
 #, kde-format
@@ -6685,16 +6685,14 @@ msgid "Subtitles"
 msgstr "Altyazılar"
 
 #: data/effects/avfilter/subtitles.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Render subtitles onto the video"
-msgstr "Video üzerine bir sayaç koy"
+msgstr "Altyazıları videonun üzerine sun"
 
 #: data/effects/avfilter/subtitles.xml:8
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle file to apply"
-msgstr "Altyazı dosyası:"
+msgstr "Uygulanacak altyazı dosyası"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
@@ -7238,73 +7236,67 @@ msgstr "Konumdan Sonra Dondur"
 #: data/effects/frei0r/frei0r_3dflippo.xml:4
 #, kde-format
 msgid "3dflippo"
-msgstr ""
+msgstr "3dflippo"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:5
 #, kde-format
 msgid "Frame rotation in 3D space"
-msgstr ""
+msgstr "3B uzayda kare döndürme"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:8
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "X axis rotation"
-msgstr "Maske oluşturma"
+msgstr "X ekseninde döndürme"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:11
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Y axis rotation"
-msgstr "Maske oluşturma"
+msgstr "Y ekseninde döndürme"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:14
-#, fuzzy, kde-format
-#| msgid "Mask creation"
+#, kde-format
 msgid "Z axis rotation"
-msgstr "Maske oluşturma"
+msgstr "Z ekseninde döndürme"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:17
 #, kde-format
 msgid "X axis rotation rate"
-msgstr ""
+msgstr "X ekseninde döndürme hızı"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:20
 #, kde-format
 msgid "Y axis rotation rate"
-msgstr ""
+msgstr "Y ekseninde döndürme hızı"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:23
 #, kde-format
 msgid "Z axis rotation rate"
-msgstr ""
+msgstr "Z ekseninde döndürme hızı"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:26
-#, fuzzy, kde-format
-#| msgid "Set Position X"
+#, kde-format
 msgid "Center position (X)"
-msgstr "X Konumunu Ayarla"
+msgstr "Konumu ortala (X)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:29
-#, fuzzy, kde-format
-#| msgid "Set Position Y"
+#, kde-format
 msgid "Center position (Y)"
-msgstr "Y Konumunu Ayarla"
+msgstr "Konumu ortala (Y)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:32
 #, kde-format
 msgid "Invert rotation assignment"
-msgstr ""
+msgstr "Döndürme atamasını ters çevir"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:35
-#, fuzzy, kde-format
-#| msgid "Don't ask again"
+#, kde-format
 msgid "Don't blank mask"
-msgstr "Bir daha sorma"
+msgstr "Maskeyi boşlama"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:38
 #, kde-format
 msgid "Fill with image or black"
-msgstr ""
+msgstr "Görselle veya siyahla doldur"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
@@ -14000,15 +13992,14 @@ msgid "Make padding transparent"
 msgstr "Doldurmayı saydam kıl"
 
 #: data/transitions/frei0r/frei0r_addition.xml:4
-#, fuzzy, kde-format
-#| msgid "Add Transition"
+#, kde-format
 msgid "Addition"
-msgstr "Geçiş Ekle"
+msgstr "Toplama"
 
 #: data/transitions/frei0r/frei0r_addition.xml:5
 #, kde-format
 msgid "Perform an RGB[A] addition operation of the pixel sources."
-msgstr ""
+msgstr "Piksel kaynaklarının bir RGB[A] toplaması işlemini gerçekleştirin."
 
 #: data/transitions/frei0r/frei0r_addition_alpha.xml:4
 #, kde-format
@@ -20583,12 +20574,12 @@ msgstr "Zaman yeniden eşlemleme anahtar karelerini düzenle"
 #, kde-format
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
-msgstr "Kdenlive’e Hoş Geldiniz"
+msgstr "Kdenlive’a Hoş Geldiniz"
 
 #: src/dialogs/wizard.cpp:71
 #, kde-format
 msgid "Welcome to Kdenlive %1"
-msgstr "Kdenlive %1 programına hoş geldiniz"
+msgstr "Kdenlive %1 uygulamasına hoş geldiniz"
 
 #: src/dialogs/wizard.cpp:72
 #, kde-format
@@ -21783,7 +21774,7 @@ msgstr "Arka Planı Kaldır"
 #: src/effects/effectstack/view/effectstackview.cpp:345
 #, kde-format
 msgid "Remove background using AI model"
-msgstr "AI modeli kullanarak arka planı kaldır"
+msgstr "Yapay zekâ modeli kullanarak arka planı kaldır"
 
 #: src/effects/effectstack/view/effectstackview.cpp:356
 #, kde-format
@@ -21860,7 +21851,7 @@ msgstr "Lütfen SAM2 eklentisini yapılandırın"
 #: src/effects/effectstack/view/maskmanager.cpp:148
 #, kde-format
 msgid "Job failed"
-msgstr "İşi başarısız oldu"
+msgstr "İş başarısız oldu"
 
 #: src/effects/effectstack/view/maskmanager.cpp:216
 #, kde-format
@@ -30418,17 +30409,17 @@ msgstr "Y eksenini tersle ve 0 noktasını değiştir"
 #: src/titler/titlewidget.cpp:362
 #, kde-format
 msgid "Select fill color"
-msgstr "Doldurma rengini seçin"
+msgstr "Doldurma rengi seç"
 
 #: src/titler/titlewidget.cpp:363
 #, kde-format
 msgid "Select border color"
-msgstr "Kenarlık rengi seçin"
+msgstr "Kenarlık rengi seç"
 
 #: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Original size (1:1)"
-msgstr "Asıl boyut (1:1)"
+msgstr "Özgün boyut (1:1)"
 
 #: src/titler/titlewidget.cpp:366
 #, kde-format
