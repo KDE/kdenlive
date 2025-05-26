@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -23047,7 +23047,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Cijeli projekt"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -23059,19 +23059,19 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Creating menu background"
 msgid "Continue rendering in the background"
 msgstr "Kreiraj pozadinu izbornika"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Rendering"
 msgid "Abort rendering"
 msgstr "Stvaranje"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23083,12 +23083,12 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, fuzzy, kde-format
 msgid "Start them now"
 msgstr "Početna snaga"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, fuzzy, kde-format
 msgid "Delete them"
 msgstr "Obriši %1"

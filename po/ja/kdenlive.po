@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -23441,7 +23441,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "プロジェクトを読み込んでいます"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, fuzzy, kde-format
 #| msgid ""
 #| "You have 1 rendering job waiting in the queue.\n"
@@ -23459,18 +23459,18 @@ msgstr[0] ""
 "キューには %1 個のジョブが待機状態で保持されています。\n"
 "対応方法を指定してください。"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr ""
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Abort processing"
 msgid "Abort rendering"
 msgstr "処理を中止"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23482,12 +23482,12 @@ msgstr[0] ""
 "キューには %1 個のジョブが待機状態で保持されています。\n"
 "対応方法を指定してください。"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Start them now"
 msgstr "これらを今すぐ開始する"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Delete them"
 msgstr "これらを削除する"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2025-05-24 11:31+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -23166,7 +23166,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Project wordt geladen"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -23181,17 +23181,17 @@ msgstr[1] ""
 "U hebt %1 rendertaken actief.\n"
 "Wat wilt u doen met deze taken?"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr "Doorgaan met renderen in de achtergrond"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Abort rendering"
 msgstr "Renderen afbreken"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23206,12 +23206,12 @@ msgstr[1] ""
 "Er zijn nog %1 rendering opdrachten in de wachtrij.\n"
 "Wat moet hiermee gedaan worden?"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Start them now"
 msgstr "Nu starten"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Delete them"
 msgstr "Deze verwijderen"

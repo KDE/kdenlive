@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -23411,7 +23411,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Projekt warrt laadt"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -23422,19 +23422,19 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Transparent Background"
 msgid "Continue rendering in the background"
 msgstr "Dörsichtig Achtergrund"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Source Color"
 msgid "Abort rendering"
 msgstr "Bornklöör"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23445,13 +23445,13 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, fuzzy, kde-format
 #| msgid "Start at"
 msgid "Start them now"
 msgstr "Start bi"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Delete them"

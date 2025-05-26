@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2025-05-10 16:11+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -23360,7 +23360,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Cargando proyecto"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -23375,17 +23375,17 @@ msgstr[1] ""
 "Hay %1 tareas de procesamiento ejecutándose.\n"
 "¿Qué hacer con ellas?"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr "Continuar procesando en segundo plano"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Abort rendering"
 msgstr "Cancelar procesamiento"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23400,12 +23400,12 @@ msgstr[1] ""
 "Hay %1 tareas de procesamiento esperando en la cola.\n"
 "¿Qué hacer con ellas?"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Start them now"
 msgstr "Iniciarlos ahora"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Delete them"
 msgstr "Eliminarlas"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -23494,7 +23494,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Įkeliamas projektas"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -23507,18 +23507,18 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr ""
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Rendering"
 msgid "Abort rendering"
 msgstr "Vertimas"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23531,13 +23531,13 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, fuzzy, kde-format
 #| msgid "Start at"
 msgid "Start them now"
 msgstr "Pradėti nuo"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete them"

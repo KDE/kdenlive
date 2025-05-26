@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -23220,7 +23220,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "प्रोजेक्ट लोड हो रहा है"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, fuzzy, kde-format
 #| msgid ""
 #| "You have 1 rendering job waiting in the queue.\n"
@@ -23241,18 +23241,18 @@ msgstr[1] ""
 "आपके पास कतार में %1 रेंडरिंग जॉब्स प्रतीक्षा कर रहे हैं। आप इन जॉब्स के साथ क्या करना चाहते "
 "हैं?"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr ""
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Abort processing"
 msgid "Abort rendering"
 msgstr "प्रसंस्करण निरस्त करें"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23267,12 +23267,12 @@ msgstr[1] ""
 "आपके पास कतार में %1 रेंडरिंग जॉब्स प्रतीक्षा कर रहे हैं। आप इन जॉब्स के साथ क्या करना चाहते "
 "हैं?"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Start them now"
 msgstr "इन्हें अभी शुरू करें"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Delete them"
 msgstr "इन्हें हटाएँ"

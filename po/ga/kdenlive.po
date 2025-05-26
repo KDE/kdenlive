@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -23602,7 +23602,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Cuir an Tionscadal i gCartlann"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -23616,19 +23616,19 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Transparent background"
 msgid "Continue rendering in the background"
 msgstr "Cúlra trédhearcach"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 #| msgid "Render"
 msgid "Abort rendering"
 msgstr "Rindreáil"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23642,13 +23642,13 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, fuzzy, kde-format
 #| msgid "Start at"
 msgid "Start them now"
 msgstr "Tosaigh ag"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete them"

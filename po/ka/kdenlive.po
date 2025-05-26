@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
-"PO-Revision-Date: 2025-05-24 04:45+0200\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
+"PO-Revision-Date: 2025-05-25 04:10+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1410,6 +1410,9 @@ msgid ""
 "        0.01 matches only the exact key color, while 1.0 matches "
 "everything.]]>"
 msgstr ""
+"<![CDATA[არჩეულ ფერთან მსგავსების პროცენტულობა<br>\n"
+"        0.01 ემთხვევა, მხოლოდ ზუსტად ძირითად ფერს, როცა 1.0 ყველაფერს "
+"ემთხვევა.]]>"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
@@ -22529,7 +22532,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "პროექტის ჩატვირთვა"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -22544,17 +22547,17 @@ msgstr[1] ""
 "რიგში რენდერის %1 დავალებაა.\n"
 "რა გნებავთ, მათ უქნათ?"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr "რენდერის გაგრძელება ფონურ რეჟიმში"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, kde-format
 msgid "Abort rendering"
 msgstr "რენდერის შეწყვეტა"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -22569,12 +22572,12 @@ msgstr[1] ""
 "რიგში რენდერის %1 დავალებაა.\n"
 "რა გნებავთ, მათ უქნათ?"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Start them now"
 msgstr "ახლა გაშვება"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Delete them"
 msgstr "მათი წაშლა"

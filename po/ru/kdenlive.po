@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-24 00:41+0000\n"
+"POT-Creation-Date: 2025-05-26 00:41+0000\n"
 "PO-Revision-Date: 2025-04-25 17:22+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -22840,7 +22840,7 @@ msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Загрузка проекта"
 
-#: src/mainwindow.cpp:962
+#: src/mainwindow.cpp:958
 #, fuzzy, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -22861,17 +22861,17 @@ msgstr[3] ""
 "%1 задание сборки поставлено в очередь.\n"
 "Что сделать с этим заданием?"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 msgid "Continue rendering in the background"
 msgstr "Создание фона меню"
 
-#: src/mainwindow.cpp:964
+#: src/mainwindow.cpp:960
 #, fuzzy, kde-format
 msgid "Abort rendering"
 msgstr "Прервать обработку"
 
-#: src/mainwindow.cpp:981
+#: src/mainwindow.cpp:977
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -22892,12 +22892,12 @@ msgstr[3] ""
 "%1 задание сборки поставлено в очередь.\n"
 "Что сделать с этим заданием?"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Start them now"
 msgstr "Запустить сейчас"
 
-#: src/mainwindow.cpp:984
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid "Delete them"
 msgstr "Удалить"
