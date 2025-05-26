@@ -45,7 +45,6 @@ class MonitorProxy : public QObject
     Q_PROPERTY(bool maskInverted READ maskInverted WRITE setMaskInverted)
     Q_PROPERTY(MaskModeType::MaskCreationMode maskMode MEMBER m_maskMode NOTIFY maskModeChanged)
     Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
-    Q_PROPERTY(bool builtinEffectsEnabled MEMBER m_builtinEffectsEnabled NOTIFY builtinEffectsEnabledChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QStringList lastClips MEMBER m_lastClips NOTIFY lastClipsChanged)
     /** @brief Returns true if current clip in monitor has Audio and Video
@@ -137,7 +136,6 @@ public:
     void setCursorPosition(int pos);
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
     void clearJobsProgress();
-    void buildInEffectsChanged();
     bool monitorIsActive() const;
 
 Q_SIGNALS:
@@ -201,7 +199,6 @@ private:
     QList <int> m_audioChannels;
     QString m_markerComment;
     QColor m_markerColor;
-    bool m_builtinEffectsEnabled{false};
     QString m_clipName;
     QString m_clipStream;
     int m_clipType;

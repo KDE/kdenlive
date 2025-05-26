@@ -282,7 +282,7 @@ Item {
             anchors.topMargin: 10
             anchors.leftMargin: 10
             color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.5)
-            visible: controller.builtinEffectsEnabled && controller.speed == 0 && (barOverArea.containsMouse || transformbutton.hovered)
+            visible: K.KdenliveSettings.enableBuiltInEffects && controller.speed == 0 && (barOverArea.containsMouse || transformbutton.hovered)
             radius: 4
             border.color : Qt.rgba(0, 0, 0, 0.3)
             border.width: 1
