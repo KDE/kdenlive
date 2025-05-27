@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-26 00:41+0000\n"
+"POT-Creation-Date: 2025-05-27 00:41+0000\n"
 "PO-Revision-Date: 2025-05-24 11:31+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -16085,7 +16085,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "In tijdlijn vervangen"
 
-#: src/bin/bin.cpp:2152 src/bin/bin.cpp:5780 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2152 src/bin/bin.cpp:5780 src/bin/clipcreator.cpp:330
 #: src/effects/effectstack/view/maskmanager.cpp:642
 #, kde-format
 msgctxt "@action"
@@ -16728,17 +16728,17 @@ msgstr "U kunt geen project in zichzelf toevoegen."
 msgid "Cannot create clip"
 msgstr "Kan clip niet aanmaken"
 
-#: src/bin/clipcreator.cpp:339
+#: src/bin/clipcreator.cpp:345
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Diashowclip aanmaken"
 
-#: src/bin/clipcreator.cpp:371
+#: src/bin/clipcreator.cpp:377
 #, kde-format
 msgid "Create title template"
 msgstr "Titelsjabloon aanmaken"
 
-#: src/bin/clipcreator.cpp:395
+#: src/bin/clipcreator.cpp:401
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
@@ -16749,13 +16749,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:396 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:402 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "Duplicaat"
 
-#: src/bin/clipcreator.cpp:540
+#: src/bin/clipcreator.cpp:546
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -16769,17 +16769,17 @@ msgstr ""
 "U zou het eerst kunnen kopiëren naar uw vaste schijf. Wilt u het toch "
 "toevoegen?"
 
-#: src/bin/clipcreator.cpp:544
+#: src/bin/clipcreator.cpp:550
 #, kde-format
 msgid "Removable device"
 msgstr "Verwijderbaar apparaat"
 
-#: src/bin/clipcreator.cpp:573
+#: src/bin/clipcreator.cpp:579
 #, kde-format
 msgid "Loading done"
 msgstr "Laden is gereed"
 
-#: src/bin/clipcreator.cpp:584 src/dialogs/clipcreationdialog.cpp:519
+#: src/bin/clipcreator.cpp:590 src/dialogs/clipcreationdialog.cpp:519
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -19062,7 +19062,7 @@ msgid "Downloading multilingual model…"
 msgstr "Model voor meerdere talen wordt gedownload…"
 
 #: src/dialogs/settings/pluginssettings.cpp:231
-#: src/dialogs/settings/pluginssettings.cpp:888
+#: src/dialogs/settings/pluginssettings.cpp:900
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Een spraakmodel toevoegen."
@@ -19077,7 +19077,7 @@ msgstr ""
 "\">https://alphacephei.com/vosk/models</a>"
 
 #: src/dialogs/settings/pluginssettings.cpp:272
-#: src/dialogs/settings/pluginssettings.cpp:372
+#: src/dialogs/settings/pluginssettings.cpp:384
 #, kde-format
 msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
@@ -19087,7 +19087,15 @@ msgstr ""
 "betekent</b>. U moet alle vereiste pakketten zelf op uw systeem installeren:"
 "<br>%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:446
+#: src/dialogs/settings/pluginssettings.cpp:342
+#, kde-format
+msgid ""
+"This will attempt to rebuild the plugin's virtual environment. Only use if "
+"the plugin fails. If this does not work, try deleting and reinstalling the "
+"plugin."
+msgstr ""
+
+#: src/dialogs/settings/pluginssettings.cpp:458
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
@@ -19096,8 +19104,8 @@ msgstr ""
 "Dit zal de geïnstalleerde modellen verwijderen.\n"
 "U kunt ze later opnieuw installeren."
 
-#: src/dialogs/settings/pluginssettings.cpp:463
-#: src/dialogs/settings/pluginssettings.cpp:477
+#: src/dialogs/settings/pluginssettings.cpp:475
+#: src/dialogs/settings/pluginssettings.cpp:489
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -19109,80 +19117,80 @@ msgstr ""
 "in weer inschakelt."
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:492 src/ui/configspeech_ui.ui:369
+#: src/dialogs/settings/pluginssettings.cpp:504 src/ui/configspeech_ui.ui:369
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Vertaling van meerdere talen installeren"
 
-#: src/dialogs/settings/pluginssettings.cpp:501
+#: src/dialogs/settings/pluginssettings.cpp:513
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr "Installeer een spraakmodel - we bevelen <b>turbo</b> aan"
 
-#: src/dialogs/settings/pluginssettings.cpp:556
+#: src/dialogs/settings/pluginssettings.cpp:568
 #, kde-format
 msgid "Select model to download"
 msgstr "Selecteer te downloaden model"
 
-#: src/dialogs/settings/pluginssettings.cpp:572
+#: src/dialogs/settings/pluginssettings.cpp:584
 #, kde-format
 msgid "All models are already installed"
 msgstr "Alle modellen zijn al geïnstalleerd"
 
-#: src/dialogs/settings/pluginssettings.cpp:592
+#: src/dialogs/settings/pluginssettings.cpp:604
 #, kde-format
 msgid "Downloading…"
 msgstr "Downloaden…"
 
-#: src/dialogs/settings/pluginssettings.cpp:602
+#: src/dialogs/settings/pluginssettings.cpp:614
 #, kde-format
 msgid "Downloading smallest model…"
 msgstr "Het kleinste model wordt gedownload…"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:621 src/ui/configspeech_ui.ui:832
+#: src/dialogs/settings/pluginssettings.cpp:633 src/ui/configspeech_ui.ui:832
 #, kde-format
 msgid "Download models"
 msgstr "Modellen downloaden"
 
-#: src/dialogs/settings/pluginssettings.cpp:679
-#: src/dialogs/settings/pluginssettings.cpp:693
-#: src/dialogs/settings/pluginssettings.cpp:702
+#: src/dialogs/settings/pluginssettings.cpp:691
+#: src/dialogs/settings/pluginssettings.cpp:705
+#: src/dialogs/settings/pluginssettings.cpp:714
 #, kde-format
 msgid "Install a model"
 msgstr "Een model installeren"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:695
-#: src/dialogs/settings/pluginssettings.cpp:704 src/ui/configspeech_ui.ui:463
+#: src/dialogs/settings/pluginssettings.cpp:707
+#: src/dialogs/settings/pluginssettings.cpp:716 src/ui/configspeech_ui.ui:463
 #, kde-format
 msgid "Manage models"
 msgstr "Modellen beheren"
 
-#: src/dialogs/settings/pluginssettings.cpp:771
+#: src/dialogs/settings/pluginssettings.cpp:783
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Url voor het nieuwe woordenboek invoeren"
 
-#: src/dialogs/settings/pluginssettings.cpp:777
+#: src/dialogs/settings/pluginssettings.cpp:789
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model wordt gedownload…"
 
-#: src/dialogs/settings/pluginssettings.cpp:787
+#: src/dialogs/settings/pluginssettings.cpp:799
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Verwijderen van aangepaste mapmodellen zijn niet toegestaan, doe dat "
 "handmatig."
 
-#: src/dialogs/settings/pluginssettings.cpp:793
-#: src/dialogs/settings/pluginssettings.cpp:847
+#: src/dialogs/settings/pluginssettings.cpp:805
+#: src/dialogs/settings/pluginssettings.cpp:859
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Geen toegang tot woordenboekmap."
 
-#: src/dialogs/settings/pluginssettings.cpp:802
+#: src/dialogs/settings/pluginssettings.cpp:814
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -19191,27 +19199,27 @@ msgstr ""
 "Map verwijderen:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:822
+#: src/dialogs/settings/pluginssettings.cpp:834
 #, kde-format
 msgid "Download error"
 msgstr "Fout bij downloaden"
 
-#: src/dialogs/settings/pluginssettings.cpp:826
+#: src/dialogs/settings/pluginssettings.cpp:838
 #, kde-format
 msgid "Download error %1"
 msgstr "Fout bij downloaden %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:854
+#: src/dialogs/settings/pluginssettings.cpp:866
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Archief wordt uitgepakt…"
 
-#: src/dialogs/settings/pluginssettings.cpp:861
+#: src/dialogs/settings/pluginssettings.cpp:873
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nieuw woordenboek geïnstalleerd."
 
-#: src/dialogs/settings/pluginssettings.cpp:996
+#: src/dialogs/settings/pluginssettings.cpp:1008
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
@@ -19220,17 +19228,17 @@ msgstr ""
 "Nvidia GPU ondersteuning voor %1\n"
 "Selecteer de CUDA versie om te installeren."
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1012
 #, kde-format
 msgid "CUDA %1"
 msgstr "CUDA %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1013
+#: src/dialogs/settings/pluginssettings.cpp:1025
 #, kde-format
 msgid "Detected version: %1"
 msgstr "Gedetailleerde versie: %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:1016
+#: src/dialogs/settings/pluginssettings.cpp:1028
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
@@ -19239,7 +19247,7 @@ msgstr ""
 "Kan CUDA versie niet bepalen,\n"
 "selecteer de versie beschikbaar op uw systeem."
 
-#: src/dialogs/settings/pluginssettings.cpp:1030
+#: src/dialogs/settings/pluginssettings.cpp:1042
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -27758,12 +27766,17 @@ msgstr "Op bijwerken controleren"
 msgid "Checking configuration…"
 msgstr "Configuratie wordt gecontroleerd…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:231
+#: src/pythoninterfaces/abstractpythoninterface.cpp:208
+#, kde-format
+msgid "Successfully rebuilt environment"
+msgstr ""
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:261
 #, kde-format
 msgid "Corrupted plugin, trying to reinstall…"
 msgstr "Verstoorde plug-in, proberen om opnieuw te installeren…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:275
+#: src/pythoninterfaces/abstractpythoninterface.cpp:305
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -27774,7 +27787,7 @@ msgstr ""
 "%1\n"
 "Installeer het op uw systeem.\n"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:287
+#: src/pythoninterfaces/abstractpythoninterface.cpp:317
 #, kde-format
 msgid ""
 "Cannot find %1, please install it on your system.\n"
@@ -27785,7 +27798,7 @@ msgstr ""
 "Als het al is geïnstalleerd, controleer of het is geïnstalleerd in een map "
 "in de lijst in de omgevingsvariabele PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:321
+#: src/pythoninterfaces/abstractpythoninterface.cpp:351
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
@@ -27795,7 +27808,7 @@ msgstr ""
 "Probeer de installatie van de plug-in ongedaan te maken en daarna deze "
 "opnieuw te installeren."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:329
+#: src/pythoninterfaces/abstractpythoninterface.cpp:359
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
@@ -27805,12 +27818,12 @@ msgstr ""
 "Probeer de installatie van de plug-in ongedaan te maken en daarna deze "
 "opnieuw te installeren."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
+#: src/pythoninterfaces/abstractpythoninterface.cpp:454
 #, kde-format
 msgid "Cannot find system python"
 msgstr "Kan systeem-python niet vinden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:454
+#: src/pythoninterfaces/abstractpythoninterface.cpp:484
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -27819,22 +27832,22 @@ msgstr ""
 "Kan de virtuele omgeving van python niet aanmaken:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:472
+#: src/pythoninterfaces/abstractpythoninterface.cpp:502
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Het %1-script is niet gevonden, controleer uw installatie."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:547
+#: src/pythoninterfaces/abstractpythoninterface.cpp:577
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "De python-module <application>%1</application> is vereist."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:560
+#: src/pythoninterfaces/abstractpythoninterface.cpp:590
 #, kde-format
 msgid "Using python from %1"
 msgstr "Python uit %1 wordt gebruikt"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:583
+#: src/pythoninterfaces/abstractpythoninterface.cpp:613
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -27845,58 +27858,58 @@ msgstr ""
 "om alle noodzakelijke afhankelijkheden te downloaden. Daarna zal alle "
 "verwerking offline gedaan worden."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:602
-#: src/pythoninterfaces/abstractpythoninterface.cpp:711
+#: src/pythoninterfaces/abstractpythoninterface.cpp:632
+#: src/pythoninterfaces/abstractpythoninterface.cpp:741
 #, kde-format
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr ""
 "Installatieprobleem: kan lijst met afhankelijkheden voor %1 niet vinden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:617
+#: src/pythoninterfaces/abstractpythoninterface.cpp:647
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Fout bij controle op versie van module %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:621
+#: src/pythoninterfaces/abstractpythoninterface.cpp:651
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Minstens versie %1 van module %2 is vereist, maar uw huidige versie is %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:625
+#: src/pythoninterfaces/abstractpythoninterface.cpp:655
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Overweeg uw opzet bij te werken."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:647
+#: src/pythoninterfaces/abstractpythoninterface.cpp:677
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "ontbrekend (optioneel)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:655
+#: src/pythoninterfaces/abstractpythoninterface.cpp:685
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Geen versie-informatie beschikbaar."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:735
+#: src/pythoninterfaces/abstractpythoninterface.cpp:765
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr "Installatieprobleem: kan %1 voor %2 niet vinden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:770
+#: src/pythoninterfaces/abstractpythoninterface.cpp:800
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python uitvoerbaar programma niet gevonden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:774
+#: src/pythoninterfaces/abstractpythoninterface.cpp:804
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Vinden van scriptbestand %1 is mislukt"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:813
+#: src/pythoninterfaces/abstractpythoninterface.cpp:843
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -27907,7 +27920,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:848
+#: src/pythoninterfaces/abstractpythoninterface.cpp:878
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Ontbrekende afhankelijkheden installeren"
@@ -31136,6 +31149,7 @@ msgstr "Huidige punt verwijderen."
 #. i18n: ectx: property (text), widget (QToolButton, arrowUp)
 #. i18n: ectx: property (text), widget (QToolButton, arrowDown)
 #. i18n: ectx: property (text), widget (QToolButton, toolBtnReload)
+#. i18n: ectx: property (text), widget (QToolButton, sam_rebuild)
 #. i18n: ectx: property (text), widget (QToolButton, hide_log)
 #. i18n: ectx: property (text), widget (QToolButton, button_external)
 #. i18n: ectx: property (text), widget (QToolButton, reload_blackmagic)
@@ -31243,15 +31257,16 @@ msgstr "Huidige punt verwijderen."
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:207
-#: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
-#: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
-#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:106 src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:142
-#: src/ui/editsub_ui.ui:165 src/ui/editsub_ui.ui:193 src/ui/editsub_ui.ui:203
-#: src/ui/editsub_ui.ui:213 src/ui/editsub_ui.ui:223 src/ui/editsub_ui.ui:233
-#: src/ui/editsub_ui.ui:243 src/ui/editsub_ui.ui:321 src/ui/editsub_ui.ui:604
-#: src/ui/editsub_ui.ui:614 src/ui/editsub_ui.ui:624 src/ui/editsub_ui.ui:634
-#: src/ui/editsub_ui.ui:644 src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
+#: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
+#: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
+#: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
+#: src/ui/editrenderpreset_ui.ui:470 src/ui/editsub_ui.ui:106
+#: src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:142 src/ui/editsub_ui.ui:165
+#: src/ui/editsub_ui.ui:193 src/ui/editsub_ui.ui:203 src/ui/editsub_ui.ui:213
+#: src/ui/editsub_ui.ui:223 src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:243
+#: src/ui/editsub_ui.ui:321 src/ui/editsub_ui.ui:604 src/ui/editsub_ui.ui:614
+#: src/ui/editsub_ui.ui:624 src/ui/editsub_ui.ui:634 src/ui/editsub_ui.ui:644
+#: src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:127 src/ui/gradientedit_ui.ui:147
 #: src/ui/guideslist_ui.ui:21 src/ui/guideslist_ui.ui:50
@@ -32566,7 +32581,7 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, sam_folder_label)
-#: src/ui/configspeech_ui.ui:138 src/ui/configspeech_ui.ui:904
+#: src/ui/configspeech_ui.ui:138 src/ui/configspeech_ui.ui:901
 #, kde-format
 msgid "Models folder"
 msgstr "Modellenmap"
@@ -32597,14 +32612,14 @@ msgstr "Naadloos"
 
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, wr_venv_label)
 #. i18n: ectx: property (text), widget (ElidedFileLinkLabel, sam_venv_label)
-#: src/ui/configspeech_ui.ui:328 src/ui/configspeech_ui.ui:963
+#: src/ui/configspeech_ui.ui:328 src/ui/configspeech_ui.ui:947
 #, kde-format
 msgid "Plugin size"
 msgstr "Plug-in-grootte"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteWrVenv)
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamVenv)
-#: src/ui/configspeech_ui.ui:342 src/ui/configspeech_ui.ui:921
+#: src/ui/configspeech_ui.ui:342 src/ui/configspeech_ui.ui:918
 #, kde-format
 msgid "Uninstall plugin"
 msgstr "Installatie van plug-in ongedaan maken"
@@ -32659,7 +32674,7 @@ msgstr "Tekst vertalen naar Engels"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_speech_system_python)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_sam_system_python)
-#: src/ui/configspeech_ui.ui:652 src/ui/configspeech_ui.ui:1054
+#: src/ui/configspeech_ui.ui:652 src/ui/configspeech_ui.ui:1067
 #, kde-format
 msgid "Use system packages only"
 msgstr "Alleen systeempakketten gebruiken"
@@ -32715,13 +32730,20 @@ msgstr ""
 "facebookresearch/sam2\">https://github.com/facebookresearch/sam2</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteSamModels)
-#: src/ui/configspeech_ui.ui:980
+#: src/ui/configspeech_ui.ui:908
 #, kde-format
 msgid "Delete all models"
 msgstr "Alle modellen verwijderen"
 
+#. i18n: ectx: property (toolTip), widget (QToolButton, sam_rebuild)
+#: src/ui/configspeech_ui.ui:977
+#, fuzzy, kde-format
+#| msgid "Disabling virtual environment"
+msgid "Rebuild Virtual Environment"
+msgstr "Virtuele omgeving uitschakelen"
+
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
-#: src/ui/configspeech_ui.ui:1061
+#: src/ui/configspeech_ui.ui:1074
 #, kde-format
 msgid ""
 "When enabled, Kdenlive will use the SAM2 version installed on your system. "
@@ -35773,9 +35795,6 @@ msgstr "%1u"
 
 #~ msgid "Setting up virtual environment…"
 #~ msgstr "Virtuele omgeving opzetten…"
-
-#~ msgid "Disabling virtual environment"
-#~ msgstr "Virtuele omgeving uitschakelen"
 
 #~ msgctxt "@label:textbox"
 #~ msgid "Removing the virtual environment folder."
