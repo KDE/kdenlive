@@ -116,6 +116,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStyleFactory>
 #include <QUndoGroup>
 #include <QVBoxLayout>
+#include <QtConcurrent/QtConcurrentRun>
 
 static const char version[] = KDENLIVE_VERSION;
 namespace Mlt {
@@ -124,6 +125,8 @@ class Producer;
 
 QMap<QString, QImage> MainWindow::m_lumacache;
 QMap<QString, QStringList> MainWindow::m_lumaFiles;
+KIO::filesize_t m_totalCacheSize = 0;
+int m_totalCacheJobs = 0;
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
@@ -4997,7 +5000,7 @@ void MainWindow::processRestoreState(const QByteArray &state)
 
 void MainWindow::checkMaxCacheSize()
 {
-    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 14) {
+    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 12) {
         return;
     }
     if (KdenliveSettings::checkForUpdate()) {
@@ -5046,7 +5049,6 @@ void MainWindow::checkMaxCacheSize()
         return;
     }
     bool ok;
-    KIO::filesize_t total = 0;
     QDir cacheDir = pCore->currentDoc()->getCacheDir(SystemCacheRoot, &ok);
     if (!ok) {
         return;
@@ -5075,18 +5077,35 @@ void MainWindow::checkMaxCacheSize()
     pCore->displayMessage(i18n("Checking cached data size"), InformationMessage);
     while (!toAdd.isEmpty()) {
         QDir dir = toAdd.takeFirst();
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(dir.absolutePath()));
-        job->exec();
-        total += job->totalSize();
+        m_totalCacheJobs++;
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            m_totalCacheSize += size;
+            m_totalCacheJobs--;
+            watcher->deleteLater();
+            if (m_totalCacheJobs == 0 && m_totalCacheSize > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
+                slotManageCache();
+            }
+        });
     }
     while (!toRemove.isEmpty()) {
         QDir dir = toRemove.takeFirst();
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(dir.absolutePath()));
-        job->exec();
-        total -= job->totalSize();
-    }
-    if (total > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
-        slotManageCache();
+        m_totalCacheJobs++;
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, this, dir.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            m_totalCacheSize -= size;
+            m_totalCacheJobs--;
+            watcher->deleteLater();
+            if (m_totalCacheJobs == 0 && m_totalCacheSize > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
+                slotManageCache();
+            }
+        });
     }
 }
 
@@ -5330,6 +5349,17 @@ void MainWindow::reloadAssetPanel()
 bool MainWindow::hasRunningTask() const
 {
     return m_assetPanel->hasRunningTask();
+}
+
+KIO::filesize_t MainWindow::fetchFolderSize(const QString path)
+{
+    // KIO::DirectorySizeJob doesn't work on Windows, so use Qt only
+    KIO::filesize_t totalSize = 0;
+    const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
+    for (const auto &dirEntry : QDirListing(path, flags)) {
+        totalSize += dirEntry.size();
+    }
+    return totalSize;
 }
 
 #ifdef DEBUG_MAINW

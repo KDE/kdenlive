@@ -8,7 +8,6 @@
 #include "core.h"
 #include "mainwindow.h"
 
-#include <KIO/DirectorySizeJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QAction>
@@ -399,21 +398,17 @@ void AbstractPythonInterface::calculateVenvSize()
 {
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     if (pluginDir.cd(getVenvPath())) {
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(pluginDir.absolutePath()));
-        connect(job, &KIO::DirectorySizeJob::result, this, &AbstractPythonInterface::gotFolderSize);
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), pluginDir.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            Q_EMIT gotPythonSize(KIO::convertSize(size));
+            watcher->deleteLater();
+        });
     } else {
         Q_EMIT gotPythonSize(QString());
     }
-}
-
-void AbstractPythonInterface::gotFolderSize(KJob *job)
-{
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
-    }
-    Q_EMIT gotPythonSize(KIO::convertSize(total));
 }
 
 bool AbstractPythonInterface::checkSetup(bool requestInstall, bool *newInstall)

@@ -8,13 +8,12 @@
 #include "kdenlivesettings.h"
 
 #include <KMessageWidget>
+
 #include <QMap>
 #include <QMutex>
 #include <QObject>
 #include <QPair>
 #include <QString>
-
-class KJob;
 
 class AbstractPythonInterface : public QObject
 {
@@ -110,7 +109,6 @@ private:
     int versionToInt(const QString &version);
     /** @brief Create a python virtualenv */
     bool setupVenv();
-    void gotFolderSize(KJob *job);
     QString installPackage(const QStringList packageNames);
     QStringList parseDependencies(QStringList deps, bool split);
 

@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtConcurrent/QtConcurrentRun>
 
 #include "klocalizedstring.h"
-#include <kio/directorysizejob.h>
+#include <KIO/Global>
 
 ProxyTest::ProxyTest(QWidget *parent)
     : QDialog(parent)

@@ -54,7 +54,6 @@ private Q_SLOTS:
     void doExtracting();
     void slotExtractingFinished();
     void slotExtractProgress();
-    void slotGotProgress(KJob *);
     void openArchiveForExtraction();
     void slotDisplayMessage(const QString &icon, const QString &text);
     void slotJobResult(bool success, const QString &text);

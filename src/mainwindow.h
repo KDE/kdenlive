@@ -24,6 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KActionCategory>
 #include <KAutoSaveFile>
 #include <KColorSchemeManager>
+#include <KIO/Global>
 #include <KSelectAction>
 #include <KXmlGuiWindow>
 #include <kconfigwidgets_version.h>
@@ -418,6 +419,8 @@ public Q_SLOTS:
     void slotClipInProjectTree(ObjectId ownerId = ObjectId(), bool seekToStart = false);
     /** @brief Normalize audio channels before displaying them */
     void slotNormalizeAudioChannel(bool normalize);
+    /** @brief Recursively calculate folder size */
+    KIO::filesize_t fetchFolderSize(const QString path);
 
 private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */

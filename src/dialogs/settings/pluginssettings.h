@@ -13,6 +13,7 @@
 #include <QWidget>
 
 class SamInterface;
+class KJob;
 
 class SpeechList : public QListWidget
 {

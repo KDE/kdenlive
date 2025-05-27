@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -28,6 +29,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QToolTip>
 #include <QTreeWidget>
 #include <QVBoxLayout>
+#include <QtConcurrent/QtConcurrentRun>
 
 ChartWidget::ChartWidget(QWidget *parent)
     : QWidget(parent)
@@ -216,8 +218,18 @@ void TemporaryData::updateDataInfo()
     }
     preview = m_doc->getCacheDir(CachePreview, &ok);
     if (ok) {
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
-        connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotPreviewSize);
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), preview.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t total = watcher->result();
+            delPreview->setEnabled(total > 0);
+            m_totalCurrent += total;
+            m_currentSizes[0] = total;
+            previewSize->setText(KIO::convertSize(total));
+            updateTotal();
+            watcher->deleteLater();
+        });
     }
 
     preview = m_doc->getCacheDir(CacheProxy, &ok);
@@ -238,41 +250,65 @@ void TemporaryData::updateDataInfo()
 
     preview = m_doc->getCacheDir(CacheAudio, &ok);
     if (ok) {
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
-        connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotAudioSize);
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), preview.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t total = watcher->result();
+            delAudio->setEnabled(total > 0);
+            m_totalCurrent += total;
+            m_currentSizes[2] = total;
+            audioSize->setText(KIO::convertSize(total));
+            updateTotal();
+            watcher->deleteLater();
+        });
     }
     preview = m_doc->getCacheDir(CacheSequence, &ok);
     if (ok) {
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
-        connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotSequenceSize);
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), preview.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t total = watcher->result();
+            m_totalCurrent += total;
+            m_currentSizes[4] += total;
+            sequenceSize->setText(KIO::convertSize(m_currentSizes.at(4)));
+            updateTotal();
+            watcher->deleteLater();
+        });
     }
     preview = m_doc->getCacheDir(CacheTmpWorkFiles, &ok);
     if (ok) {
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
-        connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotSequenceSize);
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), preview.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t total = watcher->result();
+            m_totalCurrent += total;
+            m_currentSizes[4] += total;
+            sequenceSize->setText(KIO::convertSize(m_currentSizes.at(4)));
+            updateTotal();
+            watcher->deleteLater();
+        });
     }
     preview = m_doc->getCacheDir(CacheThumbs, &ok);
     if (ok) {
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(preview.absolutePath()));
-        connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotThumbSize);
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), preview.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t total = watcher->result();
+            delThumb->setEnabled(total > 0);
+            m_totalCurrent += total;
+            m_currentSizes[3] = total;
+            thumbSize->setText(KIO::convertSize(total));
+            updateTotal();
+            watcher->deleteLater();
+        });
     }
     if (!m_currentProjectOnly) {
         updateGlobalInfo();
     }
-}
-
-void TemporaryData::gotPreviewSize(KJob *job)
-{
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
-    }
-    delPreview->setEnabled(total > 0);
-    m_totalCurrent += total;
-    m_currentSizes[0] = total;
-    previewSize->setText(KIO::convertSize(total));
-    updateTotal();
 }
 
 void TemporaryData::gotProxySize(KIO::filesize_t total)
@@ -281,47 +317,6 @@ void TemporaryData::gotProxySize(KIO::filesize_t total)
     m_totalCurrent += total;
     m_currentSizes[1] = total;
     proxySize->setText(KIO::convertSize(total));
-    updateTotal();
-}
-
-void TemporaryData::gotAudioSize(KJob *job)
-{
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
-    }
-    delAudio->setEnabled(total > 0);
-    m_totalCurrent += total;
-    m_currentSizes[2] = total;
-    audioSize->setText(KIO::convertSize(total));
-    updateTotal();
-}
-
-void TemporaryData::gotThumbSize(KJob *job)
-{
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
-    }
-    delThumb->setEnabled(total > 0);
-    m_totalCurrent += total;
-    m_currentSizes[3] = total;
-    thumbSize->setText(KIO::convertSize(total));
-    updateTotal();
-}
-
-void TemporaryData::gotSequenceSize(KJob *job)
-{
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
-    }
-    m_totalCurrent += total;
-    m_currentSizes[4] += total;
-    sequenceSize->setText(KIO::convertSize(m_currentSizes.at(4)));
     updateTotal();
 }
 
@@ -552,35 +547,30 @@ void TemporaryData::openCacheFolder()
 void TemporaryData::processBackupDirectories()
 {
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
-    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(backupFolder.absolutePath()));
-    connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotBackupSize);
+    QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), backupFolder.absolutePath());
+    QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+    watcher->setFuture(future);
+    connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+        KIO::filesize_t total = watcher->result();
+        m_totalBackup = total;
+        refreshWarningMessage();
+        gBackupSize->setText(KIO::convertSize(total));
+        watcher->deleteLater();
+    });
 }
 
 void TemporaryData::processProxyDirectory()
 {
-    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(m_globalDir.absoluteFilePath(QStringLiteral("proxy"))));
-    connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotProjectProxySize);
-}
-
-void TemporaryData::gotProjectProxySize(KJob *job)
-{
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    m_totalProxy = total;
-    refreshWarningMessage();
-    gProxySize->setText(KIO::convertSize(total));
-}
-
-void TemporaryData::gotBackupSize(KJob *job)
-{
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
-    }
-    m_totalBackup = total;
-    refreshWarningMessage();
-    gBackupSize->setText(KIO::convertSize(total));
+    QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), m_globalDir.absoluteFilePath(QStringLiteral("proxy")));
+    QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+    watcher->setFuture(future);
+    connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+        KIO::filesize_t total = watcher->result();
+        m_totalProxy = total;
+        refreshWarningMessage();
+        gProxySize->setText(KIO::convertSize(total));
+        watcher->deleteLater();
+    });
 }
 
 void TemporaryData::updateGlobalInfo()
@@ -616,19 +606,20 @@ void TemporaryData::processglobalDirectories()
         return;
     }
     m_processingDirectory = m_globalDirectories.takeFirst();
-    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(m_globalDir.absoluteFilePath(m_processingDirectory)));
-    connect(job, &KIO::DirectorySizeJob::result, this, &TemporaryData::gotFolderSize);
+    QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), m_globalDir.absoluteFilePath(m_processingDirectory));
+    QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+    watcher->setFuture(future);
+    connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+        KIO::filesize_t total = watcher->result();
+        gotFolderSize(total);
+        watcher->deleteLater();
+    });
 }
 
-void TemporaryData::gotFolderSize(KJob *job)
+void TemporaryData::gotFolderSize(KIO::filesize_t total)
 {
     if (m_processingDirectory.isEmpty()) {
         return;
-    }
-    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
-    KIO::filesize_t total = sourceJob->totalSize();
-    if (sourceJob->totalFiles() == 0) {
-        total = 0;
     }
     m_totalGlobal += total;
     auto *item = new TreeWidgetItem(listWidget);

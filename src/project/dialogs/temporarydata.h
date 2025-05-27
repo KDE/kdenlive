@@ -108,14 +108,8 @@ private:
     void refreshWarningMessage();
 
 private Q_SLOTS:
-    void gotPreviewSize(KJob *job);
     void gotProxySize(KIO::filesize_t total);
-    void gotAudioSize(KJob *job);
-    void gotSequenceSize(KJob *job);
-    void gotThumbSize(KJob *job);
-    void gotFolderSize(KJob *job);
-    void gotBackupSize(KJob *job);
-    void gotProjectProxySize(KJob *job);
+    void gotFolderSize(KIO::filesize_t total);
     void refreshGlobalPie();
     void deletePreview();
     void deleteProjectProxy();

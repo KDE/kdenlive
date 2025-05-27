@@ -6,6 +6,7 @@
 
 #include "pluginssettings.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "pythoninterfaces/dialogs/modeldownloadwidget.h"
 #include "pythoninterfaces/saminterface.h"
 #include "pythoninterfaces/speechtotextvosk.h"
@@ -19,12 +20,12 @@
 #include <KTar>
 #include <KUrlRequesterDialog>
 #include <KZip>
-#include <kio/directorysizejob.h>
 
 #include <QButtonGroup>
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QTimer>
+#include <QtConcurrent/QtConcurrentRun>
 
 SpeechList::SpeechList(QWidget *parent)
     : QListWidget(parent)
@@ -97,21 +98,14 @@ PluginsSettings::PluginsSettings(QWidget *parent)
     if (!voskModelFolder.isEmpty()) {
         modelV_folder_label->setLink(voskModelFolder);
         modelV_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(voskModelFolder, flags)) {
-            totalSize += dirEntry.size();
-        }
-        modelV_size->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
-        connect(job, &KJob::result, this, [job, label = modelV_size]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), voskModelFolder);
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            modelV_size->setText(KIO::convertSize(size));
+            watcher->deleteLater();
         });
-#endif
     } else {
         modelV_folder_label->setVisible(false);
     }
@@ -664,21 +658,15 @@ void PluginsSettings::checkSamFolderSize()
         const QString path = modelsFolder.absolutePath();
         sam_folder_label->setLink(path);
         sam_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(path, flags)) {
-            totalSize += dirEntry.size();
-        }
-        sam_model_size->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(path));
-        connect(job, &KJob::result, this, [job, label = sam_model_size, button = downloadSamButton]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
+
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), path);
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            sam_model_size->setText(KIO::convertSize(size));
+            watcher->deleteLater();
         });
-#endif
     }
 }
 
@@ -693,31 +681,20 @@ void PluginsSettings::checkWhisperFolderSize()
         const QString path = modelsFolder.absolutePath();
         whisper_folder_label->setLink(path);
         whisper_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(path, flags)) {
-            totalSize += dirEntry.size();
-        }
-        whisper_model_size->setText(KIO::convertSize(totalSize));
-        if (totalSize == 0) {
-            downloadButton->setText(i18n("Install a model"));
-        } else {
-            downloadButton->setText(i18n("Manage models"));
-        }
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(path));
-        connect(job, &KJob::result, this, [job, label = whisper_model_size, button = downloadButton]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            if (job->totalSize() == 0) {
-                button->setText(i18n("Install a model"));
+
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), path);
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            whisper_model_size->setText(KIO::convertSize(size));
+            if (size == 0) {
+                downloadButton->setText(i18n("Install a model"));
             } else {
-                button->setText(i18n("Manage models"));
+                downloadButton->setText(i18n("Manage models"));
             }
-            job->deleteLater();
+            watcher->deleteLater();
         });
-#endif
     }
     const QString folder2 = m_sttWhisper->modelFolder(false);
     QDir seamlessFolder(folder2);
@@ -726,21 +703,14 @@ void PluginsSettings::checkWhisperFolderSize()
     } else {
         seamless_folder_label->setLink(seamlessFolder.absolutePath());
         seamless_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(seamlessFolder.absolutePath(), flags)) {
-            totalSize += dirEntry.size();
-        }
-        seamless_folder_label->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *jobSeamless = KIO::directorySize(QUrl::fromLocalFile(seamlessFolder.absolutePath()));
-        connect(jobSeamless, &KJob::result, this, [jobSeamless, label = seamless_folder_size]() {
-            label->setText(KIO::convertSize(jobSeamless->totalSize()));
-            jobSeamless->deleteLater();
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), seamlessFolder.absolutePath());
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            seamless_folder_label->setText(KIO::convertSize(size));
+            watcher->deleteLater();
         });
-#endif
     }
 }
 
@@ -902,21 +872,14 @@ void PluginsSettings::slotParseVoskDictionaries()
     if (!voskModelFolder.isEmpty()) {
         modelV_folder_label->setLink(voskModelFolder);
         modelV_folder_label->setVisible(true);
-#if defined(Q_OS_WIN)
-        // KIO::directorySize doesn't work on Windows
-        KIO::filesize_t totalSize = 0;
-        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
-        for (const auto &dirEntry : QDirListing(voskModelFolder, flags)) {
-            totalSize += dirEntry.size();
-        }
-        modelV_size->setText(KIO::convertSize(totalSize));
-#else
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
-        connect(job, &KJob::result, this, [job, label = modelV_size]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
+        QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), voskModelFolder);
+        QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+        watcher->setFuture(future);
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+            KIO::filesize_t size = watcher->result();
+            modelV_size->setText(KIO::convertSize(size));
+            watcher->deleteLater();
         });
-#endif
     } else {
         modelV_folder_label->setVisible(false);
     }

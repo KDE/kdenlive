@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
 #include "utils/qstringutils.h"
@@ -24,7 +25,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageWidget>
 #include <KTar>
 #include <KZip>
-#include <kio/directorysizejob.h>
 
 #include <QMimeDatabase>
 #include <QStorageInfo>
@@ -1221,17 +1221,14 @@ void ArchiveWidget::slotStartExtracting()
 
 void ArchiveWidget::slotExtractProgress()
 {
-    KIO::DirectorySizeJob *job = KIO::directorySize(archive_url->url());
-    connect(job, &KJob::result, this, &ArchiveWidget::slotGotProgress);
-}
-
-void ArchiveWidget::slotGotProgress(KJob *job)
-{
-    if (!job->error()) {
-        auto *j = static_cast<KIO::DirectorySizeJob *>(job);
-        progressBar->setValue(static_cast<int>(100 * j->totalSize() / m_requestedSize));
-    }
-    job->deleteLater();
+    QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), archive_url->url().toLocalFile());
+    QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
+    watcher->setFuture(future);
+    connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
+        KIO::filesize_t size = watcher->result();
+        progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
+        watcher->deleteLater();
+    });
 }
 
 void ArchiveWidget::doExtracting()
