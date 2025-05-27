@@ -6092,134 +6092,134 @@ msgstr "标线"
 #: data/effects/avfilter/avfilter_waveform.xml:50
 #, kde-format
 msgid "Graticule Opacity"
-msgstr ""
+msgstr "网格不透明度"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:32
 #, kde-format
 msgid "White,Black,Name"
-msgstr ""
+msgstr "White,Black,Name"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:39
 #, kde-format
 msgid "Low Threshold"
-msgstr ""
+msgstr "低阈值"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:42
 #, kde-format
 msgid "High Threshold"
-msgstr ""
+msgstr "高阈值"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:45
 #, kde-format
 msgid "Auto,601,709"
-msgstr ""
+msgstr "Auto,601,709"
 
 #: data/effects/avfilter/avfilter_vectorscope.xml:46
 #, kde-format
 msgid "Colorspace"
-msgstr ""
+msgstr "色彩空间"
 
 #: data/effects/avfilter/avfilter_vflip.xml:4
 #, kde-format
 msgid "Flip Vertically"
-msgstr ""
+msgstr "垂直翻转"
 
 #: data/effects/avfilter/avfilter_vflip.xml:5
 #, kde-format
 msgid "Vertically flip the input video."
-msgstr ""
+msgstr "垂直翻转输入视频."
 
 #: data/effects/avfilter/avfilter_vibrance.xml:4
 #, kde-format
 msgid "Vibrance"
-msgstr ""
+msgstr "鲜艳度"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:5
 #, kde-format
 msgid "Boost or alter saturation. "
-msgstr ""
+msgstr "提高或改变饱和度。"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:11
 #, kde-format
 msgid "Red balance"
-msgstr ""
+msgstr "红平衡"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:14
 #, kde-format
 msgid "Green balance"
-msgstr ""
+msgstr "绿平衡"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:17
 #, kde-format
 msgid "Blue balance"
-msgstr ""
+msgstr "蓝平衡"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:20
 #, kde-format
 msgid "Red luma"
-msgstr ""
+msgstr "红光度"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:23
 #, kde-format
 msgid "Green luma"
-msgstr ""
+msgstr "绿光度"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:26
 #, kde-format
 msgid "Blue luma"
-msgstr ""
+msgstr "蓝光度"
 
 #: data/effects/avfilter/avfilter_vibrance.xml:29
 #, kde-format
 msgid "Alternate"
-msgstr ""
+msgstr "Alternate"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:4
 #, kde-format
 msgid "Vibrato"
-msgstr ""
+msgstr "Vibrato - 振动"
 
 #: data/effects/avfilter/avfilter_vibrato.xml:5
 #, kde-format
 msgid "Vibrato effect."
-msgstr ""
+msgstr "振动效果."
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:4
 #, kde-format
 msgid "w3fdif Deinterlacer"
-msgstr ""
+msgstr "w3fdif 去隔行器"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:5
 #, kde-format
 msgid ""
 "Deinterlace the input video \"w3fdif\" stands for Weston 3 Field "
 "Deinterlacing Filter"
-msgstr ""
+msgstr "对输入视频进行去隔行处理 \"w3fdif\"代表 Weston 三场去隔行滤镜"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:8
 #, kde-format
 msgid "Simple,Complex"
-msgstr ""
+msgstr "Simple,Complex"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:9
 #, kde-format
 msgid "Filter coefficients"
-msgstr ""
+msgstr "滤镜系数"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:12
 #, kde-format
 msgid "Deinterlace all frames,Marked as interlaced only"
-msgstr ""
+msgstr "去交错所有帧,仅标记为交错的帧"
 
 #: data/effects/avfilter/avfilter_w3fdif.xml:13
 #, kde-format
 msgid "Frames to deinterlace"
-msgstr ""
+msgstr "去隔行帧"
 
 #: data/effects/avfilter/avfilter_waveform.xml:4
 #, kde-format
 msgid "Video waveform monitor"
-msgstr ""
+msgstr "视频波形监视器"
 
 #: data/effects/avfilter/avfilter_waveform.xml:5
 #, kde-format
@@ -6228,11 +6228,13 @@ msgid ""
 "only. Each column of the waveform corresponds to a column of pixels in the "
 "source video. "
 msgstr ""
+"波形监视器绘制颜色分量强度。默认情况下仅亮度。波形的每一列对应于源视频中的一"
+"列像素。"
 
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #, kde-format
 msgid "Row,Column"
-msgstr ""
+msgstr "行,列"
 
 #: data/effects/avfilter/avfilter_waveform.xml:12
 #, kde-format
@@ -6243,6 +6245,8 @@ msgid ""
 "       \tIn column mode, the top side represents color component value = 0 "
 "and bottom side represents value = 255.]]>"
 msgstr ""
+"<![CDATA[在行模式中，左侧代表颜色分量值为 0，右侧代表值=255。<br>\n"
+"       \t在列模式中，顶部代表颜色分量值=0，底部代表值=255。]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:17
 #, kde-format
@@ -6250,6 +6254,8 @@ msgid ""
 "<![CDATA[Smaller values are useful to find out how many values<br>\n"
 "       \tof the same luminance are distributed across input rows/columns]]>"
 msgstr ""
+"<![CDATA[较小的值有助于查明<br>\n"
+"       具有相同亮度的值在输入行/列中的分布数量]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:22
 #, kde-format
@@ -6258,26 +6264,28 @@ msgid ""
 "       \ton the left side for <em>row<em> mode and at the top for "
 "<em>column<em> mode.]]>"
 msgstr ""
+"<![CDATA[在镜像模式下，较高数值将显示于<br>\n"
+"       左侧<em>行<em>模式或顶部<em>列<em>模式。]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:27
 #, kde-format
 msgid "<![CDATA[Set the display mode]]>"
-msgstr ""
+msgstr "<![CDATA[设置显示模式]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:32
 #, kde-format
 msgid "<![CDATA[Select the components to be displayed]]>"
-msgstr ""
+msgstr "<![CDATA[选择需要被追踪的颜色分量]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:37
 #, kde-format
 msgid "<![CDATA[Set the envelope mode]]>"
-msgstr ""
+msgstr "<![CDATA[设置包络模式]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:40
 #, kde-format
 msgid "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
-msgstr ""
+msgstr "lowpass,flat,aflat,xflat,yflat,chroma,color,acolor"
 
 #: data/effects/avfilter/avfilter_waveform.xml:41
 #: data/effects/mask_start_frei0r_select0r.xml:8
@@ -6291,52 +6299,52 @@ msgstr "过滤"
 #: data/effects/avfilter/avfilter_waveform.xml:42
 #, kde-format
 msgid "<![CDATA[Set the filter mode]]>"
-msgstr ""
+msgstr "<![CDATA[设置过滤模式]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:45
 #, kde-format
 msgid "none,green,orange,invert"
-msgstr ""
+msgstr "无,绿色,橙色,反相"
 
 #: data/effects/avfilter/avfilter_waveform.xml:47
 #, kde-format
 msgid "<![CDATA[Set which graticule to display]]>"
-msgstr ""
+msgstr "<![CDATA[设置显示的标线]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:51
 #, kde-format
 msgid "<![CDATA[Set the opacity of the graticule]]>"
-msgstr ""
+msgstr "<![CDATA[设置示波器标线的不透明度]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:54
 #, kde-format
 msgid "numbers,dots"
-msgstr ""
+msgstr "numbers,dots"
 
 #: data/effects/avfilter/avfilter_waveform.xml:55
 #, kde-format
 msgid "<![CDATA[Set graticule flags]]>"
-msgstr ""
+msgstr "<![CDATA[设置标线标志]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:59
 #, kde-format
 msgid "digital,millivolts,ire"
-msgstr ""
+msgstr "digital,millivolts,ire"
 
 #: data/effects/avfilter/avfilter_waveform.xml:61
 #, kde-format
 msgid "<![CDATA[Set scale used for displaying graticule]]>"
-msgstr ""
+msgstr "<![CDATA[设置坐标标线的缩放比例]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:65
 #, kde-format
 msgid "<![CDATA[Set the background opacity]]>"
-msgstr ""
+msgstr "<![CDATA[设置背景不透明度]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:68
 #, kde-format
 msgid "Tint 0"
-msgstr ""
+msgstr "颜色 0"
 
 #: data/effects/avfilter/avfilter_waveform.xml:70
 #: data/effects/avfilter/avfilter_waveform.xml:75
@@ -6345,31 +6353,33 @@ msgid ""
 "<![CDATA[Only used with lowpass filter and when display<br>\n"
 "       \tis not overlay and input pixel formats are not RGB]]>"
 msgstr ""
+"<![CDATA[仅与低通滤波器配合使用，且显示<br>非 overlay 且输入像素格式非 RGB 时"
+"生效]]>"
 
 #: data/effects/avfilter/avfilter_waveform.xml:73
 #, kde-format
 msgid "Tint 1"
-msgstr ""
+msgstr "颜色 1"
 
 #: data/effects/avfilter/avfilter_waveform.xml:78
 #, kde-format
 msgid "none,size"
-msgstr ""
+msgstr "none,size"
 
 #: data/effects/avfilter/avfilter_waveform.xml:79
 #, kde-format
 msgid "Fit mode"
-msgstr ""
+msgstr "适合模式"
 
 #: data/effects/avfilter/avfilter_waveform.xml:80
 #, kde-format
 msgid "<![CDATA[Set the fit mode]]>"
-msgstr ""
+msgstr "<![CDATA[设置适合模式]]>"
 
 #: data/effects/avfilter/avfilter_weave.xml:4
 #, kde-format
 msgid "Weave interlacer"
-msgstr ""
+msgstr "编织交织器"
 
 #: data/effects/avfilter/avfilter_weave.xml:5
 #, kde-format
@@ -6378,16 +6388,18 @@ msgid ""
 "fields into single frame, producing a new double height clip with half the "
 "frame rate and half the frame count."
 msgstr ""
+"交织处理效果接收场序视频输入，将每两个连续场合并为单个帧，生成一个高度加倍、"
+"帧率和帧数均减半的新视频。"
 
 #: data/effects/avfilter/avfilter_weave.xml:8
 #, kde-format
 msgid "Top,Bottom"
-msgstr ""
+msgstr "顶部,底部"
 
 #: data/effects/avfilter/avfilter_xbr.xml:4
 #, kde-format
 msgid "xBR Interpolator"
-msgstr ""
+msgstr "xBR 插值算法"
 
 #: data/effects/avfilter/avfilter_xbr.xml:5
 #, kde-format
@@ -6396,16 +6408,18 @@ msgid ""
 "art. It follows a set of edge-detection rules, see https://forums.libretro."
 "com/t/xbr-algorithm-tutorial/123"
 msgstr ""
+"应用专为像素艺术设计的xBR高质量放大滤镜。它遵循一套边缘检测规则，请参阅 "
+"https://forums.libretro.com/t/xbr-algorithm-tutorial/123"
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
 #, kde-format
 msgid "2xBR,3xBR,4xBR"
-msgstr ""
+msgstr "2xBR,3xBR,4xBR"
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
 #, kde-format
 msgid "Yadif Deinterlacer"
-msgstr ""
+msgstr "Yadif 反交错器"
 
 #: data/effects/avfilter/avfilter_yadif.xml:5
 #, kde-format
@@ -6413,21 +6427,24 @@ msgid ""
 "Deinterlace the input video (\"yadif\" means \"yet another deinterlacing "
 "filter\")"
 msgstr ""
+"对输入视频进行去隔行扫描处理（“yadif” 表示“yet another deinterlacing "
+"filter”）"
 
 #: data/effects/avfilter/avfilter_yadif.xml:8
 #, kde-format
 msgid "Send frame,Send field,Send frame nospatial,Send field nospatil"
 msgstr ""
+"发送帧,发送场,发送帧但不进行空间域交错检查,发送场但不进行空间域交错检查"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:4
 #, kde-format
 msgid "Zoom Pan"
-msgstr ""
+msgstr "缩放平移"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:5
 #, kde-format
 msgid "Apply Zoom and Pan effect"
-msgstr ""
+msgstr "应用缩放和平移效果"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
 #: data/effects/vidstab.xml:40 src/project/dialogs/slideshowclip.cpp:72
@@ -6461,12 +6478,12 @@ msgstr "字幕"
 #: data/effects/avfilter/subtitles.xml:5
 #, kde-format
 msgid "Render subtitles onto the video"
-msgstr ""
+msgstr "渲染字幕到视频"
 
 #: data/effects/avfilter/subtitles.xml:8
 #, kde-format
 msgid "Subtitle file to apply"
-msgstr ""
+msgstr "要应用的字幕文件"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
@@ -7003,146 +7020,146 @@ msgstr "定格之后画面"
 #: data/effects/frei0r/frei0r_3dflippo.xml:4
 #, kde-format
 msgid "3dflippo"
-msgstr ""
+msgstr "3dflippo - 3D 旋转"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:5
 #, kde-format
 msgid "Frame rotation in 3D space"
-msgstr ""
+msgstr "在 3D 空间中旋转帧"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:8
 #, kde-format
 msgid "X axis rotation"
-msgstr ""
+msgstr "沿 X 轴旋转"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:11
 #, kde-format
 msgid "Y axis rotation"
-msgstr ""
+msgstr "沿 Y 轴旋转"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:14
 #, kde-format
 msgid "Z axis rotation"
-msgstr ""
+msgstr "沿 Z 轴旋转"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:17
 #, kde-format
 msgid "X axis rotation rate"
-msgstr ""
+msgstr "沿 X 轴旋转速率"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:20
 #, kde-format
 msgid "Y axis rotation rate"
-msgstr ""
+msgstr "沿 Y 轴旋转速率"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:23
 #, kde-format
 msgid "Z axis rotation rate"
-msgstr ""
+msgstr "沿 Z 轴旋转速率"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:26
 #, kde-format
 msgid "Center position (X)"
-msgstr ""
+msgstr "中心坐标 (X)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:29
 #, kde-format
 msgid "Center position (Y)"
-msgstr ""
+msgstr "中心坐标 (Y)"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:32
 #, kde-format
 msgid "Invert rotation assignment"
-msgstr ""
+msgstr "反向旋转操作"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:35
 #, kde-format
 msgid "Don't blank mask"
-msgstr ""
+msgstr "不留空遮罩"
 
 #: data/effects/frei0r/frei0r_3dflippo.xml:38
 #, kde-format
 msgid "Fill with image or black"
-msgstr ""
+msgstr "填充图像或黑色背景"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
 msgid "Aech0r"
-msgstr ""
+msgstr "Aech0r"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:5
 #, kde-format
 msgid "Create an analog video echo"
-msgstr ""
+msgstr "创建模拟信号回波效果"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:8
 #, kde-format
 msgid "Fade factor"
-msgstr ""
+msgstr "淡变因子"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:9
 #, kde-format
 msgid "<![CDATA[Disappearance Rate of the echo]]>"
-msgstr ""
+msgstr "<![CDATA[回波效果的消失速率]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:13
 #, kde-format
 msgid "<![CDATA[Darker or Brighter echo]]>"
-msgstr ""
+msgstr "<![CDATA[使回波更暗或更亮]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:16
 #, kde-format
 msgid "Keep RED"
-msgstr ""
+msgstr "Keep RED"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:17
 #, kde-format
 msgid "<![CDATA[Influence on Red channel]]>"
-msgstr ""
+msgstr "<![CDATA[对红色通道的影响]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:20
 #, kde-format
 msgid "Keep GREEN"
-msgstr ""
+msgstr "Keep GREEN"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:21
 #, kde-format
 msgid "<![CDATA[Influence on Green channel]]>"
-msgstr ""
+msgstr "<![CDATA[对绿色通道的影响]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:24
 #, kde-format
 msgid "Keep BLUE"
-msgstr ""
+msgstr "Keep BLUE"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:25
 #, kde-format
 msgid "<![CDATA[Influence on Blue channel]]>"
-msgstr ""
+msgstr "<![CDATA[对蓝色通道的影响]]>"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:28
 #, kde-format
 msgid "Strobe period"
-msgstr ""
+msgstr "频闪周期"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:29
 #, kde-format
 msgid "<![CDATA[Rate of the stroboscope (from 0 to 8 frames)]]>"
-msgstr ""
+msgstr "<![CDATA[频闪仪频率 (0 到 8 帧）]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:5
 #: data/effects/frei0r/frei0r_alpha0ps.xml:30
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:4
 #, kde-format
 msgid "Alpha operations"
-msgstr ""
+msgstr "Alpha operations - 透明度通道操作"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:6
 #: data/effects/frei0r/frei0r_alpha0ps.xml:31
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:5
 #, kde-format
 msgid "Display and manipulation of the alpha channel"
-msgstr ""
+msgstr "alpha通道的显示和操作"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:9
 #: data/effects/frei0r/frei0r_alpha0ps.xml:34
@@ -7152,18 +7169,20 @@ msgid ""
 "Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,"
 "Selection on white,Selection on checkers"
 msgstr ""
+"图像,透明度通道作为灰度,灰度+红,选择黑色区域,选择灰色区域,选择白色区域,选择棋"
+"盘格区域"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:13
 #: data/effects/frei0r/frei0r_alpha0ps.xml:38
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:12
 #, kde-format
 msgid "Display input alpha"
-msgstr ""
+msgstr "显示输入透明度通道"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:16
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
-msgstr ""
+msgstr "无处理,削去,收缩锐利,收缩柔和,扩张锐利,扩张柔和,阈值"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:17
 #: data/effects/frei0r/frei0r_alpha0ps.xml:42
@@ -7183,31 +7202,31 @@ msgstr "操作"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:23
 #, kde-format
 msgid "Shrink/grow amount"
-msgstr ""
+msgstr "收缩量/扩张量"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:41
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:15
 #, kde-format
 msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold,Blur"
-msgstr ""
+msgstr "无处理,削去,收缩锐利,收缩柔和,扩张锐利,扩张柔和,阈值,模糊"
 
 #: data/effects/frei0r/frei0r_alpha0ps.xml:48
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:22
 #, kde-format
 msgid "Shrink/Grow/Blur amount"
-msgstr ""
+msgstr "收缩量/扩张量/模糊量"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:4
 #: data/effects/frei0r/frei0r_alphagrad.xml:4
 #, kde-format
 msgid "Alpha gradient"
-msgstr ""
+msgstr "透明渐变"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:5
 #: data/effects/frei0r/frei0r_alphagrad.xml:5
 #, kde-format
 msgid "Fill the alpha channel with a specified gradient"
-msgstr ""
+msgstr "用指定的渐变填充透明度通道"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
@@ -7222,7 +7241,7 @@ msgstr "位置"
 #: data/effects/frei0r/frei0r_alphagrad.xml:9
 #, kde-format
 msgid "<![CDATA[Define where the gradient starts.]]>"
-msgstr ""
+msgstr "<![CDATA[定义渐变开始的位置。]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:12
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:27
@@ -7237,25 +7256,25 @@ msgstr "转场宽度"
 #: data/effects/frei0r/frei0r_alphagrad.xml:13
 #, kde-format
 msgid "<![CDATA[Define the width of the transition between the densities.]]>"
-msgstr ""
+msgstr "<![CDATA[定义密度间过渡区域的宽度]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:17
 #: data/effects/frei0r/frei0r_alphagrad.xml:17
 #, kde-format
 msgid "<![CDATA[Angle for the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[渐变角度]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:21
 #: data/effects/frei0r/frei0r_alphagrad.xml:21
 #, kde-format
 msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[定义梯度顶部的透明度。]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:25
 #: data/effects/frei0r/frei0r_alphagrad.xml:25
 #, kde-format
 msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
-msgstr ""
+msgstr "<![CDATA[定义梯度顶部的透明度。]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:28
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:36
@@ -7273,19 +7292,19 @@ msgstr "Write on clear,Max,Min,Add,Subtract,清空时写入,最大值,最小值,
 #: data/effects/frei0r/frei0r_alphagrad.xml:30
 #, kde-format
 msgid "<![CDATA[Define the alpha operation for compositing.]]>"
-msgstr ""
+msgstr "![CDATA[定义对Alpha通道的合成操作。]]>"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:4
 #: data/effects/frei0r/frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha shapes"
-msgstr ""
+msgstr "Alpha shapes - 透明度通道形状"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:5
 #: data/effects/frei0r/frei0r_alphaspot.xml:5
 #, kde-format
 msgid "Draws simple shapes into the alpha channel"
-msgstr ""
+msgstr "绘制简单形状到透明度通道"
 
 #: data/effects/frei0r/frei0r_alpha0ps_alphaspot.xml:8
 #: data/effects/frei0r/frei0r_alphaspot.xml:8
@@ -7325,80 +7344,80 @@ msgstr "尺寸 Y"
 #: data/effects/frei0r/frei0r_alphagrad.xml:20
 #, kde-format
 msgid "Transparency top"
-msgstr ""
+msgstr "透明度顶部"
 
 #: data/effects/frei0r/frei0r_alphagrad.xml:24
 #, kde-format
 msgid "Transparency bottom"
-msgstr ""
+msgstr "透明度底部"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
 msgid "Channel Extractor BLUE"
-msgstr ""
+msgstr "频道提取器 BLUE"
 
 #: data/effects/frei0r/frei0r_B.xml:5
 #, kde-format
 msgid "Extracts Blue from Image"
-msgstr ""
+msgstr "从图像中提取蓝色通道"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:5
 #, kde-format
 msgctxt "White Balance Effect Name"
 msgid "White Balance"
-msgstr ""
+msgstr "White Balance - 白平衡"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:6
 #: data/effects/frei0r/frei0r_balanc0r.xml:17
 #, kde-format
 msgid "Adjust the white balance / color temperature"
-msgstr ""
+msgstr "调整白平衡/色温"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:9
 #: data/effects/frei0r/frei0r_balanc0r.xml:20
 #: data/effects/frei0r/frei0r_colgate.xml:8
 #, kde-format
 msgid "Neutral Color"
-msgstr ""
+msgstr "中性色"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:12
 #: data/effects/frei0r/frei0r_balanc0r.xml:23
 #, kde-format
 msgid "Green Tint"
-msgstr ""
+msgstr "绿色调"
 
 #: data/effects/frei0r/frei0r_balanc0r.xml:16
 #, kde-format
 msgid "White Balance"
-msgstr ""
+msgstr "White Balance - 白平衡"
 
 #: data/effects/frei0r/frei0r_baltan.xml:4
 #, kde-format
 msgid "Baltan"
-msgstr ""
+msgstr "Baltan - 运动朦胧"
 
 #: data/effects/frei0r/frei0r_baltan.xml:5
 #, kde-format
 msgid "Delayed alpha smoothed blit of time"
-msgstr ""
+msgstr "延迟时间位块传送的透明度平滑"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:4
 #, kde-format
 msgid "Bézier Curves"
-msgstr ""
+msgstr "Bézier Curves - 颜色曲线调整"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:5
 #: data/effects/frei0r/frei0r_curves.xml:6
 #: data/effects/frei0r/frei0r_curves.xml:61
 #, kde-format
 msgid "Color curves adjustment"
-msgstr ""
+msgstr "颜色曲线调整"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:8
 #: data/effects/frei0r/frei0r_curves.xml:64
 #, kde-format
 msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
-msgstr ""
+msgstr "RGB,红,绿,蓝,透明度,亮度,色相,饱和度"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:12
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:27
@@ -7406,7 +7425,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_curves.xml:68
 #, kde-format
 msgid "Rec. 601,Rec. 709"
-msgstr ""
+msgstr "Rec. 601,Rec. 709"
 
 #: data/effects/frei0r/frei0r_bezier_curves.xml:13
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:28
@@ -7414,33 +7433,33 @@ msgstr ""
 #: data/effects/frei0r/frei0r_curves.xml:69
 #, kde-format
 msgid "Luma formula"
-msgstr ""
+msgstr "亮度标准"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:4
 #, kde-format
 msgid "Background Subtractor"
-msgstr ""
+msgstr "Background Subtractor - 背景移除器"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:5
 #, kde-format
 msgid "Remove the background of a static video"
-msgstr ""
+msgstr "移除静态视频的背景"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
 #, kde-format
 msgid "Analysis Sample Radius"
-msgstr ""
+msgstr "分析采样半径"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:11
 #, kde-format
 msgid "Denoise"
-msgstr ""
+msgstr "Denoiser - 降噪器"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
 msgid "VR360 Equirectangular Mask"
-msgstr ""
+msgstr "VR360 等距柱面投影转遮罩"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:5
 #, kde-format
@@ -7449,28 +7468,30 @@ msgid ""
 "but only want to use part of the 360 image - for example if you and the film "
 "crew occupy the 90 degrees behind the camera."
 msgstr ""
+"将黑色哑光添加到框架中。如果您使用360相机拍摄，但只想使用360图像的一部分，请"
+"使用此选项，例如，如果您和摄制组占据了相机后面的90度"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #, kde-format
 msgid "Vertical Start"
-msgstr ""
+msgstr "垂直起点"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:11
 #, kde-format
 msgid "Vertical End"
-msgstr ""
+msgstr "垂直终点"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #, kde-format
 msgid "Horizontal Start"
-msgstr ""
+msgstr "水平起点"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:17
 #, kde-format
 msgid "Horizontal End"
-msgstr ""
+msgstr "水平终点"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
@@ -7480,12 +7501,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
 #, kde-format
 msgid "Nearest-Neighbor,Bilinear"
-msgstr ""
+msgstr "最近邻,双线性"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:4
 #, kde-format
 msgid "VR360 Equirectangular to Rectilinear"
-msgstr ""
+msgstr "VR360 等距柱状投影到线性投影"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:5
 #, kde-format
@@ -7494,39 +7515,41 @@ msgid ""
 "you're used to seeing). Can be used to preview what will be shown in a 360 "
 "video viewer. Delayed frame blitting mapped on a time bitmap"
 msgstr ""
+"将等距柱状投影帧（全景）转换为直线投影帧（您通常所见的画面）。可用于预览 360 "
+"视频查看器中显示的内容。延迟帧位块传输映射至时间位图"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:8
 #, kde-format
 msgid "yaw"
-msgstr ""
+msgstr "yaw"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:11
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:11
 #, kde-format
 msgid "pitch"
-msgstr ""
+msgstr "pitch"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:14
 #, kde-format
 msgid "roll"
-msgstr ""
+msgstr "roll"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:17
 #, kde-format
 msgid "fov"
-msgstr ""
+msgstr "fov"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:20
 #, kde-format
 msgid "fisheye"
-msgstr ""
+msgstr "鱼眼"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
 msgid "VR360 Equirectangular to Stereo"
-msgstr ""
+msgstr "VR360 等距柱面投影转立体 "
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:5
 #, kde-format
@@ -7534,36 +7557,37 @@ msgid ""
 "Projects a stereographic image from an equirectangular. Use this to create "
 "the little planet effect from a VR360 footage."
 msgstr ""
+"将等距柱状投影转换为立体投影图像。使用此功能从 VR360 素材创建小行星效果。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
 #, kde-format
 msgid "Yaw"
-msgstr ""
+msgstr "Yaw"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
 #, kde-format
 msgid "Pitch"
-msgstr ""
+msgstr "Pitch"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
 #, kde-format
 msgid "Roll"
-msgstr ""
+msgstr "Roll"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
 #, kde-format
 msgid "FOV"
-msgstr ""
+msgstr "FOV"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
 #, kde-format
 msgid "Nearest-neighbor,Bilinear"
-msgstr ""
+msgstr "最近邻,双线性"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
 #, kde-format
 msgid "VR360 Hemispherical to Equirectangular"
-msgstr ""
+msgstr "VR360 半球投影到等距柱状投影"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:5
 #, kde-format
@@ -7572,86 +7596,87 @@ msgid ""
 "equirectangular frame. The plugin assumes that both hemispheres are in the "
 "frame"
 msgstr ""
+"将两个半球图像转换为一个单独的等量矩形投影帧。此插件假设两个半球都在帧内。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:8
 #, kde-format
 msgid "Alignment Yaw"
-msgstr ""
+msgstr "对齐Yaw"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:11
 #, kde-format
 msgid "Alignment Pitch"
-msgstr ""
+msgstr "对齐Pitch"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:14
 #, kde-format
 msgid "Alignment Roll"
-msgstr ""
+msgstr "对齐Roll"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:17
 #, kde-format
 msgid "Equidistant Fisheye"
-msgstr ""
+msgstr "等距投影鱼眼"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
 #, kde-format
 msgid "Projection"
-msgstr ""
+msgstr "投影"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:21
 #, kde-format
 msgid "Lens FOV"
-msgstr ""
+msgstr "镜头FOV"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
 #, kde-format
 msgid "Lens Radius"
-msgstr ""
+msgstr "镜头半径"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:27
 #, kde-format
 msgid "Front X"
-msgstr ""
+msgstr "Front X"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:30
 #, kde-format
 msgid "Front Y"
-msgstr ""
+msgstr "Front Y"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:33
 #, kde-format
 msgid "Front UP"
-msgstr ""
+msgstr "Front UP"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
 #, kde-format
 msgid "Back X"
-msgstr ""
+msgstr "Back X"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:39
 #, kde-format
 msgid "Back Y"
-msgstr ""
+msgstr "Back Y"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:42
 #, kde-format
 msgid "Back UP"
-msgstr ""
+msgstr "Back UP"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:45
 #, kde-format
 msgid "Nadir Radius"
-msgstr ""
+msgstr "天底半径"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:48
 #, kde-format
 msgid "Nadir Start"
-msgstr ""
+msgstr "天底起点"
 
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:4
 #, kde-format
 msgid "VR360 Rectilinear to Equirectangular"
-msgstr ""
+msgstr "VR360 直线投影到等距柱状投影"
 
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:5
 #, kde-format
@@ -7660,11 +7685,13 @@ msgid ""
 "Use this together with Transform 360 to place \"normal\" footage in a 360 "
 "movie."
 msgstr ""
+"将直线（普通外观）图像转换为等距柱面投影图像。请结合使用 Transform 360 将“普"
+"通”素材放置到 360 度影片中。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:4
 #, kde-format
 msgid "VR360 Stabilize"
-msgstr ""
+msgstr "VR360 稳定器"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:5
 #, kde-format
@@ -7673,82 +7700,84 @@ msgid ""
 "stabilization. When analyzing footage, it detects frame-to-frame rotation, "
 "and when stabilizing it tries to correct high-frequency motion (shake)."
 msgstr ""
+"稳定360镜头。该插件分为两个阶段——分析和稳定。分析镜头时，它会检测帧到帧的旋"
+"转，稳定镜头时，会尝试校正高频运动 (抖动) "
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:8
 #, kde-format
 msgid "Analyze"
-msgstr ""
+msgstr "分析"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:11
 #, kde-format
 msgid "Motion Analysis File"
-msgstr ""
+msgstr "运动分析文件"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
 #, kde-format
 msgid "Analysis Search Radius"
-msgstr ""
+msgstr "分析搜索半径"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:20
 #, kde-format
 msgid "Analysis Offset"
-msgstr ""
+msgstr "分析偏移"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, kde-format
 msgid "Track Points"
-msgstr ""
+msgstr "跟踪点"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:35
 #, kde-format
 msgid "Yaw Amount"
-msgstr ""
+msgstr "偏转量"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:29
 #, kde-format
 msgid "Yaw Smoothing"
-msgstr ""
+msgstr "偏转平滑"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:32
 #, kde-format
 msgid "Yaw Time Bias"
-msgstr ""
+msgstr "偏转时间偏差"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:38
 #, kde-format
 msgid "Pitch Smoothing"
-msgstr ""
+msgstr "纵摇平滑"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:41
 #, kde-format
 msgid "Pitch Time Bias"
-msgstr ""
+msgstr "纵摇时间偏差"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
 #, kde-format
 msgid "Roll Amount"
-msgstr ""
+msgstr "横摇量"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:47
 #, kde-format
 msgid "Roll Smoothing"
-msgstr ""
+msgstr "横摇平滑"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:50
 #, kde-format
 msgid "Roll Time Bias"
-msgstr ""
+msgstr "横摇时间偏差"
 
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:4
 #, kde-format
 msgid "VR360 Transform"
-msgstr ""
+msgstr "VR360 转换"
 
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:5
 #, kde-format
 msgid "Rotates a panoramic image."
-msgstr ""
+msgstr "对全景图进行旋转。"
 
 #: data/effects/frei0r/frei0r_brightness.xml:4
 #, kde-format
@@ -7759,68 +7788,68 @@ msgstr "亮度"
 #: data/effects/frei0r/frei0r_brightness.xml:5
 #, kde-format
 msgid "Adjusts the brightness of a source image"
-msgstr ""
+msgstr "调整来源图像亮度"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:4
 #, kde-format
 msgctxt "Corners Effect Name"
 msgid "Corners"
-msgstr ""
+msgstr "Corners - 四角调整"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:5
 #, kde-format
 msgid "Four corners geometry engine"
-msgstr ""
+msgstr "四角几何调整引擎"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:14
 #, kde-format
 msgid "Top-right X"
-msgstr ""
+msgstr "右上 X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:17
 #, kde-format
 msgid "Top-right Y"
-msgstr ""
+msgstr "右上 Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:20
 #, kde-format
 msgid "Bottom-right X"
-msgstr ""
+msgstr "右下 X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:23
 #, kde-format
 msgid "Bottom-right Y"
-msgstr ""
+msgstr "右下 Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:26
 #, kde-format
 msgid "Bottom-left X"
-msgstr ""
+msgstr "左下 X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:29
 #, kde-format
 msgid "Bottom-left Y"
-msgstr ""
+msgstr "左下 Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:32
 #, kde-format
 msgid "Stretch X"
-msgstr ""
+msgstr "拉伸 X"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:35
 #, kde-format
 msgid "Stretch Y"
-msgstr ""
+msgstr "拉伸 Y"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:38
 #, kde-format
 msgid "Feather Alpha"
-msgstr ""
+msgstr "羽化透明度"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:41
 #, kde-format
 msgid "Enable Stretch"
-msgstr ""
+msgstr "启用拉伸"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:44
 #: data/effects/frei0r/frei0r_defish0r.xml:34
@@ -7829,19 +7858,20 @@ msgid ""
 "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline 6x6,"
 "Lanczos"
 msgstr ""
+"最近邻,双线性,双立方平滑,双立方锐利,样条算法 4x4,样条算法 6x6,Lanczos 算法"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:45
 #: data/effects/frei0r/frei0r_defish0r.xml:35
 #, kde-format
 msgid "Interpolator"
-msgstr ""
+msgstr "插值"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:48
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:64
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:136
 #, kde-format
 msgid "Transparent Background"
-msgstr ""
+msgstr "透明背景"
 
 #: data/effects/frei0r/frei0r_c0rners.xml:51
 #: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
@@ -7852,12 +7882,12 @@ msgstr "清除时写入,最大值,最小值,添加,减去"
 #: data/effects/frei0r/frei0r_c0rners.xml:52
 #, kde-format
 msgid "Alpha operation"
-msgstr ""
+msgstr "透明度通道操作"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:4
 #, kde-format
 msgid "Cairogradient"
-msgstr ""
+msgstr "Cairogradient - Cairo 渐变"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:5
 #, kde-format
@@ -7865,56 +7895,57 @@ msgid ""
 "Draws a gradient on top of image. Filter is given gradient start and end "
 "points, colors and opacities."
 msgstr ""
+"在图像之上绘制渐变，可针对渐变的起点、终点、颜色和不透明度进行数值过滤。"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:8
 #, kde-format
 msgid "Linear,Radial"
-msgstr ""
+msgstr "线性,径向"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:9
 #, kde-format
 msgid "Pattern"
-msgstr ""
+msgstr "模式"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:12
 #, kde-format
 msgid "Start Color"
-msgstr ""
+msgstr "起点颜色"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:15
 #, kde-format
 msgid "Start Opacity"
-msgstr ""
+msgstr "起点不透明度"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:18
 #, kde-format
 msgid "End Color"
-msgstr ""
+msgstr "终点颜色"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:21
 #, kde-format
 msgid "End Opacity"
-msgstr ""
+msgstr "终点不透明度"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:24
 #, kde-format
 msgid "Start X"
-msgstr ""
+msgstr "起点 X"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:27
 #, kde-format
 msgid "Start Y"
-msgstr ""
+msgstr "起点 Y"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:30
 #, kde-format
 msgid "End X"
-msgstr ""
+msgstr "终点 X"
 
 #: data/effects/frei0r/frei0r_cairogradient.xml:33
 #, kde-format
 msgid "End Y"
-msgstr ""
+msgstr "终点 Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/frei0r/frei0r_cairogradient.xml:36
@@ -7962,62 +7993,62 @@ msgstr ""
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
 msgid "Cartoon"
-msgstr ""
+msgstr "Cartoon - 卡通"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:5
 #, kde-format
 msgid "Cartoonify video, do a form of edge detect"
-msgstr ""
+msgstr "通过边缘检测处理将视频进行卡通化处理"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:8
 #, kde-format
 msgid "Level of trip"
-msgstr ""
+msgstr "行程级别"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:11
 #, kde-format
 msgid "Difference space"
-msgstr ""
+msgstr "差异空间"
 
 #: data/effects/frei0r/frei0r_cluster.xml:4
 #, kde-format
 msgid "K-Means Clustering"
-msgstr ""
+msgstr "K-Means Clustering - K-均值聚类"
 
 #: data/effects/frei0r/frei0r_cluster.xml:5
 #, kde-format
 msgid "Clusters of a source image by color and spatial distance"
-msgstr ""
+msgstr "按颜色和空间距离划分的源图像的簇"
 
 #: data/effects/frei0r/frei0r_cluster.xml:8
 #, kde-format
 msgid "Amount of clusters"
-msgstr ""
+msgstr "簇数量"
 
 #: data/effects/frei0r/frei0r_cluster.xml:11
 #, kde-format
 msgid "Weight on distance"
-msgstr ""
+msgstr "距离权重"
 
 #: data/effects/frei0r/frei0r_colgate.xml:4
 #, kde-format
 msgid "White Balance (LMS space)"
-msgstr ""
+msgstr "White Balance (LMS space) - 白平衡 (LMS 空间)"
 
 #: data/effects/frei0r/frei0r_colgate.xml:5
 #, kde-format
 msgid "Do simple color correction, in a physically meaningful way"
-msgstr ""
+msgstr "按照物理原理进行简易颜色校正"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:4
 #, kde-format
 msgid "RGB adjustment"
-msgstr ""
+msgstr "RGB adjustment - RGB 调整"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:5
 #, kde-format
 msgid "Simple color adjustment"
-msgstr ""
+msgstr "简易色彩调整"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbR)
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
@@ -8042,27 +8073,27 @@ msgstr "蓝"
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:17
 #, kde-format
 msgid "Add constant,Change gamma,Multiply"
-msgstr ""
+msgstr "添加常量,更改伽玛值,相乘"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:18
 #, kde-format
 msgid "Action"
-msgstr ""
+msgstr "操作"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:21
 #, kde-format
 msgid "Keep luma"
-msgstr ""
+msgstr "保持光度"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:24
 #, kde-format
 msgid "Alpha controlled"
-msgstr ""
+msgstr "透明控制"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:4
 #, kde-format
 msgid "Color Distance"
-msgstr ""
+msgstr "Color Distance - 颜色距离"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:5
 #, kde-format
@@ -8070,11 +8101,12 @@ msgid ""
 "Calculates the distance between the selected color and the current pixel and "
 "uses that value as new pixel value"
 msgstr ""
+"计算所选颜色与当前像素的颜色数值距离，并使用该距离作为新的像素颜色数值。"
 
 #: data/effects/frei0r/frei0r_colordistance.xml:8
 #, kde-format
 msgid "Source Color"
-msgstr ""
+msgstr "源色彩"
 
 #: data/effects/frei0r/frei0r_colorize.xml:5
 #, kde-format

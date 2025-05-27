@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-24 02:36+0000\n"
-"PO-Revision-Date: 2025-05-25 20:52+0300\n"
+"PO-Revision-Date: 2025-05-26 13:29+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -483,16 +483,14 @@ msgid "Channel to draw"
 msgstr "ערוץ לציור"
 
 #: data/effects/avfilter/acompressor.xml:4
-#, fuzzy, kde-format
-#| msgid "Compressed archive:"
+#, kde-format
 msgid "Compressor (avfilter)"
-msgstr "ארכיון דחוס:"
+msgstr "דוחס (avfilter)"
 
 #: data/effects/avfilter/acompressor.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Codecs"
+#, kde-format
 msgid "Audio Compressor"
-msgstr "מקודדי שמע"
+msgstr "דוחס שמע"
 
 #: data/effects/avfilter/acompressor.xml:8 data/effects/avfilter/aecho.xml:8
 #: data/effects/avfilter/agate.xml:8
@@ -515,10 +513,9 @@ msgid "Threshold"
 msgstr "סף"
 
 #: data/effects/avfilter/acompressor.xml:14 data/effects/avfilter/agate.xml:17
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Ratio"
-msgstr "הטיה"
+msgstr "יחס"
 
 #: data/effects/avfilter/acompressor.xml:17 data/effects/avfilter/agate.xml:20
 #: data/effects/avfilter/avfilter_alimiter.xml:17
@@ -530,10 +527,9 @@ msgstr ""
 #: data/effects/avfilter/acompressor.xml:20 data/effects/avfilter/agate.xml:23
 #: data/effects/avfilter/avfilter_alimiter.xml:20
 #: data/effects/avfilter/avfilter_aphaser.xml:20
-#, fuzzy, kde-format
-#| msgid "Release time (s)"
+#, kde-format
 msgid "Release"
-msgstr "‫זמן שחרור (שנ')"
+msgstr "שחרור"
 
 #: data/effects/avfilter/acompressor.xml:23 data/effects/avfilter/agate.xml:26
 #, kde-format
@@ -551,10 +547,9 @@ msgid "Average,Maximum"
 msgstr "ממוצע,מרבי"
 
 #: data/effects/avfilter/acompressor.xml:30 data/effects/avfilter/agate.xml:37
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Link Type"
-msgstr "סוג"
+msgstr "סוג קישור"
 
 #: data/effects/avfilter/acompressor.xml:33 data/effects/avfilter/agate.xml:32
 #, kde-format
@@ -562,10 +557,9 @@ msgid "Peak,Rms"
 msgstr ""
 
 #: data/effects/avfilter/acompressor.xml:34 data/effects/avfilter/agate.xml:33
-#, fuzzy, kde-format
-#| msgid "Direction"
+#, kde-format
 msgid "Detection"
-msgstr "כיוון"
+msgstr "זיהוי"
 
 #: data/effects/avfilter/acompressor.xml:37
 #, kde-format
@@ -590,16 +584,14 @@ msgid "Mix"
 msgstr "ערבוב"
 
 #: data/effects/avfilter/aecho.xml:4
-#, fuzzy, kde-format
-#| msgid "EQ and filters"
+#, kde-format
 msgid "Echo (avfilter)"
-msgstr "אקוולייזר ומסננים"
+msgstr "הד (avfilter)"
 
 #: data/effects/avfilter/aecho.xml:5
-#, fuzzy, kde-format
-#| msgid "Add Effect"
+#, kde-format
 msgid "Add Echo"
-msgstr "הוספת אפקט"
+msgstr "הוספת הד"
 
 #: data/effects/avfilter/aecho.xml:11
 #, fuzzy, kde-format
@@ -625,16 +617,14 @@ msgid "Decay"
 msgstr "דעיכה"
 
 #: data/effects/avfilter/agate.xml:4
-#, fuzzy, kde-format
-#| msgid "Rate Scaler"
+#, kde-format
 msgid "Gate (avfilter)"
-msgstr "סולם קצב"
+msgstr "שער (avfilter)"
 
 #: data/effects/avfilter/agate.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Wave"
+#, kde-format
 msgid "Audio Gate"
-msgstr "גל שמע"
+msgstr "שער שמע"
 
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
@@ -815,9 +805,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_highshelf.xml:8
 #: data/effects/avfilter/avfilter_lowpass.xml:8
 #: data/effects/avfilter/avfilter_lowshelf.xml:8
-#, fuzzy, kde-format
+#, kde-format
 msgid "Central frequency"
-msgstr "תדר"
+msgstr "תדר מרכזי"
 
 #: data/effects/avfilter/avfilter_allpass.xml:11
 #: data/effects/avfilter/avfilter_bandpass.xml:14
@@ -837,10 +827,9 @@ msgstr ""
 #: data/effects/avfilter/avfilter_bass.xml:15
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:27
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:9
-#, fuzzy, kde-format
-#| msgid "Wipe Method"
+#, kde-format
 msgid "Method"
-msgstr "שיטת ניגוב"
+msgstr "שיטה"
 
 #: data/effects/avfilter/avfilter_allpass.xml:15
 #: data/effects/avfilter/avfilter_bandpass.xml:18
@@ -1394,10 +1383,9 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_bwdif.xml:17
 #: data/effects/avfilter/avfilter_yadif.xml:17
-#, fuzzy, kde-format
-#| msgid "Deinterlacer"
+#, kde-format
 msgid "Deinterlace"
-msgstr "מבטל שזירה"
+msgstr "ביטול שזירה"
 
 #: data/effects/avfilter/avfilter_cas.xml:4
 #, kde-format
@@ -1495,46 +1483,39 @@ msgid "Reduce chrominance noise."
 msgstr "הפחתת רעש שנובע מכרומתיות."
 
 #: data/effects/avfilter/avfilter_chromanr.xml:8
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "Y+U+V Threshold"
-msgstr "להשתמש בסף"
+msgstr "סף Y+U+V"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:11
-#, fuzzy, kde-format
-#| msgid "Horizontal Flip"
+#, kde-format
 msgid "Horizontal size"
-msgstr "היפוך אופקי"
+msgstr "גודל אופקי"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:14
-#, fuzzy, kde-format
-#| msgid "Vertical Flip"
+#, kde-format
 msgid "Vertical size"
-msgstr "היפוך אנכי"
+msgstr "גודל אנכי"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:17
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Horizontal step"
-msgstr "פיזור אופקי"
+msgstr "צעד אופקי"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:20
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Y threshold"
-msgstr "סף"
+msgstr "סף Y"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:23
-#, fuzzy, kde-format
-#| msgid "Use Threshold"
+#, kde-format
 msgid "U threshold"
-msgstr "להשתמש בסף"
+msgstr "סף U"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:26
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "V threshold"
-msgstr "סף"
+msgstr "סף V"
 
 #: data/effects/avfilter/avfilter_chromanr.xml:29
 #, kde-format
@@ -1542,16 +1523,14 @@ msgid "Manhattan,Euclidean"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_chromanr.xml:30
-#, fuzzy, kde-format
-#| msgid "Dance"
+#, kde-format
 msgid "Distance"
-msgstr "ריקוד"
+msgstr "מרחק"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:4
-#, fuzzy, kde-format
-#| msgid "Max shift"
+#, kde-format
 msgid "Chroma shift"
-msgstr "הסטה מרבית"
+msgstr "הסטת כרומה"
 
 #: data/effects/avfilter/avfilter_chromashift.xml:5
 #, fuzzy, kde-format
@@ -1594,10 +1573,9 @@ msgid "Edge mode"
 msgstr "מצב קצוות"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color balance"
-msgstr "מרחב צבעים"
+msgstr "איזון צבעים"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:5
 #, kde-format
@@ -1606,22 +1584,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:8
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Red Shadow"
-msgstr "צל"
+msgstr "צל אדום"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:11
-#, fuzzy, kde-format
-#| msgid "Drop Shadow"
+#, kde-format
 msgid "Green Shadow"
-msgstr "הטלת צל"
+msgstr "צל ירוק"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:14
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Blue Shadow"
-msgstr "צל"
+msgstr "צל כחול"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:17
 #, kde-format
@@ -1640,35 +1615,30 @@ msgid "Blue Midtones"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:26
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Red Highlights"
-msgstr "הדגשת פסגות"
+msgstr "הדגשות אדום"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:29
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Green Highlights"
-msgstr "הדגשת פסגות"
+msgstr "הדגשות ירוק"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:32
-#, fuzzy, kde-format
-#| msgid "Highlight peaks"
+#, kde-format
 msgid "Blue Highlights"
-msgstr "הדגשת פסגות"
+msgstr "הדגשות כחול"
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:35
 #: data/effects/avfilter/avfilter_colortemperature.xml:17
-#, fuzzy, kde-format
-#| msgid "Preserve alpha"
+#, kde-format
 msgid "Preserve lightness"
-msgstr "שימור שקיפות"
+msgstr "שימור בהירות"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Channel Mixer"
-msgstr "סרטון צבע"
+msgstr "מערבל ערוצי צבע"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:5
 #, kde-format
@@ -1683,58 +1653,49 @@ msgid "Red-Red"
 msgstr "אדום-אדום"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:11
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Red-Green"
-msgstr "ירוק"
+msgstr "אדום-ירוק"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:14
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Red-Blue"
-msgstr "כחול"
+msgstr "אדום-כחול"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:17
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Red"
-msgstr "ירוק"
+msgstr "ירוק-אדום"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:20
-#, fuzzy, kde-format
-#| msgid "Gain: Green"
+#, kde-format
 msgid "Green-Green"
-msgstr "שבח: ירוק"
+msgstr "ירוק-ירוק"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:23
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Green-Blue"
-msgstr "ירוק"
+msgstr "ירוק-כחול"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:26
-#, fuzzy, kde-format
-#| msgid "Blue"
+#, kde-format
 msgid "Blue-Red"
-msgstr "כחול"
+msgstr "כחול-אדום"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:29
-#, fuzzy, kde-format
-#| msgid "Green"
+#, kde-format
 msgid "Blue-Green"
-msgstr "ירוק"
+msgstr "כחול-ירוק"
 
 #: data/effects/avfilter/avfilter_colorchannelmixer.xml:32
-#, fuzzy, kde-format
-#| msgid "Slope Blue"
+#, kde-format
 msgid "Blue-Blue"
-msgstr "מדרון כחול"
+msgstr "כחול-כחול"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:4
-#, fuzzy, kde-format
-#| msgid "Contrast"
+#, kde-format
 msgid "Color Contrast"
-msgstr "ניגוד"
+msgstr "ניגודיות צבע"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:5
 #, kde-format
@@ -1742,28 +1703,24 @@ msgid "Adjust color contrast between RGB components."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:8
-#, fuzzy, kde-format
-#| msgid "Min. contrast"
+#, kde-format
 msgid "Red-Cyan contrast"
-msgstr "ניגודיות מזערית"
+msgstr "ניגודיות אדום-ציאן"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:11
-#, fuzzy, kde-format
-#| msgid "Min. contrast"
+#, kde-format
 msgid "Green-Magenta contrast"
-msgstr "ניגודיות מזערית"
+msgstr "ניגודיות ירוק-אדום לילך"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:14
-#, fuzzy, kde-format
-#| msgid "Blue/Yellow axis"
+#, kde-format
 msgid "Blue-Yellow contrast"
-msgstr "ציר כחול/צהוב"
+msgstr "ניגודיות כחול-צהוב"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:17
-#, fuzzy, kde-format
-#| msgid "Font weight"
+#, kde-format
 msgid "Red-Cyan weight"
-msgstr "משקל גופן"
+msgstr "משקל אדום-ציאן"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:20
 #, kde-format
@@ -1771,15 +1728,14 @@ msgid "Green-Magenta weight"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:23
-#, fuzzy, kde-format
-#| msgid "Blue/Yellow axis"
+#, kde-format
 msgid "Blue-Yellow weight"
-msgstr "ציר כחול/צהוב"
+msgstr "משקל כחול-צהוב"
 
 #: data/effects/avfilter/avfilter_colorcontrast.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Preserving lightness"
-msgstr "אטימות רקע"
+msgstr "שימור בהירות"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:4
 #, fuzzy, kde-format
@@ -1823,9 +1779,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:121
 #: data/effects/frei0r/frei0r_saturat0r.xml:8
 #: data/transitions/frei0r/frei0r_saturation.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saturation"
-msgstr "רויה"
+msgstr "רוויה"
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:23
 #, kde-format
@@ -1833,15 +1789,14 @@ msgid "Manual,Average,Minimax,Median"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorcorrect.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Analyze mode"
-msgstr "הכנס סרטון"
+msgstr "מצב אבחון"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Model"
+#, kde-format
 msgid "Color Hold"
-msgstr "דגם צבע"
+msgstr "החזקת צבע"
 
 #: data/effects/avfilter/avfilter_colorhold.xml:5
 #, kde-format
@@ -1850,10 +1805,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorize.xml:4
-#, fuzzy, kde-format
-#| msgid "Color key"
+#, kde-format
 msgid "Color Overlay"
-msgstr "מפתח צבע"
+msgstr "שכבת צבע עליונה"
 
 #: data/effects/avfilter/avfilter_colorize.xml:5
 #, kde-format
@@ -1867,15 +1821,14 @@ msgstr " גוון"
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
 #: data/effects/frei0r/frei0r_colorize.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lightness"
 msgstr "בהירות"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Model"
+#, kde-format
 msgid "Color levels"
-msgstr "דגם צבע"
+msgstr "רמות צבעים"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:5
 #, kde-format
@@ -1893,46 +1846,39 @@ msgid "Red white input"
 msgstr "קלט אדום לבן"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:14
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Red black output"
-msgstr "יציאת שחור"
+msgstr "פלט אדום שחור"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:17
-#, fuzzy, kde-format
-#| msgid "White output"
+#, kde-format
 msgid "Red white output"
-msgstr "יציאת לבן"
+msgstr "פלט אדום לבן"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:20
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green black input"
-msgstr "עמעום ירוק"
+msgstr "קלט ירוק שחור"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:23
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green white input"
-msgstr "עמעום ירוק"
+msgstr "קלט ירוק לבן"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:26
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Green black output"
-msgstr "יציאת שחור"
+msgstr "פלט ירוק שחור"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:29
-#, fuzzy, kde-format
-#| msgid "White output"
+#, kde-format
 msgid "Green white output"
-msgstr "יציאת לבן"
+msgstr "פלט ירוק לבן"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:32
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Blue black input"
-msgstr "יציאת שחור"
+msgstr "קלט כחול שחור"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:35
 #, kde-format
@@ -1940,28 +1886,24 @@ msgid "Blue white input"
 msgstr "קלט כחול לבן"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:38
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Blue black output"
-msgstr "יציאת שחור"
+msgstr "פלט כחול שחור"
 
 #: data/effects/avfilter/avfilter_colorlevels.xml:41
-#, fuzzy, kde-format
-#| msgid "White output"
+#, kde-format
 msgid "Blue white output"
-msgstr "יציאת לבן"
+msgstr "פלט כחול לבן"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:4
-#, fuzzy, kde-format
-#| msgid "Color Bars"
+#, kde-format
 msgid "Color Matrix"
-msgstr "עמודות צבע"
+msgstr "רשת צבע"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:5
-#, fuzzy, kde-format
-#| msgid "Invert colors"
+#, kde-format
 msgid "Convert color matrix."
-msgstr "היפוך צבעים"
+msgstr "המרת רשת צבע."
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:8
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
@@ -1970,16 +1912,14 @@ msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
-#, fuzzy, kde-format
-#| msgid "Source Color"
+#, kde-format
 msgid "Source color Matrix"
-msgstr "צבע מקור"
+msgstr "רשת צבעי מקור"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
-#, fuzzy, kde-format
-#| msgid "Destination Folder"
+#, kde-format
 msgid "Destination color Matrix"
-msgstr "תיקיית יעד"
+msgstr "רשת צבעי יעד"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
 #: src/scopes/colorscopes/vectorscope.cpp:94
@@ -2003,9 +1943,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:9
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color properties"
-msgstr "כפה פרוגרסיבי"
+msgstr "מאפייני צבע"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:12
 #: data/effects/avfilter/avfilter_colorspace.xml:47
@@ -2015,10 +1955,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Output Color Space"
-msgstr "מרחב צבעים"
+msgstr "מרחב צבעי פלט"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #: data/effects/avfilter/avfilter_colorspace.xml:55
@@ -2057,9 +1996,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
-#, fuzzy, kde-format
+#, kde-format
 msgid "Output Color Range"
-msgstr "מרחב צבעים"
+msgstr "טווח צבע פלט"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:28
 #, kde-format
@@ -2075,10 +2014,9 @@ msgid "Output Color Format"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
-#, fuzzy, kde-format
-#| msgid "version"
+#, kde-format
 msgid "Fast Conversion"
-msgstr "גרסה"
+msgstr "המרה מהירה"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
 #, kde-format
@@ -2108,9 +2046,9 @@ msgid "Override all input properties at once"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Override input colorspace"
-msgstr "מרחב צבעים"
+msgstr "דריסת מרחב צבעי קלט"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:52
 #, kde-format
@@ -2123,16 +2061,15 @@ msgid "Override input transfer characteristics"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_colorspace.xml:60
-#, fuzzy, kde-format
-#| msgid "Render full color range"
+#, kde-format
 msgid "Override input color range"
-msgstr "תיצוג כל טווח הצבעים"
+msgstr "דריסת טווח צבעי קלט"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:4
 #: data/effects/frei0r/frei0r_colgate.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color Temperature"
-msgstr "מרחב צבעים"
+msgstr "טמפרטורת צבע"
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:5
 #, kde-format
@@ -2143,15 +2080,14 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_colortemperature.xml:8
 #: data/effects/avfilter/avfilter_compensationdelay.xml:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "Temperature"
-msgstr "מרחב צבעים"
+msgstr "טמפרטורה"
 
 #: data/effects/avfilter/avfilter_compand.xml:4
-#, fuzzy, kde-format
-#| msgid "Collapse/Expand Item"
+#, kde-format
 msgid "Compressor/Expander"
-msgstr "צמצום/הרחבת פריט"
+msgstr "מצמצם/מרחיב"
 
 #: data/effects/avfilter/avfilter_compand.xml:5
 #, kde-format
@@ -2203,10 +2139,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_compand.xml:24
-#, fuzzy, kde-format
-#| msgid "Initial Zoom"
+#, kde-format
 msgid "Initial volume"
-msgstr "תקריב התחלתי"
+msgstr "עוצמת שמע התחלתית"
 
 #: data/effects/avfilter/avfilter_compand.xml:25
 #, kde-format
