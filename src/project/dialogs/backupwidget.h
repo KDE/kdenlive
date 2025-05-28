@@ -34,4 +34,5 @@ private Q_SLOTS:
 private:
     QString m_projectWildcard;
     QUrl m_projectFolder;
+    const QString getDateFromName(const QLocale locale, const QString &fileName);
 };
