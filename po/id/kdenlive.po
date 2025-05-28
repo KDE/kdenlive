@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-27 00:41+0000\n"
+"POT-Creation-Date: 2025-05-28 00:41+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -6703,7 +6703,7 @@ msgstr "Durasi"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:88
-#: src/core.cpp:705 src/kdenliveui.rc:30 src/mainwindow.cpp:228
+#: src/core.cpp:705 src/kdenliveui.rc:30 src/mainwindow.cpp:231
 #: src/project/dialogs/archivewidget.cpp:105
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
@@ -13761,7 +13761,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "Reduksi Renyek dan Restorasi Audio"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:86 src/mainwindow.cpp:1413
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:86 src/mainwindow.cpp:1416
 #: src/scopes/colorscopes/vectorscope.cpp:76
 #, kde-format
 msgid "Tools"
@@ -15341,13 +15341,13 @@ msgid "Switch to curve editor view"
 msgstr ""
 
 #: src/assets/view/widgets/keyframecontainer.cpp:100
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1865
+#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1868
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Menuju ke keyframe sebelumnya"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:104
-#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:1863
+#: src/dialogs/timeremap.cpp:1615 src/mainwindow.cpp:1866
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Menuju ke keyframe berikutnya"
@@ -16417,7 +16417,7 @@ msgstr "Buat Animasi..."
 msgid "Add Sequence…"
 msgstr "Tambahkan Rentetan..."
 
-#: src/bin/bin.cpp:3690 src/mainwindow.cpp:329
+#: src/bin/bin.cpp:3690 src/mainwindow.cpp:332
 #, kde-format
 msgid "Online Resources"
 msgstr "Sumberdaya Online"
@@ -16671,7 +16671,7 @@ msgstr ""
 "Proyek Anda membutuhkan lebih banyak trek audio untuk menangani semua kanal. "
 "Tambahkan %1 trek audio?"
 
-#: src/bin/bin.cpp:5434 src/mainwindow.cpp:2760
+#: src/bin/bin.cpp:5434 src/mainwindow.cpp:2763
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Tidak bisa menemukan klip untuk menambahkan penanda"
@@ -16765,12 +16765,12 @@ msgstr "Mentranskode"
 msgid "Delete effect %1"
 msgstr "Hapus efek %1"
 
-#: src/bin/bin.cpp:6361 src/mainwindow.cpp:322
+#: src/bin/bin.cpp:6361 src/mainwindow.cpp:325
 #, kde-format
 msgid "Project Bin"
 msgstr "Bin Proyek"
 
-#: src/bin/bin.cpp:6364 src/bin/bin.cpp:6367 src/mainwindow.cpp:4864
+#: src/bin/bin.cpp:6364 src/bin/bin.cpp:6367 src/mainwindow.cpp:4867
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Bin Proyek %1"
@@ -17259,7 +17259,7 @@ msgstr "Tambahkan klip sub"
 msgid "Rename Folder"
 msgstr "Ubah Nama Folder"
 
-#: src/bin/projectitemmodel.cpp:1194 src/mainwindow.cpp:1467
+#: src/bin/projectitemmodel.cpp:1194 src/mainwindow.cpp:1470
 #, kde-format
 msgid "Clean Project"
 msgstr "Bersihkan Proyek"
@@ -17894,7 +17894,7 @@ msgstr "Klip Proxy"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:57 src/kdenliveui.rc:137
-#: src/mainwindow.cpp:575
+#: src/mainwindow.cpp:578
 #, kde-format
 msgid "Timeline Preview"
 msgstr "Pratinjau Linimasa"
@@ -18869,7 +18869,7 @@ msgstr "Tambahkan ke proyek saat ini"
 msgid "Open Containing Folder"
 msgstr "Buka Folder Konten"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:82 src/mainwindow.cpp:3987
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:82 src/mainwindow.cpp:3990
 #, kde-format
 msgid "Timeline"
 msgstr "Linimasa"
@@ -19054,7 +19054,7 @@ msgstr "SDL"
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:793 src/mainwindow.cpp:277
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:793 src/mainwindow.cpp:280
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
@@ -19110,12 +19110,12 @@ msgstr "Pengesetan saat ini"
 msgid "Progressive"
 msgstr "Progresif"
 
-#: src/dialogs/settings/pluginssettings.cpp:62
+#: src/dialogs/settings/pluginssettings.cpp:63
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:63
+#: src/dialogs/settings/pluginssettings.cpp:64
 #, kde-format
 msgid ""
 "Text translation is performed by the SeamlessM4T model. This requires "
@@ -19123,37 +19123,37 @@ msgid ""
 "offline."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:67
+#: src/dialogs/settings/pluginssettings.cpp:68
 #, fuzzy, kde-format
 #| msgid "Download error %1"
 msgid "Download (1.4Gb)"
 msgstr "Unduhan galat %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:89
+#: src/dialogs/settings/pluginssettings.cpp:90
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr ""
 
+#: src/dialogs/settings/pluginssettings.cpp:140
+#: src/dialogs/settings/pluginssettings.cpp:143
 #: src/dialogs/settings/pluginssettings.cpp:146
-#: src/dialogs/settings/pluginssettings.cpp:149
-#: src/dialogs/settings/pluginssettings.cpp:152
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:173
+#: src/dialogs/settings/pluginssettings.cpp:167
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Downloading multilingual model…"
 msgstr "Model pengunduhan..."
 
-#: src/dialogs/settings/pluginssettings.cpp:231
-#: src/dialogs/settings/pluginssettings.cpp:900
+#: src/dialogs/settings/pluginssettings.cpp:225
+#: src/dialogs/settings/pluginssettings.cpp:870
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Mohon tambahkan model lisan."
 
-#: src/dialogs/settings/pluginssettings.cpp:264
+#: src/dialogs/settings/pluginssettings.cpp:258
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -19162,15 +19162,15 @@ msgstr ""
 "Unduh model lisan dari: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/settings/pluginssettings.cpp:272
-#: src/dialogs/settings/pluginssettings.cpp:384
+#: src/dialogs/settings/pluginssettings.cpp:266
+#: src/dialogs/settings/pluginssettings.cpp:378
 #, kde-format
 msgid ""
 "<b>Using system packages. Only use this if you know what that means</b>. You "
 "need to install all required packages by yourself on your system:<br>%1"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:342
+#: src/dialogs/settings/pluginssettings.cpp:336
 #, kde-format
 msgid ""
 "This will attempt to rebuild the plugin's virtual environment. Only use if "
@@ -19178,15 +19178,15 @@ msgid ""
 "plugin."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:458
+#: src/dialogs/settings/pluginssettings.cpp:452
 #, kde-format
 msgid ""
 "This will delete the installed models\n"
 "You can reinstall them later."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:475
-#: src/dialogs/settings/pluginssettings.cpp:489
+#: src/dialogs/settings/pluginssettings.cpp:469
+#: src/dialogs/settings/pluginssettings.cpp:483
 #, kde-format
 msgid ""
 "This will delete the plugin python environment from:<br/><b>%1</b><br/>The "
@@ -19195,86 +19195,84 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/settings/pluginssettings.cpp:504 src/ui/configspeech_ui.ui:369
+#: src/dialogs/settings/pluginssettings.cpp:498 src/ui/configspeech_ui.ui:369
 #, kde-format
 msgid "Install multilingual translation"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:513
+#: src/dialogs/settings/pluginssettings.cpp:507
 #, kde-format
 msgid "Install a speech model - we recommend <b>turbo</b>"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:568
+#: src/dialogs/settings/pluginssettings.cpp:562
 #, fuzzy, kde-format
 #| msgid "Select a zone to play"
 msgid "Select model to download"
 msgstr "Pilih zona untuk diputar"
 
-#: src/dialogs/settings/pluginssettings.cpp:584
+#: src/dialogs/settings/pluginssettings.cpp:578
 #, kde-format
 msgid "All models are already installed"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:604
+#: src/dialogs/settings/pluginssettings.cpp:598
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Downloading…"
 msgstr "Model pengunduhan..."
 
-#: src/dialogs/settings/pluginssettings.cpp:614
+#: src/dialogs/settings/pluginssettings.cpp:608
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Downloading smallest model…"
 msgstr "Model pengunduhan..."
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadSamButton)
-#: src/dialogs/settings/pluginssettings.cpp:633 src/ui/configspeech_ui.ui:832
+#: src/dialogs/settings/pluginssettings.cpp:627 src/ui/configspeech_ui.ui:832
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Download models"
 msgstr "Model pengunduhan..."
 
-#: src/dialogs/settings/pluginssettings.cpp:691
-#: src/dialogs/settings/pluginssettings.cpp:705
-#: src/dialogs/settings/pluginssettings.cpp:714
+#: src/dialogs/settings/pluginssettings.cpp:679
+#: src/dialogs/settings/pluginssettings.cpp:692
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install a model"
 msgstr "Modul terinstal"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/settings/pluginssettings.cpp:707
-#: src/dialogs/settings/pluginssettings.cpp:716 src/ui/configspeech_ui.ui:463
+#: src/dialogs/settings/pluginssettings.cpp:694 src/ui/configspeech_ui.ui:463
 #, fuzzy, kde-format
 #| msgid "Edge mode"
 msgid "Manage models"
 msgstr "Mode tepi"
 
-#: src/dialogs/settings/pluginssettings.cpp:783
+#: src/dialogs/settings/pluginssettings.cpp:753
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Masukkan url untuk kamus baru"
 
-#: src/dialogs/settings/pluginssettings.cpp:789
+#: src/dialogs/settings/pluginssettings.cpp:759
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model pengunduhan..."
 
-#: src/dialogs/settings/pluginssettings.cpp:799
+#: src/dialogs/settings/pluginssettings.cpp:769
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Kami tidak mengizinkan penghapusan model folder khusus, harap lakukan secara "
 "manual."
 
-#: src/dialogs/settings/pluginssettings.cpp:805
-#: src/dialogs/settings/pluginssettings.cpp:859
+#: src/dialogs/settings/pluginssettings.cpp:775
+#: src/dialogs/settings/pluginssettings.cpp:829
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Tidak bisa mengakses folder kamus."
 
-#: src/dialogs/settings/pluginssettings.cpp:814
+#: src/dialogs/settings/pluginssettings.cpp:784
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -19283,52 +19281,52 @@ msgstr ""
 "Hapus folder:\n"
 "%1"
 
-#: src/dialogs/settings/pluginssettings.cpp:834
+#: src/dialogs/settings/pluginssettings.cpp:804
 #, kde-format
 msgid "Download error"
 msgstr "Unduhan galat"
 
-#: src/dialogs/settings/pluginssettings.cpp:838
+#: src/dialogs/settings/pluginssettings.cpp:808
 #, kde-format
 msgid "Download error %1"
 msgstr "Unduhan galat %1"
 
-#: src/dialogs/settings/pluginssettings.cpp:866
+#: src/dialogs/settings/pluginssettings.cpp:836
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Mengekstrak arsip..."
 
-#: src/dialogs/settings/pluginssettings.cpp:873
+#: src/dialogs/settings/pluginssettings.cpp:843
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Kamus baru terinstal."
 
-#: src/dialogs/settings/pluginssettings.cpp:1008
+#: src/dialogs/settings/pluginssettings.cpp:971
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:1012
+#: src/dialogs/settings/pluginssettings.cpp:975
 #, kde-format
 msgid "CUDA %1"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:1025
+#: src/dialogs/settings/pluginssettings.cpp:988
 #, fuzzy, kde-format
 #| msgid "Detected devices:"
 msgid "Detected version: %1"
 msgstr "Peranti yang terdeteksi:"
 
-#: src/dialogs/settings/pluginssettings.cpp:1028
+#: src/dialogs/settings/pluginssettings.cpp:991
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:1042
+#: src/dialogs/settings/pluginssettings.cpp:1005
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -21106,7 +21104,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "File keluaran sudah ada. Apakah Anda ingin menimpanya?"
 
-#: src/doc/documentvalidator.cpp:2199 src/mainwindow.cpp:3505
+#: src/doc/documentvalidator.cpp:2199 src/mainwindow.cpp:3508
 #, kde-format
 msgid "Overwrite"
 msgstr "Timpa"
@@ -22310,13 +22308,13 @@ msgid "Add Markers by Category"
 msgstr "Kategori Penanda"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3882
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3885
 #, kde-format
 msgid "Extract Audio"
 msgstr "Ekstrak Audio"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3856
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3859
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Tugas Klip"
@@ -22377,20 +22375,20 @@ msgstr "Spasi"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:184 src/mainwindow.cpp:1876
+#: src/kdenliveui.rc:184 src/mainwindow.cpp:1879
 #: src/ui/configtimeline_ui.ui:251
 #, kde-format
 msgid "Tracks"
 msgstr "Trek"
 
 #. i18n: ectx: Menu (video_effects_menu)
-#: src/kdenliveui.rc:206 src/mainwindow.cpp:509
+#: src/kdenliveui.rc:206 src/mainwindow.cpp:512
 #, kde-format
 msgid "Add Effect"
 msgstr "Tambahkan Efek"
 
 #. i18n: ectx: Menu (monitor)
-#: src/kdenliveui.rc:221 src/mainwindow.cpp:136
+#: src/kdenliveui.rc:221 src/mainwindow.cpp:139
 #, kde-format
 msgid "Monitor"
 msgstr "Monitor"
@@ -22414,7 +22412,7 @@ msgid "Current Monitor Overlay"
 msgstr "Hamparan Monitor Saat Ini"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:265 src/mainwindow.cpp:1540
+#: src/kdenliveui.rc:265 src/mainwindow.cpp:1543
 #, kde-format
 msgid "Preview Resolution"
 msgstr "Resolusi Pratinjau"
@@ -22460,8 +22458,8 @@ msgid "Editing"
 msgstr "Pengeditan"
 
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
-#: src/layouts/layoutcollection.cpp:23 src/mainwindow.cpp:425
-#: src/mainwindow.cpp:510 src/ui/editsub_ui.ui:517
+#: src/layouts/layoutcollection.cpp:23 src/mainwindow.cpp:428
+#: src/mainwindow.cpp:513 src/ui/editsub_ui.ui:517
 #, kde-format
 msgid "Effects"
 msgstr "Efek"
@@ -23046,172 +23044,172 @@ msgstr "Ekstensi File:"
 msgid "Version %1"
 msgstr "Versi %1"
 
-#: src/mainwindow.cpp:138
+#: src/mainwindow.cpp:141
 #, kde-format
 msgid "Add Clip"
 msgstr "Tambahkan Klip"
 
-#: src/mainwindow.cpp:140
+#: src/mainwindow.cpp:143
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide by Category Number"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:142
+#: src/mainwindow.cpp:145
 #, kde-format
 msgid "Navigation and Playback"
 msgstr "Navigasi dan Pemutaran"
 
-#: src/mainwindow.cpp:144
+#: src/mainwindow.cpp:147
 #, kde-format
 msgid "Bin Tags"
 msgstr "Bin Tag"
 
-#: src/mainwindow.cpp:166
+#: src/mainwindow.cpp:169
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
 msgstr "Tidak bisa menemukan profil baku Anda, mengalihkan ke ATSC 1080p 25"
 
-#: src/mainwindow.cpp:227
+#: src/mainwindow.cpp:230
 #, kde-format
 msgid "Library"
 msgstr "Pustaka"
 
-#: src/mainwindow.cpp:229
+#: src/mainwindow.cpp:232
 #, kde-format
 msgid "Speech Editor"
 msgstr "Pengedit Lisan"
 
-#: src/mainwindow.cpp:230
+#: src/mainwindow.cpp:233
 #, kde-format
 msgid "Time Remapping"
 msgstr "Pemetaan Ulang Waktu"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/mainwindow.cpp:231 src/ui/projectsettings_ui.ui:547
+#: src/mainwindow.cpp:234 src/ui/projectsettings_ui.ui:547
 #, kde-format
 msgid "Guides"
 msgstr "Pancangan"
 
-#: src/mainwindow.cpp:285 src/timeline2/view/qml/AudioLevels.qml:28
+#: src/mainwindow.cpp:288 src/timeline2/view/qml/AudioLevels.qml:28
 #: src/timeline2/view/qml/AudioLevels.qml:44
 #, kde-format
 msgid "Record"
 msgstr "Rekam"
 
-#: src/mainwindow.cpp:291
+#: src/mainwindow.cpp:294
 #, fuzzy, kde-format
 #| msgid "Enable edit mode in monitor to edit effect"
 msgid "Enable audio monitoring from the Mixer to record"
 msgstr "Fungsikan mode edit di monitor untuk mengedit efek"
 
-#: src/mainwindow.cpp:299 src/monitor/recmanager.cpp:103
+#: src/mainwindow.cpp:302 src/monitor/recmanager.cpp:103
 #, kde-format
 msgid "Configure Recording"
 msgstr "Konfigurasi Perekaman"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:302 src/monitor/recmanager.cpp:38
+#: src/mainwindow.cpp:305 src/monitor/recmanager.cpp:38
 #: src/monitor/recmanager.cpp:94 src/ui/configcapture_ui.ui:263
 #, kde-format
 msgid "Screen Grab"
 msgstr "Tangkap Layar"
 
-#: src/mainwindow.cpp:308
+#: src/mainwindow.cpp:311
 #, kde-format
 msgid "Switch to next Sequence"
 msgstr "Beralih ke Urutan selanjutnya"
 
-#: src/mainwindow.cpp:312
+#: src/mainwindow.cpp:315
 #, kde-format
 msgid "Switch to previous Sequence"
 msgstr "Beralih ke Urutan sebelumnya"
 
-#: src/mainwindow.cpp:318
+#: src/mainwindow.cpp:321
 #, kde-format
 msgid "Audio Spectrum"
 msgstr "Spektrum Audio"
 
-#: src/mainwindow.cpp:325
+#: src/mainwindow.cpp:328
 #, kde-format
 msgid "Media Browser"
 msgstr "Penelusur Media"
 
-#: src/mainwindow.cpp:350
+#: src/mainwindow.cpp:353
 #, kde-format
 msgid "Effect/Composition Stack"
 msgstr "Tumpukan Komposisi/Efek"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropscompositions)
-#: src/mainwindow.cpp:428
+#: src/mainwindow.cpp:431
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
 #: src/ui/configtimeline_ui.ui:244
 #, kde-format
 msgid "Compositions"
 msgstr "Komposisi"
 
-#: src/mainwindow.cpp:431
+#: src/mainwindow.cpp:434
 #, kde-format
 msgid "Clip Monitor"
 msgstr "Monitor Klip"
 
-#: src/mainwindow.cpp:432
+#: src/mainwindow.cpp:435
 #, kde-format
 msgid "Project Monitor"
 msgstr "Monitor Proyek"
 
-#: src/mainwindow.cpp:436
+#: src/mainwindow.cpp:439
 #, kde-format
 msgid "Clean"
 msgstr "Bersihkan"
 
-#: src/mainwindow.cpp:438
+#: src/mainwindow.cpp:441
 #, fuzzy, kde-format
 #| msgid "Undo History"
 msgid "Clear Undo History"
 msgstr "Histori Urung"
 
-#: src/mainwindow.cpp:441
+#: src/mainwindow.cpp:444
 #, kde-format
 msgid ""
 "This will clear all undo history, you will not be able to undo any previous "
 "action."
 msgstr ""
 
-#: src/mainwindow.cpp:451
+#: src/mainwindow.cpp:454
 #, kde-format
 msgid "Undo History"
 msgstr "Histori Urung"
 
-#: src/mainwindow.cpp:473 src/mainwindow.cpp:475
+#: src/mainwindow.cpp:476 src/mainwindow.cpp:478
 #, kde-format
 msgid "Audio Mixer"
 msgstr "Pencampur Audio"
 
-#: src/mainwindow.cpp:474
+#: src/mainwindow.cpp:477
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "Jungkitan widget/panel audio mixer."
 
-#: src/mainwindow.cpp:513
+#: src/mainwindow.cpp:516
 #, kde-format
 msgid "Add Transition"
 msgstr "Tambahkan Transisi"
 
-#: src/mainwindow.cpp:514 src/mainwindow.cpp:2045
+#: src/mainwindow.cpp:517 src/mainwindow.cpp:2048
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #, kde-format
 msgid "Transitions"
 msgstr "Transisi"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:532 src/mainwindow.cpp:544 src/mainwindow.cpp:551
+#: src/mainwindow.cpp:535 src/mainwindow.cpp:547 src/mainwindow.cpp:554
 #, kde-format
 msgid "Favorite Effects"
 msgstr "Efek Favorit"
 
-#: src/mainwindow.cpp:533 src/mainwindow.cpp:546
+#: src/mainwindow.cpp:536 src/mainwindow.cpp:549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23219,12 +23217,12 @@ msgid ""
 "it to the selected clip."
 msgstr ""
 
-#: src/mainwindow.cpp:559 src/mainwindow.cpp:1461
+#: src/mainwindow.cpp:562 src/mainwindow.cpp:1464
 #, kde-format
 msgid "Render…"
 msgstr "Render..."
 
-#: src/mainwindow.cpp:564
+#: src/mainwindow.cpp:567
 #, fuzzy, kde-format
 #| msgid "Render Button"
 msgctxt ""
@@ -23233,68 +23231,68 @@ msgctxt ""
 msgid "Render Button"
 msgstr "Tombol Render"
 
-#: src/mainwindow.cpp:570
+#: src/mainwindow.cpp:573
 #, kde-format
 msgid "Rendering preview"
 msgstr "Pratinjau perenderan"
 
-#: src/mainwindow.cpp:624 src/monitor/monitor.cpp:429
+#: src/mainwindow.cpp:627 src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Menuju ke Pancang…"
 
-#: src/mainwindow.cpp:652
+#: src/mainwindow.cpp:655
 #, kde-format
 msgid "Separate Channels"
 msgstr "Kanal Terpisah"
 
-#: src/mainwindow.cpp:659
+#: src/mainwindow.cpp:662
 #, kde-format
 msgid "Normalize Audio Thumbnails"
 msgstr "Thumbnail Audio Normalkan"
 
-#: src/mainwindow.cpp:666
+#: src/mainwindow.cpp:669
 #, kde-format
 msgid "Thumbnails"
 msgstr "Thumbnail"
 
-#: src/mainwindow.cpp:668
+#: src/mainwindow.cpp:671
 #, kde-format
 msgid "In Frame"
 msgstr "Fame Masuk"
 
-#: src/mainwindow.cpp:672
+#: src/mainwindow.cpp:675
 #, kde-format
 msgid "In/Out Frames"
 msgstr "Frame Masuk/Keluar"
 
-#: src/mainwindow.cpp:676
+#: src/mainwindow.cpp:679
 #, kde-format
 msgid "All Frames"
 msgstr "Semua Frame"
 
-#: src/mainwindow.cpp:680
+#: src/mainwindow.cpp:683
 #, kde-format
 msgid "No Thumbnails"
 msgstr "Tidak Ada Thumbnail"
 
-#: src/mainwindow.cpp:716
+#: src/mainwindow.cpp:719
 #, kde-format
 msgid "Preview Using Proxy Clips"
 msgstr "Pratinjau Penggunaan Klip Proxy"
 
-#: src/mainwindow.cpp:723
+#: src/mainwindow.cpp:726
 #, kde-format
 msgid "Automatic Preview"
 msgstr "Pratinjau Otomatis"
 
-#: src/mainwindow.cpp:823
+#: src/mainwindow.cpp:826
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Memuat Proyek"
 
-#: src/mainwindow.cpp:958
+#: src/mainwindow.cpp:961
 #, fuzzy, kde-format
 #| msgid ""
 #| "You have 1 rendering job waiting in the queue.\n"
@@ -23315,18 +23313,18 @@ msgstr[1] ""
 "Anda memiliki %1 tugas perenderan yang menunggu di dalam antrean.\n"
 "Apa yang ingin Anda lakukan dengan tugas ini?"
 
-#: src/mainwindow.cpp:960
+#: src/mainwindow.cpp:963
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr ""
 
-#: src/mainwindow.cpp:960
+#: src/mainwindow.cpp:963
 #, fuzzy, kde-format
 #| msgid "Abort processing"
 msgid "Abort rendering"
 msgstr "Gugurkan pemprosesan"
 
-#: src/mainwindow.cpp:977
+#: src/mainwindow.cpp:980
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -23341,42 +23339,42 @@ msgstr[1] ""
 "Anda memiliki %1 tugas perenderan yang menunggu di dalam antrean.\n"
 "Apa yang ingin Anda lakukan dengan tugas ini?"
 
-#: src/mainwindow.cpp:980
+#: src/mainwindow.cpp:983
 #, kde-format
 msgid "Start them now"
 msgstr "Jalankan mereka sekarang"
 
-#: src/mainwindow.cpp:980
+#: src/mainwindow.cpp:983
 #, kde-format
 msgid "Delete them"
 msgstr "Hapus mereka"
 
-#: src/mainwindow.cpp:1076 src/timeline2/view/timelinecontroller.cpp:2147
+#: src/mainwindow.cpp:1079 src/timeline2/view/timelinecontroller.cpp:2147
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Pilih klip untuk membandingkan efek"
 
-#: src/mainwindow.cpp:1126
+#: src/mainwindow.cpp:1129
 #, kde-format
 msgid "Normal Mode"
 msgstr "Mode Normal"
 
-#: src/mainwindow.cpp:1133
+#: src/mainwindow.cpp:1136
 #, kde-format
 msgid "Overwrite Mode"
 msgstr "Mode Timpa"
 
-#: src/mainwindow.cpp:1140
+#: src/mainwindow.cpp:1143
 #, kde-format
 msgid "Insert Mode"
 msgstr "Mode Sisip"
 
-#: src/mainwindow.cpp:1144
+#: src/mainwindow.cpp:1147
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "Mode Edit Linimasa"
 
-#: src/mainwindow.cpp:1146
+#: src/mainwindow.cpp:1149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23384,85 +23382,85 @@ msgid ""
 "action when handling clips in the timeline."
 msgstr ""
 
-#: src/mainwindow.cpp:1155
+#: src/mainwindow.cpp:1158
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "Jangan Gunakan Zona Linimasa untuk Sisipkan"
 
-#: src/mainwindow.cpp:1155
+#: src/mainwindow.cpp:1158
 #, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "Gunakan Zona Linimasa untuk Menyisipkan"
 
-#: src/mainwindow.cpp:1156
+#: src/mainwindow.cpp:1159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
 
-#: src/mainwindow.cpp:1163
+#: src/mainwindow.cpp:1166
 #, kde-format
 msgid "Enable Track Compositing"
 msgstr "Fungsikan Pengomposisian Trek"
 
-#: src/mainwindow.cpp:1169
+#: src/mainwindow.cpp:1172
 #, kde-format
 msgid "Split Audio Tracks"
 msgstr "Belah Trek Audio"
 
-#: src/mainwindow.cpp:1175
+#: src/mainwindow.cpp:1178
 #, kde-format
 msgid "Split Audio Tracks (reverse)"
 msgstr "Belah Trek Audio (kebalikan)"
 
-#: src/mainwindow.cpp:1181
+#: src/mainwindow.cpp:1184
 #, kde-format
 msgid "Mixed Audio tracks"
 msgstr "Trek Audio dicampur"
 
-#: src/mainwindow.cpp:1207
+#: src/mainwindow.cpp:1210
 #, kde-format
 msgid "Track menu"
 msgstr "Menu Trek"
 
-#: src/mainwindow.cpp:1212 src/project/dialogs/slideshowclip.cpp:91
+#: src/mainwindow.cpp:1215 src/project/dialogs/slideshowclip.cpp:91
 #, fuzzy, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "jj:mm:dd:ff"
 
-#: src/mainwindow.cpp:1213 src/project/dialogs/slideshowclip.cpp:92
+#: src/mainwindow.cpp:1216 src/project/dialogs/slideshowclip.cpp:92
 #, kde-format
 msgid "Frames"
 msgstr "Frame"
 
-#: src/mainwindow.cpp:1225
+#: src/mainwindow.cpp:1228
 #, kde-format
 msgid "Edit Subtitle Tool"
 msgstr "Edit Alat Subtitel"
 
-#: src/mainwindow.cpp:1226
+#: src/mainwindow.cpp:1229
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Jungkitan trek subtitel di dalam linimasa."
 
-#: src/mainwindow.cpp:1233 src/titler/titlewidget.cpp:405
+#: src/mainwindow.cpp:1236 src/titler/titlewidget.cpp:405
 #, kde-format
 msgid "Selection Tool"
 msgstr "Alat Pemilihan"
 
-#: src/mainwindow.cpp:1238
+#: src/mainwindow.cpp:1241
 #, kde-format
 msgid "Razor Tool"
 msgstr "Alat Pemotong"
 
-#: src/mainwindow.cpp:1243
+#: src/mainwindow.cpp:1246
 #, kde-format
 msgid "Spacer Tool"
 msgstr "Alat Penspasi"
 
-#: src/mainwindow.cpp:1246
+#: src/mainwindow.cpp:1249
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23470,12 +23468,12 @@ msgid ""
 "groups separate clips and creates or removes space between clips."
 msgstr ""
 
-#: src/mainwindow.cpp:1251
+#: src/mainwindow.cpp:1254
 #, kde-format
 msgid "Ripple Tool"
 msgstr "Alat Riak"
 
-#: src/mainwindow.cpp:1254
+#: src/mainwindow.cpp:1257
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23487,12 +23485,12 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1264
+#: src/mainwindow.cpp:1267
 #, kde-format
 msgid "Slip Tool"
 msgstr "Alat Penyelip"
 
-#: src/mainwindow.cpp:1265
+#: src/mainwindow.cpp:1268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23500,28 +23498,28 @@ msgid ""
 "and forth."
 msgstr ""
 
-#: src/mainwindow.cpp:1269
+#: src/mainwindow.cpp:1272
 #, kde-format
 msgid "Multicam Tool"
 msgstr "Alat Multikam"
 
-#: src/mainwindow.cpp:1290
+#: src/mainwindow.cpp:1293
 #, fuzzy, kde-format
 #| msgid "Audio Waveform Filter"
 msgid "Zoom Audio Waveforms"
 msgstr "Filter Bentuk Gelombang Audio"
 
-#: src/mainwindow.cpp:1294
+#: src/mainwindow.cpp:1297
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "Ciutkan/Bentangkan Item"
 
-#: src/mainwindow.cpp:1298
+#: src/mainwindow.cpp:1301
 #, kde-format
 msgid "Mix Clips"
 msgstr "Campurkan Klip"
 
-#: src/mainwindow.cpp:1300
+#: src/mainwindow.cpp:1303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23529,12 +23527,12 @@ msgid ""
 "one closest to the playhead."
 msgstr ""
 
-#: src/mainwindow.cpp:1308
+#: src/mainwindow.cpp:1311
 #, kde-format
 msgid "Show Video Thumbnails"
 msgstr "Tampilkan Thumbnail Video"
 
-#: src/mainwindow.cpp:1309
+#: src/mainwindow.cpp:1312
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23542,12 +23540,12 @@ msgid ""
 "(default is On)."
 msgstr "Jungkitan tampilan thumbnail video untuk klip di dalam linimasa"
 
-#: src/mainwindow.cpp:1317
+#: src/mainwindow.cpp:1320
 #, kde-format
 msgid "Show Audio Thumbnails"
 msgstr "Tampilkan Thumbnail Audio"
 
-#: src/mainwindow.cpp:1318
+#: src/mainwindow.cpp:1321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23557,17 +23555,17 @@ msgstr ""
 "Jungkitan tampilan thumbnail audio untuk klip di dalam linimasa (bakunya "
 "adalah On)."
 
-#: src/mainwindow.cpp:1324
+#: src/mainwindow.cpp:1327
 #, kde-format
 msgid "Show Markers Comments"
 msgstr "Tampilkan Komentar Penanda"
 
-#: src/mainwindow.cpp:1330
+#: src/mainwindow.cpp:1333
 #, kde-format
 msgid "Snap"
 msgstr "Jepret"
 
-#: src/mainwindow.cpp:1331
+#: src/mainwindow.cpp:1334
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23577,40 +23575,40 @@ msgstr ""
 "Jungkitan fungsi jepret (jepret klip ke tajuk putar, tepian, penanda, "
 "pancangan dan lainnya)."
 
-#: src/mainwindow.cpp:1337
+#: src/mainwindow.cpp:1340
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "Tampilkan Tag Warna di Linimasa"
 
-#: src/mainwindow.cpp:1338
+#: src/mainwindow.cpp:1341
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "Jungkitan tampilan tag-tag klip di dalam linimasa (bakunya adalah On)."
 
-#: src/mainwindow.cpp:1344
+#: src/mainwindow.cpp:1347
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "Zoom pas ke Proyek"
 
-#: src/mainwindow.cpp:1345
+#: src/mainwindow.cpp:1348
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr ""
 
-#: src/mainwindow.cpp:1370
+#: src/mainwindow.cpp:1373
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Pemprosesan GPU experimental difungsikan - bukan untuk produksi"
 
-#: src/mainwindow.cpp:1380 src/mainwindow.cpp:3491
+#: src/mainwindow.cpp:1383 src/mainwindow.cpp:3494
 #, kde-format
 msgid "Multicam"
 msgstr "Multikam"
 
-#: src/mainwindow.cpp:1381
+#: src/mainwindow.cpp:1384
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr "Alat aktif dan mode pengeditan"
@@ -23618,240 +23616,240 @@ msgstr "Alat aktif dan mode pengeditan"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1432 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1435 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "Auto"
 
-#: src/mainwindow.cpp:1437
+#: src/mainwindow.cpp:1440
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1442
+#: src/mainwindow.cpp:1445
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "DirectX (ANGLE)"
 
-#: src/mainwindow.cpp:1447
+#: src/mainwindow.cpp:1450
 #, kde-format
 msgid "Software OpenGL"
 msgstr "Perangkat Lunak OpenGL"
 
-#: src/mainwindow.cpp:1457
+#: src/mainwindow.cpp:1460
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "Jalankan Wisaya Konfig..."
 
-#: src/mainwindow.cpp:1458
+#: src/mainwindow.cpp:1461
 #, kde-format
 msgid "Project Settings…"
 msgstr "Pengaturan Proyek…"
 
-#: src/mainwindow.cpp:1464
+#: src/mainwindow.cpp:1467
 #, kde-format
 msgid "Stop Render"
 msgstr "Hentikan Render"
 
-#: src/mainwindow.cpp:1469
+#: src/mainwindow.cpp:1472
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "Set ulang konfigurasi…"
 
-#: src/mainwindow.cpp:1474
+#: src/mainwindow.cpp:1477
 #, fuzzy, kde-format
 #| msgid "Play Zone"
 msgid "Play Zone From Cursor"
 msgstr "Putar Zona"
 
-#: src/mainwindow.cpp:1477
+#: src/mainwindow.cpp:1480
 #, kde-format
 msgid "Play Zone"
 msgstr "Putar Zona"
 
-#: src/mainwindow.cpp:1479
+#: src/mainwindow.cpp:1482
 #, kde-format
 msgid "Loop Zone"
 msgstr "Loop Zona"
 
-#: src/mainwindow.cpp:1481
+#: src/mainwindow.cpp:1484
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "Ulangi Klip Yang Dipilih"
 
-#: src/mainwindow.cpp:1485
+#: src/mainwindow.cpp:1488
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "Klip Transkode..."
 
-#: src/mainwindow.cpp:1486
+#: src/mainwindow.cpp:1489
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "E&kspor OpenTimelineIO..."
 
-#: src/mainwindow.cpp:1490
+#: src/mainwindow.cpp:1493
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "&Impor OpenTimelineIO..."
 
-#: src/mainwindow.cpp:1495
+#: src/mainwindow.cpp:1498
 #, kde-format
 msgid "Archive Project…"
 msgstr "Arsipkan Proyek..."
 
-#: src/mainwindow.cpp:1497
+#: src/mainwindow.cpp:1500
 #, kde-format
 msgid "Switch Monitor"
 msgstr "Alihkan Monitor"
 
-#: src/mainwindow.cpp:1498
+#: src/mainwindow.cpp:1501
 #, kde-format
 msgid "Focus Timecode"
 msgstr "Fokuskan Kode-Waktu"
 
-#: src/mainwindow.cpp:1499
+#: src/mainwindow.cpp:1502
 #, kde-format
 msgid "Expand Clip"
 msgstr "Bentangkan Klip"
 
-#: src/mainwindow.cpp:1501
+#: src/mainwindow.cpp:1504
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "Hamparan Info Monitor"
 
-#: src/mainwindow.cpp:1506
+#: src/mainwindow.cpp:1509
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "Hamparan Kode-Waktu Monitor"
 
-#: src/mainwindow.cpp:1511
+#: src/mainwindow.cpp:1514
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "Hamparan Fps Pemutaran Monitor"
 
-#: src/mainwindow.cpp:1516
+#: src/mainwindow.cpp:1519
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "Hamparan Penanda Monitor"
 
-#: src/mainwindow.cpp:1521
+#: src/mainwindow.cpp:1524
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "Hamparan Bentuk Gelombang Audio Monitor"
 
-#: src/mainwindow.cpp:1526
+#: src/mainwindow.cpp:1529
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
 msgstr "Hamparan Tugas Klip Monitor"
 
-#: src/mainwindow.cpp:1544
+#: src/mainwindow.cpp:1547
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "Resolusi Penuh (1:1)"
 
-#: src/mainwindow.cpp:1548 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1551 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1552 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1555 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1556 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1559 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1560 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1563 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "270p"
 msgstr "270p"
 
-#: src/mainwindow.cpp:1591
+#: src/mainwindow.cpp:1594
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "Waktu Nyata (turunkan frame)"
 
-#: src/mainwindow.cpp:1597
+#: src/mainwindow.cpp:1600
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "Gamma Monitor"
 
-#: src/mainwindow.cpp:1598
+#: src/mainwindow.cpp:1601
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB (komputer)"
 
-#: src/mainwindow.cpp:1599
+#: src/mainwindow.cpp:1602
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709 (TV)"
 
-#: src/mainwindow.cpp:1605
+#: src/mainwindow.cpp:1608
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "Sisipkan Zona di Bin Proyek"
 
-#: src/mainwindow.cpp:1607
+#: src/mainwindow.cpp:1610
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "Membuat sebuah klip baru di bin proyek dari zona yang ditentukan."
 
-#: src/mainwindow.cpp:1610
+#: src/mainwindow.cpp:1613
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "Menuju ke Titik Jepret Sebelumnya"
 
-#: src/mainwindow.cpp:1612
+#: src/mainwindow.cpp:1615
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "Menuju ke Titik Jepret Berikutnya"
 
-#: src/mainwindow.cpp:1615
+#: src/mainwindow.cpp:1618
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "Menuju ke Awal Klip"
 
-#: src/mainwindow.cpp:1617
+#: src/mainwindow.cpp:1620
 #, kde-format
 msgid "Go to Clip End"
 msgstr "Menuju ke Akhir Klip"
 
-#: src/mainwindow.cpp:1619
+#: src/mainwindow.cpp:1622
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "Menuju ke Pancang Sebelumnya"
 
-#: src/mainwindow.cpp:1621
+#: src/mainwindow.cpp:1624
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "Menuju ke Pancang Berikutnya"
 
-#: src/mainwindow.cpp:1623
+#: src/mainwindow.cpp:1626
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "Sejajarkan Playhead ke Posisi Mouse"
 
-#: src/mainwindow.cpp:1626
+#: src/mainwindow.cpp:1629
 #, kde-format
 msgid "Grab Current Item"
 msgstr "Raih Item Saat Ini"
 
-#: src/mainwindow.cpp:1629
+#: src/mainwindow.cpp:1632
 #, kde-format
 msgid "Automatic Transition"
 msgstr "Transisi Otomatis"
 
-#: src/mainwindow.cpp:1636
+#: src/mainwindow.cpp:1639
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Timpa Zona Klip di Linimasa"
 
-#: src/mainwindow.cpp:1638
+#: src/mainwindow.cpp:1641
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23860,12 +23858,12 @@ msgid ""
 "insert position are cut and overwritten."
 msgstr ""
 
-#: src/mainwindow.cpp:1640
+#: src/mainwindow.cpp:1643
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "Sisipkan Zona Klip di Linimasa"
 
-#: src/mainwindow.cpp:1642
+#: src/mainwindow.cpp:1645
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23874,12 +23872,12 @@ msgid ""
 "insert position are cut and shifted to the right."
 msgstr ""
 
-#: src/mainwindow.cpp:1644
+#: src/mainwindow.cpp:1647
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "Ekstrak Zona Linimasa"
 
-#: src/mainwindow.cpp:1646
+#: src/mainwindow.cpp:1649
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23887,12 +23885,12 @@ msgid ""
 "are shifted left."
 msgstr ""
 
-#: src/mainwindow.cpp:1647
+#: src/mainwindow.cpp:1650
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "Angkat Zona Linimasa"
 
-#: src/mainwindow.cpp:1649
+#: src/mainwindow.cpp:1652
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23900,24 +23898,24 @@ msgid ""
 "stay in position."
 msgstr ""
 
-#: src/mainwindow.cpp:1650
+#: src/mainwindow.cpp:1653
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "Tambahkan Zona Pratinjau"
 
-#: src/mainwindow.cpp:1652
+#: src/mainwindow.cpp:1655
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1653 src/timeline2/view/previewmanager.cpp:580
+#: src/mainwindow.cpp:1656 src/timeline2/view/previewmanager.cpp:580
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Singkirkan Zona Pratinjau"
 
-#: src/mainwindow.cpp:1657
+#: src/mainwindow.cpp:1660
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23925,23 +23923,23 @@ msgid ""
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 
-#: src/mainwindow.cpp:1658 src/timeline2/view/previewmanager.cpp:506
+#: src/mainwindow.cpp:1661 src/timeline2/view/previewmanager.cpp:506
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Singkirkan Semua Zona Pratinjau"
 
-#: src/mainwindow.cpp:1660
+#: src/mainwindow.cpp:1663
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "Singkirkan semua zona render."
 
-#: src/mainwindow.cpp:1661
+#: src/mainwindow.cpp:1664
 #, kde-format
 msgid "Start Preview Render"
 msgstr "Jalankan Render Pratinjau"
 
-#: src/mainwindow.cpp:1664
+#: src/mainwindow.cpp:1667
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23950,188 +23948,188 @@ msgid ""
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
 
-#: src/mainwindow.cpp:1666
+#: src/mainwindow.cpp:1669
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "Hentikan Render Pratinjau"
 
-#: src/mainwindow.cpp:1669
+#: src/mainwindow.cpp:1672
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
 msgstr "Setel Zona Linimasa untuk Pemilihan"
 
-#: src/mainwindow.cpp:1671
+#: src/mainwindow.cpp:1674
 #, kde-format
 msgid "Select Clip"
 msgstr "Pilih Klip"
 
-#: src/mainwindow.cpp:1673
+#: src/mainwindow.cpp:1676
 #, kde-format
 msgid "Deselect Clip"
 msgstr "Batal Pilih Klip"
 
-#: src/mainwindow.cpp:1675
+#: src/mainwindow.cpp:1678
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "Tambahkan Klip ke Pemilihan"
 
-#: src/mainwindow.cpp:1677
+#: src/mainwindow.cpp:1680
 #, kde-format
 msgid "Select Transition"
 msgstr "Pilih Transisi"
 
-#: src/mainwindow.cpp:1679
+#: src/mainwindow.cpp:1682
 #, kde-format
 msgid "Deselect Transition"
 msgstr "Batal Pilih Transisi"
 
-#: src/mainwindow.cpp:1681
+#: src/mainwindow.cpp:1684
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "Tambahkan Transisi ke Pemilihan"
 
-#: src/mainwindow.cpp:1684
+#: src/mainwindow.cpp:1687
 #, kde-format
 msgid "Delete All Markers"
 msgstr "Hapus Semua Penanda"
 
-#: src/mainwindow.cpp:1686
+#: src/mainwindow.cpp:1689
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide Quickly"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1690
+#: src/mainwindow.cpp:1693
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 1"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1694
+#: src/mainwindow.cpp:1697
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 2"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 3"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1702
+#: src/mainwindow.cpp:1705
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 4"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1706
+#: src/mainwindow.cpp:1709
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 5"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1710
+#: src/mainwindow.cpp:1713
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 6"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1714
+#: src/mainwindow.cpp:1717
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 7"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1718
+#: src/mainwindow.cpp:1721
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 8"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1722
+#: src/mainwindow.cpp:1725
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 9"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1726
+#: src/mainwindow.cpp:1729
 #, fuzzy, kde-format
 #| msgid "Add Marker/Guide quickly"
 msgid "Add Marker/Guide 10"
 msgstr "Tambahkan Penanda/Pancang secara cepat"
 
-#: src/mainwindow.cpp:1731
+#: src/mainwindow.cpp:1734
 #, kde-format
 msgid "Current Selection"
 msgstr "Pemilihan Saat Ini"
 
-#: src/mainwindow.cpp:1733 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1736 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "Tambahkan Penanda"
 
-#: src/mainwindow.cpp:1737
+#: src/mainwindow.cpp:1740
 #, kde-format
 msgid "Delete Marker"
 msgstr "Hapus Penanda"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1744
 #, kde-format
 msgid "Edit Marker…"
 msgstr "Edit Penanda..."
 
-#: src/mainwindow.cpp:1746 src/timeline2/model/timelinefunctions.cpp:1227
+#: src/mainwindow.cpp:1749 src/timeline2/model/timelinefunctions.cpp:1227
 #, kde-format
 msgid "Restore Audio"
 msgstr "Kembalikan Audio"
 
-#: src/mainwindow.cpp:1752
+#: src/mainwindow.cpp:1755
 #, kde-format
 msgid "Extract Clip"
 msgstr "Ekstrak Klip"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1761
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "Simpan Clip Part ke Bin"
 
-#: src/mainwindow.cpp:1763
+#: src/mainwindow.cpp:1766
 #, kde-format
 msgid "Disable Clip"
 msgstr "Nonfungsikan Klip"
 
-#: src/mainwindow.cpp:1768
+#: src/mainwindow.cpp:1771
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "Atur Referensi Audio"
 
-#: src/mainwindow.cpp:1775
+#: src/mainwindow.cpp:1778
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "Sejajarkan Audio ke Referensi"
 
-#: src/mainwindow.cpp:1780
+#: src/mainwindow.cpp:1783
 #, kde-format
 msgid "Edit Duration"
 msgstr "Edit Durasi"
 
-#: src/mainwindow.cpp:1784
+#: src/mainwindow.cpp:1787
 #, kde-format
 msgid "Change Speed"
 msgstr "Ubah Kecepatan"
 
-#: src/mainwindow.cpp:1790
+#: src/mainwindow.cpp:1793
 #, kde-format
 msgid "Time Remap"
 msgstr "Pemetaan Ulang Waktu"
 
-#: src/mainwindow.cpp:1797
+#: src/mainwindow.cpp:1800
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "Klip di Bin Proyek"
 
-#: src/mainwindow.cpp:1802
+#: src/mainwindow.cpp:1805
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Search pending…"
@@ -24139,57 +24137,57 @@ msgid "Search Bin Clip…"
 msgstr "Pencarian tertunda..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1804 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1807 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "Potong Klip"
 
-#: src/mainwindow.cpp:1807
+#: src/mainwindow.cpp:1810
 #, kde-format
 msgid "Cut All Clips"
 msgstr "Potong Semua Klip"
 
-#: src/mainwindow.cpp:1810
+#: src/mainwindow.cpp:1813
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Hapus Item Yang Dipilih"
 
-#: src/mainwindow.cpp:1813
+#: src/mainwindow.cpp:1816
 #, kde-format
 msgid "Resize Item Start"
 msgstr "Ubah Ukuran Item Awal"
 
-#: src/mainwindow.cpp:1817
+#: src/mainwindow.cpp:1820
 #, kde-format
 msgid "Resize Item End"
 msgstr "Ubah Ukuran Item Akhir"
 
-#: src/mainwindow.cpp:1821
+#: src/mainwindow.cpp:1824
 #, kde-format
 msgid "Paste Effects"
 msgstr "Tempel Efek"
 
-#: src/mainwindow.cpp:1827
+#: src/mainwindow.cpp:1830
 #, kde-format
 msgid "Delete Effects"
 msgstr "Hapus Efek"
 
-#: src/mainwindow.cpp:1834
+#: src/mainwindow.cpp:1837
 #, kde-format
 msgid "Group Clips"
 msgstr "Kelompokkan Klip"
 
-#: src/mainwindow.cpp:1840
+#: src/mainwindow.cpp:1843
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "Nonkelompokkan Klip"
 
-#: src/mainwindow.cpp:1846
+#: src/mainwindow.cpp:1849
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "Buat Rentetan dari Pemilihan"
 
-#: src/mainwindow.cpp:1849
+#: src/mainwindow.cpp:1852
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24197,123 +24195,123 @@ msgid ""
 "that can be opened in another timeline tab."
 msgstr ""
 
-#: src/mainwindow.cpp:1860
+#: src/mainwindow.cpp:1863
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "Efek Keyframe"
 
-#: src/mainwindow.cpp:1861 src/monitor/view/EffectToolBar.qml:101
+#: src/mainwindow.cpp:1864 src/monitor/view/EffectToolBar.qml:101
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Tambahkan/Singkirkan Keyframe"
 
-#: src/mainwindow.cpp:1870
+#: src/mainwindow.cpp:1873
 #, kde-format
 msgid "Insert Space…"
 msgstr "Sisipkan Spasi..."
 
-#: src/mainwindow.cpp:1871
+#: src/mainwindow.cpp:1874
 #, kde-format
 msgid "Remove Space"
 msgstr "Singkirkan Spasi"
 
-#: src/mainwindow.cpp:1872
+#: src/mainwindow.cpp:1875
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "Hapus Semua Spasi Setelah Kursor"
 
-#: src/mainwindow.cpp:1873
+#: src/mainwindow.cpp:1876
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "Hapus Semua Klip Setelah Kursor"
 
-#: src/mainwindow.cpp:1874
+#: src/mainwindow.cpp:1877
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "Singkirkan Spasi di Semua Trek"
 
-#: src/mainwindow.cpp:1877
+#: src/mainwindow.cpp:1880
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Sisipkan Trek…"
 
-#: src/mainwindow.cpp:1881
+#: src/mainwindow.cpp:1884
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "Paskan semua Trek di Tampilan"
 
-#: src/mainwindow.cpp:1887 src/timeline2/view/timelinecontroller.cpp:4853
+#: src/mainwindow.cpp:1890 src/timeline2/view/timelinecontroller.cpp:4853
 #, kde-format
 msgid "Master effects"
 msgstr "Efek master"
 
-#: src/mainwindow.cpp:1894
+#: src/mainwindow.cpp:1897
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "Alihkan Stream Audio Target Trek"
 
-#: src/mainwindow.cpp:1899
+#: src/mainwindow.cpp:1902
 #, kde-format
 msgid "Delete Track…"
 msgstr "Hapus Trek..."
 
-#: src/mainwindow.cpp:1904
+#: src/mainwindow.cpp:1907
 #, kde-format
 msgid "Show Record Controls"
 msgstr "Tampilkan Kontrol Rekam"
 
-#: src/mainwindow.cpp:1910
+#: src/mainwindow.cpp:1913
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "Pilih Semua di Trek Saat Ini"
 
-#: src/mainwindow.cpp:1927
+#: src/mainwindow.cpp:1930
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "Kelola Data Yang Dicache..."
 
-#: src/mainwindow.cpp:1930
+#: src/mainwindow.cpp:1933
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "Nonaktifkan Pratinjau Linimasa"
 
-#: src/mainwindow.cpp:1934
+#: src/mainwindow.cpp:1937
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "Tambahkan/Singkirkan Pancang"
 
-#: src/mainwindow.cpp:1935
+#: src/mainwindow.cpp:1938
 #, kde-format
 msgid "Delete Guide"
 msgstr "Hapus Pancang"
 
-#: src/mainwindow.cpp:1936
+#: src/mainwindow.cpp:1939
 #, kde-format
 msgid "Edit Guide…"
 msgstr "Edit Pancang..."
 
-#: src/mainwindow.cpp:1937
+#: src/mainwindow.cpp:1940
 #, kde-format
 msgid "Search Guide…"
 msgstr "Cari Pancangan..."
 
-#: src/mainwindow.cpp:1938
+#: src/mainwindow.cpp:1941
 #, kde-format
 msgid "Export Guides…"
 msgstr "Impor Pancangan..."
 
-#: src/mainwindow.cpp:1941
+#: src/mainwindow.cpp:1944
 #, kde-format
 msgid "Guides Locked"
 msgstr "Pancangan Digembok"
 
-#: src/mainwindow.cpp:1944
+#: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Lock guides"
 msgstr "Gembok pancangan"
 
-#: src/mainwindow.cpp:1946
+#: src/mainwindow.cpp:1949
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24323,53 +24321,53 @@ msgstr ""
 "Gembok pancangan. Ketika digembok, pancangan tidak mau pindah menggunakan "
 "alat penyepasi atau menyisipkan/menyingkirkan blank pada trek."
 
-#: src/mainwindow.cpp:1948
+#: src/mainwindow.cpp:1951
 #, kde-format
 msgid "Delete All Guides"
 msgstr "Hapus Semua Pancang"
 
-#: src/mainwindow.cpp:1950
+#: src/mainwindow.cpp:1953
 #, kde-format
 msgid "Add Subtitle"
 msgstr "Tambahkan Subtitel"
 
-#: src/mainwindow.cpp:1952
+#: src/mainwindow.cpp:1955
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "Nonfungsikan Subtitel"
 
-#: src/mainwindow.cpp:1953
+#: src/mainwindow.cpp:1956
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "Gembok Subtitel"
 
-#: src/mainwindow.cpp:1955
+#: src/mainwindow.cpp:1958
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgid "Manage Subtitles"
 msgstr "Subtitel"
 
-#: src/mainwindow.cpp:1957
+#: src/mainwindow.cpp:1960
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "Impor File Subtitel..."
 
-#: src/mainwindow.cpp:1959
+#: src/mainwindow.cpp:1962
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "Ekspor File Subtitel..."
 
-#: src/mainwindow.cpp:1961 src/timeline2/model/timelinemodel.cpp:2175
+#: src/mainwindow.cpp:1964 src/timeline2/model/timelinemodel.cpp:2175
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Hapus Subtitel"
 
-#: src/mainwindow.cpp:1962
+#: src/mainwindow.cpp:1965
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "Pengenalan Lisan..."
 
-#: src/mainwindow.cpp:1969
+#: src/mainwindow.cpp:1972
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24379,100 +24377,100 @@ msgstr ""
 "Ini pengalihan antara memiliki tombol <emphasis>Bilah Menu</emphasis> dan "
 "memiliki <interface>Menu Hamburger</interface> di Bilah Alat utama."
 
-#: src/mainwindow.cpp:1998
+#: src/mainwindow.cpp:2001
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "Salin Informasi Debug"
 
-#: src/mainwindow.cpp:2000
+#: src/mainwindow.cpp:2003
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "Nonfungsikan Efek Linimasa"
 
-#: src/mainwindow.cpp:2006
+#: src/mainwindow.cpp:2009
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "Jungkit Trek Dinonfungsikan"
 
-#: src/mainwindow.cpp:2008
+#: src/mainwindow.cpp:2011
 #, fuzzy, kde-format
 #| msgid "Toggle Track Disabled"
 msgid "Toggle All Tracks Disabled"
 msgstr "Jungkit Trek Dinonfungsikan"
 
-#: src/mainwindow.cpp:2010
+#: src/mainwindow.cpp:2013
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "Jungkit Gembok Trek"
 
-#: src/mainwindow.cpp:2012
+#: src/mainwindow.cpp:2015
 #, fuzzy, kde-format
 #| msgid "Toggle All Track Lock"
 msgid "Toggle All Tracks Lock"
 msgstr "Jungkit Semua Gembok Trek"
 
-#: src/mainwindow.cpp:2014
+#: src/mainwindow.cpp:2017
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "Jungkit Trek Target"
 
-#: src/mainwindow.cpp:2016
+#: src/mainwindow.cpp:2019
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "Jungkit Trek Aktif"
 
-#: src/mainwindow.cpp:2018
+#: src/mainwindow.cpp:2021
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "Jungkit Semua Trek Aktif"
 
-#: src/mainwindow.cpp:2020
+#: src/mainwindow.cpp:2023
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "Alihkan Semua Trek Aktif"
 
-#: src/mainwindow.cpp:2022
+#: src/mainwindow.cpp:2025
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "Kembalikan Trek Target Klip Saat Ini"
 
-#: src/mainwindow.cpp:2024
+#: src/mainwindow.cpp:2027
 #, kde-format
 msgid "Add Project Note"
 msgstr "Tambahkan Catatan Proyek"
 
-#: src/mainwindow.cpp:2030
+#: src/mainwindow.cpp:2033
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "Pilih Trek Audio %1"
 
-#: src/mainwindow.cpp:2034
+#: src/mainwindow.cpp:2037
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "Pilih Trek Audio %1"
 
-#: src/mainwindow.cpp:2038
+#: src/mainwindow.cpp:2041
 #, kde-format
 msgid "Select Target %1"
 msgstr "Pilih Target %1"
 
-#: src/mainwindow.cpp:2055
+#: src/mainwindow.cpp:2058
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Ekstrak Frame..."
 
-#: src/mainwindow.cpp:2058
+#: src/mainwindow.cpp:2061
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Ekstrak Frame ke Proyek..."
 
-#: src/mainwindow.cpp:2061
+#: src/mainwindow.cpp:2064
 #, fuzzy, kde-format
 #| msgid "Extract Frame to Project…"
 msgid "Extract Frame to Clipboard"
 msgstr "Ekstrak Frame ke Proyek..."
 
-#: src/mainwindow.cpp:2195
+#: src/mainwindow.cpp:2198
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -24481,13 +24479,13 @@ msgstr ""
 "Anda memiliki parameter proxy yang diubah. Apakah Anda ingin membuat ulang "
 "semua klip proxy untuk proyek ini?"
 
-#: src/mainwindow.cpp:2196
+#: src/mainwindow.cpp:2199
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Buat ulang"
 
-#: src/mainwindow.cpp:2197 src/onlineresources/resourcewidget.cpp:705
+#: src/mainwindow.cpp:2200 src/onlineresources/resourcewidget.cpp:705
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2327
 #, kde-format
@@ -24495,7 +24493,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Lanjutkan tanpa"
 
-#: src/mainwindow.cpp:2253
+#: src/mainwindow.cpp:2256
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -24506,7 +24504,7 @@ msgstr ""
 "kemudian memindah semua berkas sementara dari <br/> <b>%1</b> ke <b>%2</b>,"
 "<br> dan file proyek akan dimuat ulang"
 
-#: src/mainwindow.cpp:2261
+#: src/mainwindow.cpp:2264
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -24515,39 +24513,39 @@ msgstr ""
 "Ini akan memindahkan semua berkas sementara dari<br/> <b>%1</b> ke <b>%2</b>,"
 "<br/> setelah itu berkas proyek akan dimuat ulang"
 
-#: src/mainwindow.cpp:2270 src/project/projectmanager.cpp:620
+#: src/mainwindow.cpp:2273 src/project/projectmanager.cpp:620
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Tidak bisa melakukan operasi, id dokumen tidak valid: %1"
 
-#: src/mainwindow.cpp:2275 src/project/projectmanager.cpp:626
+#: src/mainwindow.cpp:2278 src/project/projectmanager.cpp:626
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Tidak bisa melakukan operasi, direktori target sudah ada: %1"
 
-#: src/mainwindow.cpp:2425
+#: src/mainwindow.cpp:2428
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr ""
 "Ini akan menyingkirkan semua klip yang tidak digunakan dari proyek Anda."
 
-#: src/mainwindow.cpp:2425
+#: src/mainwindow.cpp:2428
 #, kde-format
 msgid "Clean up project"
 msgstr "Bersihkan proyek"
 
-#: src/mainwindow.cpp:2568
+#: src/mainwindow.cpp:2571
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Unduh Keyboard Baru"
 
-#: src/mainwindow.cpp:2577
+#: src/mainwindow.cpp:2580
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Umum"
 
-#: src/mainwindow.cpp:2649
+#: src/mainwindow.cpp:2652
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -24556,28 +24554,28 @@ msgstr ""
 "Ini akan menghapus file konfigurasi Kdenlive dan menjalankan ulang aplikasi."
 "Apakah Anda ingin memrosesnya?"
 
-#: src/mainwindow.cpp:2650
+#: src/mainwindow.cpp:2653
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Atur Ulang Konfigurasi"
 
-#: src/mainwindow.cpp:2778 src/mainwindow.cpp:2805
+#: src/mainwindow.cpp:2781 src/mainwindow.cpp:2808
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Tidak bisa menemukan klip untuk menyingkirkan penanda"
 
-#: src/mainwindow.cpp:2788 src/mainwindow.cpp:2834
+#: src/mainwindow.cpp:2791 src/mainwindow.cpp:2837
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Tidak menemukan penanda pada kursor waktu"
 
-#: src/mainwindow.cpp:2810
+#: src/mainwindow.cpp:2813
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Sebuah galat terjadi selagi menghapus penanda"
 
-#: src/mainwindow.cpp:2827 src/timeline2/view/timelinecontroller.cpp:1310
+#: src/mainwindow.cpp:2830 src/timeline2/view/timelinecontroller.cpp:1310
 #: src/timeline2/view/timelinecontroller.cpp:1318
 #: src/timeline2/view/timelinecontroller.cpp:1339
 #: src/timeline2/view/timelinecontroller.cpp:1379
@@ -24586,48 +24584,48 @@ msgstr "Sebuah galat terjadi selagi menghapus penanda"
 msgid "Cannot find clip to edit marker"
 msgstr "Tidak bisa menemukan klip untuk mengedit penanda"
 
-#: src/mainwindow.cpp:2879
+#: src/mainwindow.cpp:2882
 #, fuzzy, kde-format
 #| msgid "Markers Category"
 msgid "Marker category does not exist"
 msgstr "Kategori Penanda"
 
-#: src/mainwindow.cpp:3062 src/timeline2/model/timelinefunctions.cpp:792
+#: src/mainwindow.cpp:3065 src/timeline2/model/timelinefunctions.cpp:792
 #: src/timeline2/view/timelinecontroller.cpp:3130
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Timpa zona"
 
-#: src/mainwindow.cpp:3064 src/mainwindow.cpp:3083
+#: src/mainwindow.cpp:3067 src/mainwindow.cpp:3086
 #: src/timeline2/model/timelinefunctions.cpp:794
 #: src/timeline2/view/timelinecontroller.cpp:3132
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Tidak bisa menyisipkan zona"
 
-#: src/mainwindow.cpp:3074
+#: src/mainwindow.cpp:3077
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Tidak ada klip yang dipilih dalam bin proyek"
 
-#: src/mainwindow.cpp:3081 src/timeline2/model/timelinefunctions.cpp:792
+#: src/mainwindow.cpp:3084 src/timeline2/model/timelinefunctions.cpp:792
 #: src/timeline2/view/timelinecontroller.cpp:3130
 #, kde-format
 msgid "Insert zone"
 msgstr "Sisipkan zona"
 
-#: src/mainwindow.cpp:3248
+#: src/mainwindow.cpp:3251
 #, fuzzy, kde-format
 #| msgid "Cannot add effect to clip"
 msgid "Cannot add effect to active item"
 msgstr "Tidak bisa menambahkan efek ke klip"
 
-#: src/mainwindow.cpp:3310
+#: src/mainwindow.cpp:3313
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Tingkat Perbesaran: %1/%2"
 
-#: src/mainwindow.cpp:3459
+#: src/mainwindow.cpp:3462
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24640,7 +24638,7 @@ msgstr ""
 "untuk memindah klip yang dikelompokkan ke trek lainnya, <shortcut>Ctrl "
 "seret</shortcut> untuk menge-pan"
 
-#: src/mainwindow.cpp:3463
+#: src/mainwindow.cpp:3466
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24654,24 +24652,24 @@ msgstr ""
 "shortcut> untuk memindah klip yang dikelompokkan ke trek lainnya, "
 "<shortcut>Ctrl seret</shortcut> untuk menge-pan"
 
-#: src/mainwindow.cpp:3466
+#: src/mainwindow.cpp:3469
 #, kde-format
 msgid "Select"
 msgstr "Pilih"
 
-#: src/mainwindow.cpp:3468
+#: src/mainwindow.cpp:3471
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> untuk mempratinjau frame terpotong"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3469 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3472 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Pemotong"
 
-#: src/mainwindow.cpp:3473
+#: src/mainwindow.cpp:3476
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24682,12 +24680,12 @@ msgstr ""
 "<shortcut>Shift</shortcut> untuk memindahkan pancang juga. Anda dapat "
 "menggabungkan kedua pengubah."
 
-#: src/mainwindow.cpp:3474
+#: src/mainwindow.cpp:3477
 #, kde-format
 msgid "Spacer"
 msgstr "Penspasi"
 
-#: src/mainwindow.cpp:3476
+#: src/mainwindow.cpp:3479
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24697,13 +24695,13 @@ msgstr ""
 "<shortcut>Klik</shortcut> pada sebuah item untuk slip, <shortcut>klik Shift</"
 "shortcut> untuk beberapa pemilihan"
 
-#: src/mainwindow.cpp:3477
+#: src/mainwindow.cpp:3480
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Selip"
 
-#: src/mainwindow.cpp:3482
+#: src/mainwindow.cpp:3485
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -24722,13 +24720,13 @@ msgstr ""
 "untuk memindah klip yang dikelompokkan ke trek lainnya, <shortcut>Ctrl "
 "seret</shortcut> untuk menge-pan"
 
-#: src/mainwindow.cpp:3484
+#: src/mainwindow.cpp:3487
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Riak"
 
-#: src/mainwindow.cpp:3490
+#: src/mainwindow.cpp:3493
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -24738,102 +24736,102 @@ msgstr ""
 "<shortcut>Klik</shortcut> di tampilan trek di dalam monitor proyek untuk "
 "melakukan lift pada semua trek kecuali yang aktif"
 
-#: src/mainwindow.cpp:3502
+#: src/mainwindow.cpp:3505
 #, kde-format
 msgid "Insert"
 msgstr "Sisipkan"
 
-#: src/mainwindow.cpp:3772 src/mainwindow.cpp:3774
+#: src/mainwindow.cpp:3775 src/mainwindow.cpp:3777
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3779
+#: src/mainwindow.cpp:3782
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bins"
 msgstr "Bin Proyek"
 
-#: src/mainwindow.cpp:3875
+#: src/mainwindow.cpp:3878
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Konfigurasi Tugas Klip…"
 
-#: src/mainwindow.cpp:3881
+#: src/mainwindow.cpp:3884
 #, kde-format
 msgid "Transcoders"
 msgstr "Pentranskode"
 
-#: src/mainwindow.cpp:3941
+#: src/mainwindow.cpp:3944
 #, fuzzy, kde-format
 #| msgid "Merge"
 msgid "-merged"
 msgstr "Gabung"
 
-#: src/mainwindow.cpp:3944
+#: src/mainwindow.cpp:3947
 #, fuzzy, kde-format
 #| msgid "Video stream %1"
 msgid "-stream-%1"
 msgstr "Video stream %1"
 
-#: src/mainwindow.cpp:3986
+#: src/mainwindow.cpp:3989
 #, kde-format
 msgid "Interface"
 msgstr "Antarmuka"
 
-#: src/mainwindow.cpp:4008
+#: src/mainwindow.cpp:4011
 #, kde-format
 msgid "Raise %1"
 msgstr "Naikkan %1"
 
-#: src/mainwindow.cpp:4075
+#: src/mainwindow.cpp:4078
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "File untuk Ditranskode"
 
-#: src/mainwindow.cpp:4207
+#: src/mainwindow.cpp:4210
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "File proyek tidak bisa disimpan untuk pengarsipan."
 
-#: src/mainwindow.cpp:4215
+#: src/mainwindow.cpp:4218
 #, kde-format
 msgid "Archiving project"
 msgstr "Mengarsipkan proyek"
 
-#: src/mainwindow.cpp:4355
+#: src/mainwindow.cpp:4358
 #, kde-format
 msgid "Icon Size"
 msgstr "Ukuran Ikon"
 
-#: src/mainwindow.cpp:4359
+#: src/mainwindow.cpp:4362
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Baku"
 
-#: src/mainwindow.cpp:4380 src/mainwindow.cpp:4408
+#: src/mainwindow.cpp:4383 src/mainwindow.cpp:4411
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Kecil (%1x%2)"
 
-#: src/mainwindow.cpp:4382 src/mainwindow.cpp:4410
+#: src/mainwindow.cpp:4385 src/mainwindow.cpp:4413
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Sedang (%1x%2)"
 
-#: src/mainwindow.cpp:4384 src/mainwindow.cpp:4412
+#: src/mainwindow.cpp:4387 src/mainwindow.cpp:4415
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Besar (%1x%2)"
 
-#: src/mainwindow.cpp:4386 src/mainwindow.cpp:4414
+#: src/mainwindow.cpp:4389 src/mainwindow.cpp:4417
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Besar Banget (%1x%2)"
 
-#: src/mainwindow.cpp:4470
+#: src/mainwindow.cpp:4473
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -24842,41 +24840,41 @@ msgstr ""
 "Ini akan menyembunyikan seluruh bilah menu. Anda bisa menampilkannya kembali "
 "dengan mengetik Ctrl+M."
 
-#: src/mainwindow.cpp:4470
+#: src/mainwindow.cpp:4473
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Sembunyikan bilah menu"
 
-#: src/mainwindow.cpp:4733 src/timeline2/view/timelinecontroller.cpp:5084
+#: src/mainwindow.cpp:4736 src/timeline2/view/timelinecontroller.cpp:5084
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Tidak ada subtitel dalam proyek saat ini"
 
-#: src/mainwindow.cpp:5020
+#: src/mainwindow.cpp:5023
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5025
+#: src/mainwindow.cpp:5028
 #, fuzzy, kde-format
 #| msgid "Check again"
 msgid "Never check again"
 msgstr "Periksa lagi"
 
-#: src/mainwindow.cpp:5028
+#: src/mainwindow.cpp:5031
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5032
+#: src/mainwindow.cpp:5035
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5075
+#: src/mainwindow.cpp:5077
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Memeriksa ukuran data yang disimpan"
@@ -26634,8 +26632,8 @@ msgstr[0] "Anda memiliki %1 klip yang hilang di proyek Anda."
 msgstr[1] "Anda memiliki %1 klip yang hilang di proyek Anda."
 
 #: src/project/dialogs/archivewidget.cpp:243
-#: src/project/dialogs/archivewidget.cpp:1357
-#: src/project/dialogs/archivewidget.cpp:1422
+#: src/project/dialogs/archivewidget.cpp:1354
+#: src/project/dialogs/archivewidget.cpp:1419
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -26643,8 +26641,8 @@ msgstr[0] "(%1 item)"
 msgstr[1] "(%1 item)"
 
 #: src/project/dialogs/archivewidget.cpp:249
-#: src/project/dialogs/archivewidget.cpp:1360
-#: src/project/dialogs/archivewidget.cpp:1425
+#: src/project/dialogs/archivewidget.cpp:1357
+#: src/project/dialogs/archivewidget.cpp:1422
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -26812,12 +26810,12 @@ msgstr "Terjadi sebuah galat selagi mengarsipkan proyek: %1"
 msgid "Extracting…"
 msgstr "Pengekstrakan..."
 
-#: src/project/dialogs/archivewidget.cpp:1277
+#: src/project/dialogs/archivewidget.cpp:1274
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Tidak bisa membuka file proyek %1"
 
-#: src/project/dialogs/archivewidget.cpp:1277
+#: src/project/dialogs/archivewidget.cpp:1274
 #, kde-format
 msgid "Cannot open file"
 msgstr "Tak bisa membuka file"
@@ -27349,15 +27347,15 @@ msgstr "Pan dan zoom"
 msgid "No image found"
 msgstr "Tidak ada citra yang ditemukan"
 
-#: src/project/dialogs/temporarydata.cpp:169
-#: src/project/dialogs/temporarydata.cpp:173
+#: src/project/dialogs/temporarydata.cpp:171
+#: src/project/dialogs/temporarydata.cpp:175
 #, kde-format
 msgid " month"
 msgid_plural " months"
 msgstr[0] " bulan"
 msgstr[1] " bulan"
 
-#: src/project/dialogs/temporarydata.cpp:177
+#: src/project/dialogs/temporarydata.cpp:179
 #, kde-format
 msgid ""
 "<b>Cached data</b> is composed of clip thumbnails and timeline preview "
@@ -27369,17 +27367,17 @@ msgid ""
 "recreated if you have the original source clips."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:185
+#: src/project/dialogs/temporarydata.cpp:187
 #, kde-format
 msgid "Cleanup"
 msgstr "Pembersihan"
 
-#: src/project/dialogs/temporarydata.cpp:186
+#: src/project/dialogs/temporarydata.cpp:188
 #, kde-format
 msgid "Your cache and backup data exceeds %1, cleanup is recommended."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:352
+#: src/project/dialogs/temporarydata.cpp:347
 #, kde-format
 msgid ""
 "Delete all data in the preview folder:\n"
@@ -27392,7 +27390,7 @@ msgstr ""
 "Folder pratinjau berisi pratinjau linimasa, dan dapat dibuat ulang dengan "
 "proyek sumber."
 
-#: src/project/dialogs/temporarydata.cpp:368
+#: src/project/dialogs/temporarydata.cpp:363
 #, kde-format
 msgid ""
 "Delete all data in the backup folder:\n"
@@ -27405,24 +27403,24 @@ msgstr ""
 "Salinan semua file proyek Anda disimpan di folder ini untuk pemulihan jika "
 "terjadi kerusakan."
 
-#: src/project/dialogs/temporarydata.cpp:393
+#: src/project/dialogs/temporarydata.cpp:388
 #, kde-format
 msgid "No backup data older than %1 months was found."
 msgstr "Tidak ada data cadangan yang lebih lama dari %1 bulan yang ditemukan."
 
-#: src/project/dialogs/temporarydata.cpp:398
+#: src/project/dialogs/temporarydata.cpp:393
 #, kde-format
 msgid "This will delete backup data (%1) for projects older than %2 months."
 msgstr ""
 "Ini akan menghapus data cadangan (%1) untuk proyek yang lebih lama dari %2 "
 "bulan."
 
-#: src/project/dialogs/temporarydata.cpp:440
+#: src/project/dialogs/temporarydata.cpp:435
 #, kde-format
 msgid "No cache data older than %1 months was found."
 msgstr "Tifak ada data cache yang lebih lama dari %1 bulan yang ditemukan."
 
-#: src/project/dialogs/temporarydata.cpp:445
+#: src/project/dialogs/temporarydata.cpp:440
 #, kde-format
 msgid ""
 "This will delete cache data (%1) for projects that were deleted, have very "
@@ -27430,12 +27428,12 @@ msgid ""
 "from the source files on project opening."
 msgstr ""
 
-#: src/project/dialogs/temporarydata.cpp:457
+#: src/project/dialogs/temporarydata.cpp:452
 #, kde-format
 msgid "No proxies found in the current project."
 msgstr "Tidak ada proxy yang ditemukan dalam proyek saat ini."
 
-#: src/project/dialogs/temporarydata.cpp:468
+#: src/project/dialogs/temporarydata.cpp:463
 #, kde-format
 msgid ""
 "Delete all project data in the proxy folder:\n"
@@ -27448,7 +27446,7 @@ msgstr ""
 "Folder proxy berisi klip proxy untuk semua proyek Anda. Proxy ini bisa "
 "dibuat ulang dari klip sumber."
 
-#: src/project/dialogs/temporarydata.cpp:489
+#: src/project/dialogs/temporarydata.cpp:484
 #, kde-format
 msgid ""
 "Delete all data in the cache audio folder:\n"
@@ -27459,7 +27457,7 @@ msgstr ""
 "%1\n"
 "Folder ini berisi data untuk thumbnail audio pada proyek ini."
 
-#: src/project/dialogs/temporarydata.cpp:508
+#: src/project/dialogs/temporarydata.cpp:503
 #, kde-format
 msgid ""
 "Delete all data in the cache thumbnail folder:\n"
@@ -27470,7 +27468,7 @@ msgstr ""
 "%1\n"
 "Folder ini berisi data untuk thumbnail video pada proyek ini."
 
-#: src/project/dialogs/temporarydata.cpp:526
+#: src/project/dialogs/temporarydata.cpp:521
 #, kde-format
 msgid ""
 "Delete all data in the cache folder:\n"
@@ -27483,17 +27481,17 @@ msgstr ""
 "Folder cache berisi thumbnail audio dan video, sebagaimana pada pratinjau "
 "linimasa. Semua data ini akan dibuat ulang saat pembukaan proyek."
 
-#: src/project/dialogs/temporarydata.cpp:700
+#: src/project/dialogs/temporarydata.cpp:691
 #, kde-format
 msgid "Clear current cache"
 msgstr "Bersihkan cache saat ini"
 
-#: src/project/dialogs/temporarydata.cpp:702
+#: src/project/dialogs/temporarydata.cpp:693
 #, kde-format
 msgid "Delete selected cache"
 msgstr "Hapus cache yang dipilih"
 
-#: src/project/dialogs/temporarydata.cpp:716
+#: src/project/dialogs/temporarydata.cpp:707
 #, kde-format
 msgid ""
 "Delete the following cache folders from\n"
@@ -27506,7 +27504,7 @@ msgstr ""
 "Folder cache berisi thumbnail audio dan video, sebagaimana pratinjau "
 "linimasa. Semua data ini akan dibuat ulang saat pembukaan proyek."
 
-#: src/project/dialogs/temporarydata.cpp:746
+#: src/project/dialogs/temporarydata.cpp:737
 #, kde-format
 msgid ""
 "Delete the proxy folder\n"
@@ -27517,12 +27515,12 @@ msgstr ""
 "%1\n"
 "Yang berisi klip proxy untuk semua proyek Anda."
 
-#: src/project/dialogs/temporarydata.cpp:774
+#: src/project/dialogs/temporarydata.cpp:765
 #, kde-format
 msgid "No proxy clip older than %1 months found."
 msgstr "Tidak ada yang ditemukan klip proxy yang lebih lama dari %1 bulan."
 
-#: src/project/dialogs/temporarydata.cpp:778
+#: src/project/dialogs/temporarydata.cpp:769
 #, kde-format
 msgid ""
 "Delete the following proxy clips (%1)\n"
@@ -27842,79 +27840,79 @@ msgid "Video transcode"
 msgstr "Transkode video"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
-#: src/pythoninterfaces/abstractpythoninterface.cpp:34
+#: src/pythoninterfaces/abstractpythoninterface.cpp:33
 #: src/ui/configspeech_ui.ui:40
 #, kde-format
 msgid "Check configuration"
 msgstr "Periksa konfigurasi"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:35
+#: src/pythoninterfaces/abstractpythoninterface.cpp:34
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install"
 msgstr "Modul terinstal"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:36
+#: src/pythoninterfaces/abstractpythoninterface.cpp:35
 #, fuzzy, kde-format
 #| msgid "Check VOSK installation"
 msgid "Abort installation"
 msgstr "Periksa instalasi VOSK"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:53
+#: src/pythoninterfaces/abstractpythoninterface.cpp:52
 #, fuzzy, kde-format
 #| msgid "Installing modules…"
 msgid "Installing… please be patient, this can take several minutes"
 msgstr "Menginstal modul..."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:60
+#: src/pythoninterfaces/abstractpythoninterface.cpp:59
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install plugin to use"
 msgstr "Modul terinstal"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:76
+#: src/pythoninterfaces/abstractpythoninterface.cpp:75
 #, kde-format
 msgid "Everything is properly configured."
 msgstr "Semuanya telah dikonfigurasi secara benar."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:78
+#: src/pythoninterfaces/abstractpythoninterface.cpp:77
 #, kde-format
 msgid "%1 is properly configured."
 msgstr "%1 telah dikonfigurasi secara benar."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:82
+#: src/pythoninterfaces/abstractpythoninterface.cpp:81
 #, fuzzy, kde-format
 #| msgid "Everything is configured: %1"
 msgid "Everything is configured:<br>%1"
 msgstr "Semuanya telah dikonfigurasi: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:84
+#: src/pythoninterfaces/abstractpythoninterface.cpp:83
 #, fuzzy, kde-format
 #| msgid "%1 is configured: %2"
 msgid "%1 is configured:<br>%2"
 msgstr "%1 telah dikonfigurasi: %2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:100
+#: src/pythoninterfaces/abstractpythoninterface.cpp:99
 #, kde-format
 msgid "Check for update"
 msgstr "Periksa pembaruan"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:157
+#: src/pythoninterfaces/abstractpythoninterface.cpp:156
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Pemeriksaan konfigurasi..."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:208
+#: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-format
 msgid "Successfully rebuilt environment"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:261
+#: src/pythoninterfaces/abstractpythoninterface.cpp:260
 #, kde-format
 msgid "Corrupted plugin, trying to reinstall…"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:305
+#: src/pythoninterfaces/abstractpythoninterface.cpp:304
 #, kde-format
 msgid ""
 "Cannot find a compatible python version:\n"
@@ -27922,7 +27920,7 @@ msgid ""
 "Please install it on your system.\n"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:317
+#: src/pythoninterfaces/abstractpythoninterface.cpp:316
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot find pip3, please install it on your system.\n"
@@ -27937,27 +27935,27 @@ msgstr ""
 "Jika sudah diinstal, periksalah apakah pip3 terinstal di direktori yang "
 "terdaftar di variabel environment PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:351
+#: src/pythoninterfaces/abstractpythoninterface.cpp:350
 #, kde-format
 msgid ""
 "Cannot find python3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:359
+#: src/pythoninterfaces/abstractpythoninterface.cpp:358
 #, kde-format
 msgid ""
 "Cannot find pip3 in the kdenlive venv.\n"
 "Try to uninstall and then reinstall the plugin."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:454
+#: src/pythoninterfaces/abstractpythoninterface.cpp:449
 #, fuzzy, kde-format
 #| msgid "Cannot find layout %1"
 msgid "Cannot find system python"
 msgstr "Tidak bisa menemukan tataletak %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:484
+#: src/pythoninterfaces/abstractpythoninterface.cpp:479
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment."
 msgid ""
@@ -27965,22 +27963,22 @@ msgid ""
 "%1"
 msgstr "Mengatur alur untuk lingkungan MLT"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:502
+#: src/pythoninterfaces/abstractpythoninterface.cpp:497
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Skip %1 tidak ditemukan, periksalah instalasi Anda."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:577
+#: src/pythoninterfaces/abstractpythoninterface.cpp:572
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Modul python <application>%1</application> diperlukan."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:590
+#: src/pythoninterfaces/abstractpythoninterface.cpp:585
 #, kde-format
 msgid "Using python from %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:613
+#: src/pythoninterfaces/abstractpythoninterface.cpp:608
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes\n"
@@ -27988,19 +27986,19 @@ msgid ""
 "happen offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:632
-#: src/pythoninterfaces/abstractpythoninterface.cpp:741
+#: src/pythoninterfaces/abstractpythoninterface.cpp:627
+#: src/pythoninterfaces/abstractpythoninterface.cpp:736
 #, fuzzy, kde-format
 #| msgid "Internal Error: Cannot find dependency list"
 msgid "Installation Issue: Cannot find dependency list for %1"
 msgstr "Galat Internal: Tidak bisa menemukan daftar dependensi"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:647
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Galat selagi memeriksa versi modul %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:651
+#: src/pythoninterfaces/abstractpythoninterface.cpp:646
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -28008,42 +28006,42 @@ msgstr ""
 "Diperlukan setidaknya versi %1 pada modul %2, tetapi versi Anda saat ini "
 "adalah %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:655
+#: src/pythoninterfaces/abstractpythoninterface.cpp:650
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Mohon lakukan pembaruan pengesetan Anda."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:677
+#: src/pythoninterfaces/abstractpythoninterface.cpp:672
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Opsi menggambar"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:685
+#: src/pythoninterfaces/abstractpythoninterface.cpp:680
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Tidak ada informasi di papan klip"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:765
+#: src/pythoninterfaces/abstractpythoninterface.cpp:760
 #, kde-format
 msgid "Installation issue: Cannot find %1 for %2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:800
+#: src/pythoninterfaces/abstractpythoninterface.cpp:795
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:804
+#: src/pythoninterfaces/abstractpythoninterface.cpp:799
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Gagal membuat file."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:843
+#: src/pythoninterfaces/abstractpythoninterface.cpp:838
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error while running python3 script:\n"
@@ -28056,7 +28054,7 @@ msgstr ""
 "Galat selagi menjalankan skrip python3:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:878
+#: src/pythoninterfaces/abstractpythoninterface.cpp:873
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Instal dependensi yang hilang"
