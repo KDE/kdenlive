@@ -947,10 +947,6 @@ bool MainWindow::queryClose()
             }
         }
     }
-    // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    if (!pCore->projectManager()->closeCurrentDocument(true, true)) {
-        return false;
-    }
     saveOptions();
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
     bool successfullClose = pCore->projectManager()->closeCurrentDocument(true, true);
