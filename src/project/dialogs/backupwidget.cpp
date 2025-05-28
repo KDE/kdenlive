@@ -5,6 +5,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "backupwidget.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 
 #include <QDir>
@@ -37,12 +38,20 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, QUrl projectFolder, const QSt
     m_projectWildcard.append(QStringLiteral("-??"));
     m_projectWildcard.append(QStringLiteral("-??"));
     m_projectWildcard.append(QStringLiteral("-??.kdenlive"));
-
+    QAction *openContainingFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
+    connect(openContainingFolder, &QAction::triggered, [&]() {
+        if (backup_list->currentItem()) {
+            const QString fileName = backup_list->currentItem()->data(Qt::UserRole).toString();
+            pCore->highlightFileInExplorer({QUrl::fromLocalFile(fileName)});
+        }
+    });
+    backup_list->addAction(openContainingFolder);
+    backup_list->setContextMenuPolicy(Qt::ActionsContextMenu);
     slotParseBackupFiles();
+    search_list->setListWidget(backup_list);
     connect(backup_list, &QListWidget::currentRowChanged, this, &BackupWidget::slotDisplayBackupPreview);
     backup_list->setCurrentRow(0);
     backup_list->setMinimumHeight(QFontMetrics(font()).lineSpacing() * 12);
-    slotParseBackupFiles();
 }
 
 BackupWidget::~BackupWidget() = default;

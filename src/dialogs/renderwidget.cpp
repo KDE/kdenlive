@@ -2012,7 +2012,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
         pCore->activeBin()->slotAddClipToProject(QUrl::fromLocalFile(fileName));
     });
     menu.addAction(newAct);
-    QAction *openContainingFolder = new QAction(i18n("Open Containing Folder"), this);
+    QAction *openContainingFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
     connect(openContainingFolder, &QAction::triggered, [&, renderItem]() {
         QString fileName = renderItem->text(1);
         if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
