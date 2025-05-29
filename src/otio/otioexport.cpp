@@ -54,10 +54,14 @@ void OtioExport::exportFile(const QString &fileName)
 
 void OtioExport::slotExport()
 {
-    const QString fileName = QFileDialog::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(),
-                                                          QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
+    QString fileName = QFileDialog::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(),
+                                                    QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
     if (fileName.isNull()) {
         return;
+    }
+    // Ensure the file gets a .otio extension
+    if (!fileName.endsWith(QStringLiteral(".otio"), Qt::CaseInsensitive)) {
+        fileName += ".otio";
     }
     exportFile(fileName);
 }
@@ -82,10 +86,8 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
         exportMarker(marker, OTIO_NS::TimeRange(OTIO_NS::RationalTime(position, fps), OTIO_NS::RationalTime(1, fps)), otioTimeline->tracks());
     }
 
-    // Export the tracks.
-    const int tracksCount = timeline->getTracksCount();
-    for (int index = tracksCount - 1; index >= 0; --index) {
-        const int trackId = timeline->getTrackIndexFromPosition(index);
+    QList<int> orderedTrackIds = getOtioExportTrackOrder(timeline);
+    for (int trackId : orderedTrackIds) {
         std::shared_ptr<TrackModel> track = timeline->getTrackById(trackId);
         exportTrack(timeline, trackId, track, otioTimeline);
     }
@@ -249,4 +251,21 @@ double OtioExport::projectFps() const
 {
     const std::pair<int, int> fps = pCore->getProjectFpsInfo();
     return fps.second > 0 ? (fps.first / static_cast<double>(fps.second)) : 24.0;
+}
+
+QList<int> OtioExport::getOtioExportTrackOrder(const std::shared_ptr<TimelineItemModel> &timeline)
+{
+    QList<int> orderedTrackIds;
+    QList<int> audioTrackIds;
+    const int tracksCount = timeline->getTracksCount();
+    for (int index = 0; index < tracksCount; index++) {
+        const int trackId = timeline->getTrackIndexFromPosition(index);
+        if (timeline->isAudioTrack(trackId)) {
+            audioTrackIds.prepend(trackId);
+        } else {
+            orderedTrackIds.append(trackId);
+        }
+    }
+    orderedTrackIds << audioTrackIds;
+    return orderedTrackIds;
 }

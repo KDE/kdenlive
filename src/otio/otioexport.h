@@ -62,6 +62,8 @@ private:
     };
     void exportClip(const std::shared_ptr<TimelineItemModel> &, const ClipData &, OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &);
     void exportMarker(const CommentedTime &, const OTIO_NS::TimeRange &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Item> &);
+    /** @brief Get track IDs in OTIO export order: V1, ..., Vn-1, Vn, A1, ..., An-1, An. */
+    QList<int> getOtioExportTrackOrder(const std::shared_ptr<TimelineItemModel> &timeline);
 
     double projectFps() const;
 

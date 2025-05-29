@@ -245,18 +245,17 @@ void OtioImport::slotImport()
 
 void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &importData)
 {
-    // Import the tracks.
-    auto otioChildren = importData->otioTimeline->tracks()->children();
-    for (auto i = otioChildren.rbegin(); i != otioChildren.rend(); ++i) {
-        if (const auto &otioTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*i)) {
-            int trackId = 0;
-            Fun undo = []() { return true; };
-            Fun redo = []() { return true; };
-            importData->timeline->requestTrackInsertion(-1, trackId, QString::fromStdString(otioTrack->name()),
-                                                        OTIO_NS::Track::Kind::audio == otioTrack->kind(), undo, redo);
-            importTrack(importData, otioTrack, trackId);
-        }
+
+    auto orderedTracks = getOrderedOtioTracksForTimelineInsertion(importData->otioTimeline);
+    for (const auto &otioTrack : orderedTracks) {
+        int trackId = 0;
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        bool isAudio = (OTIO_NS::Track::Kind::audio == otioTrack->kind());
+        importData->timeline->requestTrackInsertion(0, trackId, QString::fromStdString(otioTrack->name()), isAudio, undo, redo);
+        importTrack(importData, otioTrack, trackId);
     }
+
     importData->timeline->updateDuration();
 
     // Import the OTIO markers as guides.
@@ -399,4 +398,25 @@ QString OtioImport::resolveFile(const QString &file, const QFileInfo &timelineFi
         out = QFileInfo(timelineFile.path(), out.filePath());
     }
     return out.filePath();
+}
+
+std::vector<OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track>>
+OtioImport::getOrderedOtioTracksForTimelineInsertion(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &otioTimeline)
+{
+    // Lower video tracks come before higher video tracks in OTIO.
+    // The order between Audio and video tracks is not defined and they can come in interleaved A1, V1, A2, V2 or in any other order like A1, A2, V1, V2.
+    // Reorder the tracks so we end up with the expected track order of Vn, Vn-1, ... V1, A1, ..., A-1, An.
+    std::vector<OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track>> videoTracks, audioTracks;
+    auto otioChildren = otioTimeline->tracks()->children();
+    for (const auto &item : otioChildren) {
+        if (auto otioTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(item)) {
+            if (OTIO_NS::Track::Kind::audio == otioTrack->kind()) {
+                audioTracks.push_back(otioTrack);
+            } else {
+                videoTracks.insert(videoTracks.begin(), otioTrack);
+            }
+        }
+    }
+    videoTracks.insert(videoTracks.end(), audioTracks.begin(), audioTracks.end());
+    return videoTracks;
 }
