@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-28 00:41+0000\n"
+"POT-Creation-Date: 2025-05-29 00:42+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -18912,7 +18912,7 @@ msgstr "ئۈنسىز"
 
 #: src/dialogs/renderwidget.cpp:2015
 #: src/effects/effectstack/view/maskmanager.cpp:679
-#: src/library/librarywidget.cpp:248
+#: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, fuzzy, kde-format
 #| msgid "Destination folder"
 msgid "Open Containing Folder"
@@ -26994,19 +26994,19 @@ msgstr ""
 msgid "Cannot open file"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/project/dialogs/backupwidget.cpp:18
+#: src/project/dialogs/backupwidget.cpp:19
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@title:window"
 msgid "Restore Backup File"
 msgstr "ئايرىش"
 
-#: src/project/dialogs/backupwidget.cpp:22
+#: src/project/dialogs/backupwidget.cpp:23
 #, kde-format
 msgid "Showing all backup files in folder"
 msgstr ""
 
-#: src/project/dialogs/backupwidget.cpp:25
+#: src/project/dialogs/backupwidget.cpp:26
 #, kde-format
 msgid "Showing backup files for %1"
 msgstr ""
@@ -31408,6 +31408,13 @@ msgstr ""
 #, kde-format
 msgid "True FFT size: "
 msgstr ""
+
+#. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
+#: src/ui/backupdialog_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Search"
+msgid "Search backup"
+msgstr "ئىزدە"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

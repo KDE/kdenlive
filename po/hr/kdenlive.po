@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-28 00:41+0000\n"
+"POT-Creation-Date: 2025-05-29 00:42+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -18592,7 +18592,7 @@ msgstr "dodaj isječak projektu"
 
 #: src/dialogs/renderwidget.cpp:2015
 #: src/effects/effectstack/view/maskmanager.cpp:679
-#: src/library/librarywidget.cpp:248
+#: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, fuzzy, kde-format
 msgid "Open Containing Folder"
 msgstr "Odredište"
@@ -26669,18 +26669,18 @@ msgstr "Ne mogu pisati u datoteku %1"
 msgid "Cannot open file"
 msgstr "Pomakni efekt"
 
-#: src/project/dialogs/backupwidget.cpp:18
+#: src/project/dialogs/backupwidget.cpp:19
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
 msgstr "Luma datoteka"
 
-#: src/project/dialogs/backupwidget.cpp:22
+#: src/project/dialogs/backupwidget.cpp:23
 #, kde-format
 msgid "Showing all backup files in folder"
 msgstr ""
 
-#: src/project/dialogs/backupwidget.cpp:25
+#: src/project/dialogs/backupwidget.cpp:26
 #, kde-format
 msgid "Showing backup files for %1"
 msgstr ""
@@ -31082,6 +31082,13 @@ msgstr ""
 #| msgid "Frame size:"
 msgid "True FFT size: "
 msgstr "Veličina okvira:"
+
+#. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
+#: src/ui/backupdialog_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Search manually"
+msgid "Search backup"
+msgstr "Traži ručno"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

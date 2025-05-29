@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-28 00:41+0000\n"
+"POT-Creation-Date: 2025-05-29 00:42+0000\n"
 "PO-Revision-Date: 2025-04-28 16:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -18661,7 +18661,7 @@ msgstr "Pievienot pašreizējam projektam"
 
 #: src/dialogs/renderwidget.cpp:2015
 #: src/effects/effectstack/view/maskmanager.cpp:679
-#: src/library/librarywidget.cpp:248
+#: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Atvērt saturošo mapi"
@@ -26572,18 +26572,18 @@ msgstr "Nevar atvērt projekta datni „%1“"
 msgid "Cannot open file"
 msgstr "Nevar atvērt datni"
 
-#: src/project/dialogs/backupwidget.cpp:18
+#: src/project/dialogs/backupwidget.cpp:19
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
 msgstr "Atjauno no dublējuma datnes"
 
-#: src/project/dialogs/backupwidget.cpp:22
+#: src/project/dialogs/backupwidget.cpp:23
 #, kde-format
 msgid "Showing all backup files in folder"
 msgstr "Rāda visas dublējumu datnes mapē"
 
-#: src/project/dialogs/backupwidget.cpp:25
+#: src/project/dialogs/backupwidget.cpp:26
 #, kde-format
 msgid "Showing backup files for %1"
 msgstr "Rāda dublējuma datnes priekš „%1“"
@@ -31009,6 +31009,13 @@ msgstr "%p %"
 #, kde-format
 msgid "True FFT size: "
 msgstr "Patiesais FFT izmērs: "
+
+#. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
+#: src/ui/backupdialog_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Search scale"
+msgid "Search backup"
+msgstr "Meklēšanas mērogs"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

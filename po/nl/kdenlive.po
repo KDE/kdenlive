@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-28 00:41+0000\n"
+"POT-Creation-Date: 2025-05-29 00:42+0000\n"
 "PO-Revision-Date: 2025-05-27 15:39+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -18769,7 +18769,7 @@ msgstr "Aan huidig project toevoegen"
 
 #: src/dialogs/renderwidget.cpp:2015
 #: src/effects/effectstack/view/maskmanager.cpp:679
-#: src/library/librarywidget.cpp:248
+#: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Map openen waarin het zich bevindt"
@@ -21892,7 +21892,7 @@ msgstr "Bezig met laden van clip"
 #: src/jobs/cliploadtask.cpp:518
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
-msgstr "De duur van bestand <b>%1</b> kan niet bepaald worden."
+msgstr "De tijdsduur van bestand <b>%1</b> kan niet bepaald worden."
 
 #: src/jobs/cliploadtask.cpp:710
 #, kde-format
@@ -23352,7 +23352,7 @@ msgstr ""
 #: src/mainwindow.cpp:1254
 #, kde-format
 msgid "Ripple Tool"
-msgstr "Hulpmiddel rimpel"
+msgstr "Hulpmiddel Plooien"
 
 #: src/mainwindow.cpp:1257
 #, kde-kuit-format
@@ -24610,7 +24610,7 @@ msgstr ""
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
-msgstr "Rimpel "
+msgstr "Plooien "
 
 #: src/mainwindow.cpp:3493
 #, kde-kuit-format
@@ -26687,18 +26687,18 @@ msgstr "Kan het project-bestand %1 niet openen"
 msgid "Cannot open file"
 msgstr "Kan het bestand niet openen"
 
-#: src/project/dialogs/backupwidget.cpp:18
+#: src/project/dialogs/backupwidget.cpp:19
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
 msgstr "Backup-bestand terugzetten"
 
-#: src/project/dialogs/backupwidget.cpp:22
+#: src/project/dialogs/backupwidget.cpp:23
 #, kde-format
 msgid "Showing all backup files in folder"
 msgstr "Alle backup-bestanden in map tonen"
 
-#: src/project/dialogs/backupwidget.cpp:25
+#: src/project/dialogs/backupwidget.cpp:26
 #, kde-format
 msgid "Showing backup files for %1"
 msgstr "Back-up-bestanden voor %1 tonen"
@@ -29444,17 +29444,17 @@ msgstr "Compositie van grootte wijzigen"
 #: src/timeline2/model/timelinemodel.cpp:4311
 #, kde-format
 msgid "Ripple resize clip"
-msgstr "Rimpel clip verschalen"
+msgstr "Grootte wijzigen met Plooien"
 
 #: src/timeline2/model/timelinemodel.cpp:4313
 #, kde-format
 msgid "Ripple resize composition"
-msgstr "Rimpel compositie van grootte wijzigen"
+msgstr "Compositie van grootte wijzigen met Plooien"
 
 #: src/timeline2/model/timelinemodel.cpp:4315
 #, kde-format
 msgid "Ripple resize subtitle"
-msgstr "Rimpel ondertitel van grootte wijzigen"
+msgstr "Ondertitel van grootte wijzigen met Plooien"
 
 #: src/timeline2/model/timelinemodel.cpp:4458
 #, kde-format
@@ -29611,7 +29611,7 @@ msgstr "Tijdsduur voor %1 clips bewerken."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:145
 #, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "In modus Ripple grootte wijzigen."
+msgstr "In modus Plooien grootte wijzigen."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:319
 #, kde-format
@@ -29722,7 +29722,7 @@ msgstr "Microfoonniveau"
 #: src/timeline2/view/qml/Clip.qml:228 src/timeline2/view/qml/Clip.qml:948
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
-msgstr "%1 (%2-%3), positie: %4, duur: %5"
+msgstr "%1 (%2-%3), positie: %4, tijdsduur: %5"
 
 #: src/timeline2/view/qml/Clip.qml:330 src/timeline2/view/qml/Clip.qml:344
 #: src/timeline2/view/qml/SubTitle.qml:207
@@ -29820,7 +29820,7 @@ msgstr "Clip slippen"
 #: src/timeline2/view/qml/Composition.qml:264
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
-msgstr "%1, positie: %2, duur: %3"
+msgstr "%1, positie: %2, tijdsduur: %3"
 
 #: src/timeline2/view/qml/Composition.qml:331
 #: src/timeline2/view/qml/Composition.qml:395
@@ -29905,7 +29905,7 @@ msgstr "Multi-camera in"
 #: src/timeline2/view/qml/Track.qml:460 src/timeline2/view/qml/Track.qml:478
 #, kde-format
 msgid "%1%2, Duration = %3"
-msgstr "%1%2, duur = %3"
+msgstr "%1%2, tijdsduur = %3"
 
 #: src/timeline2/view/qml/Track.qml:502
 #, kde-format
@@ -31124,6 +31124,13 @@ msgstr "%p%"
 msgid "True FFT size: "
 msgstr "Echte FFT afmeting: "
 
+#. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
+#: src/ui/backupdialog_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Search Markers"
+msgid "Search backup"
+msgstr "Markeringen zoeken"
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66
 #, kde-format
@@ -31373,7 +31380,7 @@ msgstr "Einde van bijsnijden:"
 #: src/ui/clipdurationdialog_ui.ui:108
 #, kde-format
 msgid "Ripple resize"
-msgstr "Ripple grootte wijzigen"
+msgstr "Grootte wijzigen met Plooien"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -32306,7 +32313,7 @@ msgstr "Compositie van compositing van track met voorkeur:"
 #: src/ui/configmisc_ui.ui:242
 #, kde-format
 msgid "Default Durations"
-msgstr "Standaard duur"
+msgstr "Standaard tijdsduur"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configmisc_ui.ui:248

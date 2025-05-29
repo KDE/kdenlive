@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-28 00:41+0000\n"
+"POT-Creation-Date: 2025-05-29 00:42+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -19046,7 +19046,7 @@ msgstr "Tilføj til aktuelt projekt"
 
 #: src/dialogs/renderwidget.cpp:2015
 #: src/effects/effectstack/view/maskmanager.cpp:679
-#: src/library/librarywidget.cpp:248
+#: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, fuzzy, kde-format
 #| msgid "Destination folder"
 msgid "Open Containing Folder"
@@ -27254,19 +27254,19 @@ msgstr "Kan ikke åbne projektfilen %1"
 msgid "Cannot open file"
 msgstr "Kan ikke åbne filen"
 
-#: src/project/dialogs/backupwidget.cpp:18
+#: src/project/dialogs/backupwidget.cpp:19
 #, fuzzy, kde-format
 #| msgid "Restore Backup File"
 msgctxt "@title:window"
 msgid "Restore Backup File"
 msgstr "Genskab fra backupfil"
 
-#: src/project/dialogs/backupwidget.cpp:22
+#: src/project/dialogs/backupwidget.cpp:23
 #, kde-format
 msgid "Showing all backup files in folder"
 msgstr "Vis alle backupfiler i mappen"
 
-#: src/project/dialogs/backupwidget.cpp:25
+#: src/project/dialogs/backupwidget.cpp:26
 #, kde-format
 msgid "Showing backup files for %1"
 msgstr "Viser backupfiler til %1"
@@ -31801,6 +31801,13 @@ msgstr "%1 %%"
 #, kde-format
 msgid "True FFT size: "
 msgstr "Sand FFT-størrelse: "
+
+#. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
+#: src/ui/backupdialog_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Search scale"
+msgid "Search backup"
+msgstr "Søgningsskala"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

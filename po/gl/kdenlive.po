@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-28 00:41+0000\n"
+"POT-Creation-Date: 2025-05-29 00:42+0000\n"
 "PO-Revision-Date: 2025-03-04 08:47+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -19061,7 +19061,7 @@ msgstr "Engadir ao proxecto actual"
 
 #: src/dialogs/renderwidget.cpp:2015
 #: src/effects/effectstack/view/maskmanager.cpp:679
-#: src/library/librarywidget.cpp:248
+#: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Abrir o cartafol contedor"
@@ -27052,18 +27052,18 @@ msgstr "Non é posíbel abrir o ficheiro de proxecto %1"
 msgid "Cannot open file"
 msgstr "Non é posíbel abrir o ficheiro"
 
-#: src/project/dialogs/backupwidget.cpp:18
+#: src/project/dialogs/backupwidget.cpp:19
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
 msgstr "Restaurar o ficheiro de seguridade"
 
-#: src/project/dialogs/backupwidget.cpp:22
+#: src/project/dialogs/backupwidget.cpp:23
 #, kde-format
 msgid "Showing all backup files in folder"
 msgstr "Amósanse todos os ficheiros de seguridade que hai no cartafol"
 
-#: src/project/dialogs/backupwidget.cpp:25
+#: src/project/dialogs/backupwidget.cpp:26
 #, kde-format
 msgid "Showing backup files for %1"
 msgstr "Amósanse os ficheiros de seguridade de %1"
@@ -31542,6 +31542,13 @@ msgstr "%p%"
 #, kde-format
 msgid "True FFT size: "
 msgstr "Tamaño verdadeiro de FFT: "
+
+#. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
+#: src/ui/backupdialog_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Search scale"
+msgid "Search backup"
+msgstr "Escala da busca"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

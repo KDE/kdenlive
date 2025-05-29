@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-28 00:41+0000\n"
+"POT-Creation-Date: 2025-05-29 00:42+0000\n"
 "PO-Revision-Date: 2025-05-26 13:29+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -18325,7 +18325,7 @@ msgstr "הוספה למיזם הנוכחי"
 
 #: src/dialogs/renderwidget.cpp:2015
 #: src/effects/effectstack/view/maskmanager.cpp:679
-#: src/library/librarywidget.cpp:248
+#: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "פתיחת התיקייה המכילה"
@@ -26151,18 +26151,18 @@ msgstr "לא ניתן לפתוח את קובץ המיזם %1"
 msgid "Cannot open file"
 msgstr "לא ניתן לפתוח קובץ"
 
-#: src/project/dialogs/backupwidget.cpp:18
+#: src/project/dialogs/backupwidget.cpp:19
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
 msgstr "שחזור קובץ גיבוי"
 
-#: src/project/dialogs/backupwidget.cpp:22
+#: src/project/dialogs/backupwidget.cpp:23
 #, kde-format
 msgid "Showing all backup files in folder"
 msgstr "כל קובצי הגיבוי מופיעים בתיקייה"
 
-#: src/project/dialogs/backupwidget.cpp:25
+#: src/project/dialogs/backupwidget.cpp:26
 #, kde-format
 msgid "Showing backup files for %1"
 msgstr "קובצי גיבוי של %1 מופיעים"
@@ -30520,6 +30520,13 @@ msgstr "%p%"
 #, kde-format
 msgid "True FFT size: "
 msgstr "גודל FFT אמיתי: "
+
+#. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
+#: src/ui/backupdialog_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Search Markers"
+msgid "Search backup"
+msgstr "חיפוש סמנים"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

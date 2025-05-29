@@ -4,13 +4,13 @@
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
-# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
+# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-28 00:41+0000\n"
-"PO-Revision-Date: 2025-05-24 11:13+0200\n"
+"POT-Creation-Date: 2025-05-29 00:42+0000\n"
+"PO-Revision-Date: 2025-05-27 11:22+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.1\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -8413,7 +8413,7 @@ msgstr "Quantitat de color a la imatge acolorida."
 #: data/effects/frei0r/frei0r_colorize.xml:18
 #, kde-format
 msgid "Lightness of the colorized image."
-msgstr "Brillantor de la imatge acolorida."
+msgstr "Claredat de la imatge acolorida."
 
 #: data/effects/frei0r/frei0r_colortap.xml:4
 #, kde-format
@@ -8754,12 +8754,12 @@ msgstr "Angle de direcció de la llum."
 #: data/effects/frei0r/frei0r_emboss.xml:13
 #, kde-format
 msgid "Background lightness"
-msgstr "Lluminositat del fons"
+msgstr "Claredat del fons"
 
 #: data/effects/frei0r/frei0r_emboss.xml:14
 #, kde-format
 msgid "Background lightness (0 to 90)."
-msgstr "Lluminositat del fons (0 a 90)."
+msgstr "Claredat del fons (0 a 90)."
 
 #: data/effects/frei0r/frei0r_emboss.xml:17
 #, kde-format
@@ -9161,8 +9161,8 @@ msgid ""
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
 "<![CDATA[Segmentació del calidoscopi / 128; <br>\n"
-"        funcionen millor les segmentacions de 1, 2 o múltiples de 4. El "
-"valor predeterminat és 16]]>"
+"        funcionen millor les segmentacions d'1, 2 o múltiples de 4. El valor "
+"predeterminat és 16]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
 #, kde-format
@@ -11161,7 +11161,7 @@ msgid ""
 msgstr ""
 "<![CDATA[Decidix com interpretar els valors d'<em>Escapçat inferior</em> i "
 "d'<em>Escapçat superior</em>.<br/>\n"
-"    \tAmb un valor absolut, es pot ampliar a entre 100 i 150m d'altitud per "
+"    \tAmb un valor absolut, es pot ampliar a entre 100 i 150 m d'altitud per "
 "a mostrar millor\n"
 "canvis petits d'altitud entre estos 2 valors.<br/>\n"
 "Nota: per al tipus vertical, els valors absoluts són graus de latitud (per "
@@ -11222,7 +11222,7 @@ msgstr ""
 "Un color,Dos colors,Passat sòlid passat - futur prim,Futur sòlid - passat "
 "prim,Degradat vertical,Degradat horitzontal,Color per duració,Color per "
 "altitud,Color per ritme cardíac,Color per velocitat,Color per velocitat (màx "
-"100km/h),Color per graus (màx 90 graus),Color per graus (màx 20 graus)"
+"100 km/h),Color per graus (màx 90 graus),Color per graus (màx 20 graus)"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -18814,7 +18814,7 @@ msgstr "Afig al projecte actual"
 
 #: src/dialogs/renderwidget.cpp:2015
 #: src/effects/effectstack/view/maskmanager.cpp:679
-#: src/library/librarywidget.cpp:248
+#: src/library/librarywidget.cpp:248 src/project/dialogs/backupwidget.cpp:41
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Obri la carpeta contenidora"
@@ -19139,6 +19139,9 @@ msgid ""
 "the plugin fails. If this does not work, try deleting and reinstalling the "
 "plugin."
 msgstr ""
+"Açò intentarà reconstruir l'entorn virtual del connector. Utilitzeu-ho només "
+"si falla el connector. Si açò no funciona, proveu d'eliminar i reinstal·lar "
+"el connector."
 
 #: src/dialogs/settings/pluginssettings.cpp:452
 #, kde-format
@@ -26771,18 +26774,18 @@ msgstr "No s'ha pogut obrir el fitxer de projecte %1"
 msgid "Cannot open file"
 msgstr "No s'ha pogut obrir el fitxer"
 
-#: src/project/dialogs/backupwidget.cpp:18
+#: src/project/dialogs/backupwidget.cpp:19
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
 msgstr "Restaureu el fitxer de còpia de seguretat"
 
-#: src/project/dialogs/backupwidget.cpp:22
+#: src/project/dialogs/backupwidget.cpp:23
 #, kde-format
 msgid "Showing all backup files in folder"
 msgstr "Es mostren tots els fitxers de còpia de seguretat de la carpeta"
 
-#: src/project/dialogs/backupwidget.cpp:25
+#: src/project/dialogs/backupwidget.cpp:26
 #, kde-format
 msgid "Showing backup files for %1"
 msgstr "Es mostren els fitxers de còpia de seguretat de %1"
@@ -27863,7 +27866,7 @@ msgstr "S'està comprovant la configuració…"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-format
 msgid "Successfully rebuilt environment"
-msgstr ""
+msgstr "L'entorn s'ha reconstruït correctament"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:260
 #, kde-format
@@ -31247,6 +31250,13 @@ msgstr "%p%"
 msgid "True FFT size: "
 msgstr "Mida real de la FFT: "
 
+#. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
+#: src/ui/backupdialog_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Search Markers"
+msgid "Search backup"
+msgstr "Busca marcadors"
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66
 #, kde-format
@@ -32863,7 +32873,7 @@ msgstr "Suprimix tots els models"
 #: src/ui/configspeech_ui.ui:977
 #, kde-format
 msgid "Rebuild Virtual Environment"
-msgstr ""
+msgstr "Reconstrucció de l'entorn virtual"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
 #: src/ui/configspeech_ui.ui:1074
