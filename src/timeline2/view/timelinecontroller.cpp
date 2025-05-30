@@ -1410,7 +1410,7 @@ void TimelineController::addQuickMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = pCore->getMonitorPosition() - m_model->getClipPosition(cid);
+        position = pCore->getMonitorPosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
         position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > ((m_model->getClipIn(cid) + m_model->getClipPlaytime(cid) * speed))) {
