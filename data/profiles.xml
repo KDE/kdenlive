@@ -83,6 +83,10 @@
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 vcodec=hevc_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
+  <profile name="NVENC H265 ABR 10 bit" extension="mp4"
+           bitrates="30000,1000" defaultbitrate="6000"
+           audiobitrates="256,64" defaultaudiobitrate="160"
+           args="f=mp4 vcodec=hevc_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k' pix_fmt=p010le"/>
   <profile name="VideoToolBox H264 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"

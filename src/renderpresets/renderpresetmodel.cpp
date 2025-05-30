@@ -376,6 +376,12 @@ void RenderPresetModel::checkPreset()
         return;
     }
 
+    if (hasParam(QStringLiteral("pix_fmt"))) {
+        if (getParam(QStringLiteral("pix_fmt")).toLower().contains(QLatin1String("p010le"))) {
+            m_warnings = i18n("10 bit color depth will be converted to 8 bit if you use compositing or effects not provided by avfilter.");
+        }
+    }
+
     if (hasParam(QStringLiteral("profile"))) {
         m_warnings = i18n("This render preset uses a 'profile' parameter.<br />Unless you know what you are doing you will probably "
                           "have to change it to 'mlt_profile'.");
