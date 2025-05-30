@@ -4,20 +4,25 @@
     <name>VR360 Equirectangular Mask</name>
     <description>Adds a black matte to the frame. Use this if you filmed using a 360 camera but only want to use part of the 360 image - for example if you and the film crew occupy the 90 degrees behind the camera.</description>
     <author>Leo Sutic</author>
-    <parameter type="animated" name="hfov0" default="180" min="0" max="360" factor="1" suffix="°">
-        <name>Vertical Start</name>
+    <parameter type="animated" name="vfov0" default="180" min="0" max="360" factor="1" decimals="1" suffix="°">
+        <name>Vertical start</name>
+    	<comment><![CDATA[The <b>Start</b> is half the height in degrees of the un-matted area. The <b>End</b> is the half the height in degrees where the matte is at 100%.]]></comment>
     </parameter>
-    <parameter type="animated" name="hfov1" default="200" min="0" max="360" factor="1" suffix="°">
-        <name>Vertical End</name>
+    <parameter type="animated" name="vfov1" default="200" min="0" max="360" factor="1" decimals="1" suffix="°">
+        <name>Vertical end</name>
+    	<comment><![CDATA[The Start is half the height in degrees of the un-matted area. The End is the half the height in degrees where the matte is at 100%.]]></comment>
     </parameter>
-    <parameter type="animated" name="vfov0" default="140" min="0" max="360" factor="1" suffix="°">
-        <name>Horizontal Start</name>
+    <parameter type="animated" name="hfov0" default="140" min="0" max="360" factor="1" decimals="1" suffix="°">
+        <name>Horizontal start</name>
+    	<comment><![CDATA[The <b>Start</b> is the width in degrees of the un-matted area. The <b>End</b> is the width in degrees where the matte is at 100%.]]></comment>
     </parameter>
-    <parameter type="animated" name="vfov1" default="160" min="0" max="360" factor="1" suffix="°">
-        <name>Horizontal End</name>
+    <parameter type="animated" name="hfov1" default="160" min="0" max="360" factor="1" decimals="1" suffix="°">
+        <name>Horizontal end</name>
+    	<comment><![CDATA[The <b>Start</b> is the width in degrees of the un-matted area. The <b>End</b> is the width in degrees where the matte is at 100%.]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
         <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
+    	<comment><![CDATA[Determines the sampling method.]]></comment>
     </parameter>
 </effect>

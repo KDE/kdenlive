@@ -109,6 +109,7 @@ avfilter_removegrain.xml
 avfilter_rgbashift.xml
 avfilter_roberts.xml
 avfilter_sab.xml
+avfilter_scharr.xml
 avfilter_scroll.xml
 avfilter_selectivecolor.xml
 avfilter_separatefields.xml

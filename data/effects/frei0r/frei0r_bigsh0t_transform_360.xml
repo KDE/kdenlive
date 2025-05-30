@@ -4,17 +4,24 @@
     <name>VR360 Transform</name>
     <description>Rotates a panoramic image.</description>
     <author>Leo Sutic</author>
-    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" suffix="°">
-        <name>yaw</name>
+    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" decimals="1" suffix="°">
+        <name>Yaw</name>
+    	<comment><![CDATA[The amount to rotate the image<br>
+    	(nose moves from side to side).]]></comment>
     </parameter>
-    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" suffix="°">
-        <name>pitch</name>
+    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" decimals="1" suffix="°">
+        <name>Pitch</name>
+    	<comment><![CDATA[The amount to rotate the image<br>
+    	(nose up or down).]]></comment>
     </parameter>
-    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="°">
-        <name>roll</name>
+    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" decimals="1" suffix="°">
+        <name>Roll</name>
+    	<comment><![CDATA[The amount to rotate the image<br>
+    	(clockwise or anticlockwise rotation along the axis of movement).]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
         <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
         <name>Interpolation</name>
+    	<comment><![CDATA[Determines the sampling method.]]></comment>
     </parameter>
 </effect>

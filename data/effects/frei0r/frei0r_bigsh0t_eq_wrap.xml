@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.bigsh0t_eq_wrap" id="frei0r.bigsh0t_eq_wrap">
+    <name>VR360 Wrap</name>
+    <description>Stretches a section of the equirectangular panorama to cover the entire VR sphere</description>
+    <author>Leo Sutic</author>
+    <parameter type="list" name="interpolation" default="0" paramlist="0;1">
+        <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>
+        <name>Interpolation</name>
+    	<comment><![CDATA[Determines the sampling method]]></comment>
+    </parameter>
+    <parameter type="animated" name="0" default="0" min="0" max="90" factor="90" decimals="1" suffix="°">
+        <name>Top</name>
+    	<comment><![CDATA[Degrees from the center of the image to keep unchanged]]></comment>
+    </parameter>
+    <parameter type="animated" name="1" default="0" min="0" max="90" factor="90" decimals="1" suffix="°">
+        <name>Bottom</name>
+    	<comment><![CDATA[Degrees from the center of the image to keep unchanged]]></comment>
+    </parameter>
+    <parameter type="animated" name="2" default="0" min="0" max="90" factor="90" decimals="1" suffix="°">
+        <name>Left</name>
+    	<comment><![CDATA[Degrees from the center of the image to keep unchanged]]></comment>
+    </parameter>
+    <parameter type="animated" name="3" default="0" min="0" max="90" factor="90" decimals="1" suffix="°">
+        <name>Right</name>
+    	<comment><![CDATA[Degrees from the center of the image to keep unchanged]]></comment>
+    </parameter>
+    <parameter type="animated" name="4" default="0" min="0" max="90" factor="90" decimals="1" suffix="°">
+        <name>Blur start</name>
+    	<comment><![CDATA[Horizontal fraction of the unchanged area to blur over in the equator band]]></comment>
+    </parameter>
+    <parameter type="animated" name="5" default="0" min="0" max="90" factor="90" decimals="1" suffix="°">
+        <name>Blur end</name>
+    	<comment><![CDATA[Horizontal fraction of the unchanged area to blur over at the poles]]></comment>
+    </parameter>
+</effect>

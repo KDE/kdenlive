@@ -5,14 +5,16 @@
     <description>Apply motion-compensation deinterlacing</description>
     <author>libavfilter</author>
     <parameter type="list" name="av.mode" default="medium" paramlist="fast;medium;slow;extra_slow">
-        <paramlistdisplay>Fast,Medium,Slow,Extra_slow</paramlistdisplay>
+        <paramlistdisplay>Fast,Medium,Slow,Extra slow</paramlistdisplay>
         <name>Mode</name>
     </parameter>
-    <parameter type="list" name="av.parity" default="tff" paramlist="tff;bff">
+    <parameter type="list" name="av.parity" default="bff" paramlist="tff;bff">
         <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
         <name>Picture field parity</name>
     </parameter>
     <parameter type="constant" name="av.qp" default="1" min="0" max="10" factor="1">
         <name>QP</name>
+        <comment><![CDATA[Set per-block quantization parameter (QP) used by the internal encoder.<br>
+            Higher values should result in a smoother motion vector field but less optimal individual vectors. Default value is 1.]]></comment>
     </parameter>
 </effect>

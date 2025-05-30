@@ -4,48 +4,147 @@
     <name>VR360 Hemispherical to Equirectangular</name>
     <description>Converts a video frame with two hemispherical images to a single equirectangular frame. The plugin assumes that both hemispheres are in the frame</description>
     <author>Leo Sutic</author>
-    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" suffix="°">
-        <name>Alignment Yaw</name>
+    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" decimals="1" suffix="°">
+        <name>Alignment yaw</name>
+    	<comment><![CDATA[The two fisheye cameras of a 360 camera are rarely perfectly 180 degrees apart.<br>
+    	These parameters adds a rotation to both lenses to correct for this.]]></comment>
     </parameter>
-    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" suffix="°">
-        <name>Alignment Pitch</name>
+    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" decimals="1" suffix="°">
+        <name>Alignment pitch</name>
+    	<comment><![CDATA[The two fisheye cameras of a 360 camera are rarely perfectly 180 degrees apart.<br>
+    	These parameters adds a rotation to both lenses to correct for this.]]></comment>
     </parameter>
-    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="°">
-        <name>Alignment Roll</name>
+    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" decimals="1" suffix="°">
+        <name>Alignment roll</name>
+    	<comment><![CDATA[The two fisheye cameras of a 360 camera are rarely perfectly 180 degrees apart.<br>
+    	These parameters adds a rotation to both lenses to correct for this.]]></comment>
     </parameter>
     <parameter type="list" name="projection" default="0" paramlist="0">
         <paramlistdisplay>Equidistant Fisheye</paramlistdisplay>
         <name>Projection</name>
+    	<comment><![CDATA[The fisheye projection type. Currently only equidistant fisheyes, like the Ricoh Theta and Garmin Virb360 are supported.]]></comment>
     </parameter>
-    <parameter type="animated" name="fov" default="180" min="0f" max="360" factor="1" suffix="°">
+    <parameter type="animated" name="fov" default="180" min="0" max="360" factor="1" decimals="1" suffix="°">
         <name>Lens FOV</name>
+    	<comment><![CDATA[The field of view of a single hemisphere in degrees, expressed as a fraction of the frame width.]]></comment>
     </parameter>
     <parameter type="animated" name="radius" default="0.25" min="0" max="1" decimals="2">
-        <name>Lens Radius</name>
+        <name>Lens radius</name>
+    	<comment><![CDATA[The radius of the image circle, expressed as a fraction of the frame width.]]></comment>
     </parameter>
     <parameter type="animated" name="frontX" default="0.7500" min="0" max="1" decimals="4">
         <name>Front X</name>
+    	<comment><![CDATA[The image center and image orientation for the front-facing camera.<br>
+    	The X parameter is a fraction of the image width.]]></comment>
     </parameter>
     <parameter type="animated" name="frontY" default="0.5000" min="0" max="1" decimals="4">
         <name>Front Y</name>
+    	<comment><![CDATA[The image center and image orientation for the front-facing camera.<br>
+    	The Y parameter a fraction of the image height.]]></comment>
     </parameter>
     <parameter type="animated" name="frontUp" default="90" min="0" max="360" factor="1" suffix="°">
-        <name>Front UP</name>
+        <name>Front Up</name>
+    	<comment><![CDATA[The image center and image orientation for the front-facing camera.<br>
+    	Up is the "up" direction in the image, in degrees clockwise from a direction towards the frame top edge.]]></comment>
     </parameter>
     <parameter type="animated" name="backX" default="0.2500" min="0" max="1" decimals="4">
         <name>Back X</name>
+    	<comment><![CDATA[The image center and image orientation for the back-facing camera.<br>
+    	The X parameter is a fraction of the image width..]]></comment>
     </parameter>
     <parameter type="animated" name="backY" default="0.5000" min="0" max="1" decimals="4">
         <name>Back Y</name>
+    	<comment><![CDATA[The image center and image orientation for the back-facing camera.<br>
+    	The Y parameter a fraction of the image height.]]></comment>
     </parameter>
     <parameter type="animated" name="backUp" default="90" min="0" max="360" factor="1" suffix="°">
-        <name>Back UP</name>
+        <name>Back Up</name>
+    	<comment><![CDATA[The image center and image orientation for the back-facing camera.<br>
+    	Up is the "up" direction in the image, in degrees clockwise from a direction towards the frame top edge.]]></comment>
     </parameter>
     <parameter type="animated" name="nadirRadius" default="0.2229" min="0" max="1" decimals="4">
-        <name>Nadir Radius</name>
+        <name>Nadir radius</name>
+    	<comment><![CDATA[360 cameras like the Theta have a problem with the nadir direction where, no matter what, you will have a little of the camera in the image.<br>
+    	This parameter "stretches" the image near nadir to cover up the missing parts.]]></comment>
     </parameter>
     <parameter type="animated" name="nadirCorrectionStart" default="0.8" min="0" max="1" decimals="4">
-        <name>Nadir Start</name>
+        <name>Nadir start</name>
+    	<comment><![CDATA[360 cameras like the Theta have a problem with the nadir direction where, no matter what, you will have a little of the camera in the image.<br>
+    	This parameter "stretches" the image near nadir to cover up the missing parts.]]></comment>
+    </parameter>
+    <parameter type="animated" name="distortionA" default="0" min="0" max="1" decimals="4">
+        <name>Lens distortion A</name>
+    	<comment><![CDATA[Lens distortion correction parameters.<br>
+    	The first three parameters are the same as in Hugin.]]></comment>
+    </parameter>
+    <parameter type="animated" name="distortionB" default="0" min="0" max="1" decimals="4">
+        <name>Lens distortion B</name>
+    	<comment><![CDATA[Lens distortion correction parameters.<br>
+    	The first three parameters are the same as in Hugin.]]></comment>
+    </parameter>
+    <parameter type="animated" name="distortionC" default="0" min="0" max="1" decimals="4">
+        <name>Lens distortion C</name>
+    	<comment><![CDATA[Lens distortion correction parameters.<br>
+    	The first three parameters are the same as in Hugin.]]></comment>
+    </parameter>
+    <parameter type="animated" name="distortionRadius" default="0" min="0" max="1" decimals="4">
+        <name>Lens distortion radius</name>
+    	<comment><![CDATA[Lens distortion correction parameters.<br>
+    	If you use Hugin parameters, the Radius should be set to the value of (0.5 * min(image width, image height) / image width). For a 2:1 aspect dual hemispherical image, that would be 0.25.]]></comment>
+    </parameter>
+    <parameter type="animated" name="vignettingA" default="0" min="0" max="1" decimals="4">
+        <name>Lens vignetting A</name>
+    	<comment><![CDATA[Lens vignetting correction parameters.<br>
+    	The first four parameters are the same as in Hugin, corresponding to the Va, Vb, Vc and Vd image parameters.]]></comment>
+    </parameter>
+    <parameter type="animated" name="vignettingB" default="0" min="0" max="1" decimals="4">
+        <name>Lens vignetting B</name>
+    	<comment><![CDATA[Lens vignetting correction parameters.<br>
+    	The first four parameters are the same as in Hugin, corresponding to the Va, Vb, Vc and Vd image parameters.]]></comment>
+    </parameter>
+    <parameter type="animated" name="vignettingC" default="0" min="0" max="1" decimals="4">
+        <name>Lens vignetting C</name>
+    	<comment><![CDATA[Lens vignetting correction parameters.<br>
+    	The first four parameters are the same as in Hugin, corresponding to the Va, Vb, Vc and Vd image parameters.]]></comment>
+    </parameter>
+    <parameter type="animated" name="vignettingD" default="0" min="0" max="1" decimals="4">
+        <name>Lens vignetting D</name>
+    	<comment><![CDATA[Lens vignetting correction parameters.<br>
+    	The first four parameters are the same as in Hugin, corresponding to the Va, Vb, Vc and Vd image parameters.]]></comment>
+    </parameter>
+    <parameter type="animated" name="vignettingRadius" default="0" min="0" max="1" decimals="4">
+        <name>Lens vignetting radius</name>
+    	<comment><![CDATA[If you use Hugin parameters, the radius should be set to the value of (0.5 * image diagonal / image width).<br>
+    	For a 2:1 aspect dual hemispherical image, that would be 0.5590. Use the A parameter to scale the effect and avoid overexposing highlights]]></comment>
+    </parameter>
+    <parameter type="bool" name="emorEnabled" default="0" min="0" max="1" decimals="4">
+        <name>Use sensor response parameters</name>
+    	<comment><![CDATA[Switch on to use sensor response parameters (EMoR h(x))]]></comment>
+    </parameter>
+    <parameter type="animated" name="emorH1" default="0" min="0" max="1" decimals="4">
+        <name>EMoR h(1)</name>
+    	<comment><![CDATA[Sensor response parameters.<br>
+    	The EMoR h(x) parameters are the same as Hugin's Ra - Re in the lens parameters. If you use Hugin-derived values for vignetting correction, you should also use these parameters, as Hugin's vignetting correction assumes that the sensor response has been corrected.]]></comment>
+    </parameter>
+    <parameter type="animated" name="emorH2" default="0" min="0" max="1" decimals="4">
+        <name>EMoR h(2)</name>
+    	<comment><![CDATA[Sensor response parameters.<br>
+    	The EMoR h(x) parameters are the same as Hugin's Ra - Re in the lens parameters. If you use Hugin-derived values for vignetting correction, you should also use these parameters, as Hugin's vignetting correction assumes that the sensor response has been corrected.]]></comment>
+    </parameter>
+    <parameter type="animated" name="emorH3" default="0" min="0" max="1" decimals="4">
+        <name>EMoR h(3)</name>
+    	<comment><![CDATA[Sensor response parameters.<br>
+    	The EMoR h(x) parameters are the same as Hugin's Ra - Re in the lens parameters. If you use Hugin-derived values for vignetting correction, you should also use these parameters, as Hugin's vignetting correction assumes that the sensor response has been corrected.]]></comment>
+    </parameter>
+    <parameter type="animated" name="emorH4" default="0" min="0" max="1" decimals="4">
+        <name>EMoR h(4)</name>
+    	<comment><![CDATA[Sensor response parameters.<br>
+    	The EMoR h(x) parameters are the same as Hugin's Ra - Re in the lens parameters. If you use Hugin-derived values for vignetting correction, you should also use these parameters, as Hugin's vignetting correction assumes that the sensor response has been corrected.]]></comment>
+    </parameter>
+    <parameter type="animated" name="emorH5" default="0" min="0" max="1" decimals="4">
+        <name>EMoR h(5)</name>
+    	<comment><![CDATA[Sensor response parameters.<br>
+    	The EMoR h(x) parameters are the same as Hugin's Ra - Re in the lens parameters. If you use Hugin-derived values for vignetting correction, you should also use these parameters, as Hugin's vignetting correction assumes that the sensor response has been corrected.]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
         <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>

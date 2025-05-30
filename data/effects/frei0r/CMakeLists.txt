@@ -15,9 +15,11 @@ frei0r_balanc0r.xml
 frei0r_baltan.xml
 frei0r_bezier_curves.xml
 frei0r_bgsubtract0r.xml
+frei0r_bigsh0t_eq_cap.xml
 frei0r_bigsh0t_eq_mask.xml
 frei0r_bigsh0t_eq_to_rect.xml
 frei0r_bigsh0t_eq_to_stereo.xml
+frei0r_bigsh0t_eq_wrap.xml
 frei0r_bigsh0t_hemi_to_eq.xml
 frei0r_bigsh0t_rect_to_eq.xml
 frei0r_bigsh0t_stabilize_360.xml
@@ -46,6 +48,7 @@ frei0r_emboss.xml
 frei0r_equaliz0r.xml
 frei0r_facebl0r.xml
 frei0r_facedetect.xml
+frei0r_filmgrain.xml
 frei0r_flippo.xml
 frei0r_G.xml
 frei0r_glitch0r.xml
@@ -63,6 +66,7 @@ frei0r_luminance.xml
 frei0r_mask0mate.xml
 frei0r_medians.xml
 frei0r_nervous.xml
+frei0r_normaliz0r.xml
 frei0r_nosync0r.xml
 frei0r_pixeliz0r.xml
 frei0r_pixs0r.xml

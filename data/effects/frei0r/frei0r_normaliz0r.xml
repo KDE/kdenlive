@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.normaliz0r" id="frei0r.normaliz0r">
+    <name context="Levels Effect Name">Normaliz0r</name>
+    <description>Normalize (aka histogram stretch, contrast stretch)</description>
+    <author>Chungzuwalla (chungzuwalla@rling.com)n</author>
+    <parameter type="color" name="BlackPt" default="0x000000ff">
+        <name>Black point</name>
+        <comment>Output color to which darkest input color is mapped (default black)</comment>
+    </parameter>
+    <parameter type="color" name="WhitePt" default="0xffffffff">
+        <name>White point</name>
+        <comment>Output color to which brightest input color is mapped (default white)</comment>
+    </parameter>
+    <parameter type="animated" name="Smoothing" default="0" min="0" max="1000" factor="1000">
+        <name>Smoothing</name>
+        <comment>Amount of temporal smoothing of the input range, to reduce flicker (default 0)</comment>
+    </parameter>
+    <parameter type="animated" name="Independence" default="1" min="0" max="1000" factor="1000">
+        <name>Independence</name>
+        <comment>Proportion of independent to linked channel normalization (default 1000)</comment>
+    </parameter>
+    <parameter type="animated" name="Strength" default="1" min="0" max="1000" factor="1000">
+        <name>Strength</name>
+        <comment>Strength of filter, from no effect (0) to full normalization (default 1000)</comment>
+    </parameter>
+</effect>

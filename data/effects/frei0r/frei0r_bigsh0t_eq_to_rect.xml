@@ -4,20 +4,30 @@
     <name>VR360 Equirectangular to Rectilinear</name>
     <description>Converts an equirectangular frame (panoramic) to a rectilinear frame (what you're used to seeing). Can be used to preview what will be shown in a 360 video viewer. Delayed frame blitting mapped on a time bitmap</description>
     <author>Leo Sutic</author>
-    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" suffix="°">
-        <name>yaw</name>
+    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" decimals="1" suffix="°">
+        <name>Yaw</name>
+    	<comment><![CDATA[The amount to rotate the image<br>
+    	(nose moves from side to side).]]></comment>
     </parameter>
-    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" suffix="°">
-        <name>pitch</name>
+    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" decimals="1" suffix="°">
+        <name>Pitch</name>
+    	<comment><![CDATA[The amount to rotate the image<br>
+    	(nose up or down).]]></comment>
     </parameter>
-    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="°">
-        <name>roll</name>
+    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" decimals="1" suffix="°">
+        <name>Roll</name>
+    	<comment><![CDATA[The amount to rotate the image<br>
+    	(clockwise or anticlockwise rotation along the axis of movement).]]></comment>
     </parameter>
-    <parameter type="animated" name="fov" default="100" min="0" max="180" factor="1" suffix="°">
-        <name>fov</name>
+    <parameter type="animated" name="fov" default="100" min="0" max="180" factor="1" decimals="1" suffix="°">
+        <name>FOV</name>
+    	<comment><![CDATA[The horizontal field of view, in degrees, of the resulting frame.<br>
+    	Any value over 179 results in a fisheye projection.]]></comment>
     </parameter>
-    <parameter type="animated" name="fisheye" default="0" min="0" max="100" factor="1" suffix="%">
-        <name>fisheye</name>
+    <parameter type="animated" name="fisheye" default="0" min="0" max="100" factor="1" decimals="1" suffix="%">
+        <name>Fisheye</name>
+    	<comment><![CDATA[The amount of fisheye to mix in.<br>
+    	100 means that you get a 100% fisheye lens.]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
         <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>

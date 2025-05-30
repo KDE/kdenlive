@@ -2,52 +2,81 @@
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.bigsh0t_stabilize_360" id="frei0r.bigsh0t_stabilize_360">
     <name>VR360 Stabilize</name>
-    <description>Stabilizes 360 footage. The plugin works in two phases - analysis and stabilization. When analyzing footage, it detects frame-to-frame rotation, and when stabilizing it tries to correct high-frequency motion (shake).</description>
+    <description><![CDATA[Stabilizes 360 footage.<br>
+    The plugin works in two phases - analysis and stabilization. When analyzing footage, it detects frame-to-frame rotation, and when stabilizing it tries to correct high-frequency motion (shake).]]></description>
     <author>Leo Sutic</author>
     <parameter type="bool" name="analyze">
         <name>Analyze</name>
+    	<comment><![CDATA[Switch on for analysis phase; switch off for stabilization phase.]]></comment>
     </parameter>
     <parameter type="url" name="analysisFile" filter="*.bigsh0t360motion" mode="save">
-        <name>Motion Analysis File</name>
+        <name>Motion analysis file</name>
+    	<comment><![CDATA[Select the file to store stabilization data in]]></comment>
     </parameter>
-    <parameter type="constant" name="sampleRadius" default="16" min="1" max="64" factor="1" suffix="px">
-        <name>Analysis Sample Radius</name>
+    <parameter type="constant" name="clipOffset" default="0" min="0" max="1" decimals="3">
+        <name>Start offset</name>
+    	<comment><![CDATA[The offset into the stabilization file that corresponds to the start of this clip.<br>
+    	For example, if you have a 30 second clip, analyze it all, and then split it into three clips of 10 seconds each, then the start offsets should be 0s, 10s, and 20s.]]></comment>
     </parameter>
-    <parameter type="constant" name="searchRadius" default="24" min="1" max="128" factor="1" suffix="px">
-        <name>Analysis Search Radius</name>
+    <parameter type="constant" name="sampleRadius" default="16" min="1" max="64" factor="64" suffix="px">
+        <name>Analysis sample radius</name>
+    	<comment><![CDATA[The radius of the square that the stabilizer will sample]]></comment>
     </parameter>
-    <parameter type="constant" name="offset" default="64" min="1" max="256" factor="1" suffix="px">
-        <name>Analysis Offset</name>
+    <parameter type="constant" name="searchRadius" default="24" min="1" max="128" factor="128" suffix="px">
+        <name>Analysis search radius</name>
+    	<comment><![CDATA[The maximum amount of motion the stabilizer will detect]]></comment>
+    </parameter>
+    <parameter type="constant" name="offset" default="64" min="1" max="256" factor="256" suffix="px">
+        <name>Analysis offset</name>
+    	<comment><![CDATA[The distance between the track points]]></comment>
     </parameter>
     <parameter type="bool" name="useBackTrackpoints">
-        <name>Track Points</name>
+        <name>Use backwards-facing track points</name>
+    	<comment><![CDATA[If set, six backwards-facing track points will also be used to detect pitch and yaw motion.<br>
+    	Disable if, for example, you show up holding the camera there]]></comment>
     </parameter>
-    <parameter type="constant" name="stabilizeYaw" default="100" min="0" max="100" factor="1" suffix="%">
-        <name>Yaw Amount</name>
+    <parameter type="constant" name="stabilizeYaw" default="100" min="0" max="100" factor="100" decimals="1" suffix="%">
+        <name>Yaw amount</name>
+    	<comment><![CDATA[The amount of stabilization to apply.<br>
+    	100% means that the stabilizer will make the camera as steady as it can. Smaller values reduce the amount of stabilization.]]></comment>
     </parameter>
-    <parameter type="constant" name="smoothYaw" default="20" min="1" max="100" factor="1" suffix="frames">
-        <name>Yaw Smoothing</name>
+    <parameter type="constant" name="smoothYaw" default="20" min="1" max="100" factor="100" suffix="frames">
+        <name>Yaw smoothing</name>
+    	<comment><![CDATA[The number of frames to use to smooth out the shakes. The higher the value, the slower the camera will follow any intended motion.]]></comment>
     </parameter>
-    <parameter type="constant" name="timeBiasYaw" default="0" min="-100" max="100" factor="1" suffix="%">
-        <name>Yaw Time Bias</name>
+    <parameter type="constant" name="timeBiasYaw" default="0" min="-100" max="100" factor="100" decimals="1" suffix="%">
+        <name>Yaw time bias</name>
+    	<comment><![CDATA[Shift the frames used to smooth out the shakes relative to the stabilized frame.<br>
+    	A value less than zero will give more weight to past frames, and the camera will seem to lag behind intended movement. A value greater than zero will give more weight to future frames, and the camera will appear to move ahead of the intended camera movement. A value of zero should make the camera follow the intended path.]]></comment>
     </parameter>
-    <parameter type="constant" name="stabilizePitch" default="100" min="0" max="100" factor="1" suffix="%">
-        <name>Yaw Amount</name>
+    <parameter type="constant" name="stabilizePitch" default="100" min="0" max="100" factor="100" decimals="1" suffix="%">
+        <name>Pitch amount</name>
+    	<comment><![CDATA[The amount of stabilization to apply. 100% means that the stabilizer will make the camera as steady as it can. Smaller values reduce the amount of stabilization.]]></comment>
     </parameter>
-    <parameter type="constant" name="smoothPitch" default="20" min="1" max="100" factor="1" suffix="frames">
-        <name>Pitch Smoothing</name>
+    <parameter type="constant" name="smoothPitch" default="20" min="1" max="100" factor="100" suffix="frames">
+        <name>Pitch smoothing</name>
+    	<comment><![CDATA[The number of frames to use to smooth out the shakes.<br>
+    	The higher the value, the slower the camera will follow any intended motion.]]></comment>
     </parameter>
-    <parameter type="constant" name="timeBiasPitch" default="0" min="-100" max="100" factor="1" suffix="%">
-        <name>Pitch Time Bias</name>
+    <parameter type="constant" name="timeBiasPitch" default="0" min="-100" max="100" factor="100" decimals="1" suffix="%">
+        <name>Pitch time bias</name>
+    	<comment><![CDATA[Shift the frames used to smooth out the shakes relative to the stabilized frame.<br>
+    	A value less than zero will give more weight to past frames, and the camera will seem to lag behind intended movement. A value greater than zero will give more weight to future frames, and the camera will appear to move ahead of the intended camera movement. A value of zero should make the camera follow the intended path.]]></comment>
     </parameter>
-    <parameter type="constant" name="stabilizeRoll" default="100" min="0" max="100" factor="1" suffix="%">
-        <name>Roll Amount</name>
+    <parameter type="constant" name="stabilizeRoll" default="100" min="0" max="100" factor="100" decimals="1" suffix="%">
+        <name>Roll amount</name>
+    	<comment><![CDATA[The amount of stabilization to apply.<br>
+    	100% means that the stabilizer will make the camera as steady as it can. Smaller values reduce the amount of stabilization.]]></comment>
     </parameter>
-    <parameter type="constant" name="smoothRoll" default="20" min="1" max="100" factor="1" suffix="frames">
-        <name>Roll Smoothing</name>
+    <parameter type="constant" name="smoothRoll" default="20" min="1" max="100" factor="100" suffix="frames">
+        <name>Roll smoothing</name>
+    	<comment><![CDATA[The number of frames to use to smooth out the shakes.<br>
+    	The higher the value, the slower the camera will follow any intended motion.]]></comment>
     </parameter>
-    <parameter type="constant" name="timeBiasRoll" default="0" min="-100" max="100" factor="1" suffix="%">
-        <name>Roll Time Bias</name>
+    <parameter type="constant" name="timeBiasRoll" default="0" min="-100" max="100" factor="100" decimals="1" suffix="%">
+        <name>Roll time bias</name>
+    	<comment><![CDATA[Shift the frames used to smooth out the shakes relative to the stabilized frame.<br>
+    	A value less than zero will give more weight to past frames, and the camera will seem to lag behind intended movement. A value greater than zero will give more weight to future frames, and the camera will appear to move ahead of the intended camera movement. A value of zero should make the camera follow the intended path.]]></comment>
     </parameter>
     <parameter type="list" name="interpolation" default="0" paramlist="0;1">
         <paramlistdisplay>Nearest-Neighbor,Bilinear</paramlistdisplay>

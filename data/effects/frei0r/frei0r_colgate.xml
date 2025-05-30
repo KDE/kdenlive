@@ -7,7 +7,7 @@
     <parameter type="color" name="Neutral Color" default="0x7f7f7fff">
         <name>Neutral Color</name>
     </parameter>
-    <parameter type="animated" name="Color Temperature" default="0.433" min="1000" max="15000" factor="15000">
+    <parameter type="animated" name="Color Temperature" default="0.433333334" min="1000" max="15000" factor="15000">
         <name>Color Temperature</name>
     </parameter>
 </effect>

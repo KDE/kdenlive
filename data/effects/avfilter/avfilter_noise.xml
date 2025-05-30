@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.noise" id="avfilter.noise">
-    <name>Video Noise generator</name>
+    <name>Video Noise Generator</name>
     <description>Add noise on video input frame</description>
     <author>libavfilter</author>
     <parameter type="constant" name="av.all_seed" max="123457" min="-1" default="-1">
@@ -20,7 +20,7 @@
         <name>Component #3 noise seed</name>
     </parameter>
     <parameter type="constant" name="av.alls" max="100" min="0" default="0">
-        <name>All component strength</name>
+        <name>All components strength</name>
     </parameter>
     <parameter type="constant" name="av.c0s" max="100" min="0" default="0">
         <name>Component #0 strength</name>

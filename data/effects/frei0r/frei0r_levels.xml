@@ -63,4 +63,43 @@
             <name>Histogram position</name>
         </parameter>
     </effect>
+    <effect LC_NUMERIC="C" tag="frei0r.levels" id="frei0r.levels" version="0.3">
+        <name>Levels</name>
+        <description>Adjust levels</description>
+        <author>Maksim Golovkin</author>
+        <parameter type="list" name="Channel" default="0.3" paramlist="0;0.1;0.2;0.3">
+            <paramlistdisplay>Red,Green,Blue,Luma</paramlistdisplay>
+            <name>Channel</name>
+        </parameter>
+        <parameter type="bool" name="Show histogram" default="0">
+            <name>Show histogram</name>
+        </parameter>
+        <parameter type="list" name="Histogram position" default="0.3" paramlist="0;0.1;0.2;0.3">
+            <paramlistdisplay>Top Left,Top Right,Bottom Left,Bottom Right</paramlistdisplay>
+            <name>Histogram position</name>
+        </parameter>
+        <parameter type="animated" name="Input black level" default="0" min="0" max="100" factor="100" decimals="1" suffix="%">
+            <name>Input black level</name>
+            <comment><![CDATA[Moves the black point to the right: all pixels with that value or less will be black.<br>
+                This makes the dark areas even darker, influences the mid-tones a little and the highlights not at all. Increases contrast.]]></comment>
+        </parameter>
+        <parameter type="animated" name="Input white level" default="1" min="0" max="100" factor="100" decimals="1" suffix="%">
+            <name>Input white level</name>
+            <comment><![CDATA[Moves the white point to the left: all pixels with that value or higher will be white.<br>
+                This makes bright areas even brighter, influences the mid-tones a little and the dark areas not at all. Increases contrast.]]></comment>
+        </parameter>
+        <parameter type="animated" name="Gamma" default="0.25" min="0" max="100" factor="100" decimals="1" suffix="%">
+            <name>Gamma</name>
+            <comment><![CDATA[Changes the overall brightness of the image.<br>
+                Affects only the mid-tones, black and white are not influenced. Default is 25%, equivalent to Gamma 1.0). Lower values (moving the bar to the left) make the image darker, higher values (moving the bar to the right) make it brighter.]]></comment>
+        </parameter>
+        <parameter type="animated" name="Black output" default="0" min="0" max="100" factor="100" decimals="1" suffix="%">
+            <name>Black output</name>
+            <comment>Opposite of Input black level</comment>
+        </parameter>
+        <parameter type="animated" name="White output" default="1" min="0" max="100" factor="100" decimals="1" suffix="%">
+            <name>White output</name>
+            <comment>Opposite of Input white level</comment>
+        </parameter>
+    </effect>
 </group>
