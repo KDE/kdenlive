@@ -7,7 +7,7 @@
 #include "abstractmodel/treeitem.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "effecttreemodel.hpp"
-
+#include "kdenlivesettings.h"
 #include <KLocalizedString>
 
 EffectFilter::EffectFilter(QObject *parent)
@@ -84,6 +84,11 @@ bool EffectFilter::applyAll(std::shared_ptr<TreeItem> item) const
         }
         return filterType(item) && filterName(item);
     } else {
+        if (KdenliveSettings::tenbitpipeline()) {
+            if (!item->dataColumn(AssetTreeModel::IdCol).toString().contains(QLatin1String("avfilter"))) {
+                return false;
+            }
+        }
         return filterType(item);
     }
 }

@@ -67,6 +67,7 @@ public:
 
     void activate(const QModelIndex &ix);
     virtual void exportCustomEffect(const QModelIndex &index) = 0;
+    virtual void switchTenBitFilter() = 0;
 
     /** @brief Should the descriptive info box be displayed
      */

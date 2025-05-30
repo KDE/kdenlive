@@ -47,6 +47,11 @@ bool AssetFilter::lessThan(const QModelIndex &left, const QModelIndex &right) co
 
 bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
 {
+    if (KdenliveSettings::tenbitpipeline()) {
+        if (!item->dataColumn(AssetTreeModel::IdCol).toString().contains(QLatin1String("avfilter"))) {
+            return false;
+        }
+    }
     if (!m_name_enabled) {
         return true;
     }
