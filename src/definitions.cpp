@@ -62,13 +62,6 @@ CommentedTime::CommentedTime()
 {
 }
 
-CommentedTime::CommentedTime(const GenTime &time, QString comment, int markerType)
-    : m_time(time)
-    , m_comment(std::move(comment))
-    , m_type(markerType)
-{
-}
-
 CommentedTime::CommentedTime(const GenTime &time, QString comment, int markerType, const GenTime &duration)
     : m_time(time)
     , m_comment(std::move(comment))
