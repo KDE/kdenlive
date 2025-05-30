@@ -105,7 +105,7 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4 };
+    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning };
 
     explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
     ~RenderWidget() override;

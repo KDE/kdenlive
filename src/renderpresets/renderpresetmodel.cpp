@@ -349,6 +349,10 @@ void RenderPresetModel::checkPreset()
             m_errors = i18n("Unsupported audio codec: %1", acodec);
             return;
         }
+        if (presetName.contains(QLatin1String("ten_bit"))) {
+            // Warn that 10 bit won't work with track compositing and most effects except avfilter
+            m_warnings = i18n("10 bit color depth will be converted to 8 bit if you use compositing or effects not provided by avfilter.");
+        }
     }
 
     // Make sure the selected preset uses an installed avformat codec / format

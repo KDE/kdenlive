@@ -224,24 +224,39 @@ void RenderPresetRepository::parseMltPresets()
         qCWarning(KDENLIVE_LOG) << " / / / WARNING, cannot find MLT's preset folder";
         return;
     }
-    if (root.cd(QStringLiteral("lossless"))) {
+    if (root.exists(QStringLiteral("lossless"))) {
         QString groupName = i18n("Lossless/HQ");
-        const QStringList profiles = root.entryList(QDir::Files, QDir::Name);
+        QDir baseDir = root.absoluteFilePath(QStringLiteral("lossless"));
+        const QStringList profiles = baseDir.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : profiles) {
             std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QStringLiteral("properties=lossless/%1").arg(prof), true));
+                new RenderPresetModel(groupName, baseDir.absoluteFilePath(prof), prof, QStringLiteral("properties=lossless/%1").arg(prof), true));
             if (m_profiles.count(model->name()) == 0) {
                 m_groups.append(model->groupName());
                 m_profiles.insert(std::make_pair(model->name(), std::move(model)));
             }
         }
     }
-    if (root.cd(QStringLiteral("../stills"))) {
+    if (root.exists(QStringLiteral("ten_bit"))) {
+        QString groupName = i18n("10 Bit");
+        QDir baseDir = root.absoluteFilePath(QStringLiteral("ten_bit"));
+        const QStringList profiles = baseDir.entryList(QDir::Files, QDir::Name);
+        for (const QString &prof : profiles) {
+            std::unique_ptr<RenderPresetModel> model(
+                new RenderPresetModel(groupName, baseDir.absoluteFilePath(prof), prof, QStringLiteral("properties=ten_bit/%1").arg(prof), true));
+            if (m_profiles.count(model->name()) == 0) {
+                m_groups.append(model->groupName());
+                m_profiles.insert(std::make_pair(model->name(), std::move(model)));
+            }
+        }
+    }
+    if (root.exists(QStringLiteral("stills"))) {
         QString groupName = i18n("Images sequence");
-        QStringList profiles = root.entryList(QDir::Files, QDir::Name);
+        QDir baseDir = root.absoluteFilePath(QStringLiteral("stills"));
+        QStringList profiles = baseDir.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : std::as_const(profiles)) {
             std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QStringLiteral("properties=stills/%1").arg(prof), false));
+                new RenderPresetModel(groupName, baseDir.absoluteFilePath(prof), prof, QStringLiteral("properties=stills/%1").arg(prof), false));
             m_groups.append(model->groupName());
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));
         }
