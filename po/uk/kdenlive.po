@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 00:42+0000\n"
-"PO-Revision-Date: 2025-05-27 17:28+0300\n"
+"POT-Creation-Date: 2025-05-30 00:42+0000\n"
+"PO-Revision-Date: 2025-05-29 17:29+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -26404,7 +26404,7 @@ msgstr "Експортування до OpenTimelineIO"
 msgid "OpenTimelineIO Project"
 msgstr "проєкт OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Помилка під час спроби експортувати файл OpenTimelineIO"
@@ -31267,10 +31267,9 @@ msgstr "Справжній розмір ШПФ: "
 
 #. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
 #: src/ui/backupdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search backup"
-msgstr "Шукати позначки"
+msgstr "Шукати резервну копію"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

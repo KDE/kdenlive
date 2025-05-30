@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 00:42+0000\n"
-"PO-Revision-Date: 2025-05-27 15:39+0200\n"
+"POT-Creation-Date: 2025-05-30 00:42+0000\n"
+"PO-Revision-Date: 2025-05-29 10:26+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -26317,7 +26317,7 @@ msgstr "Exporteren van OpenTimelineIO"
 msgid "OpenTimelineIO Project"
 msgstr "Project van OpenTimelineIO"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Exporteren van OpenTimelineIO-bestand gaat fout"
@@ -31126,10 +31126,9 @@ msgstr "Echte FFT afmeting: "
 
 #. i18n: ectx: property (placeholderText), widget (KListWidgetSearchLine, search_list)
 #: src/ui/backupdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Search Markers"
+#, kde-format
 msgid "Search backup"
-msgstr "Markeringen zoeken"
+msgstr "Reservekopie zoeken"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66

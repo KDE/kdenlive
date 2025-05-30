@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 00:42+0000\n"
-"PO-Revision-Date: 2025-05-25 12:18+0200\n"
+"POT-Creation-Date: 2025-05-30 00:42+0000\n"
+"PO-Revision-Date: 2025-05-28 09:53+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -19247,6 +19247,9 @@ msgid ""
 "the plugin fails. If this does not work, try deleting and reinstalling the "
 "plugin."
 msgstr ""
+"Cela tentera de reconstruire l'environnement virtuel du module externe. À "
+"utiliser uniquement si le module externe échoue. Si cela ne fonctionne pas, "
+"essayez de supprimer et de réinstaller le module externe."
 
 #: src/dialogs/settings/pluginssettings.cpp:452
 #, kde-format
@@ -26567,7 +26570,7 @@ msgstr "Exportation « OpenTimelineIO »"
 msgid "OpenTimelineIO Project"
 msgstr "Projet « OpenTimelineIO »"
 
-#: src/otio/otioexport.cpp:102
+#: src/otio/otioexport.cpp:104
 #, kde-format
 msgid "Error exporting OpenTimelineIO file"
 msgstr "Erreur lors de l'exportation du fichier « OpenTimelineIO »"
@@ -28039,7 +28042,7 @@ msgstr "Vérification de configuration…"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #, kde-format
 msgid "Successfully rebuilt environment"
-msgstr ""
+msgstr "Environnement reconstruit avec succès"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:260
 #, kde-format
@@ -33087,10 +33090,9 @@ msgstr "Supprimer tous les modèles"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, sam_rebuild)
 #: src/ui/configspeech_ui.ui:977
-#, fuzzy, kde-format
-#| msgid "Disabling virtual environment"
+#, kde-format
 msgid "Rebuild Virtual Environment"
-msgstr "Désactivation de l'environnement virtuel"
+msgstr "Reconstruire l'environnement virtuel"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton_2)
 #: src/ui/configspeech_ui.ui:1074
