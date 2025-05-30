@@ -35,6 +35,8 @@ gpstext.xml
 gpsgraphic.xml
 grain.xml
 greyscale.xml
+hsl_primaries.xml
+hsl_range.xml
 invert.xml
 lift_gamma_gain.xml
 lightshow.xml

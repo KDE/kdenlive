@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="hslrange" id="hslrange">
+    <name>HSL Range</name>
+    <description>Adjust Hue, Saturation and Lightness for a range of hue values. The user can specify the range of the hue values to be adjusted.</description>
+    <author>Meltytech, LLC</author>
+    <parameter type="animated" name="hue_center" min="0" max="360" default="180" decimals="1" suffix="°">
+        <name>Hue Center</name>
+        <comment>The center value for the hue range</comment>
+    </parameter>
+    <parameter type="animated" name="hue_range" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Hue Range</name>
+        <comment>The width of the hue range</comment>
+    </parameter>
+    <parameter type="animated" name="blend" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Blend</name>
+        <comment>The amount to blend the edges of the hue range</comment>
+    </parameter>
+    <parameter type="animated" name="h_shift" min="0" max="360" default="0" decimals="1" suffix="°">
+        <name>Hue Shift</name>
+        <comment>The amount to shift the hue in the hue range</comment>
+    </parameter>
+    <parameter type="animated" name="s_scale" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Saturation Scale</name>
+        <comment>The amount to scale the saturation in the hue range</comment>
+    </parameter>
+    <parameter type="animated" name="l_scale" min="0" max="500" default="100" decimals="1" suffix="%">
+        <name>Lightness Scale</name>
+        <comment>The amount to scale the lightness in the hue range</comment>
+    </parameter>
+</effect>

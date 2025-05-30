@@ -14,7 +14,7 @@
 <text>Transform, Distort and Perspective</text>
 </group>
 
-<group list="dust,avfilter.fftdnoiz,avfilter.hqdn3d,avfilter.noise,avfilter.removegrain,frei0r.hqdn3d,lines,avfilter.gradfun,avfilter.removegrain,avfilter.chromanr,avfilter.median">
+<group list="dust,avfilter.fftdnoiz,avfilter.hqdn3d,avfilter.noise,avfilter.removegrain,frei0r.hqdn3d,lines,avfilter.removegrain,avfilter.chromanr,avfilter.median,frei0r.filmgrain">
 <text>Grain and Noise</text>
 </group>
 
@@ -22,7 +22,7 @@
 <text>Utility</text>
 </group>
 
-<group list="avfilter.drawbox,avfilter.drawgrid,avfilter.dynamictext,dynamictext,vignette,frei0r.vignette,frei0r.scanline0r,frei0r.cairogradient,frei0r.cairoimagegrid,frei0r.tehroxx0r,gpstext,gpsgraphic,timer">
+<group list="avfilter.drawbox,avfilter.drawgrid,avfilter.dynamictext,dropshadow,dynamictext,vignette,frei0r.vignette,frei0r.scanline0r,frei0r.cairogradient,frei0r.cairoimagegrid,frei0r.tehroxx0r,gpstext,gpsgraphic,timer">
 <text>Generate</text>
 </group>
 
@@ -42,7 +42,7 @@
 <text>Image adjustment</text>
 </group>
 
-<group list="avfilter.pixelize,frei0r.kaleid0sc0pe,frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r,avfilter.kirsch,avfilter.photosensitivity,typewriter">
+<group list="avfilter.pixelize,frei0r.kaleid0sc0pe,frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,avfilter.scharr,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r,avfilter.kirsch,avfilter.photosensitivity,typewriter">
 <text>Stylize</text>
 </group>
 
@@ -54,7 +54,7 @@
 <text>GPU effects</text>
 </group>
 
-<group list="frei0r.bigsh0t_eq_mask,frei0r.bigsh0t_eq_to_rect,frei0r.bigsh0t_hemi_to_eq,frei0r.bigsh0t_rect_to_eq,frei0r.bigsh0t_transform_360,frei0r.bigsh0t_stabilize_360,avfilter.stereo3d,frei0r.bigsh0t_eq_to_stereo,frei0r.bigsh0t_zenith_correction">
+<group list="frei0r.bigsh0t_cap,frei0r.bigsh0t_eq_mask,frei0r.bigsh0t_eq_to_rect,frei0r.bigsh0t_hemi_to_eq,frei0r.bigsh0t_rect_to_eq,frei0r.bigsh0t_transform_360,frei0r.bigsh0t_stabilize_360,frei0r.bigsh0t_wrap,avfilter.stereo3d,frei0r.bigsh0t_eq_to_stereo,frei0r.bigsh0t_zenith_correction">
 <text>VR360 and 3D</text>
 </group>
 
@@ -66,32 +66,40 @@
 <text>To be completed</text>
 </group>
 
-<group list="avfilter.compand,avfilter.deesser,avfilter.alimiter,volume,avfilter.acontrast,avfilter.asoftclip,loudness,dynamic_loudness,volume,gain,ladspa.1049,ladspa.1048,mute,fadein,fadeout,sox_gain,normalise"><text>Volume and Dynamics</text>
+<group list="avfilter.compand,avfilter.deesser,avfilter.alimiter,volume,avfilter.acontrast,avfilter.asoftclip,loudness,dynamic_loudness,volume,gain,ladspa.1049,ladspa.1048,mute,fadein,fadeout,sox_gain,normalise">
+<text>Volume and Dynamics</text>
 </group>
 
-<group list="avfilter.compensationdelay,sox_echo"><text>Reverb, Echo and Delays</text>
+<group list="avfilter.compensationdelay,sox_echo">
+<text>Reverb, Echo and Delays</text>
 </group>
 
-<group list="avfilter.equalizer,avfilter.allpass,avfilter.bandpass,avfilter.bandreject,avfilter.bass,avfilter.highpass,avfilter.highshelf,avfilter.lowpass,avfilter.lowshelf,sox_band,sox_bass"><text>EQ and filters</text>
+<group list="avfilter.equalizer,avfilter.allpass,avfilter.bandpass,avfilter.bandreject,avfilter.bass,avfilter.highpass,avfilter.highshelf,avfilter.lowpass,avfilter.lowshelf,sox_band,sox_bass">
+<text>EQ and filters</text>
 </group>
 
-<group list="avfilter.flanger,avfilter.aphaser,avfilter.apulsator,sox_flanger,sox_phaser,avfilter.treble,avfilter.vibrato"><text>Modulators</text>
+<group list="avfilter.flanger,avfilter.aphaser,avfilter.apulsator,sox_flanger,sox_phaser,avfilter.treble,avfilter.vibrato">
+<text>Modulators</text>
 </group>
 
-<group list="ladspa.9354877"><text>Noise Reduction and Audio Restoration</text>
+<group list="ladspa.9354877">
+<text>Noise Reduction and Audio Restoration</text>
 </group>
 
 <group list="panner,audiomap,channelswap,mono,channelcopy,channelswap,swapchannels,audiobalance,audiopan">
 <text>Channels</text>
 </group>
           
-<group list="avfilter.aderivative,avfilter.aintegral,avfilter.acrusher,avfilter.crystalizer,avfilter.dcshift"><text>Tools</text>
+<group list="avfilter.aderivative,avfilter.aintegral,avfilter.acrusher,avfilter.crystalizer,avfilter.dcshift">
+<text>Tools</text>
 </group>
 
-<group list="avfilter.crossfeed,avfilter.extrastereo,avfilter.haas,avfilter.sofalizer,avfilter.bs2b,avfilter.stereotools,avfilter.stereowiden"><text>Stereo and Binaural Images</text>
+<group list="avfilter.crossfeed,avfilter.extrastereo,avfilter.haas,avfilter.sofalizer,avfilter.bs2b,avfilter.stereotools,avfilter.stereowiden">
+<text>Stereo and Binaural Images</text>
 </group>
 
-<group list="rbpitch,sox_stretch,rboctaveshift"><text>Pitch and Time</text>
+<group list="rbpitch,sox_stretch,rboctaveshift">
+<text>Pitch and Time</text>
 </group>
 
 <group list="ladspa.1767,ladspa.1771,ladspa.1772,ladspa.1773,ladspa.1779,ladspa.1788,ladspa.1795,ladspa.2586,ladspa.2588,ladspa.2589,ladspa.2592,ladspa.2593,ladspa.2594,ladspa.2595,ladspa.2598,ladspa.2601,ladspa.2602,ladspa.2603,ladspa.2606,ladspa.2607,ladspa.2608,ladspa.2609">
@@ -134,10 +142,6 @@
 <text>Calf  Plugins</text>
 </group> 
 
-<group list="avfilter.dctdnoiz,avfilter.delogo,avfilter.pixscope,avfilter.vaguedenoiser,boxblur,BurningTV,frei0r.cluster,frei0r.dither,frei0r.IIRblur,frei0r.medians,frei0r.rgbnoise,frei0r.sharpness,grain,wave,rotation">
-<text>Deprecated</text>
-</group>
-
 <group list="ladspa.5002064,ladspa.5002065,ladspa.5002066,ladspa.5002067,ladspa.5002068,ladspa.5002069,ladspa.5002070,ladspa.5002071,ladspa.5002072,ladspa.5002073,ladspa.5002074,ladspa.5002075,ladspa.5002076,ladspa.5002077,ladspa.5002078,ladspa.5002079,ladspa.5002080,ladspa.5002081,ladspa.5002082,ladspa.5002083,ladspa.5002084,ladspa.5002085,ladspa.5002086,ladspa.5002087,ladspa.5002088,ladspa.5002089,ladspa.5002090,ladspa.5002091,ladspa.5002092,ladspa.5002093,ladspa.5002094,ladspa.5002095,ladspa.5002096,ladspa.5002097,ladspa.5002098,ladspa.5002099,ladspa.5002100,ladspa.5002101,ladspa.5002102,ladspa.5002103,ladspa.5002104,ladspa.5002105,ladspa.5002106,ladspa.5002107,ladspa.5002108,ladspa.5002109,ladspa.5002110,ladspa.5002111,ladspa.5002112,ladspa.5002113,ladspa.5002114,ladspa.5002115,ladspa.5002116,ladspa.5002117,ladspa.5002118,ladspa.5002119,ladspa.5002120,ladspa.5002121,ladspa.5002122,ladspa.5002123,ladspa.5002124,ladspa.5002125,ladspa.5002130,ladspa.5002131,ladspa.5002132,ladspa.5002133,ladspa.5002134,ladspa.5002135,ladspa.5002136,ladspa.5002137,ladspa.5002138,ladspa.5002139,ladspa.5002140,ladspa.5002141,ladspa.5002146,ladspa.5002147,ladspa.5002148,ladspa.5002149,ladspa.5002150,ladspa.5002151,ladspa.5002152,ladspa.5002153,ladspa.5002154,ladspa.5002155,ladspa.5002156,ladspa.5002157,ladspa.5002158,ladspa.5002159,ladspa.5002160,ladspa.5002161,ladspa.5002162,ladspa.5002163,ladspa.5002164,ladspa.5002165,ladspa.5002166,ladspa.5002167,ladspa.5002168,ladspa.5002169,ladspa.5002170,ladspa.5002171,ladspa.5003074,ladspa.5003075,ladspa.5003076">
 <text>LSP plugins</text>
 </group>
@@ -160,6 +164,10 @@
 
 <group list="ladspa,vinyl,declipper,equalizer,limiter,phaser,equalizer_15,pitch_scale,rate_scale,reverb,room_reverb,pitch_shift">
 <text>MLT ladspa</text>
+</group>
+
+<group list="avfilter.dctdnoiz,avfilter.delogo,avfilter.gradfun,avfilter.pixscope,avfilter.vaguedenoiser,boxblur,BurningTV,frei0r.cluster,frei0r.dither,frei0r.IIRblur,frei0r.medians,frei0r.rgbnoise,frei0r.sharpness,grain,wave,rotation">
+<text>Deprecated</text>
 </group>
 
 </data>

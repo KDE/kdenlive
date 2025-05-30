@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.scharr" id="avfilter.scharr">
+    <name>Scharr</name>
+    <description>Apply Scharr operators for edge detection</description>
+    <author>avfilter</author>
+    <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7">
+        <paramlistdisplay>Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,All</paramlistdisplay>
+        <name>Planes to filter</name>
+        <comment><![CDATA[Sets the color space plane the effect is applied to]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.angle" max="65535" min="0" decimals="0" default="1">
+        <name>Scale</name>
+        <comment><![CDATA[Sets the value which the filtered result will be multiplied with ]]></comment>
+    </parameter>
+    <parameter type="animated" name="av.radius" max="65535" min="-65535" decimals="0" default="0">
+        <name>Delta</name>
+        <comment><![CDATA[Sets the value which will be added to filtered result]]></comment>
+    </parameter>
+</effect>
