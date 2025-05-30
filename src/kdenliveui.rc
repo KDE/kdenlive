@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="234" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="235" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -8,8 +8,8 @@
       <Action name="file_revert"/>
       <Separator />
       <Action name="transcode_clip" />
-      <Action name="export_project" />
       <Action name="import_project" />
+      <Action name="export_project" />
     </Menu>
     <Menu name="edit" >
       <Action name="paste_effects" />
