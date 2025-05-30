@@ -72,3 +72,8 @@ void TransitionListWidget::reloadTemplates() {}
 void TransitionListWidget::editCustomAsset(const QModelIndex &) {}
 
 void TransitionListWidget::exportCustomEffect(const QModelIndex &){};
+
+void TransitionListWidget::switchTenBitFilter()
+{
+    m_proxyModel->invalidate();
+}

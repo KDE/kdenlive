@@ -35,6 +35,7 @@ public:
     void editCustomAsset(const QModelIndex &index) override;
     void exportCustomEffect(const QModelIndex &index) override;
     bool isMasterOnly(const QString &assetId) const;
+    void switchTenBitFilter() override;
 
 public Q_SLOTS:
     void reloadCustomEffect(const QString &path) override;
