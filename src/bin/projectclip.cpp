@@ -442,7 +442,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         m_thumbXml.clear();
         // Reset uuid to enforce reloading thumbnails from qml cache
         m_uuid = QUuid::createUuid();
-        updateTimelineClips({TimelineModel::ClipThumbRole, TimelineModel::ResourceRole});
+        updateTimelineClips({TimelineModel::ResourceRole});
         ClipLoadTask::start(oid, QDomElement(), true, -1, -1, this);
     } else {
         // If another load job is running?
@@ -546,7 +546,7 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        {AbstractProjectItem::DataThumbnail});
     }
-    if (!inCache && (m_clipType == ClipType::Text || m_clipType == ClipType::TextTemplate)) {
+    if (!inCache) {
         // Title clips always use the same thumb as bin, refresh
         updateTimelineClips({TimelineModel::ClipThumbRole});
     }
