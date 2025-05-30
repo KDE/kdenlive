@@ -94,7 +94,7 @@ MarkerDialog::MarkerDialog(ProjectClip *clip, const CommentedTime &t, const QStr
     marker_comment->selectAll();
     marker_comment->setFocus();
 
-    buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(marker_category->count() > 1);
+    buttonBox->button(QDialogButtonBox::StandardButton::Ok)->setEnabled(marker_category->count() > 0);
     adjustSize();
 }
 
