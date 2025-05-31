@@ -19,6 +19,8 @@ apps:
       - removable-media
       - system-observe
       - home
+      - hardware-observe
+      - alsa
     environment:
       PYTHONPYCACHEPREFIX: "$SNAP_USER_COMMON/.pycache"
       PYTHONUSERBASE: $SNAP_USER_COMMON/.local
