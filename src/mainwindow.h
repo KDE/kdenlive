@@ -536,6 +536,8 @@ private Q_SLOTS:
     void slotSwitchClip();
     void slotSetAudioAlignReference();
     void slotAlignAudio();
+    void slotSetTimecodeReference();
+    void slotAlignTimecode();
     void slotUpdateTimelineView(QAction *action);
     void slotShowTimeline(bool show);
     void slotTranscodeClip();

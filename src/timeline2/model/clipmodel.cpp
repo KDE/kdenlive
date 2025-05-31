@@ -726,6 +726,17 @@ int ClipModel::getPlaytime() const
     return m_producer->get_playtime();
 }
 
+int64_t ClipModel::getStartTimecodeOffset() const
+{
+    READ_LOCK();
+    auto binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    int recTC = binClip->getStartTimecode();
+    if (recTC >= 0) {
+        return recTC + getIn();
+    }
+    return -1;
+}
+
 void ClipModel::setTimelineEffectsEnabled(bool enabled)
 {
     QWriteLocker locker(&m_lock);

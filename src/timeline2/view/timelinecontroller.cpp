@@ -3419,6 +3419,49 @@ void TimelineController::alignAudio(int clipId)
     }
 }
 
+void TimelineController::setTimecodeRef(int clipId)
+{
+    if (clipId == -1) {
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+            return;
+        }
+    }
+    if (m_model->getClipTimecodeOffset(clipId) == -1) {
+        pCore->displayMessage(i18n("No timecode for clip"), ErrorMessage, 500);
+        return;
+    }
+    m_timecodeRef = clipId;
+}
+
+void TimelineController::alignTimecode(int clipId)
+{
+    // find other clip
+    if (clipId == -1) {
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+            return;
+        }
+    }
+    if (m_timecodeRef == -1 || m_timecodeRef == clipId || !m_model->isClip(m_timecodeRef)) {
+        pCore->displayMessage(i18n("Set timecode reference before attempting to align"), InformationMessage, 500);
+        return;
+    }
+    int clipOffset = m_model->getClipTimecodeOffset(clipId);
+    if (clipOffset == -1) {
+        pCore->displayMessage(i18n("No timecode for clip"), ErrorMessage, 500);
+        return;
+    }
+
+    int newPos = clipOffset - m_model->getClipTimecodeOffset(m_timecodeRef) + m_model->getClipPosition(m_timecodeRef);
+    bool result = m_model->requestClipMove(clipId, m_model->getClipTrackId(clipId), newPos, true, true, true);
+    if (!result) {
+        pCore->displayMessage(i18n("Cannot move clip to frame %1.", newPos), ErrorMessage, 500);
+    }
+}
+
 void TimelineController::zoomWaveform()
 {
     if (KdenliveSettings::normalizechannels()) {

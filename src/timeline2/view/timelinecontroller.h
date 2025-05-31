@@ -467,6 +467,8 @@ public:
 
     Q_INVOKABLE void setAudioRef(int clipId = -1);
     Q_INVOKABLE void alignAudio(int clipId = -1);
+    Q_INVOKABLE void setTimecodeRef(int clipId = -1);
+    Q_INVOKABLE void alignTimecode(int clipId = -1);
     Q_INVOKABLE void urlDropped(QStringList droppedFile, int frame, int tid);
 
     Q_INVOKABLE bool endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
@@ -760,7 +762,8 @@ private:
     bool m_usePreview;
     int m_audioTarget;
     int m_videoTarget;
-    int m_audioRef;
+    int m_audioRef{-1};
+    int m_timecodeRef{-1};
     int m_timelineMouseOffset{0};
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};

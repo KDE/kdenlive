@@ -727,6 +727,13 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
                                       m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile()));
         return;
     }
+
+    // Timeline sequence metadata
+    int timecodeOffset = pCore->currentTimelineOffset();
+    if (timecodeOffset > 0) {
+        m_params.insert(QStringLiteral("meta.attr.TIMECODE.markup"), pCore->timecode().getDisplayTimecodeFromFrames(timecodeOffset, false));
+    }
+
     saveRenderProfile();
 
     RenderRequest *request = new RenderRequest();
@@ -1168,12 +1175,6 @@ void RenderWidget::refreshParams()
     // Project metadata
     if (m_view.export_meta->isChecked()) {
         m_params.insert(pCore->currentDoc()->metadata());
-    }
-
-    // Timeline sequence metadata
-    int timecodeOffset = pCore->currentTimelineOffset();
-    if (timecodeOffset > 0) {
-        m_params.insert(QStringLiteral("meta.attr.TIMECODE.markup"), pCore->timecode().getDisplayTimecodeFromFrames(timecodeOffset, false));
     }
 
     QString paramString = m_params.toString();

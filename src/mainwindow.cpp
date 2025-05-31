@@ -1768,6 +1768,7 @@ void MainWindow::setupActions()
     switchEnable->setData('W');
     switchEnable->setEnabled(false);
 
+    // Audio reference
     QAction *setAudioAlignReference = addAction(QStringLiteral("set_audio_align_ref"), i18n("Set Audio Reference"), this, SLOT(slotSetAudioAlignReference()),
                                                 QIcon(), QKeySequence(), clipActionCategory);
     // "A" as data means this action should only be available for clips with audio
@@ -1779,6 +1780,14 @@ void MainWindow::setupActions()
     // "A" as data means this action should only be available for clips with audio
     // alignAudio->setData('A');
     alignAudio->setEnabled(false);
+
+    // Timecode reference
+    QAction *setTimecodeReference = addAction(QStringLiteral("set_timecode_ref"), i18n("Set Timecode Reference"), this, SLOT(slotSetTimecodeReference()),
+                                              QIcon(), QKeySequence(), clipActionCategory);
+    setTimecodeReference->setEnabled(false);
+    QAction *alignTimecode = addAction(QStringLiteral("align_timecode"), i18n("Align Timecode to Reference"), this, SLOT(slotAlignTimecode()), QIcon(),
+                                       QKeySequence(), clipActionCategory);
+    alignTimecode->setEnabled(false);
 
     QAction *act = addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()),
                              QIcon::fromTheme(QStringLiteral("measure")), QKeySequence(), clipActionCategory);
@@ -3722,6 +3731,16 @@ void MainWindow::slotSetAudioAlignReference()
 void MainWindow::slotAlignAudio()
 {
     getCurrentTimeline()->controller()->alignAudio();
+}
+
+void MainWindow::slotSetTimecodeReference()
+{
+    getCurrentTimeline()->controller()->setTimecodeRef();
+}
+
+void MainWindow::slotAlignTimecode()
+{
+    getCurrentTimeline()->controller()->alignTimecode();
 }
 
 void MainWindow::slotUpdateTimelineView(QAction *action)

@@ -327,6 +327,9 @@ public:
        @param clipId Id of the clip to test
     */
     QPoint getClipInDuration(int clipId) const;
+    /** @brief Returns the rec timecode for a timeline clip
+     */
+    int64_t getClipTimecodeOffset(int clipId) const;
 
     /** @brief Returns the clip state (audio/video only) and type (Video, Color, Title...)
      */

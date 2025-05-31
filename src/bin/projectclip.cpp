@@ -882,7 +882,6 @@ int ProjectClip::getStartTimecode()
     }
 
     recTime = getStartTCFromProperties();
-    recTime = qMax(recTime, 0);
 
     // cache the value in a kdenlive property
     m_masterProducer->set("kdenlive:record_start_frame", recTime);

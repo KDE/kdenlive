@@ -133,6 +133,9 @@ public:
     /** @brief returns the length of the item on the timeline
      */
     int getPlaytime() const override;
+    /** @brief returns the start timecode added to in point for this clip
+     +     */
+    int64_t getStartTimecodeOffset() const;
 
     /** @brief Returns the bin clip's id */
     const QString &binId() const;

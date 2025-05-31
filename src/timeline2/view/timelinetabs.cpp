@@ -342,9 +342,12 @@ void TimelineTabs::buildClipMenu()
 
     QMenu *markerMenu = static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("marker_menu"), pCore->window()));
     m_timelineClipMenu->addMenu(markerMenu);
-
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("set_audio_align_ref")));
-    m_timelineClipMenu->addAction(coll->action(QStringLiteral("align_audio")));
+    QMenu *alignMenu = new QMenu(i18n("Align to Reference"), this);
+    m_timelineClipMenu->addMenu(alignMenu);
+    alignMenu->addAction(coll->action(QStringLiteral("set_audio_align_ref")));
+    alignMenu->addAction(coll->action(QStringLiteral("align_audio")));
+    alignMenu->addAction(coll->action(QStringLiteral("set_timecode_ref")));
+    alignMenu->addAction(coll->action(QStringLiteral("align_timecode")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_speed")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("edit_item_remap")));
     m_timelineClipMenu->addAction(coll->action(QStringLiteral("clip_in_project_tree")));

@@ -384,6 +384,14 @@ QPoint TimelineModel::getClipInDuration(int clipId) const
     return {clip->getIn(), clip->getPlaytime()};
 }
 
+int64_t TimelineModel::getClipTimecodeOffset(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    return clip->getStartTimecodeOffset();
+}
+
 std::pair<PlaylistState::ClipState, ClipType::ProducerType> TimelineModel::getClipState(int clipId) const
 {
     READ_LOCK();
