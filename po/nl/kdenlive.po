@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-30 00:42+0000\n"
+"POT-Creation-Date: 2025-05-31 00:41+0000\n"
 "PO-Revision-Date: 2025-05-29 10:26+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -206,7 +206,7 @@ msgstr "Oriëntatie van kleurverloop"
 msgid "Direction of the color gradient."
 msgstr "Richting van het kleurverloop."
 
-#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:85
+#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:90
 #, kde-format
 msgid "Channels"
 msgstr "Kanalen"
@@ -294,6 +294,7 @@ msgstr "Links/Rechts"
 #: data/effects/frei0r/frei0r_curves.xml:65
 #: data/effects/frei0r/frei0r_levels.xml:10
 #: data/effects/frei0r/frei0r_levels.xml:41
+#: data/effects/frei0r/frei0r_levels.xml:72
 #: data/effects/frei0r/frei0r_pr0file.xml:25
 #, kde-format
 msgid "Channel"
@@ -639,7 +640,7 @@ msgstr "Audiopoort"
 
 #: data/effects/avfilter/agate.xml:11
 #: data/effects/avfilter/avfilter_crossfeed.xml:16
-#: data/effects/avfilter/avfilter_deband.xml:20
+#: data/effects/avfilter/avfilter_deband.xml:28
 #: data/effects/avfilter/avfilter_setrange.xml:9
 #, kde-format
 msgid "Range"
@@ -1078,6 +1079,7 @@ msgid "Y size"
 msgstr "Y-grootte "
 
 #: data/effects/avfilter/avfilter_avgblur.xml:14
+#: data/effects/avfilter/avfilter_cas.xml:12
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All"
 msgstr "Alfa,Y,U,V,Rood,Groen,Blauw,Alles"
@@ -1088,7 +1090,7 @@ msgstr "Alfa,Y,U,V,Rood,Groen,Blauw,Alles"
 #: data/effects/avfilter/avfilter_deblock.xml:28
 #: data/effects/avfilter/avfilter_edgedetect.xml:19
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:40
-#: data/effects/avfilter/avfilter_gblur.xml:16
+#: data/effects/avfilter/avfilter_gblur.xml:14
 #: data/effects/avfilter/avfilter_kirsch.xml:17
 #: data/effects/avfilter/avfilter_lagfun.xml:8
 #: data/effects/avfilter/avfilter_limiter.xml:17
@@ -1223,7 +1225,6 @@ msgstr ""
 "te berekenen."
 
 #: data/effects/avfilter/avfilter_bilateral.xml:16
-#: data/effects/avfilter/avfilter_cas.xml:12
 #: data/effects/avfilter/avfilter_kirsch.xml:16
 #, kde-format
 msgid "Alpha,Y,U,V,Red,Green,Blue,All,"
@@ -1396,14 +1397,16 @@ msgstr "Aanpasbaar contrast verscherpingsfilter op videostream toepassen."
 #: data/effects/avfilter/avfilter_fspp.xml:15
 #: data/effects/avfilter/avfilter_gradfun.xml:11
 #: data/effects/avfilter/avfilter_histeq.xml:8
-#: data/effects/avfilter/avfilter_normalize.xml:20
+#: data/effects/avfilter/avfilter_normalize.xml:24
+#: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, kde-format
 msgid "Strength"
 msgstr "Sterkte"
 
 #: data/effects/avfilter/avfilter_cas.xml:9
-#, kde-format
-msgid "Set the sharpening strength."
+#, fuzzy, kde-format
+#| msgid "Set the sharpening strength."
+msgid "Set the sharpening strength"
 msgstr "Stel de sterkte van het verscherpen in."
 
 #: data/effects/avfilter/avfilter_chromahold.xml:4
@@ -1448,6 +1451,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
+#: data/effects/hsl_range.xml:16
 #, kde-format
 msgid "Blend"
 msgstr "Mengen"
@@ -1780,7 +1784,7 @@ msgstr "Blauwe oplichtvlek"
 #: data/effects/avfilter/avfilter_colorize.xml:11
 #: data/effects/avfilter/avfilter_colortemperature.xml:14
 #: data/effects/avfilter/avfilter_eq.xml:14
-#: data/effects/frei0r/frei0r_colorize.xml:13
+#: data/effects/frei0r/frei0r_colorize.xml:12
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:49
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:121
 #: data/effects/frei0r/frei0r_saturat0r.xml:8
@@ -1828,7 +1832,7 @@ msgid " Hue"
 msgstr " Tint"
 
 #: data/effects/avfilter/avfilter_colorize.xml:14
-#: data/effects/frei0r/frei0r_colorize.xml:17
+#: data/effects/frei0r/frei0r_colorize.xml:16
 #, kde-format
 msgid "Lightness"
 msgstr "Lichtheid"
@@ -1915,18 +1919,21 @@ msgstr "Kleurenmatrix converteren."
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:8
 #: data/effects/avfilter/avfilter_colormatrix.xml:12
-#, kde-format
-msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
+#, fuzzy, kde-format
+#| msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
+msgid "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE 170M,SMPTE 240M,BT.2020"
 msgstr "BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:9
-#, kde-format
-msgid "Source color Matrix"
+#, fuzzy, kde-format
+#| msgid "Source color Matrix"
+msgid "Source color matrix"
 msgstr "Kleurmatrix van bron"
 
 #: data/effects/avfilter/avfilter_colormatrix.xml:13
-#, kde-format
-msgid "Destination color Matrix"
+#, fuzzy, kde-format
+#| msgid "Destination color Matrix"
+msgid "Destination color matrix"
 msgstr "Kleurmatrix van bestemming"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:4
@@ -1936,19 +1943,25 @@ msgid "Color Space"
 msgstr "Kleurruimte"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Convert colorspace, transfer characteristics or color primaries. Input "
+#| "video needs to have an even size."
 msgid ""
-"Convert colorspace, transfer characteristics or color primaries. Input video "
-"needs to have an even size."
+"Convert color space, transfer characteristics or color primaries. Input "
+"video needs to have an even size."
 msgstr ""
 "Converteert de kleurruimte, overdrachtskarakteristieken of primaire kleuren. "
 "Invoervideo moet een even grootte hebben."
 
 #: data/effects/avfilter/avfilter_colorspace.xml:8
 #: data/effects/avfilter/avfilter_colorspace.xml:43
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
+#| "BT.2020"
 msgid ""
-"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
+"BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE 170M,SMPTE 240M,"
 "BT.2020"
 msgstr ""
 "BT.470,BT.470BG,BT.601-6 525,BT.601-6 625,BT.709,SMPTE-170M,SMPTE-240M,"
@@ -1961,24 +1974,31 @@ msgstr "Kleureigenschappen"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:12
 #: data/effects/avfilter/avfilter_colorspace.xml:47
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
 msgid ""
-"BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 non-constant luma"
+"BT.709,FCC,BT.470BG,SMPTE 170M,SMPTE 240M,YCgCo,BT.2020 non-constant luma"
 msgstr ""
 "BT.709,FCC,BT.470BG,SMPTE-170M,SMPTE-240M,YCgCo,BT.2020 niet-constante luma"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:13
-#, kde-format
-msgid "Output Color Space"
+#, fuzzy, kde-format
+#| msgid "Output Color Space"
+msgid "Output color space"
 msgstr "Kleurruimte van uitvoer"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:16
 #: data/effects/avfilter/avfilter_colorspace.xml:55
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "BT.709,BT.470M,BT.470BG,Constant gamma of 2.2,Constant gamma of 2.8,"
+#| "SMPTE-170M,SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 for 10-"
+#| "bits content, BT.2020 for 12-bits content"
 msgid ""
-"BT.709,BT.470M,BT.470BG,Constant gamma of 2.2,Constant gamma of 2.8,"
-"SMPTE-170M,SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 for 10-"
-"bits content, BT.2020 for 12-bits content"
+"BT.709,BT.470M,BT.470BG,Constant gamma of 2.2,Constant gamma of 2.8,SMPTE "
+"170M,SMPTE 240M,SRGB,IEC 61966-2-1,IEC 61966-2-4,xvYCC,BT.2020 for 10-bits "
+"content, BT.2020 for 12-bits content"
 msgstr ""
 "BT.709,BT.470M,BT.470BG,constante gamma van 2.2,constante gamma van 2.8,"
 "SMPTE-170M,SMPTE-240M,SRGB,iec61966-2-1,iec61966-2-4,xvycc,BT.2020 voor 10-"
@@ -1991,32 +2011,40 @@ msgstr "Uitvoer overdrachtskarakteristieken"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:20
 #: data/effects/avfilter/avfilter_colorspace.xml:51
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
+#| "BT.2020,JEDEC P22 phosphors"
 msgid ""
-"BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
+"BT.709,BT.470M,BT.470BG,SMPTE 170M,SMPTE 240M,Film,SMPTE 431,SMPTE 432,"
 "BT.2020,JEDEC P22 phosphors"
 msgstr ""
 "BT.709,BT.470M,BT.470BG,SMPTE-170M,SMPTE-240M,Film,Smpte-431,SMPTE-432,"
 "BT.2020,JEDEC P22 phosphors"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:21
-#, kde-format
-msgid "Output Color Primaries"
+#, fuzzy, kde-format
+#| msgid "Output Color Primaries"
+msgid "Output color primaries"
 msgstr "Primaire kleuren uitvoer"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:24
 #: data/effects/avfilter/avfilter_colorspace.xml:59
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "TV (restricted range),MPEG (restricted range),PC (FULL range),JPEG (FULL "
+#| "range)"
 msgid ""
-"TV (restricted range),MPEG (restricted range),PC (FULL range),JPEG (FULL "
+"TV (restricted range),MPEG (restricted range),PC (full range),JPEG (full "
 "range)"
 msgstr ""
 "TV (beperkte reeks),MPEG (beperkte reeks),PC (VOLLEDIGE reeks),JPEG "
 "(VOLLEDIGE reeks)"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:25
-#, kde-format
-msgid "Output Color Range"
+#, fuzzy, kde-format
+#| msgid "Output Color Range"
+msgid "Output color range"
 msgstr "Kleurbereik van uitvoer"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:28
@@ -2031,13 +2059,15 @@ msgstr ""
 "YUV 4:4:4 planar 8-bits,YUV 4:4:4 planar 10-bits,YUV 4:4:4 planar 12-bits"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:29
-#, kde-format
-msgid "Output Color Format"
+#, fuzzy, kde-format
+#| msgid "Output Color Format"
+msgid "Output color format"
 msgstr "Uitvoer kleurruimte"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
-#, kde-format
-msgid "Fast Conversion"
+#, fuzzy, kde-format
+#| msgid "Fast Conversion"
+msgid "Fast conversion"
 msgstr "Snelle conversie"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:35
@@ -2046,8 +2076,9 @@ msgid "No dithering,Floyd-Steinberg dithering"
 msgstr "Geen dithering,Floyd-Steinberg dithering"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
-#, kde-format
-msgid "Dithering Mode"
+#, fuzzy, kde-format
+#| msgid "Dithering Mode"
+msgid "Dithering mode"
 msgstr "Dithering Modus"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:39
@@ -2070,8 +2101,9 @@ msgid "Override all input properties at once"
 msgstr "Overschrijf alle invoereigenschappen in een keer in"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:48
-#, kde-format
-msgid "Override input colorspace"
+#, fuzzy, kde-format
+#| msgid "Override input colorspace"
+msgid "Override input color space"
 msgstr "Overschrijf invoerkleurruimte"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:52
@@ -2497,6 +2529,7 @@ msgstr "<![CDATA[Stelt de hoek voor de richting in]]>"
 #: data/effects/avfilter/avfilter_exposure.xml:11
 #: data/effects/avfilter/avfilter_gradfun.xml:16
 #: data/effects/avfilter/avfilter_sofalizer.xml:20 data/effects/qtcrop.xml:11
+#: data/effects/vignette.xml:17
 #, kde-format
 msgid "Radius"
 msgstr "Radius"
@@ -2507,6 +2540,7 @@ msgid "<![CDATA[Sets the radius for the direction]]>"
 msgstr "<![CDATA[Stelt de straal voor de richting in]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
+#: data/effects/avfilter/avfilter_scharr.xml:8
 #, kde-format
 msgid ""
 "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
@@ -2516,11 +2550,13 @@ msgstr ""
 "All"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
+#: data/effects/avfilter/avfilter_scharr.xml:9
 #, kde-format
 msgid "Planes to filter"
 msgstr "Te filteren vlakken"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
+#: data/effects/avfilter/avfilter_scharr.xml:10
 #, kde-format
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
 msgstr ""
@@ -2583,13 +2619,14 @@ msgstr "Ruis verwijderen uit frames met 2D DCT frequentiedomeinfiltering"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
-#: data/effects/avfilter/avfilter_gblur.xml:8 data/effects/typewriter.xml:11
+#: data/effects/avfilter/avfilter_gblur.xml:18 data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
 msgstr "Sigma"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:11
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:22
+#: data/effects/hsl_primaries.xml:62
 #, kde-format
 msgid "Overlap"
 msgstr "Overlap"
@@ -2619,22 +2656,42 @@ msgstr ""
 msgid "1st plane threshold"
 msgstr "1st drempel van vlak"
 
-#: data/effects/avfilter/avfilter_deband.xml:11
+#: data/effects/avfilter/avfilter_deband.xml:10
+#: data/effects/avfilter/avfilter_deband.xml:15
+#: data/effects/avfilter/avfilter_deband.xml:20
+#: data/effects/avfilter/avfilter_deband.xml:25
+#, kde-format
+msgid ""
+"<![CDATA[Sets banding detection threshold for each plane.<br>\n"
+"        If difference between current pixel and reference pixel is less than "
+"threshold, it will be considered as banded.]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_deband.xml:13
 #, kde-format
 msgid "2nd plane threshold"
 msgstr "2de drempel van vlak"
 
-#: data/effects/avfilter/avfilter_deband.xml:14
+#: data/effects/avfilter/avfilter_deband.xml:18
 #, kde-format
 msgid "3rd plane threshold"
 msgstr "3de drempel van vlak"
 
-#: data/effects/avfilter/avfilter_deband.xml:17
+#: data/effects/avfilter/avfilter_deband.xml:23
 #, kde-format
 msgid "4th plane threshold"
 msgstr "4de drempel van vlak"
 
-#: data/effects/avfilter/avfilter_deband.xml:23
+#: data/effects/avfilter/avfilter_deband.xml:30
+#, kde-format
+msgid ""
+"<![CDATA[Banding detection range in pixels. Default is 16.<br>\n"
+"        If positive, random number in range 0 to set value will be used. If "
+"negative, exact absolute value will be used. The range defines square of "
+"four pixels around current pixel.]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_deband.xml:33
 #: data/effects/avfilter/avfilter_transpose.xml:9
 #: data/effects/frei0r/frei0r_aech0r.xml:12 data/effects/timer.xml:66
 #: data/transitions/slide.xml:8
@@ -2642,7 +2699,18 @@ msgstr "4de drempel van vlak"
 msgid "Direction"
 msgstr "Richting"
 
-#: data/effects/avfilter/avfilter_deband.xml:26
+#: data/effects/avfilter/avfilter_deband.xml:35
+#, kde-format
+msgid ""
+"<![CDATA[Sets direction in degrees from which four pixel will be compared."
+"<br>\n"
+"        If positive, random direction from 0 to set direction will be "
+"picked. If negative, exact of absolute value will be picked. For example "
+"direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
+"will pick only pixels on same column]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_deband.xml:38
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:14
 #: data/effects/frei0r/frei0r_glow.xml:8
 #: data/effects/frei0r/frei0r_mask0mate.xml:23 data/effects/pillar_echo.xml:11
@@ -2651,10 +2719,28 @@ msgstr "Richting"
 msgid "Blur"
 msgstr "Wazig"
 
-#: data/effects/avfilter/avfilter_deband.xml:29
+#: data/effects/avfilter/avfilter_deband.xml:40
+#, kde-format
+msgid ""
+"<![CDATA[If enabled, current pixel is compared with average value of all "
+"four surrounding pixels.<br>\n"
+"        The default is enabled. If disabled, current pixel is compared with "
+"all four surrounding pixels. The pixel is considered banded if only all four "
+"differences with surrounding pixels are less than threshold.]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_deband.xml:43
 #, kde-format
 msgid "Coupling"
 msgstr "Koppeling"
+
+#: data/effects/avfilter/avfilter_deband.xml:45
+#, kde-format
+msgid ""
+"<![CDATA[If enabled, current pixel is changed if and only if<br>\n"
+"        all pixel components are banded, e.g. banding detection threshold is "
+"triggered for all color components. The default is disabled.]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
 #, kde-format
@@ -2961,40 +3047,66 @@ msgstr "Helderheid"
 msgid "Dilation"
 msgstr "Verwijding"
 
-#: data/effects/avfilter/avfilter_dilation.xml:5
+#: data/effects/avfilter/avfilter_dilation.xml:6
 #, kde-format
-msgid "Apply dilation effect"
-msgstr "Dilatatie-effect toepassen"
+msgid ""
+"<![CDATA[Apply dilation effect.<br>\n"
+"    Simulates image dilation, an effect which will enlarge the lightest "
+"pixels in the image by replacing the pixel by the local (3x3) maximum.]]>"
+msgstr ""
 
-#: data/effects/avfilter/avfilter_dilation.xml:8
-#: data/effects/avfilter/avfilter_erosion.xml:8
+#: data/effects/avfilter/avfilter_dilation.xml:9
+#: data/effects/avfilter/avfilter_erosion.xml:9
 #, kde-format
 msgid "1st Plane Threshold"
 msgstr "1st drempel van vlak"
 
 #: data/effects/avfilter/avfilter_dilation.xml:11
+#: data/effects/avfilter/avfilter_dilation.xml:16
+#: data/effects/avfilter/avfilter_dilation.xml:21
+#: data/effects/avfilter/avfilter_dilation.xml:26
 #: data/effects/avfilter/avfilter_erosion.xml:11
+#: data/effects/avfilter/avfilter_erosion.xml:16
+#: data/effects/avfilter/avfilter_erosion.xml:21
+#: data/effects/avfilter/avfilter_erosion.xml:26
 #, kde-format
-msgid "2nd Plane Threshold"
-msgstr "2de drempel van vlak"
+msgid ""
+"<![CDATA[Limit the maximum change for each plane.<br>\n"
+"        Default is 65535. If 0, plane will remain unchanged.]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
 #, kde-format
+msgid "2nd Plane Threshold"
+msgstr "2de drempel van vlak"
+
+#: data/effects/avfilter/avfilter_dilation.xml:19
+#: data/effects/avfilter/avfilter_erosion.xml:19
+#, kde-format
 msgid "3rd Plane Threshold"
 msgstr "3de drempel van vlak"
 
-#: data/effects/avfilter/avfilter_dilation.xml:17
-#: data/effects/avfilter/avfilter_erosion.xml:17
+#: data/effects/avfilter/avfilter_dilation.xml:24
+#: data/effects/avfilter/avfilter_erosion.xml:24
 #, kde-format
 msgid "4th Plane Threshold"
 msgstr "4de drempel van vlak"
 
-#: data/effects/avfilter/avfilter_dilation.xml:20
-#: data/effects/avfilter/avfilter_erosion.xml:20
+#: data/effects/avfilter/avfilter_dilation.xml:29
+#: data/effects/avfilter/avfilter_erosion.xml:29
 #, kde-format
 msgid "Coordinates"
 msgstr "Coördinaten"
+
+#: data/effects/avfilter/avfilter_dilation.xml:31
+#: data/effects/avfilter/avfilter_erosion.xml:31
+#, kde-format
+msgid ""
+"<![CDATA[Flag which specifies the pixel to refer to.<br>\n"
+"        Default is 255 i.e. all eight pixels are used. Flags to local 3x3 "
+"coordinates maps like this: 1 2 3 4 5 6 7 8]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
@@ -3165,6 +3277,7 @@ msgstr "<![CDATA[Afstand van de bovenrand in pixels]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:280
 #: src/assets/view/widgets/keyframecontainer.cpp:336
@@ -3181,6 +3294,7 @@ msgid "<![CDATA[Distance between vertical lines in pixel]]>"
 msgstr "<![CDATA[Afstand tussen verticale lijnen in pixels]]>"
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:20
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
 #: src/assets/view/widgets/keyframecontainer.cpp:279
 #: src/assets/view/widgets/keyframecontainer.cpp:330
 #: src/assets/view/widgets/keyframecontainer.cpp:631
@@ -3259,7 +3373,7 @@ msgid "Modes"
 msgstr "Modi"
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:18
-#: data/effects/avfilter/avfilter_gblur.xml:15
+#: data/effects/avfilter/avfilter_gblur.xml:13
 #: data/effects/avfilter/avfilter_limiter.xml:16
 #: data/effects/avfilter/avfilter_pixelize.xml:18
 #: data/effects/avfilter/avfilter_prewitt.xml:8
@@ -3286,6 +3400,7 @@ msgid "Codebook Length"
 msgstr "Lengte van codeboek"
 
 #: data/effects/avfilter/avfilter_elbg.xml:11
+#: data/effects/avfilter/avfilter_gblur.xml:9
 #: data/effects/avfilter/avfilter_vaguedenoiser.xml:15
 #, kde-format
 msgid "Steps"
@@ -3307,6 +3422,7 @@ msgid "2x,3x"
 msgstr "2x,3x"
 
 #: data/effects/avfilter/avfilter_epx.xml:9
+#: data/effects/avfilter/avfilter_hqx.xml:9
 #, kde-format
 msgid "Scale factor"
 msgstr "Schaalfactor"
@@ -3323,7 +3439,8 @@ msgstr "Helderheid, contrast, gamma, verzadiging aanpassen"
 
 #: data/effects/avfilter/avfilter_eq.xml:17
 #: data/effects/frei0r/frei0r_levels.xml:19
-#: data/effects/frei0r/frei0r_levels.xml:50 data/effects/gamma.xml:8
+#: data/effects/frei0r/frei0r_levels.xml:50
+#: data/effects/frei0r/frei0r_levels.xml:92 data/effects/gamma.xml:8
 #: data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #, kde-format
@@ -3380,10 +3497,13 @@ msgstr "Bandbreedte"
 msgid "Erosion"
 msgstr "Erosie"
 
-#: data/effects/avfilter/avfilter_erosion.xml:5
+#: data/effects/avfilter/avfilter_erosion.xml:6
 #, kde-format
-msgid "Apply erosion effect"
-msgstr "Effect erosie toepassen"
+msgid ""
+"<![CDATA[Apply erosion effect.<br>\n"
+"    Simulates image erosion, an effect which will enlarge the darkest pixels "
+"in the image by replacing the pixel by the local (3x3) minimum.]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
@@ -3506,7 +3626,6 @@ msgstr ""
 "        voor tijdelijke ruisreductie]]>"
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:39
-#: data/effects/avfilter/avfilter_median.xml:22
 #: data/effects/avfilter/avfilter_oscilloscope.xml:44
 #: data/effects/avfilter/avfilter_waveform.xml:30
 #, kde-format
@@ -3608,7 +3727,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:8 data/effects/crop.xml:11
-#: data/effects/dance.xml:26 data/effects/frei0r/frei0r_mask0mate.xml:8
+#: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
+#: data/effects/frei0r/frei0r_mask0mate.xml:8
 #: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:212
 #, kde-format
@@ -3617,7 +3737,8 @@ msgstr "Links"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:11 data/effects/crop.xml:17
-#: data/effects/dance.xml:29 data/effects/frei0r/frei0r_mask0mate.xml:11
+#: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
+#: data/effects/frei0r/frei0r_mask0mate.xml:11
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:217
 #, kde-format
@@ -3626,6 +3747,7 @@ msgstr "Rechts"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:14 data/effects/crop.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
 #: src/ui/configmisc_ui.ui:202
@@ -3635,6 +3757,7 @@ msgstr "Bovenaan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:17 data/effects/crop.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
 #: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
 #: src/ui/configmisc_ui.ui:207
@@ -3751,13 +3874,15 @@ msgstr "Lineair,kwadratisch"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: data/effects/avfilter/avfilter_flanger.xml:38
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:21
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:24
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:25
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:34
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:24
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:52
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:151
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:54
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:18
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:83
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:24
 #: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:638
 #: src/ui/renderwidget_ui.ui:598
 #, kde-format
@@ -3824,20 +3949,39 @@ msgstr "Gaussiaans vervagen"
 msgid "Apply Gaussian Blur filter"
 msgstr "Gaussisch vervagingsfilter toepassen"
 
-#: data/effects/avfilter/avfilter_gblur.xml:11
+#: data/effects/avfilter/avfilter_gblur.xml:8
 #, kde-format
 msgid "1,2,3,4,5,6"
 msgstr "1,2,3,4,5,6"
 
-#: data/effects/avfilter/avfilter_gblur.xml:12
+#: data/effects/avfilter/avfilter_gblur.xml:10
 #, kde-format
-msgid "StepsX"
-msgstr "StepsX"
+msgid "Set number of steps for Gaussian approximation"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_gblur.xml:15
+#, kde-format
+msgid "Set which planes to filter. By default all planes are filtered (YUV)."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_gblur.xml:19
 #, kde-format
+msgid ""
+"Set horizontal sigma, standard deviation of Gaussian blur. Determines the "
+"strength of the horizontal blur. Default is 10."
+msgstr ""
+
+#: data/effects/avfilter/avfilter_gblur.xml:22
+#, kde-format
 msgid "Vertical Sigma"
 msgstr "Vertical Sigma"
+
+#: data/effects/avfilter/avfilter_gblur.xml:23
+#, kde-format
+msgid ""
+"Set vertical sigma. Determines the strength of the vertical blur. Default is "
+"10."
+msgstr ""
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
@@ -3845,9 +3989,19 @@ msgid "gradfun"
 msgstr "gradfun"
 
 #: data/effects/avfilter/avfilter_gradfun.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<![CDATA[Debands video quickly using gradients.<br>\n"
+#| "    Fix the banding artifacts that are sometimes introduced into nearly "
+#| "flat regions by truncation to 8-bit color depth.<br>\n"
+#| "    Interpolate the gradients that should go where the bands are, and "
+#| "dither them.<br>\n"
+#| "    <b>It is designed for playback only. Do not use it prior to lossy "
+#| "compression, because compression tends to lose the dither and bring back "
+#| "the bands</b>.]]>"
 msgid ""
-"<![CDATA[Debands video quickly using gradients.<br>\n"
+"<![CDATA[<b>-= Deprecated =-</b><br>Debands video quickly using gradients."
+"<br>\n"
 "    Fix the banding artifacts that are sometimes introduced into nearly flat "
 "regions by truncation to 8-bit color depth.<br>\n"
 "    Interpolate the gradients that should go where the bands are, and dither "
@@ -4172,40 +4326,20 @@ msgid "Hq*x Interpolator"
 msgstr "Hq*X-interpolatie"
 
 #: data/effects/avfilter/avfilter_hqx.xml:5
-#, kde-format
-msgid "Scale the input by 2, 3 or 4 using the hq*x magnification algorithm"
+#, fuzzy, kde-format
+#| msgid "Scale the input by 2, 3 or 4 using the hq*x magnification algorithm"
+msgid ""
+"Apply a high-quality magnification filter designed for pixel art. Scaling is "
+"done by 2, 3 or 4 using the hq*x magnification algorithm."
 msgstr ""
 "Schaal de invoer met 2, 3 of 4 met gebruik van het algoritme hq*x "
 "vermenigvuldiging"
 
 #: data/effects/avfilter/avfilter_hqx.xml:8
-#, kde-format
-msgid "2xHq*X,3xHq*X,4xHq*X"
-msgstr "2xHq*X,3xHq*X,4xHq*X"
-
-#: data/effects/avfilter/avfilter_hqx.xml:9
-#: data/effects/avfilter/avfilter_xbr.xml:9
-#, kde-format
-msgid "Interpolation factor"
-msgstr "Interpolatiefactor"
-
-#: data/effects/avfilter/avfilter_hqx.xml:12
-#: data/effects/avfilter/avfilter_xbr.xml:12
-#, kde-format
-msgid "Maximum number of threads"
-msgstr "Maximum aantal threads"
-
-#: data/effects/avfilter/avfilter_hqx.xml:15
-#: data/effects/avfilter/avfilter_xbr.xml:15
-#, kde-format
-msgid "frame,filter,source,producer"
-msgstr "frame,filter,bron,produceerder"
-
-#: data/effects/avfilter/avfilter_hqx.xml:16
-#: data/effects/avfilter/avfilter_xbr.xml:16
-#, kde-format
-msgid "Position to set the filter"
-msgstr "Positie waarop het filter te zetten"
+#, fuzzy, kde-format
+#| msgid "2x,3x"
+msgid "2x,3x,4x"
+msgstr "2x,3x"
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
@@ -4294,10 +4428,14 @@ msgid "Kernel Deinterlacer"
 msgstr "Interlace verwijderen met kernel"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Deinterlace input video by applying Donald Graft’s adaptive kernel "
+#| "deinterling. Work on interlaced parts of a video to produce progressive "
+#| "frames. "
 msgid ""
-"Deinterlace input video by applying Donald Graft’s adaptive kernel "
-"deinterling. Work on interlaced parts of a video to produce progressive "
+"Deinterlaces input video by applying Donald Graft’s adaptive kernel "
+"deinterling. Works on interlaced parts of a video to produce progressive "
 "frames. "
 msgstr ""
 "Deinterlace verwijdert interlace uit de invoervideo door toepassen van "
@@ -4320,8 +4458,9 @@ msgid "Enable additional sharpening"
 msgstr "Extra verscherpen inschakelen"
 
 #: data/effects/avfilter/avfilter_kerneldeint.xml:20
-#, kde-format
-msgid "Enable twoway sharpening"
+#, fuzzy, kde-format
+#| msgid "Enable twoway sharpening"
+msgid "Enable two-way sharpening"
 msgstr "Tweeweg verscherpen inschakelen"
 
 #: data/effects/avfilter/avfilter_kirsch.xml:4
@@ -4337,6 +4476,7 @@ msgstr "Kirsch-operator toepassen"
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
 #: data/effects/avfilter/avfilter_roberts.xml:12
+#: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
 #: src/widgets/geometrywidget.cpp:137
@@ -4353,6 +4493,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:12
 #: data/effects/avfilter/avfilter_prewitt.xml:15
 #: data/effects/avfilter/avfilter_roberts.xml:15
+#: data/effects/avfilter/avfilter_scharr.xml:17
 #: data/effects/avfilter/avfilter_sobel.xml:15
 #, kde-format
 msgid "Delta"
@@ -4559,8 +4700,9 @@ msgid "Apply motion-compensation deinterlacing"
 msgstr "Bewegingscompensatie interlace verwijderen toepassen"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:8
-#, kde-format
-msgid "Fast,Medium,Slow,Extra_slow"
+#, fuzzy, kde-format
+#| msgid "Fast,Medium,Slow,Extra_slow"
+msgid "Fast,Medium,Slow,Extra slow"
 msgstr "Snel,Middel,langzaam,Extra_langzaam"
 
 #: data/effects/avfilter/avfilter_mcdeint.xml:13
@@ -4572,6 +4714,15 @@ msgstr "Pariteit van afbeeldingsveld"
 #, kde-format
 msgid "QP"
 msgstr "QP"
+
+#: data/effects/avfilter/avfilter_mcdeint.xml:18
+#, kde-format
+msgid ""
+"<![CDATA[Set per-block quantization parameter (QP) used by the internal "
+"encoder.<br>\n"
+"            Higher values should result in a smoother motion vector field "
+"but less optimal individual vectors. Default value is 1.]]>"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_median.xml:4
 #, kde-format
@@ -4627,6 +4778,12 @@ msgstr ""
 "       \tterwijl 0 de minimum waarden zal kiezen en 100 de maximum "
 "waarden.]]>"
 
+#: data/effects/avfilter/avfilter_median.xml:22
+#, fuzzy, kde-format
+#| msgid "None,Y,U,YU,V,YV,UV,YUV"
+msgid "None,Y,U,YU,V,YV,UV,All"
+msgstr "Geen,Y,U,YU,V,YV,UV,YUV"
+
 #: data/effects/avfilter/avfilter_median.xml:24
 #, kde-format
 msgid "<![CDATA[Select which planes to process]]>"
@@ -4678,8 +4835,9 @@ msgid "Negate alpha"
 msgstr "Alfa inverteren"
 
 #: data/effects/avfilter/avfilter_noise.xml:4
-#, kde-format
-msgid "Video Noise generator"
+#, fuzzy, kde-format
+#| msgid "Video Noise generator"
+msgid "Video Noise Generator"
 msgstr "Videoruisgenerator"
 
 #: data/effects/avfilter/avfilter_noise.xml:5
@@ -4713,8 +4871,9 @@ msgid "Component #3 noise seed"
 msgstr "Component #3 ruisvoeding"
 
 #: data/effects/avfilter/avfilter_noise.xml:23
-#, kde-format
-msgid "All component strength"
+#, fuzzy, kde-format
+#| msgid "All component strength"
+msgid "All components strength"
 msgstr "Sterkte van alle componenten"
 
 #: data/effects/avfilter/avfilter_noise.xml:26
@@ -4779,10 +4938,11 @@ msgid "Normalize RGB video"
 msgstr "RGB-video normaliseren"
 
 #: data/effects/avfilter/avfilter_normalize.xml:5
-#, kde-format
-msgid ""
-"Normalize RGB video (aka histogram stretching, contrast stretching). See: "
-"https://en.wikipedia.org/wiki/Normalization_(image_processing) "
+#, fuzzy, kde-format
+#| msgid ""
+#| "Normalize RGB video (aka histogram stretching, contrast stretching). See: "
+#| "https://en.wikipedia.org/wiki/Normalization_(image_processing) "
+msgid "Normalize RGB video (aka histogram stretching, contrast stretching)"
 msgstr ""
 "Normaliseer RGB video (aka histogram uitrekken, contrast uitrekken). Zie: "
 "https://en.wikipedia.org/wiki/Normalization_(image_processing)"
@@ -4792,20 +4952,55 @@ msgstr ""
 msgid "Output darkest input color"
 msgstr "Donkerste invoerkleur uitvoeren"
 
-#: data/effects/avfilter/avfilter_normalize.xml:11
+#: data/effects/avfilter/avfilter_normalize.xml:9
+#: data/effects/frei0r/frei0r_normaliz0r.xml:9
+#, kde-format
+msgid "Output color to which darkest input color is mapped (default black)"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_normalize.xml:12
 #, kde-format
 msgid "Output brightest input color"
 msgstr "Helderste invoerkleur uitvoeren"
 
-#: data/effects/avfilter/avfilter_normalize.xml:14
+#: data/effects/avfilter/avfilter_normalize.xml:13
+#: data/effects/frei0r/frei0r_normaliz0r.xml:13
 #, kde-format
-msgid "Temporal smoothing, to reduce flicker"
-msgstr "Tijdelijk gladstrijken, om geflikker te verminderen"
+msgid "Output color to which brightest input color is mapped (default white)"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_normalize.xml:16
+#: data/effects/frei0r/frei0r_normaliz0r.xml:16 data/effects/vidstab.xml:24
+#, kde-format
+msgid "Smoothing"
+msgstr "Gladstrijken"
 
 #: data/effects/avfilter/avfilter_normalize.xml:17
+#: data/effects/frei0r/frei0r_normaliz0r.xml:17
+#, fuzzy, kde-format
+#| msgid "Temporal smoothing, to reduce flicker"
+msgid ""
+"Amount of temporal smoothing of the input range, to reduce flicker (default "
+"0)"
+msgstr "Tijdelijk gladstrijken, om geflikker te verminderen"
+
+#: data/effects/avfilter/avfilter_normalize.xml:20
+#: data/effects/frei0r/frei0r_normaliz0r.xml:20
+#, fuzzy, kde-format
+#| msgid "Install missing dependencies"
+msgid "Independence"
+msgstr "Ontbrekende afhankelijkheden installeren"
+
+#: data/effects/avfilter/avfilter_normalize.xml:21
 #, kde-format
-msgid "Proportion of independent"
-msgstr "Proportie van onafhankelijkheid"
+msgid "Proportion of independent to linked channel normalization (default 1)"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_normalize.xml:25
+#, kde-format
+msgid ""
+"Strength of filter, from no effect (0) to full normalization (default 1)"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:4
 #, kde-format
@@ -5204,6 +5399,30 @@ msgstr "Chroma-straal voor filteren"
 msgid "Chroma Strength"
 msgstr "Chroma-sterkte"
 
+#: data/effects/avfilter/avfilter_scharr.xml:4
+#, kde-format
+msgid "Scharr"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:5
+#, kde-format
+msgid "Apply Scharr operators for edge detection"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:14
+#, fuzzy, kde-format
+#| msgid "Set value which will be multiplied with filtered result."
+msgid ""
+"<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
+msgstr ""
+"Waarde instellen die vermenigvuldigt zal worden met gefilterd resultaat."
+
+#: data/effects/avfilter/avfilter_scharr.xml:18
+#, fuzzy, kde-format
+#| msgid "Set value which will be added to filtered result."
+msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+msgstr "Waarde instellen die opgeteld zal worden bij het gefilterde resultaat."
+
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:574
 #, kde-format
@@ -5322,8 +5541,9 @@ msgid "Force color range for the output video frame"
 msgstr "Dwing kleurreeks af voor het uitvoervideoframe"
 
 #: data/effects/avfilter/avfilter_setrange.xml:8
-#, kde-format
-msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
+#, fuzzy, kde-format
+#| msgid "auto,unspecified,unknown,limited,tv,mpeg,full,pc,jpeg"
+msgid "Auto,Unspecified,Unknown,Limited,TV,Mpeg,Full,PC,Jpeg"
 msgstr "automatisch,ongespecificeerd,onbekend,beperkt,tv,mpeg,volledig,pc,jpeg"
 
 #: data/effects/avfilter/avfilter_shear.xml:4
@@ -6619,9 +6839,16 @@ msgstr ""
 "forums.libretro.com/t/xbr-algorithm-tutorial/123"
 
 #: data/effects/avfilter/avfilter_xbr.xml:8
-#, kde-format
-msgid "2xBR,3xBR,4xBR"
+#, fuzzy, kde-format
+#| msgid "2xBR,3xBR,4xBR"
+msgid "2x BR,3x BR,4x BR"
 msgstr "2xBR,3xBR,4xBR"
+
+#: data/effects/avfilter/avfilter_xbr.xml:9
+#, fuzzy, kde-format
+#| msgid "Line Tension"
+msgid "Scaling dimension"
+msgstr "Lijnspanning"
 
 #: data/effects/avfilter/avfilter_yadif.xml:4
 #, kde-format
@@ -6991,14 +7218,16 @@ msgid "Add dust and specks to the video, as in old movies"
 msgstr "Stof en spikkels aan de video toevoegen, net als in oude films"
 
 #: data/effects/dust.xml:8
-#, kde-format
-msgid "Maximal Diameter"
+#, fuzzy, kde-format
+#| msgid "Maximal Diameter"
+msgid "Maximum diameter"
 msgstr "Maximale diameter"
 
 #: data/effects/dust.xml:11
-#, kde-format
-msgid "Maximal number of dust"
-msgstr "Maximum hoeveelheid stof"
+#, fuzzy, kde-format
+#| msgid "Maximum number of threads"
+msgid "Maximum number of particles"
+msgstr "Maximum aantal threads"
 
 #: data/effects/dynamic_loudness.xml:4
 #, kde-format
@@ -7669,7 +7898,6 @@ msgid "Remove the background of a static video"
 msgstr "Achtergrond verwijderen van een statische video"
 
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:8
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
 #, kde-format
 msgid "Analysis Sample Radius"
 msgstr "Analyse van straal van sample"
@@ -7678,6 +7906,212 @@ msgstr "Analyse van straal van sample"
 #, kde-format
 msgid "Denoise"
 msgstr "Ruis verwijderen"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
+#, kde-format
+msgid "VR360 Cap Top and Bottom"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
+#, kde-format
+msgid ""
+"Attempts to fill in zenith and nadir by stretching and blurring the image "
+"data. It samples a band of latitude near the start of the effect and "
+"stretches and blurs it over the pole."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:24
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:33
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:150
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:82
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
+#, kde-format
+msgid "Nearest-Neighbor,Bilinear"
+msgstr "Dichtstbijzijnde buur,bi-lineair"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:26
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:25
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Determines the sampling method.]]>"
+msgstr "<![CDATA[Stel methode van ruis verwijderen in]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
+#, fuzzy, kde-format
+#| msgid "Enabled"
+msgid "Top Enabled"
+msgstr "Ingeschakeld"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the radius for the direction]]>"
+msgid "<![CDATA[Enables parameters for top portion]]>"
+msgstr "<![CDATA[Stelt de straal voor de richting in]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
+#, kde-format
+msgid "<![CDATA[<b>--Top--</b> Start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
+#, kde-format
+msgid ""
+"<![CDATA[Degrees from the horizon<br>\n"
+"    \twhere we start to fill in]]>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
+#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
+#: src/ui/wipeval_ui.ui:172
+#, kde-format
+msgid "End"
+msgstr "Einde"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:24
+#, kde-format
+msgid ""
+"<![CDATA[Degrees from the horizon<br>\n"
+"    \twhere we reach maximum blur]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
+#, fuzzy, kde-format
+#| msgid "Blend"
+msgid "Blend In"
+msgstr "Mengen"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define where the gradient starts.]]>"
+msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
+msgstr "<![CDATA[Definieer waar de gradiënt begint.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
+#, fuzzy, kde-format
+#| msgid "Blend"
+msgid "Blend Out"
+msgstr "Mengen"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
+msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
+msgstr "<![CDATA[Stel de horizontale grootte in van de alfa-matrix]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
+#, fuzzy, kde-format
+#| msgctxt "Image Fade In Effect Name"
+#| msgid "Fade in"
+msgid "Fade In"
+msgstr "Fade in"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:36
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Length of the profile in pixel]]>"
+msgid "<![CDATA[Degrees to fade the effect in over]]>"
+msgstr "<![CDATA[Lengte van het profiel in pixels]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define where the gradient starts.]]>"
+msgid "<![CDATA[Blur width at start]]>"
+msgstr "<![CDATA[Definieer waar de gradiënt begint.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+msgid "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
+msgstr "<![CDATA[Kies een kleur voor de kruisdraad/profiellijn]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the fit mode]]>"
+msgid "<![CDATA[Blur width at end]]>"
+msgstr "<![CDATA[Stel het model van passen in]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
+#, kde-format
+msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define where the gradient starts.]]>"
+msgid "<![CDATA[Blur height at start]]>"
+msgstr "<![CDATA[Definieer waar de gradiënt begint.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
+msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
+msgstr ""
+"<![CDATA[Definieer de transparantie aan de onderkant van de gradiënt.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the fit mode]]>"
+msgid "<![CDATA[Blur height at end]]>"
+msgstr "<![CDATA[Stel het model van passen in]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
+msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
+msgstr ""
+"<![CDATA[Definieer de transparentie aan de bovenkant van de gradiënt.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
+#, fuzzy, kde-format
+#| msgid "Bottom left"
+msgid "Bottom Enabled"
+msgstr "Linksonder"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[comment]]>"
+msgstr "<![CDATA[Stel methode van ruis verwijderen in]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
+#, kde-format
+msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
+#, kde-format
+msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
+#, kde-format
+msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+msgid "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
+msgstr "<![CDATA[Kies een kleur voor de kruisdraad/profiellijn]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
@@ -7696,36 +8130,51 @@ msgstr ""
 "bijvoorbeeld als u en de filmploeg de 90 graden achter de camera bezetten."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
-#, kde-format
-msgid "Vertical Start"
+#, fuzzy, kde-format
+#| msgid "Vertical Start"
+msgid "Vertical start"
 msgstr "Verticaal begin"
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:11
-#, kde-format
-msgid "Vertical End"
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:9
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[The <b>Start</b> is half the height in degrees of the un-matted "
+"area. The <b>End</b> is the half the height in degrees where the matte is at "
+"100%.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:12
+#, fuzzy, kde-format
+#| msgid "Vertical End"
+msgid "Vertical end"
 msgstr "Verticaal einde"
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:11
-#, kde-format
-msgid "Horizontal Start"
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:13
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[The Start is half the height in degrees of the un-matted area. The "
+"End is the half the height in degrees where the matte is at 100%.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
+#, fuzzy, kde-format
+#| msgid "Horizontal Start"
+msgid "Horizontal start"
 msgstr "Horizontale start"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:17
-#, kde-format
-msgid "Horizontal End"
-msgstr "Horizontaal einde"
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:21
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[The <b>Start</b> is the width in degrees of the un-matted area. The "
+"<b>End</b> is the width in degrees where the matte is at 100%.]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
-#, kde-format
-msgid "Nearest-Neighbor,Bilinear"
-msgstr "Dichtstbijzijnde buur,bi-lineair"
+#, fuzzy, kde-format
+#| msgid "Horizontal End"
+msgid "Horizontal end"
+msgstr "Horizontaal einde"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:4
 #, kde-format
@@ -7745,32 +8194,76 @@ msgstr ""
 "tijdbitmap"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:8
 #, kde-format
-msgid "yaw"
-msgstr "yaw (ronddraaien)"
+msgid "Yaw"
+msgstr "Yaw"
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:11
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:11
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:10
 #, kde-format
-msgid "pitch"
-msgstr "toonhoogte"
+msgid ""
+"<![CDATA[The amount to rotate the image<br>\n"
+"    \t(nose moves from side to side).]]>"
+msgstr ""
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:13
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:13
 #, kde-format
-msgid "roll"
-msgstr "rollen"
+msgid "Pitch"
+msgstr "Kamp"
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:17
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:15
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:15
 #, kde-format
-msgid "fov"
-msgstr "fov"
+msgid ""
+"<![CDATA[The amount to rotate the image<br>\n"
+"    \t(nose up or down).]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:18
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:18
+#, kde-format
+msgid "Roll"
+msgstr "Rollen"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:20
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:20
 #, kde-format
-msgid "fisheye"
+msgid ""
+"<![CDATA[The amount to rotate the image<br>\n"
+"    \t(clockwise or anticlockwise rotation along the axis of movement).]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
+#, kde-format
+msgid "FOV"
+msgstr "FOV"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:25
+#, kde-format
+msgid ""
+"<![CDATA[The horizontal field of view, in degrees, of the resulting frame."
+"<br>\n"
+"    \tAny value over 179 results in a fisheye projection.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:28
+#, fuzzy, kde-format
+#| msgid "fisheye"
+msgid "Fisheye"
 msgstr "visoog"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:30
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[The amount of fisheye to mix in.<br>\n"
+"    \t100 means that you get a 100% fisheye lens.]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:4
 #, kde-format
@@ -7786,30 +8279,64 @@ msgstr ""
 "Projecteert een stereografische afbeelding uit een rechthoekige. Gebruik dit "
 "om het effect kleine planeet te maken uit VR360 opnamen."
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
-#, kde-format
-msgid "Yaw"
-msgstr "Yaw"
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
-#, kde-format
-msgid "Pitch"
-msgstr "Kamp"
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
-#, kde-format
-msgid "Roll"
-msgstr "Rollen"
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:17
-#, kde-format
-msgid "FOV"
-msgstr "FOV"
-
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
 #, kde-format
 msgid "Nearest-neighbor,Bilinear"
 msgstr "Dichtstbijzijnde buur,bi-lineair"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:4
+#, fuzzy, kde-format
+#| msgid "VR360 Transform"
+msgid "VR360 Wrap"
+msgstr "VR360 transformeren"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:5
+#, kde-format
+msgid ""
+"Stretches a section of the equirectangular panorama to cover the entire VR "
+"sphere"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Determines the sampling method]]>"
+msgstr "<![CDATA[Stel methode van ruis verwijderen in]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
+msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
+#, fuzzy, kde-format
+#| msgid "Crop start:"
+msgid "Blur start"
+msgstr "Begin van bijsnijden:"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
+#, kde-format
+msgid ""
+"<![CDATA[Horizontal fraction of the unchanged area to blur over in the "
+"equator band]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
+#, fuzzy, kde-format
+#| msgid "Blur type"
+msgid "Blur end"
+msgstr "Type vervagen"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
+#, kde-format
+msgid ""
+"<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
+"poles]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
 #, kde-format
@@ -7827,79 +8354,321 @@ msgstr ""
 "rechtlijnig frame. De plug-in verwacht dat beide halfronden in het frame zijn"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:8
-#, kde-format
-msgid "Alignment Yaw"
+#, fuzzy, kde-format
+#| msgid "Alignment Yaw"
+msgid "Alignment yaw"
 msgstr "Omlijning van yaw"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:11
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:10
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:15
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:20
 #, kde-format
-msgid "Alignment Pitch"
+msgid ""
+"<![CDATA[The two fisheye cameras of a 360 camera are rarely perfectly 180 "
+"degrees apart.<br>\n"
+"    \tThese parameters adds a rotation to both lenses to correct for this.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:13
+#, fuzzy, kde-format
+#| msgid "Alignment Pitch"
+msgid "Alignment pitch"
 msgstr "Uitlijning pitch"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:14
-#, kde-format
-msgid "Alignment Roll"
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
+#, fuzzy, kde-format
+#| msgid "Alignment Roll"
+msgid "Alignment roll"
 msgstr "Uitlijning rollen"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:17
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:23
 #, kde-format
 msgid "Equidistant Fisheye"
 msgstr "Gelijke afstand visoog"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
 #, kde-format
 msgid "Projection"
 msgstr "Projectie"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:21
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:25
+#, kde-format
+msgid ""
+"<![CDATA[The fisheye projection type. Currently only equidistant fisheyes, "
+"like the Ricoh Theta and Garmin Virb360 are supported.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:28
 #, kde-format
 msgid "Lens FOV"
 msgstr "Lens FOV"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:24
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:29
 #, kde-format
-msgid "Lens Radius"
+msgid ""
+"<![CDATA[The field of view of a single hemisphere in degrees, expressed as a "
+"fraction of the frame width.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:32
+#, fuzzy, kde-format
+#| msgid "Lens Radius"
+msgid "Lens radius"
 msgstr "Lensstraal"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:27
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:33
+#, kde-format
+msgid ""
+"<![CDATA[The radius of the image circle, expressed as a fraction of the "
+"frame width.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
 #, kde-format
 msgid "Front X"
 msgstr "Voor naar X"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:30
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:38
+#, kde-format
+msgid ""
+"<![CDATA[The image center and image orientation for the front-facing camera."
+"<br>\n"
+"    \tThe X parameter is a fraction of the image width.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:41
 #, kde-format
 msgid "Front Y"
 msgstr "Voor naar Y"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:33
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:43
 #, kde-format
-msgid "Front UP"
+msgid ""
+"<![CDATA[The image center and image orientation for the front-facing camera."
+"<br>\n"
+"    \tThe Y parameter a fraction of the image height.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:46
+#, fuzzy, kde-format
+#| msgid "Front UP"
+msgid "Front Up"
 msgstr "Voor omhoog"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:36
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:48
+#, kde-format
+msgid ""
+"<![CDATA[The image center and image orientation for the front-facing camera."
+"<br>\n"
+"    \tUp is the \"up\" direction in the image, in degrees clockwise from a "
+"direction towards the frame top edge.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
 #, kde-format
 msgid "Back X"
 msgstr "Terug naar X"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:39
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:53
+#, kde-format
+msgid ""
+"<![CDATA[The image center and image orientation for the back-facing camera."
+"<br>\n"
+"    \tThe X parameter is a fraction of the image width..]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:56
 #, kde-format
 msgid "Back Y"
 msgstr "Terug naar Y"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:42
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:58
 #, kde-format
-msgid "Back UP"
+msgid ""
+"<![CDATA[The image center and image orientation for the back-facing camera."
+"<br>\n"
+"    \tThe Y parameter a fraction of the image height.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:61
+#, fuzzy, kde-format
+#| msgid "Back UP"
+msgid "Back Up"
 msgstr "Achter omhoog"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:45
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:63
 #, kde-format
-msgid "Nadir Radius"
+msgid ""
+"<![CDATA[The image center and image orientation for the back-facing camera."
+"<br>\n"
+"    \tUp is the \"up\" direction in the image, in degrees clockwise from a "
+"direction towards the frame top edge.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:66
+#, fuzzy, kde-format
+#| msgid "Nadir Radius"
+msgid "Nadir radius"
 msgstr "Nadir-straal"
 
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:48
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:68
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:73
 #, kde-format
-msgid "Nadir Start"
+msgid ""
+"<![CDATA[360 cameras like the Theta have a problem with the nadir direction "
+"where, no matter what, you will have a little of the camera in the image."
+"<br>\n"
+"    \tThis parameter \"stretches\" the image near nadir to cover up the "
+"missing parts.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:71
+#, fuzzy, kde-format
+#| msgid "Nadir Start"
+msgid "Nadir start"
 msgstr "Nadir-begin"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:76
+#, fuzzy, kde-format
+#| msgid "Lens correction"
+msgid "Lens distortion A"
+msgstr "Lenscorrectie"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:78
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:83
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:88
+#, kde-format
+msgid ""
+"<![CDATA[Lens distortion correction parameters.<br>\n"
+"    \tThe first three parameters are the same as in Hugin.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
+#, fuzzy, kde-format
+#| msgid "Lens correction"
+msgid "Lens distortion B"
+msgstr "Lenscorrectie"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:86
+#, fuzzy, kde-format
+#| msgid "Lens correction"
+msgid "Lens distortion C"
+msgstr "Lenscorrectie"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:91
+#, fuzzy, kde-format
+#| msgid "Horizontal radius"
+msgid "Lens distortion radius"
+msgstr "Horizontale straal"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:93
+#, kde-format
+msgid ""
+"<![CDATA[Lens distortion correction parameters.<br>\n"
+"    \tIf you use Hugin parameters, the Radius should be set to the value of "
+"(0.5 * min(image width, image height) / image width). For a 2:1 aspect dual "
+"hemispherical image, that would be 0.25.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:96
+#, fuzzy, kde-format
+#| msgid "Natural lens vignetting effect"
+msgid "Lens vignetting A"
+msgstr "Natural lens vignetting effect"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:98
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:103
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:108
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:113
+#, kde-format
+msgid ""
+"<![CDATA[Lens vignetting correction parameters.<br>\n"
+"    \tThe first four parameters are the same as in Hugin, corresponding to "
+"the Va, Vb, Vc and Vd image parameters.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
+#, fuzzy, kde-format
+#| msgid "Natural lens vignetting effect"
+msgid "Lens vignetting B"
+msgstr "Natural lens vignetting effect"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:106
+#, fuzzy, kde-format
+#| msgid "Natural lens vignetting effect"
+msgid "Lens vignetting C"
+msgstr "Natural lens vignetting effect"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:111
+#, fuzzy, kde-format
+#| msgid "Natural lens vignetting effect"
+msgid "Lens vignetting D"
+msgstr "Natural lens vignetting effect"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:116
+#, fuzzy, kde-format
+#| msgid "Lens Radius"
+msgid "Lens vignetting radius"
+msgstr "Lensstraal"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:118
+#, kde-format
+msgid ""
+"<![CDATA[If you use Hugin parameters, the radius should be set to the value "
+"of (0.5 * image diagonal / image width).<br>\n"
+"    \tFor a 2:1 aspect dual hemispherical image, that would be 0.5590. Use "
+"the A parameter to scale the effect and avoid overexposing highlights]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:121
+#, fuzzy, kde-format
+#| msgid "FFmpeg video transcoding parameters"
+msgid "Use sensor response parameters"
+msgstr "FFmpeg video codeer parameters"
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:122
+#, kde-format
+msgid "<![CDATA[Switch on to use sensor response parameters (EMoR h(x))]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:125
+#, kde-format
+msgid "EMoR h(1)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:127
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:132
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:137
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:142
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:147
+#, kde-format
+msgid ""
+"<![CDATA[Sensor response parameters.<br>\n"
+"    \tThe EMoR h(x) parameters are the same as Hugin's Ra - Re in the lens "
+"parameters. If you use Hugin-derived values for vignetting correction, you "
+"should also use these parameters, as Hugin's vignetting correction assumes "
+"that the sensor response has been corrected.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:130
+#, kde-format
+msgid "EMoR h(2)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:135
+#, kde-format
+msgid "EMoR h(3)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:140
+#, kde-format
+msgid "EMoR h(4)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:145
+#, kde-format
+msgid "EMoR h(5)"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:4
 #, kde-format
@@ -7922,82 +8691,209 @@ msgstr ""
 msgid "VR360 Stabilize"
 msgstr "VR360 stabiliseren"
 
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:5
-#, kde-format
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:6
+#, fuzzy, kde-format
+#| msgid ""
+#| "Stabilizes 360 footage. The plugin works in two phases - analysis and "
+#| "stabilization. When analyzing footage, it detects frame-to-frame "
+#| "rotation, and when stabilizing it tries to correct high-frequency motion "
+#| "(shake)."
 msgid ""
-"Stabilizes 360 footage. The plugin works in two phases - analysis and "
-"stabilization. When analyzing footage, it detects frame-to-frame rotation, "
-"and when stabilizing it tries to correct high-frequency motion (shake)."
+"<![CDATA[Stabilizes 360 footage.<br>\n"
+"    The plugin works in two phases - analysis and stabilization. When "
+"analyzing footage, it detects frame-to-frame rotation, and when stabilizing "
+"it tries to correct high-frequency motion (shake).]]>"
 msgstr ""
 "Stabiliseert 360 graden opnamen. De plug-in werkt in twee fasen - analyse en "
 "stabilisatie. Bij het analyseren van opnamen detecteert het frame-naar-frame "
 "rotatie en bij stabilisering probeert het hoogfrequente beweging (schudden) "
 "te corrigeren."
 
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:9
 #, kde-format
 msgid "Analyze"
 msgstr "Analyseren"
 
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:11
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:10
 #, kde-format
-msgid "Motion Analysis File"
+msgid ""
+"<![CDATA[Switch on for analysis phase; switch off for stabilization phase.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:13
+#, fuzzy, kde-format
+#| msgid "Motion Analysis File"
+msgid "Motion analysis file"
 msgstr "Analysebestand van beweging"
 
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
-#, kde-format
-msgid "Analysis Search Radius"
-msgstr "Zoekstraal van analyse"
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the luma matrix horizontal size]]>"
+msgid "<![CDATA[Select the file to store stabilization data in]]>"
+msgstr "<![CDATA[Stel de horizontale grootte in van de luma-matrix]]>"
 
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:20
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
+#, fuzzy, kde-format
+#| msgid "X offset"
+msgid "Start offset"
+msgstr "X-verschuiving"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:19
 #, kde-format
-msgid "Analysis Offset"
-msgstr "Offset van analyse"
+msgid ""
+"<![CDATA[The offset into the stabilization file that corresponds to the "
+"start of this clip.<br>\n"
+"    \tFor example, if you have a 30 second clip, analyze it all, and then "
+"split it into three clips of 10 seconds each, then the start offsets should "
+"be 0s, 10s, and 20s.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:22
+#, fuzzy, kde-format
+#| msgid "Analysis Sample Radius"
+msgid "Analysis sample radius"
+msgstr "Analyse van straal van sample"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, kde-format
-msgid "Track Points"
-msgstr "Volgpunten"
+msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:35
+#, fuzzy, kde-format
+#| msgid "Analysis Search Radius"
+msgid "Analysis search radius"
+msgstr "Zoekstraal van analyse"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:27
 #, kde-format
-msgid "Yaw Amount"
+msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
+#, fuzzy, kde-format
+#| msgid "Analysis Offset"
+msgid "Analysis offset"
+msgstr "Offset van analyse"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+msgid "<![CDATA[The distance between the track points]]>"
+msgstr "<![CDATA[Afstand tussen verticale lijnen in pixels]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
+#, kde-format
+msgid "Use backwards-facing track points"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:36
+#, kde-format
+msgid ""
+"<![CDATA[If set, six backwards-facing track points will also be used to "
+"detect pitch and yaw motion.<br>\n"
+"    \tDisable if, for example, you show up holding the camera there]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
+#, fuzzy, kde-format
+#| msgid "Yaw Amount"
+msgid "Yaw amount"
 msgstr "Hoeveelheid yaw"
 
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:29
-#, kde-format
-msgid "Yaw Smoothing"
-msgstr "Yaw gladstrijken"
-
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:32
-#, kde-format
-msgid "Yaw Time Bias"
-msgstr "Tijdbias van yaw"
-
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:38
-#, kde-format
-msgid "Pitch Smoothing"
-msgstr "Gladstrijken van pitch"
-
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:41
-#, kde-format
-msgid "Pitch Time Bias"
-msgstr "Tijdbasis van rollen"
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:69
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[The amount of stabilization to apply.<br>\n"
+"    \t100% means that the stabilizer will make the camera as steady as it "
+"can. Smaller values reduce the amount of stabilization.]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
-#, kde-format
-msgid "Roll Amount"
-msgstr "Hoeveelheid rollen"
+#, fuzzy, kde-format
+#| msgid "Yaw Smoothing"
+msgid "Yaw smoothing"
+msgstr "Yaw gladstrijken"
 
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:47
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:45
 #, kde-format
-msgid "Roll Smoothing"
-msgstr "Rollen gladstrijken"
+msgid ""
+"<![CDATA[The number of frames to use to smooth out the shakes. The higher "
+"the value, the slower the camera will follow any intended motion.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:48
+#, fuzzy, kde-format
+#| msgid "Yaw Time Bias"
+msgid "Yaw time bias"
+msgstr "Tijdbias van yaw"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:50
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:64
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:79
 #, kde-format
-msgid "Roll Time Bias"
+msgid ""
+"<![CDATA[Shift the frames used to smooth out the shakes relative to the "
+"stabilized frame.<br>\n"
+"    \tA value less than zero will give more weight to past frames, and the "
+"camera will seem to lag behind intended movement. A value greater than zero "
+"will give more weight to future frames, and the camera will appear to move "
+"ahead of the intended camera movement. A value of zero should make the "
+"camera follow the intended path.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
+#, fuzzy, kde-format
+#| msgid "Tint amount"
+msgid "Pitch amount"
+msgstr "Kleur waarde"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:54
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[The amount of stabilization to apply. 100% means that the "
+"stabilizer will make the camera as steady as it can. Smaller values reduce "
+"the amount of stabilization.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:57
+#, fuzzy, kde-format
+#| msgid "Pitch Smoothing"
+msgid "Pitch smoothing"
+msgstr "Gladstrijken van pitch"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:59
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:74
+#, kde-format
+msgid ""
+"<![CDATA[The number of frames to use to smooth out the shakes.<br>\n"
+"    \tThe higher the value, the slower the camera will follow any intended "
+"motion.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:62
+#, fuzzy, kde-format
+#| msgid "Pitch Time Bias"
+msgid "Pitch time bias"
+msgstr "Tijdbasis van rollen"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:67
+#, fuzzy, kde-format
+#| msgid "Roll Amount"
+msgid "Roll amount"
+msgstr "Hoeveelheid rollen"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:72
+#, fuzzy, kde-format
+#| msgid "Roll Smoothing"
+msgid "Roll smoothing"
+msgstr "Rollen gladstrijken"
+
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:77
+#, fuzzy, kde-format
+#| msgid "Roll Time Bias"
+msgid "Roll time bias"
 msgstr "Tijdbias van rollen"
 
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:4
@@ -8277,8 +9173,9 @@ msgid "Do simple color correction, in a physically meaningful way"
 msgstr "Doe een eenvoudige kleurcorrectie, op een fysiek betekenisvolle manier"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:4
-#, kde-format
-msgid "RGB adjustment"
+#, fuzzy, kde-format
+#| msgid "RGB adjustment"
+msgid "RGB Adjustment"
 msgstr "RGB aanpassing"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:5
@@ -8286,25 +9183,28 @@ msgstr "RGB aanpassing"
 msgid "Simple color adjustment"
 msgstr "Eenvoudige kleuren instellen"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbR)
-#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/ui/histogram_ui.ui:61
-#: src/ui/titlewidget_ui.ui:373
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2491
+#: src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
-msgid "R"
-msgstr "R"
+msgid "Red"
+msgstr "Rood"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbG)
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/ui/histogram_ui.ui:68
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2492
+#: src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/scopes/colorscopes/colorplaneexport.cpp:260
+#: src/scopes/colorscopes/vectorscope.cpp:53
+#: src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
-msgid "G"
-msgstr "G"
+msgid "Green"
+msgstr "Groen"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cbB)
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/ui/histogram_ui.ui:75
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2493
+#: src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
-msgid "B"
-msgstr "B"
+msgid "Blue"
+msgstr "Blauw"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:17
 #, kde-format
@@ -8345,37 +9245,37 @@ msgstr ""
 msgid "Source Color"
 msgstr "Bron kleur"
 
-#: data/effects/frei0r/frei0r_colorize.xml:5
+#: data/effects/frei0r/frei0r_colorize.xml:4
 #, kde-format
 msgctxt "Colorize Effect Name"
 msgid "Colorize"
 msgstr "Inkleuren"
 
-#: data/effects/frei0r/frei0r_colorize.xml:6
+#: data/effects/frei0r/frei0r_colorize.xml:5
 #, kde-format
 msgid "Colorizes image to selected hue, saturation and lightness"
 msgstr ""
 "Geef kleur aan de afbeelding door tint, verzadiging en lichtheid te "
 "selecteren"
 
-#: data/effects/frei0r/frei0r_colorize.xml:9
+#: data/effects/frei0r/frei0r_colorize.xml:8
 #: data/effects/frei0r/frei0r_hueshift0r.xml:8
 #: data/transitions/frei0r/frei0r_hue.xml:4
 #, kde-format
 msgid "Hue"
 msgstr "Tint"
 
-#: data/effects/frei0r/frei0r_colorize.xml:10
+#: data/effects/frei0r/frei0r_colorize.xml:9
 #, kde-format
 msgid "Color shade of the colorized image."
 msgstr "Geef kleur aan shaduw van de gekleurde afbeelding."
 
-#: data/effects/frei0r/frei0r_colorize.xml:14
+#: data/effects/frei0r/frei0r_colorize.xml:13
 #, kde-format
 msgid "Amount of color in the colorized image."
 msgstr "Hoeveelheid kleur in de gekleurde afbeelding."
 
-#: data/effects/frei0r/frei0r_colorize.xml:18
+#: data/effects/frei0r/frei0r_colorize.xml:17
 #, kde-format
 msgid "Lightness of the colorized image."
 msgstr "De lichtheid van een gekleurde afbeelding."
@@ -8410,6 +9310,7 @@ msgstr "Krommen"
 #: data/effects/frei0r/frei0r_curves.xml:9
 #: data/effects/frei0r/frei0r_levels.xml:9
 #: data/effects/frei0r/frei0r_levels.xml:40
+#: data/effects/frei0r/frei0r_levels.xml:71
 #, kde-format
 msgid "Red,Green,Blue,Luma"
 msgstr "Rood, Groen, Blauw,Luma"
@@ -8490,6 +9391,7 @@ msgstr "Grafiek in afbeelding tonen"
 #: data/effects/frei0r/frei0r_curves.xml:110
 #: data/effects/frei0r/frei0r_levels.xml:31
 #: data/effects/frei0r/frei0r_levels.xml:62
+#: data/effects/frei0r/frei0r_levels.xml:78
 #, kde-format
 msgid "Top Left,Top Right,Bottom Left,Bottom Right"
 msgstr "Links Boven; Rechts Boven, Links Onder, Rechts Onder"
@@ -8650,6 +9552,7 @@ msgstr "Dithert de afbeelding en reduceert het aantal beschikbare kleuren"
 
 #: data/effects/frei0r/frei0r_dither.xml:9
 #: data/effects/frei0r/frei0r_levels.xml:36
+#: data/effects/frei0r/frei0r_levels.xml:67
 #: data/effects/frei0r/frei0r_posterize.xml:8
 #, kde-format
 msgid "Levels"
@@ -8938,6 +9841,100 @@ msgstr "Kleur 5"
 #, kde-format
 msgid "Set the shape color of the fifth detected face."
 msgstr "De kleur van het vijfde gevonden vlak instellen."
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:4
+#, fuzzy, kde-format
+#| msgctxt "Grain Effect Name"
+#| msgid "Grain"
+msgid "Film Grain"
+msgstr "Korrel"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:5
+#, kde-format
+msgid "Adds film-like grain and softens the picture"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:8
+#, fuzzy, kde-format
+#| msgid "Tint amount"
+msgid "Grain amount"
+msgstr "Kleur waarde"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:9
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the opacity of the graticule]]>"
+msgid "<![CDATA[The intensity of the grain]]>"
+msgstr "<![CDATA[Stel de dekking van de steepplaat in]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:12
+#, fuzzy, kde-format
+#| msgid "Red balance"
+msgid "Red grain"
+msgstr "Roodbalans"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:16
+#, fuzzy, kde-format
+#| msgid "Green Tint"
+msgid "Green grain"
+msgstr "Groene tint"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:17
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
+msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:20
+#, fuzzy, kde-format
+#| msgid "Blue balance"
+msgid "Blue grain"
+msgstr "Blauwbalans"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:21
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
+msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:24
+#, fuzzy, kde-format
+#| msgid "Dry amount"
+msgid "Blur amount"
+msgstr "Droge hoeveelheid"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:25
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Tilting of the profile]]>"
+msgid "<![CDATA[The intensity of the blur]]>"
+msgstr "<![CDATA[Kanteling van het profiel]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:28
+#, fuzzy, kde-format
+#| msgid "Wet amount"
+msgid "Dust amount"
+msgstr "Natte hoeveelheid"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:29
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Length of the profile in pixel]]>"
+msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgstr "<![CDATA[Lengte van het profiel in pixels]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:32
+#, kde-format
+msgid "Flicker"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:33
+#, kde-format
+msgid "<![CDATA[The amount of variation in brightness between frames]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -9405,7 +10402,7 @@ msgstr "Randbreedte"
 
 #: data/effects/frei0r/frei0r_letterb0xed.xml:11
 #: data/effects/frei0r/frei0r_timeout.xml:14
-#: data/effects/frei0r/frei0r_transparency.xml:8
+#: data/effects/frei0r/frei0r_transparency.xml:8 data/effects/vignette.xml:23
 #, kde-format
 msgid "Transparency"
 msgstr "Transparantie"
@@ -9418,45 +10415,92 @@ msgstr "Niveaus"
 
 #: data/effects/frei0r/frei0r_levels.xml:6
 #: data/effects/frei0r/frei0r_levels.xml:37
+#: data/effects/frei0r/frei0r_levels.xml:68
 #, kde-format
 msgid "Adjust levels"
 msgstr "Helderheid correctie"
 
 #: data/effects/frei0r/frei0r_levels.xml:13
 #: data/effects/frei0r/frei0r_levels.xml:44
+#: data/effects/frei0r/frei0r_levels.xml:82
 #, kde-format
 msgid "Input black level"
 msgstr "Invoer donker signaal "
 
 #: data/effects/frei0r/frei0r_levels.xml:16
 #: data/effects/frei0r/frei0r_levels.xml:47
+#: data/effects/frei0r/frei0r_levels.xml:87
 #, kde-format
 msgid "Input white level"
 msgstr "Invoer licht signaal "
 
 #: data/effects/frei0r/frei0r_levels.xml:22
 #: data/effects/frei0r/frei0r_levels.xml:53
+#: data/effects/frei0r/frei0r_levels.xml:97
 #, kde-format
 msgid "Black output"
 msgstr "Uitvoer donker"
 
 #: data/effects/frei0r/frei0r_levels.xml:25
 #: data/effects/frei0r/frei0r_levels.xml:56
+#: data/effects/frei0r/frei0r_levels.xml:101
 #, kde-format
 msgid "White output"
 msgstr "Uitvoer licht"
 
 #: data/effects/frei0r/frei0r_levels.xml:28
 #: data/effects/frei0r/frei0r_levels.xml:59
+#: data/effects/frei0r/frei0r_levels.xml:75
 #, kde-format
 msgid "Show histogram"
 msgstr "Histogram tonen"
 
 #: data/effects/frei0r/frei0r_levels.xml:32
 #: data/effects/frei0r/frei0r_levels.xml:63
+#: data/effects/frei0r/frei0r_levels.xml:79
 #, kde-format
 msgid "Histogram position"
 msgstr "Histogram positie"
+
+#: data/effects/frei0r/frei0r_levels.xml:84
+#, kde-format
+msgid ""
+"<![CDATA[Moves the black point to the right: all pixels with that value or "
+"less will be black.<br>\n"
+"                This makes the dark areas even darker, influences the mid-"
+"tones a little and the highlights not at all. Increases contrast.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_levels.xml:89
+#, kde-format
+msgid ""
+"<![CDATA[Moves the white point to the left: all pixels with that value or "
+"higher will be white.<br>\n"
+"                This makes bright areas even brighter, influences the mid-"
+"tones a little and the dark areas not at all. Increases contrast.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_levels.xml:94
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Changes the overall brightness of the image.<br>\n"
+"                Affects only the mid-tones, black and white are not "
+"influenced. Default is 25%, equivalent to Gamma 1.0). Lower values (moving "
+"the bar to the left) make the image darker, higher values (moving the bar to "
+"the right) make it brighter.]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_levels.xml:98
+#, fuzzy, kde-format
+#| msgid "Input black level"
+msgid "Opposite of Input black level"
+msgstr "Invoer donker signaal "
+
+#: data/effects/frei0r/frei0r_levels.xml:102
+#, fuzzy, kde-format
+#| msgid "Input white level"
+msgid "Opposite of Input white level"
+msgstr "Invoer licht signaal "
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:5
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:77
@@ -9800,6 +10844,42 @@ msgstr "Nerveus"
 #, kde-format
 msgid "Flushes frames in time in a nervous way"
 msgstr "Gaat door frames op een nerveuze manier"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:4
+#, fuzzy, kde-format
+#| msgid "Normalize"
+msgctxt "Levels Effect Name"
+msgid "Normaliz0r"
+msgstr "Normaliseer"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:5
+#, kde-format
+msgid "Normalize (aka histogram stretch, contrast stretch)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:8
+#, fuzzy, kde-format
+#| msgid "Black output"
+msgid "Black point"
+msgstr "Uitvoer donker"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:12
+#, fuzzy, kde-format
+#| msgid "White Noise"
+msgid "White point"
+msgstr "Witte ruis"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:21
+#, kde-format
+msgid ""
+"Proportion of independent to linked channel normalization (default 1000)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:25
+#, kde-format
+msgid ""
+"Strength of filter, from no effect (0) to full normalization (default 1000)"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
@@ -11553,6 +12633,206 @@ msgstr "Grijswaarden"
 msgid "Discard color information"
 msgstr "Ontdoe van kleur informatie"
 
+#: data/effects/hsl_primaries.xml:4
+#, fuzzy, kde-format
+#| msgctxt "Primaries Effect Name"
+#| msgid "Primaries"
+msgid "HSL Primaries"
+msgstr "Eerste keuze"
+
+#: data/effects/hsl_primaries.xml:5
+#, kde-format
+msgid ""
+"Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
+"colors."
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:8
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Red"
+msgstr "Kleurtoonverschuiving"
+
+#: data/effects/hsl_primaries.xml:11
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Red"
+msgstr "Verzadiging"
+
+#: data/effects/hsl_primaries.xml:14
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale Red"
+msgstr "Lichtheid"
+
+#: data/effects/hsl_primaries.xml:17
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Yellow"
+msgstr "Kleurtoonverschuiving"
+
+#: data/effects/hsl_primaries.xml:20
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Yellow"
+msgstr "Verzadiging"
+
+#: data/effects/hsl_primaries.xml:23
+#, kde-format
+msgid "Lightness Scale Yellow"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:26
+#, fuzzy, kde-format
+#| msgid "Lift: Green"
+msgid "Hue Shift Green"
+msgstr "Verhoog: groen"
+
+#: data/effects/hsl_primaries.xml:29
+#, fuzzy, kde-format
+#| msgid "Saturation (GPU)"
+msgid "Saturation Scale Green"
+msgstr "Verzadiging (GPU)"
+
+#: data/effects/hsl_primaries.xml:32
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale Green"
+msgstr "Lichtheid"
+
+#: data/effects/hsl_primaries.xml:35
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Cyan"
+msgstr "Kleurtoonverschuiving"
+
+#: data/effects/hsl_primaries.xml:38
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Cyan"
+msgstr "Verzadiging"
+
+#: data/effects/hsl_primaries.xml:41
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale Cyan"
+msgstr "Lichtheid"
+
+#: data/effects/hsl_primaries.xml:44
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Blue"
+msgstr "Kleurtoonverschuiving"
+
+#: data/effects/hsl_primaries.xml:47
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Blue"
+msgstr "Verzadiging"
+
+#: data/effects/hsl_primaries.xml:50
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale Blue"
+msgstr "Lichtheid"
+
+#: data/effects/hsl_primaries.xml:53
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Magenta"
+msgstr "Kleurtoonverschuiving"
+
+#: data/effects/hsl_primaries.xml:56
+#, kde-format
+msgid "Saturation Scale Magenta"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:59
+#, fuzzy, kde-format
+#| msgid "Lightness of the colorized image."
+msgid "Lightness Scale Magenta"
+msgstr "De lichtheid van een gekleurde afbeelding."
+
+#: data/effects/hsl_primaries.xml:63
+#, kde-format
+msgid "The amount of overlap or blending between primaries"
+msgstr ""
+
+#: data/effects/hsl_range.xml:4
+#, fuzzy, kde-format
+#| msgid "Set Range"
+msgid "HSL Range"
+msgstr "Bereik instellen"
+
+#: data/effects/hsl_range.xml:5
+#, kde-format
+msgid ""
+"Adjust Hue, Saturation and Lightness for a range of hue values. The user can "
+"specify the range of the hue values to be adjusted."
+msgstr ""
+
+#: data/effects/hsl_range.xml:8
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Hue Center"
+msgstr "Midden"
+
+#: data/effects/hsl_range.xml:9
+#, kde-format
+msgid "The center value for the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:12
+#, fuzzy, kde-format
+#| msgid "Set Range"
+msgid "Hue Range"
+msgstr "Bereik instellen"
+
+#: data/effects/hsl_range.xml:13
+#, kde-format
+msgid "The width of the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:17
+#, fuzzy, kde-format
+#| msgid "The amount in pixel to blur the edge of the shadow"
+msgid "The amount to blend the edges of the hue range"
+msgstr "De hoeveelheid in pixel om de rand van de schaduw te vervangen"
+
+#: data/effects/hsl_range.xml:20
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift"
+msgstr "Kleurtoonverschuiving"
+
+#: data/effects/hsl_range.xml:21
+#, kde-format
+msgid "The amount to shift the hue in the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:24
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale"
+msgstr "Verzadiging"
+
+#: data/effects/hsl_range.xml:25
+#, kde-format
+msgid "The amount to scale the saturation in the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:28
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale"
+msgstr "Lichtheid"
+
+#: data/effects/hsl_range.xml:29
+#, fuzzy, kde-format
+#| msgid "The amount in pixel to blur the edge of the shadow"
+msgid "The amount to scale the lightness in the hue range"
+msgstr "De hoeveelheid in pixel om de rand van de schaduw te vervangen"
+
 #: data/effects/invert.xml:4
 #, kde-format
 msgctxt "Invert Effect Name"
@@ -11979,14 +13259,18 @@ msgid "Analyse to Apply Effect"
 msgstr "Analyseren om effect toe te passen"
 
 #: data/effects/lumaliftgaingamma.xml:4
-#, kde-format
-msgid "LumaLiftGainGamma"
+#, fuzzy, kde-format
+#| msgid "LumaLiftGainGamma"
+msgid "Luma LiftGainGamma"
 msgstr "LumaLiftGainGamma"
 
 #: data/effects/lumaliftgaingamma.xml:5
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Filter can be used to apply lift, gain and gamma correction to luma "
+#| "values of image."
 msgid ""
-"Filter can be used to apply lift, gain and gamma correction to luma values "
+"Filter can be used to apply lift, gain, and gamma correction to luma values "
 "of image."
 msgstr ""
 "Filter kan gebruikt worden om lift, versterking en gammacorrectie op luma-"
@@ -13312,11 +14596,6 @@ msgstr "Min. contrast"
 msgid "Below this Contrast Field is discarded"
 msgstr "Hieronder wordt contrastveld verworpen"
 
-#: data/effects/vidstab.xml:24
-#, kde-format
-msgid "Smoothing"
-msgstr "Gladstrijken"
-
 #: data/effects/vidstab.xml:25
 #, kde-format
 msgid "Number of frames for lowpass filtering"
@@ -13420,37 +14699,27 @@ msgid "Adjustable Vignette"
 msgstr "Instelbaar logo"
 
 #: data/effects/vignette.xml:8
-#, kde-format
-msgid "smooth"
-msgstr "vloeiend"
+#, fuzzy, kde-format
+#| msgid "use cos instead of linear"
+msgid "Use cos instead of linear"
+msgstr "cos gebruiken in plaats van lineair"
 
 #: data/effects/vignette.xml:11
-#, kde-format
-msgid "radius"
-msgstr "radius"
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Center X"
+msgstr "Midden"
 
-#. i18n: ectx: property (text), widget (QLabel, xLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:153
-#: src/ui/renderwidget_ui.ui:549
-#, kde-format
-msgid "x"
-msgstr "x"
+#: data/effects/vignette.xml:14
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Center Y"
+msgstr "Midden"
 
-#: data/effects/vignette.xml:17
+#: data/effects/vignette.xml:20 src/assets/keyframes/model/keyframemodel.cpp:49
 #, kde-format
-msgid "y"
-msgstr "y"
-
-#: data/effects/vignette.xml:20
-#, kde-format
-msgid "opacity"
-msgstr "dekking"
-
-#: data/effects/vignette.xml:23
-#, kde-format
-msgid "use cos instead of linear"
-msgstr "cos gebruiken in plaats van lineair"
+msgid "Smooth"
+msgstr "Vloeiend"
 
 #: data/effects/volume.xml:4 src/audiomixer/mixerwidget.cpp:117
 #, kde-format
@@ -13657,134 +14926,134 @@ msgstr "Meer controles"
 msgid "To be completed"
 msgstr "Nog af te maken"
 
-#: data/kdenliveeffectscategory.rc:69
+#: data/kdenliveeffectscategory.rc:70
 #, kde-format
 msgid "Volume and Dynamics"
 msgstr "Volume en dynamiek"
 
-#: data/kdenliveeffectscategory.rc:72
+#: data/kdenliveeffectscategory.rc:74
 #, kde-format
 msgid "Reverb, Echo and Delays"
 msgstr "Galm, Echo en vertragingen"
 
-#: data/kdenliveeffectscategory.rc:75
+#: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "EQ and filters"
 msgstr "EQ en filters"
 
-#: data/kdenliveeffectscategory.rc:78
+#: data/kdenliveeffectscategory.rc:82
 #, kde-format
 msgid "Modulators"
 msgstr "Modulatoren"
 
-#: data/kdenliveeffectscategory.rc:81
+#: data/kdenliveeffectscategory.rc:86
 #, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Ruisreductie en geluidsrestauratie"
 
-#: data/kdenliveeffectscategory.rc:88
+#: data/kdenliveeffectscategory.rc:94
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:86 src/mainwindow.cpp:1416
 #: src/scopes/colorscopes/vectorscope.cpp:76
 #, kde-format
 msgid "Tools"
 msgstr "Gereedschappen"
 
-#: data/kdenliveeffectscategory.rc:91
+#: data/kdenliveeffectscategory.rc:98
 #, kde-format
 msgid "Stereo and Binaural Images"
 msgstr "Stereo en binaurale images"
 
-#: data/kdenliveeffectscategory.rc:94
+#: data/kdenliveeffectscategory.rc:102
 #, kde-format
 msgid "Pitch and Time"
 msgstr "Frequentie en tijd"
 
-#: data/kdenliveeffectscategory.rc:98
+#: data/kdenliveeffectscategory.rc:106
 #, kde-format
 msgid "CAPS Plugins"
 msgstr "CAPS-plug-ins"
 
-#: data/kdenliveeffectscategory.rc:102
+#: data/kdenliveeffectscategory.rc:110
 #, kde-format
 msgid "TAP Plugins"
 msgstr "TAP-plug-ins"
 
-#: data/kdenliveeffectscategory.rc:106
+#: data/kdenliveeffectscategory.rc:114
 #, kde-format
 msgid "Invada Plugins"
 msgstr "Invada-plug-ins"
 
-#: data/kdenliveeffectscategory.rc:110
+#: data/kdenliveeffectscategory.rc:118
 #, kde-format
 msgid "Ambisonic Plugins"
 msgstr "Ambisonische plug-ins"
 
-#: data/kdenliveeffectscategory.rc:114
+#: data/kdenliveeffectscategory.rc:122
 #, kde-format
 msgid "ZAM Plugins"
 msgstr "ZAM-plug-ins"
 
-#: data/kdenliveeffectscategory.rc:118
+#: data/kdenliveeffectscategory.rc:126
 #, kde-format
 msgid "BLOP Plugins"
 msgstr "BLOP-plug-ins"
 
-#: data/kdenliveeffectscategory.rc:122
+#: data/kdenliveeffectscategory.rc:130
 #, kde-format
 msgid "Steve Harris' SWH Plugins"
 msgstr "SWH-plug-ins van Steve Harris"
 
-#: data/kdenliveeffectscategory.rc:126
+#: data/kdenliveeffectscategory.rc:134
 #, kde-format
 msgid "CMT Plugins"
 msgstr "CMT-plug-ins"
 
-#: data/kdenliveeffectscategory.rc:130
+#: data/kdenliveeffectscategory.rc:138
 #, kde-format
 msgid "DPF Plugins"
 msgstr "DPF-plug-ins"
 
-#: data/kdenliveeffectscategory.rc:134
+#: data/kdenliveeffectscategory.rc:142
 #, kde-format
 msgid "Calf  Plugins"
 msgstr "Calf-plug-ins"
 
-#: data/kdenliveeffectscategory.rc:138
+#: data/kdenliveeffectscategory.rc:146
+#, kde-format
+msgid "LSP plugins"
+msgstr "LSP-plug-ins"
+
+#: data/kdenliveeffectscategory.rc:150
+#, kde-format
+msgid "LADSPA Plugins"
+msgstr "LADSPA-plug-ins"
+
+#: data/kdenliveeffectscategory.rc:154
+#, kde-format
+msgid "Guitarix Plugins"
+msgstr "Guitarix-plug-ins"
+
+#: data/kdenliveeffectscategory.rc:158
+#, kde-format
+msgid "Mvc Plugins"
+msgstr "Mvc-plug-ins"
+
+#: data/kdenliveeffectscategory.rc:162
+#, kde-format
+msgid "VCO Plugins"
+msgstr "VCO-plug-ins"
+
+#: data/kdenliveeffectscategory.rc:166
+#, kde-format
+msgid "MLT ladspa"
+msgstr "MLT ladspa"
+
+#: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:89
 #: src/effects/effectlist/model/effecttreemodel.cpp:100
 #, kde-format
 msgid "Deprecated"
 msgstr "Verouderd"
-
-#: data/kdenliveeffectscategory.rc:142
-#, kde-format
-msgid "LSP plugins"
-msgstr "LSP-plug-ins"
-
-#: data/kdenliveeffectscategory.rc:146
-#, kde-format
-msgid "LADSPA Plugins"
-msgstr "LADSPA-plug-ins"
-
-#: data/kdenliveeffectscategory.rc:150
-#, kde-format
-msgid "Guitarix Plugins"
-msgstr "Guitarix-plug-ins"
-
-#: data/kdenliveeffectscategory.rc:154
-#, kde-format
-msgid "Mvc Plugins"
-msgstr "Mvc-plug-ins"
-
-#: data/kdenliveeffectscategory.rc:158
-#, kde-format
-msgid "VCO Plugins"
-msgstr "VCO-plug-ins"
-
-#: data/kdenliveeffectscategory.rc:162
-#, kde-format
-msgid "MLT ladspa"
-msgstr "MLT ladspa"
 
 #: data/transitions/affine.xml:4
 #, kde-format
@@ -14941,11 +16210,6 @@ msgstr "Lineair"
 msgid "Discrete"
 msgstr "In stapjes"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:49
-#, kde-format
-msgid "Smooth"
-msgstr "Vloeiend"
-
 #: src/assets/keyframes/model/keyframemodel.cpp:50
 #, kde-format
 msgid "Bounce In"
@@ -15932,7 +17196,7 @@ msgstr "Ontbrekende oorspronkelijke clip"
 #: src/bin/bin.cpp:1891 src/bin/bin.cpp:2575
 #: src/effects/effectlist/view/effectlistwidget.cpp:147
 #: src/renderpresets/renderpresetrepository.cpp:156
-#: src/renderpresets/renderpresetrepository.cpp:426
+#: src/renderpresets/renderpresetrepository.cpp:441
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Kan niet wegschrijven naar bestand %1"
@@ -16485,7 +17749,7 @@ msgstr "Stel een standaard toepassing in om audiobestanden te openen"
 #: src/jobs/filtertask.cpp:130 src/layouts/layoutmanagerdialog.cpp:159
 #: src/layouts/layoutmanagerdialog.cpp:216
 #: src/profiles/profilerepository.cpp:173
-#: src/renderpresets/renderpresetrepository.cpp:370
+#: src/renderpresets/renderpresetrepository.cpp:385
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Kan bestand %1 niet openen"
@@ -17981,8 +19245,8 @@ msgstr "Hulplijngegevens exporteren"
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
 #: src/project/projectmanager.cpp:1915 src/render/renderrequest.cpp:313
-#: src/renderpresets/renderpresetrepository.cpp:376
-#: src/renderpresets/renderpresetrepository.cpp:432
+#: src/renderpresets/renderpresetrepository.cpp:391
+#: src/renderpresets/renderpresetrepository.cpp:447
 #: src/timeline2/view/timelinecontroller.cpp:5126
 #: src/timeline2/view/timelinecontroller.cpp:5131
 #: src/titler/titlewidget.cpp:2344
@@ -18048,7 +19312,7 @@ msgstr "Indien onzeker, probeer :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
 #: src/project/dialogs/guideslist.cpp:340 src/project/projectmanager.cpp:1805
-#: src/renderpresets/renderpresetrepository.cpp:309
+#: src/renderpresets/renderpresetrepository.cpp:324
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Kan bestand %1 niet lezen"
@@ -18547,14 +19811,6 @@ msgstr "U kunt het gedeelde document vinden op: <a href=\"%1\">%1</a>"
 #, kde-format
 msgid "Beginning"
 msgstr "Startend"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
-#: src/ui/wipeval_ui.ui:172
-#, kde-format
-msgid "End"
-msgstr "Einde"
 
 #: src/dialogs/renderwidget.cpp:666
 #, kde-format
@@ -21288,26 +22544,6 @@ msgid ""
 msgstr ""
 "Geen profiel gevonden voor uw clip %1.\n"
 "Maak en schakel om naar nieuw profiel (%2x%3, %4fps)?%5"
-
-#: src/doc/kdenlivedoc.cpp:2491 src/scopes/colorscopes/colorplaneexport.cpp:231
-#: src/scopes/colorscopes/colorplaneexport.cpp:259
-#, kde-format
-msgid "Red"
-msgstr "Rood"
-
-#: src/doc/kdenlivedoc.cpp:2492 src/scopes/colorscopes/colorplaneexport.cpp:232
-#: src/scopes/colorscopes/colorplaneexport.cpp:260
-#: src/scopes/colorscopes/vectorscope.cpp:53
-#: src/scopes/colorscopes/waveform.cpp:36
-#, kde-format
-msgid "Green"
-msgstr "Groen"
-
-#: src/doc/kdenlivedoc.cpp:2493 src/scopes/colorscopes/colorplaneexport.cpp:233
-#: src/scopes/colorscopes/colorplaneexport.cpp:261
-#, kde-format
-msgid "Blue"
-msgstr "Blauw"
 
 #: src/doc/kdenlivedoc.cpp:2494 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
@@ -28410,24 +29646,32 @@ msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr "Frame rate (%1) komt niet overeen met de project profiel (%2)"
 
 #: src/renderpresets/renderpresetmodel.cpp:339
-#: src/renderpresets/renderpresetmodel.cpp:358
+#: src/renderpresets/renderpresetmodel.cpp:362
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "Niet ondersteund video formaat: %1"
 
 #: src/renderpresets/renderpresetmodel.cpp:344
-#: src/renderpresets/renderpresetmodel.cpp:371
+#: src/renderpresets/renderpresetmodel.cpp:375
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "Niet ondersteunde video codec: %1"
 
 #: src/renderpresets/renderpresetmodel.cpp:349
-#: src/renderpresets/renderpresetmodel.cpp:365
+#: src/renderpresets/renderpresetmodel.cpp:369
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "Niet ondersteunde audio codec: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:376
+#: src/renderpresets/renderpresetmodel.cpp:354
+#: src/renderpresets/renderpresetmodel.cpp:381
+#, kde-format
+msgid ""
+"10 bit color depth will be converted to 8 bit if you use compositing or "
+"effects not provided by avfilter."
+msgstr ""
+
+#: src/renderpresets/renderpresetmodel.cpp:386
 #, kde-format
 msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
@@ -28448,17 +29692,22 @@ msgstr "Zelf gedefinieerd"
 msgid "Lossless/HQ"
 msgstr "Zonder-verlies/HQ"
 
-#: src/renderpresets/renderpresetrepository.cpp:240
+#: src/renderpresets/renderpresetrepository.cpp:241
+#, kde-format
+msgid "10 Bit"
+msgstr ""
+
+#: src/renderpresets/renderpresetrepository.cpp:254
 #, kde-format
 msgid "Images sequence"
 msgstr "Sequentie van afbeeldingen"
 
-#: src/renderpresets/renderpresetrepository.cpp:345
+#: src/renderpresets/renderpresetrepository.cpp:360
 #, kde-format
 msgid "Preset already exists"
 msgstr "Voorinstelling bestaat al"
 
-#: src/renderpresets/renderpresetrepository.cpp:346
+#: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "
@@ -33614,6 +34863,25 @@ msgstr "Som"
 msgid "Luma value."
 msgstr "Luma waarde."
 
+#. i18n: ectx: property (text), widget (QCheckBox, cbR)
+#. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
+#: src/ui/histogram_ui.ui:61 src/ui/titlewidget_ui.ui:373
+#, kde-format
+msgid "R"
+msgstr "R"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cbG)
+#: src/ui/histogram_ui.ui:68
+#, kde-format
+msgid "G"
+msgstr "G"
+
+#. i18n: ectx: property (text), widget (QCheckBox, cbB)
+#: src/ui/histogram_ui.ui:75
+#, kde-format
+msgid "B"
+msgstr "B"
+
 #. i18n: ectx: property (text), widget (QLabel, lblScale)
 #: src/ui/histogram_ui.ui:105
 #, kde-format
@@ -34198,6 +35466,13 @@ msgstr "C"
 #, kde-format
 msgid "D"
 msgstr "D"
+
+#. i18n: ectx: property (text), widget (QLabel, xLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/profiledialog_ui.ui:153 src/ui/renderwidget_ui.ui:549
+#, kde-format
+msgid "x"
+msgstr "x"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -35663,6 +36938,60 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
 
+#~ msgid "Apply dilation effect"
+#~ msgstr "Dilatatie-effect toepassen"
+
+#~ msgid "Apply erosion effect"
+#~ msgstr "Effect erosie toepassen"
+
+#~ msgid "StepsX"
+#~ msgstr "StepsX"
+
+#~ msgid "2xHq*X,3xHq*X,4xHq*X"
+#~ msgstr "2xHq*X,3xHq*X,4xHq*X"
+
+#~ msgid "Interpolation factor"
+#~ msgstr "Interpolatiefactor"
+
+#~ msgid "frame,filter,source,producer"
+#~ msgstr "frame,filter,bron,produceerder"
+
+#~ msgid "Position to set the filter"
+#~ msgstr "Positie waarop het filter te zetten"
+
+#~ msgid "Proportion of independent"
+#~ msgstr "Proportie van onafhankelijkheid"
+
+#~ msgid "Maximal number of dust"
+#~ msgstr "Maximum hoeveelheid stof"
+
+#~ msgid "yaw"
+#~ msgstr "yaw (ronddraaien)"
+
+#~ msgid "pitch"
+#~ msgstr "toonhoogte"
+
+#~ msgid "roll"
+#~ msgstr "rollen"
+
+#~ msgid "fov"
+#~ msgstr "fov"
+
+#~ msgid "Track Points"
+#~ msgstr "Volgpunten"
+
+#~ msgid "smooth"
+#~ msgstr "vloeiend"
+
+#~ msgid "radius"
+#~ msgstr "radius"
+
+#~ msgid "y"
+#~ msgstr "y"
+
+#~ msgid "opacity"
+#~ msgstr "dekking"
+
 #~ msgctxt "@tooltip Transform, a tool to resize"
 #~ msgid "Transform"
 #~ msgstr "Transformeren"
@@ -37005,9 +38334,6 @@ msgstr "%1u"
 
 #~ msgid "Allow upscale"
 #~ msgstr "Opschalen toestaan"
-
-#~ msgid "Saturation (GPU)"
-#~ msgstr "Verzadiging (GPU)"
 
 #~ msgid "Unsharp mask (GPU)"
 #~ msgstr "Masker voor onscherpte (GPU)"
@@ -39881,9 +41207,6 @@ msgstr "%1u"
 
 #~ msgid "Error starting MLT's command line player (melt)."
 #~ msgstr "Fout bij starten van MLT command-line speler (melt)."
-
-#~ msgid "FFmpeg video transcoding parameters"
-#~ msgstr "FFmpeg video codeer parameters"
 
 #~ msgid "Failed to enable video input. Is another application using the card?"
 #~ msgstr ""
