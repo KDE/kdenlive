@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 02:43+0000\n"
+"POT-Creation-Date: 2025-05-31 02:39+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -210,7 +210,7 @@ msgstr "Modifică durata"
 msgid "Direction of the color gradient."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:85
+#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:90
 #, kde-format
 msgid "Channels"
 msgstr "Canale"
@@ -1422,6 +1422,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gradfun.xml:11
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_normalize.xml:20
+#: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
@@ -1472,6 +1473,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
+#: data/effects/hsl_range.xml:16
 #, fuzzy, kde-format
 #| msgid "Title module"
 msgid "Blend"
@@ -2510,6 +2512,7 @@ msgid "<![CDATA[Sets the radius for the direction]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
+#: data/effects/avfilter/avfilter_scharr.xml:8
 #, kde-format
 msgid ""
 "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
@@ -2517,12 +2520,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
+#: data/effects/avfilter/avfilter_scharr.xml:9
 #, fuzzy, kde-format
 #| msgid "Edge Crop"
 msgid "Planes to filter"
 msgstr "Tăiere margini"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
+#: data/effects/avfilter/avfilter_scharr.xml:10
 #, kde-format
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
 msgstr ""
@@ -2582,6 +2587,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:11
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:22
+#: data/effects/hsl_primaries.xml:62
 #, fuzzy, kde-format
 #| msgid "Overlay"
 msgid "Overlap"
@@ -3621,7 +3627,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:8 data/effects/crop.xml:11
-#: data/effects/dance.xml:26 data/effects/frei0r/frei0r_mask0mate.xml:8
+#: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
+#: data/effects/frei0r/frei0r_mask0mate.xml:8
 #: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
@@ -3630,7 +3637,8 @@ msgstr "Stânga"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:11 data/effects/crop.xml:17
-#: data/effects/dance.xml:29 data/effects/frei0r/frei0r_mask0mate.xml:11
+#: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
+#: data/effects/frei0r/frei0r_mask0mate.xml:11
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
@@ -3639,6 +3647,7 @@ msgstr "Dreapta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:14 data/effects/crop.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
 #: src/ui/configmisc_ui.ui:138
@@ -3648,6 +3657,7 @@ msgstr "Sus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:17 data/effects/crop.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
 #: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
 #: src/ui/configmisc_ui.ui:143
@@ -3762,9 +3772,11 @@ msgstr "Raza"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: data/effects/avfilter/avfilter_flanger.xml:38
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:21
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:24
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:24
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:54
@@ -4363,6 +4375,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
 #: data/effects/avfilter/avfilter_roberts.xml:12
+#: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
 #: src/widgets/geometrywidget.cpp:135
@@ -4378,6 +4391,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:12
 #: data/effects/avfilter/avfilter_prewitt.xml:15
 #: data/effects/avfilter/avfilter_roberts.xml:15
+#: data/effects/avfilter/avfilter_scharr.xml:17
 #: data/effects/avfilter/avfilter_sobel.xml:15
 #, kde-format
 msgid "Delta"
@@ -5259,6 +5273,27 @@ msgstr ""
 #: data/effects/avfilter/avfilter_sab.xml:23
 #, kde-format
 msgid "Chroma Strength"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:4
+#, kde-format
+msgid "Scharr"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:5
+#, kde-format
+msgid "Apply Scharr operators for edge detection"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:14
+#, kde-format
+msgid ""
+"<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:18
+#, kde-format
+msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
@@ -7718,6 +7753,199 @@ msgstr "Analizează"
 msgid "Denoise"
 msgstr "Eliminare zgomot"
 
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
+#, kde-format
+msgid "VR360 Cap Top and Bottom"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
+#, kde-format
+msgid ""
+"Attempts to fill in zenith and nadir by stretching and blurring the image "
+"data. It samples a band of latitude near the start of the effect and "
+"stretches and blurs it over the pole."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
+#, kde-format
+msgid "Nearest-Neighbor,Bilinear"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Determines the sampling method.]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
+#, fuzzy, kde-format
+#| msgid "Split audio"
+msgid "Top Enabled"
+msgstr "Desparte sunetul"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Enables parameters for top portion]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
+#, kde-format
+msgid "<![CDATA[<b>--Top--</b> Start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
+#, kde-format
+msgid ""
+"<![CDATA[Degrees from the horizon<br>\n"
+"    \twhere we start to fill in]]>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
+#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
+#: src/ui/wipeval_ui.ui:172
+#, kde-format
+msgid "End"
+msgstr "Sfârșit"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:24
+#, kde-format
+msgid ""
+"<![CDATA[Degrees from the horizon<br>\n"
+"    \twhere we reach maximum blur]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
+#, fuzzy, kde-format
+#| msgid "Title module"
+msgid "Blend In"
+msgstr "Modul pentru titluri"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
+#, kde-format
+msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
+#, fuzzy, kde-format
+#| msgid "Title module"
+msgid "Blend Out"
+msgstr "Modul pentru titluri"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
+#, kde-format
+msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
+#, fuzzy, kde-format
+#| msgid "Fade"
+msgid "Fade In"
+msgstr "Atenuare"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:36
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Degrees to fade the effect in over]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Blur width at start]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
+#, kde-format
+msgid "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Blur width at end]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
+#, kde-format
+msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
+#, kde-format
+msgid "<![CDATA[Blur height at start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
+#, kde-format
+msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Blur height at end]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
+#, kde-format
+msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
+#, fuzzy, kde-format
+#| msgid "Bottom"
+msgid "Bottom Enabled"
+msgstr "Jos"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
+#, kde-format
+msgid "<![CDATA[comment]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
+#, kde-format
+msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
+#, kde-format
+msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
+#, kde-format
+msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
+#, kde-format
+msgid "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, fuzzy, kde-format
 #| msgid "Rectangular window"
@@ -7757,16 +7985,6 @@ msgstr "Aliniere orizontală"
 #| msgid "Horizontal"
 msgid "Horizontal End"
 msgstr "Orizontal"
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
-#, kde-format
-msgid "Nearest-Neighbor,Bilinear"
-msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:4
 #, fuzzy, kde-format
@@ -7849,6 +8067,59 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:23
 #, kde-format
 msgid "Nearest-neighbor,Bilinear"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:4
+#, fuzzy, kde-format
+#| msgid "Transcode"
+msgid "VR360 Wrap"
+msgstr "Transcodare"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:5
+#, kde-format
+msgid ""
+"Stretches a section of the equirectangular panorama to cover the entire VR "
+"sphere"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Determines the sampling method]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
+#, kde-format
+msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
+#, fuzzy, kde-format
+#| msgid "Crop from start:"
+msgid "Blur start"
+msgstr "Decupează de la început:"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
+#, kde-format
+msgid ""
+"<![CDATA[Horizontal fraction of the unchanged area to blur over in the "
+"equator band]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
+#, fuzzy, kde-format
+#| msgid "Blur"
+msgid "Blur end"
+msgstr "Estompare"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
+#, kde-format
+msgid ""
+"<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
+"poles]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
@@ -9034,6 +9305,99 @@ msgstr "Culoare 5"
 msgid "Set the shape color of the fifth detected face."
 msgstr ""
 
+#: data/effects/frei0r/frei0r_filmgrain.xml:4
+#, fuzzy, kde-format
+#| msgid "Grain"
+msgid "Film Grain"
+msgstr "Granulație"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:5
+#, kde-format
+msgid "Adds film-like grain and softens the picture"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:8
+#, fuzzy, kde-format
+#| msgid "Amount"
+msgid "Grain amount"
+msgstr "Cantitate"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:9
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The intensity of the grain]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:12
+#, fuzzy, kde-format
+#| msgid "White Balance"
+msgid "Red grain"
+msgstr "Balanță de alb"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:13
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:16
+#, fuzzy, kde-format
+#| msgid "Green Tint"
+msgid "Green grain"
+msgstr "Tentă verde"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:17
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:20
+#, fuzzy, kde-format
+#| msgid "Balance"
+msgid "Blue grain"
+msgstr "Balans"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:21
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:24
+#, fuzzy, kde-format
+#| msgid "Amount"
+msgid "Blur amount"
+msgstr "Cantitate"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:25
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The intensity of the blur]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:28
+#, fuzzy, kde-format
+#| msgid "Amount"
+msgid "Dust amount"
+msgstr "Cantitate"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:29
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgstr "Rotire în jurul axei X"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:32
+#, kde-format
+msgid "Flicker"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:33
+#, kde-format
+msgid "<![CDATA[The amount of variation in brightness between frames]]>"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, fuzzy, kde-format
 #| msgid "3dflippo"
@@ -9849,6 +10213,69 @@ msgstr "Agitat"
 #: data/effects/frei0r/frei0r_nervous.xml:5
 #, kde-format
 msgid "Flushes frames in time in a nervous way"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:4
+#, fuzzy, kde-format
+#| msgid "Normalize"
+msgctxt "Levels Effect Name"
+msgid "Normaliz0r"
+msgstr "Normalizează"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:5
+#, kde-format
+msgid "Normalize (aka histogram stretch, contrast stretch)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:8
+#, fuzzy, kde-format
+#| msgid "Black color"
+msgid "Black point"
+msgstr "Culoare neagră"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:9
+#, kde-format
+msgid "Output color to which darkest input color is mapped (default black)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:12
+#, fuzzy, kde-format
+#| msgid "White color"
+msgid "White point"
+msgstr "Culoare albă"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:13
+#, kde-format
+msgid "Output color to which brightest input color is mapped (default white)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:16 data/effects/vidstab.xml:24
+#, fuzzy, kde-format
+msgid "Smoothing"
+msgstr "Netezime: "
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:17
+#, kde-format
+msgid ""
+"Amount of temporal smoothing of the input range, to reduce flicker (default "
+"0)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:20
+#, kde-format
+msgid "Independence"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:21
+#, kde-format
+msgid ""
+"Proportion of independent to linked channel normalization (default 1000)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:25
+#, kde-format
+msgid ""
+"Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
@@ -11518,6 +11945,196 @@ msgstr "Nuanțe de gri"
 #, fuzzy, kde-format
 msgid "Discard color information"
 msgstr "Configurare dispozitiv"
+
+#: data/effects/hsl_primaries.xml:4
+#, kde-format
+msgid "HSL Primaries"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:5
+#, kde-format
+msgid ""
+"Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
+"colors."
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:8
+#, fuzzy, kde-format
+msgid "Hue Shift Red"
+msgstr "Deplasare nuanță"
+
+#: data/effects/hsl_primaries.xml:11
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Red"
+msgstr "Saturație"
+
+#: data/effects/hsl_primaries.xml:14
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Red"
+msgstr "Luminozitate"
+
+#: data/effects/hsl_primaries.xml:17
+#, fuzzy, kde-format
+msgid "Hue Shift Yellow"
+msgstr "Deplasare nuanță"
+
+#: data/effects/hsl_primaries.xml:20
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Yellow"
+msgstr "Saturație"
+
+#: data/effects/hsl_primaries.xml:23
+#, kde-format
+msgid "Lightness Scale Yellow"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:26
+#, fuzzy, kde-format
+#| msgid "Offset X"
+msgid "Hue Shift Green"
+msgstr "Decalaj X"
+
+#: data/effects/hsl_primaries.xml:29
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Green"
+msgstr "Saturație"
+
+#: data/effects/hsl_primaries.xml:32
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Green"
+msgstr "Luminozitate"
+
+#: data/effects/hsl_primaries.xml:35
+#, fuzzy, kde-format
+msgid "Hue Shift Cyan"
+msgstr "Deplasare nuanță"
+
+#: data/effects/hsl_primaries.xml:38
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Cyan"
+msgstr "Saturație"
+
+#: data/effects/hsl_primaries.xml:41
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Cyan"
+msgstr "Luminozitate"
+
+#: data/effects/hsl_primaries.xml:44
+#, fuzzy, kde-format
+msgid "Hue Shift Blue"
+msgstr "Deplasare nuanță"
+
+#: data/effects/hsl_primaries.xml:47
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Blue"
+msgstr "Saturație"
+
+#: data/effects/hsl_primaries.xml:50
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Blue"
+msgstr "Luminozitate"
+
+#: data/effects/hsl_primaries.xml:53
+#, fuzzy, kde-format
+msgid "Hue Shift Magenta"
+msgstr "Deplasare nuanță"
+
+#: data/effects/hsl_primaries.xml:56
+#, kde-format
+msgid "Saturation Scale Magenta"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:59
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Magenta"
+msgstr "Luminozitate"
+
+#: data/effects/hsl_primaries.xml:63
+#, kde-format
+msgid "The amount of overlap or blending between primaries"
+msgstr ""
+
+#: data/effects/hsl_range.xml:4
+#, fuzzy, kde-format
+#| msgid "Set Zone In"
+msgid "HSL Range"
+msgstr "Stabilește intrarea zonei"
+
+#: data/effects/hsl_range.xml:5
+#, kde-format
+msgid ""
+"Adjust Hue, Saturation and Lightness for a range of hue values. The user can "
+"specify the range of the hue values to be adjusted."
+msgstr ""
+
+#: data/effects/hsl_range.xml:8
+#, fuzzy, kde-format
+#| msgid "Amount"
+msgid "Hue Center"
+msgstr "Cantitate"
+
+#: data/effects/hsl_range.xml:9
+#, kde-format
+msgid "The center value for the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:12
+#, fuzzy, kde-format
+#| msgid "Set Zone In"
+msgid "Hue Range"
+msgstr "Stabilește intrarea zonei"
+
+#: data/effects/hsl_range.xml:13
+#, kde-format
+msgid "The width of the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:17
+#, kde-format
+msgid "The amount to blend the edges of the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:20
+#, fuzzy, kde-format
+msgid "Hue Shift"
+msgstr "Deplasare nuanță"
+
+#: data/effects/hsl_range.xml:21
+#, kde-format
+msgid "The amount to shift the hue in the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:24
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale"
+msgstr "Saturație"
+
+#: data/effects/hsl_range.xml:25
+#, kde-format
+msgid "The amount to scale the saturation in the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:28
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale"
+msgstr "Luminozitate"
+
+#: data/effects/hsl_range.xml:29
+#, kde-format
+msgid "The amount to scale the lightness in the hue range"
+msgstr ""
 
 #: data/effects/invert.xml:4
 #, fuzzy, kde-format
@@ -13304,11 +13921,6 @@ msgstr "Contrast"
 msgid "Below this Contrast Field is discarded"
 msgstr ""
 
-#: data/effects/vidstab.xml:24
-#, fuzzy, kde-format
-msgid "Smoothing"
-msgstr "Netezime: "
-
 #: data/effects/vidstab.xml:25
 #, fuzzy, kde-format
 #| msgid "Number of frames to play (0 to play all frames)"
@@ -13667,138 +14279,138 @@ msgstr "Reverifică"
 msgid "To be completed"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:69
+#: data/kdenliveeffectscategory.rc:70
 #, kde-format
 msgid "Volume and Dynamics"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:72
+#: data/kdenliveeffectscategory.rc:74
 #, kde-format
 msgid "Reverb, Echo and Delays"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:75
+#: data/kdenliveeffectscategory.rc:78
 #, fuzzy, kde-format
 msgid "EQ and filters"
 msgstr "Dimensiune &originală"
 
-#: data/kdenliveeffectscategory.rc:78
+#: data/kdenliveeffectscategory.rc:82
 #, kde-format
 msgid "Modulators"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:81
+#: data/kdenliveeffectscategory.rc:86
 #, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:88
+#: data/kdenliveeffectscategory.rc:94
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1368
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
 msgstr "Unelte"
 
-#: data/kdenliveeffectscategory.rc:91
+#: data/kdenliveeffectscategory.rc:98
 #, kde-format
 msgid "Stereo and Binaural Images"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:94
+#: data/kdenliveeffectscategory.rc:102
 #, fuzzy, kde-format
 #| msgid "Scale"
 msgid "Pitch and Time"
 msgstr "Scalare"
 
-#: data/kdenliveeffectscategory.rc:98
+#: data/kdenliveeffectscategory.rc:106
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "CAPS Plugins"
 msgstr "Clip nevalid"
 
-#: data/kdenliveeffectscategory.rc:102
+#: data/kdenliveeffectscategory.rc:110
 #, kde-format
 msgid "TAP Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:106
+#: data/kdenliveeffectscategory.rc:114
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invada Plugins"
 msgstr "Clip nevalid"
 
-#: data/kdenliveeffectscategory.rc:110
+#: data/kdenliveeffectscategory.rc:118
 #, kde-format
 msgid "Ambisonic Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:114
+#: data/kdenliveeffectscategory.rc:122
 #, kde-format
 msgid "ZAM Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:118
+#: data/kdenliveeffectscategory.rc:126
 #, kde-format
 msgid "BLOP Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:122
+#: data/kdenliveeffectscategory.rc:130
 #, kde-format
 msgid "Steve Harris' SWH Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:126
+#: data/kdenliveeffectscategory.rc:134
 #, kde-format
 msgid "CMT Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:130
+#: data/kdenliveeffectscategory.rc:138
 #, kde-format
 msgid "DPF Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:134
+#: data/kdenliveeffectscategory.rc:142
 #, kde-format
 msgid "Calf  Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:138
-#: src/effects/effectlist/model/effectfilter.cpp:89
-#: src/effects/effectlist/model/effecttreemodel.cpp:100
-#, kde-format
-msgid "Deprecated"
-msgstr ""
-
-#: data/kdenliveeffectscategory.rc:142
+#: data/kdenliveeffectscategory.rc:146
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "LSP plugins"
 msgstr "Clip nevalid"
 
-#: data/kdenliveeffectscategory.rc:146
+#: data/kdenliveeffectscategory.rc:150
 #, kde-format
 msgid "LADSPA Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:150
+#: data/kdenliveeffectscategory.rc:154
 #, kde-format
 msgid "Guitarix Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:154
+#: data/kdenliveeffectscategory.rc:158
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Mvc Plugins"
 msgstr "Clip nevalid"
 
-#: data/kdenliveeffectscategory.rc:158
+#: data/kdenliveeffectscategory.rc:162
 #, kde-format
 msgid "VCO Plugins"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:162
+#: data/kdenliveeffectscategory.rc:166
 #, kde-format
 msgid "MLT ladspa"
+msgstr ""
+
+#: data/kdenliveeffectscategory.rc:170
+#: src/effects/effectlist/model/effectfilter.cpp:89
+#: src/effects/effectlist/model/effecttreemodel.cpp:100
+#, kde-format
+msgid "Deprecated"
 msgstr ""
 
 #: data/transitions/affine.xml:4
@@ -18855,14 +19467,6 @@ msgstr ""
 #, kde-format
 msgid "Beginning"
 msgstr "Început"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
-#: src/ui/wipeval_ui.ui:172
-#, kde-format
-msgid "End"
-msgstr "Sfârșit"
 
 #: src/dialogs/renderwidget.cpp:666
 #, fuzzy, kde-format
@@ -37432,11 +38036,6 @@ msgstr ""
 #~| msgid "Follow mouse"
 #~ msgid "Allow upscale"
 #~ msgstr "Urmărește șoricelul"
-
-#, fuzzy
-#~| msgid "Saturation"
-#~ msgid "Saturation (GPU)"
-#~ msgstr "Saturație"
 
 #, fuzzy
 #~| msgid "Vignette"

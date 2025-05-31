@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 02:43+0000\n"
+"POT-Creation-Date: 2025-05-31 02:39+0000\n"
 "PO-Revision-Date: 2025-04-27 16:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -205,7 +205,7 @@ msgstr "Орієнтація градієнта"
 msgid "Direction of the color gradient."
 msgstr "Напрямок градієнта кольорів."
 
-#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:85
+#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:90
 #, kde-format
 msgid "Channels"
 msgstr "Канали"
@@ -1390,6 +1390,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gradfun.xml:11
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_normalize.xml:20
+#: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, kde-format
 msgid "Strength"
 msgstr "Потужність"
@@ -1440,6 +1441,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
+#: data/effects/hsl_range.xml:16
 #, kde-format
 msgid "Blend"
 msgstr "Змішати"
@@ -2489,6 +2491,7 @@ msgid "<![CDATA[Sets the radius for the direction]]>"
 msgstr "<![CDATA[Встановлює радіус напрямку]]>"
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
+#: data/effects/avfilter/avfilter_scharr.xml:8
 #, kde-format
 msgid ""
 "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
@@ -2498,11 +2501,13 @@ msgstr ""
 "Червоний,Зелений,Синій,Усі"
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
+#: data/effects/avfilter/avfilter_scharr.xml:9
 #, kde-format
 msgid "Planes to filter"
 msgstr "Площини для фільтрування"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
+#: data/effects/avfilter/avfilter_scharr.xml:10
 #, kde-format
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
 msgstr ""
@@ -2575,6 +2580,7 @@ msgstr "Σ"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:11
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:22
+#: data/effects/hsl_primaries.xml:62
 #, kde-format
 msgid "Overlap"
 msgstr "Перекриття"
@@ -3595,7 +3601,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:8 data/effects/crop.xml:11
-#: data/effects/dance.xml:26 data/effects/frei0r/frei0r_mask0mate.xml:8
+#: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
+#: data/effects/frei0r/frei0r_mask0mate.xml:8
 #: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
@@ -3604,7 +3611,8 @@ msgstr "Ліворуч"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:11 data/effects/crop.xml:17
-#: data/effects/dance.xml:29 data/effects/frei0r/frei0r_mask0mate.xml:11
+#: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
+#: data/effects/frei0r/frei0r_mask0mate.xml:11
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
@@ -3613,6 +3621,7 @@ msgstr "Праворуч"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:14 data/effects/crop.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
 #: src/ui/configmisc_ui.ui:138
@@ -3622,6 +3631,7 @@ msgstr "Вгорі"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:17 data/effects/crop.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
 #: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
 #: src/ui/configmisc_ui.ui:143
@@ -3742,9 +3752,11 @@ msgstr "Лінійне,Квадратичне"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: data/effects/avfilter/avfilter_flanger.xml:38
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:21
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:24
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:24
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:54
@@ -4327,6 +4339,7 @@ msgstr "Застосувати оператор Кірша."
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
 #: data/effects/avfilter/avfilter_roberts.xml:12
+#: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
 #: src/widgets/geometrywidget.cpp:135
@@ -4342,6 +4355,7 @@ msgstr "Встановлює значення, на яке буде помнож
 #: data/effects/avfilter/avfilter_kirsch.xml:12
 #: data/effects/avfilter/avfilter_prewitt.xml:15
 #: data/effects/avfilter/avfilter_roberts.xml:15
+#: data/effects/avfilter/avfilter_scharr.xml:17
 #: data/effects/avfilter/avfilter_sobel.xml:15
 #, kde-format
 msgid "Delta"
@@ -5200,6 +5214,29 @@ msgstr "Радіус попереднього фільтрування колі�
 #, kde-format
 msgid "Chroma Strength"
 msgstr "Потужність колірності"
+
+#: data/effects/avfilter/avfilter_scharr.xml:4
+#, kde-format
+msgid "Scharr"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:5
+#, kde-format
+msgid "Apply Scharr operators for edge detection"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:14
+#, fuzzy, kde-format
+#| msgid "Set value which will be multiplied with filtered result."
+msgid ""
+"<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
+msgstr "Встановлює значення, на яке буде помножено фільтрований результат."
+
+#: data/effects/avfilter/avfilter_scharr.xml:18
+#, fuzzy, kde-format
+#| msgid "Set value which will be added to filtered result."
+msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+msgstr "Встановлює значення, яке буде додано до фільтрованого результату."
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:574
@@ -7681,6 +7718,208 @@ msgstr "Радіус взірця для аналізу"
 msgid "Denoise"
 msgstr "Усування шуму"
 
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
+#, kde-format
+msgid "VR360 Cap Top and Bottom"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
+#, kde-format
+msgid ""
+"Attempts to fill in zenith and nadir by stretching and blurring the image "
+"data. It samples a band of latitude near the start of the effect and "
+"stretches and blurs it over the pole."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
+#, kde-format
+msgid "Nearest-Neighbor,Bilinear"
+msgstr "Найближче суміжне,білінійне"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Determines the sampling method.]]>"
+msgstr "<![CDATA[Встановити спосіб усування шуму]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
+#, fuzzy, kde-format
+#| msgid "Enabled"
+msgid "Top Enabled"
+msgstr "Увімкнено"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the radius for the direction]]>"
+msgid "<![CDATA[Enables parameters for top portion]]>"
+msgstr "<![CDATA[Встановлює радіус напрямку]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
+#, kde-format
+msgid "<![CDATA[<b>--Top--</b> Start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
+#, kde-format
+msgid ""
+"<![CDATA[Degrees from the horizon<br>\n"
+"    \twhere we start to fill in]]>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
+#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
+#: src/ui/wipeval_ui.ui:172
+#, kde-format
+msgid "End"
+msgstr "Кінець"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:24
+#, kde-format
+msgid ""
+"<![CDATA[Degrees from the horizon<br>\n"
+"    \twhere we reach maximum blur]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
+#, fuzzy, kde-format
+#| msgid "Blend"
+msgid "Blend In"
+msgstr "Змішати"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define where the gradient starts.]]>"
+msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
+msgstr "<![CDATA[Визначити місце, де починається градієнт.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
+#, fuzzy, kde-format
+#| msgid "Blend"
+msgid "Blend Out"
+msgstr "Змішати"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the alpha matrix horizontal size]]>"
+msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
+msgstr "<![CDATA[Встановити горизонтальний розмір матриці прозорості]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
+#, fuzzy, kde-format
+#| msgctxt "Image Fade In Effect Name"
+#| msgid "Fade in"
+msgid "Fade In"
+msgstr "Наростання"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:36
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Length of the profile in pixel]]>"
+msgid "<![CDATA[Degrees to fade the effect in over]]>"
+msgstr "<![CDATA[Довжина профілю у пікселях]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define where the gradient starts.]]>"
+msgid "<![CDATA[Blur width at start]]>"
+msgstr "<![CDATA[Визначити місце, де починається градієнт.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+msgid "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
+msgstr "<![CDATA[Вибрати колір для лінії перехрестя або профілю]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the fit mode]]>"
+msgid "<![CDATA[Blur width at end]]>"
+msgstr "<![CDATA[Встановити режим наближення]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
+#, kde-format
+msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define where the gradient starts.]]>"
+msgid "<![CDATA[Blur height at start]]>"
+msgstr "<![CDATA[Визначити місце, де починається градієнт.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define the transparency at the bottom of the gradient.]]>"
+msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
+msgstr "<![CDATA[Визначити прозорість у нижній частині градієнта.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the fit mode]]>"
+msgid "<![CDATA[Blur height at end]]>"
+msgstr "<![CDATA[Встановити режим наближення]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Define the transparency at the top of the gradient.]]>"
+msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
+msgstr "<![CDATA[Визначити прозорість у верхній частині градієнта.]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
+#, fuzzy, kde-format
+#| msgid "Bottom left"
+msgid "Bottom Enabled"
+msgstr "Внизу ліворуч"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[comment]]>"
+msgstr "<![CDATA[Встановити спосіб усування шуму]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
+#, kde-format
+msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
+#, kde-format
+msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
+#, kde-format
+msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
+msgid "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
+msgstr "<![CDATA[Вибрати колір для лінії перехрестя або профілю]]>"
+
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
 msgid "VR360 Equirectangular Mask"
@@ -7719,16 +7958,6 @@ msgstr "Початок за горизонталлю"
 #, kde-format
 msgid "Horizontal End"
 msgstr "Кінець за горизонталлю"
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
-#, kde-format
-msgid "Nearest-Neighbor,Bilinear"
-msgstr "Найближче суміжне,білінійне"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:4
 #, kde-format
@@ -7813,6 +8042,60 @@ msgstr "ПЗ"
 #, kde-format
 msgid "Nearest-neighbor,Bilinear"
 msgstr "Найближче суміжне,білінійне"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:4
+#, fuzzy, kde-format
+#| msgid "VR360 Transform"
+msgid "VR360 Wrap"
+msgstr "Перетворення VR360"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:5
+#, kde-format
+msgid ""
+"Stretches a section of the equirectangular panorama to cover the entire VR "
+"sphere"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set denoising method]]>"
+msgid "<![CDATA[Determines the sampling method]]>"
+msgstr "<![CDATA[Встановити спосіб усування шуму]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
+msgstr "<![CDATA[Встановлює непрозорість для фонового зображення]]>"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
+#, fuzzy, kde-format
+#| msgid "Crop start:"
+msgid "Blur start"
+msgstr "Обрізати початок:"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
+#, kde-format
+msgid ""
+"<![CDATA[Horizontal fraction of the unchanged area to blur over in the "
+"equator band]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
+#, fuzzy, kde-format
+#| msgid "Blur type"
+msgid "Blur end"
+msgstr "Тип розмивання"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
+#, kde-format
+msgid ""
+"<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
+"poles]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
 #, kde-format
@@ -8944,6 +9227,100 @@ msgstr "Колір 5"
 msgid "Set the shape color of the fifth detected face."
 msgstr "Встановити колір штампа для п’ятого виявленого обличчя."
 
+#: data/effects/frei0r/frei0r_filmgrain.xml:4
+#, fuzzy, kde-format
+#| msgctxt "Grain Effect Name"
+#| msgid "Grain"
+msgid "Film Grain"
+msgstr "Зерно"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:5
+#, kde-format
+msgid "Adds film-like grain and softens the picture"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:8
+#, fuzzy, kde-format
+#| msgid "Tint amount"
+msgid "Grain amount"
+msgstr "Рівень відтінку"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:9
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Set the opacity of the graticule]]>"
+msgid "<![CDATA[The intensity of the grain]]>"
+msgstr "<![CDATA[Встановити непрозорість градуювання]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:12
+#, fuzzy, kde-format
+#| msgid "Red balance"
+msgid "Red grain"
+msgstr "Баланс червоного"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:13
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+msgstr "<![CDATA[Коефіцієнт масштабування для вісі X]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:16
+#, fuzzy, kde-format
+#| msgid "Green Tint"
+msgid "Green grain"
+msgstr "Відтінок зеленого"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:17
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
+msgstr "<![CDATA[Коефіцієнт масштабування для вісі X]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:20
+#, fuzzy, kde-format
+#| msgid "Blue balance"
+msgid "Blue grain"
+msgstr "Баланс синього"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:21
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
+msgstr "<![CDATA[Коефіцієнт масштабування для вісі X]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:24
+#, fuzzy, kde-format
+#| msgid "Dry amount"
+msgid "Blur amount"
+msgstr "Рівень сухості"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:25
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Tilting of the profile]]>"
+msgid "<![CDATA[The intensity of the blur]]>"
+msgstr "<![CDATA[Нахил профілю]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:28
+#, fuzzy, kde-format
+#| msgid "Wet amount"
+msgid "Dust amount"
+msgstr "Рівень вологості"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:29
+#, fuzzy, kde-format
+#| msgid "<![CDATA[Length of the profile in pixel]]>"
+msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgstr "<![CDATA[Довжина профілю у пікселях]]>"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:32
+#, kde-format
+msgid "Flicker"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:33
+#, kde-format
+msgid "<![CDATA[The amount of variation in brightness between frames]]>"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
 msgid "Flippo"
@@ -9804,6 +10181,71 @@ msgstr "Нервовість"
 #, kde-format
 msgid "Flushes frames in time in a nervous way"
 msgstr "Пересуває кадри монтажним столом з метою створення ефекту нервування"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:4
+#, fuzzy, kde-format
+#| msgid "Normalize"
+msgctxt "Levels Effect Name"
+msgid "Normaliz0r"
+msgstr "Нормалізувати"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:5
+#, kde-format
+msgid "Normalize (aka histogram stretch, contrast stretch)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:8
+#, fuzzy, kde-format
+#| msgid "Black output"
+msgid "Black point"
+msgstr "Вихідний чорний"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:9
+#, kde-format
+msgid "Output color to which darkest input color is mapped (default black)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:12
+#, fuzzy, kde-format
+#| msgid "White Noise"
+msgid "White point"
+msgstr "Білий шум"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:13
+#, kde-format
+msgid "Output color to which brightest input color is mapped (default white)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:16 data/effects/vidstab.xml:24
+#, kde-format
+msgid "Smoothing"
+msgstr "Згладжування"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:17
+#, fuzzy, kde-format
+#| msgid "Temporal smoothing, to reduce flicker"
+msgid ""
+"Amount of temporal smoothing of the input range, to reduce flicker (default "
+"0)"
+msgstr "Згладжування за часом для усування блимання"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:20
+#, fuzzy, kde-format
+#| msgid "Install missing dependencies"
+msgid "Independence"
+msgstr "Встановити потрібні залежності"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:21
+#, kde-format
+msgid ""
+"Proportion of independent to linked channel normalization (default 1000)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:25
+#, kde-format
+msgid ""
+"Strength of filter, from no effect (0) to full normalization (default 1000)"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
@@ -11557,6 +11999,206 @@ msgstr "Градації сірого"
 #, kde-format
 msgid "Discard color information"
 msgstr "Відкинути відомості про кольори"
+
+#: data/effects/hsl_primaries.xml:4
+#, fuzzy, kde-format
+#| msgctxt "Primaries Effect Name"
+#| msgid "Primaries"
+msgid "HSL Primaries"
+msgstr "Основні"
+
+#: data/effects/hsl_primaries.xml:5
+#, kde-format
+msgid ""
+"Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
+"colors."
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:8
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Red"
+msgstr "Зсув відтінку"
+
+#: data/effects/hsl_primaries.xml:11
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Red"
+msgstr "Насиченість"
+
+#: data/effects/hsl_primaries.xml:14
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale Red"
+msgstr "Освітленість"
+
+#: data/effects/hsl_primaries.xml:17
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Yellow"
+msgstr "Зсув відтінку"
+
+#: data/effects/hsl_primaries.xml:20
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Yellow"
+msgstr "Насиченість"
+
+#: data/effects/hsl_primaries.xml:23
+#, kde-format
+msgid "Lightness Scale Yellow"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:26
+#, fuzzy, kde-format
+#| msgid "Lift: Green"
+msgid "Hue Shift Green"
+msgstr "Підняття: зелений"
+
+#: data/effects/hsl_primaries.xml:29
+#, fuzzy, kde-format
+#| msgid "Saturation (GPU)"
+msgid "Saturation Scale Green"
+msgstr "Насиченість (ГП)"
+
+#: data/effects/hsl_primaries.xml:32
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale Green"
+msgstr "Освітленість"
+
+#: data/effects/hsl_primaries.xml:35
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Cyan"
+msgstr "Зсув відтінку"
+
+#: data/effects/hsl_primaries.xml:38
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Cyan"
+msgstr "Насиченість"
+
+#: data/effects/hsl_primaries.xml:41
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale Cyan"
+msgstr "Освітленість"
+
+#: data/effects/hsl_primaries.xml:44
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Blue"
+msgstr "Зсув відтінку"
+
+#: data/effects/hsl_primaries.xml:47
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Blue"
+msgstr "Насиченість"
+
+#: data/effects/hsl_primaries.xml:50
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale Blue"
+msgstr "Освітленість"
+
+#: data/effects/hsl_primaries.xml:53
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Magenta"
+msgstr "Зсув відтінку"
+
+#: data/effects/hsl_primaries.xml:56
+#, kde-format
+msgid "Saturation Scale Magenta"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:59
+#, fuzzy, kde-format
+#| msgid "Lightness of the colorized image."
+msgid "Lightness Scale Magenta"
+msgstr "Освітленість тонованого зображення."
+
+#: data/effects/hsl_primaries.xml:63
+#, kde-format
+msgid "The amount of overlap or blending between primaries"
+msgstr ""
+
+#: data/effects/hsl_range.xml:4
+#, fuzzy, kde-format
+#| msgid "Set Range"
+msgid "HSL Range"
+msgstr "Встановити діапазон"
+
+#: data/effects/hsl_range.xml:5
+#, kde-format
+msgid ""
+"Adjust Hue, Saturation and Lightness for a range of hue values. The user can "
+"specify the range of the hue values to be adjusted."
+msgstr ""
+
+#: data/effects/hsl_range.xml:8
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Hue Center"
+msgstr "За центром"
+
+#: data/effects/hsl_range.xml:9
+#, kde-format
+msgid "The center value for the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:12
+#, fuzzy, kde-format
+#| msgid "Set Range"
+msgid "Hue Range"
+msgstr "Встановити діапазон"
+
+#: data/effects/hsl_range.xml:13
+#, kde-format
+msgid "The width of the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:17
+#, fuzzy, kde-format
+#| msgid "The amount in pixel to blur the edge of the shadow"
+msgid "The amount to blend the edges of the hue range"
+msgstr "Розмір розмивання краю тіні у пікселях"
+
+#: data/effects/hsl_range.xml:20
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift"
+msgstr "Зсув відтінку"
+
+#: data/effects/hsl_range.xml:21
+#, kde-format
+msgid "The amount to shift the hue in the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:24
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale"
+msgstr "Насиченість"
+
+#: data/effects/hsl_range.xml:25
+#, kde-format
+msgid "The amount to scale the saturation in the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:28
+#, fuzzy, kde-format
+#| msgid "Lightness"
+msgid "Lightness Scale"
+msgstr "Освітленість"
+
+#: data/effects/hsl_range.xml:29
+#, fuzzy, kde-format
+#| msgid "The amount in pixel to blur the edge of the shadow"
+msgid "The amount to scale the lightness in the hue range"
+msgstr "Розмір розмивання краю тіні у пікселях"
 
 #: data/effects/invert.xml:4
 #, kde-format
@@ -13316,11 +13958,6 @@ msgstr "Мін. контрастність"
 msgid "Below this Contrast Field is discarded"
 msgstr "Значення поля контрастності, нижчі за це, буде відкинуто"
 
-#: data/effects/vidstab.xml:24
-#, kde-format
-msgid "Smoothing"
-msgstr "Згладжування"
-
 #: data/effects/vidstab.xml:25
 #, kde-format
 msgid "Number of frames for lowpass filtering"
@@ -13664,134 +14301,134 @@ msgstr "Додаткові перевірки"
 msgid "To be completed"
 msgstr "Буде доповнено"
 
-#: data/kdenliveeffectscategory.rc:69
+#: data/kdenliveeffectscategory.rc:70
 #, kde-format
 msgid "Volume and Dynamics"
 msgstr "Гучність і динаміка"
 
-#: data/kdenliveeffectscategory.rc:72
+#: data/kdenliveeffectscategory.rc:74
 #, kde-format
 msgid "Reverb, Echo and Delays"
 msgstr "Відлуння, луна та затримки"
 
-#: data/kdenliveeffectscategory.rc:75
+#: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "EQ and filters"
 msgstr "Вирівнювання та фільтри"
 
-#: data/kdenliveeffectscategory.rc:78
+#: data/kdenliveeffectscategory.rc:82
 #, kde-format
 msgid "Modulators"
 msgstr "Модулятори"
 
-#: data/kdenliveeffectscategory.rc:81
+#: data/kdenliveeffectscategory.rc:86
 #, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Вилучення шумів та відновлення звуку"
 
-#: data/kdenliveeffectscategory.rc:88
+#: data/kdenliveeffectscategory.rc:94
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1368
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
 msgstr "Інструменти"
 
-#: data/kdenliveeffectscategory.rc:91
+#: data/kdenliveeffectscategory.rc:98
 #, kde-format
 msgid "Stereo and Binaural Images"
 msgstr "Стерео та стереофонічні образи"
 
-#: data/kdenliveeffectscategory.rc:94
+#: data/kdenliveeffectscategory.rc:102
 #, kde-format
 msgid "Pitch and Time"
 msgstr "Тон і час"
 
-#: data/kdenliveeffectscategory.rc:98
+#: data/kdenliveeffectscategory.rc:106
 #, kde-format
 msgid "CAPS Plugins"
 msgstr "Додатки CAPS"
 
-#: data/kdenliveeffectscategory.rc:102
+#: data/kdenliveeffectscategory.rc:110
 #, kde-format
 msgid "TAP Plugins"
 msgstr "Додатки TAP"
 
-#: data/kdenliveeffectscategory.rc:106
+#: data/kdenliveeffectscategory.rc:114
 #, kde-format
 msgid "Invada Plugins"
 msgstr "Додатки Invada"
 
-#: data/kdenliveeffectscategory.rc:110
+#: data/kdenliveeffectscategory.rc:118
 #, kde-format
 msgid "Ambisonic Plugins"
 msgstr "Амбісонічні додатки"
 
-#: data/kdenliveeffectscategory.rc:114
+#: data/kdenliveeffectscategory.rc:122
 #, kde-format
 msgid "ZAM Plugins"
 msgstr "Додатки ZAM"
 
-#: data/kdenliveeffectscategory.rc:118
+#: data/kdenliveeffectscategory.rc:126
 #, kde-format
 msgid "BLOP Plugins"
 msgstr "Додатки BLOP"
 
-#: data/kdenliveeffectscategory.rc:122
+#: data/kdenliveeffectscategory.rc:130
 #, kde-format
 msgid "Steve Harris' SWH Plugins"
 msgstr "Додатки SWH Стіва Гарріса"
 
-#: data/kdenliveeffectscategory.rc:126
+#: data/kdenliveeffectscategory.rc:134
 #, kde-format
 msgid "CMT Plugins"
 msgstr "Додатки CMT"
 
-#: data/kdenliveeffectscategory.rc:130
+#: data/kdenliveeffectscategory.rc:138
 #, kde-format
 msgid "DPF Plugins"
 msgstr "Додатки DPF"
 
-#: data/kdenliveeffectscategory.rc:134
+#: data/kdenliveeffectscategory.rc:142
 #, kde-format
 msgid "Calf  Plugins"
 msgstr "Додатки Calf"
 
-#: data/kdenliveeffectscategory.rc:138
+#: data/kdenliveeffectscategory.rc:146
+#, kde-format
+msgid "LSP plugins"
+msgstr "Додатки LSP"
+
+#: data/kdenliveeffectscategory.rc:150
+#, kde-format
+msgid "LADSPA Plugins"
+msgstr "Додатки LADSPA"
+
+#: data/kdenliveeffectscategory.rc:154
+#, kde-format
+msgid "Guitarix Plugins"
+msgstr "Додатки Guitarix"
+
+#: data/kdenliveeffectscategory.rc:158
+#, kde-format
+msgid "Mvc Plugins"
+msgstr "Додатки Mvc"
+
+#: data/kdenliveeffectscategory.rc:162
+#, kde-format
+msgid "VCO Plugins"
+msgstr "Додатки VCO"
+
+#: data/kdenliveeffectscategory.rc:166
+#, kde-format
+msgid "MLT ladspa"
+msgstr "MLT ladspa"
+
+#: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:89
 #: src/effects/effectlist/model/effecttreemodel.cpp:100
 #, kde-format
 msgid "Deprecated"
 msgstr "Застаріле"
-
-#: data/kdenliveeffectscategory.rc:142
-#, kde-format
-msgid "LSP plugins"
-msgstr "Додатки LSP"
-
-#: data/kdenliveeffectscategory.rc:146
-#, kde-format
-msgid "LADSPA Plugins"
-msgstr "Додатки LADSPA"
-
-#: data/kdenliveeffectscategory.rc:150
-#, kde-format
-msgid "Guitarix Plugins"
-msgstr "Додатки Guitarix"
-
-#: data/kdenliveeffectscategory.rc:154
-#, kde-format
-msgid "Mvc Plugins"
-msgstr "Додатки Mvc"
-
-#: data/kdenliveeffectscategory.rc:158
-#, kde-format
-msgid "VCO Plugins"
-msgstr "Додатки VCO"
-
-#: data/kdenliveeffectscategory.rc:162
-#, kde-format
-msgid "MLT ladspa"
-msgstr "MLT ladspa"
 
 #: data/transitions/affine.xml:4
 #, kde-format
@@ -18570,14 +19207,6 @@ msgstr "Оприлюднений документ можна знайти тут
 #, kde-format
 msgid "Beginning"
 msgstr "Початок"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
-#: src/ui/wipeval_ui.ui:172
-#, kde-format
-msgid "End"
-msgstr "Кінець"
 
 #: src/dialogs/renderwidget.cpp:666
 #, kde-format
@@ -36828,9 +37457,6 @@ msgstr "%1 год."
 
 #~ msgid "Allow upscale"
 #~ msgstr "Дозволити збільшення масштабу"
-
-#~ msgid "Saturation (GPU)"
-#~ msgstr "Насиченість (ГП)"
 
 #~ msgid "Unsharp mask (GPU)"
 #~ msgstr "Маска зменшення різкості (ГП)"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-29 02:43+0000\n"
+"POT-Creation-Date: 2025-05-31 02:39+0000\n"
 "PO-Revision-Date: 2025-02-17 16:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -207,7 +207,7 @@ msgstr "Liukuvärin suunta"
 msgid "Direction of the color gradient."
 msgstr "Liukuvärin suunnan ohjaus."
 
-#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:85
+#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:90
 #, kde-format
 msgid "Channels"
 msgstr "Kanavat"
@@ -1438,6 +1438,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_gradfun.xml:11
 #: data/effects/avfilter/avfilter_histeq.xml:8
 #: data/effects/avfilter/avfilter_normalize.xml:20
+#: data/effects/frei0r/frei0r_normaliz0r.xml:24
 #, fuzzy, kde-format
 #| msgid "Stretch"
 msgid "Strength"
@@ -1487,6 +1488,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
+#: data/effects/hsl_range.xml:16
 #, fuzzy, kde-format
 #| msgid "Blend mode"
 msgid "Blend"
@@ -2536,6 +2538,7 @@ msgid "<![CDATA[Sets the radius for the direction]]>"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:16
+#: data/effects/avfilter/avfilter_scharr.xml:8
 #, kde-format
 msgid ""
 "Alpha,Luminance (Y plane),Chroma (U plane),Chroma (V plane),Red,Green,Blue,"
@@ -2543,12 +2546,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_dblur.xml:17
+#: data/effects/avfilter/avfilter_scharr.xml:9
 #, fuzzy, kde-format
 #| msgid "Edge glow filter"
 msgid "Planes to filter"
 msgstr "Reunahehkutussuodatin"
 
 #: data/effects/avfilter/avfilter_dblur.xml:18
+#: data/effects/avfilter/avfilter_scharr.xml:10
 #, kde-format
 msgid "<![CDATA[Sets the color space plane the effect is applied to]]>"
 msgstr ""
@@ -2610,6 +2615,7 @@ msgstr "Sigma"
 
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:11
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:22
+#: data/effects/hsl_primaries.xml:62
 #, fuzzy, kde-format
 #| msgid "Overlay:"
 msgid "Overlap"
@@ -3662,7 +3668,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:8 data/effects/crop.xml:11
-#: data/effects/dance.xml:26 data/effects/frei0r/frei0r_mask0mate.xml:8
+#: data/effects/dance.xml:26 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
+#: data/effects/frei0r/frei0r_mask0mate.xml:8
 #: src/dialogs/managesubtitles.cpp:507 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
@@ -3671,7 +3678,8 @@ msgstr "Vasemmalla"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:11 data/effects/crop.xml:17
-#: data/effects/dance.xml:29 data/effects/frei0r/frei0r_mask0mate.xml:11
+#: data/effects/dance.xml:29 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
+#: data/effects/frei0r/frei0r_mask0mate.xml:11
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
@@ -3680,6 +3688,7 @@ msgstr "Oikealla"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:14 data/effects/crop.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
 #: data/effects/frei0r/frei0r_mask0mate.xml:14
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:107
 #: src/ui/configmisc_ui.ui:138
@@ -3689,6 +3698,7 @@ msgstr "Ylhäällä"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/avfilter/avfilter_fillborders.xml:17 data/effects/crop.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
 #: data/effects/frei0r/frei0r_mask0mate.xml:17
 #: src/dialogs/managesubtitles.cpp:501 src/dialogs/subtitlestyleedit.cpp:113
 #: src/ui/configmisc_ui.ui:143
@@ -3805,9 +3815,11 @@ msgstr "Lineaarinen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: data/effects/avfilter/avfilter_flanger.xml:38
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:21
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:24
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:24
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:9
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:15
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:54
@@ -4411,6 +4423,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:8
 #: data/effects/avfilter/avfilter_prewitt.xml:12
 #: data/effects/avfilter/avfilter_roberts.xml:12
+#: data/effects/avfilter/avfilter_scharr.xml:13
 #: data/effects/avfilter/avfilter_sobel.xml:12
 #: data/effects/avfilter/avfilter_waveform.xml:60 data/effects/charcoal.xml:14
 #: src/widgets/geometrywidget.cpp:135
@@ -4426,6 +4439,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_kirsch.xml:12
 #: data/effects/avfilter/avfilter_prewitt.xml:15
 #: data/effects/avfilter/avfilter_roberts.xml:15
+#: data/effects/avfilter/avfilter_scharr.xml:17
 #: data/effects/avfilter/avfilter_sobel.xml:15
 #, fuzzy, kde-format
 #| msgid "Y-Delta"
@@ -5330,6 +5344,27 @@ msgstr ""
 #| msgid "Glow strength"
 msgid "Chroma Strength"
 msgstr "Hehkutusvoima"
+
+#: data/effects/avfilter/avfilter_scharr.xml:4
+#, kde-format
+msgid "Scharr"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:5
+#, kde-format
+msgid "Apply Scharr operators for edge detection"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:14
+#, kde-format
+msgid ""
+"<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
+msgstr ""
+
+#: data/effects/avfilter/avfilter_scharr.xml:18
+#, kde-format
+msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:574
@@ -7798,6 +7833,201 @@ msgstr "Analyysitieto"
 msgid "Denoise"
 msgstr "Kohinan poisto"
 
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
+#, kde-format
+msgid "VR360 Cap Top and Bottom"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
+#, kde-format
+msgid ""
+"Attempts to fill in zenith and nadir by stretching and blurring the image "
+"data. It samples a band of latitude near the start of the effect and "
+"stretches and blurs it over the pole."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
+#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
+#, fuzzy, kde-format
+#| msgid "Nearest Neighbor (fast)"
+msgid "Nearest-Neighbor,Bilinear"
+msgstr "Lähin naapuri (nopea)"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Determines the sampling method.]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
+#, fuzzy, kde-format
+#| msgid "Enabled"
+msgid "Top Enabled"
+msgstr "Käytössä"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Enables parameters for top portion]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
+#, kde-format
+msgid "<![CDATA[<b>--Top--</b> Start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
+#, kde-format
+msgid ""
+"<![CDATA[Degrees from the horizon<br>\n"
+"    \twhere we start to fill in]]>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
+#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
+#: src/ui/wipeval_ui.ui:172
+#, kde-format
+msgid "End"
+msgstr "Loppu"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:24
+#, kde-format
+msgid ""
+"<![CDATA[Degrees from the horizon<br>\n"
+"    \twhere we reach maximum blur]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
+#, fuzzy, kde-format
+#| msgid "Blend mode"
+msgid "Blend In"
+msgstr "Sekoitustila"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
+#, kde-format
+msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
+#, fuzzy, kde-format
+#| msgid "Blend mode"
+msgid "Blend Out"
+msgstr "Sekoitustila"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
+#, kde-format
+msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
+#, fuzzy, kde-format
+#| msgctxt "Image Fade In Effect Name"
+#| msgid "Fade in"
+msgid "Fade In"
+msgstr "Häivytä sisään"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:36
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Degrees to fade the effect in over]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Blur width at start]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
+#, kde-format
+msgid "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Blur width at end]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
+#, kde-format
+msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
+#, kde-format
+msgid "<![CDATA[Blur height at start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
+#, kde-format
+msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[Blur height at end]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
+#, kde-format
+msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
+#, fuzzy, kde-format
+#| msgid "Bottom left"
+msgid "Bottom Enabled"
+msgstr "Alas vasen"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
+#, kde-format
+msgid "<![CDATA[comment]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
+#, kde-format
+msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
+#, kde-format
+msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
+#, kde-format
+msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
+#, kde-format
+msgid "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, fuzzy, kde-format
 #| msgid "Rectangular window"
@@ -7837,17 +8067,6 @@ msgstr "Vaakakeskikohta"
 #| msgid "Horizontal"
 msgid "Horizontal End"
 msgstr "Vaaka"
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:23
-#: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:51
-#: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:17
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
-msgid "Nearest-Neighbor,Bilinear"
-msgstr "Lähin naapuri (nopea)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:4
 #, fuzzy, kde-format
@@ -7933,6 +8152,59 @@ msgstr ""
 #| msgid "Nearest Neighbor (fast)"
 msgid "Nearest-neighbor,Bilinear"
 msgstr "Lähin naapuri (nopea)"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:4
+#, fuzzy, kde-format
+#| msgid "Transform"
+msgid "VR360 Wrap"
+msgstr "Muunna"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:5
+#, kde-format
+msgid ""
+"Stretches a section of the equirectangular panorama to cover the entire VR "
+"sphere"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
+#, fuzzy, kde-format
+#| msgid "Sets the thickness of the line graph in pixels."
+msgid "<![CDATA[Determines the sampling method]]>"
+msgstr "Asettaa viivakaavion paksuuden kuvapisteinä."
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
+#, kde-format
+msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
+#, fuzzy, kde-format
+#| msgid "Crop start:"
+msgid "Blur start"
+msgstr "Rajauksen alku:"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
+#, kde-format
+msgid ""
+"<![CDATA[Horizontal fraction of the unchanged area to blur over in the "
+"equator band]]>"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
+#, fuzzy, kde-format
+#| msgid "Blur type"
+msgid "Blur end"
+msgstr "Sumennus"
+
+#: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
+#, kde-format
+msgid ""
+"<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
+"poles]]>"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
 #, fuzzy, kde-format
@@ -9213,6 +9485,100 @@ msgstr "Väri 5"
 msgid "Set the shape color of the fifth detected face."
 msgstr "Asettaa viidensien tunnistettujen kasvojen kuviovärin."
 
+#: data/effects/frei0r/frei0r_filmgrain.xml:4
+#, fuzzy, kde-format
+#| msgctxt "Grain Effect Name"
+#| msgid "Grain"
+msgid "Film Grain"
+msgstr "Rakeisuus"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:5
+#, kde-format
+msgid "Adds film-like grain and softens the picture"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:8
+#, fuzzy, kde-format
+#| msgid "Tint amount"
+msgid "Grain amount"
+msgstr "Sävytyksen määrä"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:9
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The intensity of the grain]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:12
+#, fuzzy, kde-format
+#| msgid "Center balance"
+msgid "Red grain"
+msgstr "Keskibalanssi"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:13
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:16
+#, fuzzy, kde-format
+#| msgid "Green Tint"
+msgid "Green grain"
+msgstr "Vihreä sävy"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:17
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:20
+#, fuzzy, kde-format
+#| msgid "Balance"
+msgid "Blue grain"
+msgstr "Balanssi"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:21
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:24
+#, fuzzy, kde-format
+#| msgid "Mix amount"
+msgid "Blur amount"
+msgstr "Sekoituksen määrä"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:25
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The intensity of the blur]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:28
+#, fuzzy, kde-format
+#| msgid "Tint amount"
+msgid "Dust amount"
+msgstr "Sävytyksen määrä"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:29
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "<![CDATA[The amount of dust particles on the image]]>"
+msgstr "Kierrä (X-akseli)"
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:32
+#, kde-format
+msgid "Flicker"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_filmgrain.xml:33
+#, kde-format
+msgid "<![CDATA[The amount of variation in brightness between frames]]>"
+msgstr ""
+
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, fuzzy, kde-format
 #| msgid "Flip"
@@ -10076,6 +10442,70 @@ msgstr "Hermostunut"
 #: data/effects/frei0r/frei0r_nervous.xml:5
 #, kde-format
 msgid "Flushes frames in time in a nervous way"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:4
+#, fuzzy, kde-format
+#| msgid "Normalize"
+msgctxt "Levels Effect Name"
+msgid "Normaliz0r"
+msgstr "Normalisoi"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:5
+#, kde-format
+msgid "Normalize (aka histogram stretch, contrast stretch)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:8
+#, fuzzy, kde-format
+#| msgid "Black output"
+msgid "Black point"
+msgstr "Musta ulostulo"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:9
+#, kde-format
+msgid "Output color to which darkest input color is mapped (default black)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:12
+#, fuzzy, kde-format
+#| msgid "White Noise"
+msgid "White point"
+msgstr "Valkoinen kohina"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:13
+#, kde-format
+msgid "Output color to which brightest input color is mapped (default white)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:16 data/effects/vidstab.xml:24
+#, kde-format
+msgid "Smoothing"
+msgstr "Pehmennys"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:17
+#, kde-format
+msgid ""
+"Amount of temporal smoothing of the input range, to reduce flicker (default "
+"0)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:20
+#, fuzzy, kde-format
+#| msgid "Install missing dependencies"
+msgid "Independence"
+msgstr "Asenna puuttuvat riippuvuudet"
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:21
+#, kde-format
+msgid ""
+"Proportion of independent to linked channel normalization (default 1000)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_normaliz0r.xml:25
+#, kde-format
+msgid ""
+"Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
@@ -11791,6 +12221,205 @@ msgstr "Harmaasävy"
 #, kde-format
 msgid "Discard color information"
 msgstr "Hylkää väritieto"
+
+#: data/effects/hsl_primaries.xml:4
+#, fuzzy, kde-format
+#| msgid "Primaries"
+msgid "HSL Primaries"
+msgstr "Päävärit"
+
+#: data/effects/hsl_primaries.xml:5
+#, kde-format
+msgid ""
+"Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
+"colors."
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:8
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Red"
+msgstr "Sävysiirtymä"
+
+#: data/effects/hsl_primaries.xml:11
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Red"
+msgstr "Kylläisyys"
+
+#: data/effects/hsl_primaries.xml:14
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Red"
+msgstr "Kirkkaus"
+
+#: data/effects/hsl_primaries.xml:17
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Yellow"
+msgstr "Sävysiirtymä"
+
+#: data/effects/hsl_primaries.xml:20
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Yellow"
+msgstr "Kylläisyys"
+
+#: data/effects/hsl_primaries.xml:23
+#, kde-format
+msgid "Lightness Scale Yellow"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:26
+#, fuzzy, kde-format
+#| msgid "Lift: Green"
+msgid "Hue Shift Green"
+msgstr "Kerros: vihreä"
+
+#: data/effects/hsl_primaries.xml:29
+#, fuzzy, kde-format
+#| msgid "Saturation (GPU)"
+msgid "Saturation Scale Green"
+msgstr "Kylläisyys (GPU)"
+
+#: data/effects/hsl_primaries.xml:32
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Green"
+msgstr "Kirkkaus"
+
+#: data/effects/hsl_primaries.xml:35
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Cyan"
+msgstr "Sävysiirtymä"
+
+#: data/effects/hsl_primaries.xml:38
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Cyan"
+msgstr "Kylläisyys"
+
+#: data/effects/hsl_primaries.xml:41
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Cyan"
+msgstr "Kirkkaus"
+
+#: data/effects/hsl_primaries.xml:44
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Blue"
+msgstr "Sävysiirtymä"
+
+#: data/effects/hsl_primaries.xml:47
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale Blue"
+msgstr "Kylläisyys"
+
+#: data/effects/hsl_primaries.xml:50
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale Blue"
+msgstr "Kirkkaus"
+
+#: data/effects/hsl_primaries.xml:53
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift Magenta"
+msgstr "Sävysiirtymä"
+
+#: data/effects/hsl_primaries.xml:56
+#, kde-format
+msgid "Saturation Scale Magenta"
+msgstr ""
+
+#: data/effects/hsl_primaries.xml:59
+#, fuzzy, kde-format
+#| msgid "Brightness down"
+msgid "Lightness Scale Magenta"
+msgstr "Kirkkauden lasku"
+
+#: data/effects/hsl_primaries.xml:63
+#, kde-format
+msgid "The amount of overlap or blending between primaries"
+msgstr ""
+
+#: data/effects/hsl_range.xml:4
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "HSL Range"
+msgstr "Aseta alue"
+
+#: data/effects/hsl_range.xml:5
+#, kde-format
+msgid ""
+"Adjust Hue, Saturation and Lightness for a range of hue values. The user can "
+"specify the range of the hue values to be adjusted."
+msgstr ""
+
+#: data/effects/hsl_range.xml:8
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Hue Center"
+msgstr "Keskusta"
+
+#: data/effects/hsl_range.xml:9
+#, kde-format
+msgid "The center value for the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:12
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "Hue Range"
+msgstr "Aseta alue"
+
+#: data/effects/hsl_range.xml:13
+#, kde-format
+msgid "The width of the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:17
+#, fuzzy, kde-format
+#| msgid "The amount in pixel to blur the edge of the shadow"
+msgid "The amount to blend the edges of the hue range"
+msgstr "Sumennuksen määrä varjon reunalla kuvapisteinä"
+
+#: data/effects/hsl_range.xml:20
+#, fuzzy, kde-format
+#| msgid "Hue shift"
+msgid "Hue Shift"
+msgstr "Sävysiirtymä"
+
+#: data/effects/hsl_range.xml:21
+#, kde-format
+msgid "The amount to shift the hue in the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:24
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Saturation Scale"
+msgstr "Kylläisyys"
+
+#: data/effects/hsl_range.xml:25
+#, kde-format
+msgid "The amount to scale the saturation in the hue range"
+msgstr ""
+
+#: data/effects/hsl_range.xml:28
+#, fuzzy, kde-format
+#| msgid "Brightness"
+msgid "Lightness Scale"
+msgstr "Kirkkaus"
+
+#: data/effects/hsl_range.xml:29
+#, fuzzy, kde-format
+#| msgid "The amount in pixel to blur the edge of the shadow"
+msgid "The amount to scale the lightness in the hue range"
+msgstr "Sumennuksen määrä varjon reunalla kuvapisteinä"
 
 #: data/effects/invert.xml:4
 #, kde-format
@@ -13618,11 +14247,6 @@ msgstr "Kontrasti minimi"
 msgid "Below this Contrast Field is discarded"
 msgstr "Tämän alapuolella oleva kontrastikenttä hylätään"
 
-#: data/effects/vidstab.xml:24
-#, kde-format
-msgid "Smoothing"
-msgstr "Pehmennys"
-
 #: data/effects/vidstab.xml:25
 #, kde-format
 msgid "Number of frames for lowpass filtering"
@@ -13964,134 +14588,134 @@ msgstr "Lisää tarkastuksia"
 msgid "To be completed"
 msgstr "Valmistumassa"
 
-#: data/kdenliveeffectscategory.rc:69
+#: data/kdenliveeffectscategory.rc:70
 #, kde-format
 msgid "Volume and Dynamics"
 msgstr "Voimakkuus ja dynamiikka"
 
-#: data/kdenliveeffectscategory.rc:72
+#: data/kdenliveeffectscategory.rc:74
 #, kde-format
 msgid "Reverb, Echo and Delays"
 msgstr "Kaiku ja viive"
 
-#: data/kdenliveeffectscategory.rc:75
+#: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "EQ and filters"
 msgstr "Taajuuskorjain ja suodattimet"
 
-#: data/kdenliveeffectscategory.rc:78
+#: data/kdenliveeffectscategory.rc:82
 #, kde-format
 msgid "Modulators"
 msgstr "Modulaattorit"
 
-#: data/kdenliveeffectscategory.rc:81
+#: data/kdenliveeffectscategory.rc:86
 #, kde-format
 msgid "Noise Reduction and Audio Restoration"
 msgstr "Kohinanvaimennus ja äänenkorjaus"
 
-#: data/kdenliveeffectscategory.rc:88
+#: data/kdenliveeffectscategory.rc:94
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:85 src/mainwindow.cpp:1368
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
 msgstr "Työkalut"
 
-#: data/kdenliveeffectscategory.rc:91
+#: data/kdenliveeffectscategory.rc:98
 #, kde-format
 msgid "Stereo and Binaural Images"
 msgstr "Stereo ja tilaääni"
 
-#: data/kdenliveeffectscategory.rc:94
+#: data/kdenliveeffectscategory.rc:102
 #, kde-format
 msgid "Pitch and Time"
 msgstr "Sävelkorkeus ja aika"
 
-#: data/kdenliveeffectscategory.rc:98
+#: data/kdenliveeffectscategory.rc:106
 #, kde-format
 msgid "CAPS Plugins"
 msgstr "CAPS-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:102
+#: data/kdenliveeffectscategory.rc:110
 #, kde-format
 msgid "TAP Plugins"
 msgstr "TAP-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:106
+#: data/kdenliveeffectscategory.rc:114
 #, kde-format
 msgid "Invada Plugins"
 msgstr "Invada-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:110
+#: data/kdenliveeffectscategory.rc:118
 #, kde-format
 msgid "Ambisonic Plugins"
 msgstr "Ambisonic-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:114
+#: data/kdenliveeffectscategory.rc:122
 #, kde-format
 msgid "ZAM Plugins"
 msgstr "ZAM-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:118
+#: data/kdenliveeffectscategory.rc:126
 #, kde-format
 msgid "BLOP Plugins"
 msgstr "BLOP-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:122
+#: data/kdenliveeffectscategory.rc:130
 #, kde-format
 msgid "Steve Harris' SWH Plugins"
 msgstr "Steve Harris' SWH-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:126
+#: data/kdenliveeffectscategory.rc:134
 #, kde-format
 msgid "CMT Plugins"
 msgstr "CMT-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:130
+#: data/kdenliveeffectscategory.rc:138
 #, kde-format
 msgid "DPF Plugins"
 msgstr "DPF-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:134
+#: data/kdenliveeffectscategory.rc:142
 #, kde-format
 msgid "Calf  Plugins"
 msgstr "Calf-laajennukset"
 
-#: data/kdenliveeffectscategory.rc:138
+#: data/kdenliveeffectscategory.rc:146
+#, kde-format
+msgid "LSP plugins"
+msgstr "LSP-laajennukset"
+
+#: data/kdenliveeffectscategory.rc:150
+#, kde-format
+msgid "LADSPA Plugins"
+msgstr "LADSPA-laajennukset"
+
+#: data/kdenliveeffectscategory.rc:154
+#, kde-format
+msgid "Guitarix Plugins"
+msgstr "Guitarix-laajennukset"
+
+#: data/kdenliveeffectscategory.rc:158
+#, kde-format
+msgid "Mvc Plugins"
+msgstr "Mvc-laajennukset"
+
+#: data/kdenliveeffectscategory.rc:162
+#, kde-format
+msgid "VCO Plugins"
+msgstr "VCO-laajennukset"
+
+#: data/kdenliveeffectscategory.rc:166
+#, kde-format
+msgid "MLT ladspa"
+msgstr "MLT ladspa"
+
+#: data/kdenliveeffectscategory.rc:170
 #: src/effects/effectlist/model/effectfilter.cpp:89
 #: src/effects/effectlist/model/effecttreemodel.cpp:100
 #, kde-format
 msgid "Deprecated"
 msgstr "Vanhentunut"
-
-#: data/kdenliveeffectscategory.rc:142
-#, kde-format
-msgid "LSP plugins"
-msgstr "LSP-laajennukset"
-
-#: data/kdenliveeffectscategory.rc:146
-#, kde-format
-msgid "LADSPA Plugins"
-msgstr "LADSPA-laajennukset"
-
-#: data/kdenliveeffectscategory.rc:150
-#, kde-format
-msgid "Guitarix Plugins"
-msgstr "Guitarix-laajennukset"
-
-#: data/kdenliveeffectscategory.rc:154
-#, kde-format
-msgid "Mvc Plugins"
-msgstr "Mvc-laajennukset"
-
-#: data/kdenliveeffectscategory.rc:158
-#, kde-format
-msgid "VCO Plugins"
-msgstr "VCO-laajennukset"
-
-#: data/kdenliveeffectscategory.rc:162
-#, kde-format
-msgid "MLT ladspa"
-msgstr "MLT ladspa"
 
 #: data/transitions/affine.xml:4
 #, kde-format
@@ -18877,14 +19501,6 @@ msgstr "Löydät jaetun tiedoston osoitteesta: <a href=\"%1\">%1</a>"
 #, kde-format
 msgid "Beginning"
 msgstr "Alku"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/dialogs/renderwidget.cpp:550 src/ui/managesubtitles_ui.ui:206
-#: src/ui/wipeval_ui.ui:172
-#, kde-format
-msgid "End"
-msgstr "Loppu"
 
 #: src/dialogs/renderwidget.cpp:666
 #, kde-format
@@ -36914,9 +37530,6 @@ msgstr "%1 t"
 #~| msgid "Follow mouse"
 #~ msgid "Allow upscale"
 #~ msgstr "Seuraa hiirtä"
-
-#~ msgid "Saturation (GPU)"
-#~ msgstr "Kylläisyys (GPU)"
 
 #~ msgid "Vignette (GPU)"
 #~ msgstr "Vinjetti (GPU)"
