@@ -3370,7 +3370,6 @@ void TitleWidget::slotEditGradient()
         QMap<QString, QString> gradMap = d.gradients();
         QList<QIcon> icons = d.icons();
         QMap<QString, QString>::const_iterator i = gradMap.constBegin();
-        qDebug() << "::: GOT NEW GRADS: " << gradMap.keys() << "\n........................";
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "TitleGradients");
         group.deleteGroup();
@@ -3378,14 +3377,11 @@ void TitleWidget::slotEditGradient()
         gradients_rect_combo->clear();
         int ix = 0;
         while (i != gradMap.constEnd()) {
-            qDebug() << "AAADING GRADIENT: " << i.key() << " = " << i.value();
             if (i.value().isEmpty()) {
                 // Don't allow empty gradients
                 ++i;
-                qDebug() << "::: ABORTED";
                 continue;
             }
-            qDebug() << "::: ADDED...";
             group.writeEntry(i.key(), i.value());
             gradients_combo->addItem(icons.at(ix), i.key(), i.value());
             gradients_rect_combo->addItem(icons.at(ix), i.key(), i.value());
