@@ -243,6 +243,9 @@ void GradientWidget::loadGradients(QMap<QString, QString> gradients)
     QMapIterator<QString, QString> k(gradients);
     while (k.hasNext()) {
         k.next();
+        if (k.value().isEmpty()) {
+            continue;
+        }
         QPixmap pix(6 * m_height, m_height);
         pix.fill(Qt::transparent);
         QLinearGradient gr = gradientFromString(k.value(), pix.width(), pix.height());

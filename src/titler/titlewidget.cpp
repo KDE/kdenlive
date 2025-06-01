@@ -3052,7 +3052,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 if (!i->data(TitleDocument::Gradient).toString().isNull()) {
                     gradients_combo->blockSignals(true);
                     gradient_color->setChecked(true);
-                    QString gradientData = i->data(TitleDocument::Gradient).toString();
+                    const QString gradientData = i->data(TitleDocument::Gradient).toString();
                     int ix = gradients_combo->findData(gradientData);
                     if (ix == -1) {
                         // This gradient does not exist in our settings, store it
@@ -3288,17 +3288,22 @@ void TitleWidget::slotEditGradient()
         QMap<QString, QString> gradMap = d.gradients();
         QList<QIcon> icons = d.icons();
         QMap<QString, QString>::const_iterator i = gradMap.constBegin();
+        qDebug() << "::: GOT NEW GRADS: " << gradMap.keys() << "\n........................";
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "TitleGradients");
         group.deleteGroup();
-        combo->clear();
+        gradients_combo->clear();
         gradients_rect_combo->clear();
         int ix = 0;
         while (i != gradMap.constEnd()) {
+            qDebug() << "AAADING GRADIENT: " << i.key() << " = " << i.value();
             if (i.value().isEmpty()) {
                 // Don't allow empty gradients
+                ++i;
+                qDebug() << "::: ABORTED";
                 continue;
             }
+            qDebug() << "::: ADDED...";
             group.writeEntry(i.key(), i.value());
             gradients_combo->addItem(icons.at(ix), i.key(), i.value());
             gradients_rect_combo->addItem(icons.at(ix), i.key(), i.value());
@@ -3306,7 +3311,7 @@ void TitleWidget::slotEditGradient()
             ix++;
         }
         group.sync();
-        combo->setCurrentIndex(d.selectedGradient());
+        combo->setCurrentIndex(qMax(0, d.selectedGradient()));
     }
 }
 
