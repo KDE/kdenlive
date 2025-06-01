@@ -791,6 +791,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         int pos = entryObj[QLatin1String("pos")].toInt();
         QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
         int type = entryObj[QLatin1String("type")].toInt(0);
+        int duration = entryObj[QLatin1String("duration")].toInt(0); // Default to 0 for backward compatibility
         if (!pCore->markerTypes.contains(type)) {
             qDebug() << "Warning : invalid type found:" << type << " Recovering category";
             type = type % 9;
@@ -806,10 +807,14 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         if (!ignoreConflicts && hasMarker(GenTime(pos, pCore->getCurrentFps()))) {
             // potential conflict found, checking
             CommentedTime oldMarker = marker(GenTime(pos, pCore->getCurrentFps()));
-            res = (oldMarker.comment() == comment) && (type == oldMarker.markerType());
+            res = (oldMarker.comment() == comment) && (type == oldMarker.markerType()) && (oldMarker.duration().frames(pCore->getCurrentFps()) == duration);
         }
         qDebug() << "// ADDING MARKER AT POS: " << pos << ", FPS: " << pCore->getCurrentFps();
-        res = res && addMarker(GenTime(pos, pCore->getCurrentFps()), comment, type, undo, redo);
+        if (duration > 0) {
+            res = res && addRangeMarker(GenTime(pos, pCore->getCurrentFps()), GenTime(duration, pCore->getCurrentFps()), comment, type, undo, redo);
+        } else {
+            res = res && addMarker(GenTime(pos, pCore->getCurrentFps()), comment, type, undo, redo);
+        }
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
@@ -895,6 +900,7 @@ QString MarkerListModel::toJson(QList<int> categories) const
         currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.time().frames(pCore->getCurrentFps())));
         currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.comment()));
         currentMarker.insert(QLatin1String("type"), QJsonValue(marker.markerType()));
+        currentMarker.insert(QLatin1String("duration"), QJsonValue(marker.duration().frames(pCore->getCurrentFps())));
         list.push_back(currentMarker);
     }
     QJsonDocument json(list);
