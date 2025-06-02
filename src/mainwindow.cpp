@@ -5374,10 +5374,18 @@ KIO::filesize_t MainWindow::fetchFolderSize(const QString path)
 {
     // KIO::DirectorySizeJob doesn't work on Windows, so use Qt only
     KIO::filesize_t totalSize = 0;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
     for (const auto &dirEntry : QDirListing(path, flags)) {
         totalSize += dirEntry.size();
     }
+#else
+    QDirIterator it(path, QDir::NoFilter, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QFileInfo f(it.next());
+        totalSize += f.size();
+    }
+#endif
     return totalSize;
 }
 
