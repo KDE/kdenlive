@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-01 00:42+0000\n"
+"POT-Creation-Date: 2025-06-02 00:41+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -32185,7 +32185,7 @@ msgid "No available stream"
 msgstr "Ühtegi voogu pole saada"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3401 src/titler/titlewidget.cpp:3404
+#: src/titler/titlewidget.cpp:3402 src/titler/titlewidget.cpp:3405
 #, kde-format
 msgid "Gradient %1"
 msgstr "Astmik %1"
@@ -32579,7 +32579,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3434
+#: src/titler/titlewidget.cpp:3435
 #, kde-format
 msgid "Gradient"
 msgstr "Astmik"

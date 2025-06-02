@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-01 00:42+0000\n"
+"POT-Creation-Date: 2025-06-02 00:41+0000\n"
 "PO-Revision-Date: 2024-02-02 12:32-0500\n"
 "Last-Translator: Janet Blackquill <uhhadd@gmail.com>\n"
 "Language-Team: Language tok\n"
@@ -29740,7 +29740,7 @@ msgid "No available stream"
 msgstr ""
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3401 src/titler/titlewidget.cpp:3404
+#: src/titler/titlewidget.cpp:3402 src/titler/titlewidget.cpp:3405
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -30111,7 +30111,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3434
+#: src/titler/titlewidget.cpp:3435
 #, kde-format
 msgid "Gradient"
 msgstr ""

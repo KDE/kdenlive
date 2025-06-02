@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-01 00:42+0000\n"
+"POT-Creation-Date: 2025-06-02 00:41+0000\n"
 "PO-Revision-Date: 2024-12-15 19:32+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Hindi <kde-i18n-doc@kde.org>\n"
@@ -31538,7 +31538,7 @@ msgid "No available stream"
 msgstr "कोई स्ट्रीम उपलब्ध नहीं है"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3401 src/titler/titlewidget.cpp:3404
+#: src/titler/titlewidget.cpp:3402 src/titler/titlewidget.cpp:3405
 #, kde-format
 msgid "Gradient %1"
 msgstr "ग्रेडिएंट %1"
@@ -31919,7 +31919,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "व्यूपोर्ट समाप्त करें"
 
-#: src/titler/titlewidget.cpp:3434
+#: src/titler/titlewidget.cpp:3435
 #, kde-format
 msgid "Gradient"
 msgstr "ढाल"
