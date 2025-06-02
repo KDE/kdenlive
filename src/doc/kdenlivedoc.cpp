@@ -980,6 +980,9 @@ QUrl KdenliveDoc::url() const
 void KdenliveDoc::setUrl(const QUrl &url)
 {
     m_url = url;
+    if (url.isEmpty()) {
+        setModified(true);
+    }
 }
 
 QStringList KdenliveDoc::getAllSubtitlesPath(bool final)
