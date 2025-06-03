@@ -256,7 +256,7 @@ target_link_libraries(kdenliveLib PUBLIC
     Qt${QT_MAJOR_VERSION}::Multimedia
     Qt${QT_MAJOR_VERSION}::NetworkAuth
     Qt${QT_MAJOR_VERSION}::SvgWidgets
-#    Qt${QT_MAJOR_VERSION}::Test
+    # Qt${QT_MAJOR_VERSION}::Test
 )
 
 target_link_libraries(kdenliveLib PUBLIC PkgConfig::LIBAV)

@@ -82,6 +82,9 @@ public Q_SLOTS:
      */
     void slotSaveStack();
     void updateSamProgress(int progress, bool exportStep = false);
+    /** @brief Collapse / expand all effects in the stack
+     */
+    void slotSwitchCollapseAll();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -92,6 +95,7 @@ protected:
     void paintEvent(QPaintEvent *event) override;
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     bool eventFilter(QObject *o, QEvent *e) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     QMutex m_mutex;
@@ -125,6 +129,9 @@ private:
 
     void destroyBuildinWidget();
     void constructBuildinWidget();
+    /** @brief Activate an effect and ensure it is visible
+     */
+    void activateAndScroll(int row);
 
 private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);

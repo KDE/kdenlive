@@ -6386,3 +6386,29 @@ QLineEdit *Bin::searchLine()
 {
     return m_searchLine;
 }
+
+void Bin::expandCurrent()
+{
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    if (currentSelection.isValid()) {
+        if ((m_itemView != nullptr) && m_listType == BinTreeView) {
+            auto *view = static_cast<QTreeView *>(m_itemView);
+            view->setExpanded(currentSelection, !view->isExpanded(currentSelection));
+        }
+    }
+}
+
+void Bin::expandAll()
+{
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    if (currentSelection.isValid()) {
+        if ((m_itemView != nullptr) && m_listType == BinTreeView) {
+            auto *view = static_cast<QTreeView *>(m_itemView);
+            if (!view->isExpanded(currentSelection)) {
+                view->expandAll();
+            } else {
+                view->collapseAll();
+            }
+        }
+    }
+}

@@ -89,6 +89,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setAcceptDrops(true);
+    setFocusPolicy(Qt::StrongFocus);
 
     m_builtStack = new QWidget(this);
     m_lay->addWidget(m_builtStack);
@@ -516,6 +517,7 @@ void EffectStackView::updateTreeHeight()
     if (!m_model) {
         return;
     }
+    qDebug() << ":::: UPDATING TREE HEIGHT....";
     int totalHeight = 0;
     for (int j = 0; j < m_model->rowCount(); j++) {
         std::shared_ptr<AbstractEffectItem> item2 = m_model->getEffectStackRow(j);
@@ -523,9 +525,10 @@ void EffectStackView::updateTreeHeight()
         QModelIndex idx = m_filter->mapFromSource(m_model->getIndexFromItem(eff));
         auto w = m_effectsTree->indexWidget(idx);
         if (w) {
-            totalHeight += w->height();
+            totalHeight += w->minimumHeight();
         }
     }
+    qDebug() << ":::: UPDATING TREE HEIGHT, TOTAL: " << totalHeight << ", CURRENTR: " << m_effectsTree->height();
     if (totalHeight != m_effectsTree->height()) {
         m_effectsTree->setFixedHeight(totalHeight);
         m_scrollTimer.start();
@@ -557,6 +560,16 @@ void EffectStackView::startDrag(const QPixmap pix, const QString assetId, Object
     drag->setMimeData(mime);
     // Start the drag and drop operation
     drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+}
+
+void EffectStackView::slotSwitchCollapseAll()
+{
+    QModelIndex ix = m_filter->mapFromSource(m_model->index(0, 0, QModelIndex()));
+    CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+    if (w) {
+        bool collapsed = w->isCollapsed();
+        slotCollapseAllEffects(!collapsed);
+    }
 }
 
 void EffectStackView::slotCollapseAllEffects(bool collapse)
@@ -856,7 +869,8 @@ void EffectStackView::sendStandardCommand(int command)
 
 bool EffectStackView::eventFilter(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::MouseButtonPress) {
+    switch (e->type()) {
+    case QEvent::MouseButtonPress: {
         auto me = static_cast<QMouseEvent *>(e);
         m_dragStart = me->globalPosition().toPoint();
         m_dragging = false;
@@ -869,7 +883,7 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
         e->accept();
         return true;
     }
-    if (e->type() == QEvent::MouseMove) {
+    case QEvent::MouseMove: {
         auto me = static_cast<QMouseEvent *>(e);
         if (!m_dragging && (me->globalPosition().toPoint() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
             m_dragging = true;
@@ -884,7 +898,80 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
         e->accept();
         return true;
     }
-    return QWidget::eventFilter(o, e);
+    default:
+        if ((qobject_cast<CollapsibleEffectView *>(o)) && e->type() == QEvent::KeyPress) {
+            switch (static_cast<QKeyEvent *>(e)->key()) {
+            case Qt::Key_Down: {
+                int row = m_model->getActiveEffect() + 1;
+                if (row >= m_model->rowCount()) {
+                    row = 0;
+                }
+                activateAndScroll(row);
+                e->accept();
+                break;
+            }
+            case Qt::Key_Up: {
+                int row = m_model->getActiveEffect() - 1;
+                if (row < 0) {
+                    row = m_model->rowCount() - 1;
+                }
+                activateAndScroll(row);
+                e->accept();
+                break;
+            }
+            default:
+                e->ignore();
+            }
+            return true;
+        }
+        return QWidget::eventFilter(o, e);
+    }
+}
+
+void EffectStackView::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key()) {
+    case Qt::Key_Down: {
+        int row = m_model->getActiveEffect() + 1;
+        if (row >= m_model->rowCount()) {
+            row = 0;
+        }
+        activateAndScroll(row);
+        break;
+    }
+    case Qt::Key_Up: {
+        int row = m_model->getActiveEffect() - 1;
+        if (row < 0) {
+            row = m_model->rowCount() - 1;
+        }
+        activateAndScroll(row);
+        break;
+    }
+    default:
+        break;
+    }
+    QWidget::keyPressEvent(event);
+}
+
+void EffectStackView::activateAndScroll(int row)
+{
+    m_model->setActiveEffect(row);
+    int scrollPos = 0;
+    for (int ix = 0; ix < row; ix++) {
+        QModelIndex index = m_filter->mapFromSource(m_model->index(ix, 0, QModelIndex()));
+        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(index));
+        if (del) {
+            scrollPos += del->height(index);
+        }
+    }
+    /*int height = 50;
+    QModelIndex index = m_filter->mapFromSource(m_model->index(row, 0, QModelIndex()));
+    m_effectsTree->setCurrentIndex(index);
+    auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(index));
+    if (del) {
+        height = del->height(index);
+    }*/
+    slotFocusEffect();
 }
 
 void EffectStackView::updateSamProgress(int progress, bool exportStep)

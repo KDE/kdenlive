@@ -386,6 +386,10 @@ public:
     const QList<std::shared_ptr<MarkerListModel>> getAllClipsMarkers();
     /** @brief Get the first selected clip*/
     std::shared_ptr<ProjectClip> getFirstSelectedClip();
+    /** @brief Expand / collapse current item */
+    void expandCurrent();
+    /** @brief Expand / collapse all items */
+    void expandAll();
 
 private Q_SLOTS:
     void slotAddClip();

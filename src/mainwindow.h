@@ -602,6 +602,7 @@ private Q_SLOTS:
     void slotGrabItem();
     /** @brief Collapse or expand current item (depending on focused widget: effet, track)*/
     void slotCollapse();
+    void slotCollapseAll();
     /** @brief Cycle zoom audio waveforms*/
     void slotZoomWaveForm();
     /** @brief Save currently selected timeline clip as bin subclip*/

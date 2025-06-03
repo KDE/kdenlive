@@ -371,7 +371,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     QMargins mrg = m_layout->contentsMargins();
     m_editorviewcontainer->setFixedHeight(m_editorviewcontainer->currentWidget()->height());
     m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
-    m_addedHeight = mrg.top() + mrg.bottom();
+    m_addedHeight = mrg.top() + mrg.bottom() + m_layout->horizontalSpacing();
     if (isColorWheel) {
         addParameter(index);
     }
@@ -764,7 +764,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         } else {
             m_layout->addRow(paramWidget);
         }
-        m_addedHeight += paramWidget->minimumHeight();
+        m_addedHeight += paramWidget->minimumHeight() + m_layout->horizontalSpacing();
         m_fixedHeight = m_baseHeight + m_addedHeight;
     } else {
         m_parameters[index] = nullptr;

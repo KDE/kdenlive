@@ -644,6 +644,7 @@ public:
     bool refreshIfVisible(int cid);
     /** @brief Collapse / expand active track */
     void collapseActiveTrack();
+    void collapseAllTracks();
     /** @brief Expand MLT playlist to its contained clips/compositions */
     void expandActiveClip();
     /** @brief Retrieve a list of possible audio stream targets */

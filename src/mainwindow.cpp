@@ -1298,6 +1298,10 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
     connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
 
+    QAction *collapseAllItems = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand All Items"), this);
+    addAction(QStringLiteral("collapse_expand_all"), collapseAllItems, QKeySequence(Qt::SHIFT | Qt::Key_Less));
+    connect(collapseAllItems, &QAction::triggered, this, &MainWindow::slotCollapseAll);
+
     QAction *sameTrack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-preview")), i18n("Mix Clips"), this);
     sameTrack->setWhatsThis(
         xi18nc("@info:whatsthis", "Creates a same-track transition between the selected clip and the adjacent one closest to the playhead."));
@@ -4580,7 +4584,8 @@ void MainWindow::slotCollapse()
 {
     if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
         QApplication::focusWidget()->parentWidget() == pCore->bin()) {
-        // Bin expand/collapse?
+        // Bin expand/collapse
+        pCore->bin()->expandCurrent();
 
     } else {
         QWidget *widget = QApplication::focusWidget();
@@ -4591,9 +4596,29 @@ void MainWindow::slotCollapse()
             }
             widget = widget->parentWidget();
         }
-
         // Collapse / expand track
         getCurrentTimeline()->controller()->collapseActiveTrack();
+    }
+}
+
+void MainWindow::slotCollapseAll()
+{
+    if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
+        QApplication::focusWidget()->parentWidget() == pCore->bin()) {
+        // Bin expand/collapse
+        pCore->bin()->expandAll();
+
+    } else {
+        QWidget *widget = QApplication::focusWidget();
+        while ((widget != nullptr) && widget != this) {
+            if (widget == m_effectStackDock) {
+                Q_EMIT m_assetPanel->slotSwitchCollapseAll();
+                return;
+            }
+            widget = widget->parentWidget();
+        }
+        // Collapse / expand track
+        getCurrentTimeline()->controller()->collapseAllTracks();
     }
 }
 

@@ -78,6 +78,7 @@ public:
     const QString getAssetId() const;
     /** @brief Collapse / expand the effect */
     void collapseEffect(bool collapse);
+    bool isCollapsed() const;
 
 public Q_SLOTS:
     void slotSyncEffectsPos(int pos);

@@ -79,7 +79,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     });
     Q_EMIT updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
-    int minHeight = 0;
     int keyframeRow = -1;
     // First pass: find and create the keyframe widget for the first animated parameter
     for (int i = 0; i < model->rowCount(); ++i) {
@@ -101,7 +100,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeContainer::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeContainer::addRemove);
                 connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeContainer::sendStandardCommand);
-                minHeight += m_mainKeyframeWidget->minimumHeight();
                 m_mainKeyframeWidget->initNeededSceneAndHelper();
             }
             break;
@@ -135,16 +133,12 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                         m_lay->insertRow(keyframeRow, w->createLabel(), w);
                         keyframeRow++;
                     }
-                    minHeight += w->minimumHeight();
                 }
             }
             m_widgets.push_back(w);
         }
     }
-    setMinimumHeight(minHeight);
-    if (addSpacer) {
-        // m_lay->addStretch();
-    }
+    setFixedHeight(contentHeight());
     // Ensure effect parameters are adjusted to current position
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     Q_EMIT monitor->seekPosition(monitor->position());

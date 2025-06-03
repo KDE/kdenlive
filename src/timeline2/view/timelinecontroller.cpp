@@ -1600,6 +1600,23 @@ void TimelineController::adjustAllTrackHeight(int trackId, int height)
     Q_EMIT m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }
 
+void TimelineController::collapseAllTracks()
+{
+    int tid = m_activeTrack;
+    if (!m_model->isTrack(tid)) {
+        auto it = m_model->m_allTracks.cbegin();
+        if (it != m_model->m_allTracks.cend()) {
+            tid = (*it)->getId();
+        }
+        if (!m_model->isTrack(tid)) {
+            return;
+        }
+    }
+    bool collapsed = m_model->getTrackById_const(tid)->getProperty("kdenlive:collapsed").toInt() > 0;
+    int collapsedHeight = m_root->property("collapsedHeight").toInt();
+    collapseAllTrackHeight(tid, !collapsed, collapsedHeight);
+}
+
 void TimelineController::collapseAllTrackHeight(int trackId, bool collapse, int collapsedHeight)
 {
     bool isAudio = m_model->getTrackById_const(trackId)->isAudioTrack();

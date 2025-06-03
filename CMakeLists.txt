@@ -131,7 +131,7 @@ find_package(Qt${QT_MAJOR_VERSION}
     NetworkAuth
     SvgWidgets
     Xml
-#    Test
+    # Test
 )
 
 if(USE_DBUS)
