@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-02 00:41+0000\n"
-"PO-Revision-Date: 2025-06-01 14:21+0200\n"
+"POT-Creation-Date: 2025-06-03 00:42+0000\n"
+"PO-Revision-Date: 2025-06-02 16:19+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2688,6 +2688,12 @@ msgid ""
 "direction 0°, -180°, or -360° will pick only pixels on same row and -90° "
 "will pick only pixels on same column]]>"
 msgstr ""
+"<![CDATA[Stelt richting in graden in waarvanaf vier pixels vergeleken zullen "
+"worden.<br>\n"
+"        Indien positief, willekeurige richting van 0 tot de ingestelde "
+"richting zal gekozen worden. Indien negatief, de exacte absolute waarde zal "
+"gekozen worden. Bijvoorbeeld richting 0°, -180° of -360° zal alleen pixels "
+"kiezen op dezelfde rij en -90° zal alleen pixels kiezen in dezelfde kolom]]>"
 
 #: data/effects/avfilter/avfilter_deband.xml:38
 #: data/effects/frei0r/frei0r_bgsubtract0r.xml:14
@@ -2707,6 +2713,12 @@ msgid ""
 "all four surrounding pixels. The pixel is considered banded if only all four "
 "differences with surrounding pixels are less than threshold.]]>"
 msgstr ""
+"<![CDATA[Indien ingeschakeld, zal het huidige pixel vergeleken worden met de "
+"vier omringende pixels.<br>\n"
+"        De standaard is ingeschakeld. Indien uitgeschakeld wordt het huidige "
+"pixel vergeleken met alle vier omgevende pixels. De pixels worden beschouwd "
+"als in een band als alleen alle vier verschillen met omgevende pixels minder "
+"zijn dan de drempel.]]>"
 
 #: data/effects/avfilter/avfilter_deband.xml:43
 #, kde-format
@@ -2720,6 +2732,11 @@ msgid ""
 "        all pixel components are banded, e.g. banding detection threshold is "
 "triggered for all color components. The default is disabled.]]>"
 msgstr ""
+"<![CDATA[Indien ingeschakeld wordt het huidige pixel gewijzigd als en alleen "
+"als<br>\n"
+"        alle pixelcomponenten in een band zitten, d.w.z. de detectiedrempel "
+"is geactiveerd voor alle kleurencomponenten. De standaard is "
+"uitgeschakeld.]]>"
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
 #, kde-format
@@ -3033,6 +3050,10 @@ msgid ""
 "    Simulates image dilation, an effect which will enlarge the lightest "
 "pixels in the image by replacing the pixel by the local (3x3) maximum.]]>"
 msgstr ""
+"<![CDATA[Pad dilatie-effect toe.<br>\n"
+"    Simuleert afbeeldingsdilatatie, een effect die de lichtste pixels in de "
+"afbeelding vergroot door het pixel te vervangen door het lokale (3x3) "
+"maximum.]]>"
 
 #: data/effects/avfilter/avfilter_dilation.xml:9
 #: data/effects/avfilter/avfilter_erosion.xml:9
@@ -3053,6 +3074,8 @@ msgid ""
 "<![CDATA[Limit the maximum change for each plane.<br>\n"
 "        Default is 65535. If 0, plane will remain unchanged.]]>"
 msgstr ""
+"<![CDATA[beperkt de maximale wijziging voor elk vlak.<br>\n"
+"        Standaard is 65535. Indien 0, vlak zal ongewijzigd blijven.]]>"
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
@@ -3086,6 +3109,9 @@ msgid ""
 "        Default is 255 i.e. all eight pixels are used. Flags to local 3x3 "
 "coordinates maps like this: 1 2 3 4 5 6 7 8]]>"
 msgstr ""
+"<![CDATA[Vlag die het pixel specificeert waarnaar teverwijzen.<br>\n"
+"        Standaard is 255 d.w.z. alle acht pixels worden gebruikt. Vlaggen "
+"naar lokaal 3x3 coördinaten komt overeen met dit: 1 2 3 4 5 6 7 8]]>"
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
@@ -3483,6 +3509,10 @@ msgid ""
 "    Simulates image erosion, an effect which will enlarge the darkest pixels "
 "in the image by replacing the pixel by the local (3x3) minimum.]]>"
 msgstr ""
+"<![CDATA[Past erosie-effect toe.<br>\n"
+"    Simuleert erosie van afbeelding, een effect die de donkerste pixels in "
+"de afbeelding vervangt door het pixel te vervangen door het lokale (3x3) "
+"minimum.]]>"
 
 #: data/effects/avfilter/avfilter_exposure.xml:4
 #: data/effects/avfilter/avfilter_exposure.xml:8
@@ -3951,6 +3981,9 @@ msgid ""
 "Set horizontal sigma, standard deviation of Gaussian blur. Determines the "
 "strength of the horizontal blur. Default is 10."
 msgstr ""
+"Stelt de horizontale sigma, standaardafwijking van de Gaussiaanse vervaging "
+"in. Bepaalt de sterkte van de horizontale vervaging. Standaard ingesteld op "
+"10."
 
 #: data/effects/avfilter/avfilter_gblur.xml:22
 #, kde-format
@@ -8105,8 +8138,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:12
-#, fuzzy, kde-format
-#| msgid "Vertical End"
+#, kde-format
 msgid "Vertical end"
 msgstr "Verticaal einde"
 
@@ -8118,8 +8150,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:16
-#, fuzzy, kde-format
-#| msgid "Horizontal Start"
+#, kde-format
 msgid "Horizontal start"
 msgstr "Horizontaal begin"
 
@@ -8132,8 +8163,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
-#, fuzzy, kde-format
-#| msgid "Horizontal End"
+#, kde-format
 msgid "Horizontal end"
 msgstr "Horizontaal einde"
 
@@ -8214,8 +8244,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:28
-#, fuzzy, kde-format
-#| msgid "fisheye"
+#, kde-format
 msgid "Fisheye"
 msgstr "visoog"
 
@@ -8260,19 +8289,19 @@ msgstr ""
 "ruimte te bedekken"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set denoising method]]>"
+#, kde-format
 msgid "<![CDATA[Determines the sampling method]]>"
-msgstr "<![CDATA[Stel methode van ruis verwijderen in]]>"
+msgstr "<![CDATA[Bepaalt de methode van sampelen]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Sets the opacity for the background image]]>"
+#, kde-format
 msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
-msgstr "<![CDATA[Stelt de dekking voor de achtergrondafbeelding in]]>"
+msgstr ""
+"<![CDATA[Graden vanaf het centrum van de afbeelding om ongewijzigd te "
+"houden]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
 #, kde-format
@@ -8285,6 +8314,8 @@ msgid ""
 "<![CDATA[Horizontal fraction of the unchanged area to blur over in the "
 "equator band]]>"
 msgstr ""
+"<![CDATA[Horizontale fractie waarover het ongewijzigde gebied te vervagen in "
+"de band bij de equator]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
 #, kde-format
@@ -8297,6 +8328,8 @@ msgid ""
 "<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
 "poles]]>"
 msgstr ""
+"<![CDATA[Horizontale fractie waarover het ongewijzigde gebied te vervagen "
+"bij de polen]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
 #, kde-format
@@ -8314,8 +8347,7 @@ msgstr ""
 "rechtlijnig frame. De plug-in verwacht dat beide halfronden in het frame zijn"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:8
-#, fuzzy, kde-format
-#| msgid "Alignment Yaw"
+#, kde-format
 msgid "Alignment yaw"
 msgstr "Omlijning van yaw"
 
@@ -8330,14 +8362,12 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:13
-#, fuzzy, kde-format
-#| msgid "Alignment Pitch"
+#, kde-format
 msgid "Alignment pitch"
 msgstr "Uitlijning pitch"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:18
-#, fuzzy, kde-format
-#| msgid "Alignment Roll"
+#, kde-format
 msgid "Alignment roll"
 msgstr "Uitlijning rollen"
 
@@ -8371,8 +8401,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:32
-#, fuzzy, kde-format
-#| msgid "Lens Radius"
+#, kde-format
 msgid "Lens radius"
 msgstr "Lensstraal"
 
@@ -8410,8 +8439,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:46
-#, fuzzy, kde-format
-#| msgid "Front UP"
+#, kde-format
 msgid "Front Up"
 msgstr "Voorkant omhoog"
 
@@ -8451,8 +8479,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:61
-#, fuzzy, kde-format
-#| msgid "Back UP"
+#, kde-format
 msgid "Back Up"
 msgstr "Achterkant omhoog"
 
@@ -8466,8 +8493,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:66
-#, fuzzy, kde-format
-#| msgid "Nadir Radius"
+#, kde-format
 msgid "Nadir radius"
 msgstr "Nadir-straal"
 
@@ -8483,16 +8509,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:71
-#, fuzzy, kde-format
-#| msgid "Nadir Start"
+#, kde-format
 msgid "Nadir start"
 msgstr "Nadir-begin"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:76
-#, fuzzy, kde-format
-#| msgid "Lens correction"
+#, kde-format
 msgid "Lens distortion A"
-msgstr "Lenscorrectie"
+msgstr "Lensvervorming A"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:78
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:83
@@ -8504,22 +8528,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:81
-#, fuzzy, kde-format
-#| msgid "Lens correction"
+#, kde-format
 msgid "Lens distortion B"
-msgstr "Lenscorrectie"
+msgstr "Lensvervorming B"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:86
-#, fuzzy, kde-format
-#| msgid "Lens correction"
+#, kde-format
 msgid "Lens distortion C"
-msgstr "Lenscorrectie"
+msgstr "Lensvervorming C"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:91
-#, fuzzy, kde-format
-#| msgid "Horizontal radius"
+#, kde-format
 msgid "Lens distortion radius"
-msgstr "Horizontale straal"
+msgstr "Lensvervormingsstraal"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:93
 #, kde-format
@@ -8531,10 +8552,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:96
-#, fuzzy, kde-format
-#| msgid "Natural lens vignetting effect"
+#, kde-format
 msgid "Lens vignetting A"
-msgstr "Natural lens vignetting effect"
+msgstr "Lensvignettering A"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:98
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:103
@@ -8548,28 +8568,24 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:101
-#, fuzzy, kde-format
-#| msgid "Natural lens vignetting effect"
+#, kde-format
 msgid "Lens vignetting B"
-msgstr "Natural lens vignetting effect"
+msgstr "Lensvignettering B"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:106
-#, fuzzy, kde-format
-#| msgid "Natural lens vignetting effect"
+#, kde-format
 msgid "Lens vignetting C"
-msgstr "Natural lens vignetting effect"
+msgstr "Lensvignettering C"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:111
-#, fuzzy, kde-format
-#| msgid "Natural lens vignetting effect"
+#, kde-format
 msgid "Lens vignetting D"
-msgstr "Natural lens vignetting effect"
+msgstr "Lensvignettering D"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:116
-#, fuzzy, kde-format
-#| msgid "Lens Radius"
+#, kde-format
 msgid "Lens vignetting radius"
-msgstr "Lensstraal"
+msgstr "Lensvignetteringsstraal"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:118
 #, kde-format
@@ -8581,10 +8597,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:121
-#, fuzzy, kde-format
-#| msgid "FFmpeg video transcoding parameters"
+#, kde-format
 msgid "Use sensor response parameters"
-msgstr "FFmpeg video codeer parameters"
+msgstr "Sensorresponsparameters gebruiken"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:122
 #, kde-format
@@ -8652,22 +8667,18 @@ msgid "VR360 Stabilize"
 msgstr "VR360 stabiliseren"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Stabilizes 360 footage. The plugin works in two phases - analysis and "
-#| "stabilization. When analyzing footage, it detects frame-to-frame "
-#| "rotation, and when stabilizing it tries to correct high-frequency motion "
-#| "(shake)."
+#, kde-format
 msgid ""
 "<![CDATA[Stabilizes 360 footage.<br>\n"
 "    The plugin works in two phases - analysis and stabilization. When "
 "analyzing footage, it detects frame-to-frame rotation, and when stabilizing "
 "it tries to correct high-frequency motion (shake).]]>"
 msgstr ""
-"Stabiliseert 360 graden opnamen. De plug-in werkt in twee fasen - analyse en "
-"stabilisatie. Bij het analyseren van opnamen detecteert het frame-naar-frame "
-"rotatie en bij stabilisering probeert het hoogfrequente beweging (schudden) "
-"te corrigeren."
+"<![CDATA[Stabiliseert 360 graden opnamen.<br>\n"
+"   De plug-in werkt in twee fasen - analyse en stabilisatie. Bij het "
+"analyseren van opnamen detecteert het frame-naar-frame rotatie en bij "
+"stabilisering probeert het hoogfrequente beweging (schudden) te "
+"corrigeren.]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:9
 #, kde-format
@@ -8681,16 +8692,15 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:13
-#, fuzzy, kde-format
-#| msgid "Motion Analysis File"
+#, kde-format
 msgid "Motion analysis file"
 msgstr "Bewegingsanalysebestand"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:14
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the luma matrix horizontal size]]>"
+#, kde-format
 msgid "<![CDATA[Select the file to store stabilization data in]]>"
-msgstr "<![CDATA[Stel de horizontale grootte in van de luma-matrix]]>"
+msgstr ""
+"<![CDATA[Selecteerde het bestand om stabilisatiegegevens in op te slaan]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
 #, kde-format
@@ -8708,10 +8718,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:22
-#, fuzzy, kde-format
-#| msgid "Analysis Sample Radius"
+#, kde-format
 msgid "Analysis sample radius"
-msgstr "Samplestraal van analyse"
+msgstr "Sampelstraal van analyse"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:23
 #, kde-format
@@ -8719,8 +8728,7 @@ msgid "<![CDATA[The radius of the square that the stabilizer will sample]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:26
-#, fuzzy, kde-format
-#| msgid "Analysis Search Radius"
+#, kde-format
 msgid "Analysis search radius"
 msgstr "Zoekstraal voor analyse"
 
@@ -8730,16 +8738,14 @@ msgid "<![CDATA[The maximum amount of motion the stabilizer will detect]]>"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:30
-#, fuzzy, kde-format
-#| msgid "Analysis Offset"
+#, kde-format
 msgid "Analysis offset"
 msgstr "Offset van analyse"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:31
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Distance between vertical lines in pixel]]>"
+#, kde-format
 msgid "<![CDATA[The distance between the track points]]>"
-msgstr "<![CDATA[Afstand tussen verticale lijnen in pixels]]>"
+msgstr "<![CDATA[De afstand tussen de punten in de track]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:34
 #, kde-format
@@ -8755,8 +8761,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:39
-#, fuzzy, kde-format
-#| msgid "Yaw Amount"
+#, kde-format
 msgid "Yaw amount"
 msgstr "Hoeveelheid yaw"
 
@@ -8770,8 +8775,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:44
-#, fuzzy, kde-format
-#| msgid "Yaw Smoothing"
+#, kde-format
 msgid "Yaw smoothing"
 msgstr "Yaw gladstrijken"
 
@@ -8783,8 +8787,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:48
-#, fuzzy, kde-format
-#| msgid "Yaw Time Bias"
+#, kde-format
 msgid "Yaw time bias"
 msgstr "Tijdbias van yaw"
 
@@ -8803,10 +8806,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:53
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Pitch amount"
-msgstr "Kleur waarde"
+msgstr "Hoeveelheid pitch"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:54
 #, no-c-format, kde-format
@@ -8817,8 +8819,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:57
-#, fuzzy, kde-format
-#| msgid "Pitch Smoothing"
+#, kde-format
 msgid "Pitch smoothing"
 msgstr "Gladstrijken van pitch"
 
@@ -8832,10 +8833,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:62
-#, fuzzy, kde-format
-#| msgid "Pitch Time Bias"
+#, kde-format
 msgid "Pitch time bias"
-msgstr "Tijdbasis van rollen"
+msgstr "Tijdbasis van pitch"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:67
 #, fuzzy, kde-format
@@ -9141,14 +9141,14 @@ msgstr "RGB aanpassing"
 msgid "Simple color adjustment"
 msgstr "Eenvoudige kleuren instellen"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2491
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2494
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Rood"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2492
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2495
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
@@ -9157,7 +9157,7 @@ msgstr "Rood"
 msgid "Green"
 msgstr "Groen"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2493
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2496
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -9808,7 +9808,7 @@ msgstr "Filmkorrels"
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
 msgid "Adds film-like grain and softens the picture"
-msgstr ""
+msgstr "Voegt filmachtige korreligheid toe en verzacht de afbeelding"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, kde-format
@@ -9882,12 +9882,12 @@ msgstr "<![CDATA[Lengte van het profiel in pixels]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
 msgid "Flicker"
-msgstr ""
+msgstr "Geflikker"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "<![CDATA[The amount of variation in brightness between frames]]>"
-msgstr ""
+msgstr "<![CDATA[De hoeveelheid variatie in helderheid tussen frames]]>"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -10807,7 +10807,7 @@ msgstr "Normaliz0r"
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
 msgid "Normalize (aka histogram stretch, contrast stretch)"
-msgstr ""
+msgstr "Normaliseren (aka histogram uitrekken, contrast uitrekken)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
 #, fuzzy, kde-format
@@ -12601,6 +12601,8 @@ msgid ""
 "Adjust Hue, Saturation and Lightness for each of the 6 primary/secondary "
 "colors."
 msgstr ""
+"Tint, verzadiging en lichtheid aanpassen voor elk van de 6 primaire/"
+"secondaire kleuren."
 
 #: data/effects/hsl_primaries.xml:8
 #, fuzzy, kde-format
@@ -12635,13 +12637,12 @@ msgstr "Verzadiging"
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
 msgid "Lightness Scale Yellow"
-msgstr ""
+msgstr "Lichtheidsschaal geel"
 
 #: data/effects/hsl_primaries.xml:26
-#, fuzzy, kde-format
-#| msgid "Lift: Green"
+#, kde-format
 msgid "Hue Shift Green"
-msgstr "Verhoog: groen"
+msgstr "Kleurtoonverschuiving groen"
 
 #: data/effects/hsl_primaries.xml:29
 #, fuzzy, kde-format
@@ -12700,7 +12701,7 @@ msgstr "Kleurtoonverschuiving"
 #: data/effects/hsl_primaries.xml:56
 #, kde-format
 msgid "Saturation Scale Magenta"
-msgstr ""
+msgstr "Verzadigingsschaal magenta"
 
 #: data/effects/hsl_primaries.xml:59
 #, fuzzy, kde-format
@@ -12711,7 +12712,7 @@ msgstr "De lichtheid van een gekleurde afbeelding."
 #: data/effects/hsl_primaries.xml:63
 #, kde-format
 msgid "The amount of overlap or blending between primaries"
-msgstr ""
+msgstr "De hoeveelheid overlap of menging tussen primaire elementen"
 
 #: data/effects/hsl_range.xml:4
 #, fuzzy, kde-format
@@ -12725,6 +12726,8 @@ msgid ""
 "Adjust Hue, Saturation and Lightness for a range of hue values. The user can "
 "specify the range of the hue values to be adjusted."
 msgstr ""
+"Tint, verzadiging en lichtheid voor een reeks van tintwaarden aanpassen. De "
+"gebruiker kan de reeks van de aan te passen tintwaarden specificeren."
 
 #: data/effects/hsl_range.xml:8
 #, fuzzy, kde-format
@@ -12735,18 +12738,17 @@ msgstr "Midden"
 #: data/effects/hsl_range.xml:9
 #, kde-format
 msgid "The center value for the hue range"
-msgstr ""
+msgstr "De centrale waarde voor de tintreeks"
 
 #: data/effects/hsl_range.xml:12
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "Hue Range"
-msgstr "Bereik instellen"
+msgstr "Tintreeks"
 
 #: data/effects/hsl_range.xml:13
 #, kde-format
 msgid "The width of the hue range"
-msgstr ""
+msgstr "De breedte van de tintreeks"
 
 #: data/effects/hsl_range.xml:17
 #, kde-format
@@ -12761,7 +12763,7 @@ msgstr "Kleurtoonverschuiving"
 #: data/effects/hsl_range.xml:21
 #, kde-format
 msgid "The amount to shift the hue in the hue range"
-msgstr ""
+msgstr "De hoeveelheid te verschuiven tint in de tintreeks"
 
 #: data/effects/hsl_range.xml:24
 #, fuzzy, kde-format
@@ -12772,7 +12774,7 @@ msgstr "Verzadiging"
 #: data/effects/hsl_range.xml:25
 #, kde-format
 msgid "The amount to scale the saturation in the hue range"
-msgstr ""
+msgstr "De hoeveelheid te schalen verzadiging in de tintreeks"
 
 #: data/effects/hsl_range.xml:28
 #, fuzzy, kde-format
@@ -18834,7 +18836,7 @@ msgstr "Tekstclip"
 msgid "Create Text clip"
 msgstr "Tekstclip aanmaken"
 
-#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1200
+#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1203
 #, kde-format
 msgid "Template title clip"
 msgstr "Voorbeeld titel clip"
@@ -19185,7 +19187,7 @@ msgstr "Hulplijngegevens exporteren"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1793
 #: src/dialogs/renderwidget.cpp:1817 src/doc/kdenlivedoc.cpp:766
-#: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1340
+#: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1343
 #: src/effects/effectlist/model/effecttreemodel.cpp:301
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
@@ -19197,7 +19199,8 @@ msgstr "Hulplijngegevens exporteren"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1915 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1922 src/project/projectmanager.cpp:1928
+#: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
 #: src/timeline2/view/timelinecontroller.cpp:5169
@@ -19264,7 +19267,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Indien onzeker, probeer :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:340 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:340 src/project/projectmanager.cpp:1816
 #: src/renderpresets/renderpresetrepository.cpp:324
 #, kde-format
 msgid "Cannot read file %1"
@@ -22338,30 +22341,29 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
 
-#: src/doc/kdenlivedoc.cpp:1126 src/doc/kdenlivedoc.cpp:2452
+#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2455
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1746
 #, kde-format
 msgid "Untitled"
 msgstr "Zonder titel"
 
-#: src/doc/kdenlivedoc.cpp:1186
+#: src/doc/kdenlivedoc.cpp:1189
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Voer sjabloon pad in"
 
-#: src/doc/kdenlivedoc.cpp:1347
+#: src/doc/kdenlivedoc.cpp:1350
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "De volgende effecten zijn uit het project geïmporteerd"
 
-#: src/doc/kdenlivedoc.cpp:1380 src/doc/kdenlivedoc.cpp:1394
+#: src/doc/kdenlivedoc.cpp:1383 src/doc/kdenlivedoc.cpp:1397
 #, kde-format
 msgid "Project Folder"
 msgstr "Projectmap"
 
-#: src/doc/kdenlivedoc.cpp:1438 src/doc/kdenlivedoc.cpp:1455
+#: src/doc/kdenlivedoc.cpp:1441 src/doc/kdenlivedoc.cpp:1458
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -22370,55 +22372,55 @@ msgstr ""
 "Kan geen backup-bestand maken.\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1613
+#: src/doc/kdenlivedoc.cpp:1616
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr "Proxy-clips zijn niet bedoeld voor samenstellen of kleuring geven."
 
-#: src/doc/kdenlivedoc.cpp:1615
+#: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "De clip heeft een alfa-kanaal. "
 msgstr[1] "De clips hebben een alfa-kanaal. "
 
-#: src/doc/kdenlivedoc.cpp:1621
+#: src/doc/kdenlivedoc.cpp:1624
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "U hebt een clip heeft een alfa-kanaal. "
 msgstr[1] "U hebt %1 clips met een alfa-kanaal. "
 
-#: src/doc/kdenlivedoc.cpp:1623
+#: src/doc/kdenlivedoc.cpp:1626
 #, kde-format
 msgid "Proxy all clips"
 msgstr "Bij alle clips proxy gebruiken"
 
-#: src/doc/kdenlivedoc.cpp:1624
+#: src/doc/kdenlivedoc.cpp:1627
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr "Alleen proxy gebruiken bij clips zonder alfa"
 
-#: src/doc/kdenlivedoc.cpp:1640
+#: src/doc/kdenlivedoc.cpp:1643
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Proxy clip toevoegen"
 msgstr[1] "Proxy clips toevoegen"
 
-#: src/doc/kdenlivedoc.cpp:1642
+#: src/doc/kdenlivedoc.cpp:1645
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Verwijder proxy clip"
 msgstr[1] "Verwijder proxy clips"
 
-#: src/doc/kdenlivedoc.cpp:1688 src/doc/kdenlivedoc.cpp:1748
+#: src/doc/kdenlivedoc.cpp:1691 src/doc/kdenlivedoc.cpp:1751
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Clip-type ondersteunt geen proxies"
 
-#: src/doc/kdenlivedoc.cpp:1887
+#: src/doc/kdenlivedoc.cpp:1890
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -22428,14 +22430,14 @@ msgstr ""
 "Het project gebruikt een niet-standaard framesnelheid (%1), dit zal "
 "resulteren in misplaatste clips en frame-verschuiving."
 
-#: src/doc/kdenlivedoc.cpp:1985
+#: src/doc/kdenlivedoc.cpp:1988
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Waarschuwing: niet standaard fps, wordt aangepast naar dichts bij zijnd "
 "geheel getal. "
 
-#: src/doc/kdenlivedoc.cpp:2003
+#: src/doc/kdenlivedoc.cpp:2006
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -22444,43 +22446,43 @@ msgstr ""
 "Uw standaard projectprofiel is %1, maar het profiel (%2) van uw clip is %3.\n"
 "Wilt u het standaard profiel voor komende projecten wijzigingen?"
 
-#: src/doc/kdenlivedoc.cpp:2005
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standaard projectprofiel wijzigen"
 
-#: src/doc/kdenlivedoc.cpp:2005
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standaard wijzigen naar %1"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2009
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Huidige standaard %1 behouden"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2009
 #, kde-format
 msgid "Ask me later"
 msgstr "Later opnieuw vragen"
 
-#: src/doc/kdenlivedoc.cpp:2026
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Switch"
 msgstr "Omschakelen"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2028 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/doc/kdenlivedoc.cpp:2030
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Omschakelen naar clip (%1) profiel %2?"
 
-#: src/doc/kdenlivedoc.cpp:2035
+#: src/doc/kdenlivedoc.cpp:2038
 #, kde-format
 msgid ""
 "\n"
@@ -22489,7 +22491,7 @@ msgstr ""
 "\n"
 "Profiel fps aangepast van originele %1"
 
-#: src/doc/kdenlivedoc.cpp:2039
+#: src/doc/kdenlivedoc.cpp:2042
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -22498,18 +22500,18 @@ msgstr ""
 "Geen profiel gevonden voor uw clip %1.\n"
 "Maak en schakel om naar nieuw profiel (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2494 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Geel"
 
-#: src/doc/kdenlivedoc.cpp:2495
+#: src/doc/kdenlivedoc.cpp:2498
 #, kde-format
 msgid "Cyan"
 msgstr "Cyaan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2849 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -28686,7 +28688,7 @@ msgstr "Back-up-bestand openen…"
 msgid "Save changes to document?"
 msgstr "Wijzigingen opslaan in document?"
 
-#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1745
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1753
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -28855,13 +28857,13 @@ msgstr ""
 "Projectbestand is beschadigd -tracks laden is mislukt. Probeer een "
 "reservekopiebestand te vinden?"
 
-#: src/project/projectmanager.cpp:1751 src/project/projectmanager.cpp:1756
-#: src/project/projectmanager.cpp:1766 src/project/projectmanager.cpp:1780
+#: src/project/projectmanager.cpp:1745 src/project/projectmanager.cpp:1758
+#: src/project/projectmanager.cpp:1782 src/project/projectmanager.cpp:1791
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projectprofiel wijzigen afgebroken"
 
-#: src/project/projectmanager.cpp:1903
+#: src/project/projectmanager.cpp:1916
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -28870,12 +28872,12 @@ msgstr ""
 "Uitvoerbestand %1 bestaat al.\n"
 "Wilt u het overschrijven?"
 
-#: src/project/projectmanager.cpp:1925
+#: src/project/projectmanager.cpp:1941
 #, kde-format
 msgid "Project profile changed"
 msgstr "Project profiel gewijzigd"
 
-#: src/project/projectmanager.cpp:1989
+#: src/project/projectmanager.cpp:2005
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -28884,18 +28886,18 @@ msgstr ""
 "Kan geen tijdlijn uit deze clip maken:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2072
+#: src/project/projectmanager.cpp:2088
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Een clip met sequentie importeren, dit is nu in een experimentele status"
 
-#: src/project/projectmanager.cpp:2317
+#: src/project/projectmanager.cpp:2333
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Een clip selecteren om sequentie aan te maken"
 
-#: src/project/projectmanager.cpp:2355
+#: src/project/projectmanager.cpp:2371
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sequentie-clip aanmaken"

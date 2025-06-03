@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-02 00:41+0000\n"
-"PO-Revision-Date: 2025-05-30 17:34+0200\n"
+"POT-Creation-Date: 2025-06-03 00:42+0000\n"
+"PO-Revision-Date: 2025-06-01 19:36+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -2090,8 +2090,7 @@ msgid "Output color format"
 msgstr "Format de couleurs en sortie"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:32
-#, fuzzy, kde-format
-#| msgid "Fast Conversion"
+#, kde-format
 msgid "Fast conversion"
 msgstr "Conversion rapide"
 
@@ -2101,8 +2100,7 @@ msgid "No dithering,Floyd-Steinberg dithering"
 msgstr "Aucun tramage, Tramage Floyd-Steinberg"
 
 #: data/effects/avfilter/avfilter_colorspace.xml:36
-#, fuzzy, kde-format
-#| msgid "Dithering Mode"
+#, kde-format
 msgid "Dithering mode"
 msgstr "Mode de tramage"
 
@@ -4391,10 +4389,9 @@ msgstr ""
 "grossissement « hq*x »"
 
 #: data/effects/avfilter/avfilter_hqx.xml:8
-#, fuzzy, kde-format
-#| msgid "2x,3x"
+#, kde-format
 msgid "2x,3x,4x"
-msgstr "2x, 3x"
+msgstr "2x, 3x, 4x"
 
 #: data/effects/avfilter/avfilter_il.xml:4
 #, kde-format
@@ -5045,10 +5042,9 @@ msgstr "Lissage temporel pour la réduction du scintillement"
 
 #: data/effects/avfilter/avfilter_normalize.xml:20
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Install missing dependencies"
+#, kde-format
 msgid "Independence"
-msgstr "Installer les dépendances manquantes"
+msgstr "Indépendance"
 
 #: data/effects/avfilter/avfilter_normalize.xml:21
 #, kde-format
@@ -8201,8 +8197,7 @@ msgstr ""
 "occupez les 90 degrés derrière la caméra."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:8
-#, fuzzy, kde-format
-#| msgid "Vertical Start"
+#, kde-format
 msgid "Vertical start"
 msgstr "Début vertical"
 
@@ -8215,8 +8210,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:12
-#, fuzzy, kde-format
-#| msgid "Vertical End"
+#, kde-format
 msgid "Vertical end"
 msgstr "Fin verticale"
 
@@ -8242,8 +8236,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
-#, fuzzy, kde-format
-#| msgid "Horizontal End"
+#, kde-format
 msgid "Horizontal end"
 msgstr "Fin horizontale"
 
@@ -8485,10 +8478,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:32
-#, fuzzy, kde-format
-#| msgid "Lens Radius"
+#, kde-format
 msgid "Lens radius"
-msgstr "Focale"
+msgstr "Rayon de focale"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:33
 #, kde-format
@@ -8707,7 +8699,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:125
 #, kde-format
 msgid "EMoR h(1)"
-msgstr ""
+msgstr "EMoR h(1)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:127
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:132
@@ -8726,22 +8718,22 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:130
 #, kde-format
 msgid "EMoR h(2)"
-msgstr ""
+msgstr "EMoR h(2)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:135
 #, kde-format
 msgid "EMoR h(3)"
-msgstr ""
+msgstr "EMoR h(3)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:140
 #, kde-format
 msgid "EMoR h(4)"
-msgstr ""
+msgstr "EMoR h(4)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:145
 #, kde-format
 msgid "EMoR h(5)"
-msgstr ""
+msgstr "EMoR h(5)"
 
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:4
 #, kde-format
@@ -8806,10 +8798,9 @@ msgid "<![CDATA[Select the file to store stabilization data in]]>"
 msgstr "<![CDATA[Définir la taille horizontale de la matrice de luminosité]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:17
-#, fuzzy, kde-format
-#| msgid "X offset"
+#, kde-format
 msgid "Start offset"
-msgstr "Décalage en X"
+msgstr "Décalage de début"
 
 #: data/effects/frei0r/frei0r_bigsh0t_stabilize_360.xml:19
 #, kde-format
@@ -9250,8 +9241,7 @@ msgstr ""
 "significative"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:4
-#, fuzzy, kde-format
-#| msgid "RGB adjustment"
+#, kde-format
 msgid "RGB Adjustment"
 msgstr "Ajustement RVB"
 
@@ -9260,14 +9250,14 @@ msgstr "Ajustement RVB"
 msgid "Simple color adjustment"
 msgstr "Ajustement de couleur simple"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2491
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2494
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Rouge"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2492
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2495
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
@@ -9276,7 +9266,7 @@ msgstr "Rouge"
 msgid "Green"
 msgstr "Vert"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2493
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2496
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -9913,11 +9903,9 @@ msgid "Set the shape color of the fifth detected face."
 msgstr "Régler la couleur de la forme du 5ème visage détecté"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Grain Effect Name"
-#| msgid "Grain"
+#, kde-format
 msgid "Film Grain"
-msgstr "Grain"
+msgstr "Grain de film"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
@@ -9925,10 +9913,9 @@ msgid "Adds film-like grain and softens the picture"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Grain amount"
-msgstr "Valeur de nuance"
+msgstr "Quantité de grain"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
 #, fuzzy, kde-format
@@ -9937,10 +9924,9 @@ msgid "<![CDATA[The intensity of the grain]]>"
 msgstr "<![CDATA[Définir l’opacité du réticule]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Red grain"
-msgstr "Balance de rouges"
+msgstr "Grain des rouges"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
 #, fuzzy, kde-format
@@ -9949,10 +9935,9 @@ msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
 msgstr "<![CDATA[Facteur d’échelle appliqué à l’axe X]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green grain"
-msgstr "Nuance de vert"
+msgstr "Grain des verts"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
 #, fuzzy, kde-format
@@ -9961,10 +9946,9 @@ msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
 msgstr "<![CDATA[Facteur d’échelle appliqué à l’axe X]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
-#, fuzzy, kde-format
-#| msgid "Blue balance"
+#, kde-format
 msgid "Blue grain"
-msgstr "Balance des bleus"
+msgstr "Grain des bleus"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
 #, fuzzy, kde-format
@@ -9985,10 +9969,9 @@ msgid "<![CDATA[The intensity of the blur]]>"
 msgstr "<![CDATA[Inclinaison du profil]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, fuzzy, kde-format
-#| msgid "Wet amount"
+#, kde-format
 msgid "Dust amount"
-msgstr "Quantité humide"
+msgstr "Quantité de poussière"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, fuzzy, kde-format
@@ -9999,7 +9982,7 @@ msgstr "<![CDATA[Longueur du profil en pixels]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
 msgid "Flicker"
-msgstr ""
+msgstr "Flicker"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
@@ -10923,11 +10906,10 @@ msgid "Flushes frames in time in a nervous way"
 msgstr "Agite les images dans le temps de manière nerveuse"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgctxt "Levels Effect Name"
 msgid "Normaliz0r"
-msgstr "Normaliser"
+msgstr "Normaliz0r"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
@@ -10935,14 +10917,12 @@ msgid "Normalize (aka histogram stretch, contrast stretch)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Black point"
-msgstr "Sortie noire"
+msgstr "Point noir"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
-#, fuzzy, kde-format
-#| msgid "White Noise"
+#, kde-format
 msgid "White point"
 msgstr "Bruit blanc"
 
@@ -12728,11 +12708,9 @@ msgid "Discard color information"
 msgstr "Annuler les informations concernant la couleur"
 
 #: data/effects/hsl_primaries.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Primaries Effect Name"
-#| msgid "Primaries"
+#, kde-format
 msgid "HSL Primaries"
-msgstr "Primaires"
+msgstr "Primaires HSL"
 
 #: data/effects/hsl_primaries.xml:5
 #, kde-format
@@ -12853,10 +12831,9 @@ msgid "The amount of overlap or blending between primaries"
 msgstr ""
 
 #: data/effects/hsl_range.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "HSL Range"
-msgstr "Définir un intervalle"
+msgstr "Intervalle HSL"
 
 #: data/effects/hsl_range.xml:5
 #, kde-format
@@ -12866,10 +12843,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/hsl_range.xml:8
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Hue Center"
-msgstr "Centre"
+msgstr "Centre des teintes"
 
 #: data/effects/hsl_range.xml:9
 #, kde-format
@@ -12877,10 +12853,9 @@ msgid "The center value for the hue range"
 msgstr ""
 
 #: data/effects/hsl_range.xml:12
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "Hue Range"
-msgstr "Définir un intervalle"
+msgstr "Intervalle de teinte"
 
 #: data/effects/hsl_range.xml:13
 #, kde-format
@@ -12894,8 +12869,7 @@ msgid "The amount to blend the edges of the hue range"
 msgstr "La quantité en pixels pour flouter le bord de l'ombre"
 
 #: data/effects/hsl_range.xml:20
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift"
 msgstr "Décalage de teinte"
 
@@ -14806,16 +14780,14 @@ msgid "Use cos instead of linear"
 msgstr "Utiliser un cosinus plutôt qu'un gain"
 
 #: data/effects/vignette.xml:11
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Center X"
-msgstr "Centre"
+msgstr "Centrer en X"
 
 #: data/effects/vignette.xml:14
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Center Y"
-msgstr "Centre"
+msgstr "Centrer en Y"
 
 #: data/effects/vignette.xml:20 src/assets/keyframes/model/keyframemodel.cpp:49
 #, kde-format
@@ -19017,7 +18989,7 @@ msgstr "Clip texte"
 msgid "Create Text clip"
 msgstr "Créer une vidéo de texte"
 
-#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1200
+#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1203
 #, kde-format
 msgid "Template title clip"
 msgstr "Modèle de clip titre"
@@ -19371,7 +19343,7 @@ msgstr "Exporter des données de guides"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1793
 #: src/dialogs/renderwidget.cpp:1817 src/doc/kdenlivedoc.cpp:766
-#: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1340
+#: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1343
 #: src/effects/effectlist/model/effecttreemodel.cpp:301
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
@@ -19383,7 +19355,8 @@ msgstr "Exporter des données de guides"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1915 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1922 src/project/projectmanager.cpp:1928
+#: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
 #: src/timeline2/view/timelinecontroller.cpp:5169
@@ -19451,7 +19424,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Si vous n'êtes pas sûr, veuillez essayer :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:340 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:340 src/project/projectmanager.cpp:1816
 #: src/renderpresets/renderpresetrepository.cpp:324
 #, kde-format
 msgid "Cannot read file %1"
@@ -22563,30 +22536,29 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Erreur lors du déplacement du dossier du projet : %1"
 
-#: src/doc/kdenlivedoc.cpp:1126 src/doc/kdenlivedoc.cpp:2452
+#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2455
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1746
 #, kde-format
 msgid "Untitled"
 msgstr "Sans titre"
 
-#: src/doc/kdenlivedoc.cpp:1186
+#: src/doc/kdenlivedoc.cpp:1189
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Saisir l'emplacement du modèle"
 
-#: src/doc/kdenlivedoc.cpp:1347
+#: src/doc/kdenlivedoc.cpp:1350
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Les effets suivants ont été importés du projet :"
 
-#: src/doc/kdenlivedoc.cpp:1380 src/doc/kdenlivedoc.cpp:1394
+#: src/doc/kdenlivedoc.cpp:1383 src/doc/kdenlivedoc.cpp:1397
 #, kde-format
 msgid "Project Folder"
 msgstr "Dossier de projet"
 
-#: src/doc/kdenlivedoc.cpp:1438 src/doc/kdenlivedoc.cpp:1455
+#: src/doc/kdenlivedoc.cpp:1441 src/doc/kdenlivedoc.cpp:1458
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -22595,21 +22567,21 @@ msgstr ""
 "Impossible de créer une copie de sauvegarde :\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1613
+#: src/doc/kdenlivedoc.cpp:1616
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr ""
 "Les serveurs mandataires de séquences ne sont pas destinés à la composition "
 "ou à l'étalonnage des couleurs."
 
-#: src/doc/kdenlivedoc.cpp:1615
+#: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "Cette séquence possède un canal Alpha."
 msgstr[1] "Ces séquences possèdent un canal Alpha."
 
-#: src/doc/kdenlivedoc.cpp:1621
+#: src/doc/kdenlivedoc.cpp:1624
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
@@ -22618,37 +22590,37 @@ msgstr[1] ""
 "Vous avez %1 séquences possédant un canal Alpha. L'utilisation d'un serveur "
 "mandataire est déconseillé."
 
-#: src/doc/kdenlivedoc.cpp:1623
+#: src/doc/kdenlivedoc.cpp:1626
 #, kde-format
 msgid "Proxy all clips"
 msgstr "Utiliser un serveur mandataire pour toutes les séquences"
 
-#: src/doc/kdenlivedoc.cpp:1624
+#: src/doc/kdenlivedoc.cpp:1627
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr ""
 "Utiliser un serveur mandataire uniquement pour les séquences sans canal Alpha"
 
-#: src/doc/kdenlivedoc.cpp:1640
+#: src/doc/kdenlivedoc.cpp:1643
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Ajouter un clip intermédiaire"
 msgstr[1] "Ajouter des clips intermédiaires"
 
-#: src/doc/kdenlivedoc.cpp:1642
+#: src/doc/kdenlivedoc.cpp:1645
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Enlever le clip intermédiaire"
 msgstr[1] "Enlever les clips intermédiaires"
 
-#: src/doc/kdenlivedoc.cpp:1688 src/doc/kdenlivedoc.cpp:1748
+#: src/doc/kdenlivedoc.cpp:1691 src/doc/kdenlivedoc.cpp:1751
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Ce type de clip ne prend pas en charge les intermédiaires"
 
-#: src/doc/kdenlivedoc.cpp:1887
+#: src/doc/kdenlivedoc.cpp:1890
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -22658,14 +22630,14 @@ msgstr ""
 "Le projet utilise une fréquence de trames non standard (%1). Ceci conduira à "
 "des vidéos mal placées et un décalage de trames."
 
-#: src/doc/kdenlivedoc.cpp:1985
+#: src/doc/kdenlivedoc.cpp:1988
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Attention : taux « FPS » non standard. Ajustement vers le nombre entier le "
 "plus proche."
 
-#: src/doc/kdenlivedoc.cpp:2003
+#: src/doc/kdenlivedoc.cpp:2006
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -22675,43 +22647,43 @@ msgstr ""
 "(%2) est %3.\n"
 "Voulez-vous modifier le profil par défaut de vos futurs projets ?"
 
-#: src/doc/kdenlivedoc.cpp:2005
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Change default project profile"
 msgstr "Changer le profil par défaut des projets"
 
-#: src/doc/kdenlivedoc.cpp:2005
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Change default to %1"
 msgstr "Changer le défaut à %1"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2009
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Conserver le profil par défaut courant %1"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2009
 #, kde-format
 msgid "Ask me later"
 msgstr "Me demander plus tard"
 
-#: src/doc/kdenlivedoc.cpp:2026
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Switch"
 msgstr "Changer"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2028 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/doc/kdenlivedoc.cpp:2030
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Basculer vers le profil %2 de vidéo (%1) ?"
 
-#: src/doc/kdenlivedoc.cpp:2035
+#: src/doc/kdenlivedoc.cpp:2038
 #, kde-format
 msgid ""
 "\n"
@@ -22720,7 +22692,7 @@ msgstr ""
 "\n"
 "fréquence d'images du profil ajustée depuis l'original %1"
 
-#: src/doc/kdenlivedoc.cpp:2039
+#: src/doc/kdenlivedoc.cpp:2042
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -22730,18 +22702,18 @@ msgstr ""
 "Voulez-vous créer ce nouveau profil (%2 x %3, %4 FPS) et basculer vers lui ? "
 "%5"
 
-#: src/doc/kdenlivedoc.cpp:2494 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Jaune"
 
-#: src/doc/kdenlivedoc.cpp:2495
+#: src/doc/kdenlivedoc.cpp:2498
 #, kde-format
 msgid "Cyan"
 msgstr "Cyan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2849 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -28998,7 +28970,7 @@ msgstr "Ouvrir un fichier de sauvegarde..."
 msgid "Save changes to document?"
 msgstr "Enregistrer les modifications du document ?"
 
-#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1745
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1753
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -29171,13 +29143,13 @@ msgstr ""
 "Le fichier de projet est corrompu. Impossible de charger les pistes. Voulez-"
 "vous essayer de charger un fichier de sauvegarde ?"
 
-#: src/project/projectmanager.cpp:1751 src/project/projectmanager.cpp:1756
-#: src/project/projectmanager.cpp:1766 src/project/projectmanager.cpp:1780
+#: src/project/projectmanager.cpp:1745 src/project/projectmanager.cpp:1758
+#: src/project/projectmanager.cpp:1782 src/project/projectmanager.cpp:1791
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Changement de profil de projet annulé"
 
-#: src/project/projectmanager.cpp:1903
+#: src/project/projectmanager.cpp:1916
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -29186,12 +29158,12 @@ msgstr ""
 "Le fichier de sortie %1 existe déjà.\n"
 "Voulez-vous vraiment l'écraser ?"
 
-#: src/project/projectmanager.cpp:1925
+#: src/project/projectmanager.cpp:1941
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil de projet modifié"
 
-#: src/project/projectmanager.cpp:1989
+#: src/project/projectmanager.cpp:2005
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -29200,18 +29172,18 @@ msgstr ""
 "Impossible de créer une frise chronologique à partir de cette vidéo :\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2072
+#: src/project/projectmanager.cpp:2088
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importation d'une séquence de vidéo. Ceci est dans un état expérimental."
 
-#: src/project/projectmanager.cpp:2317
+#: src/project/projectmanager.cpp:2333
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sélectionner une vidéo pour créer une séquence"
 
-#: src/project/projectmanager.cpp:2355
+#: src/project/projectmanager.cpp:2371
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Créer une vidéo de séquences"
@@ -29987,7 +29959,7 @@ msgstr "Sans perte / Haute qualité"
 #: src/renderpresets/renderpresetrepository.cpp:241
 #, kde-format
 msgid "10 Bit"
-msgstr ""
+msgstr "10 bits"
 
 #: src/renderpresets/renderpresetrepository.cpp:254
 #, kde-format

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-06-02 00:41+0000\n"
+"POT-Creation-Date: 2025-06-03 00:42+0000\n"
 "PO-Revision-Date: 2025-03-28 01:05-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -9030,14 +9030,14 @@ msgstr "Ajuste RGB"
 msgid "Simple color adjustment"
 msgstr "Ajuste de cores simples"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2491
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2494
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Vermelho"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2492
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:11 src/doc/kdenlivedoc.cpp:2495
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:53
@@ -9046,7 +9046,7 @@ msgstr "Vermelho"
 msgid "Green"
 msgstr "Verde"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2493
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:14 src/doc/kdenlivedoc.cpp:2496
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -18677,7 +18677,7 @@ msgstr "Clipe de texto"
 msgid "Create Text clip"
 msgstr "Criar clipe de texto"
 
-#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1200
+#: src/dialogs/clipcreationdialog.cpp:349 src/doc/kdenlivedoc.cpp:1203
 #, kde-format
 msgid "Template title clip"
 msgstr "Modelo de clipe de titulo"
@@ -19025,7 +19025,7 @@ msgstr "Exportar dados das guias"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1793
 #: src/dialogs/renderwidget.cpp:1817 src/doc/kdenlivedoc.cpp:766
-#: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1340
+#: src/doc/kdenlivedoc.cpp:774 src/doc/kdenlivedoc.cpp:1343
 #: src/effects/effectlist/model/effecttreemodel.cpp:301
 #: src/effects/effectlist/model/effecttreemodel.cpp:314
 #: src/effects/effectsrepository.cpp:418
@@ -19037,7 +19037,8 @@ msgstr "Exportar dados das guias"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1915 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1922 src/project/projectmanager.cpp:1928
+#: src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:391
 #: src/renderpresets/renderpresetrepository.cpp:447
 #: src/timeline2/view/timelinecontroller.cpp:5169
@@ -19104,7 +19105,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Se não tiver certeza, tente:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:340 src/project/projectmanager.cpp:1805
+#: src/project/dialogs/guideslist.cpp:340 src/project/projectmanager.cpp:1816
 #: src/renderpresets/renderpresetrepository.cpp:324
 #, kde-format
 msgid "Cannot read file %1"
@@ -22180,30 +22181,29 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Erro ao mover a pasta do projeto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1126 src/doc/kdenlivedoc.cpp:2452
+#: src/doc/kdenlivedoc.cpp:1129 src/doc/kdenlivedoc.cpp:2455
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/projectmanager.cpp:1746
 #, kde-format
 msgid "Untitled"
 msgstr "Sem título"
 
-#: src/doc/kdenlivedoc.cpp:1186
+#: src/doc/kdenlivedoc.cpp:1189
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Insira o caminho do modelo"
 
-#: src/doc/kdenlivedoc.cpp:1347
+#: src/doc/kdenlivedoc.cpp:1350
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Os seguintes efeitos foram importados do projeto:"
 
-#: src/doc/kdenlivedoc.cpp:1380 src/doc/kdenlivedoc.cpp:1394
+#: src/doc/kdenlivedoc.cpp:1383 src/doc/kdenlivedoc.cpp:1397
 #, kde-format
 msgid "Project Folder"
 msgstr "Pasta do projeto"
 
-#: src/doc/kdenlivedoc.cpp:1438 src/doc/kdenlivedoc.cpp:1455
+#: src/doc/kdenlivedoc.cpp:1441 src/doc/kdenlivedoc.cpp:1458
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -22212,55 +22212,55 @@ msgstr ""
 "Não foi possível criar a cópia de segurança:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1613
+#: src/doc/kdenlivedoc.cpp:1616
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr "Os clipes proxy não são destinados à composição ou correção de cor."
 
-#: src/doc/kdenlivedoc.cpp:1615
+#: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "O clipe tem canal alfa."
 msgstr[1] "Os clipes têm canal alfa."
 
-#: src/doc/kdenlivedoc.cpp:1621
+#: src/doc/kdenlivedoc.cpp:1624
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "Você tem um clipe com canal alfa."
 msgstr[1] "Você tem %1 clipes com canal alfa."
 
-#: src/doc/kdenlivedoc.cpp:1623
+#: src/doc/kdenlivedoc.cpp:1626
 #, kde-format
 msgid "Proxy all clips"
 msgstr "Transformar todos os clipes em proxy"
 
-#: src/doc/kdenlivedoc.cpp:1624
+#: src/doc/kdenlivedoc.cpp:1627
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr "Clipes de proxy sem alfa, apenas"
 
-#: src/doc/kdenlivedoc.cpp:1640
+#: src/doc/kdenlivedoc.cpp:1643
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Adicionar clipe"
 msgstr[1] "Adicionar clipes"
 
-#: src/doc/kdenlivedoc.cpp:1642
+#: src/doc/kdenlivedoc.cpp:1645
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Remover Clipe do Proxy"
 msgstr[1] "Remover Clipes do Proxy"
 
-#: src/doc/kdenlivedoc.cpp:1688 src/doc/kdenlivedoc.cpp:1748
+#: src/doc/kdenlivedoc.cpp:1691 src/doc/kdenlivedoc.cpp:1751
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "O tipo de clipe não é compatível com proxies"
 
-#: src/doc/kdenlivedoc.cpp:1887
+#: src/doc/kdenlivedoc.cpp:1890
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -22270,12 +22270,12 @@ msgstr ""
 "Este projeto usa uma taxa de quadros fora do padrão (%1), isso resultará em "
 "clipes fora do lugar e deslocamento de quadros."
 
-#: src/doc/kdenlivedoc.cpp:1985
+#: src/doc/kdenlivedoc.cpp:1988
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "Aviso: fps fora do padrão, ajustando para o inteiro mais próximo. "
 
-#: src/doc/kdenlivedoc.cpp:2003
+#: src/doc/kdenlivedoc.cpp:2006
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -22284,43 +22284,43 @@ msgstr ""
 "Seu perfil de projeto padrão é %1, mas o perfil (%2) do seu clipe é %3.\n"
 "Você quer alterar o perfil padrão para projetos futuros?"
 
-#: src/doc/kdenlivedoc.cpp:2005
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Change default project profile"
 msgstr "Alterar perfil de projeto padrão"
 
-#: src/doc/kdenlivedoc.cpp:2005
+#: src/doc/kdenlivedoc.cpp:2008
 #, kde-format
 msgid "Change default to %1"
 msgstr "Alterar o padrão para %1"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2009
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Manter o padrão atual %1"
 
-#: src/doc/kdenlivedoc.cpp:2006
+#: src/doc/kdenlivedoc.cpp:2009
 #, kde-format
 msgid "Ask me later"
 msgstr "Pergunte-me mais tarde"
 
-#: src/doc/kdenlivedoc.cpp:2026
+#: src/doc/kdenlivedoc.cpp:2029
 #, kde-format
 msgid "Switch"
 msgstr "Mudar"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2028 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2031 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/doc/kdenlivedoc.cpp:2030
+#: src/doc/kdenlivedoc.cpp:2033
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Mudar para o perfil de clipe (%1) %2?"
 
-#: src/doc/kdenlivedoc.cpp:2035
+#: src/doc/kdenlivedoc.cpp:2038
 #, kde-format
 msgid ""
 "\n"
@@ -22329,7 +22329,7 @@ msgstr ""
 "\n"
 "Perfil fps ajustado do original %1"
 
-#: src/doc/kdenlivedoc.cpp:2039
+#: src/doc/kdenlivedoc.cpp:2042
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -22338,18 +22338,18 @@ msgstr ""
 "Não foi encontrado nenhum perfil para seu clipe %1.\n"
 "Criar e mudar para o novo perfil (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2494 src/scopes/colorscopes/waveform.cpp:34
+#: src/doc/kdenlivedoc.cpp:2497 src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Yellow"
 msgstr "Amarelo"
 
-#: src/doc/kdenlivedoc.cpp:2495
+#: src/doc/kdenlivedoc.cpp:2498
 #, kde-format
 msgid "Cyan"
 msgstr "Ciano"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2849 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2852 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -28569,7 +28569,7 @@ msgstr "Abrir cópia de segurança…"
 msgid "Save changes to document?"
 msgstr "Salvar as alterações do documento?"
 
-#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1745
+#: src/project/projectmanager.cpp:449 src/project/projectmanager.cpp:1753
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -28740,13 +28740,13 @@ msgstr ""
 "O arquivo do projeto está corrompido - erro ao carregar trilhas. Tentar "
 "encontrar um arquivo de cópia de segurança?"
 
-#: src/project/projectmanager.cpp:1751 src/project/projectmanager.cpp:1756
-#: src/project/projectmanager.cpp:1766 src/project/projectmanager.cpp:1780
+#: src/project/projectmanager.cpp:1745 src/project/projectmanager.cpp:1758
+#: src/project/projectmanager.cpp:1782 src/project/projectmanager.cpp:1791
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Alteração do perfil do projeto abortada"
 
-#: src/project/projectmanager.cpp:1903
+#: src/project/projectmanager.cpp:1916
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -28755,12 +28755,12 @@ msgstr ""
 "Arquivo de saída %1 já existe.\n"
 "Você deseja sobrescrevê-lo?"
 
-#: src/project/projectmanager.cpp:1925
+#: src/project/projectmanager.cpp:1941
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil do projeto alterado"
 
-#: src/project/projectmanager.cpp:1989
+#: src/project/projectmanager.cpp:2005
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -28769,17 +28769,17 @@ msgstr ""
 "Não foi possível criar uma linha do tempo a partir desse clipe:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2072
+#: src/project/projectmanager.cpp:2088
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Importando um clipe em sequência, atualmente em estado experimental"
 
-#: src/project/projectmanager.cpp:2317
+#: src/project/projectmanager.cpp:2333
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Selecione um clipe para criar a sequência"
 
-#: src/project/projectmanager.cpp:2355
+#: src/project/projectmanager.cpp:2371
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Criar clipe de sequência"
