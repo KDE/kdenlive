@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-31 02:39+0000\n"
+"POT-Creation-Date: 2025-06-03 02:39+0000\n"
 "PO-Revision-Date: 2025-05-07 10:25+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -30187,7 +30187,7 @@ msgid "No available stream"
 msgstr "沒有可用的串流"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
+#: src/titler/titlewidget.cpp:3324 src/titler/titlewidget.cpp:3327
 #, kde-format
 msgid "Gradient %1"
 msgstr "漸層 %1"
@@ -30551,7 +30551,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "結束檢視埠"
 
-#: src/titler/titlewidget.cpp:3352
+#: src/titler/titlewidget.cpp:3357
 #, kde-format
 msgid "Gradient"
 msgstr "漸層"

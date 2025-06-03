@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-31 02:39+0000\n"
+"POT-Creation-Date: 2025-06-03 02:39+0000\n"
 "PO-Revision-Date: 2025-04-28 09:02+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -30138,7 +30138,7 @@ msgid "No available stream"
 msgstr "ხელმისაწვდომი ნაკადის გარეშე"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
+#: src/titler/titlewidget.cpp:3324 src/titler/titlewidget.cpp:3327
 #, kde-format
 msgid "Gradient %1"
 msgstr "გრადიენტი %1"
@@ -30508,7 +30508,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "გადახედვის ხედის დასრულება"
 
-#: src/titler/titlewidget.cpp:3352
+#: src/titler/titlewidget.cpp:3357
 #, kde-format
 msgid "Gradient"
 msgstr "გრადაცია"

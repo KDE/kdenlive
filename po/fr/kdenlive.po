@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-31 02:39+0000\n"
-"PO-Revision-Date: 2025-05-02 16:34+0200\n"
+"POT-Creation-Date: 2025-06-03 02:39+0000\n"
+"PO-Revision-Date: 2025-06-01 19:36+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -9306,11 +9306,9 @@ msgid "Set the shape color of the fifth detected face."
 msgstr "Régler la couleur de la forme du 5ème visage détecté"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Grain Effect Name"
-#| msgid "Grain"
+#, kde-format
 msgid "Film Grain"
-msgstr "Grain"
+msgstr "Grain de film"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
@@ -9318,10 +9316,9 @@ msgid "Adds film-like grain and softens the picture"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Grain amount"
-msgstr "Valeur de nuance"
+msgstr "Quantité de grain"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
 #, fuzzy, kde-format
@@ -9330,10 +9327,9 @@ msgid "<![CDATA[The intensity of the grain]]>"
 msgstr "<![CDATA[Définir l’opacité du réticule]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Red grain"
-msgstr "Balance de rouges"
+msgstr "Grain des rouges"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
 #, fuzzy, kde-format
@@ -9342,10 +9338,9 @@ msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
 msgstr "<![CDATA[Facteur d’échelle appliqué à l’axe X]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
-#, fuzzy, kde-format
-#| msgid "Green Tint"
+#, kde-format
 msgid "Green grain"
-msgstr "Nuance de vert"
+msgstr "Grain des verts"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
 #, fuzzy, kde-format
@@ -9354,10 +9349,9 @@ msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
 msgstr "<![CDATA[Facteur d’échelle appliqué à l’axe X]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
-#, fuzzy, kde-format
-#| msgid "Blue balance"
+#, kde-format
 msgid "Blue grain"
-msgstr "Balance des bleus"
+msgstr "Grain des bleus"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
 #, fuzzy, kde-format
@@ -9378,10 +9372,9 @@ msgid "<![CDATA[The intensity of the blur]]>"
 msgstr "<![CDATA[Inclinaison du profil]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, fuzzy, kde-format
-#| msgid "Wet amount"
+#, kde-format
 msgid "Dust amount"
-msgstr "Quantité humide"
+msgstr "Quantité de poussière"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, fuzzy, kde-format
@@ -9392,7 +9385,7 @@ msgstr "<![CDATA[Longueur du profil en pixels]]>"
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
 msgid "Flicker"
-msgstr ""
+msgstr "Flicker"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
@@ -10269,11 +10262,10 @@ msgid "Flushes frames in time in a nervous way"
 msgstr "Agite les images dans le temps de manière nerveuse"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgctxt "Levels Effect Name"
 msgid "Normaliz0r"
-msgstr "Normaliser"
+msgstr "Normaliz0r"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
@@ -10281,10 +10273,9 @@ msgid "Normalize (aka histogram stretch, contrast stretch)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Black point"
-msgstr "Sortie noire"
+msgstr "Point noir"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:9
 #, kde-format
@@ -10292,8 +10283,7 @@ msgid "Output color to which darkest input color is mapped (default black)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
-#, fuzzy, kde-format
-#| msgid "White Noise"
+#, kde-format
 msgid "White point"
 msgstr "Bruit blanc"
 
@@ -10316,10 +10306,9 @@ msgid ""
 msgstr "Lissage temporel pour la réduction du scintillement"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Install missing dependencies"
+#, kde-format
 msgid "Independence"
-msgstr "Installer les dépendances manquantes"
+msgstr "Indépendance"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:21
 #, kde-format
@@ -12103,11 +12092,9 @@ msgid "Discard color information"
 msgstr "Annuler les informations concernant la couleur"
 
 #: data/effects/hsl_primaries.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Primaries Effect Name"
-#| msgid "Primaries"
+#, kde-format
 msgid "HSL Primaries"
-msgstr "Primaires"
+msgstr "Primaires HSL"
 
 #: data/effects/hsl_primaries.xml:5
 #, kde-format
@@ -12228,10 +12215,9 @@ msgid "The amount of overlap or blending between primaries"
 msgstr ""
 
 #: data/effects/hsl_range.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "HSL Range"
-msgstr "Définir un intervalle"
+msgstr "Intervalle HSL"
 
 #: data/effects/hsl_range.xml:5
 #, kde-format
@@ -12241,10 +12227,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/hsl_range.xml:8
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Hue Center"
-msgstr "Centre"
+msgstr "Centre des teintes"
 
 #: data/effects/hsl_range.xml:9
 #, kde-format
@@ -12252,10 +12237,9 @@ msgid "The center value for the hue range"
 msgstr ""
 
 #: data/effects/hsl_range.xml:12
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "Hue Range"
-msgstr "Définir un intervalle"
+msgstr "Intervalle de teinte"
 
 #: data/effects/hsl_range.xml:13
 #, kde-format
@@ -12269,8 +12253,7 @@ msgid "The amount to blend the edges of the hue range"
 msgstr "La quantité en pixels pour flouter le bord de l'ombre"
 
 #: data/effects/hsl_range.xml:20
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift"
 msgstr "Décalage de teinte"
 
@@ -31121,7 +31104,7 @@ msgid "No available stream"
 msgstr "Aucun flux disponible"
 
 #: src/titler/gradientwidget.cpp:168 src/titler/gradientwidget.cpp:171
-#: src/titler/titlewidget.cpp:3319 src/titler/titlewidget.cpp:3322
+#: src/titler/titlewidget.cpp:3324 src/titler/titlewidget.cpp:3327
 #, kde-format
 msgid "Gradient %1"
 msgstr "Dégradé %1"
@@ -31492,7 +31475,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Fermer Viewport"
 
-#: src/titler/titlewidget.cpp:3352
+#: src/titler/titlewidget.cpp:3357
 #, kde-format
 msgid "Gradient"
 msgstr "Dégradé"
