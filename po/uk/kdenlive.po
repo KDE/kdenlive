@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-03 02:39+0000\n"
-"PO-Revision-Date: 2025-06-02 10:07+0300\n"
+"PO-Revision-Date: 2025-06-03 20:22+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3048,7 +3048,7 @@ msgstr "<![CDATA[Координата за Y верхнього лівого к�
 #: data/effects/avfilter/avfilter_drawbox.xml:16
 #, kde-format
 msgid "Width (px)"
-msgstr "Висота (пк)"
+msgstr "Ширина (пк)"
 
 #: data/effects/avfilter/avfilter_drawbox.xml:18
 #, kde-format

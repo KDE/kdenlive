@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-03 02:39+0000\n"
-"PO-Revision-Date: 2025-06-02 11:42+0200\n"
+"PO-Revision-Date: 2025-06-03 13:59+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -9246,10 +9246,9 @@ msgid "Grain amount"
 msgstr "Hoeveelheid korreligheid"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Set the opacity of the graticule]]>"
+#, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr "<![CDATA[Stel de dekking van de steepplaat in]]>"
+msgstr "<![CDATA[De intensiteit vasn de korrel]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, kde-format
@@ -9257,10 +9256,9 @@ msgid "Red grain"
 msgstr "Rode korreligheid"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+msgstr "<![CDATA[Het percentage van korrel toegepast op het rode kanaal]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
@@ -9268,46 +9266,39 @@ msgid "Green grain"
 msgstr "Groene korreligheid"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
-msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+msgstr "<![CDATA[Het percentage van korrel toegepast op het groene kanaal]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
-#, fuzzy, kde-format
-#| msgid "Blue balance"
+#, kde-format
 msgid "Blue grain"
-msgstr "Blauwbalans"
+msgstr "Blauwe korrel"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Scale factor applied to the X axis]]>"
+#, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
-msgstr "<![CDATA[Schaalfactor toegepast op de X-as]]>"
+msgstr "<![CDATA[Het percentage van korrel toegepast op het blauwe kanaal]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
-#, fuzzy, kde-format
-#| msgid "Dry amount"
+#, kde-format
 msgid "Blur amount"
-msgstr "Droge hoeveelheid"
+msgstr "Hoeveelheid vervaging"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Tilting of the profile]]>"
+#, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr "<![CDATA[Kanteling van het profiel]]>"
+msgstr "<![CDATA[De intensiteit van de vervaging]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
-#, fuzzy, kde-format
-#| msgid "Wet amount"
+#, kde-format
 msgid "Dust amount"
-msgstr "Natte hoeveelheid"
+msgstr "Hoeveelheid stof"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
-#, fuzzy, kde-format
-#| msgid "<![CDATA[Length of the profile in pixel]]>"
+#, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr "<![CDATA[Lengte van het profiel in pixels]]>"
+msgstr "<![CDATA[De hoeveelheid stofdeeltjes op de afbeelding]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
@@ -10194,10 +10185,9 @@ msgid "Normalize (aka histogram stretch, contrast stretch)"
 msgstr "Normaliseren (aka histogram uitrekken, contrast uitrekken)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
-#, fuzzy, kde-format
-#| msgid "Black output"
+#, kde-format
 msgid "Black point"
-msgstr "Zwartpunt:"
+msgstr "Zwartpunt"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:9
 #, kde-format
@@ -10207,10 +10197,9 @@ msgstr ""
 "zwart)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
-#, fuzzy, kde-format
-#| msgid "White Noise"
+#, kde-format
 msgid "White point"
-msgstr "Witpunt:"
+msgstr "Witpunt"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:13
 #, kde-format
@@ -10233,25 +10222,25 @@ msgstr ""
 "verminderen (standaard 0)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Install missing dependencies"
+#, kde-format
 msgid "Independence"
 msgstr "Onafhankelijkheid"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:21
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Proportion of independent to linked channel normalization (default 1000)"
 msgstr ""
-"Proportie van onafhankelijk naar gekoppelde kanaalnormalisatie (standaard 1)"
+"Proportie van onafhankelijk naar gekoppelde kanaalnormalisatie (standaard "
+"1000)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:25
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
 "Sterkte van filter, van geen effect (0) tot volledige normalisatie "
-"(standaard 1)"
+"(standaard 1000)"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
@@ -12006,11 +11995,9 @@ msgid "Discard color information"
 msgstr "Ontdoe van kleur informatie"
 
 #: data/effects/hsl_primaries.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Primaries Effect Name"
-#| msgid "Primaries"
+#, kde-format
 msgid "HSL Primaries"
-msgstr "Eerste keuze"
+msgstr "HSL-primairen"
 
 #: data/effects/hsl_primaries.xml:5
 #, kde-format
@@ -12022,34 +12009,29 @@ msgstr ""
 "secondaire kleuren."
 
 #: data/effects/hsl_primaries.xml:8
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Red"
-msgstr "Kleurtoonverschuiving"
+msgstr "Kleurtoonverschuiving rood"
 
 #: data/effects/hsl_primaries.xml:11
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Red"
-msgstr "Verzadiging"
+msgstr "Verzadigingsschaal rood"
 
 #: data/effects/hsl_primaries.xml:14
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Red"
-msgstr "Lichtheid"
+msgstr "Lichtheidsschaal rood"
 
 #: data/effects/hsl_primaries.xml:17
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Yellow"
-msgstr "Kleurtoonverschuiving"
+msgstr "Kleurtoonverschuiving geel"
 
 #: data/effects/hsl_primaries.xml:20
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Yellow"
-msgstr "Verzadiging"
+msgstr "Verzadigingsschaal geel"
 
 #: data/effects/hsl_primaries.xml:23
 #, kde-format
@@ -12062,58 +12044,49 @@ msgid "Hue Shift Green"
 msgstr "Kleurtoonverschuiving groen"
 
 #: data/effects/hsl_primaries.xml:29
-#, fuzzy, kde-format
-#| msgid "Saturation (GPU)"
+#, kde-format
 msgid "Saturation Scale Green"
-msgstr "Verzadiging (GPU)"
+msgstr "Verzadigingsschaal groen"
 
 #: data/effects/hsl_primaries.xml:32
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Green"
-msgstr "Lichtheid"
+msgstr "Lichtheidsschaal groen"
 
 #: data/effects/hsl_primaries.xml:35
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Cyan"
-msgstr "Kleurtoonverschuiving"
+msgstr "Kleurtoonverschuiving cyaan"
 
 #: data/effects/hsl_primaries.xml:38
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Cyan"
-msgstr "Verzadiging"
+msgstr "Verzadigingsschaal cyaan"
 
 #: data/effects/hsl_primaries.xml:41
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Cyan"
-msgstr "Lichtheid"
+msgstr "Lichtheidsschaal cyaan"
 
 #: data/effects/hsl_primaries.xml:44
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Blue"
-msgstr "Kleurtoonverschuiving"
+msgstr "Kleurtoonverschuiving blauw"
 
 #: data/effects/hsl_primaries.xml:47
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale Blue"
-msgstr "Verzadiging"
+msgstr "Verzadigingsschaal blauw"
 
 #: data/effects/hsl_primaries.xml:50
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale Blue"
-msgstr "Lichtheid"
+msgstr "Lichtheidsschaal blauw"
 
 #: data/effects/hsl_primaries.xml:53
-#, fuzzy, kde-format
-#| msgid "Hue shift"
+#, kde-format
 msgid "Hue Shift Magenta"
-msgstr "Kleurtoonverschuiving"
+msgstr "Kleurtoonverschuiving magenta"
 
 #: data/effects/hsl_primaries.xml:56
 #, kde-format
@@ -12121,10 +12094,9 @@ msgid "Saturation Scale Magenta"
 msgstr "Verzadigingsschaal magenta"
 
 #: data/effects/hsl_primaries.xml:59
-#, fuzzy, kde-format
-#| msgid "Lightness of the colorized image."
+#, kde-format
 msgid "Lightness Scale Magenta"
-msgstr "De lichtheid van een gekleurde afbeelding."
+msgstr "Lichtheidsschaal magenta"
 
 #: data/effects/hsl_primaries.xml:63
 #, kde-format
@@ -12132,10 +12104,9 @@ msgid "The amount of overlap or blending between primaries"
 msgstr "De hoeveelheid overlap of menging tussen primaire elementen"
 
 #: data/effects/hsl_range.xml:4
-#, fuzzy, kde-format
-#| msgid "Set Range"
+#, kde-format
 msgid "HSL Range"
-msgstr "Bereik instellen"
+msgstr "HSL-bereik"
 
 #: data/effects/hsl_range.xml:5
 #, kde-format
@@ -12147,10 +12118,9 @@ msgstr ""
 "gebruiker kan de reeks van de aan te passen tintwaarden specificeren."
 
 #: data/effects/hsl_range.xml:8
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Hue Center"
-msgstr "Midden"
+msgstr "Centrum van tint"
 
 #: data/effects/hsl_range.xml:9
 #, kde-format
@@ -12183,10 +12153,9 @@ msgid "The amount to shift the hue in the hue range"
 msgstr "De hoeveelheid te verschuiven tint in de tintreeks"
 
 #: data/effects/hsl_range.xml:24
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Saturation Scale"
-msgstr "Verzadiging"
+msgstr "Verzadigingsschaal"
 
 #: data/effects/hsl_range.xml:25
 #, kde-format
@@ -12194,16 +12163,14 @@ msgid "The amount to scale the saturation in the hue range"
 msgstr "De hoeveelheid te schalen verzadiging in de tintreeks"
 
 #: data/effects/hsl_range.xml:28
-#, fuzzy, kde-format
-#| msgid "Lightness"
+#, kde-format
 msgid "Lightness Scale"
-msgstr "Lichtheid"
+msgstr "Lichtheidsschaal"
 
 #: data/effects/hsl_range.xml:29
-#, fuzzy, kde-format
-#| msgid "The amount in pixel to blur the edge of the shadow"
+#, kde-format
 msgid "The amount to scale the lightness in the hue range"
-msgstr "De hoeveelheid in pixel om de rand van de schaduw te vervangen"
+msgstr "De hoeveelheid te schalen lichtheid in de tintreeks"
 
 #: data/effects/invert.xml:4
 #, kde-format
