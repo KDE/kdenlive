@@ -1869,6 +1869,9 @@ void MainWindow::setupActions()
     act = clipActionCategory->addAction(KStandardAction::Copy, this, SLOT(slotCopy()));
     act->setEnabled(false);
 
+    act = clipActionCategory->addAction(KStandardAction::Cut, this, SLOT(slotCut()));
+    act->setEnabled(false);
+
     KStandardAction::paste(this, SLOT(slotPaste()), actionCollection());
 
     // Keyframe actions
@@ -3550,6 +3553,20 @@ void MainWindow::slotCopy()
         widget = widget->parentWidget();
     }
     getCurrentTimeline()->controller()->copyItem();
+}
+
+void MainWindow::slotCut()
+{
+    QWidget *widget = QApplication::focusWidget();
+    while ((widget != nullptr) && widget != this) {
+        if (widget == m_effectStackDock) {
+            // Todo: cut effect?
+            // m_assetPanel->sendStandardCommand(KStandardAction::Copy);
+            return;
+        }
+        widget = widget->parentWidget();
+    }
+    getCurrentTimeline()->controller()->cutItem();
 }
 
 void MainWindow::slotPaste()

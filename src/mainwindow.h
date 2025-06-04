@@ -508,6 +508,7 @@ private Q_SLOTS:
     void slotDeleteAllGuides();
 
     void slotCopy();
+    void slotCut();
     void slotPaste();
     void slotPasteEffects();
     void slotResizeItemStart();

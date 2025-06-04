@@ -861,6 +861,12 @@ int TimelineController::copyItem()
     return clipId;
 }
 
+void TimelineController::cutItem()
+{
+    copyItem();
+    deleteSelectedClips();
+}
+
 std::pair<int, QString> TimelineController::getCopyItemData()
 {
     std::unordered_set<int> selectedIds = m_model->getCurrentSelection();

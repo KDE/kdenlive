@@ -243,6 +243,7 @@ public:
      */
     Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
     Q_INVOKABLE int copyItem();
+    void cutItem();
     std::pair<int, QString> getCopyItemData();
     Q_INVOKABLE bool pasteItem(int position = -1, int tid = -1);
     /** @brief Request inserting a new composition in timeline (dragged from compositions list)
