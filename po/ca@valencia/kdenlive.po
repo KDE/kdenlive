@@ -4834,7 +4834,7 @@ msgstr "Eixida del color més fosc d'entrada"
 #: data/effects/avfilter/avfilter_normalize.xml:11
 #, kde-format
 msgid "Output brightest input color"
-msgstr "Eixida del color més lluminós d'entrada"
+msgstr "Eixida del color més brillant d'entrada"
 
 #: data/effects/avfilter/avfilter_normalize.xml:14
 #, kde-format

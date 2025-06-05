@@ -5081,23 +5081,23 @@ msgstr "色度强度"
 #: data/effects/avfilter/avfilter_scharr.xml:4
 #, kde-format
 msgid "Scharr"
-msgstr ""
+msgstr "Scharr 运算符"
 
 #: data/effects/avfilter/avfilter_scharr.xml:5
 #, kde-format
 msgid "Apply Scharr operators for edge detection"
-msgstr ""
+msgstr "应用 Scharr 算子进行边缘检测"
 
 #: data/effects/avfilter/avfilter_scharr.xml:14
 #, kde-format
 msgid ""
 "<![CDATA[Sets the value which the filtered result will be multiplied with ]]>"
-msgstr ""
+msgstr "<![CDATA[结果相乘运算偏移量]]>"
 
 #: data/effects/avfilter/avfilter_scharr.xml:18
 #, kde-format
 msgid "<![CDATA[Sets the value which will be added to filtered result]]>"
-msgstr ""
+msgstr "<![CDATA[结果相加偏移量]]>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: data/effects/avfilter/avfilter_scroll.xml:4 src/ui/editsub_ui.ui:574
@@ -7494,7 +7494,7 @@ msgstr "Denoiser - 降噪器"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:4
 #, kde-format
 msgid "VR360 Cap Top and Bottom"
-msgstr ""
+msgstr "VR360 顶部和底部覆盖"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:5
 #, kde-format
@@ -7503,6 +7503,8 @@ msgid ""
 "data. It samples a band of latitude near the start of the effect and "
 "stretches and blurs it over the pole."
 msgstr ""
+"尝试通过拉伸和模糊图像数据填补天顶和天底。该操作会在效果起始处附近的纬度带进"
+"行采样，随后将其拉伸并模糊覆盖极地区域。"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:20
@@ -7519,22 +7521,22 @@ msgstr "最近邻,双线性"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:10
 #, kde-format
 msgid "<![CDATA[Determines the sampling method.]]>"
-msgstr ""
+msgstr "<![CDATA[设置取样方法。]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:13
 #, kde-format
 msgid "Top Enabled"
-msgstr ""
+msgstr "启用顶部"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:14
 #, kde-format
 msgid "<![CDATA[Enables parameters for top portion]]>"
-msgstr ""
+msgstr "<![CDATA[启用顶部参数]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:17
 #, kde-format
 msgid "<![CDATA[<b>--Top--</b> Start]]>"
-msgstr ""
+msgstr "<![CDATA[<b>--顶部--</b> 起点]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:19
 #, kde-format
@@ -7542,6 +7544,8 @@ msgid ""
 "<![CDATA[Degrees from the horizon<br>\n"
 "    \twhere we start to fill in]]>"
 msgstr ""
+"<![CDATA[从地平线开始填充的度数<br>\n"
+"    \t填充起始位置的地平线度数]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
@@ -7559,119 +7563,121 @@ msgid ""
 "<![CDATA[Degrees from the horizon<br>\n"
 "    \twhere we reach maximum blur]]>"
 msgstr ""
+"<![CDATA[从地平线开始填充的度数<br>\n"
+"    \t最大模糊部分的地平线度数]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:27
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:67
 #, kde-format
 msgid "Blend In"
-msgstr ""
+msgstr "Blend In"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:28
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:68
 #, kde-format
 msgid "<![CDATA[Degrees towards the horizon to sample from]]>"
-msgstr ""
+msgstr "<![CDATA[朝向地平线采样的度数]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:31
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:71
 #, kde-format
 msgid "Blend Out"
-msgstr ""
+msgstr "Blend Out"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:32
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:72
 #, kde-format
 msgid "<![CDATA[Degrees away from the horizon to sample to]]>"
-msgstr ""
+msgstr "<![CDATA[距离地平线采样的度数范围]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:35
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:75
 #, kde-format
 msgid "Fade In"
-msgstr ""
+msgstr "淡入"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:36
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:76
 #, kde-format
 msgid "<![CDATA[Degrees to fade the effect in over]]>"
-msgstr ""
+msgstr "<![CDATA[淡入效果的过渡度数]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:39
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:79
 #, kde-format
 msgid "<![CDATA[Blur width at start]]>"
-msgstr ""
+msgstr "<![CDATA[起始模糊宽度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:40
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over at the start of the fill-in]]>"
-msgstr ""
+msgstr "<![CDATA[填充开始时的水平模糊角度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:43
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:83
 #, kde-format
 msgid "<![CDATA[Blur width at end]]>"
-msgstr ""
+msgstr "<![CDATA[终点模糊宽度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:44
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:84
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over\tat the end of the fill-in]]>"
-msgstr ""
+msgstr "<![CDATA[填充结束时的水平模糊角度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:47
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:87
 #, kde-format
 msgid "<![CDATA[Blur height at start]]>"
-msgstr ""
+msgstr "<![CDATA[终点模糊宽度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:48
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:88
 #, kde-format
 msgid "<![CDATA[Vertical angle to blur over at the start of the fill-in]]>"
-msgstr ""
+msgstr "<![CDATA[填充开始时的垂直模糊角度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:51
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:91
 #, kde-format
 msgid "<![CDATA[Blur height at end]]>"
-msgstr ""
+msgstr "<![CDATA[终点模糊高度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:52
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:92
 #, kde-format
 msgid "<![CDATA[Vertical angle to blur over at the end of the fill-in]]>"
-msgstr ""
+msgstr "<![CDATA[填充结束时的垂直模糊角度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:55
 #, kde-format
 msgid "Bottom Enabled"
-msgstr ""
+msgstr "启用底部"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:56
 #, kde-format
 msgid "<![CDATA[comment]]>"
-msgstr ""
+msgstr "<![CDATA[comment]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:59
 #, kde-format
 msgid "<![CDATA[<b>--Bottom--</b> Start]]>"
-msgstr ""
+msgstr "<![CDATA[<b>--底部--</b> 起点]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:60
 #, kde-format
 msgid "<![CDATA[Degrees from the horizon where we start to fill in]]>"
-msgstr ""
+msgstr "<![CDATA[从地平线开始填充的起始角度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:64
 #, kde-format
 msgid "<![CDATA[Degrees from the horizon where we reach maximum blur]]>"
-msgstr ""
+msgstr "<![CDATA[最大模糊部分的地平线度数]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:80
 #, kde-format
 msgid "<![CDATA[Horizontal angle to blur over\tat the start of the fill-in]]>"
-msgstr ""
+msgstr "<![CDATA[填充开始时的水平模糊角度]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_mask.xml:4
 #, kde-format
@@ -7794,19 +7800,19 @@ msgstr "最近邻,双线性"
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:4
 #, kde-format
 msgid "VR360 Wrap"
-msgstr ""
+msgstr "VR360 Wrap"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:5
 #, kde-format
 msgid ""
 "Stretches a section of the equirectangular panorama to cover the entire VR "
 "sphere"
-msgstr ""
+msgstr "将等距柱状投影全景图的某一区域拉伸以覆盖整个 VR 球体"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:10
 #, kde-format
 msgid "<![CDATA[Determines the sampling method]]>"
-msgstr ""
+msgstr "<![CDATA[设置取样方法]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:14
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:18
@@ -7814,31 +7820,31 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:26
 #, kde-format
 msgid "<![CDATA[Degrees from the center of the image to keep unchanged]]>"
-msgstr ""
+msgstr "<![CDATA[从图像中心保留不变的角度数]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:29
 #, kde-format
 msgid "Blur start"
-msgstr ""
+msgstr "模糊起始"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:30
 #, kde-format
 msgid ""
 "<![CDATA[Horizontal fraction of the unchanged area to blur over in the "
 "equator band]]>"
-msgstr ""
+msgstr "<![CDATA[赤道带中需模糊覆盖的未变化区域的水平比例]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:33
 #, kde-format
 msgid "Blur end"
-msgstr ""
+msgstr "模糊终点"
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:34
 #, kde-format
 msgid ""
 "<![CDATA[Horizontal fraction of the unchanged area to blur over at the "
 "poles]]>"
-msgstr ""
+msgstr "<![CDATA[在极点处模糊处理的未变化区域水平比例]]>"
 
 #: data/effects/frei0r/frei0r_bigsh0t_hemi_to_eq.xml:4
 #, kde-format
@@ -8952,52 +8958,52 @@ msgstr "设置在检测到的第五张人脸上绘制的形状的颜色。"
 #: data/effects/frei0r/frei0r_filmgrain.xml:4
 #, kde-format
 msgid "Film Grain"
-msgstr ""
+msgstr "胶片颗粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:5
 #, kde-format
 msgid "Adds film-like grain and softens the picture"
-msgstr ""
+msgstr "添加胶片颗粒并柔化图片"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:8
 #, kde-format
 msgid "Grain amount"
-msgstr ""
+msgstr "颗粒数量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:9
 #, kde-format
 msgid "<![CDATA[The intensity of the grain]]>"
-msgstr ""
+msgstr "<![CDATA[颗粒强度]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:12
 #, kde-format
 msgid "Red grain"
-msgstr ""
+msgstr "红色颗粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:13
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the red channel]]>"
-msgstr ""
+msgstr "<![CDATA[应用于红色通道的颗粒百分比]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:16
 #, kde-format
 msgid "Green grain"
-msgstr ""
+msgstr "绿色颗粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:17
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the green channel]]>"
-msgstr ""
+msgstr "<![CDATA[应用于绿色通道的颗粒百分比]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:20
 #, kde-format
 msgid "Blue grain"
-msgstr ""
+msgstr "蓝色颗粒"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:21
 #, kde-format
 msgid "<![CDATA[The percentage of grain applied to the blue channel]]>"
-msgstr ""
+msgstr "<![CDATA[应用于蓝色通道的颗粒百分比]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:24
 #, kde-format
@@ -9007,27 +9013,27 @@ msgstr ""
 #: data/effects/frei0r/frei0r_filmgrain.xml:25
 #, kde-format
 msgid "<![CDATA[The intensity of the blur]]>"
-msgstr ""
+msgstr "<![CDATA[模糊强度]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:28
 #, kde-format
 msgid "Dust amount"
-msgstr ""
+msgstr "胶片灰尘量"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:29
 #, kde-format
 msgid "<![CDATA[The amount of dust particles on the image]]>"
-msgstr ""
+msgstr "<![CDATA[图像上模拟的灰尘颗粒数量]]>"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:32
 #, kde-format
 msgid "Flicker"
-msgstr ""
+msgstr "闪烁"
 
 #: data/effects/frei0r/frei0r_filmgrain.xml:33
 #, kde-format
 msgid "<![CDATA[The amount of variation in brightness between frames]]>"
-msgstr ""
+msgstr "<![CDATA[帧之间的亮度变化量]]>"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -9150,62 +9156,62 @@ msgstr "使用2D IIR滤波器模糊 (指数、低通、高斯)"
 #: data/effects/frei0r/frei0r_iirblur.xml:9
 #, kde-format
 msgid "Amount of blur"
-msgstr ""
+msgstr "模糊强度"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #, kde-format
 msgid "Exponential,Lowpass,Gaussian"
-msgstr ""
+msgstr "指数,低通,高斯"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:14
 #, kde-format
 msgid "Select blurring algorithm"
-msgstr ""
+msgstr "选择模糊算法"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:17
 #, kde-format
 msgid "Edge"
-msgstr ""
+msgstr "Edge"
 
 #: data/effects/frei0r/frei0r_iirblur.xml:18
 #, kde-format
 msgid "Enable edge compensation"
-msgstr ""
+msgstr "启用边缘补偿"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:4
 #, kde-format
 msgid "Kaleidoscope"
-msgstr ""
+msgstr "万花筒"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:5
 #, kde-format
 msgid "Applies a kaleidoscope effect"
-msgstr ""
+msgstr "应用万花筒效果"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:8
 #, kde-format
 msgid "Origin X"
-msgstr ""
+msgstr "起始 X"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:9
 #, kde-format
 msgid "Move the origin of the kaleidoscope along the X axis"
-msgstr ""
+msgstr "沿X轴移动万花筒的原点。"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:12
 #, kde-format
 msgid "Origin Y"
-msgstr ""
+msgstr "起始 Y"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:13
 #, kde-format
 msgid "Move the origin of the kaleidoscope along the Y axis"
-msgstr ""
+msgstr "沿Y轴移动万花筒的原点。"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:16
 #, kde-format
 msgid "Segmentation"
-msgstr ""
+msgstr "段"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:18
 #, kde-format
@@ -9213,11 +9219,13 @@ msgid ""
 "<![CDATA[Kaleidoscope segmentation / 128; <br>\n"
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16]]>"
 msgstr ""
+"<![CDATA[万花筒分段数 / 128；<br>\n"
+"        1、2 或 4 的倍数的分段数效果最佳。默认值为 16。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
 #, kde-format
 msgid "Specify source segment"
-msgstr ""
+msgstr "指定源片段"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:23
 #, kde-format
@@ -9226,11 +9234,13 @@ msgid ""
 "        is read from the <em>source segment</em>, otherwise it is auto "
 "calculated]]>"
 msgstr ""
+"<![CDATA[若勾选，源角度<br>\n"
+"        将从<em>源片段</em>读取，否则将自动计算]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:26
 #, kde-format
 msgid "Source segment"
-msgstr ""
+msgstr "源片段"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:28
 #, kde-format
@@ -9239,26 +9249,28 @@ msgid ""
 "Segment</em> is checked. <br>\n"
 "        0 is in +x and rotates counter clockwise.]]>"
 msgstr ""
+"<![CDATA[源片段的中心。仅在勾选<em>指定源片段</em>时使用。<br>\n"
+"        0 位于 +x 方向并以逆时针方向旋转。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:31
 #, kde-format
 msgid "None,Counter Clockwise,Clockwise"
-msgstr ""
+msgstr "无,逆时针,顺时针"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:32
 #, kde-format
 msgid "Segmentation direction"
-msgstr ""
+msgstr "片段方向"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:33
 #, kde-format
 msgid "Direction of the segmentation."
-msgstr ""
+msgstr "片段的方向"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:36
 #, kde-format
 msgid "Reflect edges"
-msgstr ""
+msgstr "反射边缘"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:38
 #, kde-format
@@ -9267,11 +9279,13 @@ msgid ""
 "into it. <br>\n"
 "        Otherwise the specified background color is used.]]>"
 msgstr ""
+"<![CDATA[若勾选，位于源外的反射将折回其中。<br>\n"
+"        否则将使用指定的背景颜色。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:41
 #, kde-format
 msgid "Edge threshold"
-msgstr ""
+msgstr "边缘阈值"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:43
 #, kde-format
@@ -9279,16 +9293,18 @@ msgid ""
 "<![CDATA[Edge threshold / 4, reflections <br>\n"
 "        outside the image but within this distance clamp to the edge.]]>"
 msgstr ""
+"<![CDATA[边缘阈值 / 4，反射效果<br>\n"
+"        位于图像外但在该距离内则钳制到边缘。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:46
 #, kde-format
 msgid "Top right,Top left,Bottom left,Bottom right"
-msgstr ""
+msgstr "右上,左上,左下,右下"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:47
 #, kde-format
 msgid "Preferred corner"
-msgstr ""
+msgstr "首选角"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:49
 #, kde-format
@@ -9296,11 +9312,13 @@ msgid ""
 "<![CDATA[If <em>Reflect Edges</em> is not checked, <br>\n"
 "        this parameter defines the preferred corner.]]>"
 msgstr ""
+"<![CDATA[若未勾选<em>反射边缘</em>，<br>\n"
+"        此参数将定义首选角落。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:52
 #, kde-format
 msgid "Corner Search"
-msgstr ""
+msgstr "角搜索"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:54
 #, kde-format
@@ -9308,23 +9326,25 @@ msgid ""
 "<![CDATA[If checked, search clockwise for furthest corner.<br>\n"
 "        Otherwise search counter clockwise.]]>"
 msgstr ""
+"<![CDATA[如果勾选，则顺时针搜索最远的角落。<br>\n"
+"        否则逆时针搜索。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:57
 #, kde-format
 msgid "Background color"
-msgstr ""
+msgstr "背景色"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:58
 #, kde-format
 msgid ""
 "<![CDATA[Color to use if reflection lies <br>outside of the source image and "
 "not reflecting back in.]]>"
-msgstr ""
+msgstr "<![CDATA[当反射位于源图像外部<br>且未反射回内部时使用的颜色。]]>"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:61
 #, kde-format
 msgid "Use alpha background"
-msgstr ""
+msgstr "使用 Alpha 背景"
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:63
 #, kde-format
@@ -9333,67 +9353,69 @@ msgid ""
 "        if reflection lies outside of the source image and not reflecting "
 "back in.]]>"
 msgstr ""
+"<![CDATA[若勾选，将使用 alpha<br>\n"
+"        若反射位于源图像外部且未反射回内部。]]>"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:4
 #, kde-format
 msgid "Key Spill Mop Up"
-msgstr ""
+msgstr "Key Spill Mop Up - 色调溢出清理"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:5
 #, kde-format
 msgid "Reduces the visibility of key color spill in chroma keying"
-msgstr ""
+msgstr "降低色度关键帧中关键帧颜色溢出的可见性"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:8
 #, kde-format
 msgid "Key color"
-msgstr ""
+msgstr "源颜色"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:11
 #, kde-format
 msgid "Target color"
-msgstr ""
+msgstr "目标颜色"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:14
 #, kde-format
 msgid "Color distance, Transparency, Edge inwards, Edge outwards"
-msgstr ""
+msgstr "颜色距离, 透明度, 边缘向内, 边缘向外"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:15
 #, kde-format
 msgid "Mask type"
-msgstr ""
+msgstr "遮罩类型"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:18
 #, kde-format
 msgid "Tolerance"
-msgstr ""
+msgstr "误差值"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21
 #, kde-format
 msgid "Slope"
-msgstr ""
+msgstr "斜率"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:24
 #, kde-format
 msgid "Hue gate"
-msgstr ""
+msgstr "色相阈值"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:27
 #, kde-format
 msgid "Saturation threshold"
-msgstr ""
+msgstr "饱和度阈值"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:30
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:37
 #, kde-format
 msgid "None, De-Key, Target, Desaturate, Luma adjust"
-msgstr ""
+msgstr "无, 去色调, 目标, 去色, 亮度调整"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:31
 #, kde-format
 msgid "Operation 1"
-msgstr ""
+msgstr "操作 1"
 
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:34
 #, kde-format
@@ -9741,6 +9763,10 @@ msgid ""
 "proper threshold adjusting move the timeline cursor to the beginning of the "
 "clip, check the Reset box and uncheck it again."
 msgstr ""
+"重置光影蒙版和背景图像。用途示例：如果您将光影涂鸦效果应用到时间轴的某段剪"
+"辑，然后将时间轴光标从剪辑外面移动到了剪辑中间，这会使光影涂鸦效果将剪辑中间"
+"一帧用作背景图像。为了正确调整阈值，您必须将时间轴光标移动到剪辑开头。在这种"
+"情况下请勾选然后取消勾选此项即可重置。"
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:80
 #, kde-format
@@ -9750,37 +9776,40 @@ msgid ""
 "sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
+"光影涂鸦效果。\n"
+"        <![CDATA[此效果可以进行视频版本的光影涂鸦 \n"
+"        (将光源置于背景图像之前并保持快门打开)。]]>"
 
 #: data/effects/frei0r/frei0r_luminance.xml:4
 #, kde-format
 msgctxt "Luminance Effect Name"
 msgid "Luminance"
-msgstr ""
+msgstr "Luminance(亮度)"
 
 #: data/effects/frei0r/frei0r_luminance.xml:5
 #, kde-format
 msgid "Creates a luminance map of the image"
-msgstr ""
+msgstr "创建图像的亮度图"
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:4
 #, kde-format
 msgid "Rectangular Alpha mask"
-msgstr ""
+msgstr "Rectangular Alpha mask - 矩形透明度通道蒙版"
 
 #: data/effects/frei0r/frei0r_mask0mate.xml:5
 #, kde-format
 msgid "Creates an square alpha-channel mask"
-msgstr ""
+msgstr "创建正方形的透明度通道蒙版"
 
 #: data/effects/frei0r/frei0r_medians.xml:4
 #, kde-format
 msgid "Medians"
-msgstr ""
+msgstr "Medians - 中位数"
 
 #: data/effects/frei0r/frei0r_medians.xml:5
 #, kde-format
 msgid "Implements several median-type filters"
-msgstr ""
+msgstr "提供数种中位数类型的滤镜"
 
 #: data/effects/frei0r/frei0r_medians.xml:8
 #, kde-format
@@ -9788,47 +9817,49 @@ msgid ""
 "Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,ML3dEX,"
 "VarSize"
 msgstr ""
+"十字形5,正方形3x3,二层,菱形3x3,正方形5x5,时域3,时域5,ArceBI,ML3D,ML3dEX,变量"
+"大小"
 
 #: data/effects/frei0r/frei0r_nervous.xml:4
 #, kde-format
 msgid "Nervous"
-msgstr ""
+msgstr "Nervous - 神经质"
 
 #: data/effects/frei0r/frei0r_nervous.xml:5
 #, kde-format
 msgid "Flushes frames in time in a nervous way"
-msgstr ""
+msgstr "调整帧时间快慢以营造神经质效果"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:4
 #, kde-format
 msgctxt "Levels Effect Name"
 msgid "Normaliz0r"
-msgstr ""
+msgstr "Normaliz0r"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:5
 #, kde-format
 msgid "Normalize (aka histogram stretch, contrast stretch)"
-msgstr ""
+msgstr "归一化 (也称为直方图拉伸、对比度拉伸)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:8
 #, kde-format
 msgid "Black point"
-msgstr ""
+msgstr "黑点"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:9
 #, kde-format
 msgid "Output color to which darkest input color is mapped (default black)"
-msgstr ""
+msgstr "将最暗输入颜色映射到的输出颜色 (默认 black)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:12
 #, kde-format
 msgid "White point"
-msgstr ""
+msgstr "白点"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:13
 #, kde-format
 msgid "Output color to which brightest input color is mapped (default white)"
-msgstr ""
+msgstr "将最亮输入颜色映射到的输出颜色 (默认 white)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:16 data/effects/vidstab.xml:24
 #, kde-format
@@ -9840,74 +9871,74 @@ msgstr "平滑"
 msgid ""
 "Amount of temporal smoothing of the input range, to reduce flicker (default "
 "0)"
-msgstr ""
+msgstr "输入范围的时间平滑量，以减少闪烁(默认0)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
 #, kde-format
 msgid "Independence"
-msgstr ""
+msgstr "独立"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:21
 #, kde-format
 msgid ""
 "Proportion of independent to linked channel normalization (default 1000)"
-msgstr ""
+msgstr "独立通道与链接通道归一化的比例 (默认值 1000)"
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:25
 #, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1000)"
-msgstr ""
+msgstr "过滤器的强度，从无效果 (0) 到完全规格化 (默认 1000)"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
 #, kde-format
 msgid "nosync0r"
-msgstr ""
+msgstr "nosync0r - 画面不同步效果"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:5
 #, kde-format
 msgid "Broken TV"
-msgstr ""
+msgstr "模仿损坏电视机的扫描不同步画面效果"
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:8
 #, kde-format
 msgid "HSync"
-msgstr ""
+msgstr "水平同步"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:4
 #, kde-format
 msgid "Pixelize"
-msgstr ""
+msgstr "Pixelize - 像素化"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:5
 #, kde-format
 msgid "Pixelize input image."
-msgstr ""
+msgstr "对输入图像进行像素化处理。"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:8
 #, kde-format
 msgid "Block Size X"
-msgstr ""
+msgstr "块大小 X"
 
 #: data/effects/frei0r/frei0r_pixeliz0r.xml:11
 #, kde-format
 msgid "Block Size Y"
-msgstr ""
+msgstr "块大小 Y"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
 msgid "Pixs0r"
-msgstr ""
+msgstr "Pixs0r"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:5
 #, kde-format
 msgid "Glitch image shifting rows to and fro."
-msgstr ""
+msgstr "故障图像行来回位移效果"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:9
 #, kde-format
 msgid "Agressiveness of row/column shifting"
-msgstr ""
+msgstr "行/列移位的激进程度"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:13
 #, kde-format
@@ -9946,254 +9977,254 @@ msgstr ""
 #: data/effects/frei0r/frei0r_posterize.xml:5
 #, kde-format
 msgid "Posterizes image by reducing the number of colors used in image"
-msgstr ""
+msgstr "通过减少图像中使用的颜色数量对图像进行后处理"
 
 #: data/effects/frei0r/frei0r_posterize.xml:9
 #, kde-format
 msgid "Number of (color) values per channel"
-msgstr ""
+msgstr "每个通道的 (颜色) 值。"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:4
 #, kde-format
 msgid "Video values"
-msgstr ""
+msgstr "Video values - 视频明度"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:5
 #, kde-format
 msgid "Measure video values"
-msgstr ""
+msgstr "测量视频明度"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:8
 #, kde-format
 msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-msgstr ""
+msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:9
 #, kde-format
 msgid "Measurement"
-msgstr ""
+msgstr "测量"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:24
 #: data/effects/frei0r/frei0r_pr0file.xml:81
 #, kde-format
 msgid "256 scale"
-msgstr ""
+msgstr "256 色阶"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:27
 #, kde-format
 msgid "Show alpha"
-msgstr ""
+msgstr "显示透明通道"
 
 #: data/effects/frei0r/frei0r_pr0be.xml:30
 #, kde-format
 msgid "Big window"
-msgstr ""
+msgstr "大窗口"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:4
 #, kde-format
 msgid "Oscilloscope (Advanced)"
-msgstr ""
+msgstr "示波器 (高级)"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:9
 #, kde-format
 msgid "<![CDATA[X coordinate of the profile]]>"
-msgstr ""
+msgstr "<![CDATA[波形的 X 坐标]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:13
 #, kde-format
 msgid "<![CDATA[Y coordinate of the profile]]>"
-msgstr ""
+msgstr "<![CDATA[波形的 Y 坐标]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:17
 #, kde-format
 msgid "<![CDATA[Tilting of the profile]]>"
-msgstr ""
+msgstr "<![CDATA[波形倾斜调整]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:20
 #, kde-format
 msgid "Length"
-msgstr ""
+msgstr "长度"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:21
 #, kde-format
 msgid "<![CDATA[Length of the profile in pixel]]>"
-msgstr ""
+msgstr "<![CDATA[轨迹轮廓长度(px)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:24
 #, kde-format
 msgid "R,G,B,Y',Pr,Pb,Alpha"
-msgstr ""
+msgstr "R,G,B,Y',Pr,Pb,Alpha"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:26
 #, kde-format
 msgid "<![CDATA[Channel to numerically display]]>"
-msgstr ""
+msgstr "<![CDATA[通道数字显示]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:29
 #, kde-format
 msgid "Marker 1"
-msgstr ""
+msgstr "标记 1"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:30
 #, kde-format
 msgid "<![CDATA[Position of marker 1]]>"
-msgstr ""
+msgstr "<![CDATA[标记 1 的位置]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:33
 #, kde-format
 msgid "Marker 2"
-msgstr ""
+msgstr "标记 2"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:34
 #, kde-format
 msgid "<![CDATA[Position of marker 2]]>"
-msgstr ""
+msgstr "<![CDATA[标记 2 的位置]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:37
 #, kde-format
 msgid "R trace"
-msgstr ""
+msgstr "红轨迹"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:38
 #, kde-format
 msgid "<![CDATA[Show R trace (red) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示 R 轨迹（红色）]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:41
 #, kde-format
 msgid "G trace"
-msgstr ""
+msgstr "绿轨迹"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:42
 #, kde-format
 msgid "<![CDATA[Show G trace (green) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示 G 轨迹（绿色）]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:45
 #, kde-format
 msgid "B trace"
-msgstr ""
+msgstr "蓝轨迹"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:46
 #, kde-format
 msgid "<![CDATA[Show B trace (blue) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示 B 轨迹（蓝色）]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:49
 #, kde-format
 msgid "Y trace"
-msgstr ""
+msgstr "Y 轨迹"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:50
 #, kde-format
 msgid "<![CDATA[Show Y trace (luma) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示 Y 轨迹（亮度）]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:53
 #, kde-format
 msgid "Pr trace"
-msgstr ""
+msgstr "Pr 轨迹"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:54
 #, kde-format
 msgid "<![CDATA[Show Pr trace (red-difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示 Pr 轨迹 (red-difference)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:57
 #, kde-format
 msgid "Pb trace"
-msgstr ""
+msgstr "Pb 轨迹"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:58
 #, kde-format
 msgid "<![CDATA[Show Pb trace (blue_difference) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示 Pb 轨迹 (blue_difference)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:61
 #, kde-format
 msgid "Alpha trace"
-msgstr ""
+msgstr "Alpha 轨迹"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:62
 #, kde-format
 msgid "<![CDATA[Show Alpha trace on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示 Alpha 轨迹]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:65
 #, kde-format
 msgid "Display average"
-msgstr ""
+msgstr "显示平均值"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:66
 #, kde-format
 msgid "<![CDATA[Show average on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示平均数]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:69
 #, kde-format
 msgid "Display RMS"
-msgstr ""
+msgstr "显示有效值"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:70
 #, kde-format
 msgid "<![CDATA[Show RMS (root mean square) on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示 RMS (root mean square)]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:73
 #, kde-format
 msgid "Display minimum"
-msgstr ""
+msgstr "显示最小值"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:74
 #, kde-format
 msgid "<![CDATA[Show minimum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示最小值]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:77
 #, kde-format
 msgid "Display maximum"
-msgstr ""
+msgstr "显示最大值"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:78
 #, kde-format
 msgid "<![CDATA[Show maximum on scope]]>"
-msgstr ""
+msgstr "<![CDATA[在示波器上显示最大值]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:82
 #, kde-format
 msgid "<![CDATA[Use a scale of 0-255 instead of 0.0-1.0]]>"
-msgstr ""
+msgstr "<![CDATA[使用0-255的而不是规格化的0.0-1.0]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:85
 #, kde-format
 msgid "CCIR rec. 601,CCIR rec. 709"
-msgstr ""
+msgstr "CCIR rec. 601,CCIR rec. 709"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:86
 #, kde-format
 msgid "Color encoding"
-msgstr ""
+msgstr "颜色编码"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:87
 #, kde-format
 msgid "<![CDATA[Select between interlaced (601) or progressive (709)]]>"
-msgstr ""
+msgstr "<![CDATA[在隔行扫描（601）或逐行扫描（709）之间选择]]>"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:90
 #, kde-format
 msgid "Crosshair color"
-msgstr ""
+msgstr "准星颜色"
 
 #: data/effects/frei0r/frei0r_pr0file.xml:91
 #, kde-format
 msgid "<![CDATA[Choose a color for the crosshair/profile line]]>"
-msgstr ""
+msgstr "<![CDATA[选择十字准星/波形的颜色]]>"
 
 #: data/effects/frei0r/frei0r_primaries.xml:4
 #, kde-format
 msgctxt "Primaries Effect Name"
 msgid "Primaries"
-msgstr ""
+msgstr "Primaries - 原色"
 
 #: data/effects/frei0r/frei0r_primaries.xml:5
 #, kde-format
