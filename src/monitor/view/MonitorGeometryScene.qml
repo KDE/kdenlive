@@ -317,10 +317,11 @@ Item {
         id: framerect
         property bool dragging: false
         property bool isRotating: false
-        property double handlesBottomMargin: root.height - clipMonitorRuler.height - framerect.y - framerect.height < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesRightMargin: root.width - framerect.x - framerect.width < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesTopMargin: framerect.y < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesLeftMargin: framerect.x < root.baseUnit/2 ? 0 : -root.baseUnit/2
+        property int smallRectMargin: framerect.width < 2 * root.baseUnit || framerect.height < 2 * root.baseUnit ? root.baseUnit : 0
+        property double handlesBottomMargin: root.height - clipMonitorRuler.height - framerect.y - framerect.height < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesRightMargin: root.width - framerect.x - framerect.width < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesTopMargin: framerect.y < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesLeftMargin: framerect.x < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
 
         function transformPoint(x, y, source) {
             // Convert to framerect's coordinate system
@@ -465,7 +466,7 @@ Item {
             radius: width / 2
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.rotatable && root.showHandles
+            visible: root.rotatable && root.showHandles && framerect.smallRectMargin == 0
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             
             K.OverlayLabel {
@@ -1053,7 +1054,7 @@ Item {
             anchors {
                 bottom: framerect.bottom
                 right: framerect.right
-                bottomMargin: 2 * root.baseUnit * framesize.height / framesize.width
+                bottomMargin: 2 * Math.min(1.5 * root.baseUnit, root.baseUnit * framesize.height / framesize.width)
                 rightMargin: 2 * root.baseUnit
             }
             text: framesize.width.toFixed(0) + "x" + framesize.height.toFixed(0)
