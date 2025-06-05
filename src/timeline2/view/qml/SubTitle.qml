@@ -203,13 +203,13 @@ Item {
             }
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true)) {
+                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true, true)) {
                     timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
             Keys.onRightPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true)) {
+                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true, true)) {
                     timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }

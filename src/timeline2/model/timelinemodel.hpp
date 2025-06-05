@@ -392,7 +392,8 @@ public:
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackIndex(int trackId) const;
-    int getTopVideoTrackIndex();
+    int getTopVideoTrackIndex() const;
+    int getLowestVideoTrackIndex() const;
 
     /** @brief Set the marker model on this timeline (usually the marker model from its Bin Sequence clip.
      */
