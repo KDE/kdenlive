@@ -207,7 +207,7 @@ void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString>
     m_hasVideoTarget = hasVideo;
     m_hasAudioTarget = audioTargets.size();
     if (m_hasVideoTarget) {
-        videoTrack = m_model->getTopVideoTrackIndex();
+        videoTrack = m_model->getLowestVideoTrackIndex();
     }
     if (m_hasAudioTarget > 0) {
         if (m_lastAudioTarget.count() == audioTargets.count()) {

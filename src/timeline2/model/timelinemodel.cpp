@@ -578,12 +578,25 @@ int TimelineModel::getPreviousVideoTrackIndex(int trackId) const
     return 0;
 }
 
-int TimelineModel::getTopVideoTrackIndex()
+int TimelineModel::getLowestVideoTrackIndex() const
+{
+    READ_LOCK();
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if (!(*it)->isAudioTrack()) {
+            return (*it)->getId();
+        }
+        it++;
+    }
+    return 0;
+}
+
+int TimelineModel::getTopVideoTrackIndex() const
 {
     READ_LOCK();
     auto it = m_allTracks.end();
     --it;
-    if (it != m_allTracks.cbegin()) {
+    if (it != m_allTracks.cend()) {
         if (!(*it)->isAudioTrack()) {
             return (*it)->getId();
         }
