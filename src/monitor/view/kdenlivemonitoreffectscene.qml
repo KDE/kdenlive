@@ -323,10 +323,12 @@ Item {
     Rectangle {
         id: framerect
         property bool dragging: false
-        property double handlesBottomMargin: root.height - clipMonitorRuler.height - framerect.y - framerect.height < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesRightMargin: root.width - framerect.x - framerect.width < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesTopMargin: framerect.y < root.baseUnit/2 ? 0 : -root.baseUnit/2
-        property double handlesLeftMargin: framerect.x < root.baseUnit/2 ? 0 : -root.baseUnit/2
+        property int smallRectMargin: framerect.width < 2 * root.baseUnit || framerect.height < 2 * root.baseUnit ? root.baseUnit : 0
+        property double handlesBottomMargin: root.height - clipMonitorRuler.height - framerect.y - framerect.height < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesRightMargin: root.width - framerect.x - framerect.width < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesTopMargin: framerect.y < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+        property double handlesLeftMargin: framerect.x < root.baseUnit/2 ? 0 : -root.baseUnit/2 - smallRectMargin
+
         x: frame.x + root.framesize.x * root.scalex
         y: frame.y + root.framesize.y * root.scaley
         width: root.framesize.width * root.scalex
@@ -958,7 +960,7 @@ Item {
             anchors {
                 bottom: framerect.bottom
                 right: framerect.right
-                bottomMargin: 2 * root.baseUnit * framesize.height / framesize.width
+                bottomMargin: 2 * Math.min(1.5 * root.baseUnit, root.baseUnit * framesize.height / framesize.width)
                 rightMargin: 2 * root.baseUnit
             }
             text: framesize.width.toFixed(0) + "x" + framesize.height.toFixed(0)
